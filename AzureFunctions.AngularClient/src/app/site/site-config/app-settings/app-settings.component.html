@@ -27,10 +27,10 @@
     </div>
 
     <div class="shield">
-      <div *ngIf="hasWritePermissions" class="shield-message">
-        {{loadingStateMessage}}
+      <div *ngIf="hasWritePermissions && !!loadingFailureMessage" class="shield-message">
+        {{loadingFailureMessage}}
       </div>
-      <div *ngIf="!hasWritePermissions" class="shield-message">
+      <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield-message">
         {{permissionsMessage}}
       </div>
     </div>
@@ -73,7 +73,7 @@
       {{ 'addNewSetting' | translate }}
     </div>
 
-    <div *ngIf="!hasWritePermissions" class="shield">
+    <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield">
       <div class="shield-message">
         {{permissionsMessage}}
       </div>

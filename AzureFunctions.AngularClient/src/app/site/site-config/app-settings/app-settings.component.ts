@@ -33,6 +33,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _resourceIdSubscription: RxSubscription;
   public hasWritePermissions: boolean;
   public permissionsMessage: string;
+  public showPermissionsMessage: boolean;
 
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
@@ -43,7 +44,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _uniqueAppSettingValidator: UniqueValidator;
 
   private _appSettingsArm: ArmObj<any>;
-  public loadingStateMessage: string;
+
+  public loadingFailureMessage: string;
 
   @Input() mainForm: FormGroup;
 
@@ -89,7 +91,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .do(null, error => {
         this._aiService.trackEvent("/errors/app-settings", error);
         this._setupForm(this._appSettingsArm);
-        this.loadingStateMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
@@ -98,6 +101,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           this._appSettingsArm = r.appSettingsResponse.json();
           this._setupForm(this._appSettingsArm);
         }
+        this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       });
   }
@@ -121,7 +125,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _resetPermissionsAndLoadingState() {
     this.hasWritePermissions = true;
     this.permissionsMessage = "";
-    this.loadingStateMessage = this._translateService.instant(PortalResources.loading);
+    this.showPermissionsMessage = false;
+    this.loadingFailureMessage = "";
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
@@ -140,7 +145,6 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
 
   private _setupForm(appSettingsArm: ArmObj<any>) {
-
     if (!!appSettingsArm) {
       if (!this._saveError || !this.groupArray) {
         this.groupArray = this._fb.array([]);
@@ -181,7 +185,6 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     }
 
     this._saveError = null;
-
   }
 
   validate() {

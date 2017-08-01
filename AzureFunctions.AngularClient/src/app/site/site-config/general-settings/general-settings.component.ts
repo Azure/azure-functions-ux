@@ -50,7 +50,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   private _webConfigArm: ArmObj<SiteConfig>;
   private _siteConfigArm: ArmObj<Site>;
-  public loadingStateMessage: string;
+  public loadingFailureMessage: string;
 
   private _sku: string;
   private _kind: string;
@@ -132,7 +132,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       .do(null, error => {
         this._aiService.trackEvent("/errors/general-settings", error);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
-        this.loadingStateMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
@@ -143,6 +144,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         if (!this._versionOptionsMap) { this._parseAvailableStacks(availableStacksArm); }
         this._processSkuAndKind(this._siteConfigArm);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
+        this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       });
   }
@@ -168,7 +170,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.permissionsMessage = "";
     this.showPermissionsMessage = false;
     this.showReadOnlySettingsMessage = this._translateService.instant(PortalResources.configViewReadOnlySettings);
-    this.loadingStateMessage = this._translateService.instant(PortalResources.loading);
+    this.loadingFailureMessage = "";
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
@@ -240,8 +242,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
-    this.showPermissionsMessage = false;
-
     if (!!webConfigArm && !!siteConfigArm) {
 
       this._ignoreChildEvents = true;
@@ -282,8 +282,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
 
     this._saveError = null;
-
-    this.showPermissionsMessage = true;
   }
 
   private _setControlsEnabledState(names: string[], enabled: boolean) {

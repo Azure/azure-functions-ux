@@ -34,6 +34,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   private _resourceIdSubscription: RxSubscription;
   public hasWritePermissions: boolean;
   public permissionsMessage: string;
+  public showPermissionsMessage: boolean;
 
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
@@ -46,7 +47,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   private _connectionStringsArm: ArmObj<ConnectionStrings>;
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
 
-  public loadingStateMessage: string;
+  public loadingFailureMessage: string;
 
   @Input() mainForm: FormGroup;
 
@@ -92,7 +93,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
       .do(null, error => {
         this._aiService.trackEvent("/errors/connection-strings", error);
         this._setupForm(this._connectionStringsArm);
-        this.loadingStateMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
@@ -101,6 +103,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
           this._connectionStringsArm = r.connectionStringsResponse.json();
           this._setupForm(this._connectionStringsArm);
         }
+        this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       });
   }
@@ -124,7 +127,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   private _resetPermissionsAndLoadingState() {
     this.hasWritePermissions = true;
     this.permissionsMessage = "";
-    this.loadingStateMessage = this._translateService.instant(PortalResources.loading);
+    this.showPermissionsMessage = false;
+    this.loadingFailureMessage = "";
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
@@ -142,7 +146,6 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   }
 
   private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>) {
-
     if (!!connectionStringsArm) {
       if (!this._saveError || !this.groupArray) {
         this.groupArray = this._fb.array([]);
@@ -191,7 +194,6 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     }
 
     this._saveError = null;
-
   }
 
   validate() {
