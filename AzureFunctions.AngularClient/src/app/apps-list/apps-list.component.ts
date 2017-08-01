@@ -55,22 +55,16 @@ export class AppsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(children => {
         this.apps = children;
-        this.apps.forEach(app =>
-          this.tableItems.push ({
-            title: app.title,
-            subscription: app.subscription,
-            type: 'row',
-            resourceGroup: app.resourceGroup,
-            location: this.translateService.instant(app.location),
-            appNode: app
-          })
-        );
-        this.uniqueLocations(this.apps).forEach(location =>
-          this.locationOptions.push ({
-            displayLabel:  this.translateService.instant(location),
-            value:  this.translateService.instant(location)
-          })
-        );
+        this.tableItems = this.apps.map(app => (<TableItem>{title: app.title,
+                                              subscription: app.subscription,
+                                              type: 'row',
+                                              resourceGroup: app.resourceGroup,
+                                              location: app.location,
+                                              appNode: app}));
+
+        this.locationOptions = this.uniqueLocations(this.apps)
+                                    .map(location => ({displayLabel:  this.translateService.instant(location),
+                                                      value:  this.translateService.instant(location)}));
         this.isLoading = false;
     });
   }
@@ -102,27 +96,16 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
-    const newItems = [];
-    this.tableItems.forEach(item => {
-      if (item.type === 'group') {
-        newItems.push(item);
-      }
-    });
-    for (const app of this.apps) {
-      if (this.selectedLocations.find(l => l === this.translateService.instant(app.location))) {
-        newItems.push({
-            title: app.title,
-            subscription: app.subscription,
-            type: 'row',
-            resourceGroup: app.resourceGroup,
-            location:  this.translateService.instant(app.location),
-            appNode: app
-        });
-      }
+    const newItems = this.tableItems.filter(item => item.type === 'group');
+    this.tableItems = newItems.concat(this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
+                              .map(app => (<TableItem> {title: app.title,
+                                                        subscription: app.subscription,
+                                                        type: 'row',
+                                                        resourceGroup: app.resourceGroup,
+                                                        location:  this.translateService.instant(app.location),
+                                                        appNode: app})));
 
-    };
-
-    this.tableItems = newItems;
+    // timeout is needed to re-render to page for the grouping update with new locations
     setTimeout(() => {
         this.appTable.groupItems(this.currGroup);
     }, 0);

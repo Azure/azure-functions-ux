@@ -68,20 +68,12 @@ export class TblThComponent implements OnInit {
     } else {
       let finalItems = [];
       let tempItems = [];
-      const groupItems = [];
-      const appItems = [];
-
-      table.items.forEach(item => {
-        if (item.type === 'group') {
-          groupItems.push(item);
-        } else {
-          appItems.push(item);
-        }
-      });
+      const groupItems = table.items.filter(item => item.type === 'group');
+      const rowItems = table.items.filter(item => item.type === 'row');
 
       groupItems.forEach(group => {
         finalItems.push(group);
-        appItems.forEach(app => {
+        rowItems.forEach(app => {
           if (app[table.groupedBy] === group.title) {
             tempItems.push(app);
           }
