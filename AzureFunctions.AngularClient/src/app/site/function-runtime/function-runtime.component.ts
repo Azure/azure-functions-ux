@@ -386,7 +386,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   openAppSettings() {
-    if (Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") {
+    if (Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") { //DEBUG: conditionally showing application settings tab
       this._siteDashboard.openFeature(SiteTabIds.applicationSettings);
     }
     else {

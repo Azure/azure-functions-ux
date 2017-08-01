@@ -209,7 +209,7 @@ export class SiteEnabledFeaturesComponent {
                 }
 
             case Feature.AppSettings:
-                if(Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") {
+                if(Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") { //DEBUG: conditionally showing application settings tab
                     return <EnabledFeatureItem>{
                         title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
                         feature: feature,

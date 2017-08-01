@@ -42,6 +42,7 @@
             <swaggerdefinition *ngIf="selectedTabId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
         </tab>
 
+        <!-- DEBUG: conditionally showing application settings tab -->
         <tab *ngIf="!isStandalone && (!tabsFeature || dynamicTabIds[2] === TabIds.applicationSettings) && appSettingsTabEnabled"
              [title]="Resources.tab_applicationSettings | translate"
              [id]="TabIds.applicationSettings"

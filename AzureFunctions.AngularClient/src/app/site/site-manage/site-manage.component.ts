@@ -307,7 +307,7 @@ export class SiteManageComponent implements OnDestroy {
             );
         }
 
-        if (Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") {
+        if (Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") { //DEBUG: conditionally showing application settings tab
             if (this._tabsFeature === 'tabs' || this._tabsFeature === 'inplace') {
                 generalFeatures.splice(0, 0,
                     new TabFeature(
