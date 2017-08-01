@@ -50,6 +50,7 @@ export interface Binding {
     filters?: string[];
     enabledInTryMode?: boolean;
     actions: Action[];
+    AADPermissions?: any;
 }
 
 export interface Setting {

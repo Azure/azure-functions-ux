@@ -24,6 +24,7 @@ export interface FunctionTemplateMetadata {
     filters?: string[];
     enabledInTryMode?: boolean;
     warning: Warning;
+    AADPermissions?: any;
 }
 
 export interface Warning {

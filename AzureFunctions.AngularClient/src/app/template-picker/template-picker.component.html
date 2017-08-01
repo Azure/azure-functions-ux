@@ -48,6 +48,9 @@
         </div>
     </div>
     <div *ngIf="showFooter" class="tp-footer">
+        <div *ngIf="showAADExpressRegistration">
+            <button class="custom-button" (click)="createAADApplication(selectedTemplate)" [disabled]="showTryView">{{ 'Express AAD Registration' | translate }}</button><br /><br />
+        </div>
         <button class="custom-button" (click)="onSelectClicked()" [disabled]="!selectedTemplate">{{ 'select' | translate }}</button>
         <button class="custom-button-invert" (click)="onCancelClicked()">{{ 'cancel' | translate }}</button>
     </div>

@@ -13,4 +13,5 @@ export interface Template {
     keys?: string[];
     description?: string;
     enabledInTryMode?: boolean;
+    AADPermissions?: any;
 }

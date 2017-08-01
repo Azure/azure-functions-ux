@@ -72,5 +72,10 @@
                 [class.custom-button-disabled]="!areInputsValid"
                 style="display: block; margin-top: 40px"
                 (click)="onCreate()">{{ 'create' | translate }}</button>
+
+        <div *ngIf="showAADExpressRegistration">
+            <br/>
+            <button class="custom-button" (click)="createAADApplication()" [disabled]="showTryView">{{ 'Express AAD Registration' | translate }}</button>
+        </div>
     </div>
 </div>

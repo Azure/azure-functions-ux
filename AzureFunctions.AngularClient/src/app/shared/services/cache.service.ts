@@ -71,6 +71,10 @@ export class CacheService {
         return this._send(url, "PUT", force, headers, content);
     }
 
+    patch(url: string, force?: boolean, headers?: Headers, content?: any) {
+        return this._send(url, "PATCH", force, headers, content);
+    }
+
     @ClearCache('clearAllCachedData')
     clearCache(){
         this._cache = new Cache();
