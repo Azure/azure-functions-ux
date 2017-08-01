@@ -15,9 +15,6 @@ export class BindingEventGridComponent {
 
 
     openSubscribeBlade() {
-        //https://dogfoodeventgridtrigger.azurewebsites.net/admin/extensions/EventGridExtensionConfig?functionName=EventGridTrigger-JavaScript&code=W3YQYIvhKLmqDH1TMA05KCg2Rz2n8Dnki9JaPRk9CJMdauJeY4QPcQ==
-
-
         this._portalService.openBlade({
             detailBlade: 'CreateEventSubscriptionFromSubscriberBlade',
             extension: 'Microsoft_Azure_EventGrid',
