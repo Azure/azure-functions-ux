@@ -429,7 +429,7 @@
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.spec.ts" />
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.ts" />
     <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.ts" />
     <TypeScriptCompile Include="src\app\main\main.component.spec.ts" />
     <TypeScriptCompile Include="src\app\main\main.component.ts" />
     <TypeScriptCompile Include="src\app\multi-drop-down\multi-drop-down.component.spec.ts" />

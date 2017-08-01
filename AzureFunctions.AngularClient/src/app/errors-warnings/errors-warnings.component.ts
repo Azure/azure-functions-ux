@@ -30,6 +30,9 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     private token: string;
     private tokenSubscription: Subscription;
     private hostEventSubscription: Subscription;
+    private monacoSaveSubscription: Subscription;
+    private monacoContentChangedSubscription: Subscription;
+    private fileSelectionSubscription: Subscription;
     private skipLength: number = 0;
     private static functionsDiagnostics: any = {};
     private functionDevComponent: FunctionDevComponent;
@@ -53,7 +56,9 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService) {
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
-        this.hostEventSubscription = this._hostEventService.Events.retry().subscribe((r: any) => {
+        this.hostEventSubscription = this._hostEventService.Events
+        .do(null, error => { console.log(error); })
+        .retry().subscribe((r: any) => {
             ErrorsWarningsComponent.functionsDiagnostics[r.functionName] = r.diagnostics;
             if (this.functionInfo && this.functionInfo.name === r.functionName) {
                 this.diagnostics = r.diagnostics;
@@ -80,16 +85,16 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.monacoEditor.onSave.subscribe(() => {
+        this.monacoSaveSubscription = this.monacoEditor.onSave.subscribe(() => {
             this.monacoEditor.setDiagnostics(this.diagnostics);
             this.setBusyState();
         });
 
-        this.monacoEditor.onContentChanged.subscribe(n => {
+        this.monacoContentChangedSubscription = this.monacoEditor.onContentChanged.subscribe(n => {
             this.monacoEditor.setDiagnostics(this.diagnostics);
         });
 
-        this._broadcastService.subscribe(BroadcastEvent.FileSelectionRequest, () => {
+        this.fileSelectionSubscription = this._broadcastService.subscribe(BroadcastEvent.FileSelectionRequest, () => {
             this.monacoEditor.setDiagnostics(this.diagnostics);
         })
 
@@ -109,6 +114,21 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         if (this.hostEventSubscription) {
             this.hostEventSubscription.unsubscribe();
             delete this.hostEventSubscription;
+        }
+
+        if(this.monacoSaveSubscription) {
+            this.monacoSaveSubscription.unsubscribe();
+            delete this.monacoSaveSubscription;
+        }
+
+        if(this.monacoContentChangedSubscription) {
+            this.monacoContentChangedSubscription.unsubscribe();
+            delete this.monacoContentChangedSubscription;
+        }
+
+        if(this.fileSelectionSubscription) {
+            this.fileSelectionSubscription.unsubscribe();
+            delete this.fileSelectionSubscription;
         }
     }
 
@@ -138,7 +158,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public itemClick(diagnostic: Diagnostic) {
-        if (this.monacoEditor.CurrentFileName! == diagnostic.source) {
+        if (this.monacoEditor.CurrentFileName !== diagnostic.source) {
             if (!this.fileExplorer) {
                 this.diagnosticDblClicked.emit(null);
                 this.pendingFileChange = diagnostic.source;
@@ -151,7 +171,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     private changeFiles(fileName: string) {
-        let requestedFile = this.fileExplorer.files.find((item, index, collection) => item.name === fileName);
+        let requestedFile = this.fileExplorer.files.find((item) => item.name === fileName);
         if (requestedFile) {
             this.fileExplorer.selectedFile = requestedFile;
             this.fileExplorer.selectVfsObject(requestedFile);

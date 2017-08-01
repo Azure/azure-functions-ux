@@ -349,7 +349,6 @@ export class FileExplorerComponent implements OnChanges {
                 this.selectedFile.isDirty = false;
             }
         }
-        let tempSwitchFiles = switchFiles;
         return switchFiles;
     }
 }

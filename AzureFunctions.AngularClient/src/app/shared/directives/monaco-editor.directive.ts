@@ -159,6 +159,7 @@ export class MonacoEditorDirective implements OnInit {
             monaco.editor.setModelMarkers(this._editor.getModel(), 'monaco',
                 diagnostics.filter(d => d.source === this._fileName));
         } catch (error) {
+            console.log(error);
         }
     }
 

@@ -38,61 +38,61 @@
     height: 100%;
     width: 99.5%;
     position: relative;
-}
 
-.errorwarnings>table{
-    background: whitesmoke;
-    width: 100%;
-    border: lightgray;
-    border-width: 1px;
-    border-style: solid;
-    height: 100%;
-    margin-top: 10px;
-    margin-left: 5px;
-}
-.errorwarnings>table>thead{
-    text-transform: uppercase;
-    font-weight: bold;
-    display: block;
-}
-.errorwarnings>table>tbody{
-    font-family: "Segoe UI"; 
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
-    display: block;
-    overflow-y: overlay;
-}
+    table{
+       background: $errors-warnings-table-background-color;
+        width: 100%;
+        border: $errors-warnings-table-border-color;
+        border-width: 1px;
+        border-style: solid;
+        height: 100%;
+        margin-top: 10px;
+        margin-left: 5px; 
 
-.errorwarnings>table>tbody>tr:hover {
-    background: lightgray
-}
+        thead{
+            text-transform: uppercase;
+            font-weight: bold;
+            display: block;
+        }
 
-.errorwarnings tr 
-{
-    height: 25px;
-}
+        tbody{
+            font-family: "Segoe UI"; 
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 17px;
+            display: block;
+            overflow-y: overlay;
+        }
+    }
 
-.errorwarnings td, .errorwarnings th
-{
-    padding: 0px 10px;
+    tr{
+        height: 25px;
+    }
+
+    tr:hover{
+        background: $errors-warnings-table-row-hover-color;
+    }
+
+    td, th {
+        padding: 0px 10px;
+    }
 }
 
 .severitycolumn {
     font-size: 18px;
     width: 50px;
     text-align: center;
-    display: table-cell
+    display: table-cell;
 }
 
 .severityerror {
-    color: red
+    color: $severity-error-color;
 }
 
 .severitywarning {
-    color:orange
+    color:$severity-warnings-color;
 }
 
 .severityinfo {
-    color: steelblue
+    color: $severity-info-color;
 }
