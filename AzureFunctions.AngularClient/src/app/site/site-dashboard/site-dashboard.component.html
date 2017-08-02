@@ -42,10 +42,19 @@
             <swaggerdefinition *ngIf="selectedTabId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
         </tab>
 
-        <tab *ngIf="isStandalone"
+        <!-- DEBUG: conditionally showing application settings tab -->
+        <tab *ngIf="!isStandalone && (!tabsFeature || dynamicTabIds[2] === TabIds.applicationSettings) && appSettingsTabEnabled"
+             [title]="Resources.tab_applicationSettings | translate"
+             [id]="TabIds.applicationSettings"
+             [closeable]="tabsFeature === 'tabs'"
+             [iconUrl]="tabsFeature ? 'images/application-settings.svg' : null">
+            <site-config *ngIf="selectedTabId === TabIds.applicationSettings" [viewInfoInput]="viewInfo"></site-config>
+        </tab>
+
+        <tab *ngIf="!!isStandalone"
              [title]="Resources.tab_configuration | translate"
              [id]="TabIds.config">
-            <site-config *ngIf="selectedTabId === TabIds.config" [viewInfoInput]="viewInfo"></site-config>
+            <site-config-standalone *ngIf="selectedTabId === TabIds.config" [viewInfoInput]="viewInfo"></site-config-standalone>
         </tab>
 
     </tabs>

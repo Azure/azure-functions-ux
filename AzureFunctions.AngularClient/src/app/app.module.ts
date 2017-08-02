@@ -103,6 +103,7 @@ import { FnWriteAccessDirective } from './shared/directives/fn-write-access.dire
 import { EditModeWarningComponent } from './edit-mode-warning/edit-mode-warning.component';
 import { TextboxComponent } from './controls/textbox/textbox.component';
 import { SiteConfigComponent } from './site/site-config/site-config.component';
+import { SiteConfigStandaloneComponent } from './site/site-config-standalone/site-config-standalone.component';
 import { CommandBarComponent } from './controls/command-bar/command-bar.component';
 import { CommandComponent } from './controls/command-bar/command/command.component';
 import { EventHubComponent } from './pickers/event-hub/event-hub.component';
@@ -112,6 +113,8 @@ import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
+import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
+import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
 
 export function ArmServiceFactory(
   http: Http,
@@ -207,6 +210,7 @@ export class AppModule {
       EditModeWarningComponent,
       TextboxComponent,
       SiteConfigComponent,
+      SiteConfigStandaloneComponent,
       ClickToEditComponent,
       CommandBarComponent,
       CommandComponent,
@@ -217,7 +221,9 @@ export class AppModule {
       ServiceBusComponent,
       SearchBoxComponent,
       AppSettingComponent,
-      DownloadFunctionAppContentComponent
+      DownloadFunctionAppContentComponent,
+      AppSettingsComponent,
+      ConnectionStringsComponent
     ],
     imports: [
       FormsModule,

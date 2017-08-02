@@ -1,0 +1,84 @@
+<div class="settings-group-wrapper">
+
+  <h3>{{ 'feature_applicationSettingsName' | translate }}</h3>
+
+  <div *ngIf="!groupArray" class="settings-wrapper">
+
+    <tbl tblClass="tbl fixed stretch">
+      <tr class="header-row">
+        <th class="nameCol"></th>
+        <th class="valueCol"></th>
+        <th class="actionCol"></th>
+      </tr>
+
+      <tr *ngFor="let row of [1]">
+        <td [class.pristine]="true">
+          <textbox [placeholder]="Resources.enterName | translate"></textbox>
+        </td>
+        <td>
+          <textbox [placeholder]="Resources.enterValue | translate"></textbox>
+        </td>
+        <td><span class="fa fa-times delete"></span></td>
+      </tr>
+    </tbl>
+
+    <div class="link add-setting">
+      {{ 'addNewSetting' | translate }}
+    </div>
+
+    <div class="shield">
+      <div *ngIf="hasWritePermissions && !!loadingFailureMessage" class="shield-message">
+        {{loadingFailureMessage}}
+      </div>
+      <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield-message">
+        {{permissionsMessage}}
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="!!groupArray" class="settings-wrapper">
+
+    <tbl tblClass="tbl fixed stretch" [items]="groupArray.controls" #appSettingsTable>
+      <tr class="header-row">
+        <th class="nameCol"></th>
+        <th class="valueCol"></th>
+        <th class="actionCol"></th>
+      </tr>
+
+      <tr *ngFor="let group of appSettingsTable.items">
+        <td [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+          <click-to-edit [group]="group" name="name">
+
+            <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+
+          </click-to-edit>
+        </td>
+
+        <td>
+          <click-to-edit [group]="group" name="value">
+
+            <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
+
+          </click-to-edit>
+        </td>
+
+        <td>
+          <span class="fa fa-times delete" (click)="deleteAppSetting(group)"></span>
+        </td>
+      </tr>
+    </tbl>
+
+    <div class="link add-setting" (click)="addAppSetting()">
+      {{ 'addNewSetting' | translate }}
+    </div>
+
+    <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield">
+      <div class="shield-message">
+        {{permissionsMessage}}
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,3 +1,6 @@
+import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
+import { SiteTabIds } from './../../shared/models/constants';
+import { Url } from './../../shared/Utilities/url';
 import { TabsComponent } from './../../tabs/tabs.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
@@ -90,6 +93,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _aiService: AiService,
     private _translateService: TranslateService,
     private _slotsService: SlotsService,
+    private _siteDashboard: SiteDashboardComponent,
     tabsComponent: TabsComponent
   ) {
 
@@ -382,12 +386,17 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   openAppSettings() {
-    this._portalService.openBlade({
-      detailBlade: "WebsiteConfigSiteSettings",
-      detailBladeInputs: {
-        resourceUri: this.site.id,
-      }
-    }, "settings");
+    if (Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") { //DEBUG: conditionally showing application settings tab
+      this._siteDashboard.openFeature(SiteTabIds.applicationSettings);
+    }
+    else {
+      this._portalService.openBlade({
+        detailBlade: "WebsiteConfigSiteSettings",
+        detailBladeInputs: {
+          resourceUri: this.site.id,
+        }
+      }, "settings");
+    }
   }
 
   private _updateContainerVersion(site: ArmObj<Site>, appSettings: ArmObj<any>) {
