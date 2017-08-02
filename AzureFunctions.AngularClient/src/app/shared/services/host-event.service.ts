@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -15,7 +15,7 @@ declare var monaco;
 @Injectable()
 export class HostEventService {
 
-    private eventStream: Subject<HostEvent>;
+    public events: Observable<HostEvent>;
     private tokenSubscription : Subscription;
     private token: string;
     private req : XMLHttpRequest;
@@ -28,14 +28,10 @@ export class HostEventService {
       private _http: Http,
       private _userService: UserService,
       private _configService : ConfigService) {
-        this.eventStream = new Subject<HostEvent>();
+        this.events = new Observable<HostEvent>();
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
 
         this.readHostEvents();
-    }
-
-    get Events() {
-        return this.eventStream;
     }
 
     dispose() {
@@ -84,7 +80,7 @@ export class HostEventService {
                         
                         lines.filter(l => l.startsWith('{'))
                             .map(l => JSON.parse(l))
-                            .forEach(e => this.eventStream.next(e));
+                            .forEach(e => this.events.next(e));
 
                         this.currentPosition += newText.lastIndexOf('\n');
                     } 
