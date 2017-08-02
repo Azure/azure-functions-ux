@@ -4,11 +4,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SiteConfigComponent } from './site-config.component';
+import { SiteConfigStandaloneComponent } from './site-config-standalone.component';
 
-describe('SiteConfigComponentt', () => {
-  let component: SiteConfigComponent;
-  let fixture: ComponentFixture<SiteConfigComponent>;
+describe('SiteConfigStandaloneComponent', () => {
+  let component: SiteConfigStandaloneComponent;
+  let fixture: ComponentFixture<SiteConfigStandaloneComponent>;
 
   // beforeEach(async(() => {
   //   TestBed.configureTestingModule(AppModule.moduleDefinition)
@@ -16,7 +16,7 @@ describe('SiteConfigComponentt', () => {
   // }));
 
   // beforeEach(() => {
-  //   fixture = TestBed.createComponent(SiteConfigComponent);
+  //   fixture = TestBed.createComponent(SiteConfigStandaloneComponent);
   //   component = fixture.componentInstance;
   //   fixture.detectChanges();
   // });

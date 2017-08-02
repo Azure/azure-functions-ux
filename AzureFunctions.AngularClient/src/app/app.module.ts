@@ -1,4 +1,6 @@
-﻿import { DownloadFunctionAppContentComponent } from './download-function-app-content/download-function-app-content.component';
+import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
+import { DynamicLoaderDirective } from './shared/directives/dynamic-loader.directive';
+import { DownloadFunctionAppContentComponent } from './download-function-app-content/download-function-app-content.component';
 import { CreateAppComponent } from './site/create-app/create-app.component';
 import { ClickToEditComponent } from './controls/click-to-edit/click-to-edit.component';
 import { AiTryService } from './shared/services/ai-try.service';
@@ -136,6 +138,13 @@ export function AiServiceFactory() {
 @NgModule(AppModule.moduleDefinition)
 export class AppModule {
   static moduleDefinition = {
+    entryComponents: [
+      SiteSummaryComponent,
+      SiteManageComponent,
+      FunctionRuntimeComponent,
+      SwaggerDefinitionComponent,
+      SiteConfigStandaloneComponent
+    ],
     declarations: [
       AppComponent,
       GettingStartedComponent,
@@ -181,6 +190,7 @@ export class AppModule {
       SideNavComponent,
       TreeViewComponent,
       SiteDashboardComponent,
+      SiteTabComponent,
       TabsComponent,
       TabComponent,
       BreadcrumbsComponent,
@@ -206,6 +216,7 @@ export class AppModule {
       TblComponent,
       TblThComponent,
       FnWriteAccessDirective,
+      DynamicLoaderDirective,
       EditModeWarningComponent,
       TextboxComponent,
       SiteConfigComponent,

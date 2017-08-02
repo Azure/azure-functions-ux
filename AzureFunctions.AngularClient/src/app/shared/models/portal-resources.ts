@@ -335,6 +335,7 @@ export class PortalResources {
     public static notAvailable: string = "notAvailable";
     public static enabledFeatures_header: string = "enabledFeatures_header";
     public static enabledFeatures_description: string = "enabledFeatures_description";
+    public static siteDashboard_confirmLoseChanges: string = "siteDashboard_confirmLoseChanges";
     public static siteDashboard_getAppError: string = "siteDashboard_getAppError";
     public static siteDashboard_appNotFound: string = "siteDashboard_appNotFound";
     public static siteSummary_stopConfirmation: string = "siteSummary_stopConfirmation";

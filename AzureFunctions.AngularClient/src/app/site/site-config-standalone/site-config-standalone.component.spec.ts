@@ -6,7 +6,7 @@ import { DebugElement } from '@angular/core';
 
 import { SiteConfigStandaloneComponent } from './site-config-standalone.component';
 
-describe('SiteConfigStandaloneComponent', () => {
+describe('SiteConfigComponentt', () => {
   let component: SiteConfigStandaloneComponent;
   let fixture: ComponentFixture<SiteConfigStandaloneComponent>;
 
@@ -16,7 +16,7 @@ describe('SiteConfigStandaloneComponent', () => {
   // }));
 
   // beforeEach(() => {
-  //   fixture = TestBed.createComponent(SiteConfigStandaloneComponent);
+  //   fixture = TestBed.createComponent(SiteConfigComponent);
   //   component = fixture.componentInstance;
   //   fixture.detectChanges();
   // });

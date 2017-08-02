@@ -1,6 +1,5 @@
+import { BroadcastService } from './../../shared/services/broadcast.service';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
-import { Url } from './../../shared/Utilities/url';
 import { SiteTabIds } from './../../shared/models/constants';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -39,9 +38,6 @@ export class SiteManageComponent implements OnDestroy {
 
     public viewInfo: TreeViewInfo<SiteData>;
 
-    // Used to open features within the same tab instead of in a new tab
-    public selectedFeatureId: string | null = null;
-
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
     private _descriptor: SiteDescriptor;
 
@@ -49,8 +45,6 @@ export class SiteManageComponent implements OnDestroy {
     private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
 
     private _dynamicDisableInfo: DisableInfo;
-    private _tabsFeature: string;
-
 
     private _selectedFeatureSubscription: RxSubscription;
 
@@ -65,9 +59,7 @@ export class SiteManageComponent implements OnDestroy {
         private _cacheService: CacheService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _siteDashboard: SiteDashboardComponent) {
-
-        this._tabsFeature = Url.getParameterByName(window.location.href, 'appsvc.feature.tabs');
+        private _broadcastService: BroadcastService) {
 
         this._viewInfoStream
             .switchMap(viewInfo => {
@@ -128,12 +120,6 @@ export class SiteManageComponent implements OnDestroy {
                     disableMessage: this._translateService.instant(PortalResources.featureDisabledNoPermissionToPlan)
                 });
             });
-
-        this._selectedFeatureSubscription = this._siteDashboard.openFeatureId.subscribe(featureId => {
-            if (this._tabsFeature === 'inplace') {
-                this.selectedFeatureId = featureId;
-            }
-        });
     }
 
     ngOnDestroy() {
@@ -244,6 +230,13 @@ export class SiteManageComponent implements OnDestroy {
         ];
 
         const generalFeatures: FeatureItem[] = [
+            new TabFeature(
+                this._translateService.instant(PortalResources.tab_functionSettings),
+                this._translateService.instant(PortalResources.tab_functionSettings),
+                this._translateService.instant(PortalResources.feature_functionSettingsInfo),
+                'images/functions.svg',
+                SiteTabIds.functionRuntime,
+                this._broadcastService),
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_propertiesName),
@@ -288,50 +281,6 @@ export class SiteManageComponent implements OnDestroy {
                 },
                 this._portalService)
         ];
-
-        if (this._tabsFeature === 'tabs' || this._tabsFeature === 'inplace') {
-            generalFeatures.splice(0, 0,
-                new TabFeature(
-                    this._translateService.instant(PortalResources.tab_functionSettings),
-                    this._translateService.instant(PortalResources.tab_functionSettings),
-                    this._translateService.instant(PortalResources.feature_functionSettingsInfo),
-                    'images/functions.svg',
-                    SiteTabIds.functionRuntime,
-                    this._siteDashboard)
-            );
-        }
-
-        if (Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") { //DEBUG: conditionally showing application settings tab
-            if (this._tabsFeature === 'tabs' || this._tabsFeature === 'inplace') {
-                generalFeatures.splice(0, 0,
-                    new TabFeature(
-                        this._translateService.instant(PortalResources.tab_applicationSettings),
-                        this._translateService.instant(PortalResources.tab_applicationSettings),
-                        this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
-                        'images/application-settings.svg',
-                        SiteTabIds.applicationSettings,
-                        this._siteDashboard)
-                );
-            }
-        }
-        else {
-            generalFeatures.splice(0, 0,
-                new BladeFeature(
-                    this._translateService.instant(PortalResources.feature_applicationSettingsName),
-                    this._translateService.instant(PortalResources.feature_applicationSettingsName) +
-                    ' ' + this._translateService.instant(PortalResources.connectionStrings) +
-                    ' java php .net',
-                    this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
-                    'images/application-settings.svg',
-                    {
-                        detailBlade: 'WebsiteConfigSiteSettings',
-                        detailBladeInputs: {
-                            resourceUri: site.id,
-                        }
-                    },
-                    this._portalService),
-            );
-        }
 
         this.groups1 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
@@ -469,6 +418,15 @@ export class SiteManageComponent implements OnDestroy {
 
     private _initCol3Groups(site: ArmObj<Site>) {
         const apiManagementFeatures: FeatureItem[] = [
+            new TabFeature(
+                this._translateService.instant(PortalResources.feature_apiDefinitionName),
+                this._translateService.instant(PortalResources.feature_apiDefinitionName) + ' swagger',
+                this._translateService.instant(PortalResources.feature_apiDefinitionInfo),
+                'images/api-definition.svg',
+                SiteTabIds.apiDefinition,
+                this._broadcastService
+            ),
+
             new BladeFeature(
                 'CORS',
                 'cors api',
@@ -480,18 +438,6 @@ export class SiteManageComponent implements OnDestroy {
                 },
                 this._portalService)
         ];
-
-        if (this._tabsFeature === 'tabs' || this._tabsFeature === "inplace") {
-            apiManagementFeatures.splice(0, 0,
-                new TabFeature(
-                    this._translateService.instant(PortalResources.feature_apiDefinitionName),
-                    this._translateService.instant(PortalResources.feature_apiDefinitionName) + ' swagger',
-                    this._translateService.instant(PortalResources.feature_apiDefinitionInfo),
-                    'images/api-definition.svg',
-                    SiteTabIds.apiDefinition,
-                    this._siteDashboard
-                ));
-        }
 
         const appServicePlanFeatures = [
             new DisableableBladeFeature(
@@ -619,11 +565,6 @@ export class SiteManageComponent implements OnDestroy {
             new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
             new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures),
             new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)];
-    }
-
-    navBack() {
-        // this.selectedFeatureId = null;
-        this._siteDashboard.openFeature(null);
     }
 }
 

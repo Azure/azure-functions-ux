@@ -1,3 +1,4 @@
+import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +14,6 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 
-import { TabsComponent } from './../../tabs/tabs.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { SwaggerEditor } from '../swagger-frame/swaggerEditor';
 import { AiService } from '../../shared/services/ai.service';
@@ -68,9 +68,9 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         private _cacheService: CacheService,
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        tabsComponent: TabsComponent
+        siteTabComponent: SiteTabComponent
     ) {
-        this._busyState = tabsComponent.busyState;
+        this._busyState = siteTabComponent.busyState;
 
         this._viewInfoSub = this._viewInfoStream
             .switchMap(viewInfo => {

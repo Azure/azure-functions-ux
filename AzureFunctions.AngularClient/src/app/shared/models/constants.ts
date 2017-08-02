@@ -60,9 +60,6 @@ export class TabCommunicationVerbs {
     public static parentClosed = "parent-window-closed";
 }
 
-
-export type EnableTabFeature = 'tabs' | 'inplace' | null;
-
 export class SiteTabIds {
     public static readonly overview = "overview";
     public static readonly monitor = "monitor";

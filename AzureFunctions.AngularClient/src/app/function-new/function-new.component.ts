@@ -76,7 +76,7 @@ export class FunctionNewComponent {
         private _aiService: AiService,
         private _cacheService: CacheService) {
         this.elementRef = elementRef;
-        this.disabled = _broadcastService.getDirtyState('function_disabled');
+        this.disabled = !!_broadcastService.getDirtyState("function_disabled");
 
         this._viewInfoStream
             .switchMap(viewInfo => {

@@ -188,12 +188,11 @@ export class SiteEnabledFeaturesComponent {
     }
 
     private _getEnabledFeatureItem(feature: Feature, ...args: any[]): EnabledFeatureItem {
-        const tabsFeature = Url.getParameterByName(window.location.href, 'appsvc.feature.tabs');
 
         switch (feature) {
             case Feature.FunctionSettings:
                 return <EnabledFeatureItem>{
-                    title: this._translateService.instant(tabsFeature ? PortalResources.tab_functionSettings : PortalResources.tab_settings),
+                    title: this._translateService.instant(PortalResources.tab_functionSettings),
                     feature: feature,
                     iconUrl: 'images/Functions.svg',
                     featureId: SiteTabIds.functionRuntime
