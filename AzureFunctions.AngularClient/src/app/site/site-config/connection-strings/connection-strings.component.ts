@@ -255,8 +255,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     let connectionStrings = this.groupArray;
     let index = connectionStrings.controls.indexOf(group);
     if (index >= 0) {
-      connectionStrings.controls.splice(index, 1);
-      group.markAsDirty();
+      connectionStrings.markAsDirty();
+      connectionStrings.removeAt(index);
       connectionStrings.updateValueAndValidity();
     }
   }
@@ -275,12 +275,10 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
       type: [connectionStringDropDownTypes.find(t => t.default).value]
     });
 
-    (<any>group).csTypes = connectionStringDropDownTypes;
-    connectionStrings.push(group);
-
     (<CustomFormGroup>group)._msStartInEditMode = true;
-
-    this.mainForm.markAsDirty();
+    (<any>group).csTypes = connectionStringDropDownTypes;
+    connectionStrings.markAsDirty();
+    connectionStrings.push(group);
   }
 
   private _getConnectionStringTypes(defaultType: ConnectionStringType) {

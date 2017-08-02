@@ -5,6 +5,8 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+import { SiteTabIds } from './../../shared/models/constants';
+import { BroadcastService } from './../../shared/services/broadcast.service';
 import { AiService } from './../../shared/services/ai.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { EnumEx } from './../../shared/Utilities/enumEx';
@@ -29,6 +31,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
   public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
 
   public mainForm: FormGroup;
+  private _valueSubscription: RxSubscription;
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
   public Resources = PortalResources;
 
@@ -47,6 +50,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
     private _fb: FormBuilder,
     private _translateService: TranslateService,
     private _aiService: AiService,
+    private _broadcastService: BroadcastService,
     tabsComponent: TabsComponent
   ) {
     this._busyState = tabsComponent.busyState;
@@ -134,6 +138,19 @@ export class SiteConfigStandaloneComponent implements OnInit {
       appSettings: appSettings,
       connectionStrings: connectionStrings
     })
+
+    this._broadcastService.clearDirtyState(SiteTabIds.config);
+
+    if (this._valueSubscription) {
+      this._valueSubscription.unsubscribe();
+    }
+
+    this._valueSubscription = this.mainForm.valueChanges.subscribe(v => {
+      // There isn't a callback for dirty state on a form, so this is a workaround.
+      if (this.mainForm.dirty) {
+        this._broadcastService.setDirtyState(SiteTabIds.config);
+      }
+    });
   }
 
   private _getConnectionStringTypes(defaultType: ConnectionStringType) {
@@ -158,7 +175,14 @@ export class SiteConfigStandaloneComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this._viewInfoSubscription.unsubscribe();
+    if (this._viewInfoSubscription) {
+      this._viewInfoSubscription.unsubscribe();
+      this._viewInfoSubscription = null;
+    }
+    if (this._valueSubscription) {
+      this._valueSubscription.unsubscribe();
+      this._valueSubscription = null;
+    }
   }
 
   save() {
@@ -239,8 +263,8 @@ export class SiteConfigStandaloneComponent implements OnInit {
   private _deleteRow(group: FormGroup, formArray: FormArray) {
     let index = formArray.controls.indexOf(group);
     if (index >= 0) {
-      formArray.controls.splice(index, 1);
-      group.markAsDirty();
+      formArray.markAsDirty();
+      formArray.removeAt(index);
       formArray.updateValueAndValidity();
     }
   }
@@ -257,12 +281,11 @@ export class SiteConfigStandaloneComponent implements OnInit {
     });
 
     (<CustomFormGroup>group)._msStartInEditMode = true;
+    appSettings.markAsDirty();
     appSettings.push(group);
-    this.mainForm.markAsDirty();
   }
 
   addConnectionString() {
-
     let connectionStrings = <FormArray>this.mainForm.controls["connectionStrings"];
     let connectionStringDropDownTypes = this._getConnectionStringTypes(ConnectionStringType.SQLAzure);
 
@@ -276,11 +299,9 @@ export class SiteConfigStandaloneComponent implements OnInit {
       type: [connectionStringDropDownTypes.find(t => t.default).value]
     });
 
-    (<any>group).csTypes = connectionStringDropDownTypes;
-    connectionStrings.push(group);
-
     (<CustomFormGroup>group)._msStartInEditMode = true;
-
-    this.mainForm.markAsDirty();
+    (<any>group).csTypes = connectionStringDropDownTypes;
+    connectionStrings.markAsDirty();
+    connectionStrings.push(group);
   }
 }

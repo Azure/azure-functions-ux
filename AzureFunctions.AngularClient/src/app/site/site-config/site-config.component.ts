@@ -15,6 +15,8 @@ import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
 import { PortalService } from './../../shared/services/portal.service';
 import { AuthzService } from './../../shared/services/authz.service';
+import { SiteTabIds } from './../../shared/models/constants';
+import { BroadcastService } from './../../shared/services/broadcast.service';
 import { AiService } from './../../shared/services/ai.service';
 
 export interface SaveResult {
@@ -35,6 +37,7 @@ export class SiteConfigComponent implements OnDestroy {
   public hasWritePermissions: boolean = true;
 
   public mainForm: FormGroup;
+  private _valueSubscription: RxSubscription;
   private resourceId: string;
 
   private _busyState: BusyStateComponent;
@@ -53,6 +56,7 @@ export class SiteConfigComponent implements OnDestroy {
     private _translateService: TranslateService,
     private _portalService: PortalService,
     private _aiService: AiService,
+    private _broadcastService: BroadcastService,
     private _authZService: AuthzService,
     tabsComponent: TabsComponent
   ) {
@@ -73,7 +77,7 @@ export class SiteConfigComponent implements OnDestroy {
       })
       .do(null, error => {
         this.resourceId = null;
-        this.mainForm = this._fb.group({});
+        this._setupForm();
         this._aiService.trackEvent("/errors/site-config", error);
         this._busyStateScopeManager.clearBusy();
       })
@@ -83,9 +87,28 @@ export class SiteConfigComponent implements OnDestroy {
         this._readOnlyLock = r.readOnlyLock;
         this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
         this.resourceId = r.resourceId;
-        this.mainForm = this._fb.group({});
+        this._setupForm();
         this._busyStateScopeManager.clearBusy();
       });
+  }
+
+  private _setupForm(retainDirtyState?: boolean) {
+    this.mainForm = this._fb.group({});
+
+    if (!retainDirtyState) {
+      this._broadcastService.clearDirtyState(SiteTabIds.applicationSettings);
+    }
+
+    if (this._valueSubscription) {
+      this._valueSubscription.unsubscribe();
+    }
+
+    this._valueSubscription = this.mainForm.valueChanges.subscribe(v => {
+      // There isn't a callback for dirty state on a form, so this is a workaround.
+      if (this.mainForm.dirty) {
+        this._broadcastService.setDirtyState(SiteTabIds.applicationSettings);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -115,7 +138,6 @@ export class SiteConfigComponent implements OnDestroy {
       })
       .subscribe(r => {
         this._busyStateScopeManager.clearBusy();
-        this.mainForm = this._fb.group({});
 
         const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
         let saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
@@ -124,6 +146,7 @@ export class SiteConfigComponent implements OnDestroy {
           this._translateService.instant(PortalResources.configUpdateSuccess) :
           this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
 
+        this._setupForm(!saveSuccess);
         if (!saveSuccess) {
           this.mainForm.markAsDirty();
         }
@@ -133,6 +156,6 @@ export class SiteConfigComponent implements OnDestroy {
   }
 
   discard() {
-    this.mainForm = this._fb.group({});
+    this._setupForm();
   }
 }

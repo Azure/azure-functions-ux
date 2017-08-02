@@ -240,8 +240,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     let appSettings = this.groupArray;
     let index = appSettings.controls.indexOf(group);
     if (index >= 0) {
-      appSettings.controls.splice(index, 1);
-      group.markAsDirty();
+      appSettings.markAsDirty();
+      appSettings.removeAt(index);
       appSettings.updateValueAndValidity();
     }
   }
@@ -258,7 +258,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     });
 
     (<CustomFormGroup>group)._msStartInEditMode = true;
+    appSettings.markAsDirty();
     appSettings.push(group);
-    this.mainForm.markAsDirty();
   }
 }
