@@ -145,7 +145,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         this.msgColumnWidth = table.clientWidth - sumOtherColumns;
     }
 
-    setBusyState() {
+    public setBusyState() {
         if (this.busyState) {
             this.busyState.setBusyState();
         }

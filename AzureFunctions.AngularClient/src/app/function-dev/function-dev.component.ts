@@ -51,6 +51,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
     @ViewChildren(LogStreamingComponent) logStreamings: QueryList<LogStreamingComponent>;
     @ViewChildren(ErrorsWarningsComponent) errorsWarnings: QueryList<ErrorsWarningsComponent>;
+    @ViewChild(ErrorsWarningsComponent) errorsWarningsComponent: ErrorsWarningsComponent;
 
     @ViewChild('functionContainer') functionContainer: ElementRef;
     @ViewChild('editorContainer') editorContainer: ElementRef;
@@ -465,6 +466,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (!this.scriptFile.isDirty) {
             return;
         }
+
+        if(this.errorsWarningsComponent){
+            this.errorsWarningsComponent.setBusyState();
+        }
+
         let syncTriggers = false;
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
             try {

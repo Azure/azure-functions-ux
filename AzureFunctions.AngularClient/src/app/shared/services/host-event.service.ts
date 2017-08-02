@@ -38,7 +38,7 @@ export class HostEventService {
         return this.eventStream;
     }
 
-    ngOnDestroy() {
+    dispose() {
         if (this.req) {
             this.timeouts.forEach(window.clearTimeout);
             this.timeouts = [];
