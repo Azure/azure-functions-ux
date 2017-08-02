@@ -1,22 +1,21 @@
+import { SiteTabComponent } from './../../site-dashboard/site-tab/site-tab.component';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-
+import { SaveResult } from '../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { AvailableStackNames, AvailableStack, MajorVersion } from 'app/shared/models/arm/stacks';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
-import { SaveResult } from './../site-config.component';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
-import { TabsComponent } from './../../../tabs/tabs.component';
 import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
@@ -89,9 +88,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _authZService: AuthzService,
-    tabsComponent: TabsComponent
+    siteTabComponent: SiteTabComponent
   ) {
-    this._busyState = tabsComponent.busyState;
+    this._busyState = siteTabComponent.busyState;
     this._busyStateScopeManager = this._busyState.getScopeManager();
 
     this._resetPermissionsAndLoadingState();

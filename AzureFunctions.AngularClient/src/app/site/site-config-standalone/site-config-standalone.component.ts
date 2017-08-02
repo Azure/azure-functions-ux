@@ -1,3 +1,4 @@
+import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +14,6 @@ import { EnumEx } from './../../shared/Utilities/enumEx';
 import { DropDownElement } from './../../shared/models/drop-down-element';
 import { ConnectionStrings, ConnectionStringType } from './../../shared/models/arm/connection-strings';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
-import { TabsComponent } from './../../tabs/tabs.component';
 import { CustomFormGroup, CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { CacheService } from './../../shared/services/cache.service';
@@ -50,9 +50,9 @@ export class SiteConfigStandaloneComponent implements OnInit {
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _broadcastService: BroadcastService,
-    tabsComponent: TabsComponent
+    siteTabsComponent: SiteTabComponent
   ) {
-    this._busyState = tabsComponent.busyState;
+    this._busyState = siteTabsComponent.busyState;
 
     this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     this._viewInfoSubscription = this.viewInfoStream

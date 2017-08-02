@@ -1,7 +1,7 @@
 // This file is auto generated
-/* tslint:disable */
 
-export class PortalResources {
+export class PortalResources
+{
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
@@ -403,7 +403,7 @@ export class PortalResources {
     public static alwaysOnLabel: string = "alwaysOnLabel";
     public static alwaysOnLabelHelp: string = "alwaysOnLabelHelp";
     public static managedPipelineModeLabel: string = "managedPipelineModeLabel";
-    public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLebel";
+    public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLabel";
     public static remoteDebuggingEnabledLabel: string = "remoteDebuggingEnabledLabel";
     public static remoteDebuggingVersionLabel: string = "remoteDebuggingVersionLabel";
     public static newest: string = "newest";

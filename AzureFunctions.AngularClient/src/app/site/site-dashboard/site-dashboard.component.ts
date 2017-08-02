@@ -1,3 +1,4 @@
+import { SiteConfigComponent } from './../site-config/site-config.component';
 import { DirtyStateEvent } from './../../shared/models/broadcast-event';
 import { SiteConfigStandaloneComponent } from './../site-config-standalone/site-config-standalone.component';
 import { SwaggerDefinitionComponent } from './../swagger-definition/swagger-definition.component';
@@ -167,11 +168,11 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     }
 
     ngOnDestroy() {
-        if(this._openTabSubscription){
+        if (this._openTabSubscription) {
             this._openTabSubscription.unsubscribe();
         }
 
-        if(this._dirtySub){
+        if (this._dirtySub) {
             this._dirtySub.unsubscribe();
         }
 
@@ -210,14 +211,14 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
             if (info.id === this._currentTabId) {
                 if (this._prevTabId) {
                     this._selectTabId(this._prevTabId);
-                } else{
+                } else {
                     this._selectTabId(SiteTabIds.overview);
                 }
             }
 
             // If you close the previous tab, then this will make sure that you don't go back to it
             // if you close the current tab.
-            if(info.id === this._prevTabId){
+            if (info.id === this._prevTabId) {
                 this._prevTabId = null;
             }
         }
@@ -286,6 +287,13 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                 info.title = this._translateService.instant(PortalResources.tab_configuration);
                 info.componentFactory = SiteConfigStandaloneComponent;
                 info.closeable = false;
+                break;
+
+            case SiteTabIds.applicationSettings:
+                info.title = this._translateService.instant(PortalResources.tab_applicationSettings);
+                info.iconUrl = 'images/application-settings.svg';
+                info.componentFactory = SiteConfigComponent;
+                info.closeable = true;
                 break;
         }
 

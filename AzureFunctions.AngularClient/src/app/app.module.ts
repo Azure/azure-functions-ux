@@ -143,6 +143,7 @@ export class AppModule {
       SiteManageComponent,
       FunctionRuntimeComponent,
       SwaggerDefinitionComponent,
+      SiteConfigComponent,
       SiteConfigStandaloneComponent
     ],
     declarations: [
