@@ -14,7 +14,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['netFrameWorkVersion'] : null"
-          [options]="!!group ? group.controls['netFrameWorkVersion'].options : []"
+          [options]="!!versionOptionsMap ? versionOptionsMap['netFrameWorkVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -29,7 +29,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['phpVersion'] : null"
-          [options]="!!group ? group.controls['phpVersion'].options : []"
+          [options]="!!versionOptionsMap ? versionOptionsMap['phpVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -44,7 +44,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['pythonVersion'] : null"
-          [options]="!!group ? group.controls['pythonVersion'].options : []"
+          [options]="!!versionOptionsMap ? versionOptionsMap['pythonVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -59,7 +59,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaVersion'] : null"
-          [options]="!!group ? group.controls['javaVersion'].options : []"
+          [options]="!!versionOptionsMap ? versionOptionsMap['javaVersion'] : []"
           [highlightDirty]="true"
           (value)="updateJavaOptions($event)">
         </drop-down>
@@ -75,7 +75,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaMinorVersion'] : null"
-          [options]="!!group ? group.controls['javaMinorVersion'].options : []"
+          [options]="!!versionOptionsMap ? versionOptionsMap['javaMinorVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -90,7 +90,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaWebContainer'] : null"
-          [options]="!!group ? group.controls['javaWebContainer'].options : []"
+          [options]="!!versionOptionsMap ? versionOptionsMap['javaWebContainer'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
