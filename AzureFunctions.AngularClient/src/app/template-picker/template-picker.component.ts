@@ -318,7 +318,13 @@ export class TemplatePickerComponent {
                 return b.type.toString() === templateName;
             });
 
-            helper.createAADApplication(binding, info.graphToken, this._globalStateService);
+            helper.createAADApplication(binding, info.graphToken, this._globalStateService)
+                .subscribe(r => { 
+                    this._globalStateService.clearBusyState();
+                },
+                err => {
+                    this._globalStateService.clearBusyState();
+                });
         });
     }
 

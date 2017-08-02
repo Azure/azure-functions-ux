@@ -1,4 +1,6 @@
-﻿export enum BindingType {
+﻿import { AADPermissions } from './microsoft-graph';
+
+export enum BindingType {
     timerTrigger = <any>"timerTrigger",
     eventHubTrigger = <any>"eventHubTrigger",
     eventHub = <any>"eventHub",
@@ -50,7 +52,7 @@ export interface Binding {
     filters?: string[];
     enabledInTryMode?: boolean;
     actions: Action[];
-    AADPermissions?: any;
+    AADPermissions?: AADPermissions[];
 }
 
 export interface Setting {

@@ -39,96 +39,74 @@ export class MicrosoftGraphHelper {
             }
         }
 
-    createAADApplication(template: Binding | FunctionTemplateMetadata, graphToken: string, globalStateService: GlobalStateService) {
+    createAADApplication(template: Binding | FunctionTemplateMetadata, graphToken: string, globalStateService: GlobalStateService): Observable<any> {
         // 1. Check if AAD application exists       
         this._token = graphToken;
         const jwt = parseToken(this._token);
         let rootUri = jwt.aud + jwt.tid; // audience + tenantId
-        this.checkForExistingAAD(rootUri).subscribe(applicationInformation => {
-            // If it already exists, check to see if it has necessary client secret & scopes
-            if (applicationInformation) {
-                /* Currently, this fails because the graph token retrieved from Ibiza does not have enough permissions to update the AAD app's manifest,
-                * though the token can be used to create an AAD app...            
-                * This section can be uncommented when the AAD team updates the permissions for the Portal AAD app
-                var existingApplication = applicationInformation.json().value[0];
+        return this.checkForExistingAAD(rootUri)
+            .flatMap(applicationInformation => {
+                // If it already exists, check to see if it has necessary client secret & resources
+                if (applicationInformation) {
+                    /* Currently, this fails because the graph token retrieved from Ibiza does not have enough permissions to update the AAD app's manifest,
+                    * though the token can be used to create an AAD app...            
+                    * This section can be uncommented when the AAD team updates the permissions for the Portal AAD app
+                    var existingApplication = applicationInformation.json().value[0];
 
-                // Legacy reasons: check for client secret (Easy Auth used to not set Client Secret automatically)
-                if (this.setClientSecret) {
-                    this.createClientSecret(rootUri, existingApplication.objectId).subscribe(() => {
-                        this.setClientSecret = false;
-                    },
+                    // Legacy reasons: check for client secret (Easy Auth used to not set Client Secret automatically)
+                    if (this.setClientSecret) {
+                        this.createClientSecret(rootUri, existingApplication.objectId).subscribe(() => {
+                            this.setClientSecret = false;
+                        },
+                        error => {
+                            if (this._aiService) {
+                                this._aiService.trackException(error, "Could not update AAD manifest's client secret");
+                            }
+                        });
+                    }
+
+                    this.compareResources(existingApplication.requiredResourceAccess, template.AADPermissions);
+                    const patch: any = {};
+                    patch.value = template.AADPermissions;
+                    
+                    this.sendRequest(rootUri, '/applications/' + existingApplication.objectId + '/requiredResourceAccess', "PATCH", JSON.stringify(patch)).subscribe(() => { },
                     error => {
                         if (this._aiService) {
-                            this._aiService.trackException(error, "Could not update AAD manifest's client secret");
+                            this._aiService.trackException(error, 'Error occurred while updating manifest with new permissions req.');
                         }
                     });
+                    */
+                    return Observable.of(null);     
                 }
+                else {
+                    // If it does not exist, create it & set necessary resources
+                    let appUri = this.functionApp.getMainSiteUrl();      
+                    let name = this.functionApp.site.name;
 
-                this.compareScopes(existingApplication.requiredResourceAccess, template.AADPermissions);
-                const patch: any = {};
-                patch.value = template.AADPermissions;
-                
-                this.sendRequest(rootUri, '/applications/' + existingApplication.objectId + '/requiredResourceAccess', 'PATCH', JSON.stringify(patch)).subscribe(() => { },
-                error => {
-                    if (this._aiService) {
-                        this._aiService.trackException(error, 'Error occurred while updating manifest with new permissions req.');
-                    }
-                });
-                */          
-            }
-            else {
-                // If it does not exist, create it & set necessary scopes
-                let appUri = this.functionApp.getMainSiteUrl();      
-                let name = this.functionApp.site.name;
+                    var app: any = {};
+                    app.displayName = name;
+                    app.homepage = appUri;
+                    app.identifierUris = [appUri];
+                    app.replyUrls = [trimTrailingSlash(appUri) + MSGraphConstants.General.AADReplyUrl];
 
-                var app: any = {};
-                app.displayName = name;
-                app.homepage = appUri;
-                app.identifierUris = [appUri];
-                app.replyUrls = [trimTrailingSlash(appUri) + MSGraphConstants.General.AADReplyUrl];
+                    var pwCreds = GeneratePasswordCredentials();
+                    app.passwordCredentials = [pwCreds];
+                    app.requiredResourceAccess = template.AADPermissions;
 
-                var pwCreds = GeneratePasswordCredentials();
-                app.passwordCredentials = [pwCreds];
-                app.requiredResourceAccess = template.AADPermissions;
+                    let application = JSON.stringify(app);
+                    return this.sendRequest(rootUri, '/applications', "POST", application)
+                        .do(response =>{
 
-                let application = JSON.stringify(app);
-                this.sendRequest(rootUri, '/applications', 'POST', application).subscribe(response => {
-                    let newApplication = JSON.parse(response._body);
+                            let newApplication = JSON.parse(response._body);
 
-                    this.setAuthSettings(newApplication.appId, jwt, pwCreds.value, app.replyUrls);
-                }, error => {
-                    globalStateService.clearBusyState();
-                    this._aiService.trackException(error, 'Creation of AAD Application by MSG Helper failed.');
-                });
-            }
-            globalStateService.clearBusyState();
-        }, error => {
-            globalStateService.clearBusyState();
-            if (this._aiService) {
-                this._aiService.trackException(error, "Error occurred while retrieving AAD app for this Function");
-            }            
-        });     
-    }
-
-    // Set long list of auth settings needed by Easy Auth
-    setAuthSettings(applicationId: string, jwt, clientSecret, replyUrls) {
-        let authSettings = new Map<string, any>();
-        authSettings.set('enabled', true);
-        authSettings.set('unauthenticatedClientAction', 'AllowAnonymous');
-        authSettings.set('tokenStoreEnabled', true);
-        authSettings.set('allowedExternalRedirectUrls', window.location.hostname);
-        authSettings.set('defaultProvider', 'AzureActiveDirectory');
-        authSettings.set('clientId', applicationId);
-        authSettings.set('clientSecret', clientSecret);
-        authSettings.set('issuer', jwt.iss);
-        authSettings.set('allowedAudiences', replyUrls);
-
-        this.functionApp.createAuthSettings(authSettings).subscribe(() => { },
-        error => {
-            if (this._aiService) {
-                this._aiService.trackException(error, "Error occurred while setting necessary authsettings");
-            }         
-        });
+                            this.setAuthSettings(newApplication.appId, jwt, pwCreds.value, app.replyUrls);
+                        }, err =>{
+                            if (this._aiService) {
+                                this._aiService.trackException(err, "Error while creating new AAD application");
+                            }
+                        });
+                }
+            })    
     }
 
     saveWebHook() { 
@@ -273,6 +251,27 @@ export class MicrosoftGraphHelper {
         return this._dataRetriever.retrieveOID(options, input);
     }
 
+    // Set long list of auth settings needed by Easy Auth
+    private setAuthSettings(applicationId: string, jwt, clientSecret, replyUrls) {
+        let authSettings = new Map<string, any>();
+        authSettings.set('enabled', true);
+        authSettings.set('unauthenticatedClientAction', 'AllowAnonymous');
+        authSettings.set('tokenStoreEnabled', true);
+        authSettings.set('allowedExternalRedirectUrls', window.location.hostname);
+        authSettings.set('defaultProvider', 'AzureActiveDirectory');
+        authSettings.set('clientId', applicationId);
+        authSettings.set('clientSecret', clientSecret);
+        authSettings.set('issuer', jwt.iss);
+        authSettings.set('allowedAudiences', replyUrls);
+
+        this.functionApp.createAuthSettings(authSettings).subscribe(() => { },
+        error => {
+            if (this._aiService) {
+                this._aiService.trackException(error, "Error occurred while setting necessary authsettings");
+            }         
+        });
+    }
+
     private checkForExistingAAD(rootUri: string): Observable<any> {
         return this._cacheService.postArm(`${this.functionApp.site.id}/config/authsettings/list`, true).flatMap(
             r => {
@@ -293,7 +292,7 @@ export class MicrosoftGraphHelper {
         let authSettings = new Map<string, any>();
         authSettings.set('clientSecret', pwCreds.keyId);
         return this.functionApp.createAuthSettings(authSettings).do(() => {
-            return this.sendRequest(rootUri, '/applications/' + objectId + '/passwordCredentials', 'PATCH', JSON.stringify(pwCreds));
+            return this.sendRequest(rootUri, '/applications/' + objectId + '/passwordCredentials', "PATCH", JSON.stringify(pwCreds));
         }, error => {
             if (this._aiService) {
                 this._aiService.trackException(error, "Error while updating authsetting with new client secret");
@@ -310,15 +309,15 @@ export class MicrosoftGraphHelper {
         const headers = new Headers();
         headers.append('Authorization', `Bearer ${this._token}`);
 
-        if (method.toUpperCase() === 'POST') {
+        if (method.toLowerCase() === Constants.httpMethods.POST) {
             headers.append('Content-Type', 'application/json');
             return this._cacheService.post(url, null, headers, jsonPayload);
         }
-        else if (method.toUpperCase() === 'PUT') {
+        else if (method.toLowerCase() === Constants.httpMethods.PUT) {
             headers.append('Content-Type', 'application/json');
             return this._cacheService.put(url, null, headers, jsonPayload);
         }
-        else if (method.toUpperCase() === 'PATCH') {
+        else if (method.toLowerCase() === Constants.httpMethods.PATCH) {
             headers.append('Content-Type', 'application/json; charset=utf-8');
             return this._cacheService.patch(url, null, headers, jsonPayload);
         }
@@ -354,30 +353,35 @@ export class MicrosoftGraphHelper {
             });
     }
 
-    private compareScopes(current, necessary) {
-        // MS Graph scope comparison
+    // Given a set of resources a binding/tempalte needs and the app's current resources, determine the union of the two sets
+    // Retain current resources and add additional ones if necessary
+    private compareResources(current, necessary) {
+        // Resources associated with MS Graph that application manifest currently contains
         let existingMSGraph = current.find(obj => {
             return obj.resourceAppId === MSGraphConstants.RequiredResources.MicrosoftGraph;
         });
 
+        // Resources associated with MS Graph that application needs for this specific binding/template
         let necessaryMSGraph = necessary.find(obj => {
             return obj.resourceAppId === MSGraphConstants.RequiredResources.MicrosoftGraph;
         });
 
         if (existingMSGraph) {
-            // Union two arrays by removing intersection from existing scopes then concatenating remaining
+            // Union two arrays by removing intersection from existing resources then concatenating remaining
             this.necessaryMSGraph.resourceAccess = necessaryMSGraph.resourceAccess.concat(existingMSGraph.resourceAccess.filter(item => {
                 return necessaryMSGraph.resourceAccess.findIndex(necessary => {
                     return necessary.type === item.type && necessary.id === item.id; 
                 }) < 0;
             }));
         } else {
+            // If no MS Graph resources are currently required, the new ones are just the ones this binding/template needs
             this.necessaryMSGraph.resourceAccess = necessaryMSGraph;
         }
         
+        // Set up the object that will be used in the request payload
         this.necessaryMSGraph.resourceAppId = MSGraphConstants.RequiredResources.MicrosoftGraph
 
-        // AAD scope comparison
+        // Same as MS Graph, only this time comparing AAD resources
         let existingAAD = current.find(obj => {
             return obj.resourceAppId === MSGraphConstants.RequiredResources.WindowsAzureActiveDirectory;
         });
@@ -387,7 +391,7 @@ export class MicrosoftGraphHelper {
         });
 
         if (existingAAD) {
-            // Union two arrays by removing intersection from existing scopes then concatenating remaining
+            // Union two arrays by removing intersection from existing resources then concatenating remaining
             this.necessaryAAD.resourceAccess = necessaryAAD.resourceAccess.concat(existingAAD.resourceAccess.filter(item => {
                 return necessaryAAD.resourceAccess.findIndex(necessary => {
                     return necessary.type === item.type && necessary.id === item.id; 
@@ -424,13 +428,12 @@ function base64urlDecode(payloadSegment: string) {
 }
 
 function GeneratePasswordCredentials() {
-    let pwCreds: any = {};
-    pwCreds.endDate = new Date();
-    pwCreds.endDate.setUTCMilliseconds(pwCreds.endDate.getUTCMilliseconds() + 365 * 24 * 60 * 60 * 1000); // add one year
-    pwCreds.keyId = UUID.UUID();
-    pwCreds.startDate = new Date();
-    pwCreds.value = GeneratePassword();
-    return pwCreds;
+    return {
+        endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+        keyId: UUID.UUID(),
+        startDate: new Date(),
+        value: GeneratePassword()
+    }
 }
 
 function GeneratePassword(): string {

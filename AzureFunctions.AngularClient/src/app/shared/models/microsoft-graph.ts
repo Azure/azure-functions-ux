@@ -53,9 +53,19 @@ export class GraphSubscriptionEntry {
     public ClientState: string;
     public Moniker: string;
 
-    constructor(SubscriptionId: string, ClientState: string, Moniker: string, ) {
+    constructor(SubscriptionId: string, ClientState: string, Moniker: string) {
         this.SubscriptionId = SubscriptionId;
         this.ClientState = ClientState;
         this.Moniker = Moniker;
     }
+}
+
+export class AADPermissions {
+    public resourceAccess: ResourceAccess[];
+    public resourceAppId: string;
+}
+
+export class ResourceAccess {
+    public type: string;
+    public id: string;
 }

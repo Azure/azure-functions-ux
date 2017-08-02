@@ -273,7 +273,14 @@ export class FunctionNewComponent {
         this._globalStateService.setBusyState();
         this._portalService.getStartupInfo().subscribe(info => {
             let helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-            helper.createAADApplication(this.selectedTemplate.metadata, info.graphToken, this._globalStateService);
+            helper.createAADApplication(this.selectedTemplate.metadata, info.graphToken, this._globalStateService)
+                .subscribe(r => { 
+                    this._globalStateService.clearBusyState();
+                },
+                err => {
+                    this._globalStateService.clearBusyState();
+                    this._aiService.trackException(err, "Error during creation of AAD application");
+                });
         });
     }
 

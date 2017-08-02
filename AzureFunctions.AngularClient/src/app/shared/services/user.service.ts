@@ -118,7 +118,7 @@ export class UserService {
                 .subscribe(r => {
                     const info = {
                         token: token,
-                        graphToken: null,
+                        graphToken: this._startupInfo.graphToken,
                         subscriptions: r.subs,
                         sessionId: this._startupInfo.sessionId,
                         acceptLanguage: this._startupInfo.acceptLanguage,

@@ -1924,4 +1924,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionDev_saveFunctionSuccess" xml:space="preserve">
     <value>Successfully saved function '{0}'</value>
   </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>Express AAD Registration</value>
+  </data>
 </root>

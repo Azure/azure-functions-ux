@@ -1,5 +1,6 @@
 import { TemplateInput } from './template-input';
 import { FunctionBinding } from './function-config';
+import { AADPermissions } from './microsoft-graph';
 
 export interface FunctionTemplate {
     id: string;
@@ -24,7 +25,7 @@ export interface FunctionTemplateMetadata {
     filters?: string[];
     enabledInTryMode?: boolean;
     warning: Warning;
-    AADPermissions?: any;
+    AADPermissions?: AADPermissions[];
 }
 
 export interface Warning {
