@@ -52,6 +52,7 @@ export class SiteDashboardComponent {
     public Resources = PortalResources;
     public isStandalone = false;
     public tabsFeature: EnableTabFeature;
+    public appSettingsTabEnabled: boolean; //DEBUG: conditionally showing application settings tab
     public openFeatureId = new Subject<string>();
     private _prevFeatureId: string;
 
@@ -69,6 +70,7 @@ export class SiteDashboardComponent {
 
         this.isStandalone = _configService.isStandalone();
         this.tabsFeature = <EnableTabFeature>Url.getParameterByName(window.location.href, 'appsvc.feature.tabs');
+        this.appSettingsTabEnabled = Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled"; //DEBUG: conditionally showing application settings tab
 
         this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
         this.viewInfoStream
@@ -200,6 +202,8 @@ export class SiteDashboardComponent {
                 this.dynamicTabIds[0] = featureId;
             } else if (featureId === SiteTabIds.apiDefinition) {
                 this.dynamicTabIds[1] = featureId;
+            } else if (featureId === SiteTabIds.applicationSettings) {
+                this.dynamicTabIds[2] = featureId;
             }
 
             const tabSettings = <TabSettings>{

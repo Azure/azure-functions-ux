@@ -1225,6 +1225,30 @@
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Manage app settings, connection strings, runtime settings, and more.</value>
   </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>You must have write permissions on the current app in order to edit these settings.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>This app has a read-only lock that prevents you from retrieving secure data.</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>Failed to load settings.</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>Updating web app settings</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>Successfully updated web app settings</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>Failed to update web app settings: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} Save Error: Invlid input provided.</value>
+  </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Properties</value>
   </data>
@@ -1407,6 +1431,9 @@
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Configuration</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>Application settings</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Managing your Function app is not available for this trial.</value>

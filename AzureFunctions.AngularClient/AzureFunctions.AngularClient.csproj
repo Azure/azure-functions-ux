@@ -176,6 +176,9 @@
     <Content Include="src\app\site\function-runtime\function-runtime.component.html" />
     <Content Include="src\app\site\create-app\create-app.component.html" />
     <Content Include="src\app\site\site-config\site-config.component.html" />
+    <Content Include="src\app\site\site-config\app-settings\app-settings.component.html" />
+    <Content Include="src\app\site\site-config\connection-strings\connection-strings.component.html" />
+    <Content Include="src\app\site\site-config-standalone\site-config.component-standalone.html" />
     <Content Include="src\app\site\site-dashboard\site-dashboard.component.html" />
     <Content Include="src\app\site\site-enabled-features\site-enabled-features.component.html" />
     <Content Include="src\app\site\site-manage\site-manage.component.html" />
@@ -191,6 +194,7 @@
     <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
     <Content Include="src\app\site\create-app\create-app.component.scss" />
     <Content Include="src\app\site\site-config\site-config.component.scss" />
+    <Content Include="src\app\site\site-config-standalone\site-config-standalone.component.scss" />
     <Content Include="src\app\slots-list\slots-list.component.scss" />
     <Content Include="src\app\slot-new\slot-new.component.scss" />
     <Content Include="src\app\search-box\search-box.component.scss" />
@@ -583,6 +587,12 @@
     <TypeScriptCompile Include="src\app\site\create-app\create-app.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-config\site-config.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\site-config\site-config.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\app-settings\app-settings.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\app-settings\app-settings.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\connection-strings\connection-strings.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\connection-strings\connection-strings.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config-standalone\site-config-standalone.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config-standalone\site-config-standalone.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-dashboard\site-dashboard.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\site-dashboard\site-dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-enabled-features\site-enabled-features.component.spec.ts" />
