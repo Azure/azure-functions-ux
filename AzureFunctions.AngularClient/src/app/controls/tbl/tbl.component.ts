@@ -1,4 +1,3 @@
-import { AppNode } from './../../tree-view/app-node';
 import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
@@ -15,7 +14,7 @@ export interface TableItem {
   <table
     #tbl
     [class]='tblClass'
-    (focus)='onFocus($event)'
+    (focus)='onFocus()'
     (click)='onClick($event)'
     (keydown)="onKeyPress($event)"
     role="grid"

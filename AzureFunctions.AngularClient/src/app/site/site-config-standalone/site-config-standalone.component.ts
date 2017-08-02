@@ -69,7 +69,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
         )
       })
       .do(null, error => {
-        this._aiService.trackEvent("/errors/site-config", error);
+        this._aiService.trackEvent('/errors/site-config', error);
         this._busyState.clearBusyState();
       })
       .retry()
@@ -83,21 +83,21 @@ export class SiteConfigStandaloneComponent implements OnInit {
   }
 
   private _setupForm(appSettingsArm: ArmObj<any>, connectionStringsArm: ArmObj<ConnectionStrings>) {
-    let appSettings = this._fb.array([]);
-    let connectionStrings = this._fb.array([]);
+    const appSettings = this._fb.array([]);
+    const connectionStrings = this._fb.array([]);
 
     this._requiredValidator = new RequiredValidator(this._translateService);
     this._uniqueAppSettingValidator = new UniqueValidator(
-      "name",
+      'name',
       appSettings,
       this._translateService.instant(PortalResources.validation_duplicateError));
 
     this._uniqueCsValidator = new UniqueValidator(
-      "name",
+      'name',
       connectionStrings,
       this._translateService.instant(PortalResources.validation_duplicateError));
 
-    for (let name in appSettingsArm.properties) {
+    for (const name in appSettingsArm.properties) {
       if (appSettingsArm.properties.hasOwnProperty(name)) {
 
         appSettings.push(this._fb.group({
@@ -112,13 +112,13 @@ export class SiteConfigStandaloneComponent implements OnInit {
       }
     }
 
-    for (let name in connectionStringsArm.properties) {
+    for (const name in connectionStringsArm.properties) {
       if (connectionStringsArm.properties.hasOwnProperty(name)) {
 
-        let connectionString = connectionStringsArm.properties[name];
-        let connectionStringDropDownTypes = this._getConnectionStringTypes(connectionString.type);
+        const connectionString = connectionStringsArm.properties[name];
+        const connectionStringDropDownTypes = this._getConnectionStringTypes(connectionString.type);
 
-        let group = this._fb.group({
+        const group = this._fb.group({
           name: [
             name,
             Validators.compose([
@@ -136,7 +136,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
     this.mainForm = this._fb.group({
       appSettings: appSettings,
       connectionStrings: connectionStrings
-    })
+    });
 
     this._broadcastService.clearDirtyState(SiteTabIds.config);
 
@@ -144,7 +144,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
       this._valueSubscription.unsubscribe();
     }
 
-    this._valueSubscription = this.mainForm.valueChanges.subscribe(v => {
+    this._valueSubscription = this.mainForm.valueChanges.subscribe(() => {
       // There isn't a callback for dirty state on a form, so this is a workaround.
       if (this.mainForm.dirty) {
         this._broadcastService.setDirtyState(SiteTabIds.config);
@@ -153,15 +153,15 @@ export class SiteConfigStandaloneComponent implements OnInit {
   }
 
   private _getConnectionStringTypes(defaultType: ConnectionStringType) {
-    let connectionStringDropDownTypes: DropDownElement<string>[] = []
+    const connectionStringDropDownTypes: DropDownElement<string>[] = [];
 
     EnumEx.getNamesAndValues(ConnectionStringType).forEach(pair => {
       connectionStringDropDownTypes.push({
         displayLabel: pair.name,
         value: pair.name,
         default: pair.value === defaultType
-      })
-    })
+      });
+    });
 
     return connectionStringDropDownTypes;
   }
@@ -186,28 +186,28 @@ export class SiteConfigStandaloneComponent implements OnInit {
   }
 
   save() {
-    let appSettingGroups = (<FormArray>this.mainForm.controls["appSettings"]).controls;
+    const appSettingGroups = (<FormArray>this.mainForm.controls['appSettings']).controls;
     appSettingGroups.forEach(group => {
-      let controls = (<FormGroup>group).controls;
-      for (let controlName in controls) {
-        let control = <CustomFormControl>controls[controlName];
+      const controls = (<FormGroup>group).controls;
+      for (const controlName in controls) {
+        const control = <CustomFormControl>controls[controlName];
         control._msRunValidation = true;
         control.updateValueAndValidity();
       }
     });
 
-    let connectionStringGroups = (<FormArray>this.mainForm.controls["connectionStrings"]).controls;
+    const connectionStringGroups = (<FormArray>this.mainForm.controls['connectionStrings']).controls;
     connectionStringGroups.forEach(group => {
-      let controls = (<FormGroup>group).controls;
-      for (let controlName in controls) {
-        let control = <CustomFormControl>controls[controlName];
+      const controls = (<FormGroup>group).controls;
+      for (const controlName in controls) {
+        const control = <CustomFormControl>controls[controlName];
         control._msRunValidation = true;
         control.updateValueAndValidity();
       }
     });
 
     if (this.mainForm.valid) {
-      let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
+      const appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
       delete appSettingsArm.properties;
       appSettingsArm.properties = {};
 
@@ -215,16 +215,16 @@ export class SiteConfigStandaloneComponent implements OnInit {
         appSettingsArm.properties[appSettingGroups[i].value.name] = appSettingGroups[i].value.value;
       }
 
-      let connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
+      const connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
       delete connectionStringsArm.properties;
       connectionStringsArm.properties = {};
 
       for (let i = 0; i < connectionStringGroups.length; i++) {
-        let connectionStringControl = connectionStringGroups[i];
-        let connectionString = {
+        const connectionStringControl = connectionStringGroups[i];
+        const connectionString = {
           value: connectionStringControl.value.value,
           type: ConnectionStringType[connectionStringControl.value.type]
-        }
+        };
 
         connectionStringsArm.properties[connectionStringGroups[i].value.name] = connectionString;
       }
@@ -251,17 +251,17 @@ export class SiteConfigStandaloneComponent implements OnInit {
   }
 
   deleteAppSetting(group: FormGroup) {
-    let appSettings = <FormArray>this.mainForm.controls["appSettings"];
+    const appSettings = <FormArray>this.mainForm.controls['appSettings'];
     this._deleteRow(group, appSettings);
   }
 
   deleteConnectionString(group: FormGroup) {
-    let connectionStrings = <FormArray>this.mainForm.controls["connectionStrings"];
+    const connectionStrings = <FormArray>this.mainForm.controls['connectionStrings'];
     this._deleteRow(group, connectionStrings);
   }
 
   private _deleteRow(group: FormGroup, formArray: FormArray) {
-    let index = formArray.controls.indexOf(group);
+    const index = formArray.controls.indexOf(group);
     if (index >= 0) {
       formArray.markAsDirty();
       formArray.removeAt(index);
@@ -270,8 +270,8 @@ export class SiteConfigStandaloneComponent implements OnInit {
   }
 
   addAppSetting() {
-    let appSettings = <FormArray>this.mainForm.controls["appSettings"];
-    let group = this._fb.group({
+    const appSettings = <FormArray>this.mainForm.controls['appSettings'];
+    const group = this._fb.group({
       name: [
         null,
         Validators.compose([
@@ -286,10 +286,10 @@ export class SiteConfigStandaloneComponent implements OnInit {
   }
 
   addConnectionString() {
-    let connectionStrings = <FormArray>this.mainForm.controls["connectionStrings"];
-    let connectionStringDropDownTypes = this._getConnectionStringTypes(ConnectionStringType.SQLAzure);
+    const connectionStrings = <FormArray>this.mainForm.controls['connectionStrings'];
+    const connectionStringDropDownTypes = this._getConnectionStringTypes(ConnectionStringType.SQLAzure);
 
-    let group = this._fb.group({
+    const group = this._fb.group({
       name: [
         null,
         Validators.compose([

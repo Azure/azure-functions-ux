@@ -1,8 +1,6 @@
 import { TblComponent, TableItem } from './../controls/tbl/tbl.component';
-import { TblThComponent } from './../controls/tbl/tbl-th/tbl-th.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DropDownElement } from './../shared/models/drop-down-element';
-import { DropDownComponent } from './../drop-down/drop-down.component';
 import { PortalResources } from './../shared/models/portal-resources';
 import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';

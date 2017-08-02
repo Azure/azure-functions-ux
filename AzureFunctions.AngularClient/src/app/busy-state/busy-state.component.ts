@@ -17,7 +17,7 @@ export class BusyStateComponent implements OnInit {
     @Output() clear = new Subject<any>();
 
     private busyStateMap: { [key: string]: boolean } = {};
-    private reservedKey: string = "-";
+    private reservedKey = '-';
 
     ngOnInit() {
         this.isGlobal = this.name === 'global';
@@ -62,7 +62,7 @@ export class BusyStateComponent implements OnInit {
 
     // http://stackoverflow.com/a/20494546/3234163
     isEmptyMap(map: any): boolean {
-        for (var key in map) {
+        for (const key in map) {
             if (map.hasOwnProperty(key)) {
                 return false;
             }

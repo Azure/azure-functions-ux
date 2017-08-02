@@ -741,7 +741,7 @@ export class FunctionApp {
             .map(() => <FunctionSecrets>secrets);
     }
 
-    getHostJson() {
+    getHostJson(): Observable<any> {
         return this._http.get(`${this._scmUrl}/api/functions/config`, { headers: this.getScmSiteHeaders() })
             .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeConfig),
@@ -1781,7 +1781,7 @@ export class FunctionApp {
             });
     }
 
-    saveHostJson(jsonString: string) {
+    saveHostJson(jsonString: string): Observable<any> {
         const headers = this.getScmSiteHeaders();
         headers.append('If-Match', '*');
         return this._http.put(`${this._scmUrl}/api/functions/config`, jsonString, { headers: headers })

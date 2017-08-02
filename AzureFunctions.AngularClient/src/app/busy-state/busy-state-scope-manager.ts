@@ -9,7 +9,7 @@ export class BusyStateScopeManager {
 
   constructor(busyState: BusyStateComponent) {
     this._busyState = busyState;
-    this._busyStateSubscription = this._busyState.clear.subscribe(event => this._busyStateKey = null);
+    this._busyStateSubscription = this._busyState.clear.subscribe(() => this._busyStateKey = null);
   }
 
   public setBusy() {

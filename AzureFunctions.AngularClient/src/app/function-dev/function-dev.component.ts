@@ -94,8 +94,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
-    private selectedFileStream: Subject<VfsObject>;
-    private functionKey: string;
+    public selectedFileStream: Subject<VfsObject>;
+    public functionKey: string;
 
     private _isClientCertEnabled = false;
     constructor(private _broadcastService: BroadcastService,

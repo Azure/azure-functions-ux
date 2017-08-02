@@ -4,7 +4,7 @@
 
 <div class="bars">
   <label>{{ 'locationColon' | translate }}</label>
-  
+
   <multi-drop-down id="locations"
       [inputOptions]="locationOptions"
       [displayText]="locationsDisplayText"
@@ -14,10 +14,10 @@
   <drop-down id="grouping"
     [options]="groupOptions"
     (value)=onGroupSelect($event)>
-  </drop-down> 
-</div> 
+  </drop-down>
+</div>
 
-<tbl [items]="tableItems" #table="tbl" id="apps-list" [name]='functionApps | translate' groupColName = 'title'>
+<tbl [items]="tableItems" #table="tbl" id="apps-list" [name]="'functionApps' | translate" groupColName="title">
   <tr>
     <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
     <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>
@@ -32,13 +32,13 @@
       <td>{{item.resourceGroup}}</td>
       <td>{{item.location}}</td>
     </ng-container>
-    
+
     <ng-container *ngIf="item.type === 'row' && table.groupedBy !== 'none'">
       <td class='tabbed'><a (click)="clickRow(item)">{{item.title}}</a></td>
       <td>{{item.subscription}}</td>
       <td>{{item.resourceGroup}}</td>
-      <td>{{item.location}}</td> 
-    </ng-container>   
+      <td>{{item.location}}</td>
+    </ng-container>
 
     <ng-container *ngIf="item.type === 'group'">
       <td colspan="4">{{item.title}}</td>

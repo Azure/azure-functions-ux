@@ -14,7 +14,7 @@ import { LocalStorageService } from './local-storage.service';
 import { Guid } from '../Utilities/Guid';
 import { TabCommunicationVerbs } from '../models/constants';
 import { TabMessage } from 'app/shared/models/localStorage/local-storage';
-import { Logger } from 'app/shared/utilities/logger';
+import { Logger } from 'app/shared/Utilities/logger';
 
 @Injectable()
 export class PortalService {

@@ -204,19 +204,18 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             }).mergeMap(config => {
                 if (config == null) {
                     this.swaggerEnabled = !swaggerEnabled;
-                    return Observable.of(false);
+                    return Observable.of(false as any);
                 }
                 this.swaggerEnabled = config.swagger.enabled;
                 if (!this.swaggerEnabled) {
                     this._aiService.trackEvent(`/actions/swagger_definition/disable_swagger_endpoint`);
-                    return Observable.of(true);
+                    return Observable.of(true as any);
                 } else {
                     this._aiService.trackEvent(`/actions/swagger_definition/enable_swagger_endpoint`);
                     return this.restoreSwaggerSecrets();
                 }
             }).do(null, () => {
                 this.swaggerEnabled = false;
-                return Observable.of('');
             })
             .mergeMap(key => {
                 // global busy state
@@ -227,13 +226,12 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 if (!key) {
                     const placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
                     this.assignDocumentToEditor(placeHolderText);
-                    return Observable.of(false);
+                    return Observable.of(false as any);
                 } else {
                     return this.loadLatestSwaggerDocumentInEditor(key);
                 }
             }).do(null, () => {
                 this.swaggerEnabled = false;
-                return Observable.of(this.swaggerEnabled);
             });
     }
 
