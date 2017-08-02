@@ -1,3 +1,4 @@
+import { BackgroundTasksService } from './shared/services/background-tasks.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/mergeMap';
@@ -30,6 +31,10 @@ export class AppComponent implements OnInit, AfterViewInit {
         private _configService: ConfigService,
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
+        // Although we are not using BackgroundTasksService, we need to reference it here.
+        // Otherwise, Angular won't new it up, and it's needed for local development
+        // for retrieving and updating the token.
+        _backgroundTasksService: BackgroundTasksService,
         private _broadcastService: BroadcastService,
     ) {
         this.ready = false;
