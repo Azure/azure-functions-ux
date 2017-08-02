@@ -75,13 +75,13 @@ export class UserService {
 
     getTenants() {
         return this._http.get(Constants.serviceHost + 'api/tenants')
-            .catch(e => Observable.of({ json: () => [] }))
+            .catch(() => Observable.of({ json: () => [] }))
             .map(r => <TenantInfo[]>r.json());
     }
 
     getAndUpdateToken() {
         return this._http.get(Constants.serviceHost + 'api/token?plaintext=true')
-            .catch(e => {
+            .catch(() => {
 
                 // [ellhamai] - In Standalone mode, this call will always fail.  I've opted to leaving
                 // this call in place instead of preventing it from being called because:

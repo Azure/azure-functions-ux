@@ -84,7 +84,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
     }
 
-    initializeDashboard(functionContainer: FunctionContainer | string, appSettingsAccess?: boolean, authSettings?: { [key: string]: any }) {
+    initializeDashboard(functionContainer: FunctionContainer | string) {
         this._globalStateService.setBusyState();
 
         if (this.redirectToIbizaIfNeeded(functionContainer)) {

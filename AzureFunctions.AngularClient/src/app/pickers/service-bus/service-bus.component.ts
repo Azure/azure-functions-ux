@@ -14,8 +14,8 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { Subscription } from 'rxjs/Subscription';
 
 class OptionTypes {
-    serviceBus: string = "ServiceBus";
-    custom: string = "Custom";
+    serviceBus = 'ServiceBus';
+    custom = 'Custom';
 }
 
 @Component({
@@ -34,10 +34,10 @@ export class ServiceBusComponent {
     public optionsChange: Subject<string>;
     public optionTypes: OptionTypes = new OptionTypes();
 
-    public selectInProcess: boolean = false;
+    public selectInProcess = false;
     public options: SelectOption<string>[];
     public option: string;
-    public canSelect: boolean = false;
+    public canSelect = false;
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
@@ -75,7 +75,7 @@ export class ServiceBusComponent {
         this._functionApp = functionApp;
         this._descriptor = new SiteDescriptor(functionApp.site.id);
 
-        let id = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.ServiceBus/namespaces`;
+        const id = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.ServiceBus/namespaces`;
 
         this._cacheService.getArm(id, true).subscribe(r => {
             this.namespaces = r.json();
@@ -93,7 +93,7 @@ export class ServiceBusComponent {
         if (this._subscription) {
             this._subscription.unsubscribe();
         }
-        this._subscription = this._cacheService.getArm(value + "/AuthorizationRules", true).subscribe(r => {
+        this._subscription = this._cacheService.getArm(value + '/AuthorizationRules', true).subscribe(r => {
             this.polices = r.json();
             if (this.polices.value.length > 0) {
                 this.selectedPolicy = this.polices.value[0].id;
@@ -113,20 +113,20 @@ export class ServiceBusComponent {
             if (this.selectedPolicy) {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
-                var appSettingName: string;
+                let appSettingName: string;
 
                 return Observable.zip(
-                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, "2015-08-01"),
+                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, '2015-08-01'),
                     this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
-                        let namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
-                        let keys = r.keys.json();
+                        const namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
+                        const keys = r.keys.json();
 
                         appSettingName = `${namespace.name}_${keys.keyName}_SERVICEBUS`;
-                        let appSettingValue = keys.primaryConnectionString;
+                        const appSettingValue = keys.primaryConnectionString;
 
-                        var appSettings: ArmObj<any> = r.appSettings.json();
+                        const appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = appSettingValue;
                         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
 
@@ -136,14 +136,14 @@ export class ServiceBusComponent {
                         this.selectInProcess = false;
                         console.log(e);
                     })
-                    .subscribe(r => {
+                    .subscribe(() => {
                         this._globalStateService.clearBusyState();
                         this.selectItem.next(appSettingName);
                     });
             }
         } else {
-            var appSettingName: string;
-            var appSettingValue: string;
+            let appSettingName: string;
+            let appSettingValue: string;
             appSettingName = this.appSettingName;
             appSettingValue = this.appSettingValue;
 
@@ -152,7 +152,7 @@ export class ServiceBusComponent {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
                 this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-                    var appSettings: ArmObj<any> = r.json();
+                    const appSettings: ArmObj<any> = r.json();
                     appSettings.properties[appSettingName] = appSettingValue;
                     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
                 })
@@ -161,7 +161,7 @@ export class ServiceBusComponent {
                         this.selectInProcess = false;
                         console.log(e);
                     })
-                    .subscribe(r => {
+                    .subscribe(() => {
                         this._globalStateService.clearBusyState();
                         this.selectItem.next(appSettingName);
                     });

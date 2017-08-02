@@ -67,7 +67,7 @@ export class GettingStartedComponent implements OnInit {
     ) {
         this.isValidContainerName = true;
         // http://stackoverflow.com/a/8084248/3234163
-        var secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+        const secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
         this.functionContainerName = `functions${this.makeId()}`;
         this.functionContainers = [];
         this.userReady = new EventEmitter<FunctionContainer>();
@@ -157,17 +157,18 @@ export class GettingStartedComponent implements OnInit {
 
     // http://stackoverflow.com/a/1349426/3234163
     makeId() {
-        var text = '';
-        var possible = 'abcdef123456789';
+        let text = '';
+        const possible = 'abcdef123456789';
 
-        for (var i = 0; i < 8; i++)
+        for (let i = 0; i < 8; i++) {
             text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
 
         return text;
     }
 
     validateContainerName(name: string): Observable<{ isValid: boolean; reason: string }> {
-        var regEx = /^[0-9a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$/;
+        const regEx = /^[0-9a-zA-Z][0-9a-zA-Z-]*[a-zA-Z0-9]$/;
 
         if (name.length < 2) {
             return Observable.of({ isValid: false, reason: this._translateService.instant(PortalResources.gettingStarted_validateContainer1) });
@@ -182,64 +183,64 @@ export class GettingStartedComponent implements OnInit {
     }
 
     private _validateSiteNameAvailable(subscriptionId: string, containerName: string) {
-        var id = `/subscriptions/${subscriptionId}/providers/Microsoft.Web/ishostnameavailable/${containerName}`;
+        const id = `/subscriptions/${subscriptionId}/providers/Microsoft.Web/ishostnameavailable/${containerName}`;
         return this._armService.get(id, this._armService.websiteApiVersion)
             .map(r => <boolean>(r.json().properties));
     }
 
     private _getDynamicStampLocations(subscriptionId: string): Observable<{ name: string; displayName: string }[]> {
-        var dynamicUrl = `${this._armService.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web/georegions?sku=Dynamic&api-version=${this._armService.websiteApiVersion}`;
-        var geoFencedId = `/subscriptions/${subscriptionId}/providers/Microsoft.Web`;
+        const dynamicUrl = `${this._armService.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web/georegions?sku=Dynamic&api-version=${this._armService.websiteApiVersion}`;
+        const geoFencedId = `/subscriptions/${subscriptionId}/providers/Microsoft.Web`;
         return Observable.zip(
-            this._armService.send("GET", dynamicUrl).map(r => <{ name: string; displayName: string }[]>(r.json().value.map(e => e.properties))),
-            this._armService.get(geoFencedId, "2014-04-01").map(r => <string[]>([].concat.apply([], r.json().resourceTypes.filter(e => e.resourceType.toLowerCase() == 'sites').map(e => e.locations)))),
+            this._armService.send('GET', dynamicUrl).map(r => <{ name: string; displayName: string }[]>(r.json().value.map(e => e.properties))),
+            this._armService.get(geoFencedId, '2014-04-01').map(r => <string[]>([].concat.apply([], r.json().resourceTypes.filter(e => e.resourceType.toLowerCase() === 'sites').map(e => e.locations)))),
             (d: { name: string, displayName: string }[], g: string[]) => ({ dynamicEnabled: d, geoFenced: g })
         ).map(result => <{ name: string; displayName: string }[]>(result.dynamicEnabled.filter(e => !!result.geoFenced.find(g => g.toLowerCase() === e.name.toLowerCase()))));
     }
 
     private _warmUpFunctionApp(armId: string) {
-        var siteName = armId.split('/').pop();
+        const siteName = armId.split('/').pop();
         this._http.get(`https://${siteName}.azurewebsites.net`)
             .subscribe(r => console.log(r), e => console.log(e));
-        this._armService.send("GET", `https://${siteName}.scm.azurewebsites.net`)
+        this._armService.send('GET', `https://${siteName}.scm.azurewebsites.net`)
             .subscribe(r => console.log(r), e => console.log(e));
     }
 
     private _getFunctionContainers(subscription: string) {
-        var url = `${this._armService.armUrl}/subscriptions/${subscription}/resources?api-version=${this._armService.armApiVersion}&$filter=resourceType eq 'Microsoft.Web/sites'`;
-        return this._armService.send("GET", url)
+        const url = `${this._armService.armUrl}/subscriptions/${subscription}/resources?api-version=${this._armService.armApiVersion}&$filter=resourceType eq 'Microsoft.Web/sites'`;
+        return this._armService.send('GET', url)
             .map(r => {
-                var sites: FunctionContainer[] = r.json().value;
+                const sites: FunctionContainer[] = r.json().value;
                 return sites.filter(e => e.kind === 'functionapp');
             });
     }
 
     private _createFunctionContainerHelper(subscription: string, geoRegion: string, name: string) {
-        var result = new Subject<FunctionContainer>();
+        const result = new Subject<FunctionContainer>();
         geoRegion = geoRegion.replace(/ /g, '');
         this._registerProviders(subscription, geoRegion, name, result);
         return result;
     }
 
     private _registerProviders(subscription: string, geoRegion: string, name: string, result: Subject<FunctionContainer>) {
-        var providersId = `/subscriptions/${subscription}/providers`;
-        var websiteRegisterId = `/subscriptions/${subscription}/providers/Microsoft.Web/register`;
-        var storageRegisterId = `/subscriptions/${subscription}/providers/Microsoft.Storage/register`;
+        const providersId = `/subscriptions/${subscription}/providers`;
+        const websiteRegisterId = `/subscriptions/${subscription}/providers/Microsoft.Web/register`;
+        const storageRegisterId = `/subscriptions/${subscription}/providers/Microsoft.Storage/register`;
 
-        var createApp = () => this._getResourceGroup(subscription, geoRegion)
+        const createApp = () => this._getResourceGroup(subscription, geoRegion)
             .subscribe(
-            rg => {
+            () => {
                 this._getStorageAccount(subscription, geoRegion)
                     .subscribe(
                     sa => sa ? this._pullStorageAccount(subscription, geoRegion, sa, name, result) : this._createStorageAccount(subscription, geoRegion, name, result),
-                    error => this._createStorageAccount(subscription, geoRegion, name, result)
+                    () => this._createStorageAccount(subscription, geoRegion, name, result)
                     );
             },
-            error => this._createResourceGroup(subscription, geoRegion, name, result)
+            () => this._createResourceGroup(subscription, geoRegion, name, result)
             );
 
-        var registerProviders = (providers?: string[]) => {
-            var observables: Observable<Response>[] = [];
+        const registerProviders = (providers?: string[]) => {
+            const observables: Observable<Response>[] = [];
             if (!providers || !providers.find(e => e.toLowerCase() === 'microsoft.web')) {
                 observables.push(this._armService.post(websiteRegisterId, null, this._armService.websiteApiVersion));
             }
@@ -249,7 +250,7 @@ export class GettingStartedComponent implements OnInit {
             if (observables.length > 0) {
                 Observable.forkJoin(observables)
                     .subscribe(
-                    r => createApp(),
+                    () => createApp(),
                     e => this.completeError(result, e));
             } else {
                 createApp();
@@ -260,37 +261,37 @@ export class GettingStartedComponent implements OnInit {
             .map(r => <string[]>(r.json().value.filter(e => e['registrationState'] === 'Registered').map(e => e['namespace'])))
             .subscribe(
             p => registerProviders(p),
-            e => registerProviders());
+            () => registerProviders());
     }
 
     private _getResourceGroup(subscription: string, geoRegion: string): Observable<ResourceGroup> {
-        var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}`;
+        const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}`;
         return this._armService.get(id, this._armService.armApiVersion)
             .map(r => r.json());
     }
 
     private _createResourceGroup(subscription: string, geoRegion: string, functionAppName: string, result: Subject<FunctionContainer>) {
-        var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}`;
-        var body = {
+        const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}`;
+        const body = {
             location: geoRegion
         };
         this._armService.put(id, body, this._armService.armApiVersion)
             .subscribe(
-            r => this._createStorageAccount(subscription, geoRegion, functionAppName, result),
+            () => this._createStorageAccount(subscription, geoRegion, functionAppName, result),
             e => this.completeError(result, e));
     }
 
     private _getStorageAccount(subscription: string, geoRegion: string): Observable<StorageAccount> {
-        var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts`;
+        const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts`;
         return this._armService.get(id, this._armService.storageApiVersion)
             .map(r => {
-                var accounts: StorageAccount[] = r.json().value;
+                const accounts: StorageAccount[] = r.json().value;
                 return accounts.find(sa => sa.name.startsWith('azurefunctions'));
             });
     }
 
     private _pullStorageAccount(subscription: string, geoRegion: string, storageAccount: StorageAccount | string, functionAppName: string, result: Subject<FunctionContainer>, count = 0) {
-        var id = typeof storageAccount === 'string'
+        const id = typeof storageAccount === 'string'
             ? `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount}`
             : `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}`;
 
@@ -304,25 +305,25 @@ export class GettingStartedComponent implements OnInit {
                 .subscribe(
                 sa => {
                     if (sa.properties.provisioningState === 'Succeeded') {
-                        this._getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result)
+                        this._getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result);
                     } else if (count < 100) {
-                        setTimeout(() => this._pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 400)
+                        setTimeout(() => this._pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 400);
                     } else {
-                        this._aiService.trackEvent('/errors/portal/storage/timeout', { count: count.toString(), geoRegion: geoRegion, subscription: subscription })
+                        this._aiService.trackEvent('/errors/portal/storage/timeout', { count: count.toString(), geoRegion: geoRegion, subscription: subscription });
                         this.completeError(result, sa);
                     }
                 },
                 e => {
-                    this._aiService.trackEvent('/errors/portal/storage/pull', { count: count.toString(), geoRegion: geoRegion, subscription: subscription })
+                    this._aiService.trackEvent('/errors/portal/storage/pull', { count: count.toString(), geoRegion: geoRegion, subscription: subscription });
                     this.completeError(result, e);
                 });
         }
     }
 
     private _createStorageAccount(subscription: string, geoRegion: string, functionAppName: string, result: Subject<FunctionContainer>) {
-        var storageAccountName = `azurefunctions${this.makeId()}`;
-        var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}`;
-        var body = {
+        const storageAccountName = `azurefunctions${this.makeId()}`;
+        const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}`;
+        const body = {
             location: geoRegion,
             properties: {
                 accountType: 'Standard_GRS'
@@ -336,14 +337,14 @@ export class GettingStartedComponent implements OnInit {
                 return errorCount + 1;
             }, 0).delay(200))
             .subscribe(
-            r => this._pullStorageAccount(subscription, geoRegion, storageAccountName, functionAppName, result),
+            () => this._pullStorageAccount(subscription, geoRegion, storageAccountName, functionAppName, result),
             e => this.completeError(result, e));
     }
 
-    private _createStorageAccountLock(subscription: string, geoRegion: string, storageAccount: string | StorageAccount, functionAppName: string): RxSubscription {
-        let storageAccountName = typeof storageAccount !== 'string' ? storageAccount.name : storageAccount;
-        let id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}/providers/Microsoft.Authorization/locks/${storageAccountName}`;
-        var body = {
+    private _createStorageAccountLock(subscription: string, geoRegion: string, storageAccount: string | StorageAccount): RxSubscription {
+        const storageAccountName = typeof storageAccount !== 'string' ? storageAccount.name : storageAccount;
+        const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}/providers/Microsoft.Authorization/locks/${storageAccountName}`;
+        const body = {
             properties: {
                 level: 'CanNotDelete',
                 notes: this._translateService.instant(PortalResources.storageLockNote)
@@ -351,8 +352,8 @@ export class GettingStartedComponent implements OnInit {
         };
 
         return this._armService.get(id, this._armService.armLocksApiVersion)
-            .subscribe(r => {
-            }, error => {
+            .subscribe(() => {
+            }, () => {
                 return this._armService.put(id, body, this._armService.armLocksApiVersion)
                     .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                         if (errorCount >= 5) {
@@ -364,20 +365,20 @@ export class GettingStartedComponent implements OnInit {
             });
     }
     private _getStorageAccountSecrets(subscription: string, geoRegion: string, storageAccount: StorageAccount, functionAppName: string, result: Subject<FunctionContainer>) {
-        var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}/listKeys`;
+        const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Storage/storageAccounts/${storageAccount.name}/listKeys`;
         return this._armService.post(id, null, this._armService.storageApiVersion)
             .map(r => <{ key1: string, key2: string }>(r.json()))
             .subscribe(
             secrets => this._createFunctionApp(subscription, geoRegion, functionAppName, storageAccount, secrets, result),
             error => this.completeError(result, error)
-            ).add(() => this._createStorageAccountLock(subscription, geoRegion, storageAccount, functionAppName));
+            ).add(() => this._createStorageAccountLock(subscription, geoRegion, storageAccount));
 
     }
 
     private _createFunctionApp(subscription: string, geoRegion: string, name: string, storageAccount: StorageAccount, secrets: { key1: string, key2: string }, result: Subject<FunctionContainer>) {
-        var id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Web/sites/${name}`;
-        var connectionString = `DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${secrets.key1}`;
-        var body = {
+        const id = `/subscriptions/${subscription}/resourceGroups/AzureFunctions-${geoRegion}/providers/Microsoft.Web/sites/${name}`;
+        const connectionString = `DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${secrets.key1}`;
+        const body = {
             properties: {
                 siteConfig: {
                     appSettings: [

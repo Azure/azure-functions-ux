@@ -47,24 +47,23 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.control = <CustomFormControl>this.group.controls[this.name];
 
-    let group = <CustomFormGroup>this.group;
+    const group = <CustomFormGroup>this.group;
     if (!group._msShowTextbox) {
       group._msShowTextbox = new Subject<boolean>();
     }
 
     this._sub = group._msShowTextbox.subscribe(showTextbox => {
       this.showTextbox = showTextbox;
-    })
+    });
 
     if ((<CustomFormGroup>group)._msStartInEditMode) {
       this.showTextbox = true;
     }
 
     if (this.textbox) {
-      this.textbox.blur.subscribe(event => this.onBlur(event));
-    }
-    else if (this.dropdown) {
-      this.dropdown.blur.subscribe(event => this.onBlur(event));
+      this.textbox.blur.subscribe(() => this.onBlur());
+    } else if (this.dropdown) {
+      this.dropdown.blur.subscribe(() => this.onBlur());
     }
   }
 
@@ -75,12 +74,11 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  onClick(event: any) {
+  onClick() {
     if (!this.showTextbox) {
       if (this.textbox) {
         this.textbox.focus();
-      }
-      else if (this.dropdown) {
+      } else if (this.dropdown) {
         this.dropdown.focus();
       }
     }
@@ -88,7 +86,7 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
     this._updateShowTextbox(true);
   }
 
-  onBlur(event: any) {
+  onBlur() {
     this.control._msRunValidation = true;
     this.control.updateValueAndValidity();
 
@@ -102,18 +100,17 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
       // blur will remove the textbox and the click will never happen/
       setTimeout(() => {
         this._updateShowTextbox(false);
-      }, 100)
+      }, 100);
     }
   }
 
   protected _updateShowTextbox(show: boolean) {
-    let group = <CustomFormGroup>this.group;
+    const group = <CustomFormGroup>this.group;
 
     if (show) {
       group._msFocusedControl = this.name;
-    }
-    else if (group._msFocusedControl === this.name) {
-      group._msFocusedControl = "";
+    } else if (group._msFocusedControl === this.name) {
+      group._msFocusedControl = '';
     }
 
     if (!group._msFocusedControl || group._msFocusedControl === this.name) {

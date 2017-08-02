@@ -21,8 +21,8 @@ import { SetupOAuthRequest, SetupOAuthResponse } from '../deployment-source/depl
     selector: 'deployment-source-setup',
     templateUrl: './deployment-source-setup.component.html',
     styleUrls: ['../deployment-source/deployment-source.component.scss'],
-    inputs: ["siteInput"],
-    outputs: ["configOutput"]
+    inputs: ['siteInput'],
+    outputs: ['configOutput']
 })
 
 export class DeploymentSourceSetupComponent {
@@ -63,7 +63,7 @@ export class DeploymentSourceSetupComponent {
                     providerType: ProviderType.None,
                     organization: <Organization>null,
                     repository: <Repository>null,
-                    branch: ""
+                    branch: ''
                 };
 
                 this._site = site;
@@ -85,45 +85,45 @@ export class DeploymentSourceSetupComponent {
 
         this.providers = [
             {
-                title: "Visual Studio Team Services",
-                subtitle: "By Microsoft",
-                imgUrl: "images/vsts.png",
+                title: 'Visual Studio Team Services',
+                subtitle: 'By Microsoft',
+                imgUrl: 'images/vsts.png',
                 type: ProviderType.VSO
             },
             {
-                title: "OneDrive",
-                subtitle: "By Microsoft",
-                imgUrl: "images/onedrive_100.png",
+                title: 'OneDrive',
+                subtitle: 'By Microsoft',
+                imgUrl: 'images/onedrive_100.png',
                 type: ProviderType.OneDrive
             },
             {
-                title: "Local Git",
-                subtitle: "By Git",
-                imgUrl: "images/localgit_45.png",
+                title: 'Local Git',
+                subtitle: 'By Git',
+                imgUrl: 'images/localgit_45.png',
                 type: ProviderType.LocalGit
             },
             {
-                title: "GitHub",
-                subtitle: "By GitHub",
-                imgUrl: "images/GitHub_65.png",
+                title: 'GitHub',
+                subtitle: 'By GitHub',
+                imgUrl: 'images/GitHub_65.png',
                 type: ProviderType.GitHub
             },
             {
-                title: "Bitbucket",
-                subtitle: "By Atlassian",
-                imgUrl: "images/bitbucket_45.png",
+                title: 'Bitbucket',
+                subtitle: 'By Atlassian',
+                imgUrl: 'images/bitbucket_45.png',
                 type: ProviderType.Bitbucket
             },
             {
-                title: "Dropbox",
-                subtitle: "By Dropbox",
-                imgUrl: "images/dropbox_45.png",
+                title: 'Dropbox',
+                subtitle: 'By Dropbox',
+                imgUrl: 'images/dropbox_45.png',
                 type: ProviderType.Dropbox
             },
             {
-                title: "External",
-                subtitle: "",
-                imgUrl: "images/external_45.png",
+                title: 'External',
+                subtitle: '',
+                imgUrl: 'images/external_45.png',
                 type: ProviderType.External
             }];
     }
@@ -138,7 +138,7 @@ export class DeploymentSourceSetupComponent {
 
     onProviderSelect(providerType: ProviderType) {
         this.model.providerType = providerType;
-        let descriptor = new SiteDescriptor(this._site.id);
+        const descriptor = new SiteDescriptor(this._site.id);
 
         this.isProviderLoading = true;
         this._portalService.setupOAuth({
@@ -158,7 +158,7 @@ export class DeploymentSourceSetupComponent {
                     this.organizations.push({
                         displayLabel: organization.Name,
                         value: organization
-                    })
+                    });
 
                     if (organization.IsDefault) {
                         this._setOrganization(organization);
@@ -175,14 +175,14 @@ export class DeploymentSourceSetupComponent {
         this._setRepository(repository);
     }
 
-    onBranchSelect(branch: string) {
+    onBranchSelect(/*branch: string*/) {
 
     }
 
     setup() {
         this._globalStateService.setBusyState();
 
-        let body = <ArmObj<SourceControls>>{
+        const body = <ArmObj<SourceControls>>{
             properties: {
                 repoUrl: this.model.repository.html_url,
                 branch: this.model.branch,
@@ -190,14 +190,14 @@ export class DeploymentSourceSetupComponent {
                 deploymentRollbackEnabled: false,
                 isMercurial: false
             }
-        }
+        };
 
         this._armService.put(`${this._site.id}/sourceControls/web`, body)
-            .mergeMap(response => {
+            .mergeMap(() => {
                 return this._cacheService.getArm(`${this._site.id}/config/web`, true);
             })
             .subscribe(r => {
-                let config: ArmObj<SiteConfig> = r.json();
+                const config: ArmObj<SiteConfig> = r.json();
                 this.configOutput.next(config);
                 this._globalStateService.clearBusyState();
             });
@@ -214,21 +214,20 @@ export class DeploymentSourceSetupComponent {
                 this.repositories.push({
                     displayLabel: repo.name,
                     value: repo
-                })
+                });
             });
 
             this._setRepository(organization.Repositories[0]);
-        }
-        else {
+        } else {
             this.valid = false;
             this.model.repository = null;
-            this.model.branch = "";
+            this.model.branch = '';
         }
     }
 
     private _setRepository(repository: Repository) {
         this.model.repository = repository;
-        this.model.branch = repository.default_branch
+        this.model.branch = repository.default_branch;
 
         this.branches = [{
             displayLabel: this.model.branch,

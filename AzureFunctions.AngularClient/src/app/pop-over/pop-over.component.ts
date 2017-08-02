@@ -11,7 +11,7 @@ export class PopOverComponent {
     @Input() message: string;
     @Input() hideAfter: number;
     @Input() isInputError: boolean;
-    @Input() popOverClass = "pop-over-container";
+    @Input() popOverClass = 'pop-over-container';
     @Input() position: string;
 
     public show: boolean;
@@ -33,7 +33,7 @@ export class PopOverComponent {
         }
     }
 
-    onFocus(event: Event) {
+    onFocus(_: Event) {
         this.show = true;
 
         if (this.hideAfter) {
@@ -43,9 +43,9 @@ export class PopOverComponent {
         }
     }
 
-    //http://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-an-url
+    // http://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-an-url
     private validURL(str): boolean {
-        var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
             '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
             '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
             '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path

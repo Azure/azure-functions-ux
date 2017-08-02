@@ -11,7 +11,7 @@ import { LocalStorageService } from './../shared/services/local-storage.service'
 import { AiService } from './../shared/services/ai.service';
 import { FunctionsService } from '../shared/services/functions.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { BindingType } from '../shared/models/binding';
 import { FunctionTemplate } from '../shared/models/function-template';
 import { FunctionInfo } from '../shared/models/function-info';
@@ -51,8 +51,8 @@ export class FunctionQuickstartComponent {
         private _aiService: AiService,
         private _localStorageService: LocalStorageService) {
 
-        this.selectedFunction = "HttpTrigger";
-        this.selectedLanguage = "CSharp";
+        this.selectedFunction = 'HttpTrigger';
+        this.selectedLanguage = 'CSharp';
 
         this._viewInfoStream
             .switchMap(viewInfo => {
@@ -70,7 +70,7 @@ export class FunctionQuickstartComponent {
             .subscribe(fcs => {
                 this._globalStateService.clearBusyState();
                 this.functionsInfo = fcs;
-            })
+            });
     }
 
     set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
@@ -79,13 +79,13 @@ export class FunctionQuickstartComponent {
     }
 
     onFunctionCliked(selectedFunction: string) {
-        if (!this._broadcastService.getDirtyState("function_disabled")) {
+        if (!this._broadcastService.getDirtyState('function_disabled')) {
             this.selectedFunction = selectedFunction;
         }
     }
 
     onLanguageCliked(selectedLanguage: string) {
-        if (!this._broadcastService.getDirtyState("function_disabled")) {
+        if (!this._broadcastService.getDirtyState('function_disabled')) {
             this.selectedLanguage = selectedLanguage;
         }
     }
@@ -97,13 +97,13 @@ export class FunctionQuickstartComponent {
 
         this._globalStateService.setBusyState();
         this.functionApp.getTemplates().subscribe((templates) => {
-            var selectedTemplate: FunctionTemplate = templates.find((t) => {
-                return t.id === this.selectedFunction + "-" + this.selectedLanguage;
+            const selectedTemplate: FunctionTemplate = templates.find((t) => {
+                return t.id === this.selectedFunction + '-' + this.selectedLanguage;
             });
 
             if (selectedTemplate) {
                 try {
-                    var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                    const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
                     this._portalService.logAction('intro-create-from-template', 'creating', { template: selectedTemplate.id, name: functionName });
 
                     this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
@@ -112,7 +112,7 @@ export class FunctionQuickstartComponent {
                         .subscribe(res => {
                             this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name: functionName });
                             this.functionsNode.addChild(res);
-                            //this._broadcastService.broadcast<TutorialEvent>(
+                            // this._broadcastService.broadcast<TutorialEvent>(
                             //    BroadcastEvent.TutorialStep,
                             //    {
                             //        functionInfo: res,
@@ -121,11 +121,10 @@ export class FunctionQuickstartComponent {
                             //this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                             this._globalStateService.clearBusyState();
                         },
-                        e => {
+                        () => {
                             this._globalStateService.clearBusyState();
                         });
-                }
-                catch (e) {
+                } catch (e) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                         message: this._translateService.instant(PortalResources.functionCreateErrorMessage),
                         details: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) }),
@@ -146,18 +145,18 @@ export class FunctionQuickstartComponent {
     }
 
     createFromScratch() {
-        let functionsNode = this.functionsNode;
+        const functionsNode = this.functionsNode;
         functionsNode.openCreateDashboard(DashboardType.createFunction);
     }
 
     startFromSC() {
         this._portalService.openBlade({
-            detailBlade: "ContinuousDeploymentListBlade",
+            detailBlade: 'ContinuousDeploymentListBlade',
             detailBladeInputs: {
                 id: this.functionApp.site.id,
                 ResourceId: this.functionApp.site.id
             }
         },
-            "intro");
+            'intro');
     }
 }

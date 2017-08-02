@@ -1,6 +1,6 @@
-﻿import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild} from '@angular/core';
+﻿import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild } from '@angular/core';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { PopoverContent } from "ng2-popover";
+import { PopoverContent } from 'ng2-popover';
 import { BindingInputBase, TextboxInput } from '../shared/models/binding-input';
 import { PortalService } from '../shared/services/portal.service';
 import { UserService } from '../shared/services/user.service';
@@ -52,18 +52,18 @@ export class BindingInputComponent {
 
     @Input('input') set input(input: BindingInputBase<any>) {
         if (input.type === SettingType.picker) {
-            var picker = <PickerInput>input;
+            const picker = <PickerInput>input;
             if (!input.value && picker.items) {
                 input.value = picker.items[0];
             }
         }
 
         this._input = input;
-        this.setBottomDescription(this._input.id, this._input.value);
+        this.setBottomDescription(this._input.id);
 
         this.setClass(input.value);
         if (this._input.type === SettingType.enum) {
-            var enums: { display: string; value: any }[] = (<any>this._input).enum;
+            const enums: { display: string; value: any }[] = (<any>this._input).enum;
             this.enumInputs = enums
                 .map(e => ({ displayLabel: e.display, value: e.value, default: this._input.value === e.value }));
         }
@@ -82,31 +82,31 @@ export class BindingInputComponent {
         let bladeInput = null;
         switch (input.resource) {
             case ResourceType.Storage:
-                this.pickerName = "StorageAccountPickerBlade";
+                this.pickerName = 'StorageAccountPickerBlade';
                 break;
             case ResourceType.EventHub:
-                this.pickerName = "EventHub";
+                this.pickerName = 'EventHub';
                 break;
             case ResourceType.ServiceBus:
-                this.pickerName = "ServiceBus";
+                this.pickerName = 'ServiceBus';
                 break;
             case ResourceType.AppSetting:
-                this.pickerName = "AppSetting";
+                this.pickerName = 'AppSetting';
                 break;
             case ResourceType.DocumentDB:
-                this.pickerName = "DocDbPickerBlade";
+                this.pickerName = 'DocDbPickerBlade';
                 break;
             case ResourceType.ServiceBus:
-                this.pickerName = "NotificationHubPickerBlade";
+                this.pickerName = 'NotificationHubPickerBlade';
                 break;
             case ResourceType.ApiHub:
                 bladeInput = input.metadata;
-                bladeInput.bladeName = "CreateDataConnectionBlade";
+                bladeInput.bladeName = 'CreateDataConnectionBlade';
                 break;
         }
 
         // for tests
-        if (window.location.hostname === "localhost" && !this._userService.inIFrame) {
+        if (window.location.hostname === 'localhost' && !this._userService.inIFrame) {
             this.input.value = name;
             this.inputChanged(name);
             this.setClass(name);
@@ -117,10 +117,10 @@ export class BindingInputComponent {
             return;
         }
 
-        var picker = <PickerInput>this.input;
+        const picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName !== "EventHub" && this.pickerName !== "ServiceBus" && this.pickerName !== "AppSetting") {
+        if (this.pickerName !== 'EventHub' && this.pickerName !== 'ServiceBus' && this.pickerName !== 'AppSetting') {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
@@ -128,7 +128,7 @@ export class BindingInputComponent {
                 this._portalService.openCollectorBladeWithInputs(
                     this.functionApp.site.id,
                     bladeInput,
-                    "binding-input",
+                    'binding-input',
                     (appSettingName: string) => {
                         this.finishResourcePickup(appSettingName, picker);
                     });
@@ -136,19 +136,19 @@ export class BindingInputComponent {
                 this._portalService.openCollectorBlade(
                     this.functionApp.site.id,
                     this.pickerName,
-                    "binding-input",
+                    'binding-input',
                     (appSettingName: string) => {
                         this.finishResourcePickup(appSettingName, picker);
                     });
             }
         }
 
-        if (this.pickerName === "AppSetting" && input.id === "PrincipalId") {
-            let helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp)
+        if (this.pickerName === 'AppSetting' && input.id === 'PrincipalId') {
+            const helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
             helper.openLogin(picker).then(values => {
                 this._globalStateService.setBusyState();
                 this.functionApp.createApplicationSetting(values.appSettingName, values.OID).subscribe(
-                    r => {                   
+                    () => {
                         this._globalStateService.clearBusyState();
                         this.finishResourcePickup(values.appSettingName, input); // set selected drop-down item to app setting just created
                     },
@@ -162,7 +162,7 @@ export class BindingInputComponent {
     }
 
     inputChanged(value: any) {
-        this.setBottomDescription(this._input.id, value);
+        this.setBottomDescription(this._input.id);
         if (this._input.changeValue) {
             this._input.changeValue(value);
         }
@@ -173,7 +173,7 @@ export class BindingInputComponent {
 
     onAppSettingValueShown() {
         return this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
-            .do(null, e => {
+            .do(null, () => {
                 this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
             })
             .subscribe(r => {
@@ -206,36 +206,36 @@ export class BindingInputComponent {
     }
 
     closePicker() {
-        this.pickerName = "";
-        var picker = <PickerInput>this.input;
+        this.pickerName = '';
+        const picker = <PickerInput>this.input;
         picker.inProcess = false;
     }
 
     finishDialogPicker(appSettingName: any) {
-        var picker = <PickerInput>this.input;
-        this.pickerName = "";
+        const picker = <PickerInput>this.input;
+        this.pickerName = '';
         this.finishResourcePickup(appSettingName, picker);
     }
 
     private setClass(value: any) {
         if (this._input) {
             this._input.class = this.input.noErrorClass;
-            var saveValid = this._input.isValid;
+            const saveValid = this._input.isValid;
 
             if (this._input.required) {
                 this._input.isValid = (value) ? true : false;
                 this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
 
-                this._input.errorText = this._input.isValid ? "" : this._translateService.instant(PortalResources.filedRequired);
+                this._input.errorText = this._input.isValid ? '' : this._translateService.instant(PortalResources.filedRequired);
 
             } else {
                 this._input.isValid = true;
-                this._input.errorText = "";
+                this._input.errorText = '';
             }
 
             if (this._input.isValid && this._input.validators) {
                 this._input.validators.forEach((v) => {
-                    var regex = new RegExp(v.expression);
+                    const regex = new RegExp(v.expression);
                     if (!regex.test(value)) {
                         this._input.isValid = false;
                         this._input.class = this._input.errorClass;
@@ -254,7 +254,7 @@ export class BindingInputComponent {
     private finishResourcePickup(appSettingName: string, picker: PickerInput) {
         if (appSettingName) {
 
-            var existedAppSetting;
+            let existedAppSetting;
             if (picker.items) {
                 existedAppSetting = picker.items.find((item) => {
                     return item === appSettingName;
@@ -272,11 +272,11 @@ export class BindingInputComponent {
         this._globalStateService.clearBusyState();
     }
 
-    setBottomDescription(id: string, value: any) {
+    setBottomDescription(id: string) {
         switch (id) {
             // TODO: Temporarily hide cron expression string
-            //https://github.com/projectkudu/AzureFunctionsPortal/issues/398
-            //case "schedule":
+            // https://github.com/projectkudu/AzureFunctionsPortal/issues/398
+            // case "schedule":
             //    this.description = prettyCron.toString(value);
         }
     }

@@ -58,7 +58,7 @@ export class SlotsService {
         return siteSegments.length === 11 && siteSegments[9].toLowerCase() === "slots";
     }
 
-    public setStatusOfSlotOptIn(site: ArmObj<Site>, appSetting: ArmObj<any>, value?: string) {
+    public setStatusOfSlotOptIn(appSetting: ArmObj<any>, value?: string) {
         appSetting.properties[Constants.slotsSecretStorageSettingsName] = value;
         return this._cacheService.putArm(appSetting.id, this._armService.websiteApiVersion, appSetting);
     }

@@ -12,7 +12,7 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalService } from '../shared/services/portal.service';
 import { PortalResources } from '../shared/models/portal-resources';
 
-declare let moment: any;
+declare const moment: any;
 
 @Component({
     selector: 'function-monitor',
@@ -39,24 +39,24 @@ export class FunctionMonitorComponent implements OnDestroy {
         private _translateService: TranslateService) {
         this.columns = [
             {
-                display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn), //The display text
-                variable: "functionDisplayTitle", //The  key that maps to the data property
-                formatTo: "text" // The type data for the column (date converts to fromNow etc)
+                display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn), // The display text
+                variable: 'functionDisplayTitle', // The  key that maps to the data property
+                formatTo: 'text' // The type data for the column (date converts to fromNow etc)
             },
             {
                 display: this._translateService.instant(PortalResources.functionMonitorTable_statusColumn),
-                variable: "status",
-                formatTo: "icon"
+                variable: 'status',
+                formatTo: 'icon'
             },
             {
                 display: this._translateService.instant(PortalResources.functionMonitorTable_detailsColumn),
-                variable: "whenUtc",
-                formatTo: "datetime"
+                variable: 'whenUtc',
+                formatTo: 'datetime'
             },
             {
                 display: this._translateService.instant(PortalResources.functionMonitorTable_durationColumn),
-                variable: "duration",
-                formatTo: "number"
+                variable: 'duration',
+                formatTo: 'number'
             }
         ];
 
@@ -69,17 +69,17 @@ export class FunctionMonitorComponent implements OnDestroy {
                 this.currentFunction = fi;
 
                 this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.functionMonitor_loading);
-                let site = fi.functionApp.getSiteName();
+                const site = fi.functionApp.getSiteName();
                 this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${fi.name}`;
 
-                let firstOfMonth = moment().startOf('month');
-                this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format("MMM Do")}`;
-                this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format("MMM Do")}`;
+                const firstOfMonth = moment().startOf('month');
+                this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
+                this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format('MMM Do')}`;
 
                 return fi.functionApp.getFunctionHostStatus()
                     .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(fi, host.id))
                     .flatMap(data => {
-                        this.functionId = !!data ? data.functionId : "";
+                        this.functionId = !!data ? data.functionId : '';
                         this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
                         this.errorsAggregate = !!data ? data.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
                         return !!data
@@ -87,7 +87,7 @@ export class FunctionMonitorComponent implements OnDestroy {
                             : Observable.of([]);
                     });
             })
-            .do(null, e => this._globalStateService.clearBusyState())
+            .do(null, () => this._globalStateService.clearBusyState())
             .retry()
             .subscribe(result => {
                 this.rows = result;

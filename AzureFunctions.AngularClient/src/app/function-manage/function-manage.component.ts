@@ -32,7 +32,7 @@ export class FunctionManageComponent {
     public functionInfo: FunctionInfo;
     public functionApp: FunctionApp;
     public isStandalone: boolean;
-    public isHttpFunction: boolean = false;
+    public isHttpFunction = false;
 
     private _viewInfoStream: Subject<TreeViewInfo<any>>;
     private _functionNode: FunctionManageNode;
@@ -71,7 +71,7 @@ export class FunctionManageComponent {
                 const originalState = this.functionInfo.config.disabled;
                 this._globalStateService.setBusyState();
                 this.functionInfo.config.disabled = state;
-                return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });
+                return this.functionApp.updateFunction(this.functionInfo).catch(() => { throw originalState; });
             })
             .do(null, originalState => {
                 this.functionInfo.config.disabled = originalState;
@@ -89,14 +89,14 @@ export class FunctionManageComponent {
     }
 
     deleteFunction() {
-        var result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this.functionInfo.name }));
+        const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this.functionInfo.name }));
         if (result) {
             this._globalStateService.setBusyState();
-            this._portalService.logAction("edit-component", "delete");
+            this._portalService.logAction('edit-component', 'delete');
             // Clone node for removing as it can be change during http call
-            var clone = Object.create(this._functionNode);
+            const clone = Object.create(this._functionNode);
             this.functionApp.deleteFunction(this.functionInfo)
-                .subscribe(r => {
+                .subscribe(() => {
                     clone.remove();
                     // this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.functionInfo);
                     this._globalStateService.clearBusyState();

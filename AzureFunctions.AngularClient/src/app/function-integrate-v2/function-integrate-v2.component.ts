@@ -32,7 +32,7 @@ export class FunctionIntegrateV2Component {
     public pickerType: TemplatePickerType = TemplatePickerType.none;
     public behavior: DirectionType;
     public currentBinding: UIFunctionBinding = null;
-    public currentBindingId: string = "";
+    public currentBindingId = '';
     public functionInfo: FunctionInfo;
     public functionApp: FunctionApp;
 
@@ -43,7 +43,7 @@ export class FunctionIntegrateV2Component {
         this.pickerType = TemplatePickerType.none;
 
         this.currentBinding = null;
-        this.currentBindingId = "";
+        this.currentBindingId = '';
         this.functionInfo = fi;
         this.functionApp = fi.functionApp;
 
@@ -57,10 +57,7 @@ export class FunctionIntegrateV2Component {
         this._globalStateService.setBusyState();
 
         fi.functionApp.getBindingConfig().subscribe((bindings) => {
-            fi.functionApp.getTemplates().subscribe((templates) => {
-
-
-
+            fi.functionApp.getTemplates().subscribe(() => {
                 this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
                 if (this.model.config.bindings.length > 0) {
                     this.currentBinding = this.model.config.bindings[0];
@@ -110,7 +107,7 @@ export class FunctionIntegrateV2Component {
 
     onBindingCreateComplete(behavior: DirectionType, templateName: string) {
         this.functionInfo.functionApp.getBindingConfig().subscribe((bindings) => {
-            this._broadcastService.setDirtyState("function_integrate");
+            this._broadcastService.setDirtyState('function_integrate');
             this._portalService.setDirtyState(true);
 
 
@@ -126,7 +123,7 @@ export class FunctionIntegrateV2Component {
 
     onBindingCreateCancel() {
         this.pickerType = TemplatePickerType.none;
-        this.currentBindingId = "";
+        this.currentBindingId = '';
     }
 
     onRemoveBinding(binding: UIFunctionBinding) {
@@ -142,11 +139,11 @@ export class FunctionIntegrateV2Component {
         }
         this.functionApp.getTemplates().subscribe((templates: any) => {
 
-            var templateId = action.template + "-" + FunctionInfoHelper.getLanguage(this.functionInfo);
-            var template = templates.find(t => t.id === templateId);
+            let templateId = action.template + '-' + FunctionInfoHelper.getLanguage(this.functionInfo);
+            let template = templates.find(t => t.id === templateId);
             // C# is default language. Set C# if can not found original language
             if (!template) {
-                templateId = action.template + "-CSharp";
+                templateId = action.template + '-CSharp';
                 template = templates.find(t => t.id === templateId);
             }
             if (template) {
@@ -177,7 +174,7 @@ export class FunctionIntegrateV2Component {
 
     onCancel() {
         this.currentBinding = null;
-        this.currentBindingId = "";
+        this.currentBindingId = '';
     }
 
     onBindingSelect(id: string) {
@@ -207,18 +204,18 @@ export class FunctionIntegrateV2Component {
         this._bindingManager.validateConfig(this.functionInfo.config, this._translateService);
 
         // Update test_data only from develop tab
-        var functionInfoCopy: FunctionInfo = Object.assign({}, this.functionInfo);
+        const functionInfoCopy: FunctionInfo = Object.assign({}, this.functionInfo);
         delete functionInfoCopy.test_data;
 
         this._globalStateService.setBusyState();
-        this.functionInfo.functionApp.updateFunction(functionInfoCopy).subscribe((result) => {
+        this.functionInfo.functionApp.updateFunction(functionInfoCopy).subscribe(() => {
             this._globalStateService.clearBusyState();
             this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this.functionInfo);
         });
     }
 
     private checkDirty(): boolean {
-        var switchBinding = true;
+        let switchBinding = true;
         if (this._broadcastService.getDirtyState('function_integrate')) {
             switchBinding = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost1));
         }
@@ -230,7 +227,7 @@ export class FunctionIntegrateV2Component {
     }
 
     private switchIntegrate() {
-        var result = true;
+        let result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
             result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, { name: this.functionInfo.name }));
         }

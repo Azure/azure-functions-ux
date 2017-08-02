@@ -27,7 +27,7 @@ describe('FunctionKeysComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(AppModule.moduleDefinition)
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -56,7 +56,7 @@ describe('FunctionKeysComponent', () => {
     let functionAppStream: Subject<FunctionApp> = component['functionAppStream'];
     let functionStream: Subject<FunctionInfo> = component['functionStream'];
     let functionApp: any = {
-      getFunctionKeys: (functionInfo) => undefined
+      getFunctionKeys: () => undefined
     };
 
     functionAppStream.next(functionApp);

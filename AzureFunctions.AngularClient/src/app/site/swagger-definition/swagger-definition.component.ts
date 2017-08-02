@@ -87,7 +87,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 return Observable.zip(
                     this._cacheService.getArm(viewInfo.resourceId),
                     this._appNode.functionAppStream,
-                    (s: Response, fa: FunctionApp) => ({ siteResponse: s, functionApp: fa }))
+                    (s: Response, fa: FunctionApp) => ({ siteResponse: s, functionApp: fa }));
             })
             .switchMap(r => {
                 this.functionApp = r.functionApp;
@@ -95,14 +95,14 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 return this.functionApp.getHostJson();
             })
             .do(null, e => {
-                this._aiService.trackException(e, "swagger-definition");
+                this._aiService.trackException(e, 'swagger-definition');
                 this.swaggerEnabled = false;
                 this._busyState.clearBusyState();
             })
             .retry()
             .mergeMap(jsonObj => {
                 this.swaggerEnabled = false;
-                if (jsonObj && jsonObj.swagger && typeof (jsonObj.swagger.enabled) === "boolean") {
+                if (jsonObj && jsonObj.swagger && typeof (jsonObj.swagger.enabled) === 'boolean') {
                     this.swaggerEnabled = jsonObj.swagger.enabled;
                 }
 
@@ -110,11 +110,11 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     return this.restoreSwaggerSecrets();
                 } else {
                     this.swaggerEnabled = false;
-                    return Observable.of("");
+                    return Observable.of('');
                 }
-            }).do(null, e => {
+            }).do(null, () => {
                 this.swaggerEnabled = false;
-                return Observable.of("");
+                return Observable.of('');
             })
             .mergeMap(key => {
                 // global busy state
@@ -125,16 +125,16 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 this.setBusyState();
 
                 if (!key) {
-                    var placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder)
+                    const placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
                     this.assignDocumentToEditor(placeHolderText);
                     return Observable.of(false);
                 } else {
                     return this.loadLatestSwaggerDocumentInEditor(key);
                 }
-            }).do(null, e => {
+            }).do(null, () => {
                 this.swaggerEnabled = false;
                 return Observable.of(this.swaggerEnabled);
-            }).subscribe(swaggerEnabled => {
+            }).subscribe(() => {
                 this.clearBusyState();
                 this._aiService.stopTrace('/timings/site/tab/api-definition/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
             });
@@ -153,14 +153,14 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         this.valueChange
             .subscribe((swaggerEnabled: boolean) => {
                 this._busyState.setBusyState();
-                if (this.swaggerEnabled == swaggerEnabled) {
+                if (this.swaggerEnabled === swaggerEnabled) {
                     this._busyState.clearBusyState();
                 } else {
                     this.swaggerEnabled = swaggerEnabled;
                     this.setSwaggerEndpointState(swaggerEnabled)
-                        .subscribe((result) => {
+                        .subscribe(() => {
                             this.clearBusyState();
-                        })
+                        });
                 }
             });
     }
@@ -201,9 +201,9 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         return this.functionApp.getHostJson()
             .mergeMap(jsonObj => {
                 jsonObj.swagger = { enabled: swaggerEnabled };
-                var jsonString = JSON.stringify(jsonObj);
+                const jsonString = JSON.stringify(jsonObj);
                 return this.functionApp.saveHostJson(jsonString);
-            }).catch(error => {
+            }).catch(() => {
                 this._busyState.clearBusyState();
                 return Observable.of(null);
             }).mergeMap(config => {
@@ -219,24 +219,24 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     this._aiService.trackEvent(`/actions/swagger_definition/enable_swagger_endpoint`);
                     return this.restoreSwaggerSecrets();
                 }
-            }).do(null, e => {
+            }).do(null, () => {
                 this.swaggerEnabled = false;
-                return Observable.of("");
+                return Observable.of('');
             })
             .mergeMap(key => {
                 // global busy state
                 this._busyState.clearBusyState();
-                
+
                 // busy state for Editor Section
                 this.setBusyState();
                 if (!key) {
-                    var placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder)
+                    const placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
                     this.assignDocumentToEditor(placeHolderText);
                     return Observable.of(false);
                 } else {
                     return this.loadLatestSwaggerDocumentInEditor(key);
                 }
-            }).do(null, e => {
+            }).do(null, () => {
                 this.swaggerEnabled = false;
                 return Observable.of(this.swaggerEnabled);
             });
@@ -262,7 +262,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
     public LoadGeneratedDataInEditor() {
         this.swaggerEditor.getDocument((swaggerDocument, error) => {
-            if (((!swaggerDocument || swaggerDocument == this._translateService.instant(PortalResources.swaggerDefinition_placeHolder))
+            if (((!swaggerDocument || swaggerDocument === this._translateService.instant(PortalResources.swaggerDefinition_placeHolder))
                 && !error)
                 || confirm(this._translateService.instant(PortalResources.swaggerDefinition_confirmOverwrite))) {
                 this.functionApp.getGeneratedSwaggerData(this.swaggerKey)
@@ -301,20 +301,20 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     subscribe(updatedDocument => {
                         this.swaggerDocument = updatedDocument;
                         this._busyState.clearBusyState();
-                    }, e => {
+                    }, () => {
                         this._busyState.clearBusyState();
                     });
                 return;
             }
 
             if (!swaggerDocument && !error) {
-                var confirmDelete = confirm(this._translateService.instant(PortalResources.swaggerDefinition_delete));
+                const confirmDelete = confirm(this._translateService.instant(PortalResources.swaggerDefinition_delete));
                 if (confirmDelete) {
                     this.functionApp.deleteSwaggerDocument(this.swaggerURL).
                         subscribe(() => {
                             this.swaggerDocument = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
                             this._busyState.clearBusyState();
-                        }, e => {
+                        }, () => {
                             this._busyState.clearBusyState();
                         });
                 } else {
@@ -333,22 +333,22 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 this.swaggerDocument = swaggerDoc;
                 this.assignDocumentToEditor(swaggerDoc);
                 this._busyState.clearBusyState();
-            }, e => {
+            }, () => {
                 this._busyState.clearBusyState();
             });
     }
 
     public renewSwaggerSecret() {
-        this._busyState.setBusyState()
+        this._busyState.setBusyState();
         this.createSwaggerSecret()
             .mergeMap(key => {
                 this.swaggerKey = key;
                 this.swaggerURL = this.getUpdatedSwaggerURL(key);
                 return this.addorUpdateApiDefinitionURL(this.swaggerURL);
             })
-            .catch(error => {
+            .catch(() => {
                 return Observable.of(false);
-            }).subscribe(result => {
+            }).subscribe(() => {
                 this._busyState.clearBusyState();
             });
     }
@@ -357,28 +357,28 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         return this._cacheService.getArm(`${this.functionApp.site.id}/config/web`, true)
             .map(r => r.json())
             .mergeMap(config => {
-                let configChange: boolean = false;
+                let configChange = false;
 
                 if (!config.properties.apiDefinition ||
                     !config.properties.apiDefinition.url ||
-                    config.properties.apiDefinition.url != url) {
+                    config.properties.apiDefinition.url !== url) {
                     config.properties.apiDefinition = { url: url };
                     configChange = true;
                 }
 
-                if (!config.properties.cors.allowedOrigins.includes("*")) {
+                if (!config.properties.cors.allowedOrigins.includes('*')) {
                     if (!config.properties.cors.allowedOrigins.includes(Constants.portalHostName)) {
-                        config.properties.cors.allowedOrigins.push(Constants.portalHostName)
+                        config.properties.cors.allowedOrigins.push(Constants.portalHostName);
                         configChange = true;
                     }
 
                     if (!config.properties.cors.allowedOrigins.includes(Constants.webAppsHostName)) {
-                        config.properties.cors.allowedOrigins.push(Constants.webAppsHostName)
+                        config.properties.cors.allowedOrigins.push(Constants.webAppsHostName);
                         configChange = true;
                     }
 
                     if (!config.properties.cors.allowedOrigins.includes(Constants.msPortalHostName)) {
-                        config.properties.cors.allowedOrigins.push(Constants.msPortalHostName)
+                        config.properties.cors.allowedOrigins.push(Constants.msPortalHostName);
                         configChange = true;
                     }
                 }
@@ -396,16 +396,16 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             .map(keys => {
                 let swaggerKey: string = null;
                 keys.keys.forEach(key => {
-                    if (key.name == Constants.swaggerSecretName) {
+                    if (key.name === Constants.swaggerSecretName) {
                         swaggerKey = key.value;
                     }
                 });
                 return swaggerKey;
-            })
+            });
     }
 
     private getUpdatedSwaggerURL(key: string) {
-        return this.functionApp.getMainSiteUrl() + "/admin/host/swagger?code=" + key;
+        return this.functionApp.getMainSiteUrl() + '/admin/host/swagger?code=' + key;
     }
 
     private createSwaggerSecret() {
@@ -420,10 +420,10 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     return this.createSwaggerSecret();
                 }
                 return Observable.of(key);
-            }).catch(error => {
+            }).catch(() => {
                 // get or create key fails
                 this.swaggerEnabled = false;
-                return Observable.of("");
+                return Observable.of('');
             }).mergeMap(key => {
                 if (key) {
                     this.swaggerKey = key;
@@ -436,7 +436,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         this.swaggerURL = this.getUpdatedSwaggerURL(key);
         return this.functionApp.getSwaggerDocument(key)
             .retry(1)
-            .catch(error => {
+            .catch(() => {
                 // get document fails
                 return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
             }).mergeMap(swaggerDoc => {
@@ -446,10 +446,8 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     return this.addorUpdateApiDefinitionURL(this.swaggerURL);
                 }
                 return Observable.of(true);
-            }).catch(error => {
+            }).catch(() => {
                 return Observable.of(false);
             });
     }
 }
-
-

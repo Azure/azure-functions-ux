@@ -16,8 +16,8 @@ export class AppSettingComponent implements OnInit {
 
     public appSettingName: string;
     public appSettingValue: string;
-    public selectInProcess: boolean = false;
-    public canSelect: boolean = false;
+    public selectInProcess = false;
+    public canSelect = false;
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
@@ -46,7 +46,7 @@ export class AppSettingComponent implements OnInit {
         this.selectInProcess = true;
         this._globalStateService.setBusyState();
         this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-            var appSettings: ArmObj<any> = r.json();
+            const appSettings: ArmObj<any> = r.json();
             appSettings.properties[this.appSettingName] = this.appSettingValue;
             return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
         })
@@ -55,10 +55,9 @@ export class AppSettingComponent implements OnInit {
                 this.selectInProcess = false;
                 console.log(e);
             })
-            .subscribe(r => {
+            .subscribe(() => {
                 this._globalStateService.clearBusyState();
                 this.selectItem.next(this.appSettingName);
             });
-
     }
 }

@@ -44,8 +44,8 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
 
     ngOnInit() {
-        var functionContainaerHeight = window.innerHeight - this.container.nativeElement.getBoundingClientRect().top;
-        this.editorContainer.nativeElement.style.height = (functionContainaerHeight - 75) + "px";
+        const functionContainerHeight = window.innerHeight - this.container.nativeElement.getBoundingClientRect().top;
+        this.editorContainer.nativeElement.style.height = (functionContainerHeight - 75) + 'px';
     }
 
     set selectedFunction(value: FunctionInfo) {
@@ -69,7 +69,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }
 
     cancelConfig() {
-        this.configContent = "";
+        this.configContent = '';
         setTimeout(() => {
             this.configContent = this._originalContent;
             this.clearDirty();
@@ -83,7 +83,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
                 this._selectedFunction.config = JSON.parse(this.configContent);
                 this._globalStateService.setBusyState();
                 this._selectedFunction.functionApp.updateFunction(this._selectedFunction)
-                    .subscribe(fi => {
+                    .subscribe(() => {
                         this._originalContent = this.configContent;
                         this.clearDirty();
                         this._globalStateService.clearBusyState();
@@ -124,7 +124,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }
 
     private switchIntegrate() {
-        var result = true;
+        let result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
             result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, { name: this._selectedFunction.name }));
         }

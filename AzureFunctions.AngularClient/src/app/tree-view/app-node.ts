@@ -56,9 +56,9 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     private _functionApp: FunctionApp;
     public openFunctionSettingsTab = false;
 
-    public nodeClass = "tree-node app-node";
-    public iconClass = "tree-node-svg-icon";
-    public iconUrl = "images/functions.svg";
+    public nodeClass = 'tree-node app-node';
+    public iconClass = 'tree-node-svg-icon';
+    public iconUrl = 'images/functions.svg';
 
     private _hiddenChildren: TreeNode[];
     private _pollingTask: RxSubscription;
@@ -79,13 +79,13 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         this.title = _siteArmCacheObj.name;
         this.location = _siteArmCacheObj.location;
 
-        let descriptor = new SiteDescriptor(_siteArmCacheObj.id);
+        const descriptor = new SiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
 
-        let sub = _subscriptions.find(sub => {
+        const sub = _subscriptions.find(sub => {
             return sub.subscriptionId === descriptor.subscription;
-        })
+        });
 
         this.subscription = sub && sub.displayName;
     }
@@ -128,18 +128,17 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             .mergeMap(r => {
                 this.isLoading = false;
 
-                let site: ArmObj<Site> = r.siteResponse.json();
+                const site: ArmObj<Site> = r.siteResponse.json();
 
                 if (!this._functionApp) {
                     this._setupFunctionApp(site);
 
-                    if (site.properties.state === "Running" && r.hasWritePermission && !r.hasReadOnlyLock) {
+                    if (site.properties.state === 'Running' && r.hasWritePermission && !r.hasReadOnlyLock) {
                         return this._setupBackgroundTasks()
                             .map(() => {
                                 this.supportsRefresh = true;
                             });
-                    }
-                    else {
+                    } else {
                         this.dispose();
                         this.supportsRefresh = true;
                         return Observable.of(null);
@@ -149,7 +148,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 this.supportsRefresh = true;
                 return Observable.of(null);
             })
-            .do(r => {
+            .do(() => {
                 this.isLoading = false;
 
                 if (this.inSelectedTree) {
@@ -157,10 +156,10 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 }
 
                 this._loadingObservable = null;
-            }, e => {
+            }, () => {
                 this.isLoading = false;
             })
-            .share()
+            .share();
 
         return this._loadingObservable;
     }
@@ -169,11 +168,10 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         if (this.sideNav.tryFunctionApp) {
             this._functionApp = this.sideNav.tryFunctionApp;
 
-            let functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
+            const functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
             functionsNode.toggle(null);
             this.children = [functionsNode];
-        }
-        else {
+        } else {
             this._functionApp = new FunctionApp(
                 site,
                 this.sideNav.http,
@@ -192,21 +190,20 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
             this.functionAppStream.next(this._functionApp);
 
-            let functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
+            const functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
             functionsNode.toggle(null);
             this.children = [functionsNode];
 
             if (!this.sideNav.configService.isStandalone()) {
-                let proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
-                let slotsNode = new SlotsNode(this.sideNav, this._subscriptions, this._siteArmCacheObj, this);
+                const proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
+                const slotsNode = new SlotsNode(this.sideNav, this._subscriptions, this._siteArmCacheObj, this);
                 proxiesNode.toggle(null);
                 // Do not auto expand slotsNode
                 // for slots Node hide the slots as child Node
                 if (this.isSlot) {
                     this.supportsScope = false;
-                    this.children.push(proxiesNode)
-                }
-                else {
+                    this.children.push(proxiesNode);
+                } else {
                     this.supportsScope = true;
                     this.children.push(proxiesNode, slotsNode);
                 }
@@ -220,7 +217,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         }
 
         // Make sure there isn't a load operation currently being performed
-        let loadObs = this._loadingObservable ? this._loadingObservable : Observable.of({});
+        const loadObs = this._loadingObservable ? this._loadingObservable : Observable.of({});
         return loadObs
             .mergeMap(() => {
                 this.sideNav.aiService.trackEvent('/actions/refresh');
@@ -237,7 +234,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                 if (this.children && this.children.length === 1 && !this.children[0].isExpanded) {
                     this.children[0].toggle(null);
                 }
-            })
+            });
     }
 
     public remove() {
@@ -257,11 +254,10 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
             // Tests whether you've selected a child node or newselectedNode is not a slot node
             if (newSelectedNode.resourceId !== this.resourceId
-                && newSelectedNode.resourceId.startsWith(this.resourceId + "/")
+                && newSelectedNode.resourceId.startsWith(this.resourceId + '/')
                 && !SlotsService.isSlot(newSelectedNode.resourceId)) {
                 return;
-            }
-            else if (newSelectedNode.resourceId === this.resourceId && newSelectedNode === this) {
+            } else if (newSelectedNode.resourceId === this.resourceId && newSelectedNode === this) {
                 // Tests whether you're navigating to this node from a child node
                 return;
             }
@@ -273,9 +269,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         if (this._loadingObservable) {
             this._loadingObservable.subscribe(() => {
                 this._dispose();
-            })
-        }
-        else {
+            });
+        } else {
             this._dispose();
         }
     }
@@ -286,7 +281,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             .subscribe(notifications => {
                 notifications = notifications.filter(n => n.id !== id);
                 this.sideNav.globalStateService.setTopBarNotifications(notifications);
-            })
+            });
     }
 
     public openSettings() {
@@ -311,34 +306,34 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     private _setupBackgroundTasks() {
 
         return this._functionApp.initKeysAndWarmupMainSite()
-            .catch((err: any) => Observable.of(null))
+            .catch(() => Observable.of(null))
             .map(() => {
 
                 if (!this._pollingTask) {
 
                     this._pollingTask = Observable.timer(1, 60000)
                         .concatMap(() => {
-                            let val = Observable.zip(
-                                this._functionApp.getHostErrors().catch(e => Observable.of([])),
+                            const val = Observable.zip(
+                                this._functionApp.getHostErrors().catch(() => Observable.of([])),
                                 this.sideNav.cacheService.getArm(`${this.resourceId}/config/web`, true),
                                 this.sideNav.cacheService.postArm(`${this.resourceId}/config/appsettings/list`, true),
                                 this.sideNav.slotsService.getSlotsList(`${this.resourceId}`),
                                 this._functionApp.pingScmSite(),
-                                (e: string[], c: Response, a: Response, s: ArmObj<Site>[]) => ({ errors: e, configResponse: c, appSettingResponse: a, slotsResponse: s }))
+                                (e: string[], c: Response, a: Response, s: ArmObj<Site>[]) => ({ errors: e, configResponse: c, appSettingResponse: a, slotsResponse: s }));
                             return val;
                         })
-                        .catch(e => Observable.of({}))
+                        .catch(() => Observable.of({}))
                         .subscribe((result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: ArmObj<Site>[] }) => {
                             this._handlePollingTaskResult(result);
                         });
                 }
-            })
+            });
     }
 
     private _handlePollingTaskResult(result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: ArmObj<Site>[] }) {
         if (result) {
 
-            let notifications: TopBarNotification[] = [];
+            const notifications: TopBarNotification[] = [];
 
             if (result.errors) {
 
@@ -359,8 +354,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             }
 
             if (result.configResponse) {
-                let config = result.configResponse.json();
-                this._functionApp.isAlwaysOn = config.properties.alwaysOn === true || this._functionApp.site.properties.sku === "Dynamic";
+                const config = result.configResponse.json();
+                this._functionApp.isAlwaysOn = config.properties.alwaysOn === true || this._functionApp.site.properties.sku === 'Dynamic';
 
                 if (!this._functionApp.isAlwaysOn) {
                     notifications.push({
@@ -374,8 +369,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             }
 
             if (result.appSettingResponse) {
-                let appSettings: ArmObj<any> = result.appSettingResponse.json();
-                let extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
+                const appSettings: ArmObj<any> = result.appSettingResponse.json();
+                const extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
                 let isLatestFunctionRuntime = null;
                 if (extensionVersion) {
                     isLatestFunctionRuntime = Constants.runtimeVersion === extensionVersion || Constants.latest === extensionVersion.toLowerCase();
@@ -391,14 +386,14 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
                         clickCallback: () => {
                             this.openSettings();
                         }
-                    })
+                    });
                 }
                 if (result.slotsResponse) {
                     let slotsStorageSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
                     if (!!slotsStorageSetting) {
-                        slotsStorageSetting = slotsStorageSetting.toLowerCase()
+                        slotsStorageSetting = slotsStorageSetting.toLowerCase();
                     }
-                    let numSlots = result.slotsResponse.length;
+                    const numSlots = result.slotsResponse.length;
                     if (numSlots > 0 && slotsStorageSetting !== Constants.slotsSecretStorageSettingsValue.toLowerCase()) {
                         notifications.push({
                             id: NotificationIds.slotsHostId,
@@ -434,8 +429,8 @@ export class SlotNode extends AppNode {
             parentNode,
             subscriptions,
             disabled);
-        let slotName = siteArmCacheObj.name
-        this.title = slotName.substring(slotName.indexOf("/") + 1); // change to display name
+        const slotName = siteArmCacheObj.name;
+        this.title = slotName.substring(slotName.indexOf('/') + 1); // change to display name
         this.slotProperties = siteArmCacheObj.properties;
         this.isSlot = true;
     }

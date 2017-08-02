@@ -60,7 +60,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             .debounceTime(100)
             .switchMap((r: any) => {
 
-                let functionApp = r && (<FunctionInfo>r).functionApp;
+                const functionApp = r && (<FunctionInfo>r).functionApp;
                 let fi: FunctionInfo;
                 if (functionApp) {
                     this.functionApp = functionApp;
@@ -71,8 +71,8 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 this.resetState();
 
                 return fi
-                    ? this.functionApp.getFunctionKeys(fi).catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }))
-                    : this.functionApp.getFunctionHostKeys().catch(error => Observable.of(<FunctionKeys>{ keys: [], links: [] }));
+                    ? this.functionApp.getFunctionKeys(fi).catch(() => Observable.of(<FunctionKeys>{ keys: [], links: [] }))
+                    : this.functionApp.getFunctionHostKeys().catch(() => Observable.of(<FunctionKeys>{ keys: [], links: [] }));
 
             })
             .do(null, e => {
@@ -84,7 +84,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
                 this.clearBusyState();
                 keys.keys.forEach(k => k.show = false);
                 for (let i = 0; i < this.keys.length; i++) {
-                    var newKey = keys.keys.find(k => k.name.toLocaleLowerCase() === this.keys[i].name.toLocaleLowerCase());
+                    const newKey = keys.keys.find(k => k.name.toLocaleLowerCase() === this.keys[i].name.toLocaleLowerCase());
                     if (newKey) {
                         newKey.selected = this.keys[i].selected;
                     }
@@ -103,7 +103,7 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         this.handleInitAndChanges();
     }
 
-    ngOnChanges(changes: { [key: string]: SimpleChange }) {
+    ngOnChanges() {
         this.handleInitAndChanges();
     }
 
@@ -152,10 +152,10 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             this.setBusyState();
             this.functionApp
                 .createKey(this.newKeyName, this.newKeyValue, this.functionInfo)
-                .subscribe(key => {
+                .subscribe(() => {
                     this.clearBusyState();
                     this.functionStream.next(this.functionInfo);
-                }, e => this.clearBusyState());
+                }, () => this.clearBusyState());
         }
     }
 
@@ -164,10 +164,10 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             this.setBusyState();
             this.functionApp
                 .deleteKey(key, this.functionInfo)
-                .subscribe(r => {
+                .subscribe(() => {
                     this.clearBusyState();
-                    this.functionStream.next(this.functionInfo)
-                }, e => this.clearBusyState());
+                    this.functionStream.next(this.functionInfo);
+                }, () => this.clearBusyState());
         }
     }
 
@@ -176,10 +176,10 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             this.setBusyState();
             this.functionApp
                 .renewKey(key, this.functionInfo)
-                .subscribe(r => {
+                .subscribe(() => {
                     this.clearBusyState();
-                    this.functionStream.next(this.functionInfo)
-                }, e => this.clearBusyState());
+                    this.functionStream.next(this.functionInfo);
+                }, () => this.clearBusyState());
         }
     }
 

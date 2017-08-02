@@ -42,13 +42,13 @@ import { Site } from '../../shared/models/arm/site';
 import { SlotsService } from '../../shared/services/slots.service';
 
 interface DataModel {
-    publishCreds: PublishingCredentials,
-    config: ArmObj<SiteConfig>,
-    hasWritePermission: boolean,
-    hasSwapPermission: boolean,
-    hasReadOnlyLock: boolean,
-    availability: ArmObj<Availability>,
-    slotsList: ArmObj<Site>[]
+    publishCreds: PublishingCredentials;
+    config: ArmObj<SiteConfig>;
+    hasWritePermission: boolean;
+    hasSwapPermission: boolean;
+    hasReadOnlyLock: boolean;
+    availability: ArmObj<Availability>;
+    slotsList: ArmObj<Site>[];
 }
 
 @Component({
@@ -143,7 +143,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this.location = site.location;
                 this.state = site.properties.state;
-                this.stateIcon = this.state === "Running" ? "images/success.svg" : "images/stopped.svg";
+                this.stateIcon = this.state === 'Running' ? 'images/success.svg' : 'images/stopped.svg';
 
                 this.availabilityState = null;
                 this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
@@ -154,21 +154,21 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.publishProfileLink = null;
 
                 const serverFarm = site.properties.serverFarmId.split('/')[8];
-                this.plan = `${serverFarm} (${site.properties.sku.replace("Dynamic", "Consumption")})`;
+                this.plan = `${serverFarm} (${site.properties.sku.replace('Dynamic', 'Consumption')})`;
                 this._isSlot = SlotsService.isSlot(site.id);
 
                 const configId = `${site.id}/config/web`;
 
                 let availabilityId = `${site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
                 if (this._isSlot) {
-                    let resourceId = site.id.substring(0, site.id.indexOf("/slots"));
+                    const resourceId = site.id.substring(0, site.id.indexOf('/slots'));
                     availabilityId = `${resourceId}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
                 }
 
                 this._busyState.clearBusyState();
                 this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
-                this.hideAvailability = this._isSlot || site.properties.sku === "Dynamic";
+                this.hideAvailability = this._isSlot || site.properties.sku === 'Dynamic';
 
                 return Observable.zip<DataModel>(
                     authZService.hasPermission(site.id, [AuthzService.writeScope]),
@@ -180,11 +180,11 @@ export class SiteSummaryComponent implements OnDestroy {
                         if (e.status === 409) {
                             return this._cacheService.postArm(`/subscriptions/${this.subscriptionId}/providers/Microsoft.ResourceHealth/register`)
                                 .mergeMap(() => {
-                                    return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+                                    return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion);
                                 })
-                                .catch((e: any) => {
-                                    return Observable.of(null)
-                                })
+                                .catch(() => {
+                                    return Observable.of(null);
+                                });
                         }
                         return Observable.of(null);
                     }),
@@ -196,7 +196,7 @@ export class SiteSummaryComponent implements OnDestroy {
                         config: c.json(),
                         availability: !!a ? a.json() : null,
                         slotsList: slots
-                    }))
+                    }));
             })
             .mergeMap(res => {
                 this.hasWriteAccess = res.hasWritePermission && !res.hasReadOnlyLock;
@@ -211,9 +211,9 @@ export class SiteSummaryComponent implements OnDestroy {
                 if (this.hasWriteAccess) {
                     return this._cacheService.postArm(`${this.site.id}/config/publishingcredentials/list`)
                         .map(r => {
-                            res.publishCreds = r.json()
+                            res.publishCreds = r.json();
                             return res;
-                        })
+                        });
                 }
 
                 return Observable.of(res);
@@ -222,11 +222,11 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._busyState.clearBusyState();
 
                 if (!this._globalStateService.showTryView) {
-                    this._aiService.trackException(e, "site-summary");
+                    this._aiService.trackException(e, 'site-summary');
                 }
                 else {
                     this._setAvailabilityState(AvailabilityStates.available);
-                    this.plan = "Trial";
+                    this.plan = 'Trial';
                 }
             })
             .retry()
@@ -248,8 +248,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 if (this.hasWriteAccess) {
                     this.publishingUserName = res.publishCreds.properties.publishingUserName;
-                }
-                else {
+                } else {
                     this.publishingUserName = this.ts.instant(PortalResources.noAccess);
                 }
             });
@@ -276,8 +275,8 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        if (this.site.properties.state === "Running") {
-            let confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_stopConfirmation).format(this.site.name));
+        if (this.site.properties.state === 'Running') {
+            const confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_stopConfirmation).format(this.site.name));
             if (confirmResult) {
                 this._stopOrStartSite(true);
             }
@@ -287,7 +286,7 @@ export class SiteSummaryComponent implements OnDestroy {
         }
     }
 
-    downloadPublishProfile(event: any) {
+    downloadPublishProfile() {
         if (!this.hasWriteAccess) {
             return;
         }
@@ -296,26 +295,25 @@ export class SiteSummaryComponent implements OnDestroy {
             .subscribe(response => {
 
 
-                let publishXml = response.text();
+                const publishXml = response.text();
 
                 // http://stackoverflow.com/questions/24501358/how-to-set-a-header-for-a-http-get-request-and-trigger-file-download/24523253#24523253
-                let windowUrl = window.URL || (<any>window).webkitURL;
-                let blob = new Blob([publishXml], { type: 'application/octet-stream' });
+                const windowUrl = window.URL || (<any>window).webkitURL;
+                const blob = new Blob([publishXml], { type: 'application/octet-stream' });
                 this._cleanupBlob();
 
                 if (window.navigator.msSaveOrOpenBlob) {
                     // Currently, Edge doesn' respect the "download" attribute to name the file from blob
                     // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7260192/
                     window.navigator.msSaveOrOpenBlob(blob, `${this.site.name}.PublishSettings`);
-                }
-                else {
+                } else {
                     // http://stackoverflow.com/questions/37432609/how-to-avoid-adding-prefix-unsafe-to-link-by-angular2
                     this._blobUrl = windowUrl.createObjectURL(blob);
                     this.publishProfileLink = this._domSanitizer.bypassSecurityTrustUrl(this._blobUrl);
 
                     setTimeout(() => {
 
-                        const hiddenLink = document.getElementById("hidden-publish-profile-link");
+                        const hiddenLink = document.getElementById('hidden-publish-profile-link');
                         hiddenLink.click();
                         this.publishProfileLink = null;
                     });
@@ -332,7 +330,7 @@ export class SiteSummaryComponent implements OnDestroy {
     }
 
     private _cleanupBlob() {
-        let windowUrl = window.URL || (<any>window).webkitURL;
+        const windowUrl = window.URL || (<any>window).webkitURL;
         if (this._blobUrl) {
             windowUrl.revokeObjectURL(this._blobUrl);
             this._blobUrl = null;
@@ -344,7 +342,7 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        let confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_resetProfileConfirmation));
+        const confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_resetProfileConfirmation));
         if (confirmResult) {
 
             let notificationId = null;
@@ -355,9 +353,9 @@ export class SiteSummaryComponent implements OnDestroy {
                 .first()
                 .switchMap(r => {
                     notificationId = r.id;
-                    return this._armService.post(`${this.site.id}/newpassword`, null)
+                    return this._armService.post(`${this.site.id}/newpassword`, null);
                 })
-                .subscribe(response => {
+                .subscribe(() => {
                     this._busyState.clearBusyState();
                     this._portalService.stopNotification(
                         notificationId,
@@ -381,10 +379,10 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        let confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_deleteConfirmation).format(this.site.name));
+        const confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_deleteConfirmation).format(this.site.name));
         if (confirmResult) {
-            let site = this.site;
-            let appNode = <AppNode>this._viewInfo.node;
+            const site = this.site;
+            const appNode = <AppNode>this._viewInfo.node;
             let notificationId = null;
 
             this._busyState.setBusyState();
@@ -402,13 +400,13 @@ export class SiteSummaryComponent implements OnDestroy {
                     appNode.dispose();
                     return this._armService.delete(`${site.id}`, null);
                 })
-                .subscribe(response => {
+                .subscribe(() => {
                     this._portalService.stopNotification(
                         notificationId,
                         true,
                         this.ts.instant(PortalResources.siteSummary_deleteNotifySuccess).format(site.name));
                     if (!this._isSlot) {
-                        appNode.sideNav.search("");
+                        appNode.sideNav.search('');
                     }
                     this._busyState.clearBusyState();
                     appNode.parent.select();
@@ -431,10 +429,10 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        let site = this.site;
+        const site = this.site;
         let notificationId = null;
 
-        let confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_restartConfirmation).format(this.site.name));
+        const confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_restartConfirmation).format(this.site.name));
         if (confirmResult) {
             this._busyState.setBusyState();
 
@@ -444,7 +442,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 .first()
                 .switchMap(r => {
                     notificationId = r.id;
-                    return this._armService.post(`${site.id}/restart`, null)
+                    return this._armService.post(`${site.id}/restart`, null);
                 })
                 .subscribe(() => {
                     this._busyState.clearBusyState();
@@ -469,25 +467,25 @@ export class SiteSummaryComponent implements OnDestroy {
         // You shouldn't need to reference the menu blade directly, but I think the subscription
         // blade hasn't registered its asset type properly
         this._portalService.openBlade({
-            detailBlade: "ResourceMenuBlade",
+            detailBlade: 'ResourceMenuBlade',
             detailBladeInputs: {
                 id: `/subscriptions/${this.subscriptionId}`
             },
-            extension: "HubsExtension"
+            extension: 'HubsExtension'
         },
-            "site-summary");
+            'site-summary');
     }
 
     openResourceGroupBlade() {
 
         this._portalService.openBlade({
-            detailBlade: "ResourceGroupMapBlade",
+            detailBlade: 'ResourceGroupMapBlade',
             detailBladeInputs: {
                 id: `/subscriptions/${this.subscriptionId}/resourceGroups/${this.resourceGroup}`
             },
-            extension: "HubsExtension"
+            extension: 'HubsExtension'
         },
-            "site-summary");
+            'site-summary');
     }
 
     openUrl() {
@@ -496,10 +494,10 @@ export class SiteSummaryComponent implements OnDestroy {
 
     openPlanBlade() {
         this._portalService.openBlade({
-            detailBlade: "WebHostingPlanBlade",
+            detailBlade: 'WebHostingPlanBlade',
             detailBladeInputs: { id: this.site.properties.serverFarmId }
         },
-            "site-summary"
+            'site-summary'
         );
     }
 
@@ -507,19 +505,19 @@ export class SiteSummaryComponent implements OnDestroy {
         this.availabilityState = availabilityState.toLowerCase();
         switch (this.availabilityState) {
             case AvailabilityStates.unknown:
-                this.availabilityIcon = "";
+                this.availabilityIcon = '';
                 this.availabilityMesg = this.ts.instant(PortalResources.notApplicable);
                 break;
             case AvailabilityStates.unavailable:
-                this.availabilityIcon = "images/error.svg";
+                this.availabilityIcon = 'images/error.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
             case AvailabilityStates.available:
-                this.availabilityIcon = "images/success.svg";
+                this.availabilityIcon = 'images/success.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.available);
                 break;
             case AvailabilityStates.userinitiated:
-                this.availabilityIcon = "images/info.svg";
+                this.availabilityIcon = 'images/info.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
 
@@ -528,12 +526,12 @@ export class SiteSummaryComponent implements OnDestroy {
 
     private _stopOrStartSite(stop: boolean) {
         // Save reference to current values in case user clicks away
-        let site = this.site;
-        let appNode = <AppNode>this._viewInfo.node;
+        const site = this.site;
+        const appNode = <AppNode>this._viewInfo.node;
         let notificationId = null;
 
-        let action = stop ? "stop" : "start";
-        let notifyTitle = stop
+        const action = stop ? 'stop' : 'start';
+        const notifyTitle = stop
             ? this.ts.instant(PortalResources.siteSummary_stopNotifyTitle).format(site.name)
             : this.ts.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
 
@@ -549,14 +547,14 @@ export class SiteSummaryComponent implements OnDestroy {
                 return this._cacheService.getArm(`${site.id}`, true);
             })
             .subscribe(r => {
-                let refreshedSite: ArmObj<Site> = r.json();
+                const refreshedSite: ArmObj<Site> = r.json();
 
                 // Current site could have changed if user clicked away
                 if (refreshedSite.id === this.site.id) {
                     this.site = refreshedSite;
                 }
 
-                let notifySuccess = stop
+                const notifySuccess = stop
                     ? this.ts.instant(PortalResources.siteSummary_stopNotifySuccess).format(site.name)
                     : this.ts.instant(PortalResources.siteSummary_startNotifySuccess).format(site.name);
 
@@ -568,7 +566,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 appNode.refresh();
             },
             e => {
-                let notifyFail = stop
+                const notifyFail = stop
                     ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
                     : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
 
@@ -579,15 +577,15 @@ export class SiteSummaryComponent implements OnDestroy {
                     notifyFail);
 
                 this._aiService.trackException(e, '/errors/site-summary/stop-start');
-            })
+            });
     }
 
     openSwapBlade() {
         this._portalService.openBlade({
-            detailBlade: "WebsiteSlotsListBlade",
+            detailBlade: 'WebsiteSlotsListBlade',
             detailBladeInputs: { resourceUri: this.site.id }
         },
-            "site-summary"
+            'site-summary'
         );
     }
 }

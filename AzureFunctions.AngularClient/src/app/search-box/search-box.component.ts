@@ -21,14 +21,14 @@ export class SearchBoxComponent {
 
     onKeyUp(event: any) {
         if (event.keyCode === 27) { // ESC
-            this.onClearClick(event);
+            this.onClearClick();
         } else {
             this.onInputChange.next(this.value);
         }
     }
 
-    onClearClick(event: any) {
-        this.value = "";
+    onClearClick() {
+        this.value = '';
         this.onClear.next(null);
     }
 

@@ -6,8 +6,8 @@ declare var appInsights: IAppInsights;
 
 function AiDefined(checkFunctionName?: boolean) {
     checkFunctionName = typeof checkFunctionName !== 'undefined' ? checkFunctionName : true;
-    return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
-        let originalMethod = descriptor.value;
+    return (_: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
+        const originalMethod = descriptor.value;
         descriptor.value = function (...args: any[]) {
             if (typeof (appInsights) !== 'undefined' && (typeof (appInsights[functionName]) !== 'undefined' || !checkFunctionName)) {
                 return originalMethod.apply(this, args);
@@ -95,7 +95,7 @@ export class AiService implements IAppInsights {
      * @param   duration    number - the number of milliseconds it took to load the page. Defaults to undefined. If set to default value, page load time is calculated internally.
      */
     @AiDefined()
-    trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, duration?: number) {
+    trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, _?: number) {
         return appInsights.trackPageView(name, url, properties, measurements);
     }
 
@@ -124,7 +124,7 @@ export class AiService implements IAppInsights {
      * @returns    A unique key used to identify a specific call to startTrace
      */
     startTrace(): string {
-        let traceKey = Guid.newTinyGuid();
+        const traceKey = Guid.newTinyGuid();
         this._traceStartTimes[traceKey] = Date.now();
         return traceKey;
     }
@@ -137,11 +137,11 @@ export class AiService implements IAppInsights {
      */
     stopTrace(name: string, traceKey: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
 
-        let eventStart = this._traceStartTimes[traceKey];
+        const eventStart = this._traceStartTimes[traceKey];
         if (eventStart) {
             delete this._traceStartTimes[traceKey];
 
-            let duration = Date.now() - eventStart;
+            const duration = Date.now() - eventStart;
             properties = !!properties ? properties : {};
             properties['duration'] = duration + '';
 
@@ -165,7 +165,7 @@ export class AiService implements IAppInsights {
     * @param   name    A string to identify this event in the portal.
     * @param   expired  string - determines if the link was clicked before or after the trial had expired .
     */
-    trackLinkClick(name: string, expired: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+    trackLinkClick(_: string, __: string, ___?: { [name: string]: string; }, ____?: { [name: string]: number; }) {
         // no-op
     }
 
@@ -192,7 +192,7 @@ export class AiService implements IAppInsights {
      * @param   severityLevel   AI.SeverityLevel - severity level
      */
     @AiDefined()
-    trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, severityLevel?: SeverityLevel) {
+    trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, _?: SeverityLevel) {
         console.error(exception);
 
         return appInsights.trackException(exception, handledAt, properties, measurements);

@@ -6,8 +6,8 @@ import { IConfig, SeverityLevel } from '../models/app-insights';
 declare var mixpanel: any;
 
 function MixPanelDefined() {
-    return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
-        let originalMethod = descriptor.value;
+    return (_: Object, __: string, descriptor: TypedPropertyDescriptor<any>) => {
+        const originalMethod = descriptor.value;
         descriptor.value = function (...args: any[]) {
             if (typeof (mixpanel) !== 'undefined') {
                 return originalMethod.apply(this, args);
@@ -27,7 +27,7 @@ export class AiTryService extends AiService {
         super();
     }
 
-    setSessionId(sessionId: string, count?: number) { }
+    setSessionId(_: string, __?: number) { }
 
     @MixPanelDefined()
     startTrackPage(name?: string) {
@@ -45,7 +45,7 @@ export class AiTryService extends AiService {
     }
 
     @MixPanelDefined()
-    trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, duration?: number) {
+    trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, _?: number) {
         mixpanel.track('Functions Page Viewed', { page: name, url: url, properties: this.addMixPanelProperties(properties), measurements: measurements });
     }
 
@@ -60,18 +60,18 @@ export class AiTryService extends AiService {
     }
 
     startTrace(): string {
-        let traceKey = Guid.newTinyGuid();
+        const traceKey = Guid.newTinyGuid();
         this._tryTraceStartTimes[traceKey] = Date.now();
         return traceKey;
     }
 
     stopTrace(name: string, traceKey: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
 
-        let eventStart = this._tryTraceStartTimes[traceKey];
+        const eventStart = this._tryTraceStartTimes[traceKey];
         if (eventStart) {
             delete this._tryTraceStartTimes[traceKey];
 
-            let duration = Date.now() - eventStart;
+            const duration = Date.now() - eventStart;
             properties = !!properties ? properties : {};
             properties['duration'] = duration + '';
 
@@ -85,27 +85,27 @@ export class AiTryService extends AiService {
     }
 
     @MixPanelDefined()
-    trackLinkClick(name: string, expired: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+    trackLinkClick(name: string, expired: string, _?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
         mixpanel.track(name, { expired: expired, properties: this.addMixPanelProperties(null), measurements: measurements });
     }
 
-    trackDependency(id: string, method: string, absoluteUrl: string, pathName: string, totalTime: number, success: boolean, resultCode: number) { }
+    trackDependency() { }
 
-    trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, severityLevel?: SeverityLevel) { }
+    trackException() { }
 
     @MixPanelDefined()
     trackMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number, properties?: { [name: string]: string; }) {
         mixpanel.track(name, { average: average, sampleCount: sampleCount, min: min, max: max, properties: this.addMixPanelProperties(properties) });
     }
 
-    trackTrace(message: string, properties?: { [name: string]: string; }) { }
+    trackTrace() { }
 
 
     flush() { }
 
     @MixPanelDefined()
-    setAuthenticatedUserContext(authenticatedUserId: string, accountId?: string) {
-        let userDetails = authenticatedUserId.split('#');
+    setAuthenticatedUserContext(authenticatedUserId: string, _?: string) {
+        const userDetails = authenticatedUserId.split('#');
         if (userDetails.length === 2) {
             mixpanel.alias(userDetails[1]);
         } else {
@@ -115,7 +115,7 @@ export class AiTryService extends AiService {
 
     clearAuthenticatedUserContext() { }
 
-    downloadAndSetup(config: IConfig): void { }
+    downloadAndSetup(): void { }
 
-    _onerror(message: string, url: string, lineNumber: number, columnNumber: number, error: Error) { }
+    _onerror() { }
 }

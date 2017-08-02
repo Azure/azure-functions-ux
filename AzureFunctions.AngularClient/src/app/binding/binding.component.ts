@@ -24,8 +24,8 @@ import { CacheService } from '../shared/services/cache.service';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { AuthSettings } from '../shared/models/auth-settings';
 import { Constants } from '../shared/models/constants';
-import { MobileAppsClient } from "../shared/models/mobile-apps-client";
-import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
+import { MobileAppsClient } from '../shared/models/mobile-apps-client';
+import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 import { Url } from '../shared/Utilities/url';
 
 declare var jQuery: any;
@@ -39,9 +39,9 @@ declare var marked: any;
 })
 
 export class BindingComponent {
-    @Input() canDelete: boolean = true;
-    @Input() canSave: boolean = true;
-    @Input() canCancel: boolean = true;
+    @Input() canDelete = true;
+    @Input() canSave = true;
+    @Input() canCancel = true;
     @Input() saveClick = new EventEmitter<void>();
     @Input() allBindings: UIFunctionBinding[];
 
@@ -52,17 +52,17 @@ export class BindingComponent {
     @Output() go = new EventEmitter<Action>();
     @Output() cancel = new EventEmitter<void>();
 
-    public newFunction: boolean = false;
+    public newFunction = false;
     public storageAccountName: string;
     public storageAccountKey: string;
     public storageConnectionString: string;
     public model = new BindingInputList();
-    public areInputsValid: boolean = true;
+    public areInputsValid = true;
     public bindingValue: UIFunctionBinding;
     public hasInputsToShow = false;
-    public isDirty: boolean = false;
-    public isDocShown: boolean = false;
-    public GraphWebhookTrigger: boolean = false;
+    public isDirty = false;
+    public isDocShown = false;
+    public GraphWebhookTrigger = false;
     public functionApp: FunctionApp;
 
     // While there are no uses for this in the code, it's used in
@@ -90,9 +90,9 @@ export class BindingComponent {
         private _cacheService: CacheService,
         private _translateService: TranslateService,
         private _aiService: AiService) {
-        var renderer = new marked.Renderer();
+        const renderer = new marked.Renderer();
 
-        let funcStream = this._functionAppStream
+        const funcStream = this._functionAppStream
             .distinctUntilChanged()
             .switchMap(functionApp => {
                 this.functionApp = functionApp;
@@ -108,8 +108,7 @@ export class BindingComponent {
                 try {
                     if (res.appSettings) {
                         this._appSettings = res.appSettings.properties;
-                    }
-                    else {
+                    } else {
                         this._updateBinding(<any>res);
                     }
                     if (res.authSettings) {
@@ -122,7 +121,7 @@ export class BindingComponent {
             });
 
         renderer.link = function (href, title, text) {
-            return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>'
+            return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>';
         };
 
         marked.setOptions({
@@ -147,10 +146,10 @@ export class BindingComponent {
 
                 if (this.canDelete) {
                     if (this.isDirty) {
-                        this._broadcastService.setDirtyState("function_integrate");
+                        this._broadcastService.setDirtyState('function_integrate');
                         this._portalService.setDirtyState(true);
                     } else {
-                        this._broadcastService.clearDirtyState("function_integrate", true);
+                        this._broadcastService.clearDirtyState('function_integrate', true);
                         this._portalService.setDirtyState(false);
                     }
                 }
@@ -177,14 +176,14 @@ export class BindingComponent {
     }
 
     private _handleExclusivityRule(rule: Rule, isHidden: boolean) {
-        if (rule.values.length == 0) {
-            return;            
+        if (rule.values.length === 0) {
+            return;
         }
 
         let ddValue = rule.values[0].value;
 
         rule.values.forEach((value) => {
-            var findResult = this.bindingValue.settings.find((s) => {
+            const findResult = this.bindingValue.settings.find((s) => {
                 return s.name === value.value && s.value;
             });
             if (findResult) {
@@ -192,7 +191,7 @@ export class BindingComponent {
             }
         });
 
-        let ddInput = new SelectInput();
+        const ddInput = new SelectInput();
         ddInput.id = rule.name;
         ddInput.isHidden = isHidden;
         ddInput.label = rule.label;
@@ -201,15 +200,15 @@ export class BindingComponent {
         ddInput.enum = rule.values;
         ddInput.changeValue = () => {
             rule.values.forEach((v) => {
-                if (ddInput.value == v.value) {
+                if (ddInput.value === v.value) {
                     v.shownSettings.forEach((s) => {
-                        var input = this.model.inputs.find((input) => {
+                        const input = this.model.inputs.find((input) => {
                             return input.id === s;
                         });
                         if (input) {
                             input.isHidden = isHidden ? true : false;
                         }
-                        var s1 = this.bindingValue.settings.find((s2) => {
+                        const s1 = this.bindingValue.settings.find((s2) => {
                             return s2.name === s;
                         });
                         if (s1) {
@@ -217,13 +216,13 @@ export class BindingComponent {
                         }
                     });
                     v.hiddenSettings.forEach((s) => {
-                        var input = this.model.inputs.find((input) => {
+                        const input = this.model.inputs.find((input) => {
                             return input.id === s;
                         });
                         if (input) {
                             input.isHidden = true;
                         }
-                        var s1 = this.bindingValue.settings.find((s2) => {
+                        const s1 = this.bindingValue.settings.find((s2) => {
                             return s2.name === s;
                         });
                         if (s1) {
@@ -232,7 +231,7 @@ export class BindingComponent {
                     });
                 }
             });
-            //http://stackoverflow.com/questions/35515254/what-is-a-dehydrated-detector-and-how-am-i-using-one-here
+            // http://stackoverflow.com/questions/35515254/what-is-a-dehydrated-detector-and-how-am-i-using-one-here
             setTimeout(() => this.model.orderInputs(), 0);
 
 
@@ -246,15 +245,15 @@ export class BindingComponent {
 
     private _handleChangeOptionsDisplayedRule(rule: Rule, isHidden: boolean) {
         // Allow the value of a select input determine which options of a check box list are displayed
-        if (rule.values.length == 0) {
+        if (rule.values.length === 0) {
             return;
         }
 
-        let existingSetting = this.bindingValue.settings.find(s => {
+        const existingSetting = this.bindingValue.settings.find(s => {
             return s.name === rule.name;
         });
 
-        let ddInput = new SelectInput();
+        const ddInput = new SelectInput();
         ddInput.id = rule.name;
         ddInput.isHidden = isHidden;
         ddInput.label = rule.label;
@@ -267,16 +266,16 @@ export class BindingComponent {
         }
 
         ddInput.changeValue = () => {
-            var rules = <Rule[]><any>ddInput.enum;
+            const rules = <Rule[]><any>ddInput.enum;
             rule.values.forEach((v) => {
-                if (ddInput.value == v.value) {
-                    var checkBoxInput = this.model.inputs.find((input) => {
+                if (ddInput.value === v.value) {
+                    const checkBoxInput = this.model.inputs.find((input) => {
                         return input.id === v.shownCheckboxOptions.name;
                     });
                     if (checkBoxInput) {
                         checkBoxInput.isHidden = isHidden ? true : false;
                     }
-                    var setting = this.bindingValue.settings.find((s2) => {
+                    const setting = this.bindingValue.settings.find((s2) => {
                         return s2.name === v.shownCheckboxOptions.name;
                     });
                     if (setting) {
@@ -285,9 +284,9 @@ export class BindingComponent {
                     if (checkBoxInput instanceof CheckBoxListInput) {
                         // Change which options are shown & reset selected options
                         if (!this.enumOptionsEqual(checkBoxInput.enum, v.shownCheckboxOptions.values)) {
-                            var oldVals = checkBoxInput.getArrayValue();
+                            const oldVals = checkBoxInput.getArrayValue();
                             checkBoxInput.clear();
-                            checkBoxInput.enum = v.shownCheckboxOptions.values; 
+                            checkBoxInput.enum = v.shownCheckboxOptions.values;
                             checkBoxInput.enum.forEach(e => {
                                 if (e.value in oldVals) {
                                     checkBoxInput.value[e.value] = true;
@@ -297,7 +296,7 @@ export class BindingComponent {
                     }
                 }
             });
-            //http://stackoverflow.com/questions/35515254/what-is-a-dehydrated-detector-and-how-am-i-using-one-here
+            // http://stackoverflow.com/questions/35515254/what-is-a-dehydrated-detector-and-how-am-i-using-one-here
             setTimeout(() => this.model.orderInputs(), 0);
         };
         if (isHidden) {
@@ -308,38 +307,38 @@ export class BindingComponent {
     }
 
     // Only one text box input should be filled in at a time
-    private _handleNANDRule(rule: Rule, isHidden: boolean) {
+    private _handleNANDRule(rule: Rule) {
         // should be two values corresponding to two inputs; cannot both be active
-        if (rule.values.length != 2) {
+        if (rule.values.length !== 2) {
             return;
         }
 
-        let inputOne = this.model.inputs.find(i=> {
+        const inputOne = this.model.inputs.find(i => {
             return i.id === rule.values[0].value;
         });
 
-        let inputTwo = this.model.inputs.find(i => {
+        const inputTwo = this.model.inputs.find(i => {
             return i.id === rule.values[1].value;
         });
 
         if (inputOne && inputTwo) {
             inputOne.changeValue = (value) => {
-                inputTwo.isDisabled = value != "";
+                inputTwo.isDisabled = value !== '';
             };
 
             inputTwo.changeValue = (value) => {
-                inputOne.isDisabled = value != "";
+                inputOne.isDisabled = value !== '';
             };
-        }  
+        }
     }
 
     private enumOptionsEqual(current: EnumOption[], newOptions: EnumOption[]) {
         // Compare two enum arrays by comparing the display, value at each index. They are not guaranteed be in the same order.
-        if (current.length == newOptions.length) {
-            for (var i = 0; i < current.length; i++) {
-                var equivalentEnumOption = newOptions.find(newOption => {
+        if (current.length === newOptions.length) {
+            for (let i = 0; i < current.length; i++) {
+                const equivalentEnumOption = newOptions.find(newOption => {
                     return newOption.display === current[i].display && newOption.value === current[i].value;
-                })
+                });
                 if (!equivalentEnumOption) {
                     return false;
                 }
@@ -353,20 +352,20 @@ export class BindingComponent {
 
     private _updateBinding(value: UIFunctionBinding) {
         this.isDirty = false;
-        var that = this;
+        const that = this;
         this.functionApp.getBindingConfig().subscribe((bindings) => {
             this.bindingValue = value;
             this.setDirtyIfNewBinding();
             // Convert settings to input conotrls
-            var order = 0;
-            var bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
+            let order = 0;
+            const bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
             this.model.inputs = [];
 
             if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
                 this.newFunction = true;
             }
 
-            this.GraphWebhookTrigger = that.bindingValue.type == BindingType.GraphWebhookTrigger;
+            this.GraphWebhookTrigger = that.bindingValue.type === BindingType.GraphWebhookTrigger;
 
             this.model.actions = [];
             this.model.warnings = [];
@@ -380,15 +379,15 @@ export class BindingComponent {
 
             this.setLabel();
             if (bindingSchema) {
-                var selectedStorage = '';
+                let selectedStorage = '';
                 bindingSchema.settings.forEach((setting) => {
-                    var functionSettingV = this.bindingValue.settings.find((s) => {
+                    const functionSettingV = this.bindingValue.settings.find((s) => {
                         return s.name === setting.name;
                     });
 
-                    var settingValue = (functionSettingV) ? functionSettingV.value : setting.defaultValue;
+                    const settingValue = (functionSettingV) ? functionSettingV.value : setting.defaultValue;
 
-                    var isHidden = this.isHidden(setting.name);
+                    const isHidden = this.isHidden(setting.name);
                     if (isHidden) {
                         return;
                     }
@@ -401,7 +400,7 @@ export class BindingComponent {
 
                     switch (setting.value) {
                         case SettingType.int:
-                            let intInput = new TextboxIntInput();
+                            const intInput = new TextboxIntInput();
                             intInput.id = setting.name;
                             intInput.isHidden = setting.isHidden || isHidden;
                             intInput.label = this.replaceVariables(setting.label, bindings.variables);
@@ -414,7 +413,7 @@ export class BindingComponent {
                             break;
                         case SettingType.string:
                             if (setting.value === SettingType.string && setting.resource) {
-                                let input = new PickerInput();
+                                const input = new PickerInput();
                                 input.resource = setting.resource;
                                 input.items = this._getResourceAppSettings(setting.resource);
                                 input.id = setting.name;
@@ -430,7 +429,7 @@ export class BindingComponent {
                                 input.metadata = setting.metadata;
                                 this.model.inputs.push(input);
                             } else {
-                                let input = new TextboxInput();
+                                const input = new TextboxInput();
                                 input.id = setting.name;
                                 input.isHidden = setting.isHidden || isHidden;;
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
@@ -441,11 +440,11 @@ export class BindingComponent {
                                 input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
                                 this.model.inputs.push(input);
 
-                                if (setting.name === "name") {
+                                if (setting.name === 'name') {
                                     input.changeValue = (newValue) => {
                                         this.allBindings.forEach((b) => {
                                             if (b !== this.bindingValue) {
-                                                var name = b.settings.find((s) => s.name === "name");
+                                                const name = b.settings.find((s) => s.name === 'name');
 
                                                 if (name) {
                                                     if (name.value.toString().toLowerCase() === newValue) {
@@ -464,7 +463,7 @@ export class BindingComponent {
                             }
                             break;
                         case SettingType.enum:
-                            let ddInput = new SelectInput();
+                            const ddInput = new SelectInput();
                             ddInput.id = setting.name;
                             ddInput.isHidden = setting.isHidden || isHidden;;
                             ddInput.label = setting.label;
@@ -474,7 +473,7 @@ export class BindingComponent {
                             this.model.inputs.push(ddInput);
                             break;
                         case SettingType.checkBoxList:
-                            let cblInput = new CheckBoxListInput();
+                            const cblInput = new CheckBoxListInput();
                             cblInput.id = setting.name;
                             cblInput.isHidden = setting.isHidden || isHidden;;
                             cblInput.label = setting.label;
@@ -485,7 +484,7 @@ export class BindingComponent {
                             this.model.inputs.push(cblInput);
                             break;
                         case SettingType.boolean:
-                            let chInput = new CheckboxInput();
+                            const chInput = new CheckboxInput();
                             chInput.id = setting.name;
                             chInput.isHidden = setting.isHidden || isHidden;;
                             chInput.type = setting.value;
@@ -502,26 +501,23 @@ export class BindingComponent {
 
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
-                        var isHidden = this.isHidden(rule.name);
+                        const isHidden = this.isHidden(rule.name);
                         if (isHidden) {
                             return;
                         }
 
-                        if (rule.type === "exclusivity") {
-                            var ddInput = this._handleExclusivityRule(rule, isHidden);
+                        if (rule.type === 'exclusivity') {
+                            const ddInput = this._handleExclusivityRule(rule, isHidden);
                             this.model.inputs.splice(0, 0, ddInput);
-                        }
-                        else if (rule.type === "exclusivitySave") {
-                            var ddInput = this._handleExclusivityRule(rule, isHidden);
+                        } else if (rule.type === 'exclusivitySave') {
+                            const ddInput = this._handleExclusivityRule(rule, isHidden);
                             // Want to save value of input used to hide/show other settings
                             ddInput.explicitSave = true;
                             this.model.inputs.splice(0, 0, ddInput);
-                        }
-                        else if (rule.type === "NAND") {
-                            this._handleNANDRule(rule, isHidden);
-                        }
-                        else if (rule.type === "changeOptionsDisplayed") {
-                            var ddInput = this._handleChangeOptionsDisplayedRule(rule, isHidden);
+                        } else if (rule.type === 'NAND') {
+                            this._handleNANDRule(rule);
+                        } else if (rule.type === 'changeOptionsDisplayed') {
+                            const ddInput = this._handleChangeOptionsDisplayedRule(rule, isHidden);
 
                             // Want to save value of input used to hide/show other settings
                             ddInput.explicitSave = true;
@@ -531,12 +527,12 @@ export class BindingComponent {
                 }
 
                 // if no parameter name input add it
-                var nameInput = this.model.inputs.find((input) => {
-                    return input.id === "name";
+                const nameInput = this.model.inputs.find((input) => {
+                    return input.id === 'name';
                 });
                 if (!nameInput) {
-                    let inputTb = new TextboxInput();
-                    inputTb.id = "name";
+                    const inputTb = new TextboxInput();
+                    inputTb.id = 'name';
                     inputTb.label = this._translateService.instant(PortalResources.binding_parameterName);
                     inputTb.isHidden = this.newFunction;
                     inputTb.required = true;
@@ -544,7 +540,7 @@ export class BindingComponent {
                     inputTb.help = this._translateService.instant(PortalResources.binding_parameterName);
                     inputTb.validators = [
                         {
-                            expression: "^[a-zA-Z_$][a-zA-Z_$0-9]*$",
+                            expression: '^[a-zA-Z_$][a-zA-Z_$0-9]*$',
                             errorText: this._translateService.instant(PortalResources.notValidValue)
                         }
                     ];
@@ -572,25 +568,25 @@ export class BindingComponent {
     }
 
     saveClicked() {
-        var data = this.getDataToLog();
+        const data = this.getDataToLog();
 
 
         this._portalService.logAction('binding', 'save', data);
         this._aiService.trackEvent('/binding/save', data);
 
         this.bindingValue.newBinding = false;
-        this.bindingValue.name = this.model.getInput("name").value;
-        var selectedStorage;
+        this.bindingValue.name = this.model.getInput('name').value;
+        let selectedStorage;
         this.model.inputs.forEach((input) => {
 
             if (input.type === SettingType.int && typeof input.value === 'string') {
                 input.value = isNaN(Number(input.value)) ? null : Number(input.value);
             }
 
-            var setting = this.bindingValue.settings.find((s) => {
-                return s.name == input.id;
+            let setting = this.bindingValue.settings.find((s) => {
+                return s.name === input.id;
             });
-            var isNotRequiredEmptyInput = (!input.required && !input.value && input.value !== false);
+            const isNotRequiredEmptyInput = (!input.required && !input.value && input.value !== false);
 
             if (setting) {
                 if (input instanceof PickerInput && input.resource && input.resource === ResourceType.Storage) {
@@ -617,15 +613,11 @@ export class BindingComponent {
                 setting.value = (<CheckBoxListInput>input).getArrayValue();
             }
 
-            if (setting && setting.name === "route") {
-                if (setting.value && setting.value.charAt(0) == "/") {
+            if (setting && setting.name === 'route') {
+                if (setting.value && setting.value.charAt(0) === '/') {
                     setting.value = setting.value.substr(1);
                 }
             }
-        });
-
-        this.bindingValue.settings.forEach((setting) => {
-
         });
 
         this.setLabel();
@@ -644,21 +636,21 @@ export class BindingComponent {
     }
 
     saveWebHook() {
-        let helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
+        const helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
         helper.binding = this;
         helper.saveWebHook();
     }
 
-    onValidChanged(input: BindingInputBase<any>) {
+    onValidChanged() {
         this.areInputsValid = this.model.isValid();
         this.validChange.emit(this);
     }
 
     goClicked(action: Action) {
- 
+
         action.settingValues = [];
         action.settings.forEach((s) => {
-            var setting = this.bindingValue.settings.find((v) => {
+            const setting = this.bindingValue.settings.find((v) => {
                 return v.name === s;
             });
             action.settingValues.push(setting.value);
@@ -671,7 +663,7 @@ export class BindingComponent {
         this.isDocShown = value;
 
         if (this.isDocShown) {
-            var data = this.getDataToLog();
+            const data = this.getDataToLog();
             this._portalService.logAction('binding', 'openDocumentation', data);
             this._aiService.trackEvent('binding/openDocumentation', data);
         }
@@ -679,10 +671,10 @@ export class BindingComponent {
 
     onAuth() {
         this._portalService.openBlade({
-            detailBlade: "AppAuth",
+            detailBlade: 'AppAuth',
             detailBladeInputs: { resourceUri: this.functionApp.site.id }
         },
-            "binding"
+            'binding'
         );
     }
 
@@ -691,7 +683,7 @@ export class BindingComponent {
         this.storageAccountName = undefined;
         this.storageConnectionString = undefined;
         if (selectedStorage) {
-            var storageAccount = this._getAccountNameAndKeyFromAppSetting(selectedStorage);
+            const storageAccount = this._getAccountNameAndKeyFromAppSetting(selectedStorage);
             if (storageAccount.length === 3) {
                 this.storageAccountName = storageAccount.pop();
                 this.storageAccountKey = storageAccount.pop();
@@ -705,11 +697,11 @@ export class BindingComponent {
     }
 
     private replaceVariables(value: string, variables: any): string {
-        var result = value;
+        let result = value;
         if (value) {
-            for (var key in variables) {
+            for (const key in variables) {
                 if (variables.hasOwnProperty(key)) {
-                    result = result.replace("[variables('" + key + "')]", variables[key]);
+                    result = result.replace('[variables(\'' + key + '\')]', variables[key]);
                 }
             }
             return result;
@@ -717,24 +709,24 @@ export class BindingComponent {
     }
 
     private setLabel() {
-        var bindingTypeString = this.bindingValue.direction.toString();
+        let bindingTypeString = this.bindingValue.direction.toString();
         switch (bindingTypeString) {
-            case "in":
-                bindingTypeString = "input";
+            case 'in':
+                bindingTypeString = 'input';
                 break;
-            case "out":
-                bindingTypeString = "output";
+            case 'out':
+                bindingTypeString = 'output';
                 break;
         }
 
-        this.model.label = this.bindingValue.displayName + " " + bindingTypeString;
+        this.model.label = this.bindingValue.displayName + ' ' + bindingTypeString;
     }
 
     private isHidden(name: string) {
-        var isHidden = false;
+        let isHidden = false;
         if (this.newFunction) {
             isHidden = true;
-            var match = this.bindingValue.hiddenList.find((h) => {
+            const match = this.bindingValue.hiddenList.find((h) => {
                 return h === name;
             });
             isHidden = match ? false : true;
@@ -743,69 +735,69 @@ export class BindingComponent {
     }
 
     private _getResourceAppSettings(type: ResourceType): string[] {
-       var result = [];
-       switch (type) {
-           case ResourceType.Storage:
-               for (var key in this._appSettings) {
-                   var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("accountname") > -1 && value.indexOf("accountkey") > -1 ) {
-                       result.push(key);
-                   }
-               }
-               break;
-           case ResourceType.EventHub:
-           case ResourceType.ServiceBus:
-               for (var key in this._appSettings) {
+        const result = [];
+        switch (type) {
+            case ResourceType.Storage:
+                for (const key in this._appSettings) {
+                    const value = this._appSettings[key].toLowerCase();
+                    if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
+            case ResourceType.EventHub:
+            case ResourceType.ServiceBus:
+                for (const key in this._appSettings) {
 
-                   var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("sb://") > -1 && value.indexOf("sharedaccesskeyname") > -1) {
-                       result.push(key);
-                   }
-               }
-               break;
-           case ResourceType.ApiHub:
-               for (var key in this._appSettings) {
-                   var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("logic-apis") > -1 && value.indexOf("accesstoken") > -1) {
-                       result.push(key);
-                   }
-               }
-               break;
+                    const value = this._appSettings[key].toLowerCase();
+                    if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
+            case ResourceType.ApiHub:
+                for (const key in this._appSettings) {
+                    const value = this._appSettings[key].toLowerCase();
+                    if (value.indexOf('logic-apis') > -1 && value.indexOf('accesstoken') > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
 
-           case ResourceType.DocumentDB:
-               for (var key in this._appSettings) {
-                   var value = this._appSettings[key].toLowerCase();
-                   if (value.indexOf("accountendpoint") > -1 && value.indexOf("documents.azure.com") > -1) {
-                       result.push(key);
-                   }
-               }
-               break;
-           case ResourceType.AppSetting:
-               for (var key in this._appSettings) result.push(key);
-               break;
-           case ResourceType.MSGraph:
-               for (var key in this._appSettings) {
-                   var value = this._appSettings[key].toLowerCase();
-                   if (key.startsWith("Identity.")) {
-                       result.push(key);
-                   }
-               }
-               break;
-       }
-       return result;
-   }
+            case ResourceType.DocumentDB:
+                for (const key in this._appSettings) {
+                    const value = this._appSettings[key].toLowerCase();
+                    if (value.indexOf('accountendpoint') > -1 && value.indexOf('documents.azure.com') > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
+            case ResourceType.AppSetting:
+                for (const key in this._appSettings) result.push(key);
+                break;
+            case ResourceType.MSGraph:
+                for (const key in this._appSettings) {
+                    const value = this._appSettings[key].toLowerCase();
+                    if (key.startsWith('Identity.')) {
+                        result.push(key);
+                    }
+                }
+                break;
+        }
+        return result;
+    }
 
     private _getAccountNameAndKeyFromAppSetting(settingName: string): string[] {
-        var value = this._appSettings ? this._appSettings[settingName] : null;
+        const value = this._appSettings ? this._appSettings[settingName] : null;
         if (value) {
-            var account = [];
-            var accountName;
-            var accountKey;
-            var partsArray = value.split(';');
-            for (var i = 0; i < partsArray.length; i++) {
-                var part = partsArray[i];
-                var accountNameIndex = part.toLowerCase().indexOf("accountname");
-                var accountKeyIndex = part.toLowerCase().indexOf("accountkey");
+            const account = [];
+            let accountName;
+            let accountKey;
+            const partsArray = value.split(';');
+            for (let i = 0; i < partsArray.length; i++) {
+                const part = partsArray[i];
+                const accountNameIndex = part.toLowerCase().indexOf('accountname');
+                const accountKeyIndex = part.toLowerCase().indexOf('accountkey');
                 if (accountNameIndex > -1)
                     accountName = (part.substring(accountNameIndex + 12, part.length));
                 if (accountKeyIndex > -1)
@@ -827,8 +819,8 @@ export class BindingComponent {
 
         if (this.model.warnings) {
             this.model.warnings.forEach((w) => {
-                var array = w.variablePath.split('.');
-                var showWarning: any = this;
+                const array = w.variablePath.split('.');
+                let showWarning: any = this;
                 array.forEach((part) => {
                     showWarning = showWarning[part];
                 });

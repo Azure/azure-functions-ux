@@ -53,8 +53,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public latestExtensionVersion: string;
   public dailyMemoryTimeQuota: string;
   public dailyMemoryTimeQuotaOriginal: string;
-  public showDailyMemoryWarning: boolean = false;
-  public showDailyMemoryInfo: boolean = false;
+  public showDailyMemoryWarning = false;
+  public showDailyMemoryInfo = false;
   public functionApp: FunctionApp;
   public exactExtensionVersion: string;
 
@@ -72,15 +72,15 @@ export class FunctionRuntimeComponent implements OnDestroy {
   private _viewInfoSub: RxSubscription;
   private _appNode: AppNode;
 
-  public functionAppEditMode: boolean = true;
+  public functionAppEditMode = true;
   public functionAppEditModeOptions: SelectOption<boolean>[];
 
-  private _isSlotApp: boolean = false;
+  private _isSlotApp = false;
   public slotsStatusOptions: SelectOption<boolean>[];
   public slotsAppSetting: string;
   public slotsEnabled: boolean;
   private slotsValueChange: Subject<boolean>;
-  private _numSlots: number = 0;
+  private _numSlots = 0;
   private _busyState: BusyStateComponent;
 
   constructor(
@@ -132,7 +132,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       })
       .retry()
       .subscribe(r => {
-        let appSettings: ArmObj<any> = r.appSettingsResponse.json();
+        const appSettings: ArmObj<any> = r.appSettingsResponse.json();
 
         this.functionApp = r.functionApp;
         this.site = r.siteResponse.json();
@@ -180,9 +180,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this._busyState.clearBusyState();
         this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
-        //settings for enabling slots, display if there are no slots && appSetting property for slot is set
+        // settings for enabling slots, display if there are no slots && appSetting property for slot is set
         this.slotsAppSetting = appSettings.properties[Constants.slotsSecretStorageSettingsName];
-        if (this._isSlotApp) { //Slots Node
+        if (this._isSlotApp) { // Slots Node
           this.slotsEnabled = true;
         } else {
           this.slotsEnabled = r.slotsList.length > 0 || this.slotsAppSetting === Constants.slotsSecretStorageSettingsValue;
@@ -220,13 +220,13 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this.proxySettingValueStream
       .subscribe((value: boolean) => {
         this._busyState.setBusyState();
-        let appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
+        const appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
 
         this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
           .mergeMap(r => {
-            return this._updateProxiesVersion(this.site, r.json(), appSettingValue);
+            return this._updateProxiesVersion(r.json(), appSettingValue);
           })
-          .subscribe(r => {
+          .subscribe(() => {
             this.functionApp.fireSyncTrigger();
             this.apiProxiesEnabled = value;
             this.needUpdateRoutingExtensionVersion = false;
@@ -239,17 +239,17 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this.functionEditModeValueStream = new Subject<boolean>();
     this.functionEditModeValueStream
       .switchMap(state => {
-        let originalState = this.functionAppEditMode;
+        const originalState = this.functionAppEditMode;
         this._busyState.setBusyState();
         this.functionAppEditMode = state;
-        let appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
+        const appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
           .mergeMap(r => {
-            let response: ArmObj<any> = r.json();
+            const response: ArmObj<any> = r.json();
             response.properties[Constants.functionAppEditModeSettingName] = appSetting;
             return this._cacheService.putArm(response.id, this._armService.websiteApiVersion, response);
           })
-          .catch(e => { throw originalState; });
+          .catch(() => { throw originalState; });
       })
       .do(null, originalState => {
         this.functionAppEditMode = originalState;
@@ -265,10 +265,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
       // This is needed to update the editMode value for other subscribers
       // getFunctionAppEditMode returns a subject and updates it on demand.
       .mergeMap(_ => this.functionApp.getFunctionAppEditMode())
-      .subscribe(fi => {
+      .subscribe(() => {
 
         this._aiService.stopTrace('/timings/site/tab/function-runtime/full-ready',
-        this._viewInfo.data.siteTabFullReadyTraceKey);
+          this._viewInfo.data.siteTabFullReadyTraceKey);
 
         this._busyState.clearBusyState();
       });
@@ -276,17 +276,17 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this.slotsValueChange = new Subject<boolean>();
     this.slotsValueChange.subscribe((value: boolean) => {
       this._busyState.setBusyState();
-      let slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
+      const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
       this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
         .mergeMap(r => {
-          return this._slotsService.setStatusOfSlotOptIn(this.site, r.json(), slotsSettingsValue);
+          return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
         })
         .do(null, e => {
           this._busyState.clearBusyState();
-          this._aiService.trackException(e, 'function-runtime')
+          this._aiService.trackException(e, 'function-runtime');
         })
         .retry()
-        .subscribe(r => {
+        .subscribe(() => {
           this.functionApp.fireSyncTrigger();
           this.slotsEnabled = value;
           this._busyState.clearBusyState();
@@ -329,9 +329,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this._busyState.setBusyState();
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
       .mergeMap(r => {
-        return this._updateContainerVersion(this.site, r.json());
+        return this._updateContainerVersion(r.json());
       })
-      .subscribe(r => {
+      .subscribe(() => {
         this.needUpdateExtensionVersion = false;
         this._busyState.clearBusyState();
         this._cacheService.clearArmIdCachePrefix(this.site.id);
@@ -347,7 +347,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .mergeMap(r => {
         return this._updateProxiesVersion(this.site, r.json());
       })
-      .subscribe(r => {
+      .subscribe(() => {
         this.needUpdateRoutingExtensionVersion = false;
         this._busyState.clearBusyState();
         this._cacheService.clearArmIdCachePrefix(this.site.id);
@@ -357,12 +357,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
   setQuota() {
     if (this.dailyMemoryTimeQuotaOriginal !== this.dailyMemoryTimeQuota) {
 
-      let dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
+      const dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
 
       if (dailyMemoryTimeQuota > 0) {
         this._busyState.setBusyState();
         this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe((r) => {
-          var site = r.json();
+          const site = r.json();
           this.showDailyMemoryWarning = (!site.properties.enabled && site.properties.siteDisabledReason === 1);
           this.showDailyMemoryInfo = true;
           this.site.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
@@ -386,20 +386,19 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   openAppSettings() {
-    if (Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") { //DEBUG: conditionally showing application settings tab
+    if (Url.getParameterByName(window.location.href, 'appsvc.appsettingstab') === 'enabled') { // DEBUG: conditionally showing application settings tab
       this._siteDashboard.openFeature(SiteTabIds.applicationSettings);
-    }
-    else {
+    } else {
       this._portalService.openBlade({
-        detailBlade: "WebsiteConfigSiteSettings",
+        detailBlade: 'WebsiteConfigSiteSettings',
         detailBladeInputs: {
           resourceUri: this.site.id,
         }
-      }, "settings");
+      }, 'settings');
     }
   }
 
-  private _updateContainerVersion(site: ArmObj<Site>, appSettings: ArmObj<any>) {
+  private _updateContainerVersion(appSettings: ArmObj<any>) {
     if (appSettings.properties[Constants.azureJobsExtensionVersion]) {
       delete appSettings[Constants.azureJobsExtensionVersion];
     }
@@ -409,7 +408,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
   }
 
-  private _updateProxiesVersion(site: ArmObj<Site>, appSettings: ArmObj<any>, value?: string) {
+  private _updateProxiesVersion(appSettings: ArmObj<any>, value?: string) {
 
     if (value !== Constants.disabled) {
       this._aiService.trackEvent('/actions/proxy/enabled');
@@ -425,7 +424,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
   private _updateDailyMemory(site: ArmObj<Site>, value: number) {
 
-    let body = JSON.stringify({
+    const body = JSON.stringify({
       Location: site.location,
       Properties: {
         dailyMemoryTimeQuota: value,
@@ -438,7 +437,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
 
   private _updateMemorySize(site: ArmObj<Site>, memorySize: string | number) {
-    let nMemorySize = typeof memorySize === 'string' ? parseInt(memorySize, 10) : memorySize;
+    const nMemorySize = typeof memorySize === 'string' ? parseInt(memorySize, 10) : memorySize;
     site.properties.containerSize = nMemorySize;
 
     return this._cacheService.putArm(site.id, this._armService.websiteApiVersion, site)

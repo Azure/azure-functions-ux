@@ -38,7 +38,7 @@ export class MultiDropDownComponent<T> implements OnInit {
   }
 
   set inputOptions(inputOptions: MultiDropDownElement<T>[]) {
-    let options: MultiDropDownElement<T>[] = [];
+    const options: MultiDropDownElement<T>[] = [];
     let defaultSelected = false;
     inputOptions.forEach(option => {
       if (option.isSelected) {
@@ -74,7 +74,7 @@ export class MultiDropDownComponent<T> implements OnInit {
     }
   }
 
-  onBlur(event) {
+  onBlur() {
     this._notifyChangeSubscriptions();
   }
 
@@ -82,8 +82,7 @@ export class MultiDropDownComponent<T> implements OnInit {
     if (option !== this._selectAllOption) {
       this._selectAllOption.isSelected = false;
       option.isSelected = !option.isSelected;
-    }
-    else {
+    } else {
       this._updateAllSelected(!option.isSelected);
     }
   }
@@ -92,29 +91,24 @@ export class MultiDropDownComponent<T> implements OnInit {
 
     if (event.keyCode === KeyCodes.arrowDown) {
       this._moveFocusedItemDown();
-    }
-    else if (event.keyCode === KeyCodes.arrowUp) {
+    } else if (event.keyCode === KeyCodes.arrowUp) {
       this._moveFocusedItemUp();
-    }
-    else if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+    } else if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
       if (this._focusedIndex >= 0 && this._focusedIndex < this.options.length) {
-        let option = this.options[this._focusedIndex];
+        const option = this.options[this._focusedIndex];
         option.isSelected = !option.isSelected;
 
         if (option === this._selectAllOption) {
           if (option.isSelected) {
             this.options.forEach(o => o.isSelected = true);
-          }
-          else {
+          } else {
             this.options.forEach(o => o.isSelected = false);
           }
         }
       }
-    }
-    else if (event.keyCode === KeyCodes.escape) {
+    } else if (event.keyCode === KeyCodes.escape) {
       this._notifyChangeSubscriptions();
-    }
-    else if (event.keyCode === KeyCodes.tab) {
+    } else if (event.keyCode === KeyCodes.tab) {
       this._notifyChangeSubscriptions();
     }
 
@@ -158,18 +152,18 @@ export class MultiDropDownComponent<T> implements OnInit {
   }
 
   private _scrollIntoView() {
-    let view = this._getViewContainer();
+    const view = this._getViewContainer();
     if (!view) {
       return;
     }
 
-    let firstItem = view.querySelector('li');
+    const firstItem = view.querySelector('li');
     if (!firstItem) {
       return null;
     }
 
-    let viewBottom = view.scrollTop + view.clientHeight;
-    let itemHeight = firstItem.clientHeight;
+    const viewBottom = view.scrollTop + view.clientHeight;
+    const itemHeight = firstItem.clientHeight;
 
     // If view needs to scroll down
     if ((this._focusedIndex + 1) * itemHeight > viewBottom) {
@@ -177,19 +171,16 @@ export class MultiDropDownComponent<T> implements OnInit {
       // If view is scrolled way out of view, then scroll so that selected is top
       if (viewBottom + itemHeight < (this._focusedIndex + 1) * itemHeight) {
         view.scrollTop = this._focusedIndex * itemHeight;
-      }
-      else {
+      } else {
         // If view is incremented out of view, then scroll by a single item
         view.scrollTop += itemHeight;
       }
-    }
-    else if (this._focusedIndex * itemHeight <= view.scrollTop) {
+    } else if (this._focusedIndex * itemHeight <= view.scrollTop) {
       // If view needs to scroll up
 
       if (view.scrollTop - itemHeight > this._focusedIndex * itemHeight) {
         view.scrollTop = this._focusedIndex * itemHeight;
-      }
-      else {
+      } else {
         view.scrollTop -= itemHeight;
       }
     }
@@ -199,7 +190,7 @@ export class MultiDropDownComponent<T> implements OnInit {
     this.opened = false;
 
     let displayText = null;
-    let selectedValues: T[] = [];
+    const selectedValues: T[] = [];
 
     if (this.options) {
       this.options.forEach(option => {
@@ -218,13 +209,12 @@ export class MultiDropDownComponent<T> implements OnInit {
         if (option !== this._selectAllOption) {
           selectedValues.push(option.value);
         }
-      })
+      });
     }
 
     if (this._selectAllOption.isSelected) {
       displayText = this._ts.instant(PortalResources.allItemsSelected);
-    }
-    else if (selectedValues.length > 1) {
+    } else if (selectedValues.length > 1) {
       displayText = this._ts.instant(PortalResources.numItemsSelected).format(selectedValues.length);
     }
 

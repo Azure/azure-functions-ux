@@ -45,96 +45,91 @@ export class ArmTryService extends ArmService {
         return this._tryFunctionApp;
     }
 
-    get(resourceId: string, apiVersion?: string): Observable<Response> {
-        this._aiService.trackEvent("/try/arm-get-failure", {
+    get(resourceId: string, _?: string): Observable<Response> {
+        this._aiService.trackEvent('/try/arm-get-failure', {
             uri: resourceId
         });
 
-        throw "[ArmTryService] - get: " + resourceId;
+        throw new Error('[ArmTryService] - get: ' + resourceId);
     }
 
-    delete(resourceId: string, apiVersion?: string): Observable<Response> {
+    delete(resourceId: string, _?: string): Observable<Response> {
 
-        this._aiService.trackEvent("/try/arm-delete-failure", {
+        this._aiService.trackEvent('/try/arm-delete-failure', {
             uri: resourceId
         });
 
-        throw "[ArmTryService] - delete: " + resourceId;
+        throw new Error('[ArmTryService] - delete: ' + resourceId);
     }
 
-    put(resourceId: string, body: any, apiVersion?: string): Observable<Response> {
-        this._aiService.trackEvent("/try/arm-put-failure", {
+    put(resourceId: string, _: any, __?: string): Observable<Response> {
+        this._aiService.trackEvent('/try/arm-put-failure', {
             uri: resourceId
         });
 
-        throw "[ArmTryService] - put: " + resourceId;
+        throw new Error('[ArmTryService] - put: ' + resourceId);
     }
 
-    post(resourceId: string, body: any, apiVersion?: string): Observable<Response> {
-        this._aiService.trackEvent("/try/arm-post-failure", {
+    post(resourceId: string, _: any, __?: string): Observable<Response> {
+        this._aiService.trackEvent('/try/arm-post-failure', {
             uri: resourceId
         });
 
-        throw "[ArmTryService] - post: " + resourceId;
+        throw new Error('[ArmTryService] - post: ' + resourceId);
     }
 
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers): Observable<Response> {
-        let urlNoQuery = url.toLowerCase().split('?')[0];
+        const urlNoQuery = url.toLowerCase().split('?')[0];
 
         if (this._whiteListedPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))) {
             return super.send(method, url, body, etag, headers);
-        }
-        else if (urlNoQuery.endsWith(this.tryFunctionApp.site.id.toLowerCase())) {
+        } else if (urlNoQuery.endsWith(this.tryFunctionApp.site.id.toLowerCase())) {
             return Observable.of(this._getFakeResponse(this.tryFunctionApp.site));
-        }
-        else if (urlNoQuery.endsWith("/providers/microsoft.authorization/permissions")) {
+        } else if (urlNoQuery.endsWith('/providers/microsoft.authorization/permissions')) {
             return Observable.of(this._getFakeResponse({
-                "value": [{
-                    "actions": ["*"],
-                    "notActions": []
+                'value': [{
+                    'actions': ['*'],
+                    'notActions': []
                 }],
-                "nextLink": null
+                'nextLink': null
             }));
-        }
-        else if (urlNoQuery.endsWith("/providers/microsoft.authorization/locks")) {
-            return Observable.of(this._getFakeResponse({ "value": [] }));
-        }
-        else if (urlNoQuery.endsWith("/config/web")) {
+        } else if (urlNoQuery.endsWith('/providers/microsoft.authorization/locks')) {
+            return Observable.of(this._getFakeResponse({ 'value': [] }));
+        } else if (urlNoQuery.endsWith('/config/web')) {
             return Observable.of(<any>this._getFakeResponse({
                 id: this._tryFunctionApp.site.id,
                 properties: {
-                    scmType: "None"
+                    scmType: 'None'
                 }
             }));
-        }
-        else if (urlNoQuery.endsWith("/appsettings/list")) {
+        } else if (urlNoQuery.endsWith('/appsettings/list')) {
             return this.tryFunctionApp.getFunctionContainerAppSettings()
                 .map(r => {
                     return this._getFakeResponse({
                         properties: r
-                    })
-                })
-        } else if (urlNoQuery.endsWith("/slots")) {
+                    });
+                });
+        } else if (urlNoQuery.endsWith('/slots')) {
             return Observable.of(this._getFakeResponse({ value: [] }));
         }
 
-        this._aiService.trackEvent("/try/arm-send-failure", {
+        this._aiService.trackEvent('/try/arm-send-failure', {
             uri: url
         });
 
-        throw "[ArmTryService] - send: " + url;
+        throw new Error('[ArmTryService] - send: ' + url);
     }
 
     private _getFakeResponse(jsonObj: any): any {
         return {
             headers: {
-                get: (name: string) => {
+                get: () => {
                     return null;
                 }
             },
             json: () => {
                 return jsonObj;
             }
-        }
+        };
     }
 }

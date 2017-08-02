@@ -52,9 +52,9 @@ export class TableFunctionMonitorComponent implements OnChanges {
             });
     }
 
-    ngOnChanges(changes: { [key: string]: SimpleChange }) {
+    ngOnChanges() {
         this.details = null;
-        this.outputLog = "";
+        this.outputLog = '';
         this.selectedRowId = null;
     }
 
@@ -68,12 +68,14 @@ export class TableFunctionMonitorComponent implements OnChanges {
     }
 
     setBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.setBusyState();
+        }
     }
 
     clearBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.clearBusyState();
+        }
     }
 }

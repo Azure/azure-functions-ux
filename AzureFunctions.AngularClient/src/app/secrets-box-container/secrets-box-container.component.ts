@@ -14,12 +14,11 @@ export class SecretsBoxContainerComponent {
 
     constructor() { }
 
-    toggleShow(event) {
+    toggleShow() {
         this.show = !this.show;
         if (this.show) {
             this.input.changeType("text");
-        }
-        else {
+        } else {
             this.input.changeType("password");
         }
     }

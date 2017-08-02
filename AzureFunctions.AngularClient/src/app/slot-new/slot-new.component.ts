@@ -30,8 +30,8 @@ interface DataModel {
     writePermission: boolean,
     readOnlyLock: boolean,
     siteInfo: any,
-    appSettings: any,
-    slotsList: ArmObj<Site>[]
+    appSettings: any;
+    slotsList: ArmObj<Site>[];
 }
 
 @Component({
@@ -47,7 +47,7 @@ export class SlotNewComponent implements OnInit {
     public newSlotForm: FormGroup;
     public slotNamePlaceholder: string;
     public hasReachedDynamicQuotaLimit: boolean;
-    public isLoading: boolean = true;
+    public isLoading = true;
 
     private _slotsNode: SlotsNode;
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
@@ -76,12 +76,12 @@ export class SlotNewComponent implements OnInit {
                 this._viewInfo = viewInfo;
                 // parse the site resourceId from slot's
                 this._siteId = viewInfo.resourceId.substring(0, viewInfo.resourceId.indexOf("/slots"));
-                let slotNameValidator = new SlotNameValidator(injector, this._siteId);
+                const slotNameValidator = new SlotNameValidator(injector, this._siteId);
                 this.newSlotForm = fb.group({
                     name: [null,
                         validator.validate.bind(validator),
                         slotNameValidator.validate.bind(slotNameValidator)]
-                })
+                });
 
                 return Observable.zip<DataModel>(
                     authZService.hasPermission(this._siteId, [AuthzService.writeScope]),
@@ -93,18 +93,18 @@ export class SlotNewComponent implements OnInit {
                         readOnlyLock: rl,
                         siteInfo: s,
                         slotsList: l
-                    }))
+                    }));
             })
             .mergeMap(res => {
                 this.hasCreatePermissions = res.writePermission && !res.readOnlyLock;
                 if (this.hasCreatePermissions) {
                     return this._cacheService.postArm(`${this._siteId}/config/appsettings/list`, true)
                         .map(r => {
-                            res.appSettings = r.json()
-                            return res
-                        })
+                            res.appSettings = r.json();
+                            return res;
+                        });
                 }
-                return Observable.of(res)
+                return Observable.of(res);
             })
             .do(null, e => {
                 // log error & clear busy state
@@ -114,14 +114,14 @@ export class SlotNewComponent implements OnInit {
             .retry()
             .subscribe(res => {
                 this._siteObj = <ArmObj<Site>>res.siteInfo.json();
-                let sku = this._siteObj.properties.sku;
+                const sku = this._siteObj.properties.sku;
                 this._slotsList = <ArmObj<Site>[]>res.slotsList;
                 this.slotOptinEnabled = res.slotsList.length > 0 ||
                     res.appSettings.properties[Constants.slotsSecretStorageSettingsName] === Constants.slotsSecretStorageSettingsValue;
-                this.hasReachedDynamicQuotaLimit = !!sku && sku.toLowerCase() === "dynamic" && this._slotsList.length === 1;
+                this.hasReachedDynamicQuotaLimit = !!sku && sku.toLowerCase() === 'dynamic' && this._slotsList.length === 1;
                 this._globalStateService.clearBusyState();
                 this.isLoading = false;
-            })
+            });
     }
 
     set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
@@ -131,13 +131,13 @@ export class SlotNewComponent implements OnInit {
     ngOnInit() {
     }
 
-    onFunctionAppSettingsClicked(event: any) {
-        let appNode = <AppNode>this._slotsNode.parent;
+    onFunctionAppSettingsClicked() {
+        const appNode = <AppNode>this._slotsNode.parent;
         appNode.openSettings();
     }
 
     createSlot() {
-        let newSlotName = this.newSlotForm.controls['name'].value;
+        const newSlotName = this.newSlotForm.controls['name'].value;
         let notificationId = null;
         this._globalStateService.setBusyState();
         // show create slot start notification
@@ -147,7 +147,7 @@ export class SlotNewComponent implements OnInit {
             .first()
             .switchMap(s => {
                 notificationId = s.id;
-                return this._slotService.createNewSlot(this._siteObj.id, newSlotName, this._siteObj.location, this._siteObj.properties.serverFarmId)
+                return this._slotService.createNewSlot(this._siteObj.id, newSlotName, this._siteObj.location, this._siteObj.properties.serverFarmId);
             })
             .subscribe((r) => {
                 this._globalStateService.clearBusyState();
@@ -177,6 +177,6 @@ export class SlotNewComponent implements OnInit {
                         resourceId: this._siteObj.id
                     });
                 this._aiService.trackEvent(ErrorIds.failedToCreateApp, { error: err, id: this._siteObj.id });
-            })
+            });
     }
 }

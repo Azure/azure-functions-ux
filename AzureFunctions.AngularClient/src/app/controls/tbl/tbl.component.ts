@@ -65,7 +65,7 @@ export class TblComponent implements OnInit, OnChanges {
   // to the table, or if the table has updated by receiving a new "items" property.
   // After that, each individual cell will get its own focus, but the parent
   // tbl component will continue to get the keypress and mouse click events thrown.
-  onFocus(event: FocusEvent) {
+  onFocus() {
 
     (<HTMLTableElement>this.table.nativeElement).tabIndex = -1;
     this._focusedRowIndex = 0;
@@ -146,7 +146,7 @@ export class TblComponent implements OnInit, OnChanges {
 
     } else if (event.keyCode === KeyCodes.escape) {
 
-      // If a control within a cell is currently selected, hitting escape will cause the 
+      // If a control within a cell is currently selected, hitting escape will cause the
       // focus to switch to the containing cell instead.
       const rows = this._getRows();
       const curCell = this._getCurrentCellOrReset(rows, true /* force set focus on cell */);

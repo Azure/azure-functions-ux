@@ -14,10 +14,10 @@ import { ErrorIds } from '../shared/models/error-ids';
 
 
 interface SlotItem {
-    name: string,
-    status: string,
-    serverFarm: string,
-    node: SlotNode
+    name: string;
+    status: string;
+    serverFarm: string;
+    node: SlotNode;
 }
 
 @Component({
@@ -55,9 +55,9 @@ export class SlotsListComponent implements OnInit {
                             status: s.slotProperties.state,
                             serverFarm: s.slotProperties.serverFarmId.split('/')[8],
                             node: s
-                        }
+                        };
                     });
-            }, (err => {
+            }, (() => {
                 this.isLoading = false;
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.error_unableToLoadSlotsList),
