@@ -204,12 +204,12 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             }).mergeMap(config => {
                 if (config == null) {
                     this.swaggerEnabled = !swaggerEnabled;
-                    return Observable.of(false as any);
+                    return Observable.of('');
                 }
                 this.swaggerEnabled = config.swagger.enabled;
                 if (!this.swaggerEnabled) {
                     this._aiService.trackEvent(`/actions/swagger_definition/disable_swagger_endpoint`);
-                    return Observable.of(true as any);
+                    return Observable.of('');
                 } else {
                     this._aiService.trackEvent(`/actions/swagger_definition/enable_swagger_endpoint`);
                     return this.restoreSwaggerSecrets();
@@ -226,7 +226,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 if (!key) {
                     const placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
                     this.assignDocumentToEditor(placeHolderText);
-                    return Observable.of(false as any);
+                    return Observable.of(false);
                 } else {
                     return this.loadLatestSwaggerDocumentInEditor(key);
                 }
