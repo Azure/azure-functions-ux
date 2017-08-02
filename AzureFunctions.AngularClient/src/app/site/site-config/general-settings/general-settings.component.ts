@@ -25,7 +25,7 @@ import { JavaWebContainerProperties } from './models/java-webcontainer-propertie
 
 @Component({
   selector: 'general-settings',
-  template: '',
+  templateUrl: './general-settings.component.html',
   styleUrls: ['./../site-config.component.scss']
 })
 export class GeneralSettingsComponent implements OnChanges, OnDestroy {
@@ -61,7 +61,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   private _emptyJavaWebContainerProperties: JavaWebContainerProperties = { container: '-', containerMajorVersion: '', containerMinorVersion: '' };
 
-  private _versionOptionsMap: { [key: string]: DropDownElement<string>[] };
+  public versionOptionsMap: { [key: string]: DropDownElement<string>[] };
+  private _versionOptionsMapClean: { [key: string]: DropDownElement<string>[] };
   private _javaMinorVersionOptionsMap: { [key: string]: DropDownElement<string>[] };
   private _javaMinorToMajorVersionsMap: { [key: string]: string };
 
@@ -106,6 +107,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._siteConfigArm = null;
         this._webConfigArm = null;
         this.group = null;
+        this.versionOptionsMap = null;
         this._ignoreChildEvents = true;
         this._resetSupportedControls();
         this._resetPermissionsAndLoadingState();
@@ -137,7 +139,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._siteConfigArm = r.siteConfigResponse.json();
         this._webConfigArm = r.webConfigResponse.json();
         const availableStacksArm = r.availableStacksResponse.json();
-        if (!this._versionOptionsMap) {
+        if (!this._versionOptionsMapClean) {
           this._parseAvailableStacks(availableStacksArm);
         }
         this._processSkuAndKind(this._siteConfigArm);
@@ -243,14 +245,16 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
       if (!this._saveError || !this.group) {
         const group = this._fb.group({});
+        const versionOptionsMap: { [key: string]: DropDownElement<string>[] } = {};
 
-        this._setupNetFramworkVersion(group, webConfigArm.properties.netFrameworkVersion);
-        this._setupPhpVersion(group, webConfigArm.properties.phpVersion);
-        this._setupPythonVersion(group, webConfigArm.properties.pythonVersion);
-        this._setupJava(group, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
+        this._setupNetFramworkVersion(group, versionOptionsMap, webConfigArm.properties.netFrameworkVersion);
+        this._setupPhpVersion(group, versionOptionsMap, webConfigArm.properties.phpVersion);
+        this._setupPythonVersion(group, versionOptionsMap, webConfigArm.properties.pythonVersion);
+        this._setupJava(group, versionOptionsMap, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
         this._setupGeneralSettings(group, webConfigArm, siteConfigArm);
 
         this.group = group;
+        this.versionOptionsMap = versionOptionsMap;
 
       }
 
@@ -267,6 +271,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     } else {
 
       this.group = null;
+      this.versionOptionsMap = null;
 
       if (this.mainForm.contains('generalSettings')) {
         this.mainForm.removeControl('generalSettings');
@@ -367,11 +372,16 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private _setupNetFramworkVersion(group: FormGroup, netFrameworkVersion: string) {
+  private _setVersionOptions(name: string, options: DropDownElement<string>[]) {
+    this.versionOptionsMap = this.versionOptionsMap || {};
+    this.versionOptionsMap[name] = options;
+  }
+
+  private _setupNetFramworkVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, netFrameworkVersion: string) {
     let defaultValue = '';
 
     const netFrameworkVersionOptions: DropDownElement<string>[] = [];
-    const netFrameworkVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.NetStack];
+    const netFrameworkVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.NetStack];
 
     netFrameworkVersionOptionsClean.forEach(element => {
       const match = element.value === netFrameworkVersion || (!element.value && !netFrameworkVersion);
@@ -385,18 +395,18 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     });
 
     const netFrameWorkVersionControl = this._fb.control(defaultValue);
-    (<any>netFrameWorkVersionControl).options = netFrameworkVersionOptions;
-
     group.addControl('netFrameWorkVersion', netFrameWorkVersionControl);
+
+    versionOptionsMap["netFrameWorkVersion"] = netFrameworkVersionOptions;
   }
 
-  private _setupPhpVersion(group: FormGroup, phpVersion: string) {
+  private _setupPhpVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, phpVersion: string) {
     if (this.phpSupported) {
 
       let defaultValue = '';
 
       const phpVersionOptions: DropDownElement<string>[] = [];
-      const phpVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.PhpStack];
+      const phpVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.PhpStack];
 
       phpVersionOptionsClean.forEach(element => {
         const match = element.value === phpVersion || (!element.value && !phpVersion);
@@ -410,20 +420,19 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       });
 
       const phpVersionControl = this._fb.control(defaultValue);
-      (<any>phpVersionControl).options = phpVersionOptions;
-
       group.addControl('phpVersion', phpVersionControl);
 
+      versionOptionsMap["phpVersion"] = phpVersionOptions;
     }
   }
 
-  private _setupPythonVersion(group: FormGroup, pythonVersion: string) {
+  private _setupPythonVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, pythonVersion: string) {
     if (this.pythonSupported) {
 
       let defaultValue = '';
 
       const pythonVersionOptions: DropDownElement<string>[] = [];
-      const pythonVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.PythonStack];
+      const pythonVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.PythonStack];
 
       pythonVersionOptionsClean.forEach(element => {
         const match = element.value === pythonVersion || (!element.value && !pythonVersion);
@@ -437,14 +446,13 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       });
 
       const pythonVersionControl = this._fb.control(defaultValue);
-      (<any>pythonVersionControl).options = pythonVersionOptions;
-
       group.addControl('pythonVersion', pythonVersionControl);
 
+      versionOptionsMap["pythonVersion"] = pythonVersionOptions;
     }
   }
 
-  private _setupJava(group: FormGroup, javaVersion: string, javaContainer: string, javaContainerVersion: string) {
+  private _setupJava(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, javaVersion: string, javaContainer: string, javaContainerVersion: string) {
     if (this.javaSupported) {
 
       let defaultJavaMinorVersion = '';
@@ -452,11 +460,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
       let defaultJavaVersion = '';
       const javaVersionOptions: DropDownElement<string>[] = [];
-      const javaVersionOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaStack];
+      const javaVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.JavaStack];
 
       let defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
       let javaWebContainerOptions: DropDownElement<string>[] = [];
-      const javaWebContainerOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaContainer];
+      const javaWebContainerOptionsClean = this._versionOptionsMapClean[AvailableStackNames.JavaContainer];
 
       if (javaVersion) {
         if (this._javaMinorVersionOptionsMap[javaVersion]) {
@@ -480,7 +488,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         });
       });
       const javaVersionControl = this._fb.control(defaultJavaVersion);
-      (<any>javaVersionControl).options = javaVersionOptions;
 
       // MinorVersion
       if (defaultJavaVersion) {
@@ -494,9 +501,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       } else {
         javaMinorVersionOptions = [];
       }
-
       const javaMinorVersionControl = this._fb.control(defaultJavaMinorVersion);
-      (<any>javaMinorVersionControl).options = javaMinorVersionOptions;
 
       // WebContainer
       if (defaultJavaVersion) {
@@ -518,14 +523,16 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       } else {
         javaWebContainerOptions = [];
       }
-
       const javaWebContainerControl = this._fb.control(defaultJavaWebContainer);
-      (<any>javaWebContainerControl).options = javaWebContainerOptions;
 
 
       group.addControl('javaVersion', javaVersionControl);
       group.addControl('javaMinorVersion', javaMinorVersionControl);
       group.addControl('javaWebContainer', javaWebContainerControl);
+ 
+      versionOptionsMap["javaVersion"] = javaVersionOptions;
+      versionOptionsMap["javaMinorVersion"] = javaMinorVersionOptions;
+      versionOptionsMap["javaWebContainer"] = javaWebContainerOptions;
 
     }
   }
@@ -564,7 +571,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         javaMinorVersionNeedsUpdate = true;
 
         if (!previousJavaVersionSelection) {
-          const javaWebContainerOptionsClean = this._versionOptionsMap[AvailableStackNames.JavaContainer];
+          const javaWebContainerOptionsClean = this._versionOptionsMapClean[AvailableStackNames.JavaContainer];
           javaWebContainerOptions = JSON.parse(JSON.stringify(javaWebContainerOptionsClean));
           javaWebContainerOptions[0].default = true;
           defaultJavaWebContainer = javaWebContainerOptions[0].value;
@@ -575,7 +582,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       // MinorVersion
       if (javaMinorVersionNeedsUpdate) {
         const javaMinorVersionControl = this._fb.control(defaultJavaMinorVersion);
-        (<any>javaMinorVersionControl).options = javaMinorVersionOptions;
 
         if (!!this.group.controls['javaMinorVersion']) {
           this.group.setControl('javaMinorVersion', javaMinorVersionControl);
@@ -583,12 +589,13 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           this.group.addControl('javaMinorVersion', javaMinorVersionControl);
         }
         this.group.controls['javaMinorVersion'].markAsDirty();
+
+        this._setVersionOptions("javaMinorVersion", javaMinorVersionOptions);
       }
 
       // WebContainer
       if (javaWebContainerNeedsUpdate) {
         const javaWebContainerControl = this._fb.control(defaultJavaWebContainer);
-        (<any>javaWebContainerControl).options = javaWebContainerOptions;
 
         if (!!this.group.controls['javaWebContainer']) {
           this.group.setControl('javaWebContainer', javaWebContainerControl);
@@ -596,6 +603,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           this.group.addControl('javaWebContainer', javaWebContainerControl);
         }
         this.group.controls['javaWebContainer'].markAsDirty();
+
+        this._setVersionOptions("javaWebContainer", javaWebContainerOptions);
       }
 
       setTimeout(() => { this._setEnabledStackControls(); }, 0);
@@ -603,7 +612,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _parseAvailableStacks(availableStacksArm: ArmArrayResult<AvailableStack>) {
-    this._versionOptionsMap = {};
+    this._versionOptionsMapClean = {};
 
     availableStacksArm.value.forEach(availableStackArm => {
       switch (availableStackArm.name) {
@@ -629,7 +638,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _parseNetStackOptions(availableStack: AvailableStack) {
-    this._versionOptionsMap = this._versionOptionsMap || {};
+    this._versionOptionsMapClean = this._versionOptionsMapClean || {};
 
     const netFrameworkVersionOptions: DropDownElement<string>[] = [];
 
@@ -641,11 +650,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       });
     });
 
-    this._versionOptionsMap[AvailableStackNames.NetStack] = netFrameworkVersionOptions;
+    this._versionOptionsMapClean[AvailableStackNames.NetStack] = netFrameworkVersionOptions;
   }
 
   private _parsePhpStackOptions(availableStack: AvailableStack) {
-    this._versionOptionsMap = this._versionOptionsMap || {};
+    this._versionOptionsMapClean = this._versionOptionsMapClean || {};
 
     const phpVersionOptions: DropDownElement<string>[] = [];
 
@@ -663,11 +672,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       });
     });
 
-    this._versionOptionsMap[AvailableStackNames.PhpStack] = phpVersionOptions;
+    this._versionOptionsMapClean[AvailableStackNames.PhpStack] = phpVersionOptions;
   }
 
   private _parsePythonStackOptions(availableStack: AvailableStack) {
-    this._versionOptionsMap = this._versionOptionsMap || {};
+    this._versionOptionsMapClean = this._versionOptionsMapClean || {};
 
     const pythonVersionOptions: DropDownElement<string>[] = [];
 
@@ -685,11 +694,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       });
     });
 
-    this._versionOptionsMap[AvailableStackNames.PythonStack] = pythonVersionOptions;
+    this._versionOptionsMapClean[AvailableStackNames.PythonStack] = pythonVersionOptions;
   }
 
   private _parseJavaStackOptions(availableStack: AvailableStack) {
-    this._versionOptionsMap = this._versionOptionsMap || {};
+    this._versionOptionsMapClean = this._versionOptionsMapClean || {};
     this._javaMinorToMajorVersionsMap = {};
     this._javaMinorVersionOptionsMap = {};
 
@@ -711,7 +720,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       });
     });
 
-    this._versionOptionsMap[AvailableStackNames.JavaStack] = javaVersionOptions;
+    this._versionOptionsMapClean[AvailableStackNames.JavaStack] = javaVersionOptions;
   }
 
   private _parseJavaMinorStackOptions(majorVersion: MajorVersion) {
@@ -739,7 +748,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _parseJavaContainerOptions(availableStack: AvailableStack) {
-    this._versionOptionsMap = this._versionOptionsMap || {};
+    this._versionOptionsMapClean = this._versionOptionsMapClean || {};
 
     const javaWebContainerOptions: DropDownElement<string>[] = [];
 
@@ -767,7 +776,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     });
 
-    this._versionOptionsMap[AvailableStackNames.JavaContainer] = javaWebContainerOptions;
+    this._versionOptionsMapClean[AvailableStackNames.JavaContainer] = javaWebContainerOptions;
   }
 
   validate() {
