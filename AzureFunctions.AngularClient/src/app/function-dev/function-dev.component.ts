@@ -3,7 +3,8 @@ import { ConfigService } from './../shared/services/config.service';
 import { Component, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription'; import 'rxjs/add/observable/zip';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/zip';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
@@ -431,10 +432,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    saveScript(dontClearBusy?: boolean) {
+    saveScript(dontClearBusy?: boolean): Subscription | null {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) {
-            return;
+            return null;
         }
         let syncTriggers = false;
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
@@ -449,7 +450,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     errorType: ErrorType.UserError,
                     resourceId: this.functionApp.site.id
                 });
-                return;
+                return null;
             }
         }
 

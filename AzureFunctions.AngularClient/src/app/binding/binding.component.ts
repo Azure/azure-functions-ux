@@ -168,9 +168,9 @@ export class BindingComponent {
         this._bindingStream.next(value);
     }
 
-    private _handleExclusivityRule(rule: Rule, isHidden: boolean) {
+    private _handleExclusivityRule(rule: Rule, isHidden: boolean): SelectInput | null {
         if (rule.values.length === 0) {
-            return;
+            return null;
         }
 
         let ddValue = rule.values[0].value;
@@ -236,10 +236,10 @@ export class BindingComponent {
         return ddInput;
     }
 
-    private _handleChangeOptionsDisplayedRule(rule: Rule, isHidden: boolean) {
+    private _handleChangeOptionsDisplayedRule(rule: Rule, isHidden: boolean): SelectInput | null {
         // Allow the value of a select input determine which options of a check box list are displayed
         if (rule.values.length === 0) {
-            return;
+            return null;
         }
 
         const existingSetting = this.bindingValue.settings.find(s => {
@@ -688,7 +688,7 @@ export class BindingComponent {
         this.isDirty = this.bindingValue.newBinding === true ? true : false;
     }
 
-    private replaceVariables(value: string, variables: any): string {
+    private replaceVariables(value: string, variables: any): string | null {
         let result = value;
         if (value) {
             for (const key in variables) {
@@ -697,6 +697,8 @@ export class BindingComponent {
                 }
             }
             return result;
+        } else {
+            return null;
         }
     }
 

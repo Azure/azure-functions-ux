@@ -779,7 +779,6 @@ export class FunctionApp {
                         status: error.status.toString(),
                         content: error.text(),
                     });
-                    return Observable.of('');
                 }
             });
     }
@@ -948,7 +947,6 @@ export class FunctionApp {
                             if (error.status === 404) {
                                 this.isMultiKeySupported = false;
                                 this.legacyGetHostSecrets();
-                                return Observable.of({ keys: [], links: [] });
                             }
 
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -1854,7 +1852,7 @@ export class FunctionApp {
     }
 
     // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
-    createApplicationSetting(appSettingName: string, appSettingValue: string, replaceIfExists: boolean = true): Observable<any> {
+    createApplicationSetting(appSettingName: string, appSettingValue: string, replaceIfExists: boolean = true): Observable<any> | null {
         if (appSettingName && appSettingValue) {
             return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true).flatMap(
                 r => {
@@ -1865,6 +1863,8 @@ export class FunctionApp {
                     appSettings.properties[appSettingName] = appSettingValue;
                     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
                 });
+        } else {
+            return null;
         }
     }
 }

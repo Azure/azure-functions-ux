@@ -107,7 +107,7 @@ export class ServiceBusComponent {
         }
     }
 
-    onSelect() {
+    onSelect(): Subscription | null {
         if (this.option === this.optionTypes.serviceBus) {
             if (this.selectedPolicy) {
                 this.selectInProcess = true;
@@ -166,6 +166,7 @@ export class ServiceBusComponent {
                     });
             }
         }
+        return null;
     }
 
     public setSelect() {

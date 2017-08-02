@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
+import { Subscription } from "rxjs/Subscription";
 
 class OptionTypes {
     eventHub = 'EventHub';
@@ -207,7 +208,7 @@ export class EventHubComponent {
         }
     }
 
-    onSelect() {
+    onSelect(): Subscription | null {
         if (this.option === this.optionTypes.eventHub) {
             if (this.selectedEventHub && this.selectedPolicy) {
                 this.selectInProcess = true;
@@ -281,6 +282,7 @@ export class EventHubComponent {
                     });
             }
         }
+        return null;
     }
 
     public setSelect() {

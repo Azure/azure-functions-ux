@@ -20,9 +20,11 @@ function AiDefined(checkFunctionName?: boolean) {
 }
 
 
-function run<T>(action: () => T) {
+function run<T>(action: () => T): any {
     if (typeof (appInsights) !== 'undefined') {
         return action();
+    } else {
+        return () => { };
     }
 }
 
