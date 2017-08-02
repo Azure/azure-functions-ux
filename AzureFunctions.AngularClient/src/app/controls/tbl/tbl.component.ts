@@ -29,6 +29,8 @@ export class TblComponent implements OnInit, OnChanges {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
   @Input() items: TableItem[];
+  // groupColName will be what col items are sorted by within individual groups
+  // if no grouping is done in the table it is null
   @Input() groupColName: string | null;
   @ContentChildren(forwardRef(() => TblThComponent)) headers: QueryList<TblThComponent>;
 
@@ -36,6 +38,7 @@ export class TblComponent implements OnInit, OnChanges {
 
   public sortedColName: string;
   public sortAscending: boolean;
+  // groupedBy is the name of the tbl-th component which is currently being used to group elements
   public groupedBy = 'none';
 
   private _origItems: any[];
@@ -322,7 +325,7 @@ export class TblComponent implements OnInit, OnChanges {
   groupItems(name: string) {
 
     if (!this.groupColName) {
-      throw('Cannot sort within groups');
+      throw ('Cannot sort within groups');
     }
 
     this.groupedBy = name;
@@ -332,28 +335,36 @@ export class TblComponent implements OnInit, OnChanges {
     } else {
       // sort the row items by groupColName
       const newItems = this.items.filter(item => item.type !== 'group')
-      .sort((a: TableItem, b: TableItem) => {
+        .sort((a: TableItem, b: TableItem) => {
 
-        let aCol: any;
-        let bCol: any;
+          let aCol: any;
+          let bCol: any;
 
-        aCol = Object.byString(a, this.groupColName);
-        bCol = Object.byString(b, this.groupColName);
+          aCol = Object.byString(a, this.groupColName);
+          bCol = Object.byString(b, this.groupColName);
 
-        aCol = typeof aCol === 'string' ? aCol : aCol.toString();
-        bCol = typeof bCol === 'string' ? bCol : bCol.toString();
+          aCol = typeof aCol === 'string' ? aCol : aCol.toString();
+          bCol = typeof bCol === 'string' ? bCol : bCol.toString();
 
-        return bCol.localeCompare(aCol);
+          return bCol.localeCompare(aCol);
+        });
+
+      // determine uniqueGroup values
+      const uniqueDictGroups = {};
+      newItems.forEach(item => {
+        uniqueDictGroups[item[name]] = item[name];
       });
 
-      // determine uniqueGroup value
-      const uniqueGroups = newItems.map(item => item[name])
-                                     .filter((v, i, a ) => a.indexOf(v) === i)
-                                     .sort().reverse();
+      const uniqueGroups = [];
+      for (const group in uniqueDictGroups) {
+        if (uniqueDictGroups.hasOwnProperty(group)) {
+          uniqueGroups.push(group);
+        }
+      }
 
       // push group items onto newItems
       uniqueGroups.forEach(groupName => {
-        const newGroup = <TableItem>{type: 'group'};
+        const newGroup = <TableItem>{ type: 'group' };
         newGroup[this.groupColName] = groupName;
         newItems.push(newGroup);
       });

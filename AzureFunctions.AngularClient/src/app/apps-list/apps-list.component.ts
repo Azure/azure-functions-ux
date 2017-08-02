@@ -14,7 +14,7 @@ import { AppsNode } from './../tree-view/apps-node';
 import { AppNode } from './../tree-view/app-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 
- interface AppTableItem extends TableItem {
+interface AppTableItem extends TableItem {
   title: string;
   subscription: string;
   resourceGroup: string;
@@ -42,10 +42,10 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   @ViewChild('table') appTable: TblComponent;
 
-  public groupOptions: DropDownElement<string>[] = [{displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none'},
-                                                    {displayLabel: this.translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup'},
-                                                    {displayLabel: this.translateService.instant(PortalResources.grouping_subscription), value: 'subscription'},
-                                                    {displayLabel: this.translateService.instant(PortalResources.grouping_location), value: 'location'}];
+  public groupOptions: DropDownElement<string>[] = [{ displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none' },
+  { displayLabel: this.translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup' },
+  { displayLabel: this.translateService.instant(PortalResources.grouping_subscription), value: 'subscription' },
+  { displayLabel: this.translateService.instant(PortalResources.grouping_location), value: 'location' }];
   public groupDisplayText = '';
   public currGroup = 'none';
 
@@ -63,18 +63,22 @@ export class AppsListComponent implements OnInit, OnDestroy {
       })
       .subscribe(children => {
         this.apps = children;
-        this.tableItems = this.apps.map(app => (<AppTableItem>{title: app.title,
-                                              subscription: app.subscription,
-                                              type: 'row',
-                                              resourceGroup: app.resourceGroup,
-                                              location: app.location,
-                                              appNode: app}));
+        this.tableItems = this.apps.map(app => (<AppTableItem>{
+          title: app.title,
+          subscription: app.subscription,
+          type: 'row',
+          resourceGroup: app.resourceGroup,
+          location: app.location,
+          appNode: app
+        }));
 
         this.locationOptions = this.uniqueLocations(this.apps)
-                                    .map(location => ({displayLabel:  this.translateService.instant(location),
-                                                      value:  this.translateService.instant(location)}));
+          .map(location => ({
+            displayLabel: this.translateService.instant(location),
+            value: this.translateService.instant(location)
+          }));
         this.isLoading = false;
-    });
+      });
   }
 
   ngOnInit() {
@@ -106,24 +110,26 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this.selectedLocations = locations;
     const newItems = this.tableItems.filter(item => item.type === 'group');
     this.tableItems = newItems.concat(this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
-                              .map(app => (<AppTableItem> {title: app.title,
-                                                        subscription: app.subscription,
-                                                        type: 'row',
-                                                        resourceGroup: app.resourceGroup,
-                                                        location:  this.translateService.instant(app.location),
-                                                        appNode: app})));
+      .map(app => (<AppTableItem>{
+        title: app.title,
+        subscription: app.subscription,
+        type: 'row',
+        resourceGroup: app.resourceGroup,
+        location: this.translateService.instant(app.location),
+        appNode: app
+      })));
 
     // timeout is needed to re-render to page for the grouping update with new locations
     setTimeout(() => {
-        this.appTable.groupItems(this.currGroup);
+      this.appTable.groupItems(this.currGroup);
     }, 0);
 
     if (this.selectedLocations.length === this.locationOptions.length) { // if all locations are selected display all locations
-        this._updateLocDisplayText(this.translateService.instant(PortalResources.allLocations));
+      this._updateLocDisplayText(this.translateService.instant(PortalResources.allLocations));
     } else if (this.selectedLocations.length > 1) { // else if more than 1 locations are selected display the number of locations
-        this._updateLocDisplayText(this.translateService.instant(PortalResources.locationCount).format(locations.length));
+      this._updateLocDisplayText(this.translateService.instant(PortalResources.locationCount).format(locations.length));
     } else { // else 1 location is selected and its name is displayed
-        this._updateLocDisplayText(`${this.selectedLocations[0]}`);
+      this._updateLocDisplayText(`${this.selectedLocations[0]}`);
     }
   }
 
@@ -132,12 +138,12 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
     // timeout is needed to re-render the page for display update
     setTimeout(() => {
-        this.locationsDisplayText = displayText;
+      this.locationsDisplayText = displayText;
     }, 0);
   }
 
   onGroupSelect(group: string) {
-      this._setGroup(group);
+    this._setGroup(group);
   }
 
   private _setGroup(group: string) {
@@ -145,7 +151,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
     // timeout is needed to re-render the page for grouping update
     setTimeout(() => {
-        this.appTable.groupItems(group);
+      this.appTable.groupItems(group);
     }, 0);
   }
 
