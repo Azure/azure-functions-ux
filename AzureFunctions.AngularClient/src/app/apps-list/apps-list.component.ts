@@ -34,8 +34,9 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   public isLoading = true;
 
+  public allLocations = this.translateService.instant(PortalResources.allLocations);
   public locationOptions: DropDownElement<string>[] = [];
-  public locationsDisplayText = '';
+  public locationsDisplayText = this.allLocations;
   public selectedLocations: string[] = [];
 
   @ViewChild('table') appTable: TblComponent;
@@ -123,7 +124,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     }, 0);
 
     if (this.selectedLocations.length === this.locationOptions.length) { // if all locations are selected display all locations
-      this._updateLocDisplayText(this.translateService.instant(PortalResources.allLocations));
+      this._updateLocDisplayText(this.allLocations);
     } else if (this.selectedLocations.length > 1) { // else if more than 1 locations are selected display the number of locations
       this._updateLocDisplayText(this.translateService.instant(PortalResources.locationCount).format(locations.length));
     } else { // else 1 location is selected and its name is displayed
@@ -132,7 +133,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   private _updateLocDisplayText(displayText: string) {
-    this.locationsDisplayText = '';
+    this.locationsDisplayText = displayText;
 
     // timeout is needed to re-render the page for display update
     setTimeout(() => {
