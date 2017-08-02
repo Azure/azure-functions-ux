@@ -10,7 +10,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 
 import { FunctionNode } from './../tree-view/function-node';
-import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionsNode } from './../tree-view/functions-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { FunctionApp } from '../shared/function-app';
@@ -18,7 +17,6 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { PortalService } from '../shared/services/portal.service';
-import { FunctionManageNode } from '../tree-view/function-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { ErrorType, ErrorEvent } from 'app/shared/models/error-event';
 

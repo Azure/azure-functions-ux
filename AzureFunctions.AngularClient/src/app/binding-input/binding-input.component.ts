@@ -1,7 +1,7 @@
-﻿import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild } from '@angular/core';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+﻿import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { PopoverContent } from 'ng2-popover';
-import { BindingInputBase, TextboxInput } from '../shared/models/binding-input';
+import { BindingInputBase } from '../shared/models/binding-input';
 import { PortalService } from '../shared/services/portal.service';
 import { UserService } from '../shared/services/user.service';
 import { PickerInput } from '../shared/models/binding-input';
@@ -13,9 +13,6 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from './../shared/services/cache.service';
-import { ArmObj } from './../shared/models/arm/arm-obj';
-import { ArmService } from './../shared/services/arm.service';
-import { Constants } from '../shared/models/constants';
 import { AiService } from '../shared/services/ai.service';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
@@ -45,7 +42,6 @@ export class BindingInputComponent {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
         private _cacheService: CacheService,
-        private _armService: ArmService,
         private _aiService: AiService) {
         this.showTryView = this._globalStateService.showTryView;
     }

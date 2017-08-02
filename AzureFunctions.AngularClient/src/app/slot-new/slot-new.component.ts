@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/mergeMap';
 
@@ -20,16 +20,15 @@ import { AppNode } from '../tree-view/app-node';
 import { RequiredValidator } from '../shared/validators/requiredValidator';
 import { PortalResources } from '../shared/models/portal-resources';
 import { SlotNameValidator } from '../shared/validators/slotNameValidator';
-import { AppsNode } from '../tree-view/apps-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorIds } from '../shared/models/error-ids';
 import { ErrorType, ErrorEvent } from '../shared/models/error-event';
 import { AuthzService } from '../shared/services/authz.service';
 
 interface DataModel {
-    writePermission: boolean,
-    readOnlyLock: boolean,
-    siteInfo: any,
+    writePermission: boolean;
+    readOnlyLock: boolean;
+    siteInfo: any;
     appSettings: any;
     slotsList: ArmObj<Site>[];
 }
@@ -53,7 +52,6 @@ export class SlotNewComponent implements OnInit {
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
     private _viewInfo: TreeViewInfo<any>;
     private _siteId: string;
-    private _appSettings: any;
     private _slotsList: ArmObj<Site>[];
     private _siteObj: ArmObj<Site>;
 
@@ -67,7 +65,7 @@ export class SlotNewComponent implements OnInit {
         private _cacheService: CacheService,
         authZService: AuthzService,
         injector: Injector) {
-        let validator = new RequiredValidator(this._translateService);
+        const validator = new RequiredValidator(this._translateService);
 
         this._viewInfoStream
             .switchMap(viewInfo => {
@@ -75,7 +73,7 @@ export class SlotNewComponent implements OnInit {
                 this._slotsNode = <SlotsNode>viewInfo.node;
                 this._viewInfo = viewInfo;
                 // parse the site resourceId from slot's
-                this._siteId = viewInfo.resourceId.substring(0, viewInfo.resourceId.indexOf("/slots"));
+                this._siteId = viewInfo.resourceId.substring(0, viewInfo.resourceId.indexOf('/slots'));
                 const slotNameValidator = new SlotNameValidator(injector, this._siteId);
                 this.newSlotForm = fb.group({
                     name: [null,

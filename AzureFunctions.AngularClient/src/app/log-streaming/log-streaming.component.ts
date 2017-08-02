@@ -1,16 +1,9 @@
 import { Component, OnDestroy, OnChanges, Input, Inject, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { TranslatePipe } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { UserService } from '../shared/services/user.service';
-import { FunctionContainer } from '../shared/models/function-container';
-import { FunctionsService } from '../shared/services/functions.service';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
-import { ErrorEvent } from '../shared/models/error-event';
 import { UtilitiesService } from '../shared/services/utilities.service';
-import { GlobalStateService } from '../shared/services/global-state.service';
 
 @Component({
     selector: 'log-streaming',
@@ -37,9 +30,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     constructor(
         @Inject(ElementRef) private _elementRef: ElementRef,
         private _userService: UserService,
-        private _broadcastService: BroadcastService,
-        private _utilities: UtilitiesService,
-        private _globalStateService: GlobalStateService) {
+        private _utilities: UtilitiesService) {
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
         this.log = '';
         this.timeouts = [];

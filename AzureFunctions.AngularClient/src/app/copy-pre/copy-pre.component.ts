@@ -1,6 +1,5 @@
-import { Component, Input, Inject, ElementRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UtilitiesService } from '../shared/services/utilities.service';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'copy-pre',
@@ -12,9 +11,7 @@ export class CopyPreComponent {
     @Input() content: string;
     @Input() label: string;
 
-    constructor(
-        @Inject(ElementRef) private elementRef: ElementRef,
-        private _utilities: UtilitiesService) { }
+    constructor(private _utilities: UtilitiesService) { }
 
     highlightText(event: Event) {
         if (this.selectOnClick) {

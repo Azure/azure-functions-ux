@@ -1,7 +1,6 @@
 import { AiService } from './ai.service';
 import { Guid } from './../Utilities/Guid';
 import { Injectable } from '@angular/core';
-import { IConfig, SeverityLevel } from '../models/app-insights';
 
 declare var mixpanel: any;
 

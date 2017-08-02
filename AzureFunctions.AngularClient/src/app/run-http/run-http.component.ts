@@ -1,8 +1,7 @@
-import { Component, Input, Inject, ElementRef, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { HttpRunModel, Param } from '../shared/models/http-run';
-import { BindingType } from '../shared/models/binding'
+import { BindingType } from '../shared/models/binding';
 import { FunctionInfo } from '../shared/models/function-info';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Constants } from '../shared/models/constants';
 import { URLSearchParams } from '@angular/http';
 
@@ -20,7 +19,7 @@ export class RunHttpComponent {
     valid: boolean;
     availableMethods: string[] = [];
 
-    constructor(private _translateService: TranslateService) {
+    constructor() {
     }
 
     set functionInfo(value: FunctionInfo) {

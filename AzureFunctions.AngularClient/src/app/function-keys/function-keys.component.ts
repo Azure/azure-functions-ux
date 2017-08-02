@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, SimpleChange, OnDestroy, ViewChild, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/catch';
@@ -8,7 +8,7 @@ import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionKeys } from './../shared/models/function-key';
 import { AiService } from './../shared/services/ai.service';

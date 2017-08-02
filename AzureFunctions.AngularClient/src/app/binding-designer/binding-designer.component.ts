@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { FunctionBinding } from '../shared/models/function-config';
-import { Binding, BindingOption } from '../shared/models/designer-schema';
+import { Binding } from '../shared/models/designer-schema';
 
 @Component({
     selector: 'binding-designer',
@@ -25,13 +25,13 @@ export class BindingDesignerComponent implements OnInit {
             this.selectedBindingType = this.currentBinding.type;
             this.bindingOptionsMeta = this.bindings.find(e => e.name === this.selectedBindingType);
             if (this.bindingOptionsMeta) {
-                for (var e in this.currentBinding) {
+                for (const e in this.currentBinding) {
                     if (e === 'type') continue;
-                    var option = this.bindingOptionsMeta.options.find(o => o.name === e);
+                    const option = this.bindingOptionsMeta.options.find(o => o.name === e);
                     if (option) {
                         option.value = this.currentBinding[e];
                     } else {
-                        this.bindingOptionsMeta.options.push({ name: e, value: this.currentBinding[e], type: 'string' })
+                        this.bindingOptionsMeta.options.push({ name: e, value: this.currentBinding[e], type: 'string' });
                     }
                 }
             }

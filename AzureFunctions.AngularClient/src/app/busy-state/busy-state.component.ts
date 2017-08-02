@@ -10,9 +10,9 @@ import { BusyStateScopeManager } from './busy-state-scope-manager';
 })
 export class BusyStateComponent implements OnInit {
 
-    public busy: boolean = false;
+    public busy = false;
     @Input() name: string;
-    isGlobal: boolean = false;
+    isGlobal = false;
     @Input() message: string;
     @Output() clear = new Subject<any>();
 

@@ -32,9 +32,9 @@ export interface SaveResult {
 export class SiteConfigComponent implements OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
   private _viewInfoSubscription: RxSubscription;
-  private _writePermission: boolean = true;
-  private _readOnlyLock: boolean = false;
-  public hasWritePermissions: boolean = true;
+  private _writePermission = true;
+  private _readOnlyLock = false;
+  public hasWritePermissions = true;
 
   public mainForm: FormGroup;
   private _valueSubscription: RxSubscription;
@@ -78,7 +78,7 @@ export class SiteConfigComponent implements OnDestroy {
       .do(null, error => {
         this.resourceId = null;
         this._setupForm();
-        this._aiService.trackEvent("/errors/site-config", error);
+        this._aiService.trackEvent('/errors/site-config', error);
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
@@ -103,7 +103,7 @@ export class SiteConfigComponent implements OnDestroy {
       this._valueSubscription.unsubscribe();
     }
 
-    this._valueSubscription = this.mainForm.valueChanges.subscribe(v => {
+    this._valueSubscription = this.mainForm.valueChanges.subscribe(() => {
       // There isn't a callback for dirty state on a form, so this is a workaround.
       if (this.mainForm.dirty) {
         this._broadcastService.setDirtyState(SiteTabIds.applicationSettings);
@@ -142,18 +142,18 @@ export class SiteConfigComponent implements OnDestroy {
           this.appSettings.save(),
           this.connectionStrings.save(),
           (g, a, c) => ({ generalSettingsResult: g, appSettingsResult: a, connectionStringsResult: c })
-        )
+        );
       })
       .subscribe(r => {
         this._busyStateScopeManager.clearBusy();
 
         const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
-        let saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
-        let saveSuccess: boolean = saveFailures.length == 0;
-        let saveNotification = saveSuccess ?
+        const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
+        const saveSuccess: boolean = saveFailures.length === 0;
+        const saveNotification = saveSuccess ?
           this._translateService.instant(PortalResources.configUpdateSuccess) :
           this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
-        
+
         // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
         // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
         // with a successful save state regenerate their form before adding it to mainForm, while those with an unsuccessful save state just add their existing form to mainForm.

@@ -1,7 +1,7 @@
 import { DropDownComponent } from './../../drop-down/drop-down.component';
 import { TextboxComponent } from './../textbox/textbox.component';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Component, OnInit, Input, ViewChild, OnDestroy, ContentChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ContentChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -42,7 +42,7 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
   public control: CustomFormControl;
   private _sub: Subscription;
 
-  constructor(private _eref: ElementRef) { }
+  constructor() { }
 
   ngOnInit() {
     this.control = <CustomFormControl>this.group.controls[this.name];

@@ -4,8 +4,6 @@ import { Component, OnInit, Input, Injector } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
-import { Subscription } from './../../shared/models/subscription';
-import { AppNode } from './../../tree-view/app-node';
 import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
 import { BroadcastService } from './../../shared/services/broadcast.service';
@@ -14,7 +12,6 @@ import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { SiteNameValidator } from './../../shared/validators/siteNameValidator';
-import { ArmService } from './../../shared/services/arm.service';
 import { AppsNode } from './../../tree-view/apps-node';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
@@ -41,8 +38,7 @@ export class CreateAppComponent implements OnInit {
     private _cacheService: CacheService,
     private _globalStateService: GlobalStateService,
     private _translateService: TranslateService,
-    private _armService: ArmService,
-    private _fb: FormBuilder,
+    _fb: FormBuilder,
     private _aiService: AiService,
     userService: UserService,
     injector: Injector) {

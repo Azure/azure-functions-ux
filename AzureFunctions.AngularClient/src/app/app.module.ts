@@ -2,18 +2,17 @@
 import { CreateAppComponent } from './site/create-app/create-app.component';
 import { ClickToEditComponent } from './controls/click-to-edit/click-to-edit.component';
 import { AiTryService } from './shared/services/ai-try.service';
-import { IAppInsights } from './shared/models/app-insights';
 import { TblThComponent } from './controls/tbl/tbl-th/tbl-th.component';
 import { TblComponent } from './controls/tbl/tbl.component';
 import { GlobalErrorHandler } from './shared/GlobalErrorHandler';
 import { ErrorHandler } from '@angular/core';
 import { ArmTryService } from './shared/services/arm-try.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PopoverModule } from "ng2-popover";
 
@@ -119,13 +118,11 @@ import { ConnectionStringsComponent } from './site/site-config/connection-string
 
 export function ArmServiceFactory(
   http: Http,
-  configService: ConfigService,
   userService: UserService,
-  aiService: AiService,
-  translateService: TranslateService) {
+  aiService: AiService) {
   const service = window.location.pathname.toLowerCase() === '/try' ?
-    new ArmTryService(http, configService, userService, aiService, translateService) :
-    new ArmService(http, configService, userService, aiService, translateService);
+    new ArmTryService(http, userService, aiService) :
+    new ArmService(http, userService, aiService);
 
   return service;
 }
@@ -248,10 +245,8 @@ export class AppModule {
       {
         provide: ArmService, useFactory: ArmServiceFactory, deps: [
           Http,
-          ConfigService,
           UserService,
-          AiService,
-          TranslateService
+          AiService
         ]
       },
       CacheService,

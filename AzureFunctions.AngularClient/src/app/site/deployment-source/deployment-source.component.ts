@@ -10,7 +10,6 @@ import { Site } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { Status, Deployment, DeploymentLog } from './deployment';
-import { SiteDescriptor } from '../../shared/resourceDescriptors';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 
 @Component({

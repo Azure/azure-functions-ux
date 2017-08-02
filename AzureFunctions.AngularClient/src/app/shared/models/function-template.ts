@@ -1,4 +1,3 @@
-import { TemplateInput } from './template-input';
 import { FunctionBinding } from './function-config';
 
 export interface FunctionTemplate {

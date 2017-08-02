@@ -1,5 +1,4 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { DropDownElement } from '../shared/models/drop-down-element';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'pop-over',

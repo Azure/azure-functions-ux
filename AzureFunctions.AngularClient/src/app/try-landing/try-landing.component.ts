@@ -1,8 +1,8 @@
 import { SlotsService } from 'app/shared/services/slots.service';
-import { Component, ViewChild, AfterViewInit, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, OnInit, Output } from '@angular/core';
 import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ConfigService } from './../shared/services/config.service';
 import { ArmTryService } from './../shared/services/arm-try.service';
@@ -18,15 +18,12 @@ import { FunctionsService } from '../shared/services/functions.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { UserService } from '../shared/services/user.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event'
-import { BindingType } from '../shared/models/binding';
 import { FunctionTemplate } from '../shared/models/function-template';
 import { FunctionInfo } from '../shared/models/function-info';
-import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
 import { BindingManager } from '../shared/models/binding-manager';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { UIResource } from '../shared/models/ui-resource';
-import { FunctionContainer } from '../shared/models/function-container';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
@@ -41,7 +38,7 @@ export class TryLandingComponent implements OnInit {
     @Output() tryFunctionApp: Subject<FunctionApp>;
     public functionsInfo: FunctionInfo[] = new Array();
     bc: BindingManager = new BindingManager();
-    loginOptions: boolean = false;
+    loginOptions = false;
     selectedFunction: string;
     selectedLanguage: string;
 
@@ -65,16 +62,16 @@ export class TryLandingComponent implements OnInit {
     }
 
     ngOnInit() {
-        //Disabling this temporarily. Somehow ngOnInit gets called twice on refresh
-        //possibly related to https://github.com/angular/angular/issues/6782
-        //and strangely the clearbusystate doesnt get called.
-        //this.setBusyState();
+        // Disabling this temporarily. Somehow ngOnInit gets called twice on refresh
+        // possibly related to https://github.com/angular/angular/issues/6782
+        // and strangely the clearbusystate doesnt get called.
+        // this.setBusyState();
         this.selectedFunction = this._functionsService.selectedFunction || 'HttpTrigger';
         this.selectedLanguage = this._functionsService.selectedLanguage || 'CSharp';
         this._functionsService.getTemplates().subscribe((templates) => {
             if (this._globalStateService.TryAppServiceToken) {
-                var selectedTemplate: FunctionTemplate = templates.find((t) => {
-                    return t.id === this.selectedFunction + "-" + this.selectedLanguage;
+                const selectedTemplate: FunctionTemplate = templates.find((t) => {
+                    return t.id === this.selectedFunction + '-' + this.selectedLanguage;
                 });
 
                 if (selectedTemplate) {
@@ -101,7 +98,7 @@ export class TryLandingComponent implements OnInit {
             }
         });
 
-        let result = {
+        const result = {
             name: this._translateService.instant(PortalResources.sideBar_newFunction),
             href: null,
             config: null,
@@ -120,44 +117,44 @@ export class TryLandingComponent implements OnInit {
     }
 
     onFunctionClicked(selectedFunction: string) {
-        if (!this._broadcastService.getDirtyState("function_disabled")) {
+        if (!this._broadcastService.getDirtyState('function_disabled')) {
             this.selectedFunction = selectedFunction;
         }
     }
 
     onLanguageClicked(selectedLanguage: string) {
-        if (!this._broadcastService.getDirtyState("function_disabled")) {
+        if (!this._broadcastService.getDirtyState('function_disabled')) {
             this.selectedLanguage = selectedLanguage;
         }
     }
 
     handleLoginClick(provider: string) {
         this._functionsService.getTemplates().subscribe((templates) => {
-            var selectedTemplate: FunctionTemplate = templates.find((t) => {
-                return t.id === this.selectedFunction + "-" + this.selectedLanguage;
+            const selectedTemplate: FunctionTemplate = templates.find((t) => {
+                return t.id === this.selectedFunction + '-' + this.selectedLanguage;
             });
             if (provider === '') {
-                //clicked on "Create this Function" button
+                // clicked on "Create this Function" button
                 this.loginOptions = true;
             }
             else
                 if (selectedTemplate) {
                     try {
-                        var functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                        const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
                         this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
                         this.setBusyState();
-                        //login
-                        //get trial account
+                        // login
+                        // get trial account
                         this._functionsService.createTrialResource(selectedTemplate, provider, functionName)
                             .subscribe((resource) => {
                                 this.clearBusyState();
                                 this.createFunctioninResource(resource, selectedTemplate, functionName);
                             }, error => {
                                 if (error.status === 401 || error.status === 403) {
-                                    //show login options
-                                    var headerObject = JSON.parse(JSON.stringify(error.headers))["LoginUrl"];
-                                    if (provider !== "" && headerObject && headerObject[0]) {
+                                    // show login options
+                                    const headerObject = JSON.parse(JSON.stringify(error.headers))['LoginUrl'];
+                                    if (provider !== '' && headerObject && headerObject[0]) {
                                         (<any>window).location = headerObject[0];
                                         return;
                                     } else {
@@ -198,32 +195,32 @@ export class TryLandingComponent implements OnInit {
     }
 
     createFunctioninResource(resource: UIResource, selectedTemplate: FunctionTemplate, functionName: string) {
-        var scmUrl = resource.gitUrl.substring(0, resource.gitUrl.lastIndexOf('/'));
-        var encryptedCreds = btoa(scmUrl.substring(8, scmUrl.indexOf('@')));
+        const scmUrl = resource.gitUrl.substring(0, resource.gitUrl.lastIndexOf('/'));
+        const encryptedCreds = btoa(scmUrl.substring(8, scmUrl.indexOf('@')));
         // TODO: find a better way to handle this
-        var tryfunctionContainer = <ArmObj<Site>>{
+        const tryfunctionContainer = <ArmObj<Site>>{
             id: resource.csmId,
             name: resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length),
-            type: "Microsoft.Web/sites",
-            kind: "functionapp",
-            location: "West US",
+            type: 'Microsoft.Web/sites',
+            kind: 'functionapp',
+            location: 'West US',
             properties: {
-                state: "Running",
+                state: 'Running',
                 hostNames: null,
                 hostNameSslStates: [
                     {
-                        name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".scm.azurewebsites.net"),
+                        name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + '.scm.azurewebsites.net'),
                         hostType: 1
                     },
                     {
-                        name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".azurewebsites.net"),
+                        name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + '.azurewebsites.net'),
                         hostType: 0
                     }],
-                sku: "Free",
+                sku: 'Free',
                 containerSize: 128,
                 serverFarmId: null,
                 enabled: true,
-                defaultHostName: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + ".azurewebsites.net")
+                defaultHostName: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + '.azurewebsites.net')
             },
             tryScmCred: encryptedCreds
         };
@@ -254,13 +251,13 @@ export class TryLandingComponent implements OnInit {
         this._functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();
-                this._aiService.trackEvent("new-function", { template: selectedTemplate.id, result: "success", first: "true" });
+                this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'success', first: 'true' });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                 this.tryFunctionApp.next(this._functionApp);
             },
             e => {
                 this.clearBusyState();
-                this._aiService.trackEvent("new-function", { template: selectedTemplate.id, result: "failed", first: "true" });
+                this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'failed', first: 'true' });
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                     details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,

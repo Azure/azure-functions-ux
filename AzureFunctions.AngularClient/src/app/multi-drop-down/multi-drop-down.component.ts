@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { KeyCodes } from './../shared/models/constants';
 import { Component, OnInit, ElementRef, Input, ViewChild } from '@angular/core';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { DropDownElement, MultiDropDownElement } from './../shared/models/drop-down-element';
+import { MultiDropDownElement } from './../shared/models/drop-down-element';
 
 @Component({
   selector: 'multi-drop-down',
@@ -17,7 +17,7 @@ import { DropDownElement, MultiDropDownElement } from './../shared/models/drop-d
 })
 export class MultiDropDownComponent<T> implements OnInit {
 
-  @Input() displayText = "";
+  @Input() displayText = '';
   @ViewChild('itemListContainer') itemListContainer: ElementRef;
   public opened = false;
   public options: MultiDropDownElement<T>[];
@@ -46,7 +46,7 @@ export class MultiDropDownComponent<T> implements OnInit {
       }
 
       options.push(option);
-    })
+    });
 
     options.splice(0, 0, this._selectAllOption);
     this.options = options;

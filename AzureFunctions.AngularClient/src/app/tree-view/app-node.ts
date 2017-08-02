@@ -1,5 +1,5 @@
 import { SlotsService } from './../shared/services/slots.service';
-import { Response, Request } from '@angular/http';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -14,14 +14,11 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/zip';
 
-import { ArmTryService } from './../shared/services/arm-try.service';
 import { PortalResources } from './../shared/models/portal-resources';
 import { ErrorIds } from './../shared/models/error-ids';
 import { AuthzService } from './../shared/services/authz.service';
-import { FunctionNode } from './function-node';
 import { TopBarNotification } from './../top-bar/top-bar-models';
 import { ArmObj } from './../shared/models/arm/arm-obj';
-import { SiteConfig } from './../shared/models/arm/site-config';
 import { Subscription } from './../shared/models/subscription';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { AppsNode } from './apps-node';
@@ -60,7 +57,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public iconClass = 'tree-node-svg-icon';
     public iconUrl = 'images/functions.svg';
 
-    private _hiddenChildren: TreeNode[];
     private _pollingTask: RxSubscription;
     private _loadingObservable: Observable<any>;
 

@@ -1,6 +1,5 @@
 ﻿import { Url } from './../Utilities/url';
-import {Injectable} from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
@@ -9,16 +8,13 @@ import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, Op
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
 import { BroadcastEvent } from '../models/broadcast-event'
-import { UserService } from './user.service';
 import { AiService } from './ai.service';
 import { SetupOAuthRequest, SetupOAuthResponse } from '../../site/deployment-source/deployment';
 import { LocalStorageService } from './local-storage.service';
-import { SiteDescriptor, FunctionDescriptor } from "../resourceDescriptors";
-import { Guid } from "../Utilities/Guid";
-import { TabCommunicationVerbs } from "../models/constants";
-import { FunctionApp } from "app/shared/function-app";
-import { TabMessage } from "app/shared/models/localStorage/local-storage";
-import { Logger } from "app/shared/utilities/logger";
+import { Guid } from '../Utilities/Guid';
+import { TabCommunicationVerbs } from '../models/constants';
+import { TabMessage } from 'app/shared/models/localStorage/local-storage';
+import { Logger } from 'app/shared/utilities/logger';
 
 @Injectable()
 export class PortalService {
@@ -27,15 +23,14 @@ export class PortalService {
 
     public sessionId = '';
 
-    private portalSignature: string = 'FxAppBlade';
-    private portalSignatureFrameBlade: string = 'FxFrameBlade';
+    private portalSignature = 'FxAppBlade';
+    private portalSignatureFrameBlade = 'FxFrameBlade';
     private startupInfo: StartupInfo | null;
     private startupInfoObservable: ReplaySubject<StartupInfo>;
     private setupOAuthObservable: Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
     private notificationStartStream: Subject<NotificationStartedInfo>;
-    private localStorage: Storage;
 
     public resourceId: string;
 
@@ -71,12 +66,12 @@ export class PortalService {
         // listener for localstorage events from any child tabs of the window
         this._storageService.addEventListener(this.recieveStorageMessage, this);
 
-        let shellUrl = decodeURI(window.location.href);
-        this.shellSrc = Url.getParameterByName(shellUrl, "trustedAuthority");
+        const shellUrl = decodeURI(window.location.href);
+        this.shellSrc = Url.getParameterByName(shellUrl, 'trustedAuthority');
         window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
 
-        let appsvc = window.appsvc;
-        let getStartupInfoObj: GetStartupInfo = {
+        const appsvc = window.appsvc;
+        const getStartupInfoObj: GetStartupInfo = {
             iframeHostName: appsvc && appsvc.env && appsvc.env.hostName ? appsvc.env.hostName : null
         };
 
@@ -99,7 +94,7 @@ export class PortalService {
         if (PortalService.inTab()) {
             // create own id and set
             this.tabId = Guid.newTinyGuid();
-            //send id back to parent
+            // send id back to parent
             this._sendTabMessage<null>(this.tabId, TabCommunicationVerbs.getStartInfo, null, null);
         }
     }
@@ -116,33 +111,33 @@ export class PortalService {
 
         if (PortalService.inIFrame()) {
             // if parent recieved new id call
-            const key: string = item.key.split(":")[0];
+            const key: string = item.key.split(':')[0];
             if (key === TabCommunicationVerbs.getStartInfo) {
-                let id: string = msg.id;
+                const id: string = msg.id;
 
                 // assign self an id to be shared with child
                 if (this.iFrameId === null) {
                     this.iFrameId = Guid.newTinyGuid();
                 }
-                //send over startupinfo
+                // send over startupinfo
                 this.sendTabStartupInfo(id);
             }
 
             else if (msg.verb === TabCommunicationVerbs.updatedFile) {
-                //check if file is open, if yes then update
+                // check if file is open, if yes then update
             }
         }
 
         else if (PortalService.inTab()) {
-            //if the startup message is meant for the child tab
+            // if the startup message is meant for the child tab
             if (msg.dest_id === this.tabId && msg.verb === TabCommunicationVerbs.sentStartInfo) {
                 // get new startup info and update
-                msg.data.resourceId = Url.getParameterByName(null, "rid");
+                msg.data.resourceId = Url.getParameterByName(null, 'rid');
                 this.startupInfoObservable.next(msg.data);
             }
 
             else if (msg.verb === TabCommunicationVerbs.updatedFile) {
-                //check if file is open, if yes then update
+                // check if file is open, if yes then update
             }
 
             else if (msg.verb === TabCommunicationVerbs.newToken) {
@@ -157,7 +152,7 @@ export class PortalService {
             .subscribe(info => {
                 const startup: StartupInfo = Object.assign({}, info, { resourceId: '' });
                 this._sendTabMessage<StartupInfo>(this.iFrameId, TabCommunicationVerbs.sentStartInfo, startup, id);
-            })
+            });
     }
 
     private _sendTabMessage<T>(source: string, verb: string, data: T, dest?: string | null) {
@@ -170,9 +165,9 @@ export class PortalService {
             data: data
         };
 
-        let id: string = `${verb}:${source}`;
+        let id = `${verb}:${source}`;
         if (dest) {
-            id += `:${dest}`
+            id += `:${dest}`;
         }
 
         // send and then remove
@@ -197,14 +192,14 @@ export class PortalService {
     }
 
     openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
-        this.logAction(source, "open-blade-collector" + name, null);
+        this.logAction(source, 'open-blade-collector' + name, null);
         this._aiService.trackEvent('/site/open-collector-blade', {
             targetBlade: name,
             source: source
         });
 
         this.getAppSettingCallback = getAppSettingCallback;
-        let payload = {
+        const payload = {
             resourceId: resourceId,
             bladeName: name
         };
@@ -213,7 +208,7 @@ export class PortalService {
     }
 
     openCollectorBladeWithInputs(resourceId: string, obj: any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
-        this.logAction(source, "open-blade-collector-inputs" + obj.bladeName, null);
+        this.logAction(source, 'open-blade-collector-inputs' + obj.bladeName, null);
 
         this._aiService.trackEvent('/site/open-collector-blade', {
             targetBlade: obj.bladeName,
@@ -222,7 +217,7 @@ export class PortalService {
 
         this.getAppSettingCallback = getAppSettingCallback;
 
-        let payload = {
+        const payload = {
             resourceId: resourceId,
             input: obj
         };
@@ -231,11 +226,11 @@ export class PortalService {
     }
 
     closeBlades() {
-        this.postMessage(Verbs.closeBlades, "");
+        this.postMessage(Verbs.closeBlades, '');
     }
 
     updateBladeInfo(title: string, subtitle: string) {
-        let payload: UpdateBladeInfo = {
+        const payload: UpdateBladeInfo = {
             title: title,
             subtitle: subtitle
         };
@@ -249,8 +244,8 @@ export class PortalService {
 
     startNotification(title: string, description: string) {
         if (PortalService.inIFrame()) {
-            let payload: NotificationInfo = {
-                state: "start",
+            const payload: NotificationInfo = {
+                state: 'start',
                 title: title,
                 description: description
             };
@@ -259,7 +254,7 @@ export class PortalService {
         }
         else {
             setTimeout(() => {
-                this.notificationStartStream.next({ id: "id" });
+                this.notificationStartStream.next({ id: 'id' });
             });
         }
 
@@ -267,12 +262,12 @@ export class PortalService {
     }
 
     stopNotification(id: string, success: boolean, description: string) {
-        let state = "success";
+        let state = 'success';
         if (!success) {
-            state = "fail";
+            state = 'fail';
         }
 
-        let payload: NotificationInfo = {
+        const payload: NotificationInfo = {
             id: id,
             state: state,
             title: null,
@@ -283,7 +278,7 @@ export class PortalService {
     }
 
     logAction(subcomponent: string, action: string, data?: any): void {
-        let actionStr = JSON.stringify(<Action>{
+        const actionStr = JSON.stringify(<Action>{
             subcomponent: subcomponent,
             action: action,
             data: data
@@ -297,7 +292,7 @@ export class PortalService {
     }
 
     logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
-        let messageStr = JSON.stringify(<Message>{
+        const messageStr = JSON.stringify(<Message>{
             level: level,
             message: message,
             restArgs: restArgs
@@ -312,10 +307,10 @@ export class PortalService {
             return;
         }
 
-        var data = event.data.data;
+        const data = event.data.data;
         const methodName = event.data.kind;
 
-        console.log("[iFrame] Received mesg: " + methodName);
+        console.log('[iFrame] Received mesg: ' + methodName);
 
         if (methodName === Verbs.sendStartupInfo) {
             this.startupInfo = <StartupInfo>data;
@@ -370,16 +365,16 @@ export class PortalService {
     }
 
     public static inIFrame(): boolean {
-        return window.parent !== window && window.location.pathname !== "/context.html";
+        return window.parent !== window && window.location.pathname !== '/context.html';
     }
 
     // checks for url query
     public static inTab(): boolean {
-        return (Url.getParameterByName(null, "tabbed") === 'true');
+        return (Url.getParameterByName(null, 'tabbed') === 'true');
     }
 
     // what feature is being looked at currently
     public static feature(): string {
-        return (Url.getParameterByName(null, "feature"));
+        return (Url.getParameterByName(null, 'feature'));
     }
 }

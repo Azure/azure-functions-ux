@@ -1,4 +1,3 @@
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -12,7 +11,6 @@ import 'rxjs/add/observable/of';
 import { ErrorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
 import { Arm } from './../shared/models/constants';
-import { StorageAccount } from './../shared/models/storage-account';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
@@ -27,7 +25,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.apps;
 
-    public resourceId = "/apps";
+    public resourceId = '/apps';
     public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
     private _exactAppSearchExp = '\"(.+)\"';
@@ -45,14 +43,14 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
         this.inSelectedTree = !!this.newDashboardType;
 
-        this.iconClass = "tree-node-collection-icon"
-        this.iconUrl = "images/BulletList.svg";
+        this.iconClass = 'tree-node-collection-icon';
+        this.iconUrl = 'images/BulletList.svg';
         this.showExpandIcon = false;
         this.childrenStream.subscribe(children => {
             this.children = children;
-        })
+        });
 
-        let searchStream = this._searchTermStream
+        this._searchTermStream
             .debounceTime(400)
             .distinctUntilChanged()
             .switchMap((searchTerm) => {
@@ -85,18 +83,18 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                     return;
                 }
 
-                let regex = new RegExp(this._exactAppSearchExp, "i");
-                let exactSearchResult = regex.exec(result.term);
+                const regex = new RegExp(this._exactAppSearchExp, 'i');
+                const exactSearchResult = regex.exec(result.term);
 
                 if (exactSearchResult && exactSearchResult.length > 1) {
-                    let filteredChildren = result.children.filter(c => {
+                    const filteredChildren = result.children.filter(c => {
                         if (c.title.toLowerCase() === exactSearchResult[1].toLowerCase()) {
                             c.select();
                             return true;
                         }
 
                         return false;
-                    })
+                    });
 
                     // Purposely don't update the stream with the filtered list of children.
                     // This is because we only want the exact matching to affect the tree view,
@@ -115,7 +113,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     }
 
     public dispose() {
-        this._initialResourceId = "";
+        this._initialResourceId = '';
     }
 
     private _doSearch(
@@ -127,19 +125,18 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         let url: string = null;
 
-        let regex = new RegExp(this._exactAppSearchExp, "i");
-        let exactSearchResult = regex.exec(term);
-        let exactSearch = !!exactSearchResult && exactSearchResult.length > 1;
+        const regex = new RegExp(this._exactAppSearchExp, 'i');
+        const exactSearchResult = regex.exec(term);
+        const exactSearch = !!exactSearchResult && exactSearchResult.length > 1;
 
-        let subsBatch = subscriptions.slice(subsIndex, subsIndex + Arm.MaxSubscriptionBatchSize);
+        const subsBatch = subscriptions.slice(subsIndex, subsIndex + Arm.MaxSubscriptionBatchSize);
 
         // If the user wants an exact match, then we'll query everything and then filter to that
         // item.  This would be slower for some scenario's where you do an exact search and there
         // is already a filtered list.  But it will be much faster if the full list is already cached.
         if (!term || exactSearch) {
-            url = this._getArmCacheUrl(subsBatch, nextLink, "Microsoft.Web/sites");
-        }
-        else {
+            url = this._getArmCacheUrl(subsBatch, nextLink, 'Microsoft.Web/sites');
+        } else {
             url = this._getArmSearchUrl(term, subsBatch, nextLink);
         }
 
@@ -148,7 +145,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 let err = e && e.json && e.json().error;
 
                 if (!err) {
-                    err = { message: "Failed to query for resources." }
+                    err = { message: 'Failed to query for resources.' };
                 }
 
                 this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -165,18 +162,17 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                     return Observable.of(r);
                 }
 
-                let result: ArmArrayResult<any> = r.json();
-                let nodes = result.value
+                const result: ArmArrayResult<any> = r.json();
+                const nodes = result.value
                     .filter(armObj => {
-                        return armObj.kind && armObj.kind.toLowerCase() === "functionapp";
+                        return armObj.kind && armObj.kind.toLowerCase() === 'functionapp';
                     })
                     .map(armObj => {
 
                         let newNode: AppNode;
                         if (armObj.id === this.sideNav.selectedNode.resourceId) {
                             newNode = <AppNode>this.sideNav.selectedNode;
-                        }
-                        else {
+                        } else {
                             newNode = new AppNode(this.sideNav, armObj, this, subscriptions);
                             if (newNode.resourceId === this._initialResourceId) {
                                 newNode.select();
@@ -184,7 +180,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                         }
 
                         return newNode;
-                    })
+                    });
 
                 children = children.concat(nodes);
 
@@ -201,26 +197,25 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                         subscriptions,
                         subsIndex + Arm.MaxSubscriptionBatchSize,
                         result.nextLink);
-                }
-                else {
+                } else {
                     return Observable.of({
                         term: term,
                         children: children,
                     });
                 }
-            })
+            });
     }
 
     public addChild(childSiteObj: ArmObj<Site>) {
-        let newNode = new AppNode(this.sideNav, childSiteObj, this, this._subscriptions);
+        const newNode = new AppNode(this.sideNav, childSiteObj, this, this._subscriptions);
         this._addChildAlphabetically(newNode);
         newNode.select();
     }
 
     public removeChild(child: TreeNode, callRemoveOnChild?: boolean) {
-        let removeIndex = this.children.findIndex((childNode: TreeNode) => {
+        const removeIndex = this.children.findIndex((childNode: TreeNode) => {
             return childNode.resourceId === child.resourceId;
-        })
+        });
 
         this._removeHelper(removeIndex, callRemoveOnChild);
         this.childrenStream.next(<AppNode[]>this.children);
@@ -232,8 +227,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         if (nextLink) {
             url = nextLink;
-        }
-        else {
+        } else {
             url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(`;
 
             for (let i = 0; i < subs.length; i++) {
@@ -259,8 +253,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         let url: string;
         if (nextLink) {
             url = nextLink;
-        }
-        else {
+        } else {
             url = `${this.sideNav.armService.armUrl}/resources?api-version=${this.sideNav.armService.armApiVersion}&$filter=(resourceType eq 'microsoft.web/sites') and (`;
 
             for (let i = 0; i < subs.length; i++) {

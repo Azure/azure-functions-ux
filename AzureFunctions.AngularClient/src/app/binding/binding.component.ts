@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, SimpleChange, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked } from '@angular/core';
+﻿import { Component, Input, Output, EventEmitter, ElementRef, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,12 +6,11 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 
-import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
-import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, EnumOption } from '../shared/models/binding';
-import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../shared/models/microsoft-graph';
+import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
+import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
 import { BindingManager } from '../shared/models/binding-manager';
 import { BindingInputList } from '../shared/models/binding-input-list';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -21,14 +20,9 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { Validator } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from '../shared/services/cache.service';
-import { ArmObj } from '../shared/models/arm/arm-obj';
 import { AuthSettings } from '../shared/models/auth-settings';
-import { Constants } from '../shared/models/constants';
-import { MobileAppsClient } from '../shared/models/mobile-apps-client';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
-import { Url } from '../shared/Utilities/url';
 
-declare var jQuery: any;
 declare var marked: any;
 
 @Component({
@@ -81,7 +75,6 @@ export class BindingComponent {
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     private _subscription: Subscription;
-    private _newBinding;
     private _appSettings: { [key: string]: string };
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
@@ -266,7 +259,6 @@ export class BindingComponent {
         }
 
         ddInput.changeValue = () => {
-            const rules = <Rule[]><any>ddInput.enum;
             rule.values.forEach((v) => {
                 if (ddInput.value === v.value) {
                     const checkBoxInput = this.model.inputs.find((input) => {
@@ -777,7 +769,6 @@ export class BindingComponent {
                 break;
             case ResourceType.MSGraph:
                 for (const key in this._appSettings) {
-                    const value = this._appSettings[key].toLowerCase();
                     if (key.startsWith('Identity.')) {
                         result.push(key);
                     }

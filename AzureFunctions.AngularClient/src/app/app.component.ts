@@ -5,26 +5,11 @@ import 'rxjs/add/operator/retry';
 
 import { FunctionApp } from './shared/function-app';
 import { BusyStateComponent } from './busy-state/busy-state.component';
-import { environment } from './../environments/environment.prod';
 import { StartupInfo } from './shared/models/portal';
 import { BroadcastService } from './shared/services/broadcast.service';
 import { FunctionContainer } from './shared/models/function-container';
 import { GlobalStateService } from './shared/services/global-state.service';
-import { BackgroundTasksService } from './shared/services/background-tasks.service';
-import { Constants } from './shared/models/constants';
-import { AiService } from './shared/services/ai.service';
-import { PortalService } from './shared/services/portal.service';
-import { ArmService } from './shared/services/arm.service';
 import { UserService } from './shared/services/user.service';
-import { FunctionsService } from './shared/services/functions.service';
-import { ErrorListComponent } from './error-list/error-list.component';
-import { MainComponent } from './main/main.component';
-// import {MonitoringService} from './shared/services/app-monitoring.service';
-// import {BackgroundTasksService} from './shared/services/background-tasks.service';
-// import {GlobalStateService} from './shared/services/global-state.service';
-// import {TranslateService} from '@ngx-translate/core';
-// import {LocalDevelopmentInstructionsComponent} from './local-development-instructions/local-development-instructions.component';  // Com
-// import {PortalResources} from './shared/models/portal-resources';
 import { ConfigService } from './shared/services/config.service';
 
 @Component({
@@ -43,11 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     constructor(
         private _configService: ConfigService,
-        private _portalService: PortalService,
-        private _armService: ArmService,
         private _userService: UserService,
-        private _functionsService: FunctionsService,
-        private _backgroundTasksService: BackgroundTasksService,
         private _globalStateService: GlobalStateService,
         private _broadcastService: BroadcastService,
     ) {
@@ -115,17 +96,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     private redirectToIbizaIfNeeded(functionContainer: FunctionContainer | string): boolean {
         if (!this._userService.inIFrame &&
             this._configService.isAzure() &&
-            window.location.hostname !== "localhost" &&
-            window.location.search.indexOf("ibiza=disabled") === -1) {
+            window.location.hostname !== 'localhost' &&
+            window.location.search.indexOf('ibiza=disabled') === -1) {
 
-            var armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
+            const armId = typeof functionContainer === 'string' ? functionContainer : functionContainer.id;
             this._globalStateService.setBusyState();
             this._userService.getTenants()
                 .retry(10)
                 .subscribe(tenants => {
-                    var currentTenant = tenants.find(t => t.Current);
-                    var portalHostName = 'https://portal.azure.com';
-                    var environment = '';
+                    const currentTenant = tenants.find(t => t.Current);
+                    const portalHostName = 'https://portal.azure.com';
+                    let environment = '';
                     if (window.location.host.indexOf('staging') !== -1) {
                         // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.
                         environment = '?feature.fastmanifest=false&appsvc.env=stage';

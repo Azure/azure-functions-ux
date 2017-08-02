@@ -1,19 +1,18 @@
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
-import { Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription'; import 'rxjs/add/observable/zip';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { VfsObject } from '../shared/models/vfs-object';
 // import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
 import { LogStreamingComponent } from '../log-streaming/log-streaming.component';
-import { FunctionConfig } from '../shared/models/function-config';
 import { FunctionSecrets } from '../shared/models/function-secrets';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
@@ -32,10 +31,8 @@ import { MonacoEditorDirective } from '../shared/directives/monaco-editor.direct
 import { BindingManager } from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from '../shared/models/error-ids';
-import { HttpRunModel, Param } from '../shared/models/http-run';
-import { FunctionKey, FunctionKeys } from '../shared/models/function-key';
-import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
-import { LocalStorageService } from 'app/shared/services/local-storage.service';
+import { HttpRunModel } from '../shared/models/http-run';
+import { FunctionKeys } from '../shared/models/function-key';
 
 
 @Component({
@@ -98,9 +95,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
     private selectedFileStream: Subject<VfsObject>;
-    private autoSelectAdminKey: boolean;
     private functionKey: string;
-    private _bindingManager = new BindingManager();
 
     private _isClientCertEnabled = false;
     constructor(private _broadcastService: BroadcastService,
@@ -108,7 +103,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _el: ElementRef,
         configService: ConfigService) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
@@ -146,7 +140,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
                     this.functionApp.getAuthSettings(),
-                    (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }))
+                    (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }));
             })
             .subscribe(res => {
                 this._isClientCertEnabled = res.authSettings.clientCertEnabled;
@@ -410,7 +404,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
 
             this.functionApp.getHostJson().subscribe((jsonObj) => {
-                const that = this;
                 let result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix !== undefined && jsonObj.http.routePrefix !== null) ? jsonObj.http.routePrefix : 'api';
                 const httpTrigger = this.functionInfo.config.bindings.find((b) => {
                     return b.type === BindingType.httpTrigger.toString();
@@ -715,8 +708,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.scriptFile.isDirty) {
             this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
-            const testData = this.getTestData();
-
             const result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
                 this.functionApp.runFunction(this.functionInfo, this.getTestData());
 

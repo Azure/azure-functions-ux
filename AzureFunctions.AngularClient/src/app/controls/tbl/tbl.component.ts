@@ -2,8 +2,7 @@ import { AppNode } from './../../tree-view/app-node';
 import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
-import { FormGroup } from '@angular/forms';
-import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, ViewChildren, ContentChild, ContentChildren, QueryList, Inject } from '@angular/core';
+import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, ContentChildren, QueryList } from '@angular/core';
 import { Component, OnInit, forwardRef } from '@angular/core';
 
 export interface TableItem {

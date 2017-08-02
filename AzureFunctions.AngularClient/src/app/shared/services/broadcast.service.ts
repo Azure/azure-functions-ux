@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { FunctionInfo } from '../models/function-info';
 import { ApiProxy } from '../models/api-proxy';
-import { TutorialEvent, TutorialStep } from '../models/tutorial';
+import { TutorialEvent } from '../models/tutorial';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastEvent } from '../models/broadcast-event';
 

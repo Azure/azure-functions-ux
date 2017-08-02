@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/mergeMap';
@@ -9,13 +9,11 @@ import { CacheService } from '../../shared/services/cache.service';
 import { Site } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { SiteConfig } from '../../shared/models/arm/site-config';
-import { ProviderType, Provider, Organization, Repository, Branch, SourceControls } from '../deployment-source/deployment';
+import { ProviderType, Provider, Organization, Repository, SourceControls } from '../deployment-source/deployment';
 import { SiteDescriptor } from '../../shared/resourceDescriptors';
-import { PopOverComponent } from '../../pop-over/pop-over.component';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { DropDownElement } from '../../shared/models/drop-down-element';
-import { DropDownComponent } from '../../drop-down/drop-down.component';
-import { SetupOAuthRequest, SetupOAuthResponse } from '../deployment-source/deployment';
+import { SetupOAuthResponse } from '../deployment-source/deployment';
 
 @Component({
     selector: 'deployment-source-setup',

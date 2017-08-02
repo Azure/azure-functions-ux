@@ -4,7 +4,7 @@ import { Url } from './../../shared/Utilities/url';
 import { TabsComponent } from './../../tabs/tabs.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
-import { Component, Input, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -14,11 +14,10 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
-import { SiteConfig } from './../../shared/models/arm/site-config';
 import { NotificationIds, Constants } from './../../shared/models/constants';
 import { CacheService } from './../../shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
@@ -29,7 +28,6 @@ import { ArmService } from '../../shared/services/arm.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../shared/models/broadcast-event'
-import { FunctionsService } from '../../shared/services/functions.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
@@ -80,7 +78,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public slotsAppSetting: string;
   public slotsEnabled: boolean;
   private slotsValueChange: Subject<boolean>;
-  private _numSlots = 0;
   private _busyState: BusyStateComponent;
 
   constructor(
@@ -88,7 +85,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _cacheService: CacheService,
     private _portalService: PortalService,
     private _broadcastService: BroadcastService,
-    private _functionsService: FunctionsService,
     private _globalStateService: GlobalStateService,
     private _aiService: AiService,
     private _translateService: TranslateService,

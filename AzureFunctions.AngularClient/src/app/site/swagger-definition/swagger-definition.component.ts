@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, NgZone, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -11,19 +11,14 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { TabsComponent } from './../../tabs/tabs.component';
-import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
-import { DropDownElement } from '../../shared/models/drop-down-element';
 import { SwaggerEditor } from '../swagger-frame/swaggerEditor';
 import { AiService } from '../../shared/services/ai.service';
-import { GlobalStateService } from '../../shared/services/global-state.service';
-import { ArmService } from '../../shared/services/arm.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalService } from '../../shared/services/portal.service';
-import { FunctionKey, FunctionKeys } from '../../shared/models/function-key';
 import { Constants } from '../../shared/models/constants';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { BroadcastService } from '../../shared/services/broadcast.service';

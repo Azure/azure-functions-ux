@@ -1,15 +1,13 @@
-import { Component, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { FunctionMonitorService } from '../shared/services/function-monitor.service';
 import { FunctionInvocations } from '../shared/models/function-monitor';
 
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { PortalService } from '../shared/services/portal.service';
 import { PortalResources } from '../shared/models/portal-resources';
 
 declare const moment: any;
@@ -22,7 +20,6 @@ declare const moment: any;
 export class FunctionMonitorComponent implements OnDestroy {
     public pulseUrl: string;
     public rows: FunctionInvocations[]; // the data for the InvocationsLog table
-    private timer: RxSubscription;
     public successAggregateHeading: string;
     public errorsAggregateHeading: string;
     public successAggregate: string;
@@ -34,7 +31,6 @@ export class FunctionMonitorComponent implements OnDestroy {
 
     constructor(
         private _functionMonitorService: FunctionMonitorService,
-        private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
         this.columns = [

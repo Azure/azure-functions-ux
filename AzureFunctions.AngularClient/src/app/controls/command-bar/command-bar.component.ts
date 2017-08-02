@@ -1,5 +1,4 @@
-import { Subject } from 'rxjs/Subject';
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'command-bar',

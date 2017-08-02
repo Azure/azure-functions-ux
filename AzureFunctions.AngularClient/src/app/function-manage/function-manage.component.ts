@@ -1,17 +1,13 @@
 import { ConfigService } from './../shared/services/config.service';
-import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
-import { FunctionConfig } from '../shared/models/function-config';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
 import { SelectOption } from '../shared/models/select-option';
 import { PortalService } from '../shared/services/portal.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
@@ -38,8 +34,7 @@ export class FunctionManageComponent {
     private _functionNode: FunctionManageNode;
     private functionStateValueChange: Subject<boolean>;
 
-    constructor(private _broadcastService: BroadcastService,
-        private _portalService: PortalService,
+    constructor(private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         configService: ConfigService) {

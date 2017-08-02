@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -10,9 +10,9 @@ import { ProxiesNode } from './../tree-view/proxies-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 
 interface ProxyItem {
-  name: string,
-  url: string,
-  node: ProxyNode
+  name: string;
+  url: string;
+  node: ProxyNode;
 }
 
 @Component({
@@ -48,9 +48,9 @@ export class ProxiesListComponent implements OnInit {
               name: p.title,
               url: p.proxy.backendUri,
               node: p
-            }
+            };
           });
-      })
+      });
   }
 
   ngOnInit() {

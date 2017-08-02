@@ -1,15 +1,11 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { ArmService } from './arm.service';
-import { BroadcastEvent } from '../models/broadcast-event';
-import { ErrorEvent, ErrorType } from '../models/error-event';
 import { CacheService } from './cache.service';
 import { ArmObj } from '../models/arm/arm-obj';
 import { Site } from '../models/arm/site';
 import { Constants } from '../../shared/models/constants';
-import { Guid } from './../Utilities/Guid';
 
 @Injectable()
 export class SlotsService {

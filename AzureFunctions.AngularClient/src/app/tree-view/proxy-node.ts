@@ -3,36 +3,29 @@ import 'rxjs/add/observable/of';
 
 import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
-import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
-import { ProxiesNode } from './proxies-node';
+import { TreeNode, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
-import { Site } from '../shared/models/arm/site';
-import { ArmObj } from '../shared/models/arm/arm-obj';
-import { FunctionContainer } from '../shared/models/function-container';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { ApiProxy } from '../shared/models/api-proxy';
 
 export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
-    public title = "Proxy";
+    public title = 'Proxy';
     public dashboardType = DashboardType.proxy;
     public showExpandIcon = false;
 
     constructor(
         sideNav: SideNavComponent,
-        private _functionsNode: ProxiesNode,
-        //public functionInfo: FunctionInfo,
         public proxy: ApiProxy,
         parentNode: TreeNode) {
 
         super(sideNav,
-            proxy.functionApp.site.id + "/proxies/" + proxy.name,
+            proxy.functionApp.site.id + '/proxies/' + proxy.name,
             parentNode);
 
         this.title = proxy.name;
         this.iconClass = 'tree-node-svg-icon';
-        this.iconUrl = "images/api-proxy.svg";
+        this.iconUrl = 'images/api-proxy.svg';
     }
 
     public handleSelection(): Observable<any> {
@@ -163,9 +156,9 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
 //        this.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);
 
 //    }
-//}
+// }
 
-//export class FunctionMonitorNode extends FunctionEditBaseNode{
+// export class FunctionMonitorNode extends FunctionEditBaseNode{
 //    public title = "Monitor";
 
 //    constructor(
@@ -180,4 +173,4 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
 
 //        this.iconClass = "fa fa-search tree-node-function-icon";
 //    }
-//}
+// }

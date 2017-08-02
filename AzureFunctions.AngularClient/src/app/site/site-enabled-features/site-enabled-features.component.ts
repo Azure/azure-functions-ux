@@ -1,7 +1,7 @@
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
 import { SiteTabIds } from './../../shared/models/constants';
 import { Url } from './../../shared/Utilities/url';
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -18,7 +18,6 @@ import { GlobalStateService } from './../../shared/services/global-state.service
 import { AiService } from './../../shared/services/ai.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
-import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
 import { PortalService } from './../../shared/services/portal.service';
 import { CacheService } from '../../shared/services/cache.service';
@@ -26,13 +25,8 @@ import { LocalStorageService as StorageService } from '../../shared/services/loc
 import { Site } from '../../shared/models/arm/site';
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
-import { StorageItem } from '../../shared/models/localStorage/local-storage';
 import { Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem } from '../../shared/models/localStorage/enabled-features';
 import { Constants } from '../../shared/models/constants';
-
-interface EnabledFeatureMap {
-    [key: number]: EnabledFeatureItem;
-}
 
 @Component({
     selector: 'site-enabled-features',
@@ -82,12 +76,12 @@ export class SiteEnabledFeaturesComponent {
                             site: site,
                             hasSiteWritePermissions: r.hasSiteWritePermissions,
                             hasReadOnlyLock: r.hasReadOnlyLock
-                        }
-                    })
+                        };
+                    });
             })
             .switchMap(r => {
 
-                let storageItem = <EnabledFeatures>this._storageService.getItem(r.site.id + "/enabledFeatures");
+                const storageItem = <EnabledFeatures>this._storageService.getItem(r.site.id + '/enabledFeatures');
                 if (storageItem && storageItem.enabledFeatures && storageItem.enabledFeatures.length > 0) {
 
                     // Even though we continue loading in the background, we get rid of the loading UI
@@ -95,8 +89,7 @@ export class SiteEnabledFeaturesComponent {
                     // features won't change after the background loading is complete.
                     this.isLoading = false;
                     this._copyCachedFeaturesToF1(storageItem);
-                }
-                else {
+                } else {
                     this._addDefaultItems(this.featureItems);
                 }
 
@@ -109,9 +102,8 @@ export class SiteEnabledFeaturesComponent {
             })
             .do(null, e => {
                 if (!this._globalStateService.showTryView) {
-                    this._aiService.trackException(e, "site-enabled-features");
-                }
-                else {
+                    this._aiService.trackException(e, 'site-enabled-features');
+                } else {
                     this.isLoading = false;
                 }
             })
@@ -119,7 +111,7 @@ export class SiteEnabledFeaturesComponent {
             .subscribe((results: EnabledFeatureItem[][]) => {
                 this.isLoading = false;
 
-                let latestFeatureItems: EnabledFeatureItem[] = [];
+                const latestFeatureItems: EnabledFeatureItem[] = [];
 
                 // Need to add default items to latest otherwise they'll be removed from featureItems during merge.
                 this._addDefaultItems(latestFeatureItems);
@@ -130,9 +122,9 @@ export class SiteEnabledFeaturesComponent {
                             if (featureItem) {
                                 latestFeatureItems.push(featureItem);
                             }
-                        })
+                        });
                     }
-                })
+                });
 
                 this._mergeFeaturesIntoF1(this.featureItems, latestFeatureItems);
                 this._saveFeatures(this.featureItems);
@@ -150,9 +142,8 @@ export class SiteEnabledFeaturesComponent {
     openFeature(feature: EnabledFeatureItem) {
         if (feature.featureId) {
             this._siteDashboard.openFeature(feature.featureId);
-        }
-        else if (feature.bladeInfo) {
-            this._portalService.openBlade(feature.bladeInfo, "site-enabled-features");
+        } else if (feature.bladeInfo) {
+            this._portalService.openBlade(feature.bladeInfo, 'site-enabled-features');
         }
     }
 
@@ -164,11 +155,11 @@ export class SiteEnabledFeaturesComponent {
 
         return Observable.zip(
             this._cacheService.postArm(`${this._site.id}/config/appsettings/list`),
-            this._cacheService.getArm(`/subscriptions/${this._descriptor.subscription}/providers/microsoft.insights/components`, false, "2015-05-01"),
+            this._cacheService.getArm(`/subscriptions/${this._descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
             (as, ai) => ({ appSettings: as, appInsights: ai })
         ).map(r => {
-            var ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
-            let items = [];
+            const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
+            const items = [];
             if (ikey) {
                 r.appInsights.json().value.forEach((ai) => {
                     if (ai.properties.InstrumentationKey === ikey) {
@@ -182,171 +173,170 @@ export class SiteEnabledFeaturesComponent {
 
     private _copyCachedFeaturesToF1(storageItem: EnabledFeatures) {
         storageItem.enabledFeatures.forEach((cachedFeatureItem: EnabledFeature) => {
-            let featureItem = this._getEnabledFeatureItem(cachedFeatureItem.feature);
+            const featureItem = this._getEnabledFeatureItem(cachedFeatureItem.feature);
             if (featureItem) {
                 featureItem.title = cachedFeatureItem.title;
                 this.featureItems.push(featureItem);
             }
-        })
+        });
     }
 
     private _addDefaultItems(features: EnabledFeature[]) {
-        let functionSettings = this._getEnabledFeatureItem(Feature.FunctionSettings);
-        let appSettings = this._getEnabledFeatureItem(Feature.AppSettings);
+        const functionSettings = this._getEnabledFeatureItem(Feature.FunctionSettings);
+        const appSettings = this._getEnabledFeatureItem(Feature.AppSettings);
         features.splice(0, 0, functionSettings, appSettings);
     }
 
     private _getEnabledFeatureItem(feature: Feature, ...args: any[]): EnabledFeatureItem {
-        let tabsFeature = Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
+        const tabsFeature = Url.getParameterByName(window.location.href, 'appsvc.feature.tabs');
 
         switch (feature) {
             case Feature.FunctionSettings:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(tabsFeature ? PortalResources.tab_functionSettings : PortalResources.tab_settings),
                     feature: feature,
-                    iconUrl: "images/Functions.svg",
+                    iconUrl: 'images/Functions.svg',
                     featureId: SiteTabIds.functionRuntime
-                }
+                };
 
             case Feature.AppSettings:
-                if(Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") { //DEBUG: conditionally showing application settings tab
+                if (Url.getParameterByName(window.location.href, 'appsvc.appsettingstab') === 'enabled') { // DEBUG: conditionally showing application settings tab
                     return <EnabledFeatureItem>{
                         title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
                         feature: feature,
-                        iconUrl: "images/application-settings.svg",
+                        iconUrl: 'images/application-settings.svg',
                         featureId: SiteTabIds.applicationSettings
-                    }
-                }
-                else {
+                    };
+                } else {
                     return <EnabledFeatureItem>{
                         title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
                         feature: feature,
                         bladeInfo: {
-                            detailBlade: "WebsiteConfigSiteSettings",
-                                detailBladeInputs: {
+                            detailBlade: 'WebsiteConfigSiteSettings',
+                            detailBladeInputs: {
                                 resourceUri: this._descriptor.resourceId,
                             }
                         },
-                        iconUrl: "images/application-settings.svg"
-                    }
+                        iconUrl: 'images/application-settings.svg'
+                    };
                 }
 
             case Feature.AppInsight:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_appInsights),
                     feature: feature,
-                    iconUrl: "images/appInsights.svg",
+                    iconUrl: 'images/appInsights.svg',
                     bladeInfo: {
-                        detailBlade: "AspNetOverview",
+                        detailBlade: 'AspNetOverview',
                         detailBladeInputs: {
                             id: args[0]
                         },
-                        extension: "AppInsightsExtension"
+                        extension: 'AppInsightsExtension'
                     }
-                }
+                };
 
             case Feature.Cors:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_cors).format(args),
                     feature: feature,
-                    iconUrl: "images/cors.svg",
+                    iconUrl: 'images/cors.svg',
                     bladeInfo: {
-                        detailBlade: "ApiCors",
+                        detailBlade: 'ApiCors',
                         detailBladeInputs: {
                             resourceUri: this._site.id
                         }
                     }
-                }
+                };
 
             case Feature.DeploymentSource:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_deploymentSource).format(args),
                     feature: feature,
-                    iconUrl: "images/deployment-source.svg",
+                    iconUrl: 'images/deployment-source.svg',
                     bladeInfo: {
-                        detailBlade: "ContinuousDeploymentListBlade",
+                        detailBlade: 'ContinuousDeploymentListBlade',
                         detailBladeInputs: {
                             id: this._site.id,
                             ResourceId: this._site.id
                         }
                     }
-                }
+                };
 
             case Feature.Authentication:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.authentication),
                     feature: feature,
-                    iconUrl: "images/authentication.svg",
+                    iconUrl: 'images/authentication.svg',
                     bladeInfo: {
-                        detailBlade: "AppAuth",
+                        detailBlade: 'AppAuth',
                         detailBladeInputs: {
                             resourceUri: this._site.id
                         }
                     }
-                }
+                };
 
             case Feature.CustomDomains:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.feature_customDomainsName),
                     feature: feature,
-                    iconUrl: "images/custom-domains.svg",
+                    iconUrl: 'images/custom-domains.svg',
                     bladeInfo: {
-                        detailBlade: "CustomDomainsAndSSL",
+                        detailBlade: 'CustomDomainsAndSSL',
                         detailBladeInputs: {
                             resourceUri: this._site.id,
                             BuyDomainSelected: false
                         }
                     }
-                }
+                };;
 
             case Feature.SSLBinding:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_sslCert),
                     feature: feature,
-                    iconUrl: "images/ssl.svg",
+                    iconUrl: 'images/ssl.svg',
                     bladeInfo: {
-                        detailBlade: "CertificatesBlade",
+                        detailBlade: 'CertificatesBlade',
                         detailBladeInputs: {
                             resourceUri: this._site.id,
                         }
                     }
-                }
+                };
 
             case Feature.ApiDefinition:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.feature_apiDefinitionName),
                     feature: feature,
-                    iconUrl: "images/api-definition.svg",
+                    iconUrl: 'images/api-definition.svg',
                     featureId: SiteTabIds.apiDefinition
-                }
+                };
 
             case Feature.WebJobs:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_webjobs).format(args),
                     feature: feature,
-                    iconUrl: "images/webjobs.svg",
+                    iconUrl: 'images/webjobs.svg',
                     bladeInfo:
                     {
-                        detailBlade: "webjobsNewBlade",
+                        detailBlade: 'webjobsNewBlade',
                         detailBladeInputs: {
                             resourceUri: this._site.id
                         }
                     },
-                }
+                };
 
             case Feature.SiteExtensions:
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_extensions).format(args),
                     feature: feature,
-                    iconUrl: "images/extensions.svg",
+                    iconUrl: 'images/extensions.svg',
                     bladeInfo:
                     {
-                        detailBlade: "SiteExtensionsListBlade",
+                        detailBlade: 'SiteExtensionsListBlade',
                         detailBladeInputs: {
                             WebsiteId: this._descriptor.getWebsiteId()
                         }
                     },
-                }
+                };
         }
     }
 
@@ -364,10 +354,10 @@ export class SiteEnabledFeaturesComponent {
             };
         });
 
-        let item = <EnabledFeatures>{
-            id: this._site.id + "/enabledFeatures",
+        const item = <EnabledFeatures>{
+            id: this._site.id + '/enabledFeatures',
             enabledFeatures: enabledFeatures
-        }
+        };
 
         this._storageService.setItem(item.id, item);
     }
@@ -376,33 +366,32 @@ export class SiteEnabledFeaturesComponent {
         featureItems1: EnabledFeatureItem[],
         featureItems2: EnabledFeatureItem[]) {
 
-        let removeFeatures: EnabledFeatureItem[] = [];
+        const removeFeatures: EnabledFeatureItem[] = [];
         featureItems1.forEach(f1 => {
-            let index = featureItems2.findIndex(f2 => f2.feature === f1.feature);
+            const index = featureItems2.findIndex(f2 => f2.feature === f1.feature);
             if (index < 0) {
                 removeFeatures.push(f1);
             }
-        })
+        });
 
         removeFeatures.forEach(rf => {
-            let removeIndex = featureItems1.indexOf(rf);
+            const removeIndex = featureItems1.indexOf(rf);
             featureItems1.splice(removeIndex, 1);
-        })
+        });
 
         featureItems2.forEach(f2 => {
-            let featureItem = featureItems1.find(f1 => f1.feature === f2.feature);
+            const featureItem = featureItems1.find(f1 => f1.feature === f2.feature);
             if (featureItem) {
                 featureItem.title = f2.title;
                 featureItem.bladeInfo = f2.bladeInfo;
-            }
-            else {
+            } else {
                 featureItems1.push(f2);
             }
-        })
+        });
     }
 
     private _getSiteFeatures(site: ArmObj<Site>) {
-        let items = [];
+        const items = [];
         if (site.properties.hostNames.length > 1) {
             items.push(this._getEnabledFeatureItem(Feature.CustomDomains));
         }
@@ -416,16 +405,16 @@ export class SiteEnabledFeaturesComponent {
 
     private _getConfigFeatures(site: ArmObj<Site>) {
 
-        let configId = `${site.id}/config/web`;
+        const configId = `${site.id}/config/web`;
         return this._cacheService.getArm(configId)
             .map(r => {
-                let items = [];
-                let config: ArmObj<SiteConfig> = r.json();
+                const items = [];
+                const config: ArmObj<SiteConfig> = r.json();
                 if (config.properties.scmType !== 'None') {
                     items.push(this._getEnabledFeatureItem(Feature.DeploymentSource, config.properties.scmType));
                 }
 
-                let cors = config.properties.cors;
+                const cors = config.properties.cors;
                 if (cors
                     && cors.allowedOrigins
                     && cors.allowedOrigins.length > 0
@@ -439,15 +428,15 @@ export class SiteEnabledFeaturesComponent {
                 }
 
                 return items;
-            })
+            });
     }
 
     private _containsNonDefaultCorsRules(allowedOrigins: string[]) {
-        let nonDefaultRule = allowedOrigins.find(o => {
-            return o.toLowerCase() !== "https://functions.azure.com"
-                && o.toLowerCase() !== "https://functions-staging.azure.com"
-                && o.toLowerCase() !== "https://functions-next.azure.com";
-        })
+        const nonDefaultRule = allowedOrigins.find(o => {
+            return o.toLowerCase() !== 'https://functions.azure.com'
+                && o.toLowerCase() !== 'https://functions-staging.azure.com'
+                && o.toLowerCase() !== 'https://functions-next.azure.com';
+        });
 
         return !!nonDefaultRule;
     }
@@ -461,18 +450,18 @@ export class SiteEnabledFeaturesComponent {
             return Observable.of([]);
         }
 
-        let authId = `${site.id}/config/authsettings/list`;
+        const authId = `${site.id}/config/authsettings/list`;
         return this._cacheService.postArm(authId)
             .map(r => {
-                let authSettings: ArmObj<AuthSettings> = r.json();
+                const authSettings: ArmObj<AuthSettings> = r.json();
                 let items = null;
 
                 if (authSettings.properties.enabled) {
-                    items = [this._getEnabledFeatureItem(Feature.Authentication)]
+                    items = [this._getEnabledFeatureItem(Feature.Authentication)];
                 }
 
                 return items;
-            })
+            });
     }
 
     // private _getWebJobs(site : ArmObj<Site>){
@@ -491,10 +480,10 @@ export class SiteEnabledFeaturesComponent {
     // }
 
     private _getSiteExtensions(site: ArmObj<Site>) {
-        let extensionsId = `${site.id}/siteExtensions`;
+        const extensionsId = `${site.id}/siteExtensions`;
         return this._cacheService.getArm(extensionsId)
             .map(r => {
-                let extensions: any[] = r.json().value;
+                const extensions: any[] = r.json().value;
                 let items = null;
                 if (extensions && extensions.length > 0) {
                     items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];

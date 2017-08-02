@@ -1,5 +1,5 @@
 import { TblComponent, TableItem } from './../tbl.component';
-import { Component, OnInit, Directive, HostListener, Input, ElementRef, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'tbl-th',
@@ -56,8 +56,8 @@ export class TblThComponent implements OnInit {
         aCol = Object.byString(a, this.name);
         bCol = Object.byString(b, this.name);
 
-        aCol = typeof aCol === "string" ? aCol : aCol.toString();
-        bCol = typeof bCol === "string" ? bCol : bCol.toString();
+        aCol = typeof aCol === 'string' ? aCol : aCol.toString();
+        bCol = typeof bCol === 'string' ? bCol : bCol.toString();
 
         if (table.sortAscending) {
           return aCol.localeCompare(bCol);
@@ -68,7 +68,7 @@ export class TblThComponent implements OnInit {
     } else {
 
       if (!table.groupColName) {
-        throw('Cannot sort within groups');
+        throw new Error('Cannot sort within groups');
       }
 
       let finalItems = [];

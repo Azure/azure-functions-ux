@@ -1,22 +1,20 @@
-﻿import { Component, ElementRef, Inject, Output, Input, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
+﻿import { Component, ElementRef, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { BindingComponent } from '../binding/binding.component';
 import { TemplatePickerType } from '../shared/models/template-picker';
-import { UIFunctionConfig, UIFunctionBinding, DirectionType } from '../shared/models/binding';
+import { UIFunctionBinding } from '../shared/models/binding';
 import { BindingList } from '../shared/models/binding-list';
 import { Action } from '../shared/models/binding';
 import { FunctionInfo } from '../shared/models/function-info';
 import { BindingManager } from '../shared/models/binding-manager';
 import { FunctionTemplate } from '../shared/models/function-template';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
 import { PortalService } from '../shared/services/portal.service';
-import { ErrorEvent } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
@@ -27,8 +25,6 @@ import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Constants } from 'app/shared/models/constants';
 import { CacheService } from './../shared/services/cache.service';
-import { ArmObj } from './../shared/models/arm/arm-obj';
-import { ArmService } from './../shared/services/arm.service';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 @Component({
@@ -61,7 +57,6 @@ export class FunctionNewComponent {
     addLinkToAuth = false;
     action: Action;
     public disabled: boolean;
-    private functionAdded: EventEmitter<FunctionInfo> = new EventEmitter<FunctionInfo>();
     private _bindingComponents: BindingComponent[] = [];
     private _exclutionFileList = [
         'test.json',
@@ -74,13 +69,12 @@ export class FunctionNewComponent {
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
-        private _broadcastService: BroadcastService,
+        _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _cacheService: CacheService,
-        private _armService: ArmService) {
+        private _cacheService: CacheService) {
         this.elementRef = elementRef;
         this.disabled = _broadcastService.getDirtyState('function_disabled');
 
@@ -155,7 +149,6 @@ export class FunctionNewComponent {
                     this.model.setBindings();
                     this.validate();
 
-                    const that = this;
                     if (this.action) {
 
                         const binding = this.model.config.bindings.find((b) => {

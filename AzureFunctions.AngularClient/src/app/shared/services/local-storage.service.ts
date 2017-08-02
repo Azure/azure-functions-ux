@@ -1,8 +1,6 @@
 import { LocalStorageKeys } from './../models/constants';
-import { LogEntryLevel } from '../models/portal';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { StorageItem } from '../models/localStorage/local-storage';
-import { EnabledFeature, Feature } from '../models/localStorage/enabled-features';
 import { AiService } from "app/shared/services/ai.service";
 
 @Injectable()
@@ -60,7 +58,7 @@ export class LocalStorageService {
         }
     }
 
-    public addEventListener(handler: (StorageEvent) => void, caller : any) {
+    public addEventListener(handler: (StorageEvent) => void, caller: any) {
         try {
             window.addEventListener("storage", handler.bind(caller));
         }
@@ -72,7 +70,7 @@ export class LocalStorageService {
             )
         }
     }
-    
+
     private _resetStorage() {
         localStorage.clear();
         localStorage.setItem(this._apiVersionKey, this._apiVersion);

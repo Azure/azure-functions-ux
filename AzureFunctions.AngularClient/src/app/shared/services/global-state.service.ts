@@ -5,12 +5,9 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { TopBarNotification } from './../../top-bar/top-bar-models';
 import { FunctionContainer } from '../models/function-container';
-import { ResourceType } from '../models/binding';
 import { UserService } from './user.service';
-import { ArmService } from './arm.service';
 import { Constants } from '../models/constants';
 import { BusyStateComponent } from '../../busy-state/busy-state.component';
-import { AiService } from './ai.service';
 import { FunctionsService } from './functions.service';
 
 @Injectable()
@@ -18,7 +15,7 @@ export class GlobalStateService {
     public _functionsService: FunctionsService;
     public showTryView: boolean;
     public showTopbar: boolean;
-    public isAlwaysOn: boolean = true;
+    public isAlwaysOn = true;
     public enabledApiProxy: BehaviorSubject<boolean> = new BehaviorSubject(false);
     public topBarNotificationsStream = new ReplaySubject<TopBarNotification[]>(1);
     public disabledMessage = new Subject<string>();
@@ -29,13 +26,10 @@ export class GlobalStateService {
     private _shouldBeBusy: boolean;
     private _token: string;
     private _tryAppServicetoken: string;
-    private _scmCreds: string;
-    private _globalDisabled: boolean = false;
-    private _trialExpired: boolean = false;
+    private _globalDisabled = false;
+    private _trialExpired = false;
 
-    constructor(private _userService: UserService,
-        private _armService: ArmService,
-        private _aiService: AiService) {
+    constructor(private _userService: UserService) {
         this._appSettings = {};
         this.showTryView = window.location.pathname.toLowerCase().endsWith('/try');
         this._userService.getStartupInfo().subscribe(info => this._token = info.token);
@@ -47,7 +41,7 @@ export class GlobalStateService {
     }
 
     get DefaultStorageAccount(): string {
-        for (var key in this._appSettings) {
+        for (let key in this._appSettings) {
             if (key.toString().endsWith('_STORAGE')) {
                 return key;
             }

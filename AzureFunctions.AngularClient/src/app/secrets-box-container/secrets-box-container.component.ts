@@ -1,6 +1,6 @@
 //https://github.com/henkie14/angular2-show-hide-password
-import { Component, ContentChild } from '@angular/core'
-import { SecretsBoxInputDirective } from './secrets-box-input.directive'
+import { Component, ContentChild } from '@angular/core';
+import { SecretsBoxInputDirective } from './secrets-box-input.directive';
 
 @Component({
     selector: 'secrets-box-container',
@@ -17,9 +17,9 @@ export class SecretsBoxContainerComponent {
     toggleShow() {
         this.show = !this.show;
         if (this.show) {
-            this.input.changeType("text");
+            this.input.changeType('text');
         } else {
-            this.input.changeType("password");
+            this.input.changeType('password');
         }
     }
 }

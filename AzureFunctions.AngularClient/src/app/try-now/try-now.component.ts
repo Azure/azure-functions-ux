@@ -1,14 +1,13 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UIResource } from '../shared/models/ui-resource';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { FunctionsService } from '../shared/services/functions.service';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { AiService } from '../shared/services/ai.service';
 
-declare var mixpanel: any;
 
 @Component({
     selector: 'try-now',
@@ -28,18 +27,18 @@ export class TryNowComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService) {
-        //TODO: Add cookie referer details like in try
+        // TODO: Add cookie referer details like in try
         this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free`;
         this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/`;
 
-        var callBack = () => {
+        const callBack = () => {
             window.setTimeout(() => {
-                var mm;
-                var now = new Date();
+                let mm;
+                const now = new Date();
 
-                var msLeft = this.endTime.getTime() - now.getTime();
+                const msLeft = this.endTime.getTime() - now.getTime();
                 if (this.endTime >= now) {
-                    //http://stackoverflow.com/questions/1787939/check-time-difference-in-javascript
+                    // http://stackoverflow.com/questions/1787939/check-time-difference-in-javascript
                     mm = Math.floor(msLeft / 1000 / 60);
                     if (mm < 1) {
                         this.timerText = (this._translateService.instant(PortalResources.tryNow_lessThanOneMinute));
@@ -66,9 +65,9 @@ export class TryNowComponent implements OnInit {
 
     ngOnInit() { }
 
-    //http://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
+    // http://stackoverflow.com/questions/10073699/pad-a-number-with-leading-zeros-in-javascript
     pad(n, width) {
-        var z = '0';
+        const z = '0';
         n = n + '';
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }

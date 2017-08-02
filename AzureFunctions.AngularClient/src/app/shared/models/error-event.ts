@@ -1,5 +1,3 @@
-import { FunctionApp } from './../function-app';
-
 export interface ErrorEvent {
     message: string;
     errorId: string;

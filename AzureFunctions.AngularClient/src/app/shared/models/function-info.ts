@@ -1,5 +1,4 @@
 import { FunctionConfig } from '../models/function-config';
-import { VfsObject } from '../models/vfs-object';
 import { FunctionApp } from '../function-app';
 
 export interface FunctionInfo {
@@ -19,44 +18,44 @@ export interface FunctionInfo {
 
 export class FunctionInfoHelper {
     public static getLanguage(fi: FunctionInfo): string {
-        var fileName = fi.script_href.substring(fi.script_href.lastIndexOf('/') + 1);
-        var fileExt = fileName.split(".")[1].toLowerCase();
-        var lang = "";
+        const fileName = fi.script_href.substring(fi.script_href.lastIndexOf('/') + 1);
+        const fileExt = fileName.split('.')[1].toLowerCase();
+        let lang = '';
 
         switch (fileExt) {
-            case "sh":
-                lang = "Bash";
+            case 'sh':
+                lang = 'Bash';
                 break;
-            case "bat":
-                lang = "Batch";
-                //bat
+            case 'bat':
+                lang = 'Batch';
+                // bat
                 break;
-            case "csx":
-                lang = "CSharp";
-                //csharp
+            case 'csx':
+                lang = 'CSharp';
+                // csharp
                 break;
-            case "fsx":
-                lang = "FSharp";
-                //fsharp
+            case 'fsx':
+                lang = 'FSharp';
+                // fsharp
                 break;
-            case "js":
-                lang = "JavaScript";
-                //javascript
+            case 'js':
+                lang = 'JavaScript';
+                // javascript
                 break;
-            case "php":
-                lang = "Php";
+            case 'php':
+                lang = 'Php';
                 break;
-            case "ps1":
-                lang = "Powershell";
-                //powershell
+            case 'ps1':
+                lang = 'Powershell';
+                // powershell
                 break;
-            case "py":
-                lang = "Python";
-                //python
+            case 'py':
+                lang = 'Python';
+                // python
                 break;
-            case "ts":
-                lang = "TypeScript";
-                //typescript
+            case 'ts':
+                lang = 'TypeScript';
+                // typescript
                 break;
         }
         return lang;

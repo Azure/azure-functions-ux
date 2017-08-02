@@ -1,4 +1,4 @@
-﻿import { UIFunctionConfig, UIFunctionBinding, DirectionType, SettingType, BindingType, Binding } from './binding';
+﻿import { UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType, Binding } from './binding';
 import { FunctionConfig } from './function-config';
 import { Template } from './template-picker';
 import { FunctionInfo } from '../models/function-info';
@@ -9,9 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 export class BindingManager {
 
     public static getFunctionName(defaultName: string, functionsInfo: FunctionInfo[]): string {
-        var i = 1;
+        let i = 1;
         while (true) {
-            var func = functionsInfo.find((value) => {
+            const func = functionsInfo.find((value) => {
                 return defaultName + i.toString() === value.name;
             });
 
@@ -24,9 +24,9 @@ export class BindingManager {
     }
 
     functionConfigToUI(config: FunctionConfig, bindings: Binding[]): UIFunctionConfig {
-        var configUI = {
-            schema: "",
-            version: "",
+        const configUI = {
+            schema: '',
+            version: '',
             bindings: [],
             originalConfig: config
         };
@@ -34,34 +34,34 @@ export class BindingManager {
         if (config.bindings) {
 
             config.bindings.forEach((b) => {
-                var typeString: string = b.type;
-                var type: BindingType = BindingManager.getBindingType(typeString);
-                var behaviorString: string = b.direction;
-                var direction: DirectionType = DirectionType[behaviorString];
+                const typeString: string = b.type;
+                const type: BindingType = BindingManager.getBindingType(typeString);
+                const behaviorString: string = b.direction;
+                let direction: DirectionType = DirectionType[behaviorString];
 
                 if (typeString) {
-                    if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf("trigger") !== -1)) {
+                    if ((DirectionType[behaviorString] === DirectionType.in) && (typeString.toLowerCase().indexOf('trigger') !== -1)) {
                         direction = DirectionType.trigger;
                     }
                 }
 
-                var bindingConfig = bindings.find((cb) => {
+                const bindingConfig = bindings.find((cb) => {
                     return (cb.direction === direction || (cb.direction === DirectionType.in && direction === DirectionType.trigger)) && cb.type === type;
                 });
 
-                var fb: UIFunctionBinding = {
+                const fb: UIFunctionBinding = {
                     id: this.guid(),
                     name: b.name,
                     type: type,
                     direction: direction,
                     enabledInTryMode: false,
                     settings: [],
-                    displayName: bindingConfig ? bindingConfig.displayName : ""
+                    displayName: bindingConfig ? bindingConfig.displayName : ''
                 };
 
                 // Copy binding level settings
-                for (var key in b) {
-                    var findIndex = fb.settings.findIndex((setting) => {
+                for (const key in b) {
+                    const findIndex = fb.settings.findIndex((setting) => {
                         return setting.name === key;
                     });
 
@@ -81,13 +81,13 @@ export class BindingManager {
     }
 
     UIToFunctionConfig(config: UIFunctionConfig): FunctionConfig {
-        var result = {
+        const result = {
             bindings: []
         };
 
-        //top-level
-        for (var key in config.originalConfig) {
-            if (key !== "bindings") {
+        // top-level
+        for (const key in config.originalConfig) {
+            if (key !== 'bindings') {
                 result[key] = config.originalConfig[key];
             }
         }
@@ -95,7 +95,7 @@ export class BindingManager {
         if (config.bindings) {
 
             config.bindings.forEach((b) => {
-                var bindingToAdd = {
+                const bindingToAdd = {
                 };
 
                 b.settings.forEach((s) => {
@@ -103,13 +103,13 @@ export class BindingManager {
                         if (s.value === false) {
                             bindingToAdd[s.name] = false;
                         } else if (!s.value) {
-                            bindingToAdd[s.name] = "";
+                            bindingToAdd[s.name] = '';
                         } else {
                             bindingToAdd[s.name] = s.value;
                         }
                     }
                 });
-                bindingToAdd["direction"] = b.direction === DirectionType.trigger ? DirectionType.in.toString() : b.direction.toString();
+                bindingToAdd['direction'] = b.direction === DirectionType.trigger ? DirectionType.in.toString() : b.direction.toString();
 
                 result.bindings.push(bindingToAdd);
             });
@@ -125,13 +125,13 @@ export class BindingManager {
     }
 
     getDefaultBinding(type: BindingType, direction: DirectionType, bindings: Binding[], defaultStorageAccount): UIFunctionBinding {
-        var schema = this.getBindingSchema(type, direction, bindings);
+        const schema = this.getBindingSchema(type, direction, bindings);
 
-        var parameterNameSetting = schema.settings.find((s) => {
-            return s.name === "name";
+        const parameterNameSetting = schema.settings.find((s) => {
+            return s.name === 'name';
         });
 
-        var result = {
+        const result = {
             id: this.guid(),
             name: parameterNameSetting.defaultValue,
             type: type,
@@ -144,12 +144,12 @@ export class BindingManager {
 
         result.settings.push({
             value: type,
-            name: "type"
+            name: 'type'
         });
 
         schema.settings.forEach((s) => {
             result.settings.push({
-                value: s.name === "storageAccount" ? defaultStorageAccount : s.defaultValue,
+                value: s.name === 'storageAccount' ? defaultStorageAccount : s.defaultValue,
                 name: s.name
             });
         });
@@ -158,11 +158,11 @@ export class BindingManager {
     }
 
     getTemplates(behavior: DirectionType, bindings: Binding[]): Template[] {
-        var bindings = bindings.filter((bindingSchema: Binding) => {
+        bindings = bindings.filter((bindingSchema: Binding) => {
             return bindingSchema.direction === behavior;
         });
 
-        var result: Template[] = [];
+        const result: Template[] = [];
         bindings.forEach((b) => {
             result.push({
                 name: b.displayName,
@@ -175,8 +175,8 @@ export class BindingManager {
 
     setDefaultValues(bindings: FunctionBinding[], defaultStorageAccount: string) {
         bindings.forEach((b) => {
-            for (var key in b) {
-                if (key === "storageAccount") {
+            for (const key in b) {
+                if (key === 'storageAccount') {
                     b[key] = defaultStorageAccount;
                 }
             }
@@ -188,7 +188,7 @@ export class BindingManager {
         if (config.bindings) {
 
             config.bindings.forEach((b) => {
-                var duplicate = config.bindings.find((binding) => {
+                const duplicate = config.bindings.find((binding) => {
                     return b !== binding && binding.name === b.name;
                 });
 
@@ -220,14 +220,14 @@ export class BindingManager {
         }
     }
 
-    //http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+    // http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
     guid() {
         return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
             this.s4() + '-' + this.s4() + this.s4() + this.s4();
     }
 
     public static isHttpFunction(functionInfo: FunctionInfo) {
-        var inputBinding = (functionInfo.config && functionInfo.config.bindings
+        const inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type.toLowerCase() === 'httptrigger')
             : null);
         return !!inputBinding;
@@ -240,7 +240,7 @@ export class BindingManager {
     }
 
     public static getBindingType(value: string): BindingType {
-        for (var type in BindingType) {
+        for (const type in BindingType) {
             if (type.toString().toLowerCase() === value.toLowerCase()) {
                 return BindingType[type.toString()];
             }

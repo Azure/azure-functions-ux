@@ -1,7 +1,7 @@
 import { FunctionApp } from './../shared/function-app';
-import { Component, ElementRef, Inject, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, Inject, Input, Output, EventEmitter } from '@angular/core';
 import { BindingList } from '../shared/models/binding-list';
-import { UIFunctionConfig, UIFunctionBinding, DirectionType, BindingType, Action } from '../shared/models/binding';
+import { UIFunctionBinding, DirectionType, Action } from '../shared/models/binding';
 import { BindingManager } from '../shared/models/binding-manager';
 import { FunctionInfo, FunctionInfoHelper } from '../shared/models/function-info';
 import { TemplatePickerType } from '../shared/models/template-picker';
@@ -10,7 +10,7 @@ import { BroadcastEvent } from '../shared/models/broadcast-event'
 import { PortalService } from '../shared/services/portal.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { ErrorIds } from '../shared/models/error-ids';
 import { FunctionsNode } from '../tree-view/functions-node';

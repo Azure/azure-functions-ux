@@ -1,17 +1,13 @@
 import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionApp } from './../shared/function-app';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 import { AppModule } from './../app.module';
-import { BusyStateComponent } from './../busy-state/busy-state.component';
 import { AiService } from './../shared/services/ai.service';
 import { UtilitiesService } from './../shared/services/utilities.service';
-import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { BroadcastService } from './../shared/services/broadcast.service';
-import { HttpModule } from '@angular/http';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { FunctionKeysComponent } from './function-keys.component';

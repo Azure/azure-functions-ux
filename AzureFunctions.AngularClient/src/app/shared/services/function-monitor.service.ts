@@ -5,11 +5,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
-import { PortalService } from './portal.service';
 import { UserService } from './user.service';
-import { FunctionsService } from '../services/functions.service';
 import { GlobalStateService } from '../services/global-state.service';
-import { FunctionInvocations, FunctionInvocationDetails, FunctionAggregates, FunctionStats } from '../models/function-monitor';
+import { FunctionInvocations, FunctionAggregates } from '../models/function-monitor';
 import { FunctionInfo } from '../models/function-info';
 import { FunctionApp } from '../function-app';
 

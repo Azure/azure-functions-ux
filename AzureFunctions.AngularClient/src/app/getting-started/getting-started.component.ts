@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { Response, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -11,15 +11,12 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Constants } from './../shared/models/constants';
 import { StorageAccount } from './../shared/models/storage-account';
 import { ResourceGroup } from './../shared/models/resource-group';
 import { UserService } from '../shared/services/user.service';
-import { FunctionsService } from '../shared/services/functions.service';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
 import { User } from '../shared/models/user';
 import { Subscription } from '../shared/models/subscription';
 import { DropDownElement } from '../shared/models/drop-down-element';
@@ -27,7 +24,6 @@ import { ArmService } from '../shared/services/arm.service';
 import { FunctionContainer } from '../shared/models/function-container';
 import { TelemetryService } from '../shared/services/telemetry.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { TenantInfo } from '../shared/models/tenant-info';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
 
@@ -56,8 +52,6 @@ export class GettingStartedComponent implements OnInit {
     private functionContainer: FunctionContainer;
     constructor(
         private _userService: UserService,
-        private _functionsService: FunctionsService,
-        private _broadcastService: BroadcastService,
         private _armService: ArmService,
         private _telemetryService: TelemetryService,
         private _globalStateService: GlobalStateService,
@@ -67,7 +61,6 @@ export class GettingStartedComponent implements OnInit {
     ) {
         this.isValidContainerName = true;
         // http://stackoverflow.com/a/8084248/3234163
-        const secret = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
         this.functionContainerName = `functions${this.makeId()}`;
         this.functionContainers = [];
         this.userReady = new EventEmitter<FunctionContainer>();

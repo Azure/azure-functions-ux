@@ -1,7 +1,7 @@
 // This file is auto generated
+/* tslint:disable */
 
-export class PortalResources
-{
+export class PortalResources {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";

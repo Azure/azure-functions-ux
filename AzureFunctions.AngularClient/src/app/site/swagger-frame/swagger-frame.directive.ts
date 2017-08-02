@@ -12,19 +12,18 @@ export class SwaggerFrameDirective {
     @Output()
     public onSwaggerEditorReady: EventEmitter<ISwaggerEditor>;
 
-    constructor(private elementRef: ElementRef, private zone: NgZone) {
+    constructor(elementRef: ElementRef, private zone: NgZone) {
         this.element = elementRef.nativeElement;
         this.onSwaggerEditorReady = new EventEmitter<ISwaggerEditor>();
     }
 
     private onFrameLoaded(): void {
-        let iswaggerEditor = this.iframeElement.contentDocument["iswaggerEditor"];
+        const iswaggerEditor = this.iframeElement.contentDocument['iswaggerEditor'];
 
         if (iswaggerEditor) {
             this.initiateSwaggerEditor(iswaggerEditor);
-        }
-        else {
-            this.iframeElement.contentDocument.addEventListener("iswaggerEditorReady", this.onISwaggerEditorReady.bind(this));
+        } else {
+            this.iframeElement.contentDocument.addEventListener('iswaggerEditorReady', this.onISwaggerEditorReady.bind(this));
         }
     }
 
@@ -33,7 +32,7 @@ export class SwaggerFrameDirective {
     }
 
     private initiateSwaggerEditor(iswaggerEditor: ISwaggerEditor): void {
-        let swaggerEditor = new SwaggerEditor(iswaggerEditor, this.zone);
+        const swaggerEditor = new SwaggerEditor(iswaggerEditor, this.zone);
 
         this.zone.run(() => {
             this.onSwaggerEditorReady.emit(swaggerEditor);
@@ -41,11 +40,11 @@ export class SwaggerFrameDirective {
     }
 
     public ngOnInit(): void {
-        this.iframeElement = document.createElement("iframe");
-        this.iframeElement.id = "SwaggerFrame";
-        this.iframeElement.setAttribute("src", "../node_modules/swagger-editor/index.html");
-        this.iframeElement.setAttribute("frameborder", "0");
-        this.iframeElement.setAttribute("style", "width: 100%; height: 100%;");
+        this.iframeElement = document.createElement('iframe');
+        this.iframeElement.id = 'SwaggerFrame';
+        this.iframeElement.setAttribute('src', '../node_modules/swagger-editor/index.html');
+        this.iframeElement.setAttribute('frameborder', '0');
+        this.iframeElement.setAttribute('style', 'width: 100%; height: 100%;');
         this.iframeElement.onload = this.onFrameLoaded.bind(this);
         this.element.appendChild(this.iframeElement);
     }

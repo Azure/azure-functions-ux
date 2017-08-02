@@ -1,7 +1,7 @@
+import { StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { Dom } from './../shared/Utilities/dom';
 import { SearchBoxComponent } from './../search-box/search-box.component';
-import { TreeNodeIterator } from './../tree-view/tree-node-iterator';
-import { Component, OnInit, EventEmitter, OnDestroy, Output, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, AfterViewInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -11,22 +11,17 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/of';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../shared/services/config.service';
-import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { Arm, KeyCodes } from './../shared/models/constants';
+import { Arm } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
-import { ArmArrayResult } from './../shared/models/arm/arm-obj';
-import { WebsiteId } from './../shared/models/portal';
-import { StorageItem, StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { TreeNode } from '../tree-view/tree-node';
 import { AppsNode } from '../tree-view/apps-node';
 import { AppNode } from '../tree-view/app-node';
-import { TreeViewComponent } from '../tree-view/tree-view.component';
 import { ArmService } from '../shared/services/arm.service';
 import { CacheService } from '../shared/services/cache.service';
 import { UserService } from '../shared/services/user.service';
@@ -34,7 +29,6 @@ import { FunctionsService } from '../shared/services/functions.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { AiService } from '../shared/services/ai.service';
-import { DropDownComponent } from '../drop-down/drop-down.component';
 import { DropDownElement } from '../shared/models/drop-down-element';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
@@ -54,19 +48,19 @@ export class SideNavComponent implements AfterViewInit {
     public rootNode: TreeNode;
     public subscriptionOptions: DropDownElement<Subscription>[] = [];
     public selectedSubscriptions: Subscription[] = [];
-    public subscriptionsDisplayText = "";
+    public subscriptionsDisplayText = '';
 
     public resourceId: string;
     public initialResourceId: string;
 
-    public searchTerm = "";
+    public searchTerm = '';
     public hasValue = false;
     public tryFunctionApp: FunctionApp;
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
 
-    private _savedSubsKey = "/subscriptions/selectedIds";
+    private _savedSubsKey = '/subscriptions/selectedIds';
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new Subject<string>();
 
@@ -101,8 +95,8 @@ export class SideNavComponent implements AfterViewInit {
 
         userService.getStartupInfo().subscribe(info => {
 
-            var sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
-            var initialSiteName = !! this.initialResourceId ? SiteDescriptor.getSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
+            const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
+            const initialSiteName = !!this.initialResourceId ? SiteDescriptor.getSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
             if (sitenameIncoming !== initialSiteName) {
                 this.portalService.sendTimerEvent({
                     timerId: 'TreeViewLoad',
@@ -167,15 +161,13 @@ export class SideNavComponent implements AfterViewInit {
             .subscribe(functions => {
                 this.globalStateService.clearBusyState();
 
-                let functionInfo: FunctionInfo = null;
                 if (functions && functions.length > 0) {
                     this.initialResourceId = `${this.tryFunctionApp.site.id}/functions/${functions[0].name}`;
-                }
-                else {
+                } else {
                     this.initialResourceId = this.tryFunctionApp.site.id;
                 }
 
-                let appNode = new AppNode(
+                const appNode = new AppNode(
                     this,
                     this.tryFunctionApp.site,
                     this.rootNode,
@@ -198,7 +190,7 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     private _getViewContainer(): HTMLDivElement {
-        let treeViewContainer = this.treeViewContainer && <HTMLDivElement>this.treeViewContainer.nativeElement;
+        const treeViewContainer = this.treeViewContainer && <HTMLDivElement>this.treeViewContainer.nativeElement;
 
         if (!treeViewContainer) {
             return null;
@@ -228,8 +220,7 @@ export class SideNavComponent implements AfterViewInit {
 
             if (!force && this.selectedNode === newSelectedNode && this.selectedDashboardType === newDashboardType) {
                 return Observable.of(false);
-            }
-            else {
+            } else {
 
                 if (this.selectedNode.shouldBlockNavChange()) {
                     return Observable.of(false);
@@ -261,23 +252,23 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     private _logDashboardTypeChange(oldDashboard: DashboardType, newDashboard: DashboardType) {
-        let oldDashboardType = DashboardType[oldDashboard];
-        let newDashboardType = DashboardType[newDashboard];
+        const oldDashboardType = DashboardType[oldDashboard];
+        const newDashboardType = DashboardType[newDashboard];
 
         this.aiService.trackEvent('/sidenav/change-dashboard', {
             source: oldDashboardType,
             dest: newDashboardType
-        })
+        });
     }
 
     private _updateTitle(node: TreeNode) {
-        let pathNames = node.getTreePathNames();
-        let title = "";
-        let subtitle = "";
+        const pathNames = node.getTreePathNames();
+        let title = '';
+        let subtitle = '';
 
         for (let i = 0; i < pathNames.length; i++) {
             if (i % 2 === 1) {
-                title += pathNames[i] + " - ";
+                title += pathNames[i] + ' - ';
             }
         }
 
@@ -288,9 +279,8 @@ export class SideNavComponent implements AfterViewInit {
 
         if (!title) {
             title = this.translateService.instant(PortalResources.functionApps);
-            subtitle = "";
-        }
-        else {
+            subtitle = '';
+        } else {
             subtitle = this.translateService.instant(PortalResources.functionApps);;
         }
 
@@ -306,15 +296,14 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     search(event: any) {
-        if (typeof event === "string") {
+        if (typeof event === 'string') {
             this._searchTermStream.next(event);
             this.hasValue = !!event;
-        }
-        else {
+        } else {
             this.hasValue = !!event.target.value;
 
-            let startPos = event.target.selectionStart;
-            let endPos = event.target.selectionEnd;
+            const startPos = event.target.selectionStart;
+            const endPos = event.target.selectionEnd;
 
             // TODO: ellhamai - this is a hack and it's not perfect.  Basically everytime we update
             // the searchTerm, we end up resetting the cursor.  It's better than before, but
@@ -337,7 +326,7 @@ export class SideNavComponent implements AfterViewInit {
 
     clearSearch() {
         this.hasValue = false;
-        this._searchTermStream.next("");
+        this._searchTermStream.next('');
     }
 
     onSubscriptionsSelect(subscriptions: Subscription[]) {
@@ -346,15 +335,14 @@ export class SideNavComponent implements AfterViewInit {
 
         if (subscriptions.length === this.subscriptionOptions.length) {
             subIds = [];  // Equivalent of all subs
-        }
-        else {
+        } else {
             subIds = subscriptions.map<string>(s => s.subscriptionId);
         }
 
-        let storedSelectedSubIds: StoredSubscriptions = {
+        const storedSelectedSubIds: StoredSubscriptions = {
             id: this._savedSubsKey,
             subscriptions: subIds
-        }
+        };
 
         this.localStorageService.setItem(storedSelectedSubIds.id, storedSelectedSubIds);
         this.selectedSubscriptions = subscriptions;
@@ -362,8 +350,7 @@ export class SideNavComponent implements AfterViewInit {
 
         if (subscriptions.length === this.subscriptionOptions.length) {
             this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_AllSubscriptions));
-        }
-        else if (subscriptions.length > 1) {
+        } else if (subscriptions.length > 1) {
             this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_SubscriptionCount).format(subscriptions.length));
         }
         else {
@@ -375,15 +362,15 @@ export class SideNavComponent implements AfterViewInit {
     // so we need to make sure we're always overwriting them.  But if we simply
     // set the value to the same value twice, no change notification will happen.
     private _updateSubDisplayText(displayText: string) {
-        this.subscriptionsDisplayText = "";
+        this.subscriptionsDisplayText = '';
         setTimeout(() => {
             this.subscriptionsDisplayText = displayText;
         }, 10);
     }
 
     private _setupInitialSubscriptions(resourceId: string) {
-        let savedSubs = <StoredSubscriptions>this.localStorageService.getItem(this._savedSubsKey);
-        let savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
+        const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(this._savedSubsKey);
+        const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
         let descriptor: SiteDescriptor;
 
         if (resourceId) {

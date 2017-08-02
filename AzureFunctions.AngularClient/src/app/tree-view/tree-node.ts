@@ -7,8 +7,6 @@ import 'rxjs/add/observable/of';
 import { Disposable } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
-import { TreeViewInfo } from './models/tree-view-info';
-import { Subscription } from '../shared/models/subscription';
 
 export interface CustomSelection {
     handleSelection();

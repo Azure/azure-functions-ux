@@ -1,6 +1,5 @@
 ﻿import { Subject } from 'rxjs/Subject';
 import { SlotsService } from 'app/shared/services/slots.service';
-import { Injectable } from '@angular/core';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -26,18 +25,12 @@ import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
 import { FunctionInfo } from './models/function-info';
 import { VfsObject } from './models/vfs-object';
-import { ScmInfo } from './models/scm-info';
 import { ApiProxy } from './models/api-proxy';
-import { PassthroughInfo } from './models/passthrough-info';
 import { CreateFunctionInfo } from './models/create-function-info';
 import { FunctionTemplate } from './models/function-template';
-import { RunResponse } from './models/run-response';
 import { DesignerSchema } from './models/designer-schema';
 import { FunctionSecrets } from './models/function-secrets';
-import { Subscription } from './models/subscription';
-import { ServerFarm } from './models/server-farm';
 import { BindingConfig } from './models/binding';
-import { PortalService } from './services/portal.service';
 import { UserService } from './services/user.service';
 import { FunctionContainer } from './models/function-container';
 import { RunFunctionResult } from './models/run-function-result';
@@ -45,34 +38,27 @@ import { Constants } from './models/constants';
 import { Cache, ClearCache, ClearAllFunctionCache } from './decorators/cache.decorator';
 import { GlobalStateService } from './services/global-state.service';
 import { PortalResources } from './models/portal-resources';
-import { UIResource, AppService, ITryAppServiceTemplate } from './models/ui-resource';
+import { UIResource, ITryAppServiceTemplate } from './models/ui-resource';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import { UsageVolume } from './models/app-monitoring-usage';
 import { BroadcastService } from './services/broadcast.service';
 import { ArmService } from './services/arm.service';
 import { BroadcastEvent } from './models/broadcast-event';
 import { ErrorEvent, ErrorType } from './models/error-event';
 import { HttpRunModel } from './models/http-run';
 import { FunctionKeys, FunctionKey } from './models/function-key';
-import { StartupInfo } from './models/portal';
 import { CacheService } from './services/cache.service';
 import { ArmObj } from './models/arm/arm-obj';
 import { Site } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
-import { EventHubComponent } from '../pickers/event-hub/event-hub.component';
 
 import * as jsonschema from 'jsonschema';
 
-declare var mixpanel: any;
-
 export class FunctionApp {
     private masterKey: string;
-    private _tokenForMasterKey: string;
     private token: string;
     private _scmUrl: string;
-    private storageConnectionString: string;
     private siteName: string;
     private mainSiteUrl: string;
     public selectedFunction: string;
@@ -144,7 +130,7 @@ export class FunctionApp {
 
     constructor(
         public site: ArmObj<Site>,
-        private _ngHttp: Http,
+        _ngHttp: Http,
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
@@ -179,7 +165,7 @@ export class FunctionApp {
                         this._authZService.hasPermission(this.site.id, [AuthzService.writeScope]),
                         this._authZService.hasReadOnlyLock(this.site.id),
                         (p, l) => ({ hasWritePermissions: p, hasReadOnlyLock: l })
-                    )
+                    );
                 })
                 .mergeMap(r => {
                     if (r.hasWritePermissions && !r.hasReadOnlyLock) {
@@ -212,9 +198,9 @@ export class FunctionApp {
                             }
                         });
                 }, e => {
-                    this._aiService.trackException(e, "FunctionApp().getStartupInfo()");
+                    this._aiService.trackException(e, 'FunctionApp().getStartupInfo()');
                 })
-                .subscribe(() => { })
+                .subscribe(() => { });
 
         }
 
@@ -223,7 +209,7 @@ export class FunctionApp {
 
         this.siteName = this.site.name;
 
-        let fc = <FunctionContainer>site;
+        const fc = <FunctionContainer>site;
         if (fc.tryScmCred != null) {
             this.tryFunctionsScmCreds = fc.tryScmCred;
         }
@@ -1730,14 +1716,6 @@ export class FunctionApp {
         } else {
             return 'undefined';
         }
-    }
-
-    private getHostname(url: string): string {
-        let anchor = document.createElement('a');
-        anchor.setAttribute('href', url);
-        const link = anchor.hostname;
-        anchor = null;
-        return link;
     }
 
     getGeneratedSwaggerData(key: string) {

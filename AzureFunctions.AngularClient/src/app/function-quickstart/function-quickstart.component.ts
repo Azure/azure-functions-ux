@@ -3,20 +3,14 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
-import { AppNode } from './../tree-view/app-node';
-import { StorageItem, QuickstartSettings } from './../shared/models/localStorage/local-storage';
-import { LocalStorageService } from './../shared/services/local-storage.service';
 import { AiService } from './../shared/services/ai.service';
-import { FunctionsService } from '../shared/services/functions.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { BindingType } from '../shared/models/binding';
 import { FunctionTemplate } from '../shared/models/function-template';
 import { FunctionInfo } from '../shared/models/function-info';
 import { PortalService } from '../shared/services/portal.service';
-import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
 import { BindingManager } from '../shared/models/binding-manager';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
@@ -43,13 +37,11 @@ export class FunctionQuickstartComponent {
     private functionsNode: FunctionsNode;
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
 
-    constructor(private _functionsService: FunctionsService,
-        private _broadcastService: BroadcastService,
+    constructor(private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService,
-        private _localStorageService: LocalStorageService) {
+        private _aiService: AiService) {
 
         this.selectedFunction = 'HttpTrigger';
         this.selectedLanguage = 'CSharp';

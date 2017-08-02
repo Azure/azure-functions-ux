@@ -1,13 +1,9 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ApiProxy } from '../shared/models/api-proxy';
-import { FunctionsService } from '../shared/services/functions.service';
-import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
-import { PortalResources } from '../shared/models/portal-resources';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { FunctionContainer } from '../shared/models/function-container';
 import { ApiNewComponent } from '../api-new/api-new.component';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { ProxiesNode } from '../tree-view/proxies-node';

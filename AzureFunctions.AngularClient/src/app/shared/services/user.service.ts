@@ -3,18 +3,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from './../models/subscription';
 import { ArmServiceHelper } from './arm.service-helper';
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
-import { ConfigService } from './config.service';
 import { Constants } from './../models/constants';
 import { User } from '../models/user';
 import { TenantInfo } from '../models/tenant-info';
-import { FunctionContainer } from '../models/function-container';
-import { IAppInsights } from '../models/app-insights';
 import { AiService } from './ai.service';
 import { PortalService } from './portal.service';
 import { StartupInfo } from '../models/portal';
@@ -31,7 +28,6 @@ export class UserService {
         private _http: Http,
         private _aiService: AiService,
         private _portalService: PortalService,
-        private _configService: ConfigService,
         private _translateService: TranslateService) {
 
         this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
