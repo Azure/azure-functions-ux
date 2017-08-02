@@ -18,6 +18,7 @@ import { MultiDropDownElement } from './../shared/models/drop-down-element';
 export class MultiDropDownComponent<T> implements OnInit {
 
   @Input() displayText = '';
+  @Input() allItemsDisplay: string | null;
   @ViewChild('itemListContainer') itemListContainer: ElementRef;
   public opened = false;
   public options: MultiDropDownElement<T>[];
@@ -213,7 +214,11 @@ export class MultiDropDownComponent<T> implements OnInit {
     }
 
     if (this._selectAllOption.isSelected) {
-      displayText = this._ts.instant(PortalResources.allItemsSelected);
+      if (this.allItemsDisplay) {
+        displayText = this.allItemsDisplay;
+      } else {
+        displayText = this._ts.instant(PortalResources.allItemsSelected);
+      }
     } else if (selectedValues.length > 1) {
       displayText = this._ts.instant(PortalResources.numItemsSelected).format(selectedValues.length);
     }
