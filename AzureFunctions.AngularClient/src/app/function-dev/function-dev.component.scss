@@ -12,7 +12,12 @@
 
 .dev-flex-column {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
+}
+
+.dev-flex-row {
+    display: flex;
+    flex-direction: row;
 }
 
 .control-label {
@@ -121,6 +126,15 @@
     padding-left: 10px;
 }
 
+.bottom-container-bar {
+    height: 50px;
+    display: flex;
+    align-items: flex-end;
+    border-top: 1px solid #ccc;
+    padding-left: 10px;
+    margin-right: 17px;
+}
+
 .run-container {
     flex-grow:1;
     padding-left: 10px;
@@ -177,4 +191,25 @@
 
 .bottom-empty {
     flex-grow: 1;    
+}
+
+.bottom-tab-logs {
+    height: 100%;
+    padding-top: 25px;
+}
+
+.bottom-tab-errors {
+    width: 100%;
+    padding-right: 30px;
+}
+
+.bottom-tab-open {
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.chevron-down {
+    align-self: flex-end;
+    padding-right: 10px;
 }

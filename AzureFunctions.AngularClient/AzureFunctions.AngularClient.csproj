@@ -111,6 +111,7 @@
     <Content Include="src\app\accordion\accordion.component.scss" />
     <Content Include="src\app\apps-list\apps-list.component.scss" />
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.scss" />
+    <Content Include="src\app\errors-warnings\errors-warnings.component.html" />
     <Content Include="src\app\feature-group\feature-group.component.scss" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.scss" />
     <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.scss" />
@@ -118,6 +119,7 @@
     <Content Include="src\app\controls\command-bar\command\command.component.scss" />
     <Content Include="src\app\controls\textbox\textbox.component.scss" />
     <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.scss" />
+    <Content Include="src\app\errors-warnings\errors-warnings.component.scss" />
     <Content Include="src\app\download-function-app-content\download-function-app-content.component.scss" />
     <None Include="src\app\file-explorer\file-explorer.component.scss" />
     <Content Include="src\app\feature-group\feature-group.component.html" />
@@ -391,6 +393,8 @@
     <TypeScriptCompile Include="src\app\edit-mode-warning\edit-mode-warning.component.ts" />
     <TypeScriptCompile Include="src\app\error-list\error-list.component.spec.ts" />
     <TypeScriptCompile Include="src\app\error-list\error-list.component.ts" />
+    <TypeScriptCompile Include="src\app\errors-warnings\errors-warnings.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\errors-warnings\errors-warnings.component.ts" />
     <TypeScriptCompile Include="src\app\feature-group\feature-group.component.spec.ts" />
     <TypeScriptCompile Include="src\app\feature-group\feature-group.component.ts" />
     <TypeScriptCompile Include="src\app\feature-group\feature-group.ts" />
@@ -425,7 +429,7 @@
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.spec.ts" />
     <TypeScriptCompile Include="src\app\local-development-instructions\local-development-instructions.component.ts" />
     <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.ts" />
+    <TypeScriptCompile Include="src\app\log-streaming\log-streaming.component.spec.ts" />
     <TypeScriptCompile Include="src\app\main\main.component.spec.ts" />
     <TypeScriptCompile Include="src\app\main\main.component.ts" />
     <TypeScriptCompile Include="src\app\multi-drop-down\multi-drop-down.component.spec.ts" />

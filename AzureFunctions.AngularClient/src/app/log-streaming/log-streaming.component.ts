@@ -31,7 +31,6 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     private skipLength: number = 0;
     @Input() functionInfo: FunctionInfo;
     @Input() isHttpLogs: boolean;
-    @Output() closeClicked = new EventEmitter<any>();
     @Output() expandClicked = new EventEmitter<boolean>();
 
     constructor(
@@ -84,10 +83,6 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
             e.preventDefault();
             this._utilities.highlightText(this._elementRef.nativeElement.querySelector('pre'));
         }
-    }
-
-    close() {
-        this.closeClicked.emit(null);
     }
 
     expand() {

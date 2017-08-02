@@ -1,0 +1,25 @@
+<div class="dev-flex-column errorwarnings">
+    <table id="diagnostics-table" (window:resize)="onResize($event)">
+        <busy-state></busy-state>
+        <thead>
+            <tr>
+                <th [ngStyle] = " { 'width' : '50px'} " ></th>
+                <th [ngStyle] = "{ 'width.px' : codeColumnWidth} " >Code</th>
+                <th [ngStyle] = "{ 'width.px' : msgColumnWidth} " >Description</th>
+                <th [ngStyle] = "{ 'width.px' : sourceColumnWidth} " >File</th>
+                <th [ngStyle] = "{ 'width.px' : startLineNumberColumnWidth} " >Line</th>
+                <th [ngStyle] = "{ 'width.px' : startColumnColumnWidth} " >Column</th>
+            </tr>
+        </thead>
+        <tbody [ngStyle] = "{ 'height.px' : tableBodyHeight} " >
+             <tr *ngFor="let feature of diagnostics " (dblclick)="itemClick(feature) ">
+                 <td [ngClass]="getSeverityClass(feature.severity) "></td>
+                 <td [ngStyle] = "{ 'width.px' : codeColumnWidth} " >{{feature.code}}</td>
+                 <td [ngStyle] = "{ 'width.px' : msgColumnWidth} ">{{feature.message}}</td>
+                 <td [ngStyle] = "{ 'width.px' : sourceColumnWidth} ">{{feature.source}}</td>
+                 <td [ngStyle] = "{ 'width.px' : startLineNumberColumnWidth} ">{{feature.startLineNumber}}</td>
+                 <td [ngStyle] = "{ 'width.px' : startColumnColumnWidth} ">{{feature.startColumn}}</td>
+             </tr>
+        </tbody>
+    </table>
+</div>

@@ -12,5 +12,7 @@ export enum BroadcastEvent {
     TrialExpired,
     ResetKeySelection,
     RefreshPortal,
-    ClearError
+    ClearError,
+    FileSelectionRequest,
+    ErrorsWarningsBusyState
 }

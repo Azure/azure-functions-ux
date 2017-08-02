@@ -1,10 +1,16 @@
-import { ConfigService } from './../services/config.service';
+﻿import { ConfigService } from './../services/config.service';
 import { Directive, EventEmitter, ElementRef, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { HostEventService } from '../services/host-event.service'
+import { HostEvent } from '../models/host-event'
+import { Subscription } from 'rxjs/Subscription';
+import { Diagnostic } from "../models/diagnostic"
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { GlobalStateService } from '../services/global-state.service';
 import { FunctionApp } from '../function-app';
+
+import { Component, OnInit } from '@angular/core';
 
 declare var monaco;
 declare var require;
@@ -12,7 +18,7 @@ declare var require;
 @Directive({
     selector: '[monacoEditor]',
 })
-export class MonacoEditorDirective {
+export class MonacoEditorDirective implements OnInit {
     @Output() public onContentChanged: EventEmitter<string>;
     @Output() public onSave: EventEmitter<string>;
     @Output() public onRun: EventEmitter<void>;
@@ -25,8 +31,10 @@ export class MonacoEditorDirective {
     private _fileName: string;
     private _functionAppStream: Subject<FunctionApp>;
     private _functionApp: FunctionApp;
+    private _hostEventSubscription: Subscription;
 
     constructor(public elementRef: ElementRef,
+        private _hostEventService: HostEventService,
         private _globalStateService: GlobalStateService,
         private _configService: ConfigService
     ) {
@@ -42,6 +50,9 @@ export class MonacoEditorDirective {
                 this._functionApp = functionApp;
                 this.init();
             });
+    }
+
+    ngOnInit() {
     }
 
     @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp) {
@@ -118,7 +129,16 @@ export class MonacoEditorDirective {
         }
     }
 
+    get CurrentFileName() {
+        return this._fileName;
+    }
 
+    public setPosition(lineNumber: number, column: number) {
+        let position: monaco.IPosition = { lineNumber, column };
+        this._editor.revealPositionInCenterIfOutsideViewport(position);
+        this._editor.setPosition(position);
+        this._editor.focus();
+    }
 
     public setLayout(width?: number, height?: number) {
         if (this._editor) {
@@ -130,6 +150,17 @@ export class MonacoEditorDirective {
         }
     }
 
+    public setDiagnostics(diagnostics: Diagnostic[]) {
+        if (!this._editor) {
+            return;
+        }
+
+        try {
+            monaco.editor.setModelMarkers(this._editor.getModel(), 'monaco',
+                diagnostics.filter(d => d.source === this._fileName));
+        } catch (error) {
+        }
+    }
 
     private init() {
         this._globalStateService.setBusyState();

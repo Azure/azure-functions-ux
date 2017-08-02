@@ -141,6 +141,7 @@ export class FunctionApp {
     private _tryAppServiceUrl = 'https://tryappservice.azure.com';
     public tryFunctionsScmCreds: string;
     private _http: NoCorsHttpService;
+    public static site : ArmObj<Site>;
 
     constructor(
         public site: ArmObj<Site>,
@@ -156,7 +157,7 @@ export class FunctionApp {
         private _aiService: AiService,
         private _configService: ConfigService,
         private _slotsService: SlotsService) {
-
+        FunctionApp.site = site;
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
         if (!Constants.runtimeVersion) {
