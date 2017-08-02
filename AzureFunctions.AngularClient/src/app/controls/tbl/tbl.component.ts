@@ -1,3 +1,4 @@
+import { AppNode } from './../../tree-view/app-node';
 import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
@@ -5,8 +6,8 @@ import { FormGroup } from '@angular/forms';
 import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, AfterViewInit, ViewChildren, ContentChild, ContentChildren, QueryList, Inject } from '@angular/core';
 import { Component, OnInit, forwardRef } from '@angular/core';
 
-export interface TblItem {
-  data: any
+export interface TableItem {
+  type: 'row' | 'group';
 }
 
 @Component({
@@ -27,13 +28,18 @@ export interface TblItem {
 export class TblComponent implements OnInit, OnChanges {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
-  @Input() items: TblItem[];
+  @Input() items: TableItem[];
+  // groupColName will be what col items are sorted by within individual groups
+  // if no grouping is done in the table it is null
+  @Input() groupColName: string | null;
   @ContentChildren(forwardRef(() => TblThComponent)) headers: QueryList<TblThComponent>;
 
   @ViewChild('tbl') table: ElementRef;
 
   public sortedColName: string;
   public sortAscending: boolean;
+  // groupedBy is the name of the tbl-th component which is currently being used to group elements
+  public groupedBy = 'none';
 
   private _origItems: any[];
   private _focusedRowIndex = -1;
@@ -315,4 +321,72 @@ export class TblComponent implements OnInit, OnChanges {
   get origItems() {
     return this._origItems;
   }
+
+  groupItems(name: string) {
+
+    if (!this.groupColName) {
+      throw ('Cannot sort within groups');
+    }
+
+    this.groupedBy = name;
+
+    if (name === 'none') {
+      this.items = this.items.filter(item => item.type !== 'group');
+    } else {
+      // sort the row items by groupColName
+      const newItems = this.items.filter(item => item.type !== 'group')
+        .sort((a: TableItem, b: TableItem) => {
+
+          let aCol: any;
+          let bCol: any;
+
+          aCol = Object.byString(a, this.groupColName);
+          bCol = Object.byString(b, this.groupColName);
+
+          aCol = typeof aCol === 'string' ? aCol : aCol.toString();
+          bCol = typeof bCol === 'string' ? bCol : bCol.toString();
+
+          return bCol.localeCompare(aCol);
+        });
+
+      // determine uniqueGroup values
+      const uniqueDictGroups = {};
+      newItems.forEach(item => {
+        uniqueDictGroups[item[name]] = item[name];
+      });
+
+      const uniqueGroups = [];
+      for (const group in uniqueDictGroups) {
+        if (uniqueDictGroups.hasOwnProperty(group)) {
+          uniqueGroups.push(group);
+        }
+      }
+
+      // push group items onto newItems
+      uniqueGroups.forEach(groupName => {
+        const newGroup = <TableItem>{ type: 'group' };
+        newGroup[this.groupColName] = groupName;
+        newItems.push(newGroup);
+      });
+
+      // reverse newItems to be all groups, sorted, followed by all rows, sorted then push onto items in correct order
+      this.items = [];
+      newItems.reverse();
+      uniqueGroups.sort().forEach(group => {
+        newItems.forEach(item => {
+          if (item.type === 'group' && item[this.groupColName] === group) {
+            this.items.push(item);
+          } else if (item.type === 'row' && item[name] === group) {
+            this.items.push(item);
+          }
+        });
+      });
+
+      this.sortAscending = true;
+      this.sortedColName = this.groupColName;
+
+    }
+
+  }
+
 }

@@ -1,5 +1,25 @@
 #apps-list{
-    width: 75%
+    width: 100%
+}
+
+.bars{
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tabbed{
+    padding-left: 20px;
+}
+
+#locations{
+    padding-left: 10px;
+    width: 82%;
+}
+
+#grouping{
+    padding-left:10px;
+    width: 18%;
 }
 
 .empty-browse{
