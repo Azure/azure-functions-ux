@@ -1,3 +1,4 @@
+import { KeyCodes } from './../../../shared/models/constants';
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
@@ -24,6 +25,12 @@ export class CommandComponent implements OnInit {
     }
 
     event.stopPropagation();
+  }
+
+  onKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.enter) {
+      this.click.next(event);
+    }
   }
 
 }
