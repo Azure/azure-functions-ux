@@ -9,8 +9,8 @@ import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 
-import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
 import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
+import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput} from '../shared/models/binding-input';
 import { BindingManager } from '../shared/models/binding-manager';
 import { BindingInputList } from '../shared/models/binding-input-list';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -21,7 +21,8 @@ import { Validator } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from '../shared/services/cache.service';
 import { AuthSettings } from '../shared/models/auth-settings';
-import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
+import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
+import { FunctionInfo } from '../shared/models/function-info';
 
 declare var marked: any;
 
@@ -76,6 +77,7 @@ export class BindingComponent {
     private _bindingManager: BindingManager = new BindingManager();
     private _subscription: Subscription;
     private _appSettings: { [key: string]: string };
+    private _functionInfo: FunctionInfo;
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _broadcastService: BroadcastService,
@@ -90,7 +92,7 @@ export class BindingComponent {
             .switchMap(functionApp => {
                 this.functionApp = functionApp;
                 return Observable.zip(
-                    this._cacheService.postArm(`${functionApp.site.id}/config/appsettings/list`),
+                    this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`),
                     this.functionApp.getAuthSettings(),
                     (a, e) => ({ appSettings: a.json(), authSettings: e }));
             });
@@ -154,8 +156,13 @@ export class BindingComponent {
         this._subscription.unsubscribe();
     }
 
-    set functionAppInput(functionApp: FunctionApp) {
-        this._functionAppStream.next(functionApp);
+    set functionAppInput(functionInput: any) {
+        if (functionInput.functionApp) {
+            this._functionAppStream.next(functionInput.functionApp)
+            this._functionInfo = functionInput;
+        } else {
+            this._functionAppStream.next(functionInput);
+        }
     }
 
     set clickSave(value: boolean) {
@@ -491,6 +498,18 @@ export class BindingComponent {
 
                 });
 
+                if (bindingSchema.type === BindingType.eventGridTrigger && !this.newFunction) {
+                    const input = new EventGridInput();
+                    input.label = this._translateService.instant(PortalResources.eventGrid_label);
+                    input.help = this._translateService.instant(PortalResources.eventGrid_help);
+                    input.value = `${this.functionApp.getMainSiteUrl()}/api/${this._functionInfo.name}`;
+                    input.bladeLabel = `functions-${this._functionInfo.name}`;
+                    this.functionApp.getEventGridKey().subscribe(eventGridKey => {
+                        input.subscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this._functionInfo.name}&code=${eventGridKey}`;
+                    });
+                    this.model.inputs.push(input);
+                }
+
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
                         const isHidden = this.isHidden(rule.name);
@@ -592,7 +611,7 @@ export class BindingComponent {
                     delete setting.noSave;
                 }
             } else {
-                if ((!input.changeValue && !input.isHidden && !isNotRequiredEmptyInput) || input.explicitSave) {
+                if ((!input.changeValue && !input.isHidden && !isNotRequiredEmptyInput && input.id) || input.explicitSave) {
                     setting = {
                         name: input.id,
                         value: input.value

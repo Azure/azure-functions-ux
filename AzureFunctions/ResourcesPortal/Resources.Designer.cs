@@ -178,8 +178,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete proxy
-        ///.
+        ///   Looks up a localized string similar to Delete proxy.
         /// </summary>
         internal static string apiProxy_delete {
             get {
@@ -800,6 +799,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to retrieve.
+        /// </summary>
+        internal static string bindingInput_retrieve {
+            get {
+                return ResourceManager.GetString("bindingInput_retrieve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to select.
         /// </summary>
         internal static string bindingInput_select {
@@ -985,6 +993,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string createApp_fail {
             get {
                 return ResourceManager.GetString("createApp_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new.
+        /// </summary>
+        internal static string createNew {
+            get {
+                return ResourceManager.GetString("createNew", resourceCulture);
             }
         }
         
@@ -1543,6 +1560,51 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string errorUniqueParameterName {
             get {
                 return ResourceManager.GetString("errorUniqueParameterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to create.
+        /// </summary>
+        internal static string eventGrid_create {
+            get {
+                return ResourceManager.GetString("eventGrid_create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need to add Event Grid subscription after function creation..
+        /// </summary>
+        internal static string eventGrid_createMessage {
+            get {
+                return ResourceManager.GetString("eventGrid_createMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event Grid Subscription URL.
+        /// </summary>
+        internal static string eventGrid_help {
+            get {
+                return ResourceManager.GetString("eventGrid_help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event Grid Subscription URL.
+        /// </summary>
+        internal static string eventGrid_label {
+            get {
+                return ResourceManager.GetString("eventGrid_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Event Grid subscriptions.
+        /// </summary>
+        internal static string eventGrid_manageSubscriptions {
+            get {
+                return ResourceManager.GetString("eventGrid_manageSubscriptions", resourceCulture);
             }
         }
         
@@ -2870,6 +2932,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Event Grid subscription.
+        /// </summary>
+        internal static string functionDev_addEventGrid {
+            get {
+                return ResourceManager.GetString("functionDev_addEventGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Code.
         /// </summary>
         internal static string functionDev_code {
@@ -2996,7 +3067,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to save function, try again later.
+        ///   Looks up a localized string similar to Failed to save function &apos;{0}&apos;.
         /// </summary>
         internal static string functionDev_saveFunctionFailure {
             get {
@@ -3005,20 +3076,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully saved function.
+        ///   Looks up a localized string similar to Saving function &apos;{0}&apos;.
         /// </summary>
-        internal static string functionDev_saveFunctionSuccess {
+        internal static string functionDev_saveFunctionNotifyTitle {
             get {
-                return ResourceManager.GetString("functionDev_saveFunctionSuccess", resourceCulture);
+                return ResourceManager.GetString("functionDev_saveFunctionNotifyTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Saving Function.
+        ///   Looks up a localized string similar to Successfully saved function &apos;{0}&apos;.
         /// </summary>
-        internal static string functionDev_saveFunctionNotifyTitle {
+        internal static string functionDev_saveFunctionSuccess {
             get {
-                return ResourceManager.GetString("functionDev_StartSaveNotification", resourceCulture);
+                return ResourceManager.GetString("functionDev_saveFunctionSuccess", resourceCulture);
             }
         }
         
@@ -4346,6 +4417,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scope to this item.
+        /// </summary>
+        internal static string scopeToItem {
+            get {
+                return ResourceManager.GetString("scopeToItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         internal static string search {
@@ -4360,6 +4440,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string searchFeatures {
             get {
                 return ResourceManager.GetString("searchFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Function apps.
+        /// </summary>
+        internal static string searchFunctionApps {
+            get {
+                return ResourceManager.GetString("searchFunctionApps", resourceCulture);
             }
         }
         

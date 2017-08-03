@@ -45,6 +45,7 @@ pre {
 .disabled-link{
     pointer-events: none;
     cursor: text;
+    color: $disabled-color !important;
 }
 
 .row {

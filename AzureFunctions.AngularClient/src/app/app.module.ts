@@ -115,6 +115,7 @@ import { AppSettingComponent } from './pickers/app-setting/app-setting.component
 import { GeneralSettingsComponent } from './site/site-config/general-settings/general-settings.component';
 import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
+import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 
 export function ArmServiceFactory(
   http: Http,
@@ -222,7 +223,8 @@ export class AppModule {
       DownloadFunctionAppContentComponent,
       GeneralSettingsComponent,
       AppSettingsComponent,
-      ConnectionStringsComponent
+      ConnectionStringsComponent,
+      BindingEventGridComponent
     ],
     imports: [
       FormsModule,

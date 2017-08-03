@@ -100,7 +100,12 @@
                 <span>{{ 'functionDev_gerGithubSecret' | translate }}</span>
               </div>
 
+
+              <div *ngIf="isEventGridFunction" [class.disabled-link]="!eventGridSubscribeUrl" class="get-url" (click)="onEventGridSubscribe()">
+                <span>{{ 'functionDev_addEventGrid' | translate }}</span>
+              </div>
             </div>
+
 
             <!-- codeeditor -->
             <div #editorContainer class="dev-full">

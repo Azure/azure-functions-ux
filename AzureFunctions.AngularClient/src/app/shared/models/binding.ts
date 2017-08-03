@@ -29,7 +29,8 @@
     onedrive = <any>"onedrive",
     GraphWebhook = <any>"GraphWebhook",
     GraphWebhookTrigger = <any>"GraphWebhookTrigger",
-    GraphWebhookCreator = <any>"GraphWebhookCreator"
+    GraphWebhookCreator = <any>"GraphWebhookCreator",
+    eventGridTrigger = <any>"eventGridTrigger"
 }
 
 export interface BindingConfig {
@@ -131,6 +132,7 @@ export class SettingType {
     public static picker = "picker";
     public static checkBoxList = "checkBoxList";
     public static appSetting = "appSetting";
+    public static eventGrid = "eventGrid";
 }
 
 export interface UIFunctionConfig {

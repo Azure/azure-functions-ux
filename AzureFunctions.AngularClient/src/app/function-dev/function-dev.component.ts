@@ -68,6 +68,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public authLevel: string;
     public secrets: FunctionSecrets;
     public isHttpFunction: boolean;
+    public isEventGridFunction: boolean;
 
     public runResult: RunFunctionResult;
     public running: Subscription;
@@ -86,11 +87,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
     public masterKey: string;
-
     public isStandalone: boolean;
     public inTab: boolean;
-
     public disabled: Observable<boolean>;
+    public eventGridSubscribeUrl: string;
 
     private updatedContent: string;
     private updatedTestContent: string;
@@ -136,6 +136,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
                 this._globalStateService.setBusyState();
                 this.checkErrors(fi);
+
+                this.functionApp.getEventGridKey().subscribe(eventGridKey => {
+                    this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this.functionInfo.name}&code=${eventGridKey}`;;
+                });
 
                 return Observable.zip(
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
@@ -196,6 +200,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.updateKeys();
 
                 this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
+                this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
 
                 setTimeout(() => {
                     this.onResize();
@@ -674,6 +679,21 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     onChangeKey(key: string) {
         this.setFunctionInvokeUrl(key);
         this.setFunctionKey(this.functionInfo);
+    }
+
+    onEventGridSubscribe() {
+        if (this.eventGridSubscribeUrl) {
+            this._portalService.openBlade({
+                detailBlade: 'CreateEventSubscriptionFromSubscriberBlade',
+                extension: 'Microsoft_Azure_EventGrid',
+                detailBladeInputs: {
+                    inputs: {
+                        subscriberEndpointUrl: this.eventGridSubscribeUrl,
+                        label: `functions-${this.functionInfo.name.toLowerCase()}`
+                    }
+                }
+            }, 'function-dev');
+        }
     }
 
     private getTestData(): string {

@@ -71,7 +71,7 @@
 <div>
     <binding
         *ngIf="currentBinding"
-        [functionAppInput]="functionInfo.functionApp"
+        [functionAppInput]="functionInfo"
         [allBindings]="model.config.bindings"
         [binding]="currentBinding"
         (remove)="onRemoveBinding($event)"
