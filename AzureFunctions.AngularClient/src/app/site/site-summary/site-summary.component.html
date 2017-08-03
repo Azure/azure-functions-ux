@@ -15,7 +15,7 @@
   <command displayText="{{ 'downloadFunctionAppContent' | translate}}" iconUrl="images/download.svg" (click)="openDownloadFunctionAppModal()"
     [disabled]="!hasWriteAccess"></command>
 
-  <command displayText="{{ '_delete' | translate }}" iconUrl="images/delete.svg" (click)="delete()" [disabled]="!hasWriteAccess"></command>
+  <command displayText="{{ '_delete' | translate }}" iconUrl="images/delete.svg" (click)="openDeleteBlade()" [disabled]="!hasWriteAccess"></command>
 </command-bar>
 
 <download-function-app-content (close)="hideDownloadFunctionAppModal()" *ngIf="showDownloadFunctionAppModal" [scmUrl]="scmUrl"></download-function-app-content>
