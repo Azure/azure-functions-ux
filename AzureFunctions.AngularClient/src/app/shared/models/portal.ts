@@ -18,9 +18,10 @@ export interface StartupInfo {
     token: string;
     subscriptions: Subscription[];
     sessionId: string;
-    acceptLanguage: string,
-    effectiveLocale: string,
-    resourceId: string
+    acceptLanguage: string;
+    effectiveLocale: string;
+    resourceId: string;
+    graphToken: string;
 }
 
 export interface Action {

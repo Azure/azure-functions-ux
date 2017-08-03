@@ -647,7 +647,7 @@ export class BindingComponent {
     }
 
     saveWebHook() {
-        const helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
+        const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
         helper.binding = this;
         helper.saveWebHook();
     }

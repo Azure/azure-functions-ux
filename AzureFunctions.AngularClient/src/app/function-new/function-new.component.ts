@@ -23,7 +23,7 @@ import { FunctionsNode } from '../tree-view/functions-node';
 import { FunctionApp } from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import { Constants } from 'app/shared/models/constants';
+import { Constants } from '../shared/models/constants';
 import { CacheService } from './../shared/services/cache.service';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
@@ -55,6 +55,7 @@ export class FunctionNewComponent {
     selectedTemplateId: string;
     templateWarning: string;
     addLinkToAuth = false;
+    showAADExpressRegistration = false;
     action: Action;
     public disabled: boolean;
     private _bindingComponents: BindingComponent[] = [];
@@ -116,6 +117,10 @@ export class FunctionNewComponent {
             setTimeout(() => {
                 this.selectedTemplate = templates.find((t) => t.id === templateName);
 
+                if (this.selectedTemplate && this.selectedTemplate.metadata) {
+                    this.showAADExpressRegistration = !!this.selectedTemplate.metadata.AADPermissions;
+                }
+              
                 const experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                     return c === 'Experimental';
                 });
@@ -258,6 +263,21 @@ export class FunctionNewComponent {
         });
     }
 
+    createAADApplication() {
+        this._globalStateService.setBusyState();
+        this._portalService.getStartupInfo().subscribe(info => {
+            let helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
+            helper.createAADApplication(this.selectedTemplate.metadata, info.graphToken, this._globalStateService)
+                .subscribe(r => { 
+                    this._globalStateService.clearBusyState();
+                },
+                err => {
+                    this._globalStateService.clearBusyState();
+                    this._aiService.trackException(err, "Error during creation of AAD application");
+                });
+        });
+    }
+
     private createFunction() {
         this._portalService.logAction('new-function', 'creating', { template: this.selectedTemplate.id, name: this.functionName });
 
@@ -280,7 +300,7 @@ export class FunctionNewComponent {
                 this.functionsNode.addChild(res);
 
                 if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
-                    const helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
+                    const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
                     helper.function = this;
                     helper.createO365WebhookSupportFunction(this._globalStateService);
                 }

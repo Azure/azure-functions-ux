@@ -9,9 +9,12 @@ import { BindingManager } from '../shared/models/binding-manager';
 import { FunctionApp } from '../shared/function-app';
 import { TemplateFilterItem } from '../shared/models/template';
 import { GlobalStateService } from '../shared/services/global-state.service';
+import { PortalService } from '../shared/services/portal.service';
+import { CacheService } from '../shared/services/cache.service';
 import { DropDownElement } from '../shared/models/drop-down-element';
 import { PortalResources } from '../shared/models/portal-resources';
 import { Order } from '../shared/models/constants';
+import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 interface CategoryOrder {
     name: string;
@@ -36,6 +39,7 @@ export class TemplatePickerComponent {
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
     isTemplate = false;
+    showAADExpressRegistration = false;
     private category = '';
     private _language = '';
     private _type: TemplatePickerType;
@@ -55,7 +59,9 @@ export class TemplatePickerComponent {
 
     constructor(
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _cacheService: CacheService,
+        private _portalService: PortalService) {
 
         this._functionAppStream
             .distinctUntilChanged()
@@ -112,7 +118,6 @@ export class TemplatePickerComponent {
                     case TemplatePickerType.in:
                         this.title = this._translateService.instant(PortalResources.templatePicker_chooseInput);
                         this.templates = this.getBindingTemplates(DirectionType.in);
-
                         break;
                     case TemplatePickerType.out:
                         this.title = this._translateService.instant(PortalResources.templatePicker_chooseOutput);
@@ -143,7 +148,7 @@ export class TemplatePickerComponent {
                                 return;
                             }
 
-                            if (!this.getFilterMatach(template.metadata.filters)) {
+                            if (!this.getFilterMatch(template.metadata.filters)) {
                                 return;
                             }
 
@@ -201,7 +206,8 @@ export class TemplatePickerComponent {
                                         value: template.id,
                                         keys: keys,
                                         description: template.metadata.description,
-                                        enabledInTryMode: template.metadata.enabledInTryMode
+                                        enabledInTryMode: template.metadata.enabledInTryMode,
+                                        AADPermissions: template.metadata.AADPermissions
                                     });
                                 }
                             }
@@ -253,6 +259,21 @@ export class TemplatePickerComponent {
     onTemplateClicked(template: string, templateDisabled: boolean) {
         if (!templateDisabled) {
             this.selectedTemplate = template;
+
+            // Some bindings (and templates that use them) require an AAD app; if so, show express button
+            let binding = this.bindings.find((b) => {
+                return b.type.toString() === this.selectedTemplate;
+            });
+            if (binding) {
+                this.showAADExpressRegistration = !!binding.AADPermissions;
+            } else {
+                // Could be improved by determining which bindings a template uses automatically
+                let templateObject = this.templates.find((t) => {
+                    return t.value === template;
+                });
+                this.showAADExpressRegistration = templateObject && !!templateObject.AADPermissions;
+            }
+            
             if (!this.showFooter) {
                 this.complete.emit(this.selectedTemplate);
             }
@@ -284,6 +305,24 @@ export class TemplatePickerComponent {
         }
     }
 
+    createAADApplication(templateName: string) {
+        this._globalStateService.setBusyState();
+        this._portalService.getStartupInfo().subscribe(info => {
+            let helper = new MicrosoftGraphHelper(this._functionApp, this._cacheService);
+            let binding = this.bindings.find((b) => {
+                return b.type.toString() === templateName;
+            });
+
+            helper.createAADApplication(binding, info.graphToken, this._globalStateService)
+                .subscribe(r => { 
+                    this._globalStateService.clearBusyState();
+                },
+                err => {
+                    this._globalStateService.clearBusyState();
+                });
+        });
+    }
+
     private getBindingTemplates(direction: DirectionType): Template[] {
         const result: Template[] = [];
         const filtered = this.bindings.filter((b) => {
@@ -292,9 +331,10 @@ export class TemplatePickerComponent {
 
         filtered.forEach((binding) => {
 
-            if (this.getFilterMatach(binding.filters)) {
-                // Hide BYOB features unless flag present: https://localhost:44300/?MSGraph=true
-                // binding has attribute "filters": ["MSGraph"]
+            // Hide BYOB features unless flag present: https://localhost:44300/?MSGraph=true
+            // binding has attribute "filters": ["MSGraph"]
+            if (this.getFilterMatch(binding.filters)) {
+
                 result.push({
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),
@@ -307,8 +347,9 @@ export class TemplatePickerComponent {
         return result;
     }
 
-    private getFilterMatach(filters: string[]): boolean {
+    private getFilterMatch(filters: string[]): boolean {
         let isFilterMatch = true;
+
         if (filters && filters.length > 0) {
             isFilterMatch = false;
             for (let i = 0; i < filters.length; i++) {

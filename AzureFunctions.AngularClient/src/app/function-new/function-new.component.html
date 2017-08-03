@@ -77,5 +77,10 @@
                 style="display: block; margin-top: 40px"
                 (click)="onCreate()">{{ 'create' | translate }}</button>
 
+        <div *ngIf="showAADExpressRegistration">
+            <br/>
+            <button class="custom-button" (click)="createAADApplication()" [disabled]="showTryView">{{ 'expressAADRegistration' | translate }}</button>
+        </div>
+
     </div>
 </div>

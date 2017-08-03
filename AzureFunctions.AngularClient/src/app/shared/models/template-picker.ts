@@ -1,4 +1,6 @@
-﻿export enum TemplatePickerType {
+﻿import { AADPermissions } from './microsoft-graph';
+
+export enum TemplatePickerType {
     trigger,
     in,
     out,
@@ -13,4 +15,5 @@ export interface Template {
     keys?: string[];
     description?: string;
     enabledInTryMode?: boolean;
+    AADPermissions?: AADPermissions[];
 }

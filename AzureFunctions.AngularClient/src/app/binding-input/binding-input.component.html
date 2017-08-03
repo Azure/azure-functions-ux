@@ -10,7 +10,7 @@
              (selectItem)="finishDialogPicker($event)">
 </service-bus>
 
-<app-setting *ngIf="pickerName === 'AppSetting'"
+<app-setting *ngIf="pickerName === 'AppSetting' && input.id !== 'PrincipalId'"
              [functionApp]="functionApp"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">

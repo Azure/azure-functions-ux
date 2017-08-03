@@ -1,5 +1,17 @@
 ﻿// Microsoft Graph / O365 binding definitions
 
+export module MSGraphConstants {
+    export class General {
+        public static ApiVersion = '1.6';
+        public static AADReplyUrl = '/.auth/login/aad/callback';
+    }
+    
+    export class RequiredResources {
+        public static MicrosoftGraph = '00000003-0000-0000-c000-000000000000';
+        public static WindowsAzureActiveDirectory = '00000002-0000-0000-c000-000000000000';
+    }
+}
+
 export enum ODataTypeMapping {
     Message = <any>"#Microsoft.Graph.Message",
     Contact = <any>"#Microsoft.Graph.Contact",
@@ -41,9 +53,19 @@ export class GraphSubscriptionEntry {
     public ClientState: string;
     public Moniker: string;
 
-    constructor(SubscriptionId: string, ClientState: string, Moniker: string, ) {
+    constructor(SubscriptionId: string, ClientState: string, Moniker: string) {
         this.SubscriptionId = SubscriptionId;
         this.ClientState = ClientState;
         this.Moniker = Moniker;
     }
+}
+
+export class AADPermissions {
+    public resourceAccess: ResourceAccess[];
+    public resourceAppId: string;
+}
+
+export class ResourceAccess {
+    public type: string;
+    public id: string;
 }

@@ -1,4 +1,5 @@
 import { FunctionBinding } from './function-config';
+import { AADPermissions } from './microsoft-graph';
 
 export interface FunctionTemplate {
     id: string;
@@ -23,6 +24,7 @@ export interface FunctionTemplateMetadata {
     filters?: string[];
     enabledInTryMode?: boolean;
     warning: Warning;
+    AADPermissions?: AADPermissions[];
 }
 
 export interface Warning {

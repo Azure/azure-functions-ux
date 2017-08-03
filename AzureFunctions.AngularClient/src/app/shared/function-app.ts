@@ -1,5 +1,5 @@
 ﻿import { Subject } from 'rxjs/Subject';
-import { SlotsService } from 'app/shared/services/slots.service';
+import { SlotsService } from './services/slots.service';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -1872,6 +1872,22 @@ export class FunctionApp {
                 });
         } else {
             return null;
+        }
+    }
+
+    // Set multiple auth settings at once
+    createAuthSettings(newAuthSettings: Map<string, any>): Observable<any> {
+        if (newAuthSettings.size > 0) {
+            return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`, true)
+                .flatMap(r => {
+                    var authSettings: ArmObj<any> = r.json();
+                    newAuthSettings.forEach((value, key) => {
+                        authSettings.properties[key] = value;
+                    });
+                    return this._cacheService.putArm(authSettings.id, this._armService.websiteApiVersion, authSettings);
+                });
+        } else {
+            return Observable.of(null);
         }
     }
 }
