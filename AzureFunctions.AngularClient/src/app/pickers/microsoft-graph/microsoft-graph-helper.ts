@@ -7,7 +7,6 @@ import { FunctionApp } from '../../shared/function-app';
 import { CacheService } from '../../shared/services/cache.service';
 import { AiService } from '../../shared/services/ai.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { ConfigService } from '../../shared/services/config.service';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Constants } from "../../shared/models/constants";
 import { MobileAppsClient } from "../../shared/models/mobile-apps-client";
@@ -25,8 +24,6 @@ export class MicrosoftGraphHelper {
     private _dataRetriever: MobileAppsClient;
     private _token: string;
     private setClientSecret = false;
-    private necessaryAAD: any = {};
-    private necessaryMSGraph: any = {};
 
     constructor(
         public functionApp: FunctionApp,
@@ -34,7 +31,7 @@ export class MicrosoftGraphHelper {
         private _aiService?: AiService) 
         {
             if (_aiService) {
-                this._dataRetriever = new MobileAppsClient(this.functionApp.getMainSiteUrl(), this._aiService);
+                this._dataRetriever = new MobileAppsClient(this.functionApp.getMainSiteUrl());
             }
         }
 
@@ -49,7 +46,7 @@ export class MicrosoftGraphHelper {
                 if (applicationInformation) {
                     /* Currently, this fails because the graph token retrieved from Ibiza does not have enough permissions to update the AAD app's manifest,
                     * though the token can be used to create an AAD app...            
-                    * This section can be uncommented when the AAD team updates the permissions for the Portal AAD app
+                    * This section can be uncommented when the AAD team updates the permissions for the Portal AAD app */
                     var existingApplication = applicationInformation.json().value[0];
 
                     // Legacy reasons: check for client secret (Easy Auth used to not set Client Secret automatically)
@@ -63,19 +60,15 @@ export class MicrosoftGraphHelper {
                             }
                         });
                     }
-
-                    this.compareResources(existingApplication.requiredResourceAccess, template.AADPermissions);
-                    const patch: any = {};
-                    patch.value = template.AADPermissions;
                     
-                    this.sendRequest(rootUri, '/applications/' + existingApplication.objectId + '/requiredResourceAccess', "PATCH", JSON.stringify(patch)).subscribe(() => { },
-                    error => {
-                        if (this._aiService) {
-                            this._aiService.trackException(error, 'Error occurred while updating manifest with new permissions req.');
-                        }
-                    });
-                    */
-                    return Observable.of(null);     
+                    const patch: any = {};
+                    patch.value = CompareResources(existingApplication.requiredResourceAccess, template.AADPermissions);
+                    /* Currently, this fails because the graph token retrieved from Ibiza does not have enough permissions to update the AAD app's manifest,
+                    * though the token can be used to create an AAD app...            
+                    * This can be uncommented when the AAD team updates the permissions for the Portal AAD app */
+                    // return this.sendRequest(rootUri, '/applications/' + existingApplication.objectId + '/requiredResourceAccess', "PATCH", JSON.stringify(patch));
+
+                    return Observable.of(null);   
                 }
                 else {
                     // If it does not exist, create it & set necessary resources
@@ -331,11 +324,13 @@ export class MicrosoftGraphHelper {
                     return appSettingsArm.properties[Constants.BYOBTokenMapSettingName];
                 });
         }
+
+        return null;
     }
 
     private subscribeToGraphResource(subscription: GraphSubscription, token: string) {
         if (!this._cacheService) {
-            return;
+            throw `Missing cache service; cannot subscribe to MS Graph resource without it`;
         }
         const url = Constants.MSGraphResource + '/v' +
             Constants.latestMSGraphVersion + '/' +
@@ -350,57 +345,6 @@ export class MicrosoftGraphHelper {
                 const newSubscription: GraphSubscription = r.json();
                 return newSubscription.id;
             });
-    }
-
-    // Given a set of resources a binding/tempalte needs and the app's current resources, determine the union of the two sets
-    // Retain current resources and add additional ones if necessary
-    private compareResources(current, necessary) {
-        // Resources associated with MS Graph that application manifest currently contains
-        let existingMSGraph = current.find(obj => {
-            return obj.resourceAppId === MSGraphConstants.RequiredResources.MicrosoftGraph;
-        });
-
-        // Resources associated with MS Graph that application needs for this specific binding/template
-        let necessaryMSGraph = necessary.find(obj => {
-            return obj.resourceAppId === MSGraphConstants.RequiredResources.MicrosoftGraph;
-        });
-
-        if (existingMSGraph) {
-            // Union two arrays by removing intersection from existing resources then concatenating remaining
-            this.necessaryMSGraph.resourceAccess = necessaryMSGraph.resourceAccess.concat(existingMSGraph.resourceAccess.filter(item => {
-                return necessaryMSGraph.resourceAccess.findIndex(necessary => {
-                    return necessary.type === item.type && necessary.id === item.id; 
-                }) < 0;
-            }));
-        } else {
-            // If no MS Graph resources are currently required, the new ones are just the ones this binding/template needs
-            this.necessaryMSGraph.resourceAccess = necessaryMSGraph;
-        }
-        
-        // Set up the object that will be used in the request payload
-        this.necessaryMSGraph.resourceAppId = MSGraphConstants.RequiredResources.MicrosoftGraph
-
-        // Same as MS Graph, only this time comparing AAD resources
-        let existingAAD = current.find(obj => {
-            return obj.resourceAppId === MSGraphConstants.RequiredResources.WindowsAzureActiveDirectory;
-        });
-
-        let necessaryAAD = necessary.find(obj => {
-            return obj.resourceAppId === MSGraphConstants.RequiredResources.WindowsAzureActiveDirectory;
-        });
-
-        if (existingAAD) {
-            // Union two arrays by removing intersection from existing resources then concatenating remaining
-            this.necessaryAAD.resourceAccess = necessaryAAD.resourceAccess.concat(existingAAD.resourceAccess.filter(item => {
-                return necessaryAAD.resourceAccess.findIndex(necessary => {
-                    return necessary.type === item.type && necessary.id === item.id; 
-                }) < 0;
-            }));
-        } else {
-            this.necessaryAAD.resourceAccess = necessaryAAD;
-        }
-
-        this.necessaryAAD.resourceAppId = MSGraphConstants.RequiredResources.WindowsAzureActiveDirectory;
     }
 }
 
@@ -438,4 +382,61 @@ function GeneratePasswordCredentials() {
 function GeneratePassword(): string {
     var crypto = require('crypto-browserify');
     return crypto.randomBytes(32).toString('base64');
+}
+
+// Given a set of resources a binding/tempalte needs and the app's current resources, determine the union of the two sets
+// Retain current resources and add additional ones if necessary
+export function CompareResources(current, necessary) {
+    // Resources associated with MS Graph that application manifest currently contains
+    let existingMSGraph = current.find(obj => {
+        return obj.resourceAppId === MSGraphConstants.RequiredResources.MicrosoftGraph;
+    });
+
+    // Resources associated with MS Graph that application needs for this specific binding/template
+    let necessaryMSGraph = necessary.find(obj => {
+        return obj.resourceAppId === MSGraphConstants.RequiredResources.MicrosoftGraph;
+    });
+
+    let unionMSGraph: any = {};
+
+    if (existingMSGraph) {
+        // Union two arrays by removing intersection from existing resources then concatenating remaining
+        unionMSGraph.resourceAccess = necessaryMSGraph.resourceAccess.concat(existingMSGraph.resourceAccess.filter(item => {
+            return necessaryMSGraph.resourceAccess.findIndex(necessary => {
+                return necessary.type === item.type && necessary.id === item.id; 
+            }) < 0;
+        }));
+    } else {
+        // If no MS Graph resources are currently required, the new ones are just the ones this binding/template needs
+        unionMSGraph.resourceAccess = necessaryMSGraph;
+    }
+    
+    // Set up the object that will be used in the request payload
+    unionMSGraph.resourceAppId = MSGraphConstants.RequiredResources.MicrosoftGraph
+
+    let unionAAD: any = {};
+
+    // Same as MS Graph, only this time comparing AAD resources
+    let existingAAD = current.find(obj => {
+        return obj.resourceAppId === MSGraphConstants.RequiredResources.WindowsAzureActiveDirectory;
+    });
+
+    let necessaryAAD = necessary.find(obj => {
+        return obj.resourceAppId === MSGraphConstants.RequiredResources.WindowsAzureActiveDirectory;
+    });
+
+    if (existingAAD) {
+        // Union two arrays by removing intersection from existing resources then concatenating remaining
+        unionAAD.resourceAccess = necessaryAAD.resourceAccess.concat(existingAAD.resourceAccess.filter(item => {
+            return necessaryAAD.resourceAccess.findIndex(necessary => {
+                return necessary.type === item.type && necessary.id === item.id; 
+            }) < 0;
+        }));
+    } else {
+        unionAAD.resourceAccess = necessaryAAD;
+    }
+
+    unionAAD.resourceAppId = MSGraphConstants.RequiredResources.WindowsAzureActiveDirectory;
+
+    return [unionMSGraph, unionAAD]
 }

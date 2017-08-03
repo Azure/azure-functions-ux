@@ -140,7 +140,7 @@ export class BindingInputComponent {
         }
 
         if (this.pickerName === 'AppSetting' && input.id === 'PrincipalId') {
-            const helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
+            const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
             helper.openLogin(picker).then(values => {
                 this._globalStateService.setBusyState();
                 this.functionApp.createApplicationSetting(values.appSettingName, values.OID).subscribe(

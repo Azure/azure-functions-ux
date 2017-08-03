@@ -300,7 +300,7 @@ export class FunctionNewComponent {
                 this.functionsNode.addChild(res);
 
                 if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
-                    const helper = new MicrosoftGraphHelper(this._cacheService, this._aiService, this.functionApp);
+                    const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
                     helper.function = this;
                     helper.createO365WebhookSupportFunction(this._globalStateService);
                 }

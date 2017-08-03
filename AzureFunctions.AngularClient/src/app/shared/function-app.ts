@@ -1,6 +1,5 @@
 ﻿import { Subject } from 'rxjs/Subject';
 import { SlotsService } from './services/slots.service';
-import { Injectable } from '@angular/core';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
