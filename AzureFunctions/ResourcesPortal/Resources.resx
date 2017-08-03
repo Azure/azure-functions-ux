@@ -1823,7 +1823,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Read Only</value>
   </data>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
-    <value>Read\Write</value>
+    <value>Read/Write</value>
   </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>Duplicate values are not allowed</value>
