@@ -2,18 +2,17 @@
 import { CreateAppComponent } from './site/create-app/create-app.component';
 import { ClickToEditComponent } from './controls/click-to-edit/click-to-edit.component';
 import { AiTryService } from './shared/services/ai-try.service';
-import { IAppInsights } from './shared/models/app-insights';
 import { TblThComponent } from './controls/tbl/tbl-th/tbl-th.component';
 import { TblComponent } from './controls/tbl/tbl.component';
 import { GlobalErrorHandler } from './shared/GlobalErrorHandler';
 import { ErrorHandler } from '@angular/core';
 import { ArmTryService } from './shared/services/arm-try.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PopoverModule } from "ng2-popover";
 
@@ -103,6 +102,7 @@ import { FnWriteAccessDirective } from './shared/directives/fn-write-access.dire
 import { EditModeWarningComponent } from './edit-mode-warning/edit-mode-warning.component';
 import { TextboxComponent } from './controls/textbox/textbox.component';
 import { SiteConfigComponent } from './site/site-config/site-config.component';
+import { SiteConfigStandaloneComponent } from './site/site-config-standalone/site-config-standalone.component';
 import { CommandBarComponent } from './controls/command-bar/command-bar.component';
 import { CommandComponent } from './controls/command-bar/command/command.component';
 import { EventHubComponent } from './pickers/event-hub/event-hub.component';
@@ -112,16 +112,18 @@ import { SlotsService } from './shared/services/slots.service';
 import { SlotNewComponent } from './slot-new/slot-new.component';
 import { SearchBoxComponent } from './search-box/search-box.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
+import { GeneralSettingsComponent } from './site/site-config/general-settings/general-settings.component';
+import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
+import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
+import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 
 export function ArmServiceFactory(
   http: Http,
-  configService: ConfigService,
   userService: UserService,
-  aiService: AiService,
-  translateService: TranslateService) {
+  aiService: AiService) {
   const service = window.location.pathname.toLowerCase() === '/try' ?
-    new ArmTryService(http, configService, userService, aiService, translateService) :
-    new ArmService(http, configService, userService, aiService, translateService);
+    new ArmTryService(http, userService, aiService) :
+    new ArmService(http, userService, aiService);
 
   return service;
 }
@@ -207,6 +209,7 @@ export class AppModule {
       EditModeWarningComponent,
       TextboxComponent,
       SiteConfigComponent,
+      SiteConfigStandaloneComponent,
       ClickToEditComponent,
       CommandBarComponent,
       CommandComponent,
@@ -217,7 +220,11 @@ export class AppModule {
       ServiceBusComponent,
       SearchBoxComponent,
       AppSettingComponent,
-      DownloadFunctionAppContentComponent
+      DownloadFunctionAppContentComponent,
+      GeneralSettingsComponent,
+      AppSettingsComponent,
+      ConnectionStringsComponent,
+      BindingEventGridComponent
     ],
     imports: [
       FormsModule,
@@ -240,10 +247,8 @@ export class AppModule {
       {
         provide: ArmService, useFactory: ArmServiceFactory, deps: [
           Http,
-          ConfigService,
           UserService,
-          AiService,
-          TranslateService
+          AiService
         ]
       },
       CacheService,

@@ -1,19 +1,18 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppNode } from './../tree-view/app-node';
 import { Constants } from './../shared/models/constants';
 import { CacheService } from './../shared/services/cache.service';
 import { AiService } from './../shared/services/ai.service';
 import { ApiProxy } from '../shared/models/api-proxy';
-import { FunctionsService } from '../shared/services/functions.service';
-import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -28,14 +27,13 @@ import { ErrorIds } from '../shared/models/error-ids';
 @Component({
     selector: 'api-new',
     templateUrl: './api-new.component.html',
-    //styleUrls: ['./api-new.component.scss']
     styleUrls: ['./api-new.component.scss', '../binding-input/binding-input.component.css'],
     inputs: ['viewInfoInput']
 })
 export class ApiNewComponent implements OnInit {
 
     complexForm: FormGroup;
-    isMethodsVisible: boolean = false;
+    isMethodsVisible = false;
     isEnabled: boolean;
 
     public functionApp: FunctionApp;
@@ -68,7 +66,7 @@ export class ApiNewComponent implements OnInit {
             method_TRACE: false
         });
 
-        this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
+        this.complexForm.controls['methodSelectionType'].valueChanges.subscribe((value) => {
             this.isMethodsVisible = !(value === 'All');
         });
 
@@ -97,16 +95,16 @@ export class ApiNewComponent implements OnInit {
                 this.functionsInfo = res.fcs;
                 this.apiProxies = res.proxies;
 
-                let extensionVersion = res.appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+                const extensionVersion = res.appSettings.properties[Constants.routingExtensionVersionAppSettingName];
                 this.isEnabled = extensionVersion && extensionVersion !== Constants.disabled;
-            })
+            });
     }
 
     set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfoInput);
     }
 
-    onFunctionAppSettingsClicked(event: any) {
+    onFunctionAppSettingsClicked() {
         this.appNode.openSettings();
     }
 
@@ -115,9 +113,9 @@ export class ApiNewComponent implements OnInit {
 
             if (control.value) {
 
-                var url: string = <string>control.value.toLowerCase();
+                const url: string = <string>control.value.toLowerCase();
 
-                return url.startsWith("http://") || url.startsWith("https://") ? null : {
+                return url.startsWith('http://') || url.startsWith('https://') ? null : {
                     validateName: {
                         valid: false
                     }
@@ -125,16 +123,16 @@ export class ApiNewComponent implements OnInit {
             } else {
                 return null;
             }
-        }
+        };
     }
 
     validateName(that: ApiNewComponent): ValidatorFn {
 
         return (control: AbstractControl): { [key: string]: any } => {
-            var existingProxy = null;
-            var existingFunction = null;
+            let existingProxy = null;
+            let existingFunction = null;
             if (that.complexForm) {
-                var name = control.value;
+                const name = control.value;
 
                 if (name) {
                     if (that.apiProxies && name) {
@@ -161,16 +159,16 @@ export class ApiNewComponent implements OnInit {
     ngOnInit() {
     }
 
-    submitForm(value: any) {
+    submitForm() {
 
         if (this.complexForm.valid) {
             this._globalStateService.setBusyState();
 
-            var newApiProxy: ApiProxy = {
-                name: this.complexForm.controls["name"].value,
-                backendUri: this.complexForm.controls["backendUri"].value,
+            const newApiProxy: ApiProxy = {
+                name: this.complexForm.controls['name'].value,
+                backendUri: this.complexForm.controls['backendUri'].value,
                 matchCondition: {
-                    route: this.complexForm.controls["routeTemplate"].value,
+                    route: this.complexForm.controls['routeTemplate'].value,
                     methods: []
                 },
                 functionApp: null,
@@ -179,7 +177,7 @@ export class ApiNewComponent implements OnInit {
             this.functionApp.getApiProxies().subscribe(proxies => {
 
                 this.apiProxies = proxies;
-                var existingProxy = this.apiProxies.find((p) => {
+                const existingProxy = this.apiProxies.find((p) => {
                     return p.name === newApiProxy.name;
                 });
 
@@ -192,13 +190,13 @@ export class ApiNewComponent implements OnInit {
                         errorType: ErrorType.UserError,
                         resourceId: this.functionApp.site.id
                     });
-                    throw `Proxy with name '${newApiProxy.name}' already exists`;
+                    throw new Error(`Proxy with name '${newApiProxy.name}' already exists`);
                 } else {
-                    if (this.complexForm.controls["methodSelectionType"].value !== "All") {
-                        for (var control in this.complexForm.controls) {
-                            if (control.startsWith("method_")) {
+                    if (this.complexForm.controls['methodSelectionType'].value !== 'All') {
+                        for (const control in this.complexForm.controls) {
+                            if (control.startsWith('method_')) {
                                 if (this.complexForm.controls[control].value) {
-                                    newApiProxy.matchCondition.methods.push(control.replace("method_", "").toUpperCase());
+                                    newApiProxy.matchCondition.methods.push(control.replace('method_', '').toUpperCase());
                                 }
                             }
                         }

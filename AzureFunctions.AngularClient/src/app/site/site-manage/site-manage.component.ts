@@ -2,7 +2,7 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
 import { Url } from './../../shared/Utilities/url';
 import { SiteTabIds } from './../../shared/models/constants';
-import { Component, OnInit, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
@@ -15,18 +15,13 @@ import { GlobalStateService } from './../../shared/services/global-state.service
 import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { AiService } from './../../shared/services/ai.service';
-import { Message } from './../../shared/models/portal';
-import { DisableableBladeFeature, DisableableFeature, DisableInfo, TabFeature, FeatureItem, BladeFeature, OpenBrowserWindowFeature } from './../../feature-group/feature-item';
+import { DisableableBladeFeature, DisableableFeature, DisableInfo, TabFeature, FeatureItem, BladeFeature } from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
-import { ArmService } from '../../shared/services/arm.service';
 import { AuthzService } from '../../shared/services/authz.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { Site } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { SiteDescriptor } from '../../shared/resourceDescriptors';
-import { PopOverComponent } from '../../pop-over/pop-over.component';
-import { FeatureGroupComponent } from '../../feature-group/feature-group.component';
-import { WebsiteId } from '../../shared/models/portal';
 
 @Component({
     selector: 'site-manage',
@@ -92,7 +87,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._dynamicDisableInfo = {
                     enabled: site.properties.sku !== 'Dynamic',
                     disableMessage: this._translateService.instant(PortalResources.featureNotSupportedConsumption)
-                }
+                };
 
                 this._disposeGroups();
 
@@ -100,7 +95,6 @@ export class SiteManageComponent implements OnDestroy {
                 this._initCol2Groups(site);
                 this._initCol3Groups(site);
 
-                const loadObs: Observable<any>[] = [];
 
                 return Observable.zip(
                     this._authZService.hasPermission(site.id, [AuthzService.writeScope]),
@@ -116,7 +110,6 @@ export class SiteManageComponent implements OnDestroy {
             .subscribe(r => {
 
                 this._aiService.stopTrace('/timings/site/tab/features/full-ready', this.viewInfo.data.siteTabFullReadyTraceKey);
-                const hasSiteWritePermissions = r.hasSiteWritePermissions && !r.hasReadOnlyLock;
                 let siteWriteDisabledMessage = '';
 
                 if (!r.hasSiteWritePermissions) {
@@ -133,13 +126,14 @@ export class SiteManageComponent implements OnDestroy {
                 this._hasPlanReadPermissionStream.next({
                     enabled: r.hasPlanReadPermissions,
                     disableMessage: this._translateService.instant(PortalResources.featureDisabledNoPermissionToPlan)
-                })
+                });
             });
 
         this._selectedFeatureSubscription = this._siteDashboard.openFeatureId.subscribe(featureId => {
             if (this._tabsFeature === 'inplace') {
                 this.selectedFeatureId = featureId;
-            }        })
+            }
+        });
     }
 
     ngOnDestroy() {
@@ -155,26 +149,26 @@ export class SiteManageComponent implements OnDestroy {
         if (this.groups1) {
             this.groups1.forEach(group => {
                 this._disposeGroup(group);
-            })
+            });
         }
 
         if (this.groups2) {
             this.groups2.forEach(group => {
                 this._disposeGroup(group);
-            })
+            });
         }
 
         if (this.groups3) {
             this.groups3.forEach(group => {
                 this._disposeGroup(group);
-            })
+            });
         }
     }
 
     private _disposeGroup(group: FeatureGroup) {
         group.features.forEach(feature => {
             feature.dispose();
-        })
+        });
     }
 
     private _initCol1Groups(site: ArmObj<Site>) {
@@ -247,24 +241,9 @@ export class SiteManageComponent implements OnDestroy {
                 this._portalService,
                 this._hasSiteWritePermissionStream,
                 this._dynamicDisableInfo),
-        ]
+        ];
 
         const generalFeatures: FeatureItem[] = [
-
-            new BladeFeature(
-                this._translateService.instant(PortalResources.feature_applicationSettingsName),
-                this._translateService.instant(PortalResources.feature_applicationSettingsName) +
-                ' ' + this._translateService.instant(PortalResources.connectionStrings) +
-                ' java php .net',
-                this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
-                'images/application-settings.svg',
-                {
-                    detailBlade: 'WebsiteConfigSiteSettings',
-                    detailBladeInputs: {
-                        resourceUri: site.id,
-                    }
-                },
-                this._portalService),
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_propertiesName),
@@ -321,6 +300,39 @@ export class SiteManageComponent implements OnDestroy {
                     this._siteDashboard)
             );
         }
+
+        if (Url.getParameterByName(window.location.href, "appsvc.appsettingstab") === "enabled") { //DEBUG: conditionally showing application settings tab
+            if (this._tabsFeature === 'tabs' || this._tabsFeature === 'inplace') {
+                generalFeatures.splice(0, 0,
+                    new TabFeature(
+                        this._translateService.instant(PortalResources.tab_applicationSettings),
+                        this._translateService.instant(PortalResources.tab_applicationSettings),
+                        this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
+                        'images/application-settings.svg',
+                        SiteTabIds.applicationSettings,
+                        this._siteDashboard)
+                );
+            }
+        }
+        else {
+            generalFeatures.splice(0, 0,
+                new BladeFeature(
+                    this._translateService.instant(PortalResources.feature_applicationSettingsName),
+                    this._translateService.instant(PortalResources.feature_applicationSettingsName) +
+                    ' ' + this._translateService.instant(PortalResources.connectionStrings) +
+                    ' java php .net',
+                    this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
+                    'images/application-settings.svg',
+                    {
+                        detailBlade: 'WebsiteConfigSiteSettings',
+                        detailBladeInputs: {
+                            resourceUri: site.id,
+                        }
+                    },
+                    this._portalService),
+            );
+        }
+
         this.groups1 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
             new FeatureGroup(this._translateService.instant(PortalResources.feature_codeDeployment), codeDeployFeatures),
@@ -400,7 +412,7 @@ export class SiteManageComponent implements OnDestroy {
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream),
-        ]
+        ];
 
         const monitoringFeatures = [
             new BladeFeature(
@@ -448,7 +460,7 @@ export class SiteManageComponent implements OnDestroy {
                     detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
                 },
                 this._portalService),
-        ]
+        ];
 
         this.groups2 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_networkingName), networkFeatures),
@@ -469,13 +481,13 @@ export class SiteManageComponent implements OnDestroy {
                 this._portalService)
         ];
 
-        if (this._tabsFeature === "tabs" || this._tabsFeature === "inplace") {
+        if (this._tabsFeature === 'tabs' || this._tabsFeature === "inplace") {
             apiManagementFeatures.splice(0, 0,
                 new TabFeature(
                     this._translateService.instant(PortalResources.feature_apiDefinitionName),
-                    this._translateService.instant(PortalResources.feature_apiDefinitionName) + " swagger",
+                    this._translateService.instant(PortalResources.feature_apiDefinitionName) + ' swagger',
                     this._translateService.instant(PortalResources.feature_apiDefinitionInfo),
-                    "images/api-definition.svg",
+                    'images/api-definition.svg',
                     SiteTabIds.apiDefinition,
                     this._siteDashboard
                 ));
@@ -509,7 +521,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._portalService,
                 null,
                 this._dynamicDisableInfo),
-        ]
+        ];
 
         const resourceManagementFeatures = [
             new BladeFeature(
@@ -601,7 +613,7 @@ export class SiteManageComponent implements OnDestroy {
             //     'New support request',
             //     'support request',
             //     'Info'),
-        ]
+        ];
 
         this.groups3 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
@@ -619,7 +631,7 @@ export class OpenKuduFeature extends DisableableFeature {
     constructor(
         private _site: ArmObj<Site>,
         disableInfoStream: Subject<DisableInfo>,
-        private _translateService: TranslateService) {
+        _translateService: TranslateService) {
 
         super(
             _translateService.instant(PortalResources.feature_advancedToolsName),
@@ -636,7 +648,7 @@ export class OpenKuduFeature extends DisableableFeature {
 }
 
 export class OpenEditorFeature extends DisableableFeature {
-    constructor(private _site: ArmObj<Site>, disabledInfoStream: Subject<DisableInfo>, private _translateService: TranslateService) {
+    constructor(private _site: ArmObj<Site>, disabledInfoStream: Subject<DisableInfo>, _translateService: TranslateService) {
 
         super(
             _translateService.instant(PortalResources.feature_appServiceEditorName),
@@ -653,7 +665,7 @@ export class OpenEditorFeature extends DisableableFeature {
 }
 
 export class OpenResourceExplorer extends FeatureItem {
-    constructor(private _site: ArmObj<Site>, private _translateService: TranslateService) {
+    constructor(private _site: ArmObj<Site>, _translateService: TranslateService) {
         super(
             _translateService.instant(PortalResources.feature_resourceExplorerName),
             _translateService.instant(PortalResources.feature_resourceExplorerName),

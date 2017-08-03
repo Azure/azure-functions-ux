@@ -1,8 +1,6 @@
-import { Component, Input, OnChanges, SimpleChange, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { FunctionMonitorService } from '../shared/services/function-monitor.service';
 import { FunctionInvocations } from '../shared/models/function-monitor';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { PortalResources } from '../shared/models/portal-resources';
 import { FunctionInfo } from '../shared/models/function-info';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
@@ -26,9 +24,7 @@ export class TableFunctionMonitorComponent implements OnChanges {
     public outputLog: string;
     public selectedRowId: string;
 
-    constructor(
-        private _functionMonitorService: FunctionMonitorService,
-        private _translateService: TranslateService,
+    constructor(private _functionMonitorService: FunctionMonitorService,
         public globalStateService: GlobalStateService) { }
 
     showDetails(rowData: FunctionInvocations) {
@@ -52,9 +48,9 @@ export class TableFunctionMonitorComponent implements OnChanges {
             });
     }
 
-    ngOnChanges(changes: { [key: string]: SimpleChange }) {
+    ngOnChanges() {
         this.details = null;
-        this.outputLog = "";
+        this.outputLog = '';
         this.selectedRowId = null;
     }
 
@@ -68,12 +64,14 @@ export class TableFunctionMonitorComponent implements OnChanges {
     }
 
     setBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.setBusyState();
+        }
     }
 
     clearBusyState() {
-        if (this.busyState)
+        if (this.busyState) {
             this.busyState.clearBusyState();
+        }
     }
 }

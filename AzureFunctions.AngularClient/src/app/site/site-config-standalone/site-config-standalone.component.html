@@ -1,0 +1,93 @@
+<command-bar *ngIf="!!mainForm">
+  <command
+    displayText="Save"
+    iconUrl="images/save.svg"
+    (click)="save()"
+    [disabled]="!mainForm.valid || mainForm.pristine"></command>
+
+  <command
+    displayText="Discard"
+    iconUrl="images/discard.svg"
+    (click)="discard()"
+    [disabled]="mainForm.pristine"></command>
+
+</command-bar>
+
+<div *ngIf="!!mainForm" id="site-config-wrapper">
+<h3 class="text-level2-heading">{{ 'feature_applicationSettingsName' | translate }}</h3>
+
+<tbl tblClass="tbl fixed stretch" [items]="mainForm.controls['appSettings'].controls" #appSettingsTable>
+  <tr class="header-row">
+    <th class="nameCol"></th>
+    <th class="valueCol"></th>
+    <th class="actionCol"></th>
+  </tr>
+  
+  <tr *ngFor="let group of appSettingsTable.items">
+    <td [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+      <click-to-edit [group]="group" name="name">
+        
+        <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+
+      </click-to-edit>
+    </td>
+    
+    <td>
+      <click-to-edit [group]="group" name="value">
+
+        <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>        
+
+      </click-to-edit>
+    </td>
+    
+    <td>
+      <span class="fa fa-times delete" (click)="deleteAppSetting(group)"></span>
+    </td>
+  </tr>
+</tbl>
+
+<div class="link add-setting" (click)="addAppSetting()">
+  {{ 'addNewSetting' | translate }}
+</div>
+
+<h3 class="text-level2-heading connection-strings">{{ 'connectionStrings' | translate }}</h3>
+
+<tbl tblClass="tbl fixed stretch" [items]="mainForm.controls['connectionStrings'].controls" #connectionStringsTable>
+  <tr class="header-row">
+    <th class="nameCol"></th>
+    <th class="valueCol"></th>
+    <th class="typeCol"></th>
+    <th class="actionCol"></th>
+  </tr>
+  
+  <tr *ngFor="let group of connectionStringsTable.items">
+    <td [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+      <click-to-edit [group]="group" name="name">
+        <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+      </click-to-edit>
+    </td>
+    
+    <td>
+      <click-to-edit [group]="group" name="value" hiddenText="true">
+        <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
+      </click-to-edit>
+    </td>
+
+    <td>
+      <click-to-edit [group]="group" name="type">
+        <drop-down [group]="group" name="type" [options]="group.csTypes"></drop-down>
+      </click-to-edit>
+    </td>
+
+    <td>
+      <span class="fa fa-times delete" (click)="deleteConnectionString(group)"></span>
+    </td>
+  </tr>
+</tbl>
+
+<div class="link add-setting" (click)="addConnectionString()">
+  {{ 'addNewConnectionString' | translate }}
+</div>
+
+
+</div>

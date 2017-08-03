@@ -68,6 +68,10 @@
                  (remove)="onRemoveBinding($event)"
                  (update)="onUpdateBinding($event)"></binding>
 
+        <div *ngIf="model.trigger.type === 'eventGridTrigger'" class="alert alert-warning alert-dismissible" role="alert">
+            {{ 'eventGrid_createMessage' | translate }}
+        </div>
+
         <button [class.custom-button]="areInputsValid"
                 [class.custom-button-disabled]="!areInputsValid"
                 style="display: block; margin-top: 40px"
@@ -77,5 +81,6 @@
             <br/>
             <button class="custom-button" (click)="createAADApplication()" [disabled]="showTryView">{{ 'expressAADRegistration' | translate }}</button>
         </div>
+
     </div>
 </div>

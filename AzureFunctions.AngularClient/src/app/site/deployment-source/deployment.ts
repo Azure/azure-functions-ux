@@ -1,5 +1,3 @@
-import { ArmObj } from '../../shared/models/arm/arm-obj';
-
 export enum ProviderType {
     None = 0,
     Tfs = 1,
@@ -21,10 +19,10 @@ export enum ProviderType {
 }
 
 export interface Provider {
-    title: string,
-    subtitle: string,
-    imgUrl: string,
-    type: ProviderType
+    title: string;
+    subtitle: string;
+    imgUrl: string;
+    type: ProviderType;
 }
 
 export enum Status {
@@ -49,11 +47,11 @@ export interface Deployment {
 }
 
 export interface DeploymentLog {
-    "log_time": string;
-    "id": string;
-    "message": string;
-    "type": number;
-    "details_url": string;
+    'log_time': string;
+    'id': string;
+    'message': string;
+    'type': number;
+    'details_url': string;
 }
 
 export interface SetupOAuthRequest {
@@ -108,9 +106,9 @@ export interface Folder {
 }
 
 export interface SourceControls {
-    repoUrl: string,
-    branch: string,
-    isManualIntegration: boolean,
-    deploymentRollbackEnabled: boolean,
-    isMercurial: boolean,
+    repoUrl: string;
+    branch: string;
+    isManualIntegration: boolean;
+    deploymentRollbackEnabled: boolean;
+    isMercurial: boolean;
 }

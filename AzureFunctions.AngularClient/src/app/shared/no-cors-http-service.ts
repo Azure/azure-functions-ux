@@ -1,4 +1,4 @@
-import { Http, RequestOptionsArgs, Response, Request, ResponseType, Headers } from '@angular/http';
+import { Http, RequestOptionsArgs, Response, ResponseType, Headers } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';

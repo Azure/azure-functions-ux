@@ -3,8 +3,6 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 
 import { DisableInfo } from './feature-item';
-import { PortalResources } from './../shared/models/portal-resources';
-import { AuthzService } from '../shared/services/authz.service';
 import { PortalService } from '../shared/services/portal.service';
 import { OpenBladeInfo } from '../shared/models/portal';
 import { EnableTabFeature } from "app/shared/models/constants";
@@ -53,7 +51,7 @@ export class DisableableFeature extends FeatureItem {
         keywords: string,
         info: string,
         imageUrl: string,
-        private _disableInfoStream?: Subject<DisableInfo>,
+        _disableInfoStream?: Subject<DisableInfo>,
         overrideDisableInfo?: DisableInfo // If the feature is known to be disabled before any async logic, then use this disable immediately
     ) {
         super(title, keywords, info, imageUrl);
@@ -64,8 +62,7 @@ export class DisableableFeature extends FeatureItem {
             }
 
             this.enabled = overrideDisableInfo.enabled;
-        }
-        else if (_disableInfoStream) {
+        } else if (_disableInfoStream) {
             this._enabledRxSub = _disableInfoStream.subscribe(info => {
                 this.enabled = info.enabled;
 

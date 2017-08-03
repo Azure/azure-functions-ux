@@ -1,17 +1,15 @@
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
-import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
 import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../shared/function-app';
 import { ErrorIds } from './../shared/models/error-ids';
-import { Component, OnDestroy, Output, EventEmitter, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, OnDestroy, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FunctionInfo } from '../shared/models/function-info';
 import { PortalService } from '../shared/services/portal.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { BindingManager } from '../shared/models/binding-manager';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 
 @Component({
@@ -30,7 +28,6 @@ export class FunctionIntegrateComponent implements OnDestroy {
     public isDirty: boolean;
     private _originalContent: string;
     private _currentConent: string;
-    private _bindingManager: BindingManager = new BindingManager();
     public functionApp: FunctionApp;
     public disabled: Observable<boolean>;
 
@@ -44,8 +41,8 @@ export class FunctionIntegrateComponent implements OnDestroy {
 
 
     ngOnInit() {
-        var functionContainaerHeight = window.innerHeight - this.container.nativeElement.getBoundingClientRect().top;
-        this.editorContainer.nativeElement.style.height = (functionContainaerHeight - 75) + "px";
+        const functionContainerHeight = window.innerHeight - this.container.nativeElement.getBoundingClientRect().top;
+        this.editorContainer.nativeElement.style.height = (functionContainerHeight - 75) + 'px';
     }
 
     set selectedFunction(value: FunctionInfo) {
@@ -69,7 +66,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }
 
     cancelConfig() {
-        this.configContent = "";
+        this.configContent = '';
         setTimeout(() => {
             this.configContent = this._originalContent;
             this.clearDirty();
@@ -83,7 +80,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
                 this._selectedFunction.config = JSON.parse(this.configContent);
                 this._globalStateService.setBusyState();
                 this._selectedFunction.functionApp.updateFunction(this._selectedFunction)
-                    .subscribe(fi => {
+                    .subscribe(() => {
                         this._originalContent = this.configContent;
                         this.clearDirty();
                         this._globalStateService.clearBusyState();
@@ -124,7 +121,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }
 
     private switchIntegrate() {
-        var result = true;
+        let result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
             result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, { name: this._selectedFunction.name }));
         }

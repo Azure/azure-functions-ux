@@ -1,6 +1,4 @@
 import { StorageItem } from './local-storage';
-import { EnabledFeature } from './enabled-features';
-import { Guid } from "app/shared/Utilities/Guid";
 
 export interface StorageItem {
     id: string;

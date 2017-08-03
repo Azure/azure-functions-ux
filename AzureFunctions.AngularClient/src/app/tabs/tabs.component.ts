@@ -2,7 +2,6 @@ import { BusyStateComponent } from './../busy-state/busy-state.component';
 import { AiService } from './../shared/services/ai.service';
 import { Component, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
-import { PortalService } from '../shared/services/portal.service';
 
 @Component({
     selector: 'tabs',
@@ -15,13 +14,11 @@ export class TabsComponent implements AfterContentInit {
     @Output() tabSelected = new EventEmitter<TabComponent>();
     @Output() tabClosed = new EventEmitter<TabComponent>();
 
-    constructor(
-        private _portalService: PortalService,
-        private _aiService: AiService) {
+    constructor(private _aiService: AiService) {
     }
 
     ngAfterContentInit() {
-        let activeTabs = this.tabs.filter((tab) => tab.active);
+        const activeTabs = this.tabs.filter((tab) => tab.active);
 
         if (activeTabs.length === 0) {
             this.selectTabHelper(this.tabs.first);
@@ -29,15 +26,15 @@ export class TabsComponent implements AfterContentInit {
     }
 
     selectTabId(tabId: string) {
-        let tabs = this.tabs.toArray();
-        let tab = tabs.find(t => t.id === tabId);
+        const tabs = this.tabs.toArray();
+        const tab = tabs.find(t => t.id === tabId);
         if (tab) {
             this.selectTab(tab);
         }
     }
 
     selectTab(tab: TabComponent) {
-        this._aiService.trackEvent("/sites/open-tab", { name: tab.id });
+        this._aiService.trackEvent('/sites/open-tab', { name: tab.id });
         this.selectTabHelper(tab);
     }
 

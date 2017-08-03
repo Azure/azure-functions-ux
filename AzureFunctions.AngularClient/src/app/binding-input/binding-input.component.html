@@ -124,4 +124,9 @@
       <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" [fnWriteAccess]="functionApp"> {{ item.display }}
     </div>
   </div>
+
+  <div *ngIf="input?.type === 'eventGrid'">
+    <binding-event-grid [input]="input"></binding-event-grid>
+  </div>
+
 </div>

@@ -9,7 +9,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import { FunctionInfo } from './../shared/models/function-info';
 import { AppNode } from './../tree-view/app-node';
-import { FunctionsNode } from './../tree-view/functions-node';
 import { AiService } from './../shared/services/ai.service';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
@@ -31,9 +30,6 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
     private _aiService: AiService,
     private _configService: ConfigService
   ) {
-
-    let initialDashboardType: DashboardType;
-
     this._subscription = this._viewInfoStream
       .switchMap(info => {
         this.viewInfo = info;
@@ -48,7 +44,7 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
         // Set default for autodetect to CreateFunction while we load function list
         this.dashboardType = DashboardType[DashboardType.createFunction];
 
-        let appNode = <AppNode>info.node.parent;
+        const appNode = <AppNode>info.node.parent;
         return appNode.functionAppStream;
       })
       .switchMap(functionApp => {

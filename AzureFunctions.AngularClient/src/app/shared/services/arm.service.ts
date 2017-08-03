@@ -1,39 +1,12 @@
 import { ArmServiceHelper } from './arm.service-helper';
-import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Headers, Response, Request } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Injectable } from '@angular/core';
+import { Http, Headers, Request } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/of';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
-import { Guid } from './../Utilities/Guid';
-import { Subscription } from '../models/subscription';
-import { FunctionContainer } from '../models/function-container';
-import { StorageAccount } from '../models/storage-account';
-import { ResourceGroup } from '../models/resource-group';
 import { UserService } from './user.service';
-import { Constants } from '../models/constants';
-import { ClearCache } from '../decorators/cache.decorator';
 import { AiService } from './ai.service';
-import { PortalResources } from '../models/portal-resources';
-import { ArmObj, ArmArrayResult } from '../models/arm/arm-obj';
-import { ConfigService } from './config.service';
-
-// export interface IArmService{
-
-//     get(resourceId: string, apiVersion?: string);
-
-//     delete(resourceId: string, apiVersion?: string);
-
-//     put(resourceId: string, body: any, apiVersion?: string);
-
-//     post(resourceId: string, body: any, apiVersion?: string);
-
-//     send(method: string, url: string, body?: any, etag?: string, headers?: Headers);
-
-// }
 
 @Injectable()
 export class ArmService {
@@ -51,10 +24,8 @@ export class ArmService {
     private _invokeId = 100;
 
     constructor(private _http: Http,
-        private _configService: ConfigService,
-        private _userService: UserService,
-        protected _aiService: AiService,
-        private _translateService: TranslateService) {
+        _userService: UserService,
+        protected _aiService: AiService) {
 
         this.armUrl = ArmServiceHelper.armEndpoint;
 

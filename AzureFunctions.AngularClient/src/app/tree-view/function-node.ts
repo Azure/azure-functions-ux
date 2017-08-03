@@ -1,4 +1,3 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FunctionApp } from './../shared/function-app';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -8,13 +7,9 @@ import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } f
 import { FunctionsNode } from './functions-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
-import { Site } from '../shared/models/arm/site';
-import { ArmObj } from '../shared/models/arm/arm-obj';
-import {FunctionContainer} from '../shared/models/function-container';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {PortalResources} from '../shared/models/portal-resources';
-import {FunctionInfo} from '../shared/models/function-info';
-import { Url } from "app/shared/Utilities/url";
+import { PortalResources } from '../shared/models/portal-resources';
+import { FunctionInfo } from '../shared/models/function-info';
+import { Url } from 'app/shared/Utilities/url';
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public dashboardType = DashboardType.function;
@@ -27,20 +22,18 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         parentNode: TreeNode) {
 
         super(sideNav,
-            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name,
+            functionInfo.functionApp.site.id + '/functions/' + functionInfo.name,
             parentNode);
-        this.iconClass = "tree-node-svg-icon";
-        this.iconUrl = "images/function_f.svg";
-        const disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
-
-        this.supportsTab = (Url.getParameterByName(window.location.href, "appsvc.feature") === 'tabbed');
+        this.iconClass = 'tree-node-svg-icon';
+        this.iconUrl = 'images/function_f.svg';
+        this.supportsTab = (Url.getParameterByName(window.location.href, 'appsvc.feature') === 'tabbed');
     }
 
     // This will be called on every change detection run. So I'm making sure to always
     // return the same exact object every time.
     public get title(): string {
 
-        let disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
+        const disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
 
         return this.functionInfo.config.disabled
             ? `(${disabledStr}) ${this.functionInfo.name}`
@@ -62,7 +55,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         this.children = [
             new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
             new FunctionManageNode(this.sideNav, this._functionsNode, this.functionInfo, this),
-        ]
+        ];
 
         if (!this.sideNav.configService.isStandalone()) {
             this.children.push(new FunctionMonitorNode(this.sideNav, this.functionInfo, this));
@@ -85,12 +78,12 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     }
 
     public static blockNavChangeHelper(currentNode: TreeNode) {
-        var canSwitchFunction = true;
+        let canSwitchFunction = true;
         if (currentNode.sideNav.broadcastService.getDirtyState('function')
             || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
             || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
 
-            let descriptor = new FunctionDescriptor(currentNode.resourceId);
+            const descriptor = new FunctionDescriptor(currentNode.resourceId);
 
             canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
                 PortalResources.sideBar_changeMade,
@@ -137,7 +130,7 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
 }
 
 export class FunctionIntegrateNode extends FunctionEditBaseNode {
-    public dashboardType = DashboardType.functionIntegrate
+    public dashboardType = DashboardType.functionIntegrate;
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_integrate);
 
     constructor(
@@ -147,15 +140,15 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode {
 
         super(sideNav,
             functionInfo,
-            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/integrate",
+            functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/integrate',
             parentNode);
 
-        this.iconClass = "fa fa-flash tree-node-function-edit-icon";
+        this.iconClass = 'fa fa-flash tree-node-function-edit-icon';
     }
 }
 
 export class FunctionManageNode extends FunctionEditBaseNode implements Removable {
-    public dashboardType = DashboardType.functionManage
+    public dashboardType = DashboardType.functionManage;
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_manage);;
 
     constructor(
@@ -166,10 +159,10 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
 
         super(sideNav,
             functionInfo,
-            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/manage",
+            functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/manage',
             parentNode);
 
-        this.iconClass = "fa fa-cog tree-node-function-edit-icon";
+        this.iconClass = 'fa fa-cog tree-node-function-edit-icon';
     }
 
     public remove() {
@@ -195,9 +188,9 @@ export class FunctionMonitorNode extends FunctionEditBaseNode {
 
         super(sideNav,
             functionInfo,
-            functionInfo.functionApp.site.id + "/functions/" + functionInfo.name + "/monitor",
+            functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/monitor',
             parentNode);
 
-        this.iconClass = "fa fa-search tree-node-function-edit-icon";
+        this.iconClass = 'fa fa-search tree-node-function-edit-icon';
     }
 }

@@ -1,16 +1,9 @@
 import { Component, OnDestroy, OnChanges, Input, Inject, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { TranslatePipe } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { UserService } from '../shared/services/user.service';
-import { FunctionContainer } from '../shared/models/function-container';
-import { FunctionsService } from '../shared/services/functions.service';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
-import { ErrorEvent } from '../shared/models/error-event';
 import { UtilitiesService } from '../shared/services/utilities.service';
-import { GlobalStateService } from '../shared/services/global-state.service';
 
 @Component({
     selector: 'log-streaming',
@@ -20,15 +13,15 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 export class LogStreamingComponent implements OnDestroy, OnChanges {
     public log: string;
     public stopped: boolean;
-    public timerInterval: number = 1000;
+    public timerInterval = 1000;
     public isExpanded = false;
 
     private xhReq: XMLHttpRequest;
     private timeouts: number[];
-    private oldLength: number = 0;
+    private oldLength = 0;
     private token: string;
     private tokenSubscription: Subscription;
-    private skipLength: number = 0;
+    private skipLength = 0;
     @Input() functionInfo: FunctionInfo;
     @Input() isHttpLogs: boolean;
     @Output() closeClicked = new EventEmitter<any>();
@@ -37,9 +30,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
     constructor(
         @Inject(ElementRef) private _elementRef: ElementRef,
         private _userService: UserService,
-        private _broadcastService: BroadcastService,
-        private _utilities: UtilitiesService,
-        private _globalStateService: GlobalStateService) {
+        private _utilities: UtilitiesService) {
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
         this.log = '';
         this.timeouts = [];
@@ -75,7 +66,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         this.log = ' ';
     }
 
-    copyLogs(event) {
+    copyLogs() {
         this._utilities.copyContentToClipboard(this.log);
     }
 
@@ -108,7 +99,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         const maxInterval = 10000;
         let oldLogs = '';
 
-        var promise = new Promise<string>((resolve, reject) => {
+        const promise = new Promise<string>(resolve => {
 
             if (this.xhReq) {
                 this.timeouts.forEach(window.clearTimeout);
@@ -123,10 +114,10 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                 }
             }
 
-            let scmUrl = this.functionInfo.functionApp.getScmUrl();
+            const scmUrl = this.functionInfo.functionApp.getScmUrl();
 
             this.xhReq = new XMLHttpRequest();
-            let url = `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
+            const url = `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
 
             this.xhReq.open('GET', url, true);
             if (this.functionInfo.functionApp.tryFunctionsScmCreds) {
@@ -140,8 +131,8 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                 this.functionInfo.functionApp.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
             }
 
-            var callBack = () => {
-                var diff = this.xhReq.responseText.length + oldLogs.length - this.oldLength;
+            const callBack = () => {
+                const diff = this.xhReq.responseText.length + oldLogs.length - this.oldLength;
                 if (!this.stopped && diff > 0) {
                     resolve(null);
                     if (this.xhReq.responseText.length > maxCharactersInLog) {
@@ -157,12 +148,12 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
 
                     this.oldLength = this.xhReq.responseText.length + oldLogs.length;
                     window.setTimeout(() => {
-                        var el = document.getElementById('log-stream');
+                        const el = document.getElementById('log-stream');
                         if (el) {
                             el.scrollTop = el.scrollHeight;
                         }
                     });
-                    var nextInterval = diff - oldLogs.length > intervalIncreaseThreshold ? this.timerInterval + defaultInterval : this.timerInterval - defaultInterval;
+                    const nextInterval = diff - oldLogs.length > intervalIncreaseThreshold ? this.timerInterval + defaultInterval : this.timerInterval - defaultInterval;
                     if (nextInterval < defaultInterval) {
                         this.timerInterval = defaultInterval;
                     } else if (nextInterval > maxInterval) {
@@ -170,7 +161,7 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
                     } else {
                         this.timerInterval = nextInterval;
                     }
-                } else if (diff == 0) {
+                } else if (diff === 0) {
                     this.timerInterval = defaultInterval;
                 }
                 if (this.xhReq.readyState === XMLHttpRequest.DONE) {

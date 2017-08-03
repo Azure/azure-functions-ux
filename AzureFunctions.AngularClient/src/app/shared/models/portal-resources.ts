@@ -1,7 +1,7 @@
 // This file is auto generated
+/* tslint:disable */
 
-export class PortalResources
-{
+export class PortalResources {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
@@ -369,8 +369,47 @@ export class PortalResources
     public static feature_consoleInfo: string = "feature_consoleInfo";
     public static feature_extensionsName: string = "feature_extensionsName";
     public static feature_extensionsInfo: string = "feature_extensionsInfo";
+    public static feature_generalSettingsName: string = "feature_generalSettingsName";
+    public static feature_autoSwapSettingsName: string = "feature_autoSwapSettingsName";
+    public static feature_debuggingSettingsName: string = "feature_debuggingSettingsName";
     public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
     public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
+    public static configRequiresWritePermissionOnApp: string = "configRequiresWritePermissionOnApp";
+    public static configDisabledReadOnlyLockOnApp: string = "configDisabledReadOnlyLockOnApp";
+    public static configViewReadOnlySettings: string = "configViewReadOnlySettings";
+    public static configLoadFailure: string = "configLoadFailure";
+    public static loading: string = "loading";
+    public static configUpdating: string = "configUpdating";
+    public static configUpdateSuccess: string = "configUpdateSuccess";
+    public static configUpdateFailure: string = "configUpdateFailure";
+    public static configUpdateFailureInvalidInput: string = "configUpdateFailureInvalidInput";
+    public static netFrameWorkVersionLabel: string = "netFrameWorkVersionLabel";
+    public static netFrameWorkVersionLabelHelp: string = "netFrameWorkVersionLabelHelp";
+    public static phpVersionLabel: string = "phpVersionLabel";
+    public static phpVersionLabelHelp: string = "phpVersionLabelHelp";
+    public static pythonVersionLabel: string = "pythonVersionLabel";
+    public static pythonVersionLabelHelp: string = "pythonVersionLabelHelp";
+    public static javaVersionLabel: string = "javaVersionLabel";
+    public static javaVersionLabelHelp: string = "javaVersionLabelHelp";
+    public static javaMinorVersionLabel: string = "javaMinorVersionLabel";
+    public static javaMinorVersionLabelHelp: string = "javaMinorVersionLabelHelp";
+    public static javaWebContainerLabel: string = "javaWebContainerLabel";
+    public static javaWebContainerLabelHelp: string = "javaWebContainerLabelHelp";
+    public static use32BitWorkerProcessLabel: string = "use32BitWorkerProcessLabel";
+    public static use32BitWorkerProcessLabelHelp: string = "use32BitWorkerProcessLabelHelp";
+    public static webSocketsEnabledLabel: string = "webSocketsEnabledLabel";
+    public static webSocketsEnabledLabelHelp: string = "webSocketsEnabledLabelHelp";
+    public static alwaysOnLabel: string = "alwaysOnLabel";
+    public static alwaysOnLabelHelp: string = "alwaysOnLabelHelp";
+    public static managedPipelineModeLabel: string = "managedPipelineModeLabel";
+    public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLebel";
+    public static remoteDebuggingEnabledLabel: string = "remoteDebuggingEnabledLabel";
+    public static remoteDebuggingVersionLabel: string = "remoteDebuggingVersionLabel";
+    public static newest: string = "newest";
+    public static architecture32: string = "architecture32";
+    public static architecture64: string = "architecture64";
+    public static pipelineModeClassic: string = "pipelineModeClassic";
+    public static pipelineModeIntegrated: string = "pipelineModeIntegrated";
     public static feature_propertiesName: string = "feature_propertiesName";
     public static feature_propertiesInfo: string = "feature_propertiesInfo";
     public static feature_backupsName: string = "feature_backupsName";
@@ -432,6 +471,7 @@ export class PortalResources
     public static tab_settings: string = "tab_settings";
     public static tab_functionSettings: string = "tab_functionSettings";
     public static tab_configuration: string = "tab_configuration";
+    public static tab_applicationSettings: string = "tab_applicationSettings";
     public static try_appDisabled: string = "try_appDisabled";
     public static template: string = "template";
     public static events: string = "events";
@@ -604,5 +644,44 @@ export class PortalResources
     public static functionDev_saveFunctionNotifyTitle: string = "functionDev_saveFunctionNotifyTitle";
     public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
     public static expressAADRegistration: string = "expressAADRegistration";
+    public static eventGrid_create: string = "eventGrid_create";
+    public static eventGrid_createMessage: string = "eventGrid_createMessage";
+    public static eventGrid_help: string = "eventGrid_help";
+    public static eventGrid_label: string = "eventGrid_label";
+    public static eventGrid_manageSubscriptions: string = "eventGrid_manageSubscriptions";
+    public static functionDev_addEventGrid: string = "functionDev_addEventGrid";
+    public static allLocations: string = "allLocations";
+    public static locationCount: string = "locationCount";
+    public static locationColon: string = "locationColon";
+    public static grouping_location: string = "grouping_location";
+    public static grouping_none: string = "grouping_none";
+    public static grouping_resourceGroup: string = "grouping_resourceGroup";
+    public static grouping_subscription: string = "grouping_subscription";
+    public static southcentralus: string = "southcentralus";
+    public static northeurope: string = "northeurope";
+    public static westeurope: string = "westeurope";
+    public static southeastasia: string = "southeastasia";
+    public static koreacentral: string = "koreacentral";
+    public static koreasouth: string = "koreasouth";
+    public static westus: string = "westus";
+    public static eastus: string = "eastus";
+    public static japanwest: string = "japanwest";
+    public static japaneast: string = "japaneast";
+    public static eastasia: string = "eastasia";
+    public static eastus2: string = "eastus2";
+    public static northcentralus: string = "northcentralus";
+    public static centralus: string = "centralus";
+    public static brazilsouth: string = "brazilsouth";
+    public static australiaeast: string = "australiaeast";
+    public static australiasoutheast: string = "australiasoutheast";
+    public static westindia: string = "westindia";
+    public static centralindia: string = "centralindia";
+    public static southindia: string = "southindia";
+    public static canadacentral: string = "canadacentral";
+    public static canadaeast: string = "canadaeast";
+    public static westcentralus: string = "westcentralus";
+    public static ukwest: string = "ukwest";
+    public static uksouth: string = "uksouth";
+    public static westus2: string = "westus2";
 }
 

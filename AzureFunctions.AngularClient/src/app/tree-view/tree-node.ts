@@ -7,8 +7,6 @@ import 'rxjs/add/observable/of';
 import { Disposable } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
-import { TreeViewInfo } from './models/tree-view-info';
-import { Subscription } from '../shared/models/subscription';
 
 export interface CustomSelection {
     handleSelection();
@@ -42,8 +40,8 @@ export interface MutableCollection {
 
 export class TreeNode implements Disposable, Removable, CanBlockNavChange, CustomSelection, Collection {
     public isExpanded: boolean;
-    public showExpandIcon: boolean = true;
-    public nodeClass = "tree-node";
+    public showExpandIcon = true;
+    public nodeClass = 'tree-node';
     public iconClass: string;
     public iconUrl: string;
     public isLoading: boolean;
@@ -79,9 +77,9 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
         this.sideNav.updateView(this, this.dashboardType, force)
             .do(null, e => {
-                this.sideNav.aiService.trackException(e, "/errors/tree-node/select");
+                this.sideNav.aiService.trackException(e, '/errors/tree-node/select');
             })
-            .subscribe(r => {
+            .subscribe(() => {
 
                 // If updating the view didn't also populate children,
                 // then we'll load them manally here.
@@ -99,8 +97,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
     // Virtual
     public refresh(event?: UIEvent) {
-        if(event && event.type === DomEvents.keydown){
-            if((<KeyboardEvent>event).keyCode !== KeyCodes.enter){
+        if (event && event.type === DomEvents.keydown) {
+            if ((<KeyboardEvent>event).keyCode !== KeyCodes.enter) {
                 return;
             }
         }
@@ -108,12 +106,12 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         this.isLoading = true;
         this.handleRefresh()
             .do(null, e => {
-                this.sideNav.aiService.trackException(e, "/errors/tree-node/refresh");
+                this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh');
             })
-            .subscribe(r => {
+            .subscribe(() => {
                 this.sideNav.updateView(this.sideNav.selectedNode, this.sideNav.selectedDashboardType, true)
                     .do(null, e => {
-                        this.sideNav.aiService.trackException(e, "/errors/tree-node/refresh/update-view");
+                        this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh/update-view');
                     })
                     .subscribe(() => { });
 
@@ -138,8 +136,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             this.isExpanded = true;
 
             this._loadAndExpandChildrenIfSingle();
-        }
-        else {
+        } else {
             this.isExpanded = false;
         }
 
@@ -151,26 +148,23 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     private _loadAndExpandChildrenIfSingle() {
         this.loadChildren()
             .do(null, e => {
-                this.sideNav.aiService.trackException(e, "/errors/tree-node/expand-single/load-children");
+                this.sideNav.aiService.trackException(e, '/errors/tree-node/expand-single/load-children');
             })
             .subscribe(() => {
                 this.isLoading = false;
                 if (this.children && this.children.length > 0) {
-                    let matchingChild = this.children.find(c => {
+                    const matchingChild = this.children.find(c => {
                         return this.sideNav.initialResourceId && this.sideNav.initialResourceId.toLowerCase().startsWith(`${this.resourceId}/${c.title}`.toLowerCase());
-                    })
+                    });
 
                     if (matchingChild) {
                         matchingChild.select();
-                    }
-                    else if (this.children.length === 1 && !this.children[0].isExpanded) {
+                    } else if (this.children.length === 1 && !this.children[0].isExpanded) {
                         this.children[0].toggle(null);
-                    }
-                    else {
+                    } else {
                         this.sideNav.initialResourceId = null;
                     }
-                }
-                else {
+                } else {
                     this.sideNav.initialResourceId = null;
                 }
 
@@ -181,15 +175,15 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     public openCreateNew(event?: UIEvent) {
-        if(event && event.type === DomEvents.keydown){
-            if((<KeyboardEvent>event).keyCode !== KeyCodes.enter){
+        if (event && event.type === DomEvents.keydown) {
+            if ((<KeyboardEvent>event).keyCode !== KeyCodes.enter) {
                 return;
             }
         }
 
         this.sideNav.updateView(this, this.newDashboardType)
             .do(null, e => {
-                this.sideNav.aiService.trackException(e, "/errors/tree-node/open-create/update-view");
+                this.sideNav.aiService.trackException(e, '/errors/tree-node/open-create/update-view');
             })
             .subscribe(() => { });
 
@@ -206,7 +200,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         return Observable.of(null);
     }
 
-    public dispose(newSelectedNode?: TreeNode) {
+    public dispose(_?: TreeNode) {
     }
 
     public remove() {
@@ -214,7 +208,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
     protected _removeHelper(removeIndex: number, callRemoveOnChild?: boolean) {
         if (removeIndex > -1) {
-            let child = this.children[removeIndex];
+            const child = this.children[removeIndex];
             this.children.splice(removeIndex, 1);
 
             if (callRemoveOnChild) {
@@ -226,7 +220,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     public getTreePathNames() {
-        let path: string[] = [];
+        const path: string[] = [];
         let curNode: TreeNode = this;
 
         while (curNode) {
@@ -238,8 +232,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     public scopeToNode(event?: UIEvent) {
-        if(event && event.type === DomEvents.keydown){
-            if((<KeyboardEvent>event).keyCode !== KeyCodes.enter){
+        if (event && event.type === DomEvents.keydown) {
+            if ((<KeyboardEvent>event).keyCode !== KeyCodes.enter) {
                 return;
             }
         }

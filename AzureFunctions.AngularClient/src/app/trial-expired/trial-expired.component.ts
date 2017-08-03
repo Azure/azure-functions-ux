@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
 
 @Component({
@@ -21,7 +19,7 @@ export class TrialExpiredComponent implements OnInit {
     trackLinkClick(buttonName: string) {
         if (buttonName) {
             try {
-                this._aiService.trackLinkClick(buttonName, "true");
+                this._aiService.trackLinkClick(buttonName, 'true');
             } catch (error) {
                 this._aiService.trackException(error, 'trackLinkClick');
             }

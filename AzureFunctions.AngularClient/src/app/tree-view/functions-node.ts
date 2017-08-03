@@ -5,18 +5,11 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 
-import { FunctionQuickstartComponent } from './../function-quickstart/function-quickstart.component';
-import { QuickstartSettings } from './../shared/models/localStorage/local-storage';
 import { AuthzService } from './../shared/services/authz.service';
 import { AppNode } from './app-node';
-import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
-import { Site } from '../shared/models/arm/site';
-import { ArmObj } from '../shared/models/arm/arm-obj';
-import { FunctionContainer } from '../shared/models/function-container';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { FunctionInfo } from '../shared/models/function-info';
 import { FunctionNode } from './function-node';
@@ -61,11 +54,9 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
                 .switchMap(r => {
                     if (r.hasWritePermission && !r.hasReadOnlyLock) {
                         return this._updateTreeForStartedSite();
-                    }
-                    else if (!r.hasWritePermission) {
+                    } else if (!r.hasWritePermission) {
                         return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess));
-                    }
-                    else {
+                    } else {
                         return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock));
                     }
                 });

@@ -1,4 +1,4 @@
-import { ErrorEvent, ErrorType } from './error-event';
+import { ErrorType } from './error-event';
 
 export interface ErrorItem {
     message: string;

@@ -1,8 +1,14 @@
-<div class="switch" *ngIf="options">
+<div
+    *ngIf="options"
+    class="switch"
+    [class.dirty]="highlightDirty && control?.dirty"
+    [class.disabled]="control ? control.disabled : disabled">
+
     <div *ngFor="let option of options"
         class="switch-label"
-        [class.selected]="option.value === defaultValue"
+        [class.selected]="option.value === selectedValue"
         (click)="select(option)">
         {{option.displayLabel}}
     </div>
+
 </div>

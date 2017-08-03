@@ -26,18 +26,12 @@ import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
 import { FunctionInfo } from './models/function-info';
 import { VfsObject } from './models/vfs-object';
-import { ScmInfo } from './models/scm-info';
 import { ApiProxy } from './models/api-proxy';
-import { PassthroughInfo } from './models/passthrough-info';
 import { CreateFunctionInfo } from './models/create-function-info';
 import { FunctionTemplate } from './models/function-template';
-import { RunResponse } from './models/run-response';
 import { DesignerSchema } from './models/designer-schema';
 import { FunctionSecrets } from './models/function-secrets';
-import { Subscription } from './models/subscription';
-import { ServerFarm } from './models/server-farm';
 import { BindingConfig } from './models/binding';
-import { PortalService } from './services/portal.service';
 import { UserService } from './services/user.service';
 import { FunctionContainer } from './models/function-container';
 import { RunFunctionResult } from './models/run-function-result';
@@ -45,34 +39,27 @@ import { Constants } from './models/constants';
 import { Cache, ClearCache, ClearAllFunctionCache } from './decorators/cache.decorator';
 import { GlobalStateService } from './services/global-state.service';
 import { PortalResources } from './models/portal-resources';
-import { UIResource, AppService, ITryAppServiceTemplate } from './models/ui-resource';
+import { UIResource, ITryAppServiceTemplate } from './models/ui-resource';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import { UsageVolume } from './models/app-monitoring-usage';
 import { BroadcastService } from './services/broadcast.service';
 import { ArmService } from './services/arm.service';
 import { BroadcastEvent } from './models/broadcast-event';
 import { ErrorEvent, ErrorType } from './models/error-event';
 import { HttpRunModel } from './models/http-run';
 import { FunctionKeys, FunctionKey } from './models/function-key';
-import { StartupInfo } from './models/portal';
 import { CacheService } from './services/cache.service';
 import { ArmObj } from './models/arm/arm-obj';
 import { Site } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
-import { EventHubComponent } from '../pickers/event-hub/event-hub.component';
 
 import * as jsonschema from 'jsonschema';
 
-declare var mixpanel: any;
-
 export class FunctionApp {
     private masterKey: string;
-    private _tokenForMasterKey: string;
     private token: string;
     private _scmUrl: string;
-    private storageConnectionString: string;
     private siteName: string;
     private mainSiteUrl: string;
     public selectedFunction: string;
@@ -80,8 +67,8 @@ export class FunctionApp {
     public selectedProvider: string;
     public selectedFunctionName: string;
 
-    public isMultiKeySupported: boolean = true;
-    public isAlwaysOn: boolean = false;
+    public isMultiKeySupported = true;
+    public isAlwaysOn = false;
     public isDeleted = false;
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -144,7 +131,7 @@ export class FunctionApp {
 
     constructor(
         public site: ArmObj<Site>,
-        private _ngHttp: Http,
+        _ngHttp: Http,
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
@@ -179,7 +166,7 @@ export class FunctionApp {
                         this._authZService.hasPermission(this.site.id, [AuthzService.writeScope]),
                         this._authZService.hasReadOnlyLock(this.site.id),
                         (p, l) => ({ hasWritePermissions: p, hasReadOnlyLock: l })
-                    )
+                    );
                 })
                 .mergeMap(r => {
                     if (r.hasWritePermissions && !r.hasReadOnlyLock) {
@@ -212,9 +199,9 @@ export class FunctionApp {
                             }
                         });
                 }, e => {
-                    this._aiService.trackException(e, "FunctionApp().getStartupInfo()");
+                    this._aiService.trackException(e, 'FunctionApp().getStartupInfo()');
                 })
-                .subscribe(r => { })
+                .subscribe(() => { });
 
         }
 
@@ -223,14 +210,14 @@ export class FunctionApp {
 
         this.siteName = this.site.name;
 
-        let fc = <FunctionContainer>site;
+        const fc = <FunctionContainer>site;
         if (fc.tryScmCred != null) {
             this.tryFunctionsScmCreds = fc.tryScmCred;
         }
 
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
-            let templateId = Cookie.get('templateId');
+            const templateId = Cookie.get('templateId');
             this.selectedFunction = templateId.split('-')[0].trim();
             this.selectedLanguage = templateId.split('-')[1].trim();
             this.selectedProvider = Cookie.get('provider');
@@ -268,14 +255,19 @@ export class FunctionApp {
     }
 
     getFunctions() {
+        let fcs: FunctionInfo[];
+
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
-            .catch(e => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
+            .catch(() => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
-            .map((r: Response) => {
+            .flatMap((r: Response) => {
                 try {
-                    const fcs = <FunctionInfo[]>r.json();
+                    fcs = r.json() as FunctionInfo[];
                     fcs.forEach(fc => fc.functionApp = this);
-                    return fcs;
+                    const vsCreatedFunc = fcs.find((fc: any) => !!fc.config.generatedBy);
+                    return vsCreatedFunc
+                        ? this.createApplicationSetting(Constants.functionAppEditModeSettingName, Constants.ReadOnlyMode, false)
+                        : Observable.of(null);
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
                     // comments because Json.NET is okay with comments in the JSON file.
@@ -290,10 +282,14 @@ export class FunctionApp {
                         error: e,
                         content: r.text(),
                     });
-                    return <FunctionInfo[]>[];
+                    fcs = <FunctionInfo[]>[];
+                    return Observable.of(null);
                 }
             })
-            .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
+            .map(() => {
+                return fcs;
+            })
+            .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -314,7 +310,7 @@ export class FunctionApp {
     getApiProxies() {
         return Observable.zip(
             this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
-                .catch(e => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
+                .catch(() => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
                 .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                     if (err.status === 404 || errorCount >= 10) {
                         throw err;
@@ -328,7 +324,7 @@ export class FunctionApp {
             (p, s) => ({ proxies: p.json(), schema: s.json() })
         ).map(r => {
             if (r.proxies.proxies) {
-                var validateResult = jsonschema.validate(r.proxies, r.schema).toString();
+                const validateResult = jsonschema.validate(r.proxies, r.schema).toString();
 
                 if (validateResult) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -345,11 +341,11 @@ export class FunctionApp {
     }
 
     saveApiProxy(jsonString: string) {
-        let headers = this.getScmSiteHeaders();
+        const headers = this.getScmSiteHeaders();
         // https://github.com/projectkudu/kudu/wiki/REST-API
         headers.append('If-Match', '*');
 
-        var uri = `${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`;
+        const uri = `${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`;
         this._cacheService.clearCachePrefix(uri);
 
         return this._http.put(uri, jsonString, { headers: headers });
@@ -361,8 +357,8 @@ export class FunctionApp {
      */
     @Cache('href')
     getFileContent(file: VfsObject | string) {
-        let fileHref = typeof file === 'string' ? file : file.href;
-        let fileName = this.getFileName(file);
+        const fileHref = typeof file === 'string' ? file : file.href;
+        const fileName = this.getFileName(file);
         return this._http.get(fileHref, { headers: this.getScmSiteHeaders() })
             .map(r => r.text())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFileContent + fileName),
@@ -385,9 +381,9 @@ export class FunctionApp {
 
     @ClearCache('getFileContent', 'href')
     saveFile(file: VfsObject | string, updatedContent: string, functionInfo?: FunctionInfo) {
-        let fileHref = typeof file === 'string' ? file : file.href;
-        let fileName = this.getFileName(file);
-        let headers = this.getScmSiteHeaders('plain/text');
+        const fileHref = typeof file === 'string' ? file : file.href;
+        const fileName = this.getFileName(file);
+        const headers = this.getScmSiteHeaders('plain/text');
         headers.append('If-Match', '*');
 
         if (functionInfo) {
@@ -395,7 +391,7 @@ export class FunctionApp {
         }
 
         return this._http.put(fileHref, updatedContent, { headers: headers })
-            .map(r => file)
+            .map(() => file)
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToSaveFileContent + fileName),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
@@ -416,9 +412,9 @@ export class FunctionApp {
 
     @ClearCache('getFileContent', 'href')
     deleteFile(file: VfsObject | string, functionInfo?: FunctionInfo) {
-        let fileHref = typeof file === 'string' ? file : file.href;
-        let fileName = this.getFileName(file);
-        let headers = this.getScmSiteHeaders('plain/text');
+        const fileHref = typeof file === 'string' ? file : file.href;
+        const fileName = this.getFileName(file);
+        const headers = this.getScmSiteHeaders('plain/text');
         headers.append('If-Match', '*');
 
         if (functionInfo) {
@@ -426,7 +422,7 @@ export class FunctionApp {
         }
 
         return this._http.delete(fileHref, { headers: headers })
-            .map(r => file)
+            .map(() => file)
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFile + fileName),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
@@ -453,7 +449,7 @@ export class FunctionApp {
     getTemplates() {
         try {
             if (localStorage.getItem('dev-templates')) {
-                let devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
+                const devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
                 this.localize(devTemplate);
                 return Observable.of(devTemplate);
             }
@@ -466,11 +462,11 @@ export class FunctionApp {
                 return this._cacheService.get(
                     Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
                     true,
-                    this.getPortalHeaders())
+                    this.getPortalHeaders());
             })
             .retryWhen(this.retryAntares)
             .map(r => {
-                var object = r.json();
+                const object = r.json();
                 this.localize(object);
                 return object;
             });
@@ -480,7 +476,7 @@ export class FunctionApp {
     createFunction(functionName: string, templateId: string) {
         let observable: Observable<FunctionInfo>;
         if (templateId) {
-            let body: CreateFunctionInfo = {
+            const body: CreateFunctionInfo = {
                 name: functionName,
                 templateId: (templateId && templateId !== 'Empty' ? templateId : null),
                 containerScmUrl: this._scmUrl
@@ -512,7 +508,7 @@ export class FunctionApp {
     }
 
     getFunctionContainerAppSettings() {
-        let url = `${this._scmUrl}/api/settings`;
+        const url = `${this._scmUrl}/api/settings`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .map(r => <{ [key: string]: string }>r.json());
@@ -520,12 +516,12 @@ export class FunctionApp {
 
     @ClearCache('getFunctions')
     createFunctionV2(functionName: string, files: any, config: any) {
-        let filesCopy = Object.assign({}, files);
-        let sampleData = filesCopy['sample.dat'];
+        const filesCopy = Object.assign({}, files);
+        const sampleData = filesCopy['sample.dat'];
         delete filesCopy['sample.dat'];
 
-        let content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
-        let url = `${this._scmUrl}/api/functions/${functionName}`;
+        const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
+        const url = `${this._scmUrl}/api/functions/${functionName}`;
 
         return this._http.put(url, content, { headers: this.getScmSiteHeaders() })
             .map(r => <FunctionInfo>r.json())
@@ -564,27 +560,27 @@ export class FunctionApp {
     }
 
     statusCodeToText(code: number) {
-        let statusClass = Math.floor(code / 100) * 100;
+        const statusClass = Math.floor(code / 100) * 100;
         return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
 
     runHttpFunction(functionInfo: FunctionInfo, url: string, model: HttpRunModel) {
-        let content = model.body;
+        const content = model.body;
 
-        let regExp = /\{([^}]+)\}/g;
-        let matchesPathParams = url.match(regExp);
-        let processedParams = [];
+        const regExp = /\{([^}]+)\}/g;
+        const matchesPathParams = url.match(regExp);
+        const processedParams = [];
 
-        let splitResults = url.split('?');
+        const splitResults = url.split('?');
         if (splitResults.length === 2) {
             url = splitResults[0];
         }
 
         if (matchesPathParams) {
             matchesPathParams.forEach((m) => {
-                let name = m.split(':')[0].replace('{', '').replace('}', '');
+                const name = m.split(':')[0].replace('{', '').replace('}', '');
                 processedParams.push(name);
-                let param = model.queryStringParams.find((p) => {
+                const param = model.queryStringParams.find((p) => {
                     return p.name === name;
                 });
                 if (param) {
@@ -594,8 +590,8 @@ export class FunctionApp {
         }
 
         let firstDone = false;
-        model.queryStringParams.forEach((p, index) => {
-            let findResult = processedParams.find((pr) => {
+        model.queryStringParams.forEach(p => {
+            const findResult = processedParams.find((pr) => {
                 return pr === p.name;
             });
 
@@ -609,7 +605,7 @@ export class FunctionApp {
                 url += p.name + '=' + p.value;
             }
         });
-        let inputBinding = (functionInfo.config && functionInfo.config.bindings
+        const inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
 
@@ -618,7 +614,7 @@ export class FunctionApp {
             contentType = 'application/json';
         }
 
-        let headers = this.getMainSiteHeaders(contentType);
+        const headers = this.getMainSiteHeaders(contentType);
         model.headers.forEach((h) => {
             headers.append(h.name, h.value);
         });
@@ -656,8 +652,8 @@ export class FunctionApp {
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
-        let url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
-        let _content: string = JSON.stringify({ input: content });
+        const url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+        const _content: string = JSON.stringify({ input: content });
         let contentType: string;
 
         try {
@@ -704,11 +700,11 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        let warmupSite = this._http.post(`${this.mainSiteUrl}/admin/host/ping`, '')
+        const warmupSite = this._http.post(`${this.mainSiteUrl}/admin/host/ping`, '')
             .retryWhen(this.retryAntares)
-            .catch(e => Observable.of(null));
+            .catch(() => Observable.of(null));
 
-        let observable = Observable.zip(
+        const observable = Observable.zip(
             warmupSite,
             this.getHostSecretsFromScm(),
             (w: any, s: any) => ({ warmUp: w, secrets: s })
@@ -743,10 +739,10 @@ export class FunctionApp {
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
         return this.saveFile(fi.secrets_file_href, JSON.stringify(secrets))
             .retryWhen(this.retryAntares)
-            .map(e => <FunctionSecrets>secrets);
+            .map(() => <FunctionSecrets>secrets);
     }
 
-    getHostJson() {
+    getHostJson(): Observable<any> {
         return this._http.get(`${this._scmUrl}/api/functions/config`, { headers: this.getScmSiteHeaders() })
             .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeConfig),
@@ -784,7 +780,6 @@ export class FunctionApp {
                         status: error.status.toString(),
                         content: error.text(),
                     });
-                    return Observable.of('');
                 }
             });
     }
@@ -925,7 +920,7 @@ export class FunctionApp {
                         return errorCount + 1;
                     }, 0).delay(400))
                     .map(r => {
-                        let keys: FunctionKeys = r.json();
+                        const keys: FunctionKeys = r.json();
                         if (keys && Array.isArray(keys.keys)) {
                             keys.keys.unshift({
                                 name: '_master',
@@ -939,7 +934,7 @@ export class FunctionApp {
                             this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                 usedKey: this.sanitize(this.masterKey)
                             });
-                            return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostKeys(false));
+                            return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionHostKeys(false));
                         } else {
                             throw error;
                         }
@@ -953,7 +948,6 @@ export class FunctionApp {
                             if (error.status === 404) {
                                 this.isMultiKeySupported = false;
                                 this.legacyGetHostSecrets();
-                                return Observable.of({ keys: [], links: [] });
                             }
 
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -975,7 +969,7 @@ export class FunctionApp {
     getBindingConfig(): Observable<BindingConfig> {
         try {
             if (localStorage.getItem('dev-bindings')) {
-                let devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
+                const devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
                 this.localize(devBindings);
                 return Observable.of(devBindings);
             }
@@ -989,7 +983,7 @@ export class FunctionApp {
             })
             .retryWhen(this.retryAntares)
             .map(r => {
-                var object = r.json();
+                const object = r.json();
                 this.localize(object);
                 return <BindingConfig>object;
             });
@@ -1000,7 +994,7 @@ export class FunctionApp {
     }
 
     getTrialResource(provider?: string): Observable<UIResource> {
-        let url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
+        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
             + (provider ? '&provider=' + provider : '');
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
@@ -1009,12 +1003,12 @@ export class FunctionApp {
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        let url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
+        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
             + (provider ? '&provider=' + provider : '')
             + '&templateId=' + encodeURIComponent(selectedTemplate.id)
             + '&functionName=' + encodeURIComponent(functionName);
 
-        let template = <ITryAppServiceTemplate>{
+        const template = <ITryAppServiceTemplate>{
             name: selectedTemplate.id,
             appService: 'Function',
             language: selectedTemplate.metadata.language,
@@ -1028,9 +1022,9 @@ export class FunctionApp {
 
     updateFunction(fi: FunctionInfo) {
         ClearAllFunctionCache(fi);
-        let fiCopy = <FunctionInfo>{};
-        for (let prop in fi) {
-            if (fi.hasOwnProperty(prop) && prop !== "functionApp") {
+        const fiCopy = <FunctionInfo>{};
+        for (const prop in fi) {
+            if (fi.hasOwnProperty(prop) && prop !== 'functionApp') {
                 fiCopy[prop] = fi[prop];
             }
         }
@@ -1067,12 +1061,12 @@ export class FunctionApp {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                     usedKey: this.sanitize(this.masterKey)
                                 });
-                                return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionErrors(fi, false));
+                                return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionErrors(fi, false));
                             } else {
                                 throw error;
                             }
                         })
-                        .catch(e => Observable.of(null));
+                        .catch(() => Observable.of(null));
             });
     }
 
@@ -1097,12 +1091,12 @@ export class FunctionApp {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                     usedKey: this.sanitize(this.masterKey)
                                 });
-                                return this.getHostSecretsFromScm().mergeMap(r => this.getHostErrors(false));
+                                return this.getHostSecretsFromScm().mergeMap(() => this.getHostErrors(false));
                             } else {
                                 throw error;
                             }
                         })
-                        .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.functionRuntimeIsUnableToStart),
+                        .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.functionRuntimeIsUnableToStart),
                         (error: FunctionsResponse) => {
                             if (!error.isHandled) {
                                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -1135,17 +1129,17 @@ export class FunctionApp {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                     usedKey: this.sanitize(this.masterKey)
                                 });
-                                return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionHostStatus(false));
+                                return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionHostStatus(false));
                             } else {
                                 throw error;
                             }
                         })
-                        .catch(e => Observable.of(null));
+                        .catch(() => Observable.of(null));
                 }
             });
     }
 
-    //getFunctionAppArmId() {
+    // getFunctionAppArmId() {
     //    if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
     //        return this.functionContainer.id;
     //    } else if (this._scmUrl) {
@@ -1153,16 +1147,16 @@ export class FunctionApp {
     //    } else {
     //        return 'Unknown';
     //    }
-    //}
+    // }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
-        let url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
+        const url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
-            .catch(e => Observable.of({ json: () => [] }))
+            .catch(() => Observable.of({ json: () => [] }))
             .mergeMap(r => {
-                let files: any[] = r.json();
+                const files: any[] = r.json();
                 if (files.length > 0) {
-                    let headers = this.getScmSiteHeaders();
+                    const headers = this.getScmSiteHeaders();
                     headers.append('Range', `bytes=-${range}`);
 
                     files
@@ -1171,8 +1165,8 @@ export class FunctionApp {
 
                     return this._http.get(files.pop().href, { headers: headers })
                         .map(f => {
-                            let content = f.text();
-                            let index = content.indexOf('\n');
+                            const content = f.text();
+                            const index = content.indexOf('\n');
                             return <string>(index !== -1
                                 ? content.substring(index + 1)
                                 : content);
@@ -1185,7 +1179,7 @@ export class FunctionApp {
 
     @Cache('href')
     getVfsObjects(fi: FunctionInfo | string) {
-        let href = typeof fi === 'string' ? fi : fi.script_root_path_href;
+        const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
         return this._http.get(href, { headers: this.getScmSiteHeaders() })
             .map(e => <VfsObject[]>e.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveDirectoryContent),
@@ -1237,12 +1231,12 @@ export class FunctionApp {
                             this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                 usedKey: this.sanitize(this.masterKey)
                             });
-                            return this.getHostSecretsFromScm().mergeMap(r => this.getFunctionKeys(functionInfo, false));
+                            return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionKeys(functionInfo, false));
                         } else {
                             throw error;
                         }
                     })
-                    .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name),
+                    .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name),
                     (error: FunctionsResponse) => {
                         if (!error.isHandled) {
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -1264,13 +1258,13 @@ export class FunctionApp {
     createKey(keyName: string, keyValue: string, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response | FunctionKey> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
-        let url = functionInfo
+        const url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${keyName}`
             : `${this.mainSiteUrl}/admin/host/keys/${keyName}`;
 
         let result: Observable<FunctionKey>;
         if (keyValue) {
-            let body = {
+            const body = {
                 name: keyName,
                 value: keyValue
             };
@@ -1288,7 +1282,7 @@ export class FunctionApp {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().mergeMap(r => this.createKey(keyName, keyValue, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(() => this.createKey(keyName, keyValue, functionInfo, false));
                 } else {
                     throw error;
                 }
@@ -1315,7 +1309,7 @@ export class FunctionApp {
     deleteKey(key: FunctionKey, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
-        let url = functionInfo
+        const url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
             : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
 
@@ -1326,7 +1320,7 @@ export class FunctionApp {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().mergeMap(r => this.deleteKey(key, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(() => this.deleteKey(key, functionInfo, false));
                 } else {
                     throw error;
                 }
@@ -1353,7 +1347,7 @@ export class FunctionApp {
     renewKey(key: FunctionKey, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
-        let url = functionInfo
+        const url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
             : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
         return this._http.post(url, '', { headers: this.getMainSiteHeaders() })
@@ -1363,7 +1357,7 @@ export class FunctionApp {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().mergeMap(r => this.renewKey(key, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(() => this.renewKey(key, functionInfo, false));
                 } else {
                     throw error;
                 }
@@ -1393,7 +1387,7 @@ export class FunctionApp {
     }
 
     fireSyncTrigger() {
-        let url = `${this._scmUrl}/api/functions/synctriggers`;
+        const url = `${this._scmUrl}/api/functions/synctriggers`;
         this._http.post(url, '', { headers: this.getScmSiteHeaders() })
             .subscribe(success => console.log(success), error => console.log(error));
     }
@@ -1407,10 +1401,10 @@ export class FunctionApp {
     checkIfSourceControlEnabled(): Observable<boolean> {
         return this._cacheService.getArm(`${this.site.id}/config/web`)
             .map(r => {
-                let config: ArmObj<SiteConfig> = r.json();
+                const config: ArmObj<SiteConfig> = r.json();
                 return !config.properties['scmType'] || config.properties['scmType'] !== 'None';
             })
-            .catch(e => Observable.of(false));
+            .catch(() => Observable.of(false));
     }
 
     private _editModeSubject: Subject<FunctionAppEditMode>;
@@ -1464,7 +1458,7 @@ export class FunctionApp {
                     return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
                 }
             })
-            .catch(e => Observable.of(FunctionAppEditMode.ReadWrite))
+            .catch(() => Observable.of(FunctionAppEditMode.ReadWrite))
             .subscribe(r => this._editModeSubject.next(r));
 
         return this._editModeSubject;
@@ -1482,7 +1476,7 @@ export class FunctionApp {
 
         return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
             .map(r => {
-                let auth: ArmObj<any> = r.json();
+                const auth: ArmObj<any> = r.json();
                 return {
                     easyAuthEnabled: auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1,
                     AADConfigured: auth.properties['clientId'] ? true : false,
@@ -1511,13 +1505,13 @@ export class FunctionApp {
     pingScmSite() {
         return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
             .map(_ => null)
-            .catch(e => Observable.of(null));
+            .catch(() => Observable.of(null));
     }
 
     private getExtensionVersion() {
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`)
             .map(r => {
-                let appSettingsArm: ArmObj<any> = r.json();
+                const appSettingsArm: ArmObj<any> = r.json();
                 return appSettingsArm.properties[Constants.runtimeVersionAppSettingName];
             });
     }
@@ -1525,7 +1519,7 @@ export class FunctionApp {
     // to talk to scm site
     private getScmSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
         if (!this._globalStateService.showTryView && this.token) {
@@ -1540,7 +1534,7 @@ export class FunctionApp {
 
     private getMainSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
         headers.append('x-functions-key', this.masterKey);
@@ -1550,7 +1544,7 @@ export class FunctionApp {
     // to talk to Functions Portal
     private getPortalHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
 
@@ -1565,7 +1559,7 @@ export class FunctionApp {
     // to talk to TryAppservice
     private getTryAppServiceHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
 
@@ -1702,11 +1696,11 @@ export class FunctionApp {
      * @param params any additional parameters to get added to the default parameters that this class reports to AppInsights
      */
     private trackEvent(name: string, params: { [name: string]: string }) {
-        let standardParams = {
+        const standardParams = {
             scmUrl: this._scmUrl
         };
 
-        for (let key in params) {
+        for (const key in params) {
             if (params.hasOwnProperty(key)) {
                 standardParams[key] = params[key];
             }
@@ -1723,16 +1717,8 @@ export class FunctionApp {
         }
     }
 
-    private getHostname(url: string): string {
-        let anchor = document.createElement('a');
-        anchor.setAttribute('href', url);
-        let link = anchor.hostname;
-        anchor = null;
-        return link;
-    }
-
     getGeneratedSwaggerData(key: string) {
-        let url: string = this.getMainSiteUrl() + '/admin/host/swagger/default?code=' + key;
+        const url: string = this.getMainSiteUrl() + '/admin/host/swagger/default?code=' + key;
         return this._http.get(url).map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToloadGeneratedAPIDefinition),
             (error: FunctionsResponse) => {
@@ -1752,12 +1738,12 @@ export class FunctionApp {
     }
 
     getSwaggerDocument(key: string) {
-        let url: string = this.getMainSiteUrl() + '/admin/host/swagger?code=' + key;
-        return this._http.get(url).map(r => { return r.json() });
+        const url: string = this.getMainSiteUrl() + '/admin/host/swagger?code=' + key;
+        return this._http.get(url).map(r => { return r.json(); });
     }
 
     addOrUpdateSwaggerDocument(swaggerUrl: string, content: string) {
-        return this._http.post(swaggerUrl, content).map(r => { return r.json() })
+        return this._http.post(swaggerUrl, content).map(r => { return r.json(); })
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateSwaggerData),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
@@ -1794,8 +1780,8 @@ export class FunctionApp {
             });
     }
 
-    saveHostJson(jsonString: string) {
-        let headers = this.getScmSiteHeaders();
+    saveHostJson(jsonString: string): Observable<any> {
+        const headers = this.getScmSiteHeaders();
         headers.append('If-Match', '*');
         return this._http.put(`${this._scmUrl}/api/functions/config`, jsonString, { headers: headers })
             .map(r => r.json())
@@ -1817,7 +1803,7 @@ export class FunctionApp {
     }
 
     createSystemKey(keyName: string) {
-        let headers = this.getMainSiteHeaders();
+        const headers = this.getMainSiteHeaders();
         headers.append('If-Match', '*');
         return this._http.post(`${this.mainSiteUrl}/admin/host/systemkeys/${keyName}`, '', { headers: headers })
             .map(r => r.json())
@@ -1866,15 +1852,27 @@ export class FunctionApp {
             });
     }
 
+    getEventGridKey(): Observable<string> {
+        return this.getSystemKey().map(keys => {
+            const eventGridKey = keys.keys.find(k => k.name === Constants.eventGridName);
+            return eventGridKey ? eventGridKey.value : '';
+        });
+    }
+
     // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
-    createApplicationSetting(appSettingName: string, appSettingValue: string): Observable<any> {
+    createApplicationSetting(appSettingName: string, appSettingValue: string, replaceIfExists: boolean = true): Observable<any> | null {
         if (appSettingName && appSettingValue) {
             return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true).flatMap(
                 r => {
-                  var appSettings: ArmObj<any> = r.json();
-                  appSettings.properties[appSettingName] = appSettingValue;
-                  return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+                    const appSettings: ArmObj<any> = r.json();
+                    if (!replaceIfExists && appSettings.properties[appSettingName]) {
+                        return Observable.of(r);
+                    }
+                    appSettings.properties[appSettingName] = appSettingValue;
+                    return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
                 });
+        } else {
+            return null;
         }
     }
 

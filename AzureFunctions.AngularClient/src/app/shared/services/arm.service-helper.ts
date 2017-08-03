@@ -1,5 +1,5 @@
 import { Guid } from './../Utilities/Guid';
-import { Http, Headers, Response, Request } from '@angular/http';
+import { Headers } from '@angular/http';
 
 // Used so that the UserService can do initialization work without having to depend
 // on the ArmService which would create a circular dependency

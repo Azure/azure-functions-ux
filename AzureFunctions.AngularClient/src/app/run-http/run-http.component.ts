@@ -1,8 +1,7 @@
-import { Component, Input, Inject, ElementRef, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { HttpRunModel, Param } from '../shared/models/http-run';
-import { BindingType } from '../shared/models/binding'
+import { BindingType } from '../shared/models/binding';
 import { FunctionInfo } from '../shared/models/function-info';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Constants } from '../shared/models/constants';
 import { URLSearchParams } from '@angular/http';
 
@@ -20,7 +19,7 @@ export class RunHttpComponent {
     valid: boolean;
     availableMethods: string[] = [];
 
-    constructor(private _translateService: TranslateService) {
+    constructor() {
     }
 
     set functionInfo(value: FunctionInfo) {
@@ -37,7 +36,7 @@ export class RunHttpComponent {
             }
         }
 
-        var httpTrigger = value.config.bindings.find(b => {
+        const httpTrigger = value.config.bindings.find(b => {
             return b.type === BindingType.httpTrigger.toString();
         });
 
@@ -72,11 +71,11 @@ export class RunHttpComponent {
 
     set functionInvokeUrl(value: string) {
         if (value) {
-            var params = this.getQueryParams(value);
-            var pathParams = this.getPathParams(value);
+            let params = this.getQueryParams(value);
+            const pathParams = this.getPathParams(value);
             params = pathParams.concat(params);
             params.forEach((p) => {
-                var findResult = this.model.queryStringParams.find((qp) => {
+                const findResult = this.model.queryStringParams.find((qp) => {
                     return qp.name === p.name;
                 });
 
@@ -101,8 +100,8 @@ export class RunHttpComponent {
     addQueryStringParam() {
         this.model.queryStringParams.push(
             {
-                name: "",
-                value: "",
+                name: '',
+                value: '',
             });
         this.paramChanged();
     }
@@ -110,16 +109,16 @@ export class RunHttpComponent {
     addHeader() {
         this.model.headers.push(
             {
-                name: "",
-                value: "",
+                name: '',
+                value: '',
             });
         this.paramChanged();
     }
 
-    paramChanged(event?: any) {
+    paramChanged() {
         // iterate all params and set valid property depends of params name
 
-        var regex = new RegExp("^$|[^A-Za-z0-9]");
+        const regex = new RegExp('^$|[^A-Za-z0-9]');
         this.valid = true;
         this.model.queryStringParams.concat(this.model.headers).forEach((item => {
             item.valid = !regex.test(item.name);
@@ -138,22 +137,22 @@ export class RunHttpComponent {
 
     private getQueryParams(url: string): Param[] {
 
-        var result = [];
-        var urlCopy = url;
+        const result = [];
+        let urlCopy = url;
 
 
         // Remove path params
-        var regExp = /\{([^}]+)\}/g;
-        var matches = urlCopy.match(regExp);
+        const regExp = /\{([^}]+)\}/g;
+        const matches = urlCopy.match(regExp);
         if (matches) {
             matches.forEach((m) => {
-                urlCopy = urlCopy.replace(m, "");
+                urlCopy = urlCopy.replace(m, '');
             });
         }
 
-        var indexOf = urlCopy.indexOf('?');
+        const indexOf = urlCopy.indexOf('?');
         if (indexOf > 0) {
-            var usp = new URLSearchParams(urlCopy.substring(indexOf + 1, urlCopy.length));
+            const usp = new URLSearchParams(urlCopy.substring(indexOf + 1, urlCopy.length));
             usp.paramsMap.forEach((value, key) => {
                 value.forEach((v) => {
                     result.push({
@@ -169,17 +168,17 @@ export class RunHttpComponent {
     }
 
     private getPathParams(url: string): Param[] {
-        var regExp = /\{([^}]+)\}/g;
+        const regExp = /\{([^}]+)\}/g;
 
-        var matches = url.match(regExp);
-        var result = [];
+        const matches = url.match(regExp);
+        const result = [];
 
         if (matches) {
             matches.forEach((m) => {
-                var splitResult = m.split(":");
+                const splitResult = m.split(':');
                 result.push({
-                    name: splitResult[0].replace("{", "").replace("}", ""),
-                    value: "",
+                    name: splitResult[0].replace('{', '').replace('}', ''),
+                    value: '',
                     isFixed: false
                 });
             });

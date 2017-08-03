@@ -178,8 +178,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete proxy
-        ///.
+        ///   Looks up a localized string similar to Delete proxy.
         /// </summary>
         internal static string apiProxy_delete {
             get {
@@ -800,6 +799,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to retrieve.
+        /// </summary>
+        internal static string bindingInput_retrieve {
+            get {
+                return ResourceManager.GetString("bindingInput_retrieve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to select.
         /// </summary>
         internal static string bindingInput_select {
@@ -985,6 +993,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string createApp_fail {
             get {
                 return ResourceManager.GetString("createApp_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new.
+        /// </summary>
+        internal static string createNew {
+            get {
+                return ResourceManager.GetString("createNew", resourceCulture);
             }
         }
         
@@ -1547,6 +1564,51 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to create.
+        /// </summary>
+        internal static string eventGrid_create {
+            get {
+                return ResourceManager.GetString("eventGrid_create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need to add Event Grid subscription after function creation..
+        /// </summary>
+        internal static string eventGrid_createMessage {
+            get {
+                return ResourceManager.GetString("eventGrid_createMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event Grid Subscription URL.
+        /// </summary>
+        internal static string eventGrid_help {
+            get {
+                return ResourceManager.GetString("eventGrid_help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event Grid Subscription URL.
+        /// </summary>
+        internal static string eventGrid_label {
+            get {
+                return ResourceManager.GetString("eventGrid_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Event Grid subscriptions.
+        /// </summary>
+        internal static string eventGrid_manageSubscriptions {
+            get {
+                return ResourceManager.GetString("eventGrid_manageSubscriptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Key.
         /// </summary>
         internal static string eventHubPicker_appSettingName {
@@ -1781,6 +1843,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General app settings
+        /// </summary>
+        internal static string feature_generalSettingsName {
+            get {
+                return ResourceManager.GetString("feature_generalSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AutoSwap settings
+        /// </summary>
+        internal static string feature_autoSwapSettingsName {
+            get {
+                return ResourceManager.GetString("feature_autoSwapSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debugging settings
+        /// </summary>
+        internal static string feature_debuggingSettingsName {
+            get {
+                return ResourceManager.GetString("feature_debuggingSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage app settings, connection strings, runtime settings, and more..
         /// </summary>
         internal static string feature_applicationSettingsInfo {
@@ -1798,6 +1887,330 @@ namespace AzureFunctions.ResourcesPortal {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to You must have write permissions on the current app in order to edit these settings.
+        /// </summary>
+        internal static string configRequiresWritePermissionOnApp {
+            get {
+                return ResourceManager.GetString("configRequiresWritePermissionOnApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This app has a read-only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.
+        /// </summary>
+        internal static string configDisabledReadOnlyLockOnApp {
+            get {
+                return ResourceManager.GetString("configDisabledReadOnlyLockOnApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View settings in read-only mode.
+        /// </summary>
+        internal static string configViewReadOnlySettings {
+            get {
+                return ResourceManager.GetString("configViewReadOnlySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load settings.
+        /// </summary>
+        internal static string configLoadFailure {
+            get {
+                return ResourceManager.GetString("configLoadFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading...
+        /// </summary>
+        internal static string loading {
+            get {
+                return ResourceManager.GetString("loading", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Updating web app settings
+        /// </summary>
+        internal static string configUpdating {
+            get {
+                return ResourceManager.GetString("configUpdating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully updated web app settings
+        /// </summary>
+        internal static string configUpdateSuccess {
+            get {
+                return ResourceManager.GetString("configUpdateSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to update web app settings: 
+        /// </summary>
+        internal static string configUpdateFailure {
+            get {
+                return ResourceManager.GetString("configUpdateFailure", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {{configGroupName}} Save Error: Invlid input provided.
+        /// </summary>
+        internal static string configUpdateFailureInvalidInput {
+            get {
+                return ResourceManager.GetString("configUpdateFailureInvalidInput", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to .NET Framework version
+        /// </summary>
+        internal static string netFrameWorkVersionLabel {
+            get {
+                return ResourceManager.GetString("netFrameWorkVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The version used to run your web app if using the .NET Framework
+        /// </summary>
+        internal static string netFrameWorkVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("netFrameWorkVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to PHP version
+        /// </summary>
+        internal static string phpVersionLabel {
+            get {
+                return ResourceManager.GetString("phpVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The version used to run your web app if using PHP
+        /// </summary>
+        internal static string phpVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("phpVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Python version
+        /// </summary>
+        internal static string pythonVersionLabel {
+            get {
+                return ResourceManager.GetString("pythonVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The version used to run your web app if using Python
+        /// </summary>
+        internal static string pythonVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("pythonVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Java version
+        /// </summary>
+        internal static string javaVersionLabel {
+            get {
+                return ResourceManager.GetString("javaVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The version used to run your web app if using Java
+        /// </summary>
+        internal static string javaVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("javaVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Java minor version
+        /// </summary>
+        internal static string javaMinorVersionLabel {
+            get {
+                return ResourceManager.GetString("javaMinorVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Select the desired Java minor version. Selecting 'Newest' will keep your app using the JVM most recently added to the portal.
+        /// </summary>
+        internal static string javaMinorVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("javaMinorVersionLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Web container
+        /// </summary>
+        internal static string javaWebContainerLabel {
+            get {
+                return ResourceManager.GetString("javaWebContainerLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The web container version used to run your web app if using Java
+        /// </summary>
+        internal static string javaWebContainerLabelHelp {
+            get {
+                return ResourceManager.GetString("javaWebContainerLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Platform
+        /// </summary>
+        internal static string use32BitWorkerProcessLabel {
+            get {
+                return ResourceManager.GetString("use32BitWorkerProcessLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The platform architecture your web app runs
+        /// </summary>
+        internal static string use32BitWorkerProcessLabelHelp {
+            get {
+                return ResourceManager.GetString("use32BitWorkerProcessLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Web sockets
+        /// </summary>
+        internal static string webSocketsEnabledLabel {
+            get {
+                return ResourceManager.GetString("webSocketsEnabledLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to WebSockets allow more flexible connectivity between web apps and modern browsers.  Your web app would need to be built to leverage these capabilities.
+        /// </summary>
+        internal static string webSocketsEnabledLabelHelp {
+            get {
+                return ResourceManager.GetString("webSocketsEnabledLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Always On
+        /// </summary>
+        internal static string alwaysOnLabel {
+            get {
+                return ResourceManager.GetString("alwaysOnLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.
+        /// </summary>
+        internal static string alwaysOnLabelHelp {
+            get {
+                return ResourceManager.GetString("alwaysOnLabelHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Managed Pipeline Version
+        /// </summary>
+        internal static string managedPipelineModeLabel {
+            get {
+                return ResourceManager.GetString("managedPipelineModeLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remote debugging
+        /// </summary>
+        internal static string clientAffinityEnabledLabel {
+            get {
+                return ResourceManager.GetString("clientAffinityEnabledLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remote Visual Studio version
+        /// </summary>
+        internal static string remoteDebuggingEnabledLabel {
+            get {
+                return ResourceManager.GetString("remoteDebuggingEnabledLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Web container
+        /// </summary>
+        internal static string remoteDebuggingVersionLabel {
+            get {
+                return ResourceManager.GetString("remoteDebuggingVersionLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Newest
+        /// </summary>
+        internal static string newest {
+            get {
+                return ResourceManager.GetString("newest", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to 32-bit
+        /// </summary>
+        internal static string architecture32 {
+            get {
+                return ResourceManager.GetString("architecture32", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to 64-bit
+        /// </summary>
+        internal static string architecture64 {
+            get {
+                return ResourceManager.GetString("architecture64", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Classic
+        /// </summary>
+        internal static string pipelineModeClassic {
+            get {
+                return ResourceManager.GetString("pipelineModeClassic", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Integrated
+        /// </summary>
+        internal static string pipelineModeIntegrated {
+            get {
+                return ResourceManager.GetString("pipelineModeIntegrated", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to App Service Editor provides an in-browser editing experience for your code..
         /// </summary>
@@ -2519,6 +2932,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Event Grid subscription.
+        /// </summary>
+        internal static string functionDev_addEventGrid {
+            get {
+                return ResourceManager.GetString("functionDev_addEventGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Code.
         /// </summary>
         internal static string functionDev_code {
@@ -2645,7 +3067,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to save function, try again later.
+        ///   Looks up a localized string similar to Failed to save function &apos;{0}&apos;.
         /// </summary>
         internal static string functionDev_saveFunctionFailure {
             get {
@@ -2654,20 +3076,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully saved function.
+        ///   Looks up a localized string similar to Saving function &apos;{0}&apos;.
         /// </summary>
-        internal static string functionDev_saveFunctionSuccess {
+        internal static string functionDev_saveFunctionNotifyTitle {
             get {
-                return ResourceManager.GetString("functionDev_saveFunctionSuccess", resourceCulture);
+                return ResourceManager.GetString("functionDev_saveFunctionNotifyTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Saving Function.
+        ///   Looks up a localized string similar to Successfully saved function &apos;{0}&apos;.
         /// </summary>
-        internal static string functionDev_saveFunctionNotifyTitle {
+        internal static string functionDev_saveFunctionSuccess {
             get {
-                return ResourceManager.GetString("functionDev_StartSaveNotification", resourceCulture);
+                return ResourceManager.GetString("functionDev_saveFunctionSuccess", resourceCulture);
             }
         }
         
@@ -3995,6 +4417,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scope to this item.
+        /// </summary>
+        internal static string scopeToItem {
+            get {
+                return ResourceManager.GetString("scopeToItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         internal static string search {
@@ -4009,6 +4440,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string searchFeatures {
             get {
                 return ResourceManager.GetString("searchFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Function apps.
+        /// </summary>
+        internal static string searchFunctionApps {
+            get {
+                return ResourceManager.GetString("searchFunctionApps", resourceCulture);
             }
         }
         
@@ -4831,6 +5271,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string tab_configuration {
             get {
                 return ResourceManager.GetString("tab_configuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application settings.
+        /// </summary>
+        internal static string tab_applicationSettings {
+            get {
+                return ResourceManager.GetString("tab_applicationSettings", resourceCulture);
             }
         }
         

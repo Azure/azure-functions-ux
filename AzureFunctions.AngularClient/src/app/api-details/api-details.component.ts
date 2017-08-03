@@ -1,13 +1,9 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ApiProxy } from '../shared/models/api-proxy';
-import { FunctionsService } from '../shared/services/functions.service';
-import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
-import { PortalResources } from '../shared/models/portal-resources';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { FunctionContainer } from '../shared/models/function-container';
 import { ApiNewComponent } from '../api-new/api-new.component';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { ProxiesNode } from '../tree-view/proxies-node';
@@ -26,7 +22,7 @@ import { AiService } from '../shared/services/ai.service';
 })
 export class ApiDetailsComponent implements OnInit {
     complexForm: FormGroup;
-    isMethodsVisible: boolean = false;
+    isMethodsVisible = false;
     proxyUrl: string;
     isEnabled: boolean;
 
@@ -52,10 +48,10 @@ export class ApiDetailsComponent implements OnInit {
             });
 
         this.appNode = (<AppNode>this.proxiesNode.parent);
-        var cacherService = this.appNode.sideNav.cacheService;
+        const cacherService = this.appNode.sideNav.cacheService;
         cacherService.postArm(`${this.functionApp.site.id}/config/appsettings/list`).subscribe((r => {
-            let appSettings: ArmObj<any> = r.json();
-            var routingVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
+            const appSettings: ArmObj<any> = r.json();
+            const routingVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
             this.isEnabled = (routingVersion && (routingVersion !== Constants.disabled));
         }));
 
@@ -70,7 +66,7 @@ export class ApiDetailsComponent implements OnInit {
         this.initComplexFrom();
     }
 
-    onFunctionAppSettingsClicked(event: any) {
+    onFunctionAppSettingsClicked() {
         (<AppNode>this.proxiesNode.parent).openSettings();
 
     }
@@ -80,29 +76,29 @@ export class ApiDetailsComponent implements OnInit {
         this.complexForm.patchValue({
             backendUri: this.apiProxyEdit.backendUri,
             routeTemplate: this.apiProxyEdit.matchCondition.route,
-            methodSelectionType: !this.apiProxyEdit.matchCondition.methods || this.apiProxyEdit.matchCondition.methods.length === 0 ? "All" : "Selected",
+            methodSelectionType: !this.apiProxyEdit.matchCondition.methods || this.apiProxyEdit.matchCondition.methods.length === 0 ? 'All' : 'Selected',
         });
 
-        var route = (this.apiProxyEdit.matchCondition.route) ? this.apiProxyEdit.matchCondition.route : '/api/' + this.apiProxyEdit.name;
+        let route = (this.apiProxyEdit.matchCondition.route) ? this.apiProxyEdit.matchCondition.route : '/api/' + this.apiProxyEdit.name;
         if (!route.startsWith('/')) {
             route = '/' + route;
         }
 
         this.proxyUrl = `https://${this.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 0).name}` + route;
 
-        var methods = {}
-        methods["method_GET"] = false;
-        methods["method_POST"] = false;
-        methods["method_DELETE"] = false;
-        methods["method_HEAD"] = false;
-        methods["method_PATCH"] = false;
-        methods["method_PUT"] = false;
-        methods["method_OPTIONS"] = false;
-        methods["method_TRACE"] = false;
+        const methods = {};
+        methods['method_GET'] = false;
+        methods['method_POST'] = false;
+        methods['method_DELETE'] = false;
+        methods['method_HEAD'] = false;
+        methods['method_PATCH'] = false;
+        methods['method_PUT'] = false;
+        methods['method_OPTIONS'] = false;
+        methods['method_TRACE'] = false;
 
         if (this.apiProxyEdit.matchCondition.methods) {
             this.apiProxyEdit.matchCondition.methods.forEach((m) => {
-                methods["method_" + m.toUpperCase()] = true;
+                methods['method_' + m.toUpperCase()] = true;
             });
 
             this.complexForm.patchValue(methods);
@@ -117,7 +113,7 @@ export class ApiDetailsComponent implements OnInit {
         this.functionApp.getApiProxies().subscribe(proxies => {
 
             this.apiProxies = proxies;
-            var indexToDelete = this.apiProxies.findIndex((p) => {
+            const indexToDelete = this.apiProxies.findIndex((p) => {
                 return p.name === this.apiProxyEdit.name;
             });
 
@@ -141,27 +137,27 @@ export class ApiDetailsComponent implements OnInit {
         this._broadcastService.clearDirtyState('api-proxy', true);
     }
 
-    submitForm(value: any) {
+    submitForm() {
 
         if (this.complexForm.valid) {
             this._globalStateService.setBusyState();
 
-            this.apiProxyEdit.backendUri = this.complexForm.controls["backendUri"].value;
-            this.apiProxyEdit.matchCondition.route = this.complexForm.controls["routeTemplate"].value;
+            this.apiProxyEdit.backendUri = this.complexForm.controls['backendUri'].value;
+            this.apiProxyEdit.matchCondition.route = this.complexForm.controls['routeTemplate'].value;
             this.apiProxyEdit.matchCondition.methods = [];
 
             this.functionApp.getApiProxies().subscribe(proxies => {
                 this.apiProxies = proxies;
-                var index = this.apiProxies.findIndex((p) => {
+                const index = this.apiProxies.findIndex((p) => {
                     return p.name === this.apiProxyEdit.name;
                 });
 
                 if (index > -1) {
-                    if (this.complexForm.controls["methodSelectionType"].value !== "All") {
-                        for (var control in this.complexForm.controls) {
-                            if (control.startsWith("method_")) {
+                    if (this.complexForm.controls['methodSelectionType'].value !== 'All') {
+                        for (const control in this.complexForm.controls) {
+                            if (control.startsWith('method_')) {
                                 if (this.complexForm.controls[control].value) {
-                                    this.apiProxyEdit.matchCondition.methods.push(control.replace("method_", "").toUpperCase());
+                                    this.apiProxyEdit.matchCondition.methods.push(control.replace('method_', '').toUpperCase());
                                 }
                             }
                         }
@@ -194,7 +190,7 @@ export class ApiDetailsComponent implements OnInit {
             method_TRACE: false
         });
 
-        this.complexForm.controls["methodSelectionType"].valueChanges.subscribe((value) => {
+        this.complexForm.controls['methodSelectionType'].valueChanges.subscribe((value) => {
             this.isMethodsVisible = !(value === 'All');
         });
 
@@ -204,11 +200,11 @@ export class ApiDetailsComponent implements OnInit {
             }
         });
 
-        //this.isEnabled = this._globalStateService.IsRoutingEnabled;
+        // this.isEnabled = this._globalStateService.IsRoutingEnabled;
     }
 
     openAdvancedEditor() {
-        let scmUrl = this.apiProxyEdit.functionApp.getScmUrl();
+        const scmUrl = this.apiProxyEdit.functionApp.getScmUrl();
         window.open(`${scmUrl}/dev/wwwroot/proxies.json`);
     }
 }

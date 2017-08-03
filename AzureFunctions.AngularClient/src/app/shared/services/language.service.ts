@@ -1,6 +1,5 @@
 import { LanguageServiceHelper } from './language.service-helper';
 import { Injectable } from '@angular/core';
-import { Headers, Response } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/delay';
@@ -24,9 +23,9 @@ export class LanguageService {
         private _translateService: TranslateService) {
 
         this._userService.getStartupInfo()
-        .subscribe(startupInfo => {
-            this._startupInfo = startupInfo;
-        })
+            .subscribe(startupInfo => {
+                this._startupInfo = startupInfo;
+            })
     }
 
     getResources(extensionVersion: string) {
@@ -40,7 +39,7 @@ export class LanguageService {
         return this._cacheService.get(
             `${Constants.serviceHost}api/resources?name=${input.lang}&runtime=${input.runtime}`,
             false,
-           LanguageServiceHelper.getApiControllerHeaders())
+            LanguageServiceHelper.getApiControllerHeaders())
 
             .retryWhen(LanguageServiceHelper.retry)
             .map(r => {

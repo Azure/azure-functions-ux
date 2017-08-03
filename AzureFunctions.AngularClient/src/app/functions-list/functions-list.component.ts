@@ -10,7 +10,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 
 import { FunctionNode } from './../tree-view/function-node';
-import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionsNode } from './../tree-view/functions-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { FunctionApp } from '../shared/function-app';
@@ -18,9 +17,8 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { PortalService } from '../shared/services/portal.service';
-import { FunctionManageNode } from '../tree-view/function-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import { ErrorType, ErrorEvent } from "app/shared/models/error-event";
+import { ErrorType, ErrorEvent } from 'app/shared/models/error-event';
 
 @Component({
     selector: 'functions-list',
@@ -50,7 +48,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
             .switchMap(viewInfo => {
                 this.isLoading = true;
                 this._functionsNode = (<FunctionsNode>viewInfo.node);
-                this.appNode = (<AppNode>viewInfo.node.parent)
+                this.appNode = (<AppNode>viewInfo.node.parent);
                 this.functionApp = this._functionsNode.functionApp;
                 return this._functionsNode.loadChildren();
             })
@@ -80,7 +78,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
         return this.functionApp.updateFunction(item.functionInfo)
             .do(null, e => {
                 item.functionInfo.config.disabled = !item.functionInfo.config.disabled;
-                let state = item.functionInfo.config.disabled ? this._translateService.instant(PortalResources.enable) : this._translateService.instant(PortalResources.disable);
+                const state = item.functionInfo.config.disabled ? this._translateService.instant(PortalResources.enable) : this._translateService.instant(PortalResources.disable);
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.failedToSwitchFunctionState, { state: state, functionName: item.functionInfo.name }),
                     errorId: ErrorIds.failedToSwitchEnabledFunction,
@@ -89,7 +87,7 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
                 });
                 console.error(e);
             })
-            .subscribe(r => {
+            .subscribe(() => {
                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToSwitchEnabledFunction);
             });
     }
@@ -99,22 +97,22 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
         const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: functionInfo.name }));
         if (result) {
             this._globalStateService.setBusyState();
-            this._portalService.logAction("edit-component", "delete");
+            this._portalService.logAction('edit-component', 'delete');
             this.functionApp.deleteFunction(functionInfo)
                 .do(null, e => {
                     this._globalStateService.clearBusyState();
                     console.error(e);
                 })
-                .subscribe(r => {
-                    var indexToDelete = this.functions.indexOf(item);
+                .subscribe(() => {
+                    const indexToDelete = this.functions.indexOf(item);
                     if (indexToDelete > -1) {
                         this.functions.splice(indexToDelete, 1);
                     }
 
                     this._functionsNode.removeChild(item.functionInfo, false);
 
-                    let defaultHostName = this._functionsNode.functionApp.site.properties.defaultHostName;
-                    let scmHostName = this._functionsNode.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 1).name;
+                    const defaultHostName = this._functionsNode.functionApp.site.properties.defaultHostName;
+                    const scmHostName = this._functionsNode.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 1).name;
 
                     item.sideNav.cacheService.clearCachePrefix(`https://${defaultHostName}`);
                     item.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);

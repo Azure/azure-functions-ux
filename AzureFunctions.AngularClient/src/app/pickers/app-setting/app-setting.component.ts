@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { FunctionApp } from '../../shared/function-app';
-import { SiteDescriptor } from './../../shared/resourceDescriptors';
-import { ArmObj, ArmArrayResult } from './../../shared/models/arm/arm-obj';
+import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { Subject } from 'rxjs/Subject';
 import { ArmService } from '../../shared/services/arm.service';
 
@@ -16,8 +15,8 @@ export class AppSettingComponent implements OnInit {
 
     public appSettingName: string;
     public appSettingValue: string;
-    public selectInProcess: boolean = false;
-    public canSelect: boolean = false;
+    public selectInProcess = false;
+    public canSelect = false;
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
@@ -46,7 +45,7 @@ export class AppSettingComponent implements OnInit {
         this.selectInProcess = true;
         this._globalStateService.setBusyState();
         this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-            var appSettings: ArmObj<any> = r.json();
+            const appSettings: ArmObj<any> = r.json();
             appSettings.properties[this.appSettingName] = this.appSettingValue;
             return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
         })
@@ -55,10 +54,9 @@ export class AppSettingComponent implements OnInit {
                 this.selectInProcess = false;
                 console.log(e);
             })
-            .subscribe(r => {
+            .subscribe(() => {
                 this._globalStateService.clearBusyState();
                 this.selectItem.next(this.appSettingName);
             });
-
     }
 }

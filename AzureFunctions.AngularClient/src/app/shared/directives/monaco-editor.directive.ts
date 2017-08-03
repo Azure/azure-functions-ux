@@ -1,4 +1,3 @@
-import { ConfigService } from './../services/config.service';
 import { Directive, EventEmitter, ElementRef, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -7,7 +6,6 @@ import { GlobalStateService } from '../services/global-state.service';
 import { FunctionApp } from '../function-app';
 
 declare var monaco;
-declare var require;
 
 @Directive({
     selector: '[monacoEditor]',
@@ -27,9 +25,7 @@ export class MonacoEditorDirective {
     private _functionApp: FunctionApp;
 
     constructor(public elementRef: ElementRef,
-        private _globalStateService: GlobalStateService,
-        private _configService: ConfigService
-    ) {
+        private _globalStateService: GlobalStateService) {
 
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
@@ -185,9 +181,9 @@ export class MonacoEditorDirective {
                 that._globalStateService.clearBusyState();
 
                 // TODO: that._editor.addcommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_T, () => {
-                    // open existing function in new tab
-                    // if dirty ask to save? or save for them?
-                    // change view to to open in new tab
+                // open existing function in new tab
+                // if dirty ask to save? or save for them?
+                // change view to to open in new tab
                 // });
 
             });

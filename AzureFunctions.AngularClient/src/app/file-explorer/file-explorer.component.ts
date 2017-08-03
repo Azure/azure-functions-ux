@@ -1,14 +1,13 @@
-import { Component, OnInit, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/throw';
 import { FileUploader } from 'ng2-file-upload';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { VfsObject } from '../shared/models/vfs-object';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
-import { FunctionsService } from '../shared/services/functions.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
@@ -88,7 +87,7 @@ export class FileExplorerComponent implements OnChanges {
             this._aiService.trackEvent('/actions/file_explorer/upload_file');
         };
 
-        this.uploader.onErrorItem = (item, response, status, headers) => {
+        this.uploader.onErrorItem = (/*item, response, status, headers */) => {
             this._broadcastService.broadcast(BroadcastEvent.Error, { message: '', details: '' });
         };
 
@@ -167,7 +166,7 @@ export class FileExplorerComponent implements OnChanges {
         }
     }
 
-    addnewInput(event: Event, element: any) {
+    addnewInput(_: Event, element: any) {
         if (!this.switchFiles()) {
             return;
         }
@@ -177,18 +176,18 @@ export class FileExplorerComponent implements OnChanges {
 
     addFile(content?: string): Observable<VfsObject | string> {
         if (this.newFileName && this.files.find(f => f.name.toLocaleLowerCase() === this.newFileName.toLocaleLowerCase())) {
-            let error = {
+            const error = {
                 message: this._translateService.instant(PortalResources.fileExplorer_fileAlreadyExists, { fileName: this.newFileName })
             };
             this._broadcastService.broadcast(BroadcastEvent.Error, error);
             return Observable.throw(error.message);
         }
 
-        let href = this.currentVfsObject
+        const href = this.currentVfsObject
             ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
             : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
         this.setBusyState();
-        var saveFileObservable = this.functionApp.saveFile(href, content || '', this.functionInfo);
+        const saveFileObservable = this.functionApp.saveFile(href, content || '', this.functionInfo);
         saveFileObservable
             .subscribe(r => {
                 if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
@@ -196,7 +195,7 @@ export class FileExplorerComponent implements OnChanges {
                     this.refresh();
                     this._aiService.trackEvent('/actions/file_explorer/create_directory');
                 } else {
-                    let o = typeof r === 'string'
+                    const o = typeof r === 'string'
                         ? { name: this.newFileName, href: href, mime: 'file' }
                         : r;
                     this.files.push(o);
@@ -208,11 +207,11 @@ export class FileExplorerComponent implements OnChanges {
                 delete this.newFileName;
             }, e => {
                 if (e) {
-                    let body = e.json();
+                    const body = e.json();
                     this._broadcastService.broadcast(BroadcastEvent.Error, {
                         message: body.ExceptionMessage || this._translateService.instant(PortalResources.fileExplorer_errorCreatingFile, { fileName: this.newFileName })
                     });
-                    let error = new Error(body.ExceptionMessage);
+                    const error = new Error(body.ExceptionMessage);
                     this._aiService.trackException(error);
                 }
                 this.clearBusyState();
@@ -224,10 +223,10 @@ export class FileExplorerComponent implements OnChanges {
         this.setBusyState();
         this.functionApp.getFileContent(this.selectedFile)
             .subscribe(content => {
-                let bypassConfirm = true;
+                const bypassConfirm = true;
                 this.addFile(content)
-                    .subscribe(s => this.deleteCurrentFile(bypassConfirm), e => this.clearBusyState());
-            }, e => this.clearBusyState());
+                    .subscribe(() => this.deleteCurrentFile(bypassConfirm), () => this.clearBusyState());
+            }, () => this.clearBusyState());
         this._aiService.trackEvent('/actions/file_explorer/rename_file');
     }
 
@@ -271,7 +270,7 @@ export class FileExplorerComponent implements OnChanges {
             .subscribe((deleted: VfsObject) => {
                 this.functionApp.ClearAllFunctionCache(this.functionInfo);
                 this.clearBusyState();
-                let fileIndex = this.files.map(e => e.href).indexOf(deleted.href);
+                const fileIndex = this.files.map(e => e.href).indexOf(deleted.href);
                 if (fileIndex === -1 || this.files.length === 1) {
                     this.refresh();
                 } else {
@@ -280,7 +279,7 @@ export class FileExplorerComponent implements OnChanges {
                 }
             }, e => {
                 if (e) {
-                    let body = e.json();
+                    const body = e.json();
                     this._broadcastService.broadcast(BroadcastEvent.Error, { message: body.ExceptionMessage || this._translateService.instant(PortalResources.fileExplorer_errorDeletingFile, { fileName: this.selectedFile.name }) });
                 }
                 this.clearBusyState();
@@ -288,13 +287,13 @@ export class FileExplorerComponent implements OnChanges {
         this._aiService.trackEvent('/actions/file_explorer/delete_file');
     }
 
-    renameCurrentFile(event: Event, element: any) {
+    renameCurrentFile(_: Event, element: any) {
         if (this.selectedFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase() || !this.switchFiles()) {
             return;
         }
         this.newFileName = this.selectedFile.name;
         this.renamingFile = true;
-        let fileIndex = this.files.map(e => e.href).indexOf(this.selectedFile.href);
+        const fileIndex = this.files.map(e => e.href).indexOf(this.selectedFile.href);
         if (fileIndex !== -1) {
             this.files.splice(fileIndex, 1);
         }

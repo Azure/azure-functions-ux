@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { FunctionApp } from '../../shared/function-app';
@@ -7,15 +7,15 @@ import { ArmObj, ArmArrayResult } from './../../shared/models/arm/arm-obj';
 import { ArmService } from '../../shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Response } from '@angular/http';
 import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
+import { Subscription } from "rxjs/Subscription";
 
 class OptionTypes {
-    eventHub: string = "EventHub";
-    IOTHub: string = "IOTHub";
-    custom: string = "Custom";
+    eventHub = 'EventHub';
+    IOTHub = 'IOTHub';
+    custom = 'Custom';
 }
 
 interface IOTKey {
@@ -38,11 +38,11 @@ interface IOTEndpoint {
 })
 
 export class EventHubComponent {
-    public namespaces: ArmArrayResult;
-    public eventHubs: ArmArrayResult;
-    public namespacePolices: ArmArrayResult;
-    public polices: ArmArrayResult;
-    public IOTHubs: ArmArrayResult;
+    public namespaces: ArmArrayResult<any>;
+    public eventHubs: ArmArrayResult<any>;
+    public namespacePolices: ArmArrayResult<any>;
+    public polices: ArmArrayResult<any>;
+    public IOTHubs: ArmArrayResult<any>;
     public IOTEndpoints: IOTEndpoint[];
     public selectedNamespace: string;
     public selectedEventHub: string;
@@ -54,10 +54,10 @@ export class EventHubComponent {
     public optionsChange: Subject<string>;
     public optionTypes: OptionTypes = new OptionTypes();
 
-    public selectInProcess: boolean = false;
+    public selectInProcess = false;
     public options: SelectOption<string>[];
     public option: string;
-    public canSelect: boolean = false;
+    public canSelect = false;
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
@@ -97,7 +97,7 @@ export class EventHubComponent {
         this._functionApp = functionApp;
         this._descriptor = new SiteDescriptor(functionApp.site.id);
 
-        let id = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.EventHub/namespaces`;
+        const id = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.EventHub/namespaces`;
 
         this._cacheService.getArm(id, true).subscribe(r => {
             this.namespaces = r.json();
@@ -107,7 +107,7 @@ export class EventHubComponent {
             }
         });
 
-        let devicesId = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
+        const devicesId = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
 
         this._cacheService.getArm(devicesId, true, '2017-01-19').subscribe(r => {
             this.IOTHubs = r.json();
@@ -124,8 +124,8 @@ export class EventHubComponent {
         this.selectedEventHub = null;
         this.selectedPolicy = null;
         Observable.zip(
-            this._cacheService.getArm(value + "/eventHubs", true),
-            this._cacheService.getArm(value + "/AuthorizationRules", true),
+            this._cacheService.getArm(value + '/eventHubs', true),
+            this._cacheService.getArm(value + '/AuthorizationRules', true),
             (hubs, namespacePolices) => ({ hubs: hubs.json(), namespacePolices: namespacePolices.json() })).subscribe(r => {
                 this.eventHubs = r.hubs;
                 if (this.eventHubs.value.length > 0) {
@@ -135,7 +135,7 @@ export class EventHubComponent {
                 this.namespacePolices = r.namespacePolices;
                 if (this.namespacePolices.value.length > 0) {
                     this.namespacePolices.value.forEach((item) => {
-                        item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy);;
+                        item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy);;
                     });
 
                     this.selectedPolicy = r.namespacePolices.value[0].id;
@@ -150,11 +150,11 @@ export class EventHubComponent {
     onEventHubChange(value: string) {
         this.selectedPolicy = null;
         this.polices = null;
-        this._cacheService.getArm(value + "/AuthorizationRules", true).subscribe(r => {
+        this._cacheService.getArm(value + '/AuthorizationRules', true).subscribe(r => {
             this.polices = r.json();
 
             this.polices.value.forEach((item) => {
-                item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
+                item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
             });
 
             if (this.namespacePolices.value.length > 0) {
@@ -172,14 +172,14 @@ export class EventHubComponent {
         this.IOTEndpoints = null;
         this.selectedIOTEndpoint = null;
         Observable.zip(
-            this._cacheService.postArm(value + "/listkeys", true, '2017-01-19'),
+            this._cacheService.postArm(value + '/listkeys', true, '2017-01-19'),
             this._cacheService.getArm(value, true, '2017-01-19'),
             (keys, hub) => ({ keys: keys.json(), hub: hub.json() })).subscribe(r => {
 
                 if (r.keys.value) {
 
                     // find service policy
-                    var serviceKey: IOTKey = r.keys.value.find(item => (item.keyName === 'iothubowner'));
+                    const serviceKey: IOTKey = r.keys.value.find(item => (item.keyName === 'iothubowner'));
                     if (serviceKey) {
                         this.IOTEndpoints = [
                             {
@@ -208,31 +208,31 @@ export class EventHubComponent {
         }
     }
 
-    onSelect() {
+    onSelect(): Subscription | null {
         if (this.option === this.optionTypes.eventHub) {
             if (this.selectedEventHub && this.selectedPolicy) {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
-                var appSettingName: string;
+                let appSettingName: string;
                 return Observable.zip(
-                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, "2015-08-01"),
+                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, '2015-08-01'),
                     this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
-                        let namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
-                        let keys = r.keys.json();
+                        const namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
+                        const keys = r.keys.json();
 
                         appSettingName = `${namespace.name}_${keys.keyName}_EVENTHUB`;
                         let appSettingValue = keys.primaryConnectionString;
-                        // Runtime requires entitypath for all event hub connections strings, 
+                        // Runtime requires entitypath for all event hub connections strings,
                         // so if it's namespace policy add entitypath as selected eventhub
                         if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
-                            let eventHub = this.eventHubs.value.find(p => p.id === this.selectedEventHub);
+                            const eventHub = this.eventHubs.value.find(p => p.id === this.selectedEventHub);
                             appSettingValue = `${appSettingValue};EntityPath=${eventHub.name}`;
 
                         }
 
-                        var appSettings: ArmObj<any> = r.appSettings.json();
+                        const appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = appSettingValue;
 
                         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
@@ -243,18 +243,18 @@ export class EventHubComponent {
                         this.selectInProcess = false;
                         console.log(e);
                     })
-                    .subscribe(r => {
+                    .subscribe(() => {
                         this._globalStateService.clearBusyState();
                         this.selectItem.next(appSettingName);
                     });
             }
         } else {
-            var appSettingName: string;
-            var appSettingValue: string;
+            let appSettingName: string;
+            let appSettingValue: string;
             if (this.option === this.optionTypes.IOTHub && this.selectedIOTHub && this.selectedIOTEndpoint) {
 
-                var IOTHub = this.IOTHubs.value.find(item => (item.id === this.selectedIOTHub));
-                var IOTEndpoint = this.IOTEndpoints.find(item => (item.value === this.selectedIOTEndpoint));
+                const IOTHub = this.IOTHubs.value.find(item => (item.id === this.selectedIOTHub));
+                const IOTEndpoint = this.IOTEndpoints.find(item => (item.value === this.selectedIOTEndpoint));
 
                 appSettingName = `${IOTHub.name}_${IOTEndpoint.title}_IOTHUB`;
                 appSettingValue = IOTEndpoint.value;
@@ -267,7 +267,7 @@ export class EventHubComponent {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
                 this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-                    var appSettings: ArmObj<any> = r.json();
+                    const appSettings: ArmObj<any> = r.json();
                     appSettings.properties[appSettingName] = appSettingValue;
                     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
                 })
@@ -276,12 +276,13 @@ export class EventHubComponent {
                         this.selectInProcess = false;
                         console.log(e);
                     })
-                    .subscribe(r => {
+                    .subscribe(() => {
                         this._globalStateService.clearBusyState();
                         this.selectItem.next(appSettingName);
                     });
             }
         }
+        return null;
     }
 
     public setSelect() {

@@ -1219,11 +1219,128 @@
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Extensions add functionality to your entire app.</value>
   </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>General settings</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>Auto Swap</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>Debugging</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Application settings</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Manage app settings, connection strings, runtime settings, and more.</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>You must have write permissions on the current app in order to edit these settings.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>This app has a read-only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again.</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>View settings in read-only mode.</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>Failed to load settings.</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>Updating web app settings</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>Successfully updated web app settings</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>Failed to update web app settings: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} Save Error: Invlid input provided.</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework version</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using the .NET Framework</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP version</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using PHP</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python version</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using Python</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java version</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>The version used to run your web app if using Java</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java minor version</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>Select the desired Java minor version. Selecting 'Newest' will keep your app using the JVM most recently added to the portal.</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Web container</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>The web container version used to run your web app if using Java</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>The platform architecture your web app runs</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Web sockets</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>WebSockets allow more flexible connectivity between web apps and modern browsers.  Your web app would need to be built to leverage these capabilities.</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>Always On</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>Managed Pipeline Version</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>ARR Affinity</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>Remote debugging</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>Remote Visual Studio version</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>Newest</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32-bit</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64-bit</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>Classic</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>Integrated</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Properties</value>
@@ -1407,6 +1524,9 @@
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Configuration</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>Application settings</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Managing your Function app is not available for this trial.</value>
@@ -1926,5 +2046,121 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="expressAADRegistration" xml:space="preserve">
     <value>Express AAD Registration</value>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>create</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>You need to add Event Grid subscription after function creation.</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>Event Grid Subscription URL</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>Event Grid Subscription URL</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Manage Event Grid subscriptions</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Add Event Grid subscription</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>All locations</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>{0} locations</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>Location:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>Group by location</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>No grouping</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>Group by resource group</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>Group by subscription</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>South Central US</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>North Europe</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>West Europe</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>Southeast Asia</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>Korea Central</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>Korea South</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>West US</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>East US</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>Japan West</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>Japan East</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>East Asia</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>East US 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>North Central US</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>Central US</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>Brazil South</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>Australia East</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>Australia Sputheast</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>West India</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>Central India</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>South India</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>Canada Central</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>Canada East</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>West Central US</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>UK West</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>UK South</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>West US 2</value>
   </data>
 </root>

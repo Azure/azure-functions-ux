@@ -1,13 +1,13 @@
-<div class="click-to-edit-wrapper" (click)="onClick($event)">
-<div *ngIf="!showTextbox && !hiddenText" class="text">
+<div class="click-to-edit-wrapper" (click)="onClick()">
+  <div *ngIf="!showTextbox && !hiddenText" class="text">
     {{control.value}}
-</div>
+  </div>
 
-<div *ngIf="!showTextbox && hiddenText" class="text hidden-text">
+  <div *ngIf="!showTextbox && hiddenText" class="text hidden-text">
     {{ 'hiddenValueClickToShow' | translate }}
-</div>
+  </div>
 
-<div [class.hidden]="!showTextbox">
-    <ng-content ></ng-content>
-</div>
+  <div [class.hidden]="!showTextbox">
+    <ng-content></ng-content>
+  </div>
 </div>

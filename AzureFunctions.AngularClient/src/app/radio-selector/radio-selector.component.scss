@@ -5,6 +5,10 @@
     display: inline-block;
     height: 25px;
     background: #ccc;
+
+    &.disabled {
+        background: $background-color-disabled;
+    }
 }
 
 .switch-label {
@@ -32,4 +36,22 @@
     display: block;
     z-index: 1;
     background: $primary-color;
+}
+
+.disabled {
+   .selected {
+        background: $primary-color-faded;
+    } 
+}
+
+.dirty {
+    .selected {
+        background: $alt1-color;
+    }
+
+    &.disabled {
+        .selected {
+            background: $alt1-color-faded;
+        }
+    }
 }

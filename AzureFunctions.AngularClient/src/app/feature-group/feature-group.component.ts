@@ -1,10 +1,6 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Component } from '@angular/core';
 
 import { AiService } from './../shared/services/ai.service';
-import { ArmService } from '../shared/services/arm.service';
-import { SiteDescriptor } from '../shared/resourceDescriptors';
-import { PopOverComponent } from '../pop-over/pop-over.component';
 import { FeatureGroup } from './feature-group';
 import { FeatureItem } from './feature-item';
 
@@ -16,7 +12,7 @@ import { FeatureItem } from './feature-item';
 })
 export class FeatureGroupComponent {
     public group: FeatureGroup;
-    public searchTerm = "";
+    public searchTerm = '';
 
     constructor(private _aiService: AiService) {
     }
@@ -32,15 +28,15 @@ export class FeatureGroupComponent {
 
         this.group.features.forEach(feature => {
             feature.highlight = feature.keywords.indexOf(term) > -1;
-        })
+        });
     }
 
     click(feature: FeatureItem) {
 
-        this._aiService.trackEvent("/site/feature-click", {
+        this._aiService.trackEvent('/site/feature-click', {
             featureName: feature.title,
-            isResultsFiltered: !!this.searchTerm ? "true" : "false"
-        })
+            isResultsFiltered: !!this.searchTerm ? 'true' : 'false'
+        });
 
         feature.click();
     }

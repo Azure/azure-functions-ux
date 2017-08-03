@@ -1,21 +1,22 @@
 import { Subject } from 'rxjs/Subject';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Component, OnInit, EventEmitter, ViewChild, Input, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, ViewChild, Input, Output } from '@angular/core';
 import { DropDownElement } from '../shared/models/drop-down-element';
 
 
 @Component({
     selector: 'drop-down',
     templateUrl: './drop-down.component.html',
-    styleUrls: ['./drop-down.component.css']
+    styleUrls: ['./drop-down.component.scss']
 })
-export class DropDownComponent<T> implements OnInit {
+export class DropDownComponent<T> implements OnInit, OnChanges {
 
     @Input() group: FormGroup;
     @Input() control: FormControl;
     @Input() name: string;
     @Input() placeholder: string;
     @Input() disabled: boolean;
+    @Input() highlightDirty: boolean;
 
     @Output() value: EventEmitter<T>;
     @Output() blur = new Subject<any>();
@@ -30,15 +31,25 @@ export class DropDownComponent<T> implements OnInit {
         this.value = new EventEmitter<T>();
     }
 
-    ngOnInit() {
+    setControl() {
         if (this.group && this.name) {
             this.control = <FormControl>this.group.controls[this.name];
         }
     }
 
+    ngOnInit() {
+        this.setControl();
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['group'] || changes['name']) {
+            this.setControl();
+        }
+    }
+
     @Input() set options(value: DropDownElement<T>[]) {
         this._options = [];
-        for (var i = 0; i < value.length; i++) {
+        for (let i = 0; i < value.length; i++) {
             this._options.push({
                 id: i,
                 displayLabel: value[i].displayLabel,
@@ -50,24 +61,21 @@ export class DropDownComponent<T> implements OnInit {
         if (this._options.find(d => d.default)) {
             if (this.control) {
                 this.onSelectValue(this._options.find(d => d.default).value);
-            }
-            else {
+            } else {
                 this.onSelect(this._options.find(d => d.default).id.toString());
             }
         } else if (this._options.length > 0) {
             if (this.control) {
                 this.onSelectValue(this._options[0].value);
-            }
-            else {
+            } else {
                 this.onSelect(this._options[0].id.toString());
-
             }
         } else if (this._options.length === 0) {
             delete this.selectedElement;
         }
     }
 
-    @Input() set resetOnChange(value) {
+    @Input() set resetOnChange(_) {
         delete this.selectedElement;
     }
 
@@ -78,13 +86,13 @@ export class DropDownComponent<T> implements OnInit {
     }
 
     onSelect(id: string) {
-        var element = this._options.find(e => e.id.toString() === id);
+        const element = this._options.find(e => e.id.toString() === id);
         this.selectedElement = element;
         this.value.emit(element.value);
     }
 
     onSelectValue(value: T) {
-        var element = this._options.find(e => e.value === value);
+        const element = this._options.find(e => e.value === value);
         this.selectedElement = element;
         this.value.emit(element.value);
     }
@@ -97,7 +105,7 @@ export class DropDownComponent<T> implements OnInit {
         if (this.selectInput) {
             setTimeout(() => {
                 this.selectInput.nativeElement.focus();
-            })
+            });
         }
     }
 

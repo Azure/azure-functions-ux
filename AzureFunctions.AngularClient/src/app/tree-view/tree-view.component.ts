@@ -1,12 +1,9 @@
 import { KeyCodes } from './../shared/models/constants';
 import { TreeNodeIterator } from './tree-node-iterator';
 import { Dom } from './../shared/Utilities/dom';
-import { SideNavComponent } from './../side-nav/side-nav.component';
 import { GlobalStateService } from './../shared/services/global-state.service';
-import { Url } from "app/shared/Utilities/url";
-import { DashboardType } from "app/tree-view/models/dashboard-type";
-import { Component, OnInit, EventEmitter, Input, Output, ViewChild, OnChanges, SimpleChange, ElementRef, AfterContentInit } from '@angular/core';
-import { ArmService } from '../shared/services/arm.service';
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
+import { Component, Input, ViewChild, OnChanges, SimpleChange, ElementRef, AfterContentInit } from '@angular/core';
 import { TreeNode } from './tree-node';
 
 @Component({
@@ -24,10 +21,7 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
     public showTryView = false;
     @ViewChild('item') item: ElementRef;
 
-    constructor(
-        globalStateService: GlobalStateService,
-        private _sideNavComponent: SideNavComponent) {
-
+    constructor(globalStateService: GlobalStateService) {
         this.showTryView = globalStateService.showTryView;
     }
 
@@ -133,10 +127,10 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
     }
 
     openNewTab() {
-        //open a new tab with the rousource information
-        let windowLocation : string = `${window.location.hostname}`;
+        // open a new tab with the rousource information
+        let windowLocation = `${window.location.hostname}`;
         if (window.location.port) {
-            windowLocation += `:${window.location.port}`
+            windowLocation += `:${window.location.port}`;
         }
         window.open(`https://${windowLocation}/signin?tabbed=true&rid=${this.node.resourceId}`, '_blank');
     }

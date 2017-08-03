@@ -1,19 +1,19 @@
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
-import { Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription'; import 'rxjs/add/observable/zip';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/zip';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { VfsObject } from '../shared/models/vfs-object';
 // import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
 import { LogStreamingComponent } from '../log-streaming/log-streaming.component';
-import { FunctionConfig } from '../shared/models/function-config';
 import { FunctionSecrets } from '../shared/models/function-secrets';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
@@ -32,10 +32,8 @@ import { MonacoEditorDirective } from '../shared/directives/monaco-editor.direct
 import { BindingManager } from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from '../shared/models/error-ids';
-import { HttpRunModel, Param } from '../shared/models/http-run';
-import { FunctionKey, FunctionKeys } from '../shared/models/function-key';
-import { FunctionAppEditMode } from "app/shared/models/function-app-edit-mode";
-import { LocalStorageService } from "app/shared/services/local-storage.service";
+import { HttpRunModel } from '../shared/models/http-run';
+import { FunctionKeys } from '../shared/models/function-key';
 
 
 @Component({
@@ -63,44 +61,42 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public testContent: string;
     public fileName: string;
     public inIFrame: boolean;
-    public runValid: boolean = false;
+    public runValid = false;
 
     public configContent: string;
     public webHookType: string;
     public authLevel: string;
     public secrets: FunctionSecrets;
     public isHttpFunction: boolean;
+    public isEventGridFunction: boolean;
 
     public runResult: RunFunctionResult;
     public running: Subscription;
-    public showFunctionInvokeUrl: boolean = false;
-    public showFunctionKey: boolean = false;
-    public showFunctionInvokeUrlModal: boolean = false;
-    public showFunctionKeyModal: boolean = false;
+    public showFunctionInvokeUrl = false;
+    public showFunctionKey = false;
+    public showFunctionInvokeUrlModal = false;
+    public showFunctionKeyModal = false;
 
     public rightTab: string = FunctionDevComponent.rightTab;
     public bottomTab: string = FunctionDevComponent.bottomTab;
     public static rightTab: string;
     public static bottomTab: string;
     public functionInvokeUrl: string;
-    public expandLogs: boolean = false;
+    public expandLogs = false;
     public functionApp: FunctionApp;
     public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
     public masterKey: string;
-
     public isStandalone: boolean;
     public inTab: boolean;
-
     public disabled: Observable<boolean>;
+    public eventGridSubscribeUrl: string;
 
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
-    private selectedFileStream: Subject<VfsObject>;
-    private autoSelectAdminKey: boolean;
-    private functionKey: string;
-    private _bindingManager = new BindingManager();
+    public selectedFileStream: Subject<VfsObject>;
+    public functionKey: string;
 
     private _isClientCertEnabled = false;
     constructor(private _broadcastService: BroadcastService,
@@ -108,7 +104,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _el: ElementRef,
         configService: ConfigService) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
@@ -118,8 +113,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
             .switchMap(file => {
-                if (this.fileExplorer)
+                if (this.fileExplorer) {
                     this.fileExplorer.setBusyState();
+                }
                 return Observable.zip(this.selectedFunction.functionApp.getFileContent(file), Observable.of(file), (c, f) => ({ content: c, file: f }));
             })
             .subscribe((res: { content: string, file: VfsObject }) => {
@@ -128,9 +124,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 res.file.isDirty = false;
                 this.scriptFile = res.file;
                 this.fileName = res.file.name;
-                if (this.fileExplorer)
+                if (this.fileExplorer) {
                     this.fileExplorer.clearBusyState();
-            }, e => this._globalStateService.clearBusyState());
+                }
+            }, () => this._globalStateService.clearBusyState());
 
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
@@ -140,18 +137,22 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._globalStateService.setBusyState();
                 this.checkErrors(fi);
 
+                this.functionApp.getEventGridKey().subscribe(eventGridKey => {
+                    this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this.functionInfo.name}&code=${eventGridKey}`;;
+                });
+
                 return Observable.zip(
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
                     this.functionApp.getAuthSettings(),
-                    (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }))
+                    (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }));
             })
             .subscribe(res => {
                 this._isClientCertEnabled = res.authSettings.clientCertEnabled;
-                this.content = "";
+                this.content = '';
                 this.testContent = res.functionInfo.test_data;
                 try {
-                    var httpModel = JSON.parse(res.functionInfo.test_data);
+                    const httpModel = JSON.parse(res.functionInfo.test_data);
                     // Check if it's valid model
                     if (Array.isArray(httpModel.headers)) {
                         this.testContent = httpModel.body;
@@ -162,8 +163,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
-                var href = res.functionInfo.script_href;
-                if (this.fileName.toLowerCase().endsWith("dll")) {
+                let href = res.functionInfo.script_href;
+                if (this.fileName.toLowerCase().endsWith('dll')) {
                     this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf('/') + 1);
                     href = res.functionInfo.config_href;
                 }
@@ -177,7 +178,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
 
-                var inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
+                let inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => !!e.webHookType)
                     : null);
                 if (inputBinding) {
@@ -199,6 +200,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.updateKeys();
 
                 this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
+                this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
 
                 setTimeout(() => {
                     this.onResize();
@@ -227,40 +229,40 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.onResize();
     }
 
-    public onResize(ev?: any) {
+    public onResize() {
 
-        var functionNameHeight = 46;
-        var editorPadding = 25;
+        const functionNameHeight = 46;
+        const editorPadding = 25;
 
-        var functionContainerWidth;
-        var functionContainaerHeight;
+        let functionContainerWidth;
+        let functionContainerHeight;
         if (this.functionContainer) {
             functionContainerWidth = window.innerWidth - this.functionContainer.nativeElement.getBoundingClientRect().left;
-            functionContainaerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
+            functionContainerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
         }
-        var rigthContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
-        var bottomContainerHeight = this.bottomTab ? Math.floor((functionContainaerHeight / 3)) : 50;
+        const rightContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
+        let bottomContainerHeight = this.bottomTab ? Math.floor((functionContainerHeight / 3)) : 50;
 
-        var editorContainerWidth = functionContainerWidth - rigthContainerWidth - 50;
-        var editorContainerHeight = functionContainaerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
+        const editorContainerWidth = functionContainerWidth - rightContainerWidth - 50;
+        let editorContainerHeight = functionContainerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
 
         if (this.expandLogs) {
             editorContainerHeight = 0;
-            //editorContainerWidth = 0;
+            // editorContainerWidth = 0;
 
-            bottomContainerHeight = functionContainaerHeight - functionNameHeight;
+            bottomContainerHeight = functionContainerHeight - functionNameHeight;
 
-            this.editorContainer.nativeElement.style.visibility = "hidden";
-            this.bottomContainer.nativeElement.style.marginTop = "0px";
+            this.editorContainer.nativeElement.style.visibility = 'hidden';
+            this.bottomContainer.nativeElement.style.marginTop = '0px';
         } else {
-            this.editorContainer.nativeElement.style.visibility = "visible";
-            this.bottomContainer.nativeElement.style.marginTop = "25px";
+            this.editorContainer.nativeElement.style.visibility = 'visible';
+            this.bottomContainer.nativeElement.style.marginTop = '25px';
         }
 
 
         if (this.editorContainer) {
-            this.editorContainer.nativeElement.style.width = editorContainerWidth + "px";
-            this.editorContainer.nativeElement.style.height = editorContainerHeight + "px";
+            this.editorContainer.nativeElement.style.width = editorContainerWidth + 'px';
+            this.editorContainer.nativeElement.style.height = editorContainerHeight + 'px';
         }
 
         if (this.codeEditor) {
@@ -271,34 +273,34 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         if (this.rightContainer) {
-            this.rightContainer.nativeElement.style.width = rigthContainerWidth + "px";
-            this.rightContainer.nativeElement.style.height = functionContainaerHeight + "px";
+            this.rightContainer.nativeElement.style.width = rightContainerWidth + 'px';
+            this.rightContainer.nativeElement.style.height = functionContainerHeight + 'px';
         }
 
         if (this.bottomContainer) {
-            this.bottomContainer.nativeElement.style.height = bottomContainerHeight + "px";
-            this.bottomContainer.nativeElement.style.width = (editorContainerWidth + editorPadding * 2) + "px";
+            this.bottomContainer.nativeElement.style.height = bottomContainerHeight + 'px';
+            this.bottomContainer.nativeElement.style.width = (editorContainerWidth + editorPadding * 2) + 'px';
         }
 
         if (this.testDataEditor) {
-            var widthDataEditor = rigthContainerWidth - 24;
+            const widthDataEditor = rightContainerWidth - 24;
 
             setTimeout(() => {
                 if (this.testDataEditor) {
                     this.testDataEditor.setLayout(
                         this.rightTab ? widthDataEditor : 0,
-                        this.isHttpFunction ? 230 : functionContainaerHeight / 2
-                        //functionContainaerHeight / 2
-                    )
+                        this.isHttpFunction ? 230 : functionContainerHeight / 2
+                        // functionContainaerHeight / 2
+                    );
                 }
             }, 0);
         }
     }
 
     clickRightTab(tab: string) {
-        if (tab === "logs") {
+        if (tab === 'logs') {
             if (this.bottomTab === tab) {
-                this.bottomTab = "";
+                this.bottomTab = '';
                 this.expandLogs = false;
                 if (this.runLogs) {
                     this.runLogs.compress();
@@ -307,10 +309,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.bottomTab = tab;
             }
         } else {
-            this.rightTab = (this.rightTab === tab) ? "" : tab;
+            this.rightTab = (this.rightTab === tab) ? '' : tab;
         }
 
-        // double resize to fix pre heigth
+        // double resize to fix pre height
         this.onResize();
         setTimeout(() => {
             this.onResize();
@@ -341,7 +343,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     private setInvokeUrlVisibility() {
         if (this.functionInfo.config.bindings) {
-            var b = this.functionInfo.config.bindings.find((b) => {
+            const b = this.functionInfo.config.bindings.find((b) => {
                 return b.type === BindingType.httpTrigger.toString();
             });
             this.showFunctionInvokeUrl = b ? true : false;
@@ -353,7 +355,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             delete this.updatedTestContent;
             delete this.runResult;
             const selectedFunction = changes['selectedFunction'].currentValue;
-            if(selectedFunction){
+            if (selectedFunction) {
                 this.functionSelectStream.next(changes['selectedFunction'].currentValue);
             }
         }
@@ -364,7 +366,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.functionApp.getFunctionKeys(functionInfo)
                 .subscribe(keys => {
                     if (keys && keys.keys && keys.keys.length > 0) {
-                        this.functionKey = keys.keys.find(k => k.name === "default").value || keys.keys[0].value;
+                        this.functionKey = keys.keys.find(k => k.name === 'default').value || keys.keys[0].value;
                     }
                 });
         }
@@ -372,9 +374,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private setFunctionInvokeUrl(key?: string) {
         if (this.isHttpFunction) {
 
-            //No webhook https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]
-            //WebhookType = "Generic JSON"  https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]&clientId=[keyname]
-            //WebhookType = "GitHub" or "Slack" https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?clientId=[keyname]
+            // No webhook https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]
+            // WebhookType = "Generic JSON"  https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]&clientId=[keyname]
+            // WebhookType = "GitHub" or "Slack" https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?clientId=[keyname]
             let code = '';
             let clientId = '';
             let queryParams = '';
@@ -387,8 +389,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
 
             if (this.webHookType && key) {
-                var allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
-                var keyWithValue = allKeys.find(k => k.value == key);
+                const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+                const keyWithValue = allKeys.find(k => k.value === key);
                 if (keyWithValue) {
                     clientId = keyWithValue.name;
                 }
@@ -408,9 +410,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             }
 
             this.functionApp.getHostJson().subscribe((jsonObj) => {
-                var that = this;
-                var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix !== undefined && jsonObj.http.routePrefix !== null) ? jsonObj.http.routePrefix : 'api';
-                var httpTrigger = this.functionInfo.config.bindings.find((b) => {
+                let result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix !== undefined && jsonObj.http.routePrefix !== null) ? jsonObj.http.routePrefix : 'api';
+                const httpTrigger = this.functionInfo.config.bindings.find((b) => {
                     return b.type === BindingType.httpTrigger.toString();
                 });
                 if (httpTrigger && httpTrigger.route) {
@@ -420,9 +421,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
 
                 // Remove doubled slashes
-                var path = '/' + result;
-                var find = '//';
-                var re = new RegExp(find, 'g');
+                let path = '/' + result;
+                const find = '//';
+                const re = new RegExp(find, 'g');
                 path = path.replace(re, '/');
                 path = path.replace('/?', '?') + queryParams;
 
@@ -436,10 +437,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    saveScript(dontClearBusy?: boolean) {
+    saveScript(dontClearBusy?: boolean): Subscription | null {
         // Only save if the file is dirty
         if (!this.scriptFile.isDirty) {
-            return;
+            return null;
         }
         let syncTriggers = false;
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
@@ -454,13 +455,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     errorType: ErrorType.UserError,
                     resourceId: this.functionApp.site.id
                 });
-                return;
+                return null;
             }
         }
 
         this._globalStateService.setBusyState();
 
-        if (this.scriptFile.name.toLowerCase() === "function.json") {
+        if (this.scriptFile.name.toLowerCase() === 'function.json') {
             this.functionInfo.config = JSON.parse(this.updatedContent);
         }
 
@@ -491,7 +492,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this._translateService.instant(PortalResources.functionDev_saveFunctionSuccess).format(this.functionInfo.name));
                 this.content = this.updatedContent;
             },
-            e => {
+            () => {
                 this._globalStateService.clearBusyState();
                 this._portalService.stopNotification(
                     notificationId,
@@ -517,7 +518,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     saveTestData() {
-        var test_data = this.getTestData();
+        const test_data = this.getTestData();
         if (this.functionInfo.test_data !== test_data) {
             this.functionInfo.test_data = test_data;
             this.functionApp.updateFunction(this.functionInfo)
@@ -535,14 +536,14 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             return;
         }
 
-        var resizeNeeded = false;
-        if (this.bottomTab !== "logs") {
-            this.bottomTab = "logs";
+        let resizeNeeded = false;
+        if (this.bottomTab !== 'logs') {
+            this.bottomTab = 'logs';
             resizeNeeded = true;
         }
 
-        if (this.rightTab !== "run") {
-            this.rightTab = "run";
+        if (this.rightTab !== 'run') {
+            this.rightTab = 'run';
             resizeNeeded = true;
         }
 
@@ -622,11 +623,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     get codeEditor(): MonacoEditorDirective {
-        return this.getMonacoDirective("code");
+        return this.getMonacoDirective('code');
     }
 
     get testDataEditor(): MonacoEditorDirective {
-        return this.getMonacoDirective("test_data");
+        return this.getMonacoDirective('test_data');
     }
 
     get runLogs(): LogStreamingComponent {
@@ -654,7 +655,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     setShowFunctionInvokeUrlModal(value: boolean) {
-        var allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+        const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
         if (allKeys.length > 0) {
             this.onChangeKey(allKeys[0].value);
         }
@@ -680,12 +681,27 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.setFunctionKey(this.functionInfo);
     }
 
+    onEventGridSubscribe() {
+        if (this.eventGridSubscribeUrl) {
+            this._portalService.openBlade({
+                detailBlade: 'CreateEventSubscriptionFromSubscriberBlade',
+                extension: 'Microsoft_Azure_EventGrid',
+                detailBladeInputs: {
+                    inputs: {
+                        subscriberEndpointUrl: this.eventGridSubscribeUrl,
+                        label: `functions-${this.functionInfo.name.toLowerCase()}`
+                    }
+                }
+            }, 'function-dev');
+        }
+    }
+
     private getTestData(): string {
         if (this.runHttp) {
             this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
             // remove "code" param fix
-            var clonedModel: HttpRunModel = JSON.parse(JSON.stringify(this.runHttp.model));
-            var codeIndex = clonedModel.queryStringParams.findIndex(p => p.name === 'code');
+            const clonedModel: HttpRunModel = JSON.parse(JSON.stringify(this.runHttp.model));
+            const codeIndex = clonedModel.queryStringParams.findIndex(p => p.name === 'code');
 
             if (codeIndex > -1) {
                 clonedModel.queryStringParams.splice(codeIndex, 1);
@@ -713,9 +729,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.scriptFile.isDirty) {
             this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
-            var testData = this.getTestData();
-
-            var result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
+            const result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
                 this.functionApp.runFunction(this.functionInfo, this.getTestData());
 
             this.running = result.subscribe(r => {
@@ -725,7 +739,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (this.runResult.statusCode >= 400) {
                     this.checkErrors(this.functionInfo);
                 }
-            }, error => this._globalStateService.clearBusyState());
+            }, () => this._globalStateService.clearBusyState());
         }
     }
 
@@ -739,13 +753,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.functionKeys = r.functionKeys || [];
                     this.hostKeys = r.hostKeys || [];
 
-                    if (this.authLevel && this.authLevel.toLowerCase() === "admin") {
-                        var masterKey = r.hostKeys.keys.find((k) => k.name === "_master");
+                    if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
+                        const masterKey = r.hostKeys.keys.find((k) => k.name === '_master');
                         if (masterKey) {
                             this.onChangeKey(masterKey.value);
                         }
                     } else {
-                        var allKeys = r.functionKeys.keys.concat(this.hostKeys.keys);
+                        const allKeys = r.functionKeys.keys.concat(this.hostKeys.keys);
                         if (allKeys.length > 0) {
                             this.onChangeKey(allKeys[0].value);
                         }

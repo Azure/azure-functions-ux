@@ -3,18 +3,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from './../models/subscription';
 import { ArmServiceHelper } from './arm.service-helper';
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
-import { ConfigService } from './config.service';
 import { Constants } from './../models/constants';
 import { User } from '../models/user';
 import { TenantInfo } from '../models/tenant-info';
-import { FunctionContainer } from '../models/function-container';
-import { IAppInsights } from '../models/app-insights';
 import { AiService } from './ai.service';
 import { PortalService } from './portal.service';
 import { StartupInfo } from '../models/portal';
@@ -31,7 +28,6 @@ export class UserService {
         private _http: Http,
         private _aiService: AiService,
         private _portalService: PortalService,
-        private _configService: ConfigService,
         private _translateService: TranslateService) {
 
         this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
@@ -76,13 +72,13 @@ export class UserService {
 
     getTenants() {
         return this._http.get(Constants.serviceHost + 'api/tenants')
-            .catch(e => Observable.of({ json: () => [] }))
+            .catch(() => Observable.of({ json: () => [] }))
             .map(r => <TenantInfo[]>r.json());
     }
 
     getAndUpdateToken() {
         return this._http.get(Constants.serviceHost + 'api/token?plaintext=true')
-            .catch(e => {
+            .catch(() => {
 
                 // [ellhamai] - In Standalone mode, this call will always fail.  I've opted to leaving
                 // this call in place instead of preventing it from being called because:

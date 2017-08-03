@@ -1,63 +1,67 @@
 <div *ngIf="showFunctionInvokeUrlModal" id="my-modal" class="modal fade in" style="display: block">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
-                <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>
-            </div>
-            <div class="modal-body keys-dialog-body">
-                <div *ngIf="isHttpFunction && hostKeys">
-                    <div class="text-label">{{'keysDialog_key' | translate}}</div>
-                    <select (change)="onChangeKey($event.target.value)">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
+        <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>
+      </div>
+      <div class="modal-body keys-dialog-body">
+        <div *ngIf="isHttpFunction && hostKeys">
+          <div class="text-label">{{'keysDialog_key' | translate}}</div>
+          <select (change)="onChangeKey($event.target.value)">
                         <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
                         <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
                     </select>
-                </div>
-                <div class="keys-dialog-body-invokeUrl">
-                    <div class="text-label">{{'keysDialog_url' | translate}}</div>
-                    <div><copy-pre [content]="functionInvokeUrl"></copy-pre></div>
-                </div>
-            </div>
         </div>
+        <div class="keys-dialog-body-invokeUrl">
+          <div class="text-label">{{'keysDialog_url' | translate}}</div>
+          <div>
+            <copy-pre [content]="functionInvokeUrl"></copy-pre>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div *ngIf="showFunctionKeyModal" id="my-modal" class="modal fade in" style="display: block">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="text-level2-heading">{{'functionDev_githubSelect' | translate}}</span>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
-            </div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="text-level2-heading">{{'functionDev_githubSelect' | translate}}</span>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
+      </div>
 
-            <div class="modal-body">
-                <div><copy-pre [content]="functionKey || secrets?.key || functionApp?.HostSecrets"></copy-pre></div>
-            </div>
+      <div class="modal-body">
+        <div>
+          <copy-pre [content]="functionKey || secrets?.key || functionApp?.HostSecrets"></copy-pre>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div *ngIf="showFunctionInvokeUrlModal || showFunctionKeyModal" class="modal-backdrop fade in"></div>
 
 
-<div #functionContainer (window:resize)="onResize($event)" class="pre-fix">
-    <div *ngIf="scriptFile" class="dev-full">
-        <div>
-            <div style="display: flex">
+<div #functionContainer (window:resize)="onResize()" class="pre-fix">
+  <div *ngIf="scriptFile" class="dev-full">
+    <div>
+      <div style="display: flex">
 
-                <!-- Head, Code editor, logs -->
-                <div class="dev-flex-column">
+        <!-- Head, Code editor, logs -->
+        <div class="dev-flex-column">
 
-                    <!-- Header, codeeditor  -->
-                    <div class="left-container">
+          <!-- Header, codeeditor  -->
+          <div class="left-container">
 
-                        <!-- Header -->
-                        <div style="display:flex;align-items: center;">
-                            <span class="text-level1-heading">{{fileName}}</span>
-                            <span>
+            <!-- Header -->
+            <div style="display:flex;align-items: center;">
+              <span class="text-level1-heading">{{fileName}}</span>
+              <span>
                                 <button [fnWriteAccess]="functionApp" class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">{{ 'save' | translate }}</button>
                             </span>
-                            <span *ngIf="!isStandalone">
+              <span *ngIf="!isStandalone">
                                 <button *ngIf="scriptFile.isDirty" [disabled]="!runValid"
                                         [class.custom-button-invert]="runValid"
                                         [class.custom-button-disabled]="!runValid"
@@ -77,7 +81,7 @@
                                 </button>
 
                             </span>
-                            <span>
+              <span>
                                 <button *ngIf="running"
                                         class="custom-button cancel-button"
                                         (click)="cancelCurrentRun()">
@@ -85,143 +89,140 @@
                                 </button>
                             </span>
 
-                            <div style="flex-grow:1"></div>
+              <div style="flex-grow:1"></div>
 
 
-                            <div *ngIf="showFunctionInvokeUrl" class="get-url" (click)="setShowFunctionInvokeUrlModal(true)">
-                                <span>{{ 'functionDev_gerFunctionUrl' | translate }}</span>
-                            </div>
+              <div *ngIf="showFunctionInvokeUrl" class="get-url" (click)="setShowFunctionInvokeUrlModal(true)">
+                <span>{{ 'functionDev_gerFunctionUrl' | translate }}</span>
+              </div>
 
-                            <div *ngIf="showFunctionKey" class="get-url" (click)="setShowFunctionKeyModal(true)">
-                                <span>{{ 'functionDev_gerGithubSecret' | translate }}</span>
-                            </div>
+              <div *ngIf="showFunctionKey" class="get-url" (click)="setShowFunctionKeyModal(true)">
+                <span>{{ 'functionDev_gerGithubSecret' | translate }}</span>
+              </div>
 
-                        </div>
 
-                        <!-- codeeditor -->
-                        <div #editorContainer class="dev-full">
+              <div *ngIf="isEventGridFunction" [class.disabled-link]="!eventGridSubscribeUrl" class="get-url" (click)="onEventGridSubscribe()">
+                <span>{{ 'functionDev_addEventGrid' | translate }}</span>
+              </div>
+            </div>
 
-                            <div monacoEditor id="code"
-                                class="monaco dev-full"
-                                style="margin-top: 7px"
-                                (onRun)="runFunction()"
-                                (onSave)="saveScript()"
-                                (onContentChanged)="contentChanged($event)"
-                                [content]="content"
-                                [fileName]="fileName"
-                                [disabled]="disabled | async"
-                                [functionAppInput]="functionApp">
-                            </div>
 
-                        </div>
+            <!-- codeeditor -->
+            <div #editorContainer class="dev-full">
 
+              <div monacoEditor id="code" class="monaco dev-full" style="margin-top: 7px" (onRun)="runFunction()" (onSave)="saveScript()"
+                (onContentChanged)="contentChanged($event)" [content]="content" [fileName]="fileName" [disabled]="disabled | async"
+                [functionAppInput]="functionApp">
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Logs -->
+          <div class="dev-flex-column">
+
+            <div *ngIf="!bottomTab" class="bottom-bar-closed" (click)="clickRightTab('logs')">
+              <span class="tab-label-disabled">{{ 'logStreaming_logs' | translate }}</span>
+              <span style="flex-grow: 1;"></span>
+              <span style="padding-right: 10px;" class="tab-label"><i class="fa fa-chevron-up"></i></span>
+            </div>
+
+            <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
+              <log-streaming [functionInfo]="functionInfo" (closeClicked)="clickRightTab('logs')" (expandClicked)="expandLogsClicked($event)">
+              </log-streaming>
+            </div>
+          </div>
+
+        </div>
+
+        <!--<busy-state name="run-busy"></busy-state>-->
+        <!-- Right bar-->
+        <div style="display: flex; flex-grow: 1;">
+
+          <div *ngIf="!rightTab" class="line-vertical">
+          </div>
+
+          <div *ngIf="!rightTab" class="right-container-closed">
+
+            <div class="right-container-rotated">
+              <!--<span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>-->
+              <span class="tab-label-rotate-right" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
+              <span class="tab-label-rotate" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
+              <span *ngIf="!isStandalone" class="tab-label-rotate" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
+            </div>
+          </div>
+
+          <!--class="right-block"-->
+          <div #rightContainer id="sidebar" class="right-container">
+
+            <div *ngIf="rightTab">
+              <div class="rigth-container-bar">
+                <span [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
+                <span *ngIf="!isStandalone" [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
+                <span style="flex-grow: 1;"></span>
+                <span style="padding-right: 10px;" class="tab-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i></span>
+              </div>
+            </div>
+
+            <div *ngIf="rightTab==='files' && functionInfo" class="dev-border files-container">
+              <file-explorer [functionInfo]="functionInfo" [selectedFile]="scriptFile" (selectedFileChange)="selectedFileStream.next($event)"
+                (closeClicked)="clickRightTab('files')">
+              </file-explorer>
+            </div>
+
+            <div [class.hidden]="rightTab!=='run'" class="dev-full dev-border dev-flex-column">
+
+
+              <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo" [class.run-container-http]="isHttpFunction">
+
+                <run-http *ngIf="isHttpFunction" [functionInvokeUrl]="functionInvokeUrl" [functionInfo]="functionInfo" (validChange)="onRunValid($event)"
+                  (disableTestData)="onDisableTestData($event)">
+                </run-http>
+
+                <div>
+                  <div class="control-label">{{ 'functionDev_requestBody' | translate }}</div>
+                  <div id="test_data" monacoEditor class="monaco" (onSave)="saveTestData()" (onContentChanged)="testContentChanged($event)"
+                    [content]="testContent" fileName="sample.dat" [functionAppInput]="functionApp">
+                  </div>
+                </div>
+
+                <div *ngIf="!isHttpFunction" class="dev-flex-column run-output">
+                  <div class="run-result">
+                    <div class="control-label" style="flex-grow:1">{{ 'functionDev_Output' | translate }}</div>
+
+                    <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}}
+                      {{runResult.statusText}}
                     </div>
-
-                    <!-- Logs -->
-                    <div class="dev-flex-column">
-
-                        <div *ngIf="!bottomTab" class="bottom-bar-closed" (click)="clickRightTab('logs')">
-                            <span class="tab-label-disabled">{{ 'logStreaming_logs' | translate }}</span>
-                            <span style="flex-grow: 1;"></span>
-                            <span style="padding-right: 10px;" class="tab-label"><i class="fa fa-chevron-up"></i></span>
-                        </div>
-
-                        <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
-                            <log-streaming [functionInfo]="functionInfo"
-                                           (closeClicked)="clickRightTab('logs')"
-                                           (expandClicked)="expandLogsClicked($event)">
-                            </log-streaming>
-                        </div>
+                    <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="message-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }}
+                      {{runResult.statusCode}} {{runResult.statusText}}</div>
+                    <div *ngIf="runResult && (runResult.statusCode < 99 || runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}}
+                      {{runResult.statusText}}
                     </div>
+                  </div>
+
+                  <pre class="run-pre-regular">{{runResult?.content}}</pre>
 
                 </div>
 
-                <!--<busy-state name="run-busy"></busy-state>-->
-                <!-- Right bar-->
-                <div style="display: flex; flex-grow: 1;">
+                <div *ngIf="isHttpFunction">
+                  <div class="run-result">
+                    <div class="control-label" style="flex-grow:1">{{ 'functionDev_Output' | translate }}</div>
 
-                    <div *ngIf="!rightTab" class="line-vertical">
+                    <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}}
+                      {{runResult.statusText}}
                     </div>
-
-                    <div *ngIf="!rightTab" class="right-container-closed">
-
-                        <div class="right-container-rotated">
-                            <!--<span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>-->
-                            <span class="tab-label-rotate-right" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>
-                            <span class="tab-label-rotate" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
-                            <span *ngIf="!isStandalone" class="tab-label-rotate" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
-                        </div>
+                    <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="message-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }}
+                      {{runResult.statusCode}} {{runResult.statusText}}</div>
+                    <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}}
+                      {{runResult.statusText}}
                     </div>
+                  </div>
 
-                    <!--class="right-block"-->
-                    <div #rightContainer id="sidebar" class="right-container">
+                  <pre class="run-pre-http height-fixed">{{runResult?.content}}</pre>
+                </div>
 
-                        <div *ngIf="rightTab">
-                            <div class="rigth-container-bar">
-                                <span [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</span>
-                                <span *ngIf="!isStandalone" [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</span>
-                                <span style="flex-grow: 1;"></span>
-                                <span style="padding-right: 10px;" class="tab-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i></span>
-                            </div>
-                        </div>
-
-                        <div *ngIf="rightTab==='files' && functionInfo" class="dev-border files-container">
-                            <file-explorer [functionInfo]="functionInfo"
-                                            [selectedFile]="scriptFile"
-                                            (selectedFileChange)="selectedFileStream.next($event)"
-                                            (closeClicked)="clickRightTab('files')">
-                            </file-explorer>
-                        </div>
-
-                        <div [class.hidden]="rightTab!=='run'" class="dev-full dev-border dev-flex-column">
-
-
-                            <div class="dev-full dev-flex-column run-container" *ngIf="functionInfo" [class.run-container-http]="isHttpFunction">
-
-                                <run-http *ngIf="isHttpFunction"
-                                    [functionInvokeUrl]="functionInvokeUrl"
-                                    [functionInfo]="functionInfo"
-                                    (validChange)="onRunValid($event)"
-                                    (disableTestData)="onDisableTestData($event)">
-                                </run-http>
-
-                                <div>
-                                    <div class="control-label">{{ 'functionDev_requestBody' | translate }}</div>
-                                    <div id="test_data" monacoEditor class="monaco"
-                                        (onSave)="saveTestData()"
-                                        (onContentChanged)="testContentChanged($event)"
-                                        [content]="testContent"
-                                        fileName="sample.dat"
-                                        [functionAppInput]="functionApp">
-                                    </div>
-                                </div>
-
-                                <div *ngIf="!isHttpFunction" class="dev-flex-column run-output">
-                                    <div class="run-result">
-                                        <div class="control-label" style="flex-grow:1">{{ 'functionDev_Output' | translate }}</div>
-
-                                        <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="message-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                        <div *ngIf="runResult && (runResult.statusCode < 99 || runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                    </div>
-
-                                    <pre class="run-pre-regular">{{runResult?.content}}</pre>
-
-                                </div>
-
-                                <div *ngIf="isHttpFunction">
-                                    <div class="run-result">
-                                        <div class="control-label" style="flex-grow:1">{{ 'functionDev_Output' | translate }}</div>
-
-                                        <div *ngIf="runResult && (runResult.statusCode > 99 && runResult.statusCode < 300)" class="message-success"><i class="fa fa-check-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode < 400)" class="message-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                        <div *ngIf="runResult && (runResult.statusCode > 299 && runResult.statusCode > 399)" class="message-error"><i class="fa fa-minus-circle" aria-hidden="true"></i> {{ 'functionDev_status' | translate }} {{runResult.statusCode}} {{runResult.statusText}}</div>
-                                    </div>
-
-                                    <pre class="run-pre-http height-fixed">{{runResult?.content}}</pre>
-                                </div>
-
-                                <!--<div *ngIf="isHttpFunction">
+                <!--<div *ngIf="isHttpFunction">
 
                                 <div class="control-label">{{ 'logStreaming_logs' | translate }}</div>
 
@@ -231,35 +232,29 @@
                                 </log-streaming>
                             </div>-->
 
-                            </div>
+              </div>
 
-                            <div class="run-button-container">
-                                <button *ngIf="scriptFile.isDirty" [disabled]="!runValid"
-                                        [class.custom-button-invert]="runValid"
-                                        [class.custom-button-disabled]="!runValid"
-                                        [class.dirty]="scriptFile.isDirty"
-                                        (click)="runFunction()">
+              <div class="run-button-container">
+                <button *ngIf="scriptFile.isDirty" [disabled]="!runValid" [class.custom-button-invert]="runValid" [class.custom-button-disabled]="!runValid"
+                  [class.dirty]="scriptFile.isDirty" (click)="runFunction()">
                                     <i class="fa fa-play"></i>
                                     {{ 'functionDev_saveAndRun' | translate }}
                                 </button>
-                                <button *ngIf="!scriptFile.isDirty" [disabled]="!runValid"
-                                        [class.custom-button-invert]="runValid"
-                                        [class.custom-button-disabled]="!runValid"
-                                        [class.dirty]="scriptFile.isDirty"
-                                        (click)="runFunction()">
+                <button *ngIf="!scriptFile.isDirty" [disabled]="!runValid" [class.custom-button-invert]="runValid" [class.custom-button-disabled]="!runValid"
+                  [class.dirty]="scriptFile.isDirty" (click)="runFunction()">
                                     <i class="fa fa-play"></i>
                                     {{ 'run' | translate }}
                                 </button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
+              </div>
             </div>
 
+          </div>
 
         </div>
+      </div>
+
+
     </div>
+  </div>
 
 </div>
