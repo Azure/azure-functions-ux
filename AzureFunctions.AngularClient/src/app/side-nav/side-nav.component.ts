@@ -49,6 +49,7 @@ export class SideNavComponent implements AfterViewInit {
     public subscriptionOptions: DropDownElement<Subscription>[] = [];
     public selectedSubscriptions: Subscription[] = [];
     public subscriptionsDisplayText = '';
+    public allSubscriptions = this.translateService.instant(PortalResources.sideNav_AllSubscriptions);
 
     public resourceId: string;
     public initialResourceId: string;
@@ -349,7 +350,7 @@ export class SideNavComponent implements AfterViewInit {
         this._subscriptionsStream.next(subscriptions);
 
         if (subscriptions.length === this.subscriptionOptions.length) {
-            this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_AllSubscriptions));
+            this._updateSubDisplayText(this.allSubscriptions);
         } else if (subscriptions.length > 1) {
             this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_SubscriptionCount).format(subscriptions.length));
         }
@@ -365,7 +366,7 @@ export class SideNavComponent implements AfterViewInit {
         this.subscriptionsDisplayText = '';
         setTimeout(() => {
             this.subscriptionsDisplayText = displayText;
-        }, 10);
+        }, 0);
     }
 
     private _setupInitialSubscriptions(resourceId: string) {
