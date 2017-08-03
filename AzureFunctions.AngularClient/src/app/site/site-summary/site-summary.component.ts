@@ -536,14 +536,11 @@ export class SiteSummaryComponent implements OnDestroy {
     }
 
     openDeleteBlade() {
-        if (!this.hasWriteAccess) {
-            return;
-        }
-            this._portalService.openBlade({
-                detailBlade: 'AppDeleteBlade',
-                detailBladeInputs: { resourceUri: this.site.id }
-            },
-                'site-summary'
-            );
-        }
+        this._portalService.openBlade({
+            detailBlade: 'AppDeleteBlade',
+            detailBladeInputs: { resourceUri: this.site.id }
+        },
+            'site-summary'
+        );
+    }
 }
