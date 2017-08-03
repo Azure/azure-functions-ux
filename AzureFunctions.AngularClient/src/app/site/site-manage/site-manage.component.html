@@ -1,4 +1,4 @@
-<div *ngIf="!selectedFeatureId" id="site-manage-container">
+<div id="site-manage-container">
 <div id="site-manage-search-container">
     <input id="site-manage-search"
         type="text"
@@ -31,19 +31,3 @@
     <div style="clear: both" ></div>
 </div>
 </div><!-- /site-manage-container -->
-
-<div *ngIf="selectedFeatureId">
-    <div>
-        <div id="back-bar">
-            <span class="link" (click)="navBack()">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                <span *ngIf="selectedFeatureId === TabIds.functionRuntime">Function runtime settings</span>
-                <span *ngIf="selectedFeatureId === TabIds.apiDefinition">API definition</span>
-                <span *ngIf="selectedFeatureId === TabIds.applicationSettings">{{ 'tab_applicationSettings' | translate }}</span>
-            </span>
-        </div>
-        <function-runtime *ngIf="selectedFeatureId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
-        <swaggerdefinition *ngIf="selectedFeatureId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
-        <site-config *ngIf="selectedFeatureId === TabIds.applicationSettings" [viewInfoInput]="viewInfo"></site-config>
-    </div>
-</div>

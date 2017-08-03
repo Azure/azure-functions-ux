@@ -12,5 +12,12 @@ export enum BroadcastEvent {
     TrialExpired,
     ResetKeySelection,
     RefreshPortal,
-    ClearError
+    ClearError,
+    OpenTab,
+    DirtyStateChange
+}
+
+export interface DirtyStateEvent {
+    dirty: boolean;
+    reason: string | null;
 }

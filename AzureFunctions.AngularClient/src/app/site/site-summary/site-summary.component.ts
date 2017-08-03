@@ -1,4 +1,4 @@
-import { TabsComponent } from './../../tabs/tabs.component';
+import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy } from '@angular/core';
@@ -97,10 +97,10 @@ export class SiteSummaryComponent implements OnDestroy {
         private _configService: ConfigService,
         private _slotService: SlotsService,
         userService: UserService,
-        tabsComponent: TabsComponent) {
+        siteTabComponent: SiteTabComponent) {
 
         this.isStandalone = _configService.isStandalone();
-        this._busyState = tabsComponent.busyState;
+        this._busyState = siteTabComponent.busyState;
 
         userService.getStartupInfo()
             .first()

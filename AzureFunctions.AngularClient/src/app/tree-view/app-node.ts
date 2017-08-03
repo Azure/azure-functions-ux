@@ -1,3 +1,4 @@
+import { SiteTabIds } from './../shared/models/constants';
 import { SlotsService } from './../shared/services/slots.service';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -22,7 +23,7 @@ import { ArmObj } from './../shared/models/arm/arm-obj';
 import { Subscription } from './../shared/models/subscription';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { AppsNode } from './apps-node';
-import { TreeNode, Disposable, Removable, CustomSelection, Collection, Refreshable } from './tree-node';
+import { TreeNode, Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange } from './tree-node';
 import { DashboardType } from './models/dashboard-type';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { Site } from '../shared/models/arm/site';
@@ -34,7 +35,9 @@ import { Constants, NotificationIds } from '../shared/models/constants';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 
-export class AppNode extends TreeNode implements Disposable, Removable, CustomSelection, Collection, Refreshable {
+export class AppNode extends TreeNode
+    implements Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange {
+
     public supportsAdvanced = true;
     public inAdvancedMode = false;
     public dashboardType = DashboardType.app;
@@ -51,7 +54,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     public functionAppStream = new ReplaySubject<FunctionApp>(1);
     public slotProperties: any;
     private _functionApp: FunctionApp;
-    public openFunctionSettingsTab = false;
+    public openTabId: string | null;
 
     public nodeClass = 'tree-node app-node';
     public iconClass = 'tree-node-svg-icon';
@@ -158,6 +161,23 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
             .share();
 
         return this._loadingObservable;
+    }
+
+    public shouldBlockNavChange() {
+        let canSwitchNodes = true;
+        const isDirty = this.sideNav.broadcastService.getDirtyState();
+
+        if (isDirty) {
+            canSwitchNodes = confirm(
+                this.sideNav.translateService.instant(
+                    PortalResources.siteDashboard_confirmLoseChanges).format(this._functionApp.site.name));
+
+            if (canSwitchNodes) {
+                this.sideNav.broadcastService.clearAllDirtyStates();
+            }
+        }
+
+        return !canSwitchNodes;
     }
 
     private _setupFunctionApp(site: ArmObj<Site>) {
@@ -281,7 +301,7 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     public openSettings() {
-        this.openFunctionSettingsTab = true;
+        this.openTabId = SiteTabIds.functionRuntime;
         this.select(true /* force */);
     }
 

@@ -1,3 +1,4 @@
+import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -8,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
-import { TabsComponent } from './../../tabs/tabs.component';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
@@ -58,9 +58,9 @@ export class SiteConfigComponent implements OnDestroy {
     private _aiService: AiService,
     private _broadcastService: BroadcastService,
     private _authZService: AuthzService,
-    tabsComponent: TabsComponent
+    siteTabsComponent: SiteTabComponent
   ) {
-    this._busyState = tabsComponent.busyState;
+    this._busyState = siteTabsComponent.busyState;
     this._busyStateScopeManager = this._busyState.getScopeManager();
 
     this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();

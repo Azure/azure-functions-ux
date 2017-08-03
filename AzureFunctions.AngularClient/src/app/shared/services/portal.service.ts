@@ -101,13 +101,20 @@ export class PortalService {
 
     private recieveStorageMessage(item: StorageEvent) {
 
-        const msg: TabMessage<any> = JSON.parse(item.newValue);
+        let msg: TabMessage<any>;
 
-        if (!msg) {
+        try {
+            msg = JSON.parse(item.newValue);
+
+            if (!msg) {
+                return;
+            }
+
+            Logger.debug(item);
+        } catch (e) {
+            Logger.debug(e);
             return;
         }
-
-        Logger.debug(item);
 
         if (PortalService.inIFrame()) {
             // if parent recieved new id call

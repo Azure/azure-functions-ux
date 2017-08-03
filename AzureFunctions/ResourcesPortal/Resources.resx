@@ -1117,6 +1117,9 @@
   <data name="enabledFeatures_description" xml:space="preserve">
     <value>Quick links to your features will show up here after you've configured them from the "Platform features" tab above.</value>
   </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>Unsaved changes for the app '{0}' will be lost.  Are you sure you would like to continue?</value>
+  </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>There was an error retrieving information about the app '{0}'</value>
   </data>
@@ -1520,7 +1523,7 @@
     <value>Settings</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function settings</value>
+    <value>Function app settings</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Configuration</value>

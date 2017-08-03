@@ -1,12 +1,10 @@
-import { SiteDashboardComponent } from './../site/site-dashboard/site-dashboard.component';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { BroadcastService } from './../shared/services/broadcast.service';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
-
 import { DisableInfo } from './feature-item';
 import { PortalService } from '../shared/services/portal.service';
 import { OpenBladeInfo } from '../shared/models/portal';
-import { EnableTabFeature } from "app/shared/models/constants";
-import { Url } from "app/shared/Utilities/url";
 
 export interface DisableInfo {
     enabled: boolean;
@@ -31,8 +29,7 @@ export class FeatureItem {
         this.info = info;
         this.iconUrl = iconUrl ? iconUrl : this.iconUrl;
 
-        const tabFeature = <EnableTabFeature>Url.getParameterByName(window.location.href, "appsvc.feature.tabs");
-        this.superScriptIconUrl = tabFeature ? superScriptIconUrl : null;
+        this.superScriptIconUrl = superScriptIconUrl;
     }
 
     click() {
@@ -163,12 +160,12 @@ export class TabFeature extends FeatureItem {
         info: string,
         imageUrl: string,
         public featureId: string,
-        private _siteDashboard: SiteDashboardComponent) {
+        private _broadcastService: BroadcastService) {
 
         super(title, keywords, info, imageUrl, 'images/new-tab.svg');
     }
 
     click() {
-        this._siteDashboard.openFeature(this.featureId);
+        this._broadcastService.broadcast(BroadcastEvent.OpenTab, this.featureId);
     }
 }

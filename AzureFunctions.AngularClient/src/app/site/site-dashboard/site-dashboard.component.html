@@ -2,60 +2,33 @@
 
     <img *ngIf="!isStandalone" id="site-dashboard-pin" class="link" src="images/pin.svg" (click)="pinPart()" />
 
-    <tabs (tabSelected)='onTabSelected($event)' (tabClosed)='closeDynamicTab($event)'>
+    <nav id="site-tabs">
+        <div *ngFor="let info of tabInfos"
+            class="site-tab-label"
+            [class.inactive-label]="!info.active"
+            [class.closeable]="info.closeable"
+            (click)="selectTab(info)">
 
-        <tab [title]="Resources.tab_overview | translate" [id]="TabIds.overview">
-            <site-summary *ngIf="selectedTabId === TabIds.overview" [viewInfoInput]="viewInfo"></site-summary>
-        </tab>
+            <img *ngIf="info.iconUrl" [src]="info.iconUrl" />
+            <span *ngIf="info.dirty">* </span><span [class.tab-diry]="info.dirty">{{info.title}}</span>
 
-        <tab *ngIf="!isStandalone && !tabsFeature"
-             [title]="(tabsFeature ? Resources.tab_functionSettings : Resources.tab_settings) | translate"
-             [id]="TabIds.functionRuntime"
-             [closeable]="tabsFeature === 'tabs'"
-             [iconUrl]="tabsFeature ? 'images/Functions.svg' : null">
+            <span *ngIf="info.closeable" class="close-button" (click)="closeTab(info)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </span>
+            <div class="bottom" *ngIf="info.active && info.closeable"></div>
+        </div>
+    </nav>
 
-            <function-runtime *ngIf="selectedTabId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
-        </tab>
+    <section id="site-tab-content">
 
-        <tab *ngIf="!isStandalone"
-             [title]="Resources.tab_features | translate"
-             [id]="TabIds.features">
+        <site-tab *ngFor="let info of tabInfos"
+            [title]="info.title"
+            [id]="info.id"
+            [active]="info.active"
+            [closeable]="info.closeable"
+            [iconUrl]="info.iconUrl"
+            [componentFactory]="info.componentFactory"
+            [componentInput]="info.componentInput"></site-tab>
 
-            <site-manage *ngIf="selectedTabId === TabIds.features" [viewInfoInput]="viewInfo"></site-manage>
-        </tab>
-
-        <tab *ngIf="!isStandalone && dynamicTabIds[0] === TabIds.functionRuntime"
-             [title]="(tabsFeature ? Resources.tab_functionSettings : Resources.tab_settings) | translate"
-             [id]="TabIds.functionRuntime"
-             [closeable]="tabsFeature === 'tabs'"
-             [iconUrl]="tabsFeature ? 'images/Functions.svg' : null">
-
-            <function-runtime *ngIf="selectedTabId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
-        </tab>
-
-        <tab *ngIf="!isStandalone && (!tabsFeature || dynamicTabIds[1] === TabIds.apiDefinition)"
-             [title]="Resources.tab_api_definition | translate"
-             [id]="TabIds.apiDefinition"
-             [closeable]="tabsFeature === 'tabs'"
-             [iconUrl]="tabsFeature ? 'images/api-definition.svg' : null">
-
-            <swaggerdefinition *ngIf="selectedTabId === TabIds.apiDefinition" [viewInfoInput]="viewInfo"></swaggerdefinition>
-        </tab>
-
-        <!-- DEBUG: conditionally showing application settings tab -->
-        <tab *ngIf="!isStandalone && (!tabsFeature || dynamicTabIds[2] === TabIds.applicationSettings) && appSettingsTabEnabled"
-             [title]="Resources.tab_applicationSettings | translate"
-             [id]="TabIds.applicationSettings"
-             [closeable]="tabsFeature === 'tabs'"
-             [iconUrl]="tabsFeature ? 'images/application-settings.svg' : null">
-            <site-config *ngIf="selectedTabId === TabIds.applicationSettings" [viewInfoInput]="viewInfo"></site-config>
-        </tab>
-
-        <tab *ngIf="!!isStandalone"
-             [title]="Resources.tab_configuration | translate"
-             [id]="TabIds.config">
-            <site-config-standalone *ngIf="selectedTabId === TabIds.config" [viewInfoInput]="viewInfo"></site-config-standalone>
-        </tab>
-
-    </tabs>
+    </section>
 </div>

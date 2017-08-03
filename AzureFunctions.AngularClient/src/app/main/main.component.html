@@ -11,7 +11,7 @@
 
         <apps-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'apps'"></apps-list>
         <create-app [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'createApp'"></create-app>
-        <site-dashboard [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'app'"></site-dashboard>
+        <site-dashboard [viewInfo]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'app'"></site-dashboard>
         <functions-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'functions'"></functions-list>
         <proxies-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'proxies'"></proxies-list>
         <slots-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'slots'"></slots-list>

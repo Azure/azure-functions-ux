@@ -1,7 +1,4 @@
-import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
-import { SiteTabIds } from './../../shared/models/constants';
-import { Url } from './../../shared/Utilities/url';
-import { TabsComponent } from './../../tabs/tabs.component';
+import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
 import { Component, Input, OnDestroy } from '@angular/core';
@@ -18,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
-import { NotificationIds, Constants } from './../../shared/models/constants';
+import { NotificationIds, Constants, SiteTabIds } from './../../shared/models/constants';
 import { CacheService } from './../../shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
@@ -36,6 +33,7 @@ import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
 import { SlotsService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
+import { Url } from "app/shared/Utilities/url";
 
 @Component({
   selector: 'function-runtime',
@@ -89,11 +87,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _aiService: AiService,
     private _translateService: TranslateService,
     private _slotsService: SlotsService,
-    private _siteDashboard: SiteDashboardComponent,
-    tabsComponent: TabsComponent
+    siteTabsComponent: SiteTabComponent
   ) {
 
-    this._busyState = tabsComponent.busyState;
+    this._busyState = siteTabsComponent.busyState;
 
     this.showTryView = this._globalStateService.showTryView;
     this._viewInfoSub = this._viewInfoStream
@@ -382,8 +379,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   openAppSettings() {
-    if (Url.getParameterByName(window.location.href, 'appsvc.appsettingstab') === 'enabled') { // DEBUG: conditionally showing application settings tab
-      this._siteDashboard.openFeature(SiteTabIds.applicationSettings);
+    if (Url.getParameterByName(window.location.href, 'appsvc.feature.appsettingstab') === 'true') { // DEBUG: conditionally showing application settings tab
+      this._broadcastService.broadcast<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
     } else {
       this._portalService.openBlade({
         detailBlade: 'WebsiteConfigSiteSettings',

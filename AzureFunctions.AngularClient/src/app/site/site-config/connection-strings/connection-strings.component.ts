@@ -1,3 +1,4 @@
+import { SiteTabComponent } from './../../site-dashboard/site-tab/site-tab.component';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +14,6 @@ import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
-import { TabsComponent } from './../../../tabs/tabs.component';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -59,9 +59,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _authZService: AuthzService,
-    tabsComponent: TabsComponent
+    siteTabComponent: SiteTabComponent
   ) {
-    this._busyState = tabsComponent.busyState;
+    this._busyState = siteTabComponent.busyState;
     this._busyStateScopeManager = this._busyState.getScopeManager();
 
     this._resetPermissionsAndLoadingState();
