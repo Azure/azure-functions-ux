@@ -39,6 +39,11 @@ export class MicrosoftGraphHelper {
         // 1. Check if AAD application exists       
         this._token = graphToken;
         const jwt = parseToken(this._token);
+        
+        if (!jwt) {
+            throw `Unable to parse MS Graph JWT; cannot retrieve audience or tenant ID`;
+        }
+        
         let rootUri = jwt.aud + jwt.tid; // audience + tenantId
         return this.checkForExistingAAD(rootUri)
             .flatMap(applicationInformation => {
@@ -361,8 +366,12 @@ function parseToken(token: string) {
     const segments = token.split('.');
 
     if (segments.length >= 2) {
-        const payload = JSON.parse(base64urlDecode(segments[1]));
-        return payload;
+        try {
+            const payload = JSON.parse(base64urlDecode(segments[1]));
+            return payload;
+        } catch(e) {
+            return null;
+        }       
     }
 }
 
