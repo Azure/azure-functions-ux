@@ -35,6 +35,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public isLoading = true;
 
   public allLocations = this.translateService.instant(PortalResources.allLocations);
+  public numberLocations = this.translateService.instant(PortalResources.locationCount);
   public locationOptions: DropDownElement<string>[] = [];
   public locationsDisplayText = this.allLocations;
   public selectedLocations: string[] = [];
