@@ -223,7 +223,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         const path: string[] = [];
         let curNode: TreeNode = this;
 
-        while (curNode) {
+        while (curNode && curNode.title) {
             path.splice(0, 0, curNode.title);
             curNode = curNode.parent;
         }

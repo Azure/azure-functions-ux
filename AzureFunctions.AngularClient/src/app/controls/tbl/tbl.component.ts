@@ -88,7 +88,7 @@ export class TblComponent implements OnInit, OnChanges {
       const cells = this._getCells(row);
       const cellIndex = this._findElemIndex(cells, cell);
 
-      if (rowIndex && cellIndex) {
+      if (rowIndex >= 0 && cellIndex >= 0) {
         this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
         this._setFocusOnCell(rows, rowIndex, cellIndex);
       }
