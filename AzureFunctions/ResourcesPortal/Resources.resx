@@ -2046,6 +2046,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="expressAADRegistration" xml:space="preserve">
     <value>Express AAD Registration</value>
+  </data>
   <data name="eventGrid_create" xml:space="preserve">
     <value>create</value>
   </data>
