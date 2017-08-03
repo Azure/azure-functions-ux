@@ -28,10 +28,8 @@ namespace Deploy
                 .Call(yarn, "install", tries: 2)
                 .Call("npm", "rebuild node-sass")
                 .CleanAngularArtifacts()
-                .ParallelCall(p => p
-                   .Call(ng, $"build --prod --environment=prod --output-path=\"{deploymentTarget}\\ng-min\"", tries: 2)
-                   .Call(ng, $"build --output-path=\"{deploymentTarget}\\ng-full\"", tries: 2)
-                )
+                .Call(ng, $"build --prod --environment=prod --output-path=\"{deploymentTarget}\\ng-min\"", tries: 2)
+                .Call(ng, $"build --output-path=\"{deploymentTarget}\\ng-full\"", tries: 2)
                 .UpdateCshtml()
                 .SetupTemplatesWebJob()
                 .UpdateBuildTxt()
