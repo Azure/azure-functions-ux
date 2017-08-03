@@ -50,7 +50,7 @@ export class SideNavComponent implements AfterViewInit {
     public selectedSubscriptions: Subscription[] = [];
     public subscriptionsDisplayText = '';
     public allSubscriptions = this.translateService.instant(PortalResources.sideNav_AllSubscriptions);
-    public numberSubscriptions = PortalResources.sideNav_SubscriptionCount;
+    public numberSubscriptions = this.translateService.instant(PortalResources.sideNav_SubscriptionCount);
 
     public resourceId: string;
     public initialResourceId: string;

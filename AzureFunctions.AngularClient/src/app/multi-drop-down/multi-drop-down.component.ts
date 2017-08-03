@@ -222,7 +222,7 @@ export class MultiDropDownComponent<T> implements OnInit {
       }
     } else if (selectedValues.length > 1) {
       if (this.numberItemsDisplay) {
-        displayText = this._ts.instant(this.numberItemsDisplay).format(selectedValues.length);
+        displayText = this.numberItemsDisplay.format(selectedValues.length);
       } else {
         displayText = this._ts.instant(PortalResources.numItemsSelected).format(selectedValues.length);
       }
