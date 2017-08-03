@@ -178,8 +178,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete proxy
-        ///.
+        ///   Looks up a localized string similar to Delete proxy.
         /// </summary>
         internal static string apiProxy_delete {
             get {
@@ -796,6 +795,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string bindingInput_new {
             get {
                 return ResourceManager.GetString("bindingInput_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to retrieve.
+        /// </summary>
+        internal static string bindingInput_retrieve {
+            get {
+                return ResourceManager.GetString("bindingInput_retrieve", resourceCulture);
             }
         }
         
@@ -1565,7 +1573,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your need to add Event Grid subscription after function creation..
+        ///   Looks up a localized string similar to You need to add Event Grid subscription after function creation..
         /// </summary>
         internal static string eventGrid_createMessage {
             get {
