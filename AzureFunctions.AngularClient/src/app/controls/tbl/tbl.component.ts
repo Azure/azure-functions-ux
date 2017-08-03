@@ -14,7 +14,6 @@ export interface TableItem {
   <table
     #tbl
     [class]='tblClass'
-    (focus)='onFocus()'
     (click)='onClick($event)'
     (keydown)="onKeyPress($event)"
     role="grid"
@@ -27,6 +26,7 @@ export class TblComponent implements OnInit, OnChanges {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
   @Input() items: TableItem[];
+
   // groupColName will be what col items are sorted by within individual groups
   // if no grouping is done in the table it is null
   @Input() groupColName: string | null;
@@ -36,6 +36,7 @@ export class TblComponent implements OnInit, OnChanges {
 
   public sortedColName: string;
   public sortAscending: boolean;
+
   // groupedBy is the name of the tbl-th component which is currently being used to group elements
   public groupedBy = 'none';
 
@@ -55,24 +56,21 @@ export class TblComponent implements OnInit, OnChanges {
       this.items = items.currentValue;
       this._origItems = items.currentValue;
 
-      (<HTMLTableElement>this.table.nativeElement).tabIndex = 0;
-    }
-  }
+      // Whenever we update the table, we'll set the first cell to be the only tab-able cell.
+      const rows = this._getRows();
+      if (rows.length > 0) {
+        const cells = this._getCells(rows[0]);
 
-  // A table should only get focus on the first time someone has tabbed over
-  // to the table, or if the table has updated by receiving a new "items" property.
-  // After that, each individual cell will get its own focus, but the parent
-  // tbl component will continue to get the keypress and mouse click events thrown.
-  onFocus() {
+        if (cells.length > 0) {
 
-    (<HTMLTableElement>this.table.nativeElement).tabIndex = -1;
-    this._focusedRowIndex = 0;
-    this._focusedCellIndex = 0;
+          const cell = Dom.getTabbableControl(cells[0]);
+          cell.tabIndex = 0;
+          this._focusedRowIndex = 0;
+          this._focusedCellIndex = 0;
 
-    const rows = this._getRows();
-    const cell = this._getCurrentCellOrReset(rows);
-    if (cell) {
-      Dom.setFocus(cell);
+        }
+      }
+
     }
   }
 
@@ -320,7 +318,7 @@ export class TblComponent implements OnInit, OnChanges {
   groupItems(name: string) {
 
     if (!this.groupColName) {
-      throw ('Cannot sort within groups');
+      throw Error('No group name was specified for this table component');
     }
 
     this.groupedBy = name;
