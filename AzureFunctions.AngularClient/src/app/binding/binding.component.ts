@@ -9,14 +9,8 @@ import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 
-import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
-import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, EnumOption } from '../shared/models/binding';
-import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../shared/models/microsoft-graph';
-import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput} from '../shared/models/binding-input';
-import { Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType, EnumOption } from '../shared/models/binding';
-import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping } from '../shared/models/microsoft-graph';
-import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
 import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
+import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput} from '../shared/models/binding-input';
 import { BindingManager } from '../shared/models/binding-manager';
 import { BindingInputList } from '../shared/models/binding-input-list';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -27,12 +21,8 @@ import { Validator } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from '../shared/services/cache.service';
 import { AuthSettings } from '../shared/models/auth-settings';
-import { Constants } from '../shared/models/constants';
-import { MobileAppsClient } from "../shared/models/mobile-apps-client";
 import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
-import { Url } from '../shared/Utilities/url';
 import { FunctionInfo } from '../shared/models/function-info';
-import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 declare var marked: any;
 
