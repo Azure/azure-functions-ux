@@ -19,6 +19,7 @@ export class MultiDropDownComponent<T> implements OnInit {
 
   @Input() displayText = '';
   @Input() allItemsDisplay: string | null;
+  @Input() numberItemsDisplay: string | null;
   @ViewChild('itemListContainer') itemListContainer: ElementRef;
   public opened = false;
   public options: MultiDropDownElement<T>[];
@@ -220,7 +221,11 @@ export class MultiDropDownComponent<T> implements OnInit {
         displayText = this._ts.instant(PortalResources.allItemsSelected);
       }
     } else if (selectedValues.length > 1) {
-      displayText = this._ts.instant(PortalResources.numItemsSelected).format(selectedValues.length);
+      if (this.numberItemsDisplay) {
+        displayText = this._ts.instant(this.numberItemsDisplay).format(selectedValues.length);
+      } else {
+        displayText = this._ts.instant(PortalResources.numItemsSelected).format(selectedValues.length);
+      }
     }
 
     this.displayText = displayText;
