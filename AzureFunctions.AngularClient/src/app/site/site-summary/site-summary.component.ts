@@ -370,56 +370,6 @@ export class SiteSummaryComponent implements OnDestroy {
         }
     }
 
-    delete() {
-        if (!this.hasWriteAccess) {
-            return;
-        }
-
-        const confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_deleteConfirmation).format(this.site.name));
-        if (confirmResult) {
-            const site = this.site;
-            const appNode = <AppNode>this._viewInfo.node;
-            let notificationId = null;
-
-            this._busyState.setBusyState();
-            this._portalService.startNotification(
-                this.ts.instant(PortalResources.siteSummary_deleteNotifyTitle).format(site.name),
-                this.ts.instant(PortalResources.siteSummary_deleteNotifyTitle).format(site.name))
-                .first()
-                .switchMap(r => {
-                    notificationId = r.id;
-
-                    // If appNode is still loading, then deleting the app before it's done could cause a race condition
-                    return appNode.initialize();
-                })
-                .switchMap(() => {
-                    appNode.dispose();
-                    return this._armService.delete(`${site.id}`, null);
-                })
-                .subscribe(() => {
-                    this._portalService.stopNotification(
-                        notificationId,
-                        true,
-                        this.ts.instant(PortalResources.siteSummary_deleteNotifySuccess).format(site.name));
-                    if (!this._isSlot) {
-                        appNode.sideNav.search('');
-                    }
-                    this._busyState.clearBusyState();
-                    appNode.parent.select();
-                    (<AppNode>appNode).remove();
-                },
-                e => {
-                    this._busyState.clearBusyState();
-                    this._portalService.stopNotification(
-                        notificationId,
-                        false,
-                        this.ts.instant(PortalResources.siteSummary_deleteNotifyFail).format(site.name));
-
-                    this._aiService.trackException(e, '/errors/site-summary/delete-app');
-                });
-        }
-    }
-
     restart() {
         if (!this.hasWriteAccess) {
             return;
@@ -584,4 +534,16 @@ export class SiteSummaryComponent implements OnDestroy {
             'site-summary'
         );
     }
+
+    openDeleteBlade() {
+        if (!this.hasWriteAccess) {
+            return;
+        }
+            this._portalService.openBlade({
+                detailBlade: 'AppDeleteBlade',
+                detailBladeInputs: { resourceUri: this.site.id }
+            },
+                'site-summary'
+            );
+        }
 }
