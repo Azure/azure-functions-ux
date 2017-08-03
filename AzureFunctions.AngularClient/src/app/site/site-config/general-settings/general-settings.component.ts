@@ -130,7 +130,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._aiService.trackEvent('/errors/general-settings', error);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
         this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
-        this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
@@ -143,7 +142,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         }
         this._processSkuAndKind(this._siteConfigArm);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
-        this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       });
   }
@@ -182,6 +180,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
 
     this.hasWritePermissions = writePermission && !readOnlyLock;
+    this.showPermissionsMessage = true;
   }
 
   private _resetSupportedControls() {

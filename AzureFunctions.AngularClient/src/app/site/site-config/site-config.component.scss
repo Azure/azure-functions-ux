@@ -60,10 +60,6 @@ h3{
     }
 }
 
-.transparent{
-    background: transparent;
-}
-
 .shield{
     position: absolute;
     left: 0;
@@ -143,4 +139,8 @@ h3{
             width: 255px;
         }
     }
+}
+
+.transparent{
+    background: transparent;
 }
