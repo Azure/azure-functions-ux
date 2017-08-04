@@ -209,25 +209,27 @@ export class FunctionRuntimeComponent implements OnDestroy {
         value: true
       }];
 
-    this.proxySettingValueStream = new Subject<boolean>();
-    this.proxySettingValueStream
-      .subscribe((value: boolean) => {
-        this._busyState.setBusyState();
-        const appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
+      this.proxySettingValueStream = new Subject<boolean>();
+      this.proxySettingValueStream
+        .subscribe((value: boolean) => {
+          if (this.apiProxiesEnabled !== value) {
+            this._busyState.setBusyState();
+            const appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
 
-        this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-          .mergeMap(r => {
-            return this._updateProxiesVersion(r.json(), appSettingValue);
-          })
-          .subscribe(() => {
-            this.functionApp.fireSyncTrigger();
-            this.apiProxiesEnabled = value;
-            this.needUpdateRoutingExtensionVersion = false;
-            this.routingExtensionVersion = Constants.routingExtensionVersion;
-            this._busyState.clearBusyState();
-            this._cacheService.clearArmIdCachePrefix(this.site.id);
-          });
-      });
+            this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+              .mergeMap(r => {
+                return this._updateProxiesVersion(r.json(), appSettingValue);
+              })
+              .subscribe(() => {
+                this.functionApp.fireSyncTrigger();
+                this.apiProxiesEnabled = value;
+                this.needUpdateRoutingExtensionVersion = false;
+                this.routingExtensionVersion = Constants.routingExtensionVersion;
+                this._busyState.clearBusyState();
+                this._cacheService.clearArmIdCachePrefix(this.site.id);
+              });
+          }
+        });
 
     this.functionEditModeValueStream = new Subject<boolean>();
     this.functionEditModeValueStream
@@ -338,7 +340,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
       .mergeMap(r => {
-        return this._updateProxiesVersion(this.site, r.json());
+        return this._updateProxiesVersion(r.json(), Constants.routingExtensionVersion);
       })
       .subscribe(() => {
         this.needUpdateRoutingExtensionVersion = false;
