@@ -1,6 +1,6 @@
 ﻿import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
-import { Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription'; import 'rxjs/add/observable/zip';
@@ -115,7 +115,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         private _translateService: TranslateService,
         private _aiService: AiService,
         private _el: ElementRef,
-        configService: ConfigService) {
+        configService: ConfigService,
+        private cd: ChangeDetectorRef ) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
@@ -334,6 +335,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     clickRightTab(tab: string) {
         this.rightTab = (this.rightTab === tab) ? "" : tab;
+        this.cd.detectChanges();
         // double resize to fix pre heigth
         this.onResize();
         setTimeout(() => {

@@ -172,10 +172,18 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
         
-        let requestedFile = this.fileExplorer.files.find((item) => item.name === fileName);
-        if (requestedFile) {
-            this.fileExplorer.selectedFile = requestedFile;
-            this.fileExplorer.selectVfsObject(requestedFile);
+
+        if(!this.fileExplorer.files) {
+            this.fileExplorer.fileExplorerReady.subscribe(() => {
+                this.changeFiles(fileName);
+            });
+        } else {
+
+            let requestedFile = this.fileExplorer.files && this.fileExplorer.files.find((item) => item.name === fileName);
+            if (requestedFile) {
+                this.fileExplorer.selectedFile = requestedFile;
+                this.fileExplorer.selectVfsObject(requestedFile);
+            }
         }
 
         this.pendingFileChange = null;

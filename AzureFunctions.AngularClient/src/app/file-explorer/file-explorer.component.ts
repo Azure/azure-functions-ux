@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/throw';
@@ -16,6 +17,7 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
 import { FunctionApp } from '../shared/function-app';
 import { FileSelectionRequest } from '../shared/models/file-selection-request';
+import { Subscription } from "rxjs/Subscription";
 
 
 @Component({
@@ -27,10 +29,11 @@ export class FileExplorerComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() selectedFile: VfsObject;
     @Input() functionInfo: FunctionInfo;
-    @Output() selectedFunctionChange: EventEmitter<FunctionInfo>;
+    @Output() selectedFunctionChange: Subject<FunctionInfo>;
     @Output() selectedFileChange: EventEmitter<VfsObject>;
     @Output() closeClicked = new EventEmitter<any>();
     @ViewChild('container') container: ElementRef;
+    public fileExplorerReady: Observable<VfsObject[]>;
 
     folders: VfsObject[];
     files: VfsObject[];
@@ -52,12 +55,13 @@ export class FileExplorerComponent implements OnChanges {
         private _translateService: TranslateService,
         private _aiService: AiService) {
         this.selectedFileChange = new EventEmitter<VfsObject>();
-        this.selectedFunctionChange = new EventEmitter<FunctionInfo>();
-        this.selectedFunctionChange
+        this.selectedFunctionChange = new Subject<FunctionInfo>();
+        this.fileExplorerReady = this.selectedFunctionChange
             .switchMap(e => {
                 this.functionApp = e.functionApp;
-                return this.functionApp.getVfsObjects(e)
+                return this.functionApp.getVfsObjects(e);
             })
+        this.fileExplorerReady
             .subscribe(r => {
                 this.folders = this.getFolders(r);
                 this.files = this.getFiles(r);
@@ -99,7 +103,7 @@ export class FileExplorerComponent implements OnChanges {
         if (changes['functionInfo']) {
             this.currentTitle = this.functionInfo.name;
             this.resetState();
-            this.selectedFunctionChange.emit(this.functionInfo);
+            this.selectedFunctionChange.next(this.functionInfo);
         }
     }
 
