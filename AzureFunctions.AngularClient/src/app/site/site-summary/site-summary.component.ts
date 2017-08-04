@@ -20,7 +20,7 @@ import { FunctionApp } from './../../shared/function-app';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
-import { AvailabilityStates } from './../../shared/models/constants';
+import { AvailabilityStates, KeyCodes } from './../../shared/models/constants';
 import { Availability } from './../site-notifications/notifications';
 import { SiteConfig } from './../../shared/models/arm/site-config';
 import { AiService } from './../../shared/services/ai.service';
@@ -543,4 +543,25 @@ export class SiteSummaryComponent implements OnDestroy {
             'site-summary'
         );
     }
+
+    onKeyPress(event: KeyboardEvent, header: string) {
+    if (event.keyCode === KeyCodes.enter) {
+        switch (header) {
+            case 'subscription':
+                this.openSubscriptionBlade();
+                break;
+            case 'resourceGroup':
+                this.openResourceGroupBlade();
+                break;
+            case 'url':
+                this.openUrl();
+                break;
+            case 'appServicePlan':
+                this.openPlanBlade();
+                break;
+            default:
+                break;
+        }
+    }
+  }
 }
