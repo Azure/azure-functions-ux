@@ -18,7 +18,7 @@ declare var require;
 @Directive({
     selector: '[monacoEditor]',
 })
-export class MonacoEditorDirective implements OnInit {
+export class MonacoEditorDirective {
     @Output() public onContentChanged: EventEmitter<string>;
     @Output() public onSave: EventEmitter<string>;
     @Output() public onRun: EventEmitter<void>;
@@ -50,9 +50,6 @@ export class MonacoEditorDirective implements OnInit {
                 this._functionApp = functionApp;
                 this.init();
             });
-    }
-
-    ngOnInit() {
     }
 
     @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp) {

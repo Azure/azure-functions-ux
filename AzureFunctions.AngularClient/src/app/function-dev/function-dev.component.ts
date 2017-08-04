@@ -222,10 +222,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
             });
 
-        this.hostEventSubscription = this._hostEventService.Events
+        this.hostEventSubscription = this._hostEventService.events
         .do(null, error => { console.log(error); })
-        .retry()
-        .subscribe((r: any) => {
+        .retry().subscribe((r: any) => {
             if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0)) {
                 if (this.bottomTab !== "errors") {
                     this.clickBottomTab("errors");

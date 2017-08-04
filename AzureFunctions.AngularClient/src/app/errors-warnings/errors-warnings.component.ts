@@ -34,7 +34,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     private monacoContentChangedSubscription: Subscription;
     private fileSelectionSubscription: Subscription;
     private skipLength: number = 0;
-    private static functionsDiagnostics: any = {};
+    private static functionsDiagnostics: Diagnostic[] = [];
     private functionDevComponent: FunctionDevComponent;
     private tableBodyHeight: number;
     private codeColumnWidth: number = 75;
@@ -52,11 +52,11 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
 
     constructor(
         private _hostEventService: HostEventService,
-        private _userService: UserService,
+        private _userService: UserService, 
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService) {
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
-        this.hostEventSubscription = this._hostEventService.Events
+        this.hostEventSubscription = this._hostEventService.events
         .do(null, error => { console.log(error); })
         .retry().subscribe((r: any) => {
             ErrorsWarningsComponent.functionsDiagnostics[r.functionName] = r.diagnostics;
@@ -78,10 +78,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.monacoEditor.setDiagnostics(this.diagnostics);
-        if (this.fileExplorer && this.pendingFileChange) {
-            this.changeFiles(this.pendingFileChange);
-            this.pendingFileChange = null;
-        }
+        this.changeFiles(this.pendingFileChange);
     }
 
     ngOnInit(): void {
@@ -171,11 +168,17 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     private changeFiles(fileName: string) {
+        if(!this.fileExplorer || !this.pendingFileChange){
+            return;
+        }
+        
         let requestedFile = this.fileExplorer.files.find((item) => item.name === fileName);
         if (requestedFile) {
             this.fileExplorer.selectedFile = requestedFile;
             this.fileExplorer.selectVfsObject(requestedFile);
         }
+
+        this.pendingFileChange = null;
     }
 
     private getSeverityClass(severity: monaco.Severity) {

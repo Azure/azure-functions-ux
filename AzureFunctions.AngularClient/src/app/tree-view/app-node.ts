@@ -73,6 +73,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         disabled?: boolean) {
         super(sideBar, _siteArmCacheObj.id, parentNode);
 
+        this._hostEventService = new HostEventService(this.sideNav.http, this.sideNav.userService, this.sideNav.configService)
+
         this.disabled = !!disabled;
         if (disabled) {
             this.supportsAdvanced = false;
@@ -297,7 +299,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     private _dispose() {
-        this._hostEventService = new HostEventService(this.sideNav.http, this.sideNav.userService, this.sideNav.configService)
         this._hostEventService.dispose();
 
         if (this._pollingTask && !this._pollingTask.closed) {

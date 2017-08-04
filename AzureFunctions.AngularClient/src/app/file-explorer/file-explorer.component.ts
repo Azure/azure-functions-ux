@@ -5,17 +5,17 @@ import 'rxjs/add/observable/throw';
 import { FileUploader } from 'ng2-file-upload';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
-import {FunctionInfo} from '../shared/models/function-info';
-import {VfsObject} from '../shared/models/vfs-object';
-import {BusyStateComponent} from '../busy-state/busy-state.component';
-import {FunctionsService} from '../shared/services/functions.service';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {PortalResources} from '../shared/models/portal-resources';
-import {AiService} from '../shared/services/ai.service';
-import {FunctionApp} from '../shared/function-app';
-import {FileSelectionRequest} from '../shared/models/file-selection-request';
+import { FunctionInfo } from '../shared/models/function-info'; 
+import { VfsObject } from '../shared/models/vfs-object';
+import { BusyStateComponent } from '../busy-state/busy-state.component';
+import { FunctionsService } from '../shared/services/functions.service';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalResources } from '../shared/models/portal-resources';
+import { AiService } from '../shared/services/ai.service';
+import { FunctionApp } from '../shared/function-app';
+import { FileSelectionRequest } from '../shared/models/file-selection-request';
 
 
 @Component({
@@ -62,8 +62,8 @@ export class FileExplorerComponent implements OnChanges {
                 this.folders = this.getFolders(r);
                 this.files = this.getFiles(r);
             });
-        
-        this.history = [];  
+
+        this.history = [];
         // Kudu doesn't handle multipleparts upload correctly.
         this.uploader = new FileUploader({ url: '', disableMultipart: true });
         this.uploader.onAfterAddingAll = (files: any[]) => {
@@ -140,7 +140,7 @@ export class FileExplorerComponent implements OnChanges {
                 if (this.currentVfsObject) {
                     this.history.push(this.currentVfsObject);
                 }
-                this.currentVfsObject = vfsObject; 
+                this.currentVfsObject = vfsObject;
             }
 
             this.functionInfo.functionApp.getVfsObjects(typeof vfsObject === 'string' ? vfsObject : vfsObject.href)
@@ -152,14 +152,14 @@ export class FileExplorerComponent implements OnChanges {
                 }, () => this.clearBusyState());
             return;
         }
-        
+
         if (typeof vfsObject !== 'string') {
-             this.selectedFileChange.emit(vfsObject);
-             this._broadcastService.broadcast<FileSelectionRequest>(BroadcastEvent.FileSelectionRequest,
-                    {functionName: this.functionInfo.name, fileName: this.currentTitle});
+            this.selectedFileChange.emit(vfsObject);
+            this._broadcastService.broadcast<FileSelectionRequest>(BroadcastEvent.FileSelectionRequest,
+                { functionName: this.functionInfo.name, fileName: this.currentTitle });
         }
     }
- 
+
     headingClick() {
         if (this.history.length === 0) {
             delete this.currentVfsObject;
@@ -324,7 +324,7 @@ export class FileExplorerComponent implements OnChanges {
             this.files.push(this.selectedFile);
             this.renamingFile = false;
         }
-    } 
+    }
 
     private getFiles(arr: VfsObject[]) {
         return arr
