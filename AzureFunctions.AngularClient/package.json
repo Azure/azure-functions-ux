@@ -5,6 +5,7 @@
   "angular-cli": {},
   "scripts": {
     "ng": "ng",
+    "watch": "ng b -w",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",

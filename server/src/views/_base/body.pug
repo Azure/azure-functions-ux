@@ -1,0 +1,15 @@
+body
+    app-root
+        div.fxs-progress
+            div.fxs-progress-dots
+                div
+                div
+                div
+    if !isAzure
+        include ../local/body.pug
+    else if !!isAzure && isOnPrem
+        include ../onprem/body.pug
+    else
+        include ../azure/body.pug
+
+    script(src="assets/monaco/min/vs/loader.js")

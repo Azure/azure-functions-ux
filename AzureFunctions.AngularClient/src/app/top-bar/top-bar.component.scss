@@ -42,7 +42,7 @@
 .top-bar-notification-clickable{
     cursor: pointer;
     border-left: 1px hidden;
-    
+
     // padding: 5px;
 
     &:hover{
@@ -82,6 +82,7 @@
     .azure-logo {
         padding-left: 10px;
         height: 100%;
+        display: inline-block;
     }
 
     .top-bar-tool {

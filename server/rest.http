@@ -1,0 +1,36 @@
+GET http://localhost:3300/api/templates
+
+###
+
+GET http://localhost:3300/api/bindingconfig
+
+###
+
+GET http://localhost:3300/api/tenants
+
+###
+
+POST http://localhost:3300/api/tenants/switch/00000-0000-0000
+
+###
+GET http://localhost:3300/api/token
+###
+
+GET http://localhost:3300/api/resources
+###
+
+GET http://localhost:3300/api/latestruntime
+###
+
+GET http://localhost:3300/api/latestrouting
+###
+
+GET http://localhost:3300/api/config
+###
+
+POST http://localhost:3300/api/proxy
+###
+
+###
+
+GET https://management.azure.com/subscriptions?api-version=2014-06-01
