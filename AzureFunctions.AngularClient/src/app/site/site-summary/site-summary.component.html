@@ -25,13 +25,13 @@
 <div id="essentials-container">
   <div class="essentials-col">
     <div>
-      <label>{{'status' | translate}}</label>
-      <div tabindex="0"><img *ngIf="stateIcon" [src]="stateIcon" />{{state}}</div>
+      <label id="statusLabel">{{'status' | translate}}</label>
+      <div tabindex="0" id="statusValue" aria-labelledby="statusLabel statusValue"><img *ngIf="stateIcon" [src]="stateIcon" />{{state}}</div>
     </div>
 
     <div [class.invisible]="hideAvailability">
-      <label>{{'availability' | translate}}</label>
-      <div [class.site-faded-text]="availabilityState === 'unknown'" tabindex="0">
+      <label id="availabilityLabel">{{'availability' | translate}}</label>
+      <div [class.site-faded-text]="availabilityState === 'unknown'" tabindex="0" id="availabilityValue" aria-labelledby="availabilityLabel availabilityValue">
         <img *ngIf="availabilityIcon" [src]="availabilityIcon" />{{availabilityMesg}}
       </div>
     </div>
@@ -39,37 +39,37 @@
 
   <div class="essentials-col">
     <div>
-      <label>{{'subscriptionName' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openSubscriptionBlade()" tabindex="0" (keydown)="onKeyPress($event, 'subscription')">{{subscriptionName}}</div>
+      <label id="subscriptionNameLabel">{{'subscriptionName' | translate}}</label>
+      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openSubscriptionBlade()" tabindex="0" (keydown)="onKeyPress($event, 'subscription')" id="subscriptionNameLink" aria-labelledby="subscriptionNameLabel subscriptionNameLink">{{subscriptionName}}</div>
     </div>
 
     <div>
-      <label>{{'subscription' | translate}}</label>
-      <div tabindex="0">{{subscriptionId}}</div>
-    </div>
-  </div>
-
-  <div class="essentials-col">
-    <div>
-      <label>{{'resourceGroup' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openResourceGroupBlade()" tabindex="0" (keydown)="onKeyPress($event, 'resourceGroup')">{{resourceGroup}}</div>
-    </div>
-
-    <div>
-      <label>{{'location' | translate}}</label>
-      <div tabindex="0">{{location}}</div>
+      <label id="subscriptionLabel">{{'subscription' | translate}}</label>
+      <div tabindex="0" id="subscriptionValue" aria-labelledby="subscriptionLabel subscriptionValue">{{subscriptionId}}</div>
     </div>
   </div>
 
   <div class="essentials-col">
     <div>
-      <label>URL</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openUrl()" tabindex="0" (keydown)="onKeyPress($event, 'url')">{{url}}</div>
+      <label id="resourceGroupLabel">{{'resourceGroup' | translate}}</label>
+      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openResourceGroupBlade()" tabindex="0" (keydown)="onKeyPress($event, 'resourceGroup')" id="resourceGroupLink" aria-labelledby="resourceGroupLabel resourceGroupLink">{{resourceGroup}}</div>
     </div>
 
     <div>
-      <label>{{'appServicePlanPricingTier' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openPlanBlade()" tabindex="0" (keydown)="onKeyPress($event, 'appServicePlan')">{{plan}}</div>
+      <label id="locationLabel">{{'location' | translate}}</label>
+      <div tabindex="0" id="locationValue" aria-labelledby="locationLabel locationValue">{{location}}</div>
+    </div>
+  </div>
+
+  <div class="essentials-col">
+    <div>
+      <label id="urlLabel">URL</label>
+      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openUrl()" tabindex="0" (keydown)="onKeyPress($event, 'url')" id="urlLink" aria-labelledby="urlLabel urlLink">{{url}}</div>
+    </div>
+
+    <div>
+      <label id="appServicePlanLabel">{{'appServicePlanPricingTier' | translate}}</label>
+      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openPlanBlade()" tabindex="0" (keydown)="onKeyPress($event, 'appServicePlan')" id="appServicePlanLink" aria-labelledby="appServicePlanLabel appServicePlanLink">{{plan}}</div>
     </div>
   </div>
 
