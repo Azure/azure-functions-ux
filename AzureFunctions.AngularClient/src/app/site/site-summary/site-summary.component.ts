@@ -109,7 +109,7 @@ export class SiteSummaryComponent implements OnDestroy {
             });
 
         this._viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
-        this._viewInfoStream
+        const baseViewInfoStreamSub = this._viewInfoStream
             .switchMap(viewInfo => {
                 this._viewInfo = viewInfo;
                 this._portalService.sendTimerEvent({
@@ -119,6 +119,63 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._busyState.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
+            .share();
+
+        baseViewInfoStreamSub
+            .mergeMap(r => {
+                const site: ArmObj<Site> = r.json();
+                this.site = site;
+                const descriptor = new SiteDescriptor(site.id);
+
+                this.subscriptionId = descriptor.subscription;
+
+                let availabilityId = `${site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
+                if (this._isSlot) {
+                    const resourceId = site.id.substring(0, site.id.indexOf('/slots'));
+                    availabilityId = `${resourceId}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
+                }
+                return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) => {
+                    // this call fails with 409 is Microsoft.ResourceHealth is not registered
+                    if (e.status === 409) {
+                        return this._cacheService.postArm(`/subscriptions/${this.subscriptionId}/providers/Microsoft.ResourceHealth/register`)
+                            .mergeMap(() => {
+                                return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion);
+                            })
+                            .catch(() => {
+                                return Observable.of(null);
+                            });
+                    }
+                    return Observable.of(null);
+                })
+            })
+            .mergeMap(res => {
+                const availability = !!res ? res.json() : null;
+                this._setAvailabilityState(!!availability ? availability.properties.availabilityState : AvailabilityStates.unknown);
+
+                if (this.hasWriteAccess) {
+                    return this._cacheService.postArm(`${this.site.id}/config/publishingcredentials/list`)
+                        .map(r => {
+                            res.publishCreds = r.json();
+                            return res;
+                        });
+                }
+
+                return Observable.of((res));
+            })
+            .do(null, e => {
+                if (!this._globalStateService.showTryView) {
+                    this._aiService.trackException(e, 'site-summary');
+                }
+                else {
+                    this._setAvailabilityState(AvailabilityStates.available);
+                }
+            })
+            .retry()
+            .subscribe((res) => {
+                return res;
+            });
+
+        baseViewInfoStreamSub
             .mergeMap(r => {
                 const site: ArmObj<Site> = r.json();
                 this.site = site;
@@ -145,10 +202,6 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
                 this.availabilityIcon = null;
 
-                this.publishingUserName = this.ts.instant(PortalResources.functionMonitor_loading);
-                this.scmType = null;
-                this.publishProfileLink = null;
-
                 const serverFarm = site.properties.serverFarmId.split('/')[8];
                 this.plan = `${serverFarm} (${site.properties.sku.replace('Dynamic', 'Consumption')})`;
                 this._isSlot = SlotsService.isSlot(site.id);
@@ -171,26 +224,12 @@ export class SiteSummaryComponent implements OnDestroy {
                     authZService.hasPermission(site.id, [AuthzService.actionScope]),
                     authZService.hasReadOnlyLock(site.id),
                     this._cacheService.getArm(configId),
-                    this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) => {
-                        // this call fails with 409 is Microsoft.ResourceHealth is not registered
-                        if (e.status === 409) {
-                            return this._cacheService.postArm(`/subscriptions/${this.subscriptionId}/providers/Microsoft.ResourceHealth/register`)
-                                .mergeMap(() => {
-                                    return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion);
-                                })
-                                .catch(() => {
-                                    return Observable.of(null);
-                                });
-                        }
-                        return Observable.of(null);
-                    }),
                     this._slotService.getSlotsList(site.id),
                     (p, s, l, c, a, slots) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
                         config: c.json(),
-                        availability: !!a ? a.json() : null,
                         slotsList: slots
                     }));
             })
@@ -202,16 +241,6 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.hasSwapAccess = this.hasWriteAccess && res.hasSwapPermission;
                 }
 
-                this._setAvailabilityState(!!res.availability ? res.availability.properties.availabilityState : AvailabilityStates.unknown);
-
-                if (this.hasWriteAccess) {
-                    return this._cacheService.postArm(`${this.site.id}/config/publishingcredentials/list`)
-                        .map(r => {
-                            res.publishCreds = r.json();
-                            return res;
-                        });
-                }
-
                 return Observable.of(res);
             })
             .do(null, e => {
@@ -221,7 +250,6 @@ export class SiteSummaryComponent implements OnDestroy {
                     this._aiService.trackException(e, 'site-summary');
                 }
                 else {
-                    this._setAvailabilityState(AvailabilityStates.available);
                     this.plan = 'Trial';
                 }
             })
@@ -241,12 +269,6 @@ export class SiteSummaryComponent implements OnDestroy {
                 });
                 this.scmType = res.config.properties.scmType;
                 this._aiService.stopTrace('/timings/site/tab/overview/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
-
-                if (this.hasWriteAccess) {
-                    this.publishingUserName = res.publishCreds.properties.publishingUserName;
-                } else {
-                    this.publishingUserName = this.ts.instant(PortalResources.noAccess);
-                }
             });
     }
 
@@ -324,7 +346,7 @@ export class SiteSummaryComponent implements OnDestroy {
     hideDownloadFunctionAppModal() {
         this.showDownloadFunctionAppModal = false;
     }
-
+    
     private _cleanupBlob() {
         const windowUrl = window.URL || (<any>window).webkitURL;
         if (this._blobUrl) {
