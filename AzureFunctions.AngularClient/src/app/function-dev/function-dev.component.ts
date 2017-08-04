@@ -399,7 +399,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     code = '';
                 }
             }
-            if (this.authLevel.toLowerCase() === 'anonymous') {
+            if (this.authLevel && this.authLevel.toLowerCase() === 'anonymous') {
                 code = null;
             }
             if (code) {
