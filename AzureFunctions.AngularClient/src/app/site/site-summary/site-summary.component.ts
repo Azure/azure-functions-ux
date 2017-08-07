@@ -36,7 +36,6 @@ import { Site } from '../../shared/models/arm/site';
 import { SlotsService } from '../../shared/services/slots.service';
 
 interface DataModel {
-    site: ArmObj<Site>;
     hasWritePermission: boolean;
     hasSwapPermission: boolean;
     hasReadOnlyLock: boolean;
@@ -112,24 +111,13 @@ export class SiteSummaryComponent implements OnDestroy {
                     timerAction: 'stop'
                 });
                 this._busyState.setBusyState();
+                return this._cacheService.getArm(viewInfo.resourceId);
 
-                return Observable.zip<DataModel>(
-                    this._cacheService.getArm(viewInfo.resourceId),
-                    authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
-                    authZService.hasPermission(viewInfo.resourceId, [AuthzService.actionScope]),
-                    authZService.hasReadOnlyLock(viewInfo.resourceId),
-                    this._slotService.getSlotsList(viewInfo.resourceId),
-                    (ws, p, s, l, slots) => ({
-                        site: ws.json(),
-                        hasWritePermission: p,
-                        hasSwapPermission: s,
-                        hasReadOnlyLock: l,
-                        slotsList: slots
-                    }));
             })
             .mergeMap(r => {
-                const site: ArmObj<Site> = r.site;
+                const site: ArmObj<Site> = r.json();
                 this.site = site;
+
                 const descriptor = new SiteDescriptor(site.id);
 
                 this.subscriptionId = descriptor.subscription;
@@ -149,37 +137,30 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.state = site.properties.state;
                 this.stateIcon = this.state === 'Running' ? 'images/success.svg' : 'images/stopped.svg';
 
+
                 this.availabilityState = null;
                 this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
                 this.availabilityIcon = null;
 
+
                 this.publishProfileLink = null;
+
 
                 const serverFarm = site.properties.serverFarmId.split('/')[8];
                 this.plan = `${serverFarm} (${site.properties.sku.replace('Dynamic', 'Consumption')})`;
                 this._isSlot = SlotsService.isSlot(site.id);
 
-                let availabilityId = `${site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
-                if (this._isSlot) {
-                    const resourceId = site.id.substring(0, site.id.indexOf('/slots'));
-                    availabilityId = `${resourceId}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
-                }
+
 
                 this._busyState.clearBusyState();
                 this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
                 this.hideAvailability = this._isSlot || site.properties.sku === 'Dynamic';
 
-                this.hasWriteAccess = r.hasWritePermission && !r.hasReadOnlyLock;
-                if (!this._isSlot) {
-                    this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission && r.slotsList.length > 0;
-                } else {
-                    this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
-                }
-                this._busyState.clearBusyState();
+                // Go ahead and assume write access at this point to unveal everything. This allows things to work when the RBAC API fails and speeds up reveal. In
+                // cases where this causes a false positive, the backend will take care of giving a graceful failure.
+                this.hasWriteAccess = true;
 
-                var getAvailabilityObservible = Observable.of(null);
-                //at this point the blade is fully ready by Ibiza current standards
                 this._portalService.sendTimerEvent({
                     timerId: 'ClickToOverviewInputsSet',
                     timerAction: 'stop'
@@ -188,7 +169,34 @@ export class SiteSummaryComponent implements OnDestroy {
                     timerId: 'ClickToOverviewConstructor',
                     timerAction: 'stop'
                 });
-                
+
+                return Observable.zip<DataModel>(
+                    authZService.hasPermission(site.id, [AuthzService.writeScope]),
+                    authZService.hasPermission(site.id, [AuthzService.actionScope]),
+                    authZService.hasReadOnlyLock(site.id),
+                    this._slotService.getSlotsList(site.id),
+                    (p, s, l, slots) => ({
+                        hasWritePermission: p,
+                        hasSwapPermission: s,
+                        hasReadOnlyLock: l,
+                        slotsList: slots
+                    }));
+            })
+            .mergeMap(r => {
+                this.hasWriteAccess = r.hasWritePermission && !r.hasReadOnlyLock;
+                if (!this._isSlot) {
+                    this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission && r.slotsList.length > 0;
+                } else {
+                    this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
+                }
+
+                let availabilityId = `${this.site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
+                if (this._isSlot) {
+                    const resourceId = this.site.id.substring(0, this.site.id.indexOf('/slots'));
+                    availabilityId = `${resourceId}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
+                }
+
+                let getAvailabilityObservible = Observable.of(null);
                 if (!this.hideAvailability) {
                     getAvailabilityObservible = this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) => {
                         // this call fails with 409 is Microsoft.ResourceHealth is not registered
@@ -223,14 +231,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.plan = 'Trial';
                 }
             })
-             .retry()
+            .retry()
             .subscribe((res: any) => {
                 if (!res) {
                     return;
                 }
 
-                //I'm leaving this one here for now so it measures every call
-                this._aiService.stopTrace('/timings/site/tab/overview/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);            
+                // I'm leaving this one here for now so it measures every call
+                this._aiService.stopTrace('/timings/site/tab/overview/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
             });
     }
 
