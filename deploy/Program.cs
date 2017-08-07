@@ -18,9 +18,9 @@ namespace Deploy
             var msBuild = @"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe".DoubleQuote();
             var assets = Path.Combine(deploymentSource, @"AzureFunctions.AngularClient\src\assets");
 
-            Directory.CreateDirectory(deploymentTempTarget);
-            Directory.CreateDirectory($@"{deploymentTarget}\ng-min");
-            Directory.CreateDirectory($@"{deploymentTarget}\ng-full");
+            TryCreateDirectory(deploymentTempTarget);
+            TryCreateDirectory($@"{deploymentTarget}\ng-min");
+            TryCreateDirectory($@"{deploymentTarget}\ng-full");
 
             DeploySdk
                 .StandardDeployment
@@ -45,6 +45,19 @@ namespace Deploy
                 .OnFail(EmailHelpers.EmailFailedRun)
                 .OnSuccess(EmailHelpers.EmailSuccessfulRun)
                 .Run();
+        }
+
+        static bool TryCreateDirectory(string path)
+        {
+            try
+            {
+                Directory.CreateDirectory(path);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
