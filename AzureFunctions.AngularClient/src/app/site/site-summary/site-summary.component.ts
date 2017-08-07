@@ -140,7 +140,6 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.subscriptionName = this._subs.find(s => s.subscriptionId === this.subscriptionId).displayName;
                 }
 
-
                 this.resourceGroup = descriptor.resourceGroup;
 
                 this.url = FunctionApp.getMainUrl(this._configService, this.site);
@@ -189,8 +188,6 @@ export class SiteSummaryComponent implements OnDestroy {
                     timerId: 'ClickToOverviewConstructor',
                     timerAction: 'stop'
                 });
-                
-
                 
                 if (!this.hideAvailability) {
                     getAvailabilityObservible = this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) => {
