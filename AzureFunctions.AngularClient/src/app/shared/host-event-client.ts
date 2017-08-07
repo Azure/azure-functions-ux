@@ -35,8 +35,10 @@ export class HostEventClient {
 
     dispose() {
         if (this.req) {
-            this.timeouts.forEach(window.clearTimeout);
-            this.timeouts = [];
+            if(this.timeouts){
+                this.timeouts.forEach(window.clearTimeout);
+                this.timeouts = [];
+            }
             this.req.abort();
         }
     }
