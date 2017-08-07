@@ -20,8 +20,8 @@ namespace Deploy
             var assets = Path.Combine(deploymentSource, @"AzureFunctions.AngularClient\src\assets");
 
             TryCreateDirectory(deploymentTempTarget);
-            TryCreateDirectory($@"{deploymentTarget}\ng-min");
-            TryCreateDirectory($@"{deploymentTarget}\ng-full");
+            TryCreateDirectory($@"{deploymentTempTarget}\ng-min");
+            TryCreateDirectory($@"{deploymentTempTarget}\ng-full");
 
             DeploySdk
                 .StandardDeployment
