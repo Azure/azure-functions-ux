@@ -12,6 +12,7 @@ import { UserService } from '../shared/services/user.service';
 
 declare var monaco;
 
+@Injectable()
 export class HostEventClient {
 
     public events: ReplaySubject<HostEvent>;
