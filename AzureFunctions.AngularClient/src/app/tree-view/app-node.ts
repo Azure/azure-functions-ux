@@ -177,7 +177,7 @@ export class AppNode extends TreeNode
             }
         }
 
-        return !canSwitchNodes;
+        return Observable.of(!canSwitchNodes);
     }
 
     private _setupFunctionApp(site: ArmObj<Site>) {
@@ -228,14 +228,20 @@ export class AppNode extends TreeNode
     }
 
     public handleRefresh(): Observable<any> {
-        if (this.sideNav.selectedNode.shouldBlockNavChange()) {
-            return Observable.of(null);
-        }
+        return this.sideNav.selectedNode.shouldBlockNavChange()
+            .switchMap(shouldBlock => {
+                if (shouldBlock) {
+                    return Observable.of(null);
+                }
 
-        // Make sure there isn't a load operation currently being performed
-        const loadObs = this._loadingObservable ? this._loadingObservable : Observable.of({});
-        return loadObs
-            .mergeMap(() => {
+                // Make sure there isn't a load operation currently being performed
+                return this._loadingObservable ? this._loadingObservable : Observable.of({});
+            })
+            .mergeMap(r => {
+                if (!r) {
+                    return null;
+                }
+
                 this.sideNav.aiService.trackEvent('/actions/refresh');
                 this._functionApp.fireSyncTrigger();
                 this.sideNav.cacheService.clearCache();

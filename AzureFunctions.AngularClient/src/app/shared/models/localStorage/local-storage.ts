@@ -15,9 +15,15 @@ export interface QuickstartSettings extends StorageItem {
 export interface TabSettings extends StorageItem {
     dynamicTabIds: (string | null)[];
 }
+
 export interface TabMessage<T> extends StorageItem {
     source_id: string;
     dest_id: string | null;
     verb: string;
     data: T;
+}
+
+export interface contentUpdateMessage {
+    resourceId: string;
+    content: string;
 }

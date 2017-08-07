@@ -18,7 +18,7 @@ export class BackgroundTasksService {
         private _applicationRef: ApplicationRef) {
         // background tasks should not be run for a tabbed function
         // it recieves token updates from the parent window
-        if (!this._userService.inIFrame && !this._userService.inTab) {
+        if (!this._userService.inIFrame) {
             this.runNonIFrameTasks();
         }
         if (this.isIE()) {

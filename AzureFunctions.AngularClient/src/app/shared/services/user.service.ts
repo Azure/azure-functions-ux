@@ -15,6 +15,7 @@ import { TenantInfo } from '../models/tenant-info';
 import { AiService } from './ai.service';
 import { PortalService } from './portal.service';
 import { StartupInfo } from '../models/portal';
+import { Url } from "app/shared/Utilities/url";
 
 @Injectable()
 export class UserService {
@@ -35,6 +36,8 @@ export class UserService {
         this.inTab = PortalService.inTab();
         this._inTry = window.location.pathname.endsWith('/try');
 
+        const rId: string = Url.getParameterByName(null, "rid");
+
         this._startupInfo = {
             token: null,
             graphToken: null,
@@ -42,10 +45,11 @@ export class UserService {
             sessionId: null,
             acceptLanguage: null,
             effectiveLocale: null,
-            resourceId: null
+            resourceId: rId? rId : null,
+            userInfo: null
         };
 
-        if (this.inIFrame || this.inTab) {
+        if (this.inIFrame) {
             this._portalService.getStartupInfo()
                 .mergeMap(info => {
                     return Observable.zip(
@@ -120,7 +124,8 @@ export class UserService {
                         acceptLanguage: this._startupInfo.acceptLanguage,
                         effectiveLocale: this._startupInfo.effectiveLocale,
                         resourceId: this._startupInfo.resourceId,
-                        stringResources: r.resources
+                        stringResources: r.resources,
+                        userInfo: this._startupInfo.userInfo
                     };
 
                     this.updateStartupInfo(info);

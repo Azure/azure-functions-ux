@@ -18,10 +18,21 @@ export interface StartupInfo {
     token: string;
     subscriptions: Subscription[];
     sessionId: string;
-    acceptLanguage: string;
-    effectiveLocale: string;
-    resourceId: string;
+    acceptLanguage: string,
+    effectiveLocale: string,
+    resourceId: string,
+    userInfo: UserInfo;
     graphToken: string;
+}
+
+export interface UserInfo {
+    directoryId: string;
+    directoryName: string;
+    domainName: string;
+    email: string;
+    givenName: string;
+    surname: string;
+    uniqueDirectoryName: string;
 }
 
 export interface Action {

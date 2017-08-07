@@ -56,8 +56,12 @@ export class TabCommunicationVerbs {
     public static getStartInfo = "get-startup-info";
     public static sentStartInfo = "startup-info";
     public static updatedFile = "updated-file-notice"
-    public static newToken = "new-token";
     public static parentClosed = "parent-window-closed";
+    public static lockEditor = "lock-monaco-editor";
+    public static getUpdatedContent = "get-most-updated-content";
+    public static fileOpenElsewhereCheck = "is-file-open-some-other-tab";
+    public static fileIsOpenElsewhere = "file-is-open-in-another-tab";
+    public static fileSaved = "file-has-been-saved-in-another-tab";
 }
 
 export class SiteTabIds {
@@ -151,7 +155,7 @@ export class KeyCodes {
     public static readonly arrowDown = 40;
 }
 
-export class DomEvents{
+export class DomEvents {
     public static readonly keydown = 'keydown';
     public static readonly click = 'click';
 }

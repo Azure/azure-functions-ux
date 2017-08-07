@@ -34,12 +34,15 @@ import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from '../shared/models/error-ids';
 import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
+import { TabCommunicationVerbs } from "app/shared/models/constants";
+import { contentUpdateMessage, TabMessage } from "app/shared/models/localStorage/local-storage";
+import { Logger } from "app/shared/utilities/logger";
 
 
 @Component({
-    selector: 'function-dev',
-    templateUrl: './function-dev.component.html',
-    styleUrls: ['./function-dev.component.scss']
+    selector: "function-dev",
+    templateUrl: "./function-dev.component.html",
+    styleUrls: ["./function-dev.component.scss"]
 })
 export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
@@ -48,10 +51,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
     @ViewChildren(LogStreamingComponent) logStreamings: QueryList<LogStreamingComponent>;
 
-    @ViewChild('functionContainer') functionContainer: ElementRef;
-    @ViewChild('editorContainer') editorContainer: ElementRef;
-    @ViewChild('rightContainer') rightContainer: ElementRef;
-    @ViewChild('bottomContainer') bottomContainer: ElementRef;
+    @ViewChild("functionContainer") functionContainer: ElementRef;
+    @ViewChild("editorContainer") editorContainer: ElementRef;
+    @ViewChild("rightContainer") rightContainer: ElementRef;
+    @ViewChild("bottomContainer") bottomContainer: ElementRef;
 
     @Input() selectedFunction: FunctionInfo;
     public functionInfo: FunctionInfo;
@@ -72,10 +75,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     public runResult: RunFunctionResult;
     public running: Subscription;
-    public showFunctionInvokeUrl = false;
-    public showFunctionKey = false;
-    public showFunctionInvokeUrlModal = false;
-    public showFunctionKeyModal = false;
+    public showFunctionInvokeUrlModal: boolean = false;
+    public showFunctionInvokeUrl: boolean = false;
+    public showFunctionKey: boolean = false;
+    public showFunctionKeyModal: boolean = false;
 
     public rightTab: string = FunctionDevComponent.rightTab;
     public bottomTab: string = FunctionDevComponent.bottomTab;
@@ -88,10 +91,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public hostKeys: FunctionKeys;
     public masterKey: string;
     public isStandalone: boolean;
-    public inTab: boolean;
-    public disabled: Observable<boolean>;
     public eventGridSubscribeUrl: string;
 
+    public disabled: Observable<boolean>;
+    public monacoDirtyState: boolean;
+
+    public recievedUpdatedFunctionContent: Subject<string>;
+    public sentUpdatedFunctionContent: Subject<contentUpdateMessage>;
+
+    public fileResourceId = "";
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
@@ -108,7 +116,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
-        this.inTab = PortalService.inTab();
 
         this.selectedFileStream = new Subject<VfsObject>();
         this.selectedFileStream
@@ -124,10 +131,20 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 res.file.isDirty = false;
                 this.scriptFile = res.file;
                 this.fileName = res.file.name;
+
+                this.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
+                this._portalService.fileResourceId = this.fileResourceId
+
+                if (this.updatedContent && res.file.isDirty) {
+                    this.sendContentMessage(this.updatedContent);
+                }
+
                 if (this.fileExplorer) {
                     this.fileExplorer.clearBusyState();
                 }
-            }, () => this._globalStateService.clearBusyState());
+                // ask for updated info if changes have been made to the file
+                this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, this._portalService.fileResourceId)
+            }, e => this._globalStateService.clearBusyState());
 
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
@@ -162,16 +179,16 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
 
                 this._globalStateService.clearBusyState();
-                this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
-                let href = res.functionInfo.script_href;
+                this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf("/") + 1);
+                var href = res.functionInfo.script_href;
                 if (this.fileName.toLowerCase().endsWith('dll')) {
-                    this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf('/') + 1);
+                    this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf("/") + 1);
                     href = res.functionInfo.config_href;
                 }
 
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
                     ? this.scriptFile
-                    : { name: this.fileName, href: href, mime: 'file' };
+                    : { name: this.fileName, href: href, mime: "file" };
                 this.selectedFileStream.next(this.scriptFile);
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
@@ -187,7 +204,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     delete this.webHookType;
                 }
 
-                this.showFunctionKey = this.webHookType === 'github';
+                this.showFunctionKey = this.webHookType === "github";
 
                 inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
                     ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
@@ -202,6 +219,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
                 this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
 
+                this.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
+                this._portalService.fileResourceId = this.fileResourceId
+                // ask for updated info if changes have been made to the file
+                this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, this._portalService.fileResourceId)
+
                 setTimeout(() => {
                     this.onResize();
                     // Remove "code" param fix
@@ -214,14 +236,104 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else if (this._isClientCertEnabled) {
                     this.setFunctionInvokeUrl();
                 }
-
-
             });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
         });
+
+        this.recievedUpdatedFunctionContent = new Subject<string>();
+        this.recievedUpdatedFunctionContent
+            .subscribe(content => {
+                this.updateContentFromOtherWindow(content)
+                // unlock monaco (not disabled)
+                this.disabled = this.functionApp.getFunctionAppEditMode()
+                    .map(editMode => {
+                        return EditModeHelper.isReadOnly(editMode) || false;
+                    })
+                Logger.debug("editor unlocked");
+            });
+
+        // handle messages recieved by portalService
+        this._portalService.storageMessageStream
+            .subscribe(msg => {
+                this.storageMessageHandler(msg);
+            })
+
+        let lock = false; // ensures that the lock message sends only once
+        // stream of content shown in monaco editor
+        this.sentUpdatedFunctionContent = new Subject<contentUpdateMessage>();
+        this.sentUpdatedFunctionContent
+            // send one message to lock the other editors while typing
+            .do((contentMessage) => {
+                if (!lock) {
+                    lock = true;
+                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.lockEditor, this.fileResourceId)
+                }
+            })
+            // only send the content update after typing stops for .5 seconds
+            .debounceTime(500)
+            .subscribe(contentMessage => {
+                lock = false;
+                const id = this._portalService.windowId;
+                this._portalService._sendTabMessage<contentUpdateMessage>(id, TabCommunicationVerbs.updatedFile, contentMessage);
+
+            });
+    }
+
+    private storageMessageHandler(msg: TabMessage<any>) {
+        if (msg.verb === TabCommunicationVerbs.lockEditor) {
+            // lock the editor until updated content is recieved
+            if ((msg.data === this.fileResourceId)) {
+                // lock monaco (disabled)
+                this.disabled = this.functionApp.getFunctionAppEditMode()
+                    .map(editMode => {
+                        return EditModeHelper.isReadOnly(editMode) || true;
+                    })
+                Logger.debug("editor locked");
+            }
+        }
+
+        else if (msg.verb === TabCommunicationVerbs.updatedFile) {
+            //check if file is open, if yes then update
+            const updateInfo: contentUpdateMessage = msg.data;
+
+            if ((updateInfo.resourceId === this.fileResourceId)) {
+                Logger.debug("update information recieved")
+                // tell function-dev to update content 
+                this.recievedUpdatedFunctionContent.next(updateInfo.content);
+            }
+        }
+
+        else if (msg.verb === TabCommunicationVerbs.getUpdatedContent && msg.data === this.fileResourceId) {
+            //if changes have been made to the file, send them
+            if (this.monacoDirtyState) {
+                Logger.debug("update information sent");
+                const contentMessage: contentUpdateMessage = {
+                    resourceId: this.fileResourceId,
+                    content: this.updatedContent
+                };
+                this._portalService._sendTabMessage<contentUpdateMessage>(this._portalService.windowId, TabCommunicationVerbs.updatedFile, contentMessage);
+            }
+        }
+
+        // ask if file is open in another window
+        else if (msg.verb === TabCommunicationVerbs.fileOpenElsewhereCheck && msg.data === this.fileResourceId) {
+            Logger.debug("responded to request if file is open in another window")
+            this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.fileIsOpenElsewhere, null);
+        }
+
+        // if file has been saved in another tab
+        else if (msg.verb === TabCommunicationVerbs.fileSaved) {
+            Logger.debug("file was saved in another window");
+            if (this.scriptFile.isDirty) {
+                this.scriptFile.isDirty = false;
+                this.monacoDirtyState = this.scriptFile.isDirty;
+                this._broadcastService.setDirtyState("function");
+                this._portalService.setDirtyState(false);
+            }
+        }
     }
 
     expandLogsClicked(isExpand: boolean) {
@@ -351,7 +463,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     ngOnChanges(changes: { [key: string]: SimpleChange }) {
-        if (changes['selectedFunction']) {
+        if (changes["selectedFunction"]) {
             delete this.updatedTestContent;
             delete this.runResult;
             const selectedFunction = changes['selectedFunction'].currentValue;
@@ -395,8 +507,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     clientId = keyWithValue.name;
                 }
 
-                if (this.webHookType.toLowerCase() !== 'genericjson') {
-                    code = '';
+                if (this.webHookType.toLowerCase() !== "genericjson") {
+                    code = "";
                 }
             }
             if (this.authLevel && this.authLevel.toLowerCase() === 'anonymous') {
@@ -415,9 +527,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     return b.type === BindingType.httpTrigger.toString();
                 });
                 if (httpTrigger && httpTrigger.route) {
-                    result = result + '/' + httpTrigger.route;
+                    result = result + "/" + httpTrigger.route;
                 } else {
-                    result = result + '/' + this.functionInfo.name;
+                    result = result + "/" + this.functionInfo.name;
                 }
 
                 // Remove doubled slashes
@@ -477,10 +589,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             .subscribe(r => {
                 if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
+                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.fileSaved, this.fileResourceId);
                 }
-                if (typeof r !== 'string' && r.isDirty) {
+                if (typeof r !== "string" && r.isDirty) {
                     r.isDirty = false;
-                    this._broadcastService.clearDirtyState('function');
+                    this.monacoDirtyState = r.isDirty;
+                    this._broadcastService.clearDirtyState("function");
                     this._portalService.setDirtyState(false);
                 }
                 if (syncTriggers) {
@@ -503,14 +617,33 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     contentChanged(content: string) {
-
-
         if (!this.scriptFile.isDirty) {
             this.scriptFile.isDirty = true;
-            this._broadcastService.setDirtyState('function');
+            this.monacoDirtyState = this.scriptFile.isDirty;
+            this._broadcastService.setDirtyState("function");
             this._portalService.setDirtyState(true);
         }
         this.updatedContent = content;
+        this.sendContentMessage(content);
+    }
+
+    sendContentMessage(content: string) {
+        const contentMessage: contentUpdateMessage = {
+            resourceId: this.fileResourceId,
+            content: content
+        };
+        // update the new content
+        this.sentUpdatedFunctionContent.next(contentMessage)
+    }
+
+    public updateContentFromOtherWindow(content: string) {
+        this.scriptFile.isDirty = true;
+        this.monacoDirtyState = this.scriptFile.isDirty;
+        this._broadcastService.setDirtyState("function");
+        this._portalService.setDirtyState(true);
+
+        this.updatedContent = content;
+        this.content = content;
     }
 
     testContentChanged(content: string) {
@@ -613,7 +746,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                                             errorType: ErrorType.RuntimeError,
                                             resourceId: this.functionApp.site.id
                                         });
-                                        this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
+                                        this._aiService.trackEvent("/errors/host", { error: e, app: this._globalStateService.FunctionContainer.id });
                                     });
                                 });
                             });

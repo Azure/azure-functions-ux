@@ -10,6 +10,7 @@ import { DashboardType } from './models/dashboard-type';
 import { PortalResources } from '../shared/models/portal-resources';
 import { FunctionInfo } from '../shared/models/function-info';
 import { Url } from 'app/shared/Utilities/url';
+import { Logger } from "app/shared/utilities/logger";
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public dashboardType = DashboardType.function;
@@ -68,31 +69,43 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         return this.functionInfo;
     }
 
-    public shouldBlockNavChange(): boolean {
+    public shouldBlockNavChange() {
         return FunctionNode.blockNavChangeHelper(this);
     }
 
     public dispose(newSelectedNode?: TreeNode) {
         this.sideNav.broadcastService.clearAllDirtyStates();
         this.parent.dispose(newSelectedNode);
+
+        // TODO: FIX THIS
+        // this.sideNav.portalService.fileResourceId = null;
     }
 
     public static blockNavChangeHelper(currentNode: TreeNode) {
         let canSwitchFunction = true;
-        if (currentNode.sideNav.broadcastService.getDirtyState('function')
-            || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
-            || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
 
-            const descriptor = new FunctionDescriptor(currentNode.resourceId);
+        Logger.debug("asking if file is open in another window");
+        return currentNode.sideNav.portalService.isFileOpenedInAnotherTab()
+            .mergeMap(isOpen => {
+                if (isOpen) {
+                    return Observable.of(false);
+                }
 
-            canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
-                PortalResources.sideBar_changeMade,
-                {
-                    name: descriptor.functionName
-                }));
-        }
+                if (currentNode.sideNav.broadcastService.getDirtyState('function')
+                    || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
+                    || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
 
-        return !canSwitchFunction;
+                    let descriptor = new FunctionDescriptor(currentNode.resourceId);
+
+                    canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
+                        PortalResources.sideBar_changeMade,
+                        {
+                            name: descriptor.functionName
+                        }));
+                }
+
+                return Observable.of(!canSwitchFunction);
+            })
     }
 }
 
@@ -120,7 +133,7 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
         return this.functionInfo;
     }
 
-    public shouldBlockNavChange(): boolean {
+    public shouldBlockNavChange() {
         return FunctionNode.blockNavChangeHelper(this);
     }
 

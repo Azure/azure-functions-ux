@@ -4,6 +4,10 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import { GlobalStateService } from '../services/global-state.service';
 import { FunctionApp } from '../function-app';
+import { PortalService } from "app/shared/services/portal.service";
+import { Logger } from "app/shared/utilities/logger";
+import { UserService } from "app/shared/services/user.service";
+import { TenantInfo } from "app/shared/models/tenant-info";
 
 declare var monaco;
 
@@ -25,7 +29,10 @@ export class MonacoEditorDirective {
     private _functionApp: FunctionApp;
 
     constructor(public elementRef: ElementRef,
-        private _globalStateService: GlobalStateService) {
+        private _globalStateService: GlobalStateService,
+        private _portalService: PortalService,
+        private _userService: UserService
+    ) {
 
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
@@ -63,7 +70,8 @@ export class MonacoEditorDirective {
     @Input('disabled') set disabled(value: boolean) {
         if (value !== this._disabled) {
             this._disabled = value;
-            if (this._editor) {
+            if (this._editor && this._disabled !== null) {
+                Logger.debug("monaco disabled: " + this._disabled);
                 this._editor.updateOptions({
                     readOnly: this._disabled
                 });
@@ -126,7 +134,6 @@ export class MonacoEditorDirective {
         }
     }
 
-
     private init() {
         this._globalStateService.setBusyState();
 
@@ -178,14 +185,24 @@ export class MonacoEditorDirective {
                     that.onRun.emit();
                 });
 
+                that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Alt | monaco.KeyCode.KEY_T, () => {
+                    // open existing function in new tab
+                    let windowLocation: string = `${window.location.hostname}`;
+                    if (window.location.port) {
+                        windowLocation += `:${window.location.port}`
+                    }
+                    let tenantId: string;
+                    that._userService.getTenants()
+                        .first()
+                        .subscribe(tenants => {
+                            const currentTenant: TenantInfo = tenants.find(t => t.Current);
+                            tenantId = currentTenant.TenantId
+                            // TODO: there is likely a better way to grab the rId than through the portal service
+                            window.open(`https://${windowLocation}/signin?/api/switchtenant/?${tenantId}/?tabbed=true&rid=${that._portalService.fileResourceId}`, '_blank');
+                        });
+                });
+
                 that._globalStateService.clearBusyState();
-
-                // TODO: that._editor.addcommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_T, () => {
-                // open existing function in new tab
-                // if dirty ask to save? or save for them?
-                // change view to to open in new tab
-                // });
-
             });
         };
 

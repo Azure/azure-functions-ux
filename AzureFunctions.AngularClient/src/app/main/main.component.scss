@@ -3,6 +3,10 @@
     background-color: $body-bg-color;
 }
 
+.tabbed-height {
+    height: calc(100% - #{$top-bar-height}) !important;
+}
+
 #content {
     position: absolute;
     width: 100%;

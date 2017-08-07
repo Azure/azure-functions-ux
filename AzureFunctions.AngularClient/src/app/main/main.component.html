@@ -1,7 +1,7 @@
 <top-bar></top-bar>
-<busy-state name='dashboard'></busy-state>
+<busy-state [name]='inTab ? "global" : "dashboard"'></busy-state>
 
-<div id="content">
+<div id="content" [class.tabbed-height]="inTab">
 
     <side-nav (treeViewInfoEvent)="updateViewInfo($event)" [tryFunctionAppInput]="tryFunctionApp" *ngIf="!inTab"></side-nav>
 

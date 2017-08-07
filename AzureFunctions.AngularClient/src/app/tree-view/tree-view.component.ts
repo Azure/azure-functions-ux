@@ -5,6 +5,8 @@ import { GlobalStateService } from './../shared/services/global-state.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Component, Input, ViewChild, OnChanges, SimpleChange, ElementRef, AfterContentInit } from '@angular/core';
 import { TreeNode } from './tree-node';
+import { TenantInfo } from "app/shared/models/tenant-info";
+import { UserService } from "app/shared/services/user.service";
 
 @Component({
     selector: 'tree-view',
@@ -21,7 +23,7 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
     public showTryView = false;
     @ViewChild('item') item: ElementRef;
 
-    constructor(globalStateService: GlobalStateService) {
+    constructor(globalStateService: GlobalStateService, private _userService: UserService) {
         this.showTryView = globalStateService.showTryView;
     }
 
@@ -126,12 +128,21 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
         node.isFocused = false;
     }
 
-    openNewTab() {
-        // open a new tab with the rousource information
-        let windowLocation = `${window.location.hostname}`;
+    openNewTab(event: any) {
+        //open a new tab with the rousource information
+        let windowLocation: string = `${window.location.hostname}`;
         if (window.location.port) {
             windowLocation += `:${window.location.port}`;
         }
-        window.open(`https://${windowLocation}/signin?tabbed=true&rid=${this.node.resourceId}`, '_blank');
+        let tenantId: string;
+        this._userService.getTenants()
+            .first()
+            .subscribe(tenants => {
+                const currentTenant: TenantInfo = tenants.find(t => t.Current);
+                tenantId = currentTenant.TenantId
+                window.open(`https://${windowLocation}/signin?/api/switchtenant/${tenantId}/?tabbed=true&rid=${this.node.resourceId}`, '_blank');
+            });
+        // keeping clicking the 'new tab' button from also opening the function in the portal
+        event.stopPropagation();
     }
 }
