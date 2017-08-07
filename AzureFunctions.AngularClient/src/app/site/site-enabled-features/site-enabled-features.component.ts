@@ -548,11 +548,13 @@ export class SiteEnabledFeaturesComponent {
             const features = this._getFeatures();
             this._clearFocusOnFeature(features, this._focusedFeatureIndex);
             this._setFocusOnFeature(features, this._focusedFeatureIndex + 1);
+            event.preventDefault();
 
         } else if (event.keyCode === KeyCodes.arrowUp) {
             const features = this._getFeatures();
             this._clearFocusOnFeature(features, this._focusedFeatureIndex);
             this._setFocusOnFeature(features, this._focusedFeatureIndex - 1);
+            event.preventDefault();
 
         }
     }
