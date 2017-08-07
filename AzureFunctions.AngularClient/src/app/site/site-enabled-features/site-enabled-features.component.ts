@@ -134,16 +134,12 @@ export class SiteEnabledFeaturesComponent {
                 this._mergeFeaturesIntoF1(this.featureItems, latestFeatureItems);
                 this._saveFeatures(this.featureItems);
 
-                const features = this._getFeatures();
-
-                if (features.length > 0) {
-                    const feature = Dom.getTabbableControl(features[0].children[1]);
-                    feature.tabIndex = 0;
+                if (this.featureItems.length > 0) {
+                    this.featureItems[0].focussable = true;
                     this._focusedFeatureIndex = 0;
                 }
             });
     }
-
 
 
     set siteInput(site: ArmObj<Site>) {
@@ -513,6 +509,7 @@ export class SiteEnabledFeaturesComponent {
 
     private _clearFocusOnFeature(features: any, index: number) {
         const oldFeature = Dom.getTabbableControl(features[index].children[1]);
+        this.featureItems[index].focussable = false;
         Dom.clearFocus(oldFeature);
     }
 
@@ -533,6 +530,7 @@ export class SiteEnabledFeaturesComponent {
 
         if (destFeature) {
             const newFeature = Dom.getTabbableControl(destFeature);
+            this.featureItems[finalIndex].focussable = true;
             Dom.setFocus(newFeature);
         }
 

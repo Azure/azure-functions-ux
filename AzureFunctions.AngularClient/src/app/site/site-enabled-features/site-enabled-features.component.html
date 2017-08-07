@@ -5,7 +5,7 @@
 <div #enabledFeatures>
     <div *ngFor="let featureItem of featureItems" class="site-enabled-feature">
         <img [src]="featureItem.iconUrl" />
-        <a class="link" (click)="openFeature(featureItem)" (keydown)="onKeyPress($event, featureItem)">{{featureItem.title}}</a>
+        <a class="link" (click)="openFeature(featureItem)" (keydown)="onKeyPress($event, featureItem)" [tabIndex] = "featureItem.focussable ? 0 : -1">{{featureItem.title}}</a>
     </div>  
 </div>
 
