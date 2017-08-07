@@ -1,35 +1,35 @@
-.line {
-    display: flex;
-    flex-direction: row;
+﻿.line {
+  display: flex;
+  flex-direction: row;
 }
 
 .select-container {
-    width: 200px;
-    padding-right: 15px;
+  width: 200px;
+  padding-right: 15px;
 }
 
-.input-container {    
-    padding-right: 15px;
-    padding-bottom: 10px;
+.input-container {
+  padding-right: 15px;
+  padding-bottom: 10px;
 
-    input {
-        width: 500px;
-    }
+  input {
+    width: 500px;
+  }
 }
 
 select {
-    width:100%;
+  width: 175px;
 }
 
 .custom-button {
-    margin-left: 0px;
-    margin-top: 15px;   
+  margin-left: 0px;
+  margin-top: 15px;
 }
 
 .button-conainer {
-    height: 40px;
+  height: 40px;
 }
 
 .button-spin {
-    margin-top: 20px;
+  margin-top: 20px;
 }

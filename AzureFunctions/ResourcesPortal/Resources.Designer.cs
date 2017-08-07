@@ -1024,6 +1024,42 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to $Default.
+        /// </summary>
+        internal static string defaultConsumerGroup {
+            get {
+                return ResourceManager.GetString("defaultConsumerGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to myqueue.
+        /// </summary>
+        internal static string defaultQueueName {
+            get {
+                return ResourceManager.GetString("defaultQueueName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mysubscription.
+        /// </summary>
+        internal static string defaultsubscriptionName {
+            get {
+                return ResourceManager.GetString("defaultsubscriptionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mytopic.
+        /// </summary>
+        internal static string defaultTopicName {
+            get {
+                return ResourceManager.GetString("defaultTopicName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to disable.
         /// </summary>
         internal static string disable {
@@ -1191,6 +1227,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string enterValue {
             get {
                 return ResourceManager.GetString("enterValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;enter new entity path&gt;.
+        /// </summary>
+        internal static string entityPath_notfound {
+            get {
+                return ResourceManager.GetString("entityPath_notfound", resourceCulture);
             }
         }
         
@@ -1659,6 +1704,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string eventHubPicker_eventHubPolicy {
             get {
                 return ResourceManager.GetString("eventHubPicker_eventHubPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consumer Group.
+        /// </summary>
+        internal static string eventHubPicker_IOTConsumerGroups {
+            get {
+                return ResourceManager.GetString("eventHubPicker_IOTConsumerGroups", resourceCulture);
             }
         }
         
@@ -3994,6 +4048,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connection String.
+        /// </summary>
+        internal static string ioTHubPicker_connection {
+            get {
+                return ResourceManager.GetString("ioTHubPicker_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection String.
+        /// </summary>
+        internal static string ioTHubTrigger_connection_label {
+            get {
+                return ResourceManager.GetString("ioTHubTrigger_connection_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity Path.
+        /// </summary>
+        internal static string ioTHubTrigger_EntityPath {
+            get {
+                return ResourceManager.GetString("ioTHubTrigger_EntityPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keys.
         /// </summary>
         internal static string keys {
@@ -4476,6 +4557,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string serviceBusPicker_serviceBus {
             get {
                 return ResourceManager.GetString("serviceBusPicker_serviceBus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Queue name.
+        /// </summary>
+        internal static string servicebusQueuePicker_queueName {
+            get {
+                return ResourceManager.GetString("servicebusQueuePicker_queueName", resourceCulture);
             }
         }
         

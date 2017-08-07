@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter, ElementRef, Inject } from '@angular/core';
+import {Component, ChangeDetectionStrategy, SimpleChange, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, OnChanges, Inject, AfterContentChecked} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,11 +6,23 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
-import { TranslateService } from '@ngx-translate/core';
+import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
+import { ServiceBusComponent } from '../pickers/service-bus/service-bus.component'
 
-import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
-import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput} from '../shared/models/binding-input';
+import { BindingInputBase, CheckboxInput, TextboxInput, TextboxIntInput, LabelInput, SelectInput, PickerInput, CheckBoxListInput } from '../shared/models/binding-input';
+import {Binding, DirectionType, SettingType, BindingType, UIFunctionBinding, UIFunctionConfig, Rule, Setting, Action, ResourceType} from '../shared/models/binding';
+import {BindingManager} from '../shared/models/binding-manager';
+import {BindingInputList} from '../shared/models/binding-input-list';
+import {BroadcastService} from '../shared/services/broadcast.service';
+import {BroadcastEvent} from '../shared/models/broadcast-event'
+import {PortalService} from '../shared/services/portal.service';
+import {PortalResources} from '../shared/models/portal-resources';
+import {Validator} from '../shared/models/binding';
+import {FunctionApp} from '../shared/function-app';
+import {CacheService} from '../shared/services/cache.service';
+import {ArmObj} from '../shared/models/arm/arm-obj';
+import {AuthSettings} from '../shared/models/auth-settings';
 import { BindingManager } from '../shared/models/binding-manager';
 import { BindingInputList } from '../shared/models/binding-input-list';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -20,7 +32,9 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { Validator } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from '../shared/services/cache.service';
+import { ArmObj } from '../shared/models/arm/arm-obj';
 import { AuthSettings } from '../shared/models/auth-settings';
+import { IoTHelper } from '../shared/models/iot-helper';
 import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 import { FunctionInfo } from '../shared/models/function-info';
 
@@ -85,6 +99,7 @@ export class BindingComponent {
         private _cacheService: CacheService,
         private _translateService: TranslateService,
         private _aiService: AiService) {
+
         const renderer = new marked.Renderer();
 
         const funcStream = this._functionAppStream
@@ -100,6 +115,7 @@ export class BindingComponent {
         funcStream
             .merge(this._bindingStream)
             .subscribe((res: { appSettings: any, authSettings: AuthSettings }) => {
+
                 try {
                     if (res.appSettings) {
                         this._appSettings = res.appSettings.properties;
@@ -156,13 +172,8 @@ export class BindingComponent {
         this._subscription.unsubscribe();
     }
 
-    set functionAppInput(functionInput: any) {
-        if (functionInput.functionApp) {
-            this._functionAppStream.next(functionInput.functionApp)
-            this._functionInfo = functionInput;
-        } else {
-            this._functionAppStream.next(functionInput);
-        }
+    set functionAppInput(functionApp: FunctionApp) {
+        this._functionAppStream.next(functionApp);
     }
 
     set clickSave(value: boolean) {
@@ -416,7 +427,7 @@ export class BindingComponent {
                                 input.resource = setting.resource;
                                 input.items = this._getResourceAppSettings(setting.resource);
                                 input.id = setting.name;
-                                input.isHidden = setting.isHidden || isHidden;;
+                                input.isHidden = isHidden;
                                 input.label = this.replaceVariables(setting.label, bindings.variables);
                                 input.required = setting.required;
                                 input.value = settingValue;
@@ -498,17 +509,8 @@ export class BindingComponent {
 
                 });
 
-                if (bindingSchema.type === BindingType.eventGridTrigger && !this.newFunction) {
-                    const input = new EventGridInput();
-                    input.label = this._translateService.instant(PortalResources.eventGrid_label);
-                    input.help = this._translateService.instant(PortalResources.eventGrid_help);
-                    input.value = `${this.functionApp.getMainSiteUrl()}/api/${this._functionInfo.name}`;
-                    input.bladeLabel = this._functionInfo.name;
-                    this.functionApp.getEventGridKey().subscribe(eventGridKey => {
-                        input.subscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this._functionInfo.name}&code=${eventGridKey}`;
-                    });
-                    this.model.inputs.push(input);
-                }
+                IoTHelper.getInputObjects(this.bindingValue.type, this.model.inputs);
+
 
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
@@ -529,9 +531,74 @@ export class BindingComponent {
                             this._handleNANDRule(rule);
                         } else if (rule.type === 'changeOptionsDisplayed') {
                             const ddInput = this._handleChangeOptionsDisplayedRule(rule, isHidden);
-
-                            // Want to save value of input used to hide/show other settings
+							// Want to save value of input used to hide/show other settings
                             ddInput.explicitSave = true;
+                            rule.values.forEach((value) => {
+                                var findResult = this.bindingValue.settings.find((s) => {
+                                    return s.name === value.value && s.value;
+                                });
+                                if (findResult) {
+                                    ddValue = value.value;
+                                }
+                            });
+                            let ddInput = new SelectInput();
+                            ddInput.id = rule.name;
+                            ddInput.isHidden = isHidden;
+                            ddInput.label = rule.label;
+                            ddInput.help = rule.help;
+                            ddInput.value = ddValue;
+                            ddInput.enum = rule.values;
+                            ddInput.changeValue = () => {
+                                var rules = <Rule[]><any>ddInput.enum;
+                                rule.values.forEach((v) => {
+                                    if (ddInput.value == v.value) {
+                                        v.shownSettings.forEach((s) => {                                            
+                                            
+                                            if (s === "queueName") {
+                                                
+                                                this.model.inputs.find(s => s.id === "connection").isServicebusTopic = false;
+                                            }
+                                            else if (s === "topicName") {
+                                                
+                                                this.model.inputs.find(s => s.id === "connection").isServicebusTopic = true;
+                                            }
+
+                                            var input = this.model.inputs.find((input) => {
+                                                return input.id === s;
+                                            });
+                                            if (input) {
+                                                input.isHidden = isHidden ? true : false;
+                                            }
+                                            var s1 = this.bindingValue.settings.find((s2) => {
+                                                return s2.name === s;
+                                            });
+                                            if (s1) {
+                                                s1.noSave = isHidden ? true : false;
+                                            }
+                                        });
+                                        v.hiddenSettings.forEach((s) => {
+                                            var input = this.model.inputs.find((input) => {
+                                                return input.id === s;
+                                            });
+                                            if (input) {
+                                                input.isHidden = true;
+                                            }
+                                            var s1 = this.bindingValue.settings.find((s2) => {
+                                                return s2.name === s;
+                                            });
+                                            if (s1) {
+                                                s1.noSave = true;
+                                            }
+                                        });
+                                    }
+                                });
+                                //http://stackoverflow.com/questions/35515254/what-is-a-dehydrated-detector-and-how-am-i-using-one-here
+                                setTimeout(() => this.model.orderInputs(), 0);
+                            };
+                            if (isHidden) {
+                                ddInput.changeValue();
+                            }
+
                             this.model.inputs.splice(0, 0, ddInput);
                         }
                     });
@@ -635,6 +702,7 @@ export class BindingComponent {
         this.model.saveOriginInputs();
         // if we create new storage account we need to update appSettings to get new storage information
         this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true).subscribe(r => {
+
             this._appSettings = r.json().properties;
             this.setStorageInformation(selectedStorage);
         });
@@ -750,7 +818,7 @@ export class BindingComponent {
     private _getResourceAppSettings(type: ResourceType): string[] {
         const result = [];
         switch (type) {
-            case ResourceType.Storage:
+            case ResourceType.Storage:	
                 for (const key in this._appSettings) {
                     const value = this._appSettings[key].toLowerCase();
                     if (value.indexOf('accountname') > -1 && value.indexOf('accountkey') > -1) {
@@ -761,7 +829,6 @@ export class BindingComponent {
             case ResourceType.EventHub:
             case ResourceType.ServiceBus:
                 for (const key in this._appSettings) {
-
                     const value = this._appSettings[key].toLowerCase();
                     if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
                         result.push(key);
@@ -776,7 +843,6 @@ export class BindingComponent {
                     }
                 }
                 break;
-
             case ResourceType.DocumentDB:
                 for (const key in this._appSettings) {
                     const value = this._appSettings[key].toLowerCase();

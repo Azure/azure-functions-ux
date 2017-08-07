@@ -638,6 +638,16 @@ export class PortalResources
     public static downloadFunctionAppContent_includeAppSettingsHelp: string = "downloadFunctionAppContent_includeAppSettingsHelp";
     public static downloadFunctionAppContent_siteContent: string = "downloadFunctionAppContent_siteContent";
     public static downloadFunctionAppContent_vsProject: string = "downloadFunctionAppContent_vsProject";
+    public static ioTHubPicker_connection: string = "ioTHubPicker_connection";
+    public static ioTHubTrigger_connection_label: string = "ioTHubTrigger_connection_label";
+    public static ioTHubTrigger_EntityPath: string = "ioTHubTrigger_EntityPath";
+    public static entityPath_notfound: string = "entityPath_notfound";
+    public static eventHubPicker_IOTConsumerGroups: string = "eventHubPicker_IOTConsumerGroups";
+    public static servicebusQueuePicker_queueName: string = "servicebusQueuePicker_queueName";
+    public static defaultConsumerGroup: string = "defaultConsumerGroup";
+    public static defaultQueueName: string = "defaultQueueName";
+    public static defaultsubscriptionName: string = "defaultsubscriptionName";
+    public static defaultTopicName: string = "defaultTopicName";
     public static bindingInput_retrieve: string = "bindingInput_retrieve";
     public static apiProxy_delete: string = "apiProxy_delete";
     public static apiProxy_new: string = "apiProxy_new";

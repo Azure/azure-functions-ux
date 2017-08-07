@@ -18,6 +18,13 @@ export class BindingInputBase<T>
     validators: Validator[] = [];
     changeValue: (newValue?: any) => void;
     placeholder: string;
+
+    pathInput: any;
+    consumerGroup: any;
+    queueName: any;
+    topicName: any;
+    subscriptionName: any;
+    isServicebusTopic: boolean;
     explicitSave: boolean = false;
 
     isDisabled: boolean = false;
@@ -83,6 +90,8 @@ export class PickerInput extends BindingInputBase<string>{
     inProcess: boolean = false;
     metadata: any;
     items: string[];
+    pathInput: any;
+    consumerGroup: any;
 
     constructor() {
         super();
@@ -146,4 +155,27 @@ export class CheckBoxListInput extends BindingInputBase<any>{
         super();
         this.type = SettingType.checkBoxList;
     }
+}
+
+export interface PickerOption {
+    
+}
+
+export interface EventHubOption extends PickerOption {
+    entityPath: string;
+    consumerGroup: string;
+}
+
+export interface ServiceBusQueueOption extends PickerOption {
+    queueName: string;
+}
+
+export interface ServiceBusTopicOption extends PickerOption {
+    topicName: string;
+    subscriptionName: string;
+}
+
+export interface AppSettingObject {
+    appSettingName: string;
+    pickerOption: PickerOption;
 }

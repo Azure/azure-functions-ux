@@ -471,6 +471,7 @@
     <TypeScriptCompile Include="src\app\shared\GlobalErrorHandler.ts" />
     <TypeScriptCompile Include="src\app\shared\models\mobile-apps-client.ts" />
     <TypeScriptCompile Include="src\app\shared\models\host-status.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\iot-helper.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\requiredValidator.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\siteNameValidator.ts" />
     <TypeScriptCompile Include="src\app\shared\validators\uniqueValidator.ts" />

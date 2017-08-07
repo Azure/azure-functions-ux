@@ -1,13 +1,16 @@
 ﻿<event-hub *ngIf="pickerName === 'EventHub'"
-           [functionApp]="functionApp"
-           (close)="closePicker($event)"
-           (selectItem)="finishDialogPicker($event)">
+                [functionApp]="functionApp"
+                [bindingDirection]="binding.direction"
+                (close)="closePicker($event)"
+                (selectItem)="finishDialogPicker($event)">
 </event-hub>
 
 <service-bus *ngIf="pickerName === 'ServiceBus'"
-             [functionApp]="functionApp"
-             (close)="closePicker($event)"
-             (selectItem)="finishDialogPicker($event)">
+           [functionApp]="functionApp"
+           [isServiceBusTopic]="!(input.queueName) || (input.queueName && input.isServicebusTopic)"
+           [bindingDirection]="binding.direction"
+           (close)="closePicker($event)"
+           (selectItem)="finishDialogPicker($event)">
 </service-bus>
 
 <app-setting *ngIf="pickerName === 'AppSetting' && input.id !== 'PrincipalId'"

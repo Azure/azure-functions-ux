@@ -1,89 +1,126 @@
-<div class="modal fade in" style="display: block">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
-                <label>{{'eventHubPicker_connection' | translate}}</label>
+﻿<div class="modal fade in" style="display: block">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
+        <label>{{'eventHubPicker_connection' | translate}}</label>
+      </div>
+      <div class="modal-body" style="display: flex;flex-direction:column;">
+        <div style="margin-bottom: 10px;">
+          <radio-selector [options]="options" [defaultValue]="optionTypes.eventHub" (value)="optionsChange.next($event)"></radio-selector>
+        </div>
+
+        <div *ngIf="option === optionTypes.eventHub" class="line" style="margin-bottom: 10px;">
+          <div class="select-container">
+            <label>{{'eventHubPicker_namespace' | translate}}</label>
+            <div *ngIf="namespaces?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!namespaces?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="namespaces?.value?.length >0" (change)="onChangeNamespace($event.target.value)" [(ngModel)]="selectedNamespace">
+              <option *ngFor="let item of namespaces.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedNamespace" class="select-container">
+            <label>{{'eventHubPicker_eventHub' | translate}}</label>
+            <div *ngIf="eventHubs?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!eventHubs?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="eventHubs?.value?.length > 0" (change)="onEventHubChange($event.target.value)" [(ngModel)]="selectedEventHub">
+              <option *ngFor="let item of eventHubs.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedEventHub" class="select-container">
+            <label>{{'eventHubPicker_policy' | translate}}</label>
+            <div *ngIf="polices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!polices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="polices?.value?.length > 0" [(ngModel)]="selectedPolicy">
+              <option *ngFor="let item of polices.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="option === optionTypes.eventHub" class="line">
+          <div *ngIf="isTrigger && selectedEventHub" class="select-container">
+            <label>{{'eventHubPicker_IOTConsumerGroups' | translate}}</label>
+            <div *ngIf="eventHubConsumerGroups?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!eventHubConsumerGroups" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="eventHubConsumerGroups?.length > 0" [(ngModel)]="selectedEventHubConsumerGroup">
+              <option *ngFor="let item of eventHubConsumerGroups" [value]="item.name">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div *ngIf="option === optionTypes.IOTHub" class="line" style="margin-bottom: 10px;">
+          <div class="select-container">
+            <label>{{'eventHubPicker_IOTHub' | translate}}</label>
+            <div *ngIf="IOTHubs?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTHubs?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTHubs?.value?.length >0" (change)="onIOTHubChange($event.target.value)" [(ngModel)]="selectedIOTHub">
+              <option *ngFor="let item of IOTHubs.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedIOTHub" class="select-container">
+            <label>{{'eventHubPicker_IOTEndpoint' | translate}}</label>
+            <div *ngIf="IOTEndpoints?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTEndpoints" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTEndpoints?.length > 0" (change)="onIoTEndpointsChange($event.target.value)" [(ngModel)]="selectedIOTEndpointName">
+              <option *ngFor="let item of IOTEndpoints" [value]="item.name">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedIOTEndpoint && !selectedIOTEndpoint?.isBuiltIn" class="select-container">
+            <label>{{'eventHubPicker_policy' | translate}}</label>
+            <div *ngIf="IOTPolicies?.value?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTPolicies?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTPolicies?.value?.length > 0" [(ngModel)]="selectedIOTPolicy">
+              <option *ngFor="let item of IOTPolicies.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedIOTEndpoint && selectedIOTEndpoint?.isBuiltIn" class="select-container">
+            <label>{{'eventHubPicker_policy' | translate}}</label>
+            <div *ngIf="IOTPolicies?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTPolicies" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTPolicies?.length > 0" [(ngModel)]="selectedIOTPolicy">
+              <option *ngFor="let item of IOTPolicies" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="option === optionTypes.IOTHub" class="line">
+          <div *ngIf="isTrigger && selectedIOTEndpoint" class="select-container">
+            <label>{{'eventHubPicker_IOTConsumerGroups' | translate}}</label>
+            <div *ngIf="IOTConsumerGroups?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTConsumerGroups" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTConsumerGroups?.length > 0" [(ngModel)]="selectedIOTConsumerGroup">
+              <option *ngFor="let item of IOTConsumerGroups" [value]="item">{{item}}</option>
+            </select>
+          </div>
+        </div>
+
+          <div *ngIf="option === optionTypes.custom">
+            <div class="input-container">
+              <label>{{'eventHubPicker_appSettingName' | translate}}</label>
+              <div>
+                <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingName" />
+              </div>
             </div>
-            <div class="modal-body" style="display: flex;flex-direction:column;">
-                <div style="margin-bottom: 10px;">
-                    <radio-selector [options]="options" [defaultValue]="optionTypes.eventHub" (value)="optionsChange.next($event)"></radio-selector>
-                </div>
-
-                <div *ngIf="option === optionTypes.eventHub" class="line">
-                    <div class="select-container">
-                        <label>{{'eventHubPicker_namespace' | translate}}</label>
-                        <div *ngIf="namespaces?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!namespaces?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="namespaces?.value?.length >0" (change)="onChangeNamespace($event.target.value)" [(ngModel)]="selectedNamespace">
-                            <option *ngFor="let item of namespaces.value" [value]="item.id">{{item.name}}</option>
-                        </select>
-                    </div>
-                    <div *ngIf="selectedNamespace" class="select-container">
-                        <label>{{'eventHubPicker_eventHub' | translate}}</label>
-                        <div *ngIf="eventHubs?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!eventHubs?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="eventHubs?.value?.length > 0" (change)="onEventHubChange($event.target.value)" [(ngModel)]="selectedEventHub">
-                            <option *ngFor="let item of eventHubs.value" [value]="item.id">{{item.name}}</option>
-                        </select>
-                    </div>
-                    <div *ngIf="selectedEventHub" class="select-container">
-                        <label>{{'eventHubPicker_policy' | translate}}</label>
-                        <div *ngIf="polices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!polices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="polices?.value?.length > 0" [(ngModel)]="selectedPolicy">
-                            <option *ngFor="let item of polices.value" [value]="item.id">{{item.name}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div *ngIf="option === optionTypes.IOTHub" class="line">
-                    <div class="select-container">
-                        <label>{{'eventHubPicker_IOTHub' | translate}}</label>
-                        <div *ngIf="IOTHubs?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!IOTHubs?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="IOTHubs?.value?.length >0" (change)="onIOTHubChange($event.target.value)" [(ngModel)]="selectedIOTHub">
-                            <option *ngFor="let item of IOTHubs.value" [value]="item.id">{{item.name}}</option>
-                        </select>
-                    </div>
-                    <div *ngIf="selectedIOTHub" class="select-container">
-                        <label>{{'eventHubPicker_IOTEndpoint' | translate}}</label>
-                        <div *ngIf="IOTEndpoints?.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!IOTEndpoints" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="IOTEndpoints?.length > 0" [(ngModel)]="selectedIOTEndpoint">
-                            <option *ngFor="let item of IOTEndpoints" [value]="item.value">{{item.name}}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div *ngIf="option === optionTypes.custom">
-                    <div class="input-container">
-                        <label>{{'eventHubPicker_appSettingName' | translate}}</label>
-                        <div>
-                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingName" />
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <label>{{'eventHubPicker_appSettingValue' | translate}}</label>
-                        <div>
-                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingValue" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button-conainer">
-                    <button *ngIf="!selectInProcess"
-                            (click)="onSelect()"
-                            [class.custom-button-disabled]="!canSelect"
-                            class="custom-button">
-
-                        <ng-container *ngIf="option !== optionTypes.custom">{{ 'select' | translate }}</ng-container>
-                        <ng-container *ngIf="option === optionTypes.custom">{{ 'create' | translate }}</ng-container>
-                    </button>
-                    <i *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
-                </div>
+            <div class="input-container">
+              <label>{{'eventHubPicker_appSettingValue' | translate}}</label>
+              <div>
+                <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingValue" />
+              </div>
             </div>
+          </div>
+
+          <div class="button-conainer">
+            <button *ngIf="!selectInProcess"
+                    (click)="onSelect()"
+                    [class.custom-button-disabled]="!canSelect"
+                    class="custom-button">
+
+              <ng-container *ngIf="option !== optionTypes.custom">{{ 'select' | translate }}</ng-container>
+              <ng-container *ngIf="option === optionTypes.custom">{{ 'create' | translate }}</ng-container>
+            </button>
+            <i *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
+          </div>
         </div>
     </div>
+  </div>
 </div>
 
 <div class="modal-backdrop fade in"></div>

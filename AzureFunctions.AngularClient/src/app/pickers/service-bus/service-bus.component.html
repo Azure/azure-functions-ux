@@ -1,63 +1,144 @@
-<div class="modal fade in" style="display: block">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
-                <label>{{'eventHubPicker_connection' | translate}} </label>
-            </div>
-            <div class="modal-body" style="display: flex;flex-direction:column;">
-                <div style="margin-bottom: 10px;">
-                    <radio-selector [options]="options" [defaultValue]="optionTypes.serviceBus" (value)="optionsChange.next($event)"></radio-selector>
-                </div>
-
-                <div *ngIf="option === optionTypes.serviceBus" class="line">
-                    <div class="select-container">
-                        <label>{{'eventHubPicker_namespace' | translate}}</label>
-                        <div *ngIf="namespaces?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!namespaces?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="namespaces?.value?.length >0" (change)="onChangeNamespace($event.target.value)" [(ngModel)]="selectedNamespace">
-                            <option *ngFor="let item of namespaces.value" [value]="item.id">{{item.name}}</option>
-                        </select>
-                    </div>
-                    <div *ngIf="selectedNamespace" class="select-container">
-                        <label>{{'eventHubPicker_policy' | translate}}</label>
-                        <div *ngIf="polices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
-                        <i *ngIf="!polices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-                        <select *ngIf="polices?.value?.length > 0" (change)="onEventHubChange($event.target.value)" [(ngModel)]="selectedPolicy">
-                            <option *ngFor="let item of polices.value" [value]="item.id">{{item.name}}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div *ngIf="option === optionTypes.custom">
-                    <div class="input-container">
-                        <label>{{'eventHubPicker_appSettingName' | translate}}</label>
-                        <div>
-                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingName" />
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <label>{{'eventHubPicker_appSettingValue' | translate}}</label>
-                        <div>
-                            <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingValue" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button-conainer">
-                    <button *ngIf="!selectInProcess"
-                            (click)="onSelect()"
-                            [class.custom-button-disabled]="!canSelect"
-                            class="custom-button">
-
-                        <ng-container *ngIf="option !== optionTypes.custom">{{ 'select' | translate }}</ng-container>
-                        <ng-container *ngIf="option === optionTypes.custom">{{ 'create' | translate }}</ng-container>
-                    </button>
-                    <i *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
-                </div>
-            </div>
+﻿<div class="modal fade in" style="display: block">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
+        <label>{{'eventHubPicker_connection' | translate}} </label>
+      </div>
+      <div class="modal-body" style="display: flex;flex-direction:column;">
+        <div style="margin-bottom: 10px;">
+          <radio-selector [options]="options" [defaultValue]="optionTypes.serviceBus" (value)="optionsChange.next($event)"></radio-selector>
         </div>
+
+        <div *ngIf="option === optionTypes.serviceBus" class="line" style="margin-bottom: 10px;">
+          <div class="select-container">
+            <label>{{'eventHubPicker_namespace' | translate}}</label>
+            <div *ngIf="namespaces?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!namespaces?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="namespaces?.value?.length >0" (change)="onChangeNamespace($event.target.value)" [(ngModel)]="selectedNamespace">
+              <option *ngFor="let item of namespaces.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedNamespace" class="select-container">
+            <label>{{'eventHubPicker_policy' | translate}}</label>
+            <div *ngIf="polices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!polices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="polices?.value?.length > 0" [(ngModel)]="selectedPolicy">
+              <option *ngFor="let item of polices.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="!isServiceBusTopic && selectedNamespace" class="select-container">
+            <label>{{'serviceBusTrigger_queueName_label' | translate}}</label>
+            <div *ngIf="queueNames?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!queueNames" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="queueNames?.length > 0" [(ngModel)]="selectedQueueName">
+              <option *ngFor="let item of queueNames" [value]="item">{{item}}</option>
+            </select>
+          </div>
+          <div *ngIf="isServiceBusTopic && selectedNamespace" class="select-container">
+            <label>{{'serviceBusOut_topicName_label' | translate}}</label>
+            <div *ngIf="topicNames?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!topicNames" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="topicNames?.length > 0" (change)="onChangeTopicName($event.target.value)" [(ngModel)]="selectedTopicId">
+              <option *ngFor="let item of topicNames" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="isTrigger && isServiceBusTopic && option === optionTypes.serviceBus" class="line">
+          <div *ngIf="isServiceBusTopic && selectedNamespace" class="select-container">
+            <label>{{'serviceBusTrigger_subscriptionName_label' | translate}}</label>
+            <div *ngIf="subscriptionNames?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!subscriptionNames" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="subscriptionNames?.length > 0" [(ngModel)]="selectedSubscriptionName">
+              <option *ngFor="let item of subscriptionNames" [value]="item">{{item}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div *ngIf="option === optionTypes.IOTHub" class="line" style="margin-bottom: 10px;">
+          <div class="select-container">
+            <label>{{'eventHubPicker_IOTHub' | translate}}</label>
+            <div *ngIf="IOTHubs?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTHubs?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTHubs?.value?.length >0" (change)="onIOTHubChange($event.target.value)" [(ngModel)]="selectedIOTHub">
+              <option *ngFor="let item of IOTHubs.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedIOTHub" class="select-container">
+            <label>{{'eventHubPicker_IOTEndpoint' | translate}}</label>
+            <div *ngIf="IOTEndpoints?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTEndpoints" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTEndpoints?.length > 0" (change)="onIoTEndpointsChange($event.target.value)" [(ngModel)]="selectedIOTEndpointId">
+              <option *ngFor="let item of IOTEndpoints" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="selectedIOTEndpointId" class="select-container">
+            <label>{{'eventHubPicker_policy' | translate}}</label>
+            <div *ngIf="IOTpolices?.value.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTpolices?.value" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTpolices?.value?.length > 0" [(ngModel)]="IOTselectedPolicy">
+              <option *ngFor="let item of IOTpolices.value" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="!isServiceBusTopic && option === optionTypes.IOTHub" class="line">
+          <div *ngIf="!isServiceBusTopic && selectedIOTEndpointId" class="select-container">
+            <label>{{'serviceBusTrigger_queueName_label' | translate}}</label>
+            <div *ngIf="IOTqueueNames?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTqueueNames" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTqueueNames?.length > 0" (change)="onChangeIoTQueueName($event.target.value)" [(ngModel)]="IOTselectedQueueName">
+              <option *ngFor="let item of IOTqueueNames" [value]="item">{{item}}</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="isServiceBusTopic && option === optionTypes.IOTHub" class="line">
+          <div *ngIf="isServiceBusTopic && selectedIOTEndpointId" class="select-container">
+            <label>{{'serviceBusOut_topicName_label' | translate}}</label>
+            <div *ngIf="IOTtopicNames?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTtopicNames" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTtopicNames?.length > 0" (change)="onChangeTopicName($event.target.value)" [(ngModel)]="IOTselectedTopicId">
+              <option *ngFor="let item of IOTtopicNames" [value]="item.id">{{item.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="isTrigger && isServiceBusTopic && selectedIOTEndpointId" class="select-container">
+            <label>{{'serviceBusTrigger_subscriptionName_label' | translate}}</label>
+            <div *ngIf="IOTsubscriptionNames?.length == 0" class="text-label">{{'notFound' | translate}}</div>
+            <i *ngIf="!IOTsubscriptionNames" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
+            <select *ngIf="IOTsubscriptionNames?.length > 0" [(ngModel)]="IOTselectedSubscriptionName">
+              <option *ngFor="let item of IOTsubscriptionNames" [value]="item">{{item}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div *ngIf="option === optionTypes.custom">
+          <div class="input-container">
+            <label>{{'eventHubPicker_appSettingName' | translate}}</label>
+            <div>
+              <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingName" />
+            </div>
+          </div>
+          <div class="input-container">
+            <label>{{'eventHubPicker_appSettingValue' | translate}}</label>
+            <div>
+              <input type="text" (keyup)="setSelect()" [(ngModel)]="appSettingValue" />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-conainer">
+          <button *ngIf="!selectInProcess"
+                  (click)="onSelect()"
+                  [class.custom-button-disabled]="!canSelect"
+                  class="custom-button">
+
+            <ng-container *ngIf="option !== optionTypes.custom">{{ 'select' | translate }}</ng-container>
+            <ng-container *ngIf="option === optionTypes.custom">{{ 'create' | translate }}</ng-container>
+          </button>
+          <i *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="modal-backdrop fade in"></div>

@@ -30,7 +30,7 @@ export class BindingManager {
             bindings: [],
             originalConfig: config
         };
-
+     
         if (config.bindings) {
 
             config.bindings.forEach((b) => {

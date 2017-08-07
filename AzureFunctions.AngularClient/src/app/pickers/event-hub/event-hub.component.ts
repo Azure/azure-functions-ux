@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { FunctionApp } from '../../shared/function-app';
@@ -10,6 +10,9 @@ import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
+import { AppSettingObject } from '../../shared/models/binding-input';
+import { IoTHelper } from '../../shared/models/iot-helper';
+import { DirectionType } from '../../shared/models/binding';
 import { Subscription } from "rxjs/Subscription";
 
 class OptionTypes {
@@ -28,7 +31,15 @@ interface IOTKey {
 interface IOTEndpoint {
     name: string;
     value: string;
-    title: string;
+    isBuiltIn: boolean;
+    entityPath: string;
+    subscriptionId: string;
+    resourceGroupName: string;
+}
+
+interface IOTBuiltInPolicy {
+    name: string;
+    id: string;
 }
 
 @Component({
@@ -48,7 +59,15 @@ export class EventHubComponent {
     public selectedEventHub: string;
     public selectedPolicy: string;
     public selectedIOTHub: string;
-    public selectedIOTEndpoint: string;
+    public selectedIOTEndpoint: IOTEndpoint;
+    public selectedIOTEndpointName: string;
+    public eventHubConsumerGroups: any[];
+    public selectedEventHubConsumerGroup: string;
+    public IOTConsumerGroups: any[];
+    public selectedIOTConsumerGroup: string;
+    public IOTPolicies: ArmArrayResult;
+    public selectedIOTPolicy: string;
+
     public appSettingName: string;
     public appSettingValue: string;
     public optionsChange: Subject<string>;
@@ -57,9 +76,10 @@ export class EventHubComponent {
     public selectInProcess = false;
     public options: SelectOption<string>[];
     public option: string;
-    public canSelect = false;
+    public canSelect: boolean = false;
+    public isTrigger: boolean = true;
     @Output() close = new Subject<void>();
-    @Output() selectItem = new Subject<string>();
+    @Output() selectItem = new Subject<AppSettingObject>();
 
     private _functionApp: FunctionApp;
     private _descriptor: SiteDescriptor;
@@ -92,6 +112,10 @@ export class EventHubComponent {
             this.setSelect();
         });
     }
+    
+    @Input() set bindingDirection(bindingDirection: DirectionType) {
+        this.isTrigger = bindingDirection === DirectionType.trigger;
+    };
 
     @Input() set functionApp(functionApp: FunctionApp) {
         this._functionApp = functionApp;
@@ -123,10 +147,15 @@ export class EventHubComponent {
         this.eventHubs = null;
         this.selectedEventHub = null;
         this.selectedPolicy = null;
+        this.eventHubConsumerGroups = null;
+        this.selectedEventHubConsumerGroup = null;
         Observable.zip(
             this._cacheService.getArm(value + '/eventHubs', true),
             this._cacheService.getArm(value + '/AuthorizationRules', true),
-            (hubs, namespacePolices) => ({ hubs: hubs.json(), namespacePolices: namespacePolices.json() })).subscribe(r => {
+            (hubs, namespacePolices) => ({
+                hubs: hubs.json(),
+                namespacePolices: namespacePolices.json()
+            })).subscribe(r => {
                 this.eventHubs = r.hubs;
                 if (this.eventHubs.value.length > 0) {
                     this.selectedEventHub = this.eventHubs.value[0].id;
@@ -140,66 +169,185 @@ export class EventHubComponent {
 
                     this.selectedPolicy = r.namespacePolices.value[0].id;
                     this.polices = this.namespacePolices;
-
                 }
-                this.setSelect();
-
             });
     }
 
-    onEventHubChange(value: string) {
+    	(value: string) {
         this.selectedPolicy = null;
         this.polices = null;
-        this._cacheService.getArm(value + '/AuthorizationRules', true).subscribe(r => {
-            this.polices = r.json();
+        this.eventHubConsumerGroups = null;
+        this.selectedEventHubConsumerGroup = null;
 
-            this.polices.value.forEach((item) => {
-                item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
+        Observable.zip(
+            this._cacheService.getArm(value + "/AuthorizationRules", true),
+            this._cacheService.getArm(value + "/ConsumerGroups", true),
+            (policies, consumerGroups) => ({
+                policies: policies.json(),
+                consumerGroups: consumerGroups.json()
+            })).subscribe(r => {
+
+                this.polices = r.policies;
+                this.polices.value.forEach((item) => {
+                    item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
+                });
+
+                if (this.namespacePolices.value.length > 0) {
+                    this.polices.value = this.polices.value.concat(this.namespacePolices.value);
+                }
+
+                if (this.polices.value.length > 0) {
+                    this.selectedPolicy = this.polices.value[0].id;
+                }
+                
+                this.eventHubConsumerGroups = r.consumerGroups.value;
+                this.selectedEventHubConsumerGroup = this.eventHubConsumerGroups[0].name;
+                this.setSelect();
             });
-
-            if (this.namespacePolices.value.length > 0) {
-                this.polices.value = this.polices.value.concat(this.namespacePolices.value);
-            }
-
-            if (this.polices.value.length > 0) {
-                this.selectedPolicy = this.polices.value[0].id;
-            }
-            this.setSelect();
-        });
     }
-
+    
     onIOTHubChange(value: string) {
         this.IOTEndpoints = null;
-        this.selectedIOTEndpoint = null;
+        this.setSelectedIOTEndpointByObject(null);
+        this.IOTPolicies = null;
+        this.selectedIOTPolicy = null;
+        this.IOTConsumerGroups = null;
+        this.selectedIOTConsumerGroup = null;
+
         Observable.zip(
             this._cacheService.postArm(value + '/listkeys', true, '2017-01-19'),
             this._cacheService.getArm(value, true, '2017-01-19'),
-            (keys, hub) => ({ keys: keys.json(), hub: hub.json() })).subscribe(r => {
+            this._cacheService.getArm(value + "/EventhubEndPoints/events/ConsumerGroups", true, '2017-01-19'),
+            (keys, hub, eventsConsumerGroup) => ({
+                keys: keys.json(),
+                hub: hub.json(),
+                eventsConsumerGroup: eventsConsumerGroup.json()
+            })).subscribe(r => {
 
                 if (r.keys.value) {
-
-                    // find service policy
                     const serviceKey: IOTKey = r.keys.value.find(item => (item.keyName === 'iothubowner'));
                     if (serviceKey) {
                         this.IOTEndpoints = [
                             {
                                 name: this._translateService.instant(PortalResources.eventHubPicker_IOTEvents),
-                                title: 'events',
-                                value: this.getIOTConnstionString(r.hub.properties.eventHubEndpoints.events.endpoint,
-                                    r.hub.properties.eventHubEndpoints.events.path, serviceKey.primaryKey)
+                                value: IoTHelper.getIOTConnectionString(r.hub.properties.eventHubEndpoints.events.endpoint,
+                                    r.hub.properties.eventHubEndpoints.events.path, serviceKey.primaryKey),
+                                isBuiltIn: true,
+                                entityPath: r.hub.properties.eventHubEndpoints.events.path,
+                                subscriptionId: null,
+                                resourceGroupName: null
                             },
                             {
                                 name: this._translateService.instant(PortalResources.eventHubPicker_IOTMonitoring),
-                                title: 'monitoring',
-                                value: this.getIOTConnstionString(r.hub.properties.eventHubEndpoints.operationsMonitoringEvents.endpoint,
-                                    r.hub.properties.eventHubEndpoints.operationsMonitoringEvents.path, serviceKey.primaryKey)
+                                value: IoTHelper.getIOTConnectionString(r.hub.properties.eventHubEndpoints.operationsMonitoringEvents.endpoint,
+                                    r.hub.properties.eventHubEndpoints.operationsMonitoringEvents.path, serviceKey.primaryKey),
+                                isBuiltIn: true,
+                                entityPath: r.hub.properties.eventHubEndpoints.operationsMonitoringEvents.path,
+                                subscriptionId: null,
+                                resourceGroupName: null
                             }
                         ];
-                        this.selectedIOTEndpoint = this.IOTEndpoints[0].value;
+
+                        var hubs = r.hub.properties.routing.endpoints;
+                        hubs.eventHubs.forEach(endpoint => {
+                            this.IOTEndpoints.push({
+                                name: endpoint.name,
+                                value: endpoint.connectionString, // replace this in onSelect
+                                isBuiltIn: false,
+                                entityPath: IoTHelper.getEntityPathFrom(endpoint.connectionString),
+                                subscriptionId: endpoint.subscriptionId,
+                                resourceGroupName: endpoint.resourceGroup
+                            })
+                        });
+                        this.setSelectedIOTEndpointByObject(this.IOTEndpoints[0]);
+
+                        // policy (default to events)
+                        this.IOTPolicies = r.keys.value.filter(rule => rule.rights.indexOf("ServiceConnect") > -1).map(rule =>
+                            <IOTBuiltInPolicy>{
+                                name: rule.keyName + " (" + rule.rights + ")",
+                                id: rule.keyName
+                            });         
+                        this.selectedIOTPolicy = this.IOTPolicies[0].id;
+
+                        // consumer groups (default to events)
+                        this.IOTConsumerGroups = r.eventsConsumerGroup.value;
+                        this.selectedIOTConsumerGroup = this.IOTConsumerGroups[0];
                     }
                 }
                 this.setSelect();
             });
+    }
+
+    onIoTEndpointsChange(endpointName: string) {
+        this.IOTConsumerGroups = null;
+        this.selectedIOTConsumerGroup = null;
+        this.setSelectedIOTEndpointByName(endpointName);
+        this.IOTPolicies = null;
+        this.selectedIOTPolicy = null;
+
+        var eventHubEndpointName: string;
+        if (!this.selectedIOTEndpoint.isBuiltIn) {
+            eventHubEndpointName = IoTHelper.getEntityPathFrom(this.selectedIOTEndpoint.value);
+            const newPolicyUrl = this.getEventHubUrlFrom(this.selectedIOTHub, this.selectedIOTEndpoint);
+            const newNamespaceUrl = this.getNamespaceUrlFrom(this.selectedIOTHub, this.selectedIOTEndpoint);
+            Observable.zip(
+                this._cacheService.getArm(newPolicyUrl + "/authorizationRules", true),
+                this._cacheService.getArm(newPolicyUrl + "/consumergroups", true),
+                this._cacheService.getArm(newNamespaceUrl + "/authorizationRules", true),
+                (policies, consumerGroups, namespacePolicies) => ({
+                    policies: policies.json(),
+                    consumerGroups: consumerGroups.json(),
+                    namespacePolicies: namespacePolicies.json()
+                })).subscribe(r => {
+                    // policy
+                    this.IOTPolicies = r.policies;
+                    this.IOTPolicies.value.forEach(policy => policy.name += " " + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy));
+
+                    let namespacePolicies = r.namespacePolicies;
+                    if (namespacePolicies.value.length > 0) {
+                        namespacePolicies.value.forEach(item => item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy));
+                    }
+
+                    if (namespacePolicies.value.length > 0) {
+                        this.IOTPolicies.value = this.IOTPolicies.value.concat(namespacePolicies.value);
+                    }
+                    if (this.IOTPolicies.value.length > 0) {
+                        this.selectedIOTPolicy = this.IOTPolicies.value[0].id;
+                    }
+
+                    // ConsumerGroups
+                    this.IOTConsumerGroups = r.consumerGroups.value.map(item => item.name);
+                    this.selectedIOTConsumerGroup = this.IOTConsumerGroups[0];
+                    this.setSelect();
+
+                });
+        }
+        else {
+
+            if (IoTHelper.getEntityPathFrom(this.selectedIOTEndpoint.value).indexOf("operationmonitoring") > -1) {
+                eventHubEndpointName = "operationsMonitoringEvents";
+            } else {
+                eventHubEndpointName = "events";
+            }
+
+            Observable.zip(
+                this._cacheService.postArm(this.selectedIOTHub + "/listkeys", true, '2017-01-19'),
+                this._cacheService.getArm(this.selectedIOTHub + "/EventhubEndPoints/" + eventHubEndpointName + "/ConsumerGroups", true, '2017-01-19'),
+                (policies, consumerGroups) => ({
+                    policies: policies.json(),
+                    consumerGroups: consumerGroups.json()
+                })).subscribe(r => {
+                    this.IOTPolicies = r.policies.value.filter(rule => rule.rights.indexOf("ServiceConnect") > -1).map(rule =>
+                        <IOTBuiltInPolicy>{
+                            name: rule.keyName + " (" + rule.rights + ")",
+                            id: rule.keyName
+                        });         
+                    this.selectedIOTPolicy = this.IOTPolicies[0].id;
+                    this.IOTConsumerGroups = r.consumerGroups.value;
+                    this.selectedIOTConsumerGroup = this.IOTConsumerGroups[0];
+                    this.setSelect();
+                });
+        }
     }
 
     onClose() {
@@ -209,6 +357,8 @@ export class EventHubComponent {
     }
 
     onSelect(): Subscription | null {
+        var appSettingName: string;
+        var appSettingValue: string;
         if (this.option === this.optionTypes.eventHub) {
             if (this.selectedEventHub && this.selectedPolicy) {
                 this.selectInProcess = true;
@@ -221,22 +371,21 @@ export class EventHubComponent {
                     .flatMap(r => {
                         const namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
                         const keys = r.keys.json();
+						const selectedPolicy = this.getSelectedPolicyFromEventHub(this.selectedPolicy);
 
-                        appSettingName = `${namespace.name}_${keys.keyName}_EVENTHUB`;
-                        let appSettingValue = keys.primaryConnectionString;
+                        appSettingName = `${namespace.name}_${keys.keyName}_EVENTHUB_${selectedPolicy}`;
+                        appSettingValue = keys.primaryConnectionString;
                         // Runtime requires entitypath for all event hub connections strings,
                         // so if it's namespace policy add entitypath as selected eventhub
                         if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
                             const eventHub = this.eventHubs.value.find(p => p.id === this.selectedEventHub);
                             appSettingValue = `${appSettingValue};EntityPath=${eventHub.name}`;
-
                         }
 
                         const appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = appSettingValue;
 
                         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
-
                     })
                     .do(null, e => {
                         this._globalStateService.clearBusyState();
@@ -245,44 +394,67 @@ export class EventHubComponent {
                     })
                     .subscribe(() => {
                         this._globalStateService.clearBusyState();
-                        this.selectItem.next(appSettingName);
+                        this.selectItem.next(IoTHelper.generateEventHubAppSettingObject(appSettingName, appSettingValue, this.selectedEventHubConsumerGroup));
                     });
             }
         } else {
             let appSettingName: string;
             let appSettingValue: string;
             if (this.option === this.optionTypes.IOTHub && this.selectedIOTHub && this.selectedIOTEndpoint) {
+                var IOTHub = this.IOTHubs.value.find(item => (item.id === this.selectedIOTHub));
+                // appSettingValue
+                if (this.selectedIOTEndpoint.isBuiltIn) {
+                    appSettingName = `${IOTHub.name}_${this.selectedIOTEndpoint.name}_IOTHUB_${this.selectedIOTPolicy}`;
+                    this._cacheService.postArm(this.selectedIOTHub + "/listkeys", true, '2017-01-19').subscribe(r => {
+                        var serviceKey: IOTKey = r.json().value.find(item => (item.keyName === this.selectedIOTPolicy));
+                        appSettingValue = IoTHelper.changeIOTConnectionStringPolicy(this.selectedIOTEndpoint.value, this.selectedIOTPolicy, serviceKey.primaryKey)
+                        this.setNonEventHubAppSetting(appSettingName, appSettingValue);
+                    })
+                }
+                else {
+                    let selectedPolicy = this.getSelectedPolicyFromEventHub(this.selectedIOTPolicy);
+                    appSettingName = `${IOTHub.name}_${this.selectedIOTEndpoint.name}_IOTHUB_${selectedPolicy}`;
+                    this._cacheService.postArm(this.selectedIOTPolicy + '/ListKeys', true, "2015-08-01")
+                        .subscribe(r => {
+                            appSettingValue = r.json().primaryConnectionString;
+                            // Runtime requires entitypath for all event hub connections strings, 
+                            // so if it's namespace policy add entitypath as selected eventhub
+                            if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
+                                let path = this.selectedIOTEndpoint.entityPath;
+                                appSettingValue = `${appSettingValue};EntityPath=${path}`;
+                            }
 
-                const IOTHub = this.IOTHubs.value.find(item => (item.id === this.selectedIOTHub));
-                const IOTEndpoint = this.IOTEndpoints.find(item => (item.value === this.selectedIOTEndpoint));
-
-                appSettingName = `${IOTHub.name}_${IOTEndpoint.title}_IOTHUB`;
-                appSettingValue = IOTEndpoint.value;
+                            this.setNonEventHubAppSetting(appSettingName, appSettingValue);
+                        });
+                }
             } else if (this.option === this.optionTypes.custom && this.appSettingName && this.appSettingValue) {
                 appSettingName = this.appSettingName;
                 appSettingValue = this.appSettingValue;
-            }
-
-            if (appSettingName && appSettingValue) {
-                this.selectInProcess = true;
-                this._globalStateService.setBusyState();
-                this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-                    const appSettings: ArmObj<any> = r.json();
-                    appSettings.properties[appSettingName] = appSettingValue;
-                    return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
-                })
-                    .do(null, e => {
-                        this._globalStateService.clearBusyState();
-                        this.selectInProcess = false;
-                        console.log(e);
-                    })
-                    .subscribe(() => {
-                        this._globalStateService.clearBusyState();
-                        this.selectItem.next(appSettingName);
-                    });
+                this.setNonEventHubAppSetting(appSettingName, appSettingValue);
             }
         }
-        return null;
+    }
+
+    private setNonEventHubAppSetting(appSettingName: string, appSettingValue: string) {
+        if (appSettingName && appSettingValue) {
+            this.selectInProcess = true;
+            this._globalStateService.setBusyState();
+            this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
+                var appSettings: ArmObj<any> = r.json();
+
+                appSettings.properties[appSettingName] = appSettingValue;
+                return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            })
+                .do(null, e => {
+                    this._globalStateService.clearBusyState();
+                    this.selectInProcess = false;
+                    console.log(e);
+                })
+                .subscribe(r => {
+                    this._globalStateService.clearBusyState();
+                    this.selectItem.next(IoTHelper.generateEventHubAppSettingObject(appSettingName, appSettingValue, this.selectedIOTConsumerGroup));
+                });
+        }
     }
 
     public setSelect() {
@@ -294,19 +466,62 @@ export class EventHubComponent {
                 }
             case this.optionTypes.eventHub:
                 {
-                    this.canSelect = !!(this.selectedPolicy && this.selectedEventHub);
+                    this.canSelect = !!(this.selectedPolicy && this.selectedEventHub && this.selectedEventHubConsumerGroup);
                     break;
                 }
             case this.optionTypes.IOTHub:
                 {
-                    this.canSelect = !!(this.selectedIOTHub && this.selectedIOTEndpoint);
+                    this.canSelect = !!(this.selectedIOTHub && this.selectedIOTEndpoint && this.selectedIOTPolicy && this.selectedIOTConsumerGroup);
                     break;
                 }
         }
     }
 
-    private getIOTConnstionString(endpoint: string, path: string, key: string) {
-        return `Endpoint=${endpoint};SharedAccessKeyName=iothubowner;SharedAccessKey=${key};EntityPath=${path}`;
+    /**
+     * return
+     * "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}"
+     * @param connectionString
+     * Invariant: this.selectedIOTEndpoint.isBuiltIn === false (custom endpoints)
+     */
+    private getNamespaceUrlFrom(IOTHubUrl: string, customEndpoint: IOTEndpoint) {
+        let connectionString = customEndpoint.value;
+        let sb = "sb://";
+        let sbLength = sb.length; // 5;
+        let namespaceStartIndex = connectionString.indexOf(sb) + sbLength;
+        let namespaceAfterEndIndex = connectionString.indexOf(".servicebus");
+        return "/subscriptions/" + customEndpoint.subscriptionId + "/resourceGroups/"
+            + customEndpoint.resourceGroupName + "/providers/Microsoft.EventHub/namespaces/" 
+            + connectionString.substring(namespaceStartIndex, namespaceAfterEndIndex);
     }
 
+    /**
+    * return
+    * "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}"
+    * Invariant: this.selectedIOTEndpoint.isBuiltIn === false (custom endpoints)
+    * @param connectionString
+    */
+    private getEventHubUrlFrom(IOTHubUrl: string, customEndpoint: IOTEndpoint) {
+        return this.getNamespaceUrlFrom(IOTHubUrl, customEndpoint)
+            + "/eventhubs/" + IoTHelper.getEntityPathFrom(customEndpoint.value);
+    }
+
+    /**
+     * 
+     * @param id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{ruleName}"
+     */
+    private getSelectedPolicyFromEventHub(id: string) {
+        let authRule = "authorizationRules/";
+        let startPolicyIndex = id.indexOf(authRule) + authRule.length;
+        return id.substring(startPolicyIndex);
+    }
+
+    private setSelectedIOTEndpointByName(endpointName: string) {
+        this.selectedIOTEndpoint = this.IOTEndpoints.find(item => (item.name === endpointName));
+        this.selectedIOTEndpointName = endpointName;
+    }
+
+    private setSelectedIOTEndpointByObject(endpointObject: IOTEndpoint) {
+        this.selectedIOTEndpoint = endpointObject;       
+        this.selectedIOTEndpointName = (endpointObject) ? endpointObject.name : null;
+    }
 }

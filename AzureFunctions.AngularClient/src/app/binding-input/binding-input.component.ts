@@ -1,7 +1,10 @@
+﻿import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild } from '@angular/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PopoverContent } from "ng2-popover";
 ﻿import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PopoverContent } from 'ng2-popover';
-import { BindingInputBase } from '../shared/models/binding-input';
+import { BindingInputBase, AppSettingObject, PickerOption, EventHubOption, ServiceBusQueueOption, ServiceBusTopicOption } from '../shared/models/binding-input';
 import { PortalService } from '../shared/services/portal.service';
 import { UserService } from '../shared/services/user.service';
 import { PickerInput } from '../shared/models/binding-input';
@@ -13,6 +16,9 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from './../shared/services/cache.service';
+import { ArmObj } from './../shared/models/arm/arm-obj';
+import { ArmService } from './../shared/services/arm.service';
+import { IoTHelper } from './../shared/models/iot-helper';
 import { AiService } from '../shared/services/ai.service';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
@@ -31,8 +37,10 @@ export class BindingInputComponent {
     public functionReturnValue: boolean;
     public pickerName: string;
     public appSettingValue: string;
+    public pickerOption: PickerOption;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
+
     @Input() public functionApp: FunctionApp;
 
     constructor(
@@ -52,6 +60,15 @@ export class BindingInputComponent {
             if (!input.value && picker.items) {
                 input.value = picker.items[0];
             }
+
+            if (input && input.pathInput && input.consumerGroup) {
+                this.setAppSettingCallback(input.value, this.autofillIoTValuesEHTrigger, PortalResources.entityPath_notfound);
+            }
+            else if (input && input.pathInput) {
+                this.setAppSettingCallback(input.value, this.autofillIoTValuesPath, PortalResources.entityPath_notfound);
+            }
+
+            this.initializePickerOption(input);
         }
 
         this._input = input;
@@ -59,6 +76,7 @@ export class BindingInputComponent {
 
         this.setClass(input.value);
         if (this._input.type === SettingType.enum) {
+            var enums: { display: string; value: any }[] = (<any>this._input).enum;
             const enums: { display: string; value: any }[] = (<any>this._input).enum;
             this.enumInputs = enums
                 .map(e => ({ displayLabel: e.display, value: e.value, default: this._input.value === e.value }));
@@ -116,7 +134,7 @@ export class BindingInputComponent {
         const picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName !== 'EventHub' && this.pickerName !== 'ServiceBus' && this.pickerName !== 'AppSetting') {
+        if (this.pickerName != "EventHub" && this.pickerName != "IoTHub" && this.pickerName != "ServiceBus" && this.pickerName != "AppSetting") {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
@@ -165,23 +183,46 @@ export class BindingInputComponent {
 
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
+
+        if (this._input && this._input.pathInput && this._input.consumerGroup) {
+
+            if (this._input.value != value && this.pickerOption && (<EventHubOption>this.pickerOption).consumerGroup) {
+                (<EventHubOption>this.pickerOption).consumerGroup = PortalResources.defaultConsumerGroup;
+            }
+            this.setAppSettingCallback(value, this.autofillIoTValuesEHTrigger, PortalResources.entityPath_notfound);
+        }
+        else if (this._input && this._input.pathInput) {
+            this.setAppSettingCallback(value, this.autofillIoTValuesPath, PortalResources.entityPath_notfound);
+        }
+        else if (this._input && this._input.queueName
+            && this.pickerOption && (<ServiceBusQueueOption>this.pickerOption).queueName) {
+
+            if (this._input.value != value) (<ServiceBusQueueOption>this.pickerOption).queueName = PortalResources.defaultQueueName;
+            this.setServiceBusQueueName(this._input, (<ServiceBusQueueOption>this.pickerOption).queueName);
+        }
+        else if (this._input && this._input.topicName && this._input.subscriptionName
+            && this.pickerOption && (<ServiceBusTopicOption>this.pickerOption).topicName && (<ServiceBusTopicOption>this.pickerOption).subscriptionName) {
+
+            if (this._input.value != value) {
+                (<ServiceBusTopicOption>this.pickerOption).topicName = PortalResources.defaultTopicName;
+                (<ServiceBusTopicOption>this.pickerOption).subscriptionName = PortalResources.defaultsubscriptionName;
+            }
+            this.setServiceBusTopicValues(this._input, (<ServiceBusTopicOption>this.pickerOption).topicName, (<ServiceBusTopicOption>this.pickerOption).subscriptionName);
+        }
+        else if (this._input && this._input.topicName
+            && this.pickerOption && (<ServiceBusTopicOption>this.pickerOption).topicName) {
+
+            if (this._input.value != value) {
+                (<ServiceBusTopicOption>this.pickerOption).topicName = PortalResources.defaultTopicName;
+            }
+            this.setServiceBusTopicValues(this._input, (<ServiceBusTopicOption>this.pickerOption).topicName, null);
+        }
     }
 
     onAppSettingValueShown() {
-        return this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
-            .do(null, () => {
-                this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
-            })
-            .subscribe(r => {
-                this.appSettingValue = r.json().properties[this._input.value];
-                if (!this.appSettingValue) {
-                    this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
-                }
-                // Use timeout as content is changed
-                setTimeout(() => {
-                    this.pickerPopover.show();
-                }, 0);
-            });
+        return this.setAppSettingCallback(this._input.value, () => {
+            this.pickerPopover.show();
+        }, PortalResources.bindingInput_appSettingNotFound);
     }
 
     onAppSettingValueHidden() {
@@ -207,10 +248,12 @@ export class BindingInputComponent {
         picker.inProcess = false;
     }
 
-    finishDialogPicker(appSettingName: any) {
+    finishDialogPicker(appSettingObject: AppSettingObject) {
+        
         const picker = <PickerInput>this.input;
         this.pickerName = '';
-        this.finishResourcePickup(appSettingName, picker);
+        this.pickerOption = appSettingObject.pickerOption;
+        this.finishResourcePickup(appSettingObject.appSettingName, picker);
     }
 
     private setClass(value: any) {
@@ -248,8 +291,8 @@ export class BindingInputComponent {
     }
 
     private finishResourcePickup(appSettingName: string, picker: PickerInput) {
+        
         if (appSettingName) {
-
             let existedAppSetting;
             if (picker.items) {
                 existedAppSetting = picker.items.find((item) => {
@@ -261,7 +304,7 @@ export class BindingInputComponent {
             if (!existedAppSetting) {
                 picker.items.splice(0, 0, this.input.value);
             }
-            this.inputChanged(name);
+            this.inputChanged(appSettingName);
             this.setClass(appSettingName);
         }
         picker.inProcess = false;
@@ -274,6 +317,73 @@ export class BindingInputComponent {
             // https://github.com/projectkudu/AzureFunctionsPortal/issues/398
             // case "schedule":
             //    this.description = prettyCron.toString(value);
+        }
+    }
+
+    private setAppSettingCallback(appSettingName: string, callback: (that: BindingInputComponent) => void, errorMessage: string) {
+        return this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
+            .do(null, e => {
+                this.appSettingValue = this._translateService.instant(errorMessage);
+            })
+            .subscribe(r => {
+                this.appSettingValue = r.json().properties[appSettingName];
+                if (!this.appSettingValue) {
+                    this.appSettingValue = this._translateService.instant(errorMessage);
+                }
+
+                // Use timeout as content is changed
+                setTimeout(() => {
+                    callback(this);
+                }, 0);
+            });
+    }
+
+    private autofillIoTValuesEHTrigger(that) {
+        that.autofillIoTValuesPath(that);
+        if (that.pickerOption) that._input.consumerGroup.value = that.pickerOption.consumerGroup;
+    }
+
+    private autofillIoTValuesPath(that) {
+        var entityPath = IoTHelper.getEntityPathFrom(that.appSettingValue);
+        that._input.pathInput.value = entityPath ? entityPath : PortalResources.entityPath_notfound;
+    }
+
+    private initializePickerOption(input: BindingInputBase<any>) {
+
+
+        if (input && input.pathInput && input.consumerGroup) {
+            this.pickerOption = <EventHubOption>{
+                entityPath: input.pathInput.value,
+                consumerGroup: input.consumerGroup.value
+            }
+        }
+        else if (input && input.pathInput) {
+            this.pickerOption = <EventHubOption>{
+                entityPath: input.pathInput.value,
+                consumerGroup: null
+            }
+        }
+        else if (input && input.queueName) {
+            this.pickerOption = <ServiceBusQueueOption>{
+                queueName: input.queueName.value
+            }
+        }
+        else if (input && input.topicName && input.subscriptionName) {
+            this.pickerOption = <ServiceBusTopicOption>{
+                topicName: input.topicName.value,
+                subscriptionName: input.subscriptionName.value
+            }
+        }
+    }
+
+    private setServiceBusQueueName(input: BindingInputBase<any>, queueName: string) {
+        if (input) input.queueName.value = queueName;
+    }
+
+    private setServiceBusTopicValues(input: BindingInputBase<any>, topicName: string, subscriptionName: string) {
+        if (input) {
+            if (input.topicName) input.topicName.value = topicName;
+            if (input.subscriptionName) input.subscriptionName.value = subscriptionName;
         }
     }
 }
