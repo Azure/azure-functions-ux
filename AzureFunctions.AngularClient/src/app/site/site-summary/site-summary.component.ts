@@ -190,14 +190,9 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
                 }
 
-                let availabilityId = `${this.site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
-                if (this._isSlot) {
-                    const resourceId = this.site.id.substring(0, this.site.id.indexOf('/slots'));
-                    availabilityId = `${resourceId}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
-                }
-
                 let getAvailabilityObservible = Observable.of(null);
                 if (!this.hideAvailability) {
+                    const availabilityId = `${this.site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
                     getAvailabilityObservible = this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) => {
                         // this call fails with 409 is Microsoft.ResourceHealth is not registered
                         if (e.status === 409) {
