@@ -8,7 +8,7 @@ namespace Deploy.DeploymentSdk
         private string destination;
 
         public CopyDirectoryStep(string source, string destination, int tries = 1)
-            : base("ROBOCOPY", $"\"{source}\" \"{destination}\" /E /IS", tries)
+            : base("ROBOCOPY", $"\"{source}\" \"{destination}\" /PURGE /MIR", tries)
         {
             this.source = source;
             this.destination = destination;

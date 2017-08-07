@@ -11,11 +11,16 @@ namespace Deploy
         {
             const string deploymentSource = @"D:\home\site\repository";
             const string deploymentTarget = @"D:\home\site\wwwroot";
+            var deploymentTempTarget = Path.GetTempFileName();
             const string toolsDirectory = @"D:\home\tools";
             const string ng = @"node_modules\.bin\ng";
             var yarn = Path.Combine(toolsDirectory, "yarn");
             var msBuild = @"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe".DoubleQuote();
             var assets = Path.Combine(deploymentSource, @"AzureFunctions.AngularClient\src\assets");
+
+            Directory.CreateDirectory(deploymentTempTarget);
+            Directory.CreateDirectory($@"{deploymentTarget}\ng-min");
+            Directory.CreateDirectory($@"{deploymentTarget}\ng-full");
 
             DeploySdk
                 .StandardDeployment
@@ -28,8 +33,10 @@ namespace Deploy
                 .Call(yarn, "install", tries: 2)
                 .Call("npm", "rebuild node-sass")
                 .CleanAngularArtifacts()
-                .Call(ng, $"build --prod --environment=prod --output-path=\"{deploymentTarget}\\ng-min\"", tries: 2)
-                .Call(ng, $"build --output-path=\"{deploymentTarget}\\ng-full\"", tries: 2)
+                .Call(ng, $"build --progress false --prod --environment=prod --output-path=\"{deploymentTempTarget}\\ng-min\"", tries: 2)
+                .Call(ng, $"build --progress false --output-path=\"{deploymentTempTarget}\\ng-full\"", tries: 2)
+                .CopyDirectory($@"{deploymentTempTarget}\ng-min", $@"{deploymentTarget}\ng-min")
+                .CopyDirectory($@"{deploymentTempTarget}\ng-full", $@"{deploymentTarget}\ng-full")
                 .UpdateCshtml()
                 .SetupTemplatesWebJob()
                 .UpdateBuildTxt()
