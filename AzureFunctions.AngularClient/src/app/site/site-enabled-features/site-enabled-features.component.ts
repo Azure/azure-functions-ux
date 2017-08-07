@@ -540,8 +540,9 @@ export class SiteEnabledFeaturesComponent {
     }
 
 
-    onKeyPress(event: KeyboardEvent) {
+    onKeyPress(event: KeyboardEvent, featureItem: EnabledFeatureItem) {
         if (event.keyCode === KeyCodes.enter) {
+            this.openFeature(featureItem);
 
         } else if (event.keyCode === KeyCodes.arrowDown) {
             const features = this._getFeatures();
