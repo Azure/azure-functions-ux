@@ -12,14 +12,14 @@ import { ErrorEvent } from '../shared/models/error-event';
 import { UtilitiesService } from '../shared/services/utilities.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { Observable } from 'rxjs/Observable';
-import { HostEventService } from '../shared/services/host-event.service'
-import { HostEvent } from '../shared/models/host-event'
-import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive'
+import { HostEventClient } from '../shared/host-event-client';
+import { HostEvent } from '../shared/models/host-event';
+import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
 import { FileSelectionRequest } from '../shared/models/file-selection-request';
-import { FunctionDevComponent } from '../function-dev/function-dev.component'
-import { FileExplorerComponent } from '../file-explorer/file-explorer.component'
-import { BusyStateComponent } from '../busy-state/busy-state.component'
-
+import { FunctionDevComponent } from '../function-dev/function-dev.component';
+import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
+import { BusyStateComponent } from '../busy-state/busy-state.component';
+ 
 @Component({
     selector: 'errors-warnings',
     templateUrl: './errors-warnings.component.html',
@@ -42,7 +42,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     private sourceColumnWidth: number = 125;
     private startLineNumberColumnWidth: number = 50;
     private startColumnColumnWidth: number = 75;
-    private pendingFileChange: string;
+    private pendingFileChange: string = "";
     @Input() functionInfo: FunctionInfo;
     @Input() monacoEditor: MonacoEditorDirective;
     @Input() fileExplorer: FileExplorerComponent;
@@ -51,12 +51,12 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
 
     constructor(
-        private _hostEventService: HostEventService,
+        private _hostEventClient: HostEventClient,
         private _userService: UserService, 
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService) {
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
-        this.hostEventSubscription = this._hostEventService.events
+        this.hostEventSubscription = this._hostEventClient.events
         .do(null, error => { console.log(error); })
         .retry().subscribe((r: any) => {
             ErrorsWarningsComponent.functionsDiagnostics[r.functionName] = r.diagnostics;
@@ -158,11 +158,10 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         if (this.monacoEditor.CurrentFileName !== diagnostic.source) {
             if (!this.fileExplorer) {
                 this.diagnosticDblClicked.emit(null);
-                this.pendingFileChange = diagnostic.source;
             } else {
                 this.changeFiles(diagnostic.source);
             }
-
+            this.pendingFileChange = diagnostic.source; 
         }
         this.monacoEditor.setPosition(diagnostic.startLineNumber, diagnostic.startColumn);
     }
@@ -172,21 +171,17 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
         
-
         if(!this.fileExplorer.files) {
             this.fileExplorer.fileExplorerReady.subscribe(() => {
                 this.changeFiles(fileName);
             });
         } else {
-
             let requestedFile = this.fileExplorer.files && this.fileExplorer.files.find((item) => item.name === fileName);
             if (requestedFile) {
                 this.fileExplorer.selectedFile = requestedFile;
                 this.fileExplorer.selectVfsObject(requestedFile);
             }
         }
-
-        this.pendingFileChange = null;
     }
 
     private getSeverityClass(severity: monaco.Severity) {

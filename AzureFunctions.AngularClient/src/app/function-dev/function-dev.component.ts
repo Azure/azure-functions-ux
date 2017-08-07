@@ -8,7 +8,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { HostEventService } from '../shared/services/host-event.service'
+import { HostEventClient } from '../shared/host-event-client'
 import { FunctionInfo } from '../shared/models/function-info';
 import { VfsObject } from '../shared/models/vfs-object';
 // import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
@@ -24,7 +24,7 @@ import { BindingType } from '../shared/models/binding';
 import { RunFunctionResult } from '../shared/models/run-function-result';
 import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { BusyStateComponent } from '../busy-state/busy-state.component';
+import { BusyStateComponent } from '../busy-state/busy-state.component'; 
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
@@ -108,7 +108,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     private _isClientCertEnabled = false;
 
-    constructor(private _hostEventService: HostEventService,
+    constructor(private _hostEventClient: HostEventClient,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
@@ -223,7 +223,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
             });
 
-        this.hostEventSubscription = this._hostEventService.events
+        this.hostEventSubscription = this._hostEventClient.events
         .do(null, error => { console.log(error); })
         .retry().subscribe((r: any) => {
             if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0)) {

@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { HostEvent } from '../models/host-event'
-import { FunctionApp } from './../../shared/function-app';
-import { ConfigService } from '../services/config.service';
+import { HostEvent } from '../shared/models/host-event'
+import { FunctionApp } from '../shared/function-app';
+import { ConfigService } from '../shared/services/config.service';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
-import { ArmObj } from '../models/arm/arm-obj';
-import { Site } from '../models/arm/site';
-import { UserService } from '../services/user.service';
+import { ArmObj } from '../shared/models/arm/arm-obj';
+import { Site } from '../shared/models/arm/site';
+import { UserService } from '../shared/services/user.service';
 
 declare var monaco;
 
-@Injectable()
-export class HostEventService {
+export class HostEventClient {
 
     public events: ReplaySubject<HostEvent>;
     private tokenSubscription: Subscription;
