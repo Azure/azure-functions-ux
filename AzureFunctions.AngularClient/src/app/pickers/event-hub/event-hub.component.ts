@@ -161,7 +161,7 @@ export class EventHubComponent {
                     this.selectedEventHub = this.eventHubs.value[0].id;
                     this.onEventHubChange(this.selectedEventHub);
                 }
-                this.namespacePolices = r.namespacePolices;
+                this.namespacePolices = this.filterIoTPolicies(r.namespacePolices);
                 if (this.namespacePolices.value.length > 0) {
                     this.namespacePolices.value.forEach((item) => {
                         item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy);;
@@ -187,7 +187,7 @@ export class EventHubComponent {
                 consumerGroups: consumerGroups.json()
             })).subscribe(r => {
 
-                this.polices = r.policies;
+                this.polices = this.filterIoTPolicies(r.policies);
                 this.polices.value.forEach((item) => {
                     item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
                 });
@@ -300,10 +300,10 @@ export class EventHubComponent {
                     namespacePolicies: namespacePolicies.json()
                 })).subscribe(r => {
                     // policy
-                    this.IOTPolicies = r.policies;
+                    this.IOTPolicies = this.filterIoTPolicies(r.policies);
                     this.IOTPolicies.value.forEach(policy => policy.name += " " + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy));
 
-                    let namespacePolicies = r.namespacePolicies;
+                    let namespacePolicies = this.filterIoTPolicies(r.namespacePolicies);
                     if (namespacePolicies.value.length > 0) {
                         namespacePolicies.value.forEach(item => item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy));
                     }
@@ -523,5 +523,11 @@ export class EventHubComponent {
     private setSelectedIOTEndpointByObject(endpointObject: IOTEndpoint) {
         this.selectedIOTEndpoint = endpointObject;       
         this.selectedIOTEndpointName = (endpointObject) ? endpointObject.name : null;
+    }
+
+    private filterIoTPolicies(policies: ArmArrayResult): ArmArrayResult {
+        policies.value = policies.value.filter(p => (p.properties.rights.find(r => r === "Listen")));
+        debugger;
+        return policies;
     }
 }
