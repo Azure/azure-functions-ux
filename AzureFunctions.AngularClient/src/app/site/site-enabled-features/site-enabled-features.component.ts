@@ -135,7 +135,7 @@ export class SiteEnabledFeaturesComponent {
                 this._saveFeatures(this.featureItems);
 
                 if (this.featureItems.length > 0) {
-                    this.featureItems[0].focussable = true;
+                    this.featureItems[0].focusable = true;
                     this._focusedFeatureIndex = 0;
                 }
             });
@@ -509,7 +509,7 @@ export class SiteEnabledFeaturesComponent {
 
     private _clearFocusOnFeature(features: any, index: number) {
         const oldFeature = Dom.getTabbableControl(features[index].children[1]);
-        this.featureItems[index].focussable = false;
+        this.featureItems[index].focusable = false;
         Dom.clearFocus(oldFeature);
     }
 
@@ -530,7 +530,7 @@ export class SiteEnabledFeaturesComponent {
 
         if (destFeature) {
             const newFeature = Dom.getTabbableControl(destFeature);
-            this.featureItems[finalIndex].focussable = true;
+            this.featureItems[finalIndex].focusable = true;
             Dom.setFocus(newFeature);
         }
 
