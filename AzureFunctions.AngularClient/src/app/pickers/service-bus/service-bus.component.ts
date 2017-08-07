@@ -507,6 +507,59 @@ export class ServiceBusComponent {
     private getTopicUrlFrom(subscriptionName: string, resourceGroupName: string, connectionString: string, topicName: string) {
         return this.getNamespaceUrlFrom(subscriptionName, resourceGroupName, connectionString)
             + "/queues/" + topicName;
+    } 
+
+
+    private updateTopicPolicy(selectedIOTEndpoint: IOTEndpoint, topicName: string) {
+        
+        let topicUrl = this.getTopicUrlFrom(selectedIOTEndpoint.subscriptionId,
+            selectedIOTEndpoint.resourceGroup, selectedIOTEndpoint.connectionString, topicName);
+        this._cacheService.getArm(topicUrl + "/AuthorizationRules", true).subscribe(r => {
+            let rules = r.json();
+            
+            rules.value.forEach(item =>
+                item.name += " " + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy));
+            this.IOTpolices.value = this.IOTpolices.value
+                .filter(p => p.name.indexOf(this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy)) > -1)
+                .concat(rules.value);
+        })
+        }
+    }
+    
+    /**
+     * return
+     * "/subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}"
+     * @param connectionString
+     */
+    private getNamespaceUrlFrom(subscriptionName: string, resourceGroupName: string, connectionString: string) {
+        let sb = "sb://";
+        let sbLength = sb.length; // 5;
+        let namespaceStartIndex = connectionString.indexOf(sb) + sbLength;
+        let namespaceAfterEndIndex = connectionString.indexOf(".servicebus");
+        return "/subscriptions/" + subscriptionName + "/resourceGroups/" + resourceGroupName + "/providers/Microsoft.ServiceBus/namespaces/"
+            + connectionString.substring(namespaceStartIndex, namespaceAfterEndIndex);
+    }
+
+    /**
+     * return
+     * "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/
+     * {namespaceName}/queues/{queueName}"
+     * @param connectionString
+     */
+    private getQueueUrlFrom(subscriptionName: string, resourceGroupName: string, connectionString: string, queueName: string) {
+        return this.getNamespaceUrlFrom(subscriptionName, resourceGroupName, connectionString)
+            + "/queues/" + queueName;
+    }
+
+    /**
+     * return
+     * "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/
+     *  {namespaceName}/topics/{topicName}"
+     * @param connectionString
+     */
+    private getTopicUrlFrom(subscriptionName: string, resourceGroupName: string, connectionString: string, topicName: string) {
+        return this.getNamespaceUrlFrom(subscriptionName, resourceGroupName, connectionString)
+            + "/queues/" + topicName;
     }
 
 
