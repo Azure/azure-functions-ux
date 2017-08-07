@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Deploy.DeploymentSdk;
 using Deploy.Extensions;
 using Deploy.Helpers;
@@ -11,7 +12,7 @@ namespace Deploy
         {
             const string deploymentSource = @"D:\home\site\repository";
             const string deploymentTarget = @"D:\home\site\wwwroot";
-            var deploymentTempTarget = Path.GetTempFileName();
+            var deploymentTempTarget = GetTempFolder();
             const string toolsDirectory = @"D:\home\tools";
             const string ng = @"node_modules\.bin\ng";
             var yarn = Path.Combine(toolsDirectory, "yarn");
@@ -51,6 +52,11 @@ namespace Deploy
         {
             try
             {
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path, true);
+                }
+
                 Directory.CreateDirectory(path);
                 return true;
             }
@@ -58,6 +64,12 @@ namespace Deploy
             {
                 return false;
             }
+        }
+
+        static string GetTempFolder()
+        {
+            var random = Path.GetFileNameWithoutExtension(Path.GetTempFileName());
+            return Path.Combine(Path.GetTempPath(), random);
         }
     }
 }
