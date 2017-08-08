@@ -22,6 +22,7 @@ export class FeatureItem {
     public highlight: boolean | null;
     public iconUrl = 'images/activity-log.svg';
     public superScriptIconUrl: string | null = null;
+    public focusable: boolean;
 
     constructor(title: string, keywords: string, info: string, iconUrl?: string, superScriptIconUrl?: string) {
         this.title = title;
