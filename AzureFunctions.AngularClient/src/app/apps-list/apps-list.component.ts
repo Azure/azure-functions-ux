@@ -121,6 +121,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this.selectedLocations = locations;
     const newItems = this.tableItems.filter(item => item.type === 'group');
     this.tableItems = newItems.concat(this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
+      .filter(app => this.selectedResourceGroups.find(r => r === this.translateService.instant(app.resourceGroup)))
       .map(app => (<AppTableItem>{
         title: app.title,
         subscription: app.subscription,
@@ -166,7 +167,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
   onResourceGroupsSelect(resourceGroups: string[]) {
     this.selectedResourceGroups = resourceGroups;
     const newItems = this.tableItems.filter(item => item.type === 'group');
-    this.tableItems = newItems.concat(this.apps.filter(app => this.selectedResourceGroups.find(l => l === this.translateService.instant(app.resourceGroup)))
+    this.tableItems = newItems.concat(this.apps.filter(app => this.selectedResourceGroups.find(r => r === this.translateService.instant(app.resourceGroup)))
+      .filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
       .map(app => (<AppTableItem>{
         title: app.title,
         subscription: app.subscription,

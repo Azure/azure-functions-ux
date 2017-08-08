@@ -6,6 +6,7 @@
     width: 100%;
     display: inline-flex;
     align-items: center;
+    padding-bottom: 10px;
 }
 
 .tabbed{
@@ -14,14 +15,14 @@
 
 #locations{
     padding-left: 10px;
-    padding-right: 10px;
-    width: 41%;
+    padding-right: 15px;
+    width: 35%;
 }
 
 #resourceGroups{
     padding-left: 10px;
-    padding-right: 10px;
-    width: 41%;
+    padding-right: 15px;
+    width: 35%;
 }
 
 #grouping{
