@@ -125,26 +125,37 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
                 return Observable.zip(this.selectedFunction.functionApp.getFileContent(file), Observable.of(file), (c, f) => ({ content: c, file: f }));
             })
+            .do(null, err => {
+                this._aiService.trackEvent('/errors/functionDev', err);
+                this._globalStateService.clearBusyState();
+            })
+            .retry()
             .subscribe((res: { content: string, file: VfsObject }) => {
-                this.content = res.content;
-                this.updatedContent = res.content;
-                res.file.isDirty = false;
-                this.scriptFile = res.file;
-                this.fileName = res.file.name;
+                try {
+                    this.content = res.content;
+                    this.updatedContent = res.content;
+                    res.file.isDirty = false;
+                    this.scriptFile = res.file;
+                    this.fileName = res.file.name;
 
-                this.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
-                this._portalService.fileResourceId = this.fileResourceId
+                    this.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
+                    this._portalService.fileResourceId = this.fileResourceId
 
-                if (this.updatedContent && res.file.isDirty) {
-                    this.sendContentMessage(this.updatedContent);
-                }
+                    if (this.updatedContent && res.file.isDirty) {
+                        this.sendContentMessage(this.updatedContent);
+                    }
 
-                if (this.fileExplorer) {
-                    this.fileExplorer.clearBusyState();
-                }
-                // ask for updated info if changes have been made to the file
-                this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, this._portalService.fileResourceId)
-            }, e => this._globalStateService.clearBusyState());
+                    if (this.fileExplorer) {
+                        this.fileExplorer.clearBusyState();
+                    }
+                    // ask for updated info if changes have been made to the file
+                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, this._portalService.fileResourceId)
+
+                } catch (e) {
+                    this._globalStateService.clearBusyState();
+                    this._aiService.trackEvent('/errors/functionDev', e);
+                };
+            });
 
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
@@ -165,11 +176,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }));
             })
             .subscribe(res => {
+                this.functionInfo = res.functionInfo;
+
                 this._isClientCertEnabled = res.authSettings.clientCertEnabled;
                 this.content = '';
-                this.testContent = res.functionInfo.test_data;
+                this.testContent = this.functionInfo.test_data;
                 try {
-                    const httpModel = JSON.parse(res.functionInfo.test_data);
+                    const httpModel = JSON.parse(this.functionInfo.test_data);
                     // Check if it's valid model
                     if (Array.isArray(httpModel.headers)) {
                         this.testContent = httpModel.body;
@@ -179,18 +192,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
 
                 this._globalStateService.clearBusyState();
-                this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf("/") + 1);
-                var href = res.functionInfo.script_href;
+                this.fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf("/") + 1);
+                var href = this.functionInfo.script_href;
                 if (this.fileName.toLowerCase().endsWith('dll')) {
-                    this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf("/") + 1);
-                    href = res.functionInfo.config_href;
+                    this.fileName = this.functionInfo.config_href.substring(this.functionInfo.config_href.lastIndexOf("/") + 1);
+                    href = this.functionInfo.config_href;
                 }
 
-                this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
+                this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === this.functionInfo.href
                     ? this.scriptFile
                     : { name: this.fileName, href: href, mime: "file" };
                 this.selectedFileStream.next(this.scriptFile);
-                this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
@@ -280,6 +292,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._portalService._sendTabMessage<contentUpdateMessage>(id, TabCommunicationVerbs.updatedFile, contentMessage);
 
             });
+    }
+
+    public updateFileStream(file: VfsObject) {
+        this.selectedFileStream.next(file);
     }
 
     private storageMessageHandler(msg: TabMessage<any>) {

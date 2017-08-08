@@ -197,7 +197,7 @@ export class MonacoEditorDirective {
                         .subscribe(tenants => {
                             const currentTenant: TenantInfo = tenants.find(t => t.Current);
                             tenantId = currentTenant.TenantId
-                            // TODO: there is likely a better way to grab the rId than through the portal service
+                            // NOTE: there is likely a better way to grab the rId than through the portal service
                             window.open(`https://${windowLocation}/signin?/api/switchtenant/?${tenantId}/?tabbed=true&rid=${that._portalService.fileResourceId}`, '_blank');
                         });
                 });
