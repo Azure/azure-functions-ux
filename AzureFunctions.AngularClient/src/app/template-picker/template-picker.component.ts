@@ -261,17 +261,19 @@ export class TemplatePickerComponent {
             this.selectedTemplate = template;
 
             // Some bindings (and templates that use them) require an AAD app; if so, show express button
-            let binding = this.bindings.find((b) => {
-                return b.type.toString() === this.selectedTemplate;
-            });
-            if (binding) {
-                this.showAADExpressRegistration = !!binding.AADPermissions;
-            } else {
-                // Could be improved by determining which bindings a template uses automatically
-                let templateObject = this.templates.find((t) => {
-                    return t.value === template;
+            if (this.bindings) {
+                let binding = this.bindings.find((b) => {
+                    return b.type.toString() === this.selectedTemplate;
                 });
-                this.showAADExpressRegistration = templateObject && !!templateObject.AADPermissions;
+                if (binding) {
+                    this.showAADExpressRegistration = !!binding.AADPermissions;
+                } else {
+                    // Could be improved by determining which bindings a template uses automatically
+                    let templateObject = this.templates.find((t) => {
+                        return t.value === template;
+                    });
+                    this.showAADExpressRegistration = templateObject && !!templateObject.AADPermissions;
+                }
             }
             
             if (!this.showFooter) {
