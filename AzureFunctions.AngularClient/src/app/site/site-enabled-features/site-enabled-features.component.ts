@@ -507,15 +507,15 @@ export class SiteEnabledFeaturesComponent {
         return this.featureList.nativeElement.children;
     }
 
-    private _clearFocusOnFeature(features: any, index: number) {
-        const oldFeature = Dom.getTabbableControl(features[index]);
+    private _clearFocusOnFeature(features: HTMLCollection, index: number) {
+        const oldFeature = Dom.getTabbableControl(<HTMLElement>features[index]);
         this.featureItems[index].focusable = false;
         Dom.clearFocus(oldFeature);
     }
 
-    private _setFocusOnFeature(features: any, index: number) {
+    private _setFocusOnFeature(features: HTMLCollection, index: number) {
         let finalIndex = -1;
-        let destFeature: HTMLElement;
+        let destFeature: Element;
 
         if (index >= 0 && index < features.length) {
             finalIndex = index;
@@ -531,9 +531,9 @@ export class SiteEnabledFeaturesComponent {
         }
 
         if (destFeature) {
-            const newFeature = Dom.getTabbableControl(destFeature);
+            const newFeature = Dom.getTabbableControl(<HTMLElement>destFeature);
             this.featureItems[finalIndex].focusable = true;
-            Dom.setFocus(newFeature);
+            Dom.setFocus(<HTMLElement>newFeature);
         }
 
         this._focusedFeatureIndex = finalIndex;
