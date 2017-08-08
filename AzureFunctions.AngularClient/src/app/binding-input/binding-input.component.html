@@ -79,17 +79,14 @@
 
   <div *ngIf="input?.type === 'picker'" [ngClass]="input?.class" class="picker-container">
     <!-- Show drop-down menu of potential app settings -->
-    <input type="text"
-          [(ngModel)]="input.value"
-          [attr.list]=input.id
-          (ngModelChange)="inputChanged($event)"
-          [class.input-error]="!!input.errorText"
-          [class.hide-arrow]="!!input.errorText"
-          [disabled]=input.isDisabled />
-    <!-- select + textbox -->
-    <datalist id="{{input.id}}">
-      <option *ngFor="let item of input.items" [value]="item">
-    </datalist>
+    <select id="{{input.id}}"
+    (ngModelChange)="inputChanged($event)"
+    [(ngModel)]="input.value"
+    [class.input-error]="!!input.errorText"
+    [disabled]="input.isDisabled"
+    [class.hide-arrow]="!!input.errorText">
+      <option *ngFor="let item of input.items" [value]="item">{{item}}</option>
+    </select>
     <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
     </pop-over>
     <!--[leftOffset]=20 [topOffset]=10-->
