@@ -1,7 +1,9 @@
+import { ElementRef } from '@angular/core';
+import { Dom } from './../../shared/Utilities/dom';
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
-import { SiteTabIds } from './../../shared/models/constants';
+import { SiteTabIds, KeyCodes } from './../../shared/models/constants';
 import { Url } from './../../shared/Utilities/url';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -46,6 +48,9 @@ export class SiteEnabledFeaturesComponent {
     private _site: ArmObj<Site>;
     private _siteSubject = new Subject<ArmObj<Site>>();
     private _descriptor: SiteDescriptor;
+    private _focusedFeatureIndex = -1;
+
+    @ViewChild('enabledFeatures') featureList: ElementRef;
 
     constructor(
         private _cacheService: CacheService,
@@ -128,8 +133,14 @@ export class SiteEnabledFeaturesComponent {
 
                 this._mergeFeaturesIntoF1(this.featureItems, latestFeatureItems);
                 this._saveFeatures(this.featureItems);
+
+                if (this.featureItems.length > 0) {
+                    this.featureItems[0].focusable = true;
+                    this._focusedFeatureIndex = 0;
+                }
             });
     }
+
 
     set siteInput(site: ArmObj<Site>) {
         if (!site) {
@@ -490,5 +501,61 @@ export class SiteEnabledFeaturesComponent {
 
                 return items;
             });
+    }
+
+    private _getFeatures() {
+        return this.featureList.nativeElement.children;
+    }
+
+    private _clearFocusOnFeature(features: HTMLCollection, index: number) {
+        const oldFeature = Dom.getTabbableControl(<HTMLElement>features[index]);
+        this.featureItems[index].focusable = false;
+        Dom.clearFocus(oldFeature);
+    }
+
+    private _setFocusOnFeature(features: HTMLCollection, index: number) {
+        let finalIndex = -1;
+        let destFeature: Element;
+
+        if (index >= 0 && index < features.length) {
+            finalIndex = index;
+            destFeature = features[index].children[1];
+        } else if (features.length > 0) {
+            if (index === -1) {
+                finalIndex = 0;
+                destFeature = features[0].children[1];
+            } else {
+                finalIndex = features.length - 1;
+                destFeature = features[finalIndex];
+            }
+        }
+
+        if (destFeature) {
+            const newFeature = Dom.getTabbableControl(<HTMLElement>destFeature);
+            this.featureItems[finalIndex].focusable = true;
+            Dom.setFocus(<HTMLElement>newFeature);
+        }
+
+        this._focusedFeatureIndex = finalIndex;
+    }
+
+
+    onKeyPress(event: KeyboardEvent, featureItem: EnabledFeatureItem) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.openFeature(featureItem);
+
+        } else if (event.keyCode === KeyCodes.arrowDown) {
+            const features = this._getFeatures();
+            this._clearFocusOnFeature(features, this._focusedFeatureIndex);
+            this._setFocusOnFeature(features, this._focusedFeatureIndex + 1);
+            event.preventDefault();
+
+        } else if (event.keyCode === KeyCodes.arrowUp) {
+            const features = this._getFeatures();
+            this._clearFocusOnFeature(features, this._focusedFeatureIndex);
+            this._setFocusOnFeature(features, this._focusedFeatureIndex - 1);
+            event.preventDefault();
+
+        }
     }
 }

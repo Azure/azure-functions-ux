@@ -30,4 +30,5 @@ export interface EnabledFeatureItem extends EnabledFeature {
     featureId?: string;
     bladeInfo?: OpenBladeInfo;
     iconUrl: string;
+    focusable: boolean;
 }

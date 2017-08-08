@@ -25,51 +25,105 @@
 <div id="essentials-container">
   <div class="essentials-col">
     <div>
-      <label>{{'status' | translate}}</label>
-      <div><img *ngIf="stateIcon" [src]="stateIcon" />{{state}}</div>
+      <label id="siteStatusLabel">{{'status' | translate}}</label>
+      <div tabindex="0" 
+           id="siteStatusValue" 
+           aria-labelledby="siteStatusLabel siteStatusValue">
+           <img *ngIf="stateIcon" 
+           [src]="stateIcon" />
+           {{state}}
+      </div>
     </div>
 
     <div [class.invisible]="hideAvailability">
-      <label>{{'availability' | translate}}</label>
-      <div [class.site-faded-text]="availabilityState === 'unknown'">
-        <img *ngIf="availabilityIcon" [src]="availabilityIcon" />{{availabilityMesg}}
+      <label id="siteAvailabilityLabel">{{'availability' | translate}}</label>
+      <div [class.site-faded-text]="availabilityState === 'unknown'" 
+           tabindex="0" id="siteAvailabilityValue" 
+           aria-labelledby="siteAvailabilityLabel siteAvailabilityValue">
+           <img *ngIf="availabilityIcon" 
+           [src]="availabilityIcon" />
+           {{availabilityMesg}}
       </div>
     </div>
   </div>
 
   <div class="essentials-col">
     <div>
-      <label>{{'subscriptionName' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openSubscriptionBlade()">{{subscriptionName}}</div>
+      <label id="siteSubscriptionNameLabel">{{'subscriptionName' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openSubscriptionBlade()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'subscription')" 
+          id="siteSubscriptionNameLink" 
+          aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
+          {{subscriptionName}}
+        </a>
+      </div>
     </div>
 
     <div>
-      <label>{{'subscription' | translate}}</label>
-      <div>{{subscriptionId}}</div>
+      <label id="siteSubscriptionLabel">{{'subscription' | translate}}</label>
+      <div tabindex="0" 
+           id="siteSubscriptionValue" 
+           aria-labelledby="siteSubscriptionLabel siteSubscriptionValue">
+           {{subscriptionId}}
+      </div>
     </div>
   </div>
 
   <div class="essentials-col">
     <div>
-      <label>{{'resourceGroup' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openResourceGroupBlade()">{{resourceGroup}}</div>
+      <label id="siteResourceGroupLabel">{{'resourceGroup' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+         (click)="openResourceGroupBlade()" 
+         tabindex="0" 
+         (keydown)="onKeyPress($event, 'resourceGroup')" 
+         id="siteResourceGroupLink" 
+         aria-labelledby="siteResourceGroupLabel siteResourceGroupLink">
+         {{resourceGroup}}
+        </a>
+      </div>
     </div>
 
     <div>
-      <label>{{'location' | translate}}</label>
-      <div>{{location}}</div>
+      <label id="siteLocationLabel">{{'location' | translate}}</label>
+      <div tabindex="0" 
+           id="siteLocationValue" 
+           aria-labelledby="siteLocationLabel siteLocationValue">
+           {{location}}
+      </div>
     </div>
   </div>
 
   <div class="essentials-col">
     <div>
-      <label>URL</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openUrl()">{{url}}</div>
+      <label id="siteUrlLabel">URL</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openUrl()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'url')" 
+          id="siteUrlLink" 
+          aria-labelledby="siteUrlLabel siteUrlLink">
+          {{url}}
+        </a>
+      </div>
     </div>
 
     <div>
-      <label>{{'appServicePlanPricingTier' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openPlanBlade()">{{plan}}</div>
+      <label id="siteAppServicePlanLabel">{{'appServicePlanPricingTier' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openPlanBlade()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'appServicePlan')" 
+          id="siteAppServicePlanLink" 
+          aria-labelledby="siteAppServicePlanLabel siteAppServicePlanLink">
+          {{plan}}
+        </a>
+      </div>
     </div>
   </div>
 
@@ -79,5 +133,5 @@
   <div *ngIf="!isStandalone" id="site-summary-features">
     <h3>{{ 'enabledFeatures_header' | translate }}</h3>
     <site-enabled-features [siteInput]="site"></site-enabled-features>
-  </div>
+  </div>  
 </div>
