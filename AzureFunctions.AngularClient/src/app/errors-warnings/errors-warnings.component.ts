@@ -78,7 +78,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.monacoEditor.setDiagnostics(this.diagnostics);
-        this.changeFiles(this.pendingFileChange);
+        this.changeFiles(this.pendingFileChange); 
     }
 
     ngOnInit(): void {
