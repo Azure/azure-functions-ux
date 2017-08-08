@@ -684,5 +684,8 @@ export class PortalResources
     public static ukwest: string = "ukwest";
     public static uksouth: string = "uksouth";
     public static westus2: string = "westus2";
+    public static allResourceGroups: string = "allResourceGroups";
+    public static resourceGroupColon: string = "resourceGroupColon";
+    public static resourceGroupCount: string = "resourceGroupCount";
 }
 

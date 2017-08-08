@@ -13,6 +13,16 @@
       [numberItemsDisplay]="numberLocations">
   </multi-drop-down>
 
+  <label>{{ 'resourceGroupColon' | translate }}</label>
+
+  <multi-drop-down id="resourceGroups"
+      [inputOptions]="resourceGroupOptions"
+      [displayText]="resourceGroupsDisplayText"
+      (selectedValues)="onResourceGroupsSelect($event)"
+      [allItemsDisplay]="allResourceGroupss"
+      [numberItemsDisplay]="numberResourceGroups">
+  </multi-drop-down>
+
   <drop-down id="grouping"
     [options]="groupOptions"
     (value)=onGroupSelect($event)>

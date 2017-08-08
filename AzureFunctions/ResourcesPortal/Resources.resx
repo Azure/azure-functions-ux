@@ -2167,4 +2167,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="westus2" xml:space="preserve">
     <value>West US 2</value>
   </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>All resource groups</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>Resource Group:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0} resource groups</value>
+  </data>
 </root>
