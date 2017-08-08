@@ -24,7 +24,7 @@ import { BindingType } from '../shared/models/binding';
 import { RunFunctionResult } from '../shared/models/run-function-result';
 import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { BusyStateComponent } from '../busy-state/busy-state.component'; 
+import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
@@ -108,7 +108,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     private _isClientCertEnabled = false;
 
-    constructor(private _hostEventClient: HostEventClient,
+    constructor(
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
@@ -116,7 +116,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         private _aiService: AiService,
         private _el: ElementRef,
         configService: ConfigService,
-        private cd: ChangeDetectorRef ) {
+        private cd: ChangeDetectorRef) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
@@ -223,15 +223,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
             });
 
-        this.hostEventSubscription = this._hostEventClient.events
-        .do(null, error => { console.log(error); })
-        .retry().subscribe((r: any) => {
-            if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0)) {
-                if (this.bottomTab !== "errors") {
-                    this.clickBottomTab("errors");
-                }
-            }
-        });
 
         this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
             this.functionInfo.config = newFunctionInfo.config;
@@ -352,6 +343,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 ls.ngOnDestroy();
             });
         }
+
+        if(this.hostEventSubscription){
+            this.hostEventSubscription.unsubscribe();
+            this.hostEventSubscription = null;
+        }
+        
         FunctionDevComponent.rightTab = this.rightTab;
         FunctionDevComponent.bottomTab = this.bottomTab;
     }
@@ -379,8 +376,24 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             delete this.updatedTestContent;
             delete this.runResult;
             const selectedFunction = changes['selectedFunction'].currentValue;
-            if(selectedFunction){
+            if (selectedFunction) {
+                this.selectedFunction.functionApp.hostEventClient.readHostEvents();
                 this.functionSelectStream.next(changes['selectedFunction'].currentValue);
+
+                if(this.hostEventSubscription){
+                    this.hostEventSubscription.unsubscribe();
+                }
+
+                this.hostEventSubscription = this.selectedFunction.functionApp.hostEventClient.events
+                    .do(null, error => { console.log(error); })
+                    .retry().subscribe((r: any) => {
+                        if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0)) {
+                            if (this.bottomTab !== "errors") {
+                                this.clickBottomTab("errors");
+                            }
+                        }
+                    });
+
             }
         }
     }
@@ -468,7 +481,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             return;
         }
 
-        if(this.errorsWarningsComponent){
+        if (this.errorsWarningsComponent) {
             this.errorsWarningsComponent.setBusyState();
         }
 

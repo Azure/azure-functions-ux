@@ -9,11 +9,11 @@ import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { Site } from '../shared/models/arm/site';
 import { UserService } from '../shared/services/user.service';
+import { Disposable } from "app/shared/models/disposable";
 
 declare var monaco;
 
-@Injectable()
-export class HostEventClient {
+export class HostEventClient implements Disposable {
 
     public events: ReplaySubject<HostEvent>;
     private tokenSubscription: Subscription;
@@ -27,11 +27,12 @@ export class HostEventClient {
     constructor(
         private _http: Http,
         private _userService: UserService,
-        private _configService: ConfigService) {
+        private _configService: ConfigService,
+        private _functionApp: FunctionApp) {
         this.events = new ReplaySubject<HostEvent>(1);
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
 
-        this.readHostEvents();
+        //this.readHostEvents();
     }
 
     dispose() {
@@ -44,7 +45,7 @@ export class HostEventClient {
         }
     }
 
-    private readHostEvents(createEmpty: boolean = true, log?: string) {
+    public readHostEvents(createEmpty: boolean = true, log?: string) {
         const maxCharactersInLog = 500000;
         const intervalIncreaseThreshold = 1000;
         const defaultInterval = 500;
@@ -61,7 +62,7 @@ export class HostEventClient {
                 this.currentPosition = 0;
             }
 
-            let scmUrl = FunctionApp.getScmUrl(this._configService, FunctionApp.site);
+            let scmUrl = FunctionApp.getScmUrl(this._configService, this._functionApp.site);
             let url = `${scmUrl}/api/logstream/application/functions/structured`;
 
             // TODO: Spend more time investigating a cleaner way to do this... 

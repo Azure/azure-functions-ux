@@ -36,7 +36,6 @@ import { FunctionApp } from '../shared/function-app';
 import { Constants, NotificationIds } from '../shared/models/constants';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import { HostEventClient } from '../shared/host-event-client'; 
 
 export class AppNode extends TreeNode implements Disposable, Removable, CustomSelection, Collection, Refreshable {
     public supportsAdvanced = true;
@@ -64,7 +63,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     private _hiddenChildren: TreeNode[];
     private _pollingTask: RxSubscription;
     private _loadingObservable: Observable<any>;
-    private _hostEventClient: HostEventClient;
 
     constructor(sideBar: SideNavComponent,
         private _siteArmCacheObj: ArmObj<Site>,
@@ -72,8 +70,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
         private _subscriptions: Subscription[],
         disabled?: boolean) {
         super(sideBar, _siteArmCacheObj.id, parentNode);
-
-        this._hostEventClient = new HostEventClient(this.sideNav.http, this.sideNav.userService, this.sideNav.configService)
 
         this.disabled = !!disabled;
         if (disabled) {
@@ -299,7 +295,6 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
     }
 
     private _dispose() {
-        this._hostEventClient.dispose();
 
         if (this._pollingTask && !this._pollingTask.closed) {
             this._pollingTask.unsubscribe();
@@ -308,6 +303,8 @@ export class AppNode extends TreeNode implements Disposable, Removable, CustomSe
 
         if (this._functionApp) {
             this._functionApp.isDeleted = true;
+            this._functionApp.dispose();
+            this._functionApp = null;
         }
 
         this.sideNav.globalStateService.setTopBarNotifications([]);

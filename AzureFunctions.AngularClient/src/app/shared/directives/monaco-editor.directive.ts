@@ -1,7 +1,6 @@
 ﻿import { ConfigService } from './../services/config.service';
 import { Directive, EventEmitter, ElementRef, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { HostEventClient } from '../host-event-client'
 import { HostEvent } from '../models/host-event'
 import { Subscription } from 'rxjs/Subscription';
 import { Diagnostic } from "../models/diagnostic"
@@ -34,7 +33,6 @@ export class MonacoEditorDirective {
     private _hostEventSubscription: Subscription;
 
     constructor(public elementRef: ElementRef,
-        private _hostEventClient: HostEventClient,
         private _globalStateService: GlobalStateService,
         private _configService: ConfigService
     ) {

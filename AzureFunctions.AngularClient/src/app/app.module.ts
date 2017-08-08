@@ -20,7 +20,6 @@ import { PopoverModule } from "ng2-popover";
 import { ConfigService } from './shared/services/config.service';
 import { FunctionsService } from './shared/services/functions.service';
 import { UserService } from './shared/services/user.service';
-import { HostEventClient } from './shared/host-event-client';
 import { PortalService } from './shared/services/portal.service';
 import { BroadcastService } from './shared/services/broadcast.service';
 import { FunctionMonitorService } from './shared/services/function-monitor.service';
@@ -237,7 +236,6 @@ export class AppModule {
       FunctionsService,
       UserService,
       LanguageService,
-      HostEventClient,
       PortalService,
       BroadcastService,
       FunctionMonitorService,

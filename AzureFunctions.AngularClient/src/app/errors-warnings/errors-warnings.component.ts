@@ -51,33 +51,40 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
 
     constructor(
-        private _hostEventClient: HostEventClient,
         private _userService: UserService, 
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService) {
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
-        this.hostEventSubscription = this._hostEventClient.events
-        .do(null, error => { console.log(error); })
-        .retry().subscribe((r: any) => {
-            ErrorsWarningsComponent.functionsDiagnostics[r.functionName] = r.diagnostics;
-            if (this.functionInfo && this.functionInfo.name === r.functionName) {
-                this.diagnostics = r.diagnostics;
-                this.monacoEditor.setDiagnostics(this.diagnostics);
-                this.clearBusyState();
-            }
-        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        if (this.functionInfo && this.monacoEditor) {
 
-        if (this.functionInfo && ErrorsWarningsComponent.functionsDiagnostics[this.functionInfo.name]) {
-            this.diagnostics = ErrorsWarningsComponent.functionsDiagnostics[this.functionInfo.name];
+            if(ErrorsWarningsComponent.functionsDiagnostics[this.functionInfo.name]){
+                this.diagnostics = ErrorsWarningsComponent.functionsDiagnostics[this.functionInfo.name];
+            }
+
+            if(!this.hostEventSubscription){
+                this.hostEventSubscription = this.functionInfo.functionApp.hostEventClient.events
+                .do(null, error => { console.log(error); })
+                .retry()
+                .subscribe((r: any) => {
+                    ErrorsWarningsComponent.functionsDiagnostics[r.functionName] = r.diagnostics;
+                    if (this.functionInfo && this.functionInfo.name === r.functionName) {
+                        this.diagnostics = r.diagnostics;
+                        this.monacoEditor.setDiagnostics(this.diagnostics);
+                        this.clearBusyState();
+                    }
+                });
+            }
         }
         else {
             this.diagnostics = [];
         }
 
-        this.monacoEditor.setDiagnostics(this.diagnostics);
+        if(this.monacoEditor){
+            this.monacoEditor.setDiagnostics(this.diagnostics);
+        }
         this.changeFiles(this.pendingFileChange); 
     }
 

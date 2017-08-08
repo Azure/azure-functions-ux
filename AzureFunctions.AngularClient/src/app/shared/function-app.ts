@@ -64,10 +64,12 @@ import { HostStatus } from './models/host-status';
 import { EventHubComponent } from '../pickers/event-hub/event-hub.component';
 
 import * as jsonschema from 'jsonschema';
+import { HostEventClient } from "app/shared/host-event-client";
+import { Disposable } from "app/shared/models/disposable";
 
 declare var mixpanel: any;
 
-export class FunctionApp {
+export class FunctionApp implements Disposable {
     private masterKey: string;
     private _tokenForMasterKey: string;
     private token: string;
@@ -141,7 +143,7 @@ export class FunctionApp {
     private _tryAppServiceUrl = 'https://tryappservice.azure.com';
     public tryFunctionsScmCreds: string;
     private _http: NoCorsHttpService;
-    public static site : ArmObj<Site>;
+    public hostEventClient: HostEventClient;
 
     constructor(
         public site: ArmObj<Site>,
@@ -157,8 +159,9 @@ export class FunctionApp {
         private _aiService: AiService,
         private _configService: ConfigService,
         private _slotsService: SlotsService) {
-        FunctionApp.site = site;
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
+
+        this.hostEventClient = new HostEventClient(this._ngHttp, _userService, _configService, this);
 
         if (!Constants.runtimeVersion) {
             this.getLatestRuntime().subscribe((runtime: any) => {
@@ -236,6 +239,13 @@ export class FunctionApp {
             this.selectedLanguage = templateId.split('-')[1].trim();
             this.selectedProvider = Cookie.get('provider');
             this.selectedFunctionName = Cookie.get('functionName');
+        }
+    }
+
+    public dispose(){
+        if(this.hostEventClient){
+            this.hostEventClient.dispose();
+            this.hostEventClient = null;
         }
     }
 
