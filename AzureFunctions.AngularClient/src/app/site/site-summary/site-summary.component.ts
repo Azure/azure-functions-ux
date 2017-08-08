@@ -545,23 +545,23 @@ export class SiteSummaryComponent implements OnDestroy {
     }
 
     onKeyPress(event: KeyboardEvent, header: string) {
-    if (event.keyCode === KeyCodes.enter) {
-        switch (header) {
-            case 'subscription':
-                this.openSubscriptionBlade();
-                break;
-            case 'resourceGroup':
-                this.openResourceGroupBlade();
-                break;
-            case 'url':
-                this.openUrl();
-                break;
-            case 'appServicePlan':
-                this.openPlanBlade();
-                break;
-            default:
-                break;
+        if (event.keyCode === KeyCodes.enter) {
+            switch (header) {
+                case 'subscription':
+                    this.openSubscriptionBlade();
+                    break;
+                case 'resourceGroup':
+                    this.openResourceGroupBlade();
+                    break;
+                case 'url':
+                    this.openUrl();
+                    break;
+                case 'appServicePlan':
+                    this.openPlanBlade();
+                    break;
+                default:
+                    break;
+            }
         }
     }
-  }
 }

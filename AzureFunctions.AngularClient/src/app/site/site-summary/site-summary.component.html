@@ -25,51 +25,105 @@
 <div id="essentials-container">
   <div class="essentials-col">
     <div>
-      <label id="statusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="statusValue" aria-labelledby="statusLabel statusValue"><img *ngIf="stateIcon" [src]="stateIcon" />{{state}}</div>
+      <label id="siteStatusLabel">{{'status' | translate}}</label>
+      <div tabindex="0" 
+           id="siteStatusValue" 
+           aria-labelledby="siteStatusLabel siteStatusValue">
+           <img *ngIf="stateIcon" 
+           [src]="stateIcon" />
+           {{state}}
+      </div>
     </div>
 
     <div [class.invisible]="hideAvailability">
-      <label id="availabilityLabel">{{'availability' | translate}}</label>
-      <div [class.site-faded-text]="availabilityState === 'unknown'" tabindex="0" id="availabilityValue" aria-labelledby="availabilityLabel availabilityValue">
-        <img *ngIf="availabilityIcon" [src]="availabilityIcon" />{{availabilityMesg}}
+      <label id="siteAvailabilityLabel">{{'availability' | translate}}</label>
+      <div [class.site-faded-text]="availabilityState === 'unknown'" 
+           tabindex="0" id="siteAvailabilityValue" 
+           aria-labelledby="siteAvailabilityLabel siteAvailabilityValue">
+           <img *ngIf="availabilityIcon" 
+           [src]="availabilityIcon" />
+           {{availabilityMesg}}
       </div>
     </div>
   </div>
 
   <div class="essentials-col">
     <div>
-      <label id="subscriptionNameLabel">{{'subscriptionName' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openSubscriptionBlade()" tabindex="0" (keydown)="onKeyPress($event, 'subscription')" id="subscriptionNameLink" aria-labelledby="subscriptionNameLabel subscriptionNameLink">{{subscriptionName}}</div>
+      <label id="siteSubscriptionNameLabel">{{'subscriptionName' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openSubscriptionBlade()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'subscription')" 
+          id="siteSubscriptionNameLink" 
+          aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
+          {{subscriptionName}}
+        </a>
+      </div>
     </div>
 
     <div>
-      <label id="subscriptionLabel">{{'subscription' | translate}}</label>
-      <div tabindex="0" id="subscriptionValue" aria-labelledby="subscriptionLabel subscriptionValue">{{subscriptionId}}</div>
+      <label id="siteSubscriptionLabel">{{'subscription' | translate}}</label>
+      <div tabindex="0" 
+           id="siteSubscriptionValue" 
+           aria-labelledby="siteSubscriptionLabel siteSubscriptionValue">
+           {{subscriptionId}}
+      </div>
     </div>
   </div>
 
   <div class="essentials-col">
     <div>
-      <label id="resourceGroupLabel">{{'resourceGroup' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openResourceGroupBlade()" tabindex="0" (keydown)="onKeyPress($event, 'resourceGroup')" id="resourceGroupLink" aria-labelledby="resourceGroupLabel resourceGroupLink">{{resourceGroup}}</div>
+      <label id="siteResourceGroupLabel">{{'resourceGroup' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+         (click)="openResourceGroupBlade()" 
+         tabindex="0" 
+         (keydown)="onKeyPress($event, 'resourceGroup')" 
+         id="siteResourceGroupLink" 
+         aria-labelledby="siteResourceGroupLabel siteResourceGroupLink">
+         {{resourceGroup}}
+        </a>
+      </div>
     </div>
 
     <div>
-      <label id="locationLabel">{{'location' | translate}}</label>
-      <div tabindex="0" id="locationValue" aria-labelledby="locationLabel locationValue">{{location}}</div>
+      <label id="siteLocationLabel">{{'location' | translate}}</label>
+      <div tabindex="0" 
+           id="siteLocationValue" 
+           aria-labelledby="siteLocationLabel siteLocationValue">
+           {{location}}
+      </div>
     </div>
   </div>
 
   <div class="essentials-col">
     <div>
-      <label id="urlLabel">URL</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openUrl()" tabindex="0" (keydown)="onKeyPress($event, 'url')" id="urlLink" aria-labelledby="urlLabel urlLink">{{url}}</div>
+      <label id="siteUrlLabel">URL</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openUrl()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'url')" 
+          id="siteUrlLink" 
+          aria-labelledby="siteUrlLabel siteUrlLink">
+          {{url}}
+        </a>
+      </div>
     </div>
 
     <div>
-      <label id="appServicePlanLabel">{{'appServicePlanPricingTier' | translate}}</label>
-      <div [class.link]="!isStandalone" [class.disabled-link]="isStandalone" (click)="openPlanBlade()" tabindex="0" (keydown)="onKeyPress($event, 'appServicePlan')" id="appServicePlanLink" aria-labelledby="appServicePlanLabel appServicePlanLink">{{plan}}</div>
+      <label id="siteAppServicePlanLabel">{{'appServicePlanPricingTier' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openPlanBlade()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'appServicePlan')" 
+          id="siteAppServicePlanLink" 
+          aria-labelledby="siteAppServicePlanLabel siteAppServicePlanLink">
+          {{plan}}
+        </a>
+      </div>
     </div>
   </div>
 

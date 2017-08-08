@@ -508,7 +508,7 @@ export class SiteEnabledFeaturesComponent {
     }
 
     private _clearFocusOnFeature(features: any, index: number) {
-        const oldFeature = Dom.getTabbableControl(features[index].children[1]);
+        const oldFeature = Dom.getTabbableControl(features[index]);
         this.featureItems[index].focusable = false;
         Dom.clearFocus(oldFeature);
     }
@@ -520,12 +520,14 @@ export class SiteEnabledFeaturesComponent {
         if (index >= 0 && index < features.length) {
             finalIndex = index;
             destFeature = features[index].children[1];
-        } else if (index === -1) {
-            finalIndex = 0;
-            destFeature = features[0].children[1];
-        } else {
-            finalIndex = features.length - 1;
-            destFeature = features[finalIndex];
+        } else if (features.length > 0) {
+            if (index === -1) {
+                finalIndex = 0;
+                destFeature = features[0].children[1];
+            } else {
+                finalIndex = features.length - 1;
+                destFeature = features[finalIndex];
+            }
         }
 
         if (destFeature) {
