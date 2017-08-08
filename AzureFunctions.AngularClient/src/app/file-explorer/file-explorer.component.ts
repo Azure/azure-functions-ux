@@ -61,6 +61,8 @@ export class FileExplorerComponent implements OnChanges {
                 this.functionApp = e.functionApp;
                 return this.functionApp.getVfsObjects(e);
             })
+            .share();
+            
         this.fileExplorerReady
             .subscribe(r => {
                 this.folders = this.getFolders(r);
