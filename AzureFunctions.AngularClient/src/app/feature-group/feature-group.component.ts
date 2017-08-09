@@ -1,3 +1,4 @@
+import { KeyCodes } from './../shared/models/constants';
 import { Component } from '@angular/core';
 
 import { AiService } from './../shared/services/ai.service';
@@ -39,5 +40,11 @@ export class FeatureGroupComponent {
         });
 
         feature.click();
+    }
+
+    onKeyPress(event: KeyboardEvent, feature: FeatureItem) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.click(feature);
+        }
     }
 }

@@ -7,8 +7,8 @@
         <div *ngIf="!feature.isEmpty" class="feature-group-item-content">
             <img [src]="feature.iconUrl" />
 
-            <span [class.feature-group-result-title]="searchTerm && feature.highlight" [tabIndex]="feature.focusable ? 0 : -1">
-                <span *ngIf="feature.enabled" class="link" (click)="click(feature)">{{feature.title}}</span>
+            <span [class.feature-group-result-title]="searchTerm && feature.highlight">
+                <a *ngIf="feature.enabled" class="link" [tabIndex]="feature.focusable ? 0 : -1" (click)="click(feature)" (keydown)="onKeyPress($event, feature)">{{feature.title}}</a>
             <span *ngIf="!feature.enabled" class="feature-group-disabled">{{feature.title}}</span>
             </span>
 
