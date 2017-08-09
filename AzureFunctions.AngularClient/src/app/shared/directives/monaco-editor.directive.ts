@@ -30,8 +30,8 @@ export class MonacoEditorDirective {
     private _fileName: string;
     private _functionAppStream: Subject<FunctionApp>;
     private _functionApp: FunctionApp;
-    private _hostEventSubscription: Subscription;
-
+    private diagnostics: Diagnostic[];
+    
     constructor(public elementRef: ElementRef,
         private _globalStateService: GlobalStateService,
         private _configService: ConfigService
@@ -146,15 +146,22 @@ export class MonacoEditorDirective {
     }
 
     public setDiagnostics(diagnostics: Diagnostic[]) {
-        if (!this._editor) {
-            return;
-        }
+        this.diagnostics = diagnostics;
+        this.updateDiagnostics();
+    }
 
-        try {
-            monaco.editor.setModelMarkers(this._editor.getModel(), 'monaco',
-                diagnostics.filter(d => d.source === this._fileName));
-        } catch (error) {
-            console.error(error); 
+    private updateDiagnostics() {
+        if (this.diagnostics) {
+                if (!this._editor) {
+                return;
+            }
+
+            try {
+                monaco.editor.setModelMarkers(this._editor.getModel(), 'monaco',
+                    this.diagnostics.filter(d => d.source === this._fileName));
+            } catch (error) {
+                console.error(error); 
+            }
         }
     }
 
@@ -209,6 +216,8 @@ export class MonacoEditorDirective {
                     that.onRun.emit();
                 });
 
+                that.updateDiagnostics();
+                
                 that._globalStateService.clearBusyState();
 
                 // TODO: that._editor.addcommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_T, () => {
