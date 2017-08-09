@@ -176,4 +176,9 @@ export class IoTHelper {
         })
         return entityPathPair ? entityPathPair.split("=")[1] : entityPathPair;
     }
+
+    static removeEntityPathFrom(connectionString: String): String {
+        let entityIndex = connectionString.indexOf(";EntityPath");
+        return entityIndex !== -1 ? connectionString.substring(0, entityIndex) : connectionString;
+    }
 }

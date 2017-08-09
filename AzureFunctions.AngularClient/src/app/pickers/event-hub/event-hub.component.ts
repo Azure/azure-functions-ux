@@ -527,7 +527,6 @@ export class EventHubComponent {
 
     private filterIoTPolicies(policies: ArmArrayResult): ArmArrayResult {
         policies.value = policies.value.filter(p => (p.properties.rights.find(r => r === "Listen")));
-        debugger;
         return policies;
     }
 }
