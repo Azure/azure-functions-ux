@@ -200,6 +200,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
       this.resourceGroupsDisplayText = displayText;
     }, 0);
   }
+
   onGroupSelect(group: string) {
     this._setGroup(group);
   }
@@ -211,6 +212,10 @@ export class AppsListComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.appTable.groupItems(group);
     }, 0);
+  }
+
+  refreshTable() {
+    
   }
 
 }

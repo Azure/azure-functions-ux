@@ -16,18 +16,26 @@
 #locations{
     padding-left: 10px;
     padding-right: 15px;
-    width: 35%;
+    width: 33%;
 }
 
 #resourceGroups{
     padding-left: 10px;
     padding-right: 15px;
-    width: 35%;
+    width: 33%;
 }
 
 #grouping{
     padding-left:10px;
+    padding-right:15px;
     width: 18%;
+}
+
+#refresh{
+
+    i {
+        padding-right: 5px;
+    }
 }
 
 .empty-browse{
