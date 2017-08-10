@@ -53,6 +53,7 @@ export class FeatureGroupComponent {
     _clearFocusOnFeature(featureElements: HTMLCollection, index: number) {
         const oldFeature = Dom.getTabbableControl(<HTMLElement>featureElements[index]);
         this.group.features[index].nameFocusable = false;
+        this.group.features[index].imageFocusable = false;
         Dom.clearFocus(oldFeature);
     }
 
@@ -62,20 +63,21 @@ export class FeatureGroupComponent {
 
         if (index >= 0 && index < featureElements.length) {
             finalIndex = index;
-            destFeature = featureElements[index].children[0].children[1].children[0];
+            destFeature = featureElements[index];
         } else if (featureElements.length > 0) {
             if (index === -1) {
                 finalIndex = 0;
-                destFeature = featureElements[0].children[0].children[1].children[0];
+                destFeature = featureElements[0];
             } else {
                 finalIndex = featureElements.length - 1;
-                destFeature = featureElements[finalIndex].children[0].children[1].children[0];
+                destFeature = featureElements[finalIndex];
             }
         }
 
         if (destFeature) {
             const newFeature = Dom.getTabbableControl(<HTMLElement>destFeature);
             this.group.features[finalIndex].nameFocusable = true;
+            this.group.features[index].imageFocusable = true;
             Dom.setFocus(<HTMLElement>newFeature);
         }
 
@@ -98,6 +100,15 @@ export class FeatureGroupComponent {
             this._setFocusOnFeature(featureElements, this._focusedFeatureIndex - 1);
             event.preventDefault();
 
+        } else if (event.keyCode === KeyCodes.tab) {
+            if (this.group.features[this._focusedFeatureIndex].onImage) {
+                this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
+            }
         }
+    }
+
+    onBlur(event: FocusEvent) {
+        let x = 1;
+        x = 2;
     }
 }
