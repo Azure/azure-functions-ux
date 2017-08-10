@@ -1,29 +1,49 @@
 <div class="feature-group-header">{{group?.title}}</div>
 <div class="feature-group-items" #featureGroup>
 
-    <div *ngFor="let feature of group?.features" (mouseenter)="feature.isHighlighted = true" (mouseleave)="feature.isHighlighted = false" 
-        class="feature-group-item">
+    <div *ngFor="let feature of group?.features" 
+         (mouseenter)="feature.isHighlighted = true" 
+         (mouseleave)="feature.isHighlighted = false" 
+         class="feature-group-item">
 
-        <div *ngIf="!feature.isEmpty" class="feature-group-item-content">
-            <img [src]="feature.iconUrl" />
+        <div *ngIf="!feature.isEmpty" 
+             class="feature-group-item-content">
+             <img [src]="feature.iconUrl" />
 
             <span [class.feature-group-result-title]="searchTerm && feature.highlight">
-                <a *ngIf="feature.enabled" class="link" [tabIndex]="feature.nameFocusable ? 0 : -1" 
-                (focus)="feature.imageFocusable = true" (click)="click(feature)" (keydown)="onKeyPress($event, feature)">{{feature.title}}</a>
-            <span *ngIf="!feature.enabled" class="feature-group-disabled">{{feature.title}}</span>      
+                <a *ngIf="feature.enabled" 
+                    class="link" 
+                    [tabIndex]="feature.nameFocusable ? 0 : -1" 
+                    (focus)="feature.imageFocusable = true" 
+                    (click)="click(feature)" 
+                    (keydown)="onKeyPress($event, feature)">
+                    {{feature.title}}
+                </a>
+                <span *ngIf="!feature.enabled" 
+                      class="feature-group-disabled">
+                      {{feature.title}}
+                </span>      
             </span>
 
-            <img *ngIf="feature.superScriptIconUrl" class="super-icon" [src]="feature.superScriptIconUrl" />
+            <img *ngIf="feature.superScriptIconUrl" 
+                 class="super-icon" 
+                 [src]="feature.superScriptIconUrl" />
 
-            <span *ngIf="feature.isHighlighted || feature.imageFocusable" class="feature-group-info" (keydown)="onKeyPress($event, feature)" (focusin)="feature.onImage=true">
+            <span *ngIf="feature.isHighlighted || feature.imageFocusable" 
+                  class="feature-group-info" 
+                  (keydown)="onKeyPress($event, feature)" 
+                  (focusin)="feature.onImage = true"
+                  (focusout)="feature.onImage = false">
 
                 <span>
-                    <pop-over *ngIf="feature.warning" [message]="feature.warning">
-                        <img src="images/warning.svg" />
+                    <pop-over *ngIf="feature.warning" 
+                              [message]="feature.warning">
+                              <img src="images/warning.svg" />
                     </pop-over>
 
-                    <pop-over *ngIf="feature.info" [message]="feature.info">
-                        <img src="images/info.svg" />
+                    <pop-over *ngIf="feature.info" 
+                              [message]="feature.info">
+                              <img src="images/info.svg" />
                     </pop-over>
                 </span>
             </span>

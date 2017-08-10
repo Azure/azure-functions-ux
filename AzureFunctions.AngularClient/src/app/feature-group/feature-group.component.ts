@@ -77,7 +77,7 @@ export class FeatureGroupComponent {
         if (destFeature) {
             const newFeature = Dom.getTabbableControl(<HTMLElement>destFeature);
             this.group.features[finalIndex].nameFocusable = true;
-            this.group.features[index].imageFocusable = true;
+            this.group.features[finalIndex].imageFocusable = true;
             Dom.setFocus(<HTMLElement>newFeature);
         }
 
@@ -109,10 +109,5 @@ export class FeatureGroupComponent {
                 this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
             }
         }
-    }
-
-    onBlur(event: FocusEvent) {
-        let x = 1;
-        x = 2;
     }
 }
