@@ -21,7 +21,7 @@ export class BindingEventGridComponent {
             detailBladeInputs: {
                 inputs: {
                     subscriberEndpointUrl: this.input.subscribeUrl,
-                    label: this.input.bladeLabel
+                    labels: ['functions', this.input.bladeLabel]
                 }
             }
         }, 'event-grid-binding');
@@ -33,7 +33,7 @@ export class BindingEventGridComponent {
             extension: 'Microsoft_Azure_EventGrid',
             detailBladeInputs: {
                 inputs: {
-                    label: this.input.bladeLabel
+                    labels: ['functions', this.input.bladeLabel]
                 }
             }
         }, 'event-grid-binding');
