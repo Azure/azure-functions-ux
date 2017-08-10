@@ -118,7 +118,7 @@ export class RunHttpComponent {
     paramChanged() {
         // iterate all params and set valid property depends of params name
 
-        const regex = new RegExp('^$|[^A-Za-z0-9-]');
+        const regex = new RegExp('^$|[^A-Za-z0-9-_]');
         this.valid = true;
         this.model.queryStringParams.concat(this.model.headers).forEach((item => {
             item.valid = !regex.test(item.name);
