@@ -100,6 +100,10 @@ export class FeatureGroupComponent {
             this._setFocusOnFeature(featureElements, this._focusedFeatureIndex - 1);
             event.preventDefault();
 
+        } else if (event.keyCode === (KeyCodes.tab && KeyCodes.shiftLeft)) {
+            if (!this.group.features[this._focusedFeatureIndex].onImage) {
+                this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
+            }
         } else if (event.keyCode === KeyCodes.tab) {
             if (this.group.features[this._focusedFeatureIndex].onImage) {
                 this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
