@@ -22,7 +22,6 @@ import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode } from './../../tree-view/app-node';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { ArmService } from '../../shared/services/arm.service';
-import { PortalService } from '../../shared/services/portal.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
 import { BroadcastEvent } from '../../shared/models/broadcast-event'
 import { GlobalStateService } from '../../shared/services/global-state.service';
@@ -33,7 +32,6 @@ import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
 import { SlotsService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
-import { Url } from "app/shared/Utilities/url";
 
 @Component({
   selector: 'function-runtime',
@@ -81,7 +79,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
   constructor(
     private _armService: ArmService,
     private _cacheService: CacheService,
-    private _portalService: PortalService,
     private _broadcastService: BroadcastService,
     private _globalStateService: GlobalStateService,
     private _aiService: AiService,
@@ -381,16 +378,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   openAppSettings() {
-    if (Url.getParameterByName(window.location.href, 'appsvc.feature.appsettingstab') === 'true') { // DEBUG: conditionally showing application settings tab
-      this._broadcastService.broadcast<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
-    } else {
-      this._portalService.openBlade({
-        detailBlade: 'WebsiteConfigSiteSettings',
-        detailBladeInputs: {
-          resourceUri: this.site.id,
-        }
-      }, 'settings');
-    }
+    this._broadcastService.broadcast<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
   }
 
   private _updateContainerVersion(appSettings: ArmObj<any>) {

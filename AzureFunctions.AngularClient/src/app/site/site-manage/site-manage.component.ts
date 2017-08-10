@@ -21,7 +21,6 @@ import { PortalService } from '../../shared/services/portal.service';
 import { Site } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { SiteDescriptor } from '../../shared/resourceDescriptors';
-import { Url } from "app/shared/Utilities/url";
 
 @Component({
     selector: 'site-manage',
@@ -239,6 +238,14 @@ export class SiteManageComponent implements OnDestroy {
                 SiteTabIds.functionRuntime,
                 this._broadcastService),
 
+            new TabFeature(
+                this._translateService.instant(PortalResources.tab_applicationSettings),
+                this._translateService.instant(PortalResources.tab_applicationSettings),
+                this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
+                'images/application-settings.svg',
+                SiteTabIds.applicationSettings,
+                this._broadcastService),
+
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_propertiesName),
                 this._translateService.instant(PortalResources.feature_propertiesName),
@@ -282,35 +289,6 @@ export class SiteManageComponent implements OnDestroy {
                 },
                 this._portalService)
         ];
-
-        if (Url.getParameterByName(window.location.href, 'appsvc.feature.appsettingstab') === 'true') { // DEBUG: conditionally showing application settings tab
-                generalFeatures.splice(1, 0,
-                    new TabFeature(
-                        this._translateService.instant(PortalResources.tab_applicationSettings),
-                        this._translateService.instant(PortalResources.tab_applicationSettings),
-                        this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
-                        'images/application-settings.svg',
-                        SiteTabIds.applicationSettings,
-                        this._broadcastService)
-                );
-            } else {
-                generalFeatures.splice(1, 0,
-                    new BladeFeature(
-                        this._translateService.instant(PortalResources.feature_applicationSettingsName),
-                        this._translateService.instant(PortalResources.feature_applicationSettingsName) +
-                        ' ' + this._translateService.instant(PortalResources.connectionStrings) +
-                        ' java php .net',
-                        this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
-                        'images/application-settings.svg',
-                        {
-                            detailBlade: 'WebsiteConfigSiteSettings',
-                            detailBladeInputs: {
-                                resourceUri: site.id,
-                            }
-                        },
-                        this._portalService),
-            );
-        }
 
         this.groups1 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
