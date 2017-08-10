@@ -2,7 +2,6 @@ import { ElementRef } from '@angular/core';
 import { Dom } from './../../shared/Utilities/dom';
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
 import { SiteTabIds, KeyCodes } from './../../shared/models/constants';
-import { Url } from './../../shared/Utilities/url';
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -210,26 +209,12 @@ export class SiteEnabledFeaturesComponent {
                 };
 
             case Feature.AppSettings:
-                if (Url.getParameterByName(window.location.href, 'appsvc.feature.appsettingstab') === 'true') { // DEBUG: conditionally showing application settings tab
-                    return <EnabledFeatureItem>{
-                        title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
-                        feature: feature,
-                        iconUrl: 'images/application-settings.svg',
-                        featureId: SiteTabIds.applicationSettings
-                    };
-                } else {
-                    return <EnabledFeatureItem>{
-                        title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
-                        feature: feature,
-                        bladeInfo: {
-                            detailBlade: 'WebsiteConfigSiteSettings',
-                            detailBladeInputs: {
-                                resourceUri: this._descriptor.resourceId,
-                            }
-                        },
-                        iconUrl: 'images/application-settings.svg'
-                    };
-                }
+                return <EnabledFeatureItem>{
+                    title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
+                    feature: feature,
+                    iconUrl: 'images/application-settings.svg',
+                    featureId: SiteTabIds.applicationSettings
+                };
 
             case Feature.AppInsight:
                 return <EnabledFeatureItem>{
