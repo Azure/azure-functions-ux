@@ -26,6 +26,7 @@ import { BusyStateComponent } from '../busy-state/busy-state.component';
     styleUrls: ['./errors-warnings.component.scss', '../function-dev/function-dev.component.scss']
 })
 export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
+    _aiService: any;
     public diagnostics: any[] = [];
     private token: string;
     private tokenSubscription: Subscription;
@@ -33,6 +34,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     private monacoSaveSubscription: Subscription;
     private monacoContentChangedSubscription: Subscription;
     private fileSelectionSubscription: Subscription;
+    private fileExplorerReadySubscription: Subscription;
     private skipLength: number = 0;
     private static functionsDiagnostics: Diagnostic[] = [];
     private functionDevComponent: FunctionDevComponent;
@@ -66,7 +68,11 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
 
             if(!this.hostEventSubscription){
                 this.hostEventSubscription = this.functionInfo.functionApp.hostEventClient.events
-                .do(null, error => { console.log(error); })
+                .do(null, e => {
+                         this._aiService.trackEvent('/errors/functionDevReadingHostEvents', {
+                             error: e, app: this.functionInfo.functionApp.site.id
+                         });
+                    })
                 .retry()
                 .subscribe((r: any) => {
                     ErrorsWarningsComponent.functionsDiagnostics[r.functionName] = r.diagnostics;
@@ -134,6 +140,11 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
             this.fileSelectionSubscription.unsubscribe();
             delete this.fileSelectionSubscription;
         }
+
+        if(this.fileExplorerReadySubscription) {
+            this.fileExplorerReadySubscription.unsubscribe();
+            delete this.fileExplorerReadySubscription;
+        }
     }
 
     onResize(ev: any) {
@@ -179,7 +190,7 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         }
         
         if(!this.fileExplorer.files) {
-            this.fileExplorer.fileExplorerReady.subscribe(() => {
+            this.fileExplorerReadySubscription = this.fileExplorer.fileExplorerReady.subscribe(() => {
                 this.changeFiles(fileName);
             });
         } else {

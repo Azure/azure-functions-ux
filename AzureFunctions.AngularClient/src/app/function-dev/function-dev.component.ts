@@ -385,8 +385,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
 
                 this.hostEventSubscription = this.selectedFunction.functionApp.hostEventClient.events
-                    .do(null, error => { console.log(error); })
-                    .retry().subscribe((r: any) => {
+                    .do(null, e => {
+                         this._aiService.trackEvent('/errors/functionDevReadingHostEvents', {
+                             error: e, app: this.selectedFunction.functionApp.site.id
+                         });
+                    })
+                    .retry()
+                    .subscribe((r: any) => {
                         if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0)) {
                             if (this.bottomTab !== "errors") {
                                 this.clickBottomTab("errors");
