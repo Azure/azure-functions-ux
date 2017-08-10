@@ -35,6 +35,7 @@ import { CacheService } from '../shared/services/cache.service';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { AuthSettings } from '../shared/models/auth-settings';
 import { IoTHelper } from '../shared/models/iot-helper';
+import { IoTHubConstants } from '../shared/models/constants';
 import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 import { FunctionInfo } from '../shared/models/function-info';
 
@@ -511,14 +512,10 @@ export class BindingComponent {
 
                 IoTHelper.getInputObjects(this.bindingValue.type, this.model.inputs);
 
-
                 if (bindingSchema.rules) {
                     bindingSchema.rules.forEach((rule) => {
                         const isHidden = this.isHidden(rule.name);
-                        if (isHidden) {
-                            return;
-                        }
-
+                        if (isHidden) return;
                         if (rule.type === 'exclusivity') {
                             const ddInput = this._handleExclusivityRule(rule, isHidden);
                             this.model.inputs.splice(0, 0, ddInput);
@@ -552,17 +549,14 @@ export class BindingComponent {
                                 var rules = <Rule[]><any>ddInput.enum;
                                 rule.values.forEach((v) => {
                                     if (ddInput.value == v.value) {
-                                        v.shownSettings.forEach((s) => {                                            
-                                            
-                                            if (s === "queueName") {
-                                                
-                                                this.model.inputs.find(s => s.id === "connection").isServicebusTopic = false;
+                                        v.shownSettings.forEach((s) => {  
+                                            // To label whether the input is a PickerInput of service bus queue or topic
+                                            if (s === IoTHubConstants.queueName) {
+                                                (<PickerInput>this.model.inputs.find(s => s.id === IoTHubConstants.connection)).isServicebusTopic = false;
                                             }
-                                            else if (s === "topicName") {
-                                                
-                                                this.model.inputs.find(s => s.id === "connection").isServicebusTopic = true;
+                                            else if (s === IoTHubConstants.topicName) {
+                                                (<PickerInput>this.model.inputs.find(s => s.id === IoTHubConstants.connection)).isServicebusTopic = true;
                                             }
-
                                             var input = this.model.inputs.find((input) => {
                                                 return input.id === s;
                                             });
@@ -702,13 +696,10 @@ export class BindingComponent {
         this.model.saveOriginInputs();
         // if we create new storage account we need to update appSettings to get new storage information
         this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true).subscribe(r => {
-
             this._appSettings = r.json().properties;
             this.setStorageInformation(selectedStorage);
         });
-
         this.update.emit(this.bindingValue);
-
         this._broadcastService.clearDirtyState('function_integrate', true);
         this._portalService.setDirtyState(false);
         this.isDirty = false;
@@ -726,7 +717,6 @@ export class BindingComponent {
     }
 
     goClicked(action: Action) {
-
         action.settingValues = [];
         action.settings.forEach((s) => {
             const setting = this.bindingValue.settings.find((v) => {
@@ -734,7 +724,6 @@ export class BindingComponent {
             });
             action.settingValues.push(setting.value);
         });
-
         this.go.emit(action);
     }
 

@@ -151,6 +151,24 @@ export class KeyCodes {
     public static readonly arrowDown = 40;
 }
 
+export class IoTHubConstants {
+    public static readonly shareNameLowercase = "sharedaccesskeyname=";
+    public static readonly shareKeyLowercase = ";sharedaccesskey=";
+    public static readonly semicolonEntityPathLowercase = ";entitypath";
+    public static readonly entityPathLowercase = "entitypath";
+    public static readonly connection = "connection";
+    public static readonly path = "path";
+    public static readonly consumerGroup = "consumerGroup";
+    public static readonly queueName = "queueName";
+    public static readonly topicName = "topicName";
+    public static readonly subscriptionName = "subscriptionName";
+    public static readonly semicolon = ";";
+    public static readonly equal = "=";
+    public static readonly apiVersion17 = "2017-01-19";
+    public static readonly apiVersion15 = "2015-08-01";
+    public static readonly manageAccessRight = "Manage";
+}
+
 export class DomEvents{
     public static readonly keydown = 'keydown';
     public static readonly click = 'click';

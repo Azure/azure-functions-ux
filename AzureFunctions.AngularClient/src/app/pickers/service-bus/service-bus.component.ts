@@ -13,6 +13,7 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { AppSettingObject } from '../../shared/models/binding-input';
 import { IoTHelper } from '../../shared/models/iot-helper';
 import { DirectionType } from '../../shared/models/binding';
+import { IoTHubConstants } from '../../shared/models/constants';
 import { Subscription } from 'rxjs/Subscription';
 
 class OptionTypes {
@@ -133,7 +134,7 @@ export class ServiceBusComponent {
 
         let devicesId = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
 
-        this._cacheService.getArm(devicesId, true, '2017-01-19').subscribe(r => {
+        this._cacheService.getArm(devicesId, true, IoTHubConstants.apiVersion17).subscribe(r => {
             this.IOTHubs = r.json();
             if (this.IOTHubs.value.length > 0) {
                 this.selectedIOTHub = this.IOTHubs.value[0].id;
@@ -215,10 +216,9 @@ export class ServiceBusComponent {
         this.IOTselectedTopicId = null;
         this.IOTsubscriptionNames = null;
         this.IOTselectedSubscriptionName = null;
-
-        this._cacheService.getArm(value, true, '2017-01-19').subscribe(r => {
+        this._cacheService.getArm(value, true, IoTHubConstants.apiVersion17).subscribe(r => {
             this.IOTEndpoints = [];
-            var hubs = r.json().properties.routing.endpoints;
+            let hubs = r.json().properties.routing.endpoints;
 
             if (this.isServiceBusTopic) hubs.serviceBusTopics.forEach(endpoint => this.IOTEndpoints.push(endpoint));
             else hubs.serviceBusQueues.forEach(endpoint => this.IOTEndpoints.push(endpoint));
@@ -298,8 +298,8 @@ export class ServiceBusComponent {
     }
 
     onSelect(): Subscription | null {
-        var appSettingName: string;
-        var appSettingValue: string;
+        let appSettingName: string;
+        let appSettingValue: string;
         if (this.option === this.optionTypes.serviceBus) {
             if (this.selectedPolicy) {
                 this.selectInProcess = true;
@@ -307,7 +307,7 @@ export class ServiceBusComponent {
                 let appSettingName: string;
 
                 return Observable.zip(
-                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, '2015-08-01'),
+                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, IoTHubConstants.apiVersion15),
                     this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
@@ -317,7 +317,7 @@ export class ServiceBusComponent {
                         appSettingName = `${namespace.name}_${keys.keyName}_SERVICEBUS`;
                         appSettingValue = keys.primaryConnectionString;
 
-                        var appSettings: ArmObj<any> = r.appSettings.json();
+                        let appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = IoTHelper.removeEntityPathFrom(appSettingValue);
                         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
 
@@ -344,7 +344,7 @@ export class ServiceBusComponent {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
                 return Observable.zip(
-                    this._cacheService.postArm(this.IOTselectedPolicy + '/listkeys', true, "2015-08-01"),
+                    this._cacheService.postArm(this.IOTselectedPolicy + '/listkeys', true, IoTHubConstants.apiVersion15),
                     this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
@@ -353,7 +353,6 @@ export class ServiceBusComponent {
 
                         appSettingName = `${selectedIOTEndpointName}_${keys.keyName}_IOTHUB_SERVICEBUS`;
                         appSettingValue = keys.primaryConnectionString;
-
                         const appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = IoTHelper.removeEntityPathFrom(appSettingValue);
                         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
@@ -437,7 +436,6 @@ export class ServiceBusComponent {
 
     private updateTopicPolicies(sbUrl: string, topicName: string){
         if (this.isServiceBusTopic) {
-            
             Observable.zip(
                 this._cacheService.getArm(sbUrl + "/AuthorizationRules", true),
                 this._cacheService.getArm(sbUrl + "/topics/" + topicName + "/AuthorizationRules", true),
@@ -453,7 +451,6 @@ export class ServiceBusComponent {
         if (this.option === this.optionTypes.serviceBus) this.polices = null;
 
         if (!this.isServiceBusTopic) {
-            
             Observable.zip(
                 this._cacheService.getArm(sbUrl + "/AuthorizationRules", true),
                 this._cacheService.getArm(sbUrl + "/queues/" + queueName + "/AuthorizationRules", true),
@@ -465,7 +462,6 @@ export class ServiceBusComponent {
     }
 
     private updatePoliciesHelper(r) {
-        
         if (this.option === this.optionTypes.IOTHub) {
             // hub
             this.IOTpolices = this.filterPolicies(r.hubPolicies);
@@ -494,12 +490,10 @@ export class ServiceBusComponent {
             if (this.polices.value.length > 0) this.selectedPolicy = this.polices.value[0].id;
             this.setSelect();
         }
-        
     }
 
     private filterPolicies(policies: ArmArrayResult): ArmArrayResult {
-        
-        policies.value = policies.value.filter(p => (p.properties.rights.find(r => r === "Manage")));
+        policies.value = policies.value.filter(p => (p.properties.rights.find(r => r === IoTHubConstants.manageAccessRight)));
         return policies;
     }
 }

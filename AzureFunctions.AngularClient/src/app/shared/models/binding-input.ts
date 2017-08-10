@@ -18,13 +18,6 @@ export class BindingInputBase<T>
     validators: Validator[] = [];
     changeValue: (newValue?: any) => void;
     placeholder: string;
-
-    pathInput: any;
-    consumerGroup: any;
-    queueName: any;
-    topicName: any;
-    subscriptionName: any;
-    isServicebusTopic: boolean;
     explicitSave: boolean = false;
 
     isDisabled: boolean = false;
@@ -39,7 +32,6 @@ export class CheckboxInput extends BindingInputBase<boolean>{
 
 
 export class TextboxInput extends BindingInputBase<string>{
-
     constructor() {
         super();
         this.type = SettingType.string;
@@ -49,7 +41,6 @@ export class TextboxInput extends BindingInputBase<string>{
 }
 
 export class TextboxIntInput extends BindingInputBase<number>{
-
     constructor() {
         super();
         this.type = SettingType.int;
@@ -91,7 +82,11 @@ export class PickerInput extends BindingInputBase<string>{
     metadata: any;
     items: string[];
     pathInput: any;
+    isServicebusTopic: boolean;
     consumerGroup: any;
+    queueName: any;
+    topicName: any;
+    subscriptionName: any;
 
     constructor() {
         super();

@@ -13,6 +13,7 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { AppSettingObject } from '../../shared/models/binding-input';
 import { IoTHelper } from '../../shared/models/iot-helper';
 import { DirectionType } from '../../shared/models/binding';
+import { IoTHubConstants } from '../../shared/models/constants';
 import { Subscription } from "rxjs/Subscription";
 
 class OptionTypes {
@@ -67,17 +68,16 @@ export class EventHubComponent {
     public selectedIOTConsumerGroup: string;
     public IOTPolicies: ArmArrayResult;
     public selectedIOTPolicy: string;
-
     public appSettingName: string;
     public appSettingValue: string;
     public optionsChange: Subject<string>;
     public optionTypes: OptionTypes = new OptionTypes();
-
     public selectInProcess = false;
     public options: SelectOption<string>[];
     public option: string;
     public canSelect: boolean = false;
     public isTrigger: boolean = true;
+
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<AppSettingObject>();
 
@@ -133,7 +133,7 @@ export class EventHubComponent {
 
         const devicesId = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
 
-        this._cacheService.getArm(devicesId, true, '2017-01-19').subscribe(r => {
+        this._cacheService.getArm(devicesId, true, IoTHubConstants.apiVersion17).subscribe(r => {
             this.IOTHubs = r.json();
             if (this.IOTHubs.value.length > 0) {
                 this.selectedIOTHub = this.IOTHubs.value[0].id;
@@ -215,9 +215,9 @@ export class EventHubComponent {
         this.selectedIOTConsumerGroup = null;
 
         Observable.zip(
-            this._cacheService.postArm(value + '/listkeys', true, '2017-01-19'),
-            this._cacheService.getArm(value, true, '2017-01-19'),
-            this._cacheService.getArm(value + "/EventhubEndPoints/events/ConsumerGroups", true, '2017-01-19'),
+            this._cacheService.postArm(value + "/listkeys", true, IoTHubConstants.apiVersion17),
+            this._cacheService.getArm(value, true, IoTHubConstants.apiVersion17),
+            this._cacheService.getArm(value + "/EventhubEndPoints/events/ConsumerGroups", true, IoTHubConstants.apiVersion17),
             (keys, hub, eventsConsumerGroup) => ({
                 keys: keys.json(),
                 hub: hub.json(),
@@ -248,7 +248,7 @@ export class EventHubComponent {
                             }
                         ];
 
-                        var hubs = r.hub.properties.routing.endpoints;
+                        let hubs = r.hub.properties.routing.endpoints;
                         hubs.eventHubs.forEach(endpoint => {
                             this.IOTEndpoints.push({
                                 name: endpoint.name,
@@ -285,7 +285,7 @@ export class EventHubComponent {
         this.IOTPolicies = null;
         this.selectedIOTPolicy = null;
 
-        var eventHubEndpointName: string;
+        let eventHubEndpointName: string;
         if (!this.selectedIOTEndpoint.isBuiltIn) {
             eventHubEndpointName = IoTHelper.getEntityPathFrom(this.selectedIOTEndpoint.value);
             const newPolicyUrl = this.getEventHubUrlFrom(this.selectedIOTHub, this.selectedIOTEndpoint);
@@ -331,8 +331,8 @@ export class EventHubComponent {
             }
 
             Observable.zip(
-                this._cacheService.postArm(this.selectedIOTHub + "/listkeys", true, '2017-01-19'),
-                this._cacheService.getArm(this.selectedIOTHub + "/EventhubEndPoints/" + eventHubEndpointName + "/ConsumerGroups", true, '2017-01-19'),
+                this._cacheService.postArm(this.selectedIOTHub + "/listkeys", true, IoTHubConstants.apiVersion17),
+                this._cacheService.getArm(this.selectedIOTHub + "/EventhubEndPoints/" + eventHubEndpointName + "/ConsumerGroups", true, IoTHubConstants.apiVersion17),
                 (policies, consumerGroups) => ({
                     policies: policies.json(),
                     consumerGroups: consumerGroups.json()
@@ -357,15 +357,15 @@ export class EventHubComponent {
     }
 
     onSelect(): Subscription | null {
-        var appSettingName: string;
-        var appSettingValue: string;
+        let appSettingName: string;
+        let appSettingValue: string;
         if (this.option === this.optionTypes.eventHub) {
             if (this.selectedEventHub && this.selectedPolicy) {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
                 let appSettingName: string;
                 return Observable.zip(
-                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, '2015-08-01'),
+                    this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, IoTHubConstants.apiVersion15),
                     this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
@@ -401,12 +401,12 @@ export class EventHubComponent {
             let appSettingName: string;
             let appSettingValue: string;
             if (this.option === this.optionTypes.IOTHub && this.selectedIOTHub && this.selectedIOTEndpoint) {
-                var IOTHub = this.IOTHubs.value.find(item => (item.id === this.selectedIOTHub));
+                let IOTHub = this.IOTHubs.value.find(item => (item.id === this.selectedIOTHub));
                 // appSettingValue
                 if (this.selectedIOTEndpoint.isBuiltIn) {
                     appSettingName = `${IOTHub.name}_${this.selectedIOTEndpoint.name}_IOTHUB_${this.selectedIOTPolicy}`;
-                    this._cacheService.postArm(this.selectedIOTHub + "/listkeys", true, '2017-01-19').subscribe(r => {
-                        var serviceKey: IOTKey = r.json().value.find(item => (item.keyName === this.selectedIOTPolicy));
+                    this._cacheService.postArm(this.selectedIOTHub + "/listkeys", true, IoTHubConstants.apiVersion17).subscribe(r => {
+                        let serviceKey: IOTKey = r.json().value.find(item => (item.keyName === this.selectedIOTPolicy));
                         appSettingValue = IoTHelper.changeIOTConnectionStringPolicy(this.selectedIOTEndpoint.value, this.selectedIOTPolicy, serviceKey.primaryKey)
                         this.setNonEventHubAppSetting(appSettingName, appSettingValue);
                     })
@@ -414,7 +414,7 @@ export class EventHubComponent {
                 else {
                     let selectedPolicy = this.getSelectedPolicyFromEventHub(this.selectedIOTPolicy);
                     appSettingName = `${IOTHub.name}_${this.selectedIOTEndpoint.name}_IOTHUB_${selectedPolicy}`;
-                    this._cacheService.postArm(this.selectedIOTPolicy + '/ListKeys', true, "2015-08-01")
+                    this._cacheService.postArm(this.selectedIOTPolicy + '/ListKeys', true, IoTHubConstants.apiVersion15)
                         .subscribe(r => {
                             appSettingValue = r.json().primaryConnectionString;
                             // Runtime requires entitypath for all event hub connections strings, 
@@ -440,7 +440,7 @@ export class EventHubComponent {
             this.selectInProcess = true;
             this._globalStateService.setBusyState();
             this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-                var appSettings: ArmObj<any> = r.json();
+                let appSettings: ArmObj<any> = r.json();
 
                 appSettings.properties[appSettingName] = appSettingValue;
                 return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
@@ -480,8 +480,7 @@ export class EventHubComponent {
     /**
      * return
      * "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}"
-     * @param connectionString
-     * Invariant: this.selectedIOTEndpoint.isBuiltIn === false (custom endpoints)
+     * Inletiant: this.selectedIOTEndpoint.isBuiltIn === false (custom endpoints)
      */
     private getNamespaceUrlFrom(IOTHubUrl: string, customEndpoint: IOTEndpoint) {
         let connectionString = customEndpoint.value;
@@ -497,8 +496,7 @@ export class EventHubComponent {
     /**
     * return
     * "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}"
-    * Invariant: this.selectedIOTEndpoint.isBuiltIn === false (custom endpoints)
-    * @param connectionString
+    * Inletiant: this.selectedIOTEndpoint.isBuiltIn === false (custom endpoints)
     */
     private getEventHubUrlFrom(IOTHubUrl: string, customEndpoint: IOTEndpoint) {
         return this.getNamespaceUrlFrom(IOTHubUrl, customEndpoint)
@@ -506,8 +504,7 @@ export class EventHubComponent {
     }
 
     /**
-     * 
-     * @param id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{ruleName}"
+     * id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{ruleName}"
      */
     private getSelectedPolicyFromEventHub(id: string) {
         let authRule = "authorizationRules/";
@@ -526,7 +523,7 @@ export class EventHubComponent {
     }
 
     private filterIoTPolicies(policies: ArmArrayResult): ArmArrayResult {
-        policies.value = policies.value.filter(p => (p.properties.rights.find(r => r === "Listen")));
+        policies.value = policies.value.filter(p => (p.properties.rights.find(r => r === IoTHubConstants.manageAccessRight)));
         return policies;
     }
 }

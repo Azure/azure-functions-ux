@@ -1,10 +1,12 @@
-﻿<event-hub *ngIf="pickerName === 'EventHub'"
+﻿<!-- bindingDirection is to label if the picker is for trigger or output/input bindings -->
+<event-hub *ngIf="pickerName === 'EventHub'"
                 [functionApp]="functionApp"
                 [bindingDirection]="binding.direction"
                 (close)="closePicker($event)"
                 (selectItem)="finishDialogPicker($event)">
 </event-hub>
 
+<!-- bindingDirection is to label if the picker is for trigger or output/input bindings -->
 <service-bus *ngIf="pickerName === 'ServiceBus'"
            [functionApp]="functionApp"
            [isServiceBusTopic]="!(input.queueName) || (input.queueName && input.isServicebusTopic)"
