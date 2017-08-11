@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { IoTHubConstants } from './constants'
 
 export class IoTHelper {
+
     /**
      * Gather all the pointers for PickerInput and TextboxInput
      * input is a reference
