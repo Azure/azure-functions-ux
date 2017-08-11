@@ -1,4 +1,4 @@
-// This file is auto generated
+﻿// This file is auto generated
 
 export class PortalResources
 {
@@ -641,7 +641,6 @@ export class PortalResources
     public static ioTHubPicker_connection: string = "ioTHubPicker_connection";
     public static ioTHubTrigger_connection_label: string = "ioTHubTrigger_connection_label";
     public static ioTHubTrigger_EntityPath: string = "ioTHubTrigger_EntityPath";
-    public static entityPath_notfound: string = "entityPath_notfound";
     public static eventHubPicker_IOTConsumerGroups: string = "eventHubPicker_IOTConsumerGroups";
     public static servicebusQueuePicker_queueName: string = "servicebusQueuePicker_queueName";
     public static defaultConsumerGroup: string = "defaultConsumerGroup";

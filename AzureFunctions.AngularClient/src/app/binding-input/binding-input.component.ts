@@ -60,10 +60,10 @@ export class BindingInputComponent {
 
             if (input instanceof PickerInput) {
                 if (input && input.pathInput && input.consumerGroup) {
-                    this.setAppSettingCallback(input.value, this.autofillIoTValuesEHTrigger, PortalResources.entityPath_notfound);
+                    this.setAppSettingCallback(input.value, this.autofillIoTValuesEHTrigger, "");
                 }
                 else if (input && input.pathInput) {
-                    this.setAppSettingCallback(input.value, this.autofillIoTValuesPath, PortalResources.entityPath_notfound);
+                    this.setAppSettingCallback(input.value, this.autofillIoTValuesPath, "");
                 }
 
                 this.initializePickerOption(input);
@@ -189,10 +189,10 @@ export class BindingInputComponent {
                 if (this._input.value != value && this.pickerOption && (<EventHubOption>this.pickerOption).consumerGroup) {
                     (<EventHubOption>this.pickerOption).consumerGroup = PortalResources.defaultConsumerGroup;
                 }
-                this.setAppSettingCallback(value, this.autofillIoTValuesEHTrigger, PortalResources.entityPath_notfound);
+                this.setAppSettingCallback(value, this.autofillIoTValuesEHTrigger, "");
             }
             else if (this._input && this._input.pathInput) {
-                this.setAppSettingCallback(value, this.autofillIoTValuesPath, PortalResources.entityPath_notfound);
+                this.setAppSettingCallback(value, this.autofillIoTValuesPath, "");
             }
             else if (this._input && this._input.queueName
                 && this.pickerOption && (<ServiceBusQueueOption>this.pickerOption).queueName) {
@@ -344,7 +344,7 @@ export class BindingInputComponent {
 
     private autofillIoTValuesPath(that) {
         var entityPath = IoTHelper.getEntityPathFrom(that.appSettingValue);
-        that._input.pathInput.value = entityPath ? entityPath : PortalResources.entityPath_notfound;
+        that._input.pathInput.value = entityPath ? entityPath : "";
     }
 
     private initializePickerOption(input: PickerInput) {
