@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, ElementRef, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, ElementRef, Input, Output, HostBinding} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 
@@ -14,6 +14,7 @@ export class MonacoEditorDirective {
     @Output() public onContentChanged: EventEmitter<string>;
     @Output() public onSave: EventEmitter<string>;
     @Output() public onRun: EventEmitter<void>;
+    @HostBinding('style.opacity') opacity: string = '1';
 
     private _language: string;
     private _content: string;
@@ -67,6 +68,7 @@ export class MonacoEditorDirective {
                 this._editor.updateOptions({
                     readOnly: this._disabled
                 });
+                this.opacity = this._disabled ? '0.5' : '1';
             }
         }
     }
@@ -162,6 +164,7 @@ export class MonacoEditorDirective {
                     readOnly: that._disabled,
                     lineHeight: 17
                 });
+                this.opacity = this._disabled ? '0.5' : '1';
 
                 that._editor.onDidChangeModelContent(() => {
                     if (!that._silent) {
