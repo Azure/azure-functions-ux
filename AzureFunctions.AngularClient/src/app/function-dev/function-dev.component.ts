@@ -98,7 +98,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     public sentUpdatedFunctionContent: Subject<FileContentUpdateMessage>;
 
-    public fileResourceId = "";
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
@@ -137,7 +136,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.scriptFile = res.file;
                     this.fileName = res.file.name;
 
-                    this.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
+                    this._portalService.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
 
                     if (this.updatedContent && res.file.isDirty) {
                         this.sendContentMessage(this.updatedContent);
@@ -147,7 +146,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                         this.fileExplorer.clearBusyState();
                     }
                     const contentMessage: FileContentUpdateMessage = {
-                        resourceId: this.fileResourceId,
+                        resourceId: this._portalService.fileResourceId,
                         content: null,
                     };
                     // ask for updated info if changes have been made to the file
@@ -233,10 +232,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
                 this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
 
-                this.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
+                this._portalService.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
                 // ask for updated info if changes have been made to the file
                 const contentMessage: FileContentUpdateMessage = {
-                    resourceId: this.fileResourceId,
+                    resourceId: this._portalService.fileResourceId,
                     content: null,
                 };
                 this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, contentMessage)
@@ -290,13 +289,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private storageMessageHandler(msg: TabMessage<any>) {
-        if (msg.data !== null && msg.data.resourceId !== this.fileResourceId) {
+        if (msg.data !== null && msg.data.resourceId !== this._portalService.fileResourceId) {
             return null;
         }
 
         if (msg.verb === TabCommunicationVerbs.lockEditor) {
             // lock the editor until updated content is recieved
-            if ((msg.data.resourceId === this.fileResourceId)) {
+            if ((msg.data.resourceId === this._portalService.fileResourceId)) {
                 // lock monaco (disabled)
                 this.disabled = this.functionApp.getFunctionAppEditMode()
                     .map(editMode => {
@@ -320,7 +319,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             if (this.monacoDirtyState) {
                 Logger.debug("update information sent");
                 const contentMessage: FileContentUpdateMessage = {
-                    resourceId: this.fileResourceId,
+                    resourceId: this._portalService.fileResourceId,
                     content: this.updatedContent
                 };
                 this._portalService._sendTabMessage<FileContentUpdateMessage>(this._portalService.windowId, TabCommunicationVerbs.updatedFile, contentMessage);
@@ -598,7 +597,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
                     const RidMessage: FileContentUpdateMessage = {
-                        resourceId: this.fileResourceId,
+                        resourceId: this._portalService.fileResourceId,
                         content: null,
                     };
                     this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.fileSaved, RidMessage);
@@ -641,7 +640,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
     sendContentMessage(content: string) {
         const contentMessage: FileContentUpdateMessage = {
-            resourceId: this.fileResourceId,
+            resourceId: this._portalService.fileResourceId,
             content: content
         };
         // update the new content
