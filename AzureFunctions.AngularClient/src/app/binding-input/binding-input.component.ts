@@ -233,7 +233,7 @@ export class BindingInputComponent {
                 this._input.validators.forEach((v) => {
                     const regex = new RegExp(v.expression);
                     if (!regex.test(value)) {
-                        this._input.isValid = false;
+                        this._input.isValid = true;
                         this._input.class = this._input.errorClass;
                         this._input.errorText = v.errorText;
                     }

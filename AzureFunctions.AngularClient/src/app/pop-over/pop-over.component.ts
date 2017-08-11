@@ -10,6 +10,7 @@ export class PopOverComponent {
     @Input() message: string;
     @Input() hideAfter: number;
     @Input() isInputError: boolean;
+    @Input() isInputWarning: boolean;
     @Input() popOverClass = 'pop-over-container';
     @Input() position: string;
 
