@@ -63,7 +63,7 @@
            [ngClass]="{'input-error':!!input.errorText}"
            onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
 
-    <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
+    <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputWarning]="true" [isInputError]="!input.isValid">
     </pop-over>
 
     <div *ngIf="description && !input.errorText">{{description}}</div>
@@ -87,7 +87,7 @@
     [class.hide-arrow]="!!input.errorText">
       <option *ngFor="let item of input.items" [value]="item">{{item}}</option>
     </select>
-    <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputError]="true">
+    <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputWarning]="true" [isInputError]="!input.isValid">
     </pop-over>
     <!--[leftOffset]=20 [topOffset]=10-->
     <i *ngIf="!input.inProcess && !showTryView" class="link" [class.select]="input.errorText" (click)="openPicker(input)"> {{ 'bindingInput_new' | translate }}</i>
