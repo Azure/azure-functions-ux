@@ -2,11 +2,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import { AppNode } from './app-node';
-import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
-import { PortalResources } from '../shared/models/portal-resources';
 import { ApiProxy } from '../shared/models/api-proxy';
 import { FunctionNode } from "app/tree-view/function-node";
 
