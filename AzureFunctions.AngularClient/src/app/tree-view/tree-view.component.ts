@@ -128,8 +128,8 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
         node.isFocused = false;
     }
 
-    openNewTab(event: any) {
-        //open a new tab with the rousource information
+    openNewTab(UIEvent: any) {
+        // open a new tab with the rousource information
         let windowLocation: string = `${window.location.hostname}`;
         if (window.location.port) {
             windowLocation += `:${window.location.port}`;

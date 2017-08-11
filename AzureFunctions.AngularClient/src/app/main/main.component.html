@@ -5,6 +5,7 @@
 
     <side-nav (treeViewInfoEvent)="updateViewInfo($event)" [tryFunctionAppInput]="tryFunctionApp" *ngIf="!inTab"></side-nav>
 
+    <!-- for full screen editor when in separate tab  -->
     <function-dev *ngIf="inTab" [selectedFunction]="selectedFunction"></function-dev>
 
     <div id="dashboard" *ngIf="!!viewInfo">

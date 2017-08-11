@@ -63,7 +63,7 @@ export class PortalService {
 
     private initializeIframe(): void {
 
-        this.windowId = Guid.newShortGuid();
+        this.windowId = Guid.newTinyGuid();
 
         // listener for localstorage events from any child tabs of the window
         this._storageService.addEventListener(this.recieveStorageMessage, this);
@@ -96,7 +96,7 @@ export class PortalService {
     }
 
     private recieveStorageMessage(item: StorageEvent) {
-        let msg: TabMessage<any> = JSON.parse(item.newValue);
+        let msg: TabMessage<any>;
 
         try {
             msg = JSON.parse(item.newValue);

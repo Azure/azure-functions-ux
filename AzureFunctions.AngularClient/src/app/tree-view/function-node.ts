@@ -10,7 +10,7 @@ import { DashboardType } from './models/dashboard-type';
 import { PortalResources } from '../shared/models/portal-resources';
 import { FunctionInfo } from '../shared/models/function-info';
 import { Url } from 'app/shared/Utilities/url';
-import { Logger } from "app/shared/utilities/logger";
+import { Logger } from 'app/shared/utilities/logger';
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public dashboardType = DashboardType.function;

@@ -35,8 +35,8 @@ import { ErrorIds } from '../shared/models/error-ids';
 import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
 import { TabCommunicationVerbs } from "app/shared/models/constants";
-import { contentUpdateMessage, TabMessage } from "app/shared/models/localStorage/local-storage";
-import { Logger } from "app/shared/utilities/logger";
+import { FileContentUpdateMessage, TabMessage } from 'app/shared/models/localStorage/local-storage';
+import { Logger } from 'app/shared/utilities/logger';
 
 
 @Component({
@@ -96,8 +96,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public disabled: Observable<boolean>;
     public monacoDirtyState: boolean;
 
-    public recievedUpdatedFunctionContent: Subject<string>;
-    public sentUpdatedFunctionContent: Subject<contentUpdateMessage>;
+    public sentUpdatedFunctionContent: Subject<FileContentUpdateMessage>;
 
     public fileResourceId = "";
     private updatedContent: string;
@@ -139,7 +138,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.fileName = res.file.name;
 
                     this.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
-                    this._portalService.fileResourceId = this.fileResourceId
 
                     if (this.updatedContent && res.file.isDirty) {
                         this.sendContentMessage(this.updatedContent);
@@ -148,8 +146,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     if (this.fileExplorer) {
                         this.fileExplorer.clearBusyState();
                     }
+                    const contentMessage: FileContentUpdateMessage = {
+                        resourceId: this.fileResourceId,
+                        content: null,
+                    };
                     // ask for updated info if changes have been made to the file
-                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, this._portalService.fileResourceId)
+                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, contentMessage)
 
                 } catch (e) {
                     this._globalStateService.clearBusyState();
@@ -193,7 +195,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
                 this._globalStateService.clearBusyState();
                 this.fileName = this.functionInfo.script_href.substring(this.functionInfo.script_href.lastIndexOf("/") + 1);
-                var href = this.functionInfo.script_href;
+                let href = this.functionInfo.script_href;
                 if (this.fileName.toLowerCase().endsWith('dll')) {
                     this.fileName = this.functionInfo.config_href.substring(this.functionInfo.config_href.lastIndexOf("/") + 1);
                     href = this.functionInfo.config_href;
@@ -232,9 +234,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
 
                 this.fileResourceId = `${this.functionApp.site.id}/functions/${this.functionInfo.name}/files/${this.fileName}`;
-                this._portalService.fileResourceId = this.fileResourceId
                 // ask for updated info if changes have been made to the file
-                this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, this._portalService.fileResourceId)
+                const contentMessage: FileContentUpdateMessage = {
+                    resourceId: this.fileResourceId,
+                    content: null,
+                };
+                this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.getUpdatedContent, contentMessage)
 
                 setTimeout(() => {
                     this.onResize();
@@ -255,18 +260,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.setInvokeUrlVisibility();
         });
 
-        this.recievedUpdatedFunctionContent = new Subject<string>();
-        this.recievedUpdatedFunctionContent
-            .subscribe(content => {
-                this.updateContentFromOtherWindow(content)
-                // unlock monaco (not disabled)
-                this.disabled = this.functionApp.getFunctionAppEditMode()
-                    .map(editMode => {
-                        return EditModeHelper.isReadOnly(editMode) || false;
-                    })
-                Logger.debug("editor unlocked");
-            });
-
         // handle messages recieved by portalService
         this._portalService.storageMessageStream
             .subscribe(msg => {
@@ -275,13 +268,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         let lock = false; // ensures that the lock message sends only once
         // stream of content shown in monaco editor
-        this.sentUpdatedFunctionContent = new Subject<contentUpdateMessage>();
+        this.sentUpdatedFunctionContent = new Subject<FileContentUpdateMessage>();
         this.sentUpdatedFunctionContent
             // send one message to lock the other editors while typing
             .do((contentMessage) => {
                 if (!lock) {
                     lock = true;
-                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.lockEditor, this.fileResourceId)
+                    const RidMessage = contentMessage;
+                    RidMessage.content = null
+                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.lockEditor, RidMessage)
                 }
             })
             // only send the content update after typing stops for .5 seconds
@@ -289,19 +284,19 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             .subscribe(contentMessage => {
                 lock = false;
                 const id = this._portalService.windowId;
-                this._portalService._sendTabMessage<contentUpdateMessage>(id, TabCommunicationVerbs.updatedFile, contentMessage);
+                this._portalService._sendTabMessage<FileContentUpdateMessage>(id, TabCommunicationVerbs.updatedFile, contentMessage);
 
             });
     }
 
-    public updateFileStream(file: VfsObject) {
-        this.selectedFileStream.next(file);
-    }
-
     private storageMessageHandler(msg: TabMessage<any>) {
+        if (msg.data !== null && msg.data.resourceId !== this.fileResourceId) {
+            return null;
+        }
+
         if (msg.verb === TabCommunicationVerbs.lockEditor) {
             // lock the editor until updated content is recieved
-            if ((msg.data === this.fileResourceId)) {
+            if ((msg.data.resourceId === this.fileResourceId)) {
                 // lock monaco (disabled)
                 this.disabled = this.functionApp.getFunctionAppEditMode()
                     .map(editMode => {
@@ -312,30 +307,28 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
 
         else if (msg.verb === TabCommunicationVerbs.updatedFile) {
-            //check if file is open, if yes then update
-            const updateInfo: contentUpdateMessage = msg.data;
+            // check if file is open, if yes then update
+            const updateInfo: FileContentUpdateMessage = msg.data;
 
-            if ((updateInfo.resourceId === this.fileResourceId)) {
-                Logger.debug("update information recieved")
-                // tell function-dev to update content 
-                this.recievedUpdatedFunctionContent.next(updateInfo.content);
-            }
+            Logger.debug("update information recieved")
+            // tell function-dev to update content
+            this.updateContentFromOtherWindow(updateInfo.content);
         }
 
-        else if (msg.verb === TabCommunicationVerbs.getUpdatedContent && msg.data === this.fileResourceId) {
-            //if changes have been made to the file, send them
+        else if (msg.verb === TabCommunicationVerbs.getUpdatedContent) {
+            // if changes have been made to the file, send them
             if (this.monacoDirtyState) {
                 Logger.debug("update information sent");
-                const contentMessage: contentUpdateMessage = {
+                const contentMessage: FileContentUpdateMessage = {
                     resourceId: this.fileResourceId,
                     content: this.updatedContent
                 };
-                this._portalService._sendTabMessage<contentUpdateMessage>(this._portalService.windowId, TabCommunicationVerbs.updatedFile, contentMessage);
+                this._portalService._sendTabMessage<FileContentUpdateMessage>(this._portalService.windowId, TabCommunicationVerbs.updatedFile, contentMessage);
             }
         }
 
         // ask if file is open in another window
-        else if (msg.verb === TabCommunicationVerbs.fileOpenElsewhereCheck && msg.data === this.fileResourceId) {
+        else if (msg.verb === TabCommunicationVerbs.fileOpenElsewhereCheck) {
             Logger.debug("responded to request if file is open in another window")
             this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.fileIsOpenElsewhere, null);
         }
@@ -358,7 +351,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     public onResize() {
-
         const functionNameHeight = 46;
         const editorPadding = 25;
 
@@ -605,7 +597,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             .subscribe(r => {
                 if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
-                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.fileSaved, this.fileResourceId);
+                    const RidMessage: FileContentUpdateMessage = {
+                        resourceId: this.fileResourceId,
+                        content: null,
+                    };
+                    this._portalService._sendTabMessage(this._portalService.windowId, TabCommunicationVerbs.fileSaved, RidMessage);
                 }
                 if (typeof r !== "string" && r.isDirty) {
                     r.isDirty = false;
@@ -644,7 +640,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     sendContentMessage(content: string) {
-        const contentMessage: contentUpdateMessage = {
+        const contentMessage: FileContentUpdateMessage = {
             resourceId: this.fileResourceId,
             content: content
         };
@@ -660,6 +656,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
 
         this.updatedContent = content;
         this.content = content;
+
+        // unlock monaco after updating content
+        this.disabled = this.functionApp.getFunctionAppEditMode()
+            .map(editMode => {
+                return EditModeHelper.isReadOnly(editMode) || false;
+            });
+        Logger.debug("editor unlocked");
     }
 
     testContentChanged(content: string) {

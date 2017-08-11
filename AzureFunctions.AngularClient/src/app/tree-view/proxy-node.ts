@@ -8,6 +8,7 @@ import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { PortalResources } from '../shared/models/portal-resources';
 import { ApiProxy } from '../shared/models/api-proxy';
+import { FunctionNode } from "app/tree-view/function-node";
 
 export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public title = 'Proxy';
@@ -51,30 +52,12 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
     }
 
     public shouldBlockNavChange() {
-        return ProxyNode.blockNavChangeHelper(this);
+        return FunctionNode.blockNavChangeHelper(this);
     }
 
     public dispose(newSelectedNode?: TreeNode) {
         this.sideNav.broadcastService.clearAllDirtyStates();
         this.parent.dispose(newSelectedNode);
-    }
-
-    public static blockNavChangeHelper(currentNode: TreeNode) {
-        var canSwitchFunction = true;
-        if (currentNode.sideNav.broadcastService.getDirtyState('function')
-            || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
-            || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
-
-            let descriptor = new FunctionDescriptor(currentNode.resourceId);
-
-            canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
-                PortalResources.sideBar_changeMade,
-                {
-                    name: descriptor.functionName
-                }));
-        }
-
-        return !canSwitchFunction;
     }
 }
 

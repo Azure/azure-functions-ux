@@ -23,7 +23,7 @@ export interface TabMessage<T> extends StorageItem {
     data: T;
 }
 
-export interface contentUpdateMessage {
+export interface FileContentUpdateMessage {
     resourceId: string;
     content: string;
 }

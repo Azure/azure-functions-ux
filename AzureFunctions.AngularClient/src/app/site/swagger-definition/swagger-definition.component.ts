@@ -192,7 +192,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         }, name);
     }
 
-    private setSwaggerEndpointState(swaggerEnabled: boolean): any {
+    private setSwaggerEndpointState(swaggerEnabled: boolean): Observable<any> {
         return this.functionApp.getHostJson()
             .mergeMap(jsonObj => {
                 jsonObj.swagger = { enabled: swaggerEnabled };
