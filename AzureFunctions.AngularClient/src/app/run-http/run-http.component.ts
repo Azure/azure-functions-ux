@@ -66,6 +66,7 @@ export class RunHttpComponent {
         if (!this.model.method && this.availableMethods.length > 0) {
             this.model.method = this.availableMethods[0];
         }
+        this.onChangeMethod(this.model.method);
         this.paramChanged();
     }
 
