@@ -27,11 +27,6 @@
     [options]="groupOptions"
     (value)=onGroupSelect($event)>
   </drop-down>
-
-  <span id="refresh" class="clickable command" (click)="refreshTable()">
-    <i class="fa fa-refresh"></i>{{'Refresh' | translate}}
-  </span> 
-
 </div>
 
 <tbl [items]="tableItems" #table="tbl" id="apps-list" [name]="'functionApps' | translate" groupColName="title">

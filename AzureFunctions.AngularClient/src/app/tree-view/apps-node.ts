@@ -24,12 +24,13 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.apps;
-
+    public supportsRefresh = true;
     public resourceId = '/apps';
     public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
     private _exactAppSearchExp = '\"(.+)\"';
     private _subscriptions: Subscription[];
+    private _refreshStream = new ReplaySubject<boolean>(1);
 
     constructor(
         sideNav: SideNavComponent,
@@ -39,7 +40,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         private _initialResourceId: string) {  // Should only be used for when the iframe is open on a specific app
 
         super(sideNav, null, rootNode);
-
+        this._refreshStream.next(false);
         this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
         this.inSelectedTree = !!this.newDashboardType;
 
@@ -61,6 +62,10 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                             subscriptions: subscriptions
                         };
                     });
+            })
+            .switchMap(result => {
+                return this._refreshStream
+                    .map(r => result);
             })
             .switchMap(result => {
 
@@ -110,6 +115,13 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
                 this.isLoading = false;
             });
+    }
+
+    public handleRefresh(): Observable<any> {
+
+        this.sideNav.cacheService.clearArmIdCachePrefix(`/resources`);
+        this._refreshStream.next(true);
+        return Observable.of(null);
     }
 
     public dispose() {

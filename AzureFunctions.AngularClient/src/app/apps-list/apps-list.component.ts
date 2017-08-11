@@ -61,7 +61,6 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
     this._viewInfoSubscription = this.viewInfoStream
-      .distinctUntilChanged()
       .switchMap(viewInfo => {
         this.appsNode = (<AppsNode>viewInfo.node);
         this.isLoading = true;
@@ -78,16 +77,19 @@ export class AppsListComponent implements OnInit, OnDestroy {
           appNode: app
         }));
 
-        this.locationOptions = this.uniqueLocations(this.apps)
-          .map(location => ({
-            displayLabel: this.translateService.instant(location),
-            value: this.translateService.instant(location)
-          }));
-        this.resourceGroupOptions = this.uniqueResourceGroups(this.apps)
-          .map(resourceGroup => ({
-            displayLabel: this.translateService.instant(resourceGroup),
-            value: this.translateService.instant(resourceGroup)
-          }));
+        setTimeout(() =>{
+          this.locationOptions = this.uniqueLocations(this.apps)
+            .map(location => ({
+              displayLabel: this.translateService.instant(location),
+              value: this.translateService.instant(location)
+            }));
+          this.resourceGroupOptions = this.uniqueResourceGroups(this.apps)
+            .map(resourceGroup => ({
+              displayLabel: this.translateService.instant(resourceGroup),
+              value: this.translateService.instant(resourceGroup)
+            }));
+
+        }, 0);
         this.isLoading = false;
       });
   }
@@ -146,8 +148,6 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   private _updateLocDisplayText(displayText: string) {
-    this.locationsDisplayText = displayText;
-
     // timeout is needed to re-render the page for display update
     setTimeout(() => {
       this.locationsDisplayText = displayText;
@@ -193,8 +193,6 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   private _updateResGroupDisplayText(displayText: string) {
-    this.resourceGroupsDisplayText = displayText;
-
     // timeout is needed to re-render the page for display update
     setTimeout(() => {
       this.resourceGroupsDisplayText = displayText;
@@ -213,9 +211,4 @@ export class AppsListComponent implements OnInit, OnDestroy {
       this.appTable.groupItems(group);
     }, 0);
   }
-
-  refreshTable() {
-    
-  }
-
 }
