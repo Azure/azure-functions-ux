@@ -23,7 +23,7 @@
       [numberItemsDisplay]="numberResourceGroups">
   </multi-drop-down>
 
-  <drop-down id="grouping"
+  <drop-down #groups id="grouping"
     [options]="groupOptions"
     (value)=onGroupSelect($event)>
   </drop-down>

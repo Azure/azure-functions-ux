@@ -1,3 +1,4 @@
+import { DropDownComponent } from './../drop-down/drop-down.component';
 import { TblComponent, TableItem } from './../controls/tbl/tbl.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DropDownElement } from './../shared/models/drop-down-element';
@@ -47,6 +48,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public selectedResourceGroups: string[] = [];
 
   @ViewChild('table') appTable: TblComponent;
+  @ViewChild('groups') appGrouping: DropDownComponent<string>;
 
   public groupOptions: DropDownElement<string>[] = [{ displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none' },
   { displayLabel: this.translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup' },
@@ -77,7 +79,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
           appNode: app
         }));
 
-        setTimeout(() =>{
+        setTimeout(() => {
           this.locationOptions = this.uniqueLocations(this.apps)
             .map(location => ({
               displayLabel: this.translateService.instant(location),
@@ -88,7 +90,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
               displayLabel: this.translateService.instant(resourceGroup),
               value: this.translateService.instant(resourceGroup)
             }));
-
+          this.appGrouping.selectedElement = this.groupOptions[0];
+          this.onGroupSelect('none');
         }, 0);
         this.isLoading = false;
       });
