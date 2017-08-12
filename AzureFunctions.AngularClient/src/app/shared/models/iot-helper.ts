@@ -2,7 +2,9 @@
 import { PortalResources } from './portal-resources';
 import { BindingType } from './binding';
 import { TranslateService } from '@ngx-translate/core';
-import { IoTHubConstants } from './constants'
+import { IoTHubConstants } from './constants';
+import { CacheService } from './../services/cache.service';
+import { BindingInputComponent } from '../../binding-input/binding-input.component';
 
 export class IoTHelper {
 
@@ -126,5 +128,100 @@ export class IoTHelper {
     static removeEntityPathFrom(connectionString: String): String {
         let entityIndex = connectionString.toLowerCase().indexOf(IoTHubConstants.semicolonEntityPathLowercase);
         return entityIndex !== -1 ? connectionString.substring(0, entityIndex) : connectionString;
+    }
+
+    static autofillIoTValuesEHTrigger(that: BindingInputComponent, input: BindingInputBase<any>) {
+        IoTHelper.autofillIoTValuesPath(that, input);
+        if (that.pickerOption && input instanceof PickerInput) input.consumerGroup.value = (<EventHubOption>that.pickerOption).consumerGroup;
+    }
+
+    static autofillIoTValuesPath(that: BindingInputComponent, input: BindingInputBase<any>) {
+        var entityPath = IoTHelper.getEntityPathFrom(that.appSettingValue);
+        if (input instanceof PickerInput) input.pathInput.value = entityPath ? entityPath : "";
+    }
+
+    static initializePickerOption(input: PickerInput, that: BindingInputComponent) {
+        if (input && input.pathInput && input.consumerGroup) {
+            that.pickerOption = {
+                entityPath: input.pathInput.value,
+                consumerGroup: input.consumerGroup.value
+            }
+        }
+        else if (input && input.pathInput) {
+            that.pickerOption = {
+                entityPath: input.pathInput.value,
+                consumerGroup: null
+            }
+        }
+        else if (input && input.queueName) {
+            that.pickerOption = {
+                queueName: input.queueName.value
+            }
+        }
+        else if (input && input.topicName && input.subscriptionName) {
+            that.pickerOption = {
+                topicName: input.topicName.value,
+                subscriptionName: input.subscriptionName.value
+            }
+        }
+    }
+
+    static setServiceBusQueueName(input: PickerInput, queueName: string) {
+        if (input) input.queueName.value = queueName;
+    }
+
+    static setServiceBusTopicValues(input: PickerInput, topicName: string, subscriptionName: string) {
+        if (input) {
+            if (input.topicName) input.topicName.value = topicName;
+            if (input.subscriptionName) input.subscriptionName.value = subscriptionName;
+        }
+    }
+
+    static onBindingInputChange(value: any, input: BindingInputBase<any>, that: BindingInputComponent) {
+        if (input instanceof PickerInput) {
+            if (input && input.pathInput && input.consumerGroup) {
+
+                if (input.value != value && that.pickerOption && (<EventHubOption>that.pickerOption).consumerGroup) {
+                    (<EventHubOption>that.pickerOption).consumerGroup = PortalResources.defaultConsumerGroup;
+                }
+                that.setAppSettingCallback(value, IoTHelper.autofillIoTValuesEHTrigger, PortalResources.eventHubPicker_eventHub);
+            }
+            else if (input && input.pathInput) {
+                that.setAppSettingCallback(value, IoTHelper.autofillIoTValuesPath, PortalResources.eventHubPicker_eventHub);
+            }
+            else if (input && input.queueName
+                && that.pickerOption && (<ServiceBusQueueOption>that.pickerOption).queueName) {
+
+                if (input.value != value) (<ServiceBusQueueOption>that.pickerOption).queueName = PortalResources.defaultQueueName;
+                IoTHelper.setServiceBusQueueName(input, (<ServiceBusQueueOption>that.pickerOption).queueName);
+            }
+            else if (input && input.topicName && input.subscriptionName
+                && that.pickerOption && (<ServiceBusTopicOption>that.pickerOption).topicName && (<ServiceBusTopicOption>that.pickerOption).subscriptionName) {
+
+                if (input.value != value) {
+                    (<ServiceBusTopicOption>that.pickerOption).topicName = PortalResources.defaultTopicName;
+                    (<ServiceBusTopicOption>that.pickerOption).subscriptionName = PortalResources.defaultsubscriptionName;
+                }
+                IoTHelper.setServiceBusTopicValues(input, (<ServiceBusTopicOption>that.pickerOption).topicName, (<ServiceBusTopicOption>that.pickerOption).subscriptionName);
+            }
+            else if (input && input.topicName && that.pickerOption && (<ServiceBusTopicOption>that.pickerOption).topicName) {
+                if (input.value != value) {
+                    (<ServiceBusTopicOption>that.pickerOption).topicName = PortalResources.defaultTopicName;
+                }
+                IoTHelper.setServiceBusTopicValues(input, (<ServiceBusTopicOption>that.pickerOption).topicName, null);
+            }
+        }
+    }
+
+    static initializeBindingInput(input: BindingInputBase<any>, that: BindingInputComponent) {
+        if (input instanceof PickerInput) {
+            if (input && input.pathInput && input.consumerGroup) {
+                that.setAppSettingCallback(input.value, IoTHelper.autofillIoTValuesEHTrigger, PortalResources.eventHubPicker_eventHub);
+            }
+            else if (input && input.pathInput) {
+                that.setAppSettingCallback(input.value, IoTHelper.autofillIoTValuesPath, PortalResources.eventHubPicker_eventHub);
+            }
+            IoTHelper.initializePickerOption(input, that);
+        }
     }
 }

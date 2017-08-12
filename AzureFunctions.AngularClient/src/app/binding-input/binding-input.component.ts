@@ -57,17 +57,7 @@ export class BindingInputComponent {
             if (!input.value && picker.items) {
                 input.value = picker.items[0];
             }
-
-            if (input instanceof PickerInput) {
-                if (input && input.pathInput && input.consumerGroup) {
-                    this.setAppSettingCallback(input.value, this.autofillIoTValuesEHTrigger, "");
-                }
-                else if (input && input.pathInput) {
-                    this.setAppSettingCallback(input.value, this.autofillIoTValuesPath, "");
-                }
-
-                this.initializePickerOption(input);
-            }
+            IoTHelper.initializeBindingInput(input, this);            
         }
 
         this._input = input;
@@ -182,40 +172,7 @@ export class BindingInputComponent {
 
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
-
-        if (this._input instanceof PickerInput) {
-            if (this._input && this._input.pathInput && this._input.consumerGroup) {
-
-                if (this._input.value != value && this.pickerOption && (<EventHubOption>this.pickerOption).consumerGroup) {
-                    (<EventHubOption>this.pickerOption).consumerGroup = PortalResources.defaultConsumerGroup;
-                }
-                this.setAppSettingCallback(value, this.autofillIoTValuesEHTrigger, "");
-            }
-            else if (this._input && this._input.pathInput) {
-                this.setAppSettingCallback(value, this.autofillIoTValuesPath, "");
-            }
-            else if (this._input && this._input.queueName
-                && this.pickerOption && (<ServiceBusQueueOption>this.pickerOption).queueName) {
-
-                if (this._input.value != value) (<ServiceBusQueueOption>this.pickerOption).queueName = PortalResources.defaultQueueName;
-                this.setServiceBusQueueName(this._input, (<ServiceBusQueueOption>this.pickerOption).queueName);
-            }
-            else if (this._input && this._input.topicName && this._input.subscriptionName
-                && this.pickerOption && (<ServiceBusTopicOption>this.pickerOption).topicName && (<ServiceBusTopicOption>this.pickerOption).subscriptionName) {
-
-                if (this._input.value != value) {
-                    (<ServiceBusTopicOption>this.pickerOption).topicName = PortalResources.defaultTopicName;
-                    (<ServiceBusTopicOption>this.pickerOption).subscriptionName = PortalResources.defaultsubscriptionName;
-                }
-                this.setServiceBusTopicValues(this._input, (<ServiceBusTopicOption>this.pickerOption).topicName, (<ServiceBusTopicOption>this.pickerOption).subscriptionName);
-            }
-            else if (this._input && this._input.topicName && this.pickerOption && (<ServiceBusTopicOption>this.pickerOption).topicName) {
-                if (this._input.value != value) {
-                    (<ServiceBusTopicOption>this.pickerOption).topicName = PortalResources.defaultTopicName;
-                }
-                this.setServiceBusTopicValues(this._input, (<ServiceBusTopicOption>this.pickerOption).topicName, null);
-            }
-        }
+        IoTHelper.onBindingInputChange(value, this._input, this);
     }
 
     onAppSettingValueShown() {
@@ -290,7 +247,6 @@ export class BindingInputComponent {
     }
 
     private finishResourcePickup(appSettingName: string, picker: PickerInput) {
-        
         if (appSettingName) {
             let existedAppSetting;
             if (picker.items) {
@@ -319,7 +275,7 @@ export class BindingInputComponent {
         }
     }
 
-    private setAppSettingCallback(appSettingName: string, callback: (that: BindingInputComponent) => void, errorMessage: string) {
+    public setAppSettingCallback(appSettingName: string, callback: (that: BindingInputComponent, input: BindingInputBase<any>) => void, errorMessage: string) {
         return this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
             .do(null, e => {
                 this.appSettingValue = this._translateService.instant(errorMessage);
@@ -332,55 +288,8 @@ export class BindingInputComponent {
 
                 // Use timeout as content is changed
                 setTimeout(() => {
-                    callback(this);
+                    callback(this, this._input);
                 }, 0);
             });
-    }
-
-    private autofillIoTValuesEHTrigger(that) {
-        that.autofillIoTValuesPath(that);
-        if (that.pickerOption) that._input.consumerGroup.value = that.pickerOption.consumerGroup;
-    }
-
-    private autofillIoTValuesPath(that) {
-        var entityPath = IoTHelper.getEntityPathFrom(that.appSettingValue);
-        that._input.pathInput.value = entityPath ? entityPath : "";
-    }
-
-    private initializePickerOption(input: PickerInput) {
-        if (input && input.pathInput && input.consumerGroup) {
-            this.pickerOption = {
-                entityPath: input.pathInput.value,
-                consumerGroup: input.consumerGroup.value
-            }
-        }
-        else if (input && input.pathInput) {
-            this.pickerOption = {
-                entityPath: input.pathInput.value,
-                consumerGroup: null
-            }
-        }
-        else if (input && input.queueName) {
-            this.pickerOption = {
-                queueName: input.queueName.value
-            }
-        }
-        else if (input && input.topicName && input.subscriptionName) {
-            this.pickerOption = {
-                topicName: input.topicName.value,
-                subscriptionName: input.subscriptionName.value
-            }
-        }
-    }
-
-    private setServiceBusQueueName(input: PickerInput, queueName: string) {
-        if (input) input.queueName.value = queueName;
-    }
-
-    private setServiceBusTopicValues(input: PickerInput, topicName: string, subscriptionName: string) {
-        if (input) {
-            if (input.topicName) input.topicName.value = topicName;
-            if (input.subscriptionName) input.subscriptionName.value = subscriptionName;
-        }
     }
 }
