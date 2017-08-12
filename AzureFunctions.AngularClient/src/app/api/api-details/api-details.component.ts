@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { GlobalStateService } from '../shared/services/global-state.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { GlobalStateService } from '../../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiProxy } from '../shared/models/api-proxy';
+import { ApiProxy } from '../../shared/models/api-proxy';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastService } from '../../shared/services/broadcast.service';
 import { ApiNewComponent } from '../api-new/api-new.component';
-import { TreeViewInfo } from '../tree-view/models/tree-view-info';
-import { ProxiesNode } from '../tree-view/proxies-node';
-import { AppNode } from '../tree-view/app-node';
-import { ProxyNode } from '../tree-view/proxy-node';
-import { FunctionApp } from '../shared/function-app';
-import { Constants } from '../shared/models/constants';
-import { ArmObj } from '../shared/models/arm/arm-obj';
-import { AiService } from '../shared/services/ai.service';
+import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
+import { ProxiesNode } from '../../tree-view/proxies-node';
+import { AppNode } from '../../tree-view/app-node';
+import { ProxyNode } from '../../tree-view/proxy-node';
+import { FunctionApp } from '../../shared/function-app';
+import { Constants } from '../../shared/models/constants';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
+import { AiService } from '../../shared/services/ai.service';
 import {RequestResposeOverrideComponent} from '../request-respose-override/request-respose-override.component';
 
 @Component({
