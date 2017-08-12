@@ -239,7 +239,8 @@ export class AppModule {
       AppSettingsComponent,
       ConnectionStringsComponent,
       PairListComponent,
-	  RequestResposeOverrideComponent
+      RequestResposeOverrideComponent,
+      BindingEventGridComponent
     ],
     imports: [
       FormsModule,

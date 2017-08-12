@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { Validators, ValidatorFn, FormControl, FormGroup, FormBuilder, FormArray} from '@angular/forms';
+import { ValidatorFn, FormControl, FormGroup, FormBuilder, FormArray} from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 
 export interface Pair {

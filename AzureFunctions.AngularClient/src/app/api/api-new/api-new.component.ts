@@ -1,6 +1,4 @@
-import {Component, OnInit, Input, EventEmitter,  Output } from '@angular/core';
-import {Component, OnInit, Input, EventEmitter,  Output, ViewChild } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
@@ -9,28 +7,28 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AppNode } from './../tree-view/app-node';
-import { Constants } from './../shared/models/constants';
-import { CacheService } from './../shared/services/cache.service';
-import { AiService } from './../shared/services/ai.service';
-import { ApiProxy } from '../shared/models/api-proxy';
+import { AppNode } from './../../tree-view/app-node';
+import { Constants } from './../../shared/models/constants';
+import { CacheService } from './../../shared/services/cache.service';
+import { AiService } from './../../shared/services/ai.service';
+import { ApiProxy } from '../../shared/models/api-proxy';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { GlobalStateService } from '../shared/services/global-state.service';
-import { PortalResources } from '../shared/models/portal-resources';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { TreeViewInfo } from '../tree-view/models/tree-view-info';
-import { ProxiesNode } from '../tree-view/proxies-node';
-import { FunctionApp } from '../shared/function-app';
-import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import { FunctionInfo } from '../shared/models/function-info';
-import { ErrorIds } from '../shared/models/error-ids';
+import { GlobalStateService } from '../../shared/services/global-state.service';
+import { PortalResources } from '../../shared/models/portal-resources';
+import { BroadcastService } from '../../shared/services/broadcast.service';
+import { BroadcastEvent } from '../../shared/models/broadcast-event';
+import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
+import { ProxiesNode } from '../../tree-view/proxies-node';
+import { FunctionApp } from '../../shared/function-app';
+import { ErrorEvent, ErrorType } from '../../shared/models/error-event';
+import { FunctionInfo } from '../../shared/models/function-info';
+import { ErrorIds } from '../../shared/models/error-ids';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 
 @Component({
     selector: 'api-new',
     templateUrl: './api-new.component.html',
-    styleUrls: ['./api-new.component.scss', '../binding-input/binding-input.component.css'],
+    styleUrls: ['./api-new.component.scss', '../../binding-input/binding-input.component.css'],
     inputs: ['viewInfoInput']
 })
 export class ApiNewComponent implements OnInit {

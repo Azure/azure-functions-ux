@@ -98,6 +98,7 @@
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.scss" />
     <Content Include="src\app\busy-state\busy-state.component.html" />
+    <Content Include="src\app\controls\pair-list\pair-list.component.html" />
     <Content Include="src\app\controls\tbl\tbl-th\tbl-th.component.scss" />
     <Content Include="src\app\controls\pair-list\pair-list.component.scss" />
     <None Include="src\app\copy-pre\copy-pre.component.scss" />

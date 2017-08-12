@@ -1,10 +1,9 @@
-import { Component, Input, Output} from '@angular/core';
-import {PairListOptions, Pair } from '../../controls/pair-list/pair-list.component';
-import {Validators, FormGroup} from '@angular/forms';
-import {Constants} from '../../shared/models/constants';
-import {TranslateService, TranslatePipe} from '@ngx-translate/core';
+import { Component, Input, Output } from '@angular/core';
+import { PairListOptions, Pair } from '../../controls/pair-list/pair-list.component';
+import { Validators, FormGroup} from '@angular/forms';
+import { Constants, Regex } from '../../shared/models/constants';
 import { Subject } from 'rxjs/Subject';
-import {FunctionApp} from '../../shared/function-app';
+import { FunctionApp} from '../../shared/function-app';
 
 export interface RequestResponseOverrriedModel {
     method: string;
@@ -43,7 +42,7 @@ export class RequestResposeOverrideComponent {
     private _responseHeadersValid: boolean;
     private _originalModel: RequestResponseOverrriedModel;
 
-    constructor(private _translateService: TranslateService) {
+    constructor() {
         this.initModel();
         this.initHeadresAndParams();
     }
@@ -82,7 +81,7 @@ export class RequestResposeOverrideComponent {
     }
 
     private initHeadresAndParams() {
-        const headerNameRegex = "^[a-zA-Z0-9\-]+$";
+        const headerNameRegex = Regex.header;
 
         this.headerOptions = {
             items: this.model.requestHeaders,
