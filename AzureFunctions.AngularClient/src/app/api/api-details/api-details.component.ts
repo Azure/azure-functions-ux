@@ -13,7 +13,7 @@ import { FunctionApp } from '../../shared/function-app';
 import { Constants } from '../../shared/models/constants';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { AiService } from '../../shared/services/ai.service';
-import {RequestResposeOverrideComponent} from '../request-respose-override/request-respose-override.component';
+import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 
 @Component({
     selector: 'api-details',
@@ -137,8 +137,8 @@ export class ApiDetailsComponent implements OnInit {
     onReset() {
         this.initComplexFrom();
         this.initEdit();
-        this._broadcastService.clearDirtyState('api-proxy', true);     
-        this.rrComponent.discard();     
+        this._broadcastService.clearDirtyState('api-proxy', true);
+        this.rrComponent.discard();
     }
 
     submitForm() {
@@ -170,7 +170,7 @@ export class ApiDetailsComponent implements OnInit {
                     // https://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
                     // we are using ES5 now
                     if (this._rrOverrideValue) {
-                        for (var prop in this._rrOverrideValue) {
+                        for (const prop in this._rrOverrideValue) {
                             this.apiProxyEdit[prop] = this._rrOverrideValue[prop];
                         }
                     }

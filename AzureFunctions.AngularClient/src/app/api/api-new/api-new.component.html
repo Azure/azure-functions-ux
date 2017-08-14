@@ -96,15 +96,11 @@
         [isInputError]="true">
       </pop-over>
     </div>
-
-        
-        <request-respose-override
-            (valueChanges)="rrOverriedValueChanges($event)">
-        </request-respose-override>
-        
-        <div>
-            <button [fnWriteAccess]="functionApp" type="submit" [class.custom-button-disabled]="!complexForm.valid || !rrOverrideValid" [disabled]="!complexForm.valid" class="custom-button">{{ 'create' | translate }}</button>
-        </div>
-
+      <request-respose-override
+          (valueChanges)="rrOverriedValueChanges($event)">
+      </request-respose-override>
+      <div>
+          <button [fnWriteAccess]="functionApp" type="submit" [class.custom-button-disabled]="!complexForm.valid || !rrOverrideValid" [disabled]="!complexForm.valid" class="custom-button">{{ 'create' | translate }}</button>
+      </div>
   </form>
 </div>

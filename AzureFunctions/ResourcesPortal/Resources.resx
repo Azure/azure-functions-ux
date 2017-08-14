@@ -2170,4 +2170,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="westus2" xml:space="preserve">
     <value>West US 2</value>
   </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>Status code</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>Status message</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>Request override</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>Response override</value>
+  </data>
 </root>
