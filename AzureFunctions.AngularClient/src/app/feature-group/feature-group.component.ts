@@ -63,17 +63,9 @@ export class FeatureGroupComponent {
         let finalIndex = -1;
         let destFeature: Element;
 
-        if (index >= 0 && index < featureElements.length) {
-            finalIndex = index;
-            destFeature = featureElements[index];
-        } else if (featureElements.length > 0) {
-            if (index === -1) {
-                finalIndex = 0;
-                destFeature = featureElements[0];
-            } else {
-                finalIndex = featureElements.length - 1;
-                destFeature = featureElements[finalIndex];
-            }
+        if (featureElements.length > 0) {
+            finalIndex = Math.max(0, Math.min(index, featureElements.length - 1));
+            destFeature = featureElements[finalIndex];
         }
 
         this._focusedFeatureIndex = finalIndex;
@@ -89,25 +81,31 @@ export class FeatureGroupComponent {
     }
 
     onKeyPress(event: KeyboardEvent, feature: FeatureItem) {
+        //  Enter to click the feature
         if (event.keyCode === KeyCodes.enter) {
             this.click(feature);
 
+        // Arrow down to focus on the feature below current feature
         } else if (event.keyCode === KeyCodes.arrowDown) {
             const featureElements = this._getFeatures();
             this._clearFocusOnFeature(featureElements, this._focusedFeatureIndex);
             this._setFocusOnFeature(featureElements, this._focusedFeatureIndex + 1);
             event.preventDefault();
 
+        // Arrow up to focus on the feature above the current feature
         } else if (event.keyCode === KeyCodes.arrowUp) {
             const featureElements = this._getFeatures();
             this._clearFocusOnFeature(featureElements, this._focusedFeatureIndex);
             this._setFocusOnFeature(featureElements, this._focusedFeatureIndex - 1);
             event.preventDefault();
 
+        // Shift & tab to tab backwards and remove image from appearing in previous list
         } else if (event.keyCode === (KeyCodes.tab && KeyCodes.shiftLeft)) {
             if (!this.group.features[this._focusedFeatureIndex].onImage) {
                 this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
             }
+
+        // Tab to tab forward and remove image from appearing in pervious list if or set onImage property
         } else if (event.keyCode === KeyCodes.tab) {
             if (this.group.features[this._focusedFeatureIndex].onImage) {
                 this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
