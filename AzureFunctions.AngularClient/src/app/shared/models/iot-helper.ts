@@ -180,7 +180,6 @@ export class IoTHelper {
     static onBindingInputChange(value: any, input: BindingInputBase<any>, that: BindingInputComponent) {
         if (input instanceof PickerInput) {
             if (input && input.pathInput && input.consumerGroup) {
-
                 if (input.value != value && that.pickerOption && (<EventHubOption>that.pickerOption).consumerGroup) {
                     (<EventHubOption>that.pickerOption).consumerGroup = PortalResources.defaultConsumerGroup;
                 }
@@ -189,15 +188,12 @@ export class IoTHelper {
             else if (input && input.pathInput) {
                 that.setAppSettingCallback(value, IoTHelper.autofillIoTValuesPath, PortalResources.eventHubPicker_eventHub);
             }
-            else if (input && input.queueName
-                && that.pickerOption && (<ServiceBusQueueOption>that.pickerOption).queueName) {
-
+            else if (input && input.queueName && that.pickerOption && (<ServiceBusQueueOption>that.pickerOption).queueName) {
                 if (input.value != value) (<ServiceBusQueueOption>that.pickerOption).queueName = PortalResources.defaultQueueName;
                 IoTHelper.setServiceBusQueueName(input, (<ServiceBusQueueOption>that.pickerOption).queueName);
             }
             else if (input && input.topicName && input.subscriptionName
                 && that.pickerOption && (<ServiceBusTopicOption>that.pickerOption).topicName && (<ServiceBusTopicOption>that.pickerOption).subscriptionName) {
-
                 if (input.value != value) {
                     (<ServiceBusTopicOption>that.pickerOption).topicName = PortalResources.defaultTopicName;
                     (<ServiceBusTopicOption>that.pickerOption).subscriptionName = PortalResources.defaultsubscriptionName;

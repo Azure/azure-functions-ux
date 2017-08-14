@@ -103,9 +103,7 @@ export class EventHubComponent {
                 value: this.optionTypes.custom
             }
         ];
-
         this.option = this.optionTypes.eventHub;
-
         this.optionsChange = new Subject<string>();
         this.optionsChange.subscribe((option) => {
             this.option = option;

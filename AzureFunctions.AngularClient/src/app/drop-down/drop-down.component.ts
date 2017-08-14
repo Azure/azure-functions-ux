@@ -108,6 +108,4 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
             });
         }
     }
-
-
 }
