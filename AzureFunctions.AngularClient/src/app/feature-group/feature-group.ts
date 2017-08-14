@@ -7,5 +7,8 @@ export class FeatureGroup {
     constructor(title: string, features: FeatureItem[]) {
         this.title = title.toLocaleUpperCase();
         this.features = features;
+        if (this.features.length > 0) {
+            this.features[0].nameFocusable = true;
+        }
     }
 }
