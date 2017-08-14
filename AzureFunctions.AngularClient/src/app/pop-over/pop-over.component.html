@@ -6,7 +6,7 @@
         [class.pop-over-visible]="show"
         [innerHtml]="message"></span>
 
-    <button class="pop-over-button" (focus)="onFocus($event)" (blur)="onBlur($event)">
+    <button id="buttonInfoButton" class="pop-over-button" (focus)="onFocus($event)" (blur)="onBlur($event)" attr.aria-label="{{message}}">
         <ng-content></ng-content>
         <span *ngIf="isInputError" class="fa fa-exclamation input-error"></span>
     </button>
