@@ -1,10 +1,25 @@
-<div class="multi-select-container">
-  <input type="text" [value]="displayText" readonly (click)="click()" (keydown)="onKeyPress($event)" />
-  <span class="multi-select-arrow" (click)="click()"></span>
-  <div class="multi-select-content" *ngIf="opened" #itemListContainer>
-    <ul>
-      <li *ngFor="let option of options" (click)="handleChecked(option)" [class.focused]="option.isFocused">
-        <input type="checkbox" [checked]="option.isSelected"/>{{option.displayLabel}}
+<div class="multi-select-container" (keydown)="globalKeyPress($event)">
+  <span #displayToggle
+    role="combobox"
+    [attr.aria-expanded]="opened"
+    [attr.aria-label]="ariaLabel"
+    class="multi-select-toggle"
+    tabindex="0"
+    (click)="toggleClick()"
+    (keydown)="toggleKeyPress($event)">
+    <div class="dispaly-box">{{displayText}}</div>
+    <span class="multi-select-arrow"></span>
+  </span>
+  <div *ngIf="opened" class="multi-select-content" #itemListContainer>
+    <ul
+      role="listbox"
+      aria-multiselectable="true">
+      <li *ngFor="let option of options; let optionIndex=index"
+        (click)="optionClick(optionIndex)"
+        (keydown)="optionKeyPress($event)"
+        role="option"
+        [attr.aria-selected]="option.isSelected">
+        <span>{{option.displayLabel}}</span>
       </li>
     </ul>
   </div>

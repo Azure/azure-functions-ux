@@ -3,48 +3,45 @@
 .multi-select-container{
     position : relative;
     cursor: pointer;
-
-    input{
-        cursor: pointer;
-    }
-
-    >input[type=text]{
-        width: 100%;
-        margin-right: 1px;  // Not sure why, but you need at least a 1px margin or the layout gets crazy
-        // cursor: pointer;
-    }
 }
 
-.multi-select-content{
-    border: $border;
-    position: absolute;
-    width: 100%;
-    background-color: $body-bg-color;
-    max-height: 300px;
-    overflow-y: auto;
-    z-index: 1000;
+.multi-select-toggle{
+    outline: none !important;
 
-    ul{
-        list-style: none;
-        padding: 0px;
+    >.dispaly-box{
+        margin-right: 1px;  // Not sure why, but you need at least a 1px margin or the layout gets crazy
 
-        input{
-            vertical-align: middle;
-            margin: 0px 5px 2px 5px;
-        }
-
-        li{
-            overflow-x: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
-        li:hover{
-            background-color: darken($border-color, 10%);
-        }
-
-        li.focused{
-            outline: $border-focus;
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        height: 29px;
+        width: 100%;
+        padding-top: 6px;
+        padding-left: 5px;
+        padding-right: 5px;
+        border: 1px solid rgb(216, 225, 230);
+        outline: none !important;
+        background-color: white;
+        color: rgb(70, 79, 89);
+        font-family: "Segoe UI", "Segoe UI", Segoe, Tahoma, Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        line-height: 17.1429px;
+        text-align: start;
+        vertical-align: middle;
+        word-spacing: 0px;
+        writing-mode: horizontal-tb;
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        -webkit-appearance: none;
+        -webkit-rtl-ordering: logical;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-border-image: none;
+    }
+    
+    &:focus, &[aria-expanded="true"]{
+        >.dispaly-box{
+            border: 1px solid $primary-color;
         }
     }
 }
@@ -82,4 +79,91 @@
     -ms-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.multi-select-content{
+    border: 1px solid rgb(216, 225, 230);
+    position: absolute;
+    width: 100%;
+    background-color: $body-bg-color;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+
+    ul{
+        list-style: none;
+        padding: 0px;
+        margin-bottom: 0px;
+
+        //https://bootsnipp.com/snippets/ZkMKE
+        li{
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            
+            padding-left: 20px;
+
+            &.inline {
+                margin-top: 0;
+            }
+
+            span{
+                display: inline-block;
+                position: relative;
+                height: 25px;
+                padding-top: 5px;
+                padding-left: 5px;
+
+                &::before{
+                    content: "";
+                    display: inline-block;
+                    position: absolute;
+                    width: 13px;
+                    height: 13px;
+                    top: 6px;
+                    left: 0;
+                    margin-left: -15px;
+                    border: 1px solid #cccccc;
+                    border-radius: 3px;
+                    background-color: #fff;
+                    -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                    -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                    transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                }
+                &::after{
+                    display: inline-block;
+                    position: absolute;
+                    width: 9px;
+                    height: 9px;
+                    top: 6px;
+                    left: 0;
+                    margin-left: -15px;
+                    padding-left: 1px;
+                    padding-top: 0px;
+                    font-size: 11px;
+                    color: #555555;
+                }
+            }
+
+            &[aria-selected="true"]{
+                span{
+                    &::after {
+                        font-family: 'FontAwesome';
+                        content: "\f00c";
+                    }
+                }
+            }
+
+            &:hover{
+                background-color: darken($border-color, 10%);
+                
+                background-color: -moz-html-cellhighlight;
+                color: -moz-html-cellhighlighttext
+            }
+
+            &.focused{
+                outline: $border-focus;
+            }
+        }
+    }
 }

@@ -181,8 +181,13 @@ export class KeyCodes {
     public static readonly tab = 9;
     public static readonly enter = 13;
     public static readonly shiftLeft = 16;
+    public static readonly ctrl = 17;
     public static readonly space = 32;
     public static readonly escape = 27;
+    public static readonly pageUp = 33;
+    public static readonly pageDown = 34;
+    public static readonly end = 35;
+    public static readonly home = 36;
     public static readonly arrowLeft = 37;
     public static readonly arrowUp = 38;
     public static readonly arrowRight = 39;
