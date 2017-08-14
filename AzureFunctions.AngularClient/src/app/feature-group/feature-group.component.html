@@ -3,7 +3,8 @@
 
     <div *ngFor="let feature of group?.features" 
          (mouseenter)="feature.isHighlighted = true" 
-         (mouseleave)="feature.isHighlighted = false" 
+         (mouseleave)="feature.isHighlighted = false"
+         (focusout)="checkFeatureGroupBlur()" 
          class="feature-group-item">
 
         <div *ngIf="!feature.isEmpty" 
@@ -14,7 +15,8 @@
                 <a *ngIf="feature.enabled" 
                     class="link" 
                     [tabIndex]="feature.nameFocusable ? 0 : -1" 
-                    (focus)="feature.imageFocusable = true" 
+                    (focus)="nameFocus(feature)"
+                    (blur)="feature.onName = false"
                     (click)="click(feature)" 
                     (keydown)="onKeyPress($event, feature)">
                     {{feature.title}}
@@ -32,7 +34,7 @@
             <span *ngIf="feature.isHighlighted || feature.imageFocusable" 
                   class="feature-group-info" 
                   (keydown)="onKeyPress($event, feature)" 
-                  (focusin)="feature.onImage = true"
+                  (focusin)="imageFocus()"
                   (focusout)="feature.onImage = false">
 
                 <span>

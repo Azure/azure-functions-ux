@@ -54,6 +54,8 @@ export class FeatureGroupComponent {
         const oldFeature = Dom.getTabbableControl(<HTMLElement>featureElements[index]);
         this.group.features[index].nameFocusable = false;
         this.group.features[index].imageFocusable = false;
+        this.group.features[index].onName = false;
+        this.group.features[index].onImage = false;
         Dom.clearFocus(oldFeature);
     }
 
@@ -74,14 +76,16 @@ export class FeatureGroupComponent {
             }
         }
 
+        this._focusedFeatureIndex = finalIndex;
+
         if (destFeature) {
             const newFeature = Dom.getTabbableControl(<HTMLElement>destFeature);
             this.group.features[finalIndex].nameFocusable = true;
             this.group.features[finalIndex].imageFocusable = true;
+            this.group.features[finalIndex].onName = true;
+            this.group.features[finalIndex].onImage = false;
             Dom.setFocus(<HTMLElement>newFeature);
         }
-
-        this._focusedFeatureIndex = finalIndex;
     }
 
     onKeyPress(event: KeyboardEvent, feature: FeatureItem) {
@@ -107,7 +111,34 @@ export class FeatureGroupComponent {
         } else if (event.keyCode === KeyCodes.tab) {
             if (this.group.features[this._focusedFeatureIndex].onImage) {
                 this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
+            } else if (this.group.features[this._focusedFeatureIndex].onName) {
+                this.group.features[this._focusedFeatureIndex].onImage = true;
             }
         }
+    }
+
+    checkFeatureGroupBlur() {
+        // Only one info image should be shown at a time. If focus is lost to the group the info image will vanish
+        if (!this.group.features[this._focusedFeatureIndex].onName && !this.group.features[this._focusedFeatureIndex].onImage) {
+            this.group.features[this._focusedFeatureIndex].imageFocusable = false;
+        }
+    }
+
+    nameFocus(feature: FeatureItem) {
+        // If you click on an item it should be the tabbable item in the list
+        this._focusedFeatureIndex = this.group.features.findIndex(f => {return f.title === feature.title; });
+        this.group.features.filter((f, index) => index !== this._focusedFeatureIndex).forEach(f => f.nameFocusable = false);
+
+        this.group.features[this._focusedFeatureIndex].nameFocusable = true;
+        this.group.features[this._focusedFeatureIndex].imageFocusable = true;
+        this.group.features[this._focusedFeatureIndex].onName = true;
+        this.group.features[this._focusedFeatureIndex].onImage = false;
+    }
+
+    imageFocus() {
+        this.group.features[this._focusedFeatureIndex].nameFocusable = true;
+        this.group.features[this._focusedFeatureIndex].imageFocusable = true;
+        this.group.features[this._focusedFeatureIndex].onName = false;
+        this.group.features[this._focusedFeatureIndex].onImage = true;
     }
 }

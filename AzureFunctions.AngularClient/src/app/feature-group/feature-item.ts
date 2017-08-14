@@ -24,6 +24,7 @@ export class FeatureItem {
     public superScriptIconUrl: string | null = null;
     public nameFocusable: boolean;
     public imageFocusable: boolean;
+    public onName = false;
     public onImage = false;
 
     constructor(title: string, keywords: string, info: string, iconUrl?: string, superScriptIconUrl?: string) {
