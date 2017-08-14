@@ -96,12 +96,12 @@ export class RequestResposeOverrideComponent {
         this.responseHeaderOptions = {
             items: this.model.responseHeaders,
             nameValidators: [Validators.required, Validators.pattern(headerNameRegex)]
-        }
+        };
     }
 
     private initModel() {
         this.model = {
-            method: "no",
+            method: 'no',
             requestHeaders: [],
             requestQueryParams: [],
             responseHeaders: [],
@@ -152,42 +152,66 @@ export class RequestResposeOverrideComponent {
     }
 
     public changeValue() {
-        var result = {
+        // We need to genetate 'requestOverrides' object
+        // The requestOverrides object defines changes that are made to the response that's passed back to the client. The object is defined by the following properties:
+        // * response.statusCode: The HTTP status code to be returned to the client.
+        // * response.statusReason: The HTTP reason phrase to be returned to the client.
+        // * response.body: The string representation of the body to be returned to the client.
+        // * response.headers.<HeaderName>: A header that can be set for the response to the client. Replace <HeaderName> with the name of the header that you want to set. If you provide the empty string, the header is not included on the response.
+
+        // Values can reference application settings, parameters from the original client request, and parameters from the back-end response.
+        // An example configuration might look like the following:
+        // {
+        //     "$schema": "http://json.schemastore.org/proxies",
+        //     "proxies": {
+        //         "proxy1": {
+        //             "matchCondition": {
+        //                 "methods": [ "GET" ],
+        //                 "route": "/api/{test}"
+        //             },
+        //             "responseOverrides": {
+        //                 "response.body": "Hello, {test}",
+        //                 "response.headers.Content-Type": "text/plain"
+        //             }
+        //         }
+        //     }
+        // }
+        const result = {
             requestOverrides: {},
             responseOverrides: {}
         };
 
         if (this.model.method) {
-            result["requestOverrides"]["backend.request.method"] = this.model.method;
+            result['requestOverrides"]["backend.request.method'] = this.model.method;
         }
 
         if (this.model.requestHeaders.length > 0) {
             this.model.requestHeaders.forEach((h) => {
-                result["requestOverrides"]["backend.request.headers." + h.name] = h.value;
+                result['requestOverrides"]["backend.request.headers.' + h.name] = h.value;
             });
         }
 
         if (this.model.requestQueryParams.length > 0) {
             this.model.requestQueryParams.forEach((p) => {
-                result["requestOverrides"]["backend.request.querystring." + p.name] = p.value;
+                result['requestOverrides"]["backend.request.querystring.' + p.name] = p.value;
             });
         }
 
         if (this.model.statusCode) {
-            result["responseOverrides"]["response.statusCode"] = this.model.statusCode;
+            result['responseOverrides']['response.statusCode'] = this.model.statusCode;
         }
 
         if (this.model.statusReason) {
-            result["responseOverrides"]["response.statusReason"] = this.model.statusReason;
+            result['responseOverrides']['response.statusReason'] = this.model.statusReason;
         }
 
         if (this.model.body) {
-            result["responseOverrides"]["response.body"] = this.model.body;
+            result['responseOverrides']['response.body'] = this.model.body;
         }
 
         if (this.model.responseHeaders.length > 0) {
             this.model.responseHeaders.forEach((h) => {
-                result["responseOverrides"]["response.headers." + h.name] = h.value;
+                result['responseOverrides']['response.headers.' + h.name] = h.value;
             });
         }
 
@@ -204,7 +228,7 @@ export class RequestResposeOverrideComponent {
 
     private addPair(obj: any, prop: string, startsWith: string, array: Pair[]) {
         if (prop.toLocaleLowerCase().startsWith(startsWith)) {
-            var spltArray = prop.split('.');
+            const spltArray = prop.split('.');
             array.push({
                 name: spltArray[spltArray.length - 1],
                 value: obj[prop]

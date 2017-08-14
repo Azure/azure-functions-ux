@@ -90,7 +90,7 @@ export class RunHttpComponent {
             const pathParams = this.getPathParams(value);
             params = pathParams.concat(params);
             params.forEach((p) => {
-                var findResult = this.model.queryStringParams.find((qp) => {
+                const findResult = this.model.queryStringParams.find((qp) => {
                     return qp.name === p.name;
                 });
 
@@ -113,10 +113,11 @@ export class RunHttpComponent {
 
 
     onChangeMethod(method: string) {
+        const methodLowCase = method.toLowerCase();
         this.disableTestData.emit((method.toLowerCase() === 'get' ||
-            method.toLowerCase() === 'delete' ||
-            method.toLowerCase() === 'head' ||
-            method.toLowerCase() === 'options'));
+            methodLowCase === 'delete' ||
+            methodLowCase === 'head' ||
+            methodLowCase === 'options'));
     }
 
     headerValueChanges(form: FormGroup) {
