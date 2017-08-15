@@ -8,7 +8,7 @@ import { constants } from "../constants";
 
 export function getTenants(req: Request, res: Response) {
     const user = req.user as User;
-    if (req.url.indexOf('localhost') !== -1) {
+    if (req.host === 'localhost') {
         const headers = {
             'Authorization': `Bearer ${user.token.access_token}`
         };
