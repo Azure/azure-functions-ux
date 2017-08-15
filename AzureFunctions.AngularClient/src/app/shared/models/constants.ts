@@ -95,7 +95,8 @@ export class Validations {
 }
 
 export class Regex {
-    public static invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
+    public static readonly invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
+    public static readonly header: RegExp = /^[a-zA-Z0-9\-_]+$/;
 }
 
 export class Links {
