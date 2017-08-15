@@ -75,7 +75,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
           subscription: app.subscription,
           type: 'row',
           resourceGroup: app.resourceGroup,
-          location: app.location,
+          location: this.translateService.instant(app.location),
           appNode: app
         }));
 
@@ -87,8 +87,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
             }));
           this.resourceGroupOptions = this.uniqueResourceGroups(this.apps)
             .map(resourceGroup => ({
-              displayLabel: this.translateService.instant(resourceGroup),
-              value: this.translateService.instant(resourceGroup)
+              displayLabel: resourceGroup,
+              value: resourceGroup
             }));
           this.appGrouping.selectedElement = this.groupOptions[0];
           this.onGroupSelect('none');
@@ -126,7 +126,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this.selectedLocations = locations;
     const newItems = this.tableItems.filter(item => item.type === 'group');
     this.tableItems = newItems.concat(this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
-      .filter(app => this.selectedResourceGroups.find(r => r === this.translateService.instant(app.resourceGroup)))
+      .filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
       .map(app => (<AppTableItem>{
         title: app.title,
         subscription: app.subscription,
@@ -160,8 +160,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
   uniqueResourceGroups(apps: AppNode[]) {
     const resourceGroups = [];
     for (const app of apps) {
-      if (!resourceGroups.find(l => l === this.translateService.instant(app.resourceGroup))) {
-        resourceGroups.push(this.translateService.instant(app.resourceGroup));
+      if (!resourceGroups.find(r => r === app.resourceGroup)) {
+        resourceGroups.push(app.resourceGroup);
       }
     }
     return resourceGroups.sort();
@@ -170,7 +170,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   onResourceGroupsSelect(resourceGroups: string[]) {
     this.selectedResourceGroups = resourceGroups;
     const newItems = this.tableItems.filter(item => item.type === 'group');
-    this.tableItems = newItems.concat(this.apps.filter(app => this.selectedResourceGroups.find(r => r === this.translateService.instant(app.resourceGroup)))
+    this.tableItems = newItems.concat(this.apps.filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
       .filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
       .map(app => (<AppTableItem>{
         title: app.title,
