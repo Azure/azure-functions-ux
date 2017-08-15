@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Input, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { FunctionApp } from '../../shared/function-app';
@@ -66,7 +66,7 @@ export class EventHubComponent {
     public selectedEventHubConsumerGroup: string;
     public IOTConsumerGroups: any[];
     public selectedIOTConsumerGroup: string;
-    public IOTPolicies: ArmArrayResult;
+    public IOTPolicies: ArmArrayResult<any>;
     public selectedIOTPolicy: string;
     public appSettingName: string;
     public appSettingValue: string;
@@ -147,6 +147,7 @@ export class EventHubComponent {
         this.selectedPolicy = null;
         this.eventHubConsumerGroups = null;
         this.selectedEventHubConsumerGroup = null;
+        this.setSelect();
         Observable.zip(
             this._cacheService.getArm(value + '/eventHubs', true),
             this._cacheService.getArm(value + '/AuthorizationRules', true),
@@ -171,12 +172,12 @@ export class EventHubComponent {
             });
     }
 
-    	(value: string) {
+    onEventHubChange(value: string) {
         this.selectedPolicy = null;
         this.polices = null;
         this.eventHubConsumerGroups = null;
         this.selectedEventHubConsumerGroup = null;
-
+        this.setSelect();
         Observable.zip(
             this._cacheService.getArm(value + "/AuthorizationRules", true),
             this._cacheService.getArm(value + "/ConsumerGroups", true),
@@ -211,7 +212,7 @@ export class EventHubComponent {
         this.selectedIOTPolicy = null;
         this.IOTConsumerGroups = null;
         this.selectedIOTConsumerGroup = null;
-
+        this.setSelect();
         Observable.zip(
             this._cacheService.postArm(value + "/listkeys", true, IoTHubConstants.apiVersion17),
             this._cacheService.getArm(value, true, IoTHubConstants.apiVersion17),
@@ -282,7 +283,7 @@ export class EventHubComponent {
         this.setSelectedIOTEndpointByName(endpointName);
         this.IOTPolicies = null;
         this.selectedIOTPolicy = null;
-
+        this.setSelect();
         let eventHubEndpointName: string;
         if (!this.selectedIOTEndpoint.isBuiltIn) {
             eventHubEndpointName = IoTHelper.getEntityPathFrom(this.selectedIOTEndpoint.value);
@@ -355,7 +356,8 @@ export class EventHubComponent {
     }
 
     onSelect(): Subscription | null {
-        let appSettingName: string;
+        if (!this.canSelect) return null;
+
         let appSettingValue: string;
         if (this.option === this.optionTypes.eventHub) {
             if (this.selectedEventHub && this.selectedPolicy) {
@@ -406,7 +408,7 @@ export class EventHubComponent {
                     this._cacheService.postArm(this.selectedIOTHub + "/listkeys", true, IoTHubConstants.apiVersion17).subscribe(r => {
                         let serviceKey: IOTKey = r.json().value.find(item => (item.keyName === this.selectedIOTPolicy));
                         appSettingValue = IoTHelper.changeIOTConnectionStringPolicy(this.selectedIOTEndpoint.value, this.selectedIOTPolicy, serviceKey.primaryKey)
-                        this.setNonEventHubAppSetting(appSettingName, appSettingValue);
+                        return this.setNonEventHubAppSetting(appSettingName, appSettingValue);
                     })
                 }
                 else {
@@ -422,22 +424,24 @@ export class EventHubComponent {
                                 appSettingValue = `${appSettingValue};EntityPath=${path}`;
                             }
 
-                            this.setNonEventHubAppSetting(appSettingName, appSettingValue);
+                            return this.setNonEventHubAppSetting(appSettingName, appSettingValue);
                         });
                 }
             } else if (this.option === this.optionTypes.custom && this.appSettingName && this.appSettingValue) {
                 appSettingName = this.appSettingName;
                 appSettingValue = this.appSettingValue;
-                this.setNonEventHubAppSetting(appSettingName, appSettingValue);
+                return this.setNonEventHubAppSetting(appSettingName, appSettingValue);
             }
+            return null;
         }
+        return null;
     }
 
     private setNonEventHubAppSetting(appSettingName: string, appSettingValue: string) {
         if (appSettingName && appSettingValue) {
             this.selectInProcess = true;
             this._globalStateService.setBusyState();
-            this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
+            return this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
                 let appSettings: ArmObj<any> = r.json();
 
                 appSettings.properties[appSettingName] = appSettingValue;
@@ -453,6 +457,7 @@ export class EventHubComponent {
                     this.selectItem.next(IoTHelper.generateEventHubAppSettingObject(appSettingName, appSettingValue, this.selectedIOTConsumerGroup));
                 });
         }
+        return null;
     }
 
     public setSelect() {
@@ -520,7 +525,7 @@ export class EventHubComponent {
         this.selectedIOTEndpointName = (endpointObject) ? endpointObject.name : null;
     }
 
-    private filterIoTPolicies(policies: ArmArrayResult): ArmArrayResult {
+    private filterIoTPolicies(policies: ArmArrayResult<any>): ArmArrayResult<any> {
         policies.value = policies.value.filter(p => (p.properties.rights.find(r => r === IoTHubConstants.manageAccessRight)));
         return policies;
     }

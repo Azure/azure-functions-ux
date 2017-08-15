@@ -1,7 +1,7 @@
-﻿import { Component, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild } from '@angular/core';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+﻿import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { PopoverContent } from "ng2-popover";
-import { BindingInputBase, AppSettingObject, PickerOption, EventHubOption, ServiceBusQueueOption, ServiceBusTopicOption } from '../shared/models/binding-input';
+import { BindingInputBase, AppSettingObject, PickerOption } from '../shared/models/binding-input';
 import { PortalService } from '../shared/services/portal.service';
 import { UserService } from '../shared/services/user.service';
 import { PickerInput } from '../shared/models/binding-input';
@@ -13,8 +13,6 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from './../shared/services/cache.service';
-import { ArmObj } from './../shared/models/arm/arm-obj';
-import { ArmService } from './../shared/services/arm.service';
 import { IoTHelper } from './../shared/models/iot-helper';
 import { AiService } from '../shared/services/ai.service';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
@@ -65,7 +63,6 @@ export class BindingInputComponent {
 
         this.setClass(input.value);
         if (this._input.type === SettingType.enum) {
-            var enums: { display: string; value: any }[] = (<any>this._input).enum;
             const enums: { display: string; value: any }[] = (<any>this._input).enum;
             this.enumInputs = enums
                 .map(e => ({ displayLabel: e.display, value: e.value, default: this._input.value === e.value }));
@@ -169,7 +166,6 @@ export class BindingInputComponent {
         if (this._input.changeValue) {
             this._input.changeValue(value);
         }
-
         this.setClass(value);
         this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
         IoTHelper.onBindingInputChange(value, this._input, this);

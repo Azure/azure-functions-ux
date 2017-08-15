@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Input, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { FunctionApp } from '../../shared/function-app';
@@ -25,13 +25,6 @@ class OptionTypes {
 interface Topic {
     name: string;
     id: string;
-}
-
-interface IOTKey {
-    keyName: string;
-    primaryKey: string;
-    rights: string;
-    secondaryKey: string;
 }
 
 interface IOTEndpoint {
@@ -64,7 +57,7 @@ export class ServiceBusComponent {
     public subscriptionNames: string[];
     public selectedSubscriptionName: string;
 
-    public IOTHubs: ArmArrayResult;
+    public IOTHubs: ArmArrayResult<any>;
     public IOTEndpoints: IOTEndpoint[];
     public selectedIOTHub: string;
     public selectedIOTEndpointId: string;
@@ -73,7 +66,7 @@ export class ServiceBusComponent {
     public IOTselectedTopicId: string;
     public IOTsubscriptionNames: string[];
     public IOTselectedSubscriptionName: string;
-    public IOTpolices: ArmArrayResult;
+    public IOTpolices: ArmArrayResult<any>;
     public IOTselectedPolicy: string;
     public isTrigger: boolean;
 
@@ -86,7 +79,6 @@ export class ServiceBusComponent {
 
     private _functionApp: FunctionApp;
     private _descriptor: SiteDescriptor;
-    private _subscription: Subscription;
 
     constructor(
         private _cacheService: CacheService,
@@ -150,6 +142,7 @@ export class ServiceBusComponent {
     };
 
     onChangeNamespace(value: string) {
+        this.canSelect = false;
         this.polices = null;
         this.selectedPolicy = null;
         this.selectedQueueName = null;
@@ -158,7 +151,6 @@ export class ServiceBusComponent {
         this.selectedTopicId = null;
         this.subscriptionNames = null;
         this.selectedSubscriptionName = null;
-
         Observable.zip(
             this._cacheService.getArm(value + "/topics", true),
             this._cacheService.getArm(value + "/queues", true),
@@ -192,7 +184,6 @@ export class ServiceBusComponent {
     onChangeTopicName(value: string) {
         // update policies
         let topicName = this.topicNames.find(t => t.id === value).name;
-        
         this.updateTopicPolicies(this.selectedNamespace, topicName);
 
         // update subscriptions
@@ -209,6 +200,7 @@ export class ServiceBusComponent {
     }
 
     onIOTHubChange(value: string) {
+        this.canSelect = false;
         this.IOTEndpoints = null;
         this.selectedIOTEndpointId = null;
         this.IOTselectedQueueName = null;
@@ -259,6 +251,7 @@ export class ServiceBusComponent {
     }
 
     onIoTEndpointsChange(value: string) {
+        this.canSelect = false;
         this.IOTselectedQueueName = null;
         this.IOTtopicName = null;
         this.IOTselectedTopicId = null;
@@ -298,6 +291,8 @@ export class ServiceBusComponent {
     }
 
     onSelect(): Subscription | null {
+        if (!this.canSelect) return null;
+
         let appSettingName: string;
         let appSettingValue: string;
         if (this.option === this.optionTypes.serviceBus) {
@@ -350,13 +345,11 @@ export class ServiceBusComponent {
                     .flatMap(r => {
                         let selectedIOTEndpointName = this.IOTEndpoints.find(endpoint => endpoint.id === this.selectedIOTEndpointId).name;
                         let keys = r.keys.json();
-
                         appSettingName = `${selectedIOTEndpointName}_${keys.keyName}_IOTHUB_SERVICEBUS`;
                         appSettingValue = keys.primaryConnectionString;
                         const appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = IoTHelper.removeEntityPathFrom(appSettingValue);
                         return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
-
                     })
                     .do(null, e => {
                         this._globalStateService.clearBusyState();
@@ -401,6 +394,7 @@ export class ServiceBusComponent {
     }
 
     public setSelect() {
+        debugger;
         switch (this.option) {
             case this.optionTypes.custom:
                 {
@@ -414,7 +408,8 @@ export class ServiceBusComponent {
                 }
             case this.optionTypes.IOTHub:
                 {
-                    this.canSelect = !!(this.selectedIOTHub && this.selectedPolicy);
+                    if (this.isServiceBusTopic) this.canSelect = !!(this.selectedIOTHub && this.IOTselectedPolicy && this.selectedIOTEndpointId && this.IOTselectedSubscriptionName);
+                    else this.canSelect = !!(this.selectedIOTHub && this.IOTselectedPolicy && this.selectedIOTEndpointId);
                     break;
                 }
         }
@@ -492,7 +487,7 @@ export class ServiceBusComponent {
         }
     }
 
-    private filterPolicies(policies: ArmArrayResult): ArmArrayResult {
+    private filterPolicies(policies: ArmArrayResult<any>): ArmArrayResult<any> {
         policies.value = policies.value.filter(p => (p.properties.rights.find(r => r === IoTHubConstants.manageAccessRight)));
         return policies;
     }

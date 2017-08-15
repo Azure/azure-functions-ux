@@ -1,9 +1,7 @@
-﻿import { BindingInputBase, AppSettingObject, EventHubOption, ServiceBusQueueOption, ServiceBusTopicOption, PickerOption, PickerInput, TextboxInput } from './binding-input';
+﻿import { BindingInputBase, AppSettingObject, EventHubOption, ServiceBusQueueOption, ServiceBusTopicOption, PickerInput } from './binding-input';
 import { PortalResources } from './portal-resources';
 import { BindingType } from './binding';
-import { TranslateService } from '@ngx-translate/core';
 import { IoTHubConstants } from './constants';
-import { CacheService } from './../services/cache.service';
 import { BindingInputComponent } from '../../binding-input/binding-input.component';
 
 export class IoTHelper {
@@ -137,7 +135,7 @@ export class IoTHelper {
 
     static autofillIoTValuesPath(that: BindingInputComponent, input: BindingInputBase<any>) {
         var entityPath = IoTHelper.getEntityPathFrom(that.appSettingValue);
-        if (input instanceof PickerInput) input.pathInput.value = entityPath ? entityPath : "";
+        if (input instanceof PickerInput) input.pathInput.value = entityPath ? entityPath : IoTHubConstants.eventhubName; // default value for event hub path
     }
 
     static initializePickerOption(input: PickerInput, that: BindingInputComponent) {
