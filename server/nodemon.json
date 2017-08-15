@@ -7,5 +7,5 @@
         "src/**/*.spec.ts",
         "src/public/*"
     ],
-    "exec": ".\\node_modules\\.bin\\ts-node .\\src\\server.ts --debug 5858"
+    "exec": ".\\node_modules\\.bin\\ts-node --inspect --debug-brk .\\src\\server.ts"
 }
