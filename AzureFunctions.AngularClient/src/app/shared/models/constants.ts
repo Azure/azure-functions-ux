@@ -167,6 +167,7 @@ export class IoTHubConstants {
     public static readonly apiVersion17 = "2017-01-19";
     public static readonly apiVersion15 = "2015-08-01";
     public static readonly manageAccessRight = "Manage";
+    public static readonly eventhubName = "eventhubName"; // default value for event hub path
 }
 
 export class DomEvents{
