@@ -139,6 +139,24 @@ export class Order {
     ]
 }
 
+export class ScenarioIds {
+    public static readonly addSiteConfigTab = 'AddSiteConfigTab';
+    public static readonly addSiteFeaturesTab = 'AddSiteFeaturesTab';
+    public static readonly getSiteSlotLimits = 'GetSiteSlotLimits';
+    public static readonly showSiteAvailability = 'ShowSiteAvailability';
+}
+
+export class ServerFarmSku {
+    public static readonly free = 'Free';
+    public static readonly shared  = 'Shared';
+    public static readonly basic  = 'Basic';
+    public static readonly standard  = 'Standard';
+    public static readonly premium  = 'Premium';
+    public static readonly premiumV2  = 'PremiumV2';
+    public static readonly isolated  = 'Isolated';
+    public static readonly dynamic  = 'Dynamic';
+}
+
 export class KeyCodes {
     public static readonly tab = 9;
     public static readonly enter = 13;
@@ -151,7 +169,7 @@ export class KeyCodes {
     public static readonly arrowDown = 40;
 }
 
-export class DomEvents{
+export class DomEvents {
     public static readonly keydown = 'keydown';
     public static readonly click = 'click';
 }

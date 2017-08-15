@@ -1,3 +1,4 @@
+import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { UserService } from './../../shared/services/user.service';
@@ -20,7 +21,7 @@ import { FunctionApp } from './../../shared/function-app';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
-import { AvailabilityStates, KeyCodes } from './../../shared/models/constants';
+import { AvailabilityStates, KeyCodes, ScenarioIds } from './../../shared/models/constants';
 import { Availability } from './../site-notifications/notifications';
 import { AiService } from './../../shared/services/ai.service';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
@@ -72,6 +73,8 @@ export class SiteSummaryComponent implements OnDestroy {
     public Resources = PortalResources;
     public showDownloadFunctionAppModal = false;
 
+    public maxNumSlots = 0;
+
     private _viewInfoStream: Subject<TreeViewInfo<SiteData>>;
     private _viewInfo: TreeViewInfo<SiteData>;
     private _subs: Subscription[];
@@ -91,7 +94,8 @@ export class SiteSummaryComponent implements OnDestroy {
         private _configService: ConfigService,
         private _slotService: SlotsService,
         userService: UserService,
-        siteTabComponent: SiteTabComponent) {
+        siteTabComponent: SiteTabComponent,
+        scenarioService: ScenarioService) {
 
         this.isStandalone = _configService.isStandalone();
         this._busyState = siteTabComponent.busyState;
@@ -168,6 +172,11 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._portalService.sendTimerEvent({
                     timerId: 'ClickToOverviewConstructor',
                     timerAction: 'stop'
+                });
+
+                scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, { site: this.site })
+                .subscribe(result =>{
+                    this.maxNumSlots = result.data;
                 });
 
                 return Observable.zip<DataModel>(
