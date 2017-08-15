@@ -168,6 +168,10 @@ export class IoTHubConstants {
     public static readonly apiVersion15 = "2015-08-01";
     public static readonly manageAccessRight = "Manage";
     public static readonly eventhubName = "eventhubName"; // default value for event hub path
+    public static readonly defaultsubscriptionName = "mysubscription";
+    public static readonly defaultConsumerGroup = "$Default";
+    public static readonly defaultTopicName = "mytopic";
+    public static readonly defaultQueueName = "myqueue";
 }
 
 export class DomEvents{

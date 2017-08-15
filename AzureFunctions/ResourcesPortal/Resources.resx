@@ -2047,18 +2047,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="servicebusQueuePicker_queueName" xml:space="preserve">
     <value>Queue name</value>
   </data>
-  <data name="defaultConsumerGroup" xml:space="preserve">
-    <value>$Default</value>
-  </data>
-  <data name="defaultQueueName" xml:space="preserve">
-    <value>myqueue</value>
-  </data>
-  <data name="defaultsubscriptionName" xml:space="preserve">
-    <value>mysubscription</value>
-  </data>
-  <data name="defaultTopicName" xml:space="preserve">
-    <value>mytopic</value>
-  </data>
   <data name="bindingInput_retrieve" xml:space="preserve">
     <value>retrieve</value>
   </data>
