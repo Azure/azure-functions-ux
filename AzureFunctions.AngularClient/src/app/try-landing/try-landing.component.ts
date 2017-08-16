@@ -153,7 +153,7 @@ export class TryLandingComponent implements OnInit {
                             }, (error: Response) => {
                                 if (error.status === 401 || error.status === 403) {
                                     // show login options
-                                    const headerObject = error.headers['LoginUrl'];
+                                    const headerObject = error.headers.get('LoginUrl');
                                     if (provider !== '' && headerObject && headerObject[0]) {
                                         (<any>window).location = headerObject[0];
                                         return;
