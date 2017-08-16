@@ -78,15 +78,15 @@ export class AppsListComponent implements OnInit, OnDestroy {
         }));
 
         this.locationOptions = this.uniqueLocations(this.apps)
-            .map(location => ({
-              displayLabel: this.translateService.instant(location),
-              value: this.translateService.instant(location)
-            }));
-          this.resourceGroupOptions = this.uniqueResourceGroups(this.apps)
-            .map(resourceGroup => ({
-              displayLabel: resourceGroup,
-              value: resourceGroup
-            }));
+          .map(location => ({
+            displayLabel: this.translateService.instant(location),
+            value: this.translateService.instant(location)
+          }));
+        this.resourceGroupOptions = this.uniqueResourceGroups(this.apps)
+          .map(resourceGroup => ({
+            displayLabel: resourceGroup,
+            value: resourceGroup
+          }));
         this.isLoading = false;
       });
   }
