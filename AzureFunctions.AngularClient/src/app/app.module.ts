@@ -1,3 +1,6 @@
+import {
+    DeploymentCenterOverviewComponent,
+} from './deployment-center/deployment-center-overview/deployment-center-overview.component';
 import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
 import { DynamicLoaderDirective } from './shared/directives/dynamic-loader.directive';
 import { DownloadFunctionAppContentComponent } from './download-function-app-content/download-function-app-content.component';
@@ -238,7 +241,8 @@ export class AppModule {
       PairListComponent,
       RequestResposeOverrideComponent,
       BindingEventGridComponent,
-      DeploymentCenterComponent
+      DeploymentCenterComponent,
+      DeploymentCenterOverviewComponent
     ],
     imports: [
       FormsModule,
