@@ -159,7 +159,7 @@ export class SiteManageComponent implements OnDestroy {
 
     private _initCol1Groups(site: ArmObj<Site>) {
         const codeDeployFeatures = [
-            new DisableableBladeFeature(
+            new TabFeature(
                 this._translateService.instant(PortalResources.feature_deploymentSourceName),
                 this._translateService.instant(PortalResources.continuousDeployment) +
                 ' ' + this._translateService.instant(PortalResources.source) +
@@ -167,15 +167,8 @@ export class SiteManageComponent implements OnDestroy {
                 '  github bitbucket dropbox onedrive vsts vso',
                 this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
                 'images/deployment-source.svg',
-                {
-                    detailBlade: 'ContinuousDeploymentListBlade',
-                    detailBladeInputs: {
-                        id: this._descriptor.resourceId,
-                        ResourceId: this._descriptor.resourceId
-                    }
-                },
-                this._portalService,
-                this._hasSiteWritePermissionStream),
+                SiteTabIds.continuousDeployment,
+                this._broadcastService),
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),

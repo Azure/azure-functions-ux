@@ -16,8 +16,8 @@ import { HttpModule, Http } from '@angular/http';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
-import { PopoverModule } from "ng2-popover";
-
+import { PopoverModule } from 'ng2-popover';
+import { DeploymentCenterComponent } from './deployment-center/deployment-center.component';
 import { ConfigService } from './shared/services/config.service';
 import { FunctionsService } from './shared/services/functions.service';
 import { UserService } from './shared/services/user.service';
@@ -86,8 +86,6 @@ import { SiteSummaryComponent } from './site/site-summary/site-summary.component
 import { SiteEnabledFeaturesComponent } from './site/site-enabled-features/site-enabled-features.component';
 import { SiteManageComponent } from './site/site-manage/site-manage.component';
 import { FeatureGroupComponent } from './feature-group/feature-group.component';
-import { DeploymentSourceComponent } from './site/deployment-source/deployment-source.component';
-import { DeploymentSourceSetupComponent } from './site/deployment-source-setup/deployment-source-setup.component';
 import { MultiDropDownComponent } from './multi-drop-down/multi-drop-down.component';
 import { TopRightMenuComponent } from './top-right-menu/top-right-menu.component';
 import { AppsListComponent } from './apps-list/apps-list.component';
@@ -146,7 +144,8 @@ export class AppModule {
       FunctionRuntimeComponent,
       SwaggerDefinitionComponent,
       SiteConfigComponent,
-      SiteConfigStandaloneComponent
+      SiteConfigStandaloneComponent, 
+      DeploymentCenterComponent
     ],
     declarations: [
       AppComponent,
@@ -201,8 +200,6 @@ export class AppModule {
       SiteEnabledFeaturesComponent,
       SiteManageComponent,
       FeatureGroupComponent,
-      DeploymentSourceComponent,
-      DeploymentSourceSetupComponent,
       MultiDropDownComponent,
       TopRightMenuComponent,
       AppsListComponent,
@@ -240,7 +237,8 @@ export class AppModule {
       ConnectionStringsComponent,
       PairListComponent,
       RequestResposeOverrideComponent,
-      BindingEventGridComponent
+      BindingEventGridComponent,
+      DeploymentCenterComponent
     ],
     imports: [
       FormsModule,
