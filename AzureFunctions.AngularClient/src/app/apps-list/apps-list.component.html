@@ -5,7 +5,7 @@
 <div class="bars">
   <label>{{ 'locationColon' | translate }}</label>
 
-  <multi-drop-down id="locations"
+  <multi-drop-down id="locationsFilter"
       [inputOptions]="locationOptions"
       [displayText]="locationsDisplayText"
       (selectedValues)="onLocationsSelect($event)"
@@ -15,7 +15,7 @@
 
   <label>{{ 'resourceGroupColon' | translate }}</label>
 
-  <multi-drop-down id="resourceGroups"
+  <multi-drop-down id="resourceGroupsFilter"
       [inputOptions]="resourceGroupOptions"
       [displayText]="resourceGroupsDisplayText"
       (selectedValues)="onResourceGroupsSelect($event)"
@@ -23,7 +23,7 @@
       [numberItemsDisplay]="numberResourceGroups">
   </multi-drop-down>
 
-  <drop-down id="grouping"
+  <drop-down id="groupingDropDown"
     [options]="groupOptions"
     (value)=onGroupSelect($event)>
   </drop-down>

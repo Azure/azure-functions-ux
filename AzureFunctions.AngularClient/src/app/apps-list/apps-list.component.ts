@@ -61,6 +61,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
     this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
     this._viewInfoSubscription = this.viewInfoStream
+      .distinctUntilChanged()
       .switchMap(viewInfo => {
         this.appsNode = (<AppsNode>viewInfo.node);
         this.isLoading = true;
@@ -107,19 +108,23 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   uniqueLocations(apps: AppNode[]) {
+    const locationsDict = {};
+    apps.forEach(app => locationsDict[this.translateService.instant(app.location)] = this.translateService.instant(app.location));
+
     const locations = [];
-    for (const app of apps) {
-      if (!locations.find(l => l === this.translateService.instant(app.location))) {
-        locations.push(this.translateService.instant(app.location));
+    for (const location in locationsDict) {
+      if (locationsDict.hasOwnProperty(location)) {
+        locations.push(location);
       }
     }
+
     return locations.sort();
   }
 
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
     const newItems = this.tableItems.filter(item => item.type === 'group');
-    this.tableItems = newItems.concat(this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
+    const filteredItems = this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
       .filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
       .map(app => (<AppTableItem>{
         title: app.title,
@@ -128,7 +133,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
         resourceGroup: app.resourceGroup,
         location: this.translateService.instant(app.location),
         appNode: app
-      })));
+      }));
+    this.tableItems = newItems.concat(filteredItems);
 
     // timeout is needed to re-render to page for the grouping update with new locations
     setTimeout(() => {
@@ -152,19 +158,23 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   uniqueResourceGroups(apps: AppNode[]) {
+    const resourceGroupsDict = {};
+    apps.forEach(app => resourceGroupsDict[app.resourceGroup] = app.resourceGroup);
+
     const resourceGroups = [];
-    for (const app of apps) {
-      if (!resourceGroups.find(r => r === app.resourceGroup)) {
-        resourceGroups.push(app.resourceGroup);
+    for (const resourceGroup in resourceGroupsDict) {
+      if (resourceGroupsDict.hasOwnProperty(resourceGroup)) {
+        resourceGroups.push(resourceGroup);
       }
     }
+
     return resourceGroups.sort();
   }
 
   onResourceGroupsSelect(resourceGroups: string[]) {
     this.selectedResourceGroups = resourceGroups;
     const newItems = this.tableItems.filter(item => item.type === 'group');
-    this.tableItems = newItems.concat(this.apps.filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
+    const filteredItems = this.apps.filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
       .filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
       .map(app => (<AppTableItem>{
         title: app.title,
@@ -173,7 +183,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
         resourceGroup: app.resourceGroup,
         location: this.translateService.instant(app.location),
         appNode: app
-      })));
+      }));
+    this.tableItems = newItems.concat(filteredItems);
 
     // timeout is needed to re-render to page for the grouping update with new resourceGroups
     setTimeout(() => {

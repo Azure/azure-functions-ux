@@ -2178,7 +2178,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="resourceGroupCount" xml:space="preserve">
     <value>{0} resource groups</value>
- </data
+ </data>
   <data name="rrOverride_boby" xml:space="preserve">
     <value>Body</value>
   </data>
