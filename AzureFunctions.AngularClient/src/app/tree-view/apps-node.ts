@@ -121,7 +121,8 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         this.sideNav.cacheService.clearArmIdCachePrefix(`/resources`);
         this._refreshStream.next(true);
-        return Observable.of(null);
+        // return Observable.of(null);
+        return Observable.timer(0).map(() => null);
     }
 
     public dispose() {
@@ -152,6 +153,8 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             url = this._getArmSearchUrl(term, subsBatch, nextLink);
         }
 
+        this.isLoading = true;
+
         return this.sideNav.cacheService.get(url, false, null, true)
             .catch(e => {
                 let err = e && e.json && e.json().error;
@@ -170,6 +173,8 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 return Observable.of(null);
             })
             .switchMap(r => {
+                this.isLoading = false;
+
                 if (!r) {
                     return Observable.of(r);
                 }

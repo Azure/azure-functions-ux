@@ -105,18 +105,16 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
         this.isLoading = true;
         this.handleRefresh()
-            .do(null, e => {
-                this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh');
-            })
-            .subscribe(() => {
-                this.sideNav.updateView(this.sideNav.selectedNode, this.sideNav.selectedDashboardType, true)
-                    .do(null, e => {
-                        this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh/update-view');
-                    })
-                    .subscribe(() => { });
-
-                this.isLoading = false;
-            });
+        .mergeMap(() =>{
+            return this.sideNav.updateView(this.sideNav.selectedNode, this.sideNav.selectedDashboardType, true);
+        })
+        .do(null, e => {
+            this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh');
+        })
+        .retry()
+        .subscribe(() => {
+            // this.isLoading = false;
+        });
 
         this.treeView.setFocus(this);
 
