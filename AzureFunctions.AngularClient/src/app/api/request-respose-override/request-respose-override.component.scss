@@ -1,9 +1,8 @@
 .rr-container {
-    width: 740px;
-}
-
-.rr-container > div {
-    margin-bottom: 10px;
+    > div {
+        width: 740px;
+        margin-bottom: 10px;
+    }
 }
 
 .response-body {
