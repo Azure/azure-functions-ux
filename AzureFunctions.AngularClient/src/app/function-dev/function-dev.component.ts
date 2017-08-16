@@ -99,6 +99,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public functionKey: string;
 
     private _isClientCertEnabled = false;
+    private _disableTestDataAfterViewInit = false;
     constructor(private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
@@ -339,6 +340,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 functionInfo: null,
                 step: TutorialStep.Develop
             });
+    }
+
+    ngAfterViewInit() {
+        this.onDisableTestData(this._disableTestDataAfterViewInit);
     }
 
     private setInvokeUrlVisibility() {
@@ -673,7 +678,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     onDisableTestData(disableTestData: boolean) {
-        this.testDataEditor.disabled = disableTestData;
+        if (this.testDataEditor) {
+            this.testDataEditor.disabled = disableTestData;
+        } else {
+            this._disableTestDataAfterViewInit = disableTestData;
+        }
     }
 
     onChangeKey(key: string) {

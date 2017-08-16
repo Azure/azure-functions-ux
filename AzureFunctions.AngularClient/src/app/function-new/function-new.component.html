@@ -68,7 +68,7 @@
                  (remove)="onRemoveBinding($event)"
                  (update)="onUpdateBinding($event)"></binding>
 
-        <div *ngIf="model.trigger.type === 'eventGridTrigger'" class="alert alert-warning alert-dismissible" role="alert">
+        <div *ngIf="model.trigger && model.trigger.type === 'eventGridTrigger'" class="alert alert-warning alert-dismissible" role="alert">
             {{ 'eventGrid_createMessage' | translate }}
         </div>
 

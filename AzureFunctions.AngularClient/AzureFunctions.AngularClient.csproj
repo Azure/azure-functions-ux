@@ -80,8 +80,9 @@
     <Content Include="src\app\accordion\accordion.component.html" />
     <Content Include="src\app\aggregate-block\aggregate-block.component.css" />
     <Content Include="src\app\aggregate-block\aggregate-block.component.html" />
-    <Content Include="src\app\api-details\api-details.component.html" />
-    <Content Include="src\app\api-new\api-new.component.html" />
+    <Content Include="src\app\api\api-details\api-details.component.html" />
+    <Content Include="src\app\api\api-new\api-new.component.html" />
+    <Content Include="src\app\api\request-respose-override\request-respose-override.component.html" />
     <Content Include="src\app\app-monitoring\app-monitoring.component.css" />
     <Content Include="src\app\app-monitoring\app-monitoring.component.html" />
     <Content Include="src\app\apps-list\apps-list.component.html" />
@@ -90,12 +91,16 @@
     <Content Include="src\app\binding-event-grid\binding-event-grid.component.html" />
     <Content Include="src\app\binding-input\binding-input.component.css" />
     <Content Include="src\app\binding-input\binding-input.component.html" />
+    <Content Include="src\app\api\request-respose-override\request-respose-override.component.scss" />
     <Content Include="src\app\binding-event-grid\binding-event-grid.component.scss" />
     <None Include="src\app\binding\binding.component.scss" />
     <Content Include="src\app\binding\binding.component.html" />
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
     <Content Include="src\app\busy-state\busy-state.component.scss" />
     <Content Include="src\app\busy-state\busy-state.component.html" />
+    <Content Include="src\app\controls\pair-list\pair-list.component.html" />
+    <Content Include="src\app\controls\tbl\tbl-th\tbl-th.component.scss" />
+    <Content Include="src\app\controls\pair-list\pair-list.component.scss" />
     <None Include="src\app\copy-pre\copy-pre.component.scss" />
     <Content Include="src\app\controls\click-to-edit\click-to-edit.component.html" />
     <Content Include="src\app\controls\command-bar\command\command.component.html" />
@@ -353,10 +358,12 @@
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.component.ts" />
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.spec.ts" />
     <TypeScriptCompile Include="src\app\aggregate-block\aggregate-block.pipe.ts" />
-    <TypeScriptCompile Include="src\app\api-details\api-details.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\api-details\api-details.component.ts" />
-    <TypeScriptCompile Include="src\app\api-new\api-new.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\api-new\api-new.component.ts" />
+    <TypeScriptCompile Include="src\app\api\api-details\api-details.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api\api-details\api-details.component.ts" />
+    <TypeScriptCompile Include="src\app\api\api-new\api-new.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api\api-new\api-new.component.ts" />
+    <TypeScriptCompile Include="src\app\api\request-respose-override\request-respose-override.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\api\request-respose-override\request-respose-override.component.ts" />
     <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.spec.ts" />
     <TypeScriptCompile Include="src\app\app-monitoring\app-monitoring.component.ts" />
     <TypeScriptCompile Include="src\app\app.component.spec.ts" />
@@ -383,6 +390,8 @@
     <TypeScriptCompile Include="src\app\controls\command-bar\command-bar.component.ts" />
     <TypeScriptCompile Include="src\app\controls\command-bar\command\command.component.spec.ts" />
     <TypeScriptCompile Include="src\app\controls\command-bar\command\command.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\pair-list\pair-list.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\controls\pair-list\pair-list.component.ts" />
     <TypeScriptCompile Include="src\app\controls\tbl\tbl-th\tbl-th.component.ts" />
     <TypeScriptCompile Include="src\app\controls\tbl\tbl.component.ts" />
     <TypeScriptCompile Include="src\app\controls\textbox\textbox.component.spec.ts" />
@@ -681,7 +690,7 @@
     <Content Include=".ember-cli" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\app\api-new\api-new.component.scss" />
+    <None Include="src\app\api\api-new\api-new.component.scss" />
     <Content Include="src\app\top-bar\top-bar.component.scss" />
   </ItemGroup>
   <ItemGroup>

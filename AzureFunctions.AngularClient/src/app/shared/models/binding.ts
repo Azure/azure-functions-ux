@@ -32,7 +32,8 @@ export enum BindingType {
     GraphWebhook = <any>"GraphWebhook",
     GraphWebhookTrigger = <any>"GraphWebhookTrigger",
     GraphWebhookCreator = <any>"GraphWebhookCreator",
-    eventGridTrigger = <any>"eventGridTrigger"
+    eventGridTrigger = <any>"eventGridTrigger",
+    cosmosDBTrigger = <any>"cosmosDBTrigger",
 }
 
 export interface BindingConfig {

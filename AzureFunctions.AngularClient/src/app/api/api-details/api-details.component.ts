@@ -1,38 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { GlobalStateService } from '../shared/services/global-state.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { GlobalStateService } from '../../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiProxy } from '../shared/models/api-proxy';
+import { ApiProxy } from '../../shared/models/api-proxy';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastService } from '../../shared/services/broadcast.service';
 import { ApiNewComponent } from '../api-new/api-new.component';
-import { TreeViewInfo } from '../tree-view/models/tree-view-info';
-import { ProxiesNode } from '../tree-view/proxies-node';
-import { AppNode } from '../tree-view/app-node';
-import { ProxyNode } from '../tree-view/proxy-node';
-import { FunctionApp } from '../shared/function-app';
-import { Constants } from '../shared/models/constants';
-import { ArmObj } from '../shared/models/arm/arm-obj';
-import { AiService } from '../shared/services/ai.service';
+import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
+import { ProxiesNode } from '../../tree-view/proxies-node';
+import { AppNode } from '../../tree-view/app-node';
+import { ProxyNode } from '../../tree-view/proxy-node';
+import { FunctionApp } from '../../shared/function-app';
+import { Constants } from '../../shared/models/constants';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
+import { AiService } from '../../shared/services/ai.service';
+import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 
 @Component({
     selector: 'api-details',
     templateUrl: './api-details.component.html',
-    styleUrls: ['../api-new/api-new.component.scss', '../binding-input/binding-input.component.css'],
+    styleUrls: ['../api-new/api-new.component.scss', '../../binding-input/binding-input.component.css'],
     inputs: ['viewInfoInput']
 })
 export class ApiDetailsComponent implements OnInit {
+    @ViewChild(RequestResposeOverrideComponent) rrComponent: RequestResposeOverrideComponent;
     complexForm: FormGroup;
     isMethodsVisible = false;
     proxyUrl: string;
     isEnabled: boolean;
 
-
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
     public apiProxyEdit: ApiProxy;
     public appNode: AppNode;
+    public rrOverrideValid: boolean;
     private selectedNode: ProxyNode;
     private proxiesNode: ProxiesNode;
+    private _rrOverrideValue: any;
 
     set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
         this._globalStateService.setBusyState();
@@ -135,11 +138,12 @@ export class ApiDetailsComponent implements OnInit {
         this.initComplexFrom();
         this.initEdit();
         this._broadcastService.clearDirtyState('api-proxy', true);
+        this.rrComponent.discard();
     }
 
     submitForm() {
 
-        if (this.complexForm.valid) {
+        if (this.complexForm.valid && this.rrOverrideValid) {
             this._globalStateService.setBusyState();
 
             this.apiProxyEdit.backendUri = this.complexForm.controls['backendUri'].value;
@@ -162,11 +166,21 @@ export class ApiDetailsComponent implements OnInit {
                             }
                         }
                     }
+
+                    // https://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
+                    // we are using ES5 now
+                    if (this._rrOverrideValue) {
+                        for (const prop in this._rrOverrideValue) {
+                            this.apiProxyEdit[prop] = this._rrOverrideValue[prop];
+                        }
+                    }
+
                     this.apiProxies[index] = this.apiProxyEdit;
                 }
 
                 this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                     this._globalStateService.clearBusyState();
+                    this.rrComponent.saveModel();
                     this.onReset();
                 });
             });
@@ -206,5 +220,14 @@ export class ApiDetailsComponent implements OnInit {
     openAdvancedEditor() {
         const scmUrl = this.apiProxyEdit.functionApp.getScmUrl();
         window.open(`${scmUrl}/dev/wwwroot/proxies.json`);
+    }
+
+    rrOverriedValueChanges(value: any) {
+        this._rrOverrideValue = value;
+        this.rrOverrideValid = this.rrComponent.valid;
+        if (this.rrComponent.dirty) {
+            this._broadcastService.setDirtyState('api-proxy');
+            this.complexForm.markAsDirty();
+        }
     }
 }
