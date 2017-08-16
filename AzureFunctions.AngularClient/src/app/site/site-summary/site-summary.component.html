@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div [class.invisible]="hideAvailability">
+    <div check-scenario="ShowSiteAvailability" [cs-input]="{ site: site }">
       <label id="siteAvailabilityLabel">{{'availability' | translate}}</label>
       <div [class.site-faded-text]="availabilityState === 'unknown'" 
            tabindex="0" id="siteAvailabilityValue" 
@@ -128,6 +128,8 @@
   </div>
 
 </div>
+
+<h2 style="margin-left: 35px;">Max num slots is {{maxNumSlots}}</h2>
 
 <div id="site-summary-body">
   <div *ngIf="!isStandalone" id="site-summary-features">
