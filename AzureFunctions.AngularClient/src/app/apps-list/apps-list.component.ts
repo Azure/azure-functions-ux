@@ -40,6 +40,12 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public locationsDisplayText = this.allLocations;
   public selectedLocations: string[] = [];
 
+  public allResourceGroups = this.translateService.instant(PortalResources.allResourceGroups);
+  public numberResourceGroups = this.translateService.instant(PortalResources.resourceGroupCount);
+  public resourceGroupOptions: DropDownElement<string>[] = [];
+  public resourceGroupsDisplayText = this.allResourceGroups;
+  public selectedResourceGroups: string[] = [];
+
   @ViewChild('table') appTable: TblComponent;
 
   public groupOptions: DropDownElement<string>[] = [{ displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none' },
@@ -68,7 +74,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
           subscription: app.subscription,
           type: 'row',
           resourceGroup: app.resourceGroup,
-          location: app.location,
+          location: this.translateService.instant(app.location),
           appNode: app
         }));
 
@@ -76,6 +82,11 @@ export class AppsListComponent implements OnInit, OnDestroy {
           .map(location => ({
             displayLabel: this.translateService.instant(location),
             value: this.translateService.instant(location)
+          }));
+        this.resourceGroupOptions = this.uniqueResourceGroups(this.apps)
+          .map(resourceGroup => ({
+            displayLabel: resourceGroup,
+            value: resourceGroup
           }));
         this.isLoading = false;
       });
@@ -97,19 +108,24 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   uniqueLocations(apps: AppNode[]) {
+    const locationsDict = {};
+    apps.forEach(app => locationsDict[this.translateService.instant(app.location)] = this.translateService.instant(app.location));
+
     const locations = [];
-    for (const app of apps) {
-      if (!locations.find(l => l === this.translateService.instant(app.location))) {
-        locations.push(this.translateService.instant(app.location));
+    for (const location in locationsDict) {
+      if (locationsDict.hasOwnProperty(location)) {
+        locations.push(location);
       }
     }
+
     return locations.sort();
   }
 
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
     const newItems = this.tableItems.filter(item => item.type === 'group');
-    this.tableItems = newItems.concat(this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
+    const filteredItems = this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
+      .filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
       .map(app => (<AppTableItem>{
         title: app.title,
         subscription: app.subscription,
@@ -117,7 +133,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
         resourceGroup: app.resourceGroup,
         location: this.translateService.instant(app.location),
         appNode: app
-      })));
+      }));
+    this.tableItems = newItems.concat(filteredItems);
 
     // timeout is needed to re-render to page for the grouping update with new locations
     setTimeout(() => {
@@ -127,18 +144,66 @@ export class AppsListComponent implements OnInit, OnDestroy {
     if (this.selectedLocations.length === this.locationOptions.length) { // if all locations are selected display all locations
       this._updateLocDisplayText(this.allLocations);
     } else if (this.selectedLocations.length > 1) { // else if more than 1 locations are selected display the number of locations
-      this._updateLocDisplayText(this.translateService.instant(PortalResources.locationCount).format(locations.length));
+      this._updateLocDisplayText(this.numberLocations.format(locations.length));
     } else { // else 1 location is selected and its name is displayed
       this._updateLocDisplayText(`${this.selectedLocations[0]}`);
     }
   }
 
   private _updateLocDisplayText(displayText: string) {
-    this.locationsDisplayText = displayText;
-
     // timeout is needed to re-render the page for display update
     setTimeout(() => {
       this.locationsDisplayText = displayText;
+    }, 0);
+  }
+
+  uniqueResourceGroups(apps: AppNode[]) {
+    const resourceGroupsDict = {};
+    apps.forEach(app => resourceGroupsDict[app.resourceGroup] = app.resourceGroup);
+
+    const resourceGroups = [];
+    for (const resourceGroup in resourceGroupsDict) {
+      if (resourceGroupsDict.hasOwnProperty(resourceGroup)) {
+        resourceGroups.push(resourceGroup);
+      }
+    }
+
+    return resourceGroups.sort();
+  }
+
+  onResourceGroupsSelect(resourceGroups: string[]) {
+    this.selectedResourceGroups = resourceGroups;
+    const newItems = this.tableItems.filter(item => item.type === 'group');
+    const filteredItems = this.apps.filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
+      .filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
+      .map(app => (<AppTableItem>{
+        title: app.title,
+        subscription: app.subscription,
+        type: 'row',
+        resourceGroup: app.resourceGroup,
+        location: this.translateService.instant(app.location),
+        appNode: app
+      }));
+    this.tableItems = newItems.concat(filteredItems);
+
+    // timeout is needed to re-render to page for the grouping update with new resourceGroups
+    setTimeout(() => {
+      this.appTable.groupItems(this.currGroup);
+    }, 0);
+
+    if (this.selectedResourceGroups.length === this.resourceGroupOptions.length) { // if all locations are selected display all locations
+      this._updateResGroupDisplayText(this.allResourceGroups);
+    } else if (this.selectedResourceGroups.length > 1) { // else if more than 1 locations are selected display the number of locations
+      this._updateResGroupDisplayText(this.numberResourceGroups.format(resourceGroups.length));
+    } else { // else 1 location is selected and its name is displayed
+      this._updateResGroupDisplayText(`${this.selectedResourceGroups[0]}`);
+    }
+  }
+
+  private _updateResGroupDisplayText(displayText: string) {
+    // timeout is needed to re-render the page for display update
+    setTimeout(() => {
+      this.resourceGroupsDisplayText = displayText;
     }, 0);
   }
 
@@ -154,5 +219,4 @@ export class AppsListComponent implements OnInit, OnDestroy {
       this.appTable.groupItems(group);
     }, 0);
   }
-
 }

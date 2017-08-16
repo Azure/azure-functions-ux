@@ -5,7 +5,7 @@
 <div class="bars">
   <label>{{ 'locationColon' | translate }}</label>
 
-  <multi-drop-down id="locations"
+  <multi-drop-down id="locationsFilter"
       [inputOptions]="locationOptions"
       [displayText]="locationsDisplayText"
       (selectedValues)="onLocationsSelect($event)"
@@ -13,12 +13,21 @@
       [numberItemsDisplay]="numberLocations">
   </multi-drop-down>
 
-  <drop-down id="grouping"
+  <label>{{ 'resourceGroupColon' | translate }}</label>
+
+  <multi-drop-down id="resourceGroupsFilter"
+      [inputOptions]="resourceGroupOptions"
+      [displayText]="resourceGroupsDisplayText"
+      (selectedValues)="onResourceGroupsSelect($event)"
+      [allItemsDisplay]="allResourceGroups"
+      [numberItemsDisplay]="numberResourceGroups">
+  </multi-drop-down>
+
+  <drop-down id="groupingDropDown"
     [options]="groupOptions"
     (value)=onGroupSelect($event)>
   </drop-down>
 </div>
-
 <tbl [items]="tableItems" #table="tbl" id="apps-list" [name]="'functionApps' | translate" groupColName="title">
   <tr>
     <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>

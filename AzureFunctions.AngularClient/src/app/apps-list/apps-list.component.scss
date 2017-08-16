@@ -6,18 +6,26 @@
     width: 100%;
     display: inline-flex;
     align-items: center;
+    padding-bottom: 10px;
 }
 
 .tabbed{
     padding-left: 20px;
 }
 
-#locations{
+#locationsFilter{
     padding-left: 10px;
-    width: 82%;
+    padding-right: 15px;
+    width: 35%;
 }
 
-#grouping{
+#resourceGroupsFilter{
+    padding-left: 10px;
+    padding-right: 15px;
+    width: 35%;
+}
+
+#groupingDropDown{
     padding-left:10px;
     width: 18%;
 }

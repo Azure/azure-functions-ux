@@ -641,6 +641,7 @@ export class PortalResources
     public static bindingInput_retrieve: string = "bindingInput_retrieve";
     public static apiProxy_delete: string = "apiProxy_delete";
     public static apiProxy_new: string = "apiProxy_new";
+    public static apiProxy_noOverride: string = "apiProxy_noOverride";
     public static functionDev_saveFunctionFailure: string = "functionDev_saveFunctionFailure";
     public static functionDev_saveFunctionNotifyTitle: string = "functionDev_saveFunctionNotifyTitle";
     public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
@@ -684,5 +685,13 @@ export class PortalResources
     public static ukwest: string = "ukwest";
     public static uksouth: string = "uksouth";
     public static westus2: string = "westus2";
+    public static allResourceGroups: string = "allResourceGroups";
+    public static resourceGroupColon: string = "resourceGroupColon";
+    public static resourceGroupCount: string = "resourceGroupCount";
+    public static rrOverride_boby: string = "rrOverride_boby";
+    public static rrOverride_code: string = "rrOverride_code";
+    public static rrOverride_message: string = "rrOverride_message";
+    public static rrOverride_request: string = "rrOverride_request";
+    public static rrOverride_response: string = "rrOverride_response";
 }
 
