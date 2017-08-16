@@ -23,53 +23,51 @@
       [numberItemsDisplay]="numberResourceGroups">
   </multi-drop-down>
 
-  <drop-down #groups id="grouping"
+  <drop-down id="grouping"
     [options]="groupOptions"
     (value)=onGroupSelect($event)>
   </drop-down>
 </div>
-<ng-container *ngIf="!appsNode?.isLoading">
-  <tbl [items]="tableItems" #table="tbl" id="apps-list" [name]="'functionApps' | translate" groupColName="title">
-    <tr>
-      <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
-      <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>
-      <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>
-      <th><tbl-th name="location">{{ 'location' | translate }}</tbl-th></th>
-    </tr>
+<tbl [items]="tableItems" #table="tbl" id="apps-list" [name]="'functionApps' | translate" groupColName="title">
+  <tr>
+    <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
+    <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>
+    <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>
+    <th><tbl-th name="location">{{ 'location' | translate }}</tbl-th></th>
+  </tr>
 
-    <tr *ngFor="let item of table.items">
-      <ng-container *ngIf="item.type === 'row' && table.groupedBy === 'none'">
-        <td><a (click)="clickRow(item)">{{item.title}}</a></td>
-        <td>{{item.subscription}}</td>
-        <td>{{item.resourceGroup}}</td>
-        <td>{{item.location}}</td>
-      </ng-container>
+  <tr *ngFor="let item of table.items">
+    <ng-container *ngIf="item.type === 'row' && table.groupedBy === 'none'">
+      <td><a (click)="clickRow(item)">{{item.title}}</a></td>
+      <td>{{item.subscription}}</td>
+      <td>{{item.resourceGroup}}</td>
+      <td>{{item.location}}</td>
+    </ng-container>
 
-      <ng-container *ngIf="item.type === 'row' && table.groupedBy !== 'none'">
-        <td class='tabbed'><a (click)="clickRow(item)">{{item.title}}</a></td>
-        <td>{{item.subscription}}</td>
-        <td>{{item.resourceGroup}}</td>
-        <td>{{item.location}}</td>
-      </ng-container>
+    <ng-container *ngIf="item.type === 'row' && table.groupedBy !== 'none'">
+      <td class='tabbed'><a (click)="clickRow(item)">{{item.title}}</a></td>
+      <td>{{item.subscription}}</td>
+      <td>{{item.resourceGroup}}</td>
+      <td>{{item.location}}</td>
+    </ng-container>
 
-      <ng-container *ngIf="item.type === 'group'">
-        <td colspan="4">{{item.title}}</td>
-      </ng-container>
-    </tr>
+    <ng-container *ngIf="item.type === 'group'">
+      <td colspan="4">{{item.title}}</td>
+    </ng-container>
+  </tr>
 
-    <tr *ngIf="isLoading">
-      <td *ngIf="isLoading" colspan="4">{{'functionMonitor_loading' | translate}}</td>
-      <td *ngIf="isLoading" colspan="4"></td>
-    </tr>
-  </tbl>
-  <div *ngIf="!isLoading && table.items.length === 0" class="empty-browse">
-    <img src="images/emptybrowse-functions.svg" />
-    <h4>{{'emptyBrowse_title' | translate}}</h4>
-    <span>{{'emptyBrowse' | translate}}</span>
-    <span>
-      <a class="link" target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848163">{{'emptyBrowse_learnMore' | translate}}</a>
-      <img src="images/learn-more.svg" />
-    </span>
-  </div>
-</ng-container>
+  <tr *ngIf="isLoading">
+    <td *ngIf="isLoading" colspan="4">{{'functionMonitor_loading' | translate}}</td>
+    <td *ngIf="isLoading" colspan="4"></td>
+  </tr>
+</tbl>
+<div *ngIf="!isLoading && table.items.length === 0" class="empty-browse">
+  <img src="images/emptybrowse-functions.svg" />
+  <h4>{{'emptyBrowse_title' | translate}}</h4>
+  <span>{{'emptyBrowse' | translate}}</span>
+  <span>
+    <a class="link" target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848163">{{'emptyBrowse_learnMore' | translate}}</a>
+    <img src="images/learn-more.svg" />
+  </span>
+</div>
 </div>

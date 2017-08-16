@@ -24,13 +24,12 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.apps;
-    public supportsRefresh = true;
+
     public resourceId = '/apps';
     public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
     private _exactAppSearchExp = '\"(.+)\"';
     private _subscriptions: Subscription[];
-    private _refreshStream = new ReplaySubject<boolean>(1);
 
     constructor(
         sideNav: SideNavComponent,
@@ -40,7 +39,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         private _initialResourceId: string) {  // Should only be used for when the iframe is open on a specific app
 
         super(sideNav, null, rootNode);
-        this._refreshStream.next(false);
+
         this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
         this.inSelectedTree = !!this.newDashboardType;
 
@@ -62,10 +61,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                             subscriptions: subscriptions
                         };
                     });
-            })
-            .switchMap(result => {
-                return this._refreshStream
-                    .map(r => result);
             })
             .switchMap(result => {
 
@@ -117,14 +112,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             });
     }
 
-    public handleRefresh(): Observable<any> {
-
-        this.sideNav.cacheService.clearArmIdCachePrefix(`/resources`);
-        this._refreshStream.next(true);
-        // return Observable.of(null);
-        return Observable.timer(0).map(() => null);
-    }
-
     public dispose() {
         this._initialResourceId = '';
     }
@@ -153,8 +140,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             url = this._getArmSearchUrl(term, subsBatch, nextLink);
         }
 
-        this.isLoading = true;
-
         return this.sideNav.cacheService.get(url, false, null, true)
             .catch(e => {
                 let err = e && e.json && e.json().error;
@@ -173,8 +158,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 return Observable.of(null);
             })
             .switchMap(r => {
-                this.isLoading = false;
-
                 if (!r) {
                     return Observable.of(r);
                 }
