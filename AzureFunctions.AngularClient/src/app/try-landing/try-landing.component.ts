@@ -150,10 +150,10 @@ export class TryLandingComponent implements OnInit {
                             .subscribe((resource) => {
                                 this.clearBusyState();
                                 this.createFunctioninResource(resource, selectedTemplate, functionName);
-                            }, error => {
+                            }, (error: Response) => {
                                 if (error.status === 401 || error.status === 403) {
                                     // show login options
-                                    const headerObject = JSON.parse(JSON.stringify(error.headers))['loginurl'];
+                                    const headerObject = error.headers['LoginUrl'];
                                     if (provider !== '' && headerObject && headerObject[0]) {
                                         (<any>window).location = headerObject[0];
                                         return;
