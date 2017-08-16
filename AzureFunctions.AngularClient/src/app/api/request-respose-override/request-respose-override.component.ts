@@ -181,19 +181,19 @@ export class RequestResposeOverrideComponent {
             responseOverrides: {}
         };
 
-        if (this.model.method) {
-            result['requestOverrides"]["backend.request.method'] = this.model.method;
+        if (this.model.method && this.model.method !== 'no') {
+            result['requestOverrides']['backend.request.method'] = this.model.method;
         }
 
         if (this.model.requestHeaders.length > 0) {
             this.model.requestHeaders.forEach((h) => {
-                result['requestOverrides"]["backend.request.headers.' + h.name] = h.value;
+                result['requestOverrides']['backend.request.headers.' + h.name] = h.value;
             });
         }
 
         if (this.model.requestQueryParams.length > 0) {
             this.model.requestQueryParams.forEach((p) => {
-                result['requestOverrides"]["backend.request.querystring.' + p.name] = p.value;
+                result['requestOverrides']['backend.request.querystring.' + p.name] = p.value;
             });
         }
 
@@ -215,11 +215,11 @@ export class RequestResposeOverrideComponent {
             });
         }
 
-        if (!result.requestOverrides) {
+        if (Object.keys(result.requestOverrides).length === 0) {
             delete result.requestOverrides;
         }
 
-        if (!result.responseOverrides) {
+        if (Object.keys(result.responseOverrides).length === 0) {
             delete result.responseOverrides;
         }
 

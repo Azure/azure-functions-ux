@@ -6,6 +6,8 @@ export class ApiProxy {
     name: string;
     matchCondition: MatchCondition = new MatchCondition();
     backendUri: string;
+    requestOverrides?: any;
+    responseOverrides?: any;
 
     functionApp: FunctionApp;
 
