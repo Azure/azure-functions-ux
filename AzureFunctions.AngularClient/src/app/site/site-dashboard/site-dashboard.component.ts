@@ -20,7 +20,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 
-import { ConfigService } from './../../shared/services/config.service';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
@@ -55,7 +54,6 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
     public TabIds = SiteTabIds;
     public Resources = PortalResources;
-    public isStandalone = false;
 
     private _currentTabId: string;
     private _prevTabId: string;
@@ -70,11 +68,9 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         private _aiService: AiService,
         private _portalService: PortalService,
         private _translateService: TranslateService,
-        private _configService: ConfigService,
         private _broadcastService: BroadcastService,
         private _scenarioService: ScenarioService) {
 
-        this.isStandalone = this._configService.isStandalone();
 
         this._openTabSubscription = this._broadcastService.subscribe<string>(BroadcastEvent.OpenTab, tabId => {
             this.openFeature(tabId);

@@ -35,10 +35,6 @@
       </div>
     </div>
 
-    <!-- Keeping this around for now as an example of how to use the check-scenario directive.  I was originally
-         using it but realized that it doesn't really make sense here since we want to also prevent HTTP
-         requests to the slow availability API if we're going to hide this -->
-    <!-- <div check-scenario="ShowSiteAvailability" [cs-input]="{ site: site }"> -->
     <div [class.invisible]="hideAvailability">
       <label id="siteAvailabilityLabel">{{'availability' | translate}}</label>
       <div [class.site-faded-text]="availabilityState === 'unknown'" 

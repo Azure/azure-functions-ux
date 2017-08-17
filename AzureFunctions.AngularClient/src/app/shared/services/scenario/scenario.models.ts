@@ -9,7 +9,6 @@ export interface ScenarioCheckInput {
 export type ScenarioStatus = 'enabled' | 'disabled' | null;
 
 export interface ScenarioResult {
-    // status: ScenarioStatus;
     status: ScenarioStatus;
     data?: any;
 }
@@ -25,7 +24,6 @@ interface ScenarioCheck {
     runCheckAsync?: (input?: ScenarioCheckInput) => Observable<ScenarioResult>;
 }
 
-// TODO: should this be an interface instead?
 export abstract class Environment {
     scenarioChecks: { [key: string]: ScenarioCheck } = {};
 

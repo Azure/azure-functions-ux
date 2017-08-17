@@ -13,6 +13,21 @@ export class StandaloneEnvironment extends Environment {
                 return { status: 'enabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
+            id: ScenarioIds.addSiteFeaturesTab,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.showSitePin] = {
+            id: ScenarioIds.showSitePin,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

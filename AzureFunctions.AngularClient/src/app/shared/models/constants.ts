@@ -140,6 +140,8 @@ export class Order {
     ]
 }
 
+// NOTE: If you change any string values here, make sure you search for references to the values
+// in any HTML templates first!
 export class ScenarioIds {
     public static readonly addSiteConfigTab = 'AddSiteConfigTab';
     public static readonly addSiteFeaturesTab = 'AddSiteFeaturesTab';
@@ -148,6 +150,7 @@ export class ScenarioIds {
     public static readonly addResourceExplorer = 'AddResourceExplorer';
     public static readonly addPushNotifications = 'AddPushNotifications';
     public static readonly addTinfoil = 'AddTinfoil';
+    public static readonly showSitePin = 'ShowSitePin';
 }
 
 export class ServerFarmSku {
