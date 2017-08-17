@@ -1,3 +1,4 @@
+import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { SiteConfigComponent } from './../site-config/site-config.component';
 import { DirtyStateEvent } from './../../shared/models/broadcast-event';
 import { SiteConfigStandaloneComponent } from './../site-config-standalone/site-config-standalone.component';
@@ -23,7 +24,7 @@ import { ConfigService } from './../../shared/services/config.service';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteTabIds } from './../../shared/models/constants';
+import { SiteTabIds, ScenarioIds } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
 import { CacheService } from '../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
@@ -70,7 +71,8 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         private _portalService: PortalService,
         private _translateService: TranslateService,
         private _configService: ConfigService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _scenarioService: ScenarioService) {
 
         this.isStandalone = this._configService.isStandalone();
 
@@ -94,9 +96,11 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
             // Setup initial tabs without inputs immediate so that they load right away
             this.tabInfos = [this._getTabInfo(SiteTabIds.overview, true /* active */, null)];
 
-            if (this.isStandalone) {
+            if (this._scenarioService.checkScenario(ScenarioIds.addSiteConfigTab).status === 'enabled') {
                 this.tabInfos.push(this._getTabInfo(SiteTabIds.config, false /* active */, null));
-            } else {
+            }
+
+            if (this._scenarioService.checkScenario(ScenarioIds.addSiteFeaturesTab).status === 'enabled') {
                 this.tabInfos.push(this._getTabInfo(SiteTabIds.features, false /* active */, null));
             }
         }

@@ -1,3 +1,4 @@
+import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
 import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { UserService } from './../../shared/services/user.service';
@@ -20,7 +21,7 @@ import { FunctionApp } from './../../shared/function-app';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
-import { AvailabilityStates, KeyCodes } from './../../shared/models/constants';
+import { AvailabilityStates, KeyCodes, ScenarioIds } from './../../shared/models/constants';
 import { Availability } from './../site-notifications/notifications';
 import { AiService } from './../../shared/services/ai.service';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
@@ -91,7 +92,8 @@ export class SiteSummaryComponent implements OnDestroy {
         private _configService: ConfigService,
         private _slotService: SlotsService,
         userService: UserService,
-        siteTabComponent: SiteTabComponent) {
+        siteTabComponent: SiteTabComponent,
+        scenarioService: ScenarioService) {
 
         this.isStandalone = _configService.isStandalone();
         this._busyState = siteTabComponent.busyState;
@@ -142,20 +144,16 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.availabilityMesg = this.ts.instant(PortalResources.functionMonitor_loading);
                 this.availabilityIcon = null;
 
-
                 this.publishProfileLink = null;
-
 
                 const serverFarm = site.properties.serverFarmId.split('/')[8];
                 this.plan = `${serverFarm} (${site.properties.sku.replace('Dynamic', 'Consumption')})`;
                 this._isSlot = SlotsService.isSlot(site.id);
 
-
-
                 this._busyState.clearBusyState();
                 this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
-                this.hideAvailability = this._isSlot || site.properties.sku === 'Dynamic';
+                this.hideAvailability = scenarioService.checkScenario(ScenarioIds.showSiteAvailability, {site: site}).status === 'disabled';
 
                 // Go ahead and assume write access at this point to unveal everything. This allows things to work when the RBAC API fails and speeds up reveal. In
                 // cases where this causes a false positive, the backend will take care of giving a graceful failure.

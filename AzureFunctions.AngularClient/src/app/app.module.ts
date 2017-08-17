@@ -1,3 +1,5 @@
+import { CheckScenarioDirective } from './shared/directives/check-scenario.directive';
+import { ScenarioService } from './shared/services/scenario/scenario.service';
 import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
 import { DynamicLoaderDirective } from './shared/directives/dynamic-loader.directive';
 import { DownloadFunctionAppContentComponent } from './download-function-app-content/download-function-app-content.component';
@@ -16,7 +18,7 @@ import { HttpModule, Http } from '@angular/http';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
-import { PopoverModule } from "ng2-popover";
+import { PopoverModule } from 'ng2-popover';
 
 import { ConfigService } from './shared/services/config.service';
 import { FunctionsService } from './shared/services/functions.service';
@@ -219,6 +221,7 @@ export class AppModule {
       TblComponent,
       TblThComponent,
       FnWriteAccessDirective,
+      CheckScenarioDirective,
       DynamicLoaderDirective,
       EditModeWarningComponent,
       TextboxComponent,
@@ -268,6 +271,7 @@ export class AppModule {
         ]
       },
       CacheService,
+      ScenarioService,
       SlotsService,
       AuthzService,
       LocalStorageService,

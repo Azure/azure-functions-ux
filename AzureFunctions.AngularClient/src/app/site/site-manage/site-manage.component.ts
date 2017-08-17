@@ -1,6 +1,7 @@
+import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import { SiteTabIds } from './../../shared/models/constants';
+import { SiteTabIds, ScenarioIds } from './../../shared/models/constants';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -59,7 +60,8 @@ export class SiteManageComponent implements OnDestroy {
         private _cacheService: CacheService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _broadcastService: BroadcastService) {
+        private _broadcastService: BroadcastService,
+        private _scenarioService: ScenarioService) {
 
         this._viewInfoStream
             .switchMap(viewInfo => {
@@ -211,7 +213,9 @@ export class SiteManageComponent implements OnDestroy {
 
             new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService),
 
-            new OpenResourceExplorer(site, this._translateService),
+            this._scenarioService.checkScenario(ScenarioIds.addResourceExplorer, { site: site }).status !== 'disabled'
+                ? new OpenResourceExplorer(site, this._translateService)
+                : null,
 
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_extensionsName),
@@ -293,7 +297,9 @@ export class SiteManageComponent implements OnDestroy {
         this.groups1 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
             new FeatureGroup(this._translateService.instant(PortalResources.feature_codeDeployment), codeDeployFeatures),
-            new FeatureGroup(this._translateService.instant(PortalResources.feature_developmentTools), developmentToolFeatures)
+            new FeatureGroup(
+                this._translateService.instant(PortalResources.feature_developmentTools),
+                developmentToolFeatures.filter(f => !!f))
         ];
     }
 
@@ -358,17 +364,19 @@ export class SiteManageComponent implements OnDestroy {
                 this._portalService,
                 this._hasSiteWritePermissionStream),
 
-            new DisableableBladeFeature(
-                this._translateService.instant(PortalResources.feature_pushNotificationsName),
-                this._translateService.instant(PortalResources.feature_pushNotificationsName),
-                this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
-                'images/push.svg',
-                {
-                    detailBlade: 'PushRegistrationBlade',
-                    detailBladeInputs: { resourceUri: this._descriptor.resourceId }
-                },
-                this._portalService,
-                this._hasSiteWritePermissionStream),
+            this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled'
+                ? new DisableableBladeFeature(
+                    this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                    this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                    this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
+                    'images/push.svg',
+                    {
+                        detailBlade: 'PushRegistrationBlade',
+                        detailBladeInputs: { resourceUri: this._descriptor.resourceId }
+                    },
+                    this._portalService,
+                    this._hasSiteWritePermissionStream)
+                : null,
         ];
 
         const monitoringFeatures = [
@@ -407,21 +415,27 @@ export class SiteManageComponent implements OnDestroy {
                 this._portalService,
                 this._hasSiteWritePermissionStream),
 
-            new BladeFeature(
-                this._translateService.instant(PortalResources.feature_securityScanningName),
-                this._translateService.instant(PortalResources.feature_securityScanningName) + ' tinfoil',
-                this._translateService.instant(PortalResources.feature_securityScanningInfo),
-                'images/tinfoil-flat-21px.png',
-                {
-                    detailBlade: 'TinfoilSecurityBlade',
-                    detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
-                },
-                this._portalService),
+            this._scenarioService.checkScenario(ScenarioIds.addTinfoil, { site: site }).status !== 'disabled'
+                ? new BladeFeature(
+                    this._translateService.instant(PortalResources.feature_securityScanningName),
+                    this._translateService.instant(PortalResources.feature_securityScanningName) + ' tinfoil',
+                    this._translateService.instant(PortalResources.feature_securityScanningInfo),
+                    'images/tinfoil-flat-21px.png',
+                    {
+                        detailBlade: 'TinfoilSecurityBlade',
+                        detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
+                    },
+                    this._portalService)
+                : null,
         ];
 
         this.groups2 = [
-            new FeatureGroup(this._translateService.instant(PortalResources.feature_networkingName), networkFeatures),
-            new FeatureGroup(this._translateService.instant(PortalResources.feature_monitoring), monitoringFeatures)];
+            new FeatureGroup(
+                this._translateService.instant(PortalResources.feature_networkingName),
+                networkFeatures.filter(f => !!f)),
+            new FeatureGroup(
+                this._translateService.instant(PortalResources.feature_monitoring),
+                monitoringFeatures.filter(f => !!f))];
     }
 
     private _initCol3Groups(site: ArmObj<Site>) {
