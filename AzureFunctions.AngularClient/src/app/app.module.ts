@@ -1,3 +1,4 @@
+import { LogService } from './shared/services/log.service';
 import { CheckScenarioDirective } from './shared/directives/check-scenario.directive';
 import { ScenarioService } from './shared/services/scenario/scenario.service';
 import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
@@ -263,6 +264,7 @@ export class AppModule {
       PortalService,
       BroadcastService,
       FunctionMonitorService,
+      LogService,
       {
         provide: ArmService, useFactory: ArmServiceFactory, deps: [
           Http,

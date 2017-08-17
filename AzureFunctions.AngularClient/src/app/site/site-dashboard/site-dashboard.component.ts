@@ -1,3 +1,4 @@
+import { LogService } from './../../shared/services/log.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { SiteConfigComponent } from './../site-config/site-config.component';
 import { DirtyStateEvent } from './../../shared/models/broadcast-event';
@@ -23,7 +24,7 @@ import 'rxjs/add/observable/zip';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteTabIds, ScenarioIds } from './../../shared/models/constants';
+import { SiteTabIds, ScenarioIds, LogCategories } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
 import { CacheService } from '../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
@@ -69,8 +70,8 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         private _portalService: PortalService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
-        private _scenarioService: ScenarioService) {
-
+        private _scenarioService: ScenarioService,
+        private _logService: LogService) {
 
         this._openTabSubscription = this._broadcastService.subscribe<string>(BroadcastEvent.OpenTab, tabId => {
             this.openFeature(tabId);
@@ -128,7 +129,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                     message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
                 }
 
-                this._aiService.trackException(e, '/errors/site-dashboard');
+                this._logService.error(LogCategories.siteDashboard, '/site-dashboard', e);
 
                 this._globalStateService.setDisabledMessage(message);
                 this._globalStateService.clearBusyState();
@@ -138,10 +139,14 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
 
                 this._broadcastService.clearAllDirtyStates();
 
+                this._logService.verbose(LogCategories.siteDashboard, `Received new input, updating tabs`);
+
                 for (let i = 0; i < this.tabInfos.length; i++) {
                     const info = this.tabInfos[i];
 
                     if (info.active) {
+                        this._logService.debug(LogCategories.siteDashboard, `Updating inputs for active tab '${info.id}'`);
+
                         // We're not recreating the active tab so that it doesn't flash in the UI
                         this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo };
                     } else {
@@ -151,6 +156,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                         // input in the future.  This also helps to dispose of other unused components
                         // when we switch apps.
                         this.tabInfos[i] = this._getTabInfo(info.id, false /* active */, { viewInfoInput: this.viewInfo });
+                        this._logService.debug(LogCategories.siteDashboard, `Creating new component for inactive tab '${info.id}'`);
                     }
                 }
 
@@ -191,6 +197,8 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     }
 
     selectTab(info: TabInfo) {
+        this._logService.verbose(LogCategories.siteDashboard, `Select Tab - ${info.id}`);
+
         this._aiService.trackEvent('/sites/open-tab', { name: info.id });
         this.tabInfos.forEach(t => t.active = t.id === info.id);
 
@@ -203,6 +211,8 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     }
 
     closeTab(info: TabInfo) {
+        this._logService.verbose(LogCategories.siteDashboard, `Close Tab - ${info.id}`);
+
         const tabIndexToClose = this.tabInfos.findIndex(i => i.id === info.id);
         if (tabIndexToClose >= 0) {
             this.tabInfos.splice(tabIndexToClose, 1);
