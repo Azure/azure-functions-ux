@@ -196,7 +196,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backend URL.
+        ///   Looks up a localized string similar to Backend URL (optinal).
         /// </summary>
         internal static string apiProxy_backendUrl {
             get {
@@ -4597,7 +4597,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request override.
+        ///   Looks up a localized string similar to Request override (optinal).
         /// </summary>
         internal static string rrOverride_request {
             get {
@@ -4606,7 +4606,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Response override.
+        ///   Looks up a localized string similar to Response override (optinal).
         /// </summary>
         internal static string rrOverride_response {
             get {

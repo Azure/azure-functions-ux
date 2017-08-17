@@ -941,7 +941,7 @@
     <value>Allowed HTTP methods</value>
   </data>
   <data name="apiProxy_backendUrl" xml:space="preserve">
-    <value>Backend URL</value>
+    <value>Backend URL (optinal)</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
     <value>Proxy or function with that name already exists.</value>
@@ -2189,9 +2189,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Status message</value>
   </data>
   <data name="rrOverride_request" xml:space="preserve">
-    <value>Request override</value>
+    <value>Request override (optinal)</value>
   </data>
   <data name="rrOverride_response" xml:space="preserve">
-    <value>Response override</value>
+    <value>Response override (optinal)</value>
   </data>
 </root>
