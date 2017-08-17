@@ -133,6 +133,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All resource groups.
+        /// </summary>
+        internal static string allResourceGroups {
+            get {
+                return ResourceManager.GetString("allResourceGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Always On.
         /// </summary>
         internal static string alwaysOnLabel {
@@ -196,7 +205,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backend URL (optinal).
+        ///   Looks up a localized string similar to Backend URL (optional).
         /// </summary>
         internal static string apiProxy_backendUrl {
             get {
@@ -4552,6 +4561,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource Group:.
+        /// </summary>
+        internal static string resourceGroupColon {
+            get {
+                return ResourceManager.GetString("resourceGroupColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} resource groups.
+        /// </summary>
+        internal static string resourceGroupCount {
+            get {
+                return ResourceManager.GetString("resourceGroupCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Waiting for the resource.
         /// </summary>
         internal static string resourceSelect {
@@ -4597,7 +4624,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request override (optinal).
+        ///   Looks up a localized string similar to Request override (optional).
         /// </summary>
         internal static string rrOverride_request {
             get {
@@ -4606,7 +4633,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Response override (optinal).
+        ///   Looks up a localized string similar to Response override (optional).
         /// </summary>
         internal static string rrOverride_response {
             get {
