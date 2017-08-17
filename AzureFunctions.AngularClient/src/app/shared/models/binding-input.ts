@@ -53,7 +53,6 @@ export class TextboxIntInput extends BindingInputBase<number>{
 
 export class EventGridInput extends BindingInputBase<string>{
 
-    subscribeUrl: string;
     bladeLabel: string;
 
     constructor() {
