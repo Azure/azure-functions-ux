@@ -5,7 +5,6 @@ import { EssentialColumn } from '../Models/EssentialItem';
 import { DeploymentData } from '../Models/deploymentData';
 import { CacheService } from '../../shared/services/cache.service';
 import { PortalService } from '../../shared/services/portal.service';
-import { BroadcastService } from '../../shared/services/broadcast.service';
 import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -22,7 +21,6 @@ import 'rxjs/add/observable/zip';
 import { BusyStateComponent } from '../../busy-state/busy-state.component';
 import { AuthzService } from '../../shared/services/authz.service';
 import { AiService } from '../../shared/services/ai.service';
-import { TranslateService } from '@ngx-translate/core';
 import { SiteTabComponent } from '../../site/site-dashboard/site-tab/site-tab.component';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 @Component({
@@ -36,7 +34,7 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
   public viewInfoStream: Subject<string>;
   private _viewInfoSubscription: RxSubscription;
 
-  private _providerHelpers: providerHelper;
+  public providerHelpers: providerHelper;
   private _writePermission = true;
   private _readOnlyLock = false;
   public hasWritePermissions = true;
@@ -50,10 +48,8 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
   @Input() resourceId: string;
 
   constructor(
-    private _translateService: TranslateService,
     private _portalService: PortalService,
     private _aiService: AiService,
-    private _broadcastService: BroadcastService,
     private _authZService: AuthzService,
     siteTabsComponent: SiteTabComponent,
     private _cacheService: CacheService) {
@@ -98,13 +94,13 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
           publishingCredentials: r.pubCreds,
           deployments: r.deployments
         };
-        this._providerHelpers = new VstsGithubHelper(this._cacheService);
+        this.providerHelpers = new VstsGithubHelper(this._cacheService, this._portalService);
 
         this._writePermission = r.writePermission;
         this._readOnlyLock = r.readOnlyLock;
         this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
         this._busyStateScopeManager.clearBusy();
-        return this._providerHelpers.getEssentialItems(this._deploymentObject);
+        return this.providerHelpers.getEssentialItems(this._deploymentObject);
       })
       .do(null, error => {
         this._deploymentObject = null;
@@ -115,9 +111,6 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
       .subscribe(r => {
         this.EssentialColumns = r;
       });
-    this._broadcastService.clearDirtyState('asiondaonisd', false);
-    this._translateService.instant('key');
-    this._portalService.closeBlades();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -129,6 +122,20 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
   get DeploymentSetUpComplete() {
     return this._deploymentObject && this._deploymentObject.siteConfig.properties.scmType !== 'None';
   }
+
+  get TableHeaders() {
+    const items = this.providerHelpers && this.providerHelpers.getTableHeaders(this._deploymentObject) || [];
+    return items;
+  }
+
+  get TableItems(){
+    const items = this.providerHelpers && this.providerHelpers.getTableItems(this._deploymentObject) || [];
+    return items;
+  }
   ngOnInit() {
+  }
+
+  onKeyPress(event: KeyboardEvent, header: string) {
+
   }
 }

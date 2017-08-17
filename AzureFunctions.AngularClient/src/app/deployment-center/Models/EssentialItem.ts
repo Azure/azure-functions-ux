@@ -6,6 +6,6 @@ export interface EssentialItem
 {
     label: string;
     icon: string;
-    onClick: (evt: any) => void;
+    onClick: () => void;
     text: string;
 }
