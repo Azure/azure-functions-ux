@@ -150,6 +150,8 @@ export class ScenarioIds {
     public static readonly addResourceExplorer = 'AddResourceExplorer';
     public static readonly addPushNotifications = 'AddPushNotifications';
     public static readonly addTinfoil = 'AddTinfoil';
+    public static readonly showSiteQuotas = 'ShowSiteQuotas';
+    public static readonly showSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
 }
 

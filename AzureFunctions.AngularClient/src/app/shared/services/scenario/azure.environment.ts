@@ -15,6 +15,20 @@ export class AzureEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.showSiteQuotas] = {
+            id: ScenarioIds.showSiteQuotas,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._showSiteQuotas(input);
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.showSiteFileStorage] = {
+            id: ScenarioIds.showSiteFileStorage,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._showSiteFileStorage(input);
+            }
+        };
+
         this.scenarioChecks[ScenarioIds.getSiteSlotLimits] = {
             id: ScenarioIds.getSiteSlotLimits,
             runCheckAsync: (input: ScenarioCheckInput) => {
@@ -25,6 +39,38 @@ export class AzureEnvironment extends Environment {
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
         return window.appsvc.env.runtimeType === 'Azure';
+    }
+
+    private _showSiteQuotas(input: ScenarioCheckInput) {
+        const site = input && input.site;
+
+        if (!site) {
+            throw Error('No site input specified');
+        }
+
+        const showQuotas = input.site.properties.sku === ServerFarmSku.free
+            || input.site.properties.sku === ServerFarmSku.shared;
+
+        return <ScenarioResult>{
+            status: showQuotas ? 'enabled' : 'disabled',
+            data: null
+        };
+    }
+
+    private _showSiteFileStorage(input: ScenarioCheckInput) {
+        const site = input && input.site;
+
+        if (!site) {
+            throw Error('No site input specified');
+        }
+
+        const showFileStorage = input.site.properties.sku !== ServerFarmSku.free
+            && input.site.properties.sku !== ServerFarmSku.shared;
+
+        return <ScenarioResult>{
+            status: showFileStorage ? 'enabled' : 'disabled',
+            data: null
+        };
     }
 
     private _getSlotLimit(input: ScenarioCheckInput) {

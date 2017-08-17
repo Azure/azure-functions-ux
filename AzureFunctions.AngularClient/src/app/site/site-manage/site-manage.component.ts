@@ -475,20 +475,37 @@ export class SiteManageComponent implements OnDestroy {
                 this._portalService,
                 this._hasPlanReadPermissionStream),
 
-            new DisableableBladeFeature(
-                this._translateService.instant(PortalResources.feature_quotasName),
-                this._translateService.instant(PortalResources.feature_quotasName),
-                this._translateService.instant(PortalResources.feature_quotasInfo),
-                'images/quotas.svg',
-                {
-                    detailBlade: 'QuotasBlade',
-                    detailBladeInputs: {
-                        resourceUri: site.id
-                    }
-                },
-                this._portalService,
-                null,
-                this._dynamicDisableInfo),
+            this._scenarioService.checkScenario(ScenarioIds.showSiteQuotas, { site: site }).status !== 'disabled'
+                ? new DisableableBladeFeature(
+                    this._translateService.instant(PortalResources.feature_quotasName),
+                    this._translateService.instant(PortalResources.feature_quotasName),
+                    this._translateService.instant(PortalResources.feature_quotasInfo),
+                    'images/quotas.svg',
+                    {
+                        detailBlade: 'QuotasBlade',
+                        detailBladeInputs: {
+                            resourceUri: site.id
+                        }
+                    },
+                    this._portalService,
+                    this._hasPlanReadPermissionStream)
+                : null,
+
+            this._scenarioService.checkScenario(ScenarioIds.showSiteFileStorage, { site: site }).status !== 'disabled'
+                ? new DisableableBladeFeature(
+                    this._translateService.instant(PortalResources.feature_quotasName),
+                    this._translateService.instant(PortalResources.feature_quotasName),
+                    this._translateService.instant(PortalResources.feature_quotasInfo),
+                    'images/quotas.svg',
+                    {
+                        detailBlade: 'FileSystemStorage',
+                        detailBladeInputs: {
+                            resourceUri: site.properties.serverFarmId
+                        }
+                    },
+                    this._portalService,
+                    this._hasPlanReadPermissionStream)
+                : null
         ];
 
         const resourceManagementFeatures = [
@@ -585,7 +602,9 @@ export class SiteManageComponent implements OnDestroy {
 
         this.groups3 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
-            new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures),
+            new FeatureGroup(
+                this._translateService.instant(PortalResources.appServicePlan),
+                appServicePlanFeatures.filter(f => !!f)),
             new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)];
     }
 }
