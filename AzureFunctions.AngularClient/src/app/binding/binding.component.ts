@@ -502,10 +502,9 @@ export class BindingComponent {
                     const input = new EventGridInput();
                     input.label = this._translateService.instant(PortalResources.eventGrid_label);
                     input.help = this._translateService.instant(PortalResources.eventGrid_help);
-                    input.value = `${this.functionApp.getMainSiteUrl()}/api/${this._functionInfo.name}`;
                     input.bladeLabel = this._functionInfo.name;
                     this.functionApp.getEventGridKey().subscribe(eventGridKey => {
-                        input.subscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this._functionInfo.name}&code=${eventGridKey}`;
+                        input.value = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this._functionInfo.name}&code=${eventGridKey}`;
                     });
                     this.model.inputs.push(input);
                 }
