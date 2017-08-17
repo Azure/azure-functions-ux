@@ -98,7 +98,7 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
           publishingCredentials: r.pubCreds,
           deployments: r.deployments
         };
-        this._providerHelpers = new VstsGithubHelper();
+        this._providerHelpers = new VstsGithubHelper(this._cacheService);
 
         this._writePermission = r.writePermission;
         this._readOnlyLock = r.readOnlyLock;
