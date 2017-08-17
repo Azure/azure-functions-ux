@@ -47,6 +47,7 @@ export class DeploymentCenterComponent implements OnInit {
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
 
+  public resourceId : string;
   constructor(
     private _translateService: TranslateService,
     private _portalService: PortalService,
@@ -65,6 +66,7 @@ export class DeploymentCenterComponent implements OnInit {
       .distinctUntilChanged()
       .switchMap(viewInfo => {
         this._busyStateScopeManager.setBusy();
+        this.resourceId = viewInfo.resourceId;
         return Observable.zip(
           this._cacheService.getArm(viewInfo.resourceId),
           this._cacheService.getArm(`${viewInfo.resourceId}/config/web`),

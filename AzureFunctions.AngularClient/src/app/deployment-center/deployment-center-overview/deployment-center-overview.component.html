@@ -8,77 +8,14 @@
 </command-bar>
 
 <div id="essentials-container">
-  <div class="essentials-col">
+  <div class="essentials-col" *ngFor="let column of EssentialColumns">
 
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
+    <div *ngFor="let item of column.items">
+      <label id="siteStatusLabel">{{item.label}}</label>
       <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
+        {{item.text}}
       </div>
     </div>
 
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
-      </div>
-    </div>
-
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
-      </div>
-    </div>
-
-  </div>
-  <div class="essentials-col">
-
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
-      </div>
-    </div>
-
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
-      </div>
-    </div>
-
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
-      </div>
-    </div>
-    
-  </div>
-
-  <div class="essentials-col">
-
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
-      </div>
-    </div>
-
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
-      </div>
-    </div>
-
-    <div>
-      <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-        <img src="images/swap.svg" /> Running
-      </div>
-    </div>
-    
   </div>
 </div>
