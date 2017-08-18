@@ -95,21 +95,10 @@ namespace AzureFunctions.Code
                         .Concat(new[] { storageCheckResult });
             }
 
-            // Check the master key
-            var masterKeyResult = await CheckMasterKey(functionApp);
-            if (checkReturns(masterKeyResult.DiagnosticsResults))
-            {
-                return resourceCheckResult.DiagnosticsResults
-                        .Concat(appSettingsCheckResult.DiagnosticsResults)
-                        .Concat(new[] { storageCheckResult })
-                        .Concat(masterKeyResult.DiagnosticsResults);
-            }
-
             // No need to call checkReturn here since it's the last check anyway.
             return resourceCheckResult.DiagnosticsResults
                     .Concat(appSettingsCheckResult.DiagnosticsResults)
-                    .Concat(new[] { storageCheckResult })
-                    .Concat(masterKeyResult.DiagnosticsResults);
+                    .Concat(new[] { storageCheckResult });
         }
 
         private async Task<DiagnosticsResult> CheckFunctionRuntimeResult(ArmResource<ArmFunctionApp> functionApp, string masterKey)
