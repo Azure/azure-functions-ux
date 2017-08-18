@@ -72,7 +72,7 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
           this._cacheService.getArm(`${resourceId}/deployments`),
           this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
           this._authZService.hasReadOnlyLock(resourceId),
-          (site, siteConfig, metadata, pubCreds, sourceControl, deployments, writePerm, readLock) => (
+          (site, siteConfig, metadata, pubCreds, sourceControl, deployments, writePerm: boolean, readLock: boolean) => (
             {
               site: site.json(),
               siteConfig: siteConfig.json(),
