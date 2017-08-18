@@ -1,3 +1,4 @@
+import { Dom } from './../../shared/Utilities/dom';
 import { LogService } from './../../shared/services/log.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { SiteConfigComponent } from './../site-config/site-config.component';
@@ -12,7 +13,7 @@ import { SiteManageComponent } from './../site-manage/site-manage.component';
 import { TabInfo } from './../../controls/tabs/tab/tab-info';
 import { SiteSummaryComponent } from './../site-summary/site-summary.component';
 import { SiteData } from './../../tree-view/models/tree-view-info';
-import { Component, SimpleChange, OnChanges, OnDestroy, Input } from '@angular/core';
+import { Component, SimpleChange, OnChanges, OnDestroy, Input, ElementRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
@@ -24,7 +25,7 @@ import 'rxjs/add/observable/zip';
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteTabIds, ScenarioIds, LogCategories } from './../../shared/models/constants';
+import { SiteTabIds, ScenarioIds, LogCategories, KeyCodes } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
 import { CacheService } from '../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
@@ -49,6 +50,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     public tabInfos: TabInfo[] = SiteDashboardComponent._tabInfos;
 
     @Input() viewInfo: TreeViewInfo<SiteData>;
+    @ViewChild('siteTabs') groupElements: ElementRef;
 
     public dynamicTabIds: (string | null)[] = [null, null];
     public site: ArmObj<Site>;
@@ -58,6 +60,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
 
     private _currentTabId: string;
     private _prevTabId: string;
+    private _currentTabIndex: number;
 
     private _tabsLoaded = false;
     private _openTabSubscription: RxSubscription;
@@ -105,6 +108,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         const activeTab = this.tabInfos.find(info => info.active);
         if (activeTab) {
             this._currentTabId = activeTab.id;
+            this._currentTabIndex = this.tabInfos.findIndex(info => info.active);
         }
 
         this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
@@ -208,6 +212,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         this._prevTabId = this._currentTabId;
         this._tabsLoaded = true;
         this._currentTabId = info.id;
+        this._currentTabIndex = this.tabInfos.findIndex(i => i.active);
     }
 
     closeTab(info: TabInfo) {
@@ -308,5 +313,53 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         }
 
         return info;
+    }
+
+    _getTabElements() {
+        return this.groupElements.nativeElement.children;
+    }
+
+    _clearFocusOnTab(elements: HTMLCollection, index: number) {
+        const oldFeature = Dom.getTabbableControl(<HTMLElement>elements[index]);
+        Dom.clearFocus(oldFeature);
+    }
+
+    _setFocusOnTab(elements: HTMLCollection, index: number) {
+        let finalIndex = -1;
+        let destFeature: Element;
+
+        if (elements.length > 0) {
+            finalIndex = Math.max(0, Math.min(index, elements.length - 1));
+            destFeature = elements[finalIndex];
+        }
+
+        this._currentTabIndex = finalIndex;
+
+        if (destFeature) {
+            const newFeature = Dom.getTabbableControl(<HTMLElement>destFeature);
+            Dom.setFocus(<HTMLElement>newFeature);
+        }
+    }
+
+    onKeyPress(event: KeyboardEvent, info: TabInfo) {
+
+        if (event.keyCode === KeyCodes.enter) {
+            this.selectTab(info);
+
+        } else if (event.keyCode === KeyCodes.arrowRight) {
+            const tabElements = this._getTabElements();
+            this._clearFocusOnTab(tabElements, this._currentTabIndex);
+            this._setFocusOnTab(tabElements, this._currentTabIndex + 1);
+            event.preventDefault();
+
+        } else if (event.keyCode === KeyCodes.arrowLeft) {
+            const tabElements = this._getTabElements();
+            this._clearFocusOnTab(tabElements, this._currentTabIndex);
+            this._setFocusOnTab(tabElements, this._currentTabIndex - 1);
+            event.preventDefault();
+
+        } else if (event.keyCode === KeyCodes.delete) {
+            this.closeTab(info);
+        }
     }
 }

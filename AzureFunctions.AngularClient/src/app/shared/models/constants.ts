@@ -187,6 +187,7 @@ export class KeyCodes {
     public static readonly arrowUp = 38;
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
+    public static readonly delete = 46;
 }
 
 export class DomEvents {

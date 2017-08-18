@@ -7,15 +7,20 @@
          src="images/pin.svg"
          (click)="pinPart()" />
 
-    <nav id="site-tabs">
+    <nav id="site-tabs" #siteTabs>
         <div *ngFor="let info of tabInfos"
             class="site-tab-label"
             [class.inactive-label]="!info.active"
             [class.closeable]="info.closeable"
-            (click)="selectTab(info)">
+            (click)="selectTab(info)"
+            [tabindex]="info.active ? 0 : -1"
+            (keydown)="onKeyPress($event, info)">
 
             <img *ngIf="info.iconUrl" [src]="info.iconUrl" />
-            <span *ngIf="info.dirty">* </span><span [class.tab-diry]="info.dirty">{{info.title}}</span>
+            <span *ngIf="info.dirty">* </span>
+            <span [class.tab-diry]="info.dirty">
+                  {{info.title}}
+            </span>
 
             <span *ngIf="info.closeable" class="close-button" (click)="closeTab(info)">
                 <i class="fa fa-times" aria-hidden="true"></i>
