@@ -12,7 +12,6 @@ enum LogLevel {
 @Injectable()
 export class LogService {
 
-    // static debugging: any; boolean = (Url.getParameterByName(null, "appsvc.log") === 'debug');
     private _logLevel: LogLevel;
     private _categories: string[];
 
@@ -32,8 +31,6 @@ export class LogService {
         this._categories = Url.getParameterArrayByName(null, 'appsvc.log.category');
     }
 
-    // TODO: Should we enforce that data is a standard generic object type?  It would make simple
-    // logging more complicated, but may help to promote better data being logged.
     public error(category: string, id: string, data: any) {
         if (!category || !id || !data) {
             throw Error('You must provide a category, id, and data');
