@@ -212,7 +212,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         this._prevTabId = this._currentTabId;
         this._tabsLoaded = true;
         this._currentTabId = info.id;
-        this._currentTabIndex = this.tabInfos.findIndex(i => i.active);
+        this._currentTabIndex = this.tabInfos.findIndex(i => i.id === info.id);
     }
 
     closeTab(info: TabInfo) {
@@ -229,6 +229,11 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                 } else {
                     this._selectTabId(SiteTabIds.overview);
                 }
+
+            // Even though you are not opening a new tab, you still must update the _currentTabIndex value
+            // to deal with a possible shift in position of the current tab
+            } else {
+                this._currentTabIndex = this.tabInfos.findIndex(i => i.id === this._currentTabId);
             }
 
             // If you close the previous tab, then this will make sure that you don't go back to it
@@ -359,7 +364,14 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
             event.preventDefault();
 
         } else if (event.keyCode === KeyCodes.delete) {
-            this.closeTab(info);
+            if (info.closeable) {
+                this.closeTab(info);
+                // Allow page to re-render tabs before setting focus on new one
+                setTimeout(() => {
+                    const tabElements = this._getTabElements();
+                    this._setFocusOnTab(tabElements, this._currentTabIndex);
+                }, 0);
+            }
         }
     }
 }
