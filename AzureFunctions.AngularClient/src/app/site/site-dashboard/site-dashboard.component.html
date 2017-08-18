@@ -17,10 +17,7 @@
             (keydown)="onKeyPress($event, info)">
 
             <img *ngIf="info.iconUrl" [src]="info.iconUrl" />
-            <span *ngIf="info.dirty">* </span>
-            <span [class.tab-diry]="info.dirty">
-                  {{info.title}}
-            </span>
+            <span *ngIf="info.dirty">* </span><span [class.tab-diry]="info.dirty">{{info.title}}</span>
 
             <span *ngIf="info.closeable" class="close-button" (click)="closeTab(info)">
                 <i class="fa fa-times" aria-hidden="true"></i>
