@@ -35,8 +35,8 @@ namespace AzureFunctions.Controllers
             { "ko", "ko-KR"},
             { "sv", "sv-SE"},
             { "cs", "cs-CZ"},
-            { "zh-hans", "zh-TW"},
-            { "zh-hant", "zh-CN"}
+            { "zh-hans", "zh-CN"},
+            { "zh-hant", "zh-TW"}
         };
 
         public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings, IDiagnosticsManager diagnosticsManager, TelemetryClient telemetryClient, IPassThroughRequestManager passThroughRequestManager)
