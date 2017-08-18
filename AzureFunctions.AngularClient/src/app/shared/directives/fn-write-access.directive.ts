@@ -23,6 +23,7 @@ export class FnWriteAccessDirective {
 
         this.functionAppStream
             .debounceTime(100)
+            .filter(fa => !!fa)
             .switchMap(fa => fa.getFunctionAppEditMode())
             .map(EditModeHelper.isReadOnly)
             .subscribe(isReadOnly => {

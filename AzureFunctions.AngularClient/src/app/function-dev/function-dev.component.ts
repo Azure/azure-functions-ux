@@ -37,6 +37,7 @@ import { HttpRunModel, Param } from '../shared/models/http-run';
 import { FunctionKey, FunctionKeys } from '../shared/models/function-key';
 import { FunctionAppEditMode } from "app/shared/models/function-app-edit-mode";
 import { LocalStorageService } from "app/shared/services/local-storage.service";
+import { AppNode } from "app/tree-view/app-node";
 
 
 @Component({
@@ -59,6 +60,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild('bottomContainer') bottomContainer: ElementRef;
 
     @Input() selectedFunction: FunctionInfo;
+    @Input() appNode: AppNode;
     public functionInfo: FunctionInfo;
     public functionUpdate: Subscription;
     public scriptFile: VfsObject;
@@ -84,10 +86,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public rightTab: string = FunctionDevComponent.rightTab;
     public bottomTab: string = FunctionDevComponent.bottomTab;
     public static rightTab: string;
-    public static bottomTab: string;
+    public static bottomTab: string | null;
     public functionInvokeUrl: string;
     public expandLogs: boolean = false;
-    public functionApp: FunctionApp;
     public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
     public masterKey: string;
@@ -105,8 +106,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     private functionKey: string;
     private _bindingManager = new BindingManager();
     private hostEventSubscription: Subscription;
-
+    private _functionAppSubscription: Subscription;
     private _isClientCertEnabled = false;
+    private _functionApp: FunctionApp;
 
     constructor(
         private _broadcastService: BroadcastService,
@@ -127,11 +129,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             .switchMap(file => {
                 if (this.fileExplorer)
                     this.fileExplorer.setBusyState();
-                return Observable.zip(this.selectedFunction.functionApp.getFileContent(file), Observable.of(file), (c, f) => ({ content: c, file: f }));
+                return Observable.zip(this._functionApp.getFileContent(file), Observable.of(file), (c, f) => ({ content: c, file: f }));
             })
             .subscribe((res: { content: string, file: VfsObject }) => {
                 this.content = res.content;
                 this.updatedContent = res.content;
+                //this.cd.detectChanges();
                 res.file.isDirty = false;
                 this.scriptFile = res.file;
                 this.fileName = res.file.name;
@@ -142,15 +145,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionSelectStream = new Subject<FunctionInfo>();
         this.functionSelectStream
             .switchMap(fi => {
-                this.functionApp = fi.functionApp;
-                this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
+                // this.functionApp = fi.functionApp;
+                this.disabled = this._functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
                 this._globalStateService.setBusyState();
                 this.checkErrors(fi);
 
                 return Observable.zip(
-                    fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
+                    fi.clientOnly || this._functionApp.isMultiKeySupported ? Observable.of({}) : this._functionApp.getSecrets(fi),
                     Observable.of(fi),
-                    this.functionApp.getAuthSettings(),
+                    this._functionApp.getAuthSettings(),
                     (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }))
             })
             .subscribe(res => {
@@ -180,6 +183,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     : { name: this.fileName, href: href, mime: 'file' };
                 this.selectedFileStream.next(this.scriptFile);
                 this.functionInfo = res.functionInfo;
+                // TODO: Understand why functionSelectStream is getting an invalid functionInfo.FunctionApp
+                if (this.functionInfo.functionApp !== this._functionApp) {
+                    this.functionInfo.functionApp = this._functionApp;
+                }
                 this.setInvokeUrlVisibility();
 
                 this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
@@ -213,7 +220,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.saveTestData();
                 }, 0);
 
-                if (!this.functionApp.isMultiKeySupported) {
+                if (!this._functionApp.isMultiKeySupported) {
                     this.setFunctionInvokeUrl();
                     this.setFunctionKey(this.functionInfo);
                 } else if (this._isClientCertEnabled) {
@@ -344,13 +351,25 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             });
         }
 
-        if(this.hostEventSubscription){
+        if (this.hostEventSubscription) {
             this.hostEventSubscription.unsubscribe();
             this.hostEventSubscription = null;
         }
-        
+
+        if (this._functionAppSubscription) {
+            this._functionAppSubscription.unsubscribe();
+            this._functionAppSubscription = null;
+        }
+
         FunctionDevComponent.rightTab = this.rightTab;
-        FunctionDevComponent.bottomTab = this.bottomTab;
+
+        // the ErrorsWarningsComponent doesn't handle being open on FunctionDev load.
+        // so don't save the state if it was the last opened bottomTab.
+        if (this.bottomTab !== 'errors') {
+            FunctionDevComponent.bottomTab = this.bottomTab;
+        } else {
+            FunctionDevComponent.bottomTab = null;
+        }
     }
 
     ngAfterContentInit() {
@@ -375,37 +394,51 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (changes['selectedFunction']) {
             delete this.updatedTestContent;
             delete this.runResult;
+            if (this.bottomTab === 'errors') {
+                this.bottomTab = null;
+            }
             const selectedFunction = changes['selectedFunction'].currentValue;
-            if (selectedFunction) {
-                this.selectedFunction.functionApp.hostEventClient.readHostEvents();
-                this.functionSelectStream.next(changes['selectedFunction'].currentValue);
+            if (selectedFunction && this.appNode) {
 
-                if(this.hostEventSubscription){
-                    this.hostEventSubscription.unsubscribe();
+                if (this._functionAppSubscription) {
+                    this._functionAppSubscription.unsubscribe();
                 }
 
-                this.hostEventSubscription = this.selectedFunction.functionApp.hostEventClient.events
-                    .do(null, e => {
-                         this._aiService.trackEvent('/errors/functionDevReadingHostEvents', {
-                             error: e, app: this.selectedFunction.functionApp.site.id
-                         });
-                    })
-                    .retry()
-                    .subscribe((r: any) => {
-                        if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0)) {
-                            if (this.bottomTab !== "errors") {
-                                this.clickBottomTab("errors");
+                this._functionAppSubscription = this.appNode.functionAppStream
+                    .filter(i => !!i)
+                    .subscribe(functionApp => {
+                        this._functionApp = functionApp;
+                        if (this._functionApp.hostEventClient) {
+                            this._functionApp.hostEventClient.readHostEvents();
+                            this.functionSelectStream.next(changes['selectedFunction'].currentValue);
+
+                            if (this.hostEventSubscription) {
+                                this.hostEventSubscription.unsubscribe();
                             }
+
+                            this.hostEventSubscription = this._functionApp.hostEventClient.events
+                                .do(null, e => {
+                                    this._aiService.trackEvent('/errors/functionDevReadingHostEvents', {
+                                        error: e, app: this._functionApp.site.id
+                                    });
+                                })
+                                .retry()
+                                .subscribe((r: any) => {
+                                    if (this.functionInfo.name === r.functionName && (r.diagnostics && r.diagnostics.length > 0)) {
+                                        if (this.bottomTab !== "errors") {
+                                            this.clickBottomTab("errors");
+                                        }
+                                    }
+                                });
                         }
                     });
-
             }
         }
     }
 
     private setFunctionKey(functionInfo) {
         if (functionInfo) {
-            this.functionApp.getFunctionKeys(functionInfo)
+            this._functionApp.getFunctionKeys(functionInfo)
                 .subscribe(keys => {
                     if (keys && keys.keys && keys.keys.length > 0) {
                         this.functionKey = keys.keys.find(k => k.name === "default").value || keys.keys[0].value;
@@ -426,8 +459,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 code = key;
             } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
                 code = this.secrets.key;
-            } else if (this.isHttpFunction && this.functionApp.HostSecrets && !this._isClientCertEnabled) {
-                code = this.functionApp.HostSecrets;
+            } else if (this.isHttpFunction && this._functionApp.HostSecrets && !this._isClientCertEnabled) {
+                code = this._functionApp.HostSecrets;
             }
 
             if (this.webHookType && key) {
@@ -441,7 +474,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     code = '';
                 }
             }
-            if (this.authLevel.toLowerCase() === 'anonymous') {
+            if (this.authLevel && this.authLevel.toLowerCase() === 'anonymous') {
                 code = null;
             }
             if (code) {
@@ -451,7 +484,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
             }
 
-            this.functionApp.getHostJson().subscribe((jsonObj) => {
+            this._functionApp.getHostJson().subscribe((jsonObj) => {
                 var that = this;
                 var result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix !== undefined && jsonObj.http.routePrefix !== null) ? jsonObj.http.routePrefix : 'api';
                 var httpTrigger = this.functionInfo.config.bindings.find((b) => {
@@ -470,7 +503,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 path = path.replace(re, '/');
                 path = path.replace('/?', '?') + queryParams;
 
-                this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
+                this.functionInvokeUrl = this._functionApp.getMainSiteUrl() + path;
                 this.runValid = true;
 
 
@@ -501,7 +534,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                     errorId: ErrorIds.errorParsingConfig,
                     errorType: ErrorType.UserError,
-                    resourceId: this.functionApp.site.id
+                    resourceId: this._functionApp.site.id
                 });
                 return;
             }
@@ -520,7 +553,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             .first()
             .switchMap(r => {
                 notificationId = r.id;
-                return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo);
+                return this._functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo);
             })
             .subscribe(r => {
                 if (!dontClearBusy) {
@@ -532,7 +565,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this._portalService.setDirtyState(false);
                 }
                 if (syncTriggers) {
-                    this.functionApp.fireSyncTrigger();
+                    this._functionApp.fireSyncTrigger();
                 }
                 this._portalService.stopNotification(
                     notificationId,
@@ -568,7 +601,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         var test_data = this.getTestData();
         if (this.functionInfo.test_data !== test_data) {
             this.functionInfo.test_data = test_data;
-            this.functionApp.updateFunction(this.functionInfo)
+            this._functionApp.updateFunction(this.functionInfo)
                 .subscribe(r => {
                     Object.assign(this.functionInfo, r);
                     if (this.updatedTestContent) {
@@ -630,7 +663,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     checkErrors(functionInfo: FunctionInfo) {
-        this.functionApp.getFunctionErrors(functionInfo)
+        this._functionApp.getFunctionErrors(functionInfo)
             .subscribe(errors => {
                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalFunctionErrorFromHost + functionInfo.name);
                 // Give clearing a chance to run
@@ -642,12 +675,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                                 details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
                                 errorId: ErrorIds.generalFunctionErrorFromHost + functionInfo.name,
                                 errorType: ErrorType.FunctionError,
-                                resourceId: this.functionApp.site.id
+                                resourceId: this._functionApp.site.id
                             });
                             this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
                         });
                     } else {
-                        this.functionApp.getHostErrors()
+                        this._functionApp.getHostErrors()
                             .subscribe(hostErrors => {
                                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalHostErrorFromHost);
                                 // Give clearing a chance to run
@@ -658,7 +691,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                                             details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
                                             errorId: ErrorIds.generalHostErrorFromHost,
                                             errorType: ErrorType.RuntimeError,
-                                            resourceId: this.functionApp.site.id
+                                            resourceId: this._functionApp.site.id
                                         });
                                         this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
                                     });
@@ -698,7 +731,9 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     onRunValid(runValid: any) {
-        this.runValid = runValid && this.functionInvokeUrl !== this._translateService.instant(PortalResources.functionDev_loading);
+        setTimeout(() => {
+            this.runValid = runValid && this.functionInvokeUrl !== this._translateService.instant(PortalResources.functionDev_loading);
+        }, 100);
     }
 
     setShowFunctionInvokeUrlModal(value: boolean) {
@@ -763,8 +798,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         } else {
             var testData = this.getTestData();
 
-            var result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
-                this.functionApp.runFunction(this.functionInfo, this.getTestData());
+            var result = (this.runHttp) ? this._functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
+                this._functionApp.runFunction(this.functionInfo, this.getTestData());
 
             this.running = result.subscribe(r => {
                 this.runResult = r;
@@ -778,10 +813,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private updateKeys() {
-        if (this.functionApp && this.functionInfo) {
+        if (this._functionApp && this.functionInfo) {
             Observable.zip(
-                this.functionApp.getFunctionKeys(this.functionInfo),
-                this.functionApp.getFunctionHostKeys(),
+                this._functionApp.getFunctionKeys(this.functionInfo),
+                this._functionApp.getFunctionHostKeys(),
                 (k1, k2) => ({ functionKeys: k1, hostKeys: k2 }))
                 .subscribe((r: any) => {
                     this.functionKeys = r.functionKeys || [];

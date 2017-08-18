@@ -1,7 +1,7 @@
 <!--<tutorial></tutorial>-->
 <div *ngIf="tabId === 'develop'" class="function-edit-content-dev">
     <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
-    <function-dev [selectedFunction]="selectedFunction"></function-dev>
+    <function-dev [selectedFunction]="selectedFunction" [appNode]="appNode"></function-dev>
 </div>
 <div *ngIf="tabId === 'integrate'" class="function-edit-content">
     <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>

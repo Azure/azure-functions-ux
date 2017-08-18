@@ -23,6 +23,7 @@ export class HostEventClient implements Disposable {
 
     private currentPosition: number = 0;
     private currentStream: string;
+    private initialized: boolean = false;
 
     constructor(
         private _http: Http,
@@ -31,6 +32,7 @@ export class HostEventClient implements Disposable {
         private _functionApp: FunctionApp) {
         this.events = new ReplaySubject<HostEvent>(1);
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
+        this.initialized = true;
     }
 
     dispose() {
@@ -43,7 +45,11 @@ export class HostEventClient implements Disposable {
         }
     }
 
-    public readHostEvents(createEmpty: boolean = true, log?: string) {        
+    public readHostEvents(createEmpty: boolean = true, log?: string) {      
+        if(!this.initialized){
+            return;
+        }
+
         const maxCharactersInLog = 500000;
         const intervalIncreaseThreshold = 1000;
         const defaultInterval = 500;

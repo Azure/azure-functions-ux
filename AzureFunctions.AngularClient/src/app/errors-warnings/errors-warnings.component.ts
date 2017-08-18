@@ -19,7 +19,7 @@ import { FileSelectionRequest } from '../shared/models/file-selection-request';
 import { FunctionDevComponent } from '../function-dev/function-dev.component';
 import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
- 
+
 @Component({
     selector: 'errors-warnings',
     templateUrl: './errors-warnings.component.html',
@@ -45,53 +45,66 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
     private startLineNumberColumnWidth: number = 50;
     private startColumnColumnWidth: number = 75;
     private pendingFileChange: string = "";
+    private currFunctionInfo: FunctionInfo = null;
     @Input() functionInfo: FunctionInfo;
     @Input() monacoEditor: MonacoEditorDirective;
     @Input() fileExplorer: FileExplorerComponent;
+    @Input() rightTab: string;
     @Output() expandClicked = new EventEmitter<boolean>();
     @Output() diagnosticDblClicked = new EventEmitter<any>();
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
 
     constructor(
-        private _userService: UserService, 
+        private _userService: UserService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService) {
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (this.functionInfo && this.monacoEditor) {
-
-            if(ErrorsWarningsComponent.functionsDiagnostics[this.functionInfo.name]){
+        if (this.functionInfo &&
+            this.functionInfo.functionApp &&
+            this.functionInfo.functionApp.hostEventClient &&
+            this.monacoEditor) {
+            if (ErrorsWarningsComponent.functionsDiagnostics[this.functionInfo.name]) {
                 this.diagnostics = ErrorsWarningsComponent.functionsDiagnostics[this.functionInfo.name];
             }
 
-            if(!this.hostEventSubscription){
+            if (this.functionInfo !== this.currFunctionInfo) {
+                if (this.hostEventSubscription) {
+                    this.hostEventSubscription.unsubscribe();
+                    this.hostEventSubscription = null;
+                }
+
+                this.currFunctionInfo = this.functionInfo;
+
                 this.hostEventSubscription = this.functionInfo.functionApp.hostEventClient.events
-                .do(null, e => {
-                         this._aiService.trackEvent('/errors/functionDevReadingHostEvents', {
-                             error: e, app: this.functionInfo.functionApp.site.id
-                         });
+                    .do(null, e => {
+                        this._aiService.trackEvent('/errors/functionDevReadingHostEvents', {
+                            error: e, app: this.functionInfo.functionApp.site.id
+                        });
                     })
-                .retry()
-                .subscribe((r: any) => {
-                    ErrorsWarningsComponent.functionsDiagnostics[r.functionName] = r.diagnostics;
-                    if (this.functionInfo && this.functionInfo.name === r.functionName) {
-                        this.diagnostics = r.diagnostics;
-                        this.monacoEditor.setDiagnostics(this.diagnostics);
-                        this.clearBusyState();
-                    }
-                });
+                    .retry()
+                    .subscribe((r: any) => {
+                        ErrorsWarningsComponent.functionsDiagnostics[r.functionName] = r.diagnostics;
+                        if (this.functionInfo && this.functionInfo.name === r.functionName) {
+                            this.diagnostics = r.diagnostics;
+                            this.monacoEditor.setDiagnostics(this.diagnostics);
+                            this.clearBusyState();
+                        }
+                    });
+
             }
+
         }
         else {
             this.diagnostics = [];
         }
 
-        if(this.monacoEditor){
+        if (this.monacoEditor) {
             this.monacoEditor.setDiagnostics(this.diagnostics);
         }
-        this.changeFiles(this.pendingFileChange); 
+        this.changeFiles(this.pendingFileChange);
     }
 
     ngOnInit(): void {
@@ -126,22 +139,22 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
             delete this.hostEventSubscription;
         }
 
-        if(this.monacoSaveSubscription) {
+        if (this.monacoSaveSubscription) {
             this.monacoSaveSubscription.unsubscribe();
             delete this.monacoSaveSubscription;
         }
 
-        if(this.monacoContentChangedSubscription) {
+        if (this.monacoContentChangedSubscription) {
             this.monacoContentChangedSubscription.unsubscribe();
             delete this.monacoContentChangedSubscription;
         }
 
-        if(this.fileSelectionSubscription) {
+        if (this.fileSelectionSubscription) {
             this.fileSelectionSubscription.unsubscribe();
             delete this.fileSelectionSubscription;
         }
 
-        if(this.fileExplorerReadySubscription) {
+        if (this.fileExplorerReadySubscription) {
             this.fileExplorerReadySubscription.unsubscribe();
             delete this.fileExplorerReadySubscription;
         }
@@ -176,20 +189,20 @@ export class ErrorsWarningsComponent implements OnInit, OnChanges, OnDestroy {
         if (this.monacoEditor.CurrentFileName !== diagnostic.source) {
             if (!this.fileExplorer) {
                 this.diagnosticDblClicked.emit(null);
+                this.pendingFileChange = diagnostic.source;
             } else {
                 this.changeFiles(diagnostic.source);
             }
-            this.pendingFileChange = diagnostic.source; 
         }
         this.monacoEditor.setPosition(diagnostic.startLineNumber, diagnostic.startColumn);
     }
 
     private changeFiles(fileName: string) {
-        if(!this.fileExplorer || !this.pendingFileChange){
+        if (!this.fileExplorer || !this.pendingFileChange) {
             return;
         }
-        
-        if(!this.fileExplorer.files) {
+
+        if (!this.fileExplorer.files) {
             this.fileExplorerReadySubscription = this.fileExplorer.fileExplorerReady.subscribe(() => {
                 this.changeFiles(fileName);
             });

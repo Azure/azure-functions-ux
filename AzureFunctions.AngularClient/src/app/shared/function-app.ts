@@ -370,7 +370,12 @@ export class FunctionApp implements Disposable {
      * This function returns the content of a file from kudu as a string.
      * @param file either a VfsObject or a string representing the file's href.
      */
-    @Cache('href')
+
+    //@Cache('href')
+    //^^ commenting out @Cache('href') forces the UI to update the file content.
+    //when changing files from the errors and warnings component, in certain scenarios the 
+    //file content doesn't get updated when @Cache('href') is included
+    
     getFileContent(file: VfsObject | string) {
         let fileHref = typeof file === 'string' ? file : file.href;
         let fileName = this.getFileName(file);
