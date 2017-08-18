@@ -172,7 +172,7 @@ export class NationalCloudArmUris {
     public static readonly mooncake = 'https://management.chinacloudapi.cn';
 }
 
-export class LogCategories{
+export class LogCategories {
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';
 }

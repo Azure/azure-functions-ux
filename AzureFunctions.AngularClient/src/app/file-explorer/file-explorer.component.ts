@@ -1,3 +1,4 @@
+import { FileUtilities } from './../shared/Utilities/file';
 import { Component, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
@@ -38,8 +39,6 @@ export class FileExplorerComponent implements OnChanges {
     creatingNewFile: boolean;
     renamingFile: boolean;
     newFileName: string;
-
-    private binaryExtensions = ['.zip', '.exe', '.dll', '.png', '.jpeg', '.jpg', '.gif', '.bmp', '.ico', '.pdf', '.so', '.ttf', '.bz2', '.gz', '.jar', '.cab', '.tar', '.iso', '.img', '.dmg'];
 
     public uploader: FileUploader;
     public functionApp: FunctionApp;
@@ -326,7 +325,7 @@ export class FileExplorerComponent implements OnChanges {
         return arr
             .filter(e => e.mime !== 'inode/directory')
             .map(e => {
-                e.isBinary = this.binaryExtensions.some(t => e.name.endsWith(t));
+                e.isBinary = FileUtilities.isBinary(e.name);
                 return e;
             })
             .sort((a, b) => a.name.localeCompare(b.name));
