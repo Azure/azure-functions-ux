@@ -333,8 +333,15 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         let finalIndex = -1;
         let destFeature: Element;
 
+        // Wrap around logic for navigating through a tab list
         if (elements.length > 0) {
-            finalIndex = Math.max(0, Math.min(index, elements.length - 1));
+            if (index > 0 && index < elements.length) {
+                finalIndex = index;
+            } else if (index === -1) {
+                finalIndex = elements.length - 1;
+            } else {
+                finalIndex = 0;
+            }
             destFeature = elements[finalIndex];
         }
 
