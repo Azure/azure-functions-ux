@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { KeyCodes } from '../shared/models/constants';
 
 @Component({
     selector: 'pop-over',
@@ -13,6 +14,7 @@ export class PopOverComponent {
     @Input() isInputWarning: boolean;
     @Input() popOverClass = 'pop-over-container';
     @Input() position: string;
+    @Input() isShiftTabPressed: boolean;
 
     public show: boolean;
 
@@ -25,21 +27,32 @@ export class PopOverComponent {
         if (!this.hideAfter) {
             this.show = false;
         }
-        if (event.relatedTarget && this.validURL(event.relatedTarget)) {
+
+        // Pressing Shift + Tab causes the links to open
+        if (!this.isShiftTabPressed && event.relatedTarget && this.validURL(event.relatedTarget)) {
             window.open(
                 event.relatedTarget.toString(),
                 '_blank' // <- This is what makes it open in a new window.
             );
         }
+        this.isShiftTabPressed = false;
     }
 
-    onFocus(_: Event) {
+    popUpContent() {
         this.show = true;
-
         if (this.hideAfter) {
             setTimeout(() => {
                 this.show = false;
             }, this.hideAfter);
+        }
+    }
+
+    onKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.tab && event.shiftKey === true) {
+            this.isShiftTabPressed = true;
+        }
+        if (event.keyCode === KeyCodes.enter) {
+            this.popUpContent();
         }
     }
 
