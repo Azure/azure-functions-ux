@@ -1,12 +1,10 @@
-import { HeaderObject, TableRow } from '../../Models/TableObjects';
-import { VSOBuildDefinition } from '../../Models/VSOBuildDefinition';
+import { VSOBuildDefinition } from '../../Models/VSOBuildModels';
 import { providerHelper } from '../providerHelper';
 import { DeploymentData } from '../../Models/deploymentData';
 import { Observable} from 'rxjs/Rx';
 import { EssentialColumn, EssentialItem } from '../../Models/EssentialItem';
-import * as moment from 'moment';
 
-export class VstsGithubHelper extends providerHelper
+export class VstsHelper extends providerHelper
 {
     public getEssentialItems(data: DeploymentData): Observable<EssentialColumn[]>
     {
@@ -31,44 +29,6 @@ export class VstsGithubHelper extends providerHelper
 
     public get showTable(){
         return true;
-    }
-
-    public getTableHeaders(data: DeploymentData): HeaderObject[] {
-        return [
-            {
-                id: 'time',
-                label: 'Time',
-                class: null
-            },
-            {
-                id: 'status',
-                label: 'Status',
-                class: null
-            },
-            {
-                id: 'message',
-                label: 'Message',
-                class: null
-            }];
-    }
-
-    public getTableItems(data: DeploymentData): TableRow[]{
-        const rows: TableRow[] = [];
-
-
-        data.deployments.value.forEach(value => {
-            const row: TableRow = {
-                tableColumns: []
-            };
-            const momentTime =  moment(value.properties.end_time, moment.ISO_8601);
-
-            row.tableColumns.push(momentTime.format('YYYY-MM-DD hh:mm:ss A'));
-            const completeString = value.properties.complete ? 'Complete' : 'In Progress';
-            row.tableColumns.push(`<font color="green">${completeString}</font>`);
-            row.tableColumns.push(JSON.parse(value.properties.message).message);
-            rows.push(row);
-        });
-        return rows;
     }
 // region columns
     private getColumn1(data: DeploymentData, vsoDef: VSOBuildDefinition ){
@@ -119,9 +79,9 @@ export class VstsGithubHelper extends providerHelper
         const item2: EssentialItem = {
             icon: null,
             label: 'Repository',
-            text: vsoDef.repository.id,
+            text: vsoDef.repository.url,
             onClick: () => {
-                const win = window.open(vsoDef.repository.id, '_blank');
+                const win = window.open(vsoDef.repository.url, '_blank');
                 win.focus();
             }
         };
@@ -149,7 +109,14 @@ export class VstsGithubHelper extends providerHelper
             label: 'Deployment Slot',
             text:  !!slotName ? slotName : 'Production',
             onClick: !slotName ? null : () => {
-                console.log(slotName);
+
+                this._portalService.openBlade(
+                {
+                    detailBlade: 'AppsOverviewBlade',
+                    detailBladeInputs: {
+                        id: `${data.site.id}/slots/${slotName}`
+                    }
+                }, 'deployment-center');
             }
         };
 

@@ -1,8 +1,7 @@
 import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
-import { TblThComponent } from './tbl-th/tbl-th.component';
-import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, ContentChildren, QueryList } from '@angular/core';
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Input, OnChanges, SimpleChange, ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 export interface TableItem {
   type: 'row' | 'group';
@@ -26,11 +25,10 @@ export class TblComponent implements OnInit, OnChanges {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
   @Input() items: TableItem[];
-
   // groupColName will be what col items are sorted by within individual groups
   // if no grouping is done in the table it is null
   @Input() groupColName: string | null;
-  @ContentChildren(forwardRef(() => TblThComponent)) headers: QueryList<TblThComponent>;
+  //@ContentChildren(forwardRef(() => TblThComponent)) headers: QueryList<TblThComponent>;
 
   @ViewChild('tbl') table: ElementRef;
 
@@ -315,7 +313,7 @@ export class TblComponent implements OnInit, OnChanges {
     return this._origItems;
   }
 
-  groupItems(name: string) {
+  groupItems(name: string, sortDir: 'asc' | 'desc' = 'asc') {
 
     if (!this.groupColName) {
       throw Error('No group name was specified for this table component');
@@ -341,7 +339,7 @@ export class TblComponent implements OnInit, OnChanges {
 
           return bCol.localeCompare(aCol);
         });
-
+      
       // determine uniqueGroup values
       const uniqueDictGroups = {};
       newItems.forEach(item => {
@@ -365,7 +363,8 @@ export class TblComponent implements OnInit, OnChanges {
       // reverse newItems to be all groups, sorted, followed by all rows, sorted then push onto items in correct order
       this.items = [];
       newItems.reverse();
-      uniqueGroups.sort().forEach(group => {
+      const sortMult = sortDir === 'asc' ? 1 : -1;
+      uniqueGroups.sort((a, b) => a.localeCompare(b) * sortMult).forEach(group => {
         newItems.forEach(item => {
           if (item.type === 'group' && item[this.groupColName] === group) {
             this.items.push(item);

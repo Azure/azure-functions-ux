@@ -1,5 +1,5 @@
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import { VstsGithubHelper } from '../providerTools/vsts/vsts-github-provider';
+import { VstsHelper } from '../providerTools/vsts/vsts-provider';
 import { providerHelper } from '../providerTools/providerHelper';
 import { EssentialColumn } from '../Models/EssentialItem';
 import { DeploymentData } from '../Models/deploymentData';
@@ -39,7 +39,7 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
   private _readOnlyLock = false;
   public hasWritePermissions = true;
 
-  private _deploymentObject: DeploymentData;
+  public deploymentObject: DeploymentData;
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
 
@@ -86,7 +86,7 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
         );
       })
       .switchMap(r => {
-        this._deploymentObject = {
+        this.deploymentObject = {
           site: r.site,
           siteConfig: r.siteConfig,
           siteMetadata: r.metadata,
@@ -94,16 +94,16 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
           publishingCredentials: r.pubCreds,
           deployments: r.deployments
         };
-        this.providerHelpers = new VstsGithubHelper(this._cacheService, this._portalService);
+        this.providerHelpers = new VstsHelper(this._cacheService, this._portalService);
 
         this._writePermission = r.writePermission;
         this._readOnlyLock = r.readOnlyLock;
         this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
         this._busyStateScopeManager.clearBusy();
-        return this.providerHelpers.getEssentialItems(this._deploymentObject);
+        return this.providerHelpers.getEssentialItems(this.deploymentObject);
       })
       .do(null, error => {
-        this._deploymentObject = null;
+        this.deploymentObject = null;
         this._aiService.trackEvent('/errors/deployment-center', error);
         this._busyStateScopeManager.clearBusy();
       })
@@ -120,18 +120,9 @@ export class DeploymentCenterOverviewComponent implements OnInit, OnChanges {
   }
 
   get DeploymentSetUpComplete() {
-    return this._deploymentObject && this._deploymentObject.siteConfig.properties.scmType !== 'None';
+    return this.deploymentObject && this.deploymentObject.siteConfig.properties.scmType !== 'None';
   }
 
-  get TableHeaders() {
-    const items = this.providerHelpers && this.providerHelpers.getTableHeaders(this._deploymentObject) || [];
-    return items;
-  }
-
-  get TableItems(){
-    const items = this.providerHelpers && this.providerHelpers.getTableItems(this._deploymentObject) || [];
-    return items;
-  }
   ngOnInit() {
   }
 

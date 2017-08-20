@@ -1,5 +1,3 @@
-import { TableRow } from '../Models/TableObjects';
-import { HeaderObject } from '../Models/tableObjects';
 import { PortalService } from '../../shared/services/portal.service';
 import { CacheService } from '../../shared/services/cache.service';
 import { DeploymentData } from '../Models/deploymentData';
@@ -16,14 +14,6 @@ export class providerHelper {
 
     public get showTable(){
         return false;
-    }
-
-    public getTableHeaders(data: DeploymentData): HeaderObject[] {
-        return [];
-    }
-
-    public getTableItems(data: DeploymentData): TableRow[] {
-        return [];
     }
 
     public get showLoadTestCommand(){

@@ -21,16 +21,6 @@
     </div>
   </div>
 </div>
-<div class="list-collection-container">
-  <tbl [items]="TableItems" #table="tbl" *ngIf="this.providerHelpers?.showTable">
-    <tr>
-      <th *ngFor="let header of TableHeaders">
-        <tbl-th [name]="header.id">{{header.label}}</tbl-th>
-      </th>
-    </tr>
 
-    <tr *ngFor="let item of TableItems">
-      <td *ngFor="let c of item.tableColumns" [innerHtml]="c"></td>
-    <tr>
-  </tbl>
-</div>
+
+<app-vsts-deployment-table [deploymentsData]="deploymentObject?.deployments"></app-vsts-deployment-table>

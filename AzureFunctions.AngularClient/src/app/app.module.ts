@@ -1,4 +1,7 @@
 import {
+    VstsDeploymentTableComponent,
+} from './deployment-center/providerTools/vsts/vsts-deployment-table/vsts-deployment-table.component';
+import {
     DeploymentCenterOverviewComponent,
 } from './deployment-center/deployment-center-overview/deployment-center-overview.component';
 import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
@@ -242,7 +245,8 @@ export class AppModule {
       RequestResposeOverrideComponent,
       BindingEventGridComponent,
       DeploymentCenterComponent,
-      DeploymentCenterOverviewComponent
+      DeploymentCenterOverviewComponent,
+      VstsDeploymentTableComponent
     ],
     imports: [
       FormsModule,
