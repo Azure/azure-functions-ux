@@ -50,8 +50,8 @@ export function maybeAuthenticate(req: Request, res: Response, next: NextFunctio
 
 function authStrategy() {
     const strategyConfig = {
-        clientID: 'bb821372-fb14-4cf2-8580-888c67420b4a',
-        clientSecret: 'G/qZirbTd6A/OwaMEWfJEt3xn6CiOhVK3hndm+d9jss=',
+        clientID: process.env.AADClientId,
+        clientSecret: process.env.AADClientSecret,
         callbackURL: constants.authentication.redirectUrl,
         resource: constants.authentication.resource
     };

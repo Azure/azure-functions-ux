@@ -1,11 +1,25 @@
-import { TblComponent } from '../../../../controls/tbl/tbl.component';
-import { ActivityDetailsLog, KuduLogMessage, UrlInfo } from '../../../Models/VSOBuildModels';
-import { VSTSLogMessageType } from '../../../Models/DeploymentEnums';
+import { BusyStateScopeManager } from '../../../busy-state/busy-state-scope-manager';
+import { BusyStateComponent } from '../../../busy-state/busy-state.component';
+import { SiteTabComponent } from '../../../site/site-dashboard/site-tab/site-tab.component';
+import { AuthzService } from '../../../shared/services/authz.service';
+import { AiService } from '../../../shared/services/ai.service';
+import { Observable, Subject } from 'rxjs/Rx';
+import { CacheService } from '../../../shared/services/cache.service';
+import { PortalService } from '../../../shared/services/portal.service';
+import { TblComponent } from '../../../controls/tbl/tbl.component';
+import { ActivityDetailsLog, KuduLogMessage, UrlInfo, VSOBuildDefinition } from '../../Models/VSOBuildModels';
+import { VSTSLogMessageType } from '../../Models/DeploymentEnums';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Deployment } from '../../../Models/deploymentData';
-import { ArmArrayResult } from '../../../../shared/models/arm/arm-obj';
+import { Deployment, DeploymentData } from '../../Models/deploymentData';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
+
+class VSODeploymentObject extends DeploymentData
+{
+  VSOData: VSOBuildDefinition;
+}
+
 @Component({
   selector: 'app-vsts-deployment-table',
   templateUrl: './vsts-deployment-table.component.html',
@@ -13,25 +27,109 @@ import * as moment from 'moment';
 })
 export class VstsDeploymentTableComponent implements OnChanges {
 
-  @Input() deploymentsData: ArmArrayResult<Deployment>;
+  @Input() resourceId: string;
   @ViewChild('table') appTable: TblComponent;
   private _tableItems: ActivityDetailsLog[];
   public activeDeployment: ActivityDetailsLog;
-  constructor() { }
+
+  _busyState: BusyStateComponent;
+  public viewInfoStream: Subject<string>;
+  _viewInfoSubscription: RxSubscription;
+  _busyStateScopeManager: BusyStateScopeManager;
+  _writePermission = true;
+  _readOnlyLock = false;
+  public hasWritePermissions = true;
+  public deploymentObject: VSODeploymentObject;
+
+  constructor(
+    private _portalService: PortalService,
+    private _cacheService: CacheService,
+    private _aiService: AiService,
+    private _authZService: AuthzService,
+    siteTabsComponent: SiteTabComponent,
+  ) {
+
+    this._busyState = siteTabsComponent.busyState;
+    this._busyStateScopeManager = this._busyState.getScopeManager();
+
+    this.viewInfoStream = new Subject<string>();
+    this._viewInfoSubscription = this.viewInfoStream
+      .distinctUntilChanged()
+      .switchMap(resourceId => {
+        this._busyStateScopeManager.setBusy();
+        return Observable.zip(
+          this._cacheService.getArm(resourceId),
+          this._cacheService.getArm(`${resourceId}/config/web`),
+          this._cacheService.postArm(`${resourceId}/config/metadata/list`),
+          this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`),
+          this._cacheService.getArm(`${resourceId}/sourcecontrols/web`),
+          this._cacheService.getArm(`${resourceId}/deployments`),
+          this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
+          this._authZService.hasReadOnlyLock(resourceId),
+          (site, siteConfig, metadata, pubCreds, sourceControl, deployments, writePerm: boolean, readLock: boolean) => (
+            {
+              site: site.json(),
+              siteConfig: siteConfig.json(),
+              metadata: metadata.json(),
+              pubCreds: pubCreds.json(),
+              sourceControl: sourceControl.json(),
+              deployments: deployments.json(),
+              writePermission: writePerm,
+              readOnlyLock: readLock
+            })
+        );
+      })
+      .do(null, error => {
+        this.deploymentObject = null;
+        this._aiService.trackEvent('/errors/deployment-center', error);
+        this._busyStateScopeManager.clearBusy();
+      })
+      .retry()
+      .switchMap(r => {
+        this.deploymentObject = {
+          site: r.site,
+          siteConfig: r.siteConfig,
+          siteMetadata: r.metadata,
+          sourceControls: r.sourceControl,
+          publishingCredentials: r.pubCreds,
+          deployments: r.deployments,
+          VSOData: null
+        };
+        this._tableItems = [];
+        this.deploymentObject.deployments.value.forEach(element => {
+          const tableItem: ActivityDetailsLog = this._populateActivityDetails(element.properties);
+          tableItem.type = 'row';
+          this._tableItems.push(tableItem);
+        });
+        setTimeout(() => {
+          this.appTable.groupItems('date', 'desc');
+        }, 0);
+        this._writePermission = r.writePermission;
+        this._readOnlyLock = r.readOnlyLock;
+        this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+        this._busyStateScopeManager.clearBusy();
+
+        const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
+
+        const endpoint = vstsMetaData['VSTSRM_ConfiguredCDEndPoint'];
+        const endpointUri = new URL(endpoint);
+        const projectId = vstsMetaData['VSTSRM_ProjectId'];
+        const buildId = vstsMetaData['VSTSRM_BuildDefinitionId'];
+
+
+        return this._cacheService.get(`https://${endpointUri.host}/DefaultCollection/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`)
+
+      })
+      .subscribe(r => {
+        this.deploymentObject.VSOData = r.json();
+      });
+
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
-
-    if (!this.deploymentsData) { return };
-    this._tableItems = [];
-    this.deploymentsData.value.forEach(element => {
-      const tableItem: ActivityDetailsLog = this._populateActivityDetails(element.properties);
-      tableItem.type = 'row';
-      this._tableItems.push(tableItem);
-    });
-    setTimeout(() => {
-      this.appTable.groupItems('date', 'desc');
-    }, 0);
-
+    if (changes['resourceId']) {
+      this.viewInfoStream.next(this.resourceId);
+    }
   }
 
   private _assignLogType(logType: string): VSTSLogMessageType {
@@ -70,8 +168,8 @@ export class VstsDeploymentTableComponent implements OnChanges {
     var date: Date = new Date(item.end_time);
     var message: string = item.message;
 
-    // populate activity details according to the message format 
-    var messageToAdd: ActivityDetailsLog;
+    // populate activity details according to the message format
+    let messageToAdd: ActivityDetailsLog;
     if (!this._isMessageFormatJSON(message)) {
       messageToAdd = this._createDeploymentLogFromStringMessage(item, date);
     } else {
@@ -98,7 +196,7 @@ export class VstsDeploymentTableComponent implements OnChanges {
       id: item.id,
       icon: item.status === 4 ? 'images/success.svg' : 'images/error.svg',
 
-      //grouping is done by date therefore time information is excluded
+      // grouping is done by date therefore time information is excluded
       date: t.format('M/D/YY'),
 
       time: t.format('h:mm:ss A'),
@@ -141,7 +239,7 @@ export class VstsDeploymentTableComponent implements OnChanges {
 
   private _getCommitUrl(messageJSON: KuduLogMessage): string {
     if (messageJSON.commitId != null) {
-      var repoName: string = messageJSON.repoProvider.toLowerCase();
+      let repoName: string = messageJSON.repoProvider.toLowerCase();
       switch (repoName) {
         case 'tfsgit':
           return '{0}{1}/_git/{2}/commit/{3}'.format(messageJSON.collectionUrl, messageJSON.teamProject, messageJSON.repoName, messageJSON.commitId);
@@ -174,9 +272,9 @@ export class VstsDeploymentTableComponent implements OnChanges {
   }
 
   private _getUrlInfoFromJSONMessage(messageJSON: KuduLogMessage): UrlInfo[] {
-    var urlInfo: UrlInfo[] = [];
+    let urlInfo: UrlInfo[] = [];
     if (messageJSON.commitId) {
-      let commitUrl: string = this._getCommitUrl(messageJSON);
+      const commitUrl: string = this._getCommitUrl(messageJSON);
       if (commitUrl) {
         urlInfo.push({
           urlIcon: 'images/deployment-center/CD-Commit.svg',
@@ -186,7 +284,7 @@ export class VstsDeploymentTableComponent implements OnChanges {
       }
     }
     if (messageJSON.buildNumber) {
-      let buildUrl: string = this._getBuildUrl(messageJSON);
+      const buildUrl: string = this._getBuildUrl(messageJSON);
       if (buildUrl) {
         urlInfo.push({
           urlIcon: 'images/deployment-center/CD-Build.svg',
@@ -196,7 +294,7 @@ export class VstsDeploymentTableComponent implements OnChanges {
       }
     }
     if (messageJSON.releaseId) {
-      let releaseUrl: string = this._getReleaseUrl(messageJSON);
+      const releaseUrl: string = this._getReleaseUrl(messageJSON);
       if (releaseUrl) {
         urlInfo.push({
           urlIcon: 'images/deployment-center/CD-Release.svg',
@@ -303,5 +401,68 @@ export class VstsDeploymentTableComponent implements OnChanges {
 
   get TableItems() {
     return this._tableItems || [];
+  }
+
+  get AccountText() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return 'Loading..';
+    const url = new URL(this.deploymentObject.VSOData.url).host;
+    return url;
+  }
+
+  accountOnClick() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return;
+    const url = new URL(this.deploymentObject.VSOData.url).host;
+    const win = window.open(`https://${url}`, '_blank');
+    win.focus();
+  }
+
+  get SourceText() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return 'Loading..';
+    return this.deploymentObject.VSOData.repository.type;
+  }
+
+  get ProjectName() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return 'Loading..';
+    return this.deploymentObject.VSOData.project.name;
+  }
+
+  get RepositoryText() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return 'Loading..';
+    return this.deploymentObject.VSOData.repository.url;
+  }
+
+  repositoryOnClick() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return;
+    const win = window.open(this.deploymentObject.VSOData.repository.url, '_blank');
+    win.focus();
+  }
+
+  get LoadTestText() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return 'Loading..';
+    const testSiteName = this.deploymentObject.siteMetadata.properties['VSTSRM_TestAppName'];
+
+    return !!testSiteName ? 'Enabled' : 'Disabled';
+  }
+  get BranchText() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return 'Loading..';
+    return this.deploymentObject.VSOData.repository.defaultBranch.replace('refs/heads/', '');
+  }
+
+  get SlotName() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return 'Loading..';
+    const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
+    return !!slotName ? slotName : null;
+  }
+
+  slotOnClick() {
+    if(!this.deploymentObject || !this.deploymentObject.VSOData) return;
+    const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
+    this._portalService.openBlade(
+      {
+          detailBlade: 'AppsOverviewBlade',
+          detailBladeInputs: {
+              id: `${this.deploymentObject.site.id}/slots/${slotName}`
+          }
+      }, 'deployment-center');
   }
 }

@@ -1,1 +1,1 @@
-<app-deployment-center-overview *ngIf="DeploymentSetUpComplete" [resourceId]="resourceId"> </app-deployment-center-overview>
+<app-vsts-deployment-table *ngIf="DeploymentSetUpComplete && ScmType === 'VSTSRM'" [resourceId]="resourceId"> </app-vsts-deployment-table>

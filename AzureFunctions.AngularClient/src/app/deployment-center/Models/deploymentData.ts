@@ -2,7 +2,7 @@ import { PublishingCredentials } from '../../shared/models/publishing-credential
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { Site } from '../../shared/models/arm/site';
 import { ArmArrayResult, ArmObj } from '../../shared/models/arm/arm-obj';
-export interface DeploymentData
+export class DeploymentData
 {
     site: ArmObj<Site>;
     siteConfig: ArmObj<SiteConfig>;

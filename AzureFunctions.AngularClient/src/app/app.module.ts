@@ -1,9 +1,6 @@
 import {
     VstsDeploymentTableComponent,
-} from './deployment-center/providerTools/vsts/vsts-deployment-table/vsts-deployment-table.component';
-import {
-    DeploymentCenterOverviewComponent,
-} from './deployment-center/deployment-center-overview/deployment-center-overview.component';
+} from './deployment-center/providerDashboards/vsts/vsts-deployment-table.component';
 import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
 import { DynamicLoaderDirective } from './shared/directives/dynamic-loader.directive';
 import { DownloadFunctionAppContentComponent } from './download-function-app-content/download-function-app-content.component';
@@ -245,7 +242,6 @@ export class AppModule {
       RequestResposeOverrideComponent,
       BindingEventGridComponent,
       DeploymentCenterComponent,
-      DeploymentCenterOverviewComponent,
       VstsDeploymentTableComponent
     ],
     imports: [

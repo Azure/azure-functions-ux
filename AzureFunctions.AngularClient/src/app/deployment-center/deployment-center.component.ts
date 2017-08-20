@@ -98,6 +98,10 @@ export class DeploymentCenterComponent implements OnInit {
   get DeploymentSetUpComplete(){
     return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None';
   }
+
+  get ScmType(){
+   return this._siteConfigObject && this._siteConfigObject.properties.scmType;
+  }
   ngOnInit() {
   }
 
