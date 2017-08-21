@@ -16,7 +16,7 @@
             [tabindex]="info.active ? 0 : -1"
             (keydown)="onKeyPress($event, info)"
             role="tab"
-            attr.aria-controls="site-tab-content"
+            aria-controls="site-tab-content"
             [attr.aria-selected]="info.active ? 0 : -1">
 
             <img *ngIf="info.iconUrl" [src]="info.iconUrl" />
@@ -29,7 +29,7 @@
         </div>
     </nav>
 
-    <section id="site-tab-content">
+    <section id="site-tab-content" role="tabpanel">
 
         <site-tab *ngFor="let info of tabInfos"
             [title]="info.title"
@@ -38,8 +38,7 @@
             [closeable]="info.closeable"
             [iconUrl]="info.iconUrl"
             [componentFactory]="info.componentFactory"
-            [componentInput]="info.componentInput"
-            role="tabpanel"></site-tab>
+            [componentInput]="info.componentInput"></site-tab>
 
     </section>
 </div>
