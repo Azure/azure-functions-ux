@@ -16,8 +16,8 @@
             [tabindex]="info.active ? 0 : -1"
             (keydown)="onKeyPress($event, info)"
             role="tab"
-            aria-controls="site-tabs"
-            aria-selected="info.active ? 0 : -1">
+            [attr.aria-controls]="site-tab-content"
+            [attr.aria-selected]="info.active ? 0 : -1">
 
             <img *ngIf="info.iconUrl" [src]="info.iconUrl" />
             <span *ngIf="info.dirty">* </span><span [class.tab-diry]="info.dirty">{{info.title}}</span>
@@ -39,8 +39,7 @@
             [iconUrl]="info.iconUrl"
             [componentFactory]="info.componentFactory"
             [componentInput]="info.componentInput"
-            role="tabpanel"
-            [attr.aria-labelledby]="info.id"></site-tab>
+            role="tabpanel"></site-tab>
 
     </section>
 </div>
