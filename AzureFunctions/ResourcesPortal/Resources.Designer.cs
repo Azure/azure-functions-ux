@@ -205,7 +205,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backend URL (optional).
+        ///   Looks up a localized string similar to Backend URL.
         /// </summary>
         internal static string apiProxy_backendUrl {
             get {
@@ -4399,6 +4399,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optional.
+        /// </summary>
+        internal static string optional {
+            get {
+                return ResourceManager.GetString("optional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string options {
@@ -4624,7 +4633,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request override (optional).
+        ///   Looks up a localized string similar to Request override.
         /// </summary>
         internal static string rrOverride_request {
             get {
@@ -4633,7 +4642,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Response override (optional).
+        ///   Looks up a localized string similar to Response override.
         /// </summary>
         internal static string rrOverride_response {
             get {
