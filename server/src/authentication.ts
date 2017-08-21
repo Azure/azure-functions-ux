@@ -12,19 +12,27 @@ export function setupAuthentication(app: Application) {
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
-    app.get('/.login',
-        passport.authenticate('azure_ad_oauth2', { failureRedirect: '/.login/error', }),
+    app.get(
+        '/.login',
+        passport.authenticate('azure_ad_oauth2', {
+            failureRedirect: '/.login/error'
+        }),
         (_, res) => {
             // Successful authentication, redirect home.
             res.redirect('/');
-        });
+        }
+    );
 
-    app.get('/manage',
-        passport.authenticate('azure_ad_oauth2', { failureRedirect: '/.login/error' }),
+    app.get(
+        '/manage',
+        passport.authenticate('azure_ad_oauth2', {
+            failureRedirect: '/.login/error'
+        }),
         (_, res) => {
             // Successful authentication, redirect home.
             res.redirect('/');
-        });
+        }
+    );
 
     app.get('/.login/error', (_, res) => {
         res.status(500).send('There was an error in login');
@@ -39,12 +47,15 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     res.redirect('/.login');
 }
 
-export function maybeAuthenticate(req: Request, res: Response, next: NextFunction) {
+export function maybeAuthenticate(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     if (req.isAuthenticated()) {
         return next();
     }
-    if(1===1)
-        return next();
+    //if (1 === 1) return next();
     res.redirect('/.login');
 }
 
@@ -56,7 +67,13 @@ function authStrategy() {
         resource: constants.authentication.resource
     };
 
-    const userReducer = (_: string, __: string, params: Token, ___: any, done: any) => {
+    const userReducer = (
+        _: string,
+        __: string,
+        params: Token,
+        ___: any,
+        done: any
+    ) => {
         const user = jwt.decode(params.id_token) as User;
         user.token = params;
         done(null, user);

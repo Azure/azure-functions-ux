@@ -1,3 +1,4 @@
+import { setupGithubAuthentication } from './deployment-center/githubAuth';
 import * as https from 'https';
 import * as fs from 'fs';
 import * as bodyParser from 'body-parser';
@@ -12,19 +13,24 @@ import './polyfills';
 import { getTemplates } from './actions/templates';
 import { getTenants, switchTenant, getToken } from './actions/user-account';
 import { getConfig } from './actions/ux-config';
-import { proxy } from './actions/proxy'
+import { proxy } from './actions/proxy';
 import {
     getBindingConfig,
     getResources,
     getRuntimeVersion,
     getRoutingVersion
 } from './actions/metadata';
-import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
+import {
+    setupAuthentication,
+    authenticate,
+    maybeAuthenticate
+} from './authentication';
 import { config } from './config';
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')))
+app
+    .use(express.static(path.join(__dirname, 'public')))
     .use(logger('dev'))
     .set('view engine', 'pug')
     .set('views', 'src/views')
@@ -36,6 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')))
     .use(passport.session());
 
 setupAuthentication(app);
+
+setupGithubAuthentication(app);
 
 app.get('/', maybeAuthenticate, (_, res) => {
     res.render('index', {
@@ -76,6 +84,9 @@ app.post('/api/passthrough', maybeAuthenticate, proxy);
 
 var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
 var certificate = fs.readFileSync('selfcert.pem', 'utf8');
-const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app);
+const httpsServer = https.createServer(
+    { key: privateKey, cert: certificate },
+    app
+);
 
 httpsServer.listen(44300);

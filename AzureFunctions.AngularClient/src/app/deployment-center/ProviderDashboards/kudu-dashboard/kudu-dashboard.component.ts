@@ -107,6 +107,12 @@ export class KuduDashboardComponent implements OnChanges {
             .subscribe(r => {});
     }
 
+    AuthGithub() {
+        this._cacheService.get('/auth/github').subscribe(r => {
+            console.log(r);
+        });
+    }
+
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
             this.viewInfoStream.next(this.resourceId);
