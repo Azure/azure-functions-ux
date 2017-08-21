@@ -2194,4 +2194,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="rrOverride_response" xml:space="preserve">
     <value>Response override (optional)</value>
   </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>Click to hide</value>
+  </data>
 </root>
