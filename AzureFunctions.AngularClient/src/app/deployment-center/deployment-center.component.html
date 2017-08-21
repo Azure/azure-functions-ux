@@ -1,1 +1,2 @@
 <app-vsts-deployment-table *ngIf="DeploymentSetUpComplete && ScmType === 'VSTSRM'" [resourceId]="resourceId"> </app-vsts-deployment-table>
+<app-kudu-dashboard *ngIf="DeploymentSetUpComplete && ScmType !== 'VSTSRM'" [resourceId]="resourceId"> </app-kudu-dashboard>

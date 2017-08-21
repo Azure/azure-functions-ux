@@ -1,6 +1,5 @@
-import {
-    VstsDeploymentTableComponent,
-} from './deployment-center/providerDashboards/vsts/vsts-deployment-table.component';
+import { KuduDashboardComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dashboard.component';
+import { VstsDeploymentTableComponent } from './deployment-center/providerDashboards/vsts/vsts-deployment-table.component';
 import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
 import { DynamicLoaderDirective } from './shared/directives/dynamic-loader.directive';
 import { DownloadFunctionAppContentComponent } from './download-function-app-content/download-function-app-content.component';
@@ -125,16 +124,21 @@ import { BindingEventGridComponent } from './binding-event-grid/binding-event-gr
 export function ArmServiceFactory(
   http: Http,
   userService: UserService,
-  aiService: AiService) {
-  const service = window.location.pathname.toLowerCase() === '/try' ?
-    new ArmTryService(http, userService, aiService) :
-    new ArmService(http, userService, aiService);
+  aiService: AiService
+) {
+  const service =
+    window.location.pathname.toLowerCase() === '/try'
+      ? new ArmTryService(http, userService, aiService)
+      : new ArmService(http, userService, aiService);
 
   return service;
 }
 
 export function AiServiceFactory() {
-  const service = window.location.pathname.toLowerCase() === '/try' ? new AiTryService() : new AiService();
+  const service =
+    window.location.pathname.toLowerCase() === '/try'
+      ? new AiTryService()
+      : new AiService();
   return service;
 }
 
@@ -147,7 +151,7 @@ export class AppModule {
       FunctionRuntimeComponent,
       SwaggerDefinitionComponent,
       SiteConfigComponent,
-      SiteConfigStandaloneComponent, 
+      SiteConfigStandaloneComponent,
       DeploymentCenterComponent
     ],
     declarations: [
@@ -242,7 +246,8 @@ export class AppModule {
       RequestResposeOverrideComponent,
       BindingEventGridComponent,
       DeploymentCenterComponent,
-      VstsDeploymentTableComponent
+      VstsDeploymentTableComponent,
+      KuduDashboardComponent
     ],
     imports: [
       FormsModule,
@@ -263,11 +268,9 @@ export class AppModule {
       BroadcastService,
       FunctionMonitorService,
       {
-        provide: ArmService, useFactory: ArmServiceFactory, deps: [
-          Http,
-          UserService,
-          AiService
-        ]
+        provide: ArmService,
+        useFactory: ArmServiceFactory,
+        deps: [Http, UserService, AiService]
       },
       CacheService,
       SlotsService,
@@ -278,7 +281,7 @@ export class AppModule {
       BackgroundTasksService,
       GlobalStateService,
       { provide: AiService, useFactory: AiServiceFactory },
-      { provide: ErrorHandler, useClass: GlobalErrorHandler },
+      { provide: ErrorHandler, useClass: GlobalErrorHandler }
     ],
     bootstrap: [AppComponent]
   };
