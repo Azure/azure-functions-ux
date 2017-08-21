@@ -47,7 +47,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         super(sideNav, null, rootNode);
 
         this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
-        // this.inSelectedTree = !!this.newDashboardType;
 
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'images/BulletList.svg';
@@ -58,7 +57,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         this._getSearchStream()
             .subscribe((result: { term: string, children: TreeNode[] }) => {
-                this._searchObs = null;
 
                 if (!result) {
                     this.isLoading = false;
