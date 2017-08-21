@@ -7,14 +7,17 @@
          src="images/pin.svg"
          (click)="pinPart()" />
 
-    <nav id="site-tabs" #siteTabs>
+    <nav id="site-tabs" role="tablist" #siteTabs>
         <div *ngFor="let info of tabInfos"
             class="site-tab-label"
             [class.inactive-label]="!info.active"
             [class.closeable]="info.closeable"
             (click)="selectTab(info)"
             [tabindex]="info.active ? 0 : -1"
-            (keydown)="onKeyPress($event, info)">
+            (keydown)="onKeyPress($event, info)"
+            role="tab"
+            aria-controls="site-tabs"
+            aria-selected="info.active ? 0 : -1">
 
             <img *ngIf="info.iconUrl" [src]="info.iconUrl" />
             <span *ngIf="info.dirty">* </span><span [class.tab-diry]="info.dirty">{{info.title}}</span>
@@ -35,7 +38,9 @@
             [closeable]="info.closeable"
             [iconUrl]="info.iconUrl"
             [componentFactory]="info.componentFactory"
-            [componentInput]="info.componentInput"></site-tab>
+            [componentInput]="info.componentInput"
+            role="tabpanel"
+            [attr.aria-labelledby]="info.id"></site-tab>
 
     </section>
 </div>

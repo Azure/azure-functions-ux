@@ -355,8 +355,9 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
 
     onKeyPress(event: KeyboardEvent, info: TabInfo) {
 
-        if (event.keyCode === KeyCodes.enter) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
             this.selectTab(info);
+            event.preventDefault();
 
         } else if (event.keyCode === KeyCodes.arrowRight) {
             const tabElements = this._getTabElements();
