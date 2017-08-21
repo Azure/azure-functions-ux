@@ -64,7 +64,7 @@ export class SideNavComponent implements AfterViewInit {
 
     private _savedSubsKey = '/subscriptions/selectedIds';
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
-    private _searchTermStream = new Subject<string>();
+    private _searchTermStream = new ReplaySubject<string>(1);
 
     private _initialized = false;
 

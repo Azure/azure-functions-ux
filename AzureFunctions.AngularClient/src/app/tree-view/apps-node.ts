@@ -24,12 +24,18 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.apps;
+    public supportsRefresh = true;
 
     public resourceId = '/apps';
     public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
     private _exactAppSearchExp = '\"(.+)\"';
     private _subscriptions: Subscription[];
+
+    private _searchObs: Observable<{
+        term: string;
+        children: TreeNode[];
+    }>;
 
     constructor(
         sideNav: SideNavComponent,
@@ -41,7 +47,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         super(sideNav, null, rootNode);
 
         this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
-        this.inSelectedTree = !!this.newDashboardType;
+        // this.inSelectedTree = !!this.newDashboardType;
 
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'images/BulletList.svg';
@@ -50,34 +56,10 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             this.children = children;
         });
 
-        this._searchTermStream
-            .debounceTime(400)
-            .distinctUntilChanged()
-            .switchMap((searchTerm) => {
-                return this._subscriptionsStream.distinctUntilChanged()
-                    .map(subscriptions => {
-                        return {
-                            searchTerm: searchTerm,
-                            subscriptions: subscriptions
-                        };
-                    });
-            })
-            .switchMap(result => {
-
-                if (!result.subscriptions || result.subscriptions.length === 0) {
-                    return Observable.of(null);
-                }
-
-                // Purposely not calling next on childrenStream because that would cause appsListComponent
-                // to think that loading is complete with empty children, when really you want it to
-                // only update when we get responses from the server.
-                this.children = [];
-
-                this.isLoading = true;
-                this._subscriptions = result.subscriptions;
-                return this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, 0, null);
-            })
+        this._getSearchStream()
             .subscribe((result: { term: string, children: TreeNode[] }) => {
+                this._searchObs = null;
+
                 if (!result) {
                     this.isLoading = false;
                     return;
@@ -112,8 +94,68 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             });
     }
 
+    public handleSelection(): Observable<any> {
+        this.inSelectedTree = true;
+        this.supportsRefresh = true;
+        return super.handleSelection();
+    }
+
     public dispose() {
+
+        // For now, we're just hiding the refresh icon if you're not currently on the apps node.  The only reason
+        // is because we're not properly handling the restoration of the selection properly if you're currently
+        // selected on a node that's a few levels deep in the tree.  If we fix that, then we just need to also
+        // make sure that we check for dirty state before we allow someone to refresh.
+        this.inSelectedTree = false;
+        this.supportsRefresh = false;
+
         this._initialResourceId = '';
+    }
+
+    public handleRefresh(): Observable<any> {
+        this.childrenStream.next([]);
+        this.sideNav.cacheService.clearArmIdCachePrefix(`/resources`);
+
+        return this._getSearchStream().first();
+    }
+
+    private _getSearchStream() {
+        return this._searchTermStream
+            .debounceTime(400)
+            .distinctUntilChanged()
+            .switchMap((searchTerm) => {
+                return this._subscriptionsStream.distinctUntilChanged()
+                    .map(subscriptions => {
+                        return {
+                            searchTerm: searchTerm,
+                            subscriptions: subscriptions
+                        };
+                    });
+            })
+            .switchMap(result => {
+
+                if (!result.subscriptions || result.subscriptions.length === 0) {
+                    return Observable.of(null);
+                }
+
+                this.childrenStream.next([]);
+
+                this.isLoading = true;
+                this.supportsRefresh = false;
+
+                this._subscriptions = result.subscriptions;
+
+                if (!this._searchObs) {
+                    this._searchObs = this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, 0, null);
+                }
+
+                return this._searchObs;
+            })
+            .do(() => {
+                this._searchObs = null;
+                this.supportsRefresh = true;
+            })
+            .share();
     }
 
     private _doSearch(
@@ -203,7 +245,8 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                         children: children,
                     });
                 }
-            });
+            })
+            .share();
     }
 
     public addChild(childSiteObj: ArmObj<Site>) {
