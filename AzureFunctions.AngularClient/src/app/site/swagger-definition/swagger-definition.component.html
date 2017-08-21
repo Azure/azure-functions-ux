@@ -9,7 +9,7 @@
             <div [class.collapse]="!swaggerEnabled">
                 <label class="setting-title">{{'swaggerDefinition_useAPIdefinition' | translate}}</label>
                 <pop-over [position]="'bottom'" [message]="'swaggerDefinition_exporthelp' | translate">
-                    <span class="glyphicon glyphicon-info-sign button-title" tabindex="-1"></span>
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
                 <div class="setting-wrapper">
                     <!--<button class="custom-button medium">Download Function Keys</button>-->
@@ -19,7 +19,7 @@
             <div [class.collapse]="!swaggerEnabled">
                 <label class="setting-title">{{'swaggerDefinition_url' | translate}}</label>
                 <pop-over [position]="'bottom'" [message]="'swaggerDefinition_urlHelp' | translate">
-                    <span class="glyphicon glyphicon-info-sign button-title" tabindex="-1"></span>
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
                 <div class="setting-wrapper">
                     <copy-pre [content]="swaggerURL" tabindex="-1"></copy-pre>
@@ -32,7 +32,7 @@
                         tabindex="0" (keydown)="apiDefinitionKeyDown($event)"></i>
                     <label class="setting-title-collapsible link" (click)="toggleKeyVisibility()">{{'swaggerDefinition_key' | translate}}</label>
                     <pop-over [position]="'bottom'" [message]="'swaggerDefinition_keyHelp' | translate">
-                        <span class="glyphicon glyphicon-info-sign button-title" tabindex="-1"></span>
+                        <span class="glyphicon glyphicon-info-sign button-title"></span>
                     </pop-over>
                 </div>
                 <div [class.collapse]="!keyVisible">
@@ -47,7 +47,7 @@
             <div>
                 <label class="setting-title">{{'swaggerDefinition_source' | translate}}</label>
                 <pop-over [position]="'bottom'" [message]="'swaggerDefinition_sourceHelp' | translate">
-                    <span class="glyphicon glyphicon-info-sign button-title" tabindex="-1"></span>
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
                 <div class="setting-wrapper">
                     <div style="min-width: 270px">
@@ -85,7 +85,7 @@
                     <button class="custom-button-invert left medium" (click)="resetEditor()">{{ 'swaggerDefinition_revert' | translate }}</button>
                     <button class="custom-button left medium" (click)='LoadGeneratedDataInEditor()'>{{'swaggerDefinition_loadGeneratedDefinition' | translate}}</button>
                     <pop-over [position]="'bottom'" style="padding:5px;" [message]="'swaggerDefinition_generateHelp' | translate">
-                        <span class="glyphicon glyphicon-info-sign button-title" tabindex="-1"></span>
+                        <span class="glyphicon glyphicon-info-sign button-title"></span>
                     </pop-over>
                 </div>
                 <div class="header right">
