@@ -1,5 +1,5 @@
+import { LogService } from './../log.service';
 import { NationalCloudEnvironment } from './national-cloud.environment';
-import { Logger } from './../../Utilities/logger';
 import { DynamicSiteEnvironment } from './dynamic-site.environment';
 import { SiteSlotEnvironment } from './site-slot.environment';
 import { Observable } from 'rxjs/Observable';
@@ -9,6 +9,7 @@ import { ScenarioCheckInput } from './scenario.models';
 import { StandaloneEnvironment } from './stand-alone.environment';
 import { Environment } from './scenario.models';
 import { Injectable } from '@angular/core';
+import { LogCategories } from 'app/shared/models/constants';
 
 @Injectable()
 export class ScenarioService {
@@ -19,7 +20,7 @@ export class ScenarioService {
         new DynamicSiteEnvironment()
     ];
 
-    constructor() {
+    constructor(private _logService: LogService) {
 
         // National cloud environments inherit from AzureEnvironment so we ensure there
         // aren't duplicates to reduce the chance of conflicts in behavior.
@@ -135,7 +136,7 @@ export class ScenarioService {
             };
         }
 
-        Logger.debug(`[ScenarioService] final result: id = ${result.id}, environment = ${result.environmentName}, status = ${result.status}`);
+        this._logService.debug(LogCategories.scenarioService, `Final result: id = ${result.id}, environment = ${result.environmentName}, status = ${result.status}`);
 
         return result;
     }

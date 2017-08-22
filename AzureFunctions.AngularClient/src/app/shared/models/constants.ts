@@ -173,6 +173,11 @@ export class NationalCloudArmUris {
     public static readonly mooncake = 'https://management.chinacloudapi.cn';
 }
 
+export class LogCategories {
+    public static readonly siteDashboard = 'SiteDashboard';
+    public static readonly scenarioService = 'ScenarioService';
+}
+
 export class KeyCodes {
     public static readonly tab = 9;
     public static readonly enter = 13;
@@ -183,6 +188,7 @@ export class KeyCodes {
     public static readonly arrowUp = 38;
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
+    public static readonly delete = 46;
 }
 
 export class DomEvents {

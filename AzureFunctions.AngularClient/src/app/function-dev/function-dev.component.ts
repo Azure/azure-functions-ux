@@ -1,3 +1,4 @@
+import { FileUtilities } from './../shared/Utilities/file';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
 import { Component, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef } from '@angular/core';
@@ -165,7 +166,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this._globalStateService.clearBusyState();
                 this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
                 let href = res.functionInfo.script_href;
-                if (this.fileName.toLowerCase().endsWith('dll')) {
+
+                if (FileUtilities.isBinary(this.fileName)) {
                     this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf('/') + 1);
                     href = res.functionInfo.config_href;
                 }

@@ -31,6 +31,7 @@ import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info'
 import { AppNode } from './../../tree-view/app-node';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { Site } from './../../shared/models/arm/site';
+import { KeyCodes } from '../../shared/models/constants';
 
 @Component({
     selector: 'swaggerdefinition',
@@ -190,6 +191,38 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             detailBlade: name,
             detailBladeInputs: { resourceUri: this.functionApp.site.id }
         }, name);
+    }
+
+    apiDefinitionKeyDown(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            console.log(event.keyCode);
+            this.toggleKeyVisibility();
+        }
+    }
+
+    apiDefinitionSourceKeyDown(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            this.valueChange.next(!this.swaggerEnabled);
+        }
+    }
+
+    renewKeyDown(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            this.renewSwaggerSecret();
+        }
+    }
+
+    documentKeyDown(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            console.log(event.keyCode);
+            this.toggleDocumentationVisibility();
+        }
+    }
+
+    expandCollapseKeyDown(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
+            this.isFullscreen = !this.isFullscreen;
+        }
     }
 
     private setSwaggerEndpointState(swaggerEnabled: boolean) {

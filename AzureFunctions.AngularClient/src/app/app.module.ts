@@ -6,6 +6,7 @@ import { KuduExternalGitEssentialsComponent } from './deployment-center/Provider
 import { KuduDropboxEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dropbox-essentials/kudu-dropbox-essentials.component';
 import { KuduBitbucketEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-bitbucket-essentials/kudu-bitbucket-essentials.component';
 import { VstsDeploymentTableComponent } from './deployment-center/providerDashboards/vsts/vsts-deployment-table.component';
+import { LogService } from './shared/services/log.service';
 import { CheckScenarioDirective } from './shared/directives/check-scenario.directive';
 import { ScenarioService } from './shared/services/scenario/scenario.service';
 import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
@@ -282,6 +283,7 @@ export class AppModule {
       PortalService,
       BroadcastService,
       FunctionMonitorService,
+      LogService,
       {
         provide: ArmService, useFactory: ArmServiceFactory, deps: [
           Http,

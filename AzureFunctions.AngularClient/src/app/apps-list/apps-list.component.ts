@@ -32,7 +32,7 @@ export class AppsListComponent implements OnInit, OnDestroy {
   public appsNode: AppsNode;
   public Resources = PortalResources;
 
-  public isLoading = true;
+  public initialized = false;
 
   public allLocations = this.translateService.instant(PortalResources.allLocations);
   public numberLocations = this.translateService.instant(PortalResources.locationCount);
@@ -64,11 +64,12 @@ export class AppsListComponent implements OnInit, OnDestroy {
       .distinctUntilChanged()
       .switchMap(viewInfo => {
         this.appsNode = (<AppsNode>viewInfo.node);
-        this.isLoading = true;
+        this.initialized = false;
         return (<AppsNode>viewInfo.node).childrenStream;
       })
       .subscribe(children => {
         this.apps = children;
+        this.initialized = true;
         this.tableItems = this.apps.map(app => (<AppTableItem>{
           title: app.title,
           subscription: app.subscription,
@@ -88,7 +89,6 @@ export class AppsListComponent implements OnInit, OnDestroy {
             displayLabel: resourceGroup,
             value: resourceGroup
           }));
-        this.isLoading = false;
       });
   }
 

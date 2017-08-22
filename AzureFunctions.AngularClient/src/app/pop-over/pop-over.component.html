@@ -1,12 +1,14 @@
-<span [class]="popOverClass" [ngClass]="{'pop-over-input-error': isInputError, 'pop-over-input-warning': isInputWarning}">
+<span [class]="popOverClass" [ngClass]="{'pop-over-input-error': isInputError, 'pop-over-input-warning': isInputWarning}"
+    tabindex="-1">
     <span *ngIf="message"
-        class="pop-over-common"
+        class="pop-over-common" 
         [class.pop-over]="position!=='bottom'"
         [class.pop-over-bottom]="position==='bottom'"
         [class.pop-over-visible]="show"
-        [innerHtml]="message"></span>
+        [innerHtml]="message" tabindex="-1"></span>
 
-<button id="buttonInfoButton" class="pop-over-button" (focus)="onFocus($event)" (blur)="onBlur($event)" attr.aria-label="{{message}}">
+<button id="buttonInfoButton" class="pop-over-button" attr.aria-label="{{message}}" (keydown)="onKeyPress($event)" (blur)="onBlur($event)"
+    (click)="popUpContent()" tabindex="0">
         <ng-content></ng-content>
         <span *ngIf="isInputError" class="fa fa-exclamation input-error"></span>
         <span *ngIf="isInputWarning && !isInputError" class="fa fa-exclamation input-warning"></span>
