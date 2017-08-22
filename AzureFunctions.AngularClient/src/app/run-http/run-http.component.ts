@@ -22,7 +22,6 @@ export class RunHttpComponent {
     availableMethods: string[] = [];
     headerOptions: PairListOptions;
     paramsOptions: PairListOptions;
-    private _code: Param;
     private _headersValid: boolean;
     private _paramsValid: boolean;
 
@@ -79,11 +78,11 @@ export class RunHttpComponent {
 
     set functionInvokeUrl(value: string) {
         if (value) {
-            // Store "code" aithentication parameter 
+            // Store "code" aithentication parameter
             let params = this.getQueryParams(value);
             const codeIndex = params.findIndex(p => (p.name.toLowerCase() === 'code'));
             if (codeIndex > -1) {
-                this._code = params[codeIndex];
+                this.model.code = params[codeIndex];
                 params.splice(codeIndex, 1);
             }
 
@@ -131,10 +130,6 @@ export class RunHttpComponent {
         this._paramsValid = form.valid;
         this.valid = this._paramsValid && this._headersValid;
         this.model.queryStringParams = form.value.items;
-        if (this._code) {
-            this.model.queryStringParams.push(this._code);
-        }
-
         this.validChange.emit(this.valid);
     }
 
