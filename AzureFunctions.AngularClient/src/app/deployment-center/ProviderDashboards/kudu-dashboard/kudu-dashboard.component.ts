@@ -10,6 +10,7 @@ import { BusyStateComponent } from '../../../busy-state/busy-state.component';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, Input, OnChanges } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import { Headers } from '@angular/http';
 
 @Component({
     selector: 'app-kudu-dashboard',
@@ -103,16 +104,67 @@ export class KuduDashboardComponent implements OnChanges {
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                 this._busyStateScopeManager.clearBusy();
 
-                return Observable.of(r);
+                if (
+                    this.deploymentObject.siteConfig.properties.scmType ===
+                    'BitbucketGit'
+                ) {
+                    return Observable.zip(
+                        Observable.of(this.deploymentObject),
+                        this._cacheService.post(
+                            '/api/auth/bitbucket/refresh',
+                            false,
+                            null,
+                            {
+                                refresh_token: this.deploymentObject
+                                    .siteMetadata.properties[
+                                    'OAuthRefreshToken'
+                                ]
+                            }
+                        ),
+                        (q, w) => ({
+                            dO: q,
+                            refresh: w.text()
+                        })
+                    );
+                } else {
+                    return Observable.zip(
+                        Observable.of(this.deploymentObject),
+                        Observable.of(null),
+                        (q, w) => ({
+                            dO: q,
+                            refresh: w.text()
+                        })
+                    );
+                }
             })
-            .subscribe(r => {});
+            .switchMap(r => {
+                const aToken = r.refresh;
+                return this._cacheService.get(
+                    r.dO.siteMetadata.properties['RepoApiUri'],
+                    false,
+                    this._getHeaders(aToken)
+                );
+            })
+            .subscribe(r => {
+                console.log(r.json());
+            });
+    }
+
+    private _getHeaders(token: string): Headers {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', `Bearer ${token}`);
+        headers.append('Referer', 'https://localhost:42300');
+
+        return headers;
     }
 
     AuthGithub() {
-        const win = window.open('/api/auth/github');
+        const win = window.open('/api/auth/bitbucket');
         const t = this;
         win.onunload = ev => {
-            this._cacheService.get('/api/auth/githubToken').subscribe(r => {
+            this._cacheService.get('/api/auth/bitbucket').subscribe(r => {
                 t.oAuthToken = r.text();
             });
         };

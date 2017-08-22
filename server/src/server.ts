@@ -1,3 +1,4 @@
+import { setupBitbucketAuthentication } from './deployment-center/bitbucketAuth';
 import { setupGithubAuthentication } from './deployment-center/githubAuth';
 import * as https from 'https';
 import * as fs from 'fs';
@@ -44,6 +45,8 @@ app
 setupAuthentication(app);
 
 setupGithubAuthentication(app);
+
+setupBitbucketAuthentication(app);
 
 app.get('/', maybeAuthenticate, (_, res) => {
     res.render('index', {

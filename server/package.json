@@ -19,7 +19,9 @@
         "pug": "^2.0.0-rc.2",
         "uuid": "^3.1.0",
         "passport-github2": "^0.1.10",
-        "client-oauth2": "^4.1.0"
+        "client-oauth2": "^4.1.0",
+        "request": "^2.81.0",
+        "@types/request": "^2.0.2"
     },
     "devDependencies": {
         "@types/async": "^2.0.40",
