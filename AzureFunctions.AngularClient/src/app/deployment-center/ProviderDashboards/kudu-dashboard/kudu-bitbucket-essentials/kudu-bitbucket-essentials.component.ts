@@ -1,23 +1,23 @@
-import { AiService } from '../../../shared/services/ai.service';
-import { AuthzService } from '../../../shared/services/authz.service';
-import { SiteTabComponent } from '../../../site/site-dashboard/site-tab/site-tab.component';
-import { CacheService } from '../../../shared/services/cache.service';
-import { PortalService } from '../../../shared/services/portal.service';
-import { BusyStateScopeManager } from '../../../busy-state/busy-state-scope-manager';
+import { AiService } from '../../../../shared/services/ai.service';
+import { AuthzService } from '../../../../shared/services/authz.service';
+import { SiteTabComponent } from '../../../../site/site-dashboard/site-tab/site-tab.component';
+import { CacheService } from '../../../../shared/services/cache.service';
+import { PortalService } from '../../../../shared/services/portal.service';
+import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
 import { Observable, Subject } from 'rxjs/Rx';
-import { DeploymentData } from '../../Models/deploymentData';
-import { BusyStateComponent } from '../../../busy-state/busy-state.component';
+import { DeploymentData } from '../../../Models/deploymentData';
+import { BusyStateComponent } from '../../../../busy-state/busy-state.component';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, Input, OnChanges } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { Headers } from '@angular/http';
 
 @Component({
-    selector: 'app-kudu-dashboard',
-    templateUrl: './kudu-dashboard.component.html',
-    styleUrls: ['./kudu-dashboard.component.scss']
+    selector: 'app-kudu-bitbucket-essentials',
+    templateUrl: './kudu-bitbucket-essentials.component.html',
+    styleUrls: ['./kudu-bitbucket-essentials.component.scss']
 })
-export class KuduDashboardComponent implements OnChanges {
+export class KuduBitbucketEssentialsComponent implements OnChanges {
     @Input() resourceId: string;
 
     _busyState: BusyStateComponent;
@@ -149,27 +149,15 @@ export class KuduDashboardComponent implements OnChanges {
                 console.log(r.json());
             });
     }
-
     private _getHeaders(token: string): Headers {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
         headers.append('Authorization', `Bearer ${token}`);
-        headers.append('Referer', 'https://localhost:42300');
+        // headers.append('Referer', 'https://localhost:42300');
 
         return headers;
     }
-
-    AuthGithub() {
-        const win = window.open('/api/auth/bitbucket');
-        const t = this;
-        win.onunload = ev => {
-            this._cacheService.get('/api/auth/bitbucket').subscribe(r => {
-                t.oAuthToken = r.text();
-            });
-        };
-    }
-
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
             this.viewInfoStream.next(this.resourceId);

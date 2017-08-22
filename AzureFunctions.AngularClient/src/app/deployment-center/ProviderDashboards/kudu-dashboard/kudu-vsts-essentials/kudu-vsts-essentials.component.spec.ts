@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KuduDashboardComponent } from './kudu-dashboard.component';
+import { KuduVstsEssentialsComponent } from './kudu-vsts-essentials.component';
 
-describe('KuduDashboardComponent', () => {
-  let component: KuduDashboardComponent;
-  let fixture: ComponentFixture<KuduDashboardComponent>;
+describe('KuduVstsEssentialsComponent', () => {
+  let component: KuduVstsEssentialsComponent;
+  let fixture: ComponentFixture<KuduVstsEssentialsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KuduDashboardComponent ]
+      declarations: [ KuduVstsEssentialsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(KuduDashboardComponent);
+    fixture = TestBed.createComponent(KuduVstsEssentialsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

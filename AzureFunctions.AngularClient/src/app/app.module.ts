@@ -1,4 +1,10 @@
-import { KuduDashboardComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dashboard.component';
+import { KuduVstsEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-vsts-essentials/kudu-vsts-essentials.component';
+import { KuduOnedriveEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-onedrive-essentials/kudu-onedrive-essentials.component';
+import { KuduLocalGitEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-local-git-essentials/kudu-local-git-essentials.component';
+import { KuduGithubEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-github-essentials/kudu-github-essentials.component';
+import { KuduExternalGitEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-external-git-essentials/kudu-external-git-essentials.component';
+import { KuduDropboxEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dropbox-essentials/kudu-dropbox-essentials.component';
+import { KuduBitbucketEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-bitbucket-essentials/kudu-bitbucket-essentials.component';
 import { VstsDeploymentTableComponent } from './deployment-center/providerDashboards/vsts/vsts-deployment-table.component';
 import { SiteTabComponent } from './site/site-dashboard/site-tab/site-tab.component';
 import { DynamicLoaderDirective } from './shared/directives/dynamic-loader.directive';
@@ -122,167 +128,173 @@ import { ConnectionStringsComponent } from './site/site-config/connection-string
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 
 export function ArmServiceFactory(
-  http: Http,
-  userService: UserService,
-  aiService: AiService
+    http: Http,
+    userService: UserService,
+    aiService: AiService
 ) {
-  const service =
-    window.location.pathname.toLowerCase() === '/try'
-      ? new ArmTryService(http, userService, aiService)
-      : new ArmService(http, userService, aiService);
+    const service =
+        window.location.pathname.toLowerCase() === '/try'
+            ? new ArmTryService(http, userService, aiService)
+            : new ArmService(http, userService, aiService);
 
-  return service;
+    return service;
 }
 
 export function AiServiceFactory() {
-  const service =
-    window.location.pathname.toLowerCase() === '/try'
-      ? new AiTryService()
-      : new AiService();
-  return service;
+    const service =
+        window.location.pathname.toLowerCase() === '/try'
+            ? new AiTryService()
+            : new AiService();
+    return service;
 }
 
 @NgModule(AppModule.moduleDefinition)
 export class AppModule {
-  static moduleDefinition = {
-    entryComponents: [
-      SiteSummaryComponent,
-      SiteManageComponent,
-      FunctionRuntimeComponent,
-      SwaggerDefinitionComponent,
-      SiteConfigComponent,
-      SiteConfigStandaloneComponent,
-      DeploymentCenterComponent
-    ],
-    declarations: [
-      AppComponent,
-      GettingStartedComponent,
-      BusyStateComponent,
-      TryNowBusyStateComponent,
-      TopBarComponent,
-      DropDownComponent,
-      TryNowComponent,
-      FunctionEditComponent,
-      TrialExpiredComponent,
-      FunctionNewComponent,
-      FunctionQuickstartComponent,
-      TutorialComponent,
-      SourceControlComponent,
-      FunctionDevComponent,
-      BindingComponent,
-      TooltipContentComponent,
-      TooltipDirective,
-      ErrorListComponent,
-      TemplatePickerComponent,
-      PopOverComponent,
-      BindingInputComponent,
-      BindingDesignerComponent,
-      SecretsBoxContainerComponent,
-      SecretsBoxInputDirective,
-      AggregateBlockComponent,
-      CopyPreComponent,
-      FileExplorerComponent,
-      FunctionIntegrateV2Component,
-      FunctionIntegrateComponent,
-      FunctionKeysComponent,
-      FunctionManageComponent,
-      FunctionMonitorComponent,
-      LogStreamingComponent,
-      RadioSelectorComponent,
-      RunHttpComponent,
-      TableFunctionMonitorComponent,
-      TryLandingComponent,
-      AggregateBlockPipe,
-      MonacoEditorDirective,
-      TableFunctionMonitorPipe,
-      MainComponent,
-      SideNavComponent,
-      TreeViewComponent,
-      SiteDashboardComponent,
-      SiteTabComponent,
-      TabsComponent,
-      TabComponent,
-      BreadcrumbsComponent,
-      SiteSummaryComponent,
-      SiteEnabledFeaturesComponent,
-      SiteManageComponent,
-      FeatureGroupComponent,
-      MultiDropDownComponent,
-      TopRightMenuComponent,
-      AppsListComponent,
-      FunctionRuntimeComponent,
-      ApiDetailsComponent,
-      ApiNewComponent,
-      FunctionsListComponent,
-      ProxiesListComponent,
-      SlotsListComponent,
-      SwaggerDefinitionComponent,
-      SwaggerFrameDirective,
-      DisabledDashboardComponent,
-      CreateFunctionWrapperComponent,
-      TblComponent,
-      TblThComponent,
-      FnWriteAccessDirective,
-      DynamicLoaderDirective,
-      EditModeWarningComponent,
-      TextboxComponent,
-      SiteConfigComponent,
-      SiteConfigStandaloneComponent,
-      ClickToEditComponent,
-      CommandBarComponent,
-      CommandComponent,
-      CreateAppComponent,
-      SlotsListComponent,
-      SlotNewComponent,
-      EventHubComponent,
-      ServiceBusComponent,
-      SearchBoxComponent,
-      AppSettingComponent,
-      DownloadFunctionAppContentComponent,
-      GeneralSettingsComponent,
-      AppSettingsComponent,
-      ConnectionStringsComponent,
-      PairListComponent,
-      RequestResposeOverrideComponent,
-      BindingEventGridComponent,
-      DeploymentCenterComponent,
-      VstsDeploymentTableComponent,
-      KuduDashboardComponent
-    ],
-    imports: [
-      FormsModule,
-      ReactiveFormsModule,
-      BrowserModule,
-      FormsModule,
-      HttpModule,
-      TranslateModule.forRoot(),
-      FileUploadModule,
-      PopoverModule
-    ],
-    providers: [
-      ConfigService,
-      FunctionsService,
-      UserService,
-      LanguageService,
-      PortalService,
-      BroadcastService,
-      FunctionMonitorService,
-      {
-        provide: ArmService,
-        useFactory: ArmServiceFactory,
-        deps: [Http, UserService, AiService]
-      },
-      CacheService,
-      SlotsService,
-      AuthzService,
-      LocalStorageService,
-      TelemetryService,
-      UtilitiesService,
-      BackgroundTasksService,
-      GlobalStateService,
-      { provide: AiService, useFactory: AiServiceFactory },
-      { provide: ErrorHandler, useClass: GlobalErrorHandler }
-    ],
-    bootstrap: [AppComponent]
-  };
+    static moduleDefinition = {
+        entryComponents: [
+            SiteSummaryComponent,
+            SiteManageComponent,
+            FunctionRuntimeComponent,
+            SwaggerDefinitionComponent,
+            SiteConfigComponent,
+            SiteConfigStandaloneComponent,
+            DeploymentCenterComponent
+        ],
+        declarations: [
+            AppComponent,
+            GettingStartedComponent,
+            BusyStateComponent,
+            TryNowBusyStateComponent,
+            TopBarComponent,
+            DropDownComponent,
+            TryNowComponent,
+            FunctionEditComponent,
+            TrialExpiredComponent,
+            FunctionNewComponent,
+            FunctionQuickstartComponent,
+            TutorialComponent,
+            SourceControlComponent,
+            FunctionDevComponent,
+            BindingComponent,
+            TooltipContentComponent,
+            TooltipDirective,
+            ErrorListComponent,
+            TemplatePickerComponent,
+            PopOverComponent,
+            BindingInputComponent,
+            BindingDesignerComponent,
+            SecretsBoxContainerComponent,
+            SecretsBoxInputDirective,
+            AggregateBlockComponent,
+            CopyPreComponent,
+            FileExplorerComponent,
+            FunctionIntegrateV2Component,
+            FunctionIntegrateComponent,
+            FunctionKeysComponent,
+            FunctionManageComponent,
+            FunctionMonitorComponent,
+            LogStreamingComponent,
+            RadioSelectorComponent,
+            RunHttpComponent,
+            TableFunctionMonitorComponent,
+            TryLandingComponent,
+            AggregateBlockPipe,
+            MonacoEditorDirective,
+            TableFunctionMonitorPipe,
+            MainComponent,
+            SideNavComponent,
+            TreeViewComponent,
+            SiteDashboardComponent,
+            SiteTabComponent,
+            TabsComponent,
+            TabComponent,
+            BreadcrumbsComponent,
+            SiteSummaryComponent,
+            SiteEnabledFeaturesComponent,
+            SiteManageComponent,
+            FeatureGroupComponent,
+            MultiDropDownComponent,
+            TopRightMenuComponent,
+            AppsListComponent,
+            FunctionRuntimeComponent,
+            ApiDetailsComponent,
+            ApiNewComponent,
+            FunctionsListComponent,
+            ProxiesListComponent,
+            SlotsListComponent,
+            SwaggerDefinitionComponent,
+            SwaggerFrameDirective,
+            DisabledDashboardComponent,
+            CreateFunctionWrapperComponent,
+            TblComponent,
+            TblThComponent,
+            FnWriteAccessDirective,
+            DynamicLoaderDirective,
+            EditModeWarningComponent,
+            TextboxComponent,
+            SiteConfigComponent,
+            SiteConfigStandaloneComponent,
+            ClickToEditComponent,
+            CommandBarComponent,
+            CommandComponent,
+            CreateAppComponent,
+            SlotsListComponent,
+            SlotNewComponent,
+            EventHubComponent,
+            ServiceBusComponent,
+            SearchBoxComponent,
+            AppSettingComponent,
+            DownloadFunctionAppContentComponent,
+            GeneralSettingsComponent,
+            AppSettingsComponent,
+            ConnectionStringsComponent,
+            PairListComponent,
+            RequestResposeOverrideComponent,
+            BindingEventGridComponent,
+            DeploymentCenterComponent,
+            VstsDeploymentTableComponent,
+            KuduBitbucketEssentialsComponent,
+            KuduDropboxEssentialsComponent,
+            KuduExternalGitEssentialsComponent,
+            KuduGithubEssentialsComponent,
+            KuduLocalGitEssentialsComponent,
+            KuduOnedriveEssentialsComponent,
+            KuduVstsEssentialsComponent
+        ],
+        imports: [
+            FormsModule,
+            ReactiveFormsModule,
+            BrowserModule,
+            FormsModule,
+            HttpModule,
+            TranslateModule.forRoot(),
+            FileUploadModule,
+            PopoverModule
+        ],
+        providers: [
+            ConfigService,
+            FunctionsService,
+            UserService,
+            LanguageService,
+            PortalService,
+            BroadcastService,
+            FunctionMonitorService,
+            {
+                provide: ArmService,
+                useFactory: ArmServiceFactory,
+                deps: [Http, UserService, AiService]
+            },
+            CacheService,
+            SlotsService,
+            AuthzService,
+            LocalStorageService,
+            TelemetryService,
+            UtilitiesService,
+            BackgroundTasksService,
+            GlobalStateService,
+            { provide: AiService, useFactory: AiServiceFactory },
+            { provide: ErrorHandler, useClass: GlobalErrorHandler }
+        ],
+        bootstrap: [AppComponent]
+    };
 }

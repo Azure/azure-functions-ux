@@ -1,2 +1,9 @@
 <app-vsts-deployment-table *ngIf="DeploymentSetUpComplete && ScmType === 'VSTSRM'" [resourceId]="resourceId"> </app-vsts-deployment-table>
-<app-kudu-dashboard *ngIf="DeploymentSetUpComplete && ScmType !== 'VSTSRM'" [resourceId]="resourceId"> </app-kudu-dashboard>
+<app-kudu-bitbucket-essentials *ngIf="DeploymentSetUpComplete && (ScmType === 'BitbucketGit' || ScmType === 'BitbucketHg')"
+    [resourceId]="resourceId"> </app-kudu-bitbucket-essentials>
+<app-kudu-dropbox-essentials *ngIf="DeploymentSetUpComplete && (ScmType === 'Dropbox' || ScmType === 'DropboxV2')" [resourceId]="resourceId"></app-kudu-dropbox-essentials>
+<app-kudu-external-git-essentials *ngIf="DeploymentSetUpComplete && (ScmType === 'ExternalGit')" [resourceId]="resourceId"></app-kudu-external-git-essentials>
+<app-kudu-github-essentials *ngIf="DeploymentSetUpComplete && (ScmType === 'GitHub')" [resourceId]="resourceId"></app-kudu-github-essentials>
+<app-kudu-local-git-essentials *ngIf="DeploymentSetUpComplete && (ScmType === 'LocalGit')" [resourceId]="resourceId"></app-kudu-local-git-essentials>
+<app-kudu-onedrive-essentials *ngIf="DeploymentSetUpComplete && (ScmType === 'OneDrive')" [resourceId]="resourceId"></app-kudu-onedrive-essentials>
+<app-kudu-vsts-essentials *ngIf="DeploymentSetUpComplete && (ScmType === 'VSO')" [resourceId]="resourceId"></app-kudu-vsts-essentials>
