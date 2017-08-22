@@ -1969,6 +1969,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expand or Collapse.
+        /// </summary>
+        internal static string expandCollapse {
+            get {
+                return ResourceManager.GetString("expandCollapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Express AAD Registration.
         /// </summary>
         internal static string expressAADRegistration {
