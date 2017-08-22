@@ -31,17 +31,12 @@
         <tr *ngFor="let item of table.items">
             <td><span class="link" (click)="clickRow(item)">{{item.functionName}}</span></td>
             <td>
-                <label class="switch">
-                        <input [fnWriteAccess]="functionApp" type="checkbox" [checked]="!item.functionInfo.config.disabled" (change)="enableChange(item)" />
-                        <span class="slider round">
-                        </span>
-                </label>
-                <span *ngIf="item.functionInfo.config.disabled" class="enabled">
-                    {{ 'disabled' | translate }}
-                </span>
-                <span *ngIf="!item.functionInfo.config.disabled" class="enabled">
-                    {{ 'enabled' | translate }}
-                </span>
+                <slide-toggle
+                   [on]="!item.functionInfo.config.disabled"
+                   [isCommand]="true"
+                   [name]="'status' | translate"
+                   [ariaLabelFormat]="'nameAndStateName'"
+                   (change)="enableChange(item, $event)"></slide-toggle>
             </td>
             <td class="command-icon">
                 <a role="button"
