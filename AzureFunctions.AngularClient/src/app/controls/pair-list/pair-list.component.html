@@ -13,7 +13,7 @@
 
             <input type="text" name="item{{i}}" placeholder="name" class="name" formControlName="name">
 
-            <pop-over *ngIf="!form.controls.items.controls[i].controls.name.valid" [isInputError]="true" class="error-fix">
+            <pop-over *ngIf="!form.controls.items.controls[i].controls.name.valid"  [message]="('notValidValue' | translate)" [isInputError]="true" class="error-fix">
             </pop-over>
 
             <input type="text" placeholder="value" class="value" formControlName="value">
