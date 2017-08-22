@@ -170,6 +170,8 @@ export class ApiDetailsComponent implements OnInit {
                     // https://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
                     // we are using ES5 now
                     if (this._rrOverrideValue) {
+                        delete this.apiProxyEdit.requestOverrides;
+                        delete this.apiProxyEdit.responseOverrides;
                         for (const prop in this._rrOverrideValue) {
                             this.apiProxyEdit[prop] = this._rrOverrideValue[prop];
                         }

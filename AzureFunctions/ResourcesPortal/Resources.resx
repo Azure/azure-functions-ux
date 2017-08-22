@@ -941,7 +941,7 @@
     <value>Allowed HTTP methods</value>
   </data>
   <data name="apiProxy_backendUrl" xml:space="preserve">
-    <value>Backend URL</value>
+    <value>Backend URL (optional)</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
     <value>Proxy or function with that name already exists.</value>
@@ -2170,6 +2170,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="westus2" xml:space="preserve">
     <value>West US 2</value>
   </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>All resource groups</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>Resource Group:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0} resource groups</value>
+  </data>
   <data name="rrOverride_boby" xml:space="preserve">
     <value>Body</value>
   </data>
@@ -2180,9 +2189,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Status message</value>
   </data>
   <data name="rrOverride_request" xml:space="preserve">
-    <value>Request override</value>
+    <value>Request override (optional)</value>
   </data>
   <data name="rrOverride_response" xml:space="preserve">
-    <value>Response override</value>
+    <value>Response override (optional)</value>
   </data>
 </root>

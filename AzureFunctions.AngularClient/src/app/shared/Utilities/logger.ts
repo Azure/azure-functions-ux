@@ -1,10 +1,10 @@
-import { Url } from "app/shared/Utilities/url";
+import { Url } from 'app/shared/Utilities/url';
 
 export class Logger {
-    static debugging: any; boolean = (Url.getParameterByName(null, "appsvc.log") === 'debug');
+    static debugging: boolean = (Url.getParameterByName(null, 'appsvc.log') === 'debug');
 
     public static debug(obj: any) {
-        if (this.debugging) {
+        if (Logger.debugging) {
             console.log(obj);
         }
     }

@@ -1,3 +1,5 @@
+@import '../../sass/main';
+
 .pop-over-button{
     background-color: inherit;
     border: none;
@@ -70,8 +72,18 @@
 span.input-error {
     position: absolute;
     background-color: red;
+    color: #fff;
     height: 25px;
     padding: 5px 5px 0px 5px;
     margin-left: 4px;
     margin-top: -15px;
+}
+
+span.input-warning {
+  @extend span.input-error;
+  background-color: $warning-color
+}
+
+.pop-over-input-warning{
+    margin-left: -34px;
 }

@@ -111,7 +111,7 @@
     </request-respose-override>
 
     <div>
-        <button (click)="submitForm(complexForm.value)" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
+        <button (click)="submitForm()" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
         <button (click)="onReset()" [class.custom-button-disabled]="!complexForm.dirty" [disabled]="!complexForm.dirty" class="custom-button">{{ 'discrard' | translate }}</button>
     </div>
 

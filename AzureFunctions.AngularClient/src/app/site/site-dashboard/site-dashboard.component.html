@@ -1,6 +1,11 @@
 <div id="site-dashboard-container">
 
-    <img *ngIf="!isStandalone" id="site-dashboard-pin" class="link" src="images/pin.svg" (click)="pinPart()" />
+    <img check-scenario="ShowSitePin"
+         [cs-input]="{site: site}"
+         id="site-dashboard-pin"
+         class="link"
+         src="images/pin.svg"
+         (click)="pinPart()" />
 
     <nav id="site-tabs">
         <div *ngFor="let info of tabInfos"

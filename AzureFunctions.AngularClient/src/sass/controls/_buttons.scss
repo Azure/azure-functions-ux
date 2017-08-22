@@ -32,6 +32,7 @@
     @extend %button;
     cursor: not-allowed;
     background-color : darken($chrome-color, 10%);    
+    pointer-events: none;
 }
 
 .button-block{
