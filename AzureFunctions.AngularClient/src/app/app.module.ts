@@ -1,11 +1,13 @@
-import { KuduVstsEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-vsts-essentials/kudu-vsts-essentials.component';
-import { KuduOnedriveEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-onedrive-essentials/kudu-onedrive-essentials.component';
-import { KuduLocalGitEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-local-git-essentials/kudu-local-git-essentials.component';
-import { KuduGithubEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-github-essentials/kudu-github-essentials.component';
-import { KuduExternalGitEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-external-git-essentials/kudu-external-git-essentials.component';
-import { KuduDropboxEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dropbox-essentials/kudu-dropbox-essentials.component';
-import { KuduBitbucketEssentialsComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-bitbucket-essentials/kudu-bitbucket-essentials.component';
-import { VstsDeploymentTableComponent } from './deployment-center/providerDashboards/vsts/vsts-deployment-table.component';
+import {
+    KuduDropboxOnedriveDashboardComponent,
+} from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dropbox-onedrive-dashboard/kudu-dropbox-onedrive-dashboard.component';
+import {
+    KuduVsoDashboardComponent,
+} from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-vso-dashboard/kudu-vso-dashboard.component';
+import {
+    KuduGitMercurialDashboardComponent,
+} from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-git-mercurial-dashboard/kudu-git-mercurial-dashboard.component';
+import { VsoDashboardComponent } from './deployment-center/ProviderDashboards/Vso-Dashboard/vso-dashboard.component';
 import { LogService } from './shared/services/log.service';
 import { CheckScenarioDirective } from './shared/directives/check-scenario.directive';
 import { ScenarioService } from './shared/services/scenario/scenario.service';
@@ -256,14 +258,10 @@ export class AppModule {
       RequestResposeOverrideComponent,
       BindingEventGridComponent,
       DeploymentCenterComponent,
-      VstsDeploymentTableComponent,
-      KuduBitbucketEssentialsComponent,
-      KuduDropboxEssentialsComponent,
-      KuduExternalGitEssentialsComponent,
-      KuduGithubEssentialsComponent,
-      KuduLocalGitEssentialsComponent,
-      KuduOnedriveEssentialsComponent,
-      KuduVstsEssentialsComponent
+      VsoDashboardComponent,
+      KuduGitMercurialDashboardComponent,
+      KuduVsoDashboardComponent,
+      KuduDropboxOnedriveDashboardComponent
     ],
     imports: [
       FormsModule,

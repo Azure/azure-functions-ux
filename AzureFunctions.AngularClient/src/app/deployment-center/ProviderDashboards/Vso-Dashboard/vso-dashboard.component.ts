@@ -25,11 +25,11 @@ class VSODeploymentObject extends DeploymentData {
 }
 
 @Component({
-    selector: 'app-vsts-deployment-table',
-    templateUrl: './vsts-deployment-table.component.html',
-    styleUrls: ['./vsts-deployment-table.component.scss']
+    selector: 'app-vso-dashboard',
+    templateUrl: './vso-dashboard.component.html',
+    styleUrls: ['./vso-dashboard.component.scss']
 })
-export class VstsDeploymentTableComponent implements OnChanges {
+export class VsoDashboardComponent implements OnChanges {
     @Input() resourceId: string;
     @ViewChild('table') appTable: TblComponent;
     private _tableItems: ActivityDetailsLog[];
@@ -185,8 +185,8 @@ export class VstsDeploymentTableComponent implements OnChanges {
     }
 
     private _populateActivityDetails(item: Deployment) {
-        var date: Date = new Date(item.end_time);
-        var message: string = item.message;
+        const date: Date = new Date(item.end_time);
+        const message: string = item.message;
 
         // populate activity details according to the message format
         let messageToAdd: ActivityDetailsLog;
@@ -314,7 +314,7 @@ export class VstsDeploymentTableComponent implements OnChanges {
 
     private _getCommitUrl(messageJSON: KuduLogMessage): string {
         if (messageJSON.commitId != null) {
-            let repoName: string = messageJSON.repoProvider.toLowerCase();
+            const repoName: string = messageJSON.repoProvider.toLowerCase();
             switch (repoName) {
                 case 'tfsgit':
                     return '{0}{1}/_git/{2}/commit/{3}'.format(
@@ -364,7 +364,7 @@ export class VstsDeploymentTableComponent implements OnChanges {
     }
 
     private _getUrlInfoFromJSONMessage(messageJSON: KuduLogMessage): UrlInfo[] {
-        let urlInfo: UrlInfo[] = [];
+        const urlInfo: UrlInfo[] = [];
         if (messageJSON.commitId) {
             const commitUrl: string = this._getCommitUrl(messageJSON);
             if (commitUrl) {

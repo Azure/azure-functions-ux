@@ -13,11 +13,11 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { Headers } from '@angular/http';
 
 @Component({
-    selector: 'app-kudu-bitbucket-essentials',
-    templateUrl: './kudu-bitbucket-essentials.component.html',
-    styleUrls: ['./kudu-bitbucket-essentials.component.scss']
+    selector: 'app-kudu-git-mercurial-dashboard',
+    templateUrl: './kudu-git-mercurial-dashboard.component.html',
+    styleUrls: ['./kudu-git-mercurial-dashboard.component.scss']
 })
-export class KuduBitbucketEssentialsComponent implements OnChanges {
+export class KuduGitMercurialDashboardComponent implements OnChanges {
     @Input() resourceId: string;
 
     _busyState: BusyStateComponent;

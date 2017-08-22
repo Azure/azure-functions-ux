@@ -31,7 +31,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./deployment-center.component.scss']
 })
 export class DeploymentCenterComponent implements OnInit {
-  
+
   public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
   private _viewInfoSubscription: RxSubscription;
   @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -47,7 +47,7 @@ export class DeploymentCenterComponent implements OnInit {
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
 
-  public resourceId : string;
+  public resourceId: string;
   constructor(
     private _translateService: TranslateService,
     private _portalService: PortalService,
@@ -60,7 +60,7 @@ export class DeploymentCenterComponent implements OnInit {
 
     this._busyState = siteTabsComponent.busyState;
     this._busyStateScopeManager = this._busyState.getScopeManager();
-    
+
     this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
@@ -72,8 +72,8 @@ export class DeploymentCenterComponent implements OnInit {
           this._cacheService.getArm(`${viewInfo.resourceId}/config/web`),
           this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
           this._authZService.hasReadOnlyLock(viewInfo.resourceId),
-          (s,sc, wp, rl) => ({ site: s.json(), siteConfig: sc.json(), writePermission: wp, readOnlyLock: rl })
-        )
+          (s, sc, wp, rl) => ({ site: s.json(), siteConfig: sc.json(), writePermission: wp, readOnlyLock: rl })
+        );
       })
       .do(null, error => {
         this._siteObject = null;
