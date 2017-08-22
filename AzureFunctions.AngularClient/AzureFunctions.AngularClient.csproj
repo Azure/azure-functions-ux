@@ -105,6 +105,7 @@
     <Content Include="src\app\controls\click-to-edit\click-to-edit.component.html" />
     <Content Include="src\app\controls\command-bar\command\command.component.html" />
     <Content Include="src\app\controls\textbox\textbox.component.html" />
+    <Content Include="src\app\controls\slide-toggle\slide-toggle.component.html" />
     <Content Include="src\app\copy-pre\copy-pre.component.css" />
     <Content Include="src\app\copy-pre\copy-pre.component.html" />
     <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.html" />
@@ -123,6 +124,7 @@
     <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.scss" />
     <Content Include="src\app\controls\click-to-edit\click-to-edit.component.scss" />
     <Content Include="src\app\controls\command-bar\command\command.component.scss" />
+    <Content Include="src\app\controls\slide-toggle\slide-toggle.component.scss" />
     <Content Include="src\app\controls\textbox\textbox.component.scss" />
     <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.scss" />
     <Content Include="src\app\download-function-app-content\download-function-app-content.component.scss" />
@@ -392,6 +394,8 @@
     <TypeScriptCompile Include="src\app\controls\command-bar\command\command.component.ts" />
     <TypeScriptCompile Include="src\app\controls\pair-list\pair-list.component.spec.ts" />
     <TypeScriptCompile Include="src\app\controls\pair-list\pair-list.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\slide-toggle\slide-toggle.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\controls\slide-toggle\slide-toggle.component.ts" />
     <TypeScriptCompile Include="src\app\controls\tbl\tbl-th\tbl-th.component.ts" />
     <TypeScriptCompile Include="src\app\controls\tbl\tbl.component.ts" />
     <TypeScriptCompile Include="src\app\controls\textbox\textbox.component.spec.ts" />
