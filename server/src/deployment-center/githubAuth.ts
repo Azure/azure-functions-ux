@@ -15,6 +15,13 @@ export function setupGithubAuthentication(app: Application) {
         res.redirect(uri);
     });
 
+    app.get('/api/auth/githubToken', (req, res) => {
+        if (req.session && req.session['githubToken']) {
+            res.send(req.session['githubToken']);
+        } else {
+            res.send('error');
+        }
+    });
     app.get('/auth/github/callback', (req, res) => {
         githubAuth.code.getToken(req.originalUrl).then(user => {
             console.log(user);
@@ -27,8 +34,12 @@ export function setupGithubAuthentication(app: Application) {
                 method: 'get',
                 url: 'https://localhost:44300'
             });
-
-            return res.send(user.accessToken);
+            if (req.session) {
+                req.session['githubToken'] = user.accessToken;
+            }
+            res.send(`<script>
+                        window.close();
+                    </script>`);
         });
     });
 }

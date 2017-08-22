@@ -28,6 +28,7 @@ export class KuduDashboardComponent implements OnChanges {
     public hasWritePermissions = true;
     public deploymentObject: DeploymentData;
 
+    public oAuthToken = '';
     constructor(
         _portalService: PortalService,
         private _cacheService: CacheService,
@@ -108,9 +109,13 @@ export class KuduDashboardComponent implements OnChanges {
     }
 
     AuthGithub() {
-        this._cacheService.get('/auth/github').subscribe(r => {
-            console.log(r);
-        });
+        const win = window.open('/api/auth/github');
+        const t = this;
+        win.onunload = ev => {
+            this._cacheService.get('/api/auth/githubToken').subscribe(r => {
+                t.oAuthToken = r.text();
+            });
+        };
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
