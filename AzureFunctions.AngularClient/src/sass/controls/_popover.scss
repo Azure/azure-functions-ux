@@ -1,6 +1,13 @@
 /* Overwritting ng2-popover */
-
 .popover {
     border-radius: 0px !important;
     max-width: 400px;
+}
+
+/* Global style for pop-over link colors */
+.pop-over-links {
+    a {
+        color: #55b3ff;
+        text-decoration: none;
+    }
 }
