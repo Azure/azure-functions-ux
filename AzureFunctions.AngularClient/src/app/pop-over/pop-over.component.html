@@ -1,7 +1,7 @@
 <span [class]="popOverClass" [ngClass]="{'pop-over-input-error': isInputError, 'pop-over-input-warning': isInputWarning}"
     tabindex="-1">
     <span *ngIf="message"
-        class="pop-over-common" 
+        class="pop-over-common pop-over-links"
         [class.pop-over]="position!=='bottom'"
         [class.pop-over-bottom]="position==='bottom'"
         [class.pop-over-visible]="show"
