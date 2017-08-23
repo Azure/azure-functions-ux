@@ -10,7 +10,8 @@
       [displayText]="locationsDisplayText"
       (selectedValues)="onLocationsSelect($event)"
       [allItemsDisplay]="allLocations"
-      [numberItemsDisplay]="numberLocations">
+      [numberItemsDisplay]="numberLocations"
+      [ariaLabel]="'locationFilter' | translate">
   </multi-drop-down>
 
   <label>{{ 'resourceGroupColon' | translate }}</label>
@@ -20,7 +21,8 @@
       [displayText]="resourceGroupsDisplayText"
       (selectedValues)="onResourceGroupsSelect($event)"
       [allItemsDisplay]="allResourceGroups"
-      [numberItemsDisplay]="numberResourceGroups">
+      [numberItemsDisplay]="numberResourceGroups"
+      [ariaLabel]="'resourceGroupFilter' | translate">
   </multi-drop-down>
 
   <drop-down id="groupingDropDown"

@@ -4120,6 +4120,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location filter.
+        /// </summary>
+        internal static string locationFilter {
+            get {
+                return ResourceManager.GetString("locationFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         internal static string logStreaming_clear {
@@ -4597,6 +4606,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource group filter.
+        /// </summary>
+        internal static string resourceGroupFilter {
+            get {
+                return ResourceManager.GetString("resourceGroupFilter", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Waiting for the resource.
         /// </summary>
         internal static string resourceSelect {
@@ -4719,6 +4737,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string searchFeatures {
             get {
                 return ResourceManager.GetString("searchFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter subscriptions.
+        /// </summary>
+        internal static string filterSubscriptions {
+            get {
+                return ResourceManager.GetString("filterSubscriptions", resourceCulture);
             }
         }
         
