@@ -103,6 +103,7 @@
       <th>
         {{'checkinMessage' | translate}}
       </th>
+      <th class="icon"></th>
     </tr>
 
     <tr *ngFor="let item of table.items">
@@ -117,11 +118,21 @@
       </td>
       <td>{{item.status}}</td>
       <td>
-        <div *ngIf="item.commit">
+        <div *ngIf="item.type === 'row'">
           {{item.commit}} ({{item.author}})
         </div>
       </td>
-      <td>{{item.checkinMessage}}</td>
+      <td>
+
+        {{item.checkinMessage}}
+
+      </td>
+
+      <td class="icon">
+        <div *ngIf="item.type === 'row'">
+          <img src="images/generic-template.svg" (click)="details(item)" />
+        </div>
+      </td>
     </tr>
   </tbl>
 </div>

@@ -223,6 +223,10 @@ export class KuduDashboardComponent implements OnChanges {
     disconnect() {}
     edit() {}
     refresh() {}
+
+    details(item: KuduTableItem) {
+        console.log(item.commit);
+    }
     get SourceLocation() {
         const scmType =
             this.deploymentObject &&
