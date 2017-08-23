@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KuduGitMercurialDashboardComponent } from './kudu-git-mercurial-dashboard.component';
+import { KuduDashboardComponent } from './kudu-dashboard.component';
 
 describe('KuduGitMercurialDashboardComponent', () => {
-  let component: KuduGitMercurialDashboardComponent;
-  let fixture: ComponentFixture<KuduGitMercurialDashboardComponent>;
+  let component: KuduDashboardComponent;
+  let fixture: ComponentFixture<KuduDashboardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KuduGitMercurialDashboardComponent ]
+      declarations: [ KuduDashboardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(KuduGitMercurialDashboardComponent);
+    fixture = TestBed.createComponent(KuduDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

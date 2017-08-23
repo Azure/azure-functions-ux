@@ -2,14 +2,16 @@ import { PublishingCredentials } from '../../shared/models/publishing-credential
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { Site } from '../../shared/models/arm/site';
 import { ArmArrayResult, ArmObj } from '../../shared/models/arm/arm-obj';
-export class DeploymentData
-{
+export class DeploymentData {
     site: ArmObj<Site>;
     siteConfig: ArmObj<SiteConfig>;
     siteMetadata: ArmObj<any>;
     deployments: ArmArrayResult<Deployment>;
     publishingCredentials: ArmObj<PublishingCredentials>;
     sourceControls: ArmObj<any>;
+    publishingUser: ArmObj<{
+        publishingUserName: string;
+    }>;
 }
 
 export interface Deployment {
@@ -33,4 +35,3 @@ export interface Deployment {
     log_url: string;
     site_name: string;
 }
-
