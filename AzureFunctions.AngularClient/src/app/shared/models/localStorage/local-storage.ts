@@ -4,6 +4,15 @@ export interface StorageItem {
     id: string;
 }
 
+export interface ResourceStringsStorageItem extends StorageItem {
+    lang: string;
+    resources: { [key: string]: ResourceStrings };
+}
+
+export interface ResourceStrings {
+    [key: string]: string;
+}
+
 export interface StoredSubscriptions extends StorageItem {
     subscriptions: string[];
 }
