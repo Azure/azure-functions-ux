@@ -59,12 +59,22 @@ export class KuduDashboardComponent implements OnChanges {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId),
                     this._cacheService.getArm(`${resourceId}/config/web`),
-                    this._cacheService.postArm(`${resourceId}/config/metadata/list`),
-                    this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`),
-                    this._cacheService.getArm(`${resourceId}/sourcecontrols/web`),
+                    this._cacheService.postArm(
+                        `${resourceId}/config/metadata/list`
+                    ),
+                    this._cacheService.postArm(
+                        `${resourceId}/config/publishingcredentials/list`
+                    ),
+                    this._cacheService.getArm(
+                        `${resourceId}/sourcecontrols/web`
+                    ),
                     this._cacheService.getArm(`${resourceId}/deployments`),
-                    this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`),
-                    this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
+                    this._cacheService.getArm(
+                        `/providers/Microsoft.Web/publishingUsers/web`
+                    ),
+                    this._authZService.hasPermission(resourceId, [
+                        AuthzService.writeScope
+                    ]),
                     this._authZService.hasReadOnlyLock(resourceId),
                     (
                         site,
@@ -145,30 +155,46 @@ export class KuduDashboardComponent implements OnChanges {
     }
 
     get FolderPath() {
-        if (this.SourceLocation !== 'Dropbox' && this.SourceLocation !== 'Onedrive') {
+        if (
+            this.SourceLocation !== 'Dropbox' &&
+            this.SourceLocation !== 'Onedrive'
+        ) {
             return null;
         }
         const folderPath = this.Repo
             .replace('https://www.dropbox.com/home', '')
-            .replace('https://api.onedrive.com/v1.0/drive/special/approot:', '');
+            .replace(
+                'https://api.onedrive.com/v1.0/drive/special/approot:',
+                ''
+            );
         return folderPath;
     }
 
     get RollbackEnabled() {
         const rollbackEnabled =
-            this.deploymentObject && this.deploymentObject.sourceControls.properties.deploymentRollbackEnabled;
+            this.deploymentObject &&
+            this.deploymentObject.sourceControls.properties
+                .deploymentRollbackEnabled;
         return rollbackEnabled ? 'Yes' : 'No';
     }
     get Repo(): string {
-        return this.deploymentObject && this.deploymentObject.sourceControls.properties.repoUrl;
+        return (
+            this.deploymentObject &&
+            this.deploymentObject.sourceControls.properties.repoUrl
+        );
     }
 
     get Branch() {
-        return this.deploymentObject && this.deploymentObject.sourceControls.properties.branch;
+        return (
+            this.deploymentObject &&
+            this.deploymentObject.sourceControls.properties.branch
+        );
     }
 
     get ScmType() {
-        const isMerc: boolean = this.deploymentObject && this.deploymentObject.sourceControls.properties.isMercurial;
+        const isMerc: boolean =
+            this.deploymentObject &&
+            this.deploymentObject.sourceControls.properties.isMercurial;
         return isMerc ? 'Mercurial' : 'Git';
     }
 
@@ -177,14 +203,30 @@ export class KuduDashboardComponent implements OnChanges {
     }
     get GitCloneUri() {
         const publishingUsername =
-            this.deploymentObject && this.deploymentObject.publishingUser.properties.publishingUserName;
+            this.deploymentObject &&
+            this.deploymentObject.publishingUser.properties.publishingUserName;
         const scmUri =
-            this.deploymentObject && this.deploymentObject.publishingCredentials.properties.scmUri.split('@')[1];
-        const siteName = this.deploymentObject && this.deploymentObject.site.name;
-        return this.deploymentObject && `https://${publishingUsername}@${scmUri}:443/${siteName}.git`;
+            this.deploymentObject &&
+            this.deploymentObject.publishingCredentials.properties.scmUri.split(
+                '@'
+            )[1];
+        const siteName =
+            this.deploymentObject && this.deploymentObject.site.name;
+        return (
+            this.deploymentObject &&
+            `https://${publishingUsername}@${scmUri}:443/${siteName}.git`
+        );
     }
+
+    SyncScm() {}
+
+    disconnect() {}
+    edit() {}
+    refresh() {}
     get SourceLocation() {
-        const scmType = this.deploymentObject && this.deploymentObject.siteConfig.properties.scmType;
+        const scmType =
+            this.deploymentObject &&
+            this.deploymentObject.siteConfig.properties.scmType;
         switch (scmType) {
             case 'BitbucketGit':
             case 'BitbucketHg':

@@ -28,7 +28,7 @@
     <div>
       <label id="siteStatusLabel">Account</label>
       <div>
-        <a (click)="accountOnClick()" tabindex="0" (keydown)="onKeyPress($event, item)" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
+        <a (click)="accountOnClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
               {{AccountText}}
             </a>
       </div>
@@ -46,7 +46,7 @@
     <div>
       <label id="siteStatusLabel">Repository</label>
       <div>
-        <a (click)="repositoryOnClick()" tabindex="0" (keydown)="onKeyPress($event, item)" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
+        <a (click)="repositoryOnClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
                 {{RepositoryText}}
               </a>
       </div>
@@ -74,7 +74,7 @@
         Production
       </div>
       <div *ngIf="SlotName">
-        <a (click)="slotOnClick()" tabindex="0" (keydown)="onKeyPress($event, item)" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
+        <a (click)="slotOnClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
               {{SlotName}}
             </a>
       </div>
@@ -101,7 +101,8 @@
     <tr *ngFor="let item of table.items">
       <td>
         <!-- <div style='display:inline-block;vertical-align:bottom;margin-right:10px;'> -->
-          <img *ngIf="item.type === 'row'" style='display:inline-block;vertical-align:middle;width:18px;height:18px;' [src]="item.icon" />
+        <img *ngIf="item.type === 'row'" style='display:inline-block;vertical-align:middle;width:18px;height:18px;' [src]="item.icon"
+        />
         <!-- </div> -->
 
         <div *ngIf="item.type === 'group'" class="messageColumn">
