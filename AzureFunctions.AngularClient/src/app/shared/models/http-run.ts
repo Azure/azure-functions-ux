@@ -4,6 +4,7 @@
     queryStringParams: Param[] = [];
     headers: Param[] = [];
     body: string;
+    code: Param;
 
     constructor() {
     }

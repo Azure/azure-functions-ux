@@ -588,22 +588,25 @@ export class FunctionApp {
             });
         }
 
-        let firstDone = false;
+        let queryString = '';
+        if (model.code) {
+            queryString = `?${model.code.name}=${model.code.value}`;
+        }
         model.queryStringParams.forEach(p => {
             const findResult = processedParams.find((pr) => {
                 return pr === p.name;
             });
 
             if (!findResult) {
-                if (!firstDone) {
-                    url += '?';
-                    firstDone = true;
+                if (!queryString) {
+                    queryString += '?';
                 } else {
-                    url += '&';
+                    queryString += '&';
                 }
-                url += p.name + '=' + p.value;
+                queryString += p.name + '=' + p.value;
             }
         });
+        url = url + queryString;
         const inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
