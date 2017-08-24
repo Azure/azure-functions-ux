@@ -1,3 +1,4 @@
+import { DeploymentCenterComponent } from '../../deployment-center/deployment-center.component';
 import { Dom } from './../../shared/Utilities/dom';
 import { LogService } from './../../shared/services/log.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
@@ -296,7 +297,11 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                 info.iconUrl = 'images/Functions.svg';
                 info.componentFactory = FunctionRuntimeComponent;
                 break;
-
+            case SiteTabIds.continuousDeployment:
+                info.title = 'Deployment Center';
+                info.iconUrl = 'images/deployment-source.svg';
+                info.componentFactory = DeploymentCenterComponent;
+                break;
             case SiteTabIds.apiDefinition:
                 info.title = this._translateService.instant(PortalResources.tab_api_definition);
                 info.iconUrl = 'images/api-definition.svg';

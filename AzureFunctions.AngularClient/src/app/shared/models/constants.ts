@@ -68,6 +68,7 @@ export class SiteTabIds {
     public static readonly apiDefinition = "apiDefinition";
     public static readonly config = "config";
     public static readonly applicationSettings = "appSettings";
+    public static readonly continuousDeployment = "continuousDeployment";
 }
 
 export class Arm {

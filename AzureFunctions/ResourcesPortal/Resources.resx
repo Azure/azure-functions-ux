@@ -2197,4 +2197,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="optional" xml:space="preserve">
     <value>Optional</value>
   </data>
+
+  <data name="redeploy" xml:space="preserve">
+    <value>Redeploy</value>
+  </data>
+  <data name="time" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="showLogs" xml:space="preserve">
+    <value>Show Logs...</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="commitIdAuthor" xml:space="preserve">
+    <value>Commit ID (Author)</value>
+  </data>
+  <data name="checkinMessage" xml:space="preserve">
+    <value>Checkin Message</value>
+  </data>
 </root>

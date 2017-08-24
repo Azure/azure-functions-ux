@@ -1,0 +1,137 @@
+<ng-sidebar-container style="height:100vh" [animate]="true">
+  <div ng-sidebar-content>
+    <command-bar>
+      <command displayText="{{ 'refresh' | translate }}" iconUrl="images/swap.svg" (click)="refresh()"></command>
+      <command displayText="{{ 'disconnect' | translate }}" iconUrl="images/error.svg" (click)="disconnect()"></command>
+      <command displayText="{{ 'sync' | translate }}" iconUrl="images/Functions.svg" (click)="SyncScm()"></command>
+    </command-bar>
+
+    <div id="essentials-container">
+      <div class="essentials-col">
+        <!-- TODO: Replace ALL Hardcoded strings, these are currently Temporary -->
+        <div>
+          <label id="siteStatusLabel">Source</label>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            {{SourceLocation}}
+          </div>
+        </div>
+
+        <div>
+          <label id="siteStatusLabel">Build</label>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            Kudu
+          </div>
+        </div>
+      </div>
+
+
+      <div class="essentials-col" *ngIf="Branch">
+
+        <div>
+          <label id="siteStatusLabel">Repo</label>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            {{Repo}}
+          </div>
+        </div>
+
+        <div>
+          <label id="siteStatusLabel">Branch</label>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            {{Branch}}
+          </div>
+        </div>
+      </div>
+
+
+      <div class="essentials-col" *ngIf="SourceLocation === 'Local Git'">
+
+        <div>
+          <label id="siteStatusLabel">Git Clone Uri</label>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            {{GitCloneUri}}
+          </div>
+        </div>
+      </div>
+
+      <div class="essentials-col" *ngIf="FolderPath">
+
+        <div>
+          <label id="siteStatusLabel">Folder</label>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            {{FolderPath}}
+          </div>
+        </div>
+
+        <div>
+          <label id="siteStatusLabel">Rollback Enabled</label>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            {{RollbackEnabled}}
+          </div>
+        </div>
+      </div>
+
+      <div class="essentials-col" *ngIf="Branch">
+        <div>
+          <label id="siteStatusLabel">Source Control Type</label>
+          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
+            {{ScmType}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-collection-container">
+      <tbl [items]="TableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="time">
+        <tr>
+          <th>
+            {{'time' | translate}}
+          </th>
+          <th>
+            {{'status' | translate}}
+          </th>
+          <th>
+            {{'commitIdAuthor' | translate}}
+          </th>
+          <th>
+            {{'checkinMessage' | translate}}
+          </th>
+          <th class="icon"></th>
+        </tr>
+
+        <tr *ngFor="let item of table.items">
+
+          <td>
+            <div *ngIf="item.type === 'row'">
+              {{item.time}}
+            </div>
+            <div *ngIf="item.type === 'group'">
+              <b>{{item.time}}</b>
+            </div>
+          </td>
+          <td>{{item.status}}</td>
+          <td>
+            <div *ngIf="item.type === 'row'">
+              {{item.commit}} ({{item.author}})
+            </div>
+          </td>
+          <td>
+
+            {{item.checkinMessage}}
+
+          </td>
+
+          <td class="icon">
+            <div *ngIf="item.type === 'row'">
+              <img src="images/generic-template.svg" (click)="details(item)" />
+            </div>
+          </td>
+        </tr>
+      </tbl>
+    </div>
+  </div>
+  <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'push'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
+    [autoFocus]="true" [sidebarClass]="'demo-sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true">
+    <app-deployment-detail [deploymentObject]="RightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
+
+  </ng-sidebar>
+</ng-sidebar-container>
