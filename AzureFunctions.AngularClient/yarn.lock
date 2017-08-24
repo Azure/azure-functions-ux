@@ -3163,6 +3163,10 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
+ng-sidebar@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/ng-sidebar/-/ng-sidebar-6.0.1.tgz#38a642bbc5a65ce2351e95053fc89d78e877ae56"
+
 ng2-cookies@^1.0.3:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/ng2-cookies/-/ng2-cookies-1.0.11.tgz#486606c632873a6662ec60bbcf397844d70211b7"

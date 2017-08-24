@@ -1,3 +1,4 @@
+import { ArmObj } from '../../../shared/models/arm/arm-obj';
 import { TableItem, TblComponent } from '../../../controls/tbl/tbl.component';
 import { AiService } from '../../../shared/services/ai.service';
 import { AuthzService } from '../../../shared/services/authz.service';
@@ -6,7 +7,7 @@ import { CacheService } from '../../../shared/services/cache.service';
 import { PortalService } from '../../../shared/services/portal.service';
 import { BusyStateScopeManager } from '../../../busy-state/busy-state-scope-manager';
 import { Observable, Subject } from 'rxjs/Rx';
-import { DeploymentData } from '../../Models/deploymentData';
+import { Deployment, DeploymentData } from '../../Models/deploymentData';
 import { BusyStateComponent } from '../../../busy-state/busy-state.component';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
@@ -20,6 +21,7 @@ class KuduTableItem implements TableItem {
     public checkinMessage: string;
     public commit: string;
     public author: string;
+    public deploymentObj: ArmObj<Deployment>;
 }
 @Component({
     selector: 'app-kudu-dashboard',
@@ -40,7 +42,9 @@ export class KuduDashboardComponent implements OnChanges {
     public hasWritePermissions = true;
     public deploymentObject: DeploymentData;
 
-    public oAuthToken = '';
+    public RightPaneItem: ArmObj<Deployment>;
+
+    public sidePanelOpened = false;
     constructor(
         _portalService: PortalService,
         private _cacheService: CacheService,
@@ -143,7 +147,8 @@ export class KuduDashboardComponent implements OnChanges {
                 commit: commitId,
                 checkinMessage: item.message,
                 status: 'Completed',
-                author: author
+                author: author,
+                deploymentObj: value
             };
             this._tableItems.push(row);
         });
@@ -225,8 +230,10 @@ export class KuduDashboardComponent implements OnChanges {
     refresh() {}
 
     details(item: KuduTableItem) {
-        console.log(item.commit);
+        this.RightPaneItem = item.deploymentObj;
+        this.sidePanelOpened = true;
     }
+
     get SourceLocation() {
         const scmType =
             this.deploymentObject &&

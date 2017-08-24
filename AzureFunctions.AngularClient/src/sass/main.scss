@@ -1,23 +1,21 @@
-@import 'common/variables',
-        'common/mixins';
+@import 'common/variables', 'common/mixins';
 
-@import 'base/base',
-        'base/typography';
+@import 'base/base', 'base/typography';
 
 @import 'controls/buttons',
-        // 'controls/log-streaming',
-        'controls/monaco',
-        'controls/radio',
-        'controls/input',
-        'controls/tabs',
-        'controls/tbl',
-        'controls/dialogs',
-        'controls/command-bar',
-        'controls/popover';
+    'controls/monaco',
+    'controls/radio',
+    'controls/input',
+    'controls/tabs',
+    'controls/tbl',
+    'controls/dialogs',
+    'controls/command-bar',
+    'controls/popover';
 
 @import 'pages/binding-designer',
-        'pages/deployment-source',
-        'pages/list-collection';
+    'pages/deployment-source',
+    'pages/list-collection',
+    'pages/sidebar';
 
 // common
 // vendors

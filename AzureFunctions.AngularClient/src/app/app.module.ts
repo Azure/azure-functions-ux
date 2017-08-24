@@ -1,3 +1,4 @@
+import { DeploymentDetailComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
 import { KuduDashboardComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dashboard.component';
 import { VsoDashboardComponent } from './deployment-center/ProviderDashboards/Vso-Dashboard/vso-dashboard.component';
 import { LogService } from './shared/services/log.service';
@@ -123,8 +124,13 @@ import { GeneralSettingsComponent } from './site/site-config/general-settings/ge
 import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
+import { SidebarModule } from 'ng-sidebar';
 
-export function ArmServiceFactory(http: Http, userService: UserService, aiService: AiService) {
+export function ArmServiceFactory(
+    http: Http,
+    userService: UserService,
+    aiService: AiService
+) {
     const service =
         window.location.pathname.toLowerCase() === '/try'
             ? new ArmTryService(http, userService, aiService)
@@ -134,7 +140,10 @@ export function ArmServiceFactory(http: Http, userService: UserService, aiServic
 }
 
 export function AiServiceFactory() {
-    const service = window.location.pathname.toLowerCase() === '/try' ? new AiTryService() : new AiService();
+    const service =
+        window.location.pathname.toLowerCase() === '/try'
+            ? new AiTryService()
+            : new AiService();
     return service;
 }
 
@@ -244,7 +253,8 @@ export class AppModule {
             BindingEventGridComponent,
             DeploymentCenterComponent,
             VsoDashboardComponent,
-            KuduDashboardComponent
+            KuduDashboardComponent,
+            DeploymentDetailComponent
         ],
         imports: [
             FormsModule,
@@ -254,7 +264,8 @@ export class AppModule {
             HttpModule,
             TranslateModule.forRoot(),
             FileUploadModule,
-            PopoverModule
+            PopoverModule,
+            SidebarModule
         ],
         providers: [
             ConfigService,
