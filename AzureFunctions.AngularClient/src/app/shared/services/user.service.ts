@@ -1,3 +1,5 @@
+import { ResourceStringsStorageItem } from './../models/localStorage/local-storage';
+import { LocalStorageService } from './local-storage.service';
 import { LanguageServiceHelper } from './language.service-helper';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from './../models/subscription';
@@ -28,7 +30,8 @@ export class UserService {
         private _http: Http,
         private _aiService: AiService,
         private _portalService: PortalService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _localStorageService: LocalStorageService) {
 
         this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
         this.inIFrame = PortalService.inIFrame();
@@ -175,13 +178,47 @@ export class UserService {
     private _getLocalizedResources(startupInfo: StartupInfo, runtime: string): Observable<any> {
 
         const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, runtime);
+        let storageItem: ResourceStringsStorageItem;
+
+        // For the default case, we optimize to always try to load from local storage first.
+        // If a match is found, then we'll use that and then kick off a non-blocking request to
+        // refresh the cache.  Otherwise we'll just block on refreshing the cache.
+        if (input.runtime === 'default') {
+            const key = `/string-resources/${input.runtime}`;
+            storageItem = <ResourceStringsStorageItem>this._localStorageService.getItem(key)
+
+            const getResources = this._http.get(
+                `${Constants.serviceHost}api/resources?name=${input.lang}&runtime=${input.runtime}`,
+                { headers: LanguageServiceHelper.getApiControllerHeaders() })
+                .retryWhen(LanguageServiceHelper.retry)
+                .do(r => {
+                    const resources = r.json();
+                    LanguageServiceHelper.setTranslation(resources, input.lang, this._translateService);
+
+                    storageItem = {
+                        id: key,
+                        lang: input.lang,
+                        resources: resources
+                    };
+
+                    this._localStorageService.setItem(key, storageItem);
+                });
+
+            if (storageItem && storageItem.lang === input.lang) {
+                LanguageServiceHelper.setTranslation(storageItem.resources, input.lang, this._translateService);
+                getResources.subscribe(() => { });
+
+                return Observable.of(null);
+            }
+
+            return getResources;
+        }
 
         return this._http.get(
             `${Constants.serviceHost}api/resources?name=${input.lang}&runtime=${input.runtime}`,
             { headers: LanguageServiceHelper.getApiControllerHeaders() })
-
             .retryWhen(LanguageServiceHelper.retry)
-            .map(r => {
+            .do(r => {
                 const resources = r.json();
                 LanguageServiceHelper.setTranslation(resources, input.lang, this._translateService);
             });
