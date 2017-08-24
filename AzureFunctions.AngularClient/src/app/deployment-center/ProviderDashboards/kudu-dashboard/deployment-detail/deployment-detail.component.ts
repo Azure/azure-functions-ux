@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 import { TableItem } from '../../../../controls/tbl/tbl.component';
 import { AiService } from '../../../../shared/services/ai.service';
 import { CacheService } from '../../../../shared/services/cache.service';
@@ -7,14 +9,7 @@ import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Rx';
 import { Deployment } from '../../../Models/deploymentData';
 import { ArmArrayResult, ArmObj } from '../../../../shared/models/arm/arm-obj';
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    Output,
-    ViewChild
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
@@ -50,16 +45,13 @@ export class DeploymentDetailComponent implements OnChanges {
     private _tableItems: DeploymentDetailTableItem[];
 
     public logsToShow;
-    constructor(
-        private _cacheService: CacheService,
-        private _aiService: AiService
-    ) {
+    constructor(private _cacheService: CacheService, private _aiService: AiService, private _translateService: TranslateService) {
         this._tableItems = [];
         this.viewInfoStream = new Subject<ArmObj<Deployment>>();
         this._viewInfoSubscription = this.viewInfoStream
             .distinctUntilChanged()
             .switchMap(deploymentObject => {
-                // this._busyStateScopeManager.setBusy();
+                this.logsToShow = null;
                 const deploymentId = deploymentObject.id;
                 return this._cacheService.getArm(`${deploymentId}/log`);
             })
@@ -90,19 +82,25 @@ export class DeploymentDetailComponent implements OnChanges {
         return this._tableItems || [];
     }
 
+    redeploy() {
+        this._cacheService.putArm(this.deploymentObject.id).subscribe(r => {
+            console.log('done');
+        });
+    }
+
     close() {
         this.closePanel.emit();
     }
+
     showLogs(item: DeploymentDetailTableItem) {
-        this.logsToShow = 'Loading...';
+        this.logsToShow = this._translateService.instant(PortalResources.resourceSelect);
         this._cacheService.getArm(item.id).subscribe(r => {
             const obs: ArmObj<any>[] = r.json().value;
-            const message = obs
-                .map(x => x.properties.message as string)
-                .join('\n');
+            const message = obs.map(x => x.properties.message as string).join('\n');
             this.logsToShow = message;
         });
     }
+
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['deploymentObject']) {
             if (this.deploymentObject) {

@@ -54,15 +54,22 @@ export class DeploymentCenterComponent implements OnInit {
 
         this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
         this._viewInfoSubscription = this.viewInfoStream
-            .distinctUntilChanged()
             .switchMap(viewInfo => {
                 this._busyStateScopeManager.setBusy();
                 this.resourceId = viewInfo.resourceId;
                 return Observable.zip(
-                    this._cacheService.getArm(`${viewInfo.resourceId}/config/web`),
-                    this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
+                    this._cacheService.getArm(
+                        `${viewInfo.resourceId}/config/web`
+                    ),
+                    this._authZService.hasPermission(viewInfo.resourceId, [
+                        AuthzService.writeScope
+                    ]),
                     this._authZService.hasReadOnlyLock(viewInfo.resourceId),
-                    (sc, wp, rl) => ({ siteConfig: sc.json(), writePermission: wp, readOnlyLock: rl })
+                    (sc, wp, rl) => ({
+                        siteConfig: sc.json(),
+                        writePermission: wp,
+                        readOnlyLock: rl
+                    })
                 );
             })
             .do(null, error => {
@@ -80,12 +87,21 @@ export class DeploymentCenterComponent implements OnInit {
             });
     }
 
+    refreshedSCMType() {
+        this.viewInfoStream.next(this.viewInfoInput);
+    }
+
     get DeploymentSetUpComplete() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None';
+        return (
+            this._siteConfigObject &&
+            this._siteConfigObject.properties.scmType !== 'None'
+        );
     }
 
     get ScmType() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType;
+        return (
+            this._siteConfigObject && this._siteConfigObject.properties.scmType
+        );
     }
 
     ngOnInit() {}

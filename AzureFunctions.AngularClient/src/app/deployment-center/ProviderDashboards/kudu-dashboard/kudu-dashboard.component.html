@@ -1,19 +1,16 @@
-<ng-sidebar-container style="height:100vh" [animate]="false">
+<ng-sidebar-container style="height:100vh" [animate]="true">
   <div ng-sidebar-content>
     <command-bar>
-      <!-- Reset Publishing Creds if Local Git -->
       <command displayText="{{ 'refresh' | translate }}" iconUrl="images/swap.svg" (click)="refresh()"></command>
       <command displayText="{{ 'disconnect' | translate }}" iconUrl="images/error.svg" (click)="disconnect()"></command>
-      <command displayText="{{ 'edit' | translate }}" iconUrl="images/Functions.svg" (click)="edit()"></command>
       <command displayText="{{ 'sync' | translate }}" iconUrl="images/Functions.svg" (click)="SyncScm()"></command>
     </command-bar>
 
     <div id="essentials-container">
       <div class="essentials-col">
-
+        <!-- TODO: Replace ALL Hardcoded strings, these are currently Temporary -->
         <div>
           <label id="siteStatusLabel">Source</label>
-          <!-- No Click Action -->
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{SourceLocation}}
           </div>
@@ -21,7 +18,6 @@
 
         <div>
           <label id="siteStatusLabel">Build</label>
-          <!-- No Click Action -->
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             Kudu
           </div>
@@ -33,7 +29,6 @@
 
         <div>
           <label id="siteStatusLabel">Repo</label>
-          <!-- No Click Action -->
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{Repo}}
           </div>
@@ -41,7 +36,6 @@
 
         <div>
           <label id="siteStatusLabel">Branch</label>
-          <!-- No Click Action -->
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{Branch}}
           </div>
@@ -53,7 +47,6 @@
 
         <div>
           <label id="siteStatusLabel">Git Clone Uri</label>
-          <!-- No Click Action -->
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{GitCloneUri}}
           </div>
@@ -64,7 +57,6 @@
 
         <div>
           <label id="siteStatusLabel">Folder</label>
-          <!-- No Click Action -->
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{FolderPath}}
           </div>
@@ -72,7 +64,6 @@
 
         <div>
           <label id="siteStatusLabel">Rollback Enabled</label>
-          <!-- No Click Action -->
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{RollbackEnabled}}
           </div>
@@ -82,7 +73,6 @@
       <div class="essentials-col" *ngIf="Branch">
         <div>
           <label id="siteStatusLabel">Source Control Type</label>
-          <!-- No Click Action -->
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{ScmType}}
           </div>
@@ -140,7 +130,7 @@
     </div>
   </div>
   <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'push'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
-    [autoFocus]="true" [sidebarClass]="'demo-sidebar'" [ariaLabel]="'Deployment Details'" [animate]="false">
+    [autoFocus]="true" [sidebarClass]="'demo-sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true">
     <app-deployment-detail [deploymentObject]="RightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
 
   </ng-sidebar>

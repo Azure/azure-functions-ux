@@ -1,4 +1,3 @@
-<busy-state name="deployment-details"></busy-state>
 <command-bar>
   <command displayText="{{ 'redeploy' | translate }}" iconUrl="images/swap.svg" (click)="refresh()"></command>
   <span class="close-button" (click)="close()">
@@ -24,7 +23,7 @@
       <td>{{item.activity}}</td>
       <td>
         <div *ngIf="item.log">
-          <a class="link" (click)="showLogs(item)">Show Logs..</a>
+          <a class="link" (click)="showLogs(item)">{{'showLogs' | translate}}</a>
         </div>
       </td>
     </tr>

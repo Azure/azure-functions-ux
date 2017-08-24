@@ -2,7 +2,8 @@
 .demo-sidebar {
     background-color: #fff;
 
-    max-width: 40vw;
+    width: 40vw;
+
     &.ng-sidebar--opened.ng-sidebar--push {
         border-left: $border;
     }

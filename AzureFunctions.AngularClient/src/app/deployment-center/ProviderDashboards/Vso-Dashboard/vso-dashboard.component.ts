@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from '../../../busy-state/busy-state-scope-manager';
 import { BusyStateComponent } from '../../../busy-state/busy-state.component';
 import { SiteTabComponent } from '../../../site/site-dashboard/site-tab/site-tab.component';
@@ -7,12 +9,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { CacheService } from '../../../shared/services/cache.service';
 import { PortalService } from '../../../shared/services/portal.service';
 import { TblComponent } from '../../../controls/tbl/tbl.component';
-import {
-    ActivityDetailsLog,
-    KuduLogMessage,
-    UrlInfo,
-    VSOBuildDefinition
-} from '../../Models/VSOBuildModels';
+import { ActivityDetailsLog, KuduLogMessage, UrlInfo, VSOBuildDefinition } from '../../Models/VSOBuildModels';
 import { VSTSLogMessageType } from '../../Models/DeploymentEnums';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Deployment, DeploymentData } from '../../Models/deploymentData';
@@ -49,7 +46,8 @@ export class VsoDashboardComponent implements OnChanges {
         private _cacheService: CacheService,
         private _aiService: AiService,
         private _authZService: AuthzService,
-        siteTabsComponent: SiteTabComponent
+        siteTabsComponent: SiteTabComponent,
+        private _translateService: TranslateService
     ) {
         this._busyState = siteTabsComponent.busyState;
         this._busyStateScopeManager = this._busyState.getScopeManager();
@@ -62,30 +60,13 @@ export class VsoDashboardComponent implements OnChanges {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId),
                     this._cacheService.getArm(`${resourceId}/config/web`),
-                    this._cacheService.postArm(
-                        `${resourceId}/config/metadata/list`
-                    ),
-                    this._cacheService.postArm(
-                        `${resourceId}/config/publishingcredentials/list`
-                    ),
-                    this._cacheService.getArm(
-                        `${resourceId}/sourcecontrols/web`
-                    ),
+                    this._cacheService.postArm(`${resourceId}/config/metadata/list`),
+                    this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`),
+                    this._cacheService.getArm(`${resourceId}/sourcecontrols/web`),
                     this._cacheService.getArm(`${resourceId}/deployments`),
-                    this._authZService.hasPermission(resourceId, [
-                        AuthzService.writeScope
-                    ]),
+                    this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(resourceId),
-                    (
-                        site,
-                        siteConfig,
-                        metadata,
-                        pubCreds,
-                        sourceControl,
-                        deployments,
-                        writePerm: boolean,
-                        readLock: boolean
-                    ) => ({
+                    (site, siteConfig, metadata, pubCreds, sourceControl, deployments, writePerm: boolean, readLock: boolean) => ({
                         site: site.json(),
                         siteConfig: siteConfig.json(),
                         metadata: metadata.json(),
@@ -116,9 +97,7 @@ export class VsoDashboardComponent implements OnChanges {
                 };
                 this._tableItems = [];
                 this.deploymentObject.deployments.value.forEach(element => {
-                    const tableItem: ActivityDetailsLog = this._populateActivityDetails(
-                        element.properties
-                    );
+                    const tableItem: ActivityDetailsLog = this._populateActivityDetails(element.properties);
                     tableItem.type = 'row';
                     this._tableItems.push(tableItem);
                 });
@@ -130,8 +109,7 @@ export class VsoDashboardComponent implements OnChanges {
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                 this._busyStateScopeManager.clearBusy();
 
-                const vstsMetaData: any = this.deploymentObject.siteMetadata
-                    .properties;
+                const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 
                 const endpoint = vstsMetaData['VSTSRM_ConfiguredCDEndPoint'];
                 const endpointUri = new URL(endpoint);
@@ -197,16 +175,11 @@ export class VsoDashboardComponent implements OnChanges {
         // populate activity details according to the message format
         let messageToAdd: ActivityDetailsLog;
         if (!this._isMessageFormatJSON(message)) {
-            messageToAdd = this._createDeploymentLogFromStringMessage(
-                item,
-                date
-            );
+            messageToAdd = this._createDeploymentLogFromStringMessage(item, date);
         } else {
             let destinationSlotName = '';
             const messageJSON: KuduLogMessage = JSON.parse(item.message);
-            const logType: VSTSLogMessageType = this._assignLogType(
-                messageJSON.type
-            );
+            const logType: VSTSLogMessageType = this._assignLogType(messageJSON.type);
 
             if (logType === VSTSLogMessageType.CDDisconnect) {
                 destinationSlotName = messageJSON.prodAppName;
@@ -214,13 +187,7 @@ export class VsoDashboardComponent implements OnChanges {
                 destinationSlotName = messageJSON.slotName;
             }
             if (logType !== VSTSLogMessageType.Other) {
-                messageToAdd = this._createDeploymentLogFromJSONMessage(
-                    item,
-                    messageJSON,
-                    date,
-                    logType,
-                    destinationSlotName
-                );
+                messageToAdd = this._createDeploymentLogFromJSONMessage(item, messageJSON, date, logType, destinationSlotName);
             }
         }
         return messageToAdd;
@@ -243,22 +210,13 @@ export class VsoDashboardComponent implements OnChanges {
             date: t.format('M/D/YY'),
 
             time: t.format('h:mm:ss A'),
-            message: this._getMessage(
-                messageJSON,
-                item.status,
-                logType,
-                targetApp
-            ),
+            message: this._getMessage(messageJSON, item.status, logType, targetApp),
             urlInfo: this._getUrlInfoFromJSONMessage(messageJSON)
         };
     }
 
-    private _getMessage(
-        messageJSON: KuduLogMessage,
-        status: number,
-        logType: VSTSLogMessageType,
-        targetApp?: string
-    ): string {
+    private _getMessage(messageJSON: KuduLogMessage, status: number, logType: VSTSLogMessageType, targetApp?: string): string {
+        //TODO: Move strings to localization
         targetApp = targetApp ? targetApp : messageJSON.slotName;
         switch (logType) {
             case VSTSLogMessageType.Deployment:
@@ -267,20 +225,10 @@ export class VsoDashboardComponent implements OnChanges {
                     : '{0} to {1}'.format('Failed to deploy to', targetApp);
             case VSTSLogMessageType.SlotSwap:
                 return status === 4
-                    ? '{0} {1} with {2}'.format(
-                          'Swapped slot',
-                          messageJSON.sourceSlot,
-                          messageJSON.targetSlot
-                      )
-                    : '{0} {1} with {2}'.format(
-                          'Failed to swap slot',
-                          messageJSON.sourceSlot,
-                          messageJSON.targetSlot
-                      );
+                    ? '{0} {1} with {2}'.format('Swapped slot', messageJSON.sourceSlot, messageJSON.targetSlot)
+                    : '{0} {1} with {2}'.format('Failed to swap slot', messageJSON.sourceSlot, messageJSON.targetSlot);
             case VSTSLogMessageType.CDDeploymentConfiguration:
-                return status === 4
-                    ? 'Successfully setup Continuous Delivery and triggered build'
-                    : 'Failed to setup Continuous Delivery';
+                return status === 4 ? 'Successfully setup Continuous Delivery and triggered build' : 'Failed to setup Continuous Delivery';
             case VSTSLogMessageType.LocalGitCdConfiguration:
                 return 'Successfully setup Continuous Delivery for the repository';
             case VSTSLogMessageType.CDAccountCreated:
@@ -288,29 +236,19 @@ export class VsoDashboardComponent implements OnChanges {
                     ? 'Created new Visual Studio Team Services account'
                     : 'Failed to create Visual Studio Team Services account';
             case VSTSLogMessageType.CDSlotCreation:
-                return status === 4
-                    ? 'Created new slot'
-                    : 'Failed to create a slot';
+                return status === 4 ? 'Created new slot' : 'Failed to create a slot';
             case VSTSLogMessageType.CDTestWebAppCreation:
                 return status === 4
                     ? 'Created new Web Application for test environment'
                     : 'Failed to create new Web Application for test environment';
             case VSTSLogMessageType.CDDisconnect:
-                return 'Successfully disconnected Continuous Delivery for {0}'.format(
-                    targetApp
-                );
+                return 'Successfully disconnected Continuous Delivery for {0}'.format(targetApp);
             case VSTSLogMessageType.StartAzureAppService:
-                return status === 4
-                    ? '{0} got started'.format(targetApp)
-                    : 'Failed to start {0}'.format(targetApp);
+                return status === 4 ? '{0} got started'.format(targetApp) : 'Failed to start {0}'.format(targetApp);
             case VSTSLogMessageType.StopAzureAppService:
-                return status === 4
-                    ? '{0} got stopped'.format(targetApp)
-                    : 'Failed to stop {0}'.format(targetApp);
+                return status === 4 ? '{0} got stopped'.format(targetApp) : 'Failed to stop {0}'.format(targetApp);
             case VSTSLogMessageType.RestartAzureAppService:
-                return status === 4
-                    ? '{0} got restarted'.format(targetApp)
-                    : 'Failed to restart {0}'.format(targetApp);
+                return status === 4 ? '{0} got restarted'.format(targetApp) : 'Failed to restart {0}'.format(targetApp);
             case VSTSLogMessageType.Sync:
                 return 'Successfully triggered Continuous Delivery with latest source code from repository';
             default:
@@ -344,11 +282,7 @@ export class VsoDashboardComponent implements OnChanges {
 
     private _getBuildUrl(messageJSON: KuduLogMessage): string {
         if (messageJSON.buildId != null) {
-            return '{0}{1}/_build?buildId={2}&_a=summary'.format(
-                messageJSON.collectionUrl,
-                messageJSON.teamProject,
-                messageJSON.buildId
-            );
+            return '{0}{1}/_build?buildId={2}&_a=summary'.format(messageJSON.collectionUrl, messageJSON.teamProject, messageJSON.buildId);
         }
         return '';
     }
@@ -376,10 +310,7 @@ export class VsoDashboardComponent implements OnChanges {
             if (commitUrl) {
                 urlInfo.push({
                     urlIcon: 'images/deployment-center/CD-Commit.svg',
-                    urlText: `Source Version ${messageJSON.commitId.substr(
-                        0,
-                        10
-                    )}`,
+                    urlText: `Source Version ${messageJSON.commitId.substr(0, 10)}`,
                     url: commitUrl
                 });
             }
@@ -448,10 +379,7 @@ export class VsoDashboardComponent implements OnChanges {
         }
         return urlInfo;
     }
-    private _createDeploymentLogFromStringMessage(
-        item: any,
-        date: Date
-    ): ActivityDetailsLog {
+    private _createDeploymentLogFromStringMessage(item: any, date: Date): ActivityDetailsLog {
         const messageString: string = item.message;
         /* messageString is of the format
         "Updating Deployment History For Deployment [collectionUrl][teamProject]/_build?buildId=[buildId]&_a=summary"
@@ -467,10 +395,7 @@ export class VsoDashboardComponent implements OnChanges {
             date: t.format('M/D/YY'),
 
             time: t.format('h:mm:ss A'),
-            message:
-                item.status === 4
-                    ? 'Deployed successfully'
-                    : 'Failed to deploy',
+            message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
 
             urlInfo: this._getUrlInfoFromStringMessage(messageString)
         };
@@ -481,20 +406,14 @@ export class VsoDashboardComponent implements OnChanges {
         if (messageString.search('buildId') !== -1) {
             urlInfo.push({
                 urlIcon: 'build.svg',
-                urlText: `Build: ${messageString.substring(
-                    messageString.search('=') + 1,
-                    messageString.search('&')
-                )}`,
+                urlText: `Build: ${messageString.substring(messageString.search('=') + 1, messageString.search('&'))}`,
                 url: messageString.substr(messageString.search('https'))
             });
         }
         if (messageString.search('releaseId') !== -1) {
             urlInfo.push({
                 urlIcon: 'release.svg',
-                urlText: `Release: ${messageString.substring(
-                    messageString.search('=') + 1,
-                    messageString.search('&')
-                )}`,
+                urlText: `Release: ${messageString.substring(messageString.search('=') + 1, messageString.search('&'))}`,
                 url: messageString.substr(messageString.search('https'))
             });
         }
@@ -516,7 +435,7 @@ export class VsoDashboardComponent implements OnChanges {
 
     get AccountText() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-            return 'Loading..';
+            return this._translateService.instant(PortalResources.loading);
         }
         const url = new URL(this.deploymentObject.VSOData.url).host;
         return url;
@@ -556,10 +475,7 @@ export class VsoDashboardComponent implements OnChanges {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
             return;
         }
-        const win = window.open(
-            this.deploymentObject.VSOData.repository.url,
-            '_blank'
-        );
+        const win = window.open(this.deploymentObject.VSOData.repository.url, '_blank');
         win.focus();
     }
 
@@ -567,9 +483,7 @@ export class VsoDashboardComponent implements OnChanges {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
             return 'Loading..';
         }
-        const testSiteName = this.deploymentObject.siteMetadata.properties[
-            'VSTSRM_TestAppName'
-        ];
+        const testSiteName = this.deploymentObject.siteMetadata.properties['VSTSRM_TestAppName'];
 
         return !!testSiteName ? 'Enabled' : 'Disabled';
     }
@@ -577,19 +491,14 @@ export class VsoDashboardComponent implements OnChanges {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
             return 'Loading..';
         }
-        return this.deploymentObject.VSOData.repository.defaultBranch.replace(
-            'refs/heads/',
-            ''
-        );
+        return this.deploymentObject.VSOData.repository.defaultBranch.replace('refs/heads/', '');
     }
 
     get SlotName() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
             return 'Loading..';
         }
-        const slotName = this.deploymentObject.siteMetadata.properties[
-            'VSTSRM_SlotName'
-        ];
+        const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
         return !!slotName ? slotName : null;
     }
 
@@ -597,9 +506,7 @@ export class VsoDashboardComponent implements OnChanges {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
             return;
         }
-        const slotName = this.deploymentObject.siteMetadata.properties[
-            'VSTSRM_SlotName'
-        ];
+        const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
         this._portalService.openBlade(
             {
                 detailBlade: 'AppsOverviewBlade',

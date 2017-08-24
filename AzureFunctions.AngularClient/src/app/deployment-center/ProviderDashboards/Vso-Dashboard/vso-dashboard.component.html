@@ -7,6 +7,7 @@
 
 <div id="essentials-container">
   <div class="essentials-col">
+    <!-- TODO: Replace ALL Hardcoded strings, these are currently Temporary -->
     <div>
       <label id="siteStatusLabel">Build Provider</label>
       <!-- No Click Action -->
@@ -100,10 +101,8 @@
 
     <tr *ngFor="let item of table.items">
       <td>
-        <!-- <div style='display:inline-block;vertical-align:bottom;margin-right:10px;'> -->
         <img *ngIf="item.type === 'row'" style='display:inline-block;vertical-align:middle;width:18px;height:18px;' [src]="item.icon"
         />
-        <!-- </div> -->
 
         <div *ngIf="item.type === 'group'" class="messageColumn">
           <b><p>{{item.message}}</p></b>

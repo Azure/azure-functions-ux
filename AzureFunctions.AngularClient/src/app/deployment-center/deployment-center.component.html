@@ -1,4 +1,3 @@
 <app-vso-dashboard *ngIf="DeploymentSetUpComplete && ScmType === 'VSTSRM'" [resourceId]="resourceId"> </app-vso-dashboard>
-<app-kudu-dashboard *ngIf="DeploymentSetUpComplete && ScmType !== 'VSTSRM'" [resourceId]="resourceId"> </app-kudu-dashboard>
-
-
+<app-kudu-dashboard *ngIf="DeploymentSetUpComplete && ScmType !== 'VSTSRM'" [resourceId]="resourceId" (disconnected)="refreshedSCMType()">
+</app-kudu-dashboard>

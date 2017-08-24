@@ -1,25 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VstsDeploymentTableComponent } from './vsts-deployment-table.component';
+import { VsoDashboardComponent } from './vso-dashboard.component';
 
-describe('VstsDeploymentTableComponent', () => {
-  let component: VstsDeploymentTableComponent;
-  let fixture: ComponentFixture<VstsDeploymentTableComponent>;
+describe('VsoDashboardComponent', () => {
+    let component: VsoDashboardComponent;
+    let fixture: ComponentFixture<VsoDashboardComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ VstsDeploymentTableComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(
+        async(() => {
+            TestBed.configureTestingModule({
+                declarations: [VsoDashboardComponent]
+            }).compileComponents();
+        })
+    );
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(VstsDeploymentTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(VsoDashboardComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(component).toBeTruthy();
+    });
 });
