@@ -1,4 +1,6 @@
-﻿export class HttpMethods {
+﻿import { VersionInfo } from './version-info';
+
+export class HttpMethods {
     public GET = "get";
     public POST = "post";
     public DELETE = "delete";
@@ -17,8 +19,7 @@ export class Constants {
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
-    public static runtimeVersion: string;
-    public static routingExtensionVersion: string;
+    public static versionInfo: VersionInfo;
     public static nodeVersion = '6.5.0';
     public static latest = 'latest';
     public static disabled = 'disabled';
@@ -86,7 +87,8 @@ export class AvailabilityStates {
 export class NotificationIds {
     public static alwaysOn = 'alwaysOn';
     public static newRuntimeVersion = 'newRuntimeVersion';
-    public static slotsHostId = "slotsBlobStorage"
+    public static slotsHostId = 'slotsBlobStorage';
+    public static runtimeV2 = 'runtimeV2';
 }
 
 export class Validations {

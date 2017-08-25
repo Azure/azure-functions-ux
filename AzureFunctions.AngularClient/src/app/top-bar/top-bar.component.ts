@@ -1,5 +1,4 @@
 import { ConfigService } from './../shared/services/config.service';
-import { TopBarNotification } from './top-bar-models';
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/user';
@@ -25,7 +24,6 @@ export class TopBarComponent implements OnInit {
     // public needUpdateExtensionVersion;
 
     public visible = false;
-    public topBarNotifications: TopBarNotification[] = [];
 
     public resourceId: string;
     public appName: string;
@@ -54,18 +52,10 @@ export class TopBarComponent implements OnInit {
                 });
         }
 
-        this._globalStateService.topBarNotificationsStream
-            .subscribe(topBarNotifications => {
-                this.topBarNotifications = topBarNotifications;
-                this._setVisible();
-            });
+
 
         this._setVisible();
 
-        // this._broadcastService.subscribe(BroadcastEvent.VersionUpdated, event => {
-        // this.needUpdateExtensionVersion = !this._globalStateService.IsLatest;
-        // this.setVisible();
-        // });
     }
 
     public get showTryView() {
@@ -73,10 +63,7 @@ export class TopBarComponent implements OnInit {
     }
 
     private _setVisible() {
-        if (this.inIFrame) {
-            this.visible = this.topBarNotifications && this.topBarNotifications.length > 0;
-        }
-        else if (!this._globalStateService.showTryView) {
+        if (!this._globalStateService.showTryView) {
             this.visible = true;
         }
     }
@@ -110,9 +97,4 @@ export class TopBarComponent implements OnInit {
         window.location.href = Constants.serviceHost + `api/switchtenants/${tenant.TenantId}`;
     }
 
-    notificationClick(notification: TopBarNotification) {
-        if (notification.clickCallback) {
-            notification.clickCallback();
-        }
-    }
 }

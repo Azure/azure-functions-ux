@@ -32,6 +32,7 @@ import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
 import { SlotsService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
+import { VersionInfoHelper } from './../../shared/models/version-info';
 
 @Component({
   selector: 'function-runtime',
@@ -57,6 +58,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public routingExtensionVersion: string;
   public latestRoutingExtensionVersion: string;
   public apiProxiesEnabled: boolean;
+  public functionRutimeOptions: SelectOption<string>[];
+  public functionRuntimeValueStream: Subject<string>;
   private proxySettingValueStream: Subject<boolean>;
   private functionEditModeValueStream: Subject<boolean>;
   public showTryView: boolean;
@@ -143,24 +146,22 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.showDailyMemoryWarning = (!this.site.properties.enabled && this.site.properties.siteDisabledReason === 1);
 
         this.memorySize = this.site.properties.containerSize;
-        this.latestExtensionVersion = Constants.runtimeVersion;
         this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
 
         if (!this.extensionVersion) {
           this.extensionVersion = Constants.latest;
         }
 
-        this.needUpdateExtensionVersion =
-          Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
+        this.setNeedUpdateExtensionVersion();
 
         this.routingExtensionVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
         if (!this.routingExtensionVersion) {
           this.routingExtensionVersion = Constants.disabled;
         }
-        this.latestRoutingExtensionVersion = Constants.routingExtensionVersion;
+        this.latestRoutingExtensionVersion = Constants.versionInfo.proxyDefault;
         this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
         this.needUpdateRoutingExtensionVersion
-          = Constants.routingExtensionVersion !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
+          = Constants.versionInfo.proxyDefault !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
 
         if (EditModeHelper.isReadOnly(r.editMode)) {
           this.functionAppEditMode = false;
@@ -206,12 +207,21 @@ export class FunctionRuntimeComponent implements OnDestroy {
         value: true
       }];
 
+      this.functionRutimeOptions = [
+      {
+        displayLabel: '~1',
+        value: '~1'
+      }, {
+        displayLabel: '~2 (beta)',
+        value: '~2'
+      }];
+
       this.proxySettingValueStream = new Subject<boolean>();
       this.proxySettingValueStream
         .subscribe((value: boolean) => {
           if (this.apiProxiesEnabled !== value) {
             this._busyState.setBusyState();
-            const appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
+            const appSettingValue: string = value ? Constants.versionInfo.proxyDefault : Constants.disabled;
 
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
               .mergeMap(r => {
@@ -221,7 +231,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
                 this.functionApp.fireSyncTrigger();
                 this.apiProxiesEnabled = value;
                 this.needUpdateRoutingExtensionVersion = false;
-                this.routingExtensionVersion = Constants.routingExtensionVersion;
+                this.routingExtensionVersion = Constants.versionInfo.proxyDefault;
                 this._busyState.clearBusyState();
                 this._cacheService.clearArmIdCachePrefix(this.site.id);
               });
@@ -285,6 +295,11 @@ export class FunctionRuntimeComponent implements OnDestroy {
           this._cacheService.clearArmIdCachePrefix(this.site.id);
         });
     });
+
+    this.functionRuntimeValueStream = new Subject<string>();
+    this.functionRuntimeValueStream.subscribe((value: string) => {
+      this.updateVersion(value);
+    });
   }
 
   @Input('viewInfoInput') set viewInfoInput(viewInfo: TreeViewInfo<any>) {
@@ -316,15 +331,26 @@ export class FunctionRuntimeComponent implements OnDestroy {
     return navigator.userAgent.toLocaleLowerCase().indexOf('trident') !== -1;
   }
 
-  updateVersion() {
+  updateVersion(version?: string) {
+    if (version === this.extensionVersion) {
+      return;
+    }
+    if (!version) {
+      version = this.getLatestVersion(this.extensionVersion);
+    };
     this._aiService.trackEvent('/actions/app_settings/update_version');
     this._busyState.setBusyState();
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
       .mergeMap(r => {
-        return this._updateContainerVersion(r.json());
+        return this._updateContainerVersion(r.json(), version);
       })
-      .subscribe(() => {
-        this.needUpdateExtensionVersion = false;
+      .mergeMap(r => {
+        return this.functionApp.getFunctionHostStatus();
+      })
+      .subscribe((hostStatus: HostStatus) => {
+        this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
+        this.extensionVersion = version;
+        this.setNeedUpdateExtensionVersion();
         this._busyState.clearBusyState();
         this._cacheService.clearArmIdCachePrefix(this.site.id);
         this._appNode.clearNotification(NotificationIds.newRuntimeVersion);
@@ -337,7 +363,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
       .mergeMap(r => {
-        return this._updateProxiesVersion(r.json(), Constants.routingExtensionVersion);
+        return this._updateProxiesVersion(r.json(), Constants.versionInfo.proxyDefault);
       })
       .subscribe(() => {
         this.needUpdateRoutingExtensionVersion = false;
@@ -381,11 +407,11 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this._broadcastService.broadcast<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
   }
 
-  private _updateContainerVersion(appSettings: ArmObj<any>) {
+  private _updateContainerVersion(appSettings: ArmObj<any>, version: string) {
     if (appSettings.properties[Constants.azureJobsExtensionVersion]) {
       delete appSettings[Constants.azureJobsExtensionVersion];
     }
-    appSettings.properties[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
+    appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
     appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
 
     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
@@ -400,7 +426,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     if (appSettings[Constants.routingExtensionVersionAppSettingName]) {
       delete appSettings.properties[Constants.routingExtensionVersionAppSettingName];
     }
-    appSettings.properties[Constants.routingExtensionVersionAppSettingName] = value ? value : Constants.routingExtensionVersion;
+    appSettings.properties[Constants.routingExtensionVersionAppSettingName] = value ? value : Constants.versionInfo.proxyDefault;
 
     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
   }
@@ -429,5 +455,27 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
   public get GlobalDisabled() {
     return this._globalStateService.GlobalDisabled;
+  }
+
+  private setNeedUpdateExtensionVersion() {
+    this.needUpdateExtensionVersion = VersionInfoHelper.needToUpdateRuntime(Constants.versionInfo, this.extensionVersion);
+    this.latestExtensionVersion = this.getLatestVersion(this.extensionVersion);
+  }
+
+  private getLatestVersion(version: string): string {
+    const match = Constants.versionInfo.runtimeStable.find(v => {
+      return this.extensionVersion.toLowerCase() === v;
+    });
+    if (match) {
+      return match;
+    } else {
+      if (version.startsWith('1.')) {
+        return '~1';
+      } else if (version.startsWith('2.')) {
+        return '~2';
+      } else {
+        return Constants.versionInfo.runtimeDefault;
+      }
+    }
   }
 }

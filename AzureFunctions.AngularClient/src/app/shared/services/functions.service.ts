@@ -37,9 +37,9 @@ export class FunctionsService {
         private _userService: UserService,
         private _globalStateService: GlobalStateService) {
 
-        if (!Constants.runtimeVersion) {
-            this.getLatestRuntime().subscribe((runtime: any) => {
-                Constants.runtimeVersion = runtime;
+        if (!Constants.versionInfo) {
+            this.getExtensionVersion().subscribe((version: any) => {
+                Constants.versionInfo = version;
             });
         }
 
@@ -124,14 +124,13 @@ export class FunctionsService {
         }
     }
 
-    getLatestRuntime() {
-        return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
+    getExtensionVersion() {
+        return this._http.get(Constants.serviceHost + 'api/version',{ headers: this.getPortalHeaders() })
             .map(r => {
                 return r.json();
             })
             .retryWhen(this.retryAntares);
     }
-
     // to talk to Functions Portal
     private getPortalHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';

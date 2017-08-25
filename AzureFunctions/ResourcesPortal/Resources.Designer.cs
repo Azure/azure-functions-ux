@@ -5806,6 +5806,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You&apos;re using a prerelease version of Azure Functions. Thanks for trying it out!.
+        /// </summary>
+        internal static string topBar_runtimeV2 {
+            get {
+                return ResourceManager.GetString("topBar_runtimeV2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value for id has been explicitly set in host.json, which may cause unexpected behavior when using deployment slots.
         /// </summary>
         internal static string topBar_slotsHostId {

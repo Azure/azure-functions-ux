@@ -5,6 +5,8 @@
 
     <side-nav (treeViewInfoEvent)="updateViewInfo($event)" [tryFunctionAppInput]="tryFunctionApp" *ngIf="!inTab"></side-nav>
 
+    <top-warning></top-warning>
+
     <function-dev *ngIf="inTab" [selectedFunction]="selectedFunction"></function-dev>
 
     <div id="dashboard" *ngIf="!!viewInfo">
