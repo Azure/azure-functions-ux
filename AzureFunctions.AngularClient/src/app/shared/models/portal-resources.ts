@@ -693,6 +693,9 @@ export class PortalResources
     public static rrOverride_message: string = "rrOverride_message";
     public static rrOverride_request: string = "rrOverride_request";
     public static rrOverride_response: string = "rrOverride_response";
+    public static optional: string = "optional";
     public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
+    public static feature_logicAppsInfo: string = "feature_logicAppsInfo";
+    public static tab_logicApps: string = "tab_logicApps";
 }
 

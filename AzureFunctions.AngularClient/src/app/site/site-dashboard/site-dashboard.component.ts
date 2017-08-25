@@ -1,3 +1,4 @@
+import { LogicAppsComponent } from './../../logic-apps/logic-apps.component';
 import { Dom } from './../../shared/Utilities/dom';
 import { LogService } from './../../shared/services/log.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
@@ -38,11 +39,9 @@ import { PartSize } from '../../shared/models/portal';
 @Component({
     selector: 'site-dashboard',
     templateUrl: './site-dashboard.component.html',
-    styleUrls: ['./site-dashboard.component.scss'],
+    styleUrls: ['./site-dashboard.component.scss']
 })
-
 export class SiteDashboardComponent implements OnChanges, OnDestroy {
-
     // We keep a static copy of all the tabs that are open becuase we want to reopen them
     // if a user changes apps or navigates away and comes back.  But we also create an instance
     // copy because the template can't reference static properties
@@ -74,15 +73,15 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
         private _scenarioService: ScenarioService,
-        private _logService: LogService) {
-
+        private _logService: LogService
+    ) {
         this._openTabSubscription = this._broadcastService.subscribe<string>(BroadcastEvent.OpenTab, tabId => {
             this.openFeature(tabId);
         });
 
         this._dirtySub = this._broadcastService.subscribe<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, event => {
             if (!event.dirty && !event.reason) {
-                this.tabInfos.forEach(t => t.dirty = false);
+                this.tabInfos.forEach(t => (t.dirty = false));
             } else {
                 const info = this.tabInfos.find(t => t.id === event.reason);
                 if (info) {
@@ -92,7 +91,6 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         });
 
         if (this.tabInfos.length === 0) {
-
             // Setup initial tabs without inputs immediate so that they load right away
             this.tabInfos = [this._getTabInfo(SiteTabIds.overview, true /* active */, null)];
 
@@ -114,9 +112,10 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
         this.viewInfoStream
             .switchMap(viewInfo => {
-
                 if (this._globalStateService.showTryView) {
-                    this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
+                    this._globalStateService.setDisabledMessage(
+                        this._translateService.instant(PortalResources.try_appDisabled)
+                    );
                 }
 
                 viewInfo.data.siteTabRevealedTraceKey = this._aiService.startTrace();
@@ -128,9 +127,13 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
             })
             .do(null, e => {
                 const descriptor = new SiteDescriptor(this.viewInfo.resourceId);
-                let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
+                let message = this._translateService
+                    .instant(PortalResources.siteDashboard_getAppError)
+                    .format(descriptor.site);
                 if (e && e.status === 404) {
-                    message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
+                    message = this._translateService
+                        .instant(PortalResources.siteDashboard_appNotFound)
+                        .format(descriptor.site);
                 }
 
                 this._logService.error(LogCategories.siteDashboard, '/site-dashboard', e);
@@ -140,7 +143,6 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
             })
             .retry()
             .subscribe(r => {
-
                 this._broadcastService.clearAllDirtyStates();
 
                 this._logService.verbose(LogCategories.siteDashboard, `Received new input, updating tabs`);
@@ -149,18 +151,25 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                     const info = this.tabInfos[i];
 
                     if (info.active) {
-                        this._logService.debug(LogCategories.siteDashboard, `Updating inputs for active tab '${info.id}'`);
+                        this._logService.debug(
+                            LogCategories.siteDashboard,
+                            `Updating inputs for active tab '${info.id}'`
+                        );
 
                         // We're not recreating the active tab so that it doesn't flash in the UI
                         this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo };
                     } else {
-
                         // Just to be extra safe, we create new component instances for tabs that
                         // aren't visible to be sure that we can't accidentally load them with the wrong
                         // input in the future.  This also helps to dispose of other unused components
                         // when we switch apps.
-                        this.tabInfos[i] = this._getTabInfo(info.id, false /* active */, { viewInfoInput: this.viewInfo });
-                        this._logService.debug(LogCategories.siteDashboard, `Creating new component for inactive tab '${info.id}'`);
+                        this.tabInfos[i] = this._getTabInfo(info.id, false /* active */, {
+                            viewInfoInput: this.viewInfo
+                        });
+                        this._logService.debug(
+                            LogCategories.siteDashboard,
+                            `Creating new component for inactive tab '${info.id}'`
+                        );
                     }
                 }
 
@@ -204,7 +213,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         this._logService.verbose(LogCategories.siteDashboard, `Select Tab - ${info.id}`);
 
         this._aiService.trackEvent('/sites/open-tab', { name: info.id });
-        this.tabInfos.forEach(t => t.active = t.id === info.id);
+        this.tabInfos.forEach(t => (t.active = t.id === info.id));
 
         this.viewInfo.data.siteTabRevealedTraceKey = this._aiService.startTrace();
         this.viewInfo.data.siteTabFullReadyTraceKey = this._aiService.startTrace();
@@ -230,8 +239,8 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                     this._selectTabId(SiteTabIds.overview);
                 }
 
-            // Even though you are not opening a new tab, you still must update the _currentTabIndex value
-            // to deal with a possible shift in position of the current tab
+                // Even though you are not opening a new tab, you still must update the _currentTabIndex value
+                // to deal with a possible shift in position of the current tab
             } else {
                 this._currentTabIndex = this.tabInfos.findIndex(i => i.id === this._currentTabId);
             }
@@ -245,7 +254,6 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     }
 
     openFeature(featureId: string) {
-
         this._prevTabId = this._currentTabId;
         let tabInfo = this.tabInfos.find(t => t.id === featureId);
 
@@ -315,6 +323,13 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                 info.componentFactory = SiteConfigComponent;
                 info.closeable = true;
                 break;
+
+            case SiteTabIds.logicApps:
+                info.title = this._translateService.instant(PortalResources.tab_logicApps);
+                info.iconUrl = 'images/logicapp.svg';
+                info.componentFactory = LogicAppsComponent;
+                info.closeable = true;
+                break;
         }
 
         return info;
@@ -354,23 +369,19 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     }
 
     onKeyPress(event: KeyboardEvent, info: TabInfo) {
-
         if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
             this.selectTab(info);
             event.preventDefault();
-
         } else if (event.keyCode === KeyCodes.arrowRight) {
             const tabElements = this._getTabElements();
             this._clearFocusOnTab(tabElements, this._currentTabIndex);
             this._setFocusOnTab(tabElements, this._currentTabIndex + 1);
             event.preventDefault();
-
         } else if (event.keyCode === KeyCodes.arrowLeft) {
             const tabElements = this._getTabElements();
             this._clearFocusOnTab(tabElements, this._currentTabIndex);
             this._setFocusOnTab(tabElements, this._currentTabIndex - 1);
             event.preventDefault();
-
         } else if (event.keyCode === KeyCodes.delete) {
             if (info.closeable) {
                 this.closeTab(info);
