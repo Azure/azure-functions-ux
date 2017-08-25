@@ -72,9 +72,18 @@ namespace AzureFunctions.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetLatestRoutingExtensionVersion()
+        public HttpResponseMessage GetVersion()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, "~0.2");
+            var result = JObject.Parse(
+            @"{
+                'runtimeStable': ['~1', '~2', 'latest'],
+                'proxyStable': ['~0.2', 'latest'],
+                'runtimeDefault': '~1',
+                'proxyDefault': '~0.2'
+
+            }");
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+
         }
 
         [HttpGet]

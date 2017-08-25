@@ -377,7 +377,7 @@ export class GettingStartedComponent implements OnInit {
                     appSettings: [
                         { name: 'AzureWebJobsStorage', value: connectionString },
                         { name: 'AzureWebJobsDashboard', value: connectionString },
-                        { name: Constants.runtimeVersionAppSettingName, value: Constants.runtimeVersion },
+                        { name: Constants.runtimeVersionAppSettingName, value: Constants.versionInfo.runtimeDefault },
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },

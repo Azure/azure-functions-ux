@@ -2197,6 +2197,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="optional" xml:space="preserve">
     <value>Optional</value>
   </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>You're using a prerelease version of Azure Functions. Thanks for trying it out!</value>
+  </data>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Click to hide</value>
   </data>

@@ -123,6 +123,7 @@ import { GeneralSettingsComponent } from './site/site-config/general-settings/ge
 import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
+import { TopWarningComponent } from './top-warning/top-warning.component';
 
 export function ArmServiceFactory(
   http: Http,
@@ -244,7 +245,8 @@ export class AppModule {
       ConnectionStringsComponent,
       PairListComponent,
       RequestResposeOverrideComponent,
-      BindingEventGridComponent
+      BindingEventGridComponent,
+      TopWarningComponent
     ],
     imports: [
       FormsModule,

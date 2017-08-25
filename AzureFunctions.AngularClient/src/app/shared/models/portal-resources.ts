@@ -693,6 +693,8 @@ export class PortalResources
     public static rrOverride_message: string = "rrOverride_message";
     public static rrOverride_request: string = "rrOverride_request";
     public static rrOverride_response: string = "rrOverride_response";
+    public static optional: string = "optional";
+    public static topBar_runtimeV2: string = "topBar_runtimeV2";
     public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
 }
 
