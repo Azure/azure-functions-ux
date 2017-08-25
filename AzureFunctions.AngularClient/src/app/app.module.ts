@@ -1,3 +1,5 @@
+import { WizardModule } from './controls/form-wizard/wizard.module';
+import { DeploymentCenterSetupComponent } from './deployment-center/deployment-center-setup/deployment-center-setup.component';
 import { DeploymentDetailComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
 import { KuduDashboardComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dashboard.component';
 import { VsoDashboardComponent } from './deployment-center/ProviderDashboards/Vso-Dashboard/vso-dashboard.component';
@@ -126,11 +128,7 @@ import { ConnectionStringsComponent } from './site/site-config/connection-string
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 import { SidebarModule } from 'ng-sidebar';
 
-export function ArmServiceFactory(
-    http: Http,
-    userService: UserService,
-    aiService: AiService
-) {
+export function ArmServiceFactory(http: Http, userService: UserService, aiService: AiService) {
     const service =
         window.location.pathname.toLowerCase() === '/try'
             ? new ArmTryService(http, userService, aiService)
@@ -140,10 +138,7 @@ export function ArmServiceFactory(
 }
 
 export function AiServiceFactory() {
-    const service =
-        window.location.pathname.toLowerCase() === '/try'
-            ? new AiTryService()
-            : new AiService();
+    const service = window.location.pathname.toLowerCase() === '/try' ? new AiTryService() : new AiService();
     return service;
 }
 
@@ -254,7 +249,8 @@ export class AppModule {
             DeploymentCenterComponent,
             VsoDashboardComponent,
             KuduDashboardComponent,
-            DeploymentDetailComponent
+            DeploymentDetailComponent,
+            DeploymentCenterSetupComponent
         ],
         imports: [
             FormsModule,
@@ -265,7 +261,8 @@ export class AppModule {
             TranslateModule.forRoot(),
             FileUploadModule,
             PopoverModule,
-            SidebarModule
+            SidebarModule,
+            WizardModule
         ],
         providers: [
             ConfigService,

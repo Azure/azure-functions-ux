@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  justify-content: flex-start;
+
+  &.vertical {
+    flex-direction: row;
+  }
+
+  &.horizontal {
+    flex-direction: column;
+  }
+
+  .wizard-steps {
+    top: 0;
+    display: flex;
+
+    &.vertical {
+      min-width: calc(100% ~'-' 280px);
+      width: 80%;
+      height: 100%;
+      flex-direction: column;
+    }
+
+    &.horizontal {
+      width: 100%;
+      flex-direction: row;
+    }
+  }
+}

@@ -1,0 +1,1 @@
+This wizard is based on code from [ng2-archwizard](https://github.com/madoar/ng2-archwizard) Released under [MIT](https://github.com/madoar/ng2-archwizard/blob/master/LICENSE) license 

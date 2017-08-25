@@ -43,6 +43,10 @@ export class DeploymentCenterComponent implements OnInit {
     private _busyStateScopeManager: BusyStateScopeManager;
 
     public resourceId: string;
+
+    public showFTPDashboard = false;
+    public showWebDeployDashboard = false;
+
     constructor(
         private _aiService: AiService,
         private _authZService: AuthzService,
@@ -58,12 +62,8 @@ export class DeploymentCenterComponent implements OnInit {
                 this._busyStateScopeManager.setBusy();
                 this.resourceId = viewInfo.resourceId;
                 return Observable.zip(
-                    this._cacheService.getArm(
-                        `${viewInfo.resourceId}/config/web`
-                    ),
-                    this._authZService.hasPermission(viewInfo.resourceId, [
-                        AuthzService.writeScope
-                    ]),
+                    this._cacheService.getArm(`${viewInfo.resourceId}/config/web`),
+                    this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(viewInfo.resourceId),
                     (sc, wp, rl) => ({
                         siteConfig: sc.json(),
@@ -92,16 +92,11 @@ export class DeploymentCenterComponent implements OnInit {
     }
 
     get DeploymentSetUpComplete() {
-        return (
-            this._siteConfigObject &&
-            this._siteConfigObject.properties.scmType !== 'None'
-        );
+        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None';
     }
 
     get ScmType() {
-        return (
-            this._siteConfigObject && this._siteConfigObject.properties.scmType
-        );
+        return this._siteConfigObject && this._siteConfigObject.properties.scmType;
     }
 
     ngOnInit() {}

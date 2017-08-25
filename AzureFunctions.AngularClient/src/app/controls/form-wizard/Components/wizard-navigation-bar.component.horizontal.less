@@ -1,0 +1,373 @@
+/*
+ color definitions
+ */
+@wz-color-default: #E6E6E6;
+@wz-color-current: #808080;
+@wz-color-done: #339933;
+@wz-color-optional: #38ef38;
+@wz-color-editing: #FF0000;
+
+/*
+ dot definitions
+ */
+@dot-border-width: 2px;
+
+// small definitions
+@small-dot-width: 14px;
+@small-dot-height: 14px;
+
+// big definitions
+@big-dot-width: 50px;
+@big-dot-height: 50px;
+
+/*
+ extra distance between the bottom of the dots and the baseline texts
+ */
+@dot-baseline-distance: 0px;
+
+// padding between text and baseline
+@text-padding-bottom: 10px;
+@text-height: 14px;
+
+:host.horizontal {
+  .line(@dot-width, @dot-height, @line-color) {
+    background-color: @line-color;
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: calc(100% ~'-' @dot-width);
+    top: -(@dot-baseline-distance + @dot-height / 2);
+    left: calc(50% ~'+' @dot-width / 2);
+  }
+
+  .state-circle(@dot-width, @dot-height, @dot-border-width) {
+    position: absolute;
+    top: -(@dot-baseline-distance + @dot-height);
+    left: calc(50% ~'-' @dot-width / 2);
+    width: @dot-width;
+    height: @dot-height;
+    content: '';
+    text-align: center;
+    vertical-align: middle;
+    line-height: @dot-height - 2 * @dot-border-width;
+    transition: 0.25s;
+    border-radius: 100%;
+  }
+
+  .state-circle-with-border(@dot-border-width, @circle-color) {
+    border-width: @dot-border-width;
+    border-style: solid;
+    border-color: @circle-color;
+  }
+
+  .state-circle-with-border-and-content(@dot-border-width, @circle-color) {
+    .state-circle-with-border(@dot-border-width, @circle-color);
+    color: @circle-color;
+  }
+
+  .state-circle-with-background(@circle-color) {
+    background-color: @circle-color;
+  }
+
+  .state-circle-with-background-and-content(@circle-color) {
+    .state-circle-with-background(@circle-color);
+    color: black;
+  }
+
+  &.small {
+    ul.steps-indicator {
+      padding: (@dot-baseline-distance + @small-dot-height + @text-padding-bottom) 0 @text-padding-bottom 0;
+
+      li {
+        &:not(:last-child):before {
+          .line(@small-dot-width, @small-dot-height, @wz-color-default);
+        }
+
+        &:after {
+          .state-circle(@small-dot-width, @small-dot-height, 0);
+          .state-circle-with-background(@wz-color-default);
+        }
+      }
+
+      // default steps shouldn't change when hovered, because they aren't clickable
+      li.default a:hover {
+        color: @wz-color-current;
+      }
+
+      li.current:after {
+        .state-circle-with-background(@wz-color-current);
+      }
+
+      li.done:after {
+        .state-circle-with-background(@wz-color-done);
+      }
+
+      li.optional:after {
+        .state-circle-with-background(@wz-color-optional);
+      }
+
+      li.editing:after {
+        .state-circle-with-background(@wz-color-editing);
+      }
+    }
+  }
+
+  &.large-filled {
+    ul.steps-indicator {
+      padding: (@dot-baseline-distance + @big-dot-height + @text-padding-bottom) 0 @text-padding-bottom 0;
+
+      li {
+        &:not(:last-child):before {
+          .line(@big-dot-width, @big-dot-height, @wz-color-default);
+        }
+
+        &:after {
+          .state-circle(@big-dot-width, @big-dot-height, 0);
+          .state-circle-with-background(@wz-color-default);
+        }
+      }
+
+      // default steps shouldn't change when hovered, because they aren't clickable
+      li.default a:hover {
+        color: @wz-color-current;
+      }
+
+      li.current:after {
+        .state-circle-with-background(@wz-color-current);
+      }
+
+      li.done:after {
+        .state-circle-with-background(@wz-color-done);
+      }
+
+      li.optional:after {
+        .state-circle-with-background(@wz-color-optional);
+      }
+
+      li.editing:after {
+        .state-circle-with-background(@wz-color-editing);
+      }
+    }
+  }
+
+  &.large-empty {
+    ul.steps-indicator {
+      padding: (@dot-baseline-distance + @big-dot-height + @text-padding-bottom) 0 @text-padding-bottom 0;
+
+      li {
+        &:not(:last-child):before {
+          .line(@big-dot-width, @big-dot-height, @wz-color-default);
+        }
+
+        &:after {
+          .state-circle(@big-dot-width, @big-dot-height, @dot-border-width);
+          .state-circle-with-border(@dot-border-width, @wz-color-default);
+        }
+      }
+
+      // default steps shouldn't change when hovered, because they aren't clickable
+      li.default a:hover {
+        color: @wz-color-current;
+      }
+
+      li.current:after {
+        .state-circle-with-border(@dot-border-width, @wz-color-current);
+      }
+
+      li.done:after {
+        .state-circle-with-border(@dot-border-width, @wz-color-done);
+      }
+
+      li.optional:after {
+        .state-circle-with-border(@dot-border-width, @wz-color-optional);
+      }
+
+      li.editing:after {
+        .state-circle-with-border(@dot-border-width, @wz-color-editing);
+      }
+    }
+  }
+
+  &.large-filled-symbols {
+    ul.steps-indicator {
+      padding: (@dot-baseline-distance + @big-dot-height + @text-padding-bottom) 0 @text-padding-bottom 0;
+
+      li {
+        &:not(:last-child):before {
+          .line(@big-dot-width, @big-dot-height, @wz-color-default);
+        }
+
+        &:after {
+          .state-circle(@big-dot-width, @big-dot-height, 0);
+          .state-circle-with-background-and-content(@wz-color-default);
+
+          content: attr(step-symbol);
+        }
+      }
+
+      // default steps shouldn't change when hovered, because they aren't clickable
+      li.default a:hover {
+        color: @wz-color-current;
+      }
+
+      li.current:after {
+        .state-circle-with-background-and-content(@wz-color-current);
+      }
+
+      li.done:after {
+        .state-circle-with-background-and-content(@wz-color-done);
+      }
+
+      li.optional:after {
+        .state-circle-with-background-and-content(@wz-color-optional);
+      }
+
+      li.editing:after {
+        .state-circle-with-background-and-content(@wz-color-editing);
+      }
+    }
+  }
+
+  &.large-empty-symbols {
+    ul.steps-indicator {
+      padding: (@dot-baseline-distance + @big-dot-height + @text-padding-bottom) 0 @text-padding-bottom 0;
+
+      li {
+        &:not(:last-child):before {
+          .line(@big-dot-width, @big-dot-height, @wz-color-default);
+        }
+
+        &:after {
+          .state-circle(@big-dot-width, @big-dot-height, @dot-border-width);
+          .state-circle-with-border-and-content(@dot-border-width, @wz-color-default);
+
+          content: attr(step-symbol);
+        }
+      }
+
+      // default steps shouldn't change when hovered, because they aren't clickable
+      li.default a:hover {
+        color: @wz-color-current;
+      }
+
+      li.current:after {
+        .state-circle-with-border-and-content(@dot-border-width, @wz-color-current);
+      }
+
+      li.done:after {
+        .state-circle-with-border-and-content(@dot-border-width, @wz-color-done);
+      }
+
+      li.optional:after {
+        .state-circle-with-border-and-content(@dot-border-width, @wz-color-optional);
+      }
+
+      li.editing:after {
+        .state-circle-with-border-and-content(@dot-border-width, @wz-color-editing);
+      }
+    }
+  }
+
+  ul.steps-indicator {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    list-style: none;
+
+    .steps(@number-of-components) {
+      &:before {
+        left: 100% / @number-of-components / 2;
+        right: 100% / @number-of-components / 2;
+      }
+
+      li {
+        width: 100% / @number-of-components;
+      }
+    }
+
+    &.steps-2 {
+      .steps(2);
+    }
+
+    &.steps-3 {
+      .steps(3);
+    }
+
+    &.steps-4 {
+      .steps(4);
+    }
+
+    &.steps-5 {
+      .steps(5);
+    }
+
+    &.steps-6 {
+      .steps(6);
+    }
+
+    &.steps-7 {
+      .steps(7);
+    }
+
+    &.steps-8 {
+      .steps(8);
+    }
+
+    &.steps-9 {
+      .steps(9);
+    }
+
+    &.steps-10 {
+      .steps(10);
+    }
+
+    /* --- http://www.paulirish.com/2012/box-sizing-border-box-ftw/ ---- */
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    li {
+      position: relative;
+      margin: 0;
+      padding: @text-padding-bottom 0 0 0;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        a {
+          color: @wz-color-current;
+          line-height: @text-height;
+          font-size: @text-height;
+          text-decoration: none;
+          text-transform: uppercase;
+          text-align: center;
+          font-weight: bold;
+          transition: 0.25s;
+          cursor: pointer;
+
+          &:hover {
+            color: darken(@wz-color-current, 20%);
+          }
+        }
+      }
+    }
+
+    li.default,
+    li.current,
+    li.optional,
+    li.editing {
+      pointer-events: none;
+    }
+  }
+}
+

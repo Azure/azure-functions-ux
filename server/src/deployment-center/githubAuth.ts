@@ -38,7 +38,7 @@ export function setupGithubAuthentication(app: Application) {
                 req.session['githubToken'] = user.accessToken;
             }
             res.send(`<script>
-                        window.close();
+                        window.close(); 
                     </script>`);
         });
     });

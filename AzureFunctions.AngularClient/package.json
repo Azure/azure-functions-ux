@@ -39,7 +39,8 @@
         "swagger-editor": "git+https://github.com/azure/swagger-editor.git#ff974a50cc7c756f0a96a66f1e92f1286324c549",
         "ts-helpers": "^1.1.1",
         "zone.js": "^0.8.4",
-        "ng-sidebar": "^6.0.1"
+        "ng-sidebar": "^6.0.1",
+        "ng2-archwizard": "^1.7.0"
     },
     "devDependencies": {
         "@angular/cli": "^1.1.3",
