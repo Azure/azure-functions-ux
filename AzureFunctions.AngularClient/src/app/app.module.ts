@@ -28,7 +28,6 @@ import { ArmService } from './shared/services/arm.service';
 import { CacheService } from './shared/services/cache.service';
 import { AuthzService } from './shared/services/authz.service';
 import { LocalStorageService } from './shared/services/local-storage.service';
-import { TelemetryService } from './shared/services/telemetry.service';
 import { UtilitiesService } from './shared/services/utilities.service';
 import { BackgroundTasksService } from './shared/services/background-tasks.service';
 import { GlobalStateService } from './shared/services/global-state.service';
@@ -271,7 +270,6 @@ export class AppModule {
       SlotsService,
       AuthzService,
       LocalStorageService,
-      TelemetryService,
       UtilitiesService,
       BackgroundTasksService,
       GlobalStateService,
