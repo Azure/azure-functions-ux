@@ -11,8 +11,8 @@ import { SiteTabComponent } from "./../site/site-dashboard/site-tab/site-tab.com
 // import { TranslateService } from '@ngx-translate/core';
 // import { BroadcastService } from './../shared/services/broadcast.service';
 import { CacheService } from "./../shared/services/cache.service";
-// import { PortalService } from './../shared/services/portal.service';
-import { AiService } from './../shared/services/ai.service';
+import { PortalService } from './../shared/services/portal.service';
+import { AiService } from "./../shared/services/ai.service";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
@@ -30,6 +30,7 @@ export class LogicAppsComponent implements OnInit {
   public logicAppsArray;
   public hasLogicApps: Boolean;
   public subId: string;
+  public logicAppsIcon = "images/logicapp.svg";
 
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -39,13 +40,12 @@ export class LogicAppsComponent implements OnInit {
   constructor(
     // private _armService: ArmService,
     private _aiService: AiService,
-    // private _portalService: PortalService,
+    private _portalService: PortalService,
     private _cacheService: CacheService,
     // private _broadcastService: BroadcastService,
     // private _translateService: TranslateService,
     siteTabComponent: SiteTabComponent
   ) {
-
     this._busyState = siteTabComponent.busyState;
 
     this._viewInfoSub = this._viewInfoStream
@@ -64,16 +64,27 @@ export class LogicAppsComponent implements OnInit {
         );
       })
       .do(null, e => {
-          this._aiService.trackException(e, 'logic-apps');
+        this._aiService.trackException(e, 'logic-apps');
       })
       .retry()
       .subscribe(r => {
-        this.logicAppsArray = r.json();
+        this.logicAppsArray = r.json().value;
         console.log(this.logicAppsArray);
-        this.hasLogicApps = this.logicAppsArray.value.length > 0;
+        this.hasLogicApps = this.logicAppsArray.length > 0;
         this._busyState.clearBusyState();
       });
   }
 
   ngOnInit() {}
+
+  onClick(logicApp: any) {
+    console.log(logicApp.name);
+    this._portalService.openBlade({
+      detailBlade: 'ContinuousDeploymentListBlade',
+      detailBladeInputs: {
+          id: '',
+          ResourceId: ''
+      }
+  }, '');
+  }
 }

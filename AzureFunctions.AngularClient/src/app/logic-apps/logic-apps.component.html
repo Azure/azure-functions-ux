@@ -1,10 +1,19 @@
-<p>
-  logic-apps works!
-</p>
+<div class="wrapper" *ngIf="hasLogicApps">
+  <div>
+      <div class="section-left full-height" >
+        <div class="orchestrate-header">
+          <img [src]="logicAppsIcon"/>
+          <label class="orchestrate-header-title">{{'associatedLogicApps_title' | translate}}</label>
+        </div>
 
-<ng-container *ngIf="hasLogicApps">
-  you have logic apps!
-</ng-container>
+        <ul>
+            <li *ngFor="let logicApp of logicAppsArray" (click)="onClick(logicApp)">
+               <a>{{logicApp.name}}</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+</div>
 
 <ng-container *ngIf="!hasLogicApps">
   no logic apps

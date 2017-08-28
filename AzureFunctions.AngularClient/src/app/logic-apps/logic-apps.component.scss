@@ -1,0 +1,78 @@
+@import '../../sass/main';
+
+.orchestrate-header {
+
+    display: inline-flex;
+    align-items: flex-start;
+
+img {
+    width: 100px;
+    height: 70px;
+    padding-right: 16px;
+    padding-left: 20px;
+}
+
+.orchestrate-header-title {
+    font-size: 24px;
+    font-weight: normal;
+    margin: 0px;
+    padding-bottom: 3px;
+}
+
+}
+
+ul {
+    list-style-type: none;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0px;
+    padding-bottom: 3px;
+}
+
+.full-height {
+    height: calc(100vh - 50px);
+}
+
+.wrapper {
+    min-width: 1030px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper > div {
+    flex-grow: 1;
+    border-top: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center
+}
+
+.section-left {
+    flex-grow: 1;
+    width: 20%;
+    min-width: 290px;
+}
+
+.section-left > div:first-child {
+    padding: 20px;
+}
+
+.section-left > div {
+    flex-grow: 1;
+    border-top: none;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 8px;
+    font-weight: normal;
+    font-size: 18px;
+    margin-left: 10px;
+}
