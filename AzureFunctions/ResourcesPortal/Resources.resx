@@ -2203,4 +2203,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Click to hide</value>
   </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>Expand or Collapse</value>
+  </data>
 </root>

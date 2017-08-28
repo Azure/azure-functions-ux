@@ -7,18 +7,19 @@
                 <label class="subtitle">{{'swaggerDefinition_subtitle' | translate}}</label>
             </div>
             <div [class.collapse]="!swaggerEnabled">
-                <label class="setting-title">{{'swaggerDefinition_useAPIdefinition' | translate}}</label>
+                <label id="useApiDefinition" class="setting-title">{{'swaggerDefinition_useAPIdefinition' | translate}}</label>
                 <pop-over [position]="'bottom'" [message]="'swaggerDefinition_exporthelp' | translate">
                     <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
                 <div class="setting-wrapper">
                     <!--<button class="custom-button medium">Download Function Keys</button>-->
-                    <button class="custom-button medium" style="margin-left:0px;" (click)='openBlade("ExportToPowerApps")' tabindex="0">{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
+                    <button id="powerAppsFlowButton" class="custom-button medium" style="margin-left:0px;" (click)='openBlade("ExportToPowerApps")'
+                        aria-labelledby="useApiDefinition powerAppsFlowButton" tabindex="0">{{'swaggerDefinition_powerAppsFlow' | translate}}</button>
                 </div>
             </div>
             <div [class.collapse]="!swaggerEnabled">
-                <label class="setting-title">{{'swaggerDefinition_url' | translate}}</label>
-                <pop-over [position]="'bottom'" [message]="'swaggerDefinition_urlHelp' | translate">
+                <label id="apiDefinitionURL" class="setting-title">{{'swaggerDefinition_url' | translate}}</label>
+                <pop-over id="apiDefinitionURLHelp" [position]="'bottom'" [message]="'swaggerDefinition_urlHelp' | translate">
                     <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
                 <div class="setting-wrapper">
@@ -28,50 +29,70 @@
             </div>
             <div [class.collapse]="!swaggerEnabled">
                 <div style="padding-left: 6px;">
-                    <i class="fa clickable link" [class.fa-plus]="!keyVisible" [class.fa-minus]="keyVisible" (click)="toggleKeyVisibility()"
-                        tabindex="0" (keydown)="apiDefinitionKeyDown($event)"></i>
-                    <label class="setting-title-collapsible link" (click)="toggleKeyVisibility()">{{'swaggerDefinition_key' | translate}}</label>
+                    <i class="fa clickable link" 
+                       [class.fa-plus]="!keyVisible" 
+                       [class.fa-minus]="keyVisible" 
+                       (click)="toggleKeyVisibility()"
+                       tabindex="0" 
+                       (keydown)="apiDefinitionKeyDown($event)" 
+                       [attr.aria-expanded]="keyVisible" 
+                       attr.aria-label="{{'expandCollapse' | translate}} {{'swaggerDefinition_key' | translate}}">
+                    </i>
+                    <label id="apiDefinitionKeyLabel" class="setting-title-collapsible link" (click)="toggleKeyVisibility()" (keydown)="apiDefinitionKeyDown($event)">
+                        {{'swaggerDefinition_key' | translate}}
+                    </label>
                     <pop-over [position]="'bottom'" [message]="'swaggerDefinition_keyHelp' | translate">
                         <span class="glyphicon glyphicon-info-sign button-title"></span>
                     </pop-over>
                 </div>
-                <div [class.collapse]="!keyVisible">
+                <div role="region" [class.collapse]="!keyVisible">
                     <div class="setting-wrapper" style="padding-bottom:0px;">
-                        <copy-pre [content]="swaggerKey" tabindex="-1"></copy-pre>
+                        <copy-pre [content]="swaggerKey"></copy-pre>
                     </div>
                     <div class="setting-wrapper operation link">
-                        <span (click)="renewSwaggerSecret()"><i class="fa fa-refresh" tabindex="0" (keydown)="renewKeyDown($event)"></i> {{'swaggerDefinition_renew' | translate}}</span>
+                        <span (click)="renewSwaggerSecret()" attr.aria-label="{{'swaggerDefinition_renew' | translate}} {{'swaggerDefinition_key' | translate}}">
+                            <i class="fa fa-refresh" 
+                               tabindex="0" 
+                               (keydown)="renewKeyDown($event)" 
+                               attr.aria-label="{{'swaggerDefinition_renew' | translate}} {{'swaggerDefinition_key' | translate}}">
+                            </i>
+                            {{'swaggerDefinition_renew' | translate}}
+                        </span>
                     </div>
                 </div>
             </div>
             <div>
-                <label class="setting-title">{{'swaggerDefinition_source' | translate}}</label>
-                <pop-over [position]="'bottom'" [message]="'swaggerDefinition_sourceHelp' | translate">
+                <label id="apiDefinitionSourceLabel" class="setting-title">{{'swaggerDefinition_source' | translate}}</label>
+                <pop-over id="apiDefinitionSourceHelp" [position]="'bottom'" [message]="'swaggerDefinition_sourceHelp' | translate">
                     <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
                 <div class="setting-wrapper">
                     <div style="min-width: 270px">
-                        <radio-selector [options]="swaggerStatusOptions" [defaultValue]="swaggerEnabled" (value)="valueChange.next($event)" tabindex="0" (keydown)="apiDefinitionSourceKeyDown($event)"></radio-selector>
+                        <radio-selector id="selectapiDefinitionSourceRadio" [options]="swaggerStatusOptions" [defaultValue]="swaggerEnabled" (value)="valueChange.next($event)"
+                            tabindex="0" (keydown)="apiDefinitionSourceKeyDown($event)" aria-labelledby="apiDefinitionSourceLabel selectapiDefinitionSourceRadio"></radio-selector>
                     </div>
                 </div>
                 <div class="setting-wrapper column">
-                    <button *ngIf="!swaggerEnabled" class="custom-button medium" style="margin-top:10px;margin-left:0px;width:200px" (click)='openBlade("ApiDefinition")'>{{'swaggerDefinition_setExternal' | translate}}</button>
+                    <button *ngIf="!swaggerEnabled" class="custom-button medium" style="margin-top:10px;margin-left:0px;width:200px" (click)='openBlade("ApiDefinition")'>
+                        {{'swaggerDefinition_setExternal' | translate}}
+                    </button>
                 </div>
             </div>
             <div>
                 <div style="padding-left: 6px;">
                     <i class="fa clickable link" [class.fa-plus]="!documentationVisible" [class.fa-minus]="documentationVisible" (click)="toggleDocumentationVisibility()"
-                        tabindex="0" (keydown)="documentKeyDown($event)"></i>
+                        tabindex="0" (keydown)="documentKeyDown($event)" [attr.aria-expanded]="documentationVisible" attr.aria-label="{{'expandCollapse' | translate}} {{'swaggerDefinition_documentation' | translate}}"></i>
                     <label class="setting-title-collapsible link" (click)="toggleDocumentationVisibility()">{{'swaggerDefinition_documentation' | translate}}</label>
                 </div>
-                <div [class.collapse]="!documentationVisible" (click)="toggleDocumentationVisibility()">
+                <div role="region" [class.collapse]="!documentationVisible" (click)="toggleDocumentationVisibility()">
                     <div class="setting-wrapper operation link" (click)="toggleDocumentationVisibility()">
                         <ul>
                             <li>
-                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition-getting-started" target="_blank">{{'swaggerDefinition_getting_started' | translate}}</a>
+                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition-getting-started" target="_blank"
+                                    tabindex="0">{{'swaggerDefinition_getting_started' | translate}}</a>
                             </li>
                             <li>
-                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition" target="_blank">{{'swaggerDefinition_feature_overview' | translate}}</a>
+                                <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-api-definition" target="_blank" tabindex="0">{{'swaggerDefinition_feature_overview' | translate}}</a>
                             </li>
                         </ul>
                     </div>
