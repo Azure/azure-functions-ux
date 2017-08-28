@@ -79,6 +79,7 @@ export class LogicAppsComponent implements OnInit {
 
   onClick(logicApp: any) {
     console.log(logicApp.name);
+    // Will update with appropriate blade content
     this._portalService.openBlade({
       detailBlade: 'ContinuousDeploymentListBlade',
       detailBladeInputs: {

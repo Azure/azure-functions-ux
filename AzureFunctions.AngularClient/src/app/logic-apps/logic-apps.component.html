@@ -7,8 +7,8 @@
         </div>
 
         <ul>
-            <li *ngFor="let logicApp of logicAppsArray" (click)="onClick(logicApp)">
-               <a>{{logicApp.name}}</a>
+            <li *ngFor="let logicApp of logicAppsArray">
+               <a (click)="onClick(logicApp)">{{logicApp.name}}</a>
             </li>
         </ul>
       </div>
