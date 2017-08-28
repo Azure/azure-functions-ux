@@ -63,7 +63,9 @@ export class TopBarComponent implements OnInit {
     }
 
     private _setVisible() {
-        if (!this._globalStateService.showTryView) {
+        if (this.inIFrame) {
+            this.visible = false;
+        } else if (!this._globalStateService.showTryView) {
             this.visible = true;
         }
     }
