@@ -11,14 +11,19 @@ import { SiteTabComponent } from "./../site/site-dashboard/site-tab/site-tab.com
 // import { TranslateService } from '@ngx-translate/core';
 // import { BroadcastService } from './../shared/services/broadcast.service';
 import { CacheService } from "./../shared/services/cache.service";
-import { PortalService } from './../shared/services/portal.service';
+import { PortalService } from "./../shared/services/portal.service";
 import { AiService } from "./../shared/services/ai.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
+
+export interface LogicAppInfo {
+  name: string;
+  id: string;
+}
 
 @Component({
-  selector: "app-logic-apps",
-  templateUrl: "./logic-apps.component.html",
-  styleUrls: ["./logic-apps.component.scss"]
+  selector: 'app-logic-apps',
+  templateUrl: './logic-apps.component.html',
+  styleUrls: ['./logic-apps.component.scss']
 })
 export class LogicAppsComponent implements OnInit {
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
@@ -27,10 +32,10 @@ export class LogicAppsComponent implements OnInit {
   private _appNode: AppNode;
   private _busyState: BusyStateComponent;
 
-  public logicAppsArray;
+  public logicAppsArray: LogicAppInfo[];
   public hasLogicApps: Boolean;
   public subId: string;
-  public logicAppsIcon = "images/logicapp.svg";
+  public logicAppsIcon = 'images/logicapp.svg';
 
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -68,8 +73,14 @@ export class LogicAppsComponent implements OnInit {
       })
       .retry()
       .subscribe(r => {
-        this.logicAppsArray = r.json().value;
-        console.log(this.logicAppsArray);
+        this.logicAppsArray = r.json().value
+          .map(app => (<LogicAppInfo>{
+            name: app.name,
+            id: app.id
+          }))
+          .sort((a: LogicAppInfo, b: LogicAppInfo) => {
+            return a.name.localeCompare(b.name);
+          });
         this.hasLogicApps = this.logicAppsArray.length > 0;
         this._busyState.clearBusyState();
       });
@@ -77,15 +88,17 @@ export class LogicAppsComponent implements OnInit {
 
   ngOnInit() {}
 
-  onClick(logicApp: any) {
+  onClick(logicApp: LogicAppInfo) {
     console.log(logicApp.name);
-    // Will update with appropriate blade content
-    this._portalService.openBlade({
-      detailBlade: 'ContinuousDeploymentListBlade',
-      detailBladeInputs: {
-          id: '',
-          ResourceId: ''
-      }
-  }, '');
+    this._portalService.openBlade(
+      {
+        detailBlade: 'LogicAppsDesignerBlade',
+        detailBladeInputs: {
+          id: logicApp.id
+        },
+        extension: 'Microsoft_Azure_EMA'
+      },
+      'LogicAppsComponent'
+    );
   }
 }
