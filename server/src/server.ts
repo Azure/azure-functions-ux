@@ -7,6 +7,7 @@ import * as logger from 'morgan';
 import * as passport from 'passport';
 import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
+import {Request, Response } from 'express';
 
 import './polyfills';
 import { getTemplates } from './actions/templates';
@@ -37,7 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 setupAuthentication(app);
 
-app.get('/', maybeAuthenticate, (_, res) => {
+
+const index = (_: Request, res: Response) => {
     res.render('index', {
         config: {
             runtimeType: config.runtimeType,
@@ -48,7 +50,10 @@ app.get('/', maybeAuthenticate, (_, res) => {
         isOnPrem: config.runtimeType === 'OnPrem',
         hostName: process.env.WEBSITE_HOSTNAME
     });
-});
+};
+
+app.get('/', authenticate, index);
+app.get('/try', index);
 
 app.get('/api/ping', (_, res) => {
     res.send('success');
