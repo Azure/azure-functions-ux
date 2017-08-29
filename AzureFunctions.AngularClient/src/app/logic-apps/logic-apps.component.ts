@@ -1,3 +1,4 @@
+import { TableItem } from './../controls/tbl/tbl.component';
 import { Input } from "@angular/core";
 // import { ArmObj } from './../shared/models/arm/arm-obj';
 // import { FunctionApp } from './../shared/function-app';
@@ -8,16 +9,19 @@ import { TreeViewInfo, SiteData } from "./../tree-view/models/tree-view-info";
 import { AppNode } from "./../tree-view/app-node";
 import { BusyStateComponent } from "./../busy-state/busy-state.component";
 import { SiteTabComponent } from "./../site/site-dashboard/site-tab/site-tab.component";
-// import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 // import { BroadcastService } from './../shared/services/broadcast.service';
 import { CacheService } from "./../shared/services/cache.service";
 import { PortalService } from "./../shared/services/portal.service";
 import { AiService } from "./../shared/services/ai.service";
 import { Component, OnInit } from '@angular/core';
 
-export interface LogicAppInfo {
-  name: string;
+
+export interface LogicAppTableItem extends TableItem {
+  title: string;
   id: string;
+  resourceGroup: string;
+  location: string;
 }
 
 @Component({
@@ -32,7 +36,7 @@ export class LogicAppsComponent implements OnInit {
   private _appNode: AppNode;
   private _busyState: BusyStateComponent;
 
-  public logicAppsArray: LogicAppInfo[];
+  public tableItems: TableItem[] = [];
   public hasLogicApps: Boolean;
   public subId: string;
   public logicAppsIcon = 'images/logicapp.svg';
@@ -49,7 +53,7 @@ export class LogicAppsComponent implements OnInit {
     private _portalService: PortalService,
     private _cacheService: CacheService,
     // private _broadcastService: BroadcastService,
-    // private _translateService: TranslateService,
+    private _translateService: TranslateService,
     siteTabComponent: SiteTabComponent
   ) {
     this._busyState = siteTabComponent.busyState;
@@ -75,15 +79,16 @@ export class LogicAppsComponent implements OnInit {
       })
       .retry()
       .subscribe(r => {
-        this.logicAppsArray = r.json().value
-          .map(app => (<LogicAppInfo>{
-            name: app.name,
-            id: app.id
-          }))
-          .sort((a: LogicAppInfo, b: LogicAppInfo) => {
-            return a.name.localeCompare(b.name);
-          });
-        this.hasLogicApps = this.logicAppsArray.length > 0;
+        this.tableItems = r.json().value
+          .map(app => (<LogicAppTableItem>{
+            title: app.name,
+            id: app.id,
+            resourceGroup: app.id.split('/')[4],
+            location:  this._translateService.instant(app.location),
+            type: 'row'
+          }));
+
+        this.hasLogicApps = this.tableItems.length > 0;
         this._busyState.clearBusyState();
         this.initialized = true;
       });
@@ -91,13 +96,12 @@ export class LogicAppsComponent implements OnInit {
 
   ngOnInit() {}
 
-  onClick(logicApp: LogicAppInfo) {
-    console.log(logicApp.name);
+  clickRow(item: LogicAppTableItem) {
     this._portalService.openBlade(
       {
         detailBlade: 'LogicAppsDesignerBlade',
         detailBladeInputs: {
-          id: logicApp.id
+          id: item.id
         },
         extension: 'Microsoft_Azure_EMA'
       },

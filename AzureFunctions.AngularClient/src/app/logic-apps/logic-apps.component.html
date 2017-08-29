@@ -1,28 +1,36 @@
-<div class="wrapper" *ngIf="hasLogicApps && initialized">
-  <div>
-    <div class="section-left full-height" >
-      <div class="orchestrate-header">
-        <img [src]="logicAppsIcon"/>
-        <label class="orchestrate-header-title">{{'associatedLogicApps_title' | translate}}</label>
-      </div>
+<div class="list-collection-container">
+<img src="images/logicapp.svg" />
+<span class="text-level1-heading">{{'tab_logicApps' | translate}}</span><i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i>
 
-      <ul>
-        <li *ngFor="let logicApp of logicAppsArray">
-          <a (click)="onClick(logicApp)">{{logicApp.name}}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<tbl [items]="tableItems" #table="tbl" id="logic-apps-list">
+  <tr>
+    <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
+    <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>
+    <th><tbl-th name="location">{{ 'location' | translate }}</tbl-th></th>
+  </tr>
+
+  <tr *ngFor="let item of table.items">
+    <ng-container *ngIf="item.type === 'row' && table.groupedBy === 'none'">
+      <td><a (click)="clickRow(item)">{{item.title}}</a></td>
+      <td>{{item.resourceGroup}}</td>
+      <td>{{item.location}}</td>
+    </ng-container>
+
+    <ng-container *ngIf="item.type === 'row' && table.groupedBy !== 'none'">
+      <td class='tabbed'><a (click)="clickRow(item)">{{item.title}}</a></td>
+      <td>{{item.resourceGroup}}</td>
+      <td>{{item.location}}</td>
+    </ng-container>
+
+    <ng-container *ngIf="item.type === 'group'">
+      <td colspan="4">{{item.title}}</td>
+    </ng-container>
+  </tr>
+
+  <tr *ngIf="!initialized">
+    <td colspan="4">{{'functionMonitor_loading' | translate}}</td>
+    <td colspan="4"></td>
+  </tr>
+</tbl>
+
 </div>
-
-<ng-container *ngIf="!hasLogicApps && initialized">
-    <div>
-        <div class="section-all full-height" >
-          <div class="orchestrate-header">
-            <img [src]="logicAppsIcon"/>
-            <label class="orchestrate-header-title">{{'orchestrateWithLogicApps_title' | translate}}</label>
-          </div>
-        </div>
-      </div>
-</ng-container>
-
