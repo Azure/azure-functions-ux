@@ -1,3 +1,4 @@
+import { PortalService } from './shared/services/portal.service';
 import { BackgroundTasksService } from './shared/services/background-tasks.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import 'rxjs/add/operator/filter';
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         // for retrieving and updating the token.
         _backgroundTasksService: BackgroundTasksService,
         private _broadcastService: BroadcastService,
+        private _portalService: PortalService
     ) {
         this.ready = false;
 
@@ -55,6 +57,11 @@ export class AppComponent implements OnInit, AfterViewInit {
             .subscribe(info => {
                 this._startupInfo = info;
                 this.ready = true;
+
+                this._portalService.sendTimerEvent({
+                    timerId: 'PortalReady',
+                    timerAction: 'stop'
+                });
 
                 if (!this._userService.inIFrame) {
                     this.ready = true;

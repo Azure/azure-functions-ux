@@ -202,6 +202,11 @@ export class UserService {
                     };
 
                     this._localStorageService.setItem(key, storageItem);
+
+                    this._portalService.sendTimerEvent({
+                        timerId: 'InitialResourceStringDownload',
+                        timerAction: 'stop'
+                    });
                 });
 
             if (storageItem && storageItem.lang === input.lang) {
