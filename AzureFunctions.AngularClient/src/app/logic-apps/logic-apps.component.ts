@@ -37,7 +37,6 @@ export class LogicAppsComponent implements OnInit {
   private _busyState: BusyStateComponent;
 
   public tableItems: TableItem[] = [];
-  public hasLogicApps: Boolean;
   public subId: string;
   public logicAppsIcon = 'images/logicapp.svg';
   public initialized = false;
@@ -88,7 +87,6 @@ export class LogicAppsComponent implements OnInit {
             type: 'row'
           }));
 
-        this.hasLogicApps = this.tableItems.length > 0;
         this._busyState.clearBusyState();
         this.initialized = true;
       });
