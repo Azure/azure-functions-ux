@@ -1,4 +1,4 @@
-<div class="wrapper" *ngIf="hasLogicApps">
+<div class="wrapper" *ngIf="hasLogicApps && initialized">
   <div>
       <div class="section-left full-height" >
         <div class="orchestrate-header">
@@ -15,7 +15,7 @@
     </div>
 </div>
 
-<ng-container *ngIf="!hasLogicApps">
+<ng-container *ngIf="!hasLogicApps && initialized">
   no logic apps
 </ng-container>
 

@@ -36,6 +36,7 @@ export class LogicAppsComponent implements OnInit {
   public hasLogicApps: Boolean;
   public subId: string;
   public logicAppsIcon = 'images/logicapp.svg';
+  public initialized = false;
 
   @Input()
   set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -57,6 +58,7 @@ export class LogicAppsComponent implements OnInit {
       .switchMap(viewInfo => {
         this._viewInfo = viewInfo;
         this._busyState.setBusyState();
+        this.initialized = false;
 
         this._appNode = <AppNode>viewInfo.node;
         this.subId = this._appNode.subscriptionId;
@@ -83,6 +85,7 @@ export class LogicAppsComponent implements OnInit {
           });
         this.hasLogicApps = this.logicAppsArray.length > 0;
         this._busyState.clearBusyState();
+        this.initialized = true;
       });
   }
 
