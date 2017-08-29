@@ -68,6 +68,24 @@ ul {
     justify-content: center;
 }
 
+.section-all {
+    flex-grow: 1;
+    width: 100%;
+    min-width: 290px;
+}
+
+.section-all > div:first-child {
+    padding: 20px;
+}
+
+.section-all > div {
+    flex-grow: 1;
+    border-top: none;
+    align-items: center;
+    justify-content: center;
+}
+
+
 label {
     display: inline-block;
     max-width: 100%;

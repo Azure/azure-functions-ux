@@ -2209,4 +2209,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="associatedLogicApps_title" xml:space="preserve">
     <value>Associated Logic Apps</value>
   </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Orchestrate with Logic Apps</value>
+  </data>
 </root>

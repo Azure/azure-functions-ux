@@ -1,21 +1,28 @@
 <div class="wrapper" *ngIf="hasLogicApps && initialized">
   <div>
-      <div class="section-left full-height" >
-        <div class="orchestrate-header">
-          <img [src]="logicAppsIcon"/>
-          <label class="orchestrate-header-title">{{'associatedLogicApps_title' | translate}}</label>
-        </div>
-
-        <ul>
-            <li *ngFor="let logicApp of logicAppsArray">
-               <a (click)="onClick(logicApp)">{{logicApp.name}}</a>
-            </li>
-        </ul>
+    <div class="section-left full-height" >
+      <div class="orchestrate-header">
+        <img [src]="logicAppsIcon"/>
+        <label class="orchestrate-header-title">{{'associatedLogicApps_title' | translate}}</label>
       </div>
+
+      <ul>
+        <li *ngFor="let logicApp of logicAppsArray">
+          <a (click)="onClick(logicApp)">{{logicApp.name}}</a>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>
 
 <ng-container *ngIf="!hasLogicApps && initialized">
-  no logic apps
+    <div>
+        <div class="section-all full-height" >
+          <div class="orchestrate-header">
+            <img [src]="logicAppsIcon"/>
+            <label class="orchestrate-header-title">{{'orchestrateWithLogicApps_title' | translate}}</label>
+          </div>
+        </div>
+      </div>
 </ng-container>
 
