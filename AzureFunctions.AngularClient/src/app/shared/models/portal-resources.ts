@@ -701,6 +701,7 @@ export class PortalResources
     public static orchestrateWithLogicApps_title: string = "orchestrateWithLogicApps_title";
     public static createLogicApps: string = "createLogicApps";
     public static noLogicApps_title: string = "noLogicApps_title";
+    public static logicApps: string = "logicApps";
     public static logicApp_description: string = "logicApp_description";
 }
 

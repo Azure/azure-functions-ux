@@ -1,6 +1,6 @@
 <div class="list-collection-container">
 <img src="images/logicapp.svg" />
-<span class="text-level1-heading">{{'tab_logicApps' | translate}}</span><i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i>
+<span class="text-level1-heading">{{'logicApps' | translate}}</span><i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i>
 
 <div class="description-text">
   <span class="text-level3-heading">{{'logicApp_description' | translate}}</span>
@@ -27,9 +27,14 @@
         [allItemsDisplay]="allResourceGroups"
         [numberItemsDisplay]="numberResourceGroups">
     </multi-drop-down>
+
+    <drop-down id="groupingDropDown"
+        [options]="groupOptions"
+        (value)=onGroupSelect($event)>
+  </drop-down>
 </div>
 
-<tbl [items]="tableItems" #table="tbl" id="logic-apps-list">
+<tbl [items]="tableItems" #table="tbl" id="logic-apps-list" [name]="'logicApps' | translate" groupColName="title">
   <tr>
     <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
     <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>

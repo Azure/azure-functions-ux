@@ -1,25 +1,21 @@
 import { DropDownElement } from './../shared/models/drop-down-element';
 import { PortalResources } from './../shared/models/portal-resources';
-import { TableItem } from './../controls/tbl/tbl.component';
-import { Input } from "@angular/core";
-// import { ArmObj } from './../shared/models/arm/arm-obj';
-// import { FunctionApp } from './../shared/function-app';
-// import { Observable } from 'rxjs/Observable';
-import { Subscription as RxSubscription } from "rxjs/Subscription";
-import { Subject } from "rxjs/Subject";
-import { TreeViewInfo, SiteData } from "./../tree-view/models/tree-view-info";
-import { AppNode } from "./../tree-view/app-node";
-import { BusyStateComponent } from "./../busy-state/busy-state.component";
-import { SiteTabComponent } from "./../site/site-dashboard/site-tab/site-tab.component";
+import { TableItem, TblComponent } from './../controls/tbl/tbl.component';
+import { Input, ViewChild } from '@angular/core';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import { TreeViewInfo, SiteData } from './../tree-view/models/tree-view-info';
+import { AppNode } from './../tree-view/app-node';
+import { BusyStateComponent } from './../busy-state/busy-state.component';
+import { SiteTabComponent } from './../site/site-dashboard/site-tab/site-tab.component';
 import { TranslateService } from '@ngx-translate/core';
-// import { BroadcastService } from './../shared/services/broadcast.service';
-import { CacheService } from "./../shared/services/cache.service";
-import { PortalService } from "./../shared/services/portal.service";
-import { AiService } from "./../shared/services/ai.service";
+import { CacheService } from './../shared/services/cache.service';
+import { PortalService } from './../shared/services/portal.service';
+import { AiService } from './../shared/services/ai.service';
 import { Component, OnInit } from '@angular/core';
 
 
-export interface LogicAppInfo {
+interface LogicAppInfo {
   name: string;
   id: string;
   resourceGroup: string;
@@ -63,6 +59,14 @@ export class LogicAppsComponent implements OnInit {
   public resourceGroupsDisplayText = this.allResourceGroups;
   public selectedResourceGroups: string[] = [];
 
+  @ViewChild('table') logicAppTable: TblComponent;
+  // logicAppTable: TblComponent;
+  
+
+  public groupOptions: DropDownElement<string>[] = [{ displayLabel: this._translateService.instant(PortalResources.grouping_none), value: 'none' },
+  { displayLabel: this._translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup' },
+  { displayLabel: this._translateService.instant(PortalResources.grouping_location), value: 'location' }];
+  public groupDisplayText = '';
   public currGroup = 'none';
 
   @Input()
@@ -70,14 +74,10 @@ export class LogicAppsComponent implements OnInit {
     this._viewInfoStream.next(viewInfo);
   }
 
-  // @ViewChild('table') logicAppTable: TblComponent;
-
   constructor(
-    // private _armService: ArmService,
     private _aiService: AiService,
     private _portalService: PortalService,
     private _cacheService: CacheService,
-    // private _broadcastService: BroadcastService,
     private _translateService: TranslateService,
     siteTabComponent: SiteTabComponent
   ) {
@@ -183,14 +183,14 @@ export class LogicAppsComponent implements OnInit {
 
     // timeout is needed to re-render to page for the grouping update with new locations
     setTimeout(() => {
-      // this.logicAppTable.groupItems(this.currGroup);
+      this.logicAppTable.groupItems(this.currGroup);
     }, 0);
 
-    if (this.selectedLocations.length === this.locationOptions.length) { // if all locations are selected display all locations
+    if (this.selectedLocations.length === this.locationOptions.length) {
       this._updateLocDisplayText(this.allLocations);
-    } else if (this.selectedLocations.length > 1) { // else if more than 1 locations are selected display the number of locations
+    } else if (this.selectedLocations.length > 1) {
       this._updateLocDisplayText(this.numberLocations.format(locations.length));
-    } else { // else 1 location is selected and its name is displayed
+    } else {
       this._updateLocDisplayText(`${this.selectedLocations[0]}`);
     }
   }
@@ -218,14 +218,14 @@ export class LogicAppsComponent implements OnInit {
 
     // timeout is needed to re-render to page for the grouping update with new resourceGroups
     setTimeout(() => {
-      // this.logicAppTable.groupItems(this.currGroup);
+      this.logicAppTable.groupItems(this.currGroup);
     }, 0);
 
-    if (this.selectedResourceGroups.length === this.resourceGroupOptions.length) { // if all locations are selected display all locations
+    if (this.selectedResourceGroups.length === this.resourceGroupOptions.length) {
       this._updateResGroupDisplayText(this.allResourceGroups);
-    } else if (this.selectedResourceGroups.length > 1) { // else if more than 1 locations are selected display the number of locations
+    } else if (this.selectedResourceGroups.length > 1) {
       this._updateResGroupDisplayText(this.numberResourceGroups.format(resourceGroups.length));
-    } else { // else 1 location is selected and its name is displayed
+    } else {
       this._updateResGroupDisplayText(`${this.selectedResourceGroups[0]}`);
     }
   }
@@ -236,4 +236,14 @@ export class LogicAppsComponent implements OnInit {
       this.resourceGroupsDisplayText = displayText;
     }, 0);
   }
+
+  onGroupSelect(group: string) {
+    this.currGroup = group;
+
+    // timeout is needed to re-render the page for grouping update
+    setTimeout(() => {
+      this.logicAppTable.groupItems(group);
+    }, 0);
+  }
+
 }
