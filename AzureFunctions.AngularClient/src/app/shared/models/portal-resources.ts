@@ -699,6 +699,8 @@ export class PortalResources
     public static tab_logicApps: string = "tab_logicApps";
     public static associatedLogicApps_title: string = "associatedLogicApps_title";
     public static orchestrateWithLogicApps_title: string = "orchestrateWithLogicApps_title";
+    public static createLogicApps: string = "createLogicApps";
     public static noLogicApps_title: string = "noLogicApps_title";
+    public static logicApp_description: string = "logicApp_description";
 }
 

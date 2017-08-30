@@ -34,3 +34,30 @@
     vertical-align: middle;
     margin-bottom: 0.5%;
 }
+
+.empty-browse button{
+    margin-top: 15px;
+}
+
+.description-text{
+    margin-bottom: 10px;
+}
+
+.bars{
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+#locationsFilter{
+    padding-left: 10px;
+    padding-right: 15px;
+    width: 35%;
+}
+
+#resourceGroupsFilter{
+    padding-left: 10px;
+    padding-right: 15px;
+    width: 35%;
+}
