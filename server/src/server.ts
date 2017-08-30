@@ -20,7 +20,7 @@ import {
     getRoutingVersion
 } from './actions/metadata';
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
-import { config } from './config';
+import { staticConfig } from './config';
 
 const app = express();
 
@@ -38,16 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 setupAuthentication(app);
 
 app.get('/', maybeAuthenticate, (_, res) => {
-    res.render('index', {
-        config: {
-            runtimeType: config.runtimeType,
-            azureResourceManagerEndpoint: config.azureResourceManagerEndpoint
-        },
-        // TODO: [ehamai] I wouldn't use "isAzure" or "isOnPrem" as properties. RuntimeType should contain all of those variations.
-        isAzure: process.env.WEBSITE_SITE_NAME,
-        isOnPrem: config.runtimeType === 'OnPrem',
-        hostName: process.env.WEBSITE_HOSTNAME
-    });
+    res.render('index', staticConfig);
 });
 
 app.get('/api/ping', (_, res) => {

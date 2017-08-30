@@ -37,12 +37,6 @@ export class FunctionsService {
         private _userService: UserService,
         private _globalStateService: GlobalStateService) {
 
-        if (!Constants.versionInfo) {
-            this.getExtensionVersion().subscribe((version: any) => {
-                Constants.versionInfo = version;
-            });
-        }
-
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo().subscribe(info => { this.token = info.token });
         }
@@ -124,13 +118,6 @@ export class FunctionsService {
         }
     }
 
-    getExtensionVersion() {
-        return this._http.get(Constants.serviceHost + 'api/version',{ headers: this.getPortalHeaders() })
-            .map(r => {
-                return r.json();
-            })
-            .retryWhen(this.retryAntares);
-    }
     // to talk to Functions Portal
     private getPortalHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';

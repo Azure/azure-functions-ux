@@ -1,12 +1,12 @@
-export interface VersionInfo {
+export interface FunctionsVersionInfo {
     runtimeStable: string[];
     proxyStable: string[];
     runtimeDefault: string;
     proxyDefault: string;
 }
 
-export class VersionInfoHelper {
-    public static needToUpdateRuntime(version: VersionInfo, extensionVersion: string) {
+export class FunctionsVersionInfoHelper {
+    public static needToUpdateRuntime(version: FunctionsVersionInfo, extensionVersion: string) {
         const match = version.runtimeStable.find(v => {
             return extensionVersion.toLowerCase() === v;
         });

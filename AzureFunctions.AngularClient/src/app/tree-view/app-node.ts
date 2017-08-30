@@ -34,7 +34,7 @@ import { FunctionApp } from '../shared/function-app';
 import { Constants, NotificationIds } from '../shared/models/constants';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import { VersionInfoHelper } from './../shared/models/version-info';
+import { FunctionsVersionInfoHelper } from '../../../../common/models/functions-version-info';
 
 export class AppNode extends TreeNode
     implements Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange {
@@ -402,7 +402,7 @@ export class AppNode extends TreeNode
                             }
                         });
                     } else {
-                        isLatestFunctionRuntime = !VersionInfoHelper.needToUpdateRuntime(Constants.versionInfo, extensionVersion);
+                        isLatestFunctionRuntime = !FunctionsVersionInfoHelper.needToUpdateRuntime(this.sideNav.configService.FunctionsVersionInfo, extensionVersion);
                         this.sideNav.aiService.trackEvent('/values/runtime_version', { runtime: extensionVersion, appName: this.resourceId });
                     }
                 }

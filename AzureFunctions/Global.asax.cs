@@ -241,7 +241,6 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
             config.Routes.MapHttpRoute("get-resources", "api/resources", new { controller = "AzureFunctions", action = "GetResources", authenticated = false}, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("get-latest-runtime", "api/latestruntime", new { controller = "AzureFunctions", action = "GetLatestRuntime", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("get-version", "api/version", new { controller = "AzureFunctions", action = "GetVersion", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
