@@ -14,7 +14,6 @@ import { PortalService } from './../shared/services/portal.service';
 import { AiService } from './../shared/services/ai.service';
 import { Component, OnInit } from '@angular/core';
 
-
 interface LogicAppInfo {
   name: string;
   id: string;
@@ -60,8 +59,6 @@ export class LogicAppsComponent implements OnInit {
   public selectedResourceGroups: string[] = [];
 
   @ViewChild('table') logicAppTable: TblComponent;
-  // logicAppTable: TblComponent;
-  
 
   public groupOptions: DropDownElement<string>[] = [{ displayLabel: this._translateService.instant(PortalResources.grouping_none), value: 'none' },
   { displayLabel: this._translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup' },
