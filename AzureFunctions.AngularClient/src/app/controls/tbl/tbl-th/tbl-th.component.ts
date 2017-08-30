@@ -16,9 +16,8 @@ export class TblThComponent implements OnInit {
   @Input() name: string;
 
   public table: TblComponent;
-  
+
   constructor(
-    // public table: TblComponent,
     private _el: ElementRef) {
   }
 

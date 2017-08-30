@@ -108,7 +108,9 @@ export class LogicAppsComponent implements OnInit {
           resourceGroup: app.id.split('/')[4],
           location:  this._translateService.instant(app.location),
           type: 'row'
-        }));
+        }))
+        .sort((a: LogicAppInfo, b: LogicAppInfo) => { return a.name.localeCompare(b.name);
+        });
 
         this.tableItems = this.logicApps
           .map(app => (<LogicAppTableItem>{
