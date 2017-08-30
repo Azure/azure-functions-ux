@@ -1,5 +1,4 @@
-﻿import { VersionInfo } from './version-info';
-
+﻿
 export class HttpMethods {
     public GET = "get";
     public POST = "post";
@@ -19,7 +18,6 @@ export class Constants {
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
-    public static versionInfo: VersionInfo;
     public static nodeVersion = '6.5.0';
     public static latest = 'latest';
     public static disabled = 'disabled';

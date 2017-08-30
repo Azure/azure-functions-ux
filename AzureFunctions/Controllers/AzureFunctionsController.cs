@@ -72,21 +72,6 @@ namespace AzureFunctions.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetVersion()
-        {
-            var result = JObject.Parse(
-            @"{
-                'runtimeStable': ['~1', '~2', 'latest'],
-                'proxyStable': ['~0.2', 'latest'],
-                'runtimeDefault': '~1',
-                'proxyDefault': '~0.2'
-
-            }");
-            return Request.CreateResponse(HttpStatusCode.OK, result);
-
-        }
-
-        [HttpGet]
         public HttpResponseMessage GetResources([FromUri] string name, [FromUri] string runtime)
         {
             runtime = GetClearRuntime(runtime);
