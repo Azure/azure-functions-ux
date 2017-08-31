@@ -1969,6 +1969,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expand or Collapse.
+        /// </summary>
+        internal static string expandCollapse {
+            get {
+                return ResourceManager.GetString("expandCollapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Express AAD Registration.
         /// </summary>
         internal static string expressAADRegistration {
@@ -5802,6 +5811,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_releaseNotes {
             get {
                 return ResourceManager.GetString("topBar_releaseNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re using a prerelease version of Azure Functions. Thanks for trying it out!.
+        /// </summary>
+        internal static string topBar_runtimeV2 {
+            get {
+                return ResourceManager.GetString("topBar_runtimeV2", resourceCulture);
             }
         }
         

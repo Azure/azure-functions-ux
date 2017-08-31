@@ -1,3 +1,4 @@
+import { ConfigService } from './../shared/services/config.service';
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { Response, Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -57,7 +58,8 @@ export class GettingStartedComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _http: Http
+        private _http: Http,
+        private _configService: ConfigService
     ) {
         this.isValidContainerName = true;
         // http://stackoverflow.com/a/8084248/3234163
@@ -377,7 +379,7 @@ export class GettingStartedComponent implements OnInit {
                     appSettings: [
                         { name: 'AzureWebJobsStorage', value: connectionString },
                         { name: 'AzureWebJobsDashboard', value: connectionString },
-                        { name: Constants.runtimeVersionAppSettingName, value: Constants.runtimeVersion },
+                        { name: Constants.runtimeVersionAppSettingName, value: this._configService.FunctionsVersionInfo.runtimeDefault },
                         { name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING', value: connectionString },
                         { name: 'WEBSITE_CONTENTSHARE', value: name.toLocaleLowerCase() },
                         { name: `${storageAccount.name}_STORAGE`, value: connectionString },

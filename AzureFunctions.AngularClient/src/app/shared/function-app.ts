@@ -145,17 +145,7 @@ export class FunctionApp {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
-        if (!Constants.runtimeVersion) {
-            this.getLatestRuntime().subscribe((runtime: any) => {
-                Constants.runtimeVersion = runtime;
-            });
-        }
 
-        if (!Constants.routingExtensionVersion) {
-            this._getLatestRoutingExtensionVersion().subscribe((routingVersion: any) => {
-                Constants.routingExtensionVersion = routingVersion;
-            });
-        }
 
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo()
@@ -245,13 +235,6 @@ export class FunctionApp {
         }
     }
 
-    private _getLatestRoutingExtensionVersion() {
-        return this._cacheService.get(Constants.serviceHost + 'api/latestrouting', false, this.getPortalHeaders())
-            .map(r => {
-                return r.json();
-            })
-            .retryWhen(this.retryAntares);
-    }
 
     getFunctions() {
         let fcs: FunctionInfo[];
@@ -1204,13 +1187,7 @@ export class FunctionApp {
     @ClearCache('clearAllCachedData')
     clearAllCachedData() { }
 
-    getLatestRuntime() {
-        return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
-            .map(r => {
-                return r.json();
-            })
-            .retryWhen(this.retryAntares);
-    }
+
 
     getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;

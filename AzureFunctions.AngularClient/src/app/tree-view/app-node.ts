@@ -34,6 +34,7 @@ import { FunctionApp } from '../shared/function-app';
 import { Constants, NotificationIds } from '../shared/models/constants';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
+import { FunctionsVersionInfoHelper } from '../../../../common/models/functions-version-info';
 
 export class AppNode extends TreeNode
     implements Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange {
@@ -389,8 +390,21 @@ export class AppNode extends TreeNode
                 const extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
                 let isLatestFunctionRuntime = null;
                 if (extensionVersion) {
-                    isLatestFunctionRuntime = Constants.runtimeVersion === extensionVersion || Constants.latest === extensionVersion.toLowerCase();
-                    this.sideNav.aiService.trackEvent('/values/runtime_version', { runtime: extensionVersion, appName: this.resourceId });
+                    if (extensionVersion === '~2' || extensionVersion.startsWith('2.')) {
+                        isLatestFunctionRuntime = true;
+                        notifications.push({
+                            id: NotificationIds.runtimeV2,
+                            message: this.sideNav.translateService.instant(PortalResources.topBar_runtimeV2),
+                            iconClass: 'fa fa-exclamation-triangle warning',
+                            learnMoreLink: '',
+                            clickCallback: () => {
+                                this.openSettings();
+                            }
+                        });
+                    } else {
+                        isLatestFunctionRuntime = !FunctionsVersionInfoHelper.needToUpdateRuntime(this.sideNav.configService.FunctionsVersionInfo, extensionVersion);
+                        this.sideNav.aiService.trackEvent('/values/runtime_version', { runtime: extensionVersion, appName: this.resourceId });
+                    }
                 }
 
                 if (!isLatestFunctionRuntime) {

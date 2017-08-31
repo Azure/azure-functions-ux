@@ -1,4 +1,5 @@
 import 'core-js/es6/symbol';
+import { FunctionsVersionInfo } from '../../../common/models/functions-version-info';
 
 interface Environment {
   hostName: string;
@@ -8,6 +9,7 @@ interface Environment {
 
 interface AppSvc {
   env: Environment;
+  functionsVersionInfo: FunctionsVersionInfo;
 }
 
 declare global {

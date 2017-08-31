@@ -126,6 +126,7 @@ import { GeneralSettingsComponent } from './site/site-config/general-settings/ge
 import { AppSettingsComponent } from './site/site-config/app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
+import { TopWarningComponent } from './top-warning/top-warning.component';
 import { SidebarModule } from 'ng-sidebar';
 
 export function ArmServiceFactory(http: Http, userService: UserService, aiService: AiService) {
@@ -251,9 +252,7 @@ export class AppModule {
             KuduDashboardComponent,
             DeploymentDetailComponent,
             DeploymentCenterSetupComponent,
-            DeploymentFormWizardComponent,
-            DeploymentFormWizardStepComponent,
-            DeploymentFormWizardNavBarComponent
+            TopWarningComponent
         ],
         imports: [
             FormsModule,
