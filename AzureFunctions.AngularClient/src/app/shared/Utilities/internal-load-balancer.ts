@@ -1,12 +1,13 @@
-import { ArmObj } from './../../AzureFunctions.AngularClient/src/app/shared/models/arm/arm-obj';
-import { HostingEnvironment } from './../../AzureFunctions.AngularClient/src/app/shared/models/arm/hosting-environment';
+import { FunctionApp } from './../function-app';
+import { Observable } from 'rxjs/Observable';
+import { HostingEnvironment } from './../models/arm/hosting-environment';
+import { ArmObj } from './../models/arm/arm-obj';
 import { CacheService } from 'app/shared/services/cache.service';
-import { Observable } from '../../AzureFunctions.AngularClient/node_modules/rxjs/Observable';
-import { FunctionApp } from './../../AzureFunctions.AngularClient/src/app/shared/function-app';
 
 
 export function reachableInternalLoadBalancerApp(functionApp: FunctionApp, http: CacheService): Observable<boolean> {
-    if (functionApp.site.properties.hostingEnvironmentProfile &&
+    if (functionApp && functionApp.site &&
+        functionApp.site.properties.hostingEnvironmentProfile &&
         functionApp.site.properties.hostingEnvironmentProfile.id) {
         return http.getArm(functionApp.site.properties.hostingEnvironmentProfile.id, false, '2016-09-01')
             .mergeMap(r => {

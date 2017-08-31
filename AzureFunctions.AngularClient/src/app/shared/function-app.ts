@@ -54,7 +54,7 @@ import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
 
 import * as jsonschema from 'jsonschema';
-import { reachableInternalLoadBalancerApp } from '../../../../common/utilities/internal-load-balancer';
+import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
 export class FunctionApp {
     private masterKey: string;

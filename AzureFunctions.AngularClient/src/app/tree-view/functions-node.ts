@@ -1,12 +1,9 @@
-import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 
-import { AuthzService } from './../shared/services/authz.service';
-import { AppNode } from './app-node';
 import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
@@ -15,9 +12,9 @@ import { FunctionInfo } from '../shared/models/function-info';
 import { FunctionNode } from './function-node';
 import { FunctionApp } from '../shared/function-app';
 import { Action } from '../shared/models/binding';
-import { reachableInternalLoadBalancerApp } from '../../../../common/utilities/internal-load-balancer';
+import { BaseFunctionsProxiesNode } from 'app/tree-view/base-functions-proxies-node';
 
-export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection {
+export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCollection, Disposable, CustomSelection, Collection {
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.functions;
     public newDashboardType = DashboardType.createFunctionAutoDetect;
@@ -28,45 +25,27 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         sideNav: SideNavComponent,
         public functionApp: FunctionApp,
         parentNode: TreeNode) {
-        super(sideNav, functionApp.site.id + '/functions', parentNode);
-
+        super(sideNav, functionApp.site.id + '/functions', functionApp, parentNode);
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'images/BulletList.svg';
     }
 
     public loadChildren() {
-        if (this.functionApp.site.properties.state === 'Running') {
-            return Observable.zip(
-                this.sideNav.authZService.hasPermission(this.functionApp.site.id, [AuthzService.writeScope]),
-                this.sideNav.authZService.hasReadOnlyLock(this.functionApp.site.id),
-                reachableInternalLoadBalancerApp(this.functionApp, this.sideNav.cacheService),
-                this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly),
-                (p, l, r, isReadOnly) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly }))
-                .switchMap(r => {
-                    if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly) {
-                        return this._updateTreeForStartedSite(this.sideNav.translateService.instant(PortalResources.functions), DashboardType.createFunctionAutoDetect);
-                    } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly) {
-                        return this._updateTreeForStartedSite(`${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`, DashboardType.none);
-                    } else if (!r.hasWritePermission) {
-                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess));
-                    } else if (!r.reachable) {
-                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant('Functions (Non-reachable)'))
-                    } else {
-                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock));
-                    }
-                });
-        } else {
-            return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsStopped));
-        }
-    }
-
-    public handleSelection(): Observable<any> {
-        if (!this.disabled) {
-            this.parent.inSelectedTree = true;
-            return (<AppNode>this.parent).initialize();
-        }
-
-        return Observable.of({});
+        return this.baseLoadChildren({
+            default: {
+                title: this.sideNav.translateService.instant(PortalResources.functions),
+                newDashboard: DashboardType.createFunctionAutoDetect
+            },
+            readOnly: {
+                title: `${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`,
+                newDashboard: DashboardType.none
+            }
+        }, {
+                stoppedTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsStopped),
+                noAccessTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess),
+                nonReachableTitle: this.sideNav.translateService.instant('Functions (Inaccessible)'),
+                readOnlyTitle: this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock)
+            });
     }
 
     public addChild(functionInfo: FunctionInfo) {
@@ -97,7 +76,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         this.parent.dispose(newSelectedNode);
     }
 
-    private _updateTreeForNonUsableState(title: string) {
+    protected _updateTreeForNonUsableState(title: string) {
         this.disabled = true;
         this.newDashboardType = null;
         this.children = [];
@@ -107,7 +86,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         return Observable.of(null);
     }
 
-    private _updateTreeForStartedSite(title: string, newDashboardType: DashboardType) {
+    protected _updateTreeForStartedSite(title: string, newDashboardType: DashboardType) {
         this.title = title;
         this.newDashboardType = newDashboardType;
         this.showExpandIcon = true;

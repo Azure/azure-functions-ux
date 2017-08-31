@@ -1,3 +1,5 @@
+import { CacheService } from 'app/shared/services/cache.service';
+import { reachableInternalLoadBalancerApp } from 'app/shared/Utilities/internal-load-balancer';
 import { Component, Input, OnChanges, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -37,18 +39,20 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     private functionStream: Subject<FunctionInfo>;
     private functionAppStream: Subject<FunctionApp>;
-    private newKeyName: string;
-    private newKeyValue: string;
-    private validKey: boolean;
+    public newKeyName: string;
+    public newKeyValue: string;
+    public validKey: boolean;
 
     public keys: Array<FunctionKey>;
     public addingNew: boolean;
+    public disabled = false;
 
     constructor(
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
         private _utilities: UtilitiesService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _cacheService: CacheService) {
 
         this.validKey = false;
         this.keys = [];
@@ -58,24 +62,30 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         this.functionAppStream
             .merge(this.functionStream)
             .debounceTime(100)
-            .switchMap((r: any) => {
+            .switchMap(r => reachableInternalLoadBalancerApp(this.functionApp, this._cacheService).map(a => [r, a]))
+            .switchMap((result: [FunctionApp | FunctionInfo, boolean]) => {
 
-                const functionApp = r && (<FunctionInfo>r).functionApp;
+                const functionApp = result[0] && (<FunctionInfo>result[0]).functionApp;
                 let fi: FunctionInfo;
                 if (functionApp) {
                     this.functionApp = functionApp;
-                    fi = r;
+                    fi = result[0] as FunctionInfo;
                 }
 
                 this.setBusyState();
                 this.resetState();
-
-                return fi
-                    ? this.functionApp.getFunctionKeys(fi).catch(() => Observable.of(<FunctionKeys>{ keys: [], links: [] }))
-                    : this.functionApp.getFunctionHostKeys().catch(() => Observable.of(<FunctionKeys>{ keys: [], links: [] }));
-
+                if (result[1]) {
+                    this.disabled = false;
+                    return fi
+                        ? this.functionApp.getFunctionKeys(fi).catch(() => Observable.of(<FunctionKeys>{ keys: [], links: [] }))
+                        : this.functionApp.getFunctionHostKeys().catch(() => Observable.of(<FunctionKeys>{ keys: [], links: [] }));
+                } else {
+                    this.disabled = true;
+                    return Observable.throw(this.disabled);
+                }
             })
             .do(null, e => {
+                this.clearBusyState();
                 this._aiService.trackException(e, "/errors/function-keys");
                 console.error(e);
             })
