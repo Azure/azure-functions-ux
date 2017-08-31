@@ -5,7 +5,6 @@ import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, ContentChildren,
 import {
   Component,
   OnInit,
-  forwardRef,
   AfterContentChecked
 } from "@angular/core";
 
