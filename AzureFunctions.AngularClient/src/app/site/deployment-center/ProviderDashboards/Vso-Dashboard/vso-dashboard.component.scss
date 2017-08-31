@@ -1,34 +1,33 @@
-@import '../../../../sass/main';
+@import '../../../../../sass/main';
 
-
-#essentials-container{
+#essentials-container {
     border-bottom: $border;
     padding: 10px 20px 12px 20px;
 }
 
-.essentials-col{
+.essentials-col {
     min-width: 175px;
     display: inline-block;
     font-size: 13px;
 
-    label{
+    label {
         margin-bottom: 0px;
         font-size: 11px;
         font-weight: normal;
         color: $label-text-color;
     }
 
-    .link{
-        &:hover{
+    .link {
+        &:hover {
             color: $primary-color-hover;
         }
     }
 
-    > div{
+    > div {
         padding: 10px;
     }
 
-    img{
+    img {
         display: inline-block;
         margin-right: 5px;
         height: 13px;
@@ -41,10 +40,10 @@
     display: inline-block;
     vertical-align: middle;
     margin: 5px;
-    p{
-        margin:0;
+    p {
+        margin: 0;
     }
-    img{
+    img {
         display: inline-block;
         margin: 1px;
         height: 10px;
@@ -52,6 +51,6 @@
     }
 }
 
-#activity-list{
-    width: 100%
+#activity-list {
+    width: 100%;
 }

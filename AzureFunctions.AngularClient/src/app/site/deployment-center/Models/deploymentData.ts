@@ -1,7 +1,7 @@
-import { PublishingCredentials } from '../../shared/models/publishing-credentials';
-import { SiteConfig } from '../../shared/models/arm/site-config';
-import { Site } from '../../shared/models/arm/site';
-import { ArmArrayResult, ArmObj } from '../../shared/models/arm/arm-obj';
+import { PublishingCredentials } from '../../../shared/models/publishing-credentials';
+import { SiteConfig } from '../../../shared/models/arm/site-config';
+import { Site } from '../../../shared/models/arm/site';
+import { ArmArrayResult, ArmObj } from '../../../shared/models/arm/arm-obj';
 export class DeploymentData {
     site: ArmObj<Site>;
     siteConfig: ArmObj<SiteConfig>;

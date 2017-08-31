@@ -2,12 +2,12 @@
  * Created by marc on 20.05.17.
  */
 
-import { Component, ContentChild, EventEmitter, forwardRef, HostBinding, Inject, Input, Output } from '@angular/core';
-import { MovingDirection } from '../util/moving-direction.enum';
-import { WizardComponent } from './wizard.component';
-import { WizardStep } from '../util/wizard-step.interface';
-import { WizardStepTitleDirective } from '../directives/wizard-step-title.directive';
-import { WizardCompletionStep } from '../util/wizard-completion-step.inferface';
+import {Component, ContentChild, EventEmitter, forwardRef, HostBinding, Inject, Input, Output} from '@angular/core';
+import {MovingDirection} from '../util/moving-direction.enum';
+import {WizardComponent} from './wizard.component';
+import {WizardStep} from '../util/wizard-step.interface';
+import {WizardStepTitleDirective} from '../directives/wizard-step-title.directive';
+import {WizardCompletionStep} from '../util/wizard-completion-step.inferface';
 
 /**
  * The `wizard-completion-step` component can be used to define a completion/success step at the end of your wizard
@@ -46,98 +46,100 @@ import { WizardCompletionStep } from '../util/wizard-completion-step.inferface';
  * @author Marc Arndt
  */
 @Component({
-    selector: 'wizard-completion-step',
-    templateUrl: 'wizard-completion-step.component.html',
-    styleUrls: ['wizard-completion-step.component.css'],
-    providers: [
-        { provide: WizardStep, useExisting: forwardRef(() => WizardCompletionStepComponent) },
-        { provide: WizardCompletionStep, useExisting: forwardRef(() => WizardCompletionStepComponent) }
-    ]
+  selector: 'wizard-completion-step',
+  templateUrl: 'wizard-completion-step.component.html',
+  styleUrls: ['wizard-completion-step.component.css'],
+  providers: [
+    { provide: WizardStep, useExisting: forwardRef(() => WizardCompletionStepComponent) },
+    { provide: WizardCompletionStep, useExisting: forwardRef(() => WizardCompletionStepComponent) }
+  ]
 })
 export class WizardCompletionStepComponent extends WizardCompletionStep {
-    /**
+  /**
    * @inheritDoc
    */
-    @ContentChild(WizardStepTitleDirective) public titleTemplate: WizardStepTitleDirective;
+  @ContentChild(WizardStepTitleDirective)
+  public titleTemplate: WizardStepTitleDirective;
 
-    /**
+  /**
    * @inheritDoc
    */
-    @Input() public title: string;
+  @Input()
+  public title: string;
 
-    /**
+  /**
    * @inheritDoc
    */
-    @Input() public navigationSymbol = '';
+  @Input()
+  public navigationSymbol = '';
 
-    /**
+  /**
    * @inheritDoc
    */
-    @Input() public navigationSymbolFontFamily: string;
+  @Input()
+  public navigationSymbolFontFamily: string;
 
-    /**
+  /**
    * @inheritDoc
    */
-    @Output() public stepEnter = new EventEmitter<MovingDirection>();
+  @Output()
+  public stepEnter = new EventEmitter<MovingDirection>();
 
-    /**
+  /**
    * @inheritDoc
    */
-    public stepExit = new EventEmitter<MovingDirection>();
+  public stepExit = new EventEmitter<MovingDirection>();
 
-    /**
+  /**
    * @inheritDoc
    */
-    @HostBinding('hidden')
-    public get hidden(): boolean {
-        return !this.selected;
-    }
+  @HostBinding('hidden')
+  public get hidden(): boolean {
+    return !this.selected;
+  }
 
-    /**
+  /**
    * @inheritDoc
    */
-    public completed: false;
+  public completed: false;
 
-    /**
+  /**
    * @inheritDoc
    */
-    public selected = false;
+  public selected = false;
 
-    /**
+  /**
    * @inheritDoc
    */
-    public optional = false;
+  public optional = false;
 
-    /**
+  /**
    * @inheritDoc
    */
-    public canExit: ((direction: MovingDirection) => boolean) | boolean = false;
+  public canExit: ((direction: MovingDirection) => boolean) | boolean = false;
 
-    /**
+  /**
    * Constructor
    * @param wizard The [[WizardComponent]], this completion step is contained inside
    */
-    /* istanbul ignore next */
-    constructor(
-        @Inject(forwardRef(() => WizardComponent))
-        private wizard: WizardComponent
-    ) {
-        super();
-    }
+  /* istanbul ignore next */
+  constructor(@Inject(forwardRef(() => WizardComponent)) private wizard: WizardComponent) {
+    super();
+  }
 
-    /**
+  /**
    * @inheritDoc
    */
-    enter(direction: MovingDirection): void {
-        this.wizard.completed = true;
-        this.stepEnter.emit(direction);
-    }
+  enter(direction: MovingDirection): void {
+    this.wizard.completed = true;
+    this.stepEnter.emit(direction);
+  }
 
-    /**
+  /**
    * @inheritDoc
    */
-    exit(direction: MovingDirection): void {
-        this.wizard.completed = false;
-        this.stepExit.emit(direction);
-    }
+  exit(direction: MovingDirection): void {
+    this.wizard.completed = false;
+    this.stepExit.emit(direction);
+  }
 }

@@ -1,8 +1,8 @@
 import { WizardModule } from './controls/form-wizard/wizard.module';
-import { DeploymentCenterSetupComponent } from './deployment-center/deployment-center-setup/deployment-center-setup.component';
-import { DeploymentDetailComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
-import { KuduDashboardComponent } from './deployment-center/ProviderDashboards/kudu-dashboard/kudu-dashboard.component';
-import { VsoDashboardComponent } from './deployment-center/ProviderDashboards/Vso-Dashboard/vso-dashboard.component';
+import { DeploymentCenterSetupComponent } from './site/deployment-center/deployment-center-setup/deployment-center-setup.component';
+import { DeploymentDetailComponent } from './site/deployment-center/ProviderDashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
+import { KuduDashboardComponent } from './site/deployment-center/ProviderDashboards/kudu-dashboard/kudu-dashboard.component';
+import { VsoDashboardComponent } from './site/deployment-center/ProviderDashboards/Vso-Dashboard/vso-dashboard.component';
 import { LogService } from './shared/services/log.service';
 import { CheckScenarioDirective } from './shared/directives/check-scenario.directive';
 import { ScenarioService } from './shared/services/scenario/scenario.service';
@@ -25,7 +25,7 @@ import { HttpModule, Http } from '@angular/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
 import { PopoverModule } from 'ng2-popover';
-import { DeploymentCenterComponent } from './deployment-center/deployment-center.component';
+import { DeploymentCenterComponent } from './site/deployment-center/deployment-center.component';
 import { ConfigService } from './shared/services/config.service';
 import { FunctionsService } from './shared/services/functions.service';
 import { UserService } from './shared/services/user.service';
@@ -250,7 +250,10 @@ export class AppModule {
             VsoDashboardComponent,
             KuduDashboardComponent,
             DeploymentDetailComponent,
-            DeploymentCenterSetupComponent
+            DeploymentCenterSetupComponent,
+            DeploymentFormWizardComponent,
+            DeploymentFormWizardStepComponent,
+            DeploymentFormWizardNavBarComponent
         ],
         imports: [
             FormsModule,

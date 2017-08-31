@@ -14,8 +14,6 @@ export interface VSTSTableRow {
     type: VSTSLogMessageType;
     status: string;
     message: string;
-    messageLinks: MessageLink[],
+    messageLinks: MessageLink[];
     time: string;
 }
-
-

@@ -20,105 +20,97 @@ import { Site } from 'app/shared/models/arm/site';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 
 @Component({
-  selector: 'create-app',
-  templateUrl: './create-app.component.html',
-  styleUrls: ['./create-app.component.scss']
+    selector: 'create-app',
+    templateUrl: './create-app.component.html',
+    styleUrls: ['./create-app.component.scss']
 })
 export class CreateAppComponent implements OnInit {
-  public Resources = PortalResources;
-  public group: FormGroup;
-  public viewInfoStream: Subject<TreeViewInfo<any>>;
-  public FwdLinks = Links;
+    public Resources = PortalResources;
+    public group: FormGroup;
+    public viewInfoStream: Subject<TreeViewInfo<any>>;
+    public FwdLinks = Links;
 
-  private _viewInfo: TreeViewInfo<any>;
-  private _subscriptionId: string;
+    private _viewInfo: TreeViewInfo<any>;
+    private _subscriptionId: string;
 
-  constructor(
-    private _broadcastService: BroadcastService,
-    private _cacheService: CacheService,
-    private _globalStateService: GlobalStateService,
-    private _translateService: TranslateService,
-    _fb: FormBuilder,
-    private _aiService: AiService,
-    userService: UserService,
-    injector: Injector) {
+    constructor(
+        private _broadcastService: BroadcastService,
+        private _cacheService: CacheService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService,
+        _fb: FormBuilder,
+        private _aiService: AiService,
+        userService: UserService,
+        injector: Injector
+    ) {
+        userService.getStartupInfo().first().subscribe(info => {
+            const sub = info.subscriptions.find(s => s.state === 'Enabled');
+            if (!sub) {
+                return;
+            }
 
-    userService.getStartupInfo()
-      .first()
-      .subscribe(info => {
-        const sub = info.subscriptions.find(s => s.state === 'Enabled');
-        if (!sub) {
-          return;
-        }
+            this._subscriptionId = sub.subscriptionId;
 
-        this._subscriptionId = sub.subscriptionId;
+            let required = new RequiredValidator(this._translateService);
+            let siteNameValidator = new SiteNameValidator(injector, sub.subscriptionId);
 
-        let required = new RequiredValidator(this._translateService);
-        let siteNameValidator = new SiteNameValidator(injector, sub.subscriptionId);
-
-        this.group = _fb.group({
-          name: [
-            null,
-            required.validate.bind(required),
-            siteNameValidator.validate.bind(siteNameValidator)]
+            this.group = _fb.group({
+                name: [null, required.validate.bind(required), siteNameValidator.validate.bind(siteNameValidator)]
+            });
         });
-      });
 
-    this.viewInfoStream = new Subject<TreeViewInfo<any>>();
-    this.viewInfoStream
-      .subscribe(viewInfo => {
-        this._viewInfo = viewInfo;
-      })
+        this.viewInfoStream = new Subject<TreeViewInfo<any>>();
+        this.viewInfoStream.subscribe(viewInfo => {
+            this._viewInfo = viewInfo;
+        });
+    }
 
-  }
+    @Input()
+    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
+        this.viewInfoStream.next(viewInfo);
+    }
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo<any>) {
-    this.viewInfoStream.next(viewInfo);
-  }
+    ngOnInit() {}
 
-  ngOnInit() {
-  }
+    create() {
+        let name = this.group.controls['name'].value;
 
-  create() {
-    let name = this.group.controls['name'].value;
+        let id = `/subscriptions/${this._subscriptionId}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
 
-    let id = `/subscriptions/${this._subscriptionId}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
+        let body = {
+            properties: {
+                siteConfig: {
+                    appSettings: []
+                },
+                sku: 'Dynamic',
+                clientAffinityEnabled: false
+            },
+            location: 'local',
+            kind: 'functionapp'
+        };
 
-    let body = {
-      properties: {
-        siteConfig: {
-          appSettings: []
-        },
-        sku: 'Dynamic',
-        clientAffinityEnabled: false
-      },
-      location: "local",
-      kind: 'functionapp'
-    };
+        this._globalStateService.setBusyState();
+        this._cacheService.putArm(id, null, body).subscribe(
+            r => {
+                this._globalStateService.clearBusyState();
 
-    this._globalStateService.setBusyState();
-    this._cacheService.putArm(id, null, body)
-      .subscribe(r => {
-        this._globalStateService.clearBusyState();
+                let siteObj = <ArmObj<Site>>r.json();
+                let appsNode = <AppsNode>this._viewInfo.node;
+                appsNode.addChild(siteObj);
+            },
+            error => {
+                this._globalStateService.clearBusyState();
 
-        let siteObj = <ArmObj<Site>>r.json();
-        let appsNode = <AppsNode>this._viewInfo.node;
-        appsNode.addChild(siteObj);
-      }, error => {
-        this._globalStateService.clearBusyState();
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.createApp_fail),
+                    details: this._translateService.instant(PortalResources.createApp_fail),
+                    errorId: ErrorIds.failedToCreateApp,
+                    errorType: ErrorType.Fatal,
+                    resourceId: id
+                });
 
-        this._broadcastService.broadcast<ErrorEvent>(
-          BroadcastEvent.Error, {
-            message: this._translateService.instant(PortalResources.createApp_fail),
-            details: this._translateService.instant(PortalResources.createApp_fail),
-            errorId: ErrorIds.failedToCreateApp,
-            errorType: ErrorType.Fatal,
-            resourceId: id
-          });
-
-        this._aiService.trackEvent(ErrorIds.failedToCreateApp, { error: error, id: id });
-      });
-
-  }
-
+                this._aiService.trackEvent(ErrorIds.failedToCreateApp, { error: error, id: id });
+            }
+        );
+    }
 }

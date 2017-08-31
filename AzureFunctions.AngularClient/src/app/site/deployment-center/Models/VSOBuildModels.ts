@@ -53,7 +53,7 @@ export interface UrlInfo {
     url: string;
 }
 
-export interface ActivityDetailsLog{
+export interface ActivityDetailsLog {
     type: string;
     id: string;
     icon: string;
@@ -62,7 +62,6 @@ export interface ActivityDetailsLog{
     time: string;
     urlInfo: UrlInfo[];
 }
-
 
 export interface KuduLogMessage {
     type: string;

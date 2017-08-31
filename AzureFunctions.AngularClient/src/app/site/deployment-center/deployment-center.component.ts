@@ -1,8 +1,8 @@
-import { SiteConfig } from '../shared/models/arm/site-config';
-import { ArmObj } from '../shared/models/arm/arm-obj';
-import { CacheService } from '../shared/services/cache.service';
-import { BusyStateScopeManager } from '../busy-state/busy-state-scope-manager';
-import { SiteData, TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { SiteConfig } from '../../shared/models/arm/site-config';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
+import { CacheService } from '../../shared/services/cache.service';
+import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
+import { SiteData, TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -15,10 +15,10 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 
-import { BusyStateComponent } from '../busy-state/busy-state.component';
-import { AuthzService } from '../shared/services/authz.service';
-import { AiService } from '../shared/services/ai.service';
-import { SiteTabComponent } from '../site/site-dashboard/site-tab/site-tab.component';
+import { BusyStateComponent } from '../../busy-state/busy-state.component';
+import { AuthzService } from '../../shared/services/authz.service';
+import { AiService } from '../../shared/services/ai.service';
+import { SiteTabComponent } from '../../site/site-dashboard/site-tab/site-tab.component';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
