@@ -123,6 +123,7 @@ export class AppNode extends TreeNode
             this.sideNav.authZService.hasPermission(this._siteArmCacheObj.id, [AuthzService.writeScope]),
             this.sideNav.authZService.hasReadOnlyLock(this._siteArmCacheObj.id),
             this.sideNav.cacheService.getArm(this._siteArmCacheObj.id),
+
             (h, r, s) => ({ hasWritePermission: h, hasReadOnlyLock: r, siteResponse: s })
         )
             .mergeMap(r => {

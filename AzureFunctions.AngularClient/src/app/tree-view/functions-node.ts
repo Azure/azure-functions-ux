@@ -15,6 +15,7 @@ import { FunctionInfo } from '../shared/models/function-info';
 import { FunctionNode } from './function-node';
 import { FunctionApp } from '../shared/function-app';
 import { Action } from '../shared/models/binding';
+import { reachableInternalLoadBalancerApp } from '../../../../common/utilities/internal-load-balancer';
 
 export class FunctionsNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection {
     public title = this.sideNav.translateService.instant(PortalResources.functions);
@@ -31,18 +32,6 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
 
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'images/BulletList.svg';
-
-        functionApp.getFunctionAppEditMode()
-            .map(EditModeHelper.isReadOnly)
-            .subscribe(isReadOnly => {
-                if (isReadOnly) {
-                    this.title = `${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`;
-                    this.newDashboardType = DashboardType.none;
-                } else {
-                    this.title = this.sideNav.translateService.instant(PortalResources.functions);
-                    this.newDashboardType = DashboardType.createFunctionAutoDetect;
-                }
-            });
     }
 
     public loadChildren() {
@@ -50,12 +39,18 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
             return Observable.zip(
                 this.sideNav.authZService.hasPermission(this.functionApp.site.id, [AuthzService.writeScope]),
                 this.sideNav.authZService.hasReadOnlyLock(this.functionApp.site.id),
-                (p, l) => ({ hasWritePermission: p, hasReadOnlyLock: l }))
+                reachableInternalLoadBalancerApp(this.functionApp, this.sideNav.cacheService),
+                this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly),
+                (p, l, r, isReadOnly) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly }))
                 .switchMap(r => {
-                    if (r.hasWritePermission && !r.hasReadOnlyLock) {
-                        return this._updateTreeForStartedSite();
+                    if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly) {
+                        return this._updateTreeForStartedSite(this.sideNav.translateService.instant(PortalResources.functions), DashboardType.createFunctionAutoDetect);
+                    } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly) {
+                        return this._updateTreeForStartedSite(`${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`, DashboardType.none);
                     } else if (!r.hasWritePermission) {
                         return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsNoAccess));
+                    } else if (!r.reachable) {
+                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant('Functions (Non-reachable)'))
                     } else {
                         return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_FunctionsReadOnlyLock));
                     }
@@ -103,6 +98,7 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
     }
 
     private _updateTreeForNonUsableState(title: string) {
+        this.disabled = true;
         this.newDashboardType = null;
         this.children = [];
         this.title = title;
@@ -111,7 +107,9 @@ export class FunctionsNode extends TreeNode implements MutableCollection, Dispos
         return Observable.of(null);
     }
 
-    private _updateTreeForStartedSite() {
+    private _updateTreeForStartedSite(title: string, newDashboardType: DashboardType) {
+        this.title = title;
+        this.newDashboardType = newDashboardType;
         this.showExpandIcon = true;
 
         if (this.parent.inSelectedTree) {

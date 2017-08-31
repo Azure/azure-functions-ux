@@ -13,6 +13,7 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { ApiProxy } from '../shared/models/api-proxy';
 import { ProxyNode } from './proxy-node';
 import { FunctionApp } from '../shared/function-app';
+import { reachableInternalLoadBalancerApp } from '../../../../common/utilities/internal-load-balancer';
 
 export class ProxiesNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection {
     public title = 'Proxies (preview)';
@@ -35,12 +36,15 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
             return Observable.zip(
                 this.sideNav.authZService.hasPermission(this.functionApp.site.id, [AuthzService.writeScope]),
                 this.sideNav.authZService.hasReadOnlyLock(this.functionApp.site.id),
-                (p, l) => ({ hasWritePermission: p, hasReadOnlyLock: l }))
+                reachableInternalLoadBalancerApp(this.functionApp, this.sideNav.cacheService),
+                (p, l, r) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r }))
                 .switchMap(r => {
-                    if (r.hasWritePermission && !r.hasReadOnlyLock) {
+                    if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable) {
                         return this._updateTreeForStartedSite();
                     } else if (!r.hasWritePermission) {
                         return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesNoAccess));
+                    } else if (!r.reachable) {
+                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant('Proxies (Non-reachable)'));
                     } else {
                         return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesReadOnlyLock));
                     }
@@ -83,6 +87,7 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
     }
 
     private _updateTreeForNonUsableState(title: string) {
+        this.disabled = true;
         this.newDashboardType = null;
         this.children = [];
         this.title = title;

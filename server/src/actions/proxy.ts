@@ -20,6 +20,13 @@ export function proxy(req: Request, res: Response) {
     axios.request(request)
         .then(r => res.send(r.data))
         .catch(e => {
-            res.status(e.status).send(e);
+            if (e.status) {
+                res.status(e.status).send(e);
+            } else {
+                res.status(400).send({
+                    reason: 'PassThrough',
+                    error: e.code
+                });
+            }
         });
 }
