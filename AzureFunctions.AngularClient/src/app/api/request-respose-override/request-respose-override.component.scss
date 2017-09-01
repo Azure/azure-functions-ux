@@ -17,7 +17,8 @@
 }
 
 .non-visible {
-    display: none;
+    visibility: hidden;
+    height: 0px;
 }
 
 .shown-container {
