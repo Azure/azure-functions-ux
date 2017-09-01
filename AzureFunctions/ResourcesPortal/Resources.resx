@@ -941,7 +941,7 @@
     <value>Allowed HTTP methods</value>
   </data>
   <data name="apiProxy_backendUrl" xml:space="preserve">
-    <value>Backend URL (optional)</value>
+    <value>Backend URL</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
     <value>Proxy or function with that name already exists.</value>
@@ -2189,9 +2189,21 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Status message</value>
   </data>
   <data name="rrOverride_request" xml:space="preserve">
-    <value>Request override (optional)</value>
+    <value>Request override</value>
   </data>
   <data name="rrOverride_response" xml:space="preserve">
-    <value>Response override (optional)</value>
+    <value>Response override</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>You're using a prerelease version of Azure Functions. Thanks for trying it out!</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>Click to hide</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>Expand or Collapse</value>
   </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using AzureFunctions.Contracts;
 using AzureFunctions.Models;
+using Newtonsoft.Json;
 using System;
 using System.Configuration;
 using System.IO;
@@ -46,6 +47,26 @@ namespace AzureFunctions.Code
         public ClientConfiguration GetClientConfiguration()
         {
             return _clientConfig;
+        }
+
+        public string GetConfigServiceObject()
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                env = new
+                {
+                    hostName = Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME"),
+                    runtimeType = _clientConfig.RuntimeType,
+                    azureResourceManagerEndpoint = _clientConfig.AzureResourceManagerEndpoint
+                },
+                functionsVersionInfo = new
+                {
+                    runtimeStable = new[] { "~1", "~2", "latest" },
+                    proxyStable = new[] { "~0.2", "latest" },
+                    runtimeDefault = "~1",
+                    proxyDefault = "~0.2"
+                }
+            });
         }
 
         public string AppDataPath => Path.Combine(HostingEnvironment.ApplicationPhysicalPath, "App_Data");

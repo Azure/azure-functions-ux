@@ -54,6 +54,7 @@ import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
 
 import * as jsonschema from 'jsonschema';
+import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
 export class FunctionApp {
     private masterKey: string;
@@ -145,17 +146,7 @@ export class FunctionApp {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
-        if (!Constants.runtimeVersion) {
-            this.getLatestRuntime().subscribe((runtime: any) => {
-                Constants.runtimeVersion = runtime;
-            });
-        }
 
-        if (!Constants.routingExtensionVersion) {
-            this._getLatestRoutingExtensionVersion().subscribe((routingVersion: any) => {
-                Constants.routingExtensionVersion = routingVersion;
-            });
-        }
 
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo()
@@ -245,13 +236,6 @@ export class FunctionApp {
         }
     }
 
-    private _getLatestRoutingExtensionVersion() {
-        return this._cacheService.get(Constants.serviceHost + 'api/latestrouting', false, this.getPortalHeaders())
-            .map(r => {
-                return r.json();
-            })
-            .retryWhen(this.retryAntares);
-    }
 
     getFunctions() {
         let fcs: FunctionInfo[];
@@ -588,22 +572,25 @@ export class FunctionApp {
             });
         }
 
-        let firstDone = false;
+        let queryString = '';
+        if (model.code) {
+            queryString = `?${model.code.name}=${model.code.value}`;
+        }
         model.queryStringParams.forEach(p => {
             const findResult = processedParams.find((pr) => {
                 return pr === p.name;
             });
 
             if (!findResult) {
-                if (!firstDone) {
-                    url += '?';
-                    firstDone = true;
+                if (!queryString) {
+                    queryString += '?';
                 } else {
-                    url += '&';
+                    queryString += '&';
                 }
-                url += p.name + '=' + p.value;
+                queryString += p.name + '=' + p.value;
             }
         });
+        url = url + queryString;
         const inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
@@ -796,7 +783,9 @@ export class FunctionApp {
     }
 
     getHostSecretsFromScm() {
-        return this.getAuthSettings()
+        return reachableInternalLoadBalancerApp(this, this._cacheService)
+            .filter(i => i)
+            .mergeMap(() => this.getAuthSettings())
             .mergeMap(authSettings => {
                 return authSettings.clientCertEnabled
                     ? Observable.of()
@@ -1201,13 +1190,7 @@ export class FunctionApp {
     @ClearCache('clearAllCachedData')
     clearAllCachedData() { }
 
-    getLatestRuntime() {
-        return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
-            .map(r => {
-                return r.json();
-            })
-            .retryWhen(this.retryAntares);
-    }
+
 
     getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
@@ -1501,10 +1484,10 @@ export class FunctionApp {
     /**
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
-    pingScmSite() {
+    pingScmSite(): Observable<boolean> {
         return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
-            .map(_ => null)
-            .catch(() => Observable.of(null));
+            .map(_ => true)
+            .catch(() => Observable.of(false));
     }
 
     private getExtensionVersion() {

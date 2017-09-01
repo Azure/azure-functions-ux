@@ -6,7 +6,6 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { TopBarNotification } from './../../top-bar/top-bar-models';
 import { FunctionContainer } from '../models/function-container';
 import { UserService } from './user.service';
-import { Constants } from '../models/constants';
 import { BusyStateComponent } from '../../busy-state/busy-state.component';
 import { FunctionsService } from './functions.service';
 
@@ -47,15 +46,6 @@ export class GlobalStateService {
             }
         }
         return '';
-    }
-
-    // The methods below should not be in the globalstate service
-    get RoutingExtensionVersion(): string {
-        return this._appSettings[Constants.routingExtensionVersionAppSettingName];
-    }
-
-    get IsRoutingEnabled() {
-        return this.RoutingExtensionVersion && this.RoutingExtensionVersion.toLowerCase() !== Constants.disabled;
     }
 
     set GlobalBusyStateComponent(busyStateComponent: BusyStateComponent) {

@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="!disabled">
     <busy-state></busy-state>
     <div *ngIf="functionInfo" class="title"> {{'functionKeys_title' | translate}} </div>
     <div *ngIf="!functionInfo" class="title"> {{'adminKeys_title' | translate}} </div>
@@ -13,7 +13,7 @@
         <tbody>
             <tr class="not-clickable" *ngFor="let key of keys">
                 <td>{{key.name}}</td>
-                <td *ngIf="key.show">{{key.value}}</td>
+                <td *ngIf="key.show">{{key.value}} <span (click)="key.show = false" class="operation">{{'functionKeys_clickToHide' | translate}}</span></td>
                 <td *ngIf="!key.show"><span (click)="key.show = true" class="operation">{{'functionKeys_clickToShow' | translate}}</span></td>
                 <td>
                     <div id="operations-bar">

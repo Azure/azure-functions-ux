@@ -1,74 +1,87 @@
 <div class="rr-container">
     <hr>
-    <div class="text-level1-heading">{{ 'rrOverride_request' | translate }}</div>
 
-    <div>
-        <div class="control-label">{{ 'httpRun_httpMethod' | translate }}</div>
+    <span class="link" (click)="showRequestOverride()">
+        <i class="fa" [class.fa-plus]="!showRequest" [class.fa-minus]="showRequest"></i>
+        &nbsp;{{ 'rrOverride_request' | translate }}
+    </span>
 
-        <select *ngIf="model" [(ngModel)]="model.method" (ngModelChange)="changeValue()">
-            <option value="no">{{ 'apiProxy_noOverride' | translate }}</option>
-            <option *ngFor="let method of availableMethods" [value]="method">{{method.toUpperCase()}}</option>
-        </select>
-    </div>
+    <div [class.non-visible]="!showRequest" [class.shown-container]="showRequest">
+        <div>
+            <div class="control-label">{{ 'httpRun_httpMethod' | translate }}</div>
 
-    <div>
-        <pair-list *ngIf="paramsOptions"
-                    [options]="paramsOptions"
-                    addButtonLabel="{{ 'httpRun_addParameter' | translate}}"
-                    emptyLabel="{{ 'httpRun_noQuery' | translate }}"
-                    title="{{ 'httpRun_query' | translate }}"
-                    (valueChanges)="paramsValueChanges($event)">
+            <select *ngIf="model" [(ngModel)]="model.method" (ngModelChange)="changeValue()">
+                <option value="no">{{ 'apiProxy_noOverride' | translate }}</option>
+                <option *ngFor="let method of availableMethods" [value]="method">{{method.toUpperCase()}}</option>
+            </select>
+        </div>
 
-        </pair-list>
-    </div>
-        
-    <div>
-        <pair-list *ngIf="headerOptions"
-                    [options]="headerOptions"
-                    addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
-                    emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
-                    title="{{ 'httpRun_headers' | translate }}"
-                    (valueChanges)="headerValueChanges($event)">
+        <div>
+            <pair-list *ngIf="paramsOptions"
+                        [options]="paramsOptions"
+                        addButtonLabel="{{ 'httpRun_addParameter' | translate}}"
+                        emptyLabel="{{ 'httpRun_noQuery' | translate }}"
+                        title="{{ 'httpRun_query' | translate }}"
+                        (valueChanges)="paramsValueChanges($event)">
 
-        </pair-list>
+            </pair-list>
+        </div>
+            
+        <div>
+            <pair-list *ngIf="headerOptions"
+                        [options]="headerOptions"
+                        addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
+                        emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
+                        title="{{ 'httpRun_headers' | translate }}"
+                        (valueChanges)="headerValueChanges($event)">
+
+            </pair-list>
+        </div>
     </div>
     <hr>
-    <div class="text-level1-heading">{{ 'rrOverride_response' | translate }}</div>
 
-    <div class="response-status">
-        <div>
+    <span class="link" (click)="showResponseOverride()">
+        <i class="fa" [class.fa-plus]="!showResponse" [class.fa-minus]="showResponse"></i>
+        &nbsp;{{ 'rrOverride_response' | translate }}
+    </span>
+
+    <div [class.non-visible]="!showResponse" [class.shown-container]="showResponse">
+        <div class="response-status">
             <div>
-                <label class="control-label">{{ 'rrOverride_code' | translate }}</label>
+                <div>
+                    <label class="control-label">{{ 'rrOverride_code' | translate }}</label>
+                </div>
+                <input type="text" [(ngModel)]="model.statusCode" (ngModelChange)="changeValue()">
             </div>
-            <input type="text" [(ngModel)]="model.statusCode" (ngModelChange)="changeValue()">
-        </div>
-        <div>
             <div>
-                <label class="control-label">{{ 'rrOverride_message' | translate }}</label>
+                <div>
+                    <label class="control-label">{{ 'rrOverride_message' | translate }}</label>
+                </div>
+                <input type="text" [(ngModel)]="model.statusReason" (ngModelChange)="changeValue()">
             </div>
-            <input type="text" [(ngModel)]="model.statusReason" (ngModelChange)="changeValue()">
+        </div>
+            
+        <div>
+            <pair-list *ngIf="responseHeaderOptions"
+                        [options]="responseHeaderOptions"
+                        addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
+                        emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
+                        title="{{ 'httpRun_headers' | translate }}"
+                        (valueChanges)="responseHeaderValueChanges($event)">
+
+            </pair-list>
+        </div>
+
+        <div>
+            <label class="control-label">{{ 'rrOverride_boby' | translate }}</label>
+            <div monacoEditor class="monaco response-body"
+                    (onContentChanged)="contentChanged($event)"
+                    [content]="model.body"
+                    [functionAppInput]="functionApp">
+            </div>
         </div>
     </div>
-        
-    <div>
-        <pair-list *ngIf="responseHeaderOptions"
-                    [options]="responseHeaderOptions"
-                    addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
-                    emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
-                    title="{{ 'httpRun_headers' | translate }}"
-                    (valueChanges)="responseHeaderValueChanges($event)">
-
-        </pair-list>
-    </div>
-
-    <div>
-        <label class="control-label">{{ 'rrOverride_boby' | translate }}</label>
-        <div monacoEditor class="monaco response-body"
-                (onContentChanged)="contentChanged($event)"
-                [content]="model.body"
-                [functionAppInput]="functionApp">
-        </div>
-    </div>
+    <hr>
 </div>
 
 

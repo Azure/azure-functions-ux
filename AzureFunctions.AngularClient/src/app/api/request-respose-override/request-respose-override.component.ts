@@ -37,6 +37,8 @@ export class RequestResposeOverrideComponent {
     model: RequestResponseOverrriedModel;
     @Input() functionApp: FunctionApp;
     @Output() valueChanges = new Subject<any>();
+    showResponse = false;
+    showRequest = false
     private _requestHeadersValid: boolean;
     private _requestParamsValid: boolean;
     private _responseHeadersValid: boolean;
@@ -71,7 +73,11 @@ export class RequestResposeOverrideComponent {
                     this.model.statusReason = value.responseOverrides[prop];
                 }
                 if (prop.toLocaleLowerCase() === "response.body") {
-                    this.model.body = value.responseOverrides[prop];
+                    if (typeof value.responseOverrides[prop] === 'string') {
+                        this.model.body = value.responseOverrides[prop];
+                    } else {
+                        this.model.body = JSON.stringify(value.responseOverrides[prop]);
+                    }
                 }
             }
         }
@@ -132,6 +138,14 @@ export class RequestResposeOverrideComponent {
     contentChanged(content: string) {
         this.model.body = content;
         this.changeValue();
+    }
+
+    showResponseOverride() {
+        this.showResponse = !this.showResponse;
+    }
+
+    showRequestOverride() {
+        this.showRequest = !this.showRequest;
     }
 
     get valid(): boolean {

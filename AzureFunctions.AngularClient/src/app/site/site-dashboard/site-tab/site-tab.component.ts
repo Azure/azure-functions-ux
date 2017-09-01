@@ -7,7 +7,7 @@ import { Component, OnChanges, Input, Type, ViewChild, ComponentFactoryResolver,
   template: `
       <div *ngIf="initialized">
         <busy-state name="site-tabs"></busy-state>
-        <div [hidden]="!active">
+        <div [hidden]="!active" [attr.aria-label]="title">
             <ng-template *ngIf="componentFactory" dynamic-loader></ng-template>
         </div>
     </div>`

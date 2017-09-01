@@ -205,7 +205,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backend URL (optional).
+        ///   Looks up a localized string similar to Backend URL.
         /// </summary>
         internal static string apiProxy_backendUrl {
             get {
@@ -1965,6 +1965,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string events {
             get {
                 return ResourceManager.GetString("events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand or Collapse.
+        /// </summary>
+        internal static string expandCollapse {
+            get {
+                return ResourceManager.GetString("expandCollapse", resourceCulture);
             }
         }
         
@@ -4399,6 +4408,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optional.
+        /// </summary>
+        internal static string optional {
+            get {
+                return ResourceManager.GetString("optional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string options {
@@ -4624,7 +4642,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request override (optional).
+        ///   Looks up a localized string similar to Request override.
         /// </summary>
         internal static string rrOverride_request {
             get {
@@ -4633,7 +4651,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Response override (optional).
+        ///   Looks up a localized string similar to Response override.
         /// </summary>
         internal static string rrOverride_response {
             get {
@@ -5793,6 +5811,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_releaseNotes {
             get {
                 return ResourceManager.GetString("topBar_releaseNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re using a prerelease version of Azure Functions. Thanks for trying it out!.
+        /// </summary>
+        internal static string topBar_runtimeV2 {
+            get {
+                return ResourceManager.GetString("topBar_runtimeV2", resourceCulture);
             }
         }
         

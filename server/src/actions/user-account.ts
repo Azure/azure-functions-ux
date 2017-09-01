@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import * as uuid4 from 'uuid/v4';
 
-import { config } from '../config';
+import { staticConfig } from '../config';
 import { constants } from "../constants";
 
 export function getTenants(req: Request, res: Response) {
@@ -13,7 +13,7 @@ export function getTenants(req: Request, res: Response) {
             'Authorization': `Bearer ${user.token.access_token}`
         };
 
-        axios.get(`${config.azureResourceManagerEndpoint}/tenants?api-version=2017-06-01`, { headers: headers })
+        axios.get(`${staticConfig.config.env.azureResourceManagerEndpoint}/tenants?api-version=2017-06-01`, { headers: headers })
             .then(r => {
                 const tenants = r.data
                     .value
