@@ -54,6 +54,7 @@ import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
 
 import * as jsonschema from 'jsonschema';
+import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
 export class FunctionApp {
     private masterKey: string;
@@ -782,7 +783,9 @@ export class FunctionApp {
     }
 
     getHostSecretsFromScm() {
-        return this.getAuthSettings()
+        return reachableInternalLoadBalancerApp(this, this._cacheService)
+            .filter(i => i)
+            .mergeMap(() => this.getAuthSettings())
             .mergeMap(authSettings => {
                 return authSettings.clientCertEnabled
                     ? Observable.of()
@@ -1481,10 +1484,10 @@ export class FunctionApp {
     /**
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
-    pingScmSite() {
+    pingScmSite(): Observable<boolean> {
         return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
-            .map(_ => null)
-            .catch(() => Observable.of(null));
+            .map(_ => true)
+            .catch(() => Observable.of(false));
     }
 
     private getExtensionVersion() {

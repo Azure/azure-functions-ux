@@ -1,3 +1,5 @@
+import { HostingEnvironmentProfile } from './hosting-environment';
+
 export interface Site {
     state: string;
     hostNames: string[];
@@ -15,4 +17,5 @@ export interface Site {
     siteDisabledReason?: number;
     clientCertEnabled?: boolean;
     clientAffinityEnabled?: boolean;
+    hostingEnvironmentProfile?: HostingEnvironmentProfile;
 }
