@@ -18,6 +18,7 @@ export class BusyStateComponent implements OnInit {
 
     private busyStateMap: { [key: string]: boolean } = {};
     private reservedKey = '-';
+    private timeouts: { [key: string]: number } = {};
 
     ngOnInit() {
         this.isGlobal = this.name === 'global';
@@ -29,8 +30,10 @@ export class BusyStateComponent implements OnInit {
 
     setScopedBusyState(key: string): string {
         key = key || Guid.newGuid();
-        this.busyStateMap[key] = true;
-        this.busy = true;
+        this.timeouts[key] = window.setTimeout(() => {
+            this.busyStateMap[key] = true;
+            this.busy = true;
+        }, 100); // 100 msec debounce
         return key;
     }
 
@@ -39,11 +42,20 @@ export class BusyStateComponent implements OnInit {
         if (this.busyStateMap[key]) {
             delete this.busyStateMap[key];
         }
+        if (this.timeouts[key]) {
+            clearTimeout(this.timeouts[key]);
+            delete this.timeouts[key]
+        }
         this.busy = !this.isEmptyMap(this.busyStateMap);
     }
 
     clearOverallBusyState() {
         this.busyStateMap = {};
+        const keys = Object.keys(this.timeouts);
+        for (let i = 0; i < keys.length; i++) {
+            clearTimeout(this.timeouts[keys[i]]);
+            delete this.timeouts[keys[i]];
+        }
         this.clear.next(1);
         this.busy = false;
     }
