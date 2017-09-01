@@ -62,7 +62,10 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
         this.functionAppStream
             .merge(this.functionStream)
             .debounceTime(100)
-            .switchMap(r => reachableInternalLoadBalancerApp(this.functionApp, this._cacheService).map(a => [r, a]))
+            .switchMap(r => {
+                const functionApp = r && (<FunctionInfo>r).functionApp;
+                return reachableInternalLoadBalancerApp(functionApp || this.functionApp, this._cacheService).map(a => [r, a]);
+            })
             .switchMap((result: [FunctionApp | FunctionInfo, boolean]) => {
 
                 const functionApp = result[0] && (<FunctionInfo>result[0]).functionApp;
