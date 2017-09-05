@@ -34,7 +34,7 @@
             <span *ngIf="feature.isHighlighted || feature.imageFocusable" 
                   class="feature-group-info" 
                   (keydown)="onKeyPress($event, feature)" 
-                  (focusin)="imageFocus()"
+                  (focusin)="imageFocus(feature)"
                   (focusout)="feature.onImage = false">
 
                 <span>

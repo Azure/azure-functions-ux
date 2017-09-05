@@ -133,7 +133,11 @@ export class FeatureGroupComponent {
         this.group.features[this._focusedFeatureIndex].onImage = false;
     }
 
-    imageFocus() {
+    imageFocus(feature: FeatureItem) {
+        // If you click on an icon the item should become the tabbable item in the list
+        this._focusedFeatureIndex = this.group.features.findIndex(f => {return f.title === feature.title; });
+        this.group.features.filter((f, index) => index !== this._focusedFeatureIndex).forEach(f => f.imageFocusable = false);
+
         this.group.features[this._focusedFeatureIndex].nameFocusable = true;
         this.group.features[this._focusedFeatureIndex].imageFocusable = true;
         this.group.features[this._focusedFeatureIndex].onName = false;
