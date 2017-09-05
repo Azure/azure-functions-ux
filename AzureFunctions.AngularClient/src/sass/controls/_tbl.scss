@@ -40,7 +40,7 @@
         }
     }
 
-    td.icon{
+    td.icon, td.command-icon{
         width: 32px;
         height: 32px;
         cursor: pointer;
@@ -48,10 +48,25 @@
         &:hover{
             background-color: $command-color-hover;
         }
+    }
 
+    td.icon{
         img{
             margin: 0px !important;
             height: 15px !important;
+        }
+    }
+
+
+    td.command-icon{
+        a{
+            display: block;
+            margin: auto;
+            height: 25px;
+            width: 25px;
+            background-size: 15px 15px;
+            background-repeat: no-repeat;
+            background-position: 5px 5px;
         }
     }
 

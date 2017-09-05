@@ -43,8 +43,12 @@
                     {{ 'enabled' | translate }}
                 </span>
             </td>
-            <td class="icon">
-                <img src="images/delete.svg" (click)="clickDelete(item)" />
+            <td class="command-icon">
+                <a role="button"
+                   [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
+                   style="background-image: url('images/delete.svg')"
+                   (click)="clickDelete(item)">
+                </a>
             </td>
         </tr>
 
