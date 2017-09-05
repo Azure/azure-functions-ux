@@ -3238,6 +3238,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Function {{name}}?.
+        /// </summary>
+        internal static string functionManage_delete {
+            get {
+                return ResourceManager.GetString("functionManage_delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete Function {{name}}?.
         /// </summary>
         internal static string functionManage_areYouSure {
