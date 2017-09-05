@@ -85,27 +85,27 @@ export class FeatureGroupComponent {
         if (event.keyCode === KeyCodes.enter) {
             this.click(feature);
 
-        // Arrow down to focus on the feature below current feature
+            // Arrow down to focus on the feature below current feature
         } else if (event.keyCode === KeyCodes.arrowDown) {
             const featureElements = this._getFeatures();
             this._clearFocusOnFeature(featureElements, this._focusedFeatureIndex);
             this._setFocusOnFeature(featureElements, this._focusedFeatureIndex + 1);
             event.preventDefault();
 
-        // Arrow up to focus on the feature above the current feature
+            // Arrow up to focus on the feature above the current feature
         } else if (event.keyCode === KeyCodes.arrowUp) {
             const featureElements = this._getFeatures();
             this._clearFocusOnFeature(featureElements, this._focusedFeatureIndex);
             this._setFocusOnFeature(featureElements, this._focusedFeatureIndex - 1);
             event.preventDefault();
 
-        // Shift & tab to tab backwards and remove image from appearing in previous list
+            // Shift & tab to tab backwards and remove image from appearing in previous list
         } else if (event.keyCode === (KeyCodes.tab && KeyCodes.shiftLeft)) {
             if (!this.group.features[this._focusedFeatureIndex].onImage) {
                 this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
             }
 
-        // Tab to tab forward and remove image from appearing in pervious list if or set onImage property
+            // Tab to tab forward and remove image from appearing in pervious list if or set onImage property
         } else if (event.keyCode === KeyCodes.tab) {
             if (this.group.features[this._focusedFeatureIndex].onImage) {
                 this.group.features.forEach(indexFeature => { indexFeature.onImage = false; indexFeature.imageFocusable = false; });
@@ -124,7 +124,7 @@ export class FeatureGroupComponent {
 
     nameFocus(feature: FeatureItem) {
         // If you click on an item it should be the tabbable item in the list
-        this._focusedFeatureIndex = this.group.features.findIndex(f => {return f.title === feature.title; });
+        this._focusedFeatureIndex = this.group.features.findIndex(f => f.title === feature.title);
         this.group.features.filter((f, index) => index !== this._focusedFeatureIndex).forEach(f => f.nameFocusable = false);
 
         this.group.features[this._focusedFeatureIndex].nameFocusable = true;
@@ -135,7 +135,7 @@ export class FeatureGroupComponent {
 
     imageFocus(feature: FeatureItem) {
         // If you click on an icon the item should become the tabbable item in the list
-        this._focusedFeatureIndex = this.group.features.findIndex(f => {return f.title === feature.title; });
+        this._focusedFeatureIndex = this.group.features.findIndex(f => f.title === feature.title);
         this.group.features.filter((f, index) => index !== this._focusedFeatureIndex).forEach(f => f.imageFocusable = false);
 
         this.group.features[this._focusedFeatureIndex].nameFocusable = true;
