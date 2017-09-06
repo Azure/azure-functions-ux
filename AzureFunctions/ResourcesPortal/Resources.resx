@@ -2086,9 +2086,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="locationFilter" xml:space="preserve">
     <value>Location filter</value>
   </data>
-  <data name="grouping_chooser" xml:space="preserve">
-    <value>Grouping chooser</value>
-  </data>
   <data name="grouping_location" xml:space="preserve">
     <value>Group by location</value>
   </data>

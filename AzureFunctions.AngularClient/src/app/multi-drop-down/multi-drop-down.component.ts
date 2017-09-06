@@ -118,7 +118,7 @@ export class MultiDropDownComponent<T> implements OnInit {
 
   private _getListItems(): NodeList {
     if (this.itemListContainer && this.itemListContainer.nativeElement) {
-      return (<HTMLElement>this.itemListContainer.nativeElement).querySelectorAll('li');
+      return (this.itemListContainer.nativeElement as HTMLElement).querySelectorAll('li');
     }
     else {
       return null;
@@ -168,11 +168,11 @@ export class MultiDropDownComponent<T> implements OnInit {
       if (index < listItems.length) {
         if (this._focusedIndex >= 0 && this._focusedIndex < this.options.length && this._focusedIndex < listItems.length) {
           this.options[this._focusedIndex].isFocused = false;
-          Dom.clearFocus(<HTMLElement>listItems[this._focusedIndex]);
+          Dom.clearFocus(listItems[this._focusedIndex] as HTMLElement);
         }
         this._focusedIndex = index;
         this.options[this._focusedIndex].isFocused = true;
-        Dom.setFocus(<HTMLElement>listItems[this._focusedIndex]);
+        Dom.setFocus(listItems[this._focusedIndex] as HTMLElement);
       }
     }
     this._scrollIntoView();
@@ -202,7 +202,7 @@ export class MultiDropDownComponent<T> implements OnInit {
   }
 
   private _getViewContainer(): HTMLDivElement {
-    return this.itemListContainer && <HTMLDivElement>this.itemListContainer.nativeElement;
+    return this.itemListContainer && this.itemListContainer.nativeElement;
   }
 
   private _scrollIntoView() {

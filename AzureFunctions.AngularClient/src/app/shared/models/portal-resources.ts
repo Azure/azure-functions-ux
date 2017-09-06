@@ -657,7 +657,6 @@ export class PortalResources
     public static locationCount: string = "locationCount";
     public static locationColon: string = "locationColon";
     public static locationFilter: string = "locationFilter";
-    public static grouping_chooser: string = "grouping_chooser";
     public static grouping_location: string = "grouping_location";
     public static grouping_none: string = "grouping_none";
     public static grouping_resourceGroup: string = "grouping_resourceGroup";
