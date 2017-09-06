@@ -1,6 +1,6 @@
 <div class="click-to-edit-wrapper" (click)="onClick()">
   <div *ngIf="!showTextbox && !hiddenText" class="text">
-    {{control.value}}
+    {{control.value || '&#8203;'}}
   </div>
 
   <div *ngIf="!showTextbox && hiddenText" class="text hidden-text">
