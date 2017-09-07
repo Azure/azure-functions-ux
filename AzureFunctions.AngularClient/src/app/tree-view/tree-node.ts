@@ -53,6 +53,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public supportsAdvanced = false;
     public supportsScope = false;
     public disabled = false;
+    public disabledReason: string;
     public inSelectedTree = false;
     public isFocused = false;
     public showMenu = false;
@@ -62,7 +63,9 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     constructor(
         public sideNav: SideNavComponent,
         public resourceId: string,
-        public parent: TreeNode) { }
+        public parent: TreeNode) {
+        this.disabledReason = this.sideNav.translateService.instant('You either do not have access to this app or there are orphaned slots associated with it');
+    }
 
     public select(force?: boolean): void {
         if (this.disabled || !this.resourceId) {

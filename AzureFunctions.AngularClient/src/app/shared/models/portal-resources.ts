@@ -125,6 +125,7 @@ export class PortalResources
     public static functionIntegrate_changesLost2: string = "functionIntegrate_changesLost2";
     public static functionIntegrate_settingName: string = "functionIntegrate_settingName";
     public static functionIntegrate_standardEditor: string = "functionIntegrate_standardEditor";
+    public static functionManage_delete: string = "functionManage_delete";
     public static functionManage_areYouSure: string = "functionManage_areYouSure";
     public static functionMonitor_loading: string = "functionMonitor_loading";
     public static functionMonitor_successAggregate: string = "functionMonitor_successAggregate";

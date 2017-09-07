@@ -128,6 +128,7 @@ import { ConnectionStringsComponent } from './site/site-config/connection-string
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 import { TopWarningComponent } from './top-warning/top-warning.component';
 import { SidebarModule } from 'ng-sidebar';
+import { SlideToggleComponent } from './controls/slide-toggle/slide-toggle.component';
 
 export function ArmServiceFactory(http: Http, userService: UserService, aiService: AiService) {
     const service =
@@ -252,7 +253,8 @@ export class AppModule {
             KuduDashboardComponent,
             DeploymentDetailComponent,
             DeploymentCenterSetupComponent,
-            TopWarningComponent
+            TopWarningComponent,
+            SlideToggleComponent
         ],
         imports: [
             FormsModule,

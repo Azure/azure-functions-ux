@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="!disabled">
     <busy-state></busy-state>
     <div *ngIf="functionInfo" class="title"> {{'functionKeys_title' | translate}} </div>
     <div *ngIf="!functionInfo" class="title"> {{'adminKeys_title' | translate}} </div>

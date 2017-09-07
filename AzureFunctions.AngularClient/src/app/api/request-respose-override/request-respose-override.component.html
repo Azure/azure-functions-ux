@@ -6,7 +6,7 @@
         &nbsp;{{ 'rrOverride_request' | translate }}
     </span>
 
-    <div [class.non-visible]="!showRequest" class="shown-container">
+    <div [class.non-visible]="!showRequest" [class.shown-container]="showRequest">
         <div>
             <div class="control-label">{{ 'httpRun_httpMethod' | translate }}</div>
 
@@ -45,7 +45,7 @@
         &nbsp;{{ 'rrOverride_response' | translate }}
     </span>
 
-    <div [class.non-visible]="!showResponse" class="shown-container">
+    <div [class.non-visible]="!showResponse" [class.shown-container]="showResponse">
         <div class="response-status">
             <div>
                 <div>

@@ -73,8 +73,8 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
         item.select();
     }
 
-    enableChange(item: FunctionNode) {
-        item.functionInfo.config.disabled = !item.functionInfo.config.disabled;
+    enableChange(item: FunctionNode, enabled: boolean) {
+        item.functionInfo.config.disabled = !enabled;
         return this.functionApp.updateFunction(item.functionInfo)
             .do(null, e => {
                 item.functionInfo.config.disabled = !item.functionInfo.config.disabled;

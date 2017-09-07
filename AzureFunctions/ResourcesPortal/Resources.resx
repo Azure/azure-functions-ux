@@ -487,6 +487,9 @@
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>Standard editor</value>
   </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>Delete Function {{name}}</value>
+  </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Are you sure you want to delete Function {{name}}?</value>
   </data>

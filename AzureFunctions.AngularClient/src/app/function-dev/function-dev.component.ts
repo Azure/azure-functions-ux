@@ -1,7 +1,7 @@
 import { FileUtilities } from './../shared/Utilities/file';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
-import { Component, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef } from '@angular/core';
+import { Component, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -106,7 +106,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        configService: ConfigService) {
+        configService: ConfigService,
+        cd: ChangeDetectorRef) {
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
@@ -218,6 +219,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     this.setFunctionInvokeUrl();
                 }
 
+                // This subscribe method changes a lot of UI elements. Normally that's fine if the data leading
+                // to the subscribe isn't ready and need to be fetched from the server.
+                // if the data is cached on the client, this causes few rapid changes in the DOM and we need to inform the change detector of these changes.
+                // Otherwise we'll get ExpressionChangedAfterItHasBeenCheckedError
+                cd.detectChanges();
 
             });
 
