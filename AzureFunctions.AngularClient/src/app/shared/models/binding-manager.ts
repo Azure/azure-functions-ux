@@ -138,7 +138,8 @@ export class BindingManager {
             direction: direction,
             enabledInTryMode: false,
             settings: [],
-            displayName: schema.displayName
+            displayName: schema.displayName,
+            AADPermissions: schema.AADPermissions
         };
 
 

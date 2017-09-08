@@ -2209,4 +2209,49 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="expandCollapse" xml:space="preserve">
     <value>Expand or Collapse</value>
   </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>App service Authentication / Authorization:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>Configure AAD now</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>Add permissions now</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>configured</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>Identity requirements (not satisfied)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>not configured</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>Required permissions</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>The template needs the following permission:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>This integration requires an AAD configuration for the function app.</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>This template requires an AAD configuration for the function app.</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>You may need to configure any additional permissions you function requires. Please see the documentation for this binding.</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>Manage App Service Authentication / Authorization</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>Auth configuration required</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>Identity requirements</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
 </root>

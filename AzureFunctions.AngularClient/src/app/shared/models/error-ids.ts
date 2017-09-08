@@ -46,4 +46,5 @@ export class ErrorIds {
     public static unableToUpdateFunctionAppEditMode = '/errors/unableToUpdateFunctionAppEditMode';
     public static unableToPopulateSlotsList = '/errors/unableToPopulateSlotsList';
     public static failedToSwitchEnabledFunction = '/errors/failedToSwitchEnabledFunction';
+    public static failedAadRegistration = '/errors/failedAadRegistration';
 }

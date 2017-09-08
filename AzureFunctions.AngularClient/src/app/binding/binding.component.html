@@ -19,6 +19,10 @@
             <div class="clearfix"></div>
         </div>
 
+        <div *ngIf="bindingValue.AADPermissions" >
+            <aad-registration [functionApp]="functionApp" [bindingInput]="bindingValue.name" [AADPermissions]="bindingValue.AADPermissions"></aad-registration>
+        </div>
+
         <div class="panel-body">
             <div class="container-fluid">
                 <div class="col-md-6">
