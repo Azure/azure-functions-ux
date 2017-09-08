@@ -125,6 +125,7 @@ import { ConnectionStringsComponent } from './site/site-config/connection-string
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 import { TopWarningComponent } from './top-warning/top-warning.component';
 import { SlideToggleComponent } from './controls/slide-toggle/slide-toggle.component';
+import { SidebarModule } from 'ng-sidebar';
 
 export function ArmServiceFactory(
   http: Http,
@@ -258,7 +259,8 @@ export class AppModule {
       HttpModule,
       TranslateModule.forRoot(),
       FileUploadModule,
-      PopoverModule
+      PopoverModule,
+      SidebarModule
     ],
     providers: [
       ConfigService,
