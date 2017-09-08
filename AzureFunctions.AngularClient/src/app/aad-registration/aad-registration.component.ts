@@ -65,7 +65,7 @@ export class AadRegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._portalService.getStartupInfo().subscribe(info => {
+    this._portalService.getStartupInfo().first().subscribe(info => {
       this.graphToken = info.graphToken;
       this.setModel();
     });

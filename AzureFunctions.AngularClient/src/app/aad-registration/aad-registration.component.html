@@ -1,21 +1,30 @@
 <div *ngIf="model" class="panel panel-default">
+
   <div *ngIf="!model.isPermissionConfigured || !model.isAADAppCreated" class="panel-heading">
     <div><i class="fa fa-warning"></i> {{ 'aadreg_identityRequirements' | translate }}</div>
   </div>
+
   <div *ngIf="model.isAADAppCreated && isAdditionalPermissionsBinding" class="panel-heading">
     <div><i class="fa fa-info-circle"></i> {{ 'aadreg_identityRequirementsInfo' | translate }}</div>
   </div>
+
   <div class="panel-body">
     <div *ngIf="!binding">{{ 'aadreg_thisTemplate' | translate }}</div>
     <div *ngIf="binding">{{ 'aadreg_thisIntegration' | translate }}</div>
+
     <div>
       <i *ngIf="!model.isAADAppCreated" class="fa fa-warning"></i>
       <i *ngIf="model.isAADAppCreated" class="fa fa-check-circle"></i>
       {{'aadreg_appService' | translate}}
       <span *ngIf="!model.isAADAppCreated" class="bold">{{'aadreg_notConfigured' | translate}}</span>
       <span *ngIf="model.isAADAppCreated" class="bold">{{'aadreg_configured' | translate}}</span>
-      <span *ngIf="model.isPermissionConfigured && model.isAADAppCreated && !isAdditionalPermissionsBinding" (click)="openAuth()" class="link left">{{ 'aadreg_manage' | translate}}</span>
+      <a *ngIf="model.isPermissionConfigured && model.isAADAppCreated && !isAdditionalPermissionsBinding" 
+        (click)="openAuth()" 
+        class="link left"
+        tabindex="0">{{ 'aadreg_manage' | translate}}
+      </a>
     </div>
+
     <div *ngIf="!isAdditionalPermissionsBinding">
       <div>
         <i *ngIf="!model.isPermissionConfigured" class="fa fa-warning"></i>
@@ -32,15 +41,22 @@
         </div>
       </div>
     </div>
+
     <div *ngIf="isAdditionalPermissionsBinding">
       <i class="fa fa-info-circle"></i>
       {{ 'aadreg_youMayNeed' | translate }}
     </div>
   </div>
+
   <div *ngIf="!model.isAADAppCreated || !model.isPermissionConfigured || isAdditionalPermissionsBinding" class="panel-footer">
-    <span class="link" (click)="openAuth()">{{ 'asdreg_manageAppService' | translate }}</span>
-    <span *ngIf="!model.isAADAppCreated" class="link left" (click)="configureAAD()">{{ 'aadreg_configureAADNow' | translate }}</span>
-    <span *ngIf="model.isAADAppCreated && !model.isPermissionConfigured && !isAdditionalPermissionsBinding" class="link left" (click)="addPermissions()">{{ 'aadreg_configureAADPermissionsNow' | translate }}</span>
+    <a class="link" (click)="openAuth()" tabindex="1">{{ 'asdreg_manageAppService' | translate }}</a>
+    <a *ngIf="!model.isAADAppCreated" class="link left" (click)="configureAAD()" tabindex="2">{{ 'aadreg_configureAADNow' | translate }}</a>
+    <a *ngIf="model.isAADAppCreated && !model.isPermissionConfigured && !isAdditionalPermissionsBinding" 
+      class="link left" (click)="addPermissions()"
+      tabindex="3">
+      {{ 'aadreg_configureAADPermissionsNow' | translate }}
+    </a>
   </div>
+
 </div>
 
