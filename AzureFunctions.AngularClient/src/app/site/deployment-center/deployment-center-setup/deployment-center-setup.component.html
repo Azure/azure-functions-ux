@@ -1,0 +1,20 @@
+<wizard>
+    <wizard-step title="Title of step 1">
+        Content of Step 1
+        <br>
+        <button class="custom-button next-button" type="button" nextStep>Next Step</button>
+        <button class="custom-button previous-button" type="button" goToStep="2">Go directly to third Step</button>
+    </wizard-step>
+    <wizard-step title="Title of step 2" optionalStep>
+        Content of Step 2
+        <br>
+        <button class="custom-button  previous-button" type="button" previousStep>Go to previous step</button>
+        <button class="custom-button  next-button" type="button" nextStep>Go to next step</button>
+    </wizard-step>
+    <wizard-step title="Title of step 3">
+        Content of Step 3
+        <br>
+        <button class="custom-button  previous-button" type="button" previousStep>Previous Step</button>
+        <button class="custom-button next-button" type="button" (click)="finishFunction()">Finish</button>
+    </wizard-step>
+</wizard>
