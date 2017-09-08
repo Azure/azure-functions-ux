@@ -73,7 +73,11 @@
         </div>
 
         <div class="create-button-container" *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions">
-            <aad-registration [functionApp]="functionApp" [AADPermissions]="selectedTemplate.metadata.AADPermissions" (configured)="aadRegistrationConfigured($event)"></aad-registration>
+            <aad-registration 
+                [functionApp]="functionApp" 
+                [AADPermissions]="selectedTemplate.metadata.AADPermissions" 
+                (configured)="aadRegistrationConfigured($event)">
+            </aad-registration>
         </div>
         <div class>
             <button [class.custom-button]="areInputsValid"

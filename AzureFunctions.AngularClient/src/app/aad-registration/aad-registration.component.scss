@@ -22,12 +22,12 @@ div {
 .panel-default {
     //width: 700px;
     .panel-body {
-        background-color: #f5f5f5
+        background-color: $grey-color;
     }
 }
 
 .bold {
-    font-weight:bold;
+    font-weight: bold;
 }
 
 .left {
