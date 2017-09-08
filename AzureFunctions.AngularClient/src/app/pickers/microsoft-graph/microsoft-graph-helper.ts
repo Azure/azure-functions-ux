@@ -10,10 +10,8 @@ import { GlobalStateService } from '../../shared/services/global-state.service';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Constants } from "../../shared/models/constants";
 import { MobileAppsClient } from "../../shared/models/mobile-apps-client";
-import { Binding } from '../../shared/models/binding';
 import { CheckBoxListInput, PickerInput } from '../../shared/models/binding-input';
-import { FunctionTemplateMetadata } from '../../shared/models/function-template';
-import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping, MSGraphConstants } from '../../shared/models/microsoft-graph';
+import { Moniker, GraphSubscription, GraphSubscriptionEntry, ODataTypeMapping, MSGraphConstants, AADPermissions, AADRegistrationInfo } from '../../shared/models/microsoft-graph';
 
 declare const Buffer: any;
 declare var require: any;
@@ -23,36 +21,128 @@ export class MicrosoftGraphHelper {
     public function?: FunctionNewComponent;
     private _dataRetriever: MobileAppsClient;
     private _token: string;
+    private _jwt: any;
     private setClientSecret = false;
 
     constructor(
         public functionApp: FunctionApp,
         private _cacheService: CacheService,
-        private _aiService?: AiService) 
+        private _aiService?: AiService)
         {
             if (_aiService) {
                 this._dataRetriever = new MobileAppsClient(this.functionApp.getMainSiteUrl());
             }
         }
 
-    createAADApplication(template: Binding | FunctionTemplateMetadata, graphToken: string, globalStateService: GlobalStateService): Observable<any> {
-        // 1. Check if AAD application exists       
-        this._token = graphToken;
-        const jwt = parseToken(this._token);
-        
-        if (!jwt) {
-            throw `Unable to parse MS Graph JWT; cannot retrieve audience or tenant ID`;
-        }
-        
-        let rootUri = jwt.aud + jwt.tid; // audience + tenantId
+    getADDAppRegistrationInfo(necessaryAADPermisisons: AADPermissions[], graphToken: string): Observable<AADRegistrationInfo> {
+        const cloneNecessaryAADPermisisons = JSON.parse(JSON.stringify(necessaryAADPermisisons));
+        const rootUri = this.getRootUri(graphToken);
+
+        const result: AADRegistrationInfo = {
+            isPermissionConfigured: false,
+            isAADAppCreated: false,
+            permissions: cloneNecessaryAADPermisisons
+        };
         return this.checkForExistingAAD(rootUri)
             .flatMap(applicationInformation => {
                 // If it already exists, check to see if it has necessary client secret & resources
+                let existingApplication: any;
                 if (applicationInformation) {
-                    /* Currently, this fails because the graph token retrieved from Ibiza does not have enough permissions to update the AAD app's manifest,
-                    * though the token can be used to create an AAD app...            
-                    * This section can be uncommented when the AAD team updates the permissions for the Portal AAD app */
-                    var existingApplication = applicationInformation.json().value[0];
+                    existingApplication = applicationInformation.json().value[0];
+                }
+                if (existingApplication) {
+                    result.isAADAppCreated = true;
+                    result.isPermissionConfigured = true;
+
+                    // Check if app has all required resource permissions
+                    if (!existingApplication.requiredResourceAccess) {
+                        existingApplication.requiredResourceAccess = [];
+                    }
+
+                    let appPerm = null;
+
+                    result.permissions.forEach(requiredPerm => {
+                        const findPerm = existingApplication.requiredResourceAccess.find(p => {
+                            if (p.resourceAppId.toLocaleLowerCase() === requiredPerm.resourceAppId.toLocaleLowerCase()) {
+                                appPerm = p;
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+                        if (findPerm) {
+                            requiredPerm.resourceAccess.forEach(requiredAccess => {
+                                const findAccess = appPerm.resourceAccess.find(appAccess => {
+                                    return requiredAccess.id.toLocaleLowerCase() === appAccess.id.toLocaleLowerCase();
+                                });
+
+                                requiredAccess.configured = !!findAccess;
+                            });
+                        }
+                    });
+                    result.permissions.forEach(p => {
+                        p.resourceAccess.forEach(ra => {
+                            if (!ra.configured) {
+                                result.isPermissionConfigured = false;
+                            }
+                        });
+                    });
+
+                    return Observable.of(result);
+                } else {
+                    return Observable.of(result);
+                }
+            });
+
+    }
+
+    configureAAD(necessaryAADPermisisons: AADPermissions[], graphToken: string): Observable<any> {
+        const rootUri = this.getRootUri(graphToken);
+        // If it does not exist, create it & set necessary resources
+        let appUri = this.functionApp.getMainSiteUrl();
+        let name = this.functionApp.site.name;
+
+        var app: any = {};
+        app.displayName = name;
+        app.homepage = appUri;
+        app.identifierUris = [appUri];
+        app.replyUrls = [trimTrailingSlash(appUri) + MSGraphConstants.General.AADReplyUrl];
+
+        var pwCreds = GeneratePasswordCredentials();
+        app.passwordCredentials = [pwCreds];
+        app.requiredResourceAccess = necessaryAADPermisisons;
+
+        let application = JSON.stringify(app);
+        return this.sendRequest(rootUri, '/applications', "POST", application)
+            .do(response =>{
+
+                let newApplication = JSON.parse(response._body);
+
+                this.setAuthSettings(newApplication.appId, this._jwt, pwCreds.value, app.replyUrls);
+            }, err =>{
+                if (this._aiService) {
+                    this._aiService.trackException(err, "Error while creating new AAD application");
+                }
+            });
+    }
+
+    addPermissions(necessaryAADPermisisons: AADPermissions[], graphToken: string): Observable<any> {
+        this._token = graphToken;
+        const jwt = parseToken(this._token);
+
+        if (!jwt) {
+            throw Error('Unable to parse MS Graph JWT; cannot retrieve audience or tenant ID');
+        }
+        const rootUri = jwt.aud + jwt.tid; // audience + tenantId
+
+        return this.checkForExistingAAD(rootUri)
+            .flatMap(applicationInformation => {
+                // If it already exists, check to see if it has necessary client secret & resources
+                let existingApplication: any = {};
+                if (applicationInformation) {
+                    existingApplication = applicationInformation.json().value[0];
+                }
+                if (existingApplication) {
 
                     // Legacy reasons: check for client secret (Easy Auth used to not set Client Secret automatically)
                     if (this.setClientSecret) {
@@ -65,45 +155,13 @@ export class MicrosoftGraphHelper {
                             }
                         });
                     }
-                    
                     const patch: any = {};
-                    patch.value = CompareResources(existingApplication.requiredResourceAccess, template.AADPermissions);
-                    /* Currently, this fails because the graph token retrieved from Ibiza does not have enough permissions to update the AAD app's manifest,
-                    * though the token can be used to create an AAD app...            
-                    * This can be uncommented when the AAD team updates the permissions for the Portal AAD app */
-                    // return this.sendRequest(rootUri, '/applications/' + existingApplication.objectId + '/requiredResourceAccess', "PATCH", JSON.stringify(patch));
-
-                    return Observable.of(null);   
+                    patch.value = CompareResources(existingApplication.requiredResourceAccess, necessaryAADPermisisons);
+                    return this.sendRequest(rootUri, '/applications/' + existingApplication.objectId + '/requiredResourceAccess', "PATCH", JSON.stringify(patch));
+                } else {
+                    return Observable.of(null);
                 }
-                else {
-                    // If it does not exist, create it & set necessary resources
-                    let appUri = this.functionApp.getMainSiteUrl();      
-                    let name = this.functionApp.site.name;
-
-                    var app: any = {};
-                    app.displayName = name;
-                    app.homepage = appUri;
-                    app.identifierUris = [appUri];
-                    app.replyUrls = [trimTrailingSlash(appUri) + MSGraphConstants.General.AADReplyUrl];
-
-                    var pwCreds = GeneratePasswordCredentials();
-                    app.passwordCredentials = [pwCreds];
-                    app.requiredResourceAccess = template.AADPermissions;
-
-                    let application = JSON.stringify(app);
-                    return this.sendRequest(rootUri, '/applications', "POST", application)
-                        .do(response =>{
-
-                            let newApplication = JSON.parse(response._body);
-
-                            this.setAuthSettings(newApplication.appId, jwt, pwCreds.value, app.replyUrls);
-                        }, err =>{
-                            if (this._aiService) {
-                                this._aiService.trackException(err, "Error while creating new AAD application");
-                            }
-                        });
-                }
-            })    
+            });
     }
 
     saveWebHook() {
@@ -259,6 +317,7 @@ export class MicrosoftGraphHelper {
         authSettings.set('clientSecret', clientSecret);
         authSettings.set('issuer', jwt.iss);
         authSettings.set('allowedAudiences', replyUrls);
+        authSettings.set('isAadAutoProvisioned', true);
 
         this.functionApp.createAuthSettings(authSettings).subscribe(() => { },
         error => {
@@ -275,7 +334,7 @@ export class MicrosoftGraphHelper {
                 const clientId = authSettings.properties['clientId'];
                 this.setClientSecret = !authSettings.properties['clientSecret'];
                 if (clientId) {
-                    return this.sendRequest(rootUri, '/applications', 'GET', null, "appId eq '" + clientId + "'");
+                    return this.sendRequest(rootUri, '/applications', 'GET', null, "appId eq '" + clientId + "'", true);
                 } else {
                     return Observable.of(null);
                 }
@@ -296,7 +355,7 @@ export class MicrosoftGraphHelper {
         })
     }
 
-    private sendRequest(baseUrl: string, extension: string, method: string, jsonPayload?, queryParameters?: string): Observable<any> {
+    private sendRequest(baseUrl: string, extension: string, method: string, jsonPayload?, queryParameters?: string, force?: boolean): Observable<any> {
         let url = trimTrailingSlash(baseUrl) + extension + '?api-version=' + MSGraphConstants.General.ApiVersion;
         if (queryParameters) {
             url += "&$filter=" + encodeURIComponent(queryParameters);
@@ -307,17 +366,17 @@ export class MicrosoftGraphHelper {
 
         if (method.toLowerCase() === Constants.httpMethods.POST) {
             headers.append('Content-Type', 'application/json');
-            return this._cacheService.post(url, null, headers, jsonPayload);
+            return this._cacheService.post(url, force, headers, jsonPayload);
         }
         else if (method.toLowerCase() === Constants.httpMethods.PUT) {
             headers.append('Content-Type', 'application/json');
-            return this._cacheService.put(url, null, headers, jsonPayload);
+            return this._cacheService.put(url, force, headers, jsonPayload);
         }
         else if (method.toLowerCase() === Constants.httpMethods.PATCH) {
             headers.append('Content-Type', 'application/json; charset=utf-8');
-            return this._cacheService.patch(url, null, headers, jsonPayload);
+            return this._cacheService.patch(url, force, headers, jsonPayload);
         }
-        return this._cacheService.get(url, null, headers);
+        return this._cacheService.get(url, force, headers);
     }
 
     private getBYOBStorageLocation() {
@@ -351,6 +410,17 @@ export class MicrosoftGraphHelper {
                 return newSubscription.id;
             });
     }
+
+    private getRootUri(graphToken: string): string {
+        this._token = graphToken;
+        this._jwt = parseToken(this._token);
+
+        if (!this._jwt) {
+            throw Error('Unable to parse MS Graph JWT; cannot retrieve audience or tenant ID');
+        }
+        return this._jwt.aud + this._jwt.tid; // audience + tenantId
+    }
+
 }
 
 function base64urlUnescape(str: string) {

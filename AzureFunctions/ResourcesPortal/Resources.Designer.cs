@@ -79,6 +79,132 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to App service Authentication / Authorization:.
+        /// </summary>
+        internal static string aadreg_appService {
+            get {
+                return ResourceManager.GetString("aadreg_appService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auth configuration required.
+        /// </summary>
+        internal static string aadreg_authConfRequired {
+            get {
+                return ResourceManager.GetString("aadreg_authConfRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure AAD now.
+        /// </summary>
+        internal static string aadreg_configureAADNow {
+            get {
+                return ResourceManager.GetString("aadreg_configureAADNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add permissions now.
+        /// </summary>
+        internal static string aadreg_configureAADPermissionsNow {
+            get {
+                return ResourceManager.GetString("aadreg_configureAADPermissionsNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to configured.
+        /// </summary>
+        internal static string aadreg_configured {
+            get {
+                return ResourceManager.GetString("aadreg_configured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identity requirements (not satisfied).
+        /// </summary>
+        internal static string aadreg_identityRequirements {
+            get {
+                return ResourceManager.GetString("aadreg_identityRequirements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identity requirements.
+        /// </summary>
+        internal static string aadreg_identityRequirementsInfo {
+            get {
+                return ResourceManager.GetString("aadreg_identityRequirementsInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        internal static string aadreg_manage {
+            get {
+                return ResourceManager.GetString("aadreg_manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not configured.
+        /// </summary>
+        internal static string aadreg_notConfigured {
+            get {
+                return ResourceManager.GetString("aadreg_notConfigured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required permissions.
+        /// </summary>
+        internal static string aadreg_requiredPerm {
+            get {
+                return ResourceManager.GetString("aadreg_requiredPerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The template needs the following permission:.
+        /// </summary>
+        internal static string aadreg_templateNeeds {
+            get {
+                return ResourceManager.GetString("aadreg_templateNeeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This integration requires an AAD configuration for the function app..
+        /// </summary>
+        internal static string aadreg_thisIntegration {
+            get {
+                return ResourceManager.GetString("aadreg_thisIntegration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This template requires an AAD configuration for the function app..
+        /// </summary>
+        internal static string aadreg_thisTemplate {
+            get {
+                return ResourceManager.GetString("aadreg_thisTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You may need to configure any additional permissions you function requires. Please see the documentation for this binding..
+        /// </summary>
+        internal static string aadreg_youMayNeed {
+            get {
+                return ResourceManager.GetString("aadreg_youMayNeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to + Add new connection string.
         /// </summary>
         internal static string addNewConnectionString {
@@ -498,6 +624,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string architecture64 {
             get {
                 return ResourceManager.GetString("architecture64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage App Service Authentication / Authorization.
+        /// </summary>
+        internal static string asdreg_manageAppService {
+            get {
+                return ResourceManager.GetString("asdreg_manageAppService", resourceCulture);
             }
         }
         
@@ -3126,6 +3261,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionKeys_addNewFunctionKey {
             get {
                 return ResourceManager.GetString("functionKeys_addNewFunctionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to hide.
+        /// </summary>
+        internal static string functionKeys_clickToHide {
+            get {
+                return ResourceManager.GetString("functionKeys_clickToHide", resourceCulture);
             }
         }
         

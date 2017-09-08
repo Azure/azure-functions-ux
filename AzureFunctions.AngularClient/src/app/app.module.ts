@@ -124,6 +124,7 @@ import { AppSettingsComponent } from './site/site-config/app-settings/app-settin
 import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 import { TopWarningComponent } from './top-warning/top-warning.component';
+import { AadRegistrationComponent } from './aad-registration/aad-registration.component';
 import { SlideToggleComponent } from './controls/slide-toggle/slide-toggle.component';
 
 export function ArmServiceFactory(
@@ -248,6 +249,7 @@ export class AppModule {
       RequestResposeOverrideComponent,
       BindingEventGridComponent,
       TopWarningComponent,
+      AadRegistrationComponent,
       SlideToggleComponent
     ],
     imports: [
