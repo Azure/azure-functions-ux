@@ -56,7 +56,7 @@ export class FunctionNewComponent {
     templateWarning: string;
     addLinkToAuth = false;
     action: Action;
-    aadConfigured = false;
+    aadConfigured = true;
     public disabled: boolean;
     private _bindingComponents: BindingComponent[] = [];
     private _exclutionFileList = [
