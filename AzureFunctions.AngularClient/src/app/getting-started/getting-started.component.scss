@@ -16,6 +16,8 @@ label {
     transform-style: preserve-3d;
     width: 900px;
     padding-top: 30px;
+    position: relative;
+    z-index: -1;
 }
 
 .container > div{
@@ -26,6 +28,8 @@ label {
     background-color: $primary-color;
     height: 150px;
     text-align: center;
+    position: relative;
+    z-index: -1;
 }
 
 .start-banner-content{
