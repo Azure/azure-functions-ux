@@ -83,7 +83,7 @@
             <button [class.custom-button]="areInputsValid"
                     [class.custom-button-disabled]="!areInputsValid || !aadConfigured"
                     (click)="onCreate()">{{ 'create' | translate }}</button>
-            <span *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions && !aadConfigured">{{ 'aadreg_authConfRequired' | translate}}</span>
+            <span *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions && !aadConfigured">&nbsp;&nbsp;{{ 'aadreg_authConfRequired' | translate}}</span>
         </div>
 
     </div>

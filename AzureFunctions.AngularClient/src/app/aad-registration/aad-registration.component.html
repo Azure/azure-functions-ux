@@ -1,3 +1,9 @@
+<div *ngIf="!model" class="panel panel-default">
+  <div class="panel-body">
+    <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}
+  </div>
+</div>
+
 <div *ngIf="model" class="panel panel-default">
 
   <div *ngIf="!model.isPermissionConfigured || !model.isAADAppCreated" class="panel-heading">

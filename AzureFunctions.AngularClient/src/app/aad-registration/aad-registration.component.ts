@@ -79,9 +79,8 @@ export class AadRegistrationComponent implements OnInit {
   }
 
   configureAAD() {
-    this._globalService.setBusyState();
+    this.model = null;
     this.helper.configureAAD(this.necessaryPerms, this.graphToken).subscribe(() => {
-      this._globalService.clearBusyState();
       this.setModel();
     }, err => {
       this.processError(err, 'Error configuring AAD application');
@@ -89,9 +88,8 @@ export class AadRegistrationComponent implements OnInit {
   }
 
   addPermissions() {
-    this._globalService.setBusyState();
+    this.model = null;
     this.helper.addPermissions(this.necessaryPerms, this.graphToken).subscribe(() => {
-      this._globalService.clearBusyState();
       this.setModel();
     }, err => {
       this.processError(err, 'Error adding permissions to AAD application');
@@ -99,28 +97,29 @@ export class AadRegistrationComponent implements OnInit {
   }
 
   private setModel() {
-      if (this.helper && this.necessaryPerms && this.graphToken) {
-        this.helper.getADDAppRegistrationInfo(this.necessaryPerms, this.graphToken).subscribe((result: AADRegistrationInfo) => {
-          this.count = 0;
-          this.configuredCount = 0;
-          this.model = result;
-          if (this.isAdditionalPermissionsBinding) {
-            this.model.isPermissionConfigured = true;
-          }
-          this.configured.next(this.model.isAADAppCreated && this.model.isPermissionConfigured);
-          this.model.permissions.forEach(p => {
-            p.resourceAccess.forEach(ra => {
-              this.count++;
-              if (ra.configured) {
-                this.configuredCount++;
-              }
-            });
+    this.model = null;
+    if (this.helper && this.necessaryPerms && this.graphToken) {
+      this.helper.getADDAppRegistrationInfo(this.necessaryPerms, this.graphToken).subscribe((result: AADRegistrationInfo) => {
+        this.count = 0;
+        this.configuredCount = 0;
+        this.model = result;
+        if (this.isAdditionalPermissionsBinding) {
+          this.model.isPermissionConfigured = true;
+        }
+        this.configured.next(this.model.isAADAppCreated && this.model.isPermissionConfigured);
+        this.model.permissions.forEach(p => {
+          p.resourceAccess.forEach(ra => {
+            this.count++;
+            if (ra.configured) {
+              this.configuredCount++;
+            }
           });
-
-        }, err => {
-          this.processError(err, 'Error adding permissions to AAD application');
         });
-      }
+
+      }, err => {
+        this.processError(err, 'Error adding permissions to AAD application');
+      });
+    }
   }
 
   private processError(err: Error, message: string) {
