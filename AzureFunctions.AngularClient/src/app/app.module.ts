@@ -1,4 +1,3 @@
-import { WizardModule } from './controls/form-wizard/wizard.module';
 import { DeploymentCenterSetupComponent } from './site/deployment-center/deployment-center-setup/deployment-center-setup.component';
 import { DeploymentDetailComponent } from './site/deployment-center/ProviderDashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
 import { KuduDashboardComponent } from './site/deployment-center/ProviderDashboards/kudu-dashboard/kudu-dashboard.component';
@@ -129,6 +128,13 @@ import { BindingEventGridComponent } from './binding-event-grid/binding-event-gr
 import { TopWarningComponent } from './top-warning/top-warning.component';
 import { SidebarModule } from 'ng-sidebar';
 import { SlideToggleComponent } from './controls/slide-toggle/slide-toggle.component';
+import { StepBuildProviderComponent } from 'app/site/deployment-center/deployment-center-setup/step-build-provider/step-build-provider.component';
+import { StepConfigureComponent } from 'app/site/deployment-center/deployment-center-setup/step-configure/step-configure.component';
+import { StepCompleteComponent } from 'app/site/deployment-center/deployment-center-setup/step-complete/step-complete.component';
+import { StepDeploymentSlotComponent } from 'app/site/deployment-center/deployment-center-setup/step-deployment-slot/step-deployment-slot.component';
+import { StepSourceControlComponent } from 'app/site/deployment-center/deployment-center-setup/step-source-control/step-source-control.component';
+import { StepTestComponent } from 'app/site/deployment-center/deployment-center-setup/step-test/step-test.component';
+import { WizardModule } from 'app/controls/form-wizard/wizard.module';
 
 export function ArmServiceFactory(http: Http, userService: UserService, aiService: AiService) {
     const service =
@@ -254,7 +260,13 @@ export class AppModule {
             DeploymentDetailComponent,
             DeploymentCenterSetupComponent,
             TopWarningComponent,
-            SlideToggleComponent
+            SlideToggleComponent,
+            StepBuildProviderComponent,
+            StepCompleteComponent,
+            StepConfigureComponent,
+            StepDeploymentSlotComponent,
+            StepSourceControlComponent,
+            StepTestComponent
         ],
         imports: [
             FormsModule,
