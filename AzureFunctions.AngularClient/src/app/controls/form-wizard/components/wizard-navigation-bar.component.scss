@@ -10,32 +10,14 @@ $wz-color-done: #009e1a;
 $wz-color-optional: #8492a0;
 $wz-color-editing: #0456de;
 
-/*
- dot definitions
- */
-$dot-border-width: 2px;
-
-// small definitions
-$small-dot-width: 14px;
-$small-dot-height: 14px;
-
-// big definitions
-$big-dot-width: 50px;
-$big-dot-height: 50px;
-
-/*
- extra distance between the bottom of the dots and the baseline texts
- */
-$dot-baseline-distance: 0px;
-
-// padding between text and baseline
-$text-padding-bottom: 10px;
 $text-height: 14px;
+
+$bubble-diameter: 30px;
 
 :host {
     &.NavSymbols {
         ul.steps-indicator {
-            padding: 60px 0 10px 0;
+            padding: 0px 0 10px 0;
 
             li {
                 &:not(:last-child):before {
@@ -43,20 +25,20 @@ $text-height: 14px;
                     content: '';
                     position: absolute;
                     height: 1px;
-                    width: calc(100% - 50px);
-                    top: -25px;
-                    left: calc(50% + 25px);
+                    width: calc(100% - #{$bubble-diameter});
+                    top: -$bubble-diameter/2;
+                    left: calc(50% + #{$bubble-diameter/2});
                 }
 
                 &:after {
                     position: absolute;
-                    top: -50px;
-                    left: calc(50% - 25px);
-                    width: 50px;
-                    height: 50px;
+                    top: -$bubble-diameter;
+                    left: calc(50% - #{$bubble-diameter/2});
+                    width: $bubble-diameter;
+                    height: $bubble-diameter;
                     text-align: center;
                     vertical-align: middle;
-                    line-height: 50px;
+                    line-height: $bubble-diameter;
                     transition: 0.25s;
                     border-radius: 100%;
                     background-color: $wz-color-default;
@@ -102,7 +84,7 @@ $text-height: 14px;
         right: 0;
         bottom: 0;
         left: 0;
-        margin: 20px auto 0px auto;
+        margin: 60px auto 0px auto;
         width: 50%;
         list-style: none;
 
