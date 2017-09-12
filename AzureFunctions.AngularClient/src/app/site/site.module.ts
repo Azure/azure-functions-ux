@@ -18,6 +18,7 @@ import { SiteDashboardComponent } from './site-dashboard/site-dashboard.componen
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { DeploymentCenterModule } from 'app/site/deployment-center/deployment-center.module';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     { path: '', component: SiteDashboardComponent }
@@ -29,13 +30,14 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SiteManageComponent,
         FunctionRuntimeComponent,
         SwaggerDefinitionComponent,
-        SiteConfigComponent,
+        SiteConfigComponent
     ],
     imports: [
         TranslateModule.forChild(),
         SharedModule,
         SharedFunctionsModule,
-        routing
+        routing,
+        DeploymentCenterModule
     ],
     declarations: [
         SiteDashboardComponent,
