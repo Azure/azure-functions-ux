@@ -27,7 +27,7 @@ export class Cache {
 @Injectable()
 export class CacheService {
     private _cache: Cache;
-    private _expireMS = parseInt(Url.getParameterByName(window.location.href, 'appsvc.debug.cacheinterval'), 10) || 60000;
+    private _expireMS = parseInt(Url.getParameterByName(null, 'appsvc.debug.cacheinterval'), 10) || 60000;
     private _cleanUpMS = 3 * this._expireMS;
     public cleanUpEnabled = true;
 

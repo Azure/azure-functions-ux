@@ -71,7 +71,6 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._globalStateService.showTryView = this._globalStateService.showTryView;
         if (!this.showTryView) {
 
             // nothing to do if we're running in an iframe

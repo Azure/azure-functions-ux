@@ -170,6 +170,6 @@ export class TabFeature extends FeatureItem {
     }
 
     click() {
-        this._broadcastService.broadcast(BroadcastEvent.OpenTab, this.featureId);
+        this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, this.featureId);
     }
 }

@@ -1,4 +1,6 @@
 export class Url {
+    private static _queryStrings: { [key: string]: string };
+
     public static getParameterByName(url, name) {
         if (url === null) {
             url = window.location.href;
@@ -26,5 +28,23 @@ export class Url {
         } else {
             return [];
         }
+    }
+
+    public static getQueryStringObj() {
+        if (!this._queryStrings) {
+
+            this._queryStrings = {};
+            let match: RegExpExecArray;
+            const pl = /\+/g;  // Regex for replacing addition symbol with a space
+            const search = /([^&=]+)=?([^&]*)/g;
+            const decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); };
+            const query = window.location.search.substring(1);
+
+            while (match = search.exec(query)) {
+                this._queryStrings[decode(match[1])] = decode(match[2]);
+            }
+        }
+
+        return this._queryStrings;
     }
 }

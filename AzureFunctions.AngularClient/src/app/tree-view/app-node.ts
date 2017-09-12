@@ -41,7 +41,7 @@ export class AppNode extends TreeNode
 
     public supportsAdvanced = true;
     public inAdvancedMode = false;
-    public dashboardType = DashboardType.app;
+    public dashboardType = DashboardType.AppDashboard;
     public disabled = false;
     public supportsScope = false;
     public supportsRefresh = false;

@@ -1,5 +1,9 @@
+import { Subject } from 'rxjs/Subject';
+import { PortalService } from './../shared/services/portal.service';
+import { ArmTryService } from './../shared/services/arm-try.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FunctionApp } from './../shared/function-app';
-import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { UserService } from '../shared/services/user.service';
@@ -19,27 +23,31 @@ import { ConfigService } from 'app/shared/services/config.service';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { FunctionInfo } from 'app/shared/models/function-info';
+import { NavigationStart, Event as RouterEvent, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 
 @Component({
     selector: 'main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements AfterViewInit {
+export class MainComponent implements AfterViewInit, OnDestroy {
+    public ready = false;
     public resourceId: string;
     public viewInfo: TreeViewInfo<any>;
     public dashboardType: string;
     public inIFrame: boolean;
     public inTab: boolean;
     public selectedFunction: FunctionInfo;
+    public tryFunctionApp: FunctionApp;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
-    @Input() tryFunctionApp: FunctionApp;
+    private _ngUnsubscribe = new Subject();
 
     constructor(private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _cacheService: CacheService,
+        private _portalService: PortalService,
         _ngHttp: Http,
         _translateService: TranslateService,
         _broadcastService: BroadcastService,
@@ -48,10 +56,18 @@ export class MainComponent implements AfterViewInit {
         _authZService: AuthzService,
         _configService: ConfigService,
         _slotsService: SlotsService,
-        _aiService: AiService) {
+        _aiService: AiService,
+        route: ActivatedRoute,
+        router: Router) {
+
+        router.events.takeUntil(this._ngUnsubscribe).subscribe((event: RouterEvent) => {
+            this._navigationInterceptor(event);
+        });
 
         this.inIFrame = _userService.inIFrame;
         this.inTab = _userService.inTab; // are we in a tab
+
+        this.tryFunctionApp = (<ArmTryService>_armService).tryFunctionApp;
 
         if (this.inTab) {
             this.initializeChildWindow(_userService,
@@ -69,6 +85,24 @@ export class MainComponent implements AfterViewInit {
         }
     }
 
+    ngAfterViewInit() {
+        this._userService.getStartupInfo()
+            .first()
+            .subscribe(info => {
+                this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
+                this.ready = true;
+
+                this._portalService.sendTimerEvent({
+                    timerId: 'PortalReady',
+                    timerAction: 'stop'
+                });
+            });
+    }
+
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
+    }
+
     private initializeChildWindow(_userService: UserService,
         _globalStateService: GlobalStateService,
         _cacheService: CacheService,
@@ -81,7 +115,9 @@ export class MainComponent implements AfterViewInit {
         _configService: ConfigService,
         _slotsService: SlotsService,
         _aiService: AiService) {
+
         this._userService.getStartupInfo()
+            .takeUntil(this._ngUnsubscribe)
             .subscribe(info => {
                 // get list of functions from function app listed in resourceID
                 const siteDescriptor: SiteDescriptor = new SiteDescriptor(info.resourceId);
@@ -135,13 +171,27 @@ export class MainComponent implements AfterViewInit {
         this.dashboardType = DashboardType[viewInfo.dashboardType];
     }
 
-    ngAfterViewInit() {
-        this._globalStateService.clearBusyState();
-        this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
-    }
-
     public get trialExpired() {
         return this._globalStateService.TrialExpired;
     }
 
+    // TODO: Add back in once busy state component is fixed.  Right now there appears to
+    // be a race with the busy state component that may cause components to get stuck in the loading state
+    private _navigationInterceptor(event: RouterEvent): void {
+        if (event instanceof NavigationStart) {
+            // this._globalStateService.setBusyState();
+        }
+
+        if (event instanceof NavigationEnd) {
+            // this._globalStateService.clearBusyState();
+        }
+
+        if (event instanceof NavigationCancel) {
+            // this._globalStateService.clearBusyState();
+        }
+
+        if (event instanceof NavigationError) {
+            // this._globalStateService.clearBusyState();
+        }
+    }
 }

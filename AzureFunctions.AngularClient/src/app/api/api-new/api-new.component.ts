@@ -1,10 +1,6 @@
-import {Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppNode } from './../../tree-view/app-node';
@@ -29,9 +25,8 @@ import { RequestResposeOverrideComponent } from '../request-respose-override/req
     selector: 'api-new',
     templateUrl: './api-new.component.html',
     styleUrls: ['./api-new.component.scss', '../../binding-input/binding-input.component.css'],
-    inputs: ['viewInfoInput']
 })
-export class ApiNewComponent implements OnInit {
+export class ApiNewComponent implements OnDestroy {
     @ViewChild(RequestResposeOverrideComponent) rrComponent: RequestResposeOverrideComponent;
     complexForm: FormGroup;
     isMethodsVisible = false;
@@ -44,7 +39,7 @@ export class ApiNewComponent implements OnInit {
     public rrOverrideValid: boolean;
     private _proxiesNode: ProxiesNode;
     private _rrOverrideValue: any;
-    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
+    private _ngUnsubscribe = new Subject();
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
@@ -73,7 +68,8 @@ export class ApiNewComponent implements OnInit {
             this.isMethodsVisible = !(value === 'All');
         });
 
-        this._viewInfoStream
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.CreateProxyDashboard)
+            .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this._proxiesNode = <ProxiesNode>viewInfo.node;
@@ -101,10 +97,6 @@ export class ApiNewComponent implements OnInit {
                 const extensionVersion = res.appSettings.properties[Constants.routingExtensionVersionAppSettingName];
                 this.isEnabled = extensionVersion && extensionVersion !== Constants.disabled;
             });
-    }
-
-    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
-        this._viewInfoStream.next(viewInfoInput);
     }
 
     onFunctionAppSettingsClicked() {
@@ -159,7 +151,8 @@ export class ApiNewComponent implements OnInit {
         };
     };
 
-    ngOnInit() {
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 
     submitForm() {

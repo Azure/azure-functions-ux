@@ -38,7 +38,6 @@ import { Constants } from './models/constants';
 import { Cache, ClearCache, ClearAllFunctionCache } from './decorators/cache.decorator';
 import { GlobalStateService } from './services/global-state.service';
 import { PortalResources } from './models/portal-resources';
-import { UIResource, ITryAppServiceTemplate } from './models/ui-resource';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { BroadcastService } from './services/broadcast.service';
 import { ArmService } from './services/arm.service';
@@ -125,7 +124,6 @@ export class FunctionApp {
         500: 'Server Error'
     };
 
-    private _tryAppServiceUrl = 'https://tryappservice.azure.com';
     public tryFunctionsScmCreds: string;
     private _http: NoCorsHttpService;
 
@@ -981,33 +979,6 @@ export class FunctionApp {
         return this.masterKey;
     }
 
-    getTrialResource(provider?: string): Observable<UIResource> {
-        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
-            + (provider ? '&provider=' + provider : '');
-
-        return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryGetTrialResource)
-            .map(r => <UIResource>r.json());
-    }
-
-    createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
-            + (provider ? '&provider=' + provider : '')
-            + '&templateId=' + encodeURIComponent(selectedTemplate.id)
-            + '&functionName=' + encodeURIComponent(functionName);
-
-        const template = <ITryAppServiceTemplate>{
-            name: selectedTemplate.id,
-            appService: 'Function',
-            language: selectedTemplate.metadata.language,
-            githubRepo: ''
-        };
-
-        return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryCreateTrialResource)
-            .map(r => <UIResource>r.json());
-    }
-
     updateFunction(fi: FunctionInfo) {
         ClearAllFunctionCache(fi);
         const fiCopy = <FunctionInfo>{};
@@ -1538,21 +1509,6 @@ export class FunctionApp {
         return headers;
     }
 
-    // to talk to TryAppservice
-    private getTryAppServiceHeaders(contentType?: string): Headers {
-        contentType = contentType || 'application/json';
-        const headers = new Headers();
-        headers.append('Content-Type', contentType);
-        headers.append('Accept', 'application/json,*/*');
-
-        if (this._globalStateService.TryAppServiceToken) {
-            headers.append('Authorization', `Bearer ${this._globalStateService.TryAppServiceToken}`);
-        } else {
-            headers.append('ms-x-user-agent', 'Functions/');
-        }
-        return headers;
-    }
-
     private localize(objectToLocalize: any): any {
         if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {
             const key = objectToLocalize.substring(1, objectToLocalize.length);
@@ -1577,28 +1533,6 @@ export class FunctionApp {
     private retryAntares(error: Observable<any>): Observable<any> {
         return error.scan((errorCount: number, err: FunctionsResponse) => {
             if (err.isHandled || err.status < 500 || errorCount >= 10) {
-                throw err;
-            } else {
-                return errorCount + 1;
-            }
-        }, 0).delay(1000);
-    }
-
-    private retryCreateTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount: number, err: Response) => {
-            // 400 => you already have a resource, 403 => No login creds provided
-            if (err.status === 400 || err.status === 403 || errorCount >= 10) {
-                throw err;
-            } else {
-                return errorCount + 1;
-            }
-        }, 0).delay(1000);
-    }
-
-    private retryGetTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount: number, err: Response) => {
-            // 403 => No login creds provided
-            if (err.status === 403 || errorCount >= 10) {
                 throw err;
             } else {
                 return errorCount + 1;

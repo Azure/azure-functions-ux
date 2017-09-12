@@ -406,7 +406,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   openAppSettings() {
-    this._broadcastService.broadcast<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
+    this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
   }
 
   private _updateContainerVersion(appSettings: ArmObj<any>, version: string) {

@@ -9,7 +9,6 @@ import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
 import { BroadcastEvent } from '../models/broadcast-event'
 import { AiService } from './ai.service';
-import { SetupOAuthRequest, SetupOAuthResponse } from '../../site/deployment-source/deployment';
 import { LocalStorageService } from './local-storage.service';
 import { Guid } from '../Utilities/Guid';
 import { TabCommunicationVerbs } from '../models/constants';
@@ -27,7 +26,6 @@ export class PortalService {
     private portalSignatureFrameBlade = 'FxFrameBlade';
     private startupInfo: StartupInfo | null;
     private startupInfoObservable: ReplaySubject<StartupInfo>;
-    private setupOAuthObservable: Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
     private notificationStartStream: Subject<NotificationStartedInfo>;
@@ -39,7 +37,6 @@ export class PortalService {
         private _storageService: LocalStorageService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
-        this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
 
         if (PortalService.inIFrame()) {
@@ -52,11 +49,6 @@ export class PortalService {
 
     getStartupInfo() {
         return this.startupInfoObservable;
-    }
-
-    setupOAuth(input: SetupOAuthRequest) {
-        this.postMessage(Verbs.setupOAuth, JSON.stringify(input));
-        return this.setupOAuthObservable;
     }
 
     private initializeIframe(): void {
@@ -338,9 +330,6 @@ export class PortalService {
                 this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;
             }
-        }
-        else if (methodName === Verbs.sendOAuthInfo) {
-            this.setupOAuthObservable.next(data);
         }
         else if (methodName === Verbs.sendNotificationStarted) {
             this.notificationStartStream.next(data);

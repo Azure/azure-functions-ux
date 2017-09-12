@@ -96,7 +96,10 @@ namespace AzureFunctions
             var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
             // In some cases, context.Request.RawUrl may not be populated, but context.Request.UrlReferrer will be populated.
             // context.Request.UrlReferrer = null evals to true, is okay in this case
-            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
+            //var isTryPageRequested = context.Request.RawUrl.EndsWith("/try", StringComparison.OrdinalIgnoreCase);
+
+            var isTryPageRequested = context.Request.Params["trial"] == "true";
+            //var isTryPageRequested = context.Request.RawUrl.Split(new char[] {'?'})[0].EndsWith("/try", StringComparison.OrdinalIgnoreCase);
 
             if (!isFile              //skip auth for files
                 && runtimeType != RuntimeType.Standalone   // Skip auth for Standalone mode

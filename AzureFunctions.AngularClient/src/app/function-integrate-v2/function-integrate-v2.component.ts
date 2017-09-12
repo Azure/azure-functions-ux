@@ -148,7 +148,7 @@ export class FunctionIntegrateV2Component {
             }
             if (template) {
                 action.templateId = templateId;
-                (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.createFunction, action);
+                (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.CreateFunctionDashboard, action);
             }
         });
 

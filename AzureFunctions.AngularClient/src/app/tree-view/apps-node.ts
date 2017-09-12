@@ -1,12 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
 
 import { ErrorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
@@ -23,7 +17,7 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
-    public dashboardType = DashboardType.apps;
+    public dashboardType = DashboardType.AppsDashboard;
     public supportsRefresh = true;
 
     public resourceId = '/apps';
@@ -44,7 +38,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         private _searchTermStream: Subject<string>,
         private _initialResourceId: string) {  // Should only be used for when the iframe is open on a specific app
 
-        super(sideNav, null, rootNode);
+        super(sideNav, null, rootNode, '/apps/new/app');
 
         this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
 

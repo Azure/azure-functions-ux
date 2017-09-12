@@ -1,5 +1,6 @@
+import { Router } from '@angular/router';
 import { SlotsService } from 'app/shared/services/slots.service';
-import { Component, ViewChild, OnInit, Output } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,15 +28,15 @@ import { UIResource } from '../shared/models/ui-resource';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
+import { Url } from "app/shared/Utilities/url";
 
 @Component({
     selector: 'try-landing',
     templateUrl: './try-landing.component.html',
     styleUrls: ['./try-landing.component.scss']
 })
-export class TryLandingComponent implements OnInit {
+export class TryLandingComponent implements OnInit, OnDestroy {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-    @Output() tryFunctionApp: Subject<FunctionApp>;
     public functionsInfo: FunctionInfo[] = new Array();
     bc: BindingManager = new BindingManager();
     loginOptions = false;
@@ -43,6 +44,7 @@ export class TryLandingComponent implements OnInit {
     selectedLanguage: string;
 
     private _functionApp: FunctionApp;
+    private _ngUnsubscribe = new Subject();
 
     constructor(
         private _httpService: Http,
@@ -57,8 +59,8 @@ export class TryLandingComponent implements OnInit {
         private _languageService: LanguageService,
         private _authZService: AuthzService,
         private _configService: ConfigService,
-        private _slotsService: SlotsService) {
-        this.tryFunctionApp = new Subject<FunctionApp>();
+        private _slotsService: SlotsService,
+        private _router: Router) {
     }
 
     ngOnInit() {
@@ -68,7 +70,17 @@ export class TryLandingComponent implements OnInit {
         // this.setBusyState();
         this.selectedFunction = this._functionsService.selectedFunction || 'HttpTrigger';
         this.selectedLanguage = this._functionsService.selectedLanguage || 'CSharp';
-        this._functionsService.getTemplates().subscribe((templates) => {
+
+        this._globalStateService.setBusyState();
+
+        this._userService.getStartupInfo()
+        .takeUntil(this._ngUnsubscribe)
+        .switchMap(info =>{
+            return this._functionsService.getTemplates();
+        })
+        .subscribe(templates =>{
+            this._globalStateService.clearBusyState();
+
             if (this._globalStateService.TryAppServiceToken) {
                 const selectedTemplate: FunctionTemplate = templates.find((t) => {
                     return t.id === this.selectedFunction + '-' + this.selectedLanguage;
@@ -114,6 +126,10 @@ export class TryLandingComponent implements OnInit {
         };
 
         this.functionsInfo.push(result);
+    }
+
+    ngOnDestroy(){
+        this._ngUnsubscribe.next();
     }
 
     onFunctionClicked(selectedFunction: string) {
@@ -244,16 +260,13 @@ export class TryLandingComponent implements OnInit {
 
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();
-        // this._functionApp.getFunctionContainerAppSettings(tryfunctionContainer)
-        // .subscribe(a => {
-        //     this._globalStateService.AppSettings = a;
-        // });
+
         this._functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();
                 this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'success', first: 'true' });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                this.tryFunctionApp.next(this._functionApp);
+                this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj()});
             },
             e => {
                 this.clearBusyState();

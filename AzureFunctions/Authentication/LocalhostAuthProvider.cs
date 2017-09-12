@@ -45,7 +45,7 @@ namespace AzureFunctions.Authentication
 
             response.Headers["Strict-Transport-Security"] = "max-age=0";
 
-            if (request.UrlReferrer!=null && request.UrlReferrer.AbsolutePath.StartsWith("/try", StringComparison.OrdinalIgnoreCase))
+            if(request.UrlReferrer != null && HttpUtility.ParseQueryString(request.UrlReferrer.Query).Get("trial") == "true")
             {
                 return true;
             }

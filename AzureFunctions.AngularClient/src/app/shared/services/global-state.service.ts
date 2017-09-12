@@ -1,3 +1,4 @@
+import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -30,9 +31,10 @@ export class GlobalStateService {
 
     constructor(private _userService: UserService) {
         this._appSettings = {};
-        this.showTryView = window.location.pathname.toLowerCase().endsWith('/try');
+
         this._userService.getStartupInfo().subscribe(info => this._token = info.token);
         this.enabledApiProxy.next(false);
+        this.showTryView = Url.getParameterByName(null, 'trial') === 'true';
     }
 
     get FunctionContainer(): FunctionContainer {
@@ -53,24 +55,25 @@ export class GlobalStateService {
         setTimeout(() => {
             if (this._shouldBeBusy) {
                 this._globalBusyStateComponent.setBusyState();
+            } else {
+                this._globalBusyStateComponent.clearBusyState();
             }
         });
     }
 
     setBusyState(message?: string) {
+        this._shouldBeBusy = true;
+
         if (this._globalBusyStateComponent) {
             this._globalBusyStateComponent.message = message;
             this._globalBusyStateComponent.setBusyState();
-        } else {
-            this._shouldBeBusy = true;
         }
     }
 
     clearBusyState() {
+        this._shouldBeBusy = false;
         if (this._globalBusyStateComponent) {
             this._globalBusyStateComponent.clearBusyState();
-        } else {
-            this._shouldBeBusy = false;
         }
     }
 

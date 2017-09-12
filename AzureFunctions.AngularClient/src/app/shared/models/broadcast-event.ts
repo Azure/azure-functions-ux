@@ -3,7 +3,7 @@ export enum BroadcastEvent {
     FunctionAdded,
     FunctionSelected,
     FunctionUpdated,
-    FunctionNew,
+    // FunctionNew,
     BusyState,
     TutorialStep,
     IntegrateChanged,
@@ -14,7 +14,22 @@ export enum BroadcastEvent {
     RefreshPortal,
     ClearError,
     OpenTab,
-    DirtyStateChange
+    DirtyStateChange,
+    AppsDashboard,
+    AppDashboard,
+    FunctionsDashboard,
+    FunctionDashboard,
+    FunctionIntegrateDashboard,
+    FunctionManageDashboard,
+    FunctionMonitorDashboard,
+    CreateFunctionAutoDetectDashboard,
+    CreateFunctionDashboard,
+    CreateFunctionQuickstartDashboard,
+    CreateProxyDashboard,
+    ProxiesDashboard,
+    ProxyDashboard,
+    CreateSlotDashboard,
+    SlotsDashboard,
 }
 
 export interface DirtyStateEvent {
