@@ -5,7 +5,9 @@
     <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
         <div class="choose">
             <span class="text-level1-heading">{{ 'functionNew_chooseTemplate' | translate }}</span>
-            <span class="text-level1-heading quickstart" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</span>
+            <a class="text-level1-heading quickstart" (click)="quickstart()" tabindex="0">
+                {{ 'functionNew_chooseTemplateQuickstart' | translate }}
+            </a>
         </div>
         <template-picker
             [functionAppInput]="functionApp"
@@ -25,7 +27,8 @@
                [(ngModel)]="functionName"
                (ngModelChange)="functionNameChanged($event)"
                placeholder="{{ 'functionNew_functionName' | translate }}"
-               [ngClass]="{'input-error':!!functionNameError}">
+               [ngClass]="{'input-error':!!functionNameError}"
+               tabindex="0">
 
         <pop-over *ngIf="!!functionNameError" [message]="functionNameError" [isInputError]="true">
         </pop-over>

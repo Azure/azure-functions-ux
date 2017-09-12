@@ -12,6 +12,7 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { DropDownElement } from '../shared/models/drop-down-element';
 import { PortalResources } from '../shared/models/portal-resources';
 import { Order } from '../shared/models/constants';
+import { AccessibilityHelper } from './../shared/utilities/accessibility-helper';
 
 interface CategoryOrder {
     name: string;
@@ -282,6 +283,12 @@ export class TemplatePickerComponent {
             if (this._language && this.category) {
                 this.type = this._type;
             }
+        }
+    }
+
+    keyDown(event: any, template: Template) {
+        if (AccessibilityHelper.isEnterOrSpace(event)) {
+            this.onTemplateClicked(template.value, this.showTryView && !template.enabledInTryMode);
         }
     }
 

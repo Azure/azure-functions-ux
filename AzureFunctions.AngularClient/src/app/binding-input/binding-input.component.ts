@@ -15,6 +15,7 @@ import { FunctionApp } from '../shared/function-app';
 import { CacheService } from './../shared/services/cache.service';
 import { AiService } from '../shared/services/ai.service';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
+import { AccessibilityHelper } from './../shared/utilities/accessibility-helper';
 
 @Component({
     selector: 'binding-input',
@@ -25,6 +26,7 @@ export class BindingInputComponent {
     @Input() binding: UIFunctionBinding;
     @Output() validChange = new EventEmitter<BindingInputBase<any>>(false);
     @ViewChild('pickerPopover') pickerPopover: PopoverContent;
+    @ViewChild('showValueLink') showValueLink;
     public disabled: boolean;
     public enumInputs: DropDownElement<any>[];
     public description: string;
@@ -211,6 +213,25 @@ export class BindingInputComponent {
         const picker = <PickerInput>this.input;
         this.pickerName = '';
         this.finishResourcePickup(appSettingName, picker);
+    }
+
+    keyDown(event: any, command: string, p1: any, p2: any) {
+        if (AccessibilityHelper.isEnterOrSpace(event)) {
+            switch (command) {
+                case 'picker': {
+                    this.openPicker(p1);
+                    break;
+                }
+                case 'showValue': {
+                    this.showValueLink.nativeElement.click();
+                    break;
+                }
+                case 'checkbox': {
+                    p1.value[p2.value] = !p1.value[p2.value];
+                    this.inputChanged(p1.value[p2.value]);
+                }
+            }
+        }
     }
 
     private setClass(value: any) {

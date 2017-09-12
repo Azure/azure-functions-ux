@@ -37,7 +37,6 @@
 
 input, select{
     background: #fff;
-    border: 1px solid #dedede;
     position: relative;
     vertical-align: middle;
     height: 29px;
@@ -112,11 +111,15 @@ button.go {
     flex-grow: 1;
 }
 
-.input-header span {
+.input-header a {
     margin-bottom: 4px;
     align-self: flex-end;
 }
 
 .hidden {
     display: none;
+}
+
+.picker-link {
+    font-style: italic;
 }

@@ -11,6 +11,7 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
+import { AccessibilityHelper } from './../shared/utilities/accessibility-helper';
 
 @Component({
     selector: 'function-integrate',
@@ -108,6 +109,16 @@ export class FunctionIntegrateComponent implements OnDestroy {
             this._broadcastService.clearDirtyState('function_integrate', true);
             this._portalService.setDirtyState(false);
             this.changeEditor.emit(editorType);
+        }
+    }
+
+    keyDown(event: any, command: string, obj: any) {
+    if (AccessibilityHelper.isEnterOrSpace(event)) {
+            switch (command) {
+                case 'standard': {
+                    this.onEditorChange('standard');
+                }
+            }
         }
     }
 

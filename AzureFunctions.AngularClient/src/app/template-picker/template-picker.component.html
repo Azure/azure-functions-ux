@@ -18,7 +18,8 @@
         <div *ngFor="let template of templates"
              [ngClass]="showTryView && !template.enabledInTryMode ? 'tp-template-disabled' : 'tp-template'"
              (click)="onTemplateClicked(template.value, showTryView && !template.enabledInTryMode)"
-             [class.tp-template-selected]="selectedTemplate == template.value">
+             [class.tp-template-selected]="selectedTemplate == template.value"
+             tabindex="0" (keydown)="keyDown($event,  template)">
 
             <!--[leftOffset]=100 [topOffset]=100-->
             <div class="tp-template-container" [tooltip]="freeAccountTooltip"
@@ -41,15 +42,16 @@
              [ngClass]="showTryView && !template.enabledInTryMode? 'tp-template-func-disabled' : 'tp-template-func'"
              (click)="onTemplateClicked(template.value, showTryView && !template.enabledInTryMode)"
              [class.tp-template-selected]="selectedTemplate == template.value" [tooltip]="freeAccountTooltip"
-             [tooltipDisabled]="!(showTryView && !template.enabledInTryMode)">
+             [tooltipDisabled]="!(showTryView && !template.enabledInTryMode)"
+             tabindex="0" (keydown)="keyDown($event,  template)">
 
             <div class="tp-template-func-title" [class.tp-template-icon-selected]="selectedTemplate === template.value">{{template.name}}</div>
             <div class="tp-template-func-description">{{template.description}}</div>
         </div>
     </div>
     <div *ngIf="showFooter" class="tp-footer">
-        <button class="custom-button" (click)="onSelectClicked()" [disabled]="!selectedTemplate">{{ 'select' | translate }}</button>
-        <button class="custom-button-invert" (click)="onCancelClicked()">{{ 'cancel' | translate }}</button>
+        <button class="custom-button" (click)="onSelectClicked()" [disabled]="!selectedTemplate" tabindex="0">{{ 'select' | translate }}</button>
+        <button class="custom-button-invert" (click)="onCancelClicked()" tabindex="0">{{ 'cancel' | translate }}</button>
     </div>
 </div>
 <tooltip-content #freeAccountTooltip>

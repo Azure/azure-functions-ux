@@ -36,13 +36,16 @@
         <span class="glyphicon glyphicon-info-sign"></span>
       </pop-over>
     </label>
-    <span *ngIf="input?.type === 'picker'"
+    <a *ngIf="input?.type === 'picker'"
+          #showValueLink
           [popover]="pickerPopover"
           (onShown)="onAppSettingValueShown()"
           (onHidden)="onAppSettingValueHidden()"
-          class="link show-appsetting">
+          class="link show-appsetting"
+          (keydown)="keyDown($event, 'showValue')"
+          tabindex="0">
       {{ 'bindingInput_show' | translate }}
-    </span>
+    </a>
   </div>
   <div *ngIf="input?.type === 'string' || input?.type === 'int'" [ngClass]="input?.class">
     <input [fnWriteAccess]="functionApp"
@@ -52,7 +55,8 @@
            type="text"
            placeholder="{{input.placeholder}}"
            [ngClass]="{'input-error':!!input.errorText}"
-           [disabled]="input.isDisabled || !!functionReturnValue">
+           [disabled]="input.isDisabled || !!functionReturnValue"
+           tabindex="0">
 
     <input [fnWriteAccess]="functionApp"
            *ngIf="input.type === 'int'" id="{{input.id}}"
@@ -61,7 +65,8 @@
            type="text"
            placeholder="{{input.placeholder}}"
            [ngClass]="{'input-error':!!input.errorText}"
-           onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+           onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+           tabindex="0">
 
     <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputWarning]="true" [isInputError]="!input.isValid">
     </pop-over>
@@ -69,7 +74,13 @@
     <div *ngIf="description && !input.errorText">{{description}}</div>
 
     <div *ngIf="binding.direction.toString() === 'out' && input.id === 'name'">
-      <input [fnWriteAccess]="functionApp" id="{{input.id}}" (ngModelChange)="functionReturnValueChanged($event)" [(ngModel)]="functionReturnValue" type="checkbox" style="margin-left:0px;">
+      <input [fnWriteAccess]="functionApp" 
+        id="{{input.id}}" 
+        (ngModelChange)="functionReturnValueChanged($event)" 
+        [(ngModel)]="functionReturnValue" 
+        type="checkbox" 
+        style="margin-left:0px;" 
+        tabindex="0">
       <label [attr.for]="input.id" class="control-label" style="color: black;">
         {{'binding_useFunctionReturnValue' | translate }}
       </label>
@@ -77,9 +88,10 @@
 
   </div>
 
-  <div *ngIf="input?.type === 'picker'" [ngClass]="input?.class" class="picker-container">
+  <div *ngIf="input?.type === 'picker'" [ngClass]="input?.class">
     <!-- Show drop-down menu of potential app settings -->
     <select id="{{input.id}}"
+    [attr.tabindex]="0"
     (ngModelChange)="inputChanged($event)"
     [(ngModel)]="input.value"
     [class.input-error]="!!input.errorText"
@@ -90,9 +102,22 @@
     <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputWarning]="true" [isInputError]="!input.isValid">
     </pop-over>
     <!--[leftOffset]=20 [topOffset]=10-->
-    <i *ngIf="!input.inProcess && !showTryView" class="link" [class.select]="input.errorText" (click)="openPicker(input)"> {{ 'bindingInput_new' | translate }}</i>
-    <span *ngIf="!input.inProcess && showTryView" class="button-go-disabled" [class.select]="input.errorText" [tooltip]="freeAccountTooltip"
-          tooltipPlacement="bottom">{{ 'bindingInput_new' | translate }}</span>
+    <a *ngIf="!input.inProcess && !showTryView" 
+      class="link picker-link" 
+      [class.select]="input.errorText" 
+      (click)="openPicker(input)" 
+      tabindex="0" 
+      (keydown)="keyDown($event, 'picker', input)"> 
+      {{ 'bindingInput_new' | translate }}
+      </a>
+    <a *ngIf="!input.inProcess && showTryView" 
+      class="button-go-disabled picker-link" 
+      [class.select]="input.errorText" 
+      [tooltip]="freeAccountTooltip"
+      tooltipPlacement="bottom" 
+      tabindex="0">
+      {{ 'bindingInput_new' | translate }}
+    </a>
     <tooltip-content #freeAccountTooltip>
       <p>
         {{ 'tryNow_FreeAccountToolTip' | translate }}
@@ -102,12 +127,26 @@
 
   <div *ngIf="input?.type === 'boolean'" class="checkbox">
     <!-- TODO: move this to css -->
-    <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [fnWriteAccess]="functionApp">
+    <input 
+      id="{{input.id}}" 
+      (ngModelChange)="inputChanged($event)" 
+      [(ngModel)]="input.value" 
+      type="checkbox" 
+      style="margin-left:0px" 
+      [fnWriteAccess]="functionApp" 
+      tabindex="0">
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 
   <div *ngIf="input?.type === 'label'">
-    <input [fnWriteAccess]="functionApp" id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
+    <input 
+      [fnWriteAccess]="functionApp" 
+      id="{{input.id}}" 
+      [(ngModel)]="input.value" 
+      type="text" 
+      placeholder="{{input.text}}" 
+      disabled 
+      tabindex="0">
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 
@@ -118,7 +157,14 @@
 
   <div *ngIf="input?.type === 'checkBoxList'" class="methods-list">
     <div *ngFor="let item of input.enum">
-      <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" [fnWriteAccess]="functionApp"> {{ item.display }}
+      <input 
+        [(ngModel)]="input.value[item.value]" 
+        (ngModelChange)="inputChanged($event)" 
+        type="checkbox" 
+        [fnWriteAccess]="functionApp" 
+        tabindex="0" 
+        (keydown)="keyDown($event, 'checkbox', input, item)"> 
+          {{ item.display }}
     </div>
   </div>
 

@@ -16,6 +16,7 @@ import { ErrorIds } from '../shared/models/error-ids';
 import { FunctionsNode } from '../tree-view/functions-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { AccessibilityHelper } from './../shared/utilities/accessibility-helper';
 
 @Component({
     selector: 'function-integrate-v2',
@@ -196,6 +197,33 @@ export class FunctionIntegrateV2Component {
             setTimeout(() => {
                 this.changeEditor.emit(editorType);
             }, 10);
+        }
+    }
+
+
+    keyDown(event: any, command: string, obj: any) {
+    if (AccessibilityHelper.isEnterOrSpace(event)) {
+            switch (command) {
+                case 'onBindingSelect': {
+                    this.onBindingSelect(obj);
+                    break;
+                }
+                case 'newTrigger': {
+                    this.newBinding(DirectionType.trigger);
+                    break;
+                }
+                case 'newInput': {
+                    this.newBinding(DirectionType.in);
+                    break;
+                }
+                case 'newOutput': {
+                    this.newBinding(DirectionType.out);
+                    break;
+                }
+                case 'advancedEditor': {
+                    this.onEditorChange('advanced');
+                }
+            }
         }
     }
 

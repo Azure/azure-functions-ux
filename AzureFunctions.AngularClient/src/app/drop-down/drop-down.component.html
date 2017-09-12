@@ -2,13 +2,16 @@
     *ngIf="_options"
     class="drop-down-container"
     [class.dirty]="highlightDirty && control?.dirty"
-    [class.disabled]="control ? control.disabled : disabled">
+    [class.disabled]="control ? control.disabled : disabled"
+    tabindex="0"
+    (keydown)="keyDown($event)">
 
     <select
         *ngIf="!control"
         (change)="onSelect($event.target.value)"
         class="drop-down-select"
-        [disabled]="disabled">
+        [disabled]="disabled"
+        tabindex="-1">
 
         <option selected disabled hidden style='display: none' value=''></option>
         <option *ngFor="let option of _options" [value]="option.id">{{option.displayLabel}}</option>
@@ -25,6 +28,7 @@
         class="drop-down-select"
         [formControl]="control"
         (blur)="onBlur($event)"
+        tabindex="-1"
         #selectInput>
 
         <option selected disabled hidden style='display: none' value=''></option>

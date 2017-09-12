@@ -34,6 +34,7 @@ import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode'
 import { SlotsService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from '../../../../../common/models/functions-version-info';
+import { AccessibilityHelper } from './../../shared/utilities/accessibility-helper';
 
 @Component({
   selector: 'function-runtime',
@@ -407,6 +408,32 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
   openAppSettings() {
     this._broadcastService.broadcast<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
+  }
+
+  keyDown(event: any, command: string) {
+    if (AccessibilityHelper.isEnterOrSpace(event)) {
+      switch (command) {
+        case 'openAppSettings':
+        {
+          this.openAppSettings();
+          break;
+        }
+        case 'proxySettingValueStream':
+        {
+          this.proxySettingValueStream.next(!this.apiProxiesEnabled);
+          break;
+        }
+        case 'functionEditModeValueStream':
+        {
+          this.functionEditModeValueStream.next(!this.functionAppEditMode);
+          break;
+        }
+        case 'slotsValueChange':
+        {
+          this.slotsValueChange.next(!this.slotsEnabled);
+        }
+      }
+    }
   }
 
   private _updateContainerVersion(appSettings: ArmObj<any>, version: string) {

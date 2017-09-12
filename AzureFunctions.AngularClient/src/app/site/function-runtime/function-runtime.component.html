@@ -6,13 +6,13 @@
             </pop-over>
         </label>
         <div class="quotaInput" style="padding-bottom: 10px">
-            <input placeholder="Enter value in GB-sec" [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;">
-            <button class="custom-button" [class.custom-button-disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota"
-                    (click)="setQuota()">
+            <input placeholder="Enter value in GB-sec" [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;" tabindex="0">
+            <button class="custom-button" [class.custom-button-disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota" 
+                (click)="setQuota()" tabindex="0">
                 {{ 'functionAppSettings_setQuota' | translate }}
             </button>
             <button *ngIf="showDailyMemoryInfo" class="custom-button remove-button"
-                    (click)="removeQuota()">
+                (click)="removeQuota()" tabindex="0">
                 {{ 'functionAppSettings_removeQuota' | translate }}
             </button>
             <div *ngIf="showDailyMemoryInfo" class="info">
@@ -28,7 +28,7 @@
         <label>{{ 'feature_applicationSettingsName' | translate }}</label>
         <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
             <span>
-                <span class="link" (click)="openAppSettings()">{{ 'functionRuntime_manageAppSettings' | translate }}</span>
+                <a class="link" (click)="openAppSettings()" (keydown)="keyDown($event, 'openAppSettings')" tabindex="0">{{ 'functionRuntime_manageAppSettings' | translate }}</a>
             </span>
         </div>
     </div>
@@ -43,7 +43,7 @@
                 <div *ngIf="needUpdateExtensionVersion">
                     <h2>
                         {{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}
-                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()">{{ 'update' | translate }}</button>
+                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()" tabindex="0">{{ 'update' | translate }}</button>
                     </h2>
                 </div>
             </div>
@@ -59,7 +59,9 @@
             <div>
                 <div>
                     <h2 class="title-spacing">{{ 'appFunctionSettings_useApiProxies' | translate }}</h2>
-                    <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="proxySettingValueStream.next($event)"></radio-selector>
+                    <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="proxySettingValueStream.next($event)" 
+                        tabindex="0" (keydown)="keyDown($event, 'proxySettingValueStream')">
+                    </radio-selector>
                 </div>
             </div>
         </div>
@@ -72,7 +74,9 @@
                 <div *ngIf="needUpdateRoutingExtensionVersion">
                     <h2>
                         {{ 'appFunctionSettings_proxyRuntimeVersion1' | translate: {extensionVersion: routingExtensionVersion, latestExtensionVersion:latestRoutingExtensionVersion} }}
-                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateRoutingExtensionVersion()">{{ 'update' | translate }}</button>
+                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateRoutingExtensionVersion()" 
+                            tabindex="0">{{ 'update' | translate }}
+                        </button>
                     </h2>
                 </div>
             </div>
@@ -86,7 +90,7 @@
             <div>
                 <div>
                     <h2 class="title-spacing">{{ 'appFunctionSettings_changeEditMode' | translate }}</h2>
-                    <radio-selector [defaultValue]="functionAppEditMode" [options]="functionAppEditModeOptions" (value)="functionEditModeValueStream.next($event)"></radio-selector>
+                    <radio-selector [defaultValue]="functionAppEditMode" [options]="functionAppEditModeOptions" (value)="functionEditModeValueStream.next($event)" tabindex="0" (keydown)="keyDown($event, 'functionEditModeValueStream')"></radio-selector>
                 </div>
             </div>
         </div>
@@ -100,7 +104,7 @@
                     <h2 class="title-spacing">{{ 'appFunctionSettings_slotsDesc' | translate}}
                         <span class="bold-text">{{'appFunctionSettings_slotsDescBold' | translate}}</span>
                     </h2>
-                    <radio-selector [disabled]="disabled" [defaultValue]="slotsEnabled" [options]="slotsStatusOptions" (value)="slotsValueChange.next($event)"></radio-selector>
+                    <radio-selector [disabled]="disabled" [defaultValue]="slotsEnabled" [options]="slotsStatusOptions" (value)="slotsValueChange.next($event)" tabindex="0" (keydown)="keyDown($event, 'slotsValueChange')"></radio-selector>
                 </div>
             </div>
         </div>

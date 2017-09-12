@@ -23,6 +23,7 @@ import { CacheService } from '../shared/services/cache.service';
 import { AuthSettings } from '../shared/models/auth-settings';
 import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 import { FunctionInfo } from '../shared/models/function-info';
+import { AccessibilityHelper } from './../shared/utilities/accessibility-helper';
 
 declare var marked: any;
 
@@ -686,6 +687,21 @@ export class BindingComponent {
         },
             'binding'
         );
+    }
+
+    keyDown(event: any, command: string, param: any) {
+        if (AccessibilityHelper.isEnterOrSpace(event)) {
+            switch(command) {
+                case 'remove': {
+                    this.removeClicked();
+                    break;
+                }
+                case 'showDoc': {
+                    this.showDoc(param as boolean);
+                    break;
+                }
+            }
+        }
     }
 
     private setStorageInformation(selectedStorage: string) {

@@ -13,9 +13,10 @@
             <h3 class="binding-title pull-left">
                 {{model.label}}
             </h3>
-            <span [fnWriteAccess]="functionApp" *ngIf="canDelete && !bindingValue.newBinding" class="link" (click)="removeClicked()">
+            <a [fnWriteAccess]="functionApp" *ngIf="canDelete && !bindingValue.newBinding" class="link"
+               (click)="removeClicked()" tabindex="0" (keydown)="keyDown($event, 'remove')">
                 <i class="fa fa-remove"></i> {{ 'binding_delete' | translate }}
-            </span>
+            </a>
             <div class="clearfix"></div>
         </div>
 
@@ -75,8 +76,14 @@
     </div>
     <div *ngIf="model.documentation && !newFunction" class="panel panel-default">
         <div class="panel-heading">
-            <span *ngIf="!isDocShown" class="link" (click)="showDoc(true)"><i class="fa fa-plus"></i> {{ 'binding_documentation' | translate }}</span>
-            <span *ngIf="isDocShown" class="link" (click)="showDoc(false)"><i class="fa fa-minus"></i> {{ 'binding_documentation' | translate }}</span>
+            <span *ngIf="!isDocShown" class="link" (click)="showDoc(true)" 
+                tabindex="0" (keydown)="keyDown($event, 'showDoc', true)">
+                <i class="fa fa-plus"></i> {{ 'binding_documentation' | translate }}
+            </span>
+            <span *ngIf="isDocShown" class="link" (click)="showDoc(false)" 
+                tabindex="0" (keydown)="keyDown($event, 'showDoc', false)">
+                <i class="fa fa-minus"></i> {{ 'binding_documentation' | translate }}
+            </span>
         </div>
         <div *ngIf="storageAccountName && storageAccountKey && isDocShown">
             <br />
