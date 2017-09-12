@@ -7,6 +7,7 @@
 
     var isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
     bool isOnPrem = System.Configuration.ConfigurationManager.AppSettings["RuntimeType"] == "OnPrem";
+
     var view = View.Azure;
 
     if (!isAzure)

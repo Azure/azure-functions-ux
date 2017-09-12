@@ -6,22 +6,15 @@ import { DirtyStateEvent } from './../../shared/models/broadcast-event';
 import { SiteConfigStandaloneComponent } from './../site-config-standalone/site-config-standalone.component';
 import { SwaggerDefinitionComponent } from './../swagger-definition/swagger-definition.component';
 import { FunctionRuntimeComponent } from './../function-runtime/function-runtime.component';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { SiteManageComponent } from './../site-manage/site-manage.component';
 import { TabInfo } from './../../controls/tabs/tab/tab-info';
 import { SiteSummaryComponent } from './../site-summary/site-summary.component';
 import { SiteData } from './../../tree-view/models/tree-view-info';
-import { Component, SimpleChange, OnChanges, OnDestroy, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
-
 import { PortalService } from './../../shared/services/portal.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
@@ -40,8 +33,7 @@ import { PartSize } from '../../shared/models/portal';
     templateUrl: './site-dashboard.component.html',
     styleUrls: ['./site-dashboard.component.scss'],
 })
-
-export class SiteDashboardComponent implements OnChanges, OnDestroy {
+export class SiteDashboardComponent implements OnDestroy, OnInit {
 
     // We keep a static copy of all the tabs that are open becuase we want to reopen them
     // if a user changes apps or navigates away and comes back.  But we also create an instance
@@ -49,7 +41,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     private static _tabInfos: TabInfo[] = [];
     public tabInfos: TabInfo[] = SiteDashboardComponent._tabInfos;
 
-    @Input() viewInfo: TreeViewInfo<SiteData>;
+    viewInfo: TreeViewInfo<SiteData>;
     @ViewChild('siteTabs') groupElements: ElementRef;
 
     public dynamicTabIds: (string | null)[] = [null, null];
@@ -63,8 +55,7 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
     private _currentTabIndex: number;
 
     private _tabsLoaded = false;
-    private _openTabSubscription: RxSubscription;
-    private _dirtySub: RxSubscription;
+    private _ngUnsubscribe: Subject<void> = new Subject<void>();
 
     constructor(
         private _cacheService: CacheService,
@@ -76,11 +67,15 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
         private _scenarioService: ScenarioService,
         private _logService: LogService) {
 
-        this._openTabSubscription = this._broadcastService.subscribe<string>(BroadcastEvent.OpenTab, tabId => {
+        this._broadcastService.getEvents<string>(BroadcastEvent.OpenTab)
+        .takeUntil(this._ngUnsubscribe)
+        .subscribe(tabId =>{
             this.openFeature(tabId);
         });
 
-        this._dirtySub = this._broadcastService.subscribe<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, event => {
+        this._broadcastService.getEvents<DirtyStateEvent>(BroadcastEvent.DirtyStateChange)
+        .takeUntil(this._ngUnsubscribe)
+        .subscribe(event =>{
             if (!event.dirty && !event.reason) {
                 this.tabInfos.forEach(t => t.dirty = false);
             } else {
@@ -177,23 +172,20 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
             });
     }
 
-    ngOnDestroy() {
-        if (this._openTabSubscription) {
-            this._openTabSubscription.unsubscribe();
-        }
+    ngOnInit() {
+        this._broadcastService.getEvents<TreeViewInfo<SiteData>>(BroadcastEvent.AppDashboard)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(viewInfo => {
+                this.viewInfo = viewInfo;
+                this.viewInfoStream.next(viewInfo);
+            });
+    }
 
-        if (this._dirtySub) {
-            this._dirtySub.unsubscribe();
-        }
+    ngOnDestroy() {
 
         // Save current set of tabs
         SiteDashboardComponent._tabInfos = this.tabInfos;
-    }
-
-    ngOnChanges(changes: { [key: string]: SimpleChange }) {
-        if (changes['viewInfo']) {
-            this.viewInfoStream.next(this.viewInfo);
-        }
+        this._ngUnsubscribe.next();
     }
 
     private _selectTabId(id: string) {
@@ -230,8 +222,8 @@ export class SiteDashboardComponent implements OnChanges, OnDestroy {
                     this._selectTabId(SiteTabIds.overview);
                 }
 
-            // Even though you are not opening a new tab, you still must update the _currentTabIndex value
-            // to deal with a possible shift in position of the current tab
+                // Even though you are not opening a new tab, you still must update the _currentTabIndex value
+                // to deal with a possible shift in position of the current tab
             } else {
                 this._currentTabIndex = this.tabInfos.findIndex(i => i.id === this._currentTabId);
             }

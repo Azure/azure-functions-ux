@@ -1,10 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-
 import { ProxyNode } from './../tree-view/proxy-node';
 import { ProxiesNode } from './../tree-view/proxies-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
@@ -18,22 +15,22 @@ interface ProxyItem {
 @Component({
   selector: 'proxies-list',
   templateUrl: './proxies-list.component.html',
-  styleUrls: ['./proxies-list.component.scss'],
-  inputs: ['viewInfoInput']
+  styleUrls: ['./proxies-list.component.scss']
 })
-export class ProxiesListComponent implements OnInit {
+export class ProxiesListComponent implements OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo<any>>;
   public proxies: ProxyItem[] = [];
   public isLoading: boolean;
 
-  private _viewInfoSubscription: RxSubscription;
+  private _ngUnsubscribe: Subject<void> = new Subject<void>();
 
   private _proxiesNode: ProxiesNode;
 
-  constructor() {
+  constructor(private _broadcastService: BroadcastService) {
     this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
-    this._viewInfoSubscription = this.viewInfoStream
+    this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.ProxiesDashboard)
+      .takeUntil(this._ngUnsubscribe)
       .distinctUntilChanged()
       .switchMap(viewInfo => {
         this.isLoading = true;
@@ -53,11 +50,8 @@ export class ProxiesListComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
-  }
-
   ngOnDestroy(): void {
-    this._viewInfoSubscription.unsubscribe();
+    this._ngUnsubscribe.next();
   }
 
   set viewInfoInput(viewInfo: TreeViewInfo<any>) {

@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { SlotsNode } from '../tree-view/slots-node';
 import { SlotNode } from '../tree-view/app-node';
@@ -23,29 +21,37 @@ interface SlotItem {
 @Component({
     selector: 'slots-list',
     templateUrl: './slots-list.component.html',
-    styleUrls: ['./slots-list.component.scss'],
-    inputs: ['viewInfoInput']
+    styleUrls: ['./slots-list.component.scss']
 })
-export class SlotsListComponent implements OnInit {
-    public viewInfoStream: Subject<TreeViewInfo<any>>;
+export class SlotsListComponent implements OnDestroy {
     public slots: SlotItem[] = [];
     public isLoading: boolean;
 
     private _slotsNode: SlotsNode;
-    private _viewInfoSubscription: RxSubscription;
+    private _ngUnsubscribe = new Subject();
 
     constructor(
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService
     ) {
-        this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
-        this._viewInfoSubscription = this.viewInfoStream.distinctUntilChanged()
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.SlotsDashboard)
+            .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this.isLoading = true;
                 this._slotsNode = (<SlotsNode>viewInfo.node);
                 return this._slotsNode.loadChildren();
             })
+            .do(null, e =>{
+                this.isLoading = false;
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.error_unableToLoadSlotsList),
+                    errorType: ErrorType.RuntimeError,
+                    errorId: ErrorIds.unableToPopulateSlotsList,
+                    resourceId: 'none'
+                });
+            })
+            .retry()
             .subscribe(() => {
                 this.isLoading = false;
                 this.slots = (<SlotNode[]>this._slotsNode.children)
@@ -57,22 +63,11 @@ export class SlotsListComponent implements OnInit {
                             node: s
                         };
                     });
-            }, (() => {
-                this.isLoading = false;
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.error_unableToLoadSlotsList),
-                    errorType: ErrorType.RuntimeError,
-                    errorId: ErrorIds.unableToPopulateSlotsList,
-                    resourceId: 'none'
-                });
-            }));
+            });
     }
 
-    ngOnInit() {
-    }
-
-    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
-        this.viewInfoStream.next(viewInfo);
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 
     clickRow(item: SlotItem) {

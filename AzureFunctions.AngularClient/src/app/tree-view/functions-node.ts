@@ -1,3 +1,4 @@
+import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
@@ -16,8 +17,8 @@ import { BaseFunctionsProxiesNode } from 'app/tree-view/base-functions-proxies-n
 
 export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCollection, Disposable, CustomSelection, Collection {
     public title = this.sideNav.translateService.instant(PortalResources.functions);
-    public dashboardType = DashboardType.functions;
-    public newDashboardType = DashboardType.createFunctionAutoDetect;
+    public dashboardType = DashboardType.FunctionsDashboard;
+    public newDashboardType = DashboardType.CreateFunctionAutoDetectDashboard;
     public nodeClass = 'tree-node collection-node';
     public action: Action;
 
@@ -25,16 +26,33 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
         sideNav: SideNavComponent,
         public functionApp: FunctionApp,
         parentNode: TreeNode) {
-        super(sideNav, functionApp.site.id + '/functions', functionApp, parentNode);
+        super(sideNav,
+            functionApp.site.id + '/functions',
+            functionApp,
+            parentNode,
+            functionApp.site.id + '/functions/new/function');
+
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'images/BulletList.svg';
+
+        functionApp.getFunctionAppEditMode()
+            .map(EditModeHelper.isReadOnly)
+            .subscribe(isReadOnly => {
+                if (isReadOnly) {
+                    this.title = `${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`;
+                    this.newDashboardType = DashboardType.none;
+                } else {
+                    this.title = this.sideNav.translateService.instant(PortalResources.functions);
+                    this.newDashboardType = DashboardType.CreateFunctionAutoDetectDashboard;
+                }
+            });
     }
 
     public loadChildren() {
         return this.baseLoadChildren({
             default: {
                 title: this.sideNav.translateService.instant(PortalResources.functions),
-                newDashboard: DashboardType.createFunctionAutoDetect
+                newDashboard: DashboardType.CreateFunctionAutoDetectDashboard
             },
             readOnly: {
                 title: `${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`,

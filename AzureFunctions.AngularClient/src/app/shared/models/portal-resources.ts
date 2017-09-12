@@ -710,5 +710,8 @@ export class PortalResources
     public static aadreg_thisTemplate: string = "aadreg_thisTemplate";
     public static aadreg_youMayNeed: string = "aadreg_youMayNeed";
     public static asdreg_manageAppService: string = "asdreg_manageAppService";
+    public static aadreg_authConfRequired: string = "aadreg_authConfRequired";
+    public static aadreg_identityRequirementsInfo: string = "aadreg_identityRequirementsInfo";
+    public static aadreg_manage: string = "aadreg_manage";
 }
 

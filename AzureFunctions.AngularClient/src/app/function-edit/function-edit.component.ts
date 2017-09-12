@@ -1,17 +1,15 @@
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { AppNode } from './../tree-view/app-node';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/switchMap';
 import { TranslateService } from '@ngx-translate/core';
-
 import { FunctionApp } from '../shared/function-app';
 import { PortalService } from '../shared/services/portal.service';
 import { UserService } from '../shared/services/user.service';
 import { FunctionInfo } from '../shared/models/function-info';
 import { FunctionDevComponent } from '../function-dev/function-dev.component';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
-import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { FunctionNode } from '../tree-view/function-node';
 
@@ -19,9 +17,8 @@ import { FunctionNode } from '../tree-view/function-node';
     selector: 'function-edit',
     templateUrl: './function-edit.component.html',
     styleUrls: ['./function-edit.component.css'],
-    inputs: ['viewInfoInput']
 })
-export class FunctionEditComponent {
+export class FunctionEditComponent implements OnDestroy {
 
     @ViewChild(FunctionDevComponent) functionDevComponent: FunctionDevComponent;
     public selectedFunction: FunctionInfo;
@@ -37,6 +34,7 @@ export class FunctionEditComponent {
     public tabId = '';
 
     private _viewInfoStream: Subject<TreeViewInfo<any>>;
+    private _ngUnsubscribe = new Subject<void>();
 
     private appNode: AppNode;
     private functionApp: FunctionApp;
@@ -46,6 +44,7 @@ export class FunctionEditComponent {
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         _translateService: TranslateService) {
+
         this.inIFrame = this._userService.inIFrame;
 
         this.DevelopTab = _translateService.instant('tabNames_develop');
@@ -55,6 +54,7 @@ export class FunctionEditComponent {
 
         this._viewInfoStream = new Subject<TreeViewInfo<any>>();
         this._viewInfoStream
+            .takeUntil(this._ngUnsubscribe)
             .subscribe(viewInfo => {
                 this.viewInfo = viewInfo;
                 this.selectedFunction = (<FunctionNode>viewInfo.node).functionInfo;
@@ -68,19 +68,34 @@ export class FunctionEditComponent {
                     this.tabId = segments[segments.length - 1];
                 }
             });
-    }
 
-    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
-        this._viewInfoStream.next(viewInfo);
-    }
-
-    ngAfterContentInit() {
-        this._broadcastService.broadcast<TutorialEvent>(
-            BroadcastEvent.TutorialStep,
-            {
-                functionInfo: null,
-                step: TutorialStep.Develop
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.FunctionDashboard)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(info => {
+                this._viewInfoStream.next(info);
             });
+
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.FunctionIntegrateDashboard)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(info => {
+                this._viewInfoStream.next(info);
+            });
+
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.FunctionManageDashboard)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(info => {
+                this._viewInfoStream.next(info);
+            });
+
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.FunctionMonitorDashboard)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(info => {
+                this._viewInfoStream.next(info);
+            });
+    }
+
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 
     onEditorChange(editorType: string) {

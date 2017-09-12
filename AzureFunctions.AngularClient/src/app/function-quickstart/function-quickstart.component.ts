@@ -138,7 +138,7 @@ export class FunctionQuickstartComponent {
 
     createFromScratch() {
         const functionsNode = this.functionsNode;
-        functionsNode.openCreateDashboard(DashboardType.createFunction);
+        functionsNode.openCreateDashboard(DashboardType.CreateFunctionDashboard);
     }
 
     startFromSC() {

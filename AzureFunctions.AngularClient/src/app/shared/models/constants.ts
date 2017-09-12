@@ -173,8 +173,11 @@ export class NationalCloudArmUris {
 }
 
 export class LogCategories {
+    public static readonly SideNav = 'SideNav';
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';
+    public static readonly apiDetails = 'ApiDetails';
+    public static readonly newSlot = 'NewSlot';
 }
 
 export class KeyCodes {
