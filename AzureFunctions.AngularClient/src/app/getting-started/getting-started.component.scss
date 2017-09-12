@@ -26,6 +26,8 @@ label {
     background-color: $primary-color;
     height: 150px;
     text-align: center;
+    position: relative;
+    z-index: 0;
 }
 
 .start-banner-content{

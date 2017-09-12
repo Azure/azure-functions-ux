@@ -166,6 +166,7 @@ export interface UIFunctionBinding extends FunctionBindingBase {
     hiddenList?: string[];
     displayName: string;
     newBinding?: boolean;
+    AADPermissions?: AADPermissions[];
 }
 
 export interface Action {

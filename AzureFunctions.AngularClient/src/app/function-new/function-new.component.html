@@ -72,14 +72,18 @@
             {{ 'eventGrid_createMessage' | translate }}
         </div>
 
-        <button [class.custom-button]="areInputsValid"
-                [class.custom-button-disabled]="!areInputsValid"
-                style="display: block; margin-top: 40px"
-                (click)="onCreate()">{{ 'create' | translate }}</button>
-
-        <div *ngIf="showAADExpressRegistration">
-            <br/>
-            <button class="custom-button" (click)="createAADApplication()" [disabled]="showTryView">{{ 'expressAADRegistration' | translate }}</button>
+        <div class="create-button-container" *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions">
+            <aad-registration 
+                [functionApp]="functionApp" 
+                [AADPermissions]="selectedTemplate.metadata.AADPermissions" 
+                (configured)="aadRegistrationConfigured($event)">
+            </aad-registration>
+        </div>
+        <div class>
+            <button [class.custom-button]="areInputsValid"
+                    [class.custom-button-disabled]="!areInputsValid || !aadConfigured"
+                    (click)="onCreate()">{{ 'create' | translate }}</button>
+            <span *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions && !aadConfigured">&nbsp;&nbsp;{{ 'aadreg_authConfRequired' | translate}}</span>
         </div>
 
     </div>

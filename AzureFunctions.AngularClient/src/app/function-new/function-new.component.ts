@@ -55,8 +55,8 @@ export class FunctionNewComponent {
     selectedTemplateId: string;
     templateWarning: string;
     addLinkToAuth = false;
-    showAADExpressRegistration = false;
     action: Action;
+    aadConfigured = true;
     public disabled: boolean;
     private _bindingComponents: BindingComponent[] = [];
     private _exclutionFileList = [
@@ -116,11 +116,6 @@ export class FunctionNewComponent {
         this.functionApp.getTemplates().subscribe((templates) => {
             setTimeout(() => {
                 this.selectedTemplate = templates.find((t) => t.id === templateName);
-
-                if (this.selectedTemplate && this.selectedTemplate.metadata) {
-                    this.showAADExpressRegistration = !!this.selectedTemplate.metadata.AADPermissions;
-                }
-              
                 const experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                     return c === 'Experimental';
                 });
@@ -224,7 +219,7 @@ export class FunctionNewComponent {
     }
 
     quickstart() {
-        this.functionsNode.openCreateDashboard(DashboardType.createFunctionQuickstart);
+        this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
     }
 
     onAuth() {
@@ -263,19 +258,9 @@ export class FunctionNewComponent {
         });
     }
 
-    createAADApplication() {
-        this._globalStateService.setBusyState();
-        this._portalService.getStartupInfo().subscribe(info => {
-            let helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-            helper.createAADApplication(this.selectedTemplate.metadata, info.graphToken, this._globalStateService)
-                .subscribe(r => { 
-                    this._globalStateService.clearBusyState();
-                },
-                err => {
-                    this._globalStateService.clearBusyState();
-                    this._aiService.trackException(err, "Error during creation of AAD application");
-                });
-        });
+
+    aadRegistrationConfigured(value: boolean) {
+        this.aadConfigured = value;
     }
 
     private createFunction() {

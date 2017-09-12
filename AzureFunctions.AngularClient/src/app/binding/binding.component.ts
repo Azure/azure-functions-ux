@@ -2,13 +2,8 @@
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
-
 import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
 import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput} from '../shared/models/binding-input';
 import { BindingManager } from '../shared/models/binding-manager';

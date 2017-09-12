@@ -1,7 +1,10 @@
+import { LogService } from './../shared/services/log.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { Dom } from './../shared/Utilities/dom';
 import { SearchBoxComponent } from './../search-box/search-box.component';
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -15,7 +18,7 @@ import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { Arm } from './../shared/models/constants';
+import { Arm, LogCategories } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -34,14 +37,14 @@ import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SlotsService } from './../shared/services/slots.service';
+import { Url } from 'app/shared/Utilities/url';
+
 @Component({
     selector: 'side-nav',
     templateUrl: './side-nav.component.html',
-    styleUrls: ['./side-nav.component.scss'],
-    inputs: ['tryFunctionAppInput']
+    styleUrls: ['./side-nav.component.scss']
 })
 export class SideNavComponent implements AfterViewInit {
-    @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo<any>>;
     @ViewChild('treeViewContainer') treeViewContainer;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
 
@@ -70,7 +73,7 @@ export class SideNavComponent implements AfterViewInit {
 
     private _tryFunctionAppStream = new Subject<FunctionApp>();
 
-    set tryFunctionAppInput(functionApp: FunctionApp) {
+    @Input() set tryFunctionAppInput(functionApp: FunctionApp) {
         if (functionApp) {
             this._tryFunctionAppStream.next(functionApp);
         }
@@ -91,9 +94,10 @@ export class SideNavComponent implements AfterViewInit {
         public portalService: PortalService,
         public languageService: LanguageService,
         public authZService: AuthzService,
-        public slotsService: SlotsService) {
-
-        this.treeViewInfoEvent = new EventEmitter<TreeViewInfo<any>>();
+        public slotsService: SlotsService,
+        public logService: LogService,
+        public router: Router,
+        public route: ActivatedRoute) {
 
         userService.getStartupInfo().subscribe(info => {
 
@@ -217,7 +221,12 @@ export class SideNavComponent implements AfterViewInit {
         }, 0);
     }
 
-    updateView(newSelectedNode: TreeNode, newDashboardType: DashboardType, force?: boolean): Observable<boolean> {
+    updateView(
+        newSelectedNode: TreeNode,
+        newDashboardType: DashboardType,
+        resourceId: string,
+        force?: boolean): Observable<boolean> {
+
         if (this.selectedNode) {
 
             if (!force && this.selectedNode === newSelectedNode && this.selectedDashboardType === newDashboardType) {
@@ -236,17 +245,29 @@ export class SideNavComponent implements AfterViewInit {
 
         this.selectedNode = newSelectedNode;
         this.selectedDashboardType = newDashboardType;
-        this.resourceId = newSelectedNode.resourceId;
+        this.resourceId = newSelectedNode.resourceId;   // TODO: should this be updated to resourceId passed in or is this fine?
 
         const viewInfo = <TreeViewInfo<any>>{
-            resourceId: newSelectedNode.resourceId,
+            resourceId: resourceId,
             dashboardType: newDashboardType,
             node: newSelectedNode,
             data: {}
         };
 
         this.globalStateService.setDisabledMessage(null);
-        this.treeViewInfoEvent.emit(viewInfo);
+
+        // TODO: I can't seem to get Angular to handle case-insensitive routes properly, even if
+        // I follow the example from here: https://stackoverflow.com/questions/36154672/angular2-make-route-paths-case-insensitive
+
+        // BUG: For now we need to remove the "microsoft.web" piece from the URL or Kudu won't list functions properly:
+        // https://github.com/projectkudu/kudu/issues/2543
+        const navId = resourceId.slice(1, resourceId.length).toLowerCase().replace('/providers/microsoft.web', '');
+        this.logService.debug(LogCategories.SideNav, `Navigating to ${navId}`);
+        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
+
+        const dashboardString = DashboardType[newDashboardType];
+        this.broadcastService.broadcastEvent(BroadcastEvent[dashboardString], viewInfo);
+
         this._updateTitle(newSelectedNode);
         this.portalService.closeBlades();
 
@@ -293,7 +314,7 @@ export class SideNavComponent implements AfterViewInit {
         // We only want to clear the view if the user is currently looking at something
         // under the tree path being deleted
         if (this.resourceId.startsWith(resourceId)) {
-            this.treeViewInfoEvent.emit(null);
+            this.router.navigate(['blank'], { relativeTo: this.route, queryParams: Url.getQueryStringObj()});
         }
     }
 

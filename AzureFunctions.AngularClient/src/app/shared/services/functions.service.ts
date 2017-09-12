@@ -94,7 +94,8 @@ export class FunctionsService {
         const url = this.tryAppServiceUrl + '/api/resource?appServiceName=Function'
             + (provider ? '&provider=' + provider : '')
             + '&templateId=' + encodeURIComponent(selectedTemplate.id)
-            + '&functionName=' + encodeURIComponent(functionName);
+            + '&functionName=' + encodeURIComponent(functionName)
+            + '&trial=true';
 
         const template = <ITryAppServiceTemplate>{
             name: selectedTemplate.id,

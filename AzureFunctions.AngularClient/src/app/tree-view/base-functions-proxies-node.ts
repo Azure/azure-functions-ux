@@ -27,8 +27,9 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
         sideNav: SideNavComponent,
         resourceId: string,
         public functionApp: FunctionApp,
-        parentNode: TreeNode) {
-        super(sideNav, resourceId, parentNode);
+        parentNode: TreeNode,
+        createResourceId?: string) {
+        super(sideNav, resourceId, parentNode, createResourceId);
     }
 
     abstract loadChildren(): Observable<any>;

@@ -698,5 +698,20 @@ export class PortalResources
     public static topBar_runtimeV2: string = "topBar_runtimeV2";
     public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
     public static expandCollapse: string = "expandCollapse";
+    public static aadreg_appService: string = "aadreg_appService";
+    public static aadreg_configureAADNow: string = "aadreg_configureAADNow";
+    public static aadreg_configureAADPermissionsNow: string = "aadreg_configureAADPermissionsNow";
+    public static aadreg_configured: string = "aadreg_configured";
+    public static aadreg_identityRequirements: string = "aadreg_identityRequirements";
+    public static aadreg_notConfigured: string = "aadreg_notConfigured";
+    public static aadreg_requiredPerm: string = "aadreg_requiredPerm";
+    public static aadreg_templateNeeds: string = "aadreg_templateNeeds";
+    public static aadreg_thisIntegration: string = "aadreg_thisIntegration";
+    public static aadreg_thisTemplate: string = "aadreg_thisTemplate";
+    public static aadreg_youMayNeed: string = "aadreg_youMayNeed";
+    public static asdreg_manageAppService: string = "asdreg_manageAppService";
+    public static aadreg_authConfRequired: string = "aadreg_authConfRequired";
+    public static aadreg_identityRequirementsInfo: string = "aadreg_identityRequirementsInfo";
+    public static aadreg_manage: string = "aadreg_manage";
 }
 

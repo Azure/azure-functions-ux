@@ -36,3 +36,16 @@ input.input-error {
 .function-name-separator {
     margin-bottom: 20px;
 }
+
+.create-button-container {
+    display: flex;
+    button {
+        display: block; 
+        margin-top: 20px
+    }
+    span {
+        align-self: flex-end;
+        padding-bottom: 5px;
+        padding-left: 20px;
+    }
+}

@@ -10,7 +10,8 @@
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
-        "e2e": "ng e2e"
+        "e2e": "ng e2e",
+        "bundle-report": "webpack-bundle-analyzer ../azurefunctions/ng-full/stats.json"
     },
     "private": true,
     "dependencies": {
@@ -59,6 +60,7 @@
         "protractor": "~5.1.0",
         "ts-node": "~2.0.0",
         "tslint": "~4.5.0",
-        "typescript": "^2.4.1"
+        "typescript": "^2.4.1",
+        "webpack-bundle-analyzer": "^2.9.0"
     }
 }

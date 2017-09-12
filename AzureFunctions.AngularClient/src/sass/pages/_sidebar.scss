@@ -1,8 +1,8 @@
 @import '../common/variables';
-.demo-sidebar {
-    background-color: #fff;
+.sidebar {
+    background-color: $body-bg-color;
 
-    width: 40vw;
+    width: 30vw;
 
     &.ng-sidebar--opened.ng-sidebar--push {
         border-left: $border;

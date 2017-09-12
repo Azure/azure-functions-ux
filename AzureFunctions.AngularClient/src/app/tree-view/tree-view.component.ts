@@ -47,7 +47,7 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
     ngAfterContentInit() {
         // When the tree initially loads, we make sure that the "Apps" node
         // is the only node that's initially focus-able.
-        if (this.node && this.node.dashboardType === DashboardType.apps) {
+        if (this.node && this.node.dashboardType === DashboardType.AppsDashboard) {
             setTimeout(() => {
                 Dom.setFocusable(this.item.nativeElement);
             }, 0);

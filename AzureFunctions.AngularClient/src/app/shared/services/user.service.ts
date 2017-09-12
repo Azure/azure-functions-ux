@@ -17,6 +17,7 @@ import { TenantInfo } from '../models/tenant-info';
 import { AiService } from './ai.service';
 import { PortalService } from './portal.service';
 import { StartupInfo } from '../models/portal';
+import { Url } from "app/shared/Utilities/url";
 
 @Injectable()
 export class UserService {
@@ -36,7 +37,7 @@ export class UserService {
         this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
         this.inIFrame = PortalService.inIFrame();
         this.inTab = PortalService.inTab();
-        this._inTry = window.location.pathname.endsWith('/try');
+        this._inTry = Url.getParameterByName(null, 'trial') === 'true';
 
         this._startupInfo = {
             token: null,
@@ -108,6 +109,7 @@ export class UserService {
     }
 
     private _setToken(token: string) {
+
         if (token !== this._startupInfo.token) {
 
             Observable.zip(

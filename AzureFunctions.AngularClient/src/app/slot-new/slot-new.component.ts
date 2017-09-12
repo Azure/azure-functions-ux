@@ -1,4 +1,6 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../shared/services/log.service';
+import { Component, Injector, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -37,9 +39,8 @@ interface DataModel {
     selector: 'slot-new',
     templateUrl: './slot-new.component.html',
     styleUrls: ['./slot-new.component.scss'],
-    inputs: ['viewInfoInput']
 })
-export class SlotNewComponent implements OnInit {
+export class SlotNewComponent implements OnDestroy {
     public Resources = PortalResources;
     public slotOptinEnabled: boolean;
     public hasCreatePermissions: boolean;
@@ -49,11 +50,11 @@ export class SlotNewComponent implements OnInit {
     public isLoading = true;
 
     private _slotsNode: SlotsNode;
-    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
     private _viewInfo: TreeViewInfo<any>;
     private _siteId: string;
     private _slotsList: ArmObj<Site>[];
     private _siteObj: ArmObj<Site>;
+    private _ngUnsubscribe: Subject<void> = new Subject<void>();
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
@@ -63,11 +64,13 @@ export class SlotNewComponent implements OnInit {
         private _aiService: AiService,
         private _slotService: SlotsService,
         private _cacheService: CacheService,
+        private _logService: LogService,
         authZService: AuthzService,
         injector: Injector) {
         const validator = new RequiredValidator(this._translateService);
 
-        this._viewInfoStream
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.CreateSlotDashboard)
+            .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this._slotsNode = <SlotsNode>viewInfo.node;
@@ -106,7 +109,7 @@ export class SlotNewComponent implements OnInit {
             })
             .do(null, e => {
                 // log error & clear busy state
-                this._aiService.trackException(e, '/errors/slot-new');
+                this._logService.error(LogCategories.newSlot, '/slot-new', e);
                 this._globalStateService.clearBusyState();
             })
             .retry()
@@ -122,11 +125,8 @@ export class SlotNewComponent implements OnInit {
             });
     }
 
-    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
-        this._viewInfoStream.next(viewInfoInput);
-    }
-
-    ngOnInit() {
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 
     onFunctionAppSettingsClicked() {

@@ -11,7 +11,7 @@ import { ApiProxy } from '../shared/models/api-proxy';
 
 export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public title = 'Proxy';
-    public dashboardType = DashboardType.proxy;
+    public dashboardType = DashboardType.ProxyDashboard;
     public showExpandIcon = false;
 
     constructor(

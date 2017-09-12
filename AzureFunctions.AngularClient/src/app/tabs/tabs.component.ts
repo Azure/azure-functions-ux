@@ -1,12 +1,12 @@
 import { BusyStateComponent } from './../busy-state/busy-state.component';
 import { AiService } from './../shared/services/ai.service';
-import { Component, ContentChildren, QueryList, AfterContentInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { ContentChildren, QueryList, AfterContentInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 
-@Component({
-    selector: 'tabs',
-    templateUrl: './tabs.component.html'
-})
+// @Component({
+//     selector: 'tabs',
+//     templateUrl: './tabs.component.html'
+// })
 export class TabsComponent implements AfterContentInit {
 
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
