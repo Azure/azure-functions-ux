@@ -82,7 +82,7 @@ export class BindingComponent {
         private _aiService: AiService) {
         const renderer = new marked.Renderer();
 
-        const funcStream = this._functionAppStream
+        this._functionAppStream
             .distinctUntilChanged()
             .switchMap(functionApp => {
                 this.functionApp = functionApp;
@@ -90,25 +90,21 @@ export class BindingComponent {
                     this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`),
                     this.functionApp.getAuthSettings(),
                     (a, e) => ({ appSettings: a.json(), authSettings: e }));
+            }).do(null, e => {
+                this._aiService.trackException(e, '/errors/binding');
+                console.error(e);
+            }).subscribe(res => {
+                this._appSettings = res.appSettings.properties;
+                this.authSettings = res.authSettings;
+                this.filterWarnings();
+                this._updateBinding();
             });
 
-        funcStream
-            .merge(this._bindingStream)
-            .subscribe((res: { appSettings: any, authSettings: AuthSettings }) => {
-                try {
-                    if (res.appSettings) {
-                        this._appSettings = res.appSettings.properties;
-                    } else {
-                        this._updateBinding(<any>res);
-                    }
-                    if (res.authSettings) {
-                        this.authSettings = res.authSettings;
-                        this.filterWarnings();
-                    }
-                } catch (e) {
-                    console.error(e);
-                }
-            });
+        this._bindingStream.subscribe((binding: UIFunctionBinding) => {
+            this.bindingValue = binding;
+            this._updateBinding();
+
+        });
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>';
@@ -344,11 +340,15 @@ export class BindingComponent {
         return true;
     }
 
-    private _updateBinding(value: UIFunctionBinding) {
+    private _updateBinding() {
+        // Binding should be created only if both bindingStream and functionStream get values
+        if (!this.binding || !this._appSettings) {
+            return;
+        }
+
         this.isDirty = false;
         const that = this;
         this.functionApp.getBindingConfig().subscribe((bindings) => {
-            this.bindingValue = value;
             this.setDirtyIfNewBinding();
             // Convert settings to input conotrls
             let order = 0;
