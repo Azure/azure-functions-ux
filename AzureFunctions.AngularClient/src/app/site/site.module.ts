@@ -18,6 +18,7 @@ import { SiteDashboardComponent } from './site-dashboard/site-dashboard.componen
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { HostEditorComponent } from './../host-editor/host-editor.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     { path: '', component: SiteDashboardComponent }
@@ -52,7 +53,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SiteEnabledFeaturesComponent,
         GeneralSettingsComponent,
         AppSettingsComponent,
-        ConnectionStringsComponent
+        ConnectionStringsComponent,
+        HostEditorComponent
     ],
     providers: []
 })
