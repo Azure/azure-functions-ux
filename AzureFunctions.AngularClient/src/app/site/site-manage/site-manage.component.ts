@@ -1,3 +1,4 @@
+import { SlotsService } from 'app/shared/services/slots.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -46,6 +47,7 @@ export class SiteManageComponent implements OnDestroy {
     private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
 
     private _dynamicDisableInfo: DisableInfo;
+    private _slotDisableInfo: DisableInfo;
 
     private _selectedFeatureSubscription: RxSubscription;
 
@@ -83,12 +85,16 @@ export class SiteManageComponent implements OnDestroy {
                     disableMessage: this._translateService.instant(PortalResources.featureNotSupportedConsumption)
                 };
 
+                this._slotDisableInfo = {
+                    enabled: !SlotsService.isSlot(site.id),
+                    disableMessage: this._translateService.instant(PortalResources.featureNotSupportedForSlots)
+                };
+
                 this._disposeGroups();
 
                 this._initCol1Groups(site);
                 this._initCol2Groups(site);
                 this._initCol3Groups(site);
-
 
                 return Observable.zip(
                     this._authZService.hasPermission(site.id, [AuthzService.writeScope]),
@@ -363,6 +369,21 @@ export class SiteManageComponent implements OnDestroy {
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream),
+
+            new DisableableBladeFeature(
+                this._translateService.instant(PortalResources.feature_msiName),
+                this._translateService.instant(PortalResources.feature_msiName) +
+                this._translateService.instant(PortalResources.authentication) +
+                'MSI',
+                this._translateService.instant(PortalResources.feature_msiInfo),
+                'images/toolbox.svg',
+                {
+                    detailBlade: 'MSIBlade',
+                    detailBladeInputs: { resourceUri: site.id }
+                },
+                this._portalService,
+                null,
+                this._slotDisableInfo),
 
             this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(

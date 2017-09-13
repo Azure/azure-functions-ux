@@ -358,6 +358,7 @@ export class PortalResources
     public static siteSummary_restartNotifySuccess: string = "siteSummary_restartNotifySuccess";
     public static siteSummary_restartNotifyFail: string = "siteSummary_restartNotifyFail";
     public static featureNotSupportedConsumption: string = "featureNotSupportedConsumption";
+    public static featureNotSupportedForSlots: string = "featureNotSupportedForSlots";
     public static featureRequiresWritePermissionOnApp: string = "featureRequiresWritePermissionOnApp";
     public static featureDisabledReadOnlyLockOnApp: string = "featureDisabledReadOnlyLockOnApp";
     public static featureDisabledNoPermissionToPlan: string = "featureDisabledNoPermissionToPlan";
@@ -428,6 +429,8 @@ export class PortalResources
     public static feature_customDomainsInfo: string = "feature_customDomainsInfo";
     public static feature_authName: string = "feature_authName";
     public static feature_authInfo: string = "feature_authInfo";
+    public static feature_msiName: string = "feature_msiName";
+    public static feature_msiInfo: string = "feature_msiInfo";
     public static feature_pushNotificationsName: string = "feature_pushNotificationsName";
     public static feature_pushNotificationsInfo: string = "feature_pushNotificationsInfo";
     public static feature_diagnosticLogsName: string = "feature_diagnosticLogsName";
