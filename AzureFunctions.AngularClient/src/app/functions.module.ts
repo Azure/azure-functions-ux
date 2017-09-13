@@ -32,6 +32,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { SecretsBoxInputDirective } from 'app/secrets-box-container/secrets-box-input.directive';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
 import { FunctionNewComponent } from 'app/function-new/function-new.component';
+import { ExtensionInstallComponent } from './extension-install/extension-install.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -82,6 +83,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         FunctionManageComponent,
         CreateFunctionWrapperComponent,
         FunctionNewComponent,
+        ExtensionInstallComponent,
         FunctionQuickstartComponent,
         TemplatePickerComponent,
         BindingComponent,

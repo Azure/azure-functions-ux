@@ -2122,11 +2122,47 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The extension {{extensionId}} with a different version is already installed.
+        /// </summary>
+        internal static string extensionAlreadyInstalledWithDifferentVersion {
+            get {
+                return ResourceManager.GetString("extensionAlreadyInstalledWithDifferentVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to get the list of installed runtime extensions.
+        /// </summary>
+        internal static string failedToGetFunctionRuntimeExtensions {
+            get {
+                return ResourceManager.GetString("failedToGetFunctionRuntimeExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to install runtime extension {{extensionId}}.
+        /// </summary>
+        internal static string failedToInstallFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("failedToInstallFunctionRuntimeExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to {{state}} function: {{functionName}}.
         /// </summary>
         internal static string failedToSwitchFunctionState {
             get {
                 return ResourceManager.GetString("failedToSwitchFunctionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to uninstall runtime extension {{extensionId}}.
+        /// </summary>
+        internal static string failedToUnInstallFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("failedToUnInstallFunctionRuntimeExtension", resourceCulture);
             }
         }
         
@@ -5892,6 +5928,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string test {
             get {
                 return ResourceManager.GetString("test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing runtime extensions is taking longer than expected.
+        /// </summary>
+        internal static string timeoutInstallingFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("timeoutInstallingFunctionRuntimeExtension", resourceCulture);
             }
         }
         

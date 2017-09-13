@@ -1,5 +1,6 @@
 import { FunctionBinding } from './function-config';
 import { AADPermissions } from './microsoft-graph';
+import { RuntimeExtension } from './binding';
 
 export interface FunctionTemplate {
     id: string;
@@ -25,6 +26,7 @@ export interface FunctionTemplateMetadata {
     enabledInTryMode?: boolean;
     warning: Warning;
     AADPermissions?: AADPermissions[];
+    extensions: RuntimeExtension[];
 }
 
 export interface Warning {

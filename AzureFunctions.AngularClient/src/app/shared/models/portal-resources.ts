@@ -713,5 +713,10 @@ export class PortalResources
     public static aadreg_authConfRequired: string = "aadreg_authConfRequired";
     public static aadreg_identityRequirementsInfo: string = "aadreg_identityRequirementsInfo";
     public static aadreg_manage: string = "aadreg_manage";
+    public static failedToGetFunctionRuntimeExtensions: string = "failedToGetFunctionRuntimeExtensions";
+    public static failedToInstallFunctionRuntimeExtension: string = "failedToInstallFunctionRuntimeExtension";
+    public static failedToUnInstallFunctionRuntimeExtension: string = "failedToUnInstallFunctionRuntimeExtension";
+    public static timeoutInstallingFunctionRuntimeExtension: string = "timeoutInstallingFunctionRuntimeExtension";
+    public static extensionAlreadyInstalledWithDifferentVersion: string = "extensionAlreadyInstalledWithDifferentVersion";
 }
 

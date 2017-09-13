@@ -2254,4 +2254,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="aadreg_manage" xml:space="preserve">
     <value>Manage</value>
   </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>We are not able to get the list of installed runtime extensions</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>We are not able to install runtime extension {{extensionId}}</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>We are not able to uninstall runtime extension {{extensionId}}</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>Installing runtime extensions is taking longer than expected</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>The extension {{extensionId}} with a different version is already installed</value>
+  </data>
 </root>

@@ -1,0 +1,23 @@
+<div class="wrapper">
+    <busy-state></busy-state>
+    <div *ngIf="requiredExtensions && this.requiredExtensions.length > 0">
+        <div class="highlight">
+            <div class="list">
+                List the extensions that needs to be installed or are used
+            </div>
+            <ul class="list">
+                <li *ngFor="let nugetPackage of requiredExtensions">
+                    {{nugetPackage.id}}
+                </li>
+            </ul>
+            <button class="custom-button" (click)="installRequiredExtensions()">
+                    Install
+                </button>
+        </div>
+    </div>
+    <div *ngIf="installationSucceeded" role="alert">
+        <div class="highlight success">
+            Extension Installation Succeeded
+        </div>
+    </div>
+</div>

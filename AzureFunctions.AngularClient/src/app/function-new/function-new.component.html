@@ -10,16 +10,27 @@
         <template-picker
             [functionAppInput]="functionApp"
             [type]="type"
-            [showFooter]="false"
+            [showFooter]="false" 
             (complete)="onTemplatePickUpComplete($event)"
             [template]="selectedTemplateId"></template-picker>
-    </div>
+    </div>    
 
     <div *ngIf="selectedTemplate">
         <div *ngIf="templateWarning" class="alert alert-warning alert-dismissible" role="alert">
             <div [innerHTML]="templateWarning"></div>
             <div *ngIf="addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
-        </div>
+        </div>        
+    </div>        
+                
+    <extension-install [viewInfoInput]="viewInfo" [requiredExtensions]="requiredExtensions"></extension-install>
+    
+    <div *ngIf="selectedTemplate">
+        <div *ngIf="installationSucceeded" role="alert">    
+                <div class="highlight success" >
+                    Extension Installation Succeeded                  
+                </div>                  
+        </div>    
+
         <h3>{{ 'functionNew_nameYourFunction' | translate }}</h3>
         <input type="text"
                [(ngModel)]="functionName"
