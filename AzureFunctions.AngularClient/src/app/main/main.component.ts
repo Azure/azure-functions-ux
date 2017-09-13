@@ -88,12 +88,12 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
+        this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
+        this._busyStateScopeManager = this.busyStateComponent.getScopeManager();
 
         this._userService.getStartupInfo()
             .first()
             .subscribe(info => {
-                this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
-                this._busyStateScopeManager = this.busyStateComponent.getScopeManager();
 
                 this.ready = true;
 
@@ -184,17 +184,11 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     private _navigationInterceptor(event: RouterEvent): void {
         if (event instanceof NavigationStart) {
             this._busyStateScopeManager.setBusy();
-        }
-
-        if (event instanceof NavigationEnd) {
+        } else if (event instanceof NavigationEnd) {
             this._busyStateScopeManager.clearBusy();
-        }
-
-        if (event instanceof NavigationCancel) {
+        } else if (event instanceof NavigationCancel) {
             this._busyStateScopeManager.clearBusy();
-        }
-
-        if (event instanceof NavigationError) {
+        } else if (event instanceof NavigationError) {
             this._busyStateScopeManager.clearBusy();
         }
     }
