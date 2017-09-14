@@ -1189,6 +1189,9 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>This feature is not supported for apps on a Consumption plan</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>This feature is not supported for slots</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to use this feature</value>
   </data>
@@ -1398,6 +1401,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>Managed service identity</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>Push notifications</value>
@@ -2253,5 +2262,38 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="aadreg_manage" xml:space="preserve">
     <value>Manage</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>We are not able to get the list of installed runtime extensions</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>We are not able to install runtime extension {{extensionId}}</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>We are not able to uninstall runtime extension {{extensionId}}</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>Installing runtime extensions is taking longer than expected</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>The extension {{extensionId}} with a different version is already installed</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>Extension Installation Succeeded</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>Extensions not Installed</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>This integration requires the following extensions.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>This template requires the following extensions.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>Installing required extensions</value>
   </data>
 </root>

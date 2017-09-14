@@ -359,6 +359,7 @@ export class PortalResources
     public static siteSummary_restartNotifySuccess: string = "siteSummary_restartNotifySuccess";
     public static siteSummary_restartNotifyFail: string = "siteSummary_restartNotifyFail";
     public static featureNotSupportedConsumption: string = "featureNotSupportedConsumption";
+    public static featureNotSupportedForSlots: string = "featureNotSupportedForSlots";
     public static featureRequiresWritePermissionOnApp: string = "featureRequiresWritePermissionOnApp";
     public static featureDisabledReadOnlyLockOnApp: string = "featureDisabledReadOnlyLockOnApp";
     public static featureDisabledNoPermissionToPlan: string = "featureDisabledNoPermissionToPlan";
@@ -429,6 +430,8 @@ export class PortalResources
     public static feature_customDomainsInfo: string = "feature_customDomainsInfo";
     public static feature_authName: string = "feature_authName";
     public static feature_authInfo: string = "feature_authInfo";
+    public static feature_msiName: string = "feature_msiName";
+    public static feature_msiInfo: string = "feature_msiInfo";
     public static feature_pushNotificationsName: string = "feature_pushNotificationsName";
     public static feature_pushNotificationsInfo: string = "feature_pushNotificationsInfo";
     public static feature_diagnosticLogsName: string = "feature_diagnosticLogsName";
@@ -713,5 +716,10 @@ export class PortalResources
     public static aadreg_authConfRequired: string = "aadreg_authConfRequired";
     public static aadreg_identityRequirementsInfo: string = "aadreg_identityRequirementsInfo";
     public static aadreg_manage: string = "aadreg_manage";
+    public static failedToGetFunctionRuntimeExtensions: string = "failedToGetFunctionRuntimeExtensions";
+    public static failedToInstallFunctionRuntimeExtension: string = "failedToInstallFunctionRuntimeExtension";
+    public static failedToUnInstallFunctionRuntimeExtension: string = "failedToUnInstallFunctionRuntimeExtension";
+    public static timeoutInstallingFunctionRuntimeExtension: string = "timeoutInstallingFunctionRuntimeExtension";
+    public static extensionAlreadyInstalledWithDifferentVersion: string = "extensionAlreadyInstalledWithDifferentVersion";
 }
 

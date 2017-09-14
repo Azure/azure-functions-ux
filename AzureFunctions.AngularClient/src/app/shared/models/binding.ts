@@ -55,6 +55,12 @@ export interface Binding {
     enabledInTryMode?: boolean;
     actions: Action[];
     AADPermissions?: AADPermissions[];
+    runtimeExtension: RuntimeExtension;
+}
+
+export interface RuntimeExtension {
+    id: string;
+    version: string;
 }
 
 export interface Setting {

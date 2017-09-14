@@ -30,7 +30,7 @@ import { CreateFunctionInfo } from './models/create-function-info';
 import { FunctionTemplate } from './models/function-template';
 import { DesignerSchema } from './models/designer-schema';
 import { FunctionSecrets } from './models/function-secrets';
-import { BindingConfig } from './models/binding';
+import { BindingConfig, RuntimeExtension } from './models/binding';
 import { UserService } from './services/user.service';
 import { FunctionContainer } from './models/function-container';
 import { RunFunctionResult } from './models/run-function-result';
@@ -1737,6 +1737,131 @@ export class FunctionApp {
                         content: error.text(),
                     });
                 }
+            });
+    }
+
+    // Try and the list of runtime extensions install.
+    // If there was an error getting the list, show an error. return an empty list.
+    getHostExtensions(): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.get(`${this.mainSiteUrl}/admin/host/extensions`, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToGetFunctionRuntimeExtensions),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            this.trackEvent(ErrorIds.failedToGetFunctionRuntimeExtensions, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                            if (error.status !== 503) {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.failedToGetFunctionRuntimeExtensions),
+                                    errorId: ErrorIds.failedToGetFunctionRuntimeExtensions,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            }
+                        }
+                    });
+            }).catch(e => {
+                return Observable.of(e);
+            });
+    }
+
+    showTimeoutError() {
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension),
+            errorId: ErrorIds.timeoutInstallingFunctionRuntimeExtension,
+            errorType: ErrorType.RuntimeError,
+            resourceId: this.site.id
+        });
+        this.trackEvent(ErrorIds.timeoutInstallingFunctionRuntimeExtension, {
+            content: this._translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension)
+        });
+    }
+
+    showInstallFailed() {
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension, { extensionId: '' }),
+            errorId: ErrorIds.timeoutInstallingFunctionRuntimeExtension,
+            errorType: ErrorType.RuntimeError,
+            resourceId: this.site.id
+        });
+        this.trackEvent(ErrorIds.timeoutInstallingFunctionRuntimeExtension, {
+            content: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension)
+        });
+    }
+
+    // Todo: Capture 409
+    // returns error object when resulted in error
+    // error.id is not defined
+    installExtension(extension: RuntimeExtension): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.post(`${this.mainSiteUrl}/admin/host/extensions`, extension, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToInstallFunctionRuntimeExtension),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            if (error.status === 409) {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.extensionAlreadyInstalledWithDifferentVersion, { extensionId: extension.id }),
+                                    errorId: ErrorIds.extensionAlreadyInstalledWithDifferentVersion,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            } else {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension, { extensionId: extension.id }),
+                                    errorId: ErrorIds.failedToInstallFunctionRuntimeExtension,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            }
+
+                            this.trackEvent(ErrorIds.failedToInstallFunctionRuntimeExtension, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
+            }).catch(e => {
+                return Observable.of(e);
+            });
+    }
+
+    getExtensionInstallStatus(jobId: string): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.get(`${this.mainSiteUrl}/admin/host/extensions/jobs/` + jobId, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToGetExtensionInstallStatus),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            this.trackEvent(ErrorIds.failedToGetExtensionInstallStatus, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
+            }).catch(_ => {
+                return Observable.of(
+                    {
+                        id: jobId
+                    });
             });
     }
 
