@@ -17,3 +17,66 @@
     width: 100%;
     box-shadow: 0px -5px 13px -1px rgba(0,0,0,0.38);
 }
+
+
+.settings-group-wrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.settings-wrapper{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    position: relative;
+
+    .settings-load-message{
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 15px;
+        margin-right: 25px;
+        //width: 100%;
+        border: 1px solid black;
+        background: rgba(0, 0, 0, 0.60);
+        color: white;
+        text-align: center;
+    }
+
+    .setting-wrapper{
+        padding-bottom: 15px;
+
+        &.last{
+            padding-bottom: 0px;
+        }
+
+        .setting-label{
+            box-sizing: border-box;
+            color: rgb(71, 71, 71);
+            display: inline-block;
+            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: normal;
+            min-height: 20px;
+            padding-right: 3vw;
+        }
+
+        .setting-control-container{
+            color: rgb(37, 37, 37);
+            display: inline-block;
+            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: normal;
+            line-height: normal;
+            vertical-align: middle;
+            width: 255px;
+        }
+    }
+}

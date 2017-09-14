@@ -2,23 +2,23 @@ import {
     sourceControlProvider,
     DeploymentCenterSetupModel
 } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
-import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 export class DeploymentCenterWizardService {
     public currentWizardState: DeploymentCenterSetupModel = new DeploymentCenterSetupModel();
 
-    private sourceControlProviderSource = new Subject<sourceControlProvider>();
-    private buildProviderSource = new Subject<sourceControlProvider>();
+    private sourceControlProviderSource = new ReplaySubject<sourceControlProvider>(1);
+    private buildProviderSource = new ReplaySubject<sourceControlProvider>(1);
+    public resourceIdStream = new ReplaySubject<string>(1);
 
     sourceControlProvider$ = this.sourceControlProviderSource.asObservable();
     buildProvider$ = this.buildProviderSource.asObservable();
-
-    public resourceIdStream = new Subject<string>();
+    
 
     changeSourceControlProvider(provider: sourceControlProvider) {
         this.sourceControlProviderSource.next(provider);
         this.currentWizardState.sourceProvider = provider;
-        this.currentWizardState.buildProvider = null;
+        this.changeBuildProvider(null);
     }
 
     changeBuildProvider(provider: sourceControlProvider) {

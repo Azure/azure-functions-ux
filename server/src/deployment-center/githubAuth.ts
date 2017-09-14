@@ -27,8 +27,7 @@ export async function getGithubTokens(req: any): Promise<any> {
         );
         const body = r.data;
         if (req && req.session && body && body.properties && body.properties.token) {
-            req.session['githubAccess'] = body.properties.token;
-            return {authenticated: true};
+            return {authenticated: true, token: body.properties.token};
         }
         else{
             return {authenticated: false};
@@ -42,21 +41,18 @@ export async function getGithubTokens(req: any): Promise<any> {
 }
 
 export function setupGithubAuthentication(app: Application) {
-   
-    app.post('/api/github/passthrough', (req, res) => {
-        if(!req || !req.session){
-            res.status(500).send("no session");
-            return;
+
+    app.post('/api/github/passthrough', async (req, res) => {
+        const tokenData = await getGithubTokens(req);
+        if(!tokenData.authenticated){
+            res.sendStatus(401);
         }
-        axios
-            .get(req.body.url, {
+        const response = await axios.get(req.body.url, {
                 headers: {
-                    Authorization: `bearer ${req.session['githubAccess']}`
+                    Authorization: `Bearer ${tokenData.token}`
                 }
-            })
-            .then(r => {
-                res.json(r.data);
             });
+        res.json(response.data);
     });
 
     app.get('/api/auth/github', (_, res) => {

@@ -14,10 +14,7 @@ import { staticConfig } from '../config';
 //     }
 // });
 export async function getBitbucketTokens(req: any): Promise<any> {
-    if(req && req.session && req.session['bitbucketAccess'])
-    {
-        return {authenticated: true};
-    }
+    
     try{
         const r = await axios.get( `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/Bitbucket?api-version=2016-03-01`,
             {
@@ -28,12 +25,7 @@ export async function getBitbucketTokens(req: any): Promise<any> {
         );
         const body = r.data;
         if (req && req.session && body && body.properties && body.properties.token) {
-            const accessData = {
-                token: body.properties.token,
-                expirationTime: body.properties.expirationTime
-            };
-            req.session['bitbucketAccess'] = accessData;
-            return {authenticated: true};
+            return {authenticated: true, token: body.properties.token};
         }
         else{
             return {authenticated: false};
@@ -46,24 +38,17 @@ export async function getBitbucketTokens(req: any): Promise<any> {
     }
 }
 export function setupBitbucketAuthentication(app: Application) {
-    app.post('/api/bitbucket/passthrough', (req, res) => {
-        if(!req || !req.session){
-            res.status(500).send("no session");
-            return;
+    app.post('/api/bitbucket/passthrough', async (req, res) => {
+        const tokenData = await getBitbucketTokens(req);
+        if(!tokenData.authenticated){
+            res.sendStatus(401);
         }
-        axios
-            .get(req.body.url, {
+        const response = await axios.get(req.body.url, {
                 headers: {
-                    Authorization: `bearer ${req.session.bitbucketAccess.token}`,
-                    'Content-Type': 'application/json'
+                    Authorization: `Bearer ${tokenData.token}`
                 }
-            })
-            .then(r => {
-                res.json(r.data);
-            })
-            .catch(err => {
-                console.log(err);
             });
+        res.json(response.data);
     });
 
     // app.get('/api/auth/bitbucket', (_, res) => {

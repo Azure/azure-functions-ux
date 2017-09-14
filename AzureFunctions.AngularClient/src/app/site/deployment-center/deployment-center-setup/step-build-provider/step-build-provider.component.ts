@@ -31,10 +31,9 @@ export class StepBuildProviderComponent {
 
     public selectedProvider: ProviderCard = null;
     
-    constructor(private _wizard: DeploymentCenterWizardService) {}
+    constructor(public wizard: DeploymentCenterWizardService) {}
 
     chooseBuildProvider(card : ProviderCard){
-      this.selectedProvider = card;
-      this._wizard.changeBuildProvider(card.id);
+      this.wizard.changeBuildProvider(card.id);
     }
 }

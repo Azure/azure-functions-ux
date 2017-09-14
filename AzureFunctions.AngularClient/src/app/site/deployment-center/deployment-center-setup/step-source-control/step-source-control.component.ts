@@ -122,19 +122,19 @@ export class StepSourceControlComponent {
                 _cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true,null, {
                     url: 'https://api.onedrive.com/v1.0/drive'
                 }),
-                // _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true,null, {
-                //     url: 'https://api.bitbucket.org/2.0/user'
-                // }),
-                (github, onedrive) => ({
+                 _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true,null, {
+                     url: 'https://api.bitbucket.org/2.0/user'
+                 }),
+                (github, onedrive, bitbucket) => ({
                     github: github.json(),
                     onedrive: onedrive.json(),
-                   // bitbucket: bb.json()
+                    bitbucket: bitbucket.json()
                 }));
         })
         .subscribe(r => {
             this.providerCards[1].authenticatedId = `${r.github.name} (${r.github.login})`;
             this.providerCards[0].authenticatedId = r.onedrive.owner.user.displayName;
-           // this.providerCards[4].authenticatedId = `${r.bitbucket.display_name} (${r.bitbucket.username})`;
+            this.providerCards[4].authenticatedId = r.bitbucket.display_name;
         });
     }
 

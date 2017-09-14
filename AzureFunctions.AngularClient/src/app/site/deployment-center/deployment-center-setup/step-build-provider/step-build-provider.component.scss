@@ -5,6 +5,8 @@
 
 .selectionContainer {
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: row;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
