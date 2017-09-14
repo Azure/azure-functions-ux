@@ -1,4 +1,3 @@
-import { Subject } from 'rxjs/Subject';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, ViewChild, Input, Output } from '@angular/core';
 import { DropDownElement } from '../shared/models/drop-down-element';
@@ -19,7 +18,6 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
     @Input() highlightDirty: boolean;
 
     @Output() value: EventEmitter<T>;
-    @Output() blur = new Subject<any>();
 
     public selectedElement: DropDownElement<T>;
     public empty: any;
@@ -97,15 +95,11 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
         this.value.emit(element.value);
     }
 
-    onBlur(event: any) {
-        this.blur.next(event);
-    }
-
     focus() {
         if (this.selectInput) {
-            setTimeout(() => {
+            //setTimeout(() => {
                 this.selectInput.nativeElement.focus();
-            });
+            //});
         }
     }
 
