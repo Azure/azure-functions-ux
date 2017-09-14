@@ -22,12 +22,14 @@
         </div>        
     </div>        
                 
-    <extension-install 
-        [integrateText]="false" 
-        [viewInfoInput]="viewInfo" 
-        [requiredExtensions]="requiredExtensions"
-        (installed)="runtimeExtensionInstalled($event)">
-    </extension-install>
+    <div *ngIf="selectedTemplate && selectedTemplate.metadata.extensions">
+        <extension-install 
+            [integrateText]="false" 
+            [functionApp]="functionApp"
+            [requiredExtensions]="selectedTemplate.metadata.extensions"
+            (installed)="runtimeExtensionInstalled($event)">
+        </extension-install>
+    </div>
     
     <div class="create-button-container" *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions">
             <aad-registration 

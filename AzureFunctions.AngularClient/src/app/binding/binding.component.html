@@ -18,6 +18,14 @@
             </span>
             <div class="clearfix"></div>
         </div>
+    
+    <div *ngIf="bindingValue.extension" >
+        <extension-install 
+            [integrateText]="true" 
+            [functionApp]="functionApp"
+            [requiredExtensions]="[bindingValue.extension]">
+        </extension-install>
+    </div>
 
         <div *ngIf="bindingValue.AADPermissions" >
             <aad-registration [functionApp]="functionApp" [bindingInput]="bindingValue.name" [AADPermissions]="bindingValue.AADPermissions"></aad-registration>
