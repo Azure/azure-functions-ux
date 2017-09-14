@@ -342,7 +342,7 @@ export class BindingComponent {
 
     private _updateBinding() {
         // Binding should be created only if both bindingStream and functionStream get values
-        if (!this.binding || !this._appSettings) {
+        if (!this.bindingValue || !this._appSettings) {
             return;
         }
 
