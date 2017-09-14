@@ -1,87 +1,24 @@
 <div class="selectionContainer">
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
+  <div class="cardContainer" *ngFor="let card of providerCards" (click)="selectProvider(card)">
+    <div class="headerBox" [style.background-color]="card.barColor">
+      <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}} <img *ngIf="selectedProvider && selectedProvider.name === card.name"
+        style="float:right" src="images/success-blue.svg">
     </div>
     <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+      {{card.description}}
     </div>
-  </div>
-
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    </div>
-  </div>
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    </div>
-  </div>
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    </div>
-  </div>
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    </div>
-  </div>
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    </div>
-  </div>
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    </div>
-  </div>
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    </div>
-  </div>
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    </div>
-  </div>
-  <div class="cardContainer">
-    <div class="headerBox">
-      <img src="images/deployment-center/onedrive-logo.svg" /> OneDrive
-    </div>
-    <div class="sourceDescription">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+    <div class="cardFooter" [style.background-color]="card.barColor">
+      <p *ngIf="card.authorizedStatus==='authorized'">Authenticated as {{card.authenticatedId}}</p>
+      <p *ngIf="card.authorizedStatus==='loadingAuth'"><i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</p>
+      <p *ngIf="card.authorizedStatus==='notAuthorized'">Not Authenticated</p>
     </div>
   </div>
 </div>
 <div class="footer">
-  <button type="button" class="custom-button" style="margin-top:12px" previousStep>Back</button>
-  <button type="button" class="custom-button" style="margin-top:12px" nextStep>Continue</button>
+  <button type="button" *ngIf="selectedProvider && (selectedProvider.authorizedStatus === 'authorized' || selectedProvider.authorizedStatus === 'none')"
+    class="custom-button" style="margin-top:12px" nextStep>Continue</button>
+  <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'notAuthorized'" class="custom-button"
+    style="margin-top:12px">Authenticate</button>
+  <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'authorized'" class="custom-button"
+    style="margin-top:12px">Change Authentication</button>
 </div>

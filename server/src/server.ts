@@ -1,5 +1,3 @@
-import { setupBitbucketAuthentication } from './deployment-center/bitbucketAuth';
-import { setupGithubAuthentication } from './deployment-center/githubAuth';
 import * as https from 'https';
 import * as fs from 'fs';
 import * as bodyParser from 'body-parser';
@@ -23,6 +21,7 @@ import {
 } from './actions/metadata';
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
 import { staticConfig } from './config';
+import { setupDeploymentCenter } from './deployment-center/deployment-center';
 
 const app = express();
 
@@ -39,10 +38,7 @@ app
     .use(passport.session());
 
 setupAuthentication(app);
-
-setupGithubAuthentication(app);
-
-setupBitbucketAuthentication(app);
+setupDeploymentCenter(app);
 
 app.get('/', maybeAuthenticate, (_, res) => {
     res.render('index', staticConfig);

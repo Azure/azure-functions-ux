@@ -1,5 +1,7 @@
 import { Application } from 'express';
 import * as ClientOAuth2 from 'client-oauth2';
+import axios from 'axios';
+import { staticConfig } from '../config';
 
 const githubAuth = new ClientOAuth2({
     clientId: '2b8d950411b4d99e4699',
@@ -9,18 +11,57 @@ const githubAuth = new ClientOAuth2({
     redirectUri: 'https://localhost:44300/auth/github/callback',
     scopes: ['admin:repo_hook', 'repo']
 });
+
+export async function getGithubTokens(req: any): Promise<any> {
+    if(req && req.session && req.session['githubAccess'])
+    {
+        return {authenticated: true};
+    }
+    try{
+        const r = await axios.get( `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/GitHub?api-version=2016-03-01`,
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+        const body = r.data;
+        if (req && req.session && body && body.properties && body.properties.token) {
+            req.session['githubAccess'] = body.properties.token;
+            return {authenticated: true};
+        }
+        else{
+            return {authenticated: false};
+        }
+
+    }
+    catch(_)
+    {
+        return {authenticated: false};
+    }
+}
+
 export function setupGithubAuthentication(app: Application) {
+   
+    app.post('/api/github/passthrough', (req, res) => {
+        if(!req || !req.session){
+            res.status(500).send("no session");
+            return;
+        }
+        axios
+            .get(req.body.url, {
+                headers: {
+                    Authorization: `bearer ${req.session['githubAccess']}`
+                }
+            })
+            .then(r => {
+                res.json(r.data);
+            });
+    });
+
     app.get('/api/auth/github', (_, res) => {
         var uri = githubAuth.code.getUri();
         res.redirect(uri);
-    });
-
-    app.get('/api/auth/githubToken', (req, res) => {
-        if (req.session && req.session['githubToken']) {
-            res.send(req.session['githubToken']);
-        } else {
-            res.send('error');
-        }
     });
     app.get('/auth/github/callback', (req, res) => {
         githubAuth.code.getToken(req.originalUrl).then(user => {
