@@ -1,11 +1,6 @@
-import { AiService } from '../shared/services/ai.service';
 import { Component, Input, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { RuntimeExtension } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
-import { TreeViewInfo } from '../tree-view/models/tree-view-info';
-import { FunctionsNode } from '../tree-view/functions-node';
-import { FunctionInfo } from '../shared/models/function-info';
 import { Observable } from 'rxjs/Observable';
 import { ExtensionInstallStatus } from '../shared/models/constants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -13,45 +8,44 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Component({
     selector: 'extension-install',
     templateUrl: './extension-install.component.html',
-    styleUrls: ['./extension-install.component.scss'],
-    inputs: ['viewInfoInput']
+    styleUrls: ['./extension-install.component.scss']
 })
+
 export class ExtensionInstallComponent {
-    @Input() functionInfo: FunctionInfo;
-    @Input() functionApp: FunctionApp;
-    @Input() requiredExtensions: RuntimeExtension[];
     @Input() integrateText;
     @Input() loading = false;
     @Input() installing = false;
     @Output() installed: BehaviorSubject<boolean> = new BehaviorSubject(false);
     packages: RuntimeExtension[];
     installationSucceeded = false;
-    private functionsNode: FunctionsNode;
-    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
-    public functionsInfo: FunctionInfo[];
+    private _functionApp: FunctionApp;
+    private _requiredExtensions: RuntimeExtension[];
     public installJobs: any[] = [];
+    @Input() set functionApp(functionApp: FunctionApp) {
+        if (functionApp) {
+            this._functionApp = functionApp;
+        }
+    }
 
-    constructor(private _aiService: AiService) {
-        this._viewInfoStream
-            .switchMap(viewInfo => {
-                this.functionsNode = <FunctionsNode>viewInfo.node;
-                this.functionApp = this.functionsNode.functionApp;
-                return Observable.of('');
-            })
-            .do(null, e => {
-                this._aiService.trackException(e, '/errors/extension-install');
-                console.error(e);
-            })
-            .retry()
-            .subscribe();
+    @Input() set requiredExtensions(runtimeExtensions: RuntimeExtension[]) {
+        if (runtimeExtensions && runtimeExtensions.length > 0) {
+            this.loading = true;
+            this.GetRequiredExtensions(runtimeExtensions)
+                .subscribe(extensions => {
+                    this.loading = false;
+                    this._requiredExtensions = extensions;
+                });
+        } else {
+            this._requiredExtensions = [];
+        }
     }
 
     installRequiredExtensions() {
         this.installing = true;
-        if (this.requiredExtensions.length > 0) {
+        if (this._requiredExtensions.length > 0) {
             const extensionCalls: Observable<any>[] = [];
-            this.requiredExtensions.forEach(extension => {
-                extensionCalls.push(this.functionApp.installExtension(extension));
+            this._requiredExtensions.forEach(extension => {
+                extensionCalls.push(this._functionApp.installExtension(extension));
             });
 
             // Check install status
@@ -69,9 +63,9 @@ export class ExtensionInstallComponent {
     pollInstallationStatus(timeOut: number) {
         setTimeout(() => {
             if (timeOut > 60) {
-                this.GetRequiredExtensions(this.requiredExtensions).subscribe((r) => {
-                    this.requiredExtensions = r;
-                    this.functionApp.showTimeoutError();
+                this.GetRequiredExtensions(this._requiredExtensions).subscribe((r) => {
+                    this._requiredExtensions = r;
+                    this._functionApp.showTimeoutError();
                     this.installing = false;
                 });
                 return;
@@ -83,7 +77,7 @@ export class ExtensionInstallComponent {
                 this.installJobs.forEach(job => {
                     // if resulted in error not added to status
                     if (job && job.id) {
-                        status.push(this.functionApp.getExtensionInstallStatus(job.id));
+                        status.push(this._functionApp.getExtensionInstallStatus(job.id));
                     }
                 });
 
@@ -99,7 +93,7 @@ export class ExtensionInstallComponent {
                     r.forEach(jobStatus => {
                         // if failed then show error, remove from status tracking queue
                         if (jobStatus.status === ExtensionInstallStatus.Failed) {
-                            this.functionApp.showInstallFailed();
+                            this._functionApp.showInstallFailed();
                         }
 
                         // error status also show up here, error is different from failed
@@ -113,9 +107,9 @@ export class ExtensionInstallComponent {
                 });
             } else {
                 // if any one the extension installation failed then success banner will not be shown
-                this.GetRequiredExtensions(this.requiredExtensions).subscribe((r) => {
+                this.GetRequiredExtensions(this._requiredExtensions).subscribe((r) => {
                     this.installing = false;
-                    this.requiredExtensions = r;
+                    this._requiredExtensions = r;
                     if (r.length === 0) {
                         this.installed.next(true);
                         this.showInstallSucceededBanner();
@@ -134,7 +128,7 @@ export class ExtensionInstallComponent {
 
     GetRequiredExtensions(templateExtensions: RuntimeExtension[]) {
         const extensions: RuntimeExtension[] = [];
-        return this.functionApp.getHostExtensions().map(r => {
+        return this._functionApp.getHostExtensions().map(r => {
             // no extensions installed, all template extensions are required
             if (!r.extensions) {
                 return templateExtensions;
@@ -157,9 +151,5 @@ export class ExtensionInstallComponent {
             this.installed.next(extensions.length === 0);
             return extensions;
         });
-    }
-
-    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
-        this._viewInfoStream.next(viewInfoInput);
     }
 }

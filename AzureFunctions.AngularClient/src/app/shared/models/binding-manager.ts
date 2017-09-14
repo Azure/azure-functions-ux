@@ -139,7 +139,8 @@ export class BindingManager {
             enabledInTryMode: false,
             settings: [],
             displayName: schema.displayName,
-            AADPermissions: schema.AADPermissions
+            AADPermissions: schema.AADPermissions,
+            extension: schema.extension
         };
 
 

@@ -9,7 +9,7 @@
             <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
         </div>
     </div>
-    <div *ngIf="requiredExtensions && requiredExtensions.length > 0 && !loading && !installing">
+    <div *ngIf="_requiredExtensions && _requiredExtensions.length > 0 && !loading && !installing">
         <div class="panel panel-default fit-width">
             <div class="panel-heading">
                 <i class="fa fa-warning"></i> {{ 'extension_install_warning' | translate }}

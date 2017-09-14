@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -26,8 +26,6 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Constants } from '../shared/models/constants';
 import { CacheService } from './../shared/services/cache.service';
 import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
-import { ExtensionInstallComponent } from './../extension-install/extension-install.component';
-import { RuntimeExtension } from '../shared/models/binding';
 
 @Component({
     selector: 'function-new',
@@ -37,7 +35,6 @@ import { RuntimeExtension } from '../shared/models/binding';
     inputs: ['viewInfoInput']
 })
 export class FunctionNewComponent {
-    @ViewChild(ExtensionInstallComponent) extensionInstallComponent: ExtensionInstallComponent;
     private functionsNode: FunctionsNode;
     public functionApp: FunctionApp;
     public functionsInfo: FunctionInfo[];
@@ -54,7 +51,6 @@ export class FunctionNewComponent {
     selectedTemplate: FunctionTemplate;
     selectedTemplateId: string;
     templateWarning: string;
-    requiredExtensions: RuntimeExtension[] = [];
     addLinkToAuth = false;
     action: Action;
     aadConfigured = true;
@@ -123,17 +119,6 @@ export class FunctionNewComponent {
                 const experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                     return c === 'Experimental';
                 });
-
-                if (this.selectedTemplate.metadata.extensions && this.selectedTemplate.metadata.extensions.length > 0) {
-                    this.extensionInstallComponent.loading = true;
-                    this.extensionInstallComponent.GetRequiredExtensions(this.selectedTemplate.metadata.extensions)
-                        .subscribe(extensions => {
-                            this.extensionInstallComponent.loading = false;
-                            this.requiredExtensions = extensions;
-                        });
-                } else {
-                    this.requiredExtensions = [];
-                }
 
                 this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
                 if (this.selectedTemplate.metadata.warning) {
