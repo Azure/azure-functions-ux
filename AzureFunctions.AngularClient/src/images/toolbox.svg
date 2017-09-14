@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" class="fxs-portal-svg" role="presentation" focusable="false">
+    <style type="text/css">
+        .msportalfx-svg-c01{ fill: #fff; }
+        .msportalfx-svg-c02{ fill: #e5e5e5; }
+        .msportalfx-svg-c06{fill: #1e1e1e;}
+        .msportalfx-svg-c08 { fill: #ba141a; }
+        .msportalfx-svg-c10{ fill: #ff8c00;}
+        .msportalfx-svg-c12{ fill: #fee087; }
+        .msportalfx-svg-c17{ fill: #804998; }
+        .msportalfx-svg-c01{ fill: #fff; }
+        .msportalfx-svg-c13 { fill: #b8d432; }
+        .msportalfx-svg-c14{ fill: #7fba00; }
+    </style>
+        <g>
+            <path d="M2.001 45.578v-27.8a2.927 2.927 0 0 1 2.927-2.927h39.145a2.927 2.927 0 0 1 2.928 2.927v27.8h-45z" class="msportalfx-svg-c08" />
+            <path d="M44.271 31.609a5.199 5.199 0 1 0 0 10.399A5.157 5.157 0 0 0 47 41.217V32.4a5.16 5.16 0 0 0-2.729-.791z" class="msportalfx-svg-c17" />
+            <path d="M37.111 14.851h-3.389V9.997c0-.887-.72-1.608-1.607-1.608h-15.23a1.61 1.61 0 0 0-1.607 1.608v4.854H11.89V9.997A5.003 5.003 0 0 1 16.885 5h15.23a5.002 5.002 0 0 1 4.996 4.997v4.854z" class="msportalfx-svg-c06" />
+            <path opacity="0.6" d="M19.077 35.804L2 31.731v6.608l15.587 3.717z" class="msportalfx-svg-c12" />
+            <path opacity="0.8" d="M16.84 19.344c.254 1.656-2.448 3.445-6.035 3.996-3.588.551-6.702-.344-6.956-2-.255-1.656 2.447-3.445 6.035-3.996 3.587-.551 6.702.344 6.956 2" class="msportalfx-svg-c10" />
+            <path opacity="0.2" d="M44.271 33.274a3.533 3.533 0 0 0 0 7.068A3.511 3.511 0 0 0 47 39.028v-4.44a3.513 3.513 0 0 0-2.729-1.314z" class="msportalfx-svg-c01" />
+            <path opacity="0.3" d="M2 27.127h45v2.112H2z" class="msportalfx-svg-c06" />
+            <path opacity="0.3" d="M28.187 25.966c.727 0 1.314.588 1.314 1.314v3.988c0 .726-.587 1.314-1.314 1.314h-7.376a1.313 1.313 0 0 1-1.313-1.314V27.28c0-.726.587-1.314 1.313-1.314h7.376z" class="msportalfx-svg-c06" />
+            <path d="M2.001 26.002h45v2.111h-45z" class="msportalfx-svg-c02" />
+        </g>
+</svg>
