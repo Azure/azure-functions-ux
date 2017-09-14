@@ -40,9 +40,10 @@ app
 setupAuthentication(app);
 setupDeploymentCenter(app);
 
-app.get('/', maybeAuthenticate, (_, res) => {
+const renderIndex = (_: express.Request, res: express.Response) => {
     res.render('index', staticConfig);
-});
+}
+app.get('/', maybeAuthenticate, renderIndex);
 
 app.get('/api/ping', (_, res) => {
     res.send('success');
@@ -67,6 +68,10 @@ app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
 app.get('/api/config', maybeAuthenticate, getConfig);
 app.post('/api/proxy', maybeAuthenticate, proxy);
 app.post('/api/passthrough', maybeAuthenticate, proxy);
+
+// if are here, that means we didn't match any of the routes above including those for static content.
+// render index and let angular handle the path.
+app.get('*', renderIndex);
 
 var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
 var certificate = fs.readFileSync('selfcert.pem', 'utf8');

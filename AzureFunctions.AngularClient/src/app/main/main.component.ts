@@ -1,3 +1,4 @@
+import { BusyStateScopeManager } from './../busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
 import { PortalService } from './../shared/services/portal.service';
 import { ArmTryService } from './../shared/services/arm-try.service';
@@ -43,6 +44,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
     private _ngUnsubscribe = new Subject();
+    private _busyStateScopeManager: BusyStateScopeManager;
 
     constructor(private _userService: UserService,
         private _globalStateService: GlobalStateService,
@@ -86,10 +88,13 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
+        this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
+        this._busyStateScopeManager = this.busyStateComponent.getScopeManager();
+
         this._userService.getStartupInfo()
             .first()
             .subscribe(info => {
-                this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
+
                 this.ready = true;
 
                 this._portalService.sendTimerEvent({
@@ -101,6 +106,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this._ngUnsubscribe.next();
+        this._busyStateScopeManager.dispose();
     }
 
     private initializeChildWindow(_userService: UserService,
@@ -175,23 +181,15 @@ export class MainComponent implements AfterViewInit, OnDestroy {
         return this._globalStateService.TrialExpired;
     }
 
-    // TODO: Add back in once busy state component is fixed.  Right now there appears to
-    // be a race with the busy state component that may cause components to get stuck in the loading state
     private _navigationInterceptor(event: RouterEvent): void {
         if (event instanceof NavigationStart) {
-            // this._globalStateService.setBusyState();
-        }
-
-        if (event instanceof NavigationEnd) {
-            // this._globalStateService.clearBusyState();
-        }
-
-        if (event instanceof NavigationCancel) {
-            // this._globalStateService.clearBusyState();
-        }
-
-        if (event instanceof NavigationError) {
-            // this._globalStateService.clearBusyState();
+            this._busyStateScopeManager.setBusy();
+        } else if (event instanceof NavigationEnd) {
+            this._busyStateScopeManager.clearBusy();
+        } else if (event instanceof NavigationCancel) {
+            this._busyStateScopeManager.clearBusy();
+        } else if (event instanceof NavigationError) {
+            this._busyStateScopeManager.clearBusy();
         }
     }
 }

@@ -28,5 +28,4 @@ export class BusyStateScopeManager {
       this._busyStateSubscription = null;
     }
   }
-
 }

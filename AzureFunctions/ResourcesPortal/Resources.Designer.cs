@@ -19,7 +19,7 @@ namespace AzureFunctions.ResourcesPortal {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -2122,11 +2122,92 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Install.
+        /// </summary>
+        internal static string extension_install_button {
+            get {
+                return ResourceManager.GetString("extension_install_button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extension Installation Succeeded.
+        /// </summary>
+        internal static string extension_install_success {
+            get {
+                return ResourceManager.GetString("extension_install_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extensions not Installed.
+        /// </summary>
+        internal static string extension_install_warning {
+            get {
+                return ResourceManager.GetString("extension_install_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This integration requires the following extensions..
+        /// </summary>
+        internal static string extension_integrate_warning {
+            get {
+                return ResourceManager.GetString("extension_integrate_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This template requires the following extensions..
+        /// </summary>
+        internal static string extension_template_warning {
+            get {
+                return ResourceManager.GetString("extension_template_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The extension {{extensionId}} with a different version is already installed.
+        /// </summary>
+        internal static string extensionAlreadyInstalledWithDifferentVersion {
+            get {
+                return ResourceManager.GetString("extensionAlreadyInstalledWithDifferentVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to get the list of installed runtime extensions.
+        /// </summary>
+        internal static string failedToGetFunctionRuntimeExtensions {
+            get {
+                return ResourceManager.GetString("failedToGetFunctionRuntimeExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to install runtime extension {{extensionId}}.
+        /// </summary>
+        internal static string failedToInstallFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("failedToInstallFunctionRuntimeExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to {{state}} function: {{functionName}}.
         /// </summary>
         internal static string failedToSwitchFunctionState {
             get {
                 return ResourceManager.GetString("failedToSwitchFunctionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to uninstall runtime extension {{extensionId}}.
+        /// </summary>
+        internal static string failedToUnInstallFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("failedToUnInstallFunctionRuntimeExtension", resourceCulture);
             }
         }
         
@@ -3382,20 +3463,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete Function {{name}}?.
-        /// </summary>
-        internal static string functionManage_delete {
-            get {
-                return ResourceManager.GetString("functionManage_delete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete Function {{name}}?.
         /// </summary>
         internal static string functionManage_areYouSure {
             get {
                 return ResourceManager.GetString("functionManage_areYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Function {{name}}.
+        /// </summary>
+        internal static string functionManage_delete {
+            get {
+                return ResourceManager.GetString("functionManage_delete", resourceCulture);
             }
         }
         
@@ -3918,6 +3999,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string input {
             get {
                 return ResourceManager.GetString("input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing required extensions.
+        /// </summary>
+        internal static string installingExtension {
+            get {
+                return ResourceManager.GetString("installingExtension", resourceCulture);
             }
         }
         
@@ -5892,6 +5982,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string test {
             get {
                 return ResourceManager.GetString("test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing runtime extensions is taking longer than expected.
+        /// </summary>
+        internal static string timeoutInstallingFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("timeoutInstallingFunctionRuntimeExtension", resourceCulture);
             }
         }
         

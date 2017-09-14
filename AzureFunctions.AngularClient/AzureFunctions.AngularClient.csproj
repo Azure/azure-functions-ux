@@ -119,6 +119,7 @@
     <Content Include="src\app\accordion\accordion.component.scss" />
     <Content Include="src\app\apps-list\apps-list.component.scss" />
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.scss" />
+    <Content Include="src\app\extension-install\extension-install.component.html" />
     <Content Include="src\app\feature-group\feature-group.component.scss" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.scss" />
     <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.scss" />
@@ -128,6 +129,7 @@
     <Content Include="src\app\controls\textbox\textbox.component.scss" />
     <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.scss" />
     <Content Include="src\app\download-function-app-content\download-function-app-content.component.scss" />
+    <Content Include="src\app\extension-install\extension-install.component.scss" />
     <None Include="src\app\file-explorer\file-explorer.component.scss" />
     <Content Include="src\app\feature-group\feature-group.component.html" />
     <Content Include="src\app\file-explorer\file-explorer.component.html" />
@@ -414,6 +416,7 @@
     <TypeScriptCompile Include="src\app\edit-mode-warning\edit-mode-warning.component.ts" />
     <TypeScriptCompile Include="src\app\error-list\error-list.component.spec.ts" />
     <TypeScriptCompile Include="src\app\error-list\error-list.component.ts" />
+    <TypeScriptCompile Include="src\app\extension-install\extension-install.component.ts" />
     <TypeScriptCompile Include="src\app\feature-group\feature-group.component.spec.ts" />
     <TypeScriptCompile Include="src\app\feature-group\feature-group.component.ts" />
     <TypeScriptCompile Include="src\app\feature-group\feature-group.ts" />

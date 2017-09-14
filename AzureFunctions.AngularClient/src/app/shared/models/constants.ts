@@ -194,6 +194,12 @@ export class KeyCodes {
     public static readonly delete = 46;
 }
 
+export class ExtensionInstallStatus {
+    public static readonly Started = 'Started';
+    public static readonly Succeeded = 'Succeeded';
+    public static readonly Failed = 'Failed';
+}
+
 export class DomEvents {
     public static readonly keydown = 'keydown';
     public static readonly click = 'click';

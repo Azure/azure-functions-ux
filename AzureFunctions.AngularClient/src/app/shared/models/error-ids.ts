@@ -47,4 +47,10 @@ export class ErrorIds {
     public static unableToPopulateSlotsList = '/errors/unableToPopulateSlotsList';
     public static failedToSwitchEnabledFunction = '/errors/failedToSwitchEnabledFunction';
     public static failedAadRegistration = '/errors/failedAadRegistration';
+    public static failedToGetFunctionRuntimeExtensions = '/errors/failedToGetFunctionRuntimeExtensions';
+    public static failedToInstallFunctionRuntimeExtension = '/errors/failedToInstallFunctionRuntimeExtension';
+    public static failedToGetExtensionInstallStatus = '/errors/failedToGetExtensionInstallStatus';
+    public static failedToUnInstallFunctionRuntimeExtension = '/errors/failedToUnInstallFunctionRuntimeExtension';
+    public static timeoutInstallingFunctionRuntimeExtension = '/errors/timeoutInstallingFunctionRuntimeExtension';
+    public static extensionAlreadyInstalledWithDifferentVersion = '/errors/extensionAlreadyInstalledWithDifferentVersion';
 }
