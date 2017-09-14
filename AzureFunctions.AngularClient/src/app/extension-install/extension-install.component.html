@@ -1,23 +1,36 @@
-<div class="wrapper">
-    <busy-state></busy-state>
-    <div *ngIf="requiredExtensions && this.requiredExtensions.length > 0">
-        <div class="highlight">
-            <div class="list">
-                List the extensions that needs to be installed or are used
-            </div>
-            <ul class="list">
-                <li *ngFor="let nugetPackage of requiredExtensions">
-                    {{nugetPackage.id}}
-                </li>
-            </ul>
-            <button class="custom-button" (click)="installRequiredExtensions()">
-                    Install
-                </button>
+<div>
+    <div *ngIf="loading" class="panel panel-default fit-width">
+        <div class="panel-body">
+            <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}
         </div>
     </div>
-    <div *ngIf="installationSucceeded" role="alert">
-        <div class="highlight success">
-            Extension Installation Succeeded
+    <div *ngIf="installing" class="panel panel-default fit-width">
+        <div class="panel-body">
+            <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
+        </div>
+    </div>
+    <div *ngIf="requiredExtensions && requiredExtensions.length > 0 && !loading && !installing">
+        <div class="panel panel-default fit-width">
+            <div class="panel-heading">
+                <i class="fa fa-warning"></i> {{ 'extension_install_warning' | translate }}
+            </div>
+            <div class="panel-body">
+                <div *ngIf="!integrateText">{{ 'extension_template_warning' | translate }}</div>
+                <div *ngIf="integrateText">{{ 'extension_integrate_warning' | translate }}</div>
+                <div *ngFor="let nugetPackage of requiredExtensions">
+                    <i class="fa fa-warning"></i> {{nugetPackage.id}}
+                </div>
+            </div>
+            <div class="panel-footer">
+                <a class="link left" (click)="installRequiredExtensions()">
+                    {{ 'extension_install_button' | translate }}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default fit-width" *ngIf="installationSucceeded && !loading && !installing" role="alert">
+        <div class="panel-heading">
+            <i class="fa fa-check-circle"></i> {{ 'extension_install_success' | translate }}
         </div>
     </div>
 </div>

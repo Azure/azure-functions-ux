@@ -58,6 +58,7 @@ export class FunctionNewComponent {
     addLinkToAuth = false;
     action: Action;
     aadConfigured = true;
+    extensionInstalled = true;
     public disabled: boolean;
     private _bindingComponents: BindingComponent[] = [];
     public viewInfo: TreeViewInfo<any>;
@@ -119,17 +120,15 @@ export class FunctionNewComponent {
         this.functionApp.getTemplates().subscribe((templates) => {
             setTimeout(() => {
                 this.selectedTemplate = templates.find((t) => t.id === templateName);
-              
-
                 const experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                     return c === 'Experimental';
                 });
 
                 if (this.selectedTemplate.metadata.extensions && this.selectedTemplate.metadata.extensions.length > 0) {
-                    this.extensionInstallComponent.setBusyState();
+                    this.extensionInstallComponent.loading = true;
                     this.extensionInstallComponent.GetRequiredExtensions(this.selectedTemplate.metadata.extensions)
                         .subscribe(extensions => {
-                            this.extensionInstallComponent.clearBusyState();
+                            this.extensionInstallComponent.loading = false;
                             this.requiredExtensions = extensions;
                         });
                 } else {
@@ -277,6 +276,10 @@ export class FunctionNewComponent {
 
     aadRegistrationConfigured(value: boolean) {
         this.aadConfigured = value;
+    }
+
+    runtimeExtensionInstalled(value: boolean) {
+        this.extensionInstalled = value;
     }
 
     private createFunction() {

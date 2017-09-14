@@ -22,8 +22,21 @@
         </div>        
     </div>        
                 
-    <extension-install [viewInfoInput]="viewInfo" [requiredExtensions]="requiredExtensions"></extension-install>
+    <extension-install 
+        [integrateText]="false" 
+        [viewInfoInput]="viewInfo" 
+        [requiredExtensions]="requiredExtensions"
+        (installed)="runtimeExtensionInstalled($event)">
+    </extension-install>
     
+    <div class="create-button-container" *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions">
+            <aad-registration 
+                [functionApp]="functionApp" 
+                [AADPermissions]="selectedTemplate.metadata.AADPermissions" 
+                (configured)="aadRegistrationConfigured($event)">
+            </aad-registration>
+    </div>
+
     <div *ngIf="selectedTemplate">
         <div *ngIf="installationSucceeded" role="alert">    
                 <div class="highlight success" >
@@ -82,17 +95,10 @@
         <div *ngIf="model.trigger && model.trigger.type === 'eventGridTrigger'" class="alert alert-warning alert-dismissible" role="alert">
             {{ 'eventGrid_createMessage' | translate }}
         </div>
-
-        <div class="create-button-container" *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions">
-            <aad-registration 
-                [functionApp]="functionApp" 
-                [AADPermissions]="selectedTemplate.metadata.AADPermissions" 
-                (configured)="aadRegistrationConfigured($event)">
-            </aad-registration>
-        </div>
+        
         <div class>
             <button [class.custom-button]="areInputsValid"
-                    [class.custom-button-disabled]="!areInputsValid || !aadConfigured"
+                    [class.custom-button-disabled]="!areInputsValid || !aadConfigured || !extensionInstalled"
                     (click)="onCreate()">{{ 'create' | translate }}</button>
             <span *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions && !aadConfigured">&nbsp;&nbsp;{{ 'aadreg_authConfRequired' | translate}}</span>
         </div>

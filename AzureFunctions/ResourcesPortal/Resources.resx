@@ -2269,4 +2269,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
     <value>The extension {{extensionId}} with a different version is already installed</value>
   </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>Extension Installation Succeeded</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>Extensions not Installed</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>This integration requires the following extensions.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>This template requires the following extensions.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>Installing required extensions</value>
+  </data>
 </root>

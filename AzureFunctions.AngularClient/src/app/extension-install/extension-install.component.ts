@@ -1,7 +1,6 @@
 import { AiService } from '../shared/services/ai.service';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { BusyStateComponent } from './../busy-state/busy-state.component';
 import { RuntimeExtension } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
@@ -9,6 +8,7 @@ import { FunctionsNode } from '../tree-view/functions-node';
 import { FunctionInfo } from '../shared/models/function-info';
 import { Observable } from 'rxjs/Observable';
 import { ExtensionInstallStatus } from '../shared/models/constants';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
     selector: 'extension-install',
@@ -20,7 +20,10 @@ export class ExtensionInstallComponent {
     @Input() functionInfo: FunctionInfo;
     @Input() functionApp: FunctionApp;
     @Input() requiredExtensions: RuntimeExtension[];
-    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
+    @Input() integrateText;
+    @Input() loading = false;
+    @Input() installing = false;
+    @Output() installed: BehaviorSubject<boolean> = new BehaviorSubject(false);
     packages: RuntimeExtension[];
     installationSucceeded = false;
     private functionsNode: FunctionsNode;
@@ -44,7 +47,7 @@ export class ExtensionInstallComponent {
     }
 
     installRequiredExtensions() {
-        this.setBusyState();
+        this.installing = true;
         if (this.requiredExtensions.length > 0) {
             const extensionCalls: Observable<any>[] = [];
             this.requiredExtensions.forEach(extension => {
@@ -54,7 +57,7 @@ export class ExtensionInstallComponent {
             // Check install status
             Observable.zip(...extensionCalls).subscribe((r) => {
                 this.installJobs = r;
-                this.clearBusyState();
+                this.installing = false;
                 this.pollInstallationStatus(0);
             });
         }
@@ -69,13 +72,13 @@ export class ExtensionInstallComponent {
                 this.GetRequiredExtensions(this.requiredExtensions).subscribe((r) => {
                     this.requiredExtensions = r;
                     this.functionApp.showTimeoutError();
-                    this.clearBusyState();
+                    this.installing = false;
                 });
                 return;
             }
 
             if (this.installJobs.length > 0) {
-                this.setBusyState();
+                this.installing = true;
                 const status: Observable<any>[] = [];
                 this.installJobs.forEach(job => {
                     // if resulted in error not added to status
@@ -87,7 +90,7 @@ export class ExtensionInstallComponent {
                 // No installation to keep track of 
                 // All extension installations resulted in error like 500
                 if (status.length === 0) {
-                    this.clearBusyState();
+                    this.installing = false;
                     return;
                 }
 
@@ -111,17 +114,16 @@ export class ExtensionInstallComponent {
             } else {
                 // if any one the extension installation failed then success banner will not be shown
                 this.GetRequiredExtensions(this.requiredExtensions).subscribe((r) => {
-                    this.clearBusyState();
+                    this.installing = false;
                     this.requiredExtensions = r;
                     if (r.length === 0) {
+                        this.installed.next(true);
                         this.showInstallSucceededBanner();
                     }
                 });
             }
         }, 1000);
     }
-
-
 
     showInstallSucceededBanner() {
         this.installationSucceeded = true;
@@ -152,23 +154,12 @@ export class ExtensionInstallComponent {
                 }
             });
 
+            this.installed.next(extensions.length === 0);
             return extensions;
         });
     }
 
     set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfoInput);
-    }
-
-    setBusyState() {
-        if (this.busyState) {
-            this.busyState.setBusyState();
-        }
-    }
-
-    clearBusyState() {
-        if (this.busyState) {
-            this.busyState.clearBusyState();
-        }
     }
 }

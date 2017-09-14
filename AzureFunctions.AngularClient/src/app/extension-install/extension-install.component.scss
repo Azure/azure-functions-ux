@@ -1,18 +1,33 @@
-.wrapper {
-    position: relative;
+@import '../../sass/main';
+
+.fit-width {
+    width:fit-content;
+}
+.fa-warning {
+    color: $warning-color;
+    padding-right: 5px;
 }
 
-.highlight {
-    padding: 10px 5px 10px 5px;
-    padding-bottom: 10px;
-    background-color: #E6E7E8;
+.fa-check-circle {
+    color: $success-color;
+    padding-right: 5px;
 }
 
-.list {    
-    padding-bottom: 10px;    
+.fa-info-circle {
+    color: $primary-color;
+    padding-right: 5px;
 }
 
-.success {    
-    background-color: lightgreen;
-    color: darkgreen;
+.heading {
+    font-size: 15px;
+}
+
+div {
+    line-height: 22px;
+}
+
+.panel-default {    
+    .panel-body {
+        background-color: $grey-color;
+    }
 }
