@@ -1,7 +1,7 @@
 import { DropDownComponent } from './../../drop-down/drop-down.component';
 import { TextboxComponent } from './../textbox/textbox.component';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Component, OnInit, Input, OnDestroy, ContentChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Input, AfterViewInit, OnDestroy, ContentChild, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -28,7 +28,7 @@ export class CustomFormControl extends FormControl {
   templateUrl: './click-to-edit.component.html',
   styleUrls: ['./click-to-edit.component.scss'],
 })
-export class ClickToEditComponent implements OnInit, OnDestroy {
+export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public showTextbox = false;
   @Input() group: FormGroup;
@@ -36,15 +36,21 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
   @Input() placeholder: string;
   @Input() hiddenText: boolean;
 
+  @ViewChild('target') target: ElementRef;
+
   @ContentChild(TextboxComponent) textbox: TextboxComponent;
   @ContentChild(DropDownComponent) dropdown: DropDownComponent<any>;
 
   public control: CustomFormControl;
   private _sub: Subscription;
 
+  private _targetFocusState: 'focused' | 'blurring' | 'blurred';
+
   constructor() { }
 
   ngOnInit() {
+    this._targetFocusState = 'blurred';
+
     this.control = <CustomFormControl>this.group.controls[this.name];
 
     const group = <CustomFormGroup>this.group;
@@ -54,16 +60,22 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
 
     this._sub = group._msShowTextbox.subscribe(showTextbox => {
       this.showTextbox = showTextbox;
+      if (this.showTextbox && (<CustomFormGroup>this.group)._msFocusedControl === this.name) {
+        setTimeout(() => {
+          this._focusChild();
+        });
+      }
     });
 
     if ((<CustomFormGroup>group)._msStartInEditMode) {
       this.showTextbox = true;
     }
+  }
 
-    if (this.textbox) {
-      this.textbox.blur.subscribe(() => this.onBlur());
-    } else if (this.dropdown) {
-      this.dropdown.blur.subscribe(() => this.onBlur());
+  ngAfterViewInit() {
+    if (this.target && this.target.nativeElement) {
+      this.target.nativeElement.addEventListener('focus', (e) => { this.targetFocusListener(e); }, true);
+      this.target.nativeElement.addEventListener('blur', (e) => { this.targetBlurListener(e); }, true);
     }
   }
 
@@ -72,21 +84,36 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
       this._sub.unsubscribe();
       this._sub = null;
     }
+    if (this.target && this.target.nativeElement) {
+      this.target.nativeElement.removeEventListener('focus', (e) => { this.targetFocusListener(e); }, true);
+      this.target.nativeElement.removeEventListener('blur', (e) => { this.targetBlurListener(e); }, true);
+    }
   }
 
-  onClick() {
-    if (!this.showTextbox) {
-      if (this.textbox) {
-        this.textbox.focus();
-      } else if (this.dropdown) {
-        this.dropdown.focus();
-      }
+  private _focusChild() {
+    if (this.textbox) {
+      this.textbox.focus();
+    } else if (this.dropdown) {
+      this.dropdown.focus();
+    } else {
+      return;
     }
 
+    this._targetFocusState = 'focused';
+  }
+
+  onMouseDown(event: MouseEvent) {
+    if (!this.showTextbox) {
+      event.preventDefault();
+      this._updateShowTextbox(true);
+    }
+  }
+
+  onTargetFocus() {
     this._updateShowTextbox(true);
   }
 
-  onBlur() {
+  onTargetBlur() {
     this.control._msRunValidation = true;
     this.control.updateValueAndValidity();
 
@@ -100,7 +127,7 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
       // blur will remove the textbox and the click will never happen/
       setTimeout(() => {
         this._updateShowTextbox(false);
-      }, 100);
+      }, 0);
     }
   }
 
@@ -117,4 +144,22 @@ export class ClickToEditComponent implements OnInit, OnDestroy {
       group._msShowTextbox.next(show);
     }
   }
+
+  targetBlurListener(event: FocusEvent) {
+    this._targetFocusState = 'blurring';
+    setTimeout(() => {
+      if (this._targetFocusState !== 'focused') {
+        this._targetFocusState = 'blurred';
+        this.onTargetBlur();
+      }
+    });
+  }
+
+  targetFocusListener(event: FocusEvent) {
+    if (this._targetFocusState === 'blurred') {
+      this.onTargetFocus();
+    }
+    this._targetFocusState = 'focused';
+  }
+
 }

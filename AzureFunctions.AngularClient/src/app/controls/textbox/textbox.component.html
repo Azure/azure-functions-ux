@@ -9,8 +9,7 @@
     <input #textboxInput
         type="text"
         [formControl]="control"
-        [placeholder]="placeholder"
-        (blur)="onBlur($event)" />
+        [placeholder]="placeholder" />
 
     <div class="validation-error">
         <pop-over *ngIf="!!control.errors && Obj.keys(control.errors).length > 0"
