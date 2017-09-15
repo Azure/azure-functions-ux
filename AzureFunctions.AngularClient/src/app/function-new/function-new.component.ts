@@ -120,6 +120,10 @@ export class FunctionNewComponent {
                     return c === 'Experimental';
                 });
 
+                // setting values to default
+                this.runtimeExtensionInstalled(true);
+                this.aadRegistrationConfigured(true);
+
                 this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
                 if (this.selectedTemplate.metadata.warning) {
                     this.addLinkToAuth = (<any>this.selectedTemplate.metadata.warning).addLinkToAuth ? true : false;

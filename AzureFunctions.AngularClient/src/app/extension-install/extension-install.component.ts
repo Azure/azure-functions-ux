@@ -34,8 +34,10 @@ export class ExtensionInstallComponent {
                 .subscribe(extensions => {
                     this.loading = false;
                     this.extensions = extensions;
+                    this.installed.next(this.extensions.length === 0);
                 });
         } else {
+            this.installed.next(true);
             this.extensions = [];
         }
     }
@@ -67,6 +69,7 @@ export class ExtensionInstallComponent {
                     this.extensions = r;
                     this._functionApp.showTimeoutError();
                     this.installing = false;
+                    this.installed.next(this.extensions.length === 0);
                 });
                 return;
             }
@@ -147,8 +150,6 @@ export class ExtensionInstallComponent {
                     extensions.push(requiredExtension);
                 }
             });
-
-            this.installed.next(extensions.length === 0);
             return extensions;
         });
     }
