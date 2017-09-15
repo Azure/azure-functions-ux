@@ -9,7 +9,7 @@ import { FunctionInvocations } from '../shared/models/function-monitor';
 
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
-import { SlotsService } from './../shared/services/slots.service';
+import { SiteService } from './../shared/services/slots.service';
 import { PortalService } from './../shared/services/portal.service';
 import { CacheService } from './../shared/services/cache.service';
 import { Constants } from './../shared/models/constants';
@@ -39,7 +39,7 @@ export class FunctionMonitorComponent implements OnDestroy {
         private _functionMonitorService: FunctionMonitorService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _slotsService: SlotsService,
+        private _slotsService: SiteService,
         private _portalService: PortalService,
         private _cacheService: CacheService
     ) {
@@ -82,6 +82,9 @@ export class FunctionMonitorComponent implements OnDestroy {
                 this.aiId = r.appInsights ? r.appInsights : '';
                 if (!appSettings.properties[Constants.azureWebJobsDashboardSettingsName]) {
                     this.azureWebJobsDashboardMissed = true;
+                    if (this.aiId) {
+                        this.openAppInsigthsBlade();
+                    }
                     return Observable.of(null);
                 } else {
                     this.azureWebJobsDashboardMissed = false;

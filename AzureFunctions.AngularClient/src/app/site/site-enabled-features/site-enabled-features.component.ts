@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
-import { SlotsService } from './../../shared/services/slots.service';
+import { SiteService } from './../../shared/services/slots.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
@@ -60,7 +60,7 @@ export class SiteEnabledFeaturesComponent {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
         private _siteDashboard: SiteDashboardComponent,
-        private _slotsService: SlotsService) {
+        private _slotsService: SiteService) {
 
         this._siteSubject
             .distinctUntilChanged()

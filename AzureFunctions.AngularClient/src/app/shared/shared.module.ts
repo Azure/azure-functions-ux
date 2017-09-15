@@ -10,7 +10,7 @@ import { UtilitiesService } from './services/utilities.service';
 import { TelemetryService } from './services/telemetry.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthzService } from './services/authz.service';
-import { SlotsService } from './services/slots.service';
+import { SiteService } from './services/slots.service';
 import { ScenarioService } from './services/scenario/scenario.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from './services/log.service';
@@ -143,7 +143,7 @@ export class SharedModule {
                 },
                 CacheService,
                 ScenarioService,
-                SlotsService,
+                SiteService,
                 AuthzService,
                 LocalStorageService,
                 TelemetryService,

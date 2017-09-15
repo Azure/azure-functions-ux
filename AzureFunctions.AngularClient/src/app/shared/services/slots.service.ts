@@ -9,7 +9,7 @@ import { Constants } from '../../shared/models/constants';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 
 @Injectable()
-export class SlotsService {
+export class SiteService {
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService
@@ -36,7 +36,7 @@ export class SlotsService {
     }
 
     getSlotsList(siteId: string) {
-        if (SlotsService.isSlot(siteId)) {
+        if (SiteService.isSlot(siteId)) {
             return Observable.of([]);
         }
         return this._cacheService.getArm(`/${siteId}/slots`).map(r => <ArmObj<Site>[]>r.json().value);
