@@ -17,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
+import { SlotsService } from './../../shared/services/slots.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
@@ -27,7 +28,6 @@ import { Site } from '../../shared/models/arm/site';
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem } from '../../shared/models/localStorage/enabled-features';
-import { Constants } from '../../shared/models/constants';
 
 @Component({
     selector: 'site-enabled-features',
@@ -59,7 +59,8 @@ export class SiteEnabledFeaturesComponent {
         private _aiService: AiService,
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
-        private _siteDashboard: SiteDashboardComponent) {
+        private _siteDashboard: SiteDashboardComponent,
+        private _slotsService: SlotsService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -163,21 +164,12 @@ export class SiteEnabledFeaturesComponent {
             return Observable.of([]);
         }
 
-        return Observable.zip(
-            this._cacheService.postArm(`${this._site.id}/config/appsettings/list`),
-            this._cacheService.getArm(`/subscriptions/${this._descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
-            (as, ai) => ({ appSettings: as, appInsights: ai })
-        ).map(r => {
-            const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
+        return this._slotsService.isAppInsightsEnabled(this._site.id).flatMap((aiId) => {
             const items = [];
-            if (ikey) {
-                r.appInsights.json().value.forEach((ai) => {
-                    if (ai.properties.InstrumentationKey === ikey) {
-                        items.push(this._getEnabledFeatureItem(Feature.AppInsight, ai.id));
-                    }
-                });
+            if (aiId) {
+                items.push(this._getEnabledFeatureItem(Feature.AppInsight, aiId));
             }
-            return items.length === 1 ? items : [];
+            return Observable.of(items);
         });
     }
 

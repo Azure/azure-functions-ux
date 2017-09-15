@@ -9,13 +9,17 @@ import { FunctionInvocations } from '../shared/models/function-monitor';
 
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
+import { SlotsService } from './../shared/services/slots.service';
+import { PortalService } from './../shared/services/portal.service';
+import { CacheService } from './../shared/services/cache.service';
+import { Constants } from './../shared/models/constants';
 
 declare const moment: any;
 
 @Component({
     selector: 'function-monitor',
     templateUrl: './function-monitor.component.html',
-    styleUrls: ['./function-monitor.component.css']
+    styleUrls: ['./function-monitor.component.scss']
 })
 export class FunctionMonitorComponent implements OnDestroy {
     public pulseUrl: string;
@@ -27,12 +31,18 @@ export class FunctionMonitorComponent implements OnDestroy {
     public columns: any[];
     public functionId: string;
     public currentFunction: FunctionInfo;
+    public aiId: string = null;
+    public azureWebJobsDashboardMissed: boolean = true;
     private selectedFunctionStream: Subject<FunctionInfo>;
 
     constructor(
         private _functionMonitorService: FunctionMonitorService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _slotsService: SlotsService,
+        private _portalService: PortalService,
+        private _cacheService: CacheService
+    ) {
         this.columns = [
             {
                 display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn), // The display text
@@ -59,35 +69,54 @@ export class FunctionMonitorComponent implements OnDestroy {
         this.selectedFunctionStream = new Subject();
         this.selectedFunctionStream
             .switchMap(fi => {
+                this.currentFunction = fi;
                 this._globalStateService.setBusyState();
+                return Observable.zip(
+                    this._cacheService.postArm(`${this.currentFunction.functionApp.site.id}/config/appsettings/list`, true),
+                    this._slotsService.isAppInsightsEnabled(this.currentFunction.functionApp.site.id),
+                    (as, ai) => ({ appSettings: as, appInsights: ai }));
+            })
+            .do(null, () => this._globalStateService.clearBusyState())
+            .switchMap(r => {
+                const appSettings = r.appSettings.json();
+                this.aiId = r.appInsights ? r.appInsights : '';
+                if (!appSettings.properties[Constants.azureWebJobsDashboardSettingsName]) {
+                    this.azureWebJobsDashboardMissed = true;
+                    return Observable.of(null);
+                } else {
+                    this.azureWebJobsDashboardMissed = false;
+                }
+
                 // reset rows
                 this.rows = [];
-                this.currentFunction = fi;
 
                 this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.functionMonitor_loading);
-                const site = fi.functionApp.getSiteName();
-                this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${fi.name}`;
+                const site = this.currentFunction.functionApp.getSiteName();
+                this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.currentFunction.name}`;
 
                 const firstOfMonth = moment().startOf('month');
                 this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
                 this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format('MMM Do')}`;
 
-                return fi.functionApp.getFunctionHostStatus()
-                    .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(fi, host.id))
+                return this.currentFunction.functionApp.getFunctionHostStatus()
+                    .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(this.currentFunction, host.id))
                     .flatMap(data => {
                         this.functionId = !!data ? data.functionId : '';
                         this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
                         this.errorsAggregate = !!data ? data.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
                         return !!data
-                            ? this._functionMonitorService.getInvocationsDataForSelectedFunction(fi.functionApp, this.functionId)
+                            ? this._functionMonitorService.getInvocationsDataForSelectedFunction(this.currentFunction.functionApp, this.functionId)
                             : Observable.of([]);
                     });
+                
             })
             .do(null, () => this._globalStateService.clearBusyState())
             .retry()
             .subscribe(result => {
-                this.rows = result;
                 this._globalStateService.clearBusyState();
+                if (result) {
+                    this.rows = result;
+                }
             }, null, () => this._globalStateService.clearBusyState());
     }
 
@@ -101,5 +130,18 @@ export class FunctionMonitorComponent implements OnDestroy {
             this.selectedFunctionStream.unsubscribe();
             this.selectedFunctionStream = null;
         }
+    }
+
+    openAppInsigthsBlade() {
+        this._portalService.openBlade(
+            {
+                detailBlade: 'AspNetOverview',
+                detailBladeInputs: {
+                    id: this.aiId
+                },
+                extension: 'AppInsightsExtension'
+            },
+            'monitor'
+        );
     }
 }

@@ -6,6 +6,7 @@ import { CacheService } from './cache.service';
 import { ArmObj } from '../models/arm/arm-obj';
 import { Site } from '../models/arm/site';
 import { Constants } from '../../shared/models/constants';
+import { SiteDescriptor } from './../../shared/resourceDescriptors';
 
 @Injectable()
 export class SlotsService {
@@ -13,6 +14,26 @@ export class SlotsService {
         private _cacheService: CacheService,
         private _armService: ArmService
     ) { }
+
+    isAppInsightsEnabled(siteId: string) {
+        const descriptor = new SiteDescriptor(siteId);
+        return Observable.zip(
+            this._cacheService.postArm(`${siteId}/config/appsettings/list`),
+            this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
+            (as, ai) => ({ appSettings: as, appInsights: ai })
+        ).switchMap(r => {
+            const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
+            let result = null;
+            if (ikey) {
+                r.appInsights.json().value.forEach((ai) => {
+                    if (ai.properties.InstrumentationKey === ikey) {
+                        result = ai.id;
+                    }
+                });
+            }
+            return Observable.of(result);
+        });
+    }
 
     getSlotsList(siteId: string) {
         if (SlotsService.isSlot(siteId)) {

@@ -1,11 +1,25 @@
 <div>
-    <div class="alert alert-warning alert-dismissible" role="alert" [innerHTML]="'monitoring_appInsights' | translate">
+    <div *ngIf="aiId === ''" class="alert alert-warning alert-dismissible" role="alert" [innerHTML]="'monitoring_appInsights' | translate">
     </div>
 
-    <div id="function-aggregates">
-        <aggregate-block [title]="successAggregateHeading" [value]="successAggregate" style="float:left; width: 45%; margin-right:2%">Loading...</aggregate-block>
-        <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
-        <div style="clear: both"></div>
+    <div *ngIf="aiId" class="alert alert-success alert-dismissible" role="alert">
+        {{ 'monitoring_appInsightsSetUp' | translate }} <a class="link" (click)="openAppInsigthsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
     </div>
-    <table-function-monitor [selectedFunction]="currentFunction" [columns]="columns" [data]="rows" [pulseUrl]="pulseUrl" [selectedFuncId]="functionId"></table-function-monitor>
+
+    <div *ngIf="!azureWebJobsDashboardMissed">
+        <div id="function-aggregates">
+            <aggregate-block [title]="successAggregateHeading" [value]="successAggregate" style="float:left; width: 45%; margin-right:2%">Loading...</aggregate-block>
+            <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
+            <div style="clear: both"></div>
+        </div>
+        <table-function-monitor [selectedFunction]="currentFunction" [columns]="columns" [data]="rows" [pulseUrl]="pulseUrl" [selectedFuncId]="functionId"></table-function-monitor>
+    </div>
+
+    <div *ngIf="azureWebJobsDashboardMissed && aiId" (click)="openAppInsigthsBlade()" class="ai-icon link">
+        <div></div>
+        <div>
+            <img src="images/appInsights.svg"/>
+        </div>
+        <div></div>
+    </div>
 </div>

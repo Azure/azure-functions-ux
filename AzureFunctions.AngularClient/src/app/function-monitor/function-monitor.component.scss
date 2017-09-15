@@ -1,0 +1,20 @@
+#function-aggregates{
+    margin-bottom: 20px;
+    width: 90%;
+}
+
+.ai-icon {
+    display:flex;
+    div:nth-child(1) {
+        flex-grow:1;
+    }
+    div:nth-child(2) {
+        img {
+            height:400px;
+            padding-top: 100px;
+        }
+    }    
+    div:nth-child(3)  {
+        flex-grow:1;
+    }
+}

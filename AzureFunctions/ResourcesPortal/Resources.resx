@@ -2278,6 +2278,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
     <value>The extension {{extensionId}} with a different version is already installed</value>
   </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Open App Insights</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>You have App Insights integrated.</value>
+  </data>
   <data name="extension_install_button" xml:space="preserve">
     <value>Install</value>
   </data>

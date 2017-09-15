@@ -4462,6 +4462,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open App Insights.
+        /// </summary>
+        internal static string monitoring_appInsightsOpen {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have App Insights integrated..
+        /// </summary>
+        internal static string monitoring_appInsightsSetUp {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsSetUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .NET Framework version.
         /// </summary>
         internal static string netFrameWorkVersionLabel {
