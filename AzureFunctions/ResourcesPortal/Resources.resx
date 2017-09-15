@@ -1745,7 +1745,7 @@
     <value>Generate API definition template</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Export to Power Apps + Flow</value>
+    <value>Export to PowerApps + Flow</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
     <value>Cannot save malformed API definition.</value>
