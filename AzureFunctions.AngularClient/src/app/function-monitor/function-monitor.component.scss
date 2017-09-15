@@ -7,14 +7,10 @@
     display:flex;
     div:nth-child(1) {
         flex-grow:1;
-    }
-    div:nth-child(2) {
         img {
             height:400px;
             padding-top: 100px;
+            width: 100%;
         }
     }    
-    div:nth-child(3)  {
-        flex-grow:1;
-    }
 }

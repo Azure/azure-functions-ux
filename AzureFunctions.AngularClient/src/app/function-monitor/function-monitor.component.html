@@ -3,7 +3,7 @@
     </div>
 
     <div *ngIf="aiId" class="alert alert-success alert-dismissible" role="alert">
-        {{ 'monitoring_appInsightsSetUp' | translate }} <a class="link" (click)="openAppInsigthsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
+        {{ 'monitoring_appInsightsSetUp' | translate }} <a tabindex="0" (click)="openAppInsigthsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
     </div>
 
     <div *ngIf="!azureWebJobsDashboardMissed">
@@ -16,10 +16,8 @@
     </div>
 
     <div *ngIf="azureWebJobsDashboardMissed && aiId" (click)="openAppInsigthsBlade()" class="ai-icon link">
-        <div></div>
         <div>
             <img src="images/appInsights.svg"/>
         </div>
-        <div></div>
     </div>
 </div>

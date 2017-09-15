@@ -76,7 +76,6 @@ export class FunctionMonitorComponent implements OnDestroy {
                     this._slotsService.isAppInsightsEnabled(this.currentFunction.functionApp.site.id),
                     (as, ai) => ({ appSettings: as, appInsights: ai }));
             })
-            .do(null, () => this._globalStateService.clearBusyState())
             .switchMap(r => {
                 const appSettings = r.appSettings.json();
                 this.aiId = r.appInsights ? r.appInsights : '';
@@ -111,7 +110,6 @@ export class FunctionMonitorComponent implements OnDestroy {
                             ? this._functionMonitorService.getInvocationsDataForSelectedFunction(this.currentFunction.functionApp, this.functionId)
                             : Observable.of([]);
                     });
-                
             })
             .do(null, () => this._globalStateService.clearBusyState())
             .retry()

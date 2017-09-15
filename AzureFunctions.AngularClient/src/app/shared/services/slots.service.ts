@@ -19,9 +19,9 @@ export class SiteService {
         const descriptor = new SiteDescriptor(siteId);
         return Observable.zip(
             this._cacheService.postArm(`${siteId}/config/appsettings/list`),
-            this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
+            this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, this._armService.appInsightsApiVersion),
             (as, ai) => ({ appSettings: as, appInsights: ai })
-        ).switchMap(r => {
+        ).map(r => {
             const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
             let result = null;
             if (ikey) {
@@ -31,7 +31,7 @@ export class SiteService {
                     }
                 });
             }
-            return Observable.of(result);
+            return result;
         });
     }
 
