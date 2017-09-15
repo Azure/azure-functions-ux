@@ -23,9 +23,6 @@ import { FunctionsNode } from '../tree-view/functions-node';
 import { FunctionApp } from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import { Constants } from '../shared/models/constants';
-import { CacheService } from './../shared/services/cache.service';
-import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 @Component({
     selector: 'function-new',
@@ -73,8 +70,7 @@ export class FunctionNewComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService,
-        private _cacheService: CacheService) {
+        private _aiService: AiService) {
         this.elementRef = elementRef;
         this.disabled = !!_broadcastService.getDirtyState("function_disabled");
 
@@ -291,12 +287,6 @@ export class FunctionNewComponent {
                 // If someone refreshed the app, it would created a new set of child nodes under the app node.
                 this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
                 this.functionsNode.addChild(res);
-
-                if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
-                    const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-                    helper.function = this;
-                    helper.createO365WebhookSupportFunction(this._globalStateService);
-                }
             },
             () => {
                 this._globalStateService.clearBusyState();
