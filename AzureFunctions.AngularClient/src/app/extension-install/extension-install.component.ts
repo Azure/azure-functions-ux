@@ -19,7 +19,7 @@ export class ExtensionInstallComponent {
     packages: RuntimeExtension[];
     installationSucceeded = false;
     private _functionApp: FunctionApp;
-    private _requiredExtensions: RuntimeExtension[];
+    extensions: RuntimeExtension[];
     public installJobs: any[] = [];
     @Input() set functionApp(functionApp: FunctionApp) {
         if (functionApp) {
@@ -33,18 +33,18 @@ export class ExtensionInstallComponent {
             this.GetRequiredExtensions(runtimeExtensions)
                 .subscribe(extensions => {
                     this.loading = false;
-                    this._requiredExtensions = extensions;
+                    this.extensions = extensions;
                 });
         } else {
-            this._requiredExtensions = [];
+            this.extensions = [];
         }
     }
 
     installRequiredExtensions() {
         this.installing = true;
-        if (this._requiredExtensions.length > 0) {
+        if (this.extensions.length > 0) {
             const extensionCalls: Observable<any>[] = [];
-            this._requiredExtensions.forEach(extension => {
+            this.extensions.forEach(extension => {
                 extensionCalls.push(this._functionApp.installExtension(extension));
             });
 
@@ -63,8 +63,8 @@ export class ExtensionInstallComponent {
     pollInstallationStatus(timeOut: number) {
         setTimeout(() => {
             if (timeOut > 60) {
-                this.GetRequiredExtensions(this._requiredExtensions).subscribe((r) => {
-                    this._requiredExtensions = r;
+                this.GetRequiredExtensions(this.extensions).subscribe((r) => {
+                    this.extensions = r;
                     this._functionApp.showTimeoutError();
                     this.installing = false;
                 });
@@ -107,9 +107,9 @@ export class ExtensionInstallComponent {
                 });
             } else {
                 // if any one the extension installation failed then success banner will not be shown
-                this.GetRequiredExtensions(this._requiredExtensions).subscribe((r) => {
+                this.GetRequiredExtensions(this.extensions).subscribe((r) => {
                     this.installing = false;
-                    this._requiredExtensions = r;
+                    this.extensions = r;
                     if (r.length === 0) {
                         this.installed.next(true);
                         this.showInstallSucceededBanner();
