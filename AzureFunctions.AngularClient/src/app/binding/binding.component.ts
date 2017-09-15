@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
 import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
-import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput} from '../shared/models/binding-input';
+import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput } from '../shared/models/binding-input';
 import { BindingManager } from '../shared/models/binding-manager';
 import { BindingInputList } from '../shared/models/binding-input-list';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -16,7 +16,6 @@ import { Validator } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from '../shared/services/cache.service';
 import { AuthSettings } from '../shared/models/auth-settings';
-import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 import { FunctionInfo } from '../shared/models/function-info';
 
 declare var marked: any;
@@ -52,7 +51,6 @@ export class BindingComponent {
     public hasInputsToShow = false;
     public isDirty = false;
     public isDocShown = false;
-    public GraphWebhookTrigger = false;
     public functionApp: FunctionApp;
 
     // While there are no uses for this in the code, it's used in
@@ -359,8 +357,6 @@ export class BindingComponent {
                 this.newFunction = true;
             }
 
-            this.GraphWebhookTrigger = that.bindingValue.type === BindingType.GraphWebhookTrigger;
-
             this.model.actions = [];
             this.model.warnings = [];
             if (!this.newFunction && bindingSchema) {
@@ -638,12 +634,6 @@ export class BindingComponent {
         this._broadcastService.clearDirtyState('function_integrate', true);
         this._portalService.setDirtyState(false);
         this.isDirty = false;
-    }
-
-    saveWebHook() {
-        const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-        helper.binding = this;
-        helper.saveWebHook();
     }
 
     onValidChanged() {
