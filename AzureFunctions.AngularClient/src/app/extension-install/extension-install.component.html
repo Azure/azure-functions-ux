@@ -17,7 +17,7 @@
             <div class="panel-body">
                 <div *ngIf="!integrateText">{{ 'extension_template_warning' | translate }}</div>
                 <div *ngIf="integrateText">{{ 'extension_integrate_warning' | translate }}</div>
-                <div *ngFor="let nugetPackage of requiredExtensions">
+                <div *ngFor="let nugetPackage of extensions">
                     <i class="fa fa-warning"></i> {{nugetPackage.id}}
                 </div>
             </div>
