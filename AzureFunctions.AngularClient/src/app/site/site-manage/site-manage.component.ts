@@ -1,4 +1,4 @@
-import { SlotsService } from 'app/shared/services/slots.service';
+import { SiteService } from 'app/shared/services/slots.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -86,7 +86,7 @@ export class SiteManageComponent implements OnDestroy {
                 };
 
                 this._slotDisableInfo = {
-                    enabled: !SlotsService.isSlot(site.id),
+                    enabled: !SiteService.isSlot(site.id),
                     disableMessage: this._translateService.instant(PortalResources.featureNotSupportedForSlots)
                 };
 
