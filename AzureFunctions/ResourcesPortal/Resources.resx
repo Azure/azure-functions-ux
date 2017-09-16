@@ -1949,7 +1949,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Slots (preview)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>For a richer monitoring experience, including live metrics and custom queries, we recommend using &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights.&lt;/a&gt;</value>
+    <value>For a richer monitoring experience, including live metrics and custom queries, &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;enable Application Insights for your Function app&lt;/a&gt;</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
@@ -2279,10 +2279,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>The extension {{extensionId}} with a different version is already installed</value>
   </data>
   <data name="monitoring_appInsightsOpen" xml:space="preserve">
-    <value>Open App Insights</value>
+    <value>Open Application Insights</value>
   </data>
   <data name="monitoring_appInsightsSetUp" xml:space="preserve">
-    <value>You have App Insights integrated.</value>
+    <value>App Insights is enabled for your function.</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>No Monitoring data to display</value>
   </data>
   <data name="extension_install_button" xml:space="preserve">
     <value>Install</value>

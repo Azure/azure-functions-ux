@@ -5,12 +5,19 @@
 
 .ai-icon {
     display:flex;
+    text-align: center;
+    padding-top: 50px;
     div:nth-child(1) {
         flex-grow:1;
         img {
-            height:400px;
-            padding-top: 100px;
+            height:50px;
             width: 100%;
         }
     }    
+}
+
+.alert {
+    img {
+        height: 20px;
+    }
 }

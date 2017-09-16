@@ -4453,7 +4453,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, we recommend using &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;Azure Application Insights.&lt;/a&gt;.
+        ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;enable Application Insights for your Function app&lt;/a&gt;.
         /// </summary>
         internal static string monitoring_appInsights {
             get {
@@ -4462,7 +4462,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open App Insights.
+        ///   Looks up a localized string similar to Open Application Insights.
         /// </summary>
         internal static string monitoring_appInsightsOpen {
             get {
@@ -4471,11 +4471,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have App Insights integrated..
+        ///   Looks up a localized string similar to App Insights is enabled for your function..
         /// </summary>
         internal static string monitoring_appInsightsSetUp {
             get {
                 return ResourceManager.GetString("monitoring_appInsightsSetUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Monitoring data to display.
+        /// </summary>
+        internal static string monitoring_noMonitoring {
+            get {
+                return ResourceManager.GetString("monitoring_noMonitoring", resourceCulture);
             }
         }
         

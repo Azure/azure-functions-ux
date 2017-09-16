@@ -721,6 +721,8 @@ export class PortalResources
     public static failedToUnInstallFunctionRuntimeExtension: string = "failedToUnInstallFunctionRuntimeExtension";
     public static timeoutInstallingFunctionRuntimeExtension: string = "timeoutInstallingFunctionRuntimeExtension";
     public static extensionAlreadyInstalledWithDifferentVersion: string = "extensionAlreadyInstalledWithDifferentVersion";
+    public static monitoring_appInsightsOpen: string = "monitoring_appInsightsOpen";
+    public static monitoring_appInsightsSetUp: string = "monitoring_appInsightsSetUp";
     public static extension_install_button: string = "extension_install_button";
     public static extension_install_success: string = "extension_install_success";
     public static extension_install_warning: string = "extension_install_warning";
