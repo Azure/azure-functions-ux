@@ -1,5 +1,5 @@
 import { SiteTabIds } from './../shared/models/constants';
-import { SlotsService } from './../shared/services/slots.service';
+import { SiteService } from './../shared/services/slots.service';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -273,7 +273,7 @@ export class AppNode extends TreeNode
             // Tests whether you've selected a child node or newselectedNode is not a slot node
             if (newSelectedNode.resourceId !== this.resourceId
                 && newSelectedNode.resourceId.startsWith(this.resourceId + '/')
-                && !SlotsService.isSlot(newSelectedNode.resourceId)) {
+                && !SiteService.isSlot(newSelectedNode.resourceId)) {
                 return;
             } else if (newSelectedNode.resourceId === this.resourceId && newSelectedNode === this) {
                 // Tests whether you're navigating to this node from a child node

@@ -31,7 +31,7 @@ import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
-import { SlotsService } from '../../shared/services/slots.service';
+import { SiteService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from '../../../../../common/models/functions-version-info';
 
@@ -87,7 +87,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _globalStateService: GlobalStateService,
     private _aiService: AiService,
     private _translateService: TranslateService,
-    private _slotsService: SlotsService,
+    private _slotsService: SiteService,
     private _configService: ConfigService,
     siteTabsComponent: SiteTabComponent
   ) {
@@ -132,7 +132,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.functionApp = r.functionApp;
         this.site = r.siteResponse.json();
         this.exactExtensionVersion = r.hostStatus ? r.hostStatus.version : '';
-        this._isSlotApp = SlotsService.isSlot(this.site.id);
+        this._isSlotApp = SiteService.isSlot(this.site.id);
         this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
           ? this.site.properties.dailyMemoryTimeQuota.toString()
           : '0';

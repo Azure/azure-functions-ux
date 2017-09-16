@@ -20,7 +20,6 @@ namespace AzureFunctions.Code
         const string AntaresApiVersion = "2015-08-01";
 
         const string AzureWebJobsStorageAppSetting = "AzureWebJobsStorage";
-        const string AzureWebJobsDashboardAppSetting = "AzureWebJobsDashboard";
         const string FunctionsExtensionVersionAppSetting = "FUNCTIONS_EXTENSION_VERSION";
         const string AzureFilesConnectionString = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING";
         const string AzureFilesContentShare = "WEBSITE_CONTENTSHARE";
@@ -500,20 +499,6 @@ namespace AzureFunctions.Code
                             Message = string.Format("'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the functions runtime to handle multiple instances synchronization, log invocation results, and other infrastructure jobs. Your function app will not work correctly without that setting.", AzureWebJobsStorageAppSetting),
                             UserAction = "Create the app setting with a valid storage connection string.",
                             ActionId = ActionIds.MissingAzureWebjobsStorageAppSetting
-                        }
-                    });
-                }
-
-                if (!appSettings.Properties.Any(k => k.Key.Equals(AzureWebJobsDashboardAppSetting, StringComparison.OrdinalIgnoreCase)))
-                {
-                    diagResults.Add(new DiagnosticsResult
-                    {
-                        IsDiagnosingSuccessful = true,
-                        SuccessResult = new DiagnoseSuccessResult
-                        {
-                            Message = string.Format("'{0}' application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the monitoring view of your functions. This is where invocation data is aggregated and then displayed in monitoring view. Your monitoring view might be broken.", AzureWebJobsDashboardAppSetting),
-                            UserAction = "Create the app setting with a valid storage connection string.",
-                            ActionId = ActionIds.MissingAzureWebJobsDashboardAppSetting
                         }
                     });
                 }

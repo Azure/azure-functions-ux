@@ -34,7 +34,7 @@ import { CacheService } from '../../shared/services/cache.service';
 import { AuthzService } from '../../shared/services/authz.service';
 import { SiteDescriptor } from '../../shared/resourceDescriptors';
 import { Site } from '../../shared/models/arm/site';
-import { SlotsService } from '../../shared/services/slots.service';
+import { SiteService } from '../../shared/services/slots.service';
 
 interface DataModel {
     hasWritePermission: boolean;
@@ -90,7 +90,7 @@ export class SiteSummaryComponent implements OnDestroy {
         private _domSanitizer: DomSanitizer,
         public ts: TranslateService,
         private _configService: ConfigService,
-        private _slotService: SlotsService,
+        private _slotService: SiteService,
         userService: UserService,
         siteTabComponent: SiteTabComponent,
         scenarioService: ScenarioService) {
@@ -148,7 +148,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 const serverFarm = site.properties.serverFarmId.split('/')[8];
                 this.plan = `${serverFarm} (${site.properties.sku.replace('Dynamic', 'Consumption')})`;
-                this._isSlot = SlotsService.isSlot(site.id);
+                this._isSlot = SiteService.isSlot(site.id);
 
                 this._busyState.clearBusyState();
                 this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);

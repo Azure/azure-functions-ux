@@ -117,7 +117,7 @@ export class AadRegistrationComponent implements OnInit {
         });
 
       }, err => {
-        this.processError(err, 'Error adding permissions to AAD application');
+        this.processError(err, 'Error getting AAD application');
       });
     }
   }
@@ -126,10 +126,10 @@ export class AadRegistrationComponent implements OnInit {
     this._globalService.clearBusyState();
     this._aiService.trackException(err, message);
      this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-         message: message,
+         message: `${message}: ${JSON.stringify(err)}`,
          errorId: ErrorIds.failedAadRegistration,
          errorType: ErrorType.UserError,
-         resourceId: this.functionApp.site.id
+         resourceId: 'none'
      });
   }
 

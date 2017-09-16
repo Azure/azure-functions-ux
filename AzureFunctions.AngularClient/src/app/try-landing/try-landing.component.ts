@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { SlotsService } from 'app/shared/services/slots.service';
+import { SiteService } from 'app/shared/services/slots.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
@@ -59,7 +59,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
         private _languageService: LanguageService,
         private _authZService: AuthzService,
         private _configService: ConfigService,
-        private _slotsService: SlotsService,
+        private _slotsService: SiteService,
         private _router: Router) {
     }
 

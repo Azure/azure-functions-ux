@@ -114,16 +114,16 @@ export class MicrosoftGraphHelper {
 
         let application = JSON.stringify(app);
         return this.sendRequest(rootUri, '/applications', "POST", application)
-            .do(response =>{
-
+            .do(null, err =>{
+                 if (this._aiService) {
+                     this._aiService.trackException(err, "Error while creating new AAD application");
+                 }
+            })
+            .flatMap(response =>{
                 let newApplication = JSON.parse(response._body);
-
-                this.setAuthSettings(newApplication.appId, this._jwt, pwCreds.value, app.replyUrls);
-            }, err =>{
-                if (this._aiService) {
-                    this._aiService.trackException(err, "Error while creating new AAD application");
-                }
+                return this.setAuthSettings(newApplication.appId, this._jwt, pwCreds.value, app.replyUrls);
             });
+
     }
 
     addPermissions(necessaryAADPermisisons: AADPermissions[], graphToken: string): Observable<any> {
@@ -319,11 +319,12 @@ export class MicrosoftGraphHelper {
         authSettings.set('allowedAudiences', replyUrls);
         authSettings.set('isAadAutoProvisioned', true);
 
-        this.functionApp.createAuthSettings(authSettings).subscribe(() => { },
+        return this.functionApp.createAuthSettings(authSettings)
+        .do(null,
         error => {
-            if (this._aiService) {
-                this._aiService.trackException(error, "Error occurred while setting necessary authsettings");
-            }         
+             if (this._aiService) {
+                 this._aiService.trackException(error, "Error occurred while setting necessary authsettings");
+             }
         });
     }
 
