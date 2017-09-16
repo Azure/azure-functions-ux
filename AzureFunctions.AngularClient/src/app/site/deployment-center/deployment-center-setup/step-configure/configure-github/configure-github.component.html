@@ -4,14 +4,27 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
+      <div class="setting-label">Organization
+        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </div>
+      <div class="setting-control-container">
+        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!OrgList ? OrgList : []"
+          [highlightDirty]="true" (value)="OrgChanged($event)">
+        </drop-down>
+      </div>
+    </div>
+
+    <div class="setting-wrapper">
       <div class="setting-label">Repository
         <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
           <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!RepositoryList ? RepositoryList : []"
-          [highlightDirty]="true">
+        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!RepoList ? RepoList : []"
+          [highlightDirty]="true" (value)="RepoChanged($event)">
         </drop-down>
       </div>
     </div>
