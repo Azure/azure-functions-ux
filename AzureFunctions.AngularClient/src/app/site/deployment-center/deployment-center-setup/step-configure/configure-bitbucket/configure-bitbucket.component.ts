@@ -1,15 +1,89 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { DropDownElement } from 'app/shared/models/drop-down-element';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { PortalService } from 'app/shared/services/portal.service';
+import { CacheService } from 'app/shared/services/cache.service';
+import { ArmService } from 'app/shared/services/arm.service';
+import { AiService } from 'app/shared/services/ai.service';
+import { Constants } from 'app/shared/models/constants';
 
 @Component({
-  selector: 'app-configure-bitbucket',
-  templateUrl: './configure-bitbucket.component.html',
-  styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss']
+    selector: 'app-configure-bitbucket',
+    templateUrl: './configure-bitbucket.component.html',
+    styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss']
 })
-export class ConfigureBitbucketComponent implements OnInit {
+export class ConfigureBitbucketComponent {
+    private _resourceId: string;
+    public RepoList: DropDownElement<string>[];
+    public BranchList: DropDownElement<string>[];
 
-  constructor() { }
+    private reposStream = new ReplaySubject<string>();
 
-  ngOnInit() {
-  }
+    constructor(
+        private _wizard: DeploymentCenterWizardService,
+        _portalService: PortalService,
+        private _cacheService: CacheService,
+        _armService: ArmService,
+        _aiService: AiService
+    ) {
+        this.reposStream.subscribe(r => {
+            this.fetchBranches(r);
+        });
 
+        this._wizard.sourceControlProvider$.subscribe(provider => {
+            this.fetchRepos();
+        });
+        this._wizard.resourceIdStream.subscribe(r => {
+            this._resourceId = r;
+        });
+    }
+
+    fetchRepos() {
+        this.RepoList = [];
+        this._cacheService
+            .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
+                url: `https://api.bitbucket.org/2.0/repositories?role=admin`
+            })
+            .subscribe(r => {
+                const newRepoList: DropDownElement<string>[] = [];
+                console.log(r.json());
+                r.json().values.forEach(repo => {
+                    newRepoList.push({
+                        displayLabel: repo.name,
+                        value: repo.full_name
+                    });
+                });
+
+                this.RepoList = newRepoList;
+            });
+    }
+
+    fetchBranches(repo: string) {
+        if (repo) {
+            this.BranchList = [];
+            this._cacheService
+                .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
+                    url: `https://api.bitbucket.org/1.0/repositories/${repo}/branches`
+                })
+                .subscribe(r => {
+                    const newBranchList: DropDownElement<string>[] = [];
+
+                    r.json().forEach(branch => {
+                        newBranchList.push({
+                            displayLabel: branch.branch,
+                            value: branch.branch
+                        });
+                    });
+
+                    this.BranchList = newBranchList;
+                });
+        }
+    }
+
+    RepoChanged(repo: string) {
+          this.reposStream.next(repo);
+    }
+
+    BranchChanged(branch: string) {}
 }
