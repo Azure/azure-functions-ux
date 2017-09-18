@@ -29,7 +29,7 @@ export enum BindingType {
     token = <any>"token",
     outlook = <any>"outlook",
     onedrive = <any>"onedrive",
-    GraphWebhook = <any>"GraphWebhook",
+    GraphWebhookSubscription = <any>"GraphWebhookSubscription",
     GraphWebhookTrigger = <any>"GraphWebhookTrigger",
     GraphWebhookCreator = <any>"GraphWebhookCreator",
     eventGridTrigger = <any>"eventGridTrigger",
