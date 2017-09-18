@@ -47,7 +47,6 @@ export class ConfigureBitbucketComponent {
             })
             .subscribe(r => {
                 const newRepoList: DropDownElement<string>[] = [];
-                console.log(r.json());
                 r.json().values.forEach(repo => {
                     newRepoList.push({
                         displayLabel: repo.name,
@@ -63,16 +62,16 @@ export class ConfigureBitbucketComponent {
         if (repo) {
             this.BranchList = [];
             this._cacheService
-                .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
-                    url: `https://api.bitbucket.org/1.0/repositories/${repo}/branches`
+                .post(Constants.serviceHost + `api/bitbucket/passthrough?branch=${repo}`, true, null, {
+                    url: `https://api.bitbucket.org/2.0/repositories/${repo}/refs/branches`
                 })
                 .subscribe(r => {
                     const newBranchList: DropDownElement<string>[] = [];
 
-                    r.json().forEach(branch => {
+                    r.json().values.forEach(branch => {
                         newBranchList.push({
-                            displayLabel: branch.branch,
-                            value: branch.branch
+                            displayLabel: branch.name,
+                            value: branch.name
                         });
                     });
 
@@ -82,7 +81,7 @@ export class ConfigureBitbucketComponent {
     }
 
     RepoChanged(repo: string) {
-          this.reposStream.next(repo);
+        this.reposStream.next(repo);
     }
 
     BranchChanged(branch: string) {}
