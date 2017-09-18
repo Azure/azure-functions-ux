@@ -214,8 +214,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
         displayLabel: '~1',
         value: '~1'
       }, {
-        displayLabel: '~2 (beta)',
-        value: '~2'
+        displayLabel: 'beta',
+        value: 'beta'
       }];
 
     this.proxySettingValueStream = new Subject<boolean>();
@@ -347,9 +347,20 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return this._updateContainerVersion(r.json(), version);
       })
       .mergeMap(r => {
-        return this.functionApp.getFunctionHostStatus();
+        return this.functionApp.getFunctionHostStatus().map((hostStatus: HostStatus) => {
+          debugger;
+          if (hostStatus.version === this.exactExtensionVersion) {
+            throw Error('Host version is not updated yet');
+          }
+          return hostStatus;
+        })
+        .retryWhen(error => {
+          debugger;
+          return error.delay(5000);
+        });
       })
       .subscribe((hostStatus: HostStatus) => {
+        debugger;
         this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
         this.extensionVersion = version;
         this.setNeedUpdateExtensionVersion();

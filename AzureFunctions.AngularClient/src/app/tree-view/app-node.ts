@@ -391,7 +391,7 @@ export class AppNode extends TreeNode
                 const extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
                 let isLatestFunctionRuntime = null;
                 if (extensionVersion) {
-                    if (extensionVersion === '~2' || extensionVersion.startsWith('2.')) {
+                    if (extensionVersion === 'beta') {
                         isLatestFunctionRuntime = true;
                         notifications.push({
                             id: NotificationIds.runtimeV2,
