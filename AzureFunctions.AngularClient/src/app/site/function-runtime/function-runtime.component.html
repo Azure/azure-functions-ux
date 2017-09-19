@@ -111,8 +111,8 @@
         [autoSelect]="true"
         [functionApp]="functionApp"></function-keys>
 
-  <div *ngIf="!showTryView && functionApp" class="setting-wrapper">
+  <div *ngIf="!showTryView && !!functionApp" class="setting-wrapper">
     <host-editor class="features-wrapper" [functionAppInput]="functionApp" ></host-editor>
   </div>
-  
+
 </div>
