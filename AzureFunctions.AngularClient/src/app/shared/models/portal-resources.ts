@@ -730,5 +730,6 @@ export class PortalResources
     public static extension_integrate_warning: string = "extension_integrate_warning";
     public static extension_template_warning: string = "extension_template_warning";
     public static installingExtension: string = "installingExtension";
+    public static functionAppSettings_quotaPlaceHolder: string = "functionAppSettings_quotaPlaceHolder";
 }
 

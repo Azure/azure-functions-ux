@@ -1,121 +1,20 @@
 @import '../../../sass/main';
 
 #function-runtime-container{
-    padding: 20px 35px;    
+    padding: 20px 35px;
 }
 
-h2 {
+label {
     @extend .text-label;
-    margin: 0px;
-}
-
-#heading {
-    flex-grow: 1;
-    border-bottom: none;
-    font-size: 24px;
-}
-
-#advanced-settings {
-    flex-grow: 1;
+    margin: 0px 0px 3px 0px;
+    font-weight: normal;
 }
 
 .setting-wrapper {
-    display: flex;
-    flex-direction: column;
-    padding-top: 10px;
-}
-
-.setting-wrapper-disabled {
-    display: flex;
-    flex-direction: column;
-}
-
-.setting-wrapper > label {
-    font-weight:bold;
-    margin: 0px;
-}
-
-
-/* start range */
-/* http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
-
-input[type=range] {
-    -webkit-appearance: none;
-    display: inline-block;
-}
-
-input[type=range]:focus {
-    outline: none;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    height: 15px;
-    background: rgb(196, 201, 207);
-    border: none;
-    border-radius: 0;
-    border: 0;
-}
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 30px;
-    width: 10px;
-    background: #428bca;
-    border-radius: 0;
-    margin-top: -8px;
-}
-
-input[type=range]::-moz-range-track {
-    height: 8px;
-    background: rgb(196, 201, 207);
-    border: none;
-    border-radius: 0;
-    border: 0;
-}
-input[type=range]::-moz-range-thumb {
-    border: none;
-    height: 30px;
-    width: 10px;
-    background: #428bca;
-    border-radius: 0;
-}
-
-/*hide the outline behind the border*/
-input[type=range]:-moz-focusring{
-    outline: 1px solid white;
-    outline-offset: -1px;
-}
-
-input[type=range]::-ms-track {
-    height: 10px;
-}
-
-input[type=range]::-ms-fill-lower, input[type=range]::-ms-fill-upper {
-    background: rgb(196, 201, 207);
-    border-radius: 0;
-    border: 0;
-}
-
-input[type=range]::-ms-thumb {
-    border: none;
-    height: 30px;
-    width: 10px;
-    border-radius: 0;
-    background: #428bca;
-}
-/* end range */
-
-
-.features-wrapper-disabled {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-}
-
-.features-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
+     display: flex;
+     flex-direction: column;
+     padding: 5px 0px 8px 0px;
+     width: 75%;
 }
 
 input[type=text], select{
@@ -129,106 +28,14 @@ input[type=text], select{
     padding: 0 5px;
 }
 
-
-
-.features-wrapper > div {
-    flex-grow: 1;
-    border-top: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center
-}
-
-.features-wrapper-disabled > div {
-    flex-grow: 1;
-    border-top: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center
-}
-.features-wrapper > div:first-child {
-}
-
-    .features-wrapper > div > div {
-        padding: 1px 10px 10px 0;
-        font-size: 13px;
-    }
-
-    .features-wrapper > div > div:first-child {
-        flex-grow: 3;
-        width: 60%;
-    }
-
-    .features-wrapper > div > div:last-child {
-        flex-grow: 1;
-        width: 35%;
-    }
-
-    .features-wrapper > div > div:last-child > div, .button-div {
-        margin-left: 15px;
-        padding: 6px 25px 6px 25px;
-        font-size: 14px;
-        border: 1px solid transparent;
-        color: #fff;
-        background-color: #428bca;
-        text-align: center;
-    }
-
-    .features-wrapper-disabled > div > div {
-        padding: 0px 10px 10px 0;
-    }
-
-    .features-wrapper-disabled > div > div:first-child {
-        flex-grow: 3;
-        width: 60%;
-    }
-
-    .features-wrapper-disabled > div > div:last-child {
-        flex-grow: 1;
-        width: 35%;
-    }
-    .features-wrapper-disabled > div > div:last-child > div, .button-div {
-        margin-left: 15px;
-        padding: 6px 25px 6px 25px;
-        font-size: 14px;
-        border: 1px solid transparent;
-        color: #fff;
-        background-color: lightgray;
-        text-align: center;
-    }
-
-.button-div {
-    width: 20%;
-}
-
-.clickable-disabled {
-    background-color: lightgray;
-}
-
-.quotaInput {
-    align-self: flex-start;
-} 
-
 .warning {
-    color: red;
-}
-
-.info {
-    padding-top:10px
+    color: $error-color;
 }
 
 .remove-button {
-    margin-top:10px;
-    background-color: #ff1525;
+    background-color: $error-color;
 }
 
-.title-spacing {
-    padding-bottom: 5px;
-    line-height: 15px;
-}
-
-.bold-text{
+.title-label {
     font-weight: bold;
 }
