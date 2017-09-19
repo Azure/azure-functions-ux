@@ -347,20 +347,30 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return this._updateContainerVersion(r.json(), version);
       })
       .mergeMap(r => {
-        return this.functionApp.getFunctionHostStatus().map((hostStatus: HostStatus) => {
-          debugger;
-          if (hostStatus.version === this.exactExtensionVersion) {
-            throw Error('Host version is not updated yet');
+        return this.functionApp.getFunctionHostStatus()
+        .map((hostStatus: HostStatus) => {
+          if (!hostStatus.version || hostStatus.version === this.exactExtensionVersion) {
+            throw Observable.throw('Host version is not updated yet');
           }
           return hostStatus;
         })
         .retryWhen(error => {
-          debugger;
-          return error.delay(5000);
+          return error.scan((errorCount: number, err: any) => {
+            if (errorCount >= 20) {
+                throw err;
+            } else {
+                return errorCount + 1;
+            }
+          }, 0).delay(3000);
         });
       })
+      .do(null, e => {
+        this._busyState.clearBusyState();
+        this._aiService.trackException(e, '/errors/rutime-update');
+        console.error(e);
+      })
       .subscribe((hostStatus: HostStatus) => {
-        debugger;
+
         this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
         this.extensionVersion = version;
         this.setNeedUpdateExtensionVersion();
