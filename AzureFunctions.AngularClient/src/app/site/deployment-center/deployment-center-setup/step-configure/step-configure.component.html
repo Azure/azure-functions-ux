@@ -4,7 +4,7 @@
 <app-configure-vsts-source *ngIf="provider === 'vsts'"></app-configure-vsts-source>
 <app-configure-bitbucket *ngIf="provider === 'bitbucket'"></app-configure-bitbucket>
 <app-configure-external *ngIf="provider === 'external'"></app-configure-external>
-<app-configure-vsts-build *ngIf="buildProvider === 'vsts'"></app-configure-vsts-build>
+<app-configure-vsts-build *ngIf="buildProvider === 'vsts' && provider != 'vsts'"></app-configure-vsts-build>
 <div class="footer">
   <button type="button" class="custom-button" style="margin-top:12px" previousStep>Back</button>
   <button type="button" class="custom-button" style="margin-top:12px" nextStep>Continue</button>

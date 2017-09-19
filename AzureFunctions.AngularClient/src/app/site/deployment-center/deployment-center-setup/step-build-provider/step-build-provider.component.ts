@@ -11,20 +11,20 @@ export class StepBuildProviderComponent {
     public readonly providerCards: ProviderCard[] = [
         {
             id: 'vsts',
-            name: 'VSTS',
+            name: 'VSTS build server',
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#68227A',
             barColor: '#CED2EA',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.',
             authorizedStatus: 'none'
         },
         {
             id: 'kudu',
-            name: 'Kudu',
+            name: 'App Service Kudu build server',
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#000000',
             barColor: '#D6D6D6',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.',
             authorizedStatus: 'none'
         }
     ];

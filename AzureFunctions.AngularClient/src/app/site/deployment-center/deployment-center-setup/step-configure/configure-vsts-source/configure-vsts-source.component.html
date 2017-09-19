@@ -1,33 +1,55 @@
 <div class="settings-group-wrapper">
-    
-      <h3 class="first-config-heading">Configure VSO Source</h3>
-    
-      <div class="settings-wrapper">
-        <div class="setting-wrapper">
-          <div class="setting-label">Repository
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
-          <div class="setting-control-container">
-            <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!RepositoryList ? RepositoryList : []"
-              [highlightDirty]="true">
-            </drop-down>
-          </div>
-        </div>
-    
-        <div class="setting-wrapper">
-          <div class="setting-label">Branch
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
-          <div class="setting-control-container">
-            <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!BranchList ? BranchList : []"
-              [highlightDirty]="true">
-            </drop-down>
-          </div>
-        </div>
-    
+
+  <h3 class="first-config-heading">Build</h3>
+
+  <div class="settings-wrapper">
+    <div class="setting-wrapper">
+      <div class="setting-label">Visual Studio Team Service Account</div>
+      <div class="setting-control-container">
+        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!AccountList ? AccountList : []"
+          [highlightDirty]="true" (value)="AccountChanged($event)">
+        </drop-down>
       </div>
     </div>
+
+    <div class="setting-wrapper">
+      <div class="setting-label">Project Name</div>
+      <div class="setting-control-container">
+        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!ProjectList ? ProjectList : []"
+          [highlightDirty]="true" (value)="ProjectChanged($event)">
+        </drop-down>
+      </div>
+    </div>
+
+    <div class="setting-wrapper">
+      <div class="setting-label">Repository</div>
+      <div class="setting-control-container">
+        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!RepositoryList ? RepositoryList : []"
+          [highlightDirty]="true" (value)="RepoChanged($event)">
+        </drop-down>
+      </div>
+    </div>
+
+    <div class="setting-wrapper">
+      <div class="setting-label">Branch</div>
+      <div class="setting-control-container">
+        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!BranchList ? BranchList : []"
+          [highlightDirty]="true">
+        </drop-down>
+      </div>
+    </div>
+
+    <div class="setting-wrapper">
+      <div class="setting-label"> Web Application Framework
+        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </div>
+      <div class="setting-control-container">
+        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
+          [highlightDirty]="true">
+        </drop-down>
+      </div>
+    </div>
+  </div>
+</div>

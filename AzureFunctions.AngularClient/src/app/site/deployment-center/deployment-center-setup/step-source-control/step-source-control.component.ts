@@ -33,7 +33,7 @@ export class StepSourceControlComponent {
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#0A4AB1',
             barColor: '#D7E2F2',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Sync content from a OneDrive cloud folder.',
             authorizedStatus: 'none'
         },
         {
@@ -42,7 +42,7 @@ export class StepSourceControlComponent {
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#000000',
             barColor: '#D6D6D6',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Configure continuous integration with a Github repo.',
             authorizedStatus: 'none'
         },
         {
@@ -51,7 +51,7 @@ export class StepSourceControlComponent {
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#68227A',
             barColor: '#CED2EA',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Configure continuous integration with a VSTS repo.',
             authorizedStatus: 'none'
         },
         {
@@ -60,7 +60,7 @@ export class StepSourceControlComponent {
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#9E0F00',
             barColor: '#EFD8D6',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Deploy from a public Git or Mercurial repo.',
             authorizedStatus: 'none'
         },
         {
@@ -69,7 +69,7 @@ export class StepSourceControlComponent {
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#215081',
             barColor: '#DBE3EB',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Configure continuous integration with a Bitbucket repo.',
             authorizedStatus: 'none'
         },
         {
@@ -78,7 +78,7 @@ export class StepSourceControlComponent {
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#FFB901',
             barColor: '#FFF2D1',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Deploy from a local Git repo.',
             authorizedStatus: 'none'
         },
         {
@@ -87,7 +87,7 @@ export class StepSourceControlComponent {
             icon: 'images/deployment-center/onedrive-logo.svg',
             color: '#F46300',
             barColor: '#FDE6D6',
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+            description: 'Use an FTP connection to access and copy app files.',
             authorizedStatus: 'none'
         }
     ];
@@ -111,10 +111,7 @@ export class StepSourceControlComponent {
         })
         .switchMap(dep=>{
             const r = dep.json();
-            this.providerCards[0].authorizedStatus = r.onedrive ? 'authorized' : 'notAuthorized';
-            this.providerCards[1].authorizedStatus = r.github ? 'authorized' : 'notAuthorized';
-            this.providerCards[4].authorizedStatus = r.bitbucket ? 'authorized' : 'notAuthorized';
-
+            
             return Observable.zip(
                 _cacheService.post(Constants.serviceHost + 'api/github/passthrough', true,null, {
                     url: 'https://api.github.com/user'
@@ -128,13 +125,20 @@ export class StepSourceControlComponent {
                 (github, onedrive, bitbucket) => ({
                     github: github.json(),
                     onedrive: onedrive.json(),
-                    bitbucket: bitbucket.json()
+                    bitbucket: bitbucket.json(),
+                    onedriveAuth: r.onedrive,
+                    githubAuth: r.github,
+                    bitbucketAuth: r.bitbucket
                 }));
         })
         .subscribe(r => {
-            this.providerCards[1].authenticatedId = `${r.github.name} (${r.github.login})`;
+            this.providerCards[1].authenticatedId = r.github.login;
             this.providerCards[0].authenticatedId = r.onedrive.owner.user.displayName;
             this.providerCards[4].authenticatedId = r.bitbucket.display_name;
+            this.providerCards[0].authorizedStatus = r.onedrive ? 'authorized' : 'notAuthorized';
+            this.providerCards[1].authorizedStatus = r.github ? 'authorized' : 'notAuthorized';
+            this.providerCards[4].authorizedStatus = r.bitbucket ? 'authorized' : 'notAuthorized';
+
         });
     }
 

@@ -129,9 +129,9 @@
       </tbl>
     </div>
   </div>
-  <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'push'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
-    [autoFocus]="true" [sidebarClass]="'demo-sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true">
-    <app-deployment-detail [deploymentObject]="RightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
+ <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'push'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
+    [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true">
+    <app-deployment-detail [deploymentObject]="RightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail> 
 
   </ng-sidebar>
 </ng-sidebar-container>
