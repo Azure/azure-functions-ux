@@ -18,7 +18,7 @@ import { Http } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';;
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { LanguageService } from 'app/shared/services/language.service';
-import { SlotsService } from 'app/shared/services/slots.service';
+import { SiteService } from 'app/shared/services/slots.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { ConfigService } from 'app/shared/services/config.service';
 import { AuthzService } from 'app/shared/services/authz.service';
@@ -57,7 +57,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
         _languageService: LanguageService,
         _authZService: AuthzService,
         _configService: ConfigService,
-        _slotsService: SlotsService,
+        _slotsService: SiteService,
         _aiService: AiService,
         route: ActivatedRoute,
         router: Router) {
@@ -119,7 +119,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
         _languageService: LanguageService,
         _authZService: AuthzService,
         _configService: ConfigService,
-        _slotsService: SlotsService,
+        _slotsService: SiteService,
         _aiService: AiService) {
 
         this._userService.getStartupInfo()

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -23,11 +23,6 @@ import { FunctionsNode } from '../tree-view/functions-node';
 import { FunctionApp } from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import { Constants } from '../shared/models/constants';
-import { CacheService } from './../shared/services/cache.service';
-import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
-import { ExtensionInstallComponent } from './../extension-install/extension-install.component';
-import { RuntimeExtension } from '../shared/models/binding';
 
 @Component({
     selector: 'function-new',
@@ -37,7 +32,6 @@ import { RuntimeExtension } from '../shared/models/binding';
     inputs: ['viewInfoInput']
 })
 export class FunctionNewComponent {
-    @ViewChild(ExtensionInstallComponent) extensionInstallComponent: ExtensionInstallComponent;
     private functionsNode: FunctionsNode;
     public functionApp: FunctionApp;
     public functionsInfo: FunctionInfo[];
@@ -54,7 +48,6 @@ export class FunctionNewComponent {
     selectedTemplate: FunctionTemplate;
     selectedTemplateId: string;
     templateWarning: string;
-    requiredExtensions: RuntimeExtension[] = [];
     addLinkToAuth = false;
     action: Action;
     aadConfigured = true;
@@ -77,8 +70,7 @@ export class FunctionNewComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService,
-        private _cacheService: CacheService) {
+        private _aiService: AiService) {
         this.elementRef = elementRef;
         this.disabled = !!_broadcastService.getDirtyState("function_disabled");
 
@@ -124,16 +116,9 @@ export class FunctionNewComponent {
                     return c === 'Experimental';
                 });
 
-                if (this.selectedTemplate.metadata.extensions && this.selectedTemplate.metadata.extensions.length > 0) {
-                    this.extensionInstallComponent.loading = true;
-                    this.extensionInstallComponent.GetRequiredExtensions(this.selectedTemplate.metadata.extensions)
-                        .subscribe(extensions => {
-                            this.extensionInstallComponent.loading = false;
-                            this.requiredExtensions = extensions;
-                        });
-                } else {
-                    this.requiredExtensions = [];
-                }
+                // setting values to default
+                this.runtimeExtensionInstalled(true);
+                this.aadRegistrationConfigured(true);
 
                 this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
                 if (this.selectedTemplate.metadata.warning) {
@@ -302,12 +287,6 @@ export class FunctionNewComponent {
                 // If someone refreshed the app, it would created a new set of child nodes under the app node.
                 this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
                 this.functionsNode.addChild(res);
-
-                if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
-                    const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-                    helper.function = this;
-                    helper.createO365WebhookSupportFunction(this._globalStateService);
-                }
             },
             () => {
                 this._globalStateService.clearBusyState();

@@ -1,11 +1,36 @@
 <div>
-    <div class="alert alert-warning alert-dismissible" role="alert" [innerHTML]="'monitoring_appInsights' | translate">
+    <div *ngIf="!azureWebJobsDashboardMissed && aiId === ''" class="alert alert-warning alert-dismissible" role="alert">
+        <img src="images/appInsights.svg"/>
+        <span [innerHTML]="'monitoring_appInsights' | translate"></span>
     </div>
 
-    <div id="function-aggregates">
-        <aggregate-block [title]="successAggregateHeading" [value]="successAggregate" style="float:left; width: 45%; margin-right:2%">Loading...</aggregate-block>
-        <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
-        <div style="clear: both"></div>
+    <div *ngIf="!azureWebJobsDashboardMissed && !!aiId" class="alert alert-success alert-dismissible" role="alert">
+        <img src="images/appInsights.svg"/>
+        {{ 'monitoring_appInsightsSetUp' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;<a tabindex="0" (click)="openAppInsigthsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
     </div>
-    <table-function-monitor [selectedFunction]="currentFunction" [columns]="columns" [data]="rows" [pulseUrl]="pulseUrl" [selectedFuncId]="functionId"></table-function-monitor>
+
+    <div *ngIf="!azureWebJobsDashboardMissed">
+        <div id="function-aggregates">
+            <aggregate-block [title]="successAggregateHeading" [value]="successAggregate" style="float:left; width: 45%; margin-right:2%">Loading...</aggregate-block>
+            <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
+            <div style="clear: both"></div>
+        </div>
+        <table-function-monitor [selectedFunction]="currentFunction" [columns]="columns" [data]="rows" [pulseUrl]="pulseUrl" [selectedFuncId]="functionId"></table-function-monitor>
+    </div>
+
+    <div *ngIf="azureWebJobsDashboardMissed && aiId === ''" class="ai-icon">
+        <div>    
+            <img src="images/appInsights.svg"/>        
+            <h3>{{ 'monitoring_noMonitoring' | translate }}</h3> 
+            <div [innerHTML]="'monitoring_appInsights' | translate"></div>          
+        </div>                
+    </div>
+
+    <div *ngIf="azureWebJobsDashboardMissed && !!aiId" class="ai-icon">
+        <div>
+            <img src="images/appInsights.svg"/>
+            <h3>{{ 'monitoring_noMonitoring' | translate }}</h3>
+            {{ 'monitoring_appInsightsSetUp' | translate }} <a tabindex="0" (click)="openAppInsigthsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
+        </div>            
+    </div>
 </div>

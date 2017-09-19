@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/mergeMap';
 
-import { SlotsService } from '../shared/services/slots.service';
+import { SiteService } from '../shared/services/slots.service';
 import { SlotsNode } from '../tree-view/slots-node';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { GlobalStateService } from '../shared/services/global-state.service';
@@ -62,7 +62,7 @@ export class SlotNewComponent implements OnDestroy {
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _aiService: AiService,
-        private _slotService: SlotsService,
+        private _slotService: SiteService,
         private _cacheService: CacheService,
         private _logService: LogService,
         authZService: AuthzService,

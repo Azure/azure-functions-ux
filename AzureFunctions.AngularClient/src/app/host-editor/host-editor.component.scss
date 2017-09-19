@@ -24,26 +24,14 @@ div.dev-block-header{
     margin-right: 5px;
 }
 
-#toggle-editor {    
-    top: 0;
-    right: 0;
-    padding: 7px;
-    color: $primary-color;
-}
-
 .full-view {
     height:100%;
     width:100%;
 }
-
 
 .top-row {
     display:flex;
     flex-direction: row;
     align-items:center;
     padding-bottom: 7px;
-}
-
-.toggle {
-    flex-grow:1;
 }
