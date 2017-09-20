@@ -79,6 +79,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + Add new document.
+        /// </summary>
+        internal static string addNewDocument {
+            get {
+                return ResourceManager.GetString("addNewDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to + Add new connection string.
         /// </summary>
         internal static string addNewConnectionString {
@@ -2109,6 +2118,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string feature_applicationSettingsName {
             get {
                 return ResourceManager.GetString("feature_applicationSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default documents.
+        /// </summary>
+        internal static string feature_defaultDocumentsName {
+            get {
+                return ResourceManager.GetString("feature_defaultDocumentsName", resourceCulture);
             }
         }
         

@@ -124,6 +124,9 @@ import { AppSettingsComponent } from './site/site-config/app-settings/app-settin
 import { ConnectionStringsComponent } from './site/site-config/connection-strings/connection-strings.component';
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 import { TopWarningComponent } from './top-warning/top-warning.component';
+import { DefaultDocumentsComponent } from './site/site-config/default-documents/default-documents.component';
+//import { TableRowComponent } from './controls/table-row/table-row.component';
+//import { TableCellComponent } from './controls/table-cell/table-cell.component';
 
 export function ArmServiceFactory(
   http: Http,
@@ -246,7 +249,8 @@ export class AppModule {
       PairListComponent,
       RequestResposeOverrideComponent,
       BindingEventGridComponent,
-      TopWarningComponent
+      TopWarningComponent,
+      DefaultDocumentsComponent
     ],
     imports: [
       FormsModule,

@@ -13,6 +13,7 @@ import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info'
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
+import { DefaultDocumentsComponent } from './default-documents/default-documents.component';
 import { PortalService } from './../../shared/services/portal.service';
 import { AuthzService } from './../../shared/services/authz.service';
 import { SiteTabIds } from './../../shared/models/constants';
@@ -50,6 +51,7 @@ export class SiteConfigComponent implements OnDestroy {
   @ViewChild(GeneralSettingsComponent) generalSettings: GeneralSettingsComponent;
   @ViewChild(AppSettingsComponent) appSettings: AppSettingsComponent;
   @ViewChild(ConnectionStringsComponent) connectionStrings: ConnectionStringsComponent;
+  @ViewChild(DefaultDocumentsComponent) defaultDocuments: DefaultDocumentsComponent;
 
   constructor(
     private _fb: FormBuilder,
@@ -128,6 +130,7 @@ export class SiteConfigComponent implements OnDestroy {
     this.generalSettings.validate();
     this.appSettings.validate();
     this.connectionStrings.validate();
+    this.defaultDocuments.validate();
 
     this._busyStateScopeManager.setBusy();
     let notificationId = null;
@@ -141,13 +144,14 @@ export class SiteConfigComponent implements OnDestroy {
           this.generalSettings.save(),
           this.appSettings.save(),
           this.connectionStrings.save(),
-          (g, a, c) => ({ generalSettingsResult: g, appSettingsResult: a, connectionStringsResult: c })
+          this.defaultDocuments.save(),
+          (g, a, c, d) => ({ generalSettingsResult: g, appSettingsResult: a, connectionStringsResult: c, defaultDocumentsResult: d })
         );
       })
       .subscribe(r => {
         this._busyStateScopeManager.clearBusy();
 
-        const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
+        const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult, r.defaultDocumentsResult];
         const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
         const saveSuccess: boolean = saveFailures.length === 0;
         const saveNotification = saveSuccess ?
