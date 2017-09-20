@@ -1,7 +1,7 @@
 <div class="settings-group-wrapper">
 
   <h3 class="first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
-  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{permissionsMessage}})</span>
+  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
 
   <div class="settings-wrapper">
 
@@ -163,16 +163,16 @@
       </div>
     </div>
 
-    <div *ngIf="!hasWritePermissions || (!group && !!loadingFailureMessage)" class="shield">
-      <div *ngIf="!group && !!loadingFailureMessage" class="shield-message">
-        {{loadingFailureMessage}}
+    <div *ngIf="!group || (!hasWritePermissions && !showPermissionsMessage)" class="shield">
+      <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+        {{ loadingFailureMessage }}
       </div>
     </div>
 
   </div>
 
   <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
-  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{permissionsMessage}})</span>
+  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
 
   <div class="settings-wrapper">
 
@@ -199,9 +199,9 @@
       </div>
     </div>
 
-    <div *ngIf="!hasWritePermissions || (!group && !!loadingFailureMessage)" class="shield">
-      <div *ngIf="!group && !!loadingFailureMessage" class="shield-message">
-        {{loadingFailureMessage}}
+    <div *ngIf="!group || (!hasWritePermissions && !showPermissionsMessage)" class="shield">
+      <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+        {{ loadingFailureMessage }}
       </div>
     </div>
 
@@ -209,8 +209,8 @@
 
   <div *ngIf="!hasWritePermissions" class="shield transparent">
     <div *ngIf="showPermissionsMessage" class="shield-message">
-      <p>{{permissionsMessage}}</p>
-      <button class="transparent" (click)="showPermissionsMessage=false">{{showReadOnlySettingsMessage}}</button>
+      <p>{{ permissionsMessage }}</p>
+      <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
     </div>
   </div>
 

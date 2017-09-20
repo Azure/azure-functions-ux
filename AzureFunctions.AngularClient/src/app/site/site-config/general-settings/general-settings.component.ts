@@ -46,6 +46,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _webConfigArm: ArmObj<SiteConfig>;
   private _siteConfigArm: ArmObj<Site>;
   public loadingFailureMessage: string;
+  public loadingMessage: string;
 
   private _sku: string;
   private _kind: string;
@@ -129,7 +130,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       .do(null, error => {
         this._aiService.trackEvent('/errors/general-settings', error);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
-        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingMessage = null;
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
@@ -142,6 +144,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         }
         this._processSkuAndKind(this._siteConfigArm);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
+        this.loadingMessage = null;
         this._busyStateScopeManager.clearBusy();
       });
   }
@@ -168,6 +171,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.showPermissionsMessage = false;
     this.showReadOnlySettingsMessage = this._translateService.instant(PortalResources.configViewReadOnlySettings);
     this.loadingFailureMessage = '';
+    this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
