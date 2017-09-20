@@ -70,7 +70,7 @@
                     {{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}
                 </label>
                 <button 
-                    [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" 
+                    class="custom-button" 
                     (click)="updateVersion()" 
                     tabindex="0"
                     id="updateRuntimeVersionButton"
@@ -116,7 +116,7 @@
                         {{ 'appFunctionSettings_proxyRuntimeVersion1' | translate: {extensionVersion: routingExtensionVersion, latestExtensionVersion:latestRoutingExtensionVersion} }}
                     </label>
                     <button 
-                        [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" 
+                        class="custom-button" 
                         (click)="updateRoutingExtensionVersion()" 
                         tabindex="0"
                         id="proxyRuntimeUpdateButton"
@@ -173,7 +173,7 @@
         [autoSelect]="true"
         [functionApp]="functionApp"></function-keys>
 
-  <div *ngIf="!showTryView && !!functionApp" class="setting-wrapper">
+  <div *ngIf="!!functionApp" class="setting-wrapper">
     <host-editor class="features-wrapper" [functionAppInput]="functionApp" ></host-editor>
   </div>
 
