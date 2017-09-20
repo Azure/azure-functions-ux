@@ -13,31 +13,28 @@
         <tbody>
             <tr class="not-clickable" *ngFor="let key of keys">
                 <td><label id="keyNameLabel">{{key.name}}</label></td>
-                <td *ngIf="key.show">
-                    {{key.value}}
-                    <a (click)="key.show = false" 
+                <td>                    
+                    <a (click)="key.show=!key.show" 
                         (keydown)="keyDown($event, 'showKey', key)"
                         class="operation" 
                         tabindex="0"
-                        id="clickToHideAction"
-                        aria-labelledby="keyNameLabel clickToHideAction">
-                        {{'functionKeys_clickToHide' | translate}}
+                        [attr.aria-expanded]="key.show"
+                        [attr.aria-label]="key.name"
+                        >
+                        <ng-container *ngIf="key.show">{{'functionKeys_clickToHide' | translate}}</ng-container>
+                        <ng-container *ngIf="!key.show">{{'functionKeys_clickToShow' | translate}}</ng-container>
                     </a>
-                </td>
-                <td *ngIf="!key.show">
-                    <a (click)="key.show = true" 
-                        (keydown)="keyDown($event, 'showKey', key)"
-                        class="operation"
-                        tabindex="0"
-                        id="clickToShowAction"
-                        aria-labelledby="keyNameLabel clickToShowAction">
-                        {{'functionKeys_clickToShow' | translate}}
-                    </a>
+                    <span *ngIf="key.show" [attr.aria-label]="key.value" tabindex="0">{{ key.value }}</span>
                 </td>
                 <td>
                     <div id="operations-bar">
-                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
-                            <span class="operation" (click)="copyKey(key)" (keydown)="keyDown($event, 'copyKey', key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">                            
+                            <span class="operation" 
+                                (click)="copyKey(key)" 
+                                (keydown)="keyDown($event, 'copyKey', key)"
+                                >
+                                <i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}
+                            </span>
                         </pop-over>
                         <a class="operation" 
                             (click)="renewKey(key)"
@@ -59,13 +56,23 @@
                 </td>
             </tr>
             <tr *ngIf="addingNew" class="not-clickable">
-                <td><input type="text" (keyup)="checkValidName($event)" [(ngModel)]="newKeyName" placeholder="{{'functionKeys_enterKeyName' | translate}}" /></td>
-                <td><input type="text" (keyup)="checkValidName($event)" [(ngModel)]="newKeyValue" placeholder="{{'functionKeys_enterKeyValue' | translate}}" /></td>
-                <td><button class="custom-button" [ngClass]="validKey ? '' : 'disabled'" (click)="saveNewKey()" tabindex="0">{{'save' | translate}}</button></td>
+                <td><input type="text" id="newKeyName" (keyup)="checkValidName($event)" [(ngModel)]="newKeyName" placeholder="{{'functionKeys_enterKeyName' | translate}}" /></td>
+                <td><input type="text" id="newKeyValue" (keyup)="checkValidName($event)" [(ngModel)]="newKeyValue" placeholder="{{'functionKeys_enterKeyValue' | translate}}" /></td>
+                <td>
+                    <button 
+                        class="custom-button" 
+                        [ngClass]="validKey ? '' : 'disabled'" 
+                        (click)="saveNewKey()" 
+                        tabindex="0"
+                        id="saveNewKeyButton"
+                        aria-labelledby="newKeyName newKeyValue saveNewKeyButton">
+                        {{'save' | translate}}                        
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
-    <button class="custom-button" (click)="showOrHideNewKeyUi()" tabindex="0">
+    <button class="custom-button" (click)="showOrHideNewKeyUi()">
         <span *ngIf="!addingNew && !!functionInfo">
             {{ 'functionKeys_addNewFunctionKey' | translate}}
         </span>
