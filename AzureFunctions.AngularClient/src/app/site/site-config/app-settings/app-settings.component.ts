@@ -46,6 +46,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _appSettingsArm: ArmObj<any>;
 
   public loadingFailureMessage: string;
+  public loadingMessage: string;
 
   @Input() mainForm: FormGroup;
 
@@ -91,7 +92,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .do(null, error => {
         this._aiService.trackEvent("/errors/app-settings", error);
         this._setupForm(this._appSettingsArm);
-        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       })
@@ -101,6 +103,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           this._appSettingsArm = r.appSettingsResponse.json();
           this._setupForm(this._appSettingsArm);
         }
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       });
@@ -127,6 +130,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     this.permissionsMessage = "";
     this.showPermissionsMessage = false;
     this.loadingFailureMessage = "";
+    this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {

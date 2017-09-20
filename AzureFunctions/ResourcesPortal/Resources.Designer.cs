@@ -2356,6 +2356,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (no application settings to display).
+        /// </summary>
+        internal static string emptyAppSettings {
+            get {
+                return ResourceManager.GetString("emptyAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no connection strings to display)
+        /// </summary>
+        internal static string emptyConnectionStrings {
+            get {
+                return ResourceManager.GetString("emptyConnectionStrings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General Settings.
         /// </summary>
         internal static string feature_generalSettings {
