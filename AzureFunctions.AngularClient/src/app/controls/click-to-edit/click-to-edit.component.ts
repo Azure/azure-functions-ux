@@ -16,6 +16,9 @@ export class CustomFormGroup extends FormGroup {
 
   // Overrides the ClickToEdit default behavior to start in edit mode for new items
   public _msStartInEditMode: boolean;
+
+  // Overrides the ClickToEdit default behavior to remain in edit mode
+  public _msStayInEditMode: boolean;
 }
 
 export class CustomFormControl extends FormControl {
@@ -31,7 +34,10 @@ export class CustomFormControl extends FormControl {
 export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public showTextbox = false;
-  @Input() group: FormGroup;
+  public group: CustomFormGroup;
+  @Input('group') set origGroup(group: FormGroup) {
+    this.group = group as CustomFormGroup;
+  }
   @Input() name: string;
   @Input() placeholder: string;
   @Input() hiddenText: boolean;
@@ -51,9 +57,9 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this._targetFocusState = 'blurred';
 
-    this.control = <CustomFormControl>this.group.controls[this.name];
+    this.control = this.group.controls[this.name] as CustomFormControl;
 
-    const group = <CustomFormGroup>this.group;
+    const group = this.group /*as CustomFormGroup*/;
     if (!group._msShowTextbox) {
       group._msShowTextbox = new Subject<boolean>();
     }

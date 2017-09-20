@@ -1,0 +1,18 @@
+.cell-liner {
+  position: relative;
+}
+
+.boundary-left, .boundary-right {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 1px;
+}
+
+.boundary-left {
+  left: 0px;
+}
+
+.boundary-right {
+  right: 0px;
+}

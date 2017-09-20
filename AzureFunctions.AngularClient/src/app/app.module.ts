@@ -251,6 +251,8 @@ export class AppModule {
       BindingEventGridComponent,
       TopWarningComponent,
       DefaultDocumentsComponent
+      //,TableRowComponent,
+      //TableCellComponent
     ],
     imports: [
       FormsModule,

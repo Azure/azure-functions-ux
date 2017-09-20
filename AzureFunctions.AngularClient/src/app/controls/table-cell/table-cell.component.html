@@ -1,0 +1,5 @@
+<div class="cell-liner">
+    <div *ngIf="editMode && isFirstCell" class="boundary-left" tabindex="0"></div>
+    <ng-content></ng-content>
+    <div *ngIf="editMode && isLastCell" class="boundary-right" tabindex="0"></div>
+</div>

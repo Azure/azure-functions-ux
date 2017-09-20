@@ -18,7 +18,7 @@ export class Dom {
     // https://stackoverflow.com/questions/7668525/is-there-a-jquery-selector-to-get-all-elements-that-can-get-focus
     public static getTabbableControl(element: HTMLElement): HTMLElement {
 
-        const controls = element.querySelectorAll('input, select, textarea, button, object, a, area, .link, div.sortable');
+        const controls = element.querySelectorAll('input, select, textarea, button, object, a, area, .link, div.sortable td.editable');
         if (controls.length === 0) {
             return element;
         } else {
