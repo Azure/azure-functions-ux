@@ -19,7 +19,7 @@ namespace AzureFunctions.ResourcesPortal {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -2635,6 +2635,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity..
+        /// </summary>
+        internal static string feature_msiInfo {
+            get {
+                return ResourceManager.GetString("feature_msiInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Managed service identity.
+        /// </summary>
+        internal static string feature_msiName {
+            get {
+                return ResourceManager.GetString("feature_msiName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Securely access resources through VNET Integration and Hybrid Connections..
         /// </summary>
         internal static string feature_networkingInfo {
@@ -2878,6 +2896,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This feature is not supported for slots.
+        /// </summary>
+        internal static string featureNotSupportedForSlots {
+            get {
+                return ResourceManager.GetString("featureNotSupportedForSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must have write permissions on the current app in order to use this feature.
         /// </summary>
         internal static string featureRequiresWritePermissionOnApp {
@@ -3027,6 +3054,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionAppSettings_quotaInfo {
             get {
                 return ResourceManager.GetString("functionAppSettings_quotaInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter value in GB-sec.
+        /// </summary>
+        internal static string functionAppSettings_quotaPlaceHolder {
+            get {
+                return ResourceManager.GetString("functionAppSettings_quotaPlaceHolder", resourceCulture);
             }
         }
         
@@ -5724,7 +5760,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export to Power Apps + Flow.
+        ///   Looks up a localized string similar to Export to PowerApps + Flow.
         /// </summary>
         internal static string swaggerDefinition_powerAppsFlow {
             get {
