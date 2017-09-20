@@ -64,7 +64,7 @@ export class ExtensionInstallComponent {
     // as error could be temporary because of host restart.
     pollInstallationStatus(timeOut: number) {
         setTimeout(() => {
-            if (timeOut > 120) {
+            if (timeOut > 600) {
                 this.GetRequiredExtensions(this.extensions).subscribe((r) => {
                     this.extensions = r;
                     this._functionApp.showTimeoutError();
