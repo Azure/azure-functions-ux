@@ -96,7 +96,7 @@ export class ExtensionInstallComponent {
                     r.forEach(jobStatus => {
                         // if failed then show error, remove from status tracking queue
                         if (jobStatus.status === ExtensionInstallStatus.Failed) {
-                            this._functionApp.showInstallFailed();
+                            this._functionApp.showInstallFailed(jobStatus.id);
                         }
 
                         // error status also show up here, error is different from failed

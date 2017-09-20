@@ -2194,6 +2194,13 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are not able to install runtime extension. Install id {{installationId}}.
+        /// </summary>
+        internal static string failedToInstallFunctionRuntimeExtensionForId {
+            get {
+                return ResourceManager.GetString("failedToInstallFunctionRuntimeExtensionForId", resourceCulture);
+            }
+        }
         ///   Looks up a localized string similar to Failed to {{state}} function: {{functionName}}.
         /// </summary>
         internal static string failedToSwitchFunctionState {

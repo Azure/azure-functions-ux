@@ -2305,6 +2305,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="installingExtension" xml:space="preserve">
     <value>Installing required extensions</value>
   </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>We are not able to install runtime extension. Install id {{installationId}}</value>
+  </data>
   <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
     <value>Enter value in GB-sec</value>
   </data>

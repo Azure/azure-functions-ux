@@ -1785,9 +1785,9 @@ export class FunctionApp {
         });
     }
 
-    showInstallFailed() {
+    showInstallFailed(id) {
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-            message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension, { extensionId: '' }),
+            message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtensionForId, { installationId: id }),
             errorId: ErrorIds.timeoutInstallingFunctionRuntimeExtension,
             errorType: ErrorType.RuntimeError,
             resourceId: this.site.id
