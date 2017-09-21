@@ -177,6 +177,11 @@ export class SiteManageComponent {
         })
     }
 
+    //Bug 10307095:[RTM] [BugBash] Use Environment Switcher to properly enable and disable feature in OnPrem
+    private _isOnprem() : boolean {
+        return window.appsvc.env.runtimeType === "OnPrem";
+    }
+
     private _initCol1Groups(site : ArmObj<Site>){
         let codeDeployFeatures = [
             new DisableableBladeFeature(
@@ -322,6 +327,12 @@ export class SiteManageComponent {
             );
         }
 
+        // Instead of setting null in Features array, We are removing it here to minimize merge conflict
+        // PLease remove it after merge from dev and fix properly with environmentswicther
+        if (this._isOnprem()) {
+            developmentToolFeatures.splice(3,1); //removing ResourceExplorer
+        }
+
         this.groups1 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
             new FeatureGroup(this._translateService.instant(PortalResources.feature_codeDeployment), codeDeployFeatures),
@@ -400,7 +411,7 @@ export class SiteManageComponent {
                     detailBladeInputs : { resourceUri : this._descriptor.resourceId }
                 },
                 this._portalService,
-                this._hasSiteWritePermissionStream),
+                this._hasSiteWritePermissionStream)
         ]
 
         let monitoringFeatures = [
@@ -450,6 +461,14 @@ export class SiteManageComponent {
                 },
                 this._portalService),
         ]
+
+        // Instead of setting null in Features array, We are removing it here to minimize merge conflict
+        // PLease remove it after merge from dev and fix properly with environmentswicther
+        if (this._isOnprem()) {
+            networkFeatures.splice(0,1); // Networking
+            networkFeatures.splice(3,1); // push notification
+            monitoringFeatures.splice(3,1); // Security scanning
+        }
 
         this.groups2 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_networkingName), networkFeatures),
@@ -604,6 +623,11 @@ export class SiteManageComponent {
             //     "Info"),
         ]
 
+        // Instead of setting null in Features array, We are removing it here to minimize merge conflict
+        // PLease remove it after merge from dev and fix properly with environmentswicther
+        if (this._isOnprem()) {
+            resourceManagementFeatures.splice(4,1); //Automation script
+        }
         this.groups3 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
             new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures),
