@@ -34,6 +34,7 @@ import { SecretsBoxInputDirective } from 'app/secrets-box-container/secrets-box-
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
 import { FunctionNewComponent } from 'app/function-new/function-new.component';
 import { ExtensionInstallComponent } from './extension-install/extension-install.component';
+import { JavaSplashPageComponent } from './java-splash-page/java-splash-page.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -102,7 +103,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         TableFunctionMonitorComponent,
         TableFunctionMonitorPipe,
         RunHttpComponent,
-        AadRegistrationComponent
+        AadRegistrationComponent,
+        JavaSplashPageComponent
     ],
     providers: []
 })
