@@ -17,13 +17,16 @@ export class UniqueValidator implements Validator {
     constructor(
         private _controlName: string,
         private _controlsArray: FormArray,
-        private _error) {
+        private _error,
+        private _stringTransform: ((s: string) => string) = null ) {
     }
 
     validate(control: CustomFormControl) {
         if (control.pristine) {
             return null;
         }
+
+        let controlVal = this._normalizeValue(control.value);
 
         let match = this._controlsArray.controls.find(group => {
             let cs = (<FormGroup>group).controls;
@@ -32,11 +35,19 @@ export class UniqueValidator implements Validator {
             }
 
             let c = cs[this._controlName];
+            let cVal = this._normalizeValue(c.value);
 
-            return c !== control
-                && c.value.toString().toLowerCase() === control.value.toString().toLowerCase();
+            return c !== control && cVal === controlVal;
         });
 
         return !!match ? { "notUnique": this._error } : null;
+    }
+
+    private _normalizeValue(value) {
+        let valueString = value.toString().toLowerCase();
+        if (this._stringTransform) {
+            valueString = this._stringTransform(valueString);
+        }
+        return valueString;
     }
 }

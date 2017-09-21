@@ -343,6 +343,9 @@
   <data name="addNewHandlerMapping" xml:space="preserve">
     <value>+ Add new handler mapping</value>
   </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ Add new virtual application or directory</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>Enter a name</value>
   </data>
@@ -357,6 +360,15 @@
   </data>
   <data name="enterArguments" xml:space="preserve">
     <value>Enter arguments</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>Enter virtual path</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>Enter physical path</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>Application</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
@@ -1255,6 +1267,9 @@
   <data name="emptyHandlerMappings" xml:space="preserve">
     <value>(no handler mappings to display)</value>
   </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(no virtual applications or directories to display)</value>
+  </data>
   <data name="feature_generalSettingsName" xml:space="preserve">
     <value>General settings</value>
   </data>
@@ -1278,6 +1293,9 @@
   </data>
   <data name="feature_handlerMappingsName" xml:space="preserve">
     <value>Handler mappings</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>Virtual applicataions and directories</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to edit these settings.</value>
