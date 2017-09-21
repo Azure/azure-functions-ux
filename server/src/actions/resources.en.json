@@ -954,6 +954,9 @@
         "ServiceBusQueueTriggerNodeTS_description": "(Experimental) A TypeScript function that will be run whenever a message is added to a specified Service Bus queue",
         "ServiceBusTopicTriggerNodeTS_description": "(Experimental) A TypeScript function that will be run whenever a message is added to the specified Service Bus topic",
         "TimerTriggerNodeTS_description": "(Experimental) A TypeScript function that will be run on a specified schedule",
-        "ManualTriggerNodeTS_description": "(Experimental) A TypeScript function that is triggered manually via the portal \"Run\" button"
+        "ManualTriggerNodeTS_description": "(Experimental) A TypeScript function that is triggered manually via the portal \"Run\" button",
+        "java_splash_line_1": "Java Functions can be built, tested and deployed locally from your machine. No portal required!",
+        "java_splash_line_2": "Click below to get started with documentation on how to build your first Azure Function with Java.",
+        "java_splash_button": "Java on Azure Functions Quickstart"
     }
 }
