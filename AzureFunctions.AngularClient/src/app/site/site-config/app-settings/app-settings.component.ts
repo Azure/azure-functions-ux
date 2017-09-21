@@ -136,11 +136,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
     if (!writePermission) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configRequiresWritePermissionOnApp);
-    }
-    else if (readOnlyLock) {
+    } else if (readOnlyLock) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configDisabledReadOnlyLockOnApp);
-    }
-    else {
+    } else {
       this.permissionsMessage = "";
     }
 

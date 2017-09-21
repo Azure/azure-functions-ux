@@ -163,7 +163,7 @@
       </div>
     </div>
 
-    <div *ngIf="!group || (!hasWritePermissions && !showPermissionsMessage)" class="shield">
+    <div *ngIf="!group || !hasWritePermissions" class="shield">
       <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
         {{ loadingFailureMessage }}
       </div>
@@ -199,7 +199,7 @@
       </div>
     </div>
 
-    <div *ngIf="!group || (!hasWritePermissions && !showPermissionsMessage)" class="shield">
+    <div *ngIf="!group || !hasWritePermissions" class="shield">
       <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
         {{ loadingFailureMessage }}
       </div>
