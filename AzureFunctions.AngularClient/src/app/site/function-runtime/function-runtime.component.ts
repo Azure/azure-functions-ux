@@ -336,7 +336,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
     if (version === this.extensionVersion) {
       return;
     }
+    let updateButtonClicked = false;
     if (!version) {
+      updateButtonClicked = true;
       version = this.getLatestVersion(this.extensionVersion);
     };
     this._aiService.trackEvent('/actions/app_settings/update_version');
@@ -348,7 +350,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .mergeMap(r => {
         return this.functionApp.getFunctionHostStatus()
         .map((hostStatus: HostStatus) => {
-          if (!hostStatus.version || hostStatus.version === this.exactExtensionVersion) {
+          if (!hostStatus.version || (hostStatus.version === this.exactExtensionVersion && !updateButtonClicked)) {
             throw Observable.throw('Host version is not updated yet');
           }
           return hostStatus;
