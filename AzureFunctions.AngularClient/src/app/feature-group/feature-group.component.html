@@ -5,15 +5,14 @@
          (mouseenter)="feature.isHighlighted = true" 
          (mouseleave)="feature.isHighlighted = false"
          (focusout)="checkFeatureGroupBlur()" 
-         class="feature-group-item">
+         class="list-item feature-group-item">
 
         <div *ngIf="!feature.isEmpty" 
              class="feature-group-item-content">
-             <img [src]="feature.iconUrl" />
+             <span [load-image]="feature.iconUrl" class="icon-small"></span>
 
             <span [class.feature-group-result-title]="searchTerm && feature.highlight">
                 <a *ngIf="feature.enabled" 
-                    class="link" 
                     [tabIndex]="feature.nameFocusable ? 0 : -1" 
                     (focus)="nameFocus(feature)"
                     (blur)="feature.onName = false"
@@ -27,9 +26,9 @@
                 </span>      
             </span>
 
-            <img *ngIf="feature.superScriptIconUrl" 
-                 class="super-icon" 
-                 [src]="feature.superScriptIconUrl" />
+            <span *ngIf="feature.superScriptIconUrl" 
+                 class="icon-super" 
+                 [load-image]="feature.superScriptIconUrl"></span>
 
             <span *ngIf="feature.isHighlighted || feature.imageFocusable" 
                   class="feature-group-info" 
@@ -40,12 +39,12 @@
                 <span>
                     <pop-over *ngIf="feature.warning" 
                               [message]="feature.warning">
-                              <img src="images/warning.svg" />
+                              <span load-image="image/warning.svg" class="icon-small"></span>
                     </pop-over>
 
                     <pop-over *ngIf="feature.info" 
                               [message]="feature.info">
-                              <img src="images/info.svg" />
+                              <span load-image="image/info.svg" class="icon-small"></span>
                     </pop-over>
                 </span>
             </span>

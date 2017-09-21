@@ -1,4 +1,4 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
 
 .site-faded-text{
     font-style: italic;
@@ -7,13 +7,6 @@
 
 .site-summary-actions{
     padding-left: 12px;
-
-    img{
-        height: 15px;
-        width: 15px;
-        vertical-align: top;
-        margin-right: 5px;
-    }
 
     .disabled-action{
         opacity: 0.4;
@@ -70,6 +63,13 @@
 
 #site-summary-body{
     padding: 10px 35px;
+
+    h2{
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 24px;
+        font-weight: 400;
+    }
 }
 
 #site-summary-features{

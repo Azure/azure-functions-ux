@@ -1,10 +1,10 @@
 <div class="full-view" #container>
     <div class="top-row">
-        <span class="text-level1-heading">function.json</span>
-        <div *ngIf="isDirty" class="dev-block-header">
+        <h2>function.json</h2>
+        <h2 *ngIf="isDirty" class="dev-block-header">
             <button [fnWriteAccess]="functionApp" (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
             <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
-        </div>
+        </h2>
         <div class="toggle">
             <div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('standard')"><i class="fa fa-edit"></i> {{ 'functionIntegrate_standardEditor' | translate }}</div>
         </div>

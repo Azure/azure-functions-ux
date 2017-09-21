@@ -57,9 +57,8 @@ export class AppNode extends TreeNode
     private _functionApp: FunctionApp;
     public openTabId: string | null;
 
-    public nodeClass = 'tree-node app-node';
     public iconClass = 'tree-node-svg-icon';
-    public iconUrl = 'images/functions.svg';
+    public iconUrl = 'image/functions.svg';
 
     private _pollingTask: RxSubscription;
     private _loadingObservable: Observable<any>;
@@ -82,6 +81,7 @@ export class AppNode extends TreeNode
         const descriptor = new SiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
+        this.nodeClass = this.nodeClass += ' app-node';
 
         const sub = _subscriptions.find(sub => {
             return sub.subscriptionId === descriptor.subscription;

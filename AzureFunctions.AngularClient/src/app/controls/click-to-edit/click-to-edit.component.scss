@@ -1,4 +1,4 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
 
 .click-to-edit-wrapper{
     .hidden{
@@ -9,7 +9,7 @@
         color: $disabled-color;
     }
 
-    .text{
+    .read-only-text{
         overflow: hidden;
         text-overflow: ellipsis;
         padding: 3px;

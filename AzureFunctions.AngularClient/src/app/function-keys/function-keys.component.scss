@@ -1,8 +1,9 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .title {
-    @extend .text-label;
-    font-weight: bold;
+    // font-size: 12px;
+    // color: $label-text-color;
+    // font-weight: bold;
     padding-top: 20px;
 }
 
@@ -13,13 +14,12 @@
 .operation {
     margin-right: 20px;
     cursor: pointer;
-    color: $primary-color;
     padding: 6px;
 }
 
-.operation:hover {
-    background-color: $tree-node-hover-color;
-}
+// .operation:hover {
+//     background-color: $item-hover-color;
+// }
 
 .operation-red {
     color: #ff1525;

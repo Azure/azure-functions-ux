@@ -4,7 +4,7 @@
          [cs-input]="{site: site}"
          id="site-dashboard-pin"
          class="link"
-         src="images/pin.svg"
+         src="image/pin.svg"
          (click)="pinPart()" />
 
     <nav id="site-tabs" role="tablist" #siteTabs>
@@ -19,12 +19,14 @@
             aria-controls="site-tab-content"
             [attr.aria-selected]="info.active ? 0 : -1">
 
-            <img *ngIf="info.iconUrl" [src]="info.iconUrl" />
-            <span *ngIf="info.dirty">* </span><span [class.tab-diry]="info.dirty">{{info.title}}</span>
+            <span *ngIf="info.iconUrl" [load-image]="info.iconUrl" class="icon-small"></span>
+            <h4>
+                <span *ngIf="info.dirty">* </span><span [class.tab-diry]="info.dirty">{{info.title}}</span>
 
-            <span *ngIf="info.closeable" class="close-button" (click)="closeTab(info)">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </span>
+                <span *ngIf="info.closeable" class="close-button" (click)="closeTab(info)">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+            </h4>
             <div class="bottom" *ngIf="info.active && info.closeable"></div>
         </div>
     </nav>

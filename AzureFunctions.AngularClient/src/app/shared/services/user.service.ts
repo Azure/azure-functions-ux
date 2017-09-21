@@ -46,7 +46,8 @@ export class UserService {
             sessionId: null,
             acceptLanguage: null,
             effectiveLocale: null,
-            resourceId: null
+            resourceId: null,
+            theme: null
         };
 
         if (this.inIFrame || this.inTab) {
@@ -125,7 +126,8 @@ export class UserService {
                         acceptLanguage: this._startupInfo.acceptLanguage,
                         effectiveLocale: this._startupInfo.effectiveLocale,
                         resourceId: this._startupInfo.resourceId,
-                        stringResources: r.resources
+                        stringResources: r.resources,
+                        theme: this._startupInfo.theme
                     };
 
                     this.updateStartupInfo(info);

@@ -1,0 +1,24 @@
+.list-item{
+    cursor: pointer;
+    
+    &:hover{
+        background-color: $item-hover-color;
+    }
+
+    &.selected{
+        background-color: $item-selected-color;
+    }
+}
+
+#app-root[theme=dark]{
+    .list-item{
+
+        &:hover{
+            background-color: $item-hover-color-dark;
+        }
+
+        &.selected{
+            background-color: $item-selected-color-dark;
+        }
+    }
+}

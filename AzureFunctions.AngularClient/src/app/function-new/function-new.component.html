@@ -4,8 +4,8 @@
 
     <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
         <div class="choose">
-            <span class="text-level1-heading">{{ 'functionNew_chooseTemplate' | translate }}</span>
-            <span class="text-level1-heading quickstart" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</span>
+            <h2>{{ 'functionNew_chooseTemplate' | translate }}</h2>
+            <h2 class="quickstart link" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</h2>
         </div>
         <template-picker
             [functionAppInput]="functionApp"
@@ -94,8 +94,8 @@
         </div>
         
         <div class>
-            <button [class.custom-button]="areInputsValid"
-                    [class.custom-button-disabled]="!areInputsValid || !aadConfigured || !extensionInstalled"
+            <button class="custom-button"
+                    [disabled]="!areInputsValid || !aadConfigured || !extensionInstalled"
                     (click)="onCreate()">{{ 'create' | translate }}</button>
             <span *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions && !aadConfigured">&nbsp;&nbsp;{{ 'aadreg_authConfRequired' | translate}}</span>
         </div>

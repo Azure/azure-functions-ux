@@ -16,7 +16,7 @@ import { FunctionNode } from '../tree-view/function-node';
 @Component({
     selector: 'function-edit',
     templateUrl: './function-edit.component.html',
-    styleUrls: ['./function-edit.component.css'],
+    styleUrls: ['./function-edit.component.scss'],
 })
 export class FunctionEditComponent implements OnDestroy {
 

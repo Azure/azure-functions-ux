@@ -11,7 +11,6 @@ export class SlotsNode extends TreeNode {
     public dashboardType = DashboardType.SlotsDashboard;
     public newDashboardType = DashboardType.CreateSlotDashboard;
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_slotsOptinSettings);
-    public nodeClass = 'tree-node collection-node';
 
     constructor(
         sideNav: SideNavComponent,
@@ -23,8 +22,9 @@ export class SlotsNode extends TreeNode {
             parentNode,
             _siteArmCacheObj.id + '/slots/new/slot');
 
+        this.nodeClass += ' collection-node';
         this.iconClass = 'tree-node-collection-icon';
-        this.iconUrl = 'images/BulletList.svg';
+        this.iconUrl = 'image/BulletList.svg';
     }
 
     public loadChildren() {

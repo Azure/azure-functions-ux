@@ -1,8 +1,12 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
+
+h2{
+    display: inline;
+}
 
 .newfunc-container{
     padding: 20px;
-    background-color: $body-bg-color;
+    // background-color: $body-bg-color;
 }
 
 .newfunc-container > div{
@@ -10,7 +14,7 @@
 }
 
 input{
-    background: $body-bg-color;
+    // background: $body-bg-color;
     border: 2px solid $border-color;
     width: 300px;
     padding-left: 5px;

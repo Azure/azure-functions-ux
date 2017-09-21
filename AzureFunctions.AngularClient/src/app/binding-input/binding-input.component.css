@@ -3,7 +3,7 @@
 }
 
 .panel-heading, .panel-body{
-    background-color: #FFF;
+    /* background-color: #FFF; */
     border: none;
     padding-left: 0px;
     padding-right: 0px;
@@ -36,8 +36,8 @@
 }
 
 input, select{
-    background: #fff;
-    border: 1px solid #dedede;
+    /* background: #fff; */
+    /* border: 1px solid #dedede; */
     position: relative;
     vertical-align: middle;
     height: 29px;
@@ -46,9 +46,9 @@ input, select{
     padding: 0 5px;
 }
 
-input:disabled{
+/* input:disabled{
     background-color: #F3F3F3;
-}
+} */
 
 input[type=checkbox]{
     height: 20px;
@@ -71,11 +71,11 @@ i.select {
 button.go {
     margin-left: 100px;
 }
-.button-go-disabled {
+
+/* .button-go-disabled {
     cursor: not-allowed;
-    background-color: lightgray;
-    color: white;
-}
+} */
+
 .storage-creds-texbox {
     float: left; 
     margin-right: 0px;

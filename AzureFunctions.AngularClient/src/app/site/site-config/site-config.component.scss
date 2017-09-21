@@ -1,4 +1,4 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
 
 #site-config-wrapper{
     padding: 5px 20px;
@@ -46,14 +46,12 @@ td{
 }
 
 h3{
-    @extend .text-level2-heading;
     font-weight: bold;
     margin-left: 0px;
     margin-bottom: 10px;
     margin-top: 35px;
     padding-bottom: 10px;
     display: inline-block;
-    //border-bottom: 1px solid #dedede;
 
     &.first-config-heading{
         margin-top: 10px;
@@ -80,7 +78,6 @@ h3{
         width: 100%;
         border: 1px solid black;
         background: rgba(0, 0, 0, 0.60);
-        color: white;
         text-align: center;
     }
 }
@@ -102,10 +99,8 @@ h3{
         margin-bottom: auto;
         margin-left: 15px;
         margin-right: 25px;
-        //width: 100%;
         border: 1px solid black;
         background: rgba(0, 0, 0, 0.60);
-        color: white;
         text-align: center;
     }
 
@@ -118,25 +113,15 @@ h3{
 
         .setting-label{
             box-sizing: border-box;
-            color: rgb(71, 71, 71);
             display: inline-block;
-            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
-            font-size: 12px;
-            font-weight: normal;
-            line-height: normal;
             min-height: 20px;
             width: 16%;
         }
 
         .setting-control-container{
-            color: rgb(37, 37, 37);
             display: inline-block;
-            font-family: az_ea_font, wf_segoe-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
-            font-size: 12px;
-            font-weight: normal;
-            line-height: normal;
             vertical-align: middle;
-            width: 255px;
+            width: 265px;
         }
     }
 }
