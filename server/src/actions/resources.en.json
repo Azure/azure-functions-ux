@@ -1237,6 +1237,9 @@
         "userid_help": "The user ID of a user who has previously logged into the app.",
         "userid_label": "User ID",
         "usertoken_help": "A token with the function app as the audience.",
-        "usertoken_label": "User token"
+        "usertoken_label": "User token",
+        "java_splash_line_1": "Java Functions can be built, tested and deployed locally from your machine. No portal required!",
+        "java_splash_line_2": "Click below to get started with documentation on how to build your first Azure Function with Java.",
+        "java_splash_button": "Java on Azure Functions Quickstart"
     }
 }

@@ -2317,4 +2317,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="notificationHubPicker_notificationHub" xml:space="preserve">
     <value>Notification Hub</value>
   </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>Java Functions can be built, tested and deployed locally from your machine. No portal required!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Click below to get started with documentation on how to build your first Azure Function with Java.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Java on Azure Functions Quickstart</value>
+  </data>
 </root>
