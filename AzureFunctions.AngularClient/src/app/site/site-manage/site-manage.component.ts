@@ -307,7 +307,7 @@ export class SiteManageComponent {
                 this._translateService.instant(PortalResources.feature_allSettingsInfo),
                 "images/webapp.svg",
                 {
-                    detailBlade : "AppsOverviewBlade",
+                    detailBlade : this._isOnprem() ? "WebsiteBlade" : "AppsOverviewBlade",
                     detailBladeInputs : {
                         id : site.id
                     }
