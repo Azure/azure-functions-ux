@@ -744,6 +744,7 @@ export class BindingComponent {
                 break;
             case ResourceType.EventHub:
             case ResourceType.ServiceBus:
+            case ResourceType.NotificationHub:
                 for (const key in this._appSettings) {
 
                     const value = this._appSettings[key].toLowerCase();
