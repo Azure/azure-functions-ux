@@ -1,4 +1,8 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
+
+h2{
+    display: inline;
+}
 
 .new-container {
     padding-bottom: 10px;

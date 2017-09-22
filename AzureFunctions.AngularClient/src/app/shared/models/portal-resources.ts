@@ -294,7 +294,7 @@ export class PortalResources
     public static sideBar_changeMadeApiProxy: string = "sideBar_changeMadeApiProxy";
     public static apiProxy_alreadyExists: string = "apiProxy_alreadyExists";
     public static slots_warningOff: string = "slots_warningOff";
-    public static discrard: string = "discrard";
+    public static discard: string = "discard";
     public static sidebar_Functions: string = "sidebar_Functions";
     public static intro_signInWithFacebook: string = "intro_signInWithFacebook";
     public static intro_signInWithGitHub: string = "intro_signInWithGitHub";
@@ -730,5 +730,7 @@ export class PortalResources
     public static extension_integrate_warning: string = "extension_integrate_warning";
     public static extension_template_warning: string = "extension_template_warning";
     public static installingExtension: string = "installingExtension";
+    public static functionAppSettings_quotaPlaceHolder: string = "functionAppSettings_quotaPlaceHolder";
+    public static failedToInstallFunctionRuntimeExtensionForId: string = "failedToInstallFunctionRuntimeExtensionForId";
 }
 

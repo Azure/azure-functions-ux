@@ -994,7 +994,7 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Azure functions slots (preview) is currently disabled. To enable, visit</value>
   </data>
-  <data name="discrard" xml:space="preserve">
+  <data name="discard" xml:space="preserve">
     <value>Discard</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
@@ -2303,6 +2303,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This template requires the following extensions.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing required extensions</value>
+    <value>Installing required extensions. It may take upto 10 minutes for this operation.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>We are not able to install runtime extension. Install id {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>Enter value in GB-sec</value>
   </data>
 </root>

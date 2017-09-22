@@ -20,7 +20,7 @@ export class FeatureItem {
     public isHighlighted: boolean | null;
     public isEmpty: boolean | null;   // Used to reserve blank space when filtering results
     public highlight: boolean | null;
-    public iconUrl = 'images/activity-log.svg';
+    public iconUrl = 'image/activity-log.svg';
     public superScriptIconUrl: string | null = null;
     public nameFocusable: boolean;
     public imageFocusable: boolean;
@@ -166,7 +166,7 @@ export class TabFeature extends FeatureItem {
         public featureId: string,
         private _broadcastService: BroadcastService) {
 
-        super(title, keywords, info, imageUrl, 'images/new-tab.svg');
+        super(title, keywords, info, imageUrl, 'image/new-tab.svg');
     }
 
     click() {

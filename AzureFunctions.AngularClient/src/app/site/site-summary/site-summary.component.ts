@@ -137,7 +137,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this.location = site.location;
                 this.state = site.properties.state;
-                this.stateIcon = this.state === 'Running' ? 'images/success.svg' : 'images/stopped.svg';
+                this.stateIcon = this.state === 'Running' ? 'image/success.svg' : 'image/stopped.svg';
 
 
                 this.availabilityState = null;
@@ -440,15 +440,15 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.availabilityMesg = this.ts.instant(PortalResources.notApplicable);
                 break;
             case AvailabilityStates.unavailable:
-                this.availabilityIcon = 'images/error.svg';
+                this.availabilityIcon = 'image/error.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
             case AvailabilityStates.available:
-                this.availabilityIcon = 'images/success.svg';
+                this.availabilityIcon = 'image/success.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.available);
                 break;
             case AvailabilityStates.userinitiated:
-                this.availabilityIcon = 'images/info.svg';
+                this.availabilityIcon = 'image/info.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
 

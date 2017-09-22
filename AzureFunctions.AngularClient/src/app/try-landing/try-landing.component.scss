@@ -1,4 +1,8 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
+
+h1, h2{
+    margin-top: 30px;
+}
 
 label {
     display: block;

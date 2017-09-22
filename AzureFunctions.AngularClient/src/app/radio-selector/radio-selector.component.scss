@@ -1,57 +1,105 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .switch {
     position: relative;
     display: inline-block;
     height: 25px;
-    background: #ccc;
 
     &.disabled {
         background: $background-color-disabled;
     }
 }
 
+$border-light: 1px $primary-color solid;
+
 .switch-label {
+    border-top: $border-light;
+    border-left: $border-light;
+    border-bottom: $border-light;
     position: relative;
     z-index: 2;
     float: left;
     line-height: 25px;
     font-size: 11px;
-    color: #f2f2f2;
     text-align: center;
     cursor: pointer;
     padding-left: 20px;
     padding-right: 20px;
+    color: $primary-color;
+}
+
+.switch-label ~ .switch-label{
+    border-right: $border-light;
 }
 
 .switch-input {
     display: none;
 }
-    .switch-input:checked + .switch-label {
-        font-weight: bold;
-        color: white;
-    }
+
+.switch-input:checked + .switch-label {
+    font-weight: bold;
+}
 
 .selected {
     display: block;
     z-index: 1;
-    background: $primary-color;
-}
+    background-color: $primary-color;
+    color: $body-bg-color;
 
-.disabled {
-   .selected {
-        background: $primary-color-faded;
-    } 
+    &.disabled{
+        background-color: $disabled-color;
+    }
+
+    &:hover{
+        background-color: lighten($primary-color, 10%);
+    }
+
+    &:active{
+        background-color: darken($primary-color, 10%)
+    }
 }
 
 .dirty {
     .selected {
-        background: $alt1-color;
+        background-color: $alt1-color;
     }
 
     &.disabled {
         .selected {
-            background: $alt1-color-faded;
+            background-color: $alt1-color-faded;
+        }
+    }
+}
+
+:host-context(#app-root[theme=dark]){
+    $border-dark: 1px $primary-color-dark solid;
+
+    .switch-label{
+        border-top: $border-dark;
+        border-left: $border-dark;
+        border-bottom: $border-dark;
+        color: $primary-color-dark;
+    }
+
+    .switch-label ~ .switch-label{
+        border-right: $border-dark;
+    }
+
+    .selected{
+        background-color: $primary-color-dark;
+        color: $body-bg-color-dark;
+
+        &.disabled{
+            background-color: $disabled-color-dark;
+            color: lighten($disabled-color-dark, 20%);
+        }
+
+        &:hover{
+            background-color: lighten($primary-color-dark, 10%);
+        }
+    
+        &:active{
+            background-color: darken($primary-color-dark, 10%)
         }
     }
 }

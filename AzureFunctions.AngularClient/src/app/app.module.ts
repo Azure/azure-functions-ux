@@ -35,7 +35,11 @@ const routes = RouterModule.forRoot([
   { path: 'landing', loadChildren: 'app/getting-started/getting-started.module#GettingStartedModule' },
 
   // "/try" will load the try functions start page for https://functions.azure.com?trial=true
-  { path: 'try', loadChildren: 'app/try-landing/try-landing.module#TryLandingModule' }
+  { path: 'try', loadChildren: 'app/try-landing/try-landing.module#TryLandingModule' },
+
+  // /devguide
+  { path: 'devguide', loadChildren: 'app/dev-guide/dev-guide.module#DevGuideModule' }
+
 ]);
 
 @NgModule(AppModule.moduleDefinition)

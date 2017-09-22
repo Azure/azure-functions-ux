@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 drop-down{
     display: inline-block;
@@ -132,4 +132,10 @@ drop-down{
 
 .custom-button, .custom-button-invert{
     margin-left: 0px;
+}
+
+:host-context(#app-root[theme=dark]){
+    .tp-template-func-title{
+        background-color: lighten($body-bg-color-dark, 10%);
+    }
 }

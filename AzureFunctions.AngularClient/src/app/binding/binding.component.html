@@ -75,7 +75,7 @@
         <div class="panel-body">
             <div *ngFor="let action of model.actions">
                 {{ 'binding_createNewFunction' | translate }}
-                <button *ngIf="bindingValue.newBinding" (click)="goClicked(action)" class="custom-button-disabled go" disabled>{{ 'binding_go' | translate }}</button>
+                <button *ngIf="bindingValue.newBinding" (click)="goClicked(action)" class="custom-button go" disabled>{{ 'binding_go' | translate }}</button>
                 <button *ngIf="!bindingValue.newBinding" (click)="goClicked(action)" class="custom-button go">{{ 'binding_go' | translate }}</button>
             </div>
         </div>

@@ -64,7 +64,7 @@ export class ExtensionInstallComponent {
     // as error could be temporary because of host restart.
     pollInstallationStatus(timeOut: number) {
         setTimeout(() => {
-            if (timeOut > 120) {
+            if (timeOut > 600) {
                 this.GetRequiredExtensions(this.extensions).subscribe((r) => {
                     this.extensions = r;
                     this._functionApp.showTimeoutError();
@@ -96,7 +96,7 @@ export class ExtensionInstallComponent {
                     r.forEach(jobStatus => {
                         // if failed then show error, remove from status tracking queue
                         if (jobStatus.status === ExtensionInstallStatus.Failed) {
-                            this._functionApp.showInstallFailed();
+                            this._functionApp.showInstallFailed(jobStatus.id);
                         }
 
                         // error status also show up here, error is different from failed

@@ -1,7 +1,7 @@
-<div class="wrapper" *ngIf="!disabled">
+<div class="wrapper" *ngIf="!disabled" role="region" aria-labelledby="keys1 keys2">
     <busy-state></busy-state>
-    <div *ngIf="functionInfo" class="title"> {{'functionKeys_title' | translate}} </div>
-    <div *ngIf="!functionInfo" class="title"> {{'adminKeys_title' | translate}} </div>
+    <label *ngIf="functionInfo" id="keys1" class="title"> {{'functionKeys_title' | translate}} </label>
+    <label *ngIf="!functionInfo" id="keys2" class="title"> {{'adminKeys_title' | translate}} </label>
     <table class="table-function">
         <thead>
             <tr class="not-clickable">
@@ -12,27 +12,67 @@
         </thead>
         <tbody>
             <tr class="not-clickable" *ngFor="let key of keys">
-                <td>{{key.name}}</td>
-                <td *ngIf="key.show">{{key.value}} <span (click)="key.show = false" class="operation">{{'functionKeys_clickToHide' | translate}}</span></td>
-                <td *ngIf="!key.show"><span (click)="key.show = true" class="operation">{{'functionKeys_clickToShow' | translate}}</span></td>
+                <td><label id="keyNameLabel">{{key.name}}</label></td>
+                <td>                    
+                    <a (click)="key.show=!key.show" 
+                        (keydown)="keyDown($event, 'showKey', key)"
+                        class="operation" 
+                        tabindex="0"
+                        [attr.aria-expanded]="key.show"
+                        [attr.aria-label]="key.name"
+                        >
+                        <ng-container *ngIf="key.show">{{'functionKeys_clickToHide' | translate}}</ng-container>
+                        <ng-container *ngIf="!key.show">{{'functionKeys_clickToShow' | translate}}</ng-container>
+                    </a>
+                    <span *ngIf="key.show" [attr.aria-label]="key.value" tabindex="0">{{ key.value }}</span>
+                </td>
                 <td>
                     <div id="operations-bar">
-                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
-                            <span class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">                            
+                            <span class="operation" 
+                                (click)="copyKey(key)" 
+                                (keydown)="keyDown($event, 'copyKey', key)"
+                                >
+                                <i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}
+                            </span>
                         </pop-over>
-                        <span class="operation" (click)="renewKey(key)"><i class="fa fa-refresh"></i> {{'functionKeys_renew' | translate}}</span>
-                        <span class="operation" *ngIf="key.name !== '_master'" (click)="revokeKey(key)"><i class="fa fa-times"></i> {{'functionKeys_revoke' | translate}}</span>
+                        <a class="operation" 
+                            (click)="renewKey(key)"
+                            (keydown)="keyDown($event, 'renewKey', key)"
+                            tabindex="0"
+                            id="renewKeyAction"
+                            aria-labelledby="keyNameLabel renewKeyAction">
+                                <i class="fa fa-refresh"></i> {{'functionKeys_renew' | translate}}</a>
+                        <a class="operation" 
+                            *ngIf="key.name !== '_master'"
+                            (click)="revokeKey(key)"
+                            (keydown)="keyDown($event, 'revokeKey', key)"
+                            tabindex="0"
+                            id="revokeKeyAction"
+                            aria-labelledby="keyNameLabel revokeKeyAction">
+                                <i class="fa fa-times"></i> {{'functionKeys_revoke' | translate}}
+                        </a>
                     </div>
                 </td>
             </tr>
             <tr *ngIf="addingNew" class="not-clickable">
-                <td><input type="text" (keyup)="checkValidName($event)" [(ngModel)]="newKeyName" placeholder="{{'functionKeys_enterKeyName' | translate}}" /></td>
-                <td><input type="text" (keyup)="checkValidName($event)" [(ngModel)]="newKeyValue" placeholder="{{'functionKeys_enterKeyValue' | translate}}" /></td>
-                <td><div class="custom-button" [ngClass]="validKey ? '' : 'disabled'" (click)="saveNewKey()">{{'save' | translate}}</div></td>
+                <td><input type="text" id="newKeyName" (keyup)="checkValidName($event)" [(ngModel)]="newKeyName" placeholder="{{'functionKeys_enterKeyName' | translate}}" /></td>
+                <td><input type="text" id="newKeyValue" (keyup)="checkValidName($event)" [(ngModel)]="newKeyValue" placeholder="{{'functionKeys_enterKeyValue' | translate}}" /></td>
+                <td>
+                    <button 
+                        class="custom-button" 
+                        [ngClass]="validKey ? '' : 'disabled'" 
+                        (click)="saveNewKey()" 
+                        tabindex="0"
+                        id="saveNewKeyButton"
+                        aria-labelledby="newKeyName newKeyValue saveNewKeyButton">
+                        {{'save' | translate}}                        
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
-    <div class="custom-button" (click)="showOrHideNewKeyUi()">
+    <button class="custom-button" (click)="showOrHideNewKeyUi()">
         <span *ngIf="!addingNew && !!functionInfo">
             {{ 'functionKeys_addNewFunctionKey' | translate}}
         </span>
@@ -42,7 +82,7 @@
         <span *ngIf="addingNew">
             {{'functionKeys_discard' | translate}}
         </span>
-    </div>
+    </button>
     <!-- workaround custom-button using padding and busy-state not knowing it's height -->
     <div style="height: 10px"></div>
 </div>

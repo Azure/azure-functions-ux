@@ -25,7 +25,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             functionInfo.functionApp.site.id + '/functions/' + functionInfo.name,
             parentNode);
         this.iconClass = 'tree-node-svg-icon';
-        this.iconUrl = 'images/function_f.svg';
+        this.iconUrl = 'image/function_f.svg';
         this.supportsTab = (Url.getParameterByName(null, 'appsvc.feature') === 'tabbed');
     }
 
@@ -143,7 +143,7 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode {
             functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/integrate',
             parentNode);
 
-        this.iconClass = 'fa fa-flash tree-node-function-edit-icon';
+        this.iconClass = 'fa fa-flash tree-node-function-edit-icon link';
     }
 }
 
@@ -162,7 +162,7 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
             functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/manage',
             parentNode);
 
-        this.iconClass = 'fa fa-cog tree-node-function-edit-icon';
+        this.iconClass = 'fa fa-cog tree-node-function-edit-icon link';
     }
 
     public remove() {
@@ -191,6 +191,6 @@ export class FunctionMonitorNode extends FunctionEditBaseNode {
             functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/monitor',
             parentNode);
 
-        this.iconClass = 'fa fa-search tree-node-function-edit-icon';
+        this.iconClass = 'fa fa-search tree-node-function-edit-icon link';
     }
 }

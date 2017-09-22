@@ -1,15 +1,15 @@
 <command-bar>
     <command displayText="{{ 'newFunction' | translate }}" 
-            iconUrl="images/add.svg" 
+            iconUrl="image/add.svg" 
             (click)="onNewFunctionClick()" 
             [fnWriteAccess]="functionApp"></command>
 </command-bar>
 
 <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
 
-<div class="list-collection-container">
-    <img src="images/function_f.svg" />
-    <span class="text-level1-heading">{{ 'functions' | translate }}</span><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+<div class="browse-container">
+    <img src="image/function_f.svg" />
+    <h2>{{ 'functions' | translate }}</h2><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
     <div class="search-box-container">
         <search-box (onInputChange)="searchChanged($event)" 
@@ -41,7 +41,7 @@
             <td class="command-icon">
                 <a role="button"
                    [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
-                   style="background-image: url('images/delete.svg')"
+                   style="background-image: url('image/delete.svg')"
                    (click)="clickDelete(item)">
                 </a>
             </td>

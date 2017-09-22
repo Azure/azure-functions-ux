@@ -1,4 +1,5 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
+@import '../../../sass/common/mixins';
 
 #site-manage-container{
     padding: 5px 20px;
@@ -18,7 +19,7 @@
 
 #site-manage-search-icon{
     position: relative;
-    top: -25px;
+    top: -22px;
     left: 19px;
     width: 14px;
     height: 14px;

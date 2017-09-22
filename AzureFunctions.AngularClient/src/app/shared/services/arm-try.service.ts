@@ -72,7 +72,7 @@ export class ArmTryService extends ArmService {
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers): Observable<Response> {
         const urlNoQuery = url.toLowerCase().split('?')[0];
 
-        if (this._whiteListedPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))) {
+        if (this._whiteListedPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()) || urlNoQuery.endsWith('.svg'))) {
             return super.send(method, url, body, etag, headers);
         } else if (urlNoQuery.endsWith(this.tryFunctionApp.site.id.toLowerCase())) {
             return Observable.of(this._getFakeResponse(this.tryFunctionApp.site));

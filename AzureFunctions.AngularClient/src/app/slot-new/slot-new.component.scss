@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .slot-form {
     width: 740px;
@@ -6,11 +6,10 @@
 
 .newSlot-container{
     padding: 10px 20px;
-    background-color: $body-bg-color;
 }
 
-.text-subheading{
-    margin-top: 5px;
+h4{
+    margin: 5px 0 10px 0;    
 }
 
 .slot-form label{
@@ -28,10 +27,6 @@ button{
     margin-top: 15px;
 }
 
-.text-main2-heading{
+h1{
     display: inline-block;
-}
-
-.text-subheading{
-    margin: 5px 0 10px 0;
 }
