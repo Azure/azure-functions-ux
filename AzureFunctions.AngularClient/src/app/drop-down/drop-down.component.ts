@@ -1,6 +1,6 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, ViewChild, Input, Output } from '@angular/core';
-import { DropDownElement } from '../shared/models/drop-down-element';
+import { DropDownElement, DropDownGroupElement } from '../shared/models/drop-down-element';
 
 
 @Component({
@@ -22,7 +22,8 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
 
     public selectedElement: DropDownElement<T>;
     public empty: any;
-    public _options: DropDownElement<T>[];
+    public _options: DropDownGroupElement<T>[] | DropDownElement<T>[];
+    public optionsGrouped: boolean;
 
     @ViewChild('selectInput') selectInput: any;
 
@@ -46,32 +47,83 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
         }
     }
 
-    @Input() set options(value: DropDownElement<T>[]) {
+    @Input() set options(value: DropDownGroupElement<T>[] | DropDownElement<T>[]) {
         this._options = [];
-        for (let i = 0; i < value.length; i++) {
-            this._options.push({
-                id: i,
-                displayLabel: value[i].displayLabel,
-                value: value[i].value,
-                default: value[i].default
-            });
-        }
-        // If there is only 1, auto-select it
-        if (this._options.find(d => d.default)) {
-            if (this.control) {
-                this.onSelectValue(this._options.find(d => d.default).value);
-            } else {
-                this.onSelect(this._options.find(d => d.default).id.toString());
-            }
-        } else if (this._options.length > 0) {
-            if (this.control) {
-                this.onSelectValue(this._options[0].value);
-            } else {
-                this.onSelect(this._options[0].id.toString());
-            }
-        } else if (this._options.length === 0) {
+
+        if (!value || value.length === 0) {
             delete this.selectedElement;
+            return;
         }
+
+        // Check if the options are group or not
+        this.optionsGrouped = (value[0] as DropDownGroupElement<T>).dropDownElements !== undefined;
+
+        let defaultOptionFound: boolean = false;
+        let selectedOptionId: number = null;
+        let selectedOptionValue: T = null;
+
+        let optionCount = 0;
+
+        if (this.optionsGrouped) {
+            let options: DropDownGroupElement<T>[] = [];
+            let inputs: DropDownGroupElement<T>[] = (value as DropDownGroupElement<T>[]);
+            inputs.forEach(optGroup => {
+                const optionsGroup: DropDownGroupElement<T> = {
+                    displayLabel: optGroup.displayLabel,
+                    dropDownElements: []
+                };
+
+                optGroup.dropDownElements.forEach(opt => {
+                    optionsGroup.dropDownElements.push({
+                        id: optionCount++,
+                        displayLabel: opt.displayLabel,
+                        value: opt.value,
+                        default: opt.default
+                    });
+
+                    if (optionCount === 1 || opt.default) {
+                        selectedOptionId = optionCount - 1;
+                        selectedOptionValue = opt.value;
+                        defaultOptionFound = defaultOptionFound || opt.default;
+                    }
+                });
+
+                options.push(optionsGroup);
+            });
+            this._options = options;
+        }
+        else {
+            let options: DropDownElement<T>[] = [];
+            let inputs: DropDownElement<T>[] = (value as DropDownElement<T>[]);
+            inputs.forEach(opt => {
+                options.push({
+                    id: optionCount++,
+                    displayLabel: opt.displayLabel,
+                    value: opt.value,
+                    default: opt.default
+                });
+
+                if (optionCount === 1 || opt.default) {
+                    selectedOptionId = optionCount - 1;
+                    selectedOptionValue = opt.value;
+                    defaultOptionFound = defaultOptionFound || opt.default;
+                }
+            });
+            this._options = options;
+        }
+
+        if (optionCount === 0) {
+            delete this.selectedElement;
+            return;
+        }
+
+        if (!this.control) {
+            this.onSelect(selectedOptionId.toString());
+        }
+        else {
+            this.onSelectValue(selectedOptionValue);
+        }
+
     }
 
     @Input() set resetOnChange(_) {
@@ -85,13 +137,29 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
     }
 
     onSelect(id: string) {
-        const element = this._options.find(e => e.id.toString() === id);
+        let element: DropDownElement<T> = null;
+        if (this.optionsGrouped) {
+            (this._options as DropDownGroupElement<T>[]).forEach(g => {
+                element = element || g.dropDownElements.find(e => e.id.toString() === id);
+            });
+        }
+        else {
+            element = (this._options as DropDownElement<T>[]).find(e => e.id.toString() === id);
+        }
         this.selectedElement = element;
         this.value.emit(element.value);
     }
 
     onSelectValue(value: T) {
-        const element = this._options.find(e => e.value === value);
+        let element: DropDownElement<T> = null;
+        if (this.optionsGrouped) {
+            (this._options as DropDownGroupElement<T>[]).forEach(g => {
+                element = element || g.dropDownElements.find(e => e.value === value);
+            });
+        }
+        else {
+            element = (this._options as DropDownElement<T>[]).find(e => e.value === value);
+        }
         this.selectedElement = element;
         this.value.emit(element.value);
     }
@@ -99,7 +167,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
     focus() {
         if (this.selectInput) {
             //setTimeout(() => {
-                this.selectInput.nativeElement.focus();
+            this.selectInput.nativeElement.focus();
             //});
         }
     }
