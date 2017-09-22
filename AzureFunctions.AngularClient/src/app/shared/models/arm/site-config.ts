@@ -24,4 +24,6 @@ export interface SiteConfig {
         scriptProcessor: string;
         arguments: string;
     }];
+    linuxFxVersion: string;
+    appCommandLine: string;
 }

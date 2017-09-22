@@ -1264,6 +1264,9 @@
   <data name="feature_debuggingSettingsName" xml:space="preserve">
     <value>Debugging</value>
   </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>Runtime</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Application settings</value>
   </data>
@@ -1368,6 +1371,12 @@
   </data>
   <data name="remoteDebuggingVersionLabel" xml:space="preserve">
     <value>Remote Visual Studio version</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>Startup File</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Newest</value>
