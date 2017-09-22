@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .container {
     height: 100%;
@@ -56,8 +56,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #dcdfe2;
-  background-color: rgba(255, 255, 255, 0.30);
+  background-color: rgba($body-bg-color, 0.30);
   z-index: 196;
 }
 .fxs-progress-dots {
@@ -92,5 +91,15 @@
 .fxs-progress-dots > div:nth-child(4) {
     padding-top: 20px;
     width: 100%;
-    background: white;
+    background-color: rgba($body-bg-color, 0.30);
+  }
+
+:host-context(#app-root[theme=dark]){
+  .fxs-progress{
+    background-color: rgba($body-bg-color-dark, 0.7);
+  }
+
+  .fxs-progress-dots > div:nth-child(4) {
+    background-color: rgba($body-bg-color-dark, 0.7);
+  }
 }

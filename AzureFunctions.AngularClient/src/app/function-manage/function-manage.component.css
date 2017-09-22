@@ -24,13 +24,8 @@ pre {
     display: flex;
 }
 
-.delete-app > img {
-    width: 16px;
-    height: 16px;
-}
-
-#function-settings {
-
+.icon-small{
+    margin-right: 5px;
 }
 
 #submit-delete {

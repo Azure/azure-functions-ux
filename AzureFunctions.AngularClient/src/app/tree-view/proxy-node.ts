@@ -25,7 +25,7 @@ export class ProxyNode extends TreeNode implements CanBlockNavChange, Disposable
 
         this.title = proxy.name;
         this.iconClass = 'tree-node-svg-icon';
-        this.iconUrl = 'images/api-proxy.svg';
+        this.iconUrl = 'image/api-proxy.svg';
     }
 
     public handleSelection(): Observable<any> {

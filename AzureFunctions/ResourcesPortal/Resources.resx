@@ -994,7 +994,7 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Azure functions slots (preview) is currently disabled. To enable, visit</value>
   </data>
-  <data name="discrard" xml:space="preserve">
+  <data name="discard" xml:space="preserve">
     <value>Discard</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">

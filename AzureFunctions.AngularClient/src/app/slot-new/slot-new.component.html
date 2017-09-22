@@ -1,7 +1,7 @@
 <div class="newSlot-container">
-  <h2 class="text-main2-heading">{{ 'slotNew_heading' | translate }}</h2>
+  <h1>{{ 'slotNew_heading' | translate }}</h1>
 
-  <div class="text-subheading">{{ 'slotNew_desc' | translate}}</div>
+  <h4>{{ 'slotNew_desc' | translate}}</h4>
   <div *ngIf="!isLoading && !hasCreatePermissions" class="alert alert-warning alert-dismissible" role="alert">
     {{ 'slotNew_noAccess' | translate }}</div>
   <div *ngIf="!isLoading && !slotOptinEnabled" class="alert alert-warning alert-dismissible" role="alert">
@@ -19,7 +19,7 @@
       </pop-over>
     </div>
     <textbox class="name-textbox" [placeholder]="Resources.enterName | translate" [control]="newSlotForm.controls['name']"></textbox>
-    <button [class.custom-button]="newSlotForm.valid && newSlotForm.dirty" [class.custom-button-disabled]="!newSlotForm.valid || !newSlotForm.dirty"
+    <button class="custom-button" disabled="!newSlotForm.valid || !newSlotForm.dirty"
       [disabled]="newSlotForm.invalid || newSlotForm.pristine" (click)="createSlot()">{{ 'create' | translate }}</button>
   </div>
 </div>

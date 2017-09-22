@@ -17,7 +17,7 @@
                     aria-labelledby="dailyUsageQuotaLabel dailyUsageQuotaValue">
                 <button 
                     class="custom-button" 
-                    [class.custom-button-disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota" 
+                    [disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota" 
                     (click)="setQuota()" 
                     tabindex="0"
                     id="setQuotaButton"

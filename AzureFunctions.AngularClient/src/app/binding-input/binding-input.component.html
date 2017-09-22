@@ -70,7 +70,7 @@
 
     <div *ngIf="binding.direction.toString() === 'out' && input.id === 'name'">
       <input [fnWriteAccess]="functionApp" id="{{input.id}}" (ngModelChange)="functionReturnValueChanged($event)" [(ngModel)]="functionReturnValue" type="checkbox" style="margin-left:0px;">
-      <label [attr.for]="input.id" class="control-label" style="color: black;">
+      <label [attr.for]="input.id" class="control-label">
         {{'binding_useFunctionReturnValue' | translate }}
       </label>
     </div>
@@ -91,7 +91,7 @@
     </pop-over>
     <!--[leftOffset]=20 [topOffset]=10-->
     <i *ngIf="!input.inProcess && !showTryView" class="link" [class.select]="input.errorText" (click)="openPicker(input)"> {{ 'bindingInput_new' | translate }}</i>
-    <span *ngIf="!input.inProcess && showTryView" class="button-go-disabled" [class.select]="input.errorText" [tooltip]="freeAccountTooltip"
+    <span *ngIf="!input.inProcess && showTryView" disabled [class.select]="input.errorText" [tooltip]="freeAccountTooltip"
           tooltipPlacement="bottom">{{ 'bindingInput_new' | translate }}</span>
     <tooltip-content #freeAccountTooltip>
       <p>

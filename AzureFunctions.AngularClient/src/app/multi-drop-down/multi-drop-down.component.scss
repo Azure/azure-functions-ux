@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .multi-select-container{
     position : relative;
@@ -47,6 +47,10 @@
             outline: $border-focus;
         }
     }
+}
+
+:host-context(#app-root[theme=dark]) .multi-select-content{
+    background-color: $chrome-color-dark;
 }
 
 .multi-select-arrow {

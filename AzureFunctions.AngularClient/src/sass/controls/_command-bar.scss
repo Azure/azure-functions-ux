@@ -2,11 +2,9 @@
     border-bottom: $border;
     padding-left: 12px;
 
-    img{
-        height: 15px;
-        width: 15px;
+    .icon-small{
+        margin-right: 3px;
         vertical-align: top;
-        margin-right: 5px;
     }
 
     .disabled-command{

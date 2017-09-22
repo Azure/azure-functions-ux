@@ -1,0 +1,11 @@
+@import '../sass/common/variables';
+
+
+#app-root{
+    height: 100%;
+    width: 100%;
+
+    &[theme=dark]{
+        background-color: $body-bg-color-dark;
+    }
+}

@@ -179,6 +179,7 @@ export class LogCategories {
     public static readonly scenarioService = 'ScenarioService';
     public static readonly apiDetails = 'ApiDetails';
     public static readonly newSlot = 'NewSlot';
+    public static readonly svgLoader = 'SvgLoader';
 }
 
 export class KeyCodes {

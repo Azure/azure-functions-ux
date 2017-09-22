@@ -1,4 +1,5 @@
-import { Directive, EventEmitter, ElementRef, Input, Output, HostBinding} from '@angular/core';
+import { UserService } from './../services/user.service';
+import { Directive, EventEmitter, ElementRef, Input, Output, HostBinding } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 
@@ -24,13 +25,22 @@ export class MonacoEditorDirective {
     private _fileName: string;
     private _functionAppStream: Subject<FunctionApp>;
     private _functionApp: FunctionApp;
+    private _theme: string;
 
-    constructor(public elementRef: ElementRef,
-        private _globalStateService: GlobalStateService) {
+    constructor(
+        public elementRef: ElementRef,
+        private _globalStateService: GlobalStateService,
+        private _userService: UserService) {
 
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
         this.onRun = new EventEmitter<void>();
+
+        this._userService.getStartupInfo()
+            .first()
+            .subscribe(info => {
+                this._theme = info.theme;
+            });
 
         this._functionAppStream = new Subject<FunctionApp>();
         this._functionAppStream
@@ -162,7 +172,8 @@ export class MonacoEditorDirective {
                     value: that._content,
                     language: that._language,
                     readOnly: that._disabled,
-                    lineHeight: 17
+                    lineHeight: 17,
+                    theme: this._theme === 'dark' ? 'vs-dark' : 'vs'
                 });
                 this.opacity = this._disabled ? '0.5' : '1';
 
