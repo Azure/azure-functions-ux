@@ -365,6 +365,11 @@ export class PortalService {
     }
 
     // checks for url query
+    public static enableDeeplink(): boolean {
+        return window.location.href.indexOf('/scope/') > -1;
+    }
+
+    // checks for url query
     public static inTab(): boolean {
         return (Url.getParameterByName(null, 'tabbed') === 'true');
     }

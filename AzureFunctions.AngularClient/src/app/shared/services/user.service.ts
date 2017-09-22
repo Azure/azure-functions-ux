@@ -22,6 +22,7 @@ import { Url } from "app/shared/Utilities/url";
 @Injectable()
 export class UserService {
     public inIFrame: boolean;
+    public deeplinkAllowed: boolean;
     public inTab: boolean;
     private _startupInfoStream: ReplaySubject<StartupInfo>;
     private _startupInfo: StartupInfo;
@@ -36,6 +37,7 @@ export class UserService {
 
         this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
         this.inIFrame = PortalService.inIFrame();
+        this.deeplinkAllowed = PortalService.enableDeeplink();
         this.inTab = PortalService.inTab();
         this._inTry = Url.getParameterByName(null, 'trial') === 'true';
 

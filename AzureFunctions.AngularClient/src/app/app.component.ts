@@ -26,7 +26,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         route: ActivatedRoute,
         configService: ConfigService
     ) {
-
         // TODO: for now we don't honor any deep links.  We'll need to make a bunch of updates to our
         // tree logic in order to get it working properly
         if (_globalStateService.showTryView) {
@@ -36,11 +35,12 @@ export class AppComponent implements OnInit, AfterViewInit {
         } else if (!this._userService.inIFrame
             && window.location.protocol !== 'http:'
             && !this._userService.inTab
-            && !configService.isStandalone()) {
+            && !configService.isStandalone()
+            && !this._userService.deeplinkAllowed) {
 
             this._router.navigate(['/landing'], { queryParams: Url.getQueryStringObj()});
 
-        } else {
+        } else if(!this._userService.deeplinkAllowed) {
 
             this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj()});
 
