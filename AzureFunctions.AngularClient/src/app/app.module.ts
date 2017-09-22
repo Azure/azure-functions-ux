@@ -36,8 +36,8 @@ const routes = RouterModule.forRoot([
     // "/try" will load the try functions start page for https://functions.azure.com?trial=true
     { path: 'try', loadChildren: 'app/try-landing/try-landing.module#TryLandingModule' },
 
-    // "/scope" will load a window to show a specific feature(i.e. app settings) with nothing else, defined by query string
-    { path: 'scope', loadChildren: 'app/ibiza-feature/ibiza-feature.module#IbizaFeatureModule' },
+    // "/feature" will load a window to show a specific feature(i.e. app settings) with nothing else, defined by query string
+    { path: 'feature', loadChildren: 'app/ibiza-feature/ibiza-feature.module#IbizaFeatureModule' },
 
     // /devguide
     { path: 'devguide', loadChildren: 'app/dev-guide/dev-guide.module#DevGuideModule' }

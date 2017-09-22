@@ -79,7 +79,7 @@ export class UserService {
 
     // checks for url query
     public enableDeeplink(): boolean {
-        return window.location.href.indexOf('/scope/') > -1 && window.location.href.indexOf('/resources/apps') === -1;
+        return window.location.href.indexOf('/feature/') > -1 && window.location.href.indexOf('/resources/apps') === -1;
     }
 
     getTenants() {
