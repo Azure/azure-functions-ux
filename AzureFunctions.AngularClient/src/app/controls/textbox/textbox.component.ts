@@ -10,6 +10,7 @@ export class TextboxComponent implements OnInit {
 
   @Input() control: FormControl;
   @Input() placeholder: string;
+  @Input() highlightDirty: boolean;
 
   @ViewChild('textboxInput') textboxInput: any;
 
