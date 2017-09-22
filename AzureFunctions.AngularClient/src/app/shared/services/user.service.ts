@@ -37,7 +37,7 @@ export class UserService {
 
         this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
         this.inIFrame = PortalService.inIFrame();
-        this.deeplinkAllowed = PortalService.enableDeeplink();
+        this.deeplinkAllowed = this.enableDeeplink();
         this.inTab = PortalService.inTab();
         this._inTry = Url.getParameterByName(null, 'trial') === 'true';
 
@@ -75,6 +75,11 @@ export class UserService {
                     this.updateStartupInfo(this._startupInfo);
                 });
         }
+    }
+
+    // checks for url query
+    public enableDeeplink(): boolean {
+        return window.location.href.indexOf('/scope/') > -1 && window.location.href.indexOf('/resources/apps') === -1;
     }
 
     getTenants() {
