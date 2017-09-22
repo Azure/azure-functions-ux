@@ -12,7 +12,12 @@
         [disabled]="disabled">
 
         <option selected disabled hidden style='display: none' value=''></option>
-        <option *ngFor="let option of _options" [value]="option.id">{{option.displayLabel}}</option>
+
+        <optgroup *ngFor="let group of (optionsGrouped ? _options : [])" [label]="group.displayLabel">
+            <option *ngFor="let option of group.dropDownElements" [value]="option.id">{{option.displayLabel}}</option>
+        </optgroup>
+
+        <option *ngFor="let option of (!optionsGrouped ? _options : [])" [value]="option.id">{{option.displayLabel}}</option>
 
     </select>
 
@@ -28,7 +33,12 @@
         #selectInput>
 
         <option selected disabled hidden style='display: none' value=''></option>
-        <option *ngFor="let option of _options" [value]="option.value">{{option.displayLabel}}</option>
+
+        <optgroup *ngFor="let group of (optionsGrouped ? _options : [])" [label]="group.displayLabel">
+            <option *ngFor="let option of group.dropDownElements" [value]="option.value">{{option.displayLabel}}</option>
+        </optgroup>
+
+        <option *ngFor="let option of (!optionsGrouped ? _options : [])" [value]="option.value">{{option.displayLabel}}</option>
 
     </select>
 
