@@ -7,6 +7,10 @@
     input{
         height: 23px;
         width: 100%;
+
+        &.dirty{
+            border-color: $alt1-color;
+        }
     }
 
     .validation-error{
