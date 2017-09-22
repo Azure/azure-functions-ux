@@ -323,7 +323,7 @@ export function CompareResources(current, necessary) {
         }));
     } else {
         // If no MS Graph resources are currently required, the new ones are just the ones this binding/template needs
-        unionMSGraph.resourceAccess = necessaryMSGraph;
+        unionMSGraph.resourceAccess = necessaryMSGraph.resourceAccess;
     }
 
     // Set up the object that will be used in the request payload
@@ -348,7 +348,7 @@ export function CompareResources(current, necessary) {
             }) < 0;
         }));
     } else {
-        unionAAD.resourceAccess = necessaryAAD;
+        unionAAD.resourceAccess = necessaryAAD.resourceAccess;
     }
 
     unionAAD.resourceAppId = MSGraphConstants.RequiredResources.WindowsAzureActiveDirectory;
