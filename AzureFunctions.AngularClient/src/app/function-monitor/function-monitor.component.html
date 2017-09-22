@@ -1,11 +1,11 @@
 <div>
     <div *ngIf="!azureWebJobsDashboardMissed && aiId === ''" class="alert alert-warning alert-dismissible" role="alert">
-        <img src="images/appInsights.svg"/>
+        <img src="image/appInsights.svg"/>
         <span [innerHTML]="'monitoring_appInsights' | translate"></span>
     </div>
 
     <div *ngIf="!azureWebJobsDashboardMissed && !!aiId" class="alert alert-success alert-dismissible" role="alert">
-        <img src="images/appInsights.svg"/>
+        <img src="image/appInsights.svg"/>
         {{ 'monitoring_appInsightsSetUp' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;<a tabindex="0" (click)="openAppInsigthsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
     </div>
 
@@ -20,7 +20,7 @@
 
     <div *ngIf="azureWebJobsDashboardMissed && aiId === ''" class="ai-icon">
         <div>    
-            <img src="images/appInsights.svg"/>        
+            <img src="image/appInsights.svg"/>        
             <h3>{{ 'monitoring_noMonitoring' | translate }}</h3> 
             <div [innerHTML]="'monitoring_appInsights' | translate"></div>          
         </div>                
@@ -28,7 +28,7 @@
 
     <div *ngIf="azureWebJobsDashboardMissed && !!aiId" class="ai-icon">
         <div>
-            <img src="images/appInsights.svg"/>
+            <img src="image/appInsights.svg"/>
             <h3>{{ 'monitoring_noMonitoring' | translate }}</h3>
             {{ 'monitoring_appInsightsSetUp' | translate }} <a tabindex="0" (click)="openAppInsigthsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
         </div>            
