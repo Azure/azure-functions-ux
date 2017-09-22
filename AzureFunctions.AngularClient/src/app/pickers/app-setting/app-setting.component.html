@@ -23,7 +23,7 @@
                 <div class="button-conainer">
                     <button *ngIf="!selectInProcess"
                             (click)="onSelect()"
-                            [class.custom-button-disabled]="!this.appSettingName || !this.appSettingValue"
+                            [disabled]="!this.appSettingName || !this.appSettingValue"
                             class="custom-button">
 
                         {{ 'create' | translate }}

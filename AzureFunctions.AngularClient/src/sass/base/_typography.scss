@@ -1,11 +1,21 @@
-a{
-    cursor: pointer;
-    color: $primary-color;
+body{
+    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+    color: $default-text-color;
+    font-size: 12px;
+}
+
+body #app-root[theme=dark]{
+    color: $default-text-color-dark;
+}
+
+#app-root[theme=dark] a{
+    color: $primary-color-dark;
 }
 
 h1, h2, h3, h4{
     font-weight: normal;
-    color:#333333;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .error-output {
@@ -16,71 +26,91 @@ h1, h2, h3, h4{
     color: #000000;
 }
 
-.text-main2-heading{
+h1{
     font-size: 26px;
     color: $value-text-color;
     font-weight: lighter;
 }
 
-.text-level1-heading {
-    @extend .text;
+h2{
     font-size: 18px;
     font-weight: lighter;
     color: $heading-text-color;
 }
 
-.text-level2-heading {
-    @extend .text;
+h3{
     font-size: 15px;
     font-weight: lighter;
     color: $heading-text-color;
 }
 
-.text-subheading {
-    @extend .text;
+h4{
     font-size: 14px;
 }
 
-.text-hl {
-    @extend .text;
-    font-size: 12px;
-    color: #0058ad;
+a, .link{
     cursor: pointer;
+    color: $primary-color;
+
+    &:hover{
+        color: $primary-color-hover;
+    }
 }
 
 .text-value {
-    @extend .text;
     font-size: 12px;
     color: $value-text-color;
 }
 
-.text-label {
-    @extend .text;
+label, .text-label {
     font-size: 12px;
+    font-weight: normal;
     color: $label-text-color;
 }
 
 .text-list-col-heading {
-    @extend .text;
     font-size: 10px;
     color: $value-text-color;
     font-weight: bold;
 }
 
 .message-error {
-    @extend .text;
     color: $error-color;
     font-size: 12px;
 }
 
 .message-success {
-    @extend .text;
     color: $success-color;
     font-size: 12px;
 }
 
 .message-warning {
-    @extend .text;
     color: $success-color;
     font-size: 12px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+#app-root[theme=dark]{
+    h1{
+        color: $default-text-color-dark;
+    }
+
+    h2,h3,h4{
+        color: $heading-text-color-dark;
+    }
+
+    label, .text-label{
+        color: $label-text-color-dark;
+    }
+
+    .link{
+        color: $primary-color-dark;
+    
+        &:hover{
+            color: $primary-color-hover-dark;
+        }
+    }
 }

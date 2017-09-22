@@ -1,0 +1,19 @@
+@import '../../sass/common/variables';
+
+#dev-guide{
+    padding: 40px;
+    max-width: 1200px;
+
+    label{
+        display: block;
+    }
+}
+
+.example{
+    margin-top: 30px;
+
+    .header{
+        border: $border;
+        padding: 10px;
+    }
+}

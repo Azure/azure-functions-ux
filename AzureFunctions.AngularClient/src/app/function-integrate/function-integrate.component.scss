@@ -1,9 +1,12 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
+@import '../../sass/base/typography';
 
-h2.dev-block-header{
+h2{
     display: inline;
-    @extend .text-level1-heading;
-    line-height: 29px;
+
+    &.dev-block-header{
+        line-height: 15px;
+    }
 }
 
 div.dev-block-header{

@@ -114,7 +114,7 @@ export class SideNavComponent implements AfterViewInit {
             // child blades close.  If we get a new info object, then we'll rebuild the tree.
             // The true fix would be to make sure that we never set the resourceId of the hosting
             // blade, but that's a pretty large change and this should be sufficient for now.
-            if (!this._initialized) {
+            if (!this._initialized && !this.globalStateService.showTryView) {
 
                 this._initialized = true;
                 this.rootNode = new TreeNode(this, null, null);
@@ -173,6 +173,8 @@ export class SideNavComponent implements AfterViewInit {
                     this.initialResourceId = this.tryFunctionApp.site.id;
                 }
 
+                this.rootNode = new TreeNode(this, null, null);
+
                 const appNode = new AppNode(
                     this,
                     this.tryFunctionApp.site,
@@ -182,7 +184,6 @@ export class SideNavComponent implements AfterViewInit {
 
                 appNode.select();
 
-                this.rootNode = new TreeNode(this, null, null);
                 this.rootNode.children = [appNode];
                 this.rootNode.isExpanded = true;
             });

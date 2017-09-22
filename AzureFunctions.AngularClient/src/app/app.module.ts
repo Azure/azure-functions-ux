@@ -37,7 +37,11 @@ const routes = RouterModule.forRoot([
     { path: 'try', loadChildren: 'app/try-landing/try-landing.module#TryLandingModule' },
 
     // "/scope" will load a window to show a specific feature(i.e. app settings) with nothing else, defined by query string
-    { path: 'scope', loadChildren: 'app/ibiza-feature/ibiza-feature.module#IbizaFeatureModule' }
+    { path: 'scope', loadChildren: 'app/ibiza-feature/ibiza-feature.module#IbizaFeatureModule' },
+
+    // /devguide
+    { path: 'devguide', loadChildren: 'app/dev-guide/dev-guide.module#DevGuideModule' }
+
 ]);
 
 @NgModule(AppModule.moduleDefinition)

@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .wrapper {
     position: relative;
@@ -24,11 +24,11 @@
 }
 
 .file:hover {
-    background-color: $tree-node-hover-color;
+    background-color: $item-hover-color;
 }
 
 .selected {
-    background-color: $tree-node-selection-color !important;
+    background-color: $item-selected-color !important;
 }
 
 .heading {
