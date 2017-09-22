@@ -81,7 +81,7 @@ export class AppNode extends TreeNode
         const descriptor = new SiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
-        this.nodeClass = this.nodeClass += ' app-node';
+        this.nodeClass += ' app-node';
 
         const sub = _subscriptions.find(sub => {
             return sub.subscriptionId === descriptor.subscription;

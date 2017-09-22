@@ -1,3 +1,4 @@
+import { SvgExampleComponent } from './svg-example/svg-example.component';
 import { ColorExampleComponent } from './color-example/color-example.component';
 import { ButtonExampleComponent } from './button-example/button-example.component';
 import { ListExampleComponent } from './list-example/list-example.component';
@@ -25,7 +26,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         TypographyExampleComponent,
         ListExampleComponent,
         ButtonExampleComponent,
-        ColorExampleComponent
+        ColorExampleComponent,
+        SvgExampleComponent
     ],
     providers: []
 })
