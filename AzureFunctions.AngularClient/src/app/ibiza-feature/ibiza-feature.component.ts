@@ -1,6 +1,5 @@
 import { BusyStateScopeManager } from './../busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
-import { PortalService } from './../shared/services/portal.service';
 import { FunctionApp } from './../shared/function-app';
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
@@ -29,8 +28,7 @@ export class IbizaFeatureComponent implements AfterViewInit, OnDestroy {
     private _busyStateScopeManager: BusyStateScopeManager;
 
     constructor(
-        private _userService: UserService,
-        private _portalService: PortalService
+        private _userService: UserService
     ) {
     }
 
@@ -40,11 +38,6 @@ export class IbizaFeatureComponent implements AfterViewInit, OnDestroy {
             .first()
             .subscribe(info => {
                 this.ready = true;
-
-                this._portalService.sendTimerEvent({
-                    timerId: 'PortalReady',
-                    timerAction: 'stop'
-                });
             });
     }
 

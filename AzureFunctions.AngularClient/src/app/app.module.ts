@@ -47,8 +47,20 @@ const routes = RouterModule.forRoot([
 @NgModule(AppModule.moduleDefinition)
 export class AppModule {
     static moduleDefinition = {
-        declarations: [AppComponent, ErrorListComponent, DisabledDashboardComponent],
-        imports: [SharedModule.forRoot(), ReactiveFormsModule, BrowserModule, HttpModule, TranslateModule.forRoot(), PopoverModule, routes],
+        declarations: [
+            AppComponent,
+            ErrorListComponent,
+            DisabledDashboardComponent
+        ],
+        imports: [
+            SharedModule.forRoot(),
+            ReactiveFormsModule,
+            BrowserModule,
+            HttpModule,
+            TranslateModule.forRoot(),
+            PopoverModule,
+            routes
+        ],
         bootstrap: [AppComponent]
     };
 }
