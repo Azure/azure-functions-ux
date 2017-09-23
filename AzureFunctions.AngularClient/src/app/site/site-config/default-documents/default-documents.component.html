@@ -1,0 +1,78 @@
+<div class="settings-group-wrapper">
+
+  <h3>{{ 'feature_defaultDocumentsName' | translate }}</h3>
+
+  <div class="settings-wrapper">
+
+    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
+    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #defaultDocumentsTable>
+      <!--<tr class="header-row">
+        <th class="single-col padded-col"></th>
+        <th class="action-col"></th>
+      </tr>-->
+
+      <!-- Data/Content Rows -->
+      <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each default document returned (if any) -->
+      <tr *ngFor="let group of defaultDocumentsTable.items">
+        <td class="single-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+          <click-to-edit [group]="group" name="name">
+
+            <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+
+          </click-to-edit>
+        </td>
+
+        <td class="action-col">
+          <span class="fa fa-times delete" (click)="deleteDocument(group)"></span>
+        </td>
+      </tr>
+
+      <!-- Placeholder/Message Row -->
+      <!-- If ARM call did not return successfully or no default documents were returned, display a placeholder row -->
+      <tr *ngIf="(!!groupArray && defaultDocumentsTable.items.length === 0) || !groupArray">
+        <td class="message-row" colspan="4">
+          <!-- If ARM call returned successfully but no default documents were returned, display a row with message 'No records' -->
+          <!-- If ARM call did not return successfully, display a row with the appropriate message based on permissions -->
+          {{
+            (!!groupArray && defaultDocumentsTable.items.length === 0) ? ('emptyDefaultDocuments' | translate) :
+            (!groupArray && hasWritePermissions) ? (loadingFailureMessage || loadingMessage) :
+            (!groupArray && !hasWritePermissions && showPermissionsMessage) ? permissionsMessage : ''
+          }}
+        </td>
+      </tr>
+
+    </tbl>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
+    <!-- If ARM call returned successfully user has write permissions, display 'add' link -->
+    <div *ngIf="!!groupArray && hasWritePermissions" class="link add-setting" (click)="addDocument()">
+      {{ 'addNewDocument' | translate }}
+    </div>
+
+    <!-- If ARM call did not return successfully or user does not have write permissions, display 'add' link disabled -->
+    <div *ngIf="!groupArray || !hasWritePermissions" class="disabled-link add-setting">
+      {{ 'addNewDocument' | translate }}
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- ---------------------------------------------------------- SHIELD ---------------------------------------------------------- -->
+    <div *ngIf="!groupArray || !hasWritePermissions" class="shield">
+      <div *ngIf="!groupArray && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+        {{ loadingFailureMessage }}
+      </div>
+    </div>
+
+    <div *ngIf="!hasWritePermissions" class="shield transparent">
+      <div *ngIf="showPermissionsMessage" class="shield-message">
+        <p>{{ permissionsMessage }}</p>
+        <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
+      </div>
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+  </div>
+
+</div>

@@ -1,6 +1,7 @@
 import { SharedFunctionsModule } from './../shared/shared-functions.module';
 import { ConnectionStringsComponent } from './site-config/connection-strings/connection-strings.component';
 import { AppSettingsComponent } from './site-config/app-settings/app-settings.component';
+import { DefaultDocumentsComponent } from './site-config/default-documents/default-documents.component';
 import { GeneralSettingsComponent } from './site-config/general-settings/general-settings.component';
 import { FeatureGroupComponent } from './../feature-group/feature-group.component';
 import { DownloadFunctionAppContentComponent } from './../download-function-app-content/download-function-app-content.component';
@@ -52,6 +53,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         DownloadFunctionAppContentComponent,
         SiteEnabledFeaturesComponent,
         GeneralSettingsComponent,
+        DefaultDocumentsComponent,
         AppSettingsComponent,
         ConnectionStringsComponent,
         HostEditorComponent
