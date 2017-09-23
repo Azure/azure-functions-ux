@@ -14,6 +14,7 @@ import { GeneralSettingsComponent } from './general-settings/general-settings.co
 import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
 import { DefaultDocumentsComponent } from './default-documents/default-documents.component';
+import { HandlerMappingsComponent } from './handler-mappings/handler-mappings.component';
 import { PortalService } from './../../shared/services/portal.service';
 import { AuthzService } from './../../shared/services/authz.service';
 import { SiteTabIds } from './../../shared/models/constants';
@@ -52,6 +53,7 @@ export class SiteConfigComponent implements OnDestroy {
   @ViewChild(AppSettingsComponent) appSettings: AppSettingsComponent;
   @ViewChild(ConnectionStringsComponent) connectionStrings: ConnectionStringsComponent;
   @ViewChild(DefaultDocumentsComponent) defaultDocuments: DefaultDocumentsComponent;
+  @ViewChild(HandlerMappingsComponent) handlerMappings: HandlerMappingsComponent;
 
   constructor(
     private _fb: FormBuilder,
@@ -131,7 +133,8 @@ export class SiteConfigComponent implements OnDestroy {
       this.generalSettings.validate(),
       this.appSettings.validate(),
       this.connectionStrings.validate(),
-      this.defaultDocuments.validate()
+      this.defaultDocuments.validate(),
+      this.handlerMappings.validate()
     ];
 
     if (!this.mainForm.valid) {
@@ -164,11 +167,13 @@ export class SiteConfigComponent implements OnDestroy {
             this.appSettings.save(),
             this.connectionStrings.save(),
             this.defaultDocuments.save(),
-            (g, a, c, d) => ({
+            this.handlerMappings.save(),
+            (g, a, c, d, h) => ({ 
               generalSettingsResult: g,
               appSettingsResult: a,
               connectionStringsResult: c,
               defaultDocumentsResult: d,
+              handlerMappingsResult: h
             })
           );
         })
@@ -179,7 +184,8 @@ export class SiteConfigComponent implements OnDestroy {
             r.generalSettingsResult,
             r.appSettingsResult,
             r.connectionStringsResult,
-            r.defaultDocumentsResult
+            r.defaultDocumentsResult,
+            r.handlerMappingsResult
           ];
           const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
           const saveSuccess: boolean = saveFailures.length === 0;

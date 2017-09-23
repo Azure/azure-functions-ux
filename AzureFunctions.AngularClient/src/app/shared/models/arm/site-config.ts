@@ -19,4 +19,9 @@ export interface SiteConfig {
     remoteDebuggingEnabled: boolean;
     remoteDebuggingVersion: string;
     defaultDocuments: string[];
+    handlerMappings: [{
+        extension: string;
+        scriptProcessor: string;
+        arguments: string;
+    }];
 }

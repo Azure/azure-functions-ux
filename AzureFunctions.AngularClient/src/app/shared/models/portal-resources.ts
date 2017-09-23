@@ -76,8 +76,12 @@ export class PortalResources
     public static addNewSetting: string = "addNewSetting";
     public static addNewConnectionString: string = "addNewConnectionString";
     public static addNewDocument: string = "addNewDocument";
+    public static addNewHandlerMapping: string = "addNewHandlerMapping";
     public static enterName: string = "enterName";
     public static enterValue: string = "enterValue";
+    public static enterExtension: string = "enterExtension";
+    public static enterScriptProcessor: string = "enterScriptProcessor";
+    public static enterArguments: string = "enterArguments";
     public static hiddenValueClickToShow: string = "hiddenValueClickToShow";
     public static sideBar_changeMade: string = "sideBar_changeMade";
     public static sideBar_newFunction: string = "sideBar_newFunction";
@@ -376,10 +380,12 @@ export class PortalResources
     public static emptyAppSettings: string = "emptyAppSettings";
     public static emptyConnectionStrings: string = "emptyConnectionStrings";
     public static emptyDefaultDocuments: string = "emptyDefaultDocuments";
+    public static emptyHandlerMappings: string = "emptyHandlerMappings";
     public static feature_generalSettingsName: string = "feature_generalSettingsName";
     public static feature_autoSwapSettingsName: string = "feature_autoSwapSettingsName";
     public static feature_debuggingSettingsName: string = "feature_debuggingSettingsName";
     public static feature_defaultDocumentsName: string = "feature_defaultDocumentsName";
+    public static feature_handlerMappingsName: string = "feature_handlerMappingsName";
     public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
     public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
     public static configRequiresWritePermissionOnApp: string = "configRequiresWritePermissionOnApp";
