@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .tree-node{
     height: 34px;
@@ -17,14 +17,9 @@
     margin-bottom: 1px;
 
     &:hover{
-        background-color: $tree-node-hover-color;
         .fa.fa-external-link{
             display: inline-block;
         }
-    }
-
-    &.selected{
-        background-color: $tree-node-selection-color;
     }
 
     .fa.fa-caret-right, .fa.fa-caret-down{
@@ -52,17 +47,12 @@
 
 .tree-node-menu{
     font-size: 20px;
-    color: $primary-color;
     position: absolute;
     top: 4px;
     right: 5px;
 
     i{
         margin-left: 5px;
-        
-        &:hover{
-            color: $primary-color-hover;
-        }
     }
 }
 
@@ -84,7 +74,6 @@ hr.tree-node-separator{
     margin-left: 12px;
     font-size: 14px;
     width: 15px;
-    color: $primary-color;
 }
 
 .tree-node-refresh-icon{
@@ -99,20 +88,17 @@ hr.tree-node-separator{
 }
 
 .tree-node-svg-icon{
-    img{
-        height: 20px;
-        width: 20px;
+    .icon-small{
         vertical-align: middle;
         margin-left: 2px;
     }
 }
 
 .tree-node-collection-icon{
-    img{
-        height: 20px;
-        width: 20px;
-        vertical-align: text-top;
-        margin-top: -1px;
+    .icon-small{
+        vertical-align: top;
+        margin-top: -3px;
         margin-left: 2px;
+        margin-right: 6px;
     }
 }

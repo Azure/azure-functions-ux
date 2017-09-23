@@ -6,11 +6,11 @@
   <div class="settings-wrapper">
 
     <div class="setting-wrapper">
-      <div class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}
+      <label class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}
         <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['netFrameWorkVersion'] : null"
@@ -21,11 +21,11 @@
     </div>
 
     <div *ngIf="phpSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'phpVersionLabel' | translate }}
+      <label class="setting-label">{{ 'phpVersionLabel' | translate }}
         <pop-over [message]="('phpVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['phpVersion'] : null"
@@ -36,11 +36,11 @@
     </div>
 
     <div *ngIf="pythonSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'pythonVersionLabel' | translate }}
+      <label class="setting-label">{{ 'pythonVersionLabel' | translate }}
         <pop-over [message]="('pythonVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['pythonVersion'] : null"
@@ -51,11 +51,11 @@
     </div>
 
     <div *ngIf="javaSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'javaVersionLabel' | translate }}
+      <label class="setting-label">{{ 'javaVersionLabel' | translate }}
         <pop-over [message]="('javaVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaVersion'] : null"
@@ -67,11 +67,11 @@
     </div>
 
     <div *ngIf="javaSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'javaMinorVersionLabel' | translate }}
+      <label class="setting-label">{{ 'javaMinorVersionLabel' | translate }}
         <pop-over [message]="('javaMinorVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaMinorVersion'] : null"
@@ -82,11 +82,11 @@
     </div>
 
     <div *ngIf="javaSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'javaWebContainerLabel' | translate }}
+      <label class="setting-label">{{ 'javaWebContainerLabel' | translate }}
         <pop-over [message]="('javaWebContainerLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaWebContainer'] : null"
@@ -97,11 +97,11 @@
     </div>
 
     <div *ngIf="platform64BitSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'use32BitWorkerProcessLabel' | translate }}
+      <label class="setting-label">{{ 'use32BitWorkerProcessLabel' | translate }}
         <pop-over [message]="('use32BitWorkerProcessLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['use32BitWorkerProcess'] : null"
@@ -112,11 +112,11 @@
     </div>
 
     <div *ngIf="webSocketsSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'webSocketsEnabledLabel' | translate }}
+      <label class="setting-label">{{ 'webSocketsEnabledLabel' | translate }}
         <pop-over [message]="('webSocketsEnabledLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['webSocketsEnabled'] : null"
@@ -127,11 +127,11 @@
     </div>
 
     <div *ngIf="alwaysOnSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'alwaysOnLabel' | translate }}
+      <label class="setting-label">{{ 'alwaysOnLabel' | translate }}
         <pop-over [message]="('alwaysOnLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['alwaysOn'] : null"
@@ -142,8 +142,7 @@
     </div>
 
     <div *ngIf="classicPipelineModeSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'managedPipelineModeLabel' | translate }}
-      </div>
+      <label class="setting-label">{{ 'managedPipelineModeLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['managedPipelineMode'] : null"
@@ -154,8 +153,7 @@
     </div>
 
     <div *ngIf="clientAffinitySupported" class="setting-wrapper last">
-      <div class="setting-label">{{ 'clientAffinityEnabledLabel' | translate }}
-      </div>
+      <label class="setting-label">{{ 'clientAffinityEnabledLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['clientAffinityEnabled'] : null"
@@ -179,8 +177,7 @@
   <div class="settings-wrapper">
 
     <div class="setting-wrapper">
-      <div class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}
-      </div>
+      <label class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
@@ -192,8 +189,7 @@
     </div>
 
     <div class="setting-wrapper last">
-      <div class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}
-      </div>
+      <label class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['remoteDebuggingVersion'] : null"

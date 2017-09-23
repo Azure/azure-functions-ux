@@ -17,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
+import { SiteService } from './../../shared/services/slots.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
@@ -27,7 +28,6 @@ import { Site } from '../../shared/models/arm/site';
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem } from '../../shared/models/localStorage/enabled-features';
-import { Constants } from '../../shared/models/constants';
 
 @Component({
     selector: 'site-enabled-features',
@@ -59,7 +59,8 @@ export class SiteEnabledFeaturesComponent {
         private _aiService: AiService,
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
-        private _siteDashboard: SiteDashboardComponent) {
+        private _siteDashboard: SiteDashboardComponent,
+        private _slotsService: SiteService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -163,21 +164,12 @@ export class SiteEnabledFeaturesComponent {
             return Observable.of([]);
         }
 
-        return Observable.zip(
-            this._cacheService.postArm(`${this._site.id}/config/appsettings/list`),
-            this._cacheService.getArm(`/subscriptions/${this._descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
-            (as, ai) => ({ appSettings: as, appInsights: ai })
-        ).map(r => {
-            const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
+        return this._slotsService.isAppInsightsEnabled(this._site.id).flatMap((aiId) => {
             const items = [];
-            if (ikey) {
-                r.appInsights.json().value.forEach((ai) => {
-                    if (ai.properties.InstrumentationKey === ikey) {
-                        items.push(this._getEnabledFeatureItem(Feature.AppInsight, ai.id));
-                    }
-                });
+            if (aiId) {
+                items.push(this._getEnabledFeatureItem(Feature.AppInsight, aiId));
             }
-            return items.length === 1 ? items : [];
+            return Observable.of(items);
         });
     }
 
@@ -204,7 +196,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.tab_functionSettings),
                     feature: feature,
-                    iconUrl: 'images/Functions.svg',
+                    iconUrl: 'image/Functions.svg',
                     featureId: SiteTabIds.functionRuntime
                 };
 
@@ -212,7 +204,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
                     feature: feature,
-                    iconUrl: 'images/application-settings.svg',
+                    iconUrl: 'image/application-settings.svg',
                     featureId: SiteTabIds.applicationSettings
                 };
 
@@ -220,7 +212,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_appInsights),
                     feature: feature,
-                    iconUrl: 'images/appInsights.svg',
+                    iconUrl: 'image/appInsights.svg',
                     bladeInfo: {
                         detailBlade: 'AspNetOverview',
                         detailBladeInputs: {
@@ -234,7 +226,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_cors).format(args),
                     feature: feature,
-                    iconUrl: 'images/cors.svg',
+                    iconUrl: 'image/cors.svg',
                     bladeInfo: {
                         detailBlade: 'ApiCors',
                         detailBladeInputs: {
@@ -247,7 +239,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_deploymentSource).format(args),
                     feature: feature,
-                    iconUrl: 'images/deployment-source.svg',
+                    iconUrl: 'image/deployment-source.svg',
                     bladeInfo: {
                         detailBlade: 'ContinuousDeploymentListBlade',
                         detailBladeInputs: {
@@ -261,7 +253,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.authentication),
                     feature: feature,
-                    iconUrl: 'images/authentication.svg',
+                    iconUrl: 'image/authentication.svg',
                     bladeInfo: {
                         detailBlade: 'AppAuth',
                         detailBladeInputs: {
@@ -274,7 +266,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.feature_customDomainsName),
                     feature: feature,
-                    iconUrl: 'images/custom-domains.svg',
+                    iconUrl: 'image/custom-domains.svg',
                     bladeInfo: {
                         detailBlade: 'CustomDomainsAndSSL',
                         detailBladeInputs: {
@@ -288,7 +280,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_sslCert),
                     feature: feature,
-                    iconUrl: 'images/ssl.svg',
+                    iconUrl: 'image/ssl.svg',
                     bladeInfo: {
                         detailBlade: 'CertificatesBlade',
                         detailBladeInputs: {
@@ -301,7 +293,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.feature_apiDefinitionName),
                     feature: feature,
-                    iconUrl: 'images/api-definition.svg',
+                    iconUrl: 'image/api-definition.svg',
                     featureId: SiteTabIds.apiDefinition
                 };
 
@@ -309,7 +301,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_webjobs).format(args),
                     feature: feature,
-                    iconUrl: 'images/webjobs.svg',
+                    iconUrl: 'image/webjobs.svg',
                     bladeInfo:
                     {
                         detailBlade: 'webjobsNewBlade',
@@ -323,7 +315,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_extensions).format(args),
                     feature: feature,
-                    iconUrl: 'images/extensions.svg',
+                    iconUrl: 'image/extensions.svg',
                     bladeInfo:
                     {
                         detailBlade: 'SiteExtensionsListBlade',

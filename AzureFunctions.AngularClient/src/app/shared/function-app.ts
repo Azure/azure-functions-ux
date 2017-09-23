@@ -1,5 +1,5 @@
 ﻿import { Subject } from 'rxjs/Subject';
-import { SlotsService } from './services/slots.service';
+import { SiteService } from './services/slots.service';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -140,7 +140,7 @@ export class FunctionApp {
         private _authZService: AuthzService,
         private _aiService: AiService,
         private _configService: ConfigService,
-        private _slotsService: SlotsService) {
+        private _slotsService: SiteService) {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
@@ -1389,7 +1389,7 @@ export class FunctionApp {
         Observable.zip(
             this.checkIfSourceControlEnabled(),
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
-            SlotsService.isSlot(this.site.id)
+            SiteService.isSlot(this.site.id)
                 ? Observable.of(true)
                 : this._slotsService.getSlotsList(this.site.id).map(r => r.length > 0),
             (a, b, s) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s })
@@ -1785,9 +1785,9 @@ export class FunctionApp {
         });
     }
 
-    showInstallFailed() {
+    showInstallFailed(id) {
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-            message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension, { extensionId: '' }),
+            message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtensionForId, { installationId: id }),
             errorId: ErrorIds.timeoutInstallingFunctionRuntimeExtension,
             errorType: ErrorType.RuntimeError,
             resourceId: this.site.id

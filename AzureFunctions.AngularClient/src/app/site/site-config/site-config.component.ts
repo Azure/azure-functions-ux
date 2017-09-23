@@ -38,7 +38,7 @@ export class SiteConfigComponent implements OnDestroy {
 
   public mainForm: FormGroup;
   private _valueSubscription: RxSubscription;
-  private resourceId: string;
+  public resourceId: string;
 
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;

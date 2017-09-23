@@ -1,4 +1,4 @@
-import { SlotsService } from 'app/shared/services/slots.service';
+import { SiteService } from 'app/shared/services/slots.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -86,7 +86,7 @@ export class SiteManageComponent implements OnDestroy {
                 };
 
                 this._slotDisableInfo = {
-                    enabled: !SlotsService.isSlot(site.id),
+                    enabled: !SiteService.isSlot(site.id),
                     disableMessage: this._translateService.instant(PortalResources.featureNotSupportedForSlots)
                 };
 
@@ -182,7 +182,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),
                 this._translateService.instant(PortalResources.feature_deploymentCredsInfo),
-                'images/deployment-credentials.svg',
+                'image/deployment-credentials.svg',
                 {
                     detailBlade: 'FtpCredentials',
                     detailBladeInputs: {
@@ -198,7 +198,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_consoleName) +
                 ' ' + this._translateService.instant(PortalResources.debug),
                 this._translateService.instant(PortalResources.feature_consoleInfo),
-                'images/console.svg',
+                'image/console.svg',
                 {
                     detailBlade: 'ConsoleBlade',
                     detailBladeInputs: {
@@ -220,7 +220,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_extensionsName),
                 this._translateService.instant(PortalResources.feature_extensionsName),
                 this._translateService.instant(PortalResources.feature_extensionsInfo),
-                'images/extensions.svg',
+                'image/extensions.svg',
                 {
                     detailBlade: 'SiteExtensionsListBlade',
                     detailBladeInputs: {
@@ -237,7 +237,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.tab_functionSettings),
                 this._translateService.instant(PortalResources.tab_functionSettings),
                 this._translateService.instant(PortalResources.feature_functionSettingsInfo),
-                'images/functions.svg',
+                'image/functions.svg',
                 SiteTabIds.functionRuntime,
                 this._broadcastService),
 
@@ -245,7 +245,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.tab_applicationSettings),
                 this._translateService.instant(PortalResources.tab_applicationSettings),
                 this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
-                'images/application-settings.svg',
+                'image/application-settings.svg',
                 SiteTabIds.applicationSettings,
                 this._broadcastService),
 
@@ -253,7 +253,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_propertiesName),
                 this._translateService.instant(PortalResources.feature_propertiesName),
                 this._translateService.instant(PortalResources.feature_propertiesInfo),
-                'images/properties.svg',
+                'image/properties.svg',
                 {
                     detailBlade: 'PropertySheetBlade',
                     detailBladeInputs: {
@@ -266,7 +266,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_backupsName),
                 this._translateService.instant(PortalResources.feature_backupsName),
                 this._translateService.instant(PortalResources.feature_backupsInfo),
-                'images/backups.svg',
+                'image/backups.svg',
                 {
                     detailBlade: 'Backup',
                     detailBladeInputs: {
@@ -283,7 +283,7 @@ export class SiteManageComponent implements OnDestroy {
                 ' ' + this._translateService.instant(PortalResources.supportRequest) +
                 ' ' + this._translateService.instant(PortalResources.scale),
                 this._translateService.instant(PortalResources.feature_allSettingsInfo),
-                'images/webapp.svg',
+                'image/webapp.svg',
                 {
                     detailBlade: 'AppsOverviewBlade',
                     detailBladeInputs: {
@@ -311,7 +311,7 @@ export class SiteManageComponent implements OnDestroy {
                 ' ' + this._translateService.instant(PortalResources.hybridConnections) +
                 ' vnet',
                 this._translateService.instant(PortalResources.feature_networkingInfo),
-                'images/networking.svg',
+                'image/networking.svg',
                 {
                     detailBlade: 'NetworkSummaryBlade',
                     detailBladeInputs: {
@@ -326,7 +326,7 @@ export class SiteManageComponent implements OnDestroy {
                 'SSL',
                 'ssl',
                 this._translateService.instant(PortalResources.feature_sslInfo),
-                'images/ssl.svg',
+                'image/ssl.svg',
                 {
                     detailBlade: 'CertificatesBlade',
                     detailBladeInputs: { resourceUri: site.id }
@@ -338,7 +338,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_customDomainsName),
                 this._translateService.instant(PortalResources.feature_customDomainsName),
                 this._translateService.instant(PortalResources.feature_customDomainsInfo),
-                'images/custom-domains.svg',
+                'image/custom-domains.svg',
                 {
                     detailBlade: 'CustomDomainsAndSSL',
                     detailBladeInputs: {
@@ -355,7 +355,7 @@ export class SiteManageComponent implements OnDestroy {
                 ' ' + this._translateService.instant(PortalResources.authorization) +
                 ' aad google facebook microsoft',
                 this._translateService.instant(PortalResources.feature_authInfo),
-                'images/authentication.svg',
+                'image/authentication.svg',
                 {
                     detailBlade: 'AppAuth',
                     detailBladeInputs: { resourceUri: site.id }
@@ -383,7 +383,7 @@ export class SiteManageComponent implements OnDestroy {
                     this._translateService.instant(PortalResources.feature_pushNotificationsName),
                     this._translateService.instant(PortalResources.feature_pushNotificationsName),
                     this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
-                    'images/push.svg',
+                    'image/push.svg',
                     {
                         detailBlade: 'PushRegistrationBlade',
                         detailBladeInputs: { resourceUri: this._descriptor.resourceId }
@@ -398,7 +398,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_diagnosticLogsName),
                 this._translateService.instant(PortalResources.feature_diagnosticLogsName),
                 this._translateService.instant(PortalResources.feature_diagnosticLogsInfo),
-                'images/diagnostic-logs.svg',
+                'image/diagnostic-logs.svg',
                 {
                     detailBlade: 'WebsiteLogsBlade',
                     detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
@@ -409,7 +409,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_logStreamingName),
                 this._translateService.instant(PortalResources.feature_logStreamingName),
                 this._translateService.instant(PortalResources.feature_logStreamingInfo),
-                'images/log-stream.svg',
+                'image/log-stream.svg',
                 {
                     detailBlade: 'LogStreamBlade',
                     detailBladeInputs: { resourceUri: site.id }
@@ -421,7 +421,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_processExplorerName),
                 this._translateService.instant(PortalResources.feature_processExplorerName),
                 this._translateService.instant(PortalResources.feature_processExplorerInfo),
-                'images/process-explorer.svg',
+                'image/process-explorer.svg',
                 {
                     detailBlade: 'ProcExpNewBlade',
                     detailBladeInputs: { resourceUri: site.id }
@@ -434,7 +434,7 @@ export class SiteManageComponent implements OnDestroy {
                     this._translateService.instant(PortalResources.feature_securityScanningName),
                     this._translateService.instant(PortalResources.feature_securityScanningName) + ' tinfoil',
                     this._translateService.instant(PortalResources.feature_securityScanningInfo),
-                    'images/tinfoil-flat-21px.png',
+                    'image/tinfoil-flat-21px.png',
                     {
                         detailBlade: 'TinfoilSecurityBlade',
                         detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
@@ -458,7 +458,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_apiDefinitionName),
                 this._translateService.instant(PortalResources.feature_apiDefinitionName) + ' swagger',
                 this._translateService.instant(PortalResources.feature_apiDefinitionInfo),
-                'images/api-definition.svg',
+                'image/api-definition.svg',
                 SiteTabIds.apiDefinition,
                 this._broadcastService
             ),
@@ -467,7 +467,7 @@ export class SiteManageComponent implements OnDestroy {
                 'CORS',
                 'cors api',
                 this._translateService.instant(PortalResources.feature_corsInfo),
-                'images/cors.svg',
+                'image/cors.svg',
                 {
                     detailBlade: 'ApiCors',
                     detailBladeInputs: { resourceUri: site.id }
@@ -481,7 +481,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.appServicePlan) +
                 ' ' + this._translateService.instant(PortalResources.scale),
                 this._translateService.instant(PortalResources.feature_appServicePlanInfo),
-                'images/app-service-plan.svg',
+                'image/app-service-plan.svg',
                 {
                     detailBlade: 'WebHostingPlanBlade',
                     detailBladeInputs: { id: site.properties.serverFarmId }
@@ -494,7 +494,7 @@ export class SiteManageComponent implements OnDestroy {
                     this._translateService.instant(PortalResources.feature_quotasName),
                     this._translateService.instant(PortalResources.feature_quotasName),
                     this._translateService.instant(PortalResources.feature_quotasInfo),
-                    'images/quotas.svg',
+                    'image/quotas.svg',
                     {
                         detailBlade: 'QuotasBlade',
                         detailBladeInputs: {
@@ -510,7 +510,7 @@ export class SiteManageComponent implements OnDestroy {
                     this._translateService.instant(PortalResources.feature_quotasName),
                     this._translateService.instant(PortalResources.feature_quotasName),
                     this._translateService.instant(PortalResources.feature_quotasInfo),
-                    'images/quotas.svg',
+                    'image/quotas.svg',
                     {
                         detailBlade: 'FileSystemStorage',
                         detailBladeInputs: {
@@ -529,7 +529,7 @@ export class SiteManageComponent implements OnDestroy {
                 ' ' + this._translateService.instant(PortalResources.feature_activityLogName) +
                 ' ' + this._translateService.instant(PortalResources.events),
                 this._translateService.instant(PortalResources.feature_activityLogInfo),
-                'images/activity-log.svg',
+                'image/activity-log.svg',
                 {
                     detailBlade: 'EventsBrowseBlade',
                     detailBladeInputs: {
@@ -546,7 +546,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_accessControlName),
                 this._translateService.instant(PortalResources.feature_accessControlName) + ' rbac',
                 this._translateService.instant(PortalResources.feature_accessControlInfo),
-                'images/access-control.svg',
+                'image/access-control.svg',
                 {
                     detailBlade: 'UserAssignmentsV2Blade',
                     detailBladeInputs: {
@@ -561,7 +561,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_tagsName),
                 this._translateService.instant(PortalResources.feature_tagsName),
                 this._translateService.instant(PortalResources.feature_tagsInfo),
-                'images/tags.svg',
+                'image/tags.svg',
                 {
                     detailBlade: 'ResourceTagsListBlade',
                     detailBladeInputs: {
@@ -576,7 +576,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_locksName),
                 this._translateService.instant(PortalResources.feature_locksName),
                 this._translateService.instant(PortalResources.feature_locksInfo),
-                'images/locks.svg',
+                'image/locks.svg',
                 {
                     detailBlade: 'LocksBlade',
                     detailBladeInputs: {
@@ -594,7 +594,7 @@ export class SiteManageComponent implements OnDestroy {
                 ' ' + this._translateService.instant(PortalResources.template) +
                 ' arm',
                 this._translateService.instant(PortalResources.feature_automationScriptInfo),
-                'images/automation-script.svg',
+                'image/automation-script.svg',
                 {
                     detailBlade: 'TemplateViewerBlade',
                     detailBladeInputs: {
@@ -633,7 +633,7 @@ export class OpenKuduFeature extends DisableableFeature {
             _translateService.instant(PortalResources.feature_advancedToolsName),
             _translateService.instant(PortalResources.feature_advancedToolsName) + ' kudu',
             _translateService.instant(PortalResources.feature_advancedToolsInfo),
-            'images/advanced-tools.svg',
+            'image/advanced-tools.svg',
             disableInfoStream);
     }
 
@@ -650,7 +650,7 @@ export class OpenEditorFeature extends DisableableFeature {
             _translateService.instant(PortalResources.feature_appServiceEditorName),
             _translateService.instant(PortalResources.feature_appServiceEditorName),
             _translateService.instant(PortalResources.feature_appServiceEditorInfo),
-            'images/appsvc-editor.svg',
+            'image/appsvc-editor.svg',
             disabledInfoStream);
     }
 
@@ -666,7 +666,7 @@ export class OpenResourceExplorer extends FeatureItem {
             _translateService.instant(PortalResources.feature_resourceExplorerName),
             _translateService.instant(PortalResources.feature_resourceExplorerName),
             _translateService.instant(PortalResources.feature_resourceExplorerInfo),
-            'images/resource-explorer.svg');
+            'image/resource-explorer.svg');
     }
 
     click() {

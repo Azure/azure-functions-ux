@@ -1,4 +1,8 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
+
+h3{
+    display: inline;
+}
 
 .log-stream {
     height: 100%;
@@ -17,7 +21,6 @@
 }
 
 .action {
-    @extend .text-hl;
     margin-left: 10px;
     margin-bottom: 12px;
 

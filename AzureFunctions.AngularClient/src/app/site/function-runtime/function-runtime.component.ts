@@ -31,9 +31,10 @@ import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
-import { SlotsService } from '../../shared/services/slots.service';
+import { SiteService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from '../../../../../common/models/functions-version-info';
+import { AccessibilityHelper } from './../../shared/utilities/accessibility-helper';
 
 @Component({
   selector: 'function-runtime',
@@ -61,9 +62,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public apiProxiesEnabled: boolean;
   public functionRutimeOptions: SelectOption<string>[];
   public functionRuntimeValueStream: Subject<string>;
-  private proxySettingValueStream: Subject<boolean>;
-  private functionEditModeValueStream: Subject<boolean>;
-  public showTryView: boolean;
+  public proxySettingValueStream: Subject<boolean>;
+  public functionEditModeValueStream: Subject<boolean>;
 
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   private _viewInfo: TreeViewInfo<SiteData>;
@@ -87,14 +87,13 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _globalStateService: GlobalStateService,
     private _aiService: AiService,
     private _translateService: TranslateService,
-    private _slotsService: SlotsService,
+    private _slotsService: SiteService,
     private _configService: ConfigService,
     siteTabsComponent: SiteTabComponent
   ) {
 
     this._busyState = siteTabsComponent.busyState;
 
-    this.showTryView = this._globalStateService.showTryView;
     this._viewInfoSub = this._viewInfoStream
       .switchMap(viewInfo => {
         this._viewInfo = viewInfo;
@@ -132,7 +131,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.functionApp = r.functionApp;
         this.site = r.siteResponse.json();
         this.exactExtensionVersion = r.hostStatus ? r.hostStatus.version : '';
-        this._isSlotApp = SlotsService.isSlot(this.site.id);
+        this._isSlotApp = SiteService.isSlot(this.site.id);
         this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
           ? this.site.properties.dailyMemoryTimeQuota.toString()
           : '0';
@@ -214,8 +213,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
         displayLabel: '~1',
         value: '~1'
       }, {
-        displayLabel: '~2 (beta)',
-        value: '~2'
+        displayLabel: 'beta',
+        value: 'beta'
       }];
 
     this.proxySettingValueStream = new Subject<boolean>();
@@ -337,7 +336,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
     if (version === this.extensionVersion) {
       return;
     }
+    let updateButtonClicked = false;
     if (!version) {
+      updateButtonClicked = true;
       version = this.getLatestVersion(this.extensionVersion);
     };
     this._aiService.trackEvent('/actions/app_settings/update_version');
@@ -347,9 +348,30 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return this._updateContainerVersion(r.json(), version);
       })
       .mergeMap(r => {
-        return this.functionApp.getFunctionHostStatus();
+        return this.functionApp.getFunctionHostStatus()
+        .map((hostStatus: HostStatus) => {
+          if (!hostStatus.version || (hostStatus.version === this.exactExtensionVersion && !updateButtonClicked)) {
+            throw Observable.throw('Host version is not updated yet');
+          }
+          return hostStatus;
+        })
+        .retryWhen(error => {
+          return error.scan((errorCount: number, err: any) => {
+            if (errorCount >= 20) {
+                throw err;
+            } else {
+                return errorCount + 1;
+            }
+          }, 0).delay(3000);
+        });
+      })
+      .do(null, e => {
+        this._busyState.clearBusyState();
+        this._aiService.trackException(e, '/errors/rutime-update');
+        console.error(e);
       })
       .subscribe((hostStatus: HostStatus) => {
+
         this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
         this.extensionVersion = version;
         this.setNeedUpdateExtensionVersion();
@@ -407,6 +429,44 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
   openAppSettings() {
     this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
+  }
+
+  keyDown(event: any, command: string) {
+    if (AccessibilityHelper.isEnterOrSpace(event)) {
+      switch (command) {
+        case 'openAppSettings':
+        {
+          this.openAppSettings();
+          break;
+        }
+        case 'proxySettingValue':
+        {
+          this.proxySettingValueStream.next(!this.apiProxiesEnabled);
+          break;
+        }
+        case 'functionEditModeValue':
+        {
+          this.functionEditModeValueStream.next(!this.functionAppEditMode);
+          break;
+        }
+        case 'slotsValue':
+        {
+          this.slotsValueChange.next(!this.slotsEnabled);
+          break;
+        }
+        case 'functionRuntimeValue':
+        {
+          const findOptionIndex = this.functionRutimeOptions.findIndex(item => {
+            return item.value === this.extensionVersion;
+          });
+          const runtimeValue = findOptionIndex === -1 || findOptionIndex === this.functionRutimeOptions.length ?
+            this.functionRutimeOptions[0].value :
+            this.functionRutimeOptions[findOptionIndex + 1].value;
+          this.functionRuntimeValueStream.next(runtimeValue);
+          break;
+        }
+      }
+    }
   }
 
   private _updateContainerVersion(appSettings: ArmObj<any>, version: string) {

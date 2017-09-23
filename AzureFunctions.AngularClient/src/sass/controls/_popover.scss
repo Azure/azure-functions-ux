@@ -11,3 +11,13 @@
         text-decoration: none;
     }
 }
+
+#app-root[theme=dark]{
+    .popover{
+        background-color: lighten($body-bg-color-dark, 10%);
+
+        .arrow::after{
+            border-right-color: lighten($body-bg-color-dark, 10%);
+        }
+    }
+}

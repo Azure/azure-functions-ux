@@ -18,6 +18,7 @@ export class ArmService {
     public armLocksApiVersion = '2015-01-01';
     public storageApiVersion = '2015-05-01-preview';
     public websiteApiVersion = '2015-08-01';
+    public appInsightsApiVersion = '2015-05-01';
 
     private _token: string;
     private _sessionId: string;

@@ -1,6 +1,6 @@
-<div class="list-collection-container">
-<img src="images/api-proxy.svg" />
-<span class="text-level1-heading">{{ 'appFunctionSettings_apiProxies' | translate }}</span><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+<div class="browse-container">
+<img src="image/api-proxy.svg" />
+<h2>{{ 'appFunctionSettings_apiProxies' | translate }}</h2><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
 <tbl [items]="proxies" #table="tbl">
   <tr>

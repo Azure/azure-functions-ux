@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { SlotsService } from 'app/shared/services/slots.service';
+import { SiteService } from 'app/shared/services/slots.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
@@ -59,7 +59,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
         private _languageService: LanguageService,
         private _authZService: AuthzService,
         private _configService: ConfigService,
-        private _slotsService: SlotsService,
+        private _slotsService: SiteService,
         private _router: Router) {
     }
 
@@ -266,7 +266,8 @@ export class TryLandingComponent implements OnInit, OnDestroy {
                 this.clearBusyState();
                 this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'success', first: 'true' });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj()});
+                const navId = this._functionApp.site.id.slice(1, this._functionApp.site.id.length).toLowerCase().replace('/providers/microsoft.web', '');
+                this._router.navigate([`/resources/${navId}}/functions/${res.name}`], { queryParams: Url.getQueryStringObj()});
             },
             e => {
                 this.clearBusyState();

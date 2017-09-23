@@ -83,7 +83,6 @@ export class AADDescriptionDescriptions {
     constructor() {
         this._map['00000002-0000-0000-c000-000000000000'] = 'Windows Azure Active Directory (Microsoft.Azure.ActiveDirectory)';
         this._map['311a71cc-e848-46a1-bdf8-97ff7156d8e6'] = 'Sign in and read user profile';
-
         this._map['00000003-0000-0000-c000-000000000000'] = 'Microsoft Graph';
         this._map['e1fe6dd8-ba31-4d61-89e7-88639da4683d'] = 'Sign in and read user profile';
         this._map['37f7f235-527c-4136-accd-4a02d197296e'] = 'Sign users in';
@@ -94,6 +93,7 @@ export class AADDescriptionDescriptions {
         this._map['5c28f0bf-8a70-41f1-8ab2-9032436ddb65'] = 'Have full access to user files';
         this._map['df85f4d6-205c-4ac5-a5ea-6bf408dba283'] = 'Read all files that user can access';
         this._map['863451e7-0667-486c-a5d6-d135439485f0'] = 'Have full access to all files user can access';
+        this._map['810c84a8-4a9e-49e6-bf7d-12d183f40d01'] = 'Read mail in all mailboxes';
     }
 
     get(key: string) {

@@ -17,7 +17,6 @@ export class ProxiesNode extends BaseFunctionsProxiesNode implements MutableColl
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
     public dashboardType = DashboardType.ProxiesDashboard;
     public newDashboardType = DashboardType.CreateProxyDashboard;
-    public nodeClass = 'tree-node collection-node';
 
     constructor(
         sideNav: SideNavComponent,
@@ -30,8 +29,9 @@ export class ProxiesNode extends BaseFunctionsProxiesNode implements MutableColl
             parentNode,
             functionApp.site.id + '/proxies/new/proxy');
 
+        this.nodeClass += ' collection-node';
         this.iconClass = 'tree-node-collection-icon';
-        this.iconUrl = 'images/BulletList.svg';
+        this.iconUrl = 'image/BulletList.svg';
     }
 
     public loadChildren() {

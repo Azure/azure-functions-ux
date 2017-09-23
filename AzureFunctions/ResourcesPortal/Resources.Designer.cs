@@ -2194,6 +2194,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are not able to install runtime extension. Install id {{installationId}}.
+        /// </summary>
+        internal static string failedToInstallFunctionRuntimeExtensionForId {
+            get {
+                return ResourceManager.GetString("failedToInstallFunctionRuntimeExtensionForId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to {{state}} function: {{functionName}}.
         /// </summary>
         internal static string failedToSwitchFunctionState {
@@ -2635,6 +2644,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity..
+        /// </summary>
+        internal static string feature_msiInfo {
+            get {
+                return ResourceManager.GetString("feature_msiInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Managed service identity.
+        /// </summary>
+        internal static string feature_msiName {
+            get {
+                return ResourceManager.GetString("feature_msiName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Securely access resources through VNET Integration and Hybrid Connections..
         /// </summary>
         internal static string feature_networkingInfo {
@@ -2878,6 +2905,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This feature is not supported for slots.
+        /// </summary>
+        internal static string featureNotSupportedForSlots {
+            get {
+                return ResourceManager.GetString("featureNotSupportedForSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must have write permissions on the current app in order to use this feature.
         /// </summary>
         internal static string featureRequiresWritePermissionOnApp {
@@ -3027,6 +3063,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionAppSettings_quotaInfo {
             get {
                 return ResourceManager.GetString("functionAppSettings_quotaInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter value in GB-sec.
+        /// </summary>
+        internal static string functionAppSettings_quotaPlaceHolder {
+            get {
+                return ResourceManager.GetString("functionAppSettings_quotaPlaceHolder", resourceCulture);
             }
         }
         
@@ -4003,7 +4048,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Installing required extensions.
+        ///   Looks up a localized string similar to Installing required extensions. It may take upto 10 minutes for this operation..
         /// </summary>
         internal static string installingExtension {
             get {
@@ -4453,11 +4498,38 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, we recommend using &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;Azure Application Insights.&lt;/a&gt;.
+        ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;enable Application Insights for your Function app&lt;/a&gt;.
         /// </summary>
         internal static string monitoring_appInsights {
             get {
                 return ResourceManager.GetString("monitoring_appInsights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Application Insights.
+        /// </summary>
+        internal static string monitoring_appInsightsOpen {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App Insights is enabled for your function..
+        /// </summary>
+        internal static string monitoring_appInsightsSetUp {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsSetUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Monitoring data to display.
+        /// </summary>
+        internal static string monitoring_noMonitoring {
+            get {
+                return ResourceManager.GetString("monitoring_noMonitoring", resourceCulture);
             }
         }
         
@@ -5697,7 +5769,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export to Power Apps + Flow.
+        ///   Looks up a localized string similar to Export to PowerApps + Flow.
         /// </summary>
         internal static string swaggerDefinition_powerAppsFlow {
             get {

@@ -94,3 +94,13 @@
         top: -2px;
     }
 }
+
+#app-root[theme=dark]{
+    .tbl{
+        td{
+            &.pristine{
+                border-left: 3px solid $body-bg-color-dark;
+            }
+        }
+    }
+}

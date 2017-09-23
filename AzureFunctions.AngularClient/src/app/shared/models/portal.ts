@@ -22,6 +22,7 @@ export interface StartupInfo {
     effectiveLocale: string;
     resourceId: string;
     graphToken: string;
+    theme: string;
 }
 
 export interface Action {

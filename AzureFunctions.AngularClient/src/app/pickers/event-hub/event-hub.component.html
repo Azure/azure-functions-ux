@@ -73,7 +73,7 @@
                 <div class="button-conainer">
                     <button *ngIf="!selectInProcess"
                             (click)="onSelect()"
-                            [class.custom-button-disabled]="!canSelect"
+                            [disabled]="!canSelect"
                             class="custom-button">
 
                         <ng-container *ngIf="option !== optionTypes.custom">{{ 'select' | translate }}</ng-container>

@@ -29,8 +29,8 @@ export enum BindingType {
     token = <any>"token",
     outlook = <any>"outlook",
     onedrive = <any>"onedrive",
-    GraphWebhook = <any>"GraphWebhook",
-    GraphWebhookTrigger = <any>"GraphWebhookTrigger",
+    graphWebhookSubscription = <any>"graphWebhookSubscription",
+    graphWebhookTrigger = <any>"graphWebhookTrigger",
     GraphWebhookCreator = <any>"GraphWebhookCreator",
     eventGridTrigger = <any>"eventGridTrigger",
     cosmosDBTrigger = <any>"cosmosDBTrigger",
@@ -55,7 +55,7 @@ export interface Binding {
     enabledInTryMode?: boolean;
     actions: Action[];
     AADPermissions?: AADPermissions[];
-    runtimeExtension: RuntimeExtension;
+    extension?: RuntimeExtension;
 }
 
 export interface RuntimeExtension {
@@ -173,6 +173,7 @@ export interface UIFunctionBinding extends FunctionBindingBase {
     displayName: string;
     newBinding?: boolean;
     AADPermissions?: AADPermissions[];
+    extension?: RuntimeExtension;
 }
 
 export interface Action {

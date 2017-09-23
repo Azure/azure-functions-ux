@@ -71,13 +71,14 @@ Styles only available in tabs component
 Shared global tab styles
 */
 .tab-label {
-    @extend .text-subheading;
+    display: inline;
     padding-bottom: 12px;
     padding-top: 8px;
     padding-left: 5px;
     padding-right: 5px;
     cursor: pointer;
     margin-left: 10px;
+    margin-bottom: 0px;
     color: $primary-color;
 
     &:hover{
@@ -87,11 +88,12 @@ Shared global tab styles
 
 
 .tab-label-selected {
-    @extend .text-subheading;
+    display: inline;
     padding: 8px 5px 8px 5px;
     border-bottom: 4px solid $default-text-color;
-    cursor: pointer;
+    margin-bottom: 0px;
     margin-left: 10px;
+    cursor: pointer;
     color: $default-text-color;
 
     &.closeable{
@@ -100,27 +102,36 @@ Shared global tab styles
 }
 
 .tab-label-disabled {
-    @extend .text-subheading;
+    display: inline;
     padding: 8px 5px 8px 5px;
     border-bottom: 4px solid #ccc;
     cursor: pointer;
     margin-left: 10px;
+    margin-bottom: 0px;
 }
 
 .tab-label-rotate-right {
-    @extend .text-subheading;
+    display: inline;
     padding-top: 12px; 
     padding-bottom: 8px;
     padding-left: 5x;
     padding-right: 5px;
     cursor: pointer;
     margin-left: 10px;
+    margin-bottom: 0px;
 }
 
 .tab-label-rotate {
-    @extend .text-subheading;
+    display: inline;
     padding: 8px 5px 8px 5px;
     border-top: 4px solid #ccc;
     cursor: pointer;
     margin-left: 10px;
+    margin-top: 0px;
+}
+
+#app-root[theme=dark]{
+    .tab-label-selected{
+        border-bottom: 4px solid $default-text-color-dark;
+    }
 }

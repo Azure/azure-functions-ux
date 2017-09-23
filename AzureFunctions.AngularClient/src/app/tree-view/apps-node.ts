@@ -43,7 +43,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
 
         this.iconClass = 'tree-node-collection-icon';
-        this.iconUrl = 'images/BulletList.svg';
+        this.iconUrl = 'image/BulletList.svg';
         this.showExpandIcon = false;
         this.childrenStream.subscribe(children => {
             this.children = children;

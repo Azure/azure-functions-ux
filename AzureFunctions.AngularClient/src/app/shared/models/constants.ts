@@ -30,6 +30,7 @@ export class Constants {
     public static slotsSecretStorageSettingsName = "AzureWebJobsSecretStorageType";
     public static slotsSecretStorageSettingsValue = "Blob";
     public static contentShareConfigSettingsName = "WEBSITE_CONTENTSHARE";
+    public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
@@ -179,6 +180,7 @@ export class LogCategories {
     public static readonly scenarioService = 'ScenarioService';
     public static readonly apiDetails = 'ApiDetails';
     public static readonly newSlot = 'NewSlot';
+    public static readonly svgLoader = 'SvgLoader';
 }
 
 export class KeyCodes {

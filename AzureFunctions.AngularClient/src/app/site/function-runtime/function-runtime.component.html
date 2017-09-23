@@ -1,108 +1,170 @@
 <div id="function-runtime-container">
     <div *ngIf="site?.properties?.sku === 'Dynamic'" class="setting-wrapper">
-        <label>{{ 'functionAppSettings_dailyUsageQuota' | translate }}
+        <label id="dailyUsageQuotaLabel" class="title-label">{{ 'functionAppSettings_dailyUsageQuota' | translate }}
             <pop-over [message]="( 'functionAppSettings_dailyUsageQuotaHelp' | translate )" [position]="'bottom'">
                 <span class="glyphicon glyphicon-info-sign"></span>
             </pop-over>
         </label>
-        <div class="quotaInput" style="padding-bottom: 10px">
-            <input placeholder="Enter value in GB-sec" [(ngModel)]="dailyMemoryTimeQuota" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" style="width:200px;">
-            <button class="custom-button" [class.custom-button-disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota"
-                    (click)="setQuota()">
-                {{ 'functionAppSettings_setQuota' | translate }}
-            </button>
-            <button *ngIf="showDailyMemoryInfo" class="custom-button remove-button"
-                    (click)="removeQuota()">
-                {{ 'functionAppSettings_removeQuota' | translate }}
-            </button>
-            <div *ngIf="showDailyMemoryInfo" class="info">
-                {{ 'functionAppSettings_quotaInfo' | translate }}
+        <div>
+            <div>
+                <input placeholder="{{ 'functionAppSettings_quotaPlaceHolder' | translate }}" 
+                    [(ngModel)]="dailyMemoryTimeQuota" 
+                    onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
+                    type="text" 
+                    style="width:200px;" 
+                    tabindex="0" 
+                    id="dailyUsageQuotaValue"
+                    aria-labelledby="dailyUsageQuotaLabel dailyUsageQuotaValue">
+                <button 
+                    class="custom-button" 
+                    [disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota" 
+                    (click)="setQuota()" 
+                    tabindex="0"
+                    id="setQuotaButton"
+                    aria-labelledby="dailyUsageQuotaLabel setQuotaButton">
+                    {{ 'functionAppSettings_setQuota' | translate }}
+                </button>
+                <button *ngIf="showDailyMemoryInfo"
+                    class="custom-button remove-button"
+                    (click)="removeQuota()"
+                    tabindex="0"
+                    id="removeQuotaButton"
+                    aria-labelledby="dailyUsageQuotaLabel removeQuotaButton">
+                    {{ 'functionAppSettings_removeQuota' | translate }}
+                </button>
             </div>
-            <div *ngIf="showDailyMemoryWarning" class="warning">
-                {{ 'functionAppSettings_quotaWarning' | translate }}
+            <div>
+                <label *ngIf="showDailyMemoryInfo">
+                    {{ 'functionAppSettings_quotaInfo' | translate }}
+                </label>
+            </div>
+            <div>
+                <label *ngIf="showDailyMemoryWarning" class="warning">
+                    {{ 'functionAppSettings_quotaWarning' | translate }}
+                </label>
             </div>
         </div>
     </div>
 
-    <div class="setting-wrapper" [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
-        <label>{{ 'feature_applicationSettingsName' | translate }}</label>
-        <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
-            <span>
-                <span class="link" (click)="openAppSettings()">{{ 'functionRuntime_manageAppSettings' | translate }}</span>
-            </span>
+    <div class="setting-wrapper">
+        <label id="applicationSettingsLabel" class="title-label">{{ 'feature_applicationSettingsName' | translate }}</label>
+        <div>
+            <a (click)="openAppSettings()" 
+                (keydown)="keyDown($event, 'openAppSettings')" 
+                tabindex="0" 
+                id="applicationSettingsLink" 
+                aria-label="applicationSettingsLabel applicationSettingsLink">
+                {{ 'functionRuntime_manageAppSettings' | translate }}
+            </a>
         </div>
     </div>
 
-    <div *ngIf="!GlobalDisabled" class="setting-wrapper" [ngClass]="showTryView ? 'setting-wrapper-disabled' : 'setting-wrapper'">
-        <label>{{ 'runtimeVersion' | translate }}</label>
-        <div [ngClass]="showTryView ? 'features-wrapper-disabled' : 'features-wrapper'">
+    <div *ngIf="!GlobalDisabled" class="setting-wrapper">
+        <label id="runtimeVersionLabel" class="title-label">{{ 'runtimeVersion' | translate }}</label>
+        <div>
+            <label *ngIf="!needUpdateExtensionVersion">
+                {{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion, exactExtensionVersion: exactExtensionVersion} }}
+            </label>
+            <div *ngIf="needUpdateExtensionVersion">
+                <label id="updateRuntimeVersionLabel">
+                    {{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}
+                </label>
+                <button 
+                    class="custom-button" 
+                    (click)="updateVersion()" 
+                    tabindex="0"
+                    id="updateRuntimeVersionButton"
+                    aria-labelledby="updateRuntimeVersionLabel updateRuntimeVersionButton">
+                        {{ 'update' | translate }}
+                </button>
+            </div>
             <div>
-                <div *ngIf="!needUpdateExtensionVersion">
-                    <h2>{{ 'appFunctionSettings_functionAppSettings2' | translate: {latestExtensionVersion:latestExtensionVersion, exactExtensionVersion: exactExtensionVersion} }}</h2>
-                </div>
-                <div *ngIf="needUpdateExtensionVersion">
-                    <h2>
-                        {{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}
-                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateVersion()">{{ 'update' | translate }}</button>
-                    </h2>
-                </div>
+                <radio-selector
+                    [defaultValue]="extensionVersion" 
+                    [options]="functionRutimeOptions"
+                    (value)="functionRuntimeValueStream.next($event)"
+                    (keydown)="keyDown($event, 'functionRuntimeValue')"
+                    tabindex="0"
+                    id="runtimeVersionRadioButton"
+                    aria-labelledby="runtimeVersionLabel runtimeVersionRadioButton">
+                </radio-selector>
             </div>
         </div>
-        <!-- <div>
-            <radio-selector  [defaultValue]="extensionVersion" [options]="functionRutimeOptions" (value)="functionRuntimeValueStream.next($event)"></radio-selector>
-        </div> -->
     </div>
 
-    <div *ngIf="!showTryView" class="setting-wrapper">
-        <label>{{ 'appFunctionSettings_apiProxies' | translate }}</label>
-        <div class="features-wrapper">
+    <div class="setting-wrapper">
+        <label id="apiProxiesLabel" class="title-label">{{ 'appFunctionSettings_apiProxies' | translate }}</label>
+        <div>
+            <label id="apiProxiesLabel1" class="title-spacing">{{ 'appFunctionSettings_useApiProxies' | translate }}</label>
             <div>
-                <div>
-                    <h2 class="title-spacing">{{ 'appFunctionSettings_useApiProxies' | translate }}</h2>
-                    <radio-selector [disabled]="disabled" [defaultValue]="apiProxiesEnabled" [options]="functionStatusOptions" (value)="proxySettingValueStream.next($event)"></radio-selector>
-                </div>
+                <radio-selector 
+                    [defaultValue]="apiProxiesEnabled"
+                    [options]="functionStatusOptions"
+                    (value)="proxySettingValueStream.next($event)" 
+                    (keydown)="keyDown($event, 'proxySettingValue')"
+                    tabindex="0"
+                    id="apiProxiesRadioButton"
+                    aria-labelledby="apiProxiesLabel1 apiProxiesRadioButton">
+                </radio-selector>
             </div>
-        </div>
-
-        <div *ngIf="apiProxiesEnabled" class="features-wrapper">
-            <div>
-                <div *ngIf="!needUpdateRoutingExtensionVersion">
-                    <h2>{{ 'appFunctionSettings_proxyRuntimeVersion2' | translate: {latestExtensionVersion:latestRoutingExtensionVersion} }}</h2>
-                </div>
+            <ng-container *ngIf="apiProxiesEnabled">
+                <label *ngIf="!needUpdateRoutingExtensionVersion">
+                    {{ 'appFunctionSettings_proxyRuntimeVersion2' | translate: {latestExtensionVersion:latestRoutingExtensionVersion} }}
+                </label>
                 <div *ngIf="needUpdateRoutingExtensionVersion">
-                    <h2>
+                    <label id="proxyRuntimeUpdateLabel">
                         {{ 'appFunctionSettings_proxyRuntimeVersion1' | translate: {extensionVersion: routingExtensionVersion, latestExtensionVersion:latestRoutingExtensionVersion} }}
-                        <button [ngClass]="showTryView ? 'custom-button-disabled' : 'custom-button'" (click)="updateRoutingExtensionVersion()">{{ 'update' | translate }}</button>
-                    </h2>
+                    </label>
+                    <button 
+                        class="custom-button" 
+                        (click)="updateRoutingExtensionVersion()" 
+                        tabindex="0"
+                        id="proxyRuntimeUpdateButton"
+                        aria-labelledby="proxyRuntimeUpdateLabel proxyRuntimeUpdateButton">
+                        {{ 'update' | translate }}
+                    </button>
                 </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div *ngIf="!showTryView" class="setting-wrapper">
-        <label>{{ 'appFunctionSettings_editMode' | translate }}</label>
-        <div class="features-wrapper">
-            <div>
-                <div>
-                    <h2 class="title-spacing">{{ 'appFunctionSettings_changeEditMode' | translate }}</h2>
-                    <radio-selector [defaultValue]="functionAppEditMode" [options]="functionAppEditModeOptions" (value)="functionEditModeValueStream.next($event)"></radio-selector>
-                </div>
-            </div>
+            </ng-container>
         </div>
     </div>
 
-    <div *ngIf="!showTryView && !slotsEnabled" class="setting-wrapper">
-        <label>{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
+    <div class="setting-wrapper">
+        <label id="editModeRadioLabel" class="title-label">{{ 'appFunctionSettings_editMode' | translate }}</label>
         <div class="features-wrapper">
             <div>
+                <label class="title-spacing">{{ 'appFunctionSettings_changeEditMode' | translate }}</label>
                 <div>
-                    <h2 class="title-spacing">{{ 'appFunctionSettings_slotsDesc' | translate}}
-                        <span class="bold-text">{{'appFunctionSettings_slotsDescBold' | translate}}</span>
-                    </h2>
-                    <radio-selector [disabled]="disabled" [defaultValue]="slotsEnabled" [options]="slotsStatusOptions" (value)="slotsValueChange.next($event)"></radio-selector>
+                    <radio-selector
+                        [defaultValue]="functionAppEditMode"
+                        [options]="functionAppEditModeOptions"
+                        (value)="functionEditModeValueStream.next($event)"
+                        tabindex="0"
+                        (keydown)="keyDown($event, 'functionEditModeValue')"
+                        id="editModeRadioButton"
+                        aria-labelledby="editModeRadioLabel editModeRadioButton">
+                    </radio-selector>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div *ngIf="!slotsEnabled" class="setting-wrapper">
+        <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
+        <div tabindex="-1">
+            {{ 'appFunctionSettings_slotsDesc' | translate}}
+            <span id="slotEnableDescLabel2" class="title-label" tabindex="-1">{{'appFunctionSettings_slotsDescBold' | translate}}</span>
+        </div>
+
+        <div>
+            <radio-selector 
+                [defaultValue]="slotsEnabled" 
+                [options]="slotsStatusOptions" 
+                (value)="slotsValueChange.next($event)" 
+                tabindex="0" 
+                (keydown)="keyDown($event, 'slotsValueChange')"
+                id="slotEnableRadioButton"
+                aria-labelledby="slotEnableLabel slotEnableRadioButton">
+            </radio-selector>
         </div>
     </div>
 
@@ -110,5 +172,9 @@
     <function-keys
         [autoSelect]="true"
         [functionApp]="functionApp"></function-keys>
+
+  <div *ngIf="!!functionApp" class="setting-wrapper">
+    <host-editor class="features-wrapper" [functionAppInput]="functionApp" ></host-editor>
+  </div>
 
 </div>

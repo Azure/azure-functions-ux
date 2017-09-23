@@ -1,4 +1,4 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
 
 form {
     padding:10px 0px 0px 0px;
@@ -18,7 +18,6 @@ form > div {
 
 .newproxy-container{
     padding: 20px;
-    background-color: $body-bg-color;
 }
 
 .header {

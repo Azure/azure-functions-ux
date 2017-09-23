@@ -1,13 +1,13 @@
 <div id="create-app-wrapper">
-  <img class="heading" src="images/functions.svg" />
-  <h3 class="text-main2-heading">{{ 'gettingStarted_newFunctionApp' | translate }}</h3>
+  <img class="heading" src="image/functions.svg" />
+  <h1>{{ 'gettingStarted_newFunctionApp' | translate }}</h1>
 
-  <div class="text-subheading">
+  <h4>
     <span>{{ 'createApp_description' | translate}}</span>
     <a class="link" target="_blank" [href]="FwdLinks.standaloneCreateLearnMore">
       {{ 'topBar_learnMore' | translate }}
-      <img src="images/open-external.svg"/></a>
-  </div>
+      <img src="image/open-external.svg"/></a>
+  </h4>
 
   <label class="name-label">{{ '_name' | translate }}</label>
   <textbox class="name-textbox"
@@ -15,8 +15,7 @@
     [placeholder]="Resources.enterName | translate"></textbox>
 
   <button
-    [class.custom-button]="group?.valid && group?.dirty"
-    [class.custom-button-disabled]="!group?.valid || !group?.dirty"
+    class="custom-button"
     [disabled]="!group?.valid || !group?.dirty"
     (click)="create()">{{ 'create' | translate }}</button>
 </div>

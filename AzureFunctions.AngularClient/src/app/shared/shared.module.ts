@@ -1,3 +1,4 @@
+import { LoadImageDirective } from './../controls/load-image/load-image.directive';
 import { SlideToggleComponent } from './../controls/slide-toggle/slide-toggle.component';
 import { TryNowBusyStateComponent } from './../try-now-busy-state/try-now-busy-state.component';
 import { TooltipDirective } from './../tooltip-content/tooltip.directive';
@@ -10,7 +11,7 @@ import { UtilitiesService } from './services/utilities.service';
 import { TelemetryService } from './services/telemetry.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthzService } from './services/authz.service';
-import { SlotsService } from './services/slots.service';
+import { SiteService } from './services/slots.service';
 import { ScenarioService } from './services/scenario/scenario.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from './services/log.service';
@@ -86,7 +87,8 @@ export function AiServiceFactory() {
         SearchBoxComponent,
         TooltipContentComponent,
         TooltipDirective,
-        SlideToggleComponent
+        SlideToggleComponent,
+        LoadImageDirective
     ],
     exports: [
         CommonModule,
@@ -112,7 +114,8 @@ export function AiServiceFactory() {
         SearchBoxComponent,
         TooltipContentComponent,
         TooltipDirective,
-        SlideToggleComponent
+        SlideToggleComponent,
+        LoadImageDirective
     ],
     imports: [
         FormsModule,
@@ -143,7 +146,7 @@ export class SharedModule {
                 },
                 CacheService,
                 ScenarioService,
-                SlotsService,
+                SiteService,
                 AuthzService,
                 LocalStorageService,
                 TelemetryService,

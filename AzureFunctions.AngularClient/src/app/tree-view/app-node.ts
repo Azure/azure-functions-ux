@@ -1,5 +1,5 @@
 import { SiteTabIds } from './../shared/models/constants';
-import { SlotsService } from './../shared/services/slots.service';
+import { SiteService } from './../shared/services/slots.service';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -57,9 +57,8 @@ export class AppNode extends TreeNode
     private _functionApp: FunctionApp;
     public openTabId: string | null;
 
-    public nodeClass = 'tree-node app-node';
     public iconClass = 'tree-node-svg-icon';
-    public iconUrl = 'images/functions.svg';
+    public iconUrl = 'image/functions.svg';
 
     private _pollingTask: RxSubscription;
     private _loadingObservable: Observable<any>;
@@ -82,6 +81,7 @@ export class AppNode extends TreeNode
         const descriptor = new SiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
+        this.nodeClass += ' app-node';
 
         const sub = _subscriptions.find(sub => {
             return sub.subscriptionId === descriptor.subscription;
@@ -273,7 +273,7 @@ export class AppNode extends TreeNode
             // Tests whether you've selected a child node or newselectedNode is not a slot node
             if (newSelectedNode.resourceId !== this.resourceId
                 && newSelectedNode.resourceId.startsWith(this.resourceId + '/')
-                && !SlotsService.isSlot(newSelectedNode.resourceId)) {
+                && !SiteService.isSlot(newSelectedNode.resourceId)) {
                 return;
             } else if (newSelectedNode.resourceId === this.resourceId && newSelectedNode === this) {
                 // Tests whether you're navigating to this node from a child node
@@ -391,7 +391,7 @@ export class AppNode extends TreeNode
                 const extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
                 let isLatestFunctionRuntime = null;
                 if (extensionVersion) {
-                    if (extensionVersion === '~2' || extensionVersion.startsWith('2.')) {
+                    if (extensionVersion === 'beta') {
                         isLatestFunctionRuntime = true;
                         notifications.push({
                             id: NotificationIds.runtimeV2,

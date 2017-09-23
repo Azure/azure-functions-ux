@@ -4,8 +4,8 @@
 
     <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
         <div class="choose">
-            <span class="text-level1-heading">{{ 'functionNew_chooseTemplate' | translate }}</span>
-            <span class="text-level1-heading quickstart" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</span>
+            <h2>{{ 'functionNew_chooseTemplate' | translate }}</h2>
+            <h2 class="quickstart link" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</h2>
         </div>
         <template-picker
             [functionAppInput]="functionApp"
@@ -22,12 +22,14 @@
         </div>        
     </div>        
                 
-    <extension-install 
-        [integrateText]="false" 
-        [viewInfoInput]="viewInfo" 
-        [requiredExtensions]="requiredExtensions"
-        (installed)="runtimeExtensionInstalled($event)">
-    </extension-install>
+    <div *ngIf="selectedTemplate && selectedTemplate.metadata.extensions">
+        <extension-install 
+            [integrateText]="false" 
+            [functionApp]="functionApp"
+            [requiredExtensions]="selectedTemplate.metadata.extensions"
+            (installed)="runtimeExtensionInstalled($event)">
+        </extension-install>
+    </div>
     
     <div class="create-button-container" *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions">
             <aad-registration 
@@ -38,11 +40,6 @@
     </div>
 
     <div *ngIf="selectedTemplate">
-        <div *ngIf="installationSucceeded" role="alert">    
-                <div class="highlight success" >
-                    Extension Installation Succeeded                  
-                </div>                  
-        </div>    
 
         <h3>{{ 'functionNew_nameYourFunction' | translate }}</h3>
         <input type="text"
@@ -97,8 +94,8 @@
         </div>
         
         <div class>
-            <button [class.custom-button]="areInputsValid"
-                    [class.custom-button-disabled]="!areInputsValid || !aadConfigured || !extensionInstalled"
+            <button class="custom-button"
+                    [disabled]="!areInputsValid || !aadConfigured || !extensionInstalled"
                     (click)="onCreate()">{{ 'create' | translate }}</button>
             <span *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions && !aadConfigured">&nbsp;&nbsp;{{ 'aadreg_authConfRequired' | translate}}</span>
         </div>
