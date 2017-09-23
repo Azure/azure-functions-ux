@@ -1,11 +1,6 @@
 import { SharedFunctionsModule } from './../shared/shared-functions.module';
-import { ConnectionStringsComponent } from './site-config/connection-strings/connection-strings.component';
-import { AppSettingsComponent } from './site-config/app-settings/app-settings.component';
-import { GeneralSettingsComponent } from './site-config/general-settings/general-settings.component';
 import { FeatureGroupComponent } from './../feature-group/feature-group.component';
 import { DownloadFunctionAppContentComponent } from './../download-function-app-content/download-function-app-content.component';
-import { SiteTabComponent } from './site-dashboard/site-tab/site-tab.component';
-import { SiteConfigStandaloneComponent } from './site-config-standalone/site-config-standalone.component';
 import { SiteConfigComponent } from './site-config/site-config.component';
 import { SwaggerDefinitionComponent } from './swagger-definition/swagger-definition.component';
 import { FunctionRuntimeComponent } from './function-runtime/function-runtime.component';
@@ -19,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HostEditorComponent } from './../host-editor/host-editor.component';
+import { SiteConfigModule } from 'app/site/site-config/site-config.module';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     { path: '', component: SiteDashboardComponent }
@@ -36,6 +32,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         TranslateModule.forChild(),
         SharedModule,
         SharedFunctionsModule,
+        SiteConfigModule,
         routing
     ],
     declarations: [
@@ -46,14 +43,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         FunctionRuntimeComponent,
         SwaggerDefinitionComponent,
         SwaggerFrameDirective,
-        SiteConfigComponent,
-        SiteConfigStandaloneComponent,
-        SiteTabComponent,
         DownloadFunctionAppContentComponent,
         SiteEnabledFeaturesComponent,
-        GeneralSettingsComponent,
-        AppSettingsComponent,
-        ConnectionStringsComponent,
         HostEditorComponent
     ],
     providers: []
