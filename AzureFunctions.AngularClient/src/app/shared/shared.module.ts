@@ -49,6 +49,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ArmService } from 'app/shared/services/arm.service';
 import { Url } from 'app/shared/Utilities/url';
 import { SiteTabComponent } from 'app/site/site-dashboard/site-tab/site-tab.component';
+import { EmptyDashboardComponent } from 'app/main/empty-dashboard.component';
 
 export function ArmServiceFactory(
     http: Http,
@@ -90,7 +91,8 @@ export function AiServiceFactory() {
         TooltipDirective,
         SlideToggleComponent,
         LoadImageDirective,
-        SiteTabComponent
+        SiteTabComponent,
+        EmptyDashboardComponent
     ],
     exports: [
         CommonModule,
@@ -118,7 +120,8 @@ export function AiServiceFactory() {
         TooltipDirective,
         SlideToggleComponent,
         LoadImageDirective,
-        SiteTabComponent
+        SiteTabComponent,
+        EmptyDashboardComponent
     ],
     imports: [
         FormsModule,
