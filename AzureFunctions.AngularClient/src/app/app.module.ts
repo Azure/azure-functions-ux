@@ -27,38 +27,40 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/zip';
 
 const routes = RouterModule.forRoot([
+    // "/resources" will load the main component which has the tree view for all resources
+    { path: 'resources', loadChildren: 'app/main/main.module#MainModule' },
 
-  // "/resources" will load the main component which has the tree view for all resources
-  { path: 'resources', loadChildren: 'app/main/main.module#MainModule' },
+    // "/landing" will load the getting started page for functions.azure.com
+    { path: 'landing', loadChildren: 'app/getting-started/getting-started.module#GettingStartedModule' },
 
-  // "/landing" will load the getting started page for functions.azure.com
-  { path: 'landing', loadChildren: 'app/getting-started/getting-started.module#GettingStartedModule' },
+    // "/try" will load the try functions start page for https://functions.azure.com?trial=true
+    { path: 'try', loadChildren: 'app/try-landing/try-landing.module#TryLandingModule' },
 
-  // "/try" will load the try functions start page for https://functions.azure.com?trial=true
-  { path: 'try', loadChildren: 'app/try-landing/try-landing.module#TryLandingModule' },
+    // "/feature" will load a window to show a specific feature(i.e. app settings) with nothing else, defined by query string
+    { path: 'feature', loadChildren: 'app/ibiza-feature/ibiza-feature.module#IbizaFeatureModule' },
 
-  // /devguide
-  { path: 'devguide', loadChildren: 'app/dev-guide/dev-guide.module#DevGuideModule' }
+    // /devguide
+    { path: 'devguide', loadChildren: 'app/dev-guide/dev-guide.module#DevGuideModule' }
 
 ]);
 
 @NgModule(AppModule.moduleDefinition)
 export class AppModule {
-  static moduleDefinition = {
-    declarations: [
-      AppComponent,
-      ErrorListComponent,
-      DisabledDashboardComponent,
-    ],
-    imports: [
-      SharedModule.forRoot(),
-      ReactiveFormsModule,
-      BrowserModule,
-      HttpModule,
-      TranslateModule.forRoot(),
-      PopoverModule,
-      routes
-    ],
-    bootstrap: [AppComponent]
-  };
+    static moduleDefinition = {
+        declarations: [
+            AppComponent,
+            ErrorListComponent,
+            DisabledDashboardComponent
+        ],
+        imports: [
+            SharedModule.forRoot(),
+            ReactiveFormsModule,
+            BrowserModule,
+            HttpModule,
+            TranslateModule.forRoot(),
+            PopoverModule,
+            routes
+        ],
+        bootstrap: [AppComponent]
+    };
 }

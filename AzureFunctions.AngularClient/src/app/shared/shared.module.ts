@@ -48,6 +48,7 @@ import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ArmService } from 'app/shared/services/arm.service';
 import { Url } from 'app/shared/Utilities/url';
+import { SiteTabComponent } from 'app/site/site-dashboard/site-tab/site-tab.component';
 
 export function ArmServiceFactory(
     http: Http,
@@ -88,7 +89,8 @@ export function AiServiceFactory() {
         TooltipContentComponent,
         TooltipDirective,
         SlideToggleComponent,
-        LoadImageDirective
+        LoadImageDirective,
+        SiteTabComponent
     ],
     exports: [
         CommonModule,
@@ -115,7 +117,8 @@ export function AiServiceFactory() {
         TooltipContentComponent,
         TooltipDirective,
         SlideToggleComponent,
-        LoadImageDirective
+        LoadImageDirective,
+        SiteTabComponent
     ],
     imports: [
         FormsModule,
