@@ -71,11 +71,6 @@ export class AiService implements IAppInsights {
         return appInsights.startTrackPage(name);
     }
 
-    addMixPanelProperties(properties?) {
-        properties = properties || {};
-        properties['sitename'] = 'functions';
-    }
-
     /**
     * Logs how long a page or other item was visible, after {@link startTrackPage}. Call this when the page closes.
     * @param   name  The string you used as the name in startTrackPage. Defaults to the document title.

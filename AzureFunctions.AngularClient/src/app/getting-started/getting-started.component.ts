@@ -26,7 +26,6 @@ import { Subscription } from '../shared/models/subscription';
 import { DropDownElement } from '../shared/models/drop-down-element';
 import { ArmService } from '../shared/services/arm.service';
 import { FunctionContainer } from '../shared/models/function-container';
-import { TelemetryService } from '../shared/services/telemetry.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
@@ -60,7 +59,6 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     constructor(
         private _userService: UserService,
         private _armService: ArmService,
-        private _telemetryService: TelemetryService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
@@ -109,7 +107,6 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     createFunctionsContainer() {
         delete this.createError;
         this._globalStateService.setBusyState();
-        this._telemetryService.track('gettingstarted-create-functionapp');
         this._createFunctionContainerHelper(this.selectedSubscription.subscriptionId, this.selectedGeoRegion, this.functionContainerName)
             .subscribe(r => {
                 this._initializeDashboard(r);

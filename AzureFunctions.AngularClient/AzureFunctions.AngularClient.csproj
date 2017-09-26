@@ -588,8 +588,6 @@
     <TypeScriptCompile Include="src\app\shared\services\portal.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\slots.service.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\telemetry.service.spec.ts" />
-    <TypeScriptCompile Include="src\app\shared\services\telemetry.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\user.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\user.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\utilities.service.spec.ts" />
