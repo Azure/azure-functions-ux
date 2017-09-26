@@ -21,7 +21,7 @@ import { BroadcastService } from './../../shared/services/broadcast.service';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
 
-export interface SaveResult {
+export interface SaveOrValidationResult {
   success: boolean;
   error?: string;
 }
@@ -168,52 +168,80 @@ export class SiteConfigComponent implements OnDestroy {
   }
 
   save() {
-    this.generalSettings.validate();
-    this.appSettings.validate();
-    this.connectionStrings.validate();
+    const validationResults: SaveOrValidationResult[] = [
+      this.generalSettings.validate(),
+      this.appSettings.validate(),
+      this.connectionStrings.validate()
+    ];
 
-    this._busyManager.setBusy();
-    let notificationId = null;
-    this._portalService.startNotification(
-      this._translateService.instant(PortalResources.configUpdating),
-      this._translateService.instant(PortalResources.configUpdating))
-      .first()
-      .switchMap(s => {
-        notificationId = s.id;
-        return Observable.zip(
-          this.generalSettings.save(),
-          this.appSettings.save(),
-          this.connectionStrings.save(),
-          (g, a, c) => ({ generalSettingsResult: g, appSettingsResult: a, connectionStringsResult: c })
-        );
-      })
-      .do(null, error => {
-        this._logService.error(LogCategories.siteConfig, '/site-config', error);
-        this._busyManager.clearBusy();
-        this._setupForm(true /*retain dirty state*/);
-        this.mainForm.markAsDirty();
-        this._portalService.stopNotification(notificationId, false, '');
-      })
-      .subscribe(r => {
-        this._busyManager.clearBusy();
+    if (!this.mainForm.valid) {
+      const validationFailures: string[] = validationResults.filter(r => !r.success).map(r => r.error);
+      const validationNotification = this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(validationFailures);
 
-        const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
-        const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
-        const saveSuccess: boolean = saveFailures.length === 0;
-        const saveNotification = saveSuccess ?
-          this._translateService.instant(PortalResources.configUpdateSuccess) :
-          this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
-
-        // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
-        // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
-        // with a successful save state regenerate their form before adding it to mainForm, while those with an unsuccessful save state just add their existing form to mainForm.
-        this._setupForm(!saveSuccess);
-        if (!saveSuccess) {
+      this._busyManager.setBusy();
+      let notificationId = null;
+      this._portalService.startNotification(
+        this._translateService.instant(PortalResources.configUpdating),
+        this._translateService.instant(PortalResources.configUpdating))
+        .first()
+        .subscribe(s => {
+          notificationId = s.id;
+          this._busyManager.clearBusy();
+          this._portalService.stopNotification(notificationId, false, validationNotification);
+        });
+    }
+    else {
+      this._busyManager.setBusy();
+      let notificationId = null;
+      this._portalService.startNotification(
+        this._translateService.instant(PortalResources.configUpdating),
+        this._translateService.instant(PortalResources.configUpdating))
+        .first()
+        .switchMap(s => {
+          notificationId = s.id;
+          return Observable.zip(
+            this.generalSettings.save(),
+            this.appSettings.save(),
+            this.connectionStrings.save(),
+            (g, a, c) => ({
+              generalSettingsResult: g,
+              appSettingsResult: a,
+              connectionStringsResult: c
+            })
+          );
+        })
+        .do(null, error => {
+          this._logService.error(LogCategories.siteConfig, '/site-config', error);
+          this._busyManager.clearBusy();
+          this._setupForm(true /*retain dirty state*/);
           this.mainForm.markAsDirty();
-        }
+          this._portalService.stopNotification(notificationId, false, '');
+        })
+        .subscribe(r => {
+          this._busyManager.clearBusy();
 
-        this._portalService.stopNotification(notificationId, saveSuccess, saveNotification);
-      });
+          const saveResults: SaveOrValidationResult[] = [
+            r.generalSettingsResult,
+            r.appSettingsResult,
+            r.connectionStringsResult
+          ];
+          const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
+          const saveSuccess: boolean = saveFailures.length === 0;
+          const saveNotification = saveSuccess ?
+            this._translateService.instant(PortalResources.configUpdateSuccess) :
+            this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
+
+          // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
+          // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
+          // with a successful save state regenerate their form before adding it to mainForm, while those with an unsuccessful save state just add their existing form to mainForm.
+          this._setupForm(!saveSuccess);
+          if (!saveSuccess) {
+            this.mainForm.markAsDirty();
+          }
+
+          this._portalService.stopNotification(notificationId, saveSuccess, saveNotification);
+        });
+    }
   }
 
   discard() {
