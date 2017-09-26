@@ -527,7 +527,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       group.addControl('javaVersion', javaVersionControl);
       group.addControl('javaMinorVersion', javaMinorVersionControl);
       group.addControl('javaWebContainer', javaWebContainerControl);
- 
+
       versionOptionsMap["javaVersion"] = javaVersionOptions;
       versionOptionsMap["javaMinorVersion"] = javaMinorVersionOptions;
       versionOptionsMap["javaWebContainer"] = javaWebContainerOptions;
@@ -789,6 +789,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       if (this.clientAffinitySupported) {
         const clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
         siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled;
+      }
+
+      // BUGBUG: Workaround.  Eventually the back-end should allow us to send same identity value from GET
+      if (siteConfigArm.identity) {
+        delete siteConfigArm.identity;
       }
 
       // level: site/config/web
