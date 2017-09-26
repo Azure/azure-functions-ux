@@ -14,8 +14,8 @@ $border-light: 1px $primary-color solid;
 
 .switch-label {
     border-top: $border-light;
-    border-left: $border-light;
     border-bottom: $border-light;
+    border-right: $border-light;
     position: relative;
     z-index: 2;
     float: left;
@@ -28,8 +28,8 @@ $border-light: 1px $primary-color solid;
     color: $primary-color;
 }
 
-.switch-label ~ .switch-label{
-    border-right: $border-light;
+.switch-label:first-of-type{
+    border-left: $border-light;
 }
 
 .switch-input {
@@ -76,13 +76,13 @@ $border-light: 1px $primary-color solid;
 
     .switch-label{
         border-top: $border-dark;
-        border-left: $border-dark;
         border-bottom: $border-dark;
+        border-right: $border-dark;
         color: $primary-color-dark;
     }
 
-    .switch-label ~ .switch-label{
-        border-right: $border-dark;
+    .switch-label:first-of-type{
+        border-left: $border-dark;
     }
 
     .selected{
