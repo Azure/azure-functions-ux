@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
-import { SaveResult } from './../site-config.component';
+import { SaveOrValidationResult } from './../site-config.component';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
@@ -198,7 +198,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     this._saveError = null;
   }
 
-  validate() {
+  validate(): SaveOrValidationResult {
     let connectionStringGroups = this.groupArray.controls;
     connectionStringGroups.forEach(group => {
       let controls = (<FormGroup>group).controls;
@@ -208,12 +208,17 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
   }
 
-  save(): Observable<SaveResult> {
+  save(): Observable<SaveOrValidationResult> {
     let connectionStringGroups = this.groupArray.controls;
 
-    if (this.mainForm.valid) {
+    if (this.mainForm.contains("connectionStrings") && this.mainForm.controls["connectionStrings"].valid) {
       let connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
       connectionStringsArm.properties = {};
 
@@ -244,13 +249,18 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         });
     }
     else {
-      let configGroupName = this._translateService.instant(PortalResources.connectionStrings);
-      let failureMessage = this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+      let failureMessage = this._validationFailureMessage();
+      this._saveError = failureMessage;
       return Observable.of({
         success: false,
         error: failureMessage
       });
     }
+  }
+
+  private _validationFailureMessage(): string {
+    const configGroupName = this._translateService.instant(PortalResources.connectionStrings);
+    return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
   }
 
   deleteConnectionString(group: FormGroup) {

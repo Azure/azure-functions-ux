@@ -19,7 +19,7 @@ import { SiteTabIds } from './../../shared/models/constants';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { AiService } from './../../shared/services/ai.service';
 
-export interface SaveResult {
+export interface SaveOrValidationResult {
   success: boolean;
   error?: string;
 }
@@ -125,45 +125,73 @@ export class SiteConfigComponent implements OnDestroy {
   }
 
   save() {
-    this.generalSettings.validate();
-    this.appSettings.validate();
-    this.connectionStrings.validate();
+    const validationResults: SaveOrValidationResult[] = [
+      this.generalSettings.validate(),
+      this.appSettings.validate(),
+      this.connectionStrings.validate()
+    ];
 
-    this._busyStateScopeManager.setBusy();
-    let notificationId = null;
-    this._portalService.startNotification(
-      this._translateService.instant(PortalResources.configUpdating),
-      this._translateService.instant(PortalResources.configUpdating))
-      .first()
-      .switchMap(s => {
-        notificationId = s.id;
-        return Observable.zip(
-          this.generalSettings.save(),
-          this.appSettings.save(),
-          this.connectionStrings.save(),
-          (g, a, c) => ({ generalSettingsResult: g, appSettingsResult: a, connectionStringsResult: c })
-        );
-      })
-      .subscribe(r => {
-        this._busyStateScopeManager.clearBusy();
+    if (!this.mainForm.valid) {
+      const validationFailures: string[] = validationResults.filter(r => !r.success).map(r => r.error);
+      const validationNotification = this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(validationFailures);
 
-        const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
-        const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
-        const saveSuccess: boolean = saveFailures.length === 0;
-        const saveNotification = saveSuccess ?
-          this._translateService.instant(PortalResources.configUpdateSuccess) :
-          this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
+      this._busyStateScopeManager.setBusy();
+      let notificationId = null;
+      this._portalService.startNotification(
+        this._translateService.instant(PortalResources.configUpdating),
+        this._translateService.instant(PortalResources.configUpdating))
+        .first()
+        .subscribe(s => {
+          notificationId = s.id;
+          this._busyStateScopeManager.clearBusy();
+          this._portalService.stopNotification(notificationId, false, validationNotification);
+        });
+    }
+    else {
+      this._busyStateScopeManager.setBusy();
+      let notificationId = null;
+      this._portalService.startNotification(
+        this._translateService.instant(PortalResources.configUpdating),
+        this._translateService.instant(PortalResources.configUpdating))
+        .first()
+        .switchMap(s => {
+          notificationId = s.id;
+          return Observable.zip(
+            this.generalSettings.save(),
+            this.appSettings.save(),
+            this.connectionStrings.save(),
+            (g, a, c) => ({
+              generalSettingsResult: g,
+              appSettingsResult: a,
+              connectionStringsResult: c
+            })
+          );
+        })
+        .subscribe(r => {
+          this._busyStateScopeManager.clearBusy();
 
-        // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
-        // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
-        // with a successful save state regenerate their form before adding it to mainForm, while those with an unsuccessful save state just add their existing form to mainForm.
-        this._setupForm(!saveSuccess);
-        if (!saveSuccess) {
-          this.mainForm.markAsDirty();
-        }
+          const saveResults: SaveOrValidationResult[] = [
+            r.generalSettingsResult,
+            r.appSettingsResult,
+            r.connectionStringsResult
+          ];
+          const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
+          const saveSuccess: boolean = saveFailures.length === 0;
+          const saveNotification = saveSuccess ?
+            this._translateService.instant(PortalResources.configUpdateSuccess) :
+            this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
 
-        this._portalService.stopNotification(notificationId, saveSuccess, saveNotification);
-      });
+          // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
+          // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
+          // with a successful save state regenerate their form before adding it to mainForm, while those with an unsuccessful save state just add their existing form to mainForm.
+          this._setupForm(!saveSuccess);
+          if (!saveSuccess) {
+            this.mainForm.markAsDirty();
+          }
+
+          this._portalService.stopNotification(notificationId, saveSuccess, saveNotification);
+        });
+    }
   }
 
   discard() {

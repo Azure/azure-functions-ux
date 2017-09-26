@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SaveResult } from './../site-config.component';
+import { SaveOrValidationResult } from './../site-config.component';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateComponent } from './../../../busy-state/busy-state.component';
@@ -189,7 +189,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     this._saveError = null;
   }
 
-  validate() {
+  validate(): SaveOrValidationResult {
     let appSettingGroups = this.groupArray.controls;
     appSettingGroups.forEach(group => {
       let controls = (<FormGroup>group).controls;
@@ -199,12 +199,17 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
   }
 
-  save(): Observable<SaveResult> {
+  save(): Observable<SaveOrValidationResult> {
     let appSettingGroups = this.groupArray.controls;
 
-    if (this.mainForm.valid) {
+    if (this.mainForm.contains("appSettings") && this.mainForm.controls["appSettings"].valid) {
       let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
       appSettingsArm.properties = {};
 
@@ -229,13 +234,18 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         });
     }
     else {
-      let configGroupName = this._translateService.instant(PortalResources.feature_applicationSettingsName);
-      let failureMessage = this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+      let failureMessage = this._validationFailureMessage();
+      this._saveError = failureMessage;
       return Observable.of({
         success: false,
         error: failureMessage
       });
     }
+  }
+
+  private _validationFailureMessage(): string {
+    const configGroupName = this._translateService.instant(PortalResources.feature_applicationSettingsName);
+    return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
   }
 
   deleteAppSetting(group: FormGroup) {
