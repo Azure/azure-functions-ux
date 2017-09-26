@@ -168,14 +168,7 @@ export class NotificationHubComponent {
                         const keys = r.keys.json();
 
                         appSettingName = `${namespace.name}_${keys.keyName}_NH`;
-                        let appSettingValue = keys.primaryConnectionString;
-                        // Runtime requires entitypath for all notification hub connections strings,
-                        // so if it's namespace policy add entitypath as selected eventhub
-                        if (appSettingValue.toLowerCase().indexOf('entitypath') === -1) {
-                            const notificationHub = this.notificationHubs.value.find(p => p.id === this.selectedNotificationHub);
-                            appSettingValue = `${appSettingValue};EntityPath=${notificationHub.name}`;
-
-                        }
+                        const appSettingValue = keys.primaryConnectionString;
 
                         const appSettings: ArmObj<any> = r.appSettings.json();
                         appSettings.properties[appSettingName] = appSettingValue;

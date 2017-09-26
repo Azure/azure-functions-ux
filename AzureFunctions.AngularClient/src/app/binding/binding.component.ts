@@ -746,7 +746,6 @@ export class BindingComponent {
             case ResourceType.ServiceBus:
             case ResourceType.NotificationHub:
                 for (const key in this._appSettings) {
-
                     const value = this._appSettings[key].toLowerCase();
                     if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
                         result.push(key);
