@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-import { SaveResult } from '../site-config.component';
+import { SaveOrValidationResult } from '../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { AvailableStackNames, AvailableStack, MajorVersion } from 'app/shared/models/arm/stacks';
@@ -16,6 +16,7 @@ import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
+import { CustomFormControl } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
@@ -781,13 +782,24 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this._versionOptionsMapClean[AvailableStackNames.JavaContainer] = javaWebContainerOptions;
   }
 
-  validate() {
+  validate(): SaveOrValidationResult {
+      let controls = this.group.controls;
+      for (let controlName in controls) {
+        let control = <CustomFormControl>controls[controlName];
+        control._msRunValidation = true;
+        control.updateValueAndValidity();
+      }
+
+      return {
+        success: this.group.valid,
+        error: this.group.valid ? null : this._validationFailureMessage()
+      };
   }
 
-  save(): Observable<SaveResult> {
+  save(): Observable<SaveOrValidationResult> {
     const generalSettingsControls = this.group.controls;
 
-    if (this.mainForm.valid) {
+    if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
       // level: site
       const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this._siteConfigArm));
       if (this.clientAffinitySupported) {
@@ -855,12 +867,17 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           });
         });
     } else {
-      const configGroupName = this._translateService.instant(PortalResources.feature_generalSettingsName);
-      const failureMessage = this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+      let failureMessage = this._validationFailureMessage();
+      this._saveError = failureMessage;
       return Observable.of({
         success: false,
         error: failureMessage
       });
     }
+  }
+
+  private _validationFailureMessage(): string {
+    const configGroupName = this._translateService.instant(PortalResources.feature_generalSettingsName);
+    return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
   }
 }
