@@ -1,0 +1,58 @@
+<section class="example">
+    <h2>Simple Sortable Table Example</h2>
+    <div class="header">
+        <tbl [items]="items" #table="tbl" name="Simple table">
+            <tr>
+                <th><tbl-th name="name">Sortable header</tbl-th></th>
+                <th>Non-sortable header</th>
+            </tr>
+            
+            <tr *ngFor="let item of table.items">
+                <td>{{item.name}}</td>
+                <td>{{item.value}}</td>
+            </tr>
+        </tbl>
+    </div>
+    <figure>
+        <label>HTML</label>
+        <pre>
+
+    &lt;tbl [items]=&quot;items&quot; #table=&quot;tbl&quot; name=&quot;Simple table&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;&lt;tbl-th name=&quot;name&quot;&gt;Sortable header&lt;/tbl-th&gt;&lt;/th&gt;
+            &lt;th&gt;Non-sortable header&lt;/th&gt;
+        &lt;/tr&gt;
+        
+        &lt;tr *ngFor=&quot;let item of table.items&quot;&gt;
+            &lt;td&gt;{{ '{' }}{{ '{' }}item.name{{ '}' }}{{ '}' }}&lt;/td&gt;
+            &lt;td&gt;{{ '{' }}{{ '{' }}item.value{{ '}' }}{{ '}' }}&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbl&gt;
+        </pre>
+
+        <label>TypeScript</label>
+        <pre>
+
+    export class TblExampleComponent {{ '{' }}
+        @ViewChild('table') table: TblComponent;
+    
+        items: {{ '{' }} name: string, value: string }[];
+    
+        constructor() {{ '{' }}
+            this.items = [{{ '{' }}
+                name: 'a',
+                value: '1'
+            {{ '}' }},
+            {{ '{' }}
+                name: 'b',
+                value: '2'
+            {{ '}' }},
+            {{ '{' }}
+                name: 'c',
+                value: '3'
+            {{ '}' }}];
+        {{ '}' }}
+    {{ '}' }}
+        </pre>
+    </figure>
+</section>

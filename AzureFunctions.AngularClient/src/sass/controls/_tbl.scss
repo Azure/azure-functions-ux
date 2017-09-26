@@ -97,6 +97,10 @@
 
 #app-root[theme=dark]{
     .tbl{
+        th{
+            color: $default-text-color-dark;
+        }
+
         td{
             &.pristine{
                 border-left: 3px solid $body-bg-color-dark;
