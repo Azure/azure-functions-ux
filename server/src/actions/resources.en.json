@@ -292,7 +292,7 @@
         "sideBar_changeMadeApiProxy": "Changes made to proxy {{name}} will be lost. Are you sure you want to continue?",
         "apiProxy_alreadyExists": "Proxy with name '{{name}}' already exists",
         "slots_warningOff": "Azure functions slots (preview) is currently disabled. To enable, visit",
-        "discrard": "Discard",
+        "discard": "Discard",
         "sidebar_Functions": "Functions",
         "intro_signInWithFacebook": "Sign in with Facebook",
         "intro_signInWithGitHub": "Sign in with GitHub",
