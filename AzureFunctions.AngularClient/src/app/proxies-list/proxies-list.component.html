@@ -3,7 +3,7 @@
 <h2>{{ 'appFunctionSettings_apiProxies' | translate }}</h2><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
 <tbl [items]="proxies" #table="tbl">
-  <tr>
+  <tr class="header-row">
     <th><tbl-th name="name">{{ ('_name' | translate).toUpperCase() }}</tbl-th></th>
     <th><tbl-th name="url">URL</tbl-th></th>
   </tr>

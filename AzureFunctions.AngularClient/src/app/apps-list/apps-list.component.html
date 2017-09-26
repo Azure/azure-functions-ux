@@ -29,7 +29,7 @@
   </drop-down>
 </div>
 <tbl [items]="tableItems" #table="tbl" id="apps-list" [name]="'functionApps' | translate" groupColName="title">
-  <tr>
+  <tr class="header-row">
     <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
     <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>
     <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>
