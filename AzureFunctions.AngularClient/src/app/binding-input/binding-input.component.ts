@@ -83,6 +83,9 @@ export class BindingInputComponent {
             case ResourceType.ServiceBus:
                 this.pickerName = 'ServiceBus';
                 break;
+            case ResourceType.NotificationHub:
+                this.pickerName = 'NotificationHub';
+                break;
             case ResourceType.AppSetting:
                 this.pickerName = 'AppSetting';
                 break;
@@ -113,7 +116,10 @@ export class BindingInputComponent {
         const picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName !== 'EventHub' && this.pickerName !== 'ServiceBus' && this.pickerName !== 'AppSetting') {
+        if (this.pickerName !== 'EventHub' &&
+            this.pickerName !== 'ServiceBus' &&
+            this.pickerName !== 'AppSetting' &&
+            this.pickerName !== 'NotificationHub') {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
