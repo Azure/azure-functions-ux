@@ -9,7 +9,7 @@ import { FunctionRuntimeComponent } from './../function-runtime/function-runtime
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { SiteManageComponent } from './../site-manage/site-manage.component';
-import { TabInfo } from './../../controls/tabs/tab/tab-info';
+import { TabInfo } from './site-tab/tab-info';
 import { SiteSummaryComponent } from './../site-summary/site-summary.component';
 import { SiteData } from './../../tree-view/models/tree-view-info';
 import { Component, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';

@@ -4678,6 +4678,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connection.
+        /// </summary>
+        internal static string notificationHubPicker_connection {
+            get {
+                return ResourceManager.GetString("notificationHubPicker_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification Hub.
+        /// </summary>
+        internal static string notificationHubPicker_notificationHub {
+            get {
+                return ResourceManager.GetString("notificationHubPicker_notificationHub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not valid value.
         /// </summary>
         internal static string notValidValue {

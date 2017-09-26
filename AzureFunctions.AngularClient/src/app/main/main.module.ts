@@ -63,7 +63,6 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         MainComponent,
         SideNavComponent,
         TreeViewComponent,
-        EmptyDashboardComponent,
         TrialExpiredComponent,
         TopWarningComponent
     ],

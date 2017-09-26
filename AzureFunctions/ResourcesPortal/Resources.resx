@@ -2311,4 +2311,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
     <value>Enter value in GB-sec</value>
   </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>Notification Hub</value>
+  </data>
 </root>

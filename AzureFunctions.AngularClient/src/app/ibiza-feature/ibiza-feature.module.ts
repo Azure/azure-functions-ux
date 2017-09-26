@@ -29,8 +29,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
 @NgModule({
     imports: [TranslateModule.forChild(), SharedModule, routing],
     declarations: [
-        IbizaFeatureComponent,
-        EmptyDashboardComponent
+        IbizaFeatureComponent
     ]
 })
 export class IbizaFeatureModule {}
