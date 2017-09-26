@@ -1,0 +1,40 @@
+@import '../../../sass/common/variables';
+
+ul.tabs-row{
+    box-sizing: border-box;
+    list-style-type: none;
+    padding-left: 0px;
+    margin: 0px;
+    border-bottom: $border;
+}
+
+li.tab-cell{
+    box-sizing: border-box;
+    display: inline-block;
+    border-top-width: 0px;
+    text-align: center;
+    padding: 8px 25px;
+    min-width: 150px;
+    outline: none;
+    margin-left: 0px;
+    position: relative;
+
+    .bottom{
+        position: absolute;
+        bottom: -1px;
+        background-color: $body-bg-color;
+        height: 1px;
+        width: 100%;
+        left: 0px;
+    }
+}
+
+#app-root[theme=dark]{
+    .tab-label-selected{
+        color: $default-text-color-dark;
+    }
+
+    li.tab-label{
+        color: $primary-color-dark;
+    }
+}

@@ -102,4 +102,16 @@ $border-light: 1px $primary-color solid;
             background-color: darken($primary-color-dark, 10%)
         }
     }
+
+    .dirty {
+        .selected {
+            background-color: $alt1-color-faded;
+        }
+    
+        &.disabled {
+            .selected {
+                background-color: $alt1-color-faded;
+            }
+        }
+    }
 }

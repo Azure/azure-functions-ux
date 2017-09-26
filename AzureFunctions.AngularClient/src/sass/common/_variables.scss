@@ -64,7 +64,7 @@ $primary-color-dark: #4894fe;
 $primary-color-hover-dark: lighten($primary-color-dark, 10%);
 
 $alt1-color: #6917aa;
-$alt1-color-faded: rgba($alt1-color, 0.18);
+$alt1-color-faded: lighten($alt1-color, 35%);
 
 $background-color-opaque: #ccc;
 $background-color-disabled: rgba(127, 127, 127, 0.5);
