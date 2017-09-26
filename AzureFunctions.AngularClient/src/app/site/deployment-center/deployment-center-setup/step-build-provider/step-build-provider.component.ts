@@ -12,7 +12,7 @@ export class StepBuildProviderComponent {
         {
             id: 'vsts',
             name: 'VSTS build server',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#68227A',
             barColor: '#CED2EA',
             description: 'Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.',
@@ -21,7 +21,7 @@ export class StepBuildProviderComponent {
         {
             id: 'kudu',
             name: 'App Service Kudu build server',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#000000',
             barColor: '#D6D6D6',
             description: 'Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.',

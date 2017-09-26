@@ -286,7 +286,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                 break;
             case SiteTabIds.continuousDeployment:
                 info.title = 'Deployment Center';
-                info.iconUrl = 'images/deployment-source.svg';
+                info.iconUrl = 'image/deployment-source.svg';
                 info.componentFactory = DeploymentCenterComponent;
                 break;
             case SiteTabIds.apiDefinition:

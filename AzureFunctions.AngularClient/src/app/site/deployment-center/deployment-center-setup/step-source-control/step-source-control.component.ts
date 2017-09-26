@@ -30,7 +30,7 @@ export class StepSourceControlComponent {
         {
             id: 'onedrive',
             name: 'OneDrive',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#0A4AB1',
             barColor: '#D7E2F2',
             description: 'Sync content from a OneDrive cloud folder.',
@@ -39,7 +39,7 @@ export class StepSourceControlComponent {
         {
             id: 'github',
             name: 'Github',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#000000',
             barColor: '#D6D6D6',
             description: 'Configure continuous integration with a Github repo.',
@@ -48,7 +48,7 @@ export class StepSourceControlComponent {
         {
             id: 'vsts',
             name: 'VSTS',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#68227A',
             barColor: '#CED2EA',
             description: 'Configure continuous integration with a VSTS repo.',
@@ -57,7 +57,7 @@ export class StepSourceControlComponent {
         {
             id: 'external',
             name: 'External',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#9E0F00',
             barColor: '#EFD8D6',
             description: 'Deploy from a public Git or Mercurial repo.',
@@ -66,7 +66,7 @@ export class StepSourceControlComponent {
         {
             id: 'bitbucket',
             name: 'Bitbucket',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#215081',
             barColor: '#DBE3EB',
             description: 'Configure continuous integration with a Bitbucket repo.',
@@ -75,7 +75,7 @@ export class StepSourceControlComponent {
         {
             id: 'localgit',
             name: 'Local Git',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#FFB901',
             barColor: '#FFF2D1',
             description: 'Deploy from a local Git repo.',
@@ -84,7 +84,7 @@ export class StepSourceControlComponent {
         {
             id: 'ftp',
             name: 'FTP',
-            icon: 'images/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#F46300',
             barColor: '#FDE6D6',
             description: 'Use an FTP connection to access and copy app files.',

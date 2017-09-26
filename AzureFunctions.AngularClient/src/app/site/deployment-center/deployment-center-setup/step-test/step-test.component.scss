@@ -60,7 +60,6 @@ td {
 }
 
 h3 {
-    @extend .text-level2-heading;
     font-weight: bold;
     margin-left: 0px;
     margin-bottom: 10px;
@@ -161,7 +160,6 @@ h3 {
 }
 
 .newOrExistingSelection{
-    @extend .text-subheading;
     margin-bottom: 5px;
     font-size: 12px;
     color: $value-text-color;

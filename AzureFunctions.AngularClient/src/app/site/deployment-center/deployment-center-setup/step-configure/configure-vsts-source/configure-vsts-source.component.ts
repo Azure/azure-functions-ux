@@ -9,12 +9,55 @@ import { Headers } from '@angular/http';
 import { UserService } from 'app/shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
 
+export const PythonFramework = {
+    Bottle: 'Bottle',
+    Django: 'Django',
+    Flask: 'Flask'
+};
+
+export const TaskRunner = {
+    None: 'None',
+    Gulp: 'Gulp',
+    Grunt: 'Grunt'
+};
+
+export const WebAppFramework = {
+    AspNetWap: 'AspNetWap',
+    AspNetCore: 'AspNetCore',
+    Node: 'Node',
+    PHP: 'PHP',
+    Python: 'Python'
+};
+
 @Component({
     selector: 'app-configure-vsts-source',
     templateUrl: './configure-vsts-source.component.html',
     styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss']
 })
 export class ConfigureVstsSourceComponent {
+    WebApplicationFrameworks: DropDownElement<string>[] = [
+        {
+            displayLabel: 'ASP.NET',
+            value: WebAppFramework.AspNetWap
+        },
+        {
+            displayLabel: 'ASP.NET Core',
+            value: WebAppFramework.AspNetCore
+        },
+        {
+            displayLabel: 'Node.JS',
+            value: WebAppFramework.Node
+        },
+        {
+            displayLabel: 'PHP',
+            value: WebAppFramework.PHP
+        },
+        {
+            displayLabel: 'Python',
+            value: WebAppFramework.Python
+        }
+    ];
+    chosenBuildFramework: string;
     private _vstsProfileInfo: any;
     private _resourceId: string;
     private _chosenAccount: string;
@@ -99,7 +142,7 @@ export class ConfigureVstsSourceComponent {
 
     ProjectChanged(projectName: string) {
         this._chosenProject = projectName;
-        this.RepositoryList = this.AllGitRepoList[this._chosenAccount].filter(x => x.project.name === projectName).map(x => {
+        this.RepositoryList = this.AllGitRepoList.filter(x => x.project.name === projectName).map(x => {
             const item: DropDownElement<string> = {
                 displayLabel: x.name,
                 value: x.id
@@ -132,5 +175,12 @@ export class ConfigureVstsSourceComponent {
         headers.append('Authorization', `Bearer ${this.token}`);
         headers.append('X-VSS-ForceMsaPassThrough', 'true');
         return headers;
+    }
+
+    frameworkChanged(framework){
+        this.chosenBuildFramework = framework;
+    }
+    get showWorkingDirectory(){
+        return true;
     }
 }

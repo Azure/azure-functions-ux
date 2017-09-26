@@ -1,4 +1,4 @@
-<wizard navBarLayout="large-filled-symbols" style="background-color: #F5F5F7; height: 100vh" #wizard>
+<wizard navBarLayout="large-filled-symbols" style="height: 100vh" #wizard>
     <app-step-source-control wizardStep title="Source Control" navigationSymbol="1"></app-step-source-control>
     <app-step-build-provider wizardStep title="Build Provider" *ngIf="showBuildStep" navigationSymbol="2"></app-step-build-provider>
     <app-step-configure wizardStep title="Configure"  *ngIf="showConfigureStep" navigationSymbol="3"></app-step-configure>

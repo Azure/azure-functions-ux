@@ -204,7 +204,7 @@ export class VsoDashboardComponent implements OnChanges {
         return {
             type: 'row',
             id: item.id,
-            icon: item.status === 4 ? 'images/success.svg' : 'images/error.svg',
+            icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
 
             // grouping is done by date therefore time information is excluded
             date: t.format('M/D/YY'),
@@ -309,7 +309,7 @@ export class VsoDashboardComponent implements OnChanges {
             const commitUrl: string = this._getCommitUrl(messageJSON);
             if (commitUrl) {
                 urlInfo.push({
-                    urlIcon: 'images/deployment-center/CD-Commit.svg',
+                    urlIcon: 'image/deployment-center/CD-Commit.svg',
                     urlText: `Source Version ${messageJSON.commitId.substr(0, 10)}`,
                     url: commitUrl
                 });
@@ -319,7 +319,7 @@ export class VsoDashboardComponent implements OnChanges {
             const buildUrl: string = this._getBuildUrl(messageJSON);
             if (buildUrl) {
                 urlInfo.push({
-                    urlIcon: 'images/deployment-center/CD-Build.svg',
+                    urlIcon: 'image/deployment-center/CD-Build.svg',
                     urlText: `Build ${messageJSON.buildNumber}`,
                     url: buildUrl
                 });
@@ -329,7 +329,7 @@ export class VsoDashboardComponent implements OnChanges {
             const releaseUrl: string = this._getReleaseUrl(messageJSON);
             if (releaseUrl) {
                 urlInfo.push({
-                    urlIcon: 'images/deployment-center/CD-Release.svg',
+                    urlIcon: 'image/deployment-center/CD-Release.svg',
                     urlText: `Release: ${messageJSON.releaseId}`,
                     url: releaseUrl
                 });
@@ -389,7 +389,7 @@ export class VsoDashboardComponent implements OnChanges {
         const t = moment(date);
         return {
             id: item.id,
-            icon: item.status === 4 ? 'images/success.svg' : 'images/error.svg',
+            icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
             type: 'row',
             // grouping is done by date therefore time information is excluded
             date: t.format('M/D/YY'),

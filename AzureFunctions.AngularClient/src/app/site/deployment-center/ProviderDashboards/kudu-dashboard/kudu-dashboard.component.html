@@ -1,9 +1,9 @@
 <ng-sidebar-container style="height:100vh" [animate]="true">
   <div ng-sidebar-content>
     <command-bar>
-      <command displayText="{{ 'refresh' | translate }}" iconUrl="images/swap.svg" (click)="refresh()"></command>
-      <command displayText="{{ 'disconnect' | translate }}" iconUrl="images/error.svg" (click)="disconnect()"></command>
-      <command displayText="{{ 'sync' | translate }}" iconUrl="images/Functions.svg" (click)="SyncScm()"></command>
+      <command displayText="{{ 'refresh' | translate }}" iconUrl="image/swap.svg" (click)="refresh()"></command>
+      <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/error.svg" (click)="disconnect()"></command>
+      <command displayText="{{ 'sync' | translate }}" iconUrl="image/Functions.svg" (click)="SyncScm()"></command>
     </command-bar>
 
     <div id="essentials-container">
@@ -122,7 +122,7 @@
 
           <td class="icon">
             <div *ngIf="item.type === 'row'">
-              <img src="images/generic-template.svg" (click)="details(item)" />
+              <img src="image/generic-template.svg" (click)="details(item)" />
             </div>
           </td>
         </tr>

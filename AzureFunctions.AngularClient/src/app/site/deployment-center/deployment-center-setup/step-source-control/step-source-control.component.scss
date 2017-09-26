@@ -30,6 +30,10 @@
     &:not(button):active {
         box-shadow: none;
     }
+
+    &[theme=dark]{
+        background-color: #5C2CC5;//$body-bg-color-dark;
+    }
 }
 
 .sourceDescription {
@@ -61,7 +65,7 @@
 }
 
 .footer {
-    background-color: white;
+   // background-color: white;
     position: fixed;
     height: 50px;
     margin-bottom: 0px;
