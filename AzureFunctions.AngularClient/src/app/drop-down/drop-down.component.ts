@@ -16,6 +16,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
     @Input() placeholder: string;
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
+    @Input() size: null | 'small' | 'large';
 
     @Output() value: EventEmitter<T>;
 
