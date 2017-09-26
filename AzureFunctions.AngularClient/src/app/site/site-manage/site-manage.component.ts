@@ -376,7 +376,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.authentication) +
                 'MSI',
                 this._translateService.instant(PortalResources.feature_msiInfo),
-                'images/toolbox.svg',
+                'image/toolbox.svg',
                 {
                     detailBlade: 'MSIBlade',
                     detailBladeInputs: { resourceUri: site.id }
