@@ -2,7 +2,8 @@
     *ngIf="_options"
     class="drop-down-container"
     [class.dirty]="highlightDirty && control?.dirty"
-    [class.disabled]="control ? control.disabled : disabled">
+    [class.disabled]="control ? control.disabled : disabled"
+    [class.small]="size === 'small'">
 
     <select
         *ngIf="!control"
