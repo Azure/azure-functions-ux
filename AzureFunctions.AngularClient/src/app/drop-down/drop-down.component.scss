@@ -76,3 +76,24 @@
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+.small {
+    .drop-down-select {
+        height: 23px;
+    }
+
+    .drop-down-selected-value {
+        height: 21px;
+        line-height: 21px;
+        font-size: 12px;
+    }
+
+    .drop-down-selected-arrow {
+        height: 21px;
+        width: 21px;
+    }
+
+    select {
+        font-size: 12px;
+    }
+}
