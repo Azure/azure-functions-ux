@@ -4,10 +4,17 @@ export interface ArmObj<T> {
     type: string;
     kind: string;
     location: string;
-    properties: T
+    properties: T;
+    identity?: Identity;
 }
 
 export interface ArmArrayResult<T> {
     value : ArmObj<T>[];
     nextLink : string;
+}
+
+export interface Identity{
+    principalId: string;
+    tenantId: string;
+    type: string;
 }
