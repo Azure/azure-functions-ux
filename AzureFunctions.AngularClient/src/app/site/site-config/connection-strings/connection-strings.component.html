@@ -7,34 +7,34 @@
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
     <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #connectionStringsTable>
       <!--<tr class="header-row">
-        <th class="nameCol"></th>
-        <th class="valueCol"></th>
-        <th class="typeCol"></th>
-        <th class="actionCol"></th>
+        <th class="one-third-col padded-col"></th>
+        <th class="two-thirds-col padded-col"></th>
+        <th class="type-col padded-col"></th>
+        <th class="action-col"></th>
       </tr>-->
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each connection string returned (if any) -->
       <tr *ngFor="let group of connectionStringsTable.items">
-        <td [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
           <click-to-edit [group]="group" name="name">
             <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
           </click-to-edit>
         </td>
 
-        <td>
+        <td class="two-thirds-col padded-col">
           <click-to-edit [group]="group" name="value" hiddenText="true">
             <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
           </click-to-edit>
         </td>
 
-        <td>
+        <td class="type-col padded-col">
           <click-to-edit [group]="group" name="type">
             <drop-down [group]="group" name="type" [options]="group.csTypes" [size]="'small'"></drop-down>
           </click-to-edit>
         </td>
 
-        <td>
+        <td class="action-col">
           <span class="fa fa-times delete" (click)="deleteConnectionString(group)"></span>
         </td>
       </tr>

@@ -23,20 +23,26 @@ td{
     }
 }
 
-.nameCol{
-    width: 30%;
+.padded-col {
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
-.valueCol{
-    width: 65%;
+.one-third-col{
+    width: 33%;
 }
 
-.typeCol{
+.two-thirds-Col{
+    width: 66%;
+}
+
+.type-col{
     width: 200px;
 }
 
-.actionCol{
+.action-col{
     width: 25px;
+    text-align: center;
 }
 
 .message-row{
