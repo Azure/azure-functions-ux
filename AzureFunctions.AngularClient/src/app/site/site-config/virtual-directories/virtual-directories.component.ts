@@ -6,7 +6,9 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
-import { SaveResult } from './../site-config.component';
+import { VirtualApplication, VirtualDirectory } from './../../../shared/models/arm/virtual-application';
+import { SiteConfig } from './../../../shared/models/arm/site-config'
+import { SaveOrValidationResult } from './../site-config.component';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateComponent } from './../../../busy-state/busy-state.component';
@@ -19,11 +21,11 @@ import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './app-settings.component.html',
-  styleUrls: ['./../site-config.component.scss']
+  selector: 'virtual-directories',
+  templateUrl: './virtual-directories.component.html',
+  styleUrls: ['./../site-config.component.scss', './virtual-directories.component.scss']
 })
-export class AppSettingsComponent implements OnChanges, OnDestroy {
+export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
   public debug = false; //for debugging
 
   public Resources = PortalResources;
@@ -34,6 +36,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   public hasWritePermissions: boolean;
   public permissionsMessage: string;
   public showPermissionsMessage: boolean;
+  public showReadOnlySettingsMessage: string;
 
   private _busyState: BusyStateComponent;
   private _busyStateScopeManager: BusyStateScopeManager;
@@ -41,11 +44,12 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _saveError: string;
 
   private _requiredValidator: RequiredValidator;
-  private _uniqueAppSettingValidator: UniqueValidator;
+  private _uniqueValidator: UniqueValidator;
 
-  private _appSettingsArm: ArmObj<any>;
+  private _webConfigArm: ArmObj<SiteConfig>;
 
   public loadingFailureMessage: string;
+  public loadingMessage: string;
 
   @Input() mainForm: FormGroup;
 
@@ -70,7 +74,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .switchMap(() => {
         this._busyStateScopeManager.setBusy();
         this._saveError = null;
-        this._appSettingsArm = null;
+        this._webConfigArm = null;
         this.groupArray = null;
         this._resetPermissionsAndLoadingState();
         return Observable.zip(
@@ -83,24 +87,23 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._setPermissions(p.writePermission, p.readOnlyLock);
         return Observable.zip(
           Observable.of(this.hasWritePermissions),
-          this.hasWritePermissions ?
-            this._cacheService.postArm(`${this.resourceId}/config/appSettings/list`, true) : Observable.of(null),
-          (h, c) => ({ hasWritePermissions: h, appSettingsResponse: c })
+          this._cacheService.postArm(`${this.resourceId}/config/web`, true),
+          (h, w) => ({ hasWritePermissions: h, webConfigResponse: w })
         )
       })
       .do(null, error => {
-        this._aiService.trackEvent("/errors/app-settings", error);
-        this._setupForm(this._appSettingsArm);
-        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this._aiService.trackEvent("/errors/virtual-directories", error);
+        this._setupForm(this._webConfigArm);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
-        if (r.hasWritePermissions) {
-          this._appSettingsArm = r.appSettingsResponse.json();
-          this._setupForm(this._appSettingsArm);
-        }
+        this._webConfigArm = r.webConfigResponse.json();
+        this._setupForm(this._webConfigArm);
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyStateScopeManager.clearBusy();
       });
@@ -111,7 +114,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       this._resourceIdStream.next(this.resourceId);
     }
     if (changes['mainForm'] && !changes['resourceId']) {
-      this._setupForm(this._appSettingsArm);
+      this._setupForm(this._webConfigArm);
     }
   }
 
@@ -124,72 +127,111 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _resetPermissionsAndLoadingState() {
     this.hasWritePermissions = true;
-    this.permissionsMessage = "";
+    this.permissionsMessage = '';
     this.showPermissionsMessage = false;
-    this.loadingFailureMessage = "";
+    this.showReadOnlySettingsMessage = this._translateService.instant(PortalResources.configViewReadOnlySettings);
+    this.loadingFailureMessage = '';
+    this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
     if (!writePermission) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configRequiresWritePermissionOnApp);
-    }
-    else if (readOnlyLock) {
+    } else if (readOnlyLock) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configDisabledReadOnlyLockOnApp);
-    }
-    else {
+    } else {
       this.permissionsMessage = "";
     }
 
     this.hasWritePermissions = writePermission && !readOnlyLock;
   }
 
-
-  private _setupForm(appSettingsArm: ArmObj<any>) {
-    if (!!appSettingsArm) {
+  private _setupForm(webConfigArm: ArmObj<SiteConfig>) {
+    if (!!webConfigArm) {
       if (!this._saveError || !this.groupArray) {
         this.groupArray = this._fb.array([]);
 
         this._requiredValidator = new RequiredValidator(this._translateService);
-        this._uniqueAppSettingValidator = new UniqueValidator(
-          "name",
+        this._uniqueValidator = new UniqueValidator(
+          "virtualPath",
           this.groupArray,
-          this._translateService.instant(PortalResources.validation_duplicateError));
+          this._translateService.instant(PortalResources.validation_duplicateError),
+          this._getNormalizedVirtualPath);
 
-        for (let name in appSettingsArm.properties) {
-          if (appSettingsArm.properties.hasOwnProperty(name)) {
-
-            this.groupArray.push(this._fb.group({
-              name: [
-                name,
-                Validators.compose([
-                  this._requiredValidator.validate.bind(this._requiredValidator),
-                  this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
-              value: [appSettingsArm.properties[name]]
-            }));
-          }
+        if (webConfigArm.properties.virtualApplications) {
+          webConfigArm.properties.virtualApplications.forEach(virtualApplication => {
+            this._addVDirToGroup(
+              virtualApplication.virtualPath,
+              virtualApplication.physicalPath,
+              true
+            );
+            if (virtualApplication.virtualDirectories) {
+              virtualApplication.virtualDirectories.forEach(virtualDirectory => {
+                this._addVDirToGroup(
+                  this._combinePaths(virtualApplication.virtualPath, virtualDirectory.virtualPath),
+                  virtualDirectory.physicalPath,
+                  false
+                );
+              })
+            }
+          })
         }
       }
 
-      if (this.mainForm.contains("appSettings")) {
-        this.mainForm.setControl("appSettings", this.groupArray);
+      if (this.mainForm.contains("virtualDirectories")) {
+        this.mainForm.setControl("virtualDirectories", this.groupArray);
       }
       else {
-        this.mainForm.addControl("appSettings", this.groupArray);
+        this.mainForm.addControl("virtualDirectories", this.groupArray);
       }
     }
     else {
       this.groupArray = null;
-      if (this.mainForm.contains("appSettings")) {
-        this.mainForm.removeControl("appSettings");
+      if (this.mainForm.contains("virtualDirectories")) {
+        this.mainForm.removeControl("virtualDirectories");
       }
     }
 
     this._saveError = null;
   }
 
-  validate() {
-    let appSettingGroups = this.groupArray.controls;
-    appSettingGroups.forEach(group => {
+  private _getNormalizedVirtualPath(virtualPath: string): string {
+    if (virtualPath && virtualPath !== '/') {
+      if (virtualPath.endsWith('/')) {
+        virtualPath = virtualPath.slice(0, -1);
+      }
+
+      if (!virtualPath.startsWith('/')) {
+        virtualPath = '/' + virtualPath;
+      }
+    }
+
+    return virtualPath;
+  }
+
+  private _addVDirToGroup(virtualPath: string, physicalPath: string, isApplication: boolean) {
+    this.groupArray.push(this._fb.group({
+      virtualPath: [
+        virtualPath,
+        Validators.compose([
+          this._requiredValidator.validate.bind(this._requiredValidator),
+          this._uniqueValidator.validate.bind(this._uniqueValidator)])],
+      physicalPath: [
+        physicalPath,
+        this._requiredValidator.validate.bind(this._requiredValidator)],
+      isApplication: [isApplication]
+    }));
+  }
+
+  private _combinePaths(basePath: string, subPath: string): string {
+    const basePathAdjusted = (basePath && basePath.endsWith('/')) ? basePath : basePath + '/';
+    const subPathAdjusted = (subPath && subPath.startsWith('/')) ? subPath.substring(1) : subPath;
+    return basePathAdjusted + subPathAdjusted;
+  }
+
+  validate(): SaveOrValidationResult {
+    let virtualDirGroups = this.groupArray.controls;
+    virtualDirGroups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for (let controlName in controls) {
         let control = <CustomFormControl>controls[controlName];
@@ -197,22 +239,62 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
   }
 
-  save(): Observable<SaveResult> {
-    let appSettingGroups = this.groupArray.controls;
+  save(): Observable<SaveOrValidationResult> {
+    let virtualDirGroups = this.groupArray.controls;
 
-    if (this.mainForm.valid) {
-      let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
-      appSettingsArm.properties = {};
+    if (this.mainForm.contains("virtualDirectories") && this.mainForm.controls["virtualDirectories"].valid) {
+      let webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
+      webConfigArm.properties = {};
 
-      for (let i = 0; i < appSettingGroups.length; i++) {
-        appSettingsArm.properties[appSettingGroups[i].value.name] = appSettingGroups[i].value.value;
-      }
+      const virtualApplications: VirtualApplication[] = [];
+      const virtualDirectories: VirtualDirectory[] = [];
 
-      return this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm)
-        .map(appSettingsResponse => {
-          this._appSettingsArm = appSettingsResponse.json();
+      virtualDirGroups.forEach(group => {
+        const formGroup = (group as FormGroup);
+        if (formGroup.controls["isApplication"].value) {
+          virtualApplications.push({
+            virtualPath: this._getNormalizedVirtualPath(formGroup.controls["virtualPath"].value),
+            physicalPath: formGroup.controls["physicalPath"].value,
+            virtualDirectories: []
+          });
+        } else {
+          virtualDirectories.push({
+            virtualPath: this._getNormalizedVirtualPath(formGroup.controls["virtualPath"].value),
+            physicalPath: formGroup.controls["physicalPath"].value
+          });
+        }
+      })
+
+      //TODO: Prevent savinng config with no applictions defined
+      //if (virtualApplications.length === 0) { //DO SOMETHING - MAYBE HANDLE IN FRORM VALIDATION }
+      virtualApplications.sort((a, b) => { return b.virtualPath.length - a.virtualPath.length; });
+
+      virtualDirectories.forEach(virtualDirectory => {
+        let appFound = false;
+        const dirPathLen = virtualDirectory.virtualPath.length;
+        for (let i = 0; i < virtualApplications.length && !appFound; i++) {
+          const appPathLen = virtualApplications[i].virtualPath.length;
+          if (appPathLen < dirPathLen && virtualDirectory.virtualPath.startsWith(virtualApplications[i].virtualPath)) {
+            appFound = true;
+            virtualDirectory.virtualPath = virtualDirectory.virtualPath.substring(appPathLen);
+            virtualApplications[i].virtualDirectories.push(virtualDirectory);
+          }
+        }
+        //TODO: Prevent saving config with "orphan" virtual directory
+        //if (!parentFound) { // DO SOMETHING }
+      })
+
+      webConfigArm.properties.virtualApplications = virtualApplications;
+      return this._cacheService.putArm(`${this.resourceId}/config/web`, null, webConfigArm)
+        .map(webConfigResponse => {
+          this._webConfigArm = webConfigResponse.json();
           return {
             success: true,
             error: null
@@ -227,8 +309,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         });
     }
     else {
-      let configGroupName = this._translateService.instant(PortalResources.feature_applicationSettingsName);
-      let failureMessage = this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+      let failureMessage = this._validationFailureMessage();
+      this._saveError = failureMessage;
       return Observable.of({
         success: false,
         error: failureMessage
@@ -236,29 +318,37 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     }
   }
 
-  deleteAppSetting(group: FormGroup) {
-    let appSettings = this.groupArray;
-    let index = appSettings.controls.indexOf(group);
+  private _validationFailureMessage(): string {
+    const configGroupName = this._translateService.instant(PortalResources.feature_virtualDirectoriesName);
+    return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+  }
+
+  deleteVirtualDirectory(group: FormGroup) {
+    let virtualDirs = this.groupArray;
+    let index = virtualDirs.controls.indexOf(group);
     if (index >= 0) {
-      appSettings.markAsDirty();
-      appSettings.removeAt(index);
-      appSettings.updateValueAndValidity();
+      virtualDirs.markAsDirty();
+      virtualDirs.removeAt(index);
+      virtualDirs.updateValueAndValidity();
     }
   }
 
-  addAppSetting() {
-    let appSettings = this.groupArray;
+  addVirtualDirectory() {
+    let virtualDirs = this.groupArray;
     let group = this._fb.group({
-      name: [
+      virtualPath: [
         null,
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
-          this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
-      value: [null]
+          this._uniqueValidator.validate.bind(this._uniqueValidator)])],
+      physicalPath: [
+        null,
+        this._requiredValidator.validate.bind(this._requiredValidator)],
+      isApplication: [false]
     });
 
     (<CustomFormGroup>group)._msStartInEditMode = true;
-    appSettings.markAsDirty();
-    appSettings.push(group);
+    virtualDirs.markAsDirty();
+    virtualDirs.push(group);
   }
 }

@@ -36,11 +36,15 @@ td{
     width: 66%;
 }
 
+.one-half-col{
+    width: 50%;
+}
+
 .single-col{
     width: 100%;
 }
 
-.type-col{
+.type-col, .is-app-col{
     width: 200px;
 }
 

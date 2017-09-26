@@ -4,11 +4,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { AppSettingsComponent } from './app-settings.component';
+import { VirtualDirectoriesComponent } from './virtual-directories.component';
 
 describe('ConnectionStringsComponent', () => {
-  let component: AppSettingsComponent;
-  let fixture: ComponentFixture<AppSettingsComponent>;
+  let component: VirtualDirectoriesComponent;
+  let fixture: ComponentFixture<VirtualDirectoriesComponent>;
 
   // beforeEach(async(() => {
   //   TestBed.configureTestingModule(AppModule.moduleDefinition)
@@ -16,7 +16,7 @@ describe('ConnectionStringsComponent', () => {
   // }));
 
   // beforeEach(() => {
-  //   fixture = TestBed.createComponent(AppSettingsComponent);
+  //   fixture = TestBed.createComponent(VirtualDirectoriesComponent);
   //   component = fixture.componentInstance;
   //   fixture.detectChanges();
   // });

@@ -1,3 +1,5 @@
+import { VirtualApplication } from './virtual-application';
+
 export interface SiteConfig {
     scmType: string;
     alwaysOn: boolean;
@@ -26,4 +28,5 @@ export interface SiteConfig {
     }];
     linuxFxVersion: string;
     appCommandLine: string;
+    virtualApplications: VirtualApplication[];
 }
