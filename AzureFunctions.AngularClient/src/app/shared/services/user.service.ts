@@ -139,15 +139,6 @@ export class UserService {
 
                     this.updateStartupInfo(info);
                 });
-
-            try {
-                var encodedUser = token.split('.')[1];
-                var user: { unique_name: string, email: string } = JSON.parse(atob(encodedUser));
-                var userName = (user.unique_name || user.email).replace(/[,;=| ]+/g, "_");
-                this._aiService.setAuthenticatedUserContext(userName);
-            } catch (error) {
-                this._aiService.trackException(error, 'setToken');
-            }
         }
     }
 
@@ -163,7 +154,6 @@ export class UserService {
     setTryUserName(userName: string) {
         if (userName) {
             try {
-                this._aiService.setAuthenticatedUserContext(userName);
             } catch (error) {
                 this._aiService.trackException(error, 'setToken');
             }
