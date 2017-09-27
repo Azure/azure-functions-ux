@@ -1,3 +1,5 @@
+import { EditableTblExampleComponent } from './editable-tbl-example/editable-tbl-example.component';
+import { TblExampleComponent } from './tbl-example/tbl-example.component';
 import { RadioSelectorExampleComponent } from './radio-selector-example/radio-selector-example.component';
 import { TextboxExampleComponent } from './textbox-example/textbox-example.component';
 import { TabComponent } from './../controls/tabs/tab/tab.component';
@@ -35,7 +37,9 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         ColorExampleComponent,
         SvgExampleComponent,
         TextboxExampleComponent,
-        RadioSelectorExampleComponent
+        RadioSelectorExampleComponent,
+        TblExampleComponent,
+        EditableTblExampleComponent
     ],
     providers: []
 })

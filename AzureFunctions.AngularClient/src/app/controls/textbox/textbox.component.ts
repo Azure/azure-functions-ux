@@ -10,7 +10,7 @@ import { Subject } from 'rxjs/Subject';
 export class TextboxComponent implements OnInit {
 
   @Input() control: FormControl;
-  @Input() placeholder: string;
+  @Input() placeholder = '';
 
   @Output() blur = new Subject<any>();
 
