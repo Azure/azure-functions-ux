@@ -247,7 +247,7 @@ export class FunctionApp {
                     fcs.forEach(fc => fc.functionApp = this);
                     const vsCreatedFunc = fcs.find((fc: any) => !!fc.config.generatedBy);
                     return vsCreatedFunc
-                        ? this.createApplicationSetting(Constants.functionAppEditModeSettingName, Constants.ReadOnlyMode, false)
+                        ? this.createApplicationSetting(Constants.functionAppEditModeSettingName, Constants.VisualStudiosReadOnlyMode, false)
                         : Observable.of(null);
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
@@ -1400,7 +1400,10 @@ export class FunctionApp {
 
                 let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
                 editModeSettingString = editModeSettingString.toLocaleLowerCase();
-
+                
+                if (editModeSettingString === Constants.VisualStudiosReadOnlyMode) {
+                    return FunctionAppEditMode.ReadOnlyVSGenerated;
+                }
                 if (editModeSettingString === Constants.ReadWriteMode) {
                     return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
                 } else if (editModeSettingString === Constants.ReadOnlyMode) {
