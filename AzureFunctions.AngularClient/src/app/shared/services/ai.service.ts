@@ -229,20 +229,6 @@ export class AiService implements IAppInsights {
         return appInsights.flush();
     }
 
-
-    /**
-    * Sets the authenticated user id and the account id in this session.
-    * User auth id and account id should be of type string. They should not contain commas, semi-colons, equal signs, spaces, or vertical-bars.
-    *
-    * @param authenticatedUserId {string} - The authenticated user id. A unique and persistent string that represents each authenticated user in the service.
-    * @param accountId {string} - An optional string to represent the account associated with the authenticated user.
-    */
-    @AiDefined()
-    setAuthenticatedUserContext(authenticatedUserId: string, accountId?: string) {
-        return appInsights.setAuthenticatedUserContext(authenticatedUserId, accountId);
-    }
-
-
     /**
      * Clears the authenticated user id and the account id from the user context.
      */
