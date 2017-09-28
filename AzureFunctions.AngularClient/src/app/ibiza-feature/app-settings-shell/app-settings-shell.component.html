@@ -1,8 +1,2 @@
-<site-tab
-[title]="title"
-[id]="id"
-[active]="active"
-[closeable]="closeable"
-[iconUrl]="iconUrl"
-[componentFactory]="componentFactory"
-[componentInput]="componentInput"></site-tab> 
+<busy-state name="site-tabs" cssClass="ibiza-feature"></busy-state>
+<site-config *ngIf="viewInfo" [viewInfoInput]='viewInfo'></site-config>

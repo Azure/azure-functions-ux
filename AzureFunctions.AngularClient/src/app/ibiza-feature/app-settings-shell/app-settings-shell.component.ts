@@ -1,8 +1,8 @@
-import { Component, Type, OnDestroy } from '@angular/core';
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
+import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
+import { Component, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { PortalResources } from 'app/shared/models/portal-resources';
 import { ActivatedRoute } from '@angular/router';
-import { SiteConfigComponent } from 'app/site/site-config/site-config.component';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -11,37 +11,19 @@ import { Subscription } from 'rxjs/Subscription';
     styleUrls: ['./app-settings-shell.component.scss']
 })
 export class AppSettingsShellComponent implements OnDestroy {
-    title: string;
-
-    id: string;
-
-    active: boolean;
-
-    closeable: boolean;
-
-    componentFactory: Type<any>;
-
-    componentInput: { [key: string]: any };
-
-    iconUrl = '';
+    viewInfo: TreeViewInfo<SiteData>;
 
     private routeParamsSubscription: Subscription;
     constructor(translateService: TranslateService, route: ActivatedRoute) {
-        this.title = translateService.instant(PortalResources.tab_configuration);
-        this.componentFactory = SiteConfigComponent;
-        this.closeable = false;
-        this.active = true;
-        this.componentInput = {
-            resourceId: null
-        };
 
         this.routeParamsSubscription = route.params.subscribe(x => {
-            this.componentInput = {
-                viewInfoInput: {
-                    resourceId: `/subscriptions/${x['subscriptionId']}/resourceGroups/${x[
-                        'resourceGroup'
-                    ]}/providers/Microsoft.Web/sites/${x['site']}`
-                }
+            this.viewInfo = {
+                resourceId: `/subscriptions/${x['subscriptionId']}/resourceGroups/${x[
+                    'resourceGroup'
+                ]}/providers/Microsoft.Web/sites/${x['site']}`,
+                dashboardType: DashboardType.none,
+                node: null,
+                data: null
             };
         });
     }

@@ -9,21 +9,25 @@
 }
 
 .try-functions-busy {
+    @extend .container;
     background-color: #337ab7;
     color: white;
     font-family: "Segoe UI Light", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
 }
 
 .global {
+    @extend .container;
     position: fixed;
 }
 
 .busy-dashboard{
+  @extend .container;
   width: calc(100% - #{$sidenav-width});
   margin-left: $sidenav-width;
 }
 
 .busy-site-tabs{
+  @extend .container;
   width: calc(100% - #{$sidenav-width});  
   height: calc(100% - #{$top-bar-height} - 1px);
 }

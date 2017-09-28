@@ -180,6 +180,7 @@ export class LogCategories {
     public static readonly apiDetails = 'ApiDetails';
     public static readonly newSlot = 'NewSlot';
     public static readonly svgLoader = 'SvgLoader';
+    public static readonly busyState = 'BusyState';
 }
 
 export class KeyCodes {

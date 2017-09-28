@@ -1,4 +1,4 @@
-import { SiteTabComponent } from './../../site-dashboard/site-tab/site-tab.component';
+import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -14,7 +14,6 @@ import { SelectOption } from './../../../shared/models/select-option';
 
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
-import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -38,8 +37,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   public showPermissionsMessage: boolean;
   public showReadOnlySettingsMessage: string;
 
-  private _busyState: BusyStateComponent;
-  private _busyStateScopeManager: BusyStateScopeManager;
+  private _busyManager: BusyStateScopeManager;
 
   private _saveError: string;
 
@@ -88,10 +86,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _authZService: AuthzService,
-    siteTabComponent: SiteTabComponent
+    broadcastService: BroadcastService
   ) {
-    this._busyState = siteTabComponent.busyState;
-    this._busyStateScopeManager = this._busyState.getScopeManager();
+    this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
     this._resetPermissionsAndLoadingState();
 
@@ -101,7 +98,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this._resourceIdSubscription = this._resourceIdStream
       .distinctUntilChanged()
       .switchMap(() => {
-        this._busyStateScopeManager.setBusy();
+        this._busyManager.setBusy();
         this._saveError = null;
         this._siteConfigArm = null;
         this._webConfigArm = null;
@@ -130,7 +127,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._aiService.trackEvent('/errors/general-settings', error);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
         this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
@@ -142,7 +139,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         }
         this._processSkuAndKind(this._siteConfigArm);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
       });
   }
 
@@ -159,7 +156,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     if (this._resourceIdSubscription) {
       this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
     }
-    this._busyStateScopeManager.dispose();
+    this._busyManager.clearBusy();
   }
 
   private _resetPermissionsAndLoadingState() {

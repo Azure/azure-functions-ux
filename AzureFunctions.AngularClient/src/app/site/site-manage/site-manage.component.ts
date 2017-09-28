@@ -1,3 +1,4 @@
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { SiteService } from 'app/shared/services/slots.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { BroadcastService } from './../../shared/services/broadcast.service';
@@ -12,7 +13,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
-import { GlobalStateService } from './../../shared/services/global-state.service';
 import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { AiService } from './../../shared/services/ai.service';
@@ -51,6 +51,8 @@ export class SiteManageComponent implements OnDestroy {
 
     private _selectedFeatureSubscription: RxSubscription;
 
+    private _busyManager: BusyStateScopeManager;
+
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this._viewInfoStream.next(viewInfo);
     }
@@ -60,20 +62,20 @@ export class SiteManageComponent implements OnDestroy {
         private _portalService: PortalService,
         private _aiService: AiService,
         private _cacheService: CacheService,
-        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
         private _scenarioService: ScenarioService) {
 
+        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+
         this._viewInfoStream
             .switchMap(viewInfo => {
+                this._busyManager.setBusy();
                 this.viewInfo = viewInfo;
-                this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
             .switchMap(r => {
-                this._globalStateService.clearBusyState();
-
+                this._busyManager.clearBusy();
                 this._aiService.stopTrace('/timings/site/tab/features/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
 
                 const site: ArmObj<Site> = r.json();
@@ -131,6 +133,7 @@ export class SiteManageComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
+        this._busyManager.clearBusy();
         this._portalService.closeBlades();
         this._disposeGroups();
         if (this._selectedFeatureSubscription) {
