@@ -40,7 +40,7 @@ export class AppSettingsShellComponent implements OnDestroy {
                 viewInfoInput: {
                     resourceId: `/subscriptions/${x['subscriptionId']}/resourceGroups/${x[
                         'resourceGroup'
-                    ]}/providers/Microsoft.Web/sites/${x['site']}`
+                    ]}/providers/Microsoft.Web/sites/${x['site']}` + (x['slot'] ? `/slots/${x['slot']}` : ``)
                 }
             };
         });
