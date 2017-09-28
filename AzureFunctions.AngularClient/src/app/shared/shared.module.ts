@@ -1,3 +1,4 @@
+import { LoadImageDirective } from './../controls/load-image/load-image.directive';
 import { SlideToggleComponent } from './../controls/slide-toggle/slide-toggle.component';
 import { TryNowBusyStateComponent } from './../try-now-busy-state/try-now-busy-state.component';
 import { TooltipDirective } from './../tooltip-content/tooltip.directive';
@@ -86,7 +87,8 @@ export function AiServiceFactory() {
         SearchBoxComponent,
         TooltipContentComponent,
         TooltipDirective,
-        SlideToggleComponent
+        SlideToggleComponent,
+        LoadImageDirective
     ],
     exports: [
         CommonModule,
@@ -112,7 +114,8 @@ export function AiServiceFactory() {
         SearchBoxComponent,
         TooltipContentComponent,
         TooltipDirective,
-        SlideToggleComponent
+        SlideToggleComponent,
+        LoadImageDirective
     ],
     imports: [
         FormsModule,
