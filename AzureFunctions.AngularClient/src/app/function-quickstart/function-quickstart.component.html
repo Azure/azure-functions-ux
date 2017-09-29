@@ -68,7 +68,12 @@
 </div>  <!-- /intro-header -->
 
 <div id="quickstart-footer">
-    <h2 class="circle">{{ 'intro_or' | translate}}</h2>
+    <h2 class="circle-container">
+        <!-- Need to split the "circle" into 3 parts to allow it to expand if the text is long -->
+        <span class="circle-left"></span>
+        <span class="circle-middle">{{ 'intro_or' | translate}}</span>
+        <span class="circle-right"></span>
+    </h2>
 
     <h1>{{ 'intro_getStartedOn' | translate }}</h1>
     <div>
