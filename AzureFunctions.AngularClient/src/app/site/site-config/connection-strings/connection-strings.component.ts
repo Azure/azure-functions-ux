@@ -1,4 +1,4 @@
-import { SiteTabComponent } from './../../site-dashboard/site-tab/site-tab.component';
+import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +12,6 @@ import { SaveResult } from './../site-config.component';
 import { AiService } from './../../../shared/services/ai.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
-import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj } from './../../../shared/models/arm/arm-obj';
@@ -36,8 +35,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   public permissionsMessage: string;
   public showPermissionsMessage: boolean;
 
-  private _busyState: BusyStateComponent;
-  private _busyStateScopeManager: BusyStateScopeManager;
+  private _busyManager: BusyStateScopeManager;
 
   private _saveError: string;
 
@@ -59,10 +57,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _authZService: AuthzService,
-    siteTabComponent: SiteTabComponent
+    broadcastService: BroadcastService
   ) {
-    this._busyState = siteTabComponent.busyState;
-    this._busyStateScopeManager = this._busyState.getScopeManager();
+    this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
     this._resetPermissionsAndLoadingState();
 
@@ -70,7 +67,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     this._resourceIdSubscription = this._resourceIdStream
       .distinctUntilChanged()
       .switchMap(() => {
-        this._busyStateScopeManager.setBusy();
+        this._busyManager.setBusy();
         this._saveError = null;
         this._connectionStringsArm = null;
         this.groupArray = null;
@@ -95,7 +92,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         this._setupForm(this._connectionStringsArm);
         this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
         this.showPermissionsMessage = true;
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
@@ -104,7 +101,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
           this._setupForm(this._connectionStringsArm);
         }
         this.showPermissionsMessage = true;
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
       });
   }
 
@@ -121,7 +118,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     if (this._resourceIdSubscription) {
       this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
     }
-    this._busyStateScopeManager.dispose();
+    this._busyManager.clearBusy();
   }
 
   private _resetPermissionsAndLoadingState() {

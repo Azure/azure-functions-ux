@@ -1,3 +1,4 @@
+import { SiteTabComponent } from 'app/site/site-dashboard/site-tab/site-tab.component';
 import { SharedFunctionsModule } from './../shared/shared-functions.module';
 import { FeatureGroupComponent } from './../feature-group/feature-group.component';
 import { DownloadFunctionAppContentComponent } from './../download-function-app-content/download-function-app-content.component';
@@ -45,7 +46,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SwaggerFrameDirective,
         DownloadFunctionAppContentComponent,
         SiteEnabledFeaturesComponent,
-        HostEditorComponent
+        HostEditorComponent,
+        SiteTabComponent
     ],
     providers: []
 })

@@ -1,5 +1,5 @@
 <div class="wrapper" *ngIf="!disabled" role="region" aria-labelledby="keys1 keys2">
-    <busy-state></busy-state>
+    <busy-state name="function-keys"></busy-state>
     <label *ngIf="functionInfo" id="keys1" class="title"> {{'functionKeys_title' | translate}} </label>
     <label *ngIf="!functionInfo" id="keys2" class="title"> {{'adminKeys_title' | translate}} </label>
     <table class="table-function">

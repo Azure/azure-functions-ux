@@ -25,7 +25,7 @@ export class IbizaFeatureComponent implements AfterViewInit, OnDestroy {
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
     private _ngUnsubscribe = new Subject();
-    private _busyStateScopeManager: BusyStateScopeManager;
+    private _busyManager: BusyStateScopeManager;
 
     constructor(
         private _userService: UserService
@@ -43,6 +43,6 @@ export class IbizaFeatureComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this._ngUnsubscribe.next();
-        this._busyStateScopeManager.dispose();
+        this._busyManager.clearBusy();
     }
 }

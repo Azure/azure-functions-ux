@@ -1,4 +1,3 @@
-import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -7,7 +6,6 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
 import { PortalResources } from './../../shared/models/portal-resources';
-import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
@@ -40,8 +38,7 @@ export class SiteConfigComponent implements OnDestroy {
   private _valueSubscription: RxSubscription;
   public resourceId: string;
 
-  private _busyState: BusyStateComponent;
-  private _busyStateScopeManager: BusyStateScopeManager;
+  private _busyManager: BusyStateScopeManager;
 
   @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
     this.viewInfoStream.next(viewInfo);
@@ -57,29 +54,27 @@ export class SiteConfigComponent implements OnDestroy {
     private _portalService: PortalService,
     private _aiService: AiService,
     private _broadcastService: BroadcastService,
-    private _authZService: AuthzService,
-    siteTabsComponent: SiteTabComponent
+    private _authZService: AuthzService
   ) {
-    this._busyState = siteTabsComponent.busyState;
-    this._busyStateScopeManager = this._busyState.getScopeManager();
+    this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
     this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
       .switchMap(viewInfo => {
-        this._busyStateScopeManager.setBusy();
+        this._busyManager.setBusy();
         return Observable.zip(
           Observable.of(viewInfo.resourceId),
           this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
           this._authZService.hasReadOnlyLock(viewInfo.resourceId),
           (r, wp, rl) => ({ resourceId: r, writePermission: wp, readOnlyLock: rl })
-        )
+        );
       })
       .do(null, error => {
         this.resourceId = null;
         this._setupForm();
         this._aiService.trackEvent('/errors/site-config', error);
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
@@ -88,7 +83,7 @@ export class SiteConfigComponent implements OnDestroy {
         this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
         this.resourceId = r.resourceId;
         this._setupForm();
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
       });
   }
 
@@ -120,7 +115,7 @@ export class SiteConfigComponent implements OnDestroy {
       this._valueSubscription.unsubscribe();
       this._valueSubscription = null;
     }
-    this._busyStateScopeManager.dispose();
+    this._busyManager.clearBusy();
     this._broadcastService.clearDirtyState(SiteTabIds.applicationSettings);
   }
 
@@ -129,7 +124,7 @@ export class SiteConfigComponent implements OnDestroy {
     this.appSettings.validate();
     this.connectionStrings.validate();
 
-    this._busyStateScopeManager.setBusy();
+    this._busyManager.setBusy();
     let notificationId = null;
     this._portalService.startNotification(
       this._translateService.instant(PortalResources.configUpdating),
@@ -145,7 +140,7 @@ export class SiteConfigComponent implements OnDestroy {
         );
       })
       .subscribe(r => {
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
 
         const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
         const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
