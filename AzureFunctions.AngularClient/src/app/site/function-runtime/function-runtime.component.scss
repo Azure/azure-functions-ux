@@ -40,3 +40,17 @@ input[type=text], select{
 .title-label {
     font-weight: bold;
 }
+
+.alert{
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.alert-icon{
+    width: 30px;
+}
+
+.alert-message{
+    padding-left: 5px;
+}

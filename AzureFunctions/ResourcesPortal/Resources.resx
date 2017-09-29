@@ -1910,10 +1910,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Slots (preview)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Enable deployment slots (preview). This is a one-time opt-in on the Function app that cannot be disabled and will reset any pre-existing secrets. After the update, the secrets may be copied from under the </value>
+    <value>Enable deployment slots (preview).</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>'Manage' node for each function.</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Known issues:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>Opting into this preview feature will reset any pre-existing secrets. Function secrets can be found under the</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'Manage'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>node for each function.</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>

@@ -150,11 +150,19 @@
 
     <div *ngIf="!slotsEnabled" class="setting-wrapper">
         <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
-        <div tabindex="-1">
-            {{ 'appFunctionSettings_slotsDesc' | translate}}
-            <span id="slotEnableDescLabel2" class="title-label" tabindex="-1">{{'appFunctionSettings_slotsDescBold' | translate}}</span>
+        <p>{{ 'appFunctionSettings_slotsDesc' | translate }}</p>
+        <div class="alert alert-warning">
+            <div class="alert-icon" load-image="image/warning.svg"></div>
+            <div class="alert-message">
+                <span class="title-label">{{ 'appFunctionSettings_warning_1' | translate }}</span><br/>
+                <span>{{ 'appFunctionSettings_warning_2' | translate }}</span><br/>
+                <span>
+                    {{ 'appFunctionSettings_warning_3' | translate }}
+                    <span class="title-label">{{ 'appFunctionSettings_warning_4' | translate }}</span>
+                    {{ 'appFunctionSettings_warning_5' | translate }}
+                </span>
+            </div>
         </div>
-
         <div>
             <radio-selector 
                 [defaultValue]="slotsEnabled" 
