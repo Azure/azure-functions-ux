@@ -581,6 +581,7 @@
         "error_unableToUpdateFunctionAppEditMode": "We are unable to update your function app's edit mode. Please try again later.",
         "readOnly": "Your app is currently in read only mode because you've set the edit mode to read only. To change edit mode visit ",
         "readWriteSourceControlled": "Your app is currently in read\\write mode because you've set the edit mode to read\\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit ",
+        "readOnlyGeneratedBy": "Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. ",
         "copypre_copy": "Copy",
         "keysDialog_getFunctionUrl": "Get function URL",
         "keysDialog_key": "Key",
