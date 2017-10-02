@@ -19,7 +19,7 @@ namespace AzureFunctions.ResourcesPortal {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -286,15 +286,6 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure Functions Proxies are currently disabled. To enable, visit.
-        /// </summary>
-        internal static string apiProxies_warningOff {
-            get {
-                return ResourceManager.GetString("apiProxies_warningOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All methods.
         /// </summary>
         internal static string apiProxy_allMethods {
@@ -466,20 +457,11 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
+        ///   Looks up a localized string similar to Proxies has been enabled. To disable again, delete or disable all individual proxies..
         /// </summary>
-        internal static string appFunctionSettings_proxyRuntimeVersion1 {
+        internal static string appFunctionSettings_proxyEnabled {
             get {
-                return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Proxy runtime version: latest ({{latestExtensionVersion}}).
-        /// </summary>
-        internal static string appFunctionSettings_proxyRuntimeVersion2 {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion2", resourceCulture);
+                return ResourceManager.GetString("appFunctionSettings_proxyEnabled", resourceCulture);
             }
         }
         
@@ -4260,6 +4242,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string japanwest {
             get {
                 return ResourceManager.GetString("japanwest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Java on Azure Functions Quickstart.
+        /// </summary>
+        internal static string java_splash_button {
+            get {
+                return ResourceManager.GetString("java_splash_button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Java Functions can be built, tested and deployed locally from your machine. No portal required!.
+        /// </summary>
+        internal static string java_splash_line_1 {
+            get {
+                return ResourceManager.GetString("java_splash_line_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click below to get started with documentation on how to build your first Azure Function with Java..
+        /// </summary>
+        internal static string java_splash_line_2 {
+            get {
+                return ResourceManager.GetString("java_splash_line_2", resourceCulture);
             }
         }
         

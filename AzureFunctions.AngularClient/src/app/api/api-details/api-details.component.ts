@@ -16,7 +16,6 @@ import { ProxiesNode } from '../../tree-view/proxies-node';
 import { AppNode } from '../../tree-view/app-node';
 import { ProxyNode } from '../../tree-view/proxy-node';
 import { FunctionApp } from '../../shared/function-app';
-import { Constants } from '../../shared/models/constants';
 import { AiService } from '../../shared/services/ai.service';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 
@@ -30,7 +29,6 @@ export class ApiDetailsComponent implements OnDestroy {
     complexForm: FormGroup;
     isMethodsVisible = false;
     proxyUrl: string;
-    isEnabled: boolean;
 
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
@@ -77,9 +75,6 @@ export class ApiDetailsComponent implements OnDestroy {
 
                 this._globalStateService.clearBusyState();
                 this.apiProxies = r.proxies;
-
-                const routingVersion = r.appSettings.properties[Constants.routingExtensionVersionAppSettingName];
-                this.isEnabled = (routingVersion && (routingVersion !== Constants.disabled));
             });
     }
 

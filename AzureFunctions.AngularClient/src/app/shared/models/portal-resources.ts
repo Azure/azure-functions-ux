@@ -287,10 +287,7 @@ export class PortalResources
     public static appFunctionSettings_functionAppSettings1: string = "appFunctionSettings_functionAppSettings1";
     public static appFunctionSettings_functionAppSettings2: string = "appFunctionSettings_functionAppSettings2";
     public static appFunctionSettings_apiProxies: string = "appFunctionSettings_apiProxies";
-    public static appFunctionSettings_proxyRuntimeVersion1: string = "appFunctionSettings_proxyRuntimeVersion1";
-    public static appFunctionSettings_proxyRuntimeVersion2: string = "appFunctionSettings_proxyRuntimeVersion2";
     public static appFunctionSettings_useApiProxies: string = "appFunctionSettings_useApiProxies";
-    public static apiProxies_warningOff: string = "apiProxies_warningOff";
     public static sideBar_changeMadeApiProxy: string = "sideBar_changeMadeApiProxy";
     public static apiProxy_alreadyExists: string = "apiProxy_alreadyExists";
     public static slots_warningOff: string = "slots_warningOff";
@@ -730,7 +727,11 @@ export class PortalResources
     public static extension_integrate_warning: string = "extension_integrate_warning";
     public static extension_template_warning: string = "extension_template_warning";
     public static installingExtension: string = "installingExtension";
-    public static functionAppSettings_quotaPlaceHolder: string = "functionAppSettings_quotaPlaceHolder";
     public static failedToInstallFunctionRuntimeExtensionForId: string = "failedToInstallFunctionRuntimeExtensionForId";
+    public static functionAppSettings_quotaPlaceHolder: string = "functionAppSettings_quotaPlaceHolder";
+    public static java_splash_line_1: string = "java_splash_line_1";
+    public static java_splash_line_2: string = "java_splash_line_2";
+    public static appFunctionSettings_proxyEnabled: string = "appFunctionSettings_proxyEnabled";
+    public static java_splash_button: string = "java_splash_button";
 }
 

@@ -1,4 +1,9 @@
 <div id="function-runtime-container">
+
+    <div *ngIf="showProxyEnabledWarning" class="alert alert-warning alert-dismissible" role="alert">
+      {{ 'appFunctionSettings_proxyEnabled' | translate }}
+    </div>
+
     <div *ngIf="site?.properties?.sku === 'Dynamic'" class="setting-wrapper">
         <label id="dailyUsageQuotaLabel" class="title-label">{{ 'functionAppSettings_dailyUsageQuota' | translate }}
             <pop-over [message]="( 'functionAppSettings_dailyUsageQuotaHelp' | translate )" [position]="'bottom'">
@@ -92,13 +97,13 @@
         </div>
     </div>
 
-    <div class="setting-wrapper">
+    <div class="setting-wrapper" *ngIf="showProxyEnable">
         <label id="apiProxiesLabel" class="title-label">{{ 'appFunctionSettings_apiProxies' | translate }}</label>
         <div>
             <label id="apiProxiesLabel1" class="title-spacing">{{ 'appFunctionSettings_useApiProxies' | translate }}</label>
             <div>
                 <radio-selector 
-                    [defaultValue]="apiProxiesEnabled"
+                    [defaultValue]="!showProxyEnable"
                     [options]="functionStatusOptions"
                     (value)="proxySettingValueStream.next($event)" 
                     (keydown)="keyDown($event, 'proxySettingValue')"
@@ -106,25 +111,7 @@
                     id="apiProxiesRadioButton"
                     aria-labelledby="apiProxiesLabel1 apiProxiesRadioButton">
                 </radio-selector>
-            </div>
-            <ng-container *ngIf="apiProxiesEnabled">
-                <label *ngIf="!needUpdateRoutingExtensionVersion">
-                    {{ 'appFunctionSettings_proxyRuntimeVersion2' | translate: {latestExtensionVersion:latestRoutingExtensionVersion} }}
-                </label>
-                <div *ngIf="needUpdateRoutingExtensionVersion">
-                    <label id="proxyRuntimeUpdateLabel">
-                        {{ 'appFunctionSettings_proxyRuntimeVersion1' | translate: {extensionVersion: routingExtensionVersion, latestExtensionVersion:latestRoutingExtensionVersion} }}
-                    </label>
-                    <button 
-                        class="custom-button" 
-                        (click)="updateRoutingExtensionVersion()" 
-                        tabindex="0"
-                        id="proxyRuntimeUpdateButton"
-                        aria-labelledby="proxyRuntimeUpdateLabel proxyRuntimeUpdateButton">
-                        {{ 'update' | translate }}
-                    </button>
-                </div>
-            </ng-container>
+        </div>
         </div>
     </div>
 
