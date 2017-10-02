@@ -16,10 +16,6 @@
 
   <form [formGroup]="complexForm">
 
-    <div *ngIf="!isEnabled" class="alert alert-warning alert-dismissible" role="alert">
-      {{ 'apiProxies_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
-    </div>
-
     <div class="edit">
 
       <label class="control-label">
