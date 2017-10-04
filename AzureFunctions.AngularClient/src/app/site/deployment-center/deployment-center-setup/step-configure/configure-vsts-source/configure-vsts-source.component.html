@@ -52,35 +52,21 @@
       </div>
     </div>
 
+    <div *ngIf="chosenBuildFramework!=='AspNetWap' && chosenBuildFramework!=='AspNetCore'">
 
-
-    <div class="setting-wrapper" *ngIf="showWorkingDirectory">
+      <div class="setting-wrapper" *ngIf="showWorkingDirectory">
         <div class="setting-label"> Working Directory
           <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
           </pop-over>
         </div>
         <div class="setting-control-container">
-            <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
+          <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
         </div>
       </div>
 
-      <div class="setting-wrapper">
-          <div class="setting-label"> Task Runner
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
-          <div class="setting-control-container">
-            <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
-              [highlightDirty]="true">
-            </drop-down>
-          </div>
-        </div>
-
-<!-- Python -->
-    <div class="setting-wrapper">
-        <div class="setting-label"> Python Framework
+      <div class="setting-wrapper" *ngIf="chosenBuildFramework==='Node'">
+        <div class="setting-label"> Task Runner
           <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
           </pop-over>
@@ -92,7 +78,22 @@
         </div>
       </div>
 
-      <div class="setting-wrapper">
+      <!-- Python -->
+      <div *ngIf="chosenBuildFramework==='Python'">
+        <div class="setting-wrapper">
+          <div class="setting-label"> Python Framework
+            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+              <span class="glyphicon glyphicon-info-sign button-title"></span>
+            </pop-over>
+          </div>
+          <div class="setting-control-container">
+            <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
+              [highlightDirty]="true">
+            </drop-down>
+          </div>
+        </div>
+
+        <div class="setting-wrapper">
           <div class="setting-label"> Python Version
             <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
               <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -105,28 +106,29 @@
           </div>
         </div>
 
-          <div class="setting-wrapper">
-              <div class="setting-label"> Django Settings Module
-                <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-                  <span class="glyphicon glyphicon-info-sign button-title"></span>
-                </pop-over>
-              </div>
-              <div class="setting-control-container">
-                  <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
-              </div>
-            </div>
+        <div class="setting-wrapper">
+          <div class="setting-label"> Django Settings Module
+            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+              <span class="glyphicon glyphicon-info-sign button-title"></span>
+            </pop-over>
+          </div>
+          <div class="setting-control-container">
+            <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
+          </div>
+        </div>
 
-            <div class="setting-wrapper">
-                <div class="setting-label"> Flask project name
-                  <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-                    <span class="glyphicon glyphicon-info-sign button-title"></span>
-                  </pop-over>
-                </div>
-                <div class="setting-control-container">
-                    <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
-                </div>
-              </div>
-<!---->
-
+        <div class="setting-wrapper">
+          <div class="setting-label"> Flask project name
+            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+              <span class="glyphicon glyphicon-info-sign button-title"></span>
+            </pop-over>
+          </div>
+          <div class="setting-control-container">
+            <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
+          </div>
+        </div>
+      </div>
+      <!---->
+    </div>
   </div>
 </div>
