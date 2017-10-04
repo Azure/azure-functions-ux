@@ -148,7 +148,7 @@
         </div>
     </div>
 
-    <div *ngIf="!slotsEnabled" class="setting-wrapper">
+    <div class="setting-wrapper">
         <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
         <p>{{ 'appFunctionSettings_slotsDesc' | translate }}</p>
         <div class="alert alert-warning">
@@ -164,18 +164,18 @@
             </div>
         </div>
         <div>
-            <radio-selector 
-                [defaultValue]="slotsEnabled" 
-                [options]="slotsStatusOptions" 
-                (value)="slotsValueChange.next($event)" 
-                tabindex="0" 
+            <radio-selector
+                [disabled]="slotsEnabled"
+                [defaultValue]="slotsEnabled"
+                [options]="slotsStatusOptions"
+                (value)="slotsValueChange.next($event)"
+                tabindex="0"
                 (keydown)="keyDown($event, 'slotsValueChange')"
                 id="slotEnableRadioButton"
                 aria-labelledby="slotEnableLabel slotEnableRadioButton">
             </radio-selector>
         </div>
     </div>
-
 
     <function-keys
         [autoSelect]="true"
