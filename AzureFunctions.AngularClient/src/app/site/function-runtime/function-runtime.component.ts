@@ -75,7 +75,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public slotsStatusOptions: SelectOption<boolean>[];
   public slotsAppSetting: string;
   public slotsEnabled: boolean;
-  private slotsValueChange: Subject<boolean>;
+  public slotsValueChange: Subject<boolean>;
   private _busyManager: BusyStateScopeManager;
 
   constructor(
