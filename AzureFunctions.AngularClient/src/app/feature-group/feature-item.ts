@@ -70,7 +70,7 @@ export class DisableableFeature extends FeatureItem {
                 if (!this.enabled) {
                     this.warning = info.disableMessage;
                 }
-            })
+            });
         }
     }
 
