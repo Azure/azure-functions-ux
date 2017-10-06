@@ -1,0 +1,96 @@
+<div class="settings-group-wrapper">
+
+  <h3>{{ 'feature_virtualDirectoriesName' | translate }}</h3>
+
+  <div class="settings-wrapper">
+
+    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
+    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #virtualDirectoriesTable>
+
+      <!-- Data/Content Rows -->
+      <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each virtual application or directory returned (if any) -->
+      <tr *ngFor="let group of virtualDirectoriesTable.items">
+        <td class="one-half-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+          <click-to-edit [group]="group" name="virtualPath">
+
+            <textbox [control]="group.controls['virtualPath']" [placeholder]="Resources.enterVirtualPath | translate"></textbox>
+
+          </click-to-edit>
+        </td>
+
+        <td class="one-half-col padded-col">
+          <click-to-edit [group]="group" name="physicalPath">
+
+            <textbox [control]="group.controls['physicalPath']" [placeholder]="Resources.enterPhysicalPath | translate"></textbox>
+
+          </click-to-edit>
+        </td>
+
+        <td class="is-app-col padded-col">
+          <label>
+            <input [formControl]="group.controls['isApplication']" type="checkbox">
+            {{ 'isApplication' | translate }}
+          </label>
+        </td>
+
+        <td class="action-col">
+          <span class="fa fa-times delete" (click)="deleteVirtualDirectory(group)"></span>
+        </td>
+      </tr>
+
+      <!-- Placeholder/Message Row -->
+      <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+      <tr *ngIf="!groupArray || (!!groupArray && virtualDirectoriesTable.items.length === 0)">
+
+        <!-- ARM call did not return successfully, and user has permissions -->
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4">
+          {{ (loadingFailureMessage || loadingMessage) }}
+        </td>
+
+        <!-- ARM call did not return successfully, and user doesn't have permissions -->
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4">
+          {{ showPermissionsMessage ? permissionsMessage : '' }}
+        </td>
+
+        <!-- ARM call returned successfully, but there are no entries to display -->
+        <td *ngIf="!!groupArray && virtualDirectoriesTable.items.length === 0" class="message-row" colspan="4">
+          {{ ('emptyVirtualDirectories' | translate) }}
+        </td>
+
+      </tr>
+
+    </tbl>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
+    <!-- If ARM call returned successfully user has write permissions, display 'add' link -->
+    <div *ngIf="!!groupArray && hasWritePermissions" class="link add-setting" (click)="addVirtualDirectory()">
+      {{ 'addNewVirtualDirectory' | translate }}
+    </div>
+
+    <!-- If ARM call did not return successfully or user does not have write permissions, display 'add' link disabled -->
+    <div *ngIf="!groupArray || !hasWritePermissions" class="disabled-link add-setting">
+      {{ 'addNewVirtualDirectory' | translate }}
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- ---------------------------------------------------------- SHIELD ---------------------------------------------------------- -->
+    <div *ngIf="!groupArray || !hasWritePermissions" class="shield">
+      <div *ngIf="!groupArray && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+        {{ loadingFailureMessage }}
+      </div>
+    </div>
+
+    <div *ngIf="!hasWritePermissions" class="shield transparent">
+      <div *ngIf="showPermissionsMessage" class="shield-message">
+        <p>{{ permissionsMessage }}</p>
+        <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
+      </div>
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+  </div>
+
+</div>
