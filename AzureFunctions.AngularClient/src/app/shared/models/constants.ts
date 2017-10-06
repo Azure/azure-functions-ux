@@ -188,6 +188,7 @@ export class LogCategories {
     public static readonly connectionStrings = 'ConnectionStrings';
     public static readonly defaultDocuments = 'DefaultDocuments';
     public static readonly handlerMappings = 'HandlerMappings';
+    public static readonly virtualDirectories = 'VirtualDirectories';
 }
 
 export class KeyCodes {

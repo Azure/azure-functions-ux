@@ -16,6 +16,7 @@ import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
 import { DefaultDocumentsComponent } from './default-documents/default-documents.component';
 import { HandlerMappingsComponent } from './handler-mappings/handler-mappings.component';
+import { VirtualDirectoriesComponent } from './virtual-directories/virtual-directories.component';
 import { PortalService } from './../../shared/services/portal.service';
 import { AuthzService } from './../../shared/services/authz.service';
 import { SiteTabIds } from './../../shared/models/constants';
@@ -43,6 +44,7 @@ export class SiteConfigComponent implements OnDestroy {
   public mainForm: FormGroup;
   private _valueSubscription: RxSubscription;
   public resourceId: string;
+  public resourceType: string;
 
   private _busyManager: BusyStateScopeManager;
 
@@ -55,6 +57,7 @@ export class SiteConfigComponent implements OnDestroy {
   @ViewChild(ConnectionStringsComponent) connectionStrings: ConnectionStringsComponent;
   @ViewChild(DefaultDocumentsComponent) defaultDocuments: DefaultDocumentsComponent;
   @ViewChild(HandlerMappingsComponent) handlerMappings: HandlerMappingsComponent;
+  @ViewChild(VirtualDirectoriesComponent) virtualDirectories: VirtualDirectoriesComponent;
 
   private _site: ArmObj<Site>;
 
@@ -177,7 +180,8 @@ export class SiteConfigComponent implements OnDestroy {
       this.appSettings.validate(),
       this.connectionStrings.validate(),
       this.defaultDocuments.validate(),
-      this.handlerMappings.validate()
+      this.handlerMappings.validate(),
+      this.virtualDirectories.validate()
     ];
 
     if (!this.mainForm.valid) {
@@ -211,12 +215,14 @@ export class SiteConfigComponent implements OnDestroy {
             this.connectionStrings.save(),
             this.defaultDocuments.save(),
             this.handlerMappings.save(),
-            (g, a, c, d, h) => ({ 
+            this.virtualDirectories.save(),
+            (g, a, c, d, h, v) => ({
               generalSettingsResult: g,
               appSettingsResult: a,
               connectionStringsResult: c,
               defaultDocumentsResult: d,
-              handlerMappingsResult: h
+              handlerMappingsResult: h,
+              virtualDirectoriesResult: v
             })
           );
         })
@@ -235,7 +241,8 @@ export class SiteConfigComponent implements OnDestroy {
             r.appSettingsResult,
             r.connectionStringsResult,
             r.defaultDocumentsResult,
-            r.handlerMappingsResult
+            r.handlerMappingsResult,
+            r.virtualDirectoriesResult
           ];
           const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
           const saveSuccess: boolean = saveFailures.length === 0;

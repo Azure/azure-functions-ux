@@ -223,6 +223,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + Add new virtual application or directory.
+        /// </summary>
+        internal static string addNewVirtualDirectory {
+            get {
+                return ResourceManager.GetString("addNewVirtualDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to + Add new connection string.
         /// </summary>
         internal static string addNewConnectionString {
@@ -1609,6 +1618,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter virtual path.
+        /// </summary>
+        internal static string enterVirtualPath {
+            get {
+                return ResourceManager.GetString("enterVirtualPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter physical path.
+        /// </summary>
+        internal static string enterPhysicalPath {
+            get {
+                return ResourceManager.GetString("enterPhysicalPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
+        internal static string isApplication {
+            get {
+                return ResourceManager.GetString("isApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The application is offline. Please check your internet connection..
         /// </summary>
         internal static string error_appOffline {
@@ -2401,6 +2437,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Virtual applications and directories.
+        /// </summary>
+        internal static string feature_virtualDirectoriesName {
+            get {
+                return ResourceManager.GetString("feature_virtualDirectoriesName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to App Service Editor provides an in-browser editing experience for your code..
         /// </summary>
         internal static string feature_appServiceEditorInfo {
@@ -2685,6 +2730,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string emptyHandlerMappings {
             get {
                 return ResourceManager.GetString("emptyHandlerMappings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no virtual applications or directories to display)
+        /// </summary>
+        internal static string emptyVirtualDirectories {
+            get {
+                return ResourceManager.GetString("emptyVirtualDirectories", resourceCulture);
             }
         }
         
