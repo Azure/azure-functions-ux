@@ -205,6 +205,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + Add new document.
+        /// </summary>
+        internal static string addNewDocument {
+            get {
+                return ResourceManager.GetString("addNewDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to + Add new connection string.
         /// </summary>
         internal static string addNewConnectionString {
@@ -2338,6 +2347,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default documents.
+        /// </summary>
+        internal static string feature_defaultDocumentsName {
+            get {
+                return ResourceManager.GetString("feature_defaultDocumentsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to App Service Editor provides an in-browser editing experience for your code..
         /// </summary>
         internal static string feature_appServiceEditorInfo {
@@ -2595,6 +2613,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string emptyConnectionStrings {
             get {
                 return ResourceManager.GetString("emptyConnectionStrings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no default documents to display)
+        /// </summary>
+        internal static string emptyDefaultDocuments {
+            get {
+                return ResourceManager.GetString("emptyDefaultDocuments", resourceCulture);
             }
         }
         
