@@ -1645,6 +1645,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Slot Setting.
+        /// </summary>
+        internal static string isSlotSetting {
+            get {
+                return ResourceManager.GetString("isSlotSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The application is offline. Please check your internet connection..
         /// </summary>
         internal static string error_appOffline {

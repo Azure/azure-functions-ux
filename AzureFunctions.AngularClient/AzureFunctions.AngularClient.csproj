@@ -511,6 +511,7 @@
     <TypeScriptCompile Include="src\app\shared\models\arm\permission.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\site-config.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\site.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\slot-config-names.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\virtual-application.ts" />
     <TypeScriptCompile Include="src\app\shared\models\binding-input-list.ts" />
     <TypeScriptCompile Include="src\app\shared\models\binding-input.ts" />

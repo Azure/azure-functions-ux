@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SaveOrValidationResult } from './../site-config.component';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
@@ -15,6 +16,7 @@ import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to
 import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
@@ -41,6 +43,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _uniqueAppSettingValidator: UniqueValidator;
 
   private _appSettingsArm: ArmObj<any>;
+  private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
 
   public loadingFailureMessage: string;
   public loadingMessage: string;
@@ -48,6 +51,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   @Input() mainForm: FormGroup;
 
   @Input() resourceId: string;
+  private _slotConfigNamesArmPath: string;
 
   constructor(
     private _cacheService: CacheService,
@@ -68,8 +72,11 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._busyManager.setBusy();
         this._saveError = null;
         this._appSettingsArm = null;
+        this._slotConfigNamesArm = null;
         this.groupArray = null;
         this._resetPermissionsAndLoadingState();
+        this._slotConfigNamesArmPath =
+          `${SiteDescriptor.getSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
         return Observable.zip(
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
           this._authZService.hasReadOnlyLock(this.resourceId),
@@ -82,12 +89,14 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           Observable.of(this.hasWritePermissions),
           this.hasWritePermissions ?
             this._cacheService.postArm(`${this.resourceId}/config/appSettings/list`, true) : Observable.of(null),
-          (h, c) => ({ hasWritePermissions: h, appSettingsResponse: c })
+          this.hasWritePermissions ?
+            this._cacheService.getArm(this._slotConfigNamesArmPath, true) : Observable.of(null),
+          (h, a, s) => ({ hasWritePermissions: h, appSettingsResponse: a, slotConfigNamesResponse: s })
         );
       })
       .do(null, error => {
         this._logService.error(LogCategories.appSettings, '/app-settings', error);
-        this._setupForm(null);
+        this._setupForm(null, null);
         this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
@@ -97,7 +106,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .subscribe(r => {
         if (r.hasWritePermissions) {
           this._appSettingsArm = r.appSettingsResponse.json();
-          this._setupForm(this._appSettingsArm);
+          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+          this._setupForm(this._appSettingsArm, this._slotConfigNamesArm);
         }
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
@@ -110,7 +120,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       this._resourceIdStream.next(this.resourceId);
     }
     if (changes['mainForm'] && !changes['resourceId']) {
-      this._setupForm(this._appSettingsArm);
+      this._setupForm(this._appSettingsArm, this._slotConfigNamesArm);
     }
   }
 
@@ -143,8 +153,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
 
-  private _setupForm(appSettingsArm: ArmObj<any>) {
-    if (!!appSettingsArm) {
+  private _setupForm(appSettingsArm: ArmObj<any>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
+    if (!!appSettingsArm && !!slotConfigNamesArm) {
       if (!this._saveError || !this.groupArray) {
         this.groupArray = this._fb.array([]);
 
@@ -153,6 +163,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           "name",
           this.groupArray,
           this._translateService.instant(PortalResources.validation_duplicateError));
+
+        const stickyAppSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
 
         for (let name in appSettingsArm.properties) {
           if (appSettingsArm.properties.hasOwnProperty(name)) {
@@ -163,7 +175,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
-              value: [appSettingsArm.properties[name]]
+              value: [appSettingsArm.properties[name]],
+              isSlotSetting: [stickyAppSettingNames.indexOf(name) !== -1]
             }));
           }
         }
@@ -210,13 +223,44 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
       appSettingsArm.properties = {};
 
+      let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+      delete slotConfigNamesArm.properties.connectionStringNames;
+      slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
+      let appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
+
+      // TEMPORARY MITIGATION: Only do PUT on slotConfiNames API if there have been changes.
+      let appSettingNamesModified = false;
+
       for (let i = 0; i < appSettingGroups.length; i++) {
-        appSettingsArm.properties[appSettingGroups[i].value.name] = appSettingGroups[i].value.value;
+        let name = appSettingGroups[i].value.name;
+
+        appSettingsArm.properties[name] = appSettingGroups[i].value.value;
+
+        if (appSettingGroups[i].value.isSlotSetting) {
+          if (appSettingNames.indexOf(name) === -1) {
+            appSettingNames.push(name);
+            appSettingNamesModified = true;
+          }
+        }
+        else {
+          let index = appSettingNames.indexOf(name);
+          if (index !== -1) {
+            appSettingNames.splice(index, 1);
+            appSettingNamesModified = true;
+          }
+        }
       }
 
-      return this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm)
-        .map(appSettingsResponse => {
-          this._appSettingsArm = appSettingsResponse.json();
+      return Observable.zip(
+        this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
+        // TEMPORARY MITIGATION: Only do PUT on slotConfiNames API if there have been changes.
+        appSettingNamesModified ? this._cacheService.putArm(this._slotConfigNamesArmPath, null, slotConfigNamesArm) : Observable.of(null),
+        Observable.of(appSettingNamesModified),
+        (a, s, m) => ({ appSettingsResponse: a, slotConfigNamesResponse: s, appSettingNamesModified: m })
+      )
+        .map(r => {
+          this._appSettingsArm = r.appSettingsResponse.json();
+          this._slotConfigNamesArm = r.appSettingNamesModified ? r.slotConfigNamesResponse.json() : this._slotConfigNamesArm;
           return {
             success: true,
             error: null
@@ -263,7 +307,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
           this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
-      value: [null]
+      value: [null],
+      isSlotSetting: [false]
     });
 
     (<CustomFormGroup>group)._msStartInEditMode = true;

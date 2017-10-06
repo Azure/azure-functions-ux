@@ -28,6 +28,13 @@
           </click-to-edit>
         </td>
 
+        <td class="slot-setting-col padded-col">
+          <label>
+            <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
+            {{ 'isSlotSetting' | translate }}
+          </label>
+        </td>
+
         <td class="action-col">
           <span class="fa fa-times delete" (click)="deleteConnectionString(group)"></span>
         </td>

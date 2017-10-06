@@ -86,6 +86,7 @@ export class PortalResources
     public static enterVirtualPath: string = "enterVirtualPath";
     public static enterPhysicalPath: string = "enterPhysicalPath";
     public static isApplication: string = "isApplication";
+    public static isSlotSetting: string = "isSlotSetting";
     public static hiddenValueClickToShow: string = "hiddenValueClickToShow";
     public static sideBar_changeMade: string = "sideBar_changeMade";
     public static sideBar_newFunction: string = "sideBar_newFunction";
