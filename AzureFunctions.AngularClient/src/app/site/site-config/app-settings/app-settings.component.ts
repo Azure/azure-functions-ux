@@ -23,8 +23,6 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
   styleUrls: ['./../site-config.component.scss']
 })
 export class AppSettingsComponent implements OnChanges, OnDestroy {
-  public debug = false; //for debugging
-
   public Resources = PortalResources;
   public groupArray: FormArray;
 
@@ -44,6 +42,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _appSettingsArm: ArmObj<any>;
 
   public loadingFailureMessage: string;
+  public loadingMessage: string;
 
   @Input() mainForm: FormGroup;
 
@@ -87,8 +86,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       })
       .do(null, error => {
         this._aiService.trackEvent("/errors/app-settings", error);
-        this._setupForm(this._appSettingsArm);
-        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this._setupForm(null);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyManager.clearBusy();
       })
@@ -98,6 +98,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           this._appSettingsArm = r.appSettingsResponse.json();
           this._setupForm(this._appSettingsArm);
         }
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyManager.clearBusy();
       });
@@ -114,7 +115,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     if (this._resourceIdSubscription) {
-      this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
+      this._resourceIdSubscription.unsubscribe();
+      this._resourceIdSubscription = null;
     }
     this._busyManager.clearBusy();
   }
@@ -124,16 +126,15 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     this.permissionsMessage = "";
     this.showPermissionsMessage = false;
     this.loadingFailureMessage = "";
+    this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
     if (!writePermission) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configRequiresWritePermissionOnApp);
-    }
-    else if (readOnlyLock) {
+    } else if (readOnlyLock) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configDisabledReadOnlyLockOnApp);
-    }
-    else {
+    } else {
       this.permissionsMessage = "";
     }
 

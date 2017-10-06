@@ -2,50 +2,18 @@
 
   <h3>{{ 'feature_applicationSettingsName' | translate }}</h3>
 
-  <div *ngIf="!groupArray" class="settings-wrapper">
+  <div class="settings-wrapper">
 
-    <tbl tblClass="tbl fixed stretch">
+    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
+    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #appSettingsTable>
       <tr class="header-row">
         <th class="nameCol"></th>
         <th class="valueCol"></th>
         <th class="actionCol"></th>
       </tr>
 
-      <tr *ngFor="let row of [1]">
-        <td [class.pristine]="true">
-          <textbox [placeholder]="Resources.enterName | translate"></textbox>
-        </td>
-        <td>
-          <textbox [placeholder]="Resources.enterValue | translate"></textbox>
-        </td>
-        <td><span class="fa fa-times delete"></span></td>
-      </tr>
-    </tbl>
-
-    <div class="link add-setting">
-      {{ 'addNewSetting' | translate }}
-    </div>
-
-    <div class="shield">
-      <div *ngIf="hasWritePermissions && !!loadingFailureMessage" class="shield-message">
-        {{loadingFailureMessage}}
-      </div>
-      <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield-message">
-        {{permissionsMessage}}
-      </div>
-    </div>
-
-  </div>
-
-  <div *ngIf="!!groupArray" class="settings-wrapper">
-
-    <tbl tblClass="tbl fixed stretch" [items]="groupArray.controls" #appSettingsTable>
-      <tr class="header-row">
-        <th class="nameCol"></th>
-        <th class="valueCol"></th>
-        <th class="actionCol"></th>
-      </tr>
-
+      <!-- Data/Content Rows -->
+      <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
       <tr *ngFor="let group of appSettingsTable.items">
         <td [class.pristine]="group.pristine" [class.dirty]="group.dirty">
           <click-to-edit [group]="group" name="name">
@@ -67,17 +35,64 @@
           <span class="fa fa-times delete" (click)="deleteAppSetting(group)"></span>
         </td>
       </tr>
-    </tbl>
 
-    <div class="link add-setting" (click)="addAppSetting()">
+      <!-- Placeholder/Message Row -->
+      <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+      <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length === 0)">
+
+        <!-- ARM call did not return successfully, and user has permissions -->
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="3">
+          {{ (loadingFailureMessage || loadingMessage) }}
+        </td>
+
+        <!-- ARM call did not return successfully, and user doesn't have permissions -->
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="3">
+          {{ (showPermissionsMessage) ? permissionsMessage : '' }}
+        </td>
+
+        <!-- ARM call returned successfully, but there are no entries to display -->
+        <td *ngIf="!!groupArray && appSettingsTable.items.length === 0" class="message-row" colspan="3">
+          {{ ('emptyAppSettings' | translate) }}
+        </td>
+
+      </tr>
+
+    </tbl>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
+    <!-- If ARM call returned successfully user has write permissions, display 'add' link -->
+    <div *ngIf="!!groupArray && hasWritePermissions" class="link add-setting" (click)="addAppSetting()">
       {{ 'addNewSetting' | translate }}
     </div>
 
-    <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield">
-      <div class="shield-message">
-        {{permissionsMessage}}
+    <!-- If ARM call did not return successfully or user does not have write permissions, display 'add' link disabled -->
+    <div *ngIf="!groupArray || !hasWritePermissions" class="disabled-link add-setting">
+      {{ 'addNewSetting' | translate }}
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- ---------------------------------------------------------- SHIELD ---------------------------------------------------------- -->
+    <!-- If ARM call has not returned yet or ARM call failed, show shield -->
+    <!-- If ARM call did not return successfully, show approriate shield message based on permissions -->
+    <div *ngIf="!groupArray" class="shield">
+      <div *ngIf="hasWritePermissions && !!loadingFailureMessage" class="shield-message">
+        {{ loadingFailureMessage }}
+      </div>
+      <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield-message">
+        {{ permissionsMessage }}
       </div>
     </div>
+
+    <!-- If ARM call returned successfully, show shield and shield message if necessary based on permissions -->
+    <div *ngIf="!!groupArray && !hasWritePermissions && showPermissionsMessage" class="shield">
+      <div class="shield-message">
+        {{ permissionsMessage }}
+      </div>
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 
   </div>
 
