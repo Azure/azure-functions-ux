@@ -1,6 +1,6 @@
 import { Validator, FormArray, FormGroup } from '@angular/forms';
 
-import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
+import { CustomFormGroup, CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 
 /**
  * Used to check if a value is unique in an array of controls.  The layout
@@ -29,7 +29,12 @@ export class UniqueValidator implements Validator {
         let controlVal = this._normalizeValue(control.value);
 
         let match = this._controlsArray.controls.find(group => {
-            let cs = (<FormGroup>group).controls;
+            let customFormGroup = group as CustomFormGroup;
+            if (customFormGroup._msExistenceState === 'deleted') {
+                return null;
+            }
+
+            let cs = (group as FormGroup).controls;
             if (!cs) {
                 throw "Validator requires hierarchy of FormArray -> FormGroup -> FormControl";
             }

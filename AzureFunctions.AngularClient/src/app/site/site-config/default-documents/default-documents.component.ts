@@ -47,6 +47,9 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
   public loadingFailureMessage: string;
   public loadingMessage: string;
 
+  public newItem: CustomFormGroup;
+  public originalItemsDeleted: number;
+
   @Input() mainForm: FormGroup;
 
   @Input() resourceId: string;
@@ -63,6 +66,9 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
 
     this._resetPermissionsAndLoadingState();
 
+    this.newItem = null;
+    this.originalItemsDeleted = 0;
+
     this._resourceIdStream = new Subject<string>();
     this._resourceIdSubscription = this._resourceIdStream
       .distinctUntilChanged()
@@ -71,6 +77,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
         this._saveError = null;
         this._webConfigArm = null;
         this.groupArray = null;
+        this.newItem = null;
+        this.originalItemsDeleted = 0;
         this._resetPermissionsAndLoadingState();
         return Observable.zip(
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
@@ -146,6 +154,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
   private _setupForm(webConfigArm: ArmObj<SiteConfig>) {
     if (!!webConfigArm) {
       if (!this._saveError || !this.groupArray) {
+        this.newItem = null;
+        this.originalItemsDeleted = 0;
         this.groupArray = this._fb.array([]);
 
         this._requiredValidator = new RequiredValidator(this._translateService);
@@ -156,13 +166,16 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
 
         if (webConfigArm.properties.defaultDocuments) {
           webConfigArm.properties.defaultDocuments.forEach(document => {
-            this.groupArray.push(this._fb.group({
+            let group = this._fb.group({
               name: [
                 document,
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueDocumentValidator.validate.bind(this._uniqueDocumentValidator)])]
-            }));
+            }) as CustomFormGroup;
+
+            group._msExistenceState = 'original';
+            this.groupArray.push(group);
           })
         }
       }
@@ -175,6 +188,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
       }
     }
     else {
+      this.newItem = null;
+      this.originalItemsDeleted = 0;
       this.groupArray = null;
       if (this.mainForm.contains("defaultDocs")) {
         this.mainForm.removeControl("defaultDocs");
@@ -185,8 +200,20 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
   }
 
   validate(): SaveOrValidationResult {
-    let defaultDocGroups = this.groupArray.controls;
-    defaultDocGroups.forEach(group => {
+    let groups = this.groupArray.controls;
+
+    // Purge any added entries that were never modified
+    for (let i = groups.length - 1; i >= 0; i--) {
+      let group = groups[i] as CustomFormGroup;
+      if (group._msStartInEditMode && group.pristine) {
+        groups.splice(i, 1);
+        if (group === this.newItem) {
+          this.newItem = null;
+        }
+      }
+    }
+
+    groups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for (let controlName in controls) {
         let control = <CustomFormControl>controls[controlName];
@@ -210,7 +237,9 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
 
       webConfigArm.properties.defaultDocuments = [];
       defaultDocGroups.forEach(group => {
-        webConfigArm.properties.defaultDocuments.push((group as FormGroup).controls["name"].value);
+        if ((group as CustomFormGroup)._msExistenceState !== 'deleted') {
+          webConfigArm.properties.defaultDocuments.push((group as FormGroup).controls["name"].value);
+        }
       })
 
       return this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm)
@@ -244,29 +273,77 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
     return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
   }
 
-  deleteDocument(group: FormGroup) {
-    let defaultDocs = this.groupArray;
-    let index = defaultDocs.controls.indexOf(group);
+  deleteItem(group: FormGroup) {
+    let groups = this.groupArray;
+    let index = groups.controls.indexOf(group);
     if (index >= 0) {
-      defaultDocs.markAsDirty();
-      defaultDocs.removeAt(index);
-      defaultDocs.updateValueAndValidity();
+      if ((group as CustomFormGroup)._msExistenceState === 'original') {
+        this._deleteOriginalItem(groups, group);
+      }
+      else {
+        this._deleteAddedItem(groups, group, index);
+      }
     }
   }
 
-  addDocument() {
-    let defaultDocs = this.groupArray;
-    let group = this._fb.group({
+  private _deleteOriginalItem(groups: FormArray, group: FormGroup) {
+    // Keep the deleted group around with its state set to dirty.
+    // This keeps the overall state of this.groupArray and this.mainForm dirty.
+    group.markAsDirty();
+
+    // Set the group._msExistenceState to 'deleted' so we know to ignore it when validating and saving.
+    (group as CustomFormGroup)._msExistenceState = 'deleted';
+
+    // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
+    for (let key in group.controls) {
+      const control = group.controls[key];
+      control.clearAsyncValidators();
+      control.clearValidators();
+      control.updateValueAndValidity();
+    }
+
+    this.originalItemsDeleted++;
+
+    groups.updateValueAndValidity();
+  }
+
+  private _deleteAddedItem(groups: FormArray, group: FormGroup, index: number) {
+    // Remove group from groups
+    groups.removeAt(index);
+    if (group === this.newItem) {
+      this.newItem = null;
+    }
+
+    // If group was dirty, then groups is also dirty.
+    // If all the remaining controls in groups are pristine, mark groups as pristine.
+    if (!group.pristine) {
+      let pristine = true;
+      for (let control of groups.controls) {
+        pristine = pristine && control.pristine;
+      }
+
+      if (pristine) {
+        groups.markAsPristine();
+      }
+    }
+
+    groups.updateValueAndValidity();
+  }
+
+  addItem() {
+    let groups = this.groupArray;
+
+    this.newItem = this._fb.group({
       name: [
         null,
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
           this._uniqueDocumentValidator.validate.bind(this._uniqueDocumentValidator)])],
       value: [null]
-    });
+    }) as CustomFormGroup;
 
-    (<CustomFormGroup>group)._msStartInEditMode = true;
-    defaultDocs.markAsDirty();
-    defaultDocs.push(group);
+    this.newItem._msExistenceState = 'new';
+    this.newItem._msStartInEditMode = true;
+    groups.push(this.newItem);
   }
 }

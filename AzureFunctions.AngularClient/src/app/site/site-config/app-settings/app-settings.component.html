@@ -9,7 +9,8 @@
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
-      <tr *ngFor="let group of appSettingsTable.items">
+      <tr *ngFor="let group of appSettingsTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+
         <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
           <click-to-edit [group]="group" name="name">
 
@@ -27,20 +28,25 @@
         </td>
 
         <td class="slot-setting-col padded-col">
-          <label>
-            <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
-            {{ 'isSlotSetting' | translate }}
-          </label>
+          <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
+
+            <label>
+              <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
+              {{ 'isSlotSetting' | translate }}
+            </label>
+
+          </click-to-edit>
         </td>
 
         <td class="action-col">
-          <span class="fa fa-times delete" (click)="deleteAppSetting(group)"></span>
+          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
         </td>
+
       </tr>
 
       <!-- Placeholder/Message Row -->
       <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length === 0)">
+      <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0)">
 
         <!-- ARM call did not return successfully, and user has permissions -->
         <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="3">
@@ -53,7 +59,7 @@
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && appSettingsTable.items.length === 0" class="message-row" colspan="3">
+        <td *ngIf="!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3">
           {{ ('emptyAppSettings' | translate) }}
         </td>
 
@@ -64,13 +70,13 @@
 
 
     <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
-    <!-- If ARM call returned successfully user has write permissions, display 'add' link -->
-    <div *ngIf="!!groupArray && hasWritePermissions" class="link add-setting" (click)="addAppSetting()">
+    <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
+    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" class="link add-setting" (click)="addItem()">
       {{ 'addNewSetting' | translate }}
     </div>
 
-    <!-- If ARM call did not return successfully or user does not have write permissions, display 'add' link disabled -->
-    <div *ngIf="!groupArray || !hasWritePermissions" class="disabled-link add-setting">
+    <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
+    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" class="disabled-link add-setting">
       {{ 'addNewSetting' | translate }}
     </div>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->

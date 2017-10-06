@@ -9,7 +9,8 @@
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each connection string returned (if any) -->
-      <tr *ngFor="let group of connectionStringsTable.items">
+      <tr *ngFor="let group of connectionStringsTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+
         <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
           <click-to-edit [group]="group" name="name">
             <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
@@ -29,20 +30,25 @@
         </td>
 
         <td class="slot-setting-col padded-col">
-          <label>
-            <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
-            {{ 'isSlotSetting' | translate }}
-          </label>
+          <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
+
+            <label>
+              <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
+              {{ 'isSlotSetting' | translate }}
+            </label>
+
+          </click-to-edit>
         </td>
 
         <td class="action-col">
-          <span class="fa fa-times delete" (click)="deleteConnectionString(group)"></span>
+          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
         </td>
+
       </tr>
 
       <!-- Placeholder/Message Row -->
       <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && connectionStringsTable.items.length === 0)">
+      <tr *ngIf="!groupArray || (!!groupArray && connectionStringsTable.items.length - originalItemsDeleted === 0)">
 
         <!-- ARM call did not return successfully, and user has permissions -->
         <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4">
@@ -55,7 +61,7 @@
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && connectionStringsTable.items.length === 0" class="message-row" colspan="4">
+        <td *ngIf="!!groupArray && connectionStringsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4">
           {{ ('emptyConnectionStrings' | translate) }}
         </td>
 
@@ -66,13 +72,13 @@
 
 
     <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
-    <!-- If ARM call returned successfully user has write permissions, display 'add' link -->
-    <div *ngIf="!!groupArray && hasWritePermissions" class="link add-setting" (click)="addConnectionString()">
+    <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
+    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" class="link add-setting" (click)="addItem()">
       {{ 'addNewConnectionString' | translate }}
     </div>
 
-    <!-- If ARM call did not return successfully or user does not have write permissions, display 'add' link disabled -->
-    <div *ngIf="!groupArray || !hasWritePermissions" class="disabled-link add-setting">
+    <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
+    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" class="disabled-link add-setting">
       {{ 'addNewConnectionString' | translate }}
     </div>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->

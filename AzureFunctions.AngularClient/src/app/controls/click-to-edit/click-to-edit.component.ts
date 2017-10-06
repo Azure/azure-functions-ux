@@ -16,6 +16,8 @@ export class CustomFormGroup extends FormGroup {
 
   // Overrides the ClickToEdit default behavior to start in edit mode for new items
   public _msStartInEditMode: boolean;
+
+  public _msExistenceState: 'original' | 'new' | 'deleted' = 'original';
 }
 
 export class CustomFormControl extends FormControl {
@@ -36,6 +38,10 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() placeholder: string;
   @Input() hiddenText: boolean;
 
+  // This allows for a given control to affect the state of other controls in the group while not actually being "click-to-edit-able" itself.
+  // (i.e. The control's own editable/non-editable state is not affected by the extended fields in the CustomFormGroup its associated with.)
+  @Input() alwaysShow: boolean;
+
   @ViewChild('target') target: ElementRef;
 
   @ContentChild(TextboxComponent) textbox: TextboxComponent;
@@ -53,23 +59,23 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this._targetFocusState = 'blurred';
 
-    this.control = <CustomFormControl>this.group.controls[this.name];
+    this.control = this.group.controls[this.name] as CustomFormControl;
 
-    const group = <CustomFormGroup>this.group;
+    const group = this.group as CustomFormGroup;
     if (!group._msShowTextbox) {
       group._msShowTextbox = new Subject<boolean>();
     }
 
     this._sub = group._msShowTextbox.subscribe(showTextbox => {
-      this.showTextbox = showTextbox;
-      if (this.showTextbox && (<CustomFormGroup>this.group)._msFocusedControl === this.name) {
+      this.showTextbox = showTextbox || this.alwaysShow || (group._msStartInEditMode && group.pristine);
+      if (this.showTextbox && (this.group as CustomFormGroup)._msFocusedControl === this.name) {
         setTimeout(() => {
           this._focusChild();
         });
       }
     });
 
-    if ((<CustomFormGroup>group)._msStartInEditMode) {
+    if (group._msStartInEditMode || this.alwaysShow) {
       this.showTextbox = true;
     }
   }
@@ -116,8 +122,13 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _onTargetBlur() {
-    this.control._msRunValidation = true;
-    this.control.updateValueAndValidity();
+    if (!this.group.pristine) {
+      for (let name in this.group.controls) {
+        const control = this.group.controls[name] as CustomFormControl;
+        control._msRunValidation = true;
+        control.updateValueAndValidity();
+      }
+    }
 
     if (this.group.valid) {
 
@@ -134,7 +145,7 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected _updateShowTextbox(show: boolean) {
-    const group = <CustomFormGroup>this.group;
+    const group = this.group as CustomFormGroup;
 
     if (show) {
       group._msFocusedControl = this.name;
