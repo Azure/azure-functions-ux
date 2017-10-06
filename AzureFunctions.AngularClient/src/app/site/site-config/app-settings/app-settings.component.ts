@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +14,7 @@ import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj } from './../../../shared/models/arm/arm-obj';
+import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -244,20 +245,21 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     };
   }
 
-  save(): Observable<SaveOrValidationResult> {
+  getConfigForSave(): ArmObjMap {
+    let configObjects: ArmObjMap = {
+      objects: {}
+    };
+
     let appSettingGroups = this.groupArray.controls;
 
     if (this.mainForm.contains("appSettings") && this.mainForm.controls["appSettings"].valid) {
       let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
       appSettingsArm.properties = {};
 
+      this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
       let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-      delete slotConfigNamesArm.properties.connectionStringNames;
       slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
       let appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
-
-      // TEMPORARY MITIGATION: Only do PUT on slotConfiNames API if there have been changes.
-      let appSettingNamesModified = false;
 
       for (let i = 0; i < appSettingGroups.length; i++) {
         if ((appSettingGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
@@ -268,50 +270,51 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           if (appSettingGroups[i].value.isSlotSetting) {
             if (appSettingNames.indexOf(name) === -1) {
               appSettingNames.push(name);
-              appSettingNamesModified = true;
             }
           }
           else {
             let index = appSettingNames.indexOf(name);
             if (index !== -1) {
               appSettingNames.splice(index, 1);
-              appSettingNamesModified = true;
             }
           }
         }
       }
 
-      return Observable.zip(
-        this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
-        // TEMPORARY MITIGATION: Only do PUT on slotConfiNames API if there have been changes.
-        appSettingNamesModified ? this._cacheService.putArm(this._slotConfigNamesArmPath, null, slotConfigNamesArm) : Observable.of(null),
-        Observable.of(appSettingNamesModified),
-        (a, s, m) => ({ appSettingsResponse: a, slotConfigNamesResponse: s, appSettingNamesModified: m })
-      )
-        .map(r => {
-          this._appSettingsArm = r.appSettingsResponse.json();
-          this._slotConfigNamesArm = r.appSettingNamesModified ? r.slotConfigNamesResponse.json() : this._slotConfigNamesArm;
-          return {
-            success: true,
-            error: null
-          };
-        })
-        .catch(error => {
-          this._saveError = error._body;
-          return Observable.of({
-            success: false,
-            error: error._body
-          });
-        });
+      configObjects["slotConfigNames"] = slotConfigNamesArm;
+      configObjects["appSettings"] = appSettingsArm;
     }
     else {
-      let failureMessage = this._validationFailureMessage();
-      this._saveError = failureMessage;
-      return Observable.of({
-        success: false,
-        error: failureMessage
-      });
+      configObjects.error = this._validationFailureMessage();
     }
+
+    return configObjects;
+  }
+
+  save(
+    appSettingsArm: ArmObj<any>,
+    slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
+
+    return Observable.zip(
+      this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
+      Observable.of(slotConfigNamesResponse),
+      (a, s) => ({ appSettingsResponse: a, slotConfigNamesResponse: s })
+    )
+      .map(r => {
+        this._appSettingsArm = r.appSettingsResponse.json();
+        this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+        return {
+          success: true,
+          error: null
+        };
+      })
+      .catch(error => {
+        this._saveError = error._body;
+        return Observable.of({
+          success: false,
+          error: error._body
+        });
+      });
   }
 
   private _validationFailureMessage(): string {

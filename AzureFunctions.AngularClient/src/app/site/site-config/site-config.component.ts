@@ -1,6 +1,6 @@
 import { CacheService } from 'app/shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
-import { ArmObj } from './../../shared/models/arm/arm-obj';
+import { ArmObj, ArmObjMap } from './../../shared/models/arm/arm-obj';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -186,18 +186,47 @@ export class SiteConfigComponent implements OnDestroy {
     this.virtualDirectories.validate();
 
     if (this.mainForm.valid) {
+
       this._busyManager.setBusy();
       let notificationId = null;
+      let saveAttempted = false;
+
       this._portalService.startNotification(
         this._translateService.instant(PortalResources.configUpdating),
         this._translateService.instant(PortalResources.configUpdating))
         .first()
         .switchMap(s => {
           notificationId = s.id;
+
+          // This is a temporary workaround for merging the slotConfigNames config from AppSettingsModule and ConnectionStringsModule.
+          // Adding a proper solution (for all config APIs) is tracked here: https://github.com/Azure/azure-functions-ux/issues/1856
+          const asConfig: ArmObjMap = this.appSettings.getConfigForSave();
+          const csConfig: ArmObjMap = this.connectionStrings.getConfigForSave();
+
+          const errors = [asConfig.error, csConfig.error].filter(e => !!e);
+          if (errors.length > 0) {
+            return Observable.throw(errors);
+          }
+          else {
+            const slotConfigNamesArm: ArmObj<any> =
+              JSON.parse(JSON.stringify(asConfig["slotConfigNames"]));
+            slotConfigNamesArm.properties.connectionStringNames =
+              JSON.parse(JSON.stringify(csConfig["slotConfigNames"].properties.connectionStringNames));
+
+            return Observable.zip(
+              this._cacheService.putArm(slotConfigNamesArm.id, null, slotConfigNamesArm),
+              Observable.of(asConfig["appSettings"]),
+              Observable.of(csConfig["connectionStrings"]),
+              (s, a, c) => ({ slotConfigNamesResult: s, appSettingsArm: a, connectionStringsArm: c })
+            );
+          }
+        })
+        .mergeMap(r => {
+          saveAttempted = true;
           return Observable.zip(
             this.generalSettings.save(),
-            this.appSettings.save(),
-            this.connectionStrings.save(),
+            this.appSettings.save(r.appSettingsArm, r.slotConfigNamesResult),
+            this.connectionStrings.save(r.connectionStringsArm, r.slotConfigNamesResult),
             this.defaultDocuments.save(),
             this.handlerMappings.save(),
             this.virtualDirectories.save(),
@@ -214,9 +243,14 @@ export class SiteConfigComponent implements OnDestroy {
         .do(null, error => {
           this._logService.error(LogCategories.siteConfig, '/site-config', error);
           this._busyManager.clearBusy();
-          this._setupForm(true /*retain dirty state*/);
-          this.mainForm.markAsDirty();
-          this._portalService.stopNotification(notificationId, false, '');
+          if (saveAttempted) {
+            this._setupForm(true /*retain dirty state*/);
+            this.mainForm.markAsDirty();
+          }
+          this._portalService.stopNotification(
+            notificationId,
+            false,
+            this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error));
         })
         .subscribe(r => {
           this._busyManager.clearBusy();

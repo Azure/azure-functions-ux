@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,7 +17,7 @@ import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj } from './../../../shared/models/arm/arm-obj';
+import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -253,20 +254,21 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     };
   }
 
-  save(): Observable<SaveOrValidationResult> {
+  getConfigForSave(): ArmObjMap {
+    let configObjects: ArmObjMap = {
+      objects: {}
+    };
+
     let connectionStringGroups = this.groupArray.controls;
 
     if (this.mainForm.contains("connectionStrings") && this.mainForm.controls["connectionStrings"].valid) {
       let connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
       connectionStringsArm.properties = {};
 
+      this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
       let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-      delete slotConfigNamesArm.properties.appSettingNames;
       slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
       let connectionStringNames = slotConfigNamesArm.properties.connectionStringNames as string[];
-
-      // TEMPORARY MITIGATION: Only do PUT on slotConfiNames API if there have been changes.
-      let connectionStringNamesModified = false;
 
       for (let i = 0; i < connectionStringGroups.length; i++) {
         if ((connectionStringGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
@@ -283,50 +285,51 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
           if (connectionStringGroups[i].value.isSlotSetting) {
             if (connectionStringNames.indexOf(name) === -1) {
               connectionStringNames.push(name);
-              connectionStringNamesModified = true;
             }
           }
           else {
             let index = connectionStringNames.indexOf(name);
             if (index !== -1) {
               connectionStringNames.splice(index, 1);
-              connectionStringNamesModified = true;
             }
           }
         }
       }
 
-      return Observable.zip(
-        this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
-        // TEMPORARY MITIGATION: Only do PUT on slotConfiNames API if there have been changes.
-        connectionStringNamesModified ? this._cacheService.putArm(this._slotConfigNamesArmPath, null, slotConfigNamesArm) : Observable.of(null),
-        Observable.of(connectionStringNamesModified),
-        (c, s, m) => ({ connectionStringsResponse: c, slotConfigNamesResponse: s, connectionStringNamesModified: m })
-      )
-        .map(r => {
-          this._connectionStringsArm = r.connectionStringsResponse.json();
-          this._slotConfigNamesArm = r.connectionStringNamesModified ? r.slotConfigNamesResponse.json() : this._slotConfigNamesArm;
-          return {
-            success: true,
-            error: null
-          };
-        })
-        .catch(error => {
-          this._saveError = error._body;
-          return Observable.of({
-            success: false,
-            error: error._body
-          });
-        });
+      configObjects["slotConfigNames"] = slotConfigNamesArm;
+      configObjects["connectionStrings"] = connectionStringsArm;
     }
     else {
-      let failureMessage = this._validationFailureMessage();
-      this._saveError = failureMessage;
-      return Observable.of({
-        success: false,
-        error: failureMessage
-      });
+      configObjects.error = this._validationFailureMessage();
     }
+
+    return configObjects;
+  }
+
+  save(
+    connectionStringsArm: ArmObj<any>,
+    slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
+
+    return Observable.zip(
+      this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
+      Observable.of(slotConfigNamesResponse),
+      (c, s) => ({ connectionStringsResponse: c, slotConfigNamesResponse: s })
+    )
+      .map(r => {
+        this._connectionStringsArm = r.connectionStringsResponse.json();
+        this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+        return {
+          success: true,
+          error: null
+        };
+      })
+      .catch(error => {
+        this._saveError = error._body;
+        return Observable.of({
+          success: false,
+          error: error._body
+        });
+      });
   }
 
   private _validationFailureMessage(): string {
