@@ -187,6 +187,7 @@ export class LogCategories {
     public static readonly appSettings = 'AppSettings';
     public static readonly connectionStrings = 'ConnectionStrings';
     public static readonly defaultDocuments = 'DefaultDocuments';
+    public static readonly handlerMappings = 'HandlerMappings';
 }
 
 export class KeyCodes {

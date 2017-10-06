@@ -214,6 +214,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + Add new handler mapping.
+        /// </summary>
+        internal static string addNewHandlerMapping {
+            get {
+                return ResourceManager.GetString("addNewHandlerMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to + Add new connection string.
         /// </summary>
         internal static string addNewConnectionString {
@@ -1573,6 +1582,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter extension.
+        /// </summary>
+        internal static string enterExtension {
+            get {
+                return ResourceManager.GetString("enterExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter script processor.
+        /// </summary>
+        internal static string enterScriptProcessor {
+            get {
+                return ResourceManager.GetString("enterScriptProcessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter arguments.
+        /// </summary>
+        internal static string enterArguments {
+            get {
+                return ResourceManager.GetString("enterArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The application is offline. Please check your internet connection..
         /// </summary>
         internal static string error_appOffline {
@@ -2356,6 +2392,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Handler mappings.
+        /// </summary>
+        internal static string feature_handlerMappingsName {
+            get {
+                return ResourceManager.GetString("feature_handlerMappingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to App Service Editor provides an in-browser editing experience for your code..
         /// </summary>
         internal static string feature_appServiceEditorInfo {
@@ -2622,6 +2667,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string emptyDefaultDocuments {
             get {
                 return ResourceManager.GetString("emptyDefaultDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no handler mappings to display)
+        /// </summary>
+        internal static string emptyHandlerMappings {
+            get {
+                return ResourceManager.GetString("emptyHandlerMappings", resourceCulture);
             }
         }
         
