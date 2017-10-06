@@ -370,6 +370,9 @@
   <data name="isApplication" xml:space="preserve">
     <value>Application</value>
   </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>Slot Setting</value>
+  </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
   </data>
