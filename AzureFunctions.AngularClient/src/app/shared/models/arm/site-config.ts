@@ -29,4 +29,5 @@ export interface SiteConfig {
     linuxFxVersion: string;
     appCommandLine: string;
     virtualApplications: VirtualApplication[];
+    autoSwapSlotName: string;
 }

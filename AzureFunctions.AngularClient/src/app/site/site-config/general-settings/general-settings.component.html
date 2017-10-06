@@ -152,7 +152,7 @@
       </div>
     </div>
 
-    <div *ngIf="clientAffinitySupported" class="setting-wrapper last">
+    <div *ngIf="clientAffinitySupported" class="setting-wrapper" [class.last]="!autoSwapSupported">
       <label class="setting-label">{{ 'clientAffinityEnabledLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector
@@ -162,6 +162,33 @@
         </radio-selector>
       </div>
     </div>
+
+    <ng-container *ngIf="autoSwapSupported">
+      <div class="auto-swap-warning" >{{ 'autoSwapNotSupportedFromProd' | translate }}</div>
+
+      <div class="setting-wrapper">
+        <label class="setting-label">{{ 'autoSwapEnabledLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <radio-selector
+            [control]="!!group ? group.controls['autoSwapEnabled'] : null"
+            [options]="autoSwapEnabledOptions"
+            [highlightDirty]="true"
+            (value)="updateAutoSwapSlotNameOptions($event)">
+          </radio-selector>
+        </div>
+      </div>
+      
+      <div class="setting-wrapper last">
+        <label class="setting-label">{{ 'autoSwapSlotNameLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <drop-down
+            [control]="!!group ? group.controls['autoSwapSlotName'] : null"
+            [options]="autoSwapSlotNameOptions || []"
+            [highlightDirty]="true">
+          </drop-down>
+        </div>
+      </div>
+    </ng-container>
 
     <div *ngIf="!group || !hasWritePermissions" class="shield">
       <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
