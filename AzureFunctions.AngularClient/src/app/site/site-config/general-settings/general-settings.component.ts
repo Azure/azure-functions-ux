@@ -12,7 +12,8 @@ import { AvailableStackNames, AvailableStack, MajorVersion } from 'app/shared/mo
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
-import { AiService } from './../../../shared/services/ai.service';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
@@ -85,7 +86,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _translateService: TranslateService,
-    private _aiService: AiService,
+    private _logService: LogService,
     private _authZService: AuthzService,
     broadcastService: BroadcastService
   ) {
@@ -125,7 +126,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         );
       })
       .do(null, error => {
-        this._aiService.trackEvent('/errors/general-settings', error);
+        this._logService.error(LogCategories.generalSettings, '/general-settings', error);
         this._setupForm(null, null);
         this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
         this.loadingMessage = null;

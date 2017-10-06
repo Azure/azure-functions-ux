@@ -18,7 +18,8 @@ import { PortalService } from './../../shared/services/portal.service';
 import { AuthzService } from './../../shared/services/authz.service';
 import { SiteTabIds } from './../../shared/models/constants';
 import { BroadcastService } from './../../shared/services/broadcast.service';
-import { AiService } from './../../shared/services/ai.service';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../shared/services/log.service';
 
 export interface SaveResult {
   success: boolean;
@@ -57,7 +58,7 @@ export class SiteConfigComponent implements OnDestroy {
     private _fb: FormBuilder,
     private _translateService: TranslateService,
     private _portalService: PortalService,
-    private _aiService: AiService,
+    private _logService: LogService,
     private _broadcastService: BroadcastService,
     private _authZService: AuthzService,
     private _cacheService: CacheService
@@ -90,7 +91,7 @@ export class SiteConfigComponent implements OnDestroy {
       .do(null, error => {
         this.resourceId = null;
         this._setupForm();
-        this._aiService.trackEvent('/errors/site-config', error);
+        this._logService.error(LogCategories.siteConfig, '/site-config', error);
         this._busyManager.clearBusy();
       })
       .retry()
@@ -185,6 +186,13 @@ export class SiteConfigComponent implements OnDestroy {
           this.connectionStrings.save(),
           (g, a, c) => ({ generalSettingsResult: g, appSettingsResult: a, connectionStringsResult: c })
         );
+      })
+      .do(null, error => {
+        this._logService.error(LogCategories.siteConfig, '/site-config', error);
+        this._busyManager.clearBusy();
+        this._setupForm(true /*retain dirty state*/);
+        this.mainForm.markAsDirty();
+        this._portalService.stopNotification(notificationId, false, '');
       })
       .subscribe(r => {
         this._busyManager.clearBusy();
