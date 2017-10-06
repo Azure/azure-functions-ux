@@ -6,6 +6,7 @@ import { AppSettingsComponent } from 'app/site/site-config/app-settings/app-sett
 import { ConnectionStringsComponent } from 'app/site/site-config/connection-strings/connection-strings.component';
 import { AppSettingsShellComponent } from 'app/ibiza-feature/app-settings-shell/app-settings-shell.component';
 import { DefaultDocumentsComponent } from 'app/site/site-config/default-documents/default-documents.component';
+import { HandlerMappingsComponent } from 'app/site/site-config/handler-mappings/handler-mappings.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
@@ -21,7 +22,8 @@ import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
     AppSettingsComponent,
     ConnectionStringsComponent,
     AppSettingsShellComponent,
-    DefaultDocumentsComponent
+    DefaultDocumentsComponent,
+    HandlerMappingsComponent
   ],
   exports: [
     SiteConfigComponent,
