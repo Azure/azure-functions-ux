@@ -424,6 +424,9 @@ export class PortalResources
     public static alwaysOnLabel: string = "alwaysOnLabel";
     public static alwaysOnLabelHelp: string = "alwaysOnLabelHelp";
     public static managedPipelineModeLabel: string = "managedPipelineModeLabel";
+    public static autoSwapNotSupportedFromProd: string = "autoSwapNotSupportedFromProd";
+    public static autoSwapEnabledLabel: string = "autoSwapEnabledLabel";
+    public static autoSwapSlotNameLabel: string = "autoSwapSlotNameLabel";
     public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLabel";
     public static remoteDebuggingEnabledLabel: string = "remoteDebuggingEnabledLabel";
     public static remoteDebuggingVersionLabel: string = "remoteDebuggingVersionLabel";

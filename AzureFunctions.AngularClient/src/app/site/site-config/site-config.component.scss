@@ -84,6 +84,17 @@ h3{
     }
 }
 
+.auto-swap-warning{
+    border-left-color: $warning-color;
+    border-left-style: solid;
+    border-left-width: 2px;
+    padding-left: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 .shield{
     position: absolute;
     left: 0;

@@ -4669,6 +4669,33 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto swap destinations cannot be configured from production slot.
+        /// </summary>
+        internal static string autoSwapNotSupportedFromProd {
+            get {
+                return ResourceManager.GetString("autoSwapNotSupportedFromProd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Swap.
+        /// </summary>
+        internal static string autoSwapEnabledLabel {
+            get {
+                return ResourceManager.GetString("autoSwapEnabledLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Swap Slot.
+        /// </summary>
+        internal static string autoSwapSlotNameLabel {
+            get {
+                return ResourceManager.GetString("autoSwapSlotNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;enable Application Insights for your Function app&lt;/a&gt;.
         /// </summary>
         internal static string monitoring_appInsights {
