@@ -75,6 +75,7 @@ export class PortalResources
     public static save: string = "save";
     public static addNewSetting: string = "addNewSetting";
     public static addNewConnectionString: string = "addNewConnectionString";
+    public static addNewDocument: string = "addNewDocument";
     public static enterName: string = "enterName";
     public static enterValue: string = "enterValue";
     public static hiddenValueClickToShow: string = "hiddenValueClickToShow";
@@ -374,9 +375,11 @@ export class PortalResources
     public static feature_extensionsInfo: string = "feature_extensionsInfo";
     public static emptyAppSettings: string = "emptyAppSettings";
     public static emptyConnectionStrings: string = "emptyConnectionStrings";
+    public static emptyDefaultDocuments: string = "emptyDefaultDocuments";
     public static feature_generalSettingsName: string = "feature_generalSettingsName";
     public static feature_autoSwapSettingsName: string = "feature_autoSwapSettingsName";
     public static feature_debuggingSettingsName: string = "feature_debuggingSettingsName";
+    public static feature_defaultDocumentsName: string = "feature_defaultDocumentsName";
     public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
     public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
     public static configRequiresWritePermissionOnApp: string = "configRequiresWritePermissionOnApp";

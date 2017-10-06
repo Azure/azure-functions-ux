@@ -18,4 +18,5 @@ export interface SiteConfig {
     managedPipelineMode: string;
     remoteDebuggingEnabled: boolean;
     remoteDebuggingVersion: string;
+    defaultDocuments: string[];
 }

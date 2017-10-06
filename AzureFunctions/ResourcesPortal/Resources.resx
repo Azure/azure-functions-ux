@@ -337,6 +337,9 @@
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Add new connection string</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ Add new document</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>Enter a name</value>
   </data>
@@ -1234,6 +1237,9 @@
   <data name="emptyConnectionStrings" xml:space="preserve">
     <value>(no connection strings to display)</value>
   </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(no default documents to display)</value>
+  </data>
   <data name="feature_generalSettingsName" xml:space="preserve">
     <value>General settings</value>
   </data>
@@ -1248,6 +1254,9 @@
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Manage app settings, connection strings, runtime settings, and more.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>Default documents</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to edit these settings.</value>
