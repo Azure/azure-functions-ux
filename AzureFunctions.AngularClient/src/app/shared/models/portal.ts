@@ -11,7 +11,7 @@ export interface Data {
 }
 
 export interface GetStartupInfo {
-    iframeHostName: string
+    iframeHostName: string;
 }
 
 export interface StartupInfo {
@@ -25,6 +25,16 @@ export interface StartupInfo {
     theme: string;
 }
 
+export interface DataMessage<T>{
+    operationId: string;
+    data: T;
+}
+
+export interface BladeResult{
+    status: 'success' | 'failed' | 'cancelled';
+    result: any;
+}
+
 export interface Action {
     subcomponent: string;
     action: string;
@@ -32,41 +42,42 @@ export interface Action {
 }
 
 export interface Message {
-    level: LogEntryLevel,
-    message: string,
-    restArgs: any[]
+    level: LogEntryLevel;
+    message: string;
+    restArgs: any[];
 }
 
 export class Verbs {
     // Initialization verbs
-    public static message = "message";
-    public static ready = "ready";
+    public static message = 'message';
+    public static ready = 'ready';
 
     // Requests from iframe
-    public static getStartupInfo = "get-startup-info";
-    public static openBlade = "open-blade";
+    public static getStartupInfo = 'get-startup-info';
+    public static openBlade = 'open-blade';
 
-    public static openBladeCollector = "open-blade-collector";                // Deprecated
-    public static openBladeCollectorInputs = "open-blade-collector-inputs";   // Deprecated
-    public static updateBladeInfo = "update-blade-info";
+    public static openBladeCollector = 'open-blade-collector';                // Deprecated
+    public static openBladeCollectorInputs = 'open-blade-collector-inputs';   // Deprecated
+    public static updateBladeInfo = 'update-blade-info';
 
-    public static closeBlades = "close-blades";
-    public static logAction = "log-action";
-    public static logMessage = "log-message";
-    public static logTimerEvent = "log-timer-event";
-    public static setDirtyState = "set-dirtystate";
-    public static setupOAuth = "setup-oauth";
-    public static pinPart = "pin-part";
-    public static setNotification = "set-notification";
+    public static closeBlades = 'close-blades';
+    public static logAction = 'log-action';
+    public static logMessage = 'log-message';
+    public static logTimerEvent = 'log-timer-event';
+    public static setDirtyState = 'set-dirtystate';
+    public static setupOAuth = 'setup-oauth';
+    public static pinPart = 'pin-part';
+    public static setNotification = 'set-notification';
 
     // Requests from Ibiza
-    public static sendStartupInfo = "send-startup-info";
-    public static sendAppSettingName = "send-appSettingName";
-    public static sendResourceId = "send-resourceId";
-    public static sendInputs = "send-inputs";
-    public static sendToken = "send-token";
-    public static sendOAuthInfo = "send-oauth-info";
-    public static sendNotificationStarted = "send-notification-started";
+    public static sendStartupInfo = 'send-startup-info';
+    public static sendAppSettingName = 'send-appSettingName';
+    public static sendResourceId = 'send-resourceId';
+    public static sendInputs = 'send-inputs';
+    public static sendToken = 'send-token';
+    public static sendOAuthInfo = 'send-oauth-info';
+    public static sendNotificationStarted = 'send-notification-started';
+    public static sendData = 'send-data';
 }
 
 export enum LogEntryLevel {

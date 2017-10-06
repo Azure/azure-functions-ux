@@ -1,3 +1,6 @@
+import { CacheService } from 'app/shared/services/cache.service';
+import { Site } from './../../shared/models/arm/site';
+import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -48,13 +51,16 @@ export class SiteConfigComponent implements OnDestroy {
   @ViewChild(AppSettingsComponent) appSettings: AppSettingsComponent;
   @ViewChild(ConnectionStringsComponent) connectionStrings: ConnectionStringsComponent;
 
+  private _site: ArmObj<Site>;
+
   constructor(
     private _fb: FormBuilder,
     private _translateService: TranslateService,
     private _portalService: PortalService,
     private _aiService: AiService,
     private _broadcastService: BroadcastService,
-    private _authZService: AuthzService
+    private _authZService: AuthzService,
+    private _cacheService: CacheService
   ) {
     this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
@@ -70,6 +76,17 @@ export class SiteConfigComponent implements OnDestroy {
           (r, wp, rl) => ({ resourceId: r, writePermission: wp, readOnlyLock: rl })
         );
       })
+      .switchMap(res => {
+        if (res.writePermission && !res.readOnlyLock) {
+          return this._cacheService.getArm(res.resourceId)
+            .map(site => {
+              this._site = <ArmObj<Site>>site.json();
+              return res;
+            });
+        } else {
+          return Observable.of(res);
+        }
+      })
       .do(null, error => {
         this.resourceId = null;
         this._setupForm();
@@ -84,6 +101,36 @@ export class SiteConfigComponent implements OnDestroy {
         this.resourceId = r.resourceId;
         this._setupForm();
         this._busyManager.clearBusy();
+      });
+  }
+
+  scaleUp() {
+    const inputs = {
+      aspResourceId: this._site.properties.serverFarmId,
+      aseResourceId: this._site.properties.hostingEnvironmentProfile
+      && this._site.properties.hostingEnvironmentProfile.id
+    };
+
+    const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
+      '',
+      inputs,
+      'site-manage',
+      (value => {
+        console.log('return from scale');
+      }),
+      'WebsiteSpecPickerV3');
+
+    openScaleUpBlade
+      .first()
+      .subscribe(r => {
+        if(r){
+          console.log('final call back succeeded!');
+        } else{
+          console.log('final call back was cancelled');
+        }
+      },
+      e => {
+        console.log('final call back failed!');
       });
   }
 
