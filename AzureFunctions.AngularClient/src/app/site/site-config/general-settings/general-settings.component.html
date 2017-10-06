@@ -5,16 +5,16 @@
 
   <div class="settings-wrapper">
 
-    <div class="setting-wrapper">
-      <label class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}
-        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+    <div *ngIf="netFrameworkSupported" class="setting-wrapper">
+      <label class="setting-label">{{ 'netFrameworkVersionLabel' | translate }}
+        <pop-over [message]="('netFrameworkVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
       <div class="setting-control-container">
         <drop-down
-          [control]="!!group ? group.controls['netFrameWorkVersion'] : null"
-          [options]="!!versionOptionsMap ? versionOptionsMap['netFrameWorkVersion'] : []"
+          [control]="!!group ? group.controls['netFrameworkVersion'] : null"
+          [options]="!!versionOptionsMap ? versionOptionsMap['netFrameworkVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -170,42 +170,80 @@
     </div>
 
   </div>
+  
+  <ng-container *ngIf="remoteDebuggingSupported">
+    <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
+    <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
 
-  <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
-  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+    <div class="settings-wrapper">
 
-  <div class="settings-wrapper">
-
-    <div class="setting-wrapper">
-      <label class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}</label>
-      <div class="setting-control-container">
-        <radio-selector
-          [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
-          [options]="remoteDebuggingEnabledOptions"
-          [highlightDirty]="true"
-          (value)="updateRemoteDebuggingVersionOptions($event)">
-        </radio-selector>
+      <div class="setting-wrapper">
+        <label class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <radio-selector
+            [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
+            [options]="remoteDebuggingEnabledOptions"
+            [highlightDirty]="true"
+            (value)="updateRemoteDebuggingVersionOptions($event)">
+          </radio-selector>
+        </div>
       </div>
-    </div>
 
-    <div class="setting-wrapper last">
-      <label class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}</label>
-      <div class="setting-control-container">
-        <radio-selector
-          [control]="!!group ? group.controls['remoteDebuggingVersion'] : null"
-          [options]="remoteDebuggingVersionOptions"
-          [highlightDirty]="true">
-        </radio-selector>
+      <div class="setting-wrapper last">
+        <label class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <radio-selector
+            [control]="!!group ? group.controls['remoteDebuggingVersion'] : null"
+            [options]="remoteDebuggingVersionOptions"
+            [highlightDirty]="true">
+          </radio-selector>
+        </div>
       </div>
-    </div>
 
-    <div *ngIf="!group || !hasWritePermissions" class="shield">
-      <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-        {{ loadingFailureMessage }}
+      <div *ngIf="!group || !hasWritePermissions" class="shield">
+        <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+          {{ loadingFailureMessage }}
+        </div>
       </div>
-    </div>
 
-  </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="linuxRuntimeSupported">
+    <h3>{{ 'feature_linuxRuntimeName' | translate }}</h3>
+    <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+
+    <div class="settings-wrapper">
+
+      <div class="setting-wrapper">
+        <label class="setting-label">{{ 'linuxFxVersionLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <drop-down
+            [control]="!!group ? group.controls['linuxFxVersion'] : null"
+            [options]="linuxFxVersionOptions"
+            [highlightDirty]="true">
+          </drop-down>
+        </div>
+      </div>
+
+      <div class="setting-wrapper last">
+        <label class="setting-label">{{ 'appCommandLineLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <textbox
+            [control]="!!group ? group.controls['appCommandLine'] : null"
+            [highlightDirty]="true">
+          </textbox>
+        </div>
+      </div>
+
+      <div *ngIf="!group || !hasWritePermissions" class="shield">
+        <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+          {{ loadingFailureMessage }}
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
 
   <div *ngIf="!hasWritePermissions" class="shield transparent">
     <div *ngIf="showPermissionsMessage" class="shield-message">
