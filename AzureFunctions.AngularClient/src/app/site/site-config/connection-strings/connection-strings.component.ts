@@ -9,7 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
 import { SaveResult } from './../site-config.component';
-import { AiService } from './../../../shared/services/ai.service';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -56,7 +57,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _translateService: TranslateService,
-    private _aiService: AiService,
+    private _logService: LogService,
     private _authZService: AuthzService,
     broadcastService: BroadcastService
   ) {
@@ -89,7 +90,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         )
       })
       .do(null, error => {
-        this._aiService.trackEvent("/errors/connection-strings", error);
+        this._logService.error(LogCategories.connectionStrings, '/connection-strings', error);
         this._setupForm(null);
         this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
         this.loadingMessage = null;

@@ -7,7 +7,8 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SaveResult } from './../site-config.component';
-import { AiService } from './../../../shared/services/ai.service';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
@@ -52,7 +53,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _translateService: TranslateService,
-    private _aiService: AiService,
+    private _logService: LogService,
     private _authZService: AuthzService,
     broadcastService: BroadcastService
   ) {
@@ -85,7 +86,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         );
       })
       .do(null, error => {
-        this._aiService.trackEvent("/errors/app-settings", error);
+        this._logService.error(LogCategories.appSettings, '/app-settings', error);
         this._setupForm(null);
         this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
         this.loadingMessage = null;
