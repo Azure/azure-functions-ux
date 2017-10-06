@@ -9,7 +9,8 @@
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each default document returned (if any) -->
-      <tr *ngFor="let group of defaultDocumentsTable.items">
+      <tr *ngFor="let group of defaultDocumentsTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+
         <td class="single-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
           <click-to-edit [group]="group" name="name">
 
@@ -19,13 +20,14 @@
         </td>
 
         <td class="action-col">
-          <span class="fa fa-times delete" (click)="deleteDocument(group)"></span>
+          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
         </td>
+
       </tr>
 
       <!-- Placeholder/Message Row -->
       <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && defaultDocumentsTable.items.length === 0)">
+      <tr *ngIf="!groupArray || (!!groupArray && defaultDocumentsTable.items.length - originalItemsDeleted === 0)">
 
         <!-- ARM call did not return successfully, and user has permissions -->
         <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="2">
@@ -38,7 +40,7 @@
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && defaultDocumentsTable.items.length === 0" class="message-row" colspan="2">
+        <td *ngIf="!!groupArray && defaultDocumentsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="2">
           {{ ('emptyDefaultDocuments' | translate) }}
         </td>
 
@@ -49,13 +51,13 @@
 
 
     <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
-    <!-- If ARM call returned successfully user has write permissions, display 'add' link -->
-    <div *ngIf="!!groupArray && hasWritePermissions" class="link add-setting" (click)="addDocument()">
+    <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
+    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" class="link add-setting" (click)="addItem()">
       {{ 'addNewDocument' | translate }}
     </div>
 
-    <!-- If ARM call did not return successfully or user does not have write permissions, display 'add' link disabled -->
-    <div *ngIf="!groupArray || !hasWritePermissions" class="disabled-link add-setting">
+    <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
+    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" class="disabled-link add-setting">
       {{ 'addNewDocument' | translate }}
     </div>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->

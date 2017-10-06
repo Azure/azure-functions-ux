@@ -12,6 +12,28 @@
 
     tr{
         border-top: 1px solid $border-color;
+        border-bottom: 1px solid $border-color;
+
+        th, td{
+            border-top: $border;
+            border-bottom: $border;
+        }
+    }
+    
+    tr:not(.hidden) ~ tr:not(.hidden){
+        border-top-width: 0px;
+
+        th, td{
+            border-top-width: 0px;
+        }
+    }
+        
+    tr.header-row{
+        border-top: 0px;
+
+        th, td{
+            border-top: 0px;
+        }
     }
 
     th{
@@ -27,23 +49,6 @@
 
     th, td{
         height: 32px;
-        border-top: $border;
-    }
-    
-    tr:last-of-type{
-        border-bottom: 1px solid $border-color;
-
-        th, td{
-            border-bottom: $border;
-        }
-    }
-        
-    tr.header-row{
-        border-top: 0px;
-
-        th, td{
-            border-top: 0px;
-        }
     }
 
     td{
