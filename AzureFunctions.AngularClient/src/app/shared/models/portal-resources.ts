@@ -384,6 +384,7 @@ export class PortalResources
     public static feature_generalSettingsName: string = "feature_generalSettingsName";
     public static feature_autoSwapSettingsName: string = "feature_autoSwapSettingsName";
     public static feature_debuggingSettingsName: string = "feature_debuggingSettingsName";
+    public static feature_linuxRuntimeName: string = "feature_linuxRuntimeName";
     public static feature_defaultDocumentsName: string = "feature_defaultDocumentsName";
     public static feature_handlerMappingsName: string = "feature_handlerMappingsName";
     public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
@@ -419,6 +420,8 @@ export class PortalResources
     public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLabel";
     public static remoteDebuggingEnabledLabel: string = "remoteDebuggingEnabledLabel";
     public static remoteDebuggingVersionLabel: string = "remoteDebuggingVersionLabel";
+    public static linuxFxVersionLabel: string = "linuxFxVersionLabel";
+    public static appCommandLineLabel: string = "appCommandLineLabel";
     public static newest: string = "newest";
     public static architecture32: string = "architecture32";
     public static architecture64: string = "architecture64";

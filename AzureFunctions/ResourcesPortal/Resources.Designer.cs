@@ -2554,6 +2554,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Runtime.
+        /// </summary>
+        internal static string feature_linuxRuntimeName {
+            get {
+                return ResourceManager.GetString("feature_linuxRuntimeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure Azure account-level deployment credentials. To change your app-level credentials (also known as &apos;Publish Credentials&apos;), choose &apos;Reset publish credentials&apos; in the &apos;Overview&apos; tab. &lt;a href=&quot;https://go.microsoft.com/fwlink/?linkid=846056&quot;&gt;Learn more&lt;/a&gt;..
         /// </summary>
         internal static string feature_deploymentCredsInfo {
@@ -4989,6 +4998,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string remoteDebuggingVersionLabel {
             get {
                 return ResourceManager.GetString("remoteDebuggingVersionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stack.
+        /// </summary>
+        internal static string linuxFxVersionLabel {
+            get {
+                return ResourceManager.GetString("linuxFxVersionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startup File.
+        /// </summary>
+        internal static string appCommandLineLabel {
+            get {
+                return ResourceManager.GetString("appCommandLineLabel", resourceCulture);
             }
         }
         

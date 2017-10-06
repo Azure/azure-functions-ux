@@ -8,8 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SaveOrValidationResult } from '../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
-import { AvailableStackNames, AvailableStack, MajorVersion } from 'app/shared/models/arm/stacks';
-import { DropDownElement } from './../../../shared/models/drop-down-element';
+import { AvailableStackNames, AvailableStack, Framework, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
+import { DropDownElement, DropDownGroupElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
 import { LogCategories } from 'app/shared/models/constants';
@@ -68,6 +68,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   private _selectedJavaVersion: string;
 
+  public netFrameworkSupported = false;
   public phpSupported = false;
   public pythonSupported = false;
   public javaSupported = false;
@@ -75,7 +76,13 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   public webSocketsSupported = false;
   public alwaysOnSupported = false;
   public classicPipelineModeSupported = false;
+  public remoteDebuggingSupported = false;
   public clientAffinitySupported = false;
+
+  public linuxRuntimeSupported = false;
+  public linuxFxVersionOptions: DropDownGroupElement<string>[];
+  private _linuxFxVersionOptionsClean: DropDownGroupElement<string>[];
+
 
   @Input() mainForm: FormGroup;
 
@@ -142,7 +149,10 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         if (!this._versionOptionsMapClean) {
           this._parseAvailableStacks(availableStacksArm);
         }
-        this._processSkuAndKind(this._siteConfigArm);
+        if (!this._linuxFxVersionOptionsClean) {
+          this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
+        }
+        this._processSupportedControls(this._siteConfigArm, this._webConfigArm);
         this._setupForm(this._webConfigArm, this._siteConfigArm);
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
@@ -189,6 +199,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _resetSupportedControls() {
+    this.netFrameworkSupported = false;
     this.phpSupported = false;
     this.pythonSupported = false;
     this.javaSupported = false;
@@ -196,11 +207,14 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.webSocketsSupported = false;
     this.alwaysOnSupported = false;
     this.classicPipelineModeSupported = false;
+    this.remoteDebuggingSupported = false;
     this.clientAffinitySupported = false;
+    this.linuxRuntimeSupported = false;
   }
 
-  private _processSkuAndKind(siteConfigArm: ArmObj<Site>) {
+  private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>) {
     if (!!siteConfigArm) {
+      let netFrameworkSupported = true;
       let phpSupported = true;
       let pythonSupported = true;
       let javaSupported = true;
@@ -208,10 +222,27 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       let webSocketsSupported = true;
       let alwaysOnSupported = true;
       let classicPipelineModeSupported = true;
+      let remoteDebuggingSupported = true;
       let clientAffinitySupported = true;
+      let linuxRuntimeSupported = false;
 
       this._sku = siteConfigArm.properties.sku;
       this._kind = siteConfigArm.kind;
+
+      if (this._kind.indexOf('linux') >= 0) {
+        netFrameworkSupported = false;
+        phpSupported = false;
+        pythonSupported = false;
+        javaSupported = false;
+        platform64BitSupported = false;
+        webSocketsSupported = false;
+        classicPipelineModeSupported = false;
+        remoteDebuggingSupported = false;
+
+        if ((webConfigArm.properties.linuxFxVersion || '').indexOf(LinuxConstants.dockerPrefix) === -1) {
+          linuxRuntimeSupported = true;
+        }
+      }
 
       if (this._kind === 'functionapp') {
         phpSupported = false;
@@ -230,6 +261,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         alwaysOnSupported = false;
       }
 
+      this.netFrameworkSupported = netFrameworkSupported;
       this.phpSupported = phpSupported;
       this.pythonSupported = pythonSupported;
       this.javaSupported = javaSupported;
@@ -237,7 +269,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       this.webSocketsSupported = webSocketsSupported;
       this.alwaysOnSupported = alwaysOnSupported;
       this.classicPipelineModeSupported = classicPipelineModeSupported;
+      this.remoteDebuggingSupported = remoteDebuggingSupported;
       this.clientAffinitySupported = clientAffinitySupported;
+      this.linuxRuntimeSupported = linuxRuntimeSupported;
     }
   }
 
@@ -249,6 +283,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       if (!this._saveError || !this.group) {
         const group = this._fb.group({});
         const versionOptionsMap: { [key: string]: DropDownElement<string>[] } = {};
+        const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
 
         this._setupNetFramworkVersion(group, versionOptionsMap, webConfigArm.properties.netFrameworkVersion);
         this._setupPhpVersion(group, versionOptionsMap, webConfigArm.properties.phpVersion);
@@ -256,8 +291,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._setupJava(group, versionOptionsMap, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
         this._setupGeneralSettings(group, webConfigArm, siteConfigArm);
 
+        this._setupLinux(group, linuxFxVersionOptions, webConfigArm.properties.linuxFxVersion, webConfigArm.properties.appCommandLine);
+
         this.group = group;
         this.versionOptionsMap = versionOptionsMap;
+        this.linuxFxVersionOptions = linuxFxVersionOptions;
 
       }
 
@@ -300,7 +338,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setEnabledStackControls() {
-    this._setControlsEnabledState(['netFrameWorkVersion'], !this._selectedJavaVersion);
+    this._setControlsEnabledState(['netFrameworkVersion'], !this._selectedJavaVersion);
     if (this.phpSupported) {
       this._setControlsEnabledState(['phpVersion'], !this._selectedJavaVersion);
     }
@@ -364,9 +402,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     if (this.clientAffinitySupported) {
       group.addControl('clientAffinityEnabled', this._fb.control(siteConfigArm.properties.clientAffinityEnabled));
     }
-    group.addControl('remoteDebuggingEnabled', this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
-    group.addControl('remoteDebuggingVersion', this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
-    setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
+    if (this.remoteDebuggingSupported) {
+      group.addControl('remoteDebuggingEnabled', this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
+      group.addControl('remoteDebuggingVersion', this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
+      setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
+    }
   }
 
   public updateRemoteDebuggingVersionOptions(enabled: boolean) {
@@ -381,26 +421,28 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setupNetFramworkVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, netFrameworkVersion: string) {
-    let defaultValue = '';
+    if (this.netFrameworkSupported) {
+      let defaultValue = '';
 
-    const netFrameworkVersionOptions: DropDownElement<string>[] = [];
-    const netFrameworkVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.NetStack];
+      const netFrameworkVersionOptions: DropDownElement<string>[] = [];
+      const netFrameworkVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.NetStack];
 
-    netFrameworkVersionOptionsClean.forEach(element => {
-      const match = element.value === netFrameworkVersion || (!element.value && !netFrameworkVersion);
-      defaultValue = match ? element.value : defaultValue;
+      netFrameworkVersionOptionsClean.forEach(element => {
+        const match = element.value === netFrameworkVersion || (!element.value && !netFrameworkVersion);
+        defaultValue = match ? element.value : defaultValue;
 
-      netFrameworkVersionOptions.push({
-        displayLabel: element.displayLabel,
-        value: element.value,
-        default: match
+        netFrameworkVersionOptions.push({
+          displayLabel: element.displayLabel,
+          value: element.value,
+          default: match
+        });
       });
-    });
 
-    const netFrameWorkVersionControl = this._fb.control(defaultValue);
-    group.addControl('netFrameWorkVersion', netFrameWorkVersionControl);
+      const netFrameworkVersionControl = this._fb.control(defaultValue);
+      group.addControl('netFrameworkVersion', netFrameworkVersionControl);
 
-    versionOptionsMap["netFrameWorkVersion"] = netFrameworkVersionOptions;
+      versionOptionsMap["netFrameworkVersion"] = netFrameworkVersionOptions;
+    }
   }
 
   private _setupPhpVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, phpVersion: string) {
@@ -782,18 +824,83 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this._versionOptionsMapClean[AvailableStackNames.JavaContainer] = javaWebContainerOptions;
   }
 
-  validate(): SaveOrValidationResult {
-      let controls = this.group.controls;
-      for (let controlName in controls) {
-        let control = <CustomFormControl>controls[controlName];
-        control._msRunValidation = true;
-        control.updateValueAndValidity();
-      }
+  private _parseLinuxBuiltInStacks(builtInStacks: Framework[]) {
+    const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
 
-      return {
-        success: this.group.valid,
-        error: this.group.valid ? null : this._validationFailureMessage()
+    LinuxConstants.builtInStacks.forEach(framework => {
+
+      const dropDownGroupElement: DropDownGroupElement<string> = {
+        displayLabel: framework.display,
+        dropDownElements: []
       };
+
+      framework.majorVersions.forEach(majorVersion => {
+
+        majorVersion.minorVersions.forEach(minorVersion => {
+
+          dropDownGroupElement.dropDownElements.push({
+            displayLabel: framework.display + ' ' + minorVersion.displayVersion,
+            value: framework.name + '|' + minorVersion.displayVersion,
+            default: false
+          });
+
+        });
+
+      });
+
+      linuxFxVersionOptions.push(dropDownGroupElement);
+    });
+
+    this._linuxFxVersionOptionsClean = linuxFxVersionOptions;
+  }
+
+  private _setupLinux(group: FormGroup, linuxFxVersionOptions: DropDownGroupElement<string>[], linuxFxVersion: string, appCommandLine: string) {
+    if (this.linuxRuntimeSupported) {
+      let defaultFxVersionValue = '';
+
+      this._linuxFxVersionOptionsClean.forEach(group => {
+
+        const dropDownGroupElement: DropDownGroupElement<string> = {
+          displayLabel: group.displayLabel,
+          dropDownElements: []
+        };
+
+        group.dropDownElements.forEach(element => {
+
+          const match = element.value === linuxFxVersion || (!element.value && !linuxFxVersion);
+          defaultFxVersionValue = match ? element.value : defaultFxVersionValue;
+  
+          dropDownGroupElement.dropDownElements.push({
+            displayLabel: element.displayLabel,
+            value: element.value,
+            default: match
+          });
+
+        });
+
+        linuxFxVersionOptions.push(dropDownGroupElement);
+      });
+
+      const linuxFxVersionControl = this._fb.control(defaultFxVersionValue);
+      group.addControl('linuxFxVersion', linuxFxVersionControl);
+
+      const appCommandLineControl = this._fb.control(appCommandLine);
+      group.addControl('appCommandLine', appCommandLineControl);
+    }
+  }
+
+  validate(): SaveOrValidationResult {
+    let controls = this.group.controls;
+    for (let controlName in controls) {
+      let control = <CustomFormControl>controls[controlName];
+      control._msRunValidation = true;
+      control.updateValueAndValidity();
+    }
+
+    return {
+      success: this.group.valid,
+      error: this.group.valid ? null : this._validationFailureMessage()
+    };
   }
 
   save(): Observable<SaveOrValidationResult> {
@@ -830,11 +937,15 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       if (this.classicPipelineModeSupported) {
         webConfigArm.properties.managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value);
       }
-      webConfigArm.properties.remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
-      webConfigArm.properties.remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
+      if (this.remoteDebuggingSupported) {
+        webConfigArm.properties.remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
+        webConfigArm.properties.remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
+      }
 
       // -- stacks settings --
-      webConfigArm.properties.netFrameworkVersion = <string>(generalSettingsControls['netFrameWorkVersion'].value);
+      if (this.netFrameworkSupported) {
+        webConfigArm.properties.netFrameworkVersion = <string>(generalSettingsControls['netFrameworkVersion'].value);
+      }
       if (this.phpSupported) {
         webConfigArm.properties.phpVersion = <string>(generalSettingsControls['phpVersion'].value);
       }
@@ -846,6 +957,10 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         const javaWebContainerProperties: JavaWebContainerProperties = JSON.parse(<string>(generalSettingsControls['javaWebContainer'].value));
         webConfigArm.properties.javaContainer = !webConfigArm.properties.javaVersion ? '' : (javaWebContainerProperties.container || '');
         webConfigArm.properties.javaContainerVersion = !webConfigArm.properties.javaVersion ? '' : (javaWebContainerProperties.containerMinorVersion || javaWebContainerProperties.containerMajorVersion || '');
+      }
+      if (this.linuxRuntimeSupported) {
+        webConfigArm.properties.linuxFxVersion = <string>(generalSettingsControls['linuxFxVersion'].value);
+        webConfigArm.properties.appCommandLine = <string>(generalSettingsControls['appCommandLine'].value);
       }
 
       return Observable.zip(
