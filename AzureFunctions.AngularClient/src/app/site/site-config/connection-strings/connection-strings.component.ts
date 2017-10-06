@@ -46,6 +46,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
 
   public loadingFailureMessage: string;
+  public loadingMessage: string;
 
   @Input() mainForm: FormGroup;
 
@@ -89,8 +90,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
       })
       .do(null, error => {
         this._aiService.trackEvent("/errors/connection-strings", error);
-        this._setupForm(this._connectionStringsArm);
-        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this._setupForm(null);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyManager.clearBusy();
       })
@@ -100,6 +102,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
           this._connectionStringsArm = r.connectionStringsResponse.json();
           this._setupForm(this._connectionStringsArm);
         }
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyManager.clearBusy();
       });
@@ -116,7 +119,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     if (this._resourceIdSubscription) {
-      this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
+      this._resourceIdSubscription.unsubscribe();
+      this._resourceIdSubscription = null;
     }
     this._busyManager.clearBusy();
   }
@@ -126,16 +130,15 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     this.permissionsMessage = "";
     this.showPermissionsMessage = false;
     this.loadingFailureMessage = "";
+    this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
     if (!writePermission) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configRequiresWritePermissionOnApp);
-    }
-    else if (readOnlyLock) {
+    } else if (readOnlyLock) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configDisabledReadOnlyLockOnApp);
-    }
-    else {
+    } else {
       this.permissionsMessage = "";
     }
 
