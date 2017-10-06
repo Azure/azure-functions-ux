@@ -53,6 +53,12 @@ export class CacheService {
         return this._armService.send('PUT', url, content);
     }
 
+    patchArm(resourceId: string, apiVersion?: string, content?: any) {
+        const url: string = this._getArmUrl(resourceId, apiVersion);
+        delete this._cache[url.toLowerCase()];
+        return this._armService.send('PATCH', url, content);
+    }
+
     get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean) {
         return this._send(url, 'GET', force, headers, null, invokeApi);
     }

@@ -848,7 +848,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
       return Observable.zip(
         this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm),
-        this._cacheService.putArm(`${this.resourceId}/config/web`, null, webConfigArm),
+        this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm),
         (c, w) => ({ siteConfigResponse: c, webConfigResponse: w })
       )
         .map(r => {
