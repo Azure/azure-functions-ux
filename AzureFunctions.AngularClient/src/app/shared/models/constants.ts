@@ -41,7 +41,6 @@ export class Constants {
     public static msPortalHostName = 'https://ms.portal.azure.com';
     public static ReadWriteMode = 'readWrite'.toLocaleLowerCase();
     public static ReadOnlyMode = 'readOnly'.toLocaleLowerCase();
-    public static VisualStudiosReadOnlyMode = 'visualStudiosReadOnly'.toLocaleLowerCase();
 
     public static OIDKey = 'http://schemas.microsoft.com/identity/claims/objectidentifier';
     public static BYOBTokenMapSettingName = 'BYOB_TokenMap';
