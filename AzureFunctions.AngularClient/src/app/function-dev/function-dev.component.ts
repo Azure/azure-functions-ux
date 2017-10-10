@@ -34,7 +34,7 @@ import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from '../shared/models/error-ids';
 import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
-
+import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 
 @Component({
     selector: 'function-dev',
@@ -236,72 +236,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.onResize();
     }
 
-    public onResize() {
-
-        const functionNameHeight = 46;
-        const editorPadding = 25;
-
-        let functionContainerWidth;
-        let functionContainerHeight;
-        if (this.functionContainer) {
-            functionContainerWidth = window.innerWidth - this.functionContainer.nativeElement.getBoundingClientRect().left;
-            functionContainerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
-        }
-        const rightContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
-        let bottomContainerHeight = this.bottomTab ? Math.floor((functionContainerHeight / 3)) : 50;
-
-        const editorContainerWidth = functionContainerWidth - rightContainerWidth - 50;
-        let editorContainerHeight = functionContainerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
-
-        if (this.expandLogs) {
-            editorContainerHeight = 0;
-            // editorContainerWidth = 0;
-
-            bottomContainerHeight = functionContainerHeight - functionNameHeight;
-
-            this.editorContainer.nativeElement.style.visibility = 'hidden';
-            this.bottomContainer.nativeElement.style.marginTop = '0px';
-        } else {
-            this.editorContainer.nativeElement.style.visibility = 'visible';
-            this.bottomContainer.nativeElement.style.marginTop = '25px';
-        }
-
-
-        if (this.editorContainer) {
-            this.editorContainer.nativeElement.style.width = editorContainerWidth + 'px';
-            this.editorContainer.nativeElement.style.height = editorContainerHeight + 'px';
-        }
-
-        if (this.codeEditor) {
-            this.codeEditor.setLayout(
-                editorContainerWidth - 2,
-                editorContainerHeight - 2
-            );
-        }
-
-        if (this.rightContainer) {
-            this.rightContainer.nativeElement.style.width = rightContainerWidth + 'px';
-            this.rightContainer.nativeElement.style.height = functionContainerHeight + 'px';
-        }
-
-        if (this.bottomContainer) {
-            this.bottomContainer.nativeElement.style.height = bottomContainerHeight + 'px';
-            this.bottomContainer.nativeElement.style.width = (editorContainerWidth + editorPadding * 2) + 'px';
-        }
-
-        if (this.testDataEditor) {
-            const widthDataEditor = rightContainerWidth - 24;
-
-            setTimeout(() => {
-                if (this.testDataEditor) {
-                    this.testDataEditor.setLayout(
-                        this.rightTab ? widthDataEditor : 0,
-                        this.isHttpFunction ? 230 : functionContainerHeight / 2
-                        // functionContainaerHeight / 2
-                    );
-                }
-            }, 0);
-        }
+    onResize() {
+        MonacoHelper.onResizeFunction(
+            this.functionContainer,
+            this.editorContainer,
+            this.rightContainer,
+            this.bottomContainer,
+            this.rightTab,
+            this.bottomTab,
+            this.expandLogs,
+            this.isHttpFunction,
+            this.testDataEditor,
+            this.codeEditor);
     }
 
     clickRightTab(tab: string) {
@@ -577,11 +523,11 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     get codeEditor(): MonacoEditorDirective {
-        return this.getMonacoDirective('code');
+        return MonacoHelper.getMonacoDirective('code', this.monacoEditors);
     }
 
     get testDataEditor(): MonacoEditorDirective {
-        return this.getMonacoDirective('test_data');
+        return MonacoHelper.getMonacoDirective('test_data', this.monacoEditors);
     }
 
     get runLogs(): LogStreamingComponent {
@@ -669,17 +615,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         } else {
             return this.updatedTestContent !== undefined ? this.updatedTestContent : this.functionInfo.test_data;
         }
-    }
-
-    private getMonacoDirective(id: string): MonacoEditorDirective {
-
-        if (!this.monacoEditors) {
-            return null;
-        }
-
-        return this.monacoEditors.toArray().find((e) => {
-            return e.elementRef.nativeElement.id === id;
-        });
     }
 
     private runFunctionInternal() {

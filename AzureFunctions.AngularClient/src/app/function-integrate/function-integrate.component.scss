@@ -1,5 +1,6 @@
 @import '../../sass/common/variables';
 @import '../../sass/base/typography';
+@import '../../sass/controls/_monaco.scss';
 
 h2{
     display: inline;
@@ -27,7 +28,7 @@ div.dev-block-header{
     margin-right: 5px;
 }
 
-#toggle-editor {    
+#toggle-editor {
     top: 0;
     right: 0;
     padding: 7px;
@@ -38,7 +39,6 @@ div.dev-block-header{
     height:100%;
     width:100%;
 }
-
 
 .top-row {
     display:flex;
