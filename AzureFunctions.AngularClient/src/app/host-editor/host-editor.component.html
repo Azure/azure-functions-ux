@@ -1,4 +1,4 @@
-<div class="full-view" #container>
+<div class="full-view" (window:resize)="onResize()" #container>
     <div class="top-row">
         <span class="text-level1-heading">host.json</span>
         <div *ngIf="isDirty" class="dev-block-header">
@@ -6,8 +6,8 @@
             <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
         </div>
     </div>
-    <div class="gutter-container full-view" #editorContainer>
-        <div monacoEditor class="monaco full-view"
+    <div class="full-view" #editorContainer>
+        <div id="host" monacoEditor class="monaco monaco-min-size full-view" 
                 (onSave)="saveConfig()"
                 (onContentChanged)="contentChanged($event)"
                 [content]="configContent"

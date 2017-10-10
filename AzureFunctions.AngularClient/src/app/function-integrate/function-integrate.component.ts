@@ -2,7 +2,7 @@ import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../shared/function-app';
 import { ErrorIds } from './../shared/models/error-ids';
-import { Component, OnDestroy, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { FunctionInfo } from '../shared/models/function-info';
 import { PortalService } from '../shared/services/portal.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -11,6 +11,8 @@ import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
+import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
+import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 
 @Component({
     selector: 'function-integrate',
@@ -21,6 +23,7 @@ import { PortalResources } from '../shared/models/portal-resources';
 export class FunctionIntegrateComponent implements OnDestroy {
     @ViewChild('container') container: ElementRef;
     @ViewChild('editorContainer') editorContainer: ElementRef;
+    @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
     @Output() changeEditor = new EventEmitter<string>();
 
     public _selectedFunction: FunctionInfo;
@@ -37,12 +40,12 @@ export class FunctionIntegrateComponent implements OnDestroy {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService) {
         this.isDirty = false;
+        this.onResize();
     }
 
 
     ngOnInit() {
-        const functionContainerHeight = window.innerHeight - this.container.nativeElement.getBoundingClientRect().top;
-        this.editorContainer.nativeElement.style.height = (functionContainerHeight - 75) + 'px';
+        this.onResize();
     }
 
     set selectedFunction(value: FunctionInfo) {
@@ -126,5 +129,13 @@ export class FunctionIntegrateComponent implements OnDestroy {
             result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, { name: this._selectedFunction.name }));
         }
         return result;
+    }
+
+    onResize() {
+        MonacoHelper.onResize(this.container, this.editorContainer, this.functionEditor);
+    }
+
+    get functionEditor(): MonacoEditorDirective {
+        return MonacoHelper.getMonacoDirective('function', this.monacoEditors);
     }
 }
