@@ -60,16 +60,22 @@ namespace AzureFunctions.Authentication
                     var tryAppServiceToken = context.Request.Params["cookie"];
                     var uri = new Uri(state);
                     var querystring = uri.ParseQueryString();
-                    context.Response.SetCookie(new HttpCookie("TryAppServiceToken", tryAppServiceToken));
-                    context.Response.SetCookie(new HttpCookie("templateId", querystring["templateId"]));
-                    context.Response.SetCookie(new HttpCookie("provider", querystring["provider"]));
-                    context.Response.SetCookie(new HttpCookie("functionName", querystring["functionName"]));
+                    context.Response.SetCookie(SetCookieExpiry(new HttpCookie("TryAppServiceToken", tryAppServiceToken)));
+                    context.Response.SetCookie(SetCookieExpiry(new HttpCookie("templateId", querystring["templateId"])));
+                    context.Response.SetCookie(SetCookieExpiry(new HttpCookie("provider", querystring["provider"])));
+                    context.Response.SetCookie(SetCookieExpiry(new HttpCookie("functionName", querystring["functionName"])));
                     context.Response.RedirectLocation = "/?trial=true";
                     context.Response.StatusCode = 302;
                     context.Response.End();
 
                 }
             }
+        }
+
+        private static HttpCookie SetCookieExpiry(HttpCookie httpCookie)
+        {
+            httpCookie.Expires = DateTime.Now.AddHours(1);
+            return httpCookie;
         }
     }
 }
