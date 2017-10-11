@@ -381,6 +381,8 @@ export class PortalResources
     public static feature_deploymentCredsInfo: string = "feature_deploymentCredsInfo";
     public static feature_consoleName: string = "feature_consoleName";
     public static feature_consoleInfo: string = "feature_consoleInfo";
+    public static feature_sshName: string = "feature_sshName";
+    public static feature_sshInfo: string = "feature_sshInfo";
     public static feature_extensionsName: string = "feature_extensionsName";
     public static feature_extensionsInfo: string = "feature_extensionsInfo";
     public static emptyAppSettings: string = "emptyAppSettings";

@@ -189,21 +189,26 @@ export class SiteManageComponent implements OnDestroy {
         ];
 
         const developmentToolFeatures = [
-            new DisableableBladeFeature(
-                this._translateService.instant(PortalResources.feature_consoleName),
-                this._translateService.instant(PortalResources.feature_consoleName) +
-                ' ' + this._translateService.instant(PortalResources.debug),
-                this._translateService.instant(PortalResources.feature_consoleInfo),
-                'image/console.svg',
-                {
-                    detailBlade: 'ConsoleBlade',
-                    detailBladeInputs: {
-                        resourceUri: site.id
-                    }
-                },
-                this._portalService,
-                this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableConsole, { site: site })),
+            this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled'
+                ? new DisableableBladeFeature(
+                    this._translateService.instant(PortalResources.feature_consoleName),
+                    this._translateService.instant(PortalResources.feature_consoleName) +
+                    ' ' + this._translateService.instant(PortalResources.debug),
+                    this._translateService.instant(PortalResources.feature_consoleInfo),
+                    'image/console.svg',
+                    {
+                        detailBlade: 'ConsoleBlade',
+                        detailBladeInputs: {
+                            resourceUri: site.id
+                        }
+                    },
+                    this._portalService,
+                    this._hasSiteWritePermissionStream)
+                : null,
+
+            this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled'
+                ? new OpenSshFeature(site, this._hasSiteWritePermissionStream, this._translateService)
+                : null,
 
             new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService),
 
@@ -433,7 +438,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site })),
 
             this._scenarioService.checkScenario(ScenarioIds.addTinfoil, { site: site }).status !== 'disabled'
-                ? new BladeFeature(
+                ? new DisableableBladeFeature(
                     this._translateService.instant(PortalResources.feature_securityScanningName),
                     this._translateService.instant(PortalResources.feature_securityScanningName) + ' tinfoil',
                     this._translateService.instant(PortalResources.feature_securityScanningInfo),
@@ -442,7 +447,9 @@ export class SiteManageComponent implements OnDestroy {
                         detailBlade: 'TinfoilSecurityBlade',
                         detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
                     },
-                    this._portalService)
+                    this._portalService,
+                    null,
+                    this._scenarioService.checkScenario(ScenarioIds.enableTinfoil, { site: site }))
                 : null,
         ];
 
@@ -623,6 +630,27 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.appServicePlan),
                 appServicePlanFeatures.filter(f => !!f)),
             new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)];
+    }
+}
+
+export class OpenSshFeature extends DisableableFeature {
+    constructor(
+        private _site: ArmObj<Site>,
+        disableInfoStream: Subject<DisableInfo>,
+        _translateService: TranslateService) {
+
+        super(
+            _translateService.instant(PortalResources.feature_sshName),
+            _translateService.instant(PortalResources.feature_sshName)
+            + _translateService.instant(PortalResources.feature_consoleName),
+            _translateService.instant(PortalResources.feature_sshInfo),
+            'image/console.svg',
+            disableInfoStream);
+    }
+
+    click() {
+        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
+        window.open(`https://${scmHostName}/webssh/host`);
     }
 }
 

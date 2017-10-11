@@ -35,9 +35,14 @@ export class LinuxSiteEnvironment extends Environment {
             runCheck: () => disabledResult
         };
 
-        this.scenarioChecks[ScenarioIds.enableConsole] = {
-            id: ScenarioIds.enableConsole,
+        this.scenarioChecks[ScenarioIds.addConsole] = {
+            id: ScenarioIds.addConsole,
             runCheck: () => disabledResult
+        };
+
+        this.scenarioChecks[ScenarioIds.addSsh] = {
+            id: ScenarioIds.addSsh,
+            runCheck: () => { return { status: 'enabled' }; }
         };
 
         this.scenarioChecks[ScenarioIds.enableAppServiceEditor] = {
@@ -57,6 +62,11 @@ export class LinuxSiteEnvironment extends Environment {
 
         this.scenarioChecks[ScenarioIds.enableProcessExplorer] = {
             id: ScenarioIds.enableProcessExplorer,
+            runCheck: () => disabledResult
+        };
+
+        this.scenarioChecks[ScenarioIds.enableTinfoil] = {
+            id: ScenarioIds.enableTinfoil,
             runCheck: () => disabledResult
         };
     }
