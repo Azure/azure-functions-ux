@@ -1,0 +1,1882 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="azureFunctions" xml:space="preserve">
+    <value>Функции Azure</value>
+  </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Среда выполнения функций Azure</value>
+  </data>
+  <data name="cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="configure" xml:space="preserve">
+    <value>Настроить</value>
+  </data>
+  <data name="functionCreateErrorDetails" xml:space="preserve">
+    <value>Ошибка при создании функции: {{error}}</value>
+  </data>
+  <data name="functionCreateErrorMessage" xml:space="preserve">
+    <value>Ошибка при создании функции. Повторите попытку.</value>
+  </data>
+  <data name="functionDev_functionErrorDetails" xml:space="preserve">
+    <value>Ошибка функции: {{error}}</value>
+  </data>
+  <data name="functionDev_functionErrorMessage" xml:space="preserve">
+    <value>Ошибка функции (${{name}}): {{error}}</value>
+  </data>
+  <data name="functionDev_functionUrl" xml:space="preserve">
+    <value>URL-адрес функции</value>
+  </data>
+  <data name="functionDev_githubSelect" xml:space="preserve">
+    <value>Секрет Github</value>
+  </data>
+  <data name="functionDev_hideFiles" xml:space="preserve">
+    <value>Скрыть файлы</value>
+  </data>
+  <data name="functionDev_hostErrorMessage" xml:space="preserve">
+    <value>Ошибка узла: {{error}}</value>
+  </data>
+  <data name="functionDev_Output" xml:space="preserve">
+    <value>Вывод</value>
+  </data>
+  <data name="functionDev_requestBody" xml:space="preserve">
+    <value>Текст запроса</value>
+  </data>
+  <data name="functionDev_saveAndRun" xml:space="preserve">
+    <value>Сохранить и запустить</value>
+  </data>
+  <data name="functionDev_status" xml:space="preserve">
+    <value>Состояние:</value>
+  </data>
+  <data name="functionDev_viewFiles" xml:space="preserve">
+    <value>Просмотреть файлы</value>
+  </data>
+  <data name="functionNew_chooseTemplate" xml:space="preserve">
+    <value>Выберите шаблон ниже или</value>
+  </data>
+  <data name="functionNew_experimentalTemplate" xml:space="preserve">
+    <value>Этот шаблон является экспериментальным и пока не поддерживается полностью. При возникновении проблем зарегистрируйте ошибку в нашем &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;репозитории GitHub.&lt;/a&gt;</value>
+  </data>
+  <data name="functionNew_functionName" xml:space="preserve">
+    <value>Имя функции</value>
+  </data>
+  <data name="functionNew_functionNameRequired" xml:space="preserve">
+    <value>Требуется указать имя функции.</value>
+  </data>
+  <data name="functionNew_nameYourFunction" xml:space="preserve">
+    <value>Присвойте функции имя.</value>
+  </data>
+  <data name="gettingStarted_createGetStarted" xml:space="preserve">
+    <value>Создать и начать работу</value>
+  </data>
+  <data name="gettingStarted_functionApps" xml:space="preserve">
+    <value>Приложения-функции</value>
+  </data>
+  <data name="gettingStarted_getStarted" xml:space="preserve">
+    <value>Начать работу с Функциями Azure</value>
+  </data>
+  <data name="gettingStarted_newFunctionApp" xml:space="preserve">
+    <value>Новое приложение-функция</value>
+  </data>
+  <data name="gettingStarted_noFunApps" xml:space="preserve">
+    <value>Ваша подписка не содержит приложения-функции. Это контейнеры, где выполняются ваши функции. Создайте один сейчас.</value>
+  </data>
+  <data name="gettingStarted_orCreate" xml:space="preserve">
+    <value>Либо создайте приложение-функцию на &lt;a href="https://portal.azure.com/#create/Microsoft.FunctionApp"&gt;портале Azure&lt;/a&gt;.</value>
+  </data>
+  <data name="gettingStarted_selectLocation" xml:space="preserve">
+    <value>Выбрать расположение</value>
+  </data>
+  <data name="gettingStarted_selectSubscription" xml:space="preserve">
+    <value>Выбрать подписку</value>
+  </data>
+  <data name="gettingStarted_subIsNotWhitelisted" xml:space="preserve">
+    <value>Подписка {{displayName}} ({{ subscriptionId }}) не включена в список разрешенных для запуска функций.</value>
+  </data>
+  <data name="gettingStarted_thisSub" xml:space="preserve">
+    <value>Эта подписка содержит одно или несколько приложений-функций. Это контейнеры, где выполняются ваши функции. Выберите контейнер или создайте его ниже.</value>
+  </data>
+  <data name="gettingStarted_validateContainer1" xml:space="preserve">
+    <value>Имя должно содержать не менее 2 символов.</value>
+  </data>
+  <data name="gettingStarted_validateContainer2" xml:space="preserve">
+    <value>Длина имени не должна превышать 60 символов.</value>
+  </data>
+  <data name="gettingStarted_validateContainer3" xml:space="preserve">
+    <value>Имя может содержать буквы, цифры и дефисы (первый и последний символы должны быть цифрами или буквами)</value>
+  </data>
+  <data name="gettingStarted_validateContainer4" xml:space="preserve">
+    <value>имя приложения-функции {{funcName}} недоступно</value>
+  </data>
+  <data name="gettingStarted_youNeed" xml:space="preserve">
+    <value>Для использования этой службы требуется подписка Azure. &lt;a href="https://azure.microsoft.com/en-us/free/"&gt;Щелкните здесь&lt;/a&gt;, чтобы создать бесплатную пробную подписку.</value>
+  </data>
+  <data name="gettingStarted_yourFunctionApps" xml:space="preserve">
+    <value>Ваши приложения-функции</value>
+  </data>
+  <data name="gettingStarted_yourSubscription" xml:space="preserve">
+    <value>Ваша подписка</value>
+  </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>При создании приложения-функции будет автоматически подготовлен новый контейнер, поддерживающий размещение и запуск вашего кода.</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Не удалось создать приложение</value>
+  </data>
+  <data name="intro_chooseLanguage" xml:space="preserve">
+    <value>2. Выберите язык</value>
+  </data>
+  <data name="intro_chooseScenario" xml:space="preserve">
+    <value>1. Выберите сценарий</value>
+  </data>
+  <data name="intro_createThisFunction" xml:space="preserve">
+    <value>Создайте эту функцию</value>
+  </data>
+  <data name="intro_createYourOwn" xml:space="preserve">
+    <value>создайте собственную пользовательскую функцию</value>
+  </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>Пользовательская функция</value>
+  </data>
+  <data name="intro_dataProcessing" xml:space="preserve">
+    <value>Обработка данных</value>
+  </data>
+  <data name="intro_or" xml:space="preserve">
+    <value>или</value>
+  </data>
+  <data name="intro_getStarted" xml:space="preserve">
+    <value>Быстрее приступайте к работе благодаря готовой функции</value>
+  </data>
+  <data name="intro_getStartedOn" xml:space="preserve">
+    <value>Создайте свою собственную</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>Продолжайте использовать это краткое руководство</value>
+  </data>
+  <data name="intro_ifYou" xml:space="preserve">
+    <value>Для PowerShell, Python и пакетной службы,</value>
+  </data>
+  <data name="intro_startSC" xml:space="preserve">
+    <value>Начните с системы управления версиями</value>
+  </data>
+  <data name="intro_timer" xml:space="preserve">
+    <value>Таймер</value>
+  </data>
+  <data name="intro_webHook" xml:space="preserve">
+    <value>Веб-перехватчик + API</value>
+  </data>
+  <data name="logStreaming_clear" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="logStreaming_copied" xml:space="preserve">
+    <value>Скопировано.</value>
+  </data>
+  <data name="logStreaming_copyLogs" xml:space="preserve">
+    <value>Скопировать журналы</value>
+  </data>
+  <data name="logStreaming_pause" xml:space="preserve">
+    <value>Приостановить</value>
+  </data>
+  <data name="logStreaming_start" xml:space="preserve">
+    <value>Запустить</value>
+  </data>
+  <data name="logStreaming_tooManyLogs" xml:space="preserve">
+    <value>Слишком много журналов. Частота обновления: {{seconds}} с.</value>
+  </data>
+  <data name="_name" xml:space="preserve">
+    <value>Имя</value>
+    <comment>Can't use "name" as key because typescript has own name property for the object</comment>
+  </data>
+  <data name="open" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>или</value>
+  </data>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>Приложение сейчас находится в режиме "только для чтения", так как у вас включена интеграция системы управления версиями. Чтобы изменить режим правки, посетите </value>
+  </data>
+  <data name="region" xml:space="preserve">
+    <value>Регион</value>
+  </data>
+  <data name="run" xml:space="preserve">
+    <value>Запуск</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Добавить новый параметр</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Добавить новую строку подключения</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Введите имя</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Введите значение</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Скрытое значение. Щелкните, чтобы показать.</value>
+  </data>
+  <data name="sideBar_changeMade" xml:space="preserve">
+    <value>Изменения, внесенные в функцию {{name}}, будут утеряны. Вы действительно хотите продолжить?</value>
+  </data>
+  <data name="sideBar_newFunction" xml:space="preserve">
+    <value>Новая функция</value>
+  </data>
+  <data name="sideBar_refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>Функции поиска</value>
+  </data>
+  <data name="subscription" xml:space="preserve">
+    <value>Идентификатор подписки</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
+    <value>Подписка</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>Группа ресурсов</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>Местоположение</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>Нет результатов</value>
+  </data>
+  <data name="topBar_changeMade" xml:space="preserve">
+    <value>Изменения, внесенные в текущую функцию, будут утеряны. Вы действительно хотите продолжить?</value>
+  </data>
+  <data name="topBar_functionAppSettings" xml:space="preserve">
+    <value>Параметры приложения-функции</value>
+  </data>
+  <data name="topBar_newVersion" xml:space="preserve">
+    <value>Доступна новая версия функций Azure. Чтобы выполнить обновление, щелкните здесь</value>
+  </data>
+  <data name="topBar_quickStart" xml:space="preserve">
+    <value>Быстрый старт</value>
+  </data>
+  <data name="topBar_usage" xml:space="preserve">
+    <value>Использование</value>
+  </data>
+  <data name="all" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="appMonitoring_appExecutions" xml:space="preserve">
+    <value>Выполнения приложения</value>
+  </data>
+  <data name="appMonitoring_appUsage" xml:space="preserve">
+    <value>Использование приложения (ГБ/с)</value>
+  </data>
+  <data name="appMonitoring_functionAppUsage" xml:space="preserve">
+    <value>Использование приложения-функции</value>
+  </data>
+  <data name="appMonitoring_noData" xml:space="preserve">
+    <value>Данные недоступны</value>
+  </data>
+  <data name="appMonitoring_ofExecutions" xml:space="preserve">
+    <value>выполнений</value>
+  </data>
+  <data name="binding_parameterName" xml:space="preserve">
+    <value>Имя параметра</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="config" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="cors" xml:space="preserve">
+    <value>CORS</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="dashboard_yourTrialExpiered" xml:space="preserve">
+    <value>Срок действия пробной версии истек</value>
+  </data>
+  <data name="disabled" xml:space="preserve">
+    <value>Отключено</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="errorList_here" xml:space="preserve">
+    <value>здесь</value>
+  </data>
+  <data name="errorList_youMay" xml:space="preserve">
+    <value>Возможно, возникла ошибка. При наличии проблем сообщите о них.</value>
+  </data>
+  <data name="errorParsingConfig" xml:space="preserve">
+    <value>Ошибка при анализе конфигурации: {{error}}</value>
+  </data>
+  <data name="features" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="filedRequired" xml:space="preserve">
+    <value>Это обязательное поле</value>
+  </data>
+  <data name="functionDev_code" xml:space="preserve">
+    <value>Код</value>
+  </data>
+  <data name="functionDev_run" xml:space="preserve">
+    <value>Запуск</value>
+  </data>
+  <data name="functionEdit_readOnly" xml:space="preserve">
+    <value>Только для чтения — поскольку вы начали редактирование с управлением версиями, это представление доступно только для чтения.</value>
+  </data>
+  <data name="functionIntegrate_advancedEditor" xml:space="preserve">
+    <value>Расширенный редактор</value>
+  </data>
+  <data name="functionIntegrate_changesLost1" xml:space="preserve">
+    <value>Внесенные изменения будут утеряны. Вы действительно хотите продолжить?</value>
+  </data>
+  <data name="functionIntegrate_changesLost2" xml:space="preserve">
+    <value>Изменения, внесенные в функцию {{name}}, будут утеряны. Вы действительно хотите продолжить?</value>
+  </data>
+  <data name="functionIntegrate_settingName" xml:space="preserve">
+    <value>Имя параметра:</value>
+  </data>
+  <data name="functionIntegrate_standardEditor" xml:space="preserve">
+    <value>Обычный редактор</value>
+  </data>
+  <data name="functionManage_areYouSure" xml:space="preserve">
+    <value>Вы действительно хотите удалить функцию {{name}}?</value>
+  </data>
+  <data name="functionMonitor_loading" xml:space="preserve">
+    <value>Идет загрузка...</value>
+  </data>
+  <data name="functionMonitor_successAggregate" xml:space="preserve">
+    <value>Число успехов с</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate" xml:space="preserve">
+    <value>Число ошибок c</value>
+  </data>
+  <data name="functionMonitor_invocationLog" xml:space="preserve">
+    <value>Журнал вызовов</value>
+  </data>
+  <data name="functionMonitor_invocationDetails" xml:space="preserve">
+    <value>Сведения о вызове</value>
+  </data>
+  <data name="functionMonitor_invocationOutput" xml:space="preserve">
+    <value>Журналы</value>
+  </data>
+  <data name="functionMonitor_pulseUrl" xml:space="preserve">
+    <value>прямой поток событий</value>
+  </data>
+  <data name="functionMonitorTable_functionColumn" xml:space="preserve">
+    <value>Функция</value>
+  </data>
+  <data name="functionMonitorTable_statusColumn" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="functionMonitorTable_detailsColumn" xml:space="preserve">
+    <value>Сведения: последний запуск</value>
+  </data>
+  <data name="functionMonitorTable_durationColumn" xml:space="preserve">
+    <value>(длительность)</value>
+  </data>
+  <data name="functionMonitorInvocationTable_paramColumn" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="functionService_authIsEnabled" xml:space="preserve">
+    <value>Для приложения-функции включена проверка подлинности. Отключите ее перед запуском функции.</value>
+  </data>
+  <data name="functionService_errorRunningFunc" xml:space="preserve">
+    <value>При выполнении функции ({{name}}) возникла ошибка. Полные сведения об ошибке см. в выходных данных журнала.</value>
+  </data>
+  <data name="input" xml:space="preserve">
+    <value>Входные данные</value>
+  </data>
+  <data name="logStreaming_logs" xml:space="preserve">
+    <value>Журналы</value>
+  </data>
+  <data name="newInput" xml:space="preserve">
+    <value>Новое входное значение</value>
+  </data>
+  <data name="newOutput" xml:space="preserve">
+    <value>Новое выходное значение</value>
+  </data>
+  <data name="newTrigger" xml:space="preserve">
+    <value>Новый триггер</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Далее</value>
+  </data>
+  <data name="notValidValue" xml:space="preserve">
+    <value>Недопустимое значение</value>
+  </data>
+  <data name="output" xml:space="preserve">
+    <value>Выходные данные</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Выбор</value>
+  </data>
+  <data name="tabNames_develop" xml:space="preserve">
+    <value>Разработка</value>
+  </data>
+  <data name="tabNames_integrate" xml:space="preserve">
+    <value>Интегрировать</value>
+  </data>
+  <data name="tabNames_manage" xml:space="preserve">
+    <value>Управление</value>
+  </data>
+  <data name="tabNames_monitor" xml:space="preserve">
+    <value>Монитор</value>
+  </data>
+  <data name="templatePicker_chooseInput" xml:space="preserve">
+    <value>Выберите привязку для ввода.</value>
+  </data>
+  <data name="templatePicker_chooseOutput" xml:space="preserve">
+    <value>Выберите привязку для вывода.</value>
+  </data>
+  <data name="templatePicker_chooseTemplate" xml:space="preserve">
+    <value>Выберите шаблон.</value>
+  </data>
+  <data name="templatePicker_chooseTrigger" xml:space="preserve">
+    <value>Выберите триггер</value>
+  </data>
+  <data name="templatePicker_language" xml:space="preserve">
+    <value>Язык:</value>
+  </data>
+  <data name="templatePicker_scenario" xml:space="preserve">
+    <value>Сценарий:</value>
+  </data>
+  <data name="trigger" xml:space="preserve">
+    <value>Триггеры</value>
+  </data>
+  <data name="tryNow_trialExpired" xml:space="preserve">
+    <value>Истек срок действия пробной версии.</value>
+  </data>
+  <data name="tutorial_changesMade" xml:space="preserve">
+    <value>Внесенные здесь изменения затрагивают все функции в вашем приложении-функции.</value>
+  </data>
+  <data name="tutorial_createNew" xml:space="preserve">
+    <value>&lt;span&gt;Создайте полностью новую функцию&lt;/span&gt; — начните работу с помощью одного из шаблонов готовых функций</value>
+  </data>
+  <data name="tutorial_develop" xml:space="preserve">
+    <value>Разработка</value>
+  </data>
+  <data name="tutorial_diveIntoDocumentation" xml:space="preserve">
+    <value>&lt;span&gt;Обратитесь к документации&lt;/span&gt; — ознакомьтесь со всеми возможностями Функций Azure &lt;a target="_blank" href="http://go.microsoft.com/fwlink/?LinkId=747839"&gt;здесь&lt;/a&gt;.</value>
+  </data>
+  <data name="tutorial_functionAppSettings" xml:space="preserve">
+    <value>Параметры приложения-функции</value>
+  </data>
+  <data name="tutorial_integrate" xml:space="preserve">
+    <value>Интегрировать</value>
+  </data>
+  <data name="tutorial_integrateYourFunction" xml:space="preserve">
+    <value>Интеграция функций с другими службами и источниками данных не вызывает никаких сложностей.</value>
+  </data>
+  <data name="tutorial_nextSteps" xml:space="preserve">
+    <value>Следующие шаги</value>
+  </data>
+  <data name="tutorial_setUpAutomated" xml:space="preserve">
+    <value>Настройте автоматические действия на основе внешних триггеров, включите другие источники входных данных и отправьте выходные данные в несколько конечных расположений.</value>
+  </data>
+  <data name="tutorial_skip" xml:space="preserve">
+    <value>Пропустить обзор и приступить к программированию</value>
+  </data>
+  <data name="tutorial_theFastestWayNode" xml:space="preserve">
+    <value>Правки в код быстрее всего вносить в редакторе кода, но можно использовать и Git. В этом примере используется NodeJS, но поддерживается и множество других языков.</value>
+  </data>
+  <data name="tutorial_thisPageInclude" xml:space="preserve">
+    <value>Этот пакет также включает поток журналов и тестовую консоль для отладки функции.</value>
+  </data>
+  <data name="tutorial_tweakThisSample" xml:space="preserve">
+    <value>&lt;span&gt;Оптимизируйте этот пример функции&lt;/span&gt; — превратите его в нечто оригинальное с помощью удобной панели мониторинга.</value>
+  </data>
+  <data name="tutorial_yourFunction" xml:space="preserve">
+    <value>Ваши функции предназначены для выполнения в качестве приложения-функции внутри службы приложений Azure, и именно там следует изменять возможности такого приложения.</value>
+  </data>
+  <data name="update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="bindingInput_select" xml:space="preserve">
+    <value>выбрать </value>
+  </data>
+  <data name="binding_delete" xml:space="preserve">
+    <value>удалить</value>
+  </data>
+  <data name="bindingsValidationDirectionMissed" xml:space="preserve">
+    <value>Пропущено направление для параметра.</value>
+  </data>
+  <data name="bindingsValidationDirectionUnknown" xml:space="preserve">
+    <value>Неизвестное направление: "{{direction}}".</value>
+  </data>
+  <data name="bindingsValidationNameDublicate" xml:space="preserve">
+    <value>Имя параметра должно быть уникальным в рамках функции: "{{functionName}}".</value>
+  </data>
+  <data name="bindingsValidationNameMissed" xml:space="preserve">
+    <value>Пропущено имя для параметра.</value>
+  </data>
+  <data name="bindingsValidationTypeMIssed" xml:space="preserve">
+    <value>Пропущен тип для параметра.</value>
+  </data>
+  <data name="bindingsValidationTypeUnknown" xml:space="preserve">
+    <value>Неизвестный тип: "{{type}}".</value>
+  </data>
+  <data name="resourceSelect" xml:space="preserve">
+    <value>Ожидается ресурс</value>
+  </data>
+  <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
+    <value>Нам очень понравилось размещать ваши функции.</value>
+  </data>
+  <data name="trialExpired_signupForAzure" xml:space="preserve">
+    <value>Срок действия вашей пробной версии истек, однако вы можете получить расширенную пробную версию, включающую в себя все остальные функции Azure.</value>
+  </data>
+  <data name="tryLanding_chooseAnAuthProvider" xml:space="preserve">
+    <value>Выберите поставщика проверки подлинности.</value>
+  </data>
+  <data name="tryLanding_microsoftAcccount" xml:space="preserve">
+    <value>Учетная запись Майкрософт</value>
+  </data>
+  <data name="tryNow_createFreeAzureAccount" xml:space="preserve">
+    <value>Создать бесплатную учетную запись Azure</value>
+  </data>
+  <data name="tryNow_extendTrial" xml:space="preserve">
+    <value>Продлить срок действия пробной версии на 24 часа</value>
+  </data>
+  <data name="tryNow_trialTimeRemaining" xml:space="preserve">
+    <value>Оставшийся срок действия пробной версии:</value>
+  </data>
+  <data name="tryLanding_functionError" xml:space="preserve">
+    <value>Ошибка при создании функции. Повторите попытку.</value>
+  </data>
+  <data name="tryLanding_functionErrorDetails" xml:space="preserve">
+    <value>Ошибка при создании функции</value>
+  </data>
+  <data name="tryLanding_ifYou" xml:space="preserve">
+    <value>Если вы хотите использовать другой поддерживаемый язык, позднее вы сможете выбрать его на портале функций.</value>
+  </data>
+  <data name="tryNow_minutes" xml:space="preserve">
+    <value> мин</value>
+  </data>
+  <data name="bindingInput_new" xml:space="preserve">
+    <value>новое</value>
+  </data>
+  <data name="integrate_inputsHelp" xml:space="preserve">
+    <value>Привязки входных данных предоставляют дополнительные данные функции при ее вызове. Например, можно извлечь данные из табличного хранилища в новом сообщении очереди. Входные данные необязательны.</value>
+  </data>
+  <data name="integrate_outputsHelp" xml:space="preserve">
+    <value>Привязки выходных данных позволяют выводить данные из функции. Например, можно добавить элемент в очередь. Выходные данные необязательны.</value>
+  </data>
+  <data name="integrate_triggersHelp" xml:space="preserve">
+    <value>Триггеры запускают функцию. Например, можно активировать новое сообщение в очереди. Триггер должен быть всегда.</value>
+  </data>
+  <data name="binding_createNewFunction" xml:space="preserve">
+    <value>Создание функции, запускаемой этими выходными данными</value>
+  </data>
+  <data name="binding_documentation" xml:space="preserve">
+    <value>Документация</value>
+  </data>
+  <data name="binding_go" xml:space="preserve">
+    <value>Перейти</value>
+  </data>
+  <data name="copypre_copied" xml:space="preserve">
+    <value>Скопировано.</value>
+  </data>
+  <data name="copypre_copyClipboard" xml:space="preserve">
+    <value>Копировать в буфер</value>
+  </data>
+  <data name="fileExplorer_changesLost" xml:space="preserve">
+    <value>Изменения, внесенные в текущий файл, будут потеряны. Вы действительно хотите продолжить?</value>
+  </data>
+  <data name="fileExplorer_deletePromt" xml:space="preserve">
+    <value>Вы действительно хотите удалить {{fileName}}?</value>
+  </data>
+  <data name="fileExplorer_editingBinary" xml:space="preserve">
+    <value>Редактирование двоичных файлов не поддерживается.</value>
+  </data>
+  <data name="fileExplorer_errorCreatingFile" xml:space="preserve">
+    <value>Ошибка при создании файла: {{fileName}}</value>
+  </data>
+  <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
+    <value>Ошибка при удалении файла: {{fileName}}</value>
+  </data>
+  <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
+    <value>Быстрее всего редактировать код в редакторе, но можно использовать и Git. В этом примере используется C#, но поддерживаются и многие другие языки.</value>
+  </data>
+  <data name="binding_actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="tryNow_lessThanOneMinute" xml:space="preserve">
+    <value>Менее минуты</value>
+  </data>
+  <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
+    <value>Регистрация бесплатной учетной записи Azure делает доступными все возможности функций без ограничения по времени.</value>
+  </data>
+  <data name="error_CORSNotConfigured" xml:space="preserve">
+    <value>CORS не настроен для этого приложения-функции. Добавьте {{origin}} в список CORS.</value>
+  </data>
+  <data name="error_DnsResolution" xml:space="preserve">
+    <value>Не удалось подключиться к приложению-функции. В приложении могла возникнуть временная проблема, или же оно может испытывать проблемы с запуском. Можно проверить журналы или повторить попытку через пару минут.</value>
+  </data>
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
+    <value>Не удалось получить приложение-функцию ({{functionApp}})</value>
+  </data>
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
+    <value>Не удалось подключиться к приложению-функции ({{statusText}}). Повторите попытку позже.</value>
+  </data>
+  <data name="tryNow_fewMoreSeconds" xml:space="preserve">
+    <value>Еще пару секунд...</value>
+  </data>
+  <data name="tryNow_hangOn" xml:space="preserve">
+    <value>Подождите, пока мы доводим функции до ума...</value>
+  </data>
+  <data name="tryNow_discoverMore" xml:space="preserve">
+    <value>Дополнительно</value>
+  </data>
+  <data name="fileExplorer_add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="fileExplorer_delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="fileExplorer_edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="fileExplorer_upload" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="storageLockNote" xml:space="preserve">
+    <value>С этой учетной записью хранения были связаны приложения-функции. Все приложения-функции, связанные с этой учетной записью, можно просмотреть в разделах "Файлы" или "Общие файловые ресурсы".</value>
+  </data>
+  <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
+    <value>Файл с именем {{fileName}} уже существует.</value>
+  </data>
+  <data name="functionNew_functionExsists" xml:space="preserve">
+    <value>Функция с именем "{{name}}" уже существует.</value>
+  </data>
+  <data name="binding_storageAccountKey" xml:space="preserve">
+    <value>Ключ учетной записи:</value>
+  </data>
+  <data name="binding_storageAccountName" xml:space="preserve">
+    <value>Имя учетной записи:</value>
+  </data>
+  <data name="binding_storageInfoFooter" xml:space="preserve">
+    <value>Теперь можно просматривать BLOB-объекты, очереди и таблицы, связанные с этой привязкой к хранилищу.</value>
+  </data>
+  <data name="binding_storageInfoHeader" xml:space="preserve">
+    <value>Идет подключение к вашей учетной записи хранения</value>
+  </data>
+  <data name="binding_storageInfoHeader2" xml:space="preserve">
+    <value>Скачайте обозреватель хранилищ отсюда:      </value>
+  </data>
+  <data name="binding_storageInfoHeader3" xml:space="preserve">
+    <value>Подключитесь по этим учетным данным:</value>
+  </data>
+  <data name="topBar_learnMore" xml:space="preserve">
+    <value>Подробнее...</value>
+  </data>
+  <data name="httpRun_addHeader" xml:space="preserve">
+    <value>Добавить заголовок</value>
+  </data>
+  <data name="httpRun_addParameter" xml:space="preserve">
+    <value>Добавить параметр</value>
+  </data>
+  <data name="httpRun_httpMethod" xml:space="preserve">
+    <value>Метод HTTP</value>
+  </data>
+  <data name="httpRun_query" xml:space="preserve">
+    <value>Запрос</value>
+  </data>
+  <data name="topBar_alwaysOn" xml:space="preserve">
+    <value>Режим "AlwaysOn" отключен. Приложение может работать неправильно.</value>
+  </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>Значение идентификатора явно задано в host.json, что может вызвать непредвиденное поведение при использовании слотов развертывания</value>
+  </data>
+  <data name="topBar_releaseNotes" xml:space="preserve">
+    <value>Заметки о выпуске для функций Azure.</value>
+  </data>
+  <data name="adminKeys_title" xml:space="preserve">
+    <value>Ключи узла (все функции)</value>
+  </data>
+  <data name="functionKeys_addNewAdminKey" xml:space="preserve">
+    <value>Добавить ключ узла</value>
+  </data>
+  <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
+    <value>Добавить функциональную клавишу</value>
+  </data>
+  <data name="functionKeys_clickToShow" xml:space="preserve">
+    <value>Щелкните для отображения</value>
+  </data>
+  <data name="functionKeys_discard" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="functionKeys_enterKeyName" xml:space="preserve">
+    <value>(обязательно)</value>
+  </data>
+  <data name="functionKeys_enterKeyValue" xml:space="preserve">
+    <value>(Необязательно.) Оставьте поле пустым, чтобы создать ключ автоматически.</value>
+  </data>
+  <data name="functionKeys_keyName" xml:space="preserve">
+    <value>ИМЯ</value>
+  </data>
+  <data name="functionKeys_keyValue" xml:space="preserve">
+    <value>ЗНАЧЕНИЕ</value>
+  </data>
+  <data name="functionKeys_title" xml:space="preserve">
+    <value>Функциональные клавиши</value>
+  </data>
+  <data name="binding_storageConnectionString" xml:space="preserve">
+    <value>Строка подключения:</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuota" xml:space="preserve">
+    <value>Квота на дневное использование (ГБ/с)</value>
+  </data>
+  <data name="functionAppSettings_quotaWarning" xml:space="preserve">
+    <value>Приложение-функция достигло квоты на дневное использование и было остановлено. Его работа будет возобновлена при наступлении следующего 24-часового интервала времени.</value>
+  </data>
+  <data name="functionAppSettings_removeQuota" xml:space="preserve">
+    <value>Удалить квоту</value>
+  </data>
+  <data name="functionAppSettings_setQuota" xml:space="preserve">
+    <value>Задать квоту</value>
+  </data>
+  <data name="functionAppSettings_quotaInfo" xml:space="preserve">
+    <value>При превышении ежедневной квоты использования приложение-функция будет остановлено до 0:00 UTC следующего дня.</value>
+  </data>
+  <data name="functionKeys_revokeConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите отозвать ключ {{name}}?</value>
+  </data>
+  <data name="keys" xml:space="preserve">
+    <value>Ключи</value>
+  </data>
+  <data name="functionNew_nameError" xml:space="preserve">
+    <value>Имя должно быть уникальным в приложении-функции. Оно должно начинаться с буквы и может содержать буквы, числа (0–9), дефисы ("-") и знаки подчеркивания ("_").</value>
+  </data>
+  <data name="functionDev_loading" xml:space="preserve">
+    <value>Загрузка…</value>
+  </data>
+  <data name="test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="runtimeVersion" xml:space="preserve">
+    <value>Версия среды выполнения</value>
+  </data>
+  <data name="error_FunctionExceededQuota" xml:space="preserve">
+    <value>Ваше приложение-функция отключено, так как оно превысило заданную квоту. Изменить ее можно в представлении параметров приложения-функции на панели слева.</value>
+  </data>
+  <data name="error_siteStopped" xml:space="preserve">
+    <value>Ваше приложение-функция остановлено. Пока оно остановлено, использовать портал функций невозможно. Чтобы запустить приложение-функцию, перейдите в ее представление параметров на панели слева, а затем — в колонку параметров службы приложений.</value>
+  </data>
+  <data name="error_NoPermissionToAccessApp" xml:space="preserve">
+    <value>У вас недостаточно разрешений, чтобы получить доступ к этому приложению-функции. Возможно, вы сможете увидеть базовые параметры в колонке службы приложений, к которой можно получить доступ по ссылке на параметры приложения-функции на боковой панели слева.</value>
+  </data>
+  <data name="errorUniqueParameterName" xml:space="preserve">
+    <value>Имя параметра должно быть уникальным.</value>
+  </data>
+  <data name="binding_useFunctionReturnValue" xml:space="preserve">
+    <value>Использовать возвращаемое значение функции</value>
+  </data>
+  <data name="functionEdit_functionState" xml:space="preserve">
+    <value>Состояние функции</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>Откл.</value>
+  </data>
+  <data name="on" xml:space="preserve">
+    <value>Включен</value>
+  </data>
+  <data name="topBar_functionApiSettings" xml:space="preserve">
+    <value>Параметры API</value>
+  </data>
+  <data name="sidebar_newApiProxy" xml:space="preserve">
+    <value>Создать прокси-сервер</value>
+  </data>
+  <data name="apiProxy_allMethods" xml:space="preserve">
+    <value>Все методы</value>
+  </data>
+  <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
+    <value>Разрешенные методы HTTP</value>
+  </data>
+  <data name="apiProxy_backendUrl" xml:space="preserve">
+    <value>Внутренний URL-адрес</value>
+  </data>
+  <data name="apiProxy_errorExists" xml:space="preserve">
+    <value>Прокси или функция с таким названием уже существует.</value>
+  </data>
+  <data name="apiProxy_name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="apiProxy_proxyUrl" xml:space="preserve">
+    <value>URL-адрес прокси-сервера</value>
+  </data>
+  <data name="apiProxy_routeTemplate" xml:space="preserve">
+    <value>Шаблон маршрута</value>
+  </data>
+  <data name="apiProxy_seectedMethods" xml:space="preserve">
+    <value>Выбранные методы</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>Параметры приложения-функции</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Версия среды выполнения: {{extensionVersion}} Доступна более новая версия ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Версия среды выполнения: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_apiProxies" xml:space="preserve">
+    <value>Прокси-серверы (предварительная версия)</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
+    <value>Версия среды выполнения прокси-сервера: {{extensionVersion}}. Доступна новая версия ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
+    <value>Версия среды выполнения прокси-сервера: последняя ({{latestExtensionVersion}})</value>
+  </data>
+  <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
+    <value>Включить прокси-серверы для функций Azure (предварительная версия)</value>
+  </data>
+  <data name="apiProxies_warningOff" xml:space="preserve">
+    <value>Прокси-серверы для функций Azure сейчас отключены. Чтобы включить их, перейдите на страницу</value>
+  </data>
+  <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
+    <value>Изменения параметров прокси-сервера {{name}} будут утрачены. Вы действительно хотите продолжить?</value>
+  </data>
+  <data name="apiProxy_alreadyExists" xml:space="preserve">
+    <value>Прокси-сервер "{{name}}" уже существует.</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Слоты функций Azure (предварительная версия) сейчас отключены. Чтобы включить их, перейдите на страницу</value>
+  </data>
+  <data name="discrard" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="sidebar_Functions" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="intro_signInWithFacebook" xml:space="preserve">
+    <value>Войти по учетным данным Facebook</value>
+  </data>
+  <data name="intro_signInWithGitHub" xml:space="preserve">
+    <value>Войти по учетным данным GitHub</value>
+  </data>
+  <data name="intro_signInWithGoogle" xml:space="preserve">
+    <value>Войти по учетным данным Google</value>
+  </data>
+  <data name="intro_signInWithMicrosoft" xml:space="preserve">
+    <value>Вход с учетной записью Майкрософт</value>
+  </data>
+  <data name="apiProxy_backanrUrlStart" xml:space="preserve">
+    <value>URL-адрес сервера должен начинаться с префикса "http://" или "https://"</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>Продлить</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>Отозвать</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>Свернуть</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>Развернуть</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; Получить URL-адрес функции</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; Получить секрет GitHub</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>Заголовки</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>Заголовки отсутствуют.</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>Все подписки</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>Подписок: {0}</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>Функции (нет доступа)</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>Функции (блокировка только для чтения)</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>Функции (остановлены)</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>Прокси (нет доступа)</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>Прокси (остановлены)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>Прокси (блокировка только для чтения)</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>Новая функция</value>
+  </data>
+  <data name="functionApps" xml:space="preserve">
+    <value>Приложения-функции</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Остановить</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Запустить</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>Перезапустить</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>Замена</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>Загрузить профиль публикации</value>
+  </data>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>Сбросить учетные данные публикации</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>Доступность</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>Доступно</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>Нет доступа</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>Неприменимо</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>Настроенные функции</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>Здесь появятся быстрые ссылки на ваши функции после того, как вы настроите их на вкладке "Функции платформы" выше.</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>Ошибка при получении сведений о приложении "{0}"</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>Не удалось найти приложение "{0}"</value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите остановить "{0}"</value>
+  </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>Останавливается приложение "{0}"</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>Запускается приложение "{0}"</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>Приложение "{0}" остановлено.</value>
+  </data>
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
+    <value>Приложение "{0}" запущено.</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>Не удалось остановить приложение "{0}".</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>Не удалось запустить приложение "{0}".</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите сбросить профиль публикации? Ранее скачанные профили станут недействительны.</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>Сбрасывается профиль публикации</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>Профиль публикации успешно сброшен</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>Не удалось сбросить профиль публикации</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>Удалить "{0}"?</value>
+  </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>Удаляется приложение "{0}"</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>Приложение "{0}" удалено.</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>Не удалось удалить приложение "{0}".</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите перезапустить "{0}"</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>Перезапускается приложение "{0}"</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>Приложение "{0}" перезапущено.</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>Не удалось перезапустить приложение "{0}".</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>Эта функция не поддерживается для приложений, которые используют план потребления</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>Для использования этой функции у вас должны быть разрешения на запись для текущего приложения</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>Эта функция отключена, так как для приложения включена блокировка "Только для чтения"</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>Для использования этой функции у вас должны быть разрешения на чтение для связанного плана службы приложений.</value>
+  </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>Параметры развертывания</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>Вы можете настраивать параметры развертывания для приложения и управлять ими, включая непрерывное развертывание из VSTS, Github и Bitbucket, а также активацию развертывания из OneDrive, Dropbox, внешнего Git и не только.</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>Учетные данные развертывания</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>Вы можете настраивать учетные данные развертывания уровня учетной записи Azure. Чтобы изменить учетные данные уровня приложения (или "учетные данные для публикации"), выберите команду "Сбросить учетные данные публикации" на вкладке "Общие сведения". &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Дополнительные сведения&lt;/a&gt;.</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>Консоль</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>Просматривайте файловую систему приложения из интерактивной веб-консоли.</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>Расширения</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>Расширения дополняют функции всего приложения.</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>Параметры приложения</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>Управляйте параметрами приложения, строками подключения, параметрами среды выполнения и многим другим.</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>Просматривайте свойства приложения.</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>Резервные копии</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>Используйте архивацию и восстановление, чтобы легко создавать автоматические или ручные архивные копии.</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>Все параметры</value>
+  </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>Просматривайте все параметры службы приложений.</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>Общие параметры</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>Развертывание кода</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>Средства разработки</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>Сетевые подключения</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>Безопасно работайте с ресурсами с помощью интеграции виртуальной сети и гибридных подключений.</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>Вы можете настраивать SSL-привязки приложения с помощью любого стороннего сертификата или сертификата службы приложений.</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>Пользовательские домены</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>Вы можете настраивать и приобретать пользовательские доменные имена.</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>Проверка подлинности/авторизация</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>Используйте проверку подлинности и авторизацию, чтобы защитить приложение и работать с данными каждого пользователя.</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>Push-уведомления</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>Отправляйте быстрые, масштабируемые и межплатформенные мобильные push-уведомления с помощью концентраторов уведомлений.</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>Журналы диагностики</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>Вы можете настраивать расположение журналов для записи событий приложения и сервера, а также время записи событий.</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>Потоковая передача журналов</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>Просматривайте журналы приложений в режиме реального времени.</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>Обозреватель процессов</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>Просматривайте сведения о процессах приложений, использовании памяти и загрузке ЦП.</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>Проверка безопасности</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>Включите проверку безопасности приложения от Tinfoil Security.</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>Наблюдение</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>Вы можете настраивать правила общего доступа к ресурсам независимо от источника для вашего приложения.</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>Определение API</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>Настройте расположение метаданных Swagger 2.0, описывающих ваш API-интерфейс. С их помощью пользователи смогут легко найти ваш API-интерфейс и воспользоваться им.</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>План служб приложений является контейнером для вашего приложения. Параметры плана служб приложений определяют расположение, функции, стоимость и вычислительные ресурсы, связанные с вашим приложением.</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>Квоты</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>Отслеживайте квоты использования файловой системы.</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>Журнал действий</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>Просматривайте операции управления, выполняемые над вашим приложением.</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>Управление доступом (IAM)</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>Вы можете настраивать управление доступом на основе ролей для приложения.</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>Теги</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>Теги — это пары "ключ-значение", которые позволяют распределить ресурсы по категориям и просматривать консолидированные счета, применяя одинаковый тег к нескольким ресурсам и группам ресурсов. </value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>Блокировки</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>Блокируйте ресурсы, чтобы предотвратить непредвиденные изменения или удаления.</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>Сценарий автоматизации</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>Вы можете развертывать ресурсы с помощью шаблонов Azure Resource Manager в одной скоординированной операции. Определите ресурсы и настраиваемые входные параметры и проведите развертывание с помощью сценария или кода.</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>Управление ресурсами</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>Дополнительные инструменты (Kudu)</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>Используйте Kudu, чтобы исследовать переменные окружения, получать доступ к консоли отладки, отправлять ZIP-файлы, просматривать процессы и делать многое другое.</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>Редактор службы приложений</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>Редактор службы приложений предоставляет возможности редактирования кода в браузере.</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>Обозреватель ресурсов</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>Исследуйте API управления с помощью обозревателя ресурсов Azure (предварительная версия).</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>Правила общего доступа к ресурсам независимо от источника (определено: {0})</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>Параметры развертывания настроены с помощью {0}</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>SSL-сертификаты</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>Веб-задания (определено: {0})</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>Расширения (установлено: {0})</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>Функции платформы</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>Управление приложением-функцией недоступно в этой пробной версии.</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>Шаблон</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>События</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>план обслуживания приложений</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>План службы приложений/ценовая категория</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>Проверка подлинности</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>Авторизация</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>Гибридные подключения</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>запрос на поддержку</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>изменить масштаб</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Строки подключения</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>Отладка</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>Непрерывное развертывание</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Источник</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
+    <value>Не удается получить доступ к параметрам Azure для вашего приложения-функции.</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
+    <value>Во-первых, убедитесь, что у вас есть доступ к ресурсу Azure {0}. Если доступа нет, попробуйте обновить портал, чтобы продлить токен проверки подлинности.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
+    <value>Проверьте строку подключения для учетной записи хранения в параметрах приложения. Возможно, она содержит недопустимое значение.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
+    <value>Измените параметр приложения, указав действительную строку подключения к хранилищу.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
+    <value>В приложении отсутствует параметр "{0}". Этот параметр содержит строку подключения для учетной записи хранения Azure, которая используется для размещения содержимого ваших функций. Если не указать этот параметр, приложение будет работать неправильно. Если у вас больше нет доступа к этому параметру, возможно, потребуется удалить и снова создать это приложение-функцию.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
+    <value>В приложении отсутствует параметр "{0}". Этот параметр содержит имя ресурса, в котором расположено содержимое вашей функции. Если не указать этот параметр, приложение будет работать неправильно. Если у вас больше нет доступа к этому параметру, возможно, потребуется удалить и снова создать это приложение-функцию.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
+    <value>В приложении отсутствует параметр "{0}". Этот параметр содержит строку подключения для учетной записи хранения Azure, которая необходима для представления мониторинга для ваших функций. Здесь собираются все данные о вызовах, которые затем отображаются в представлении мониторинга. Представление мониторинга может работать неправильно.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
+    <value>В приложении отсутствует параметр "{0}". Этот параметр содержит строку подключения для учетной записи хранения Azure, которая необходима среде выполнения функций для синхронизации экземпляров, журналирования результатов вызовов и выполнения других задач инфраструктуры. Если этот параметр не указан, функция не сможет работать правильно.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
+    <value>Создайте параметр приложения с действительной строкой подключения к хранилищу.</value>
+  </data>
+  <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
+    <value>В приложении отсутствует параметр "{0}". Если не указать этот параметр, то всегда будет использоваться последняя версия среды выполнения (включая обновления после основных версий, которые могут содержать ошибки). Рекомендуется установить значение этого параметра равным текущей основной версии (~1); в этом случае вы будете получать оповещения о новых версиях.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
+    <value>Строка подключения для учетной записи хранения Azure, которая хранится в параметре "{0}", имеет значение NULL или пуста. Для работы приложения-функции необходимо указать действительное значение этой строки.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <value>Измените параметр приложения, указав действительную строку подключения к хранилищу.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
+    <value>Учетная запись хранения {0} не существует. При удалении учетной записи хранения приложение-функция, которое ее использует, перестанет работать. </value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
+    <value>Измените параметр приложения, указав действительную строку подключения к существующему хранилищу.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
+    <value>Учетная запись хранения {0} не поддерживает хранилище очередей Azure. Очереди необходимы для правильной работы среды выполнения функций. Удалите и повторно создайте приложение-функцию с учетной записью хранения, которая поддерживает хранилище очередей Azure.</value>
+  </data>
+  <data name="backend_error_UnexpectedArmError" xml:space="preserve">
+    <value>Возникла проблема при запросе вашего приложения-функции в серверной части Azure.</value>
+  </data>
+  <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
+    <value>Возникла проблема при запросе вашего приложения-функции в серверной части Azure.</value>
+  </data>
+  <data name="error_shareCodeWithSupport" xml:space="preserve">
+    <value>Если ошибка сохраняется, свяжитесь со службой поддержки и сообщите следующий код: {{code}}.</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>Не удалось извлечь список функций для этого приложения-функции.</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>Не удалось создать функцию {{functionName}}. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>Не удалось расшифровать ключи доступа функции. Это могло произойти из-за удаления и повторного создания приложения с таким же именем или из-за того, что вы скопировали ключи из другого приложения-функции. Устранение проблемы: https://go.microsoft.com/fwlink/?linkid=844094.</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>Не удалось удалить файл {{fileName}}. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>Не удалось удалить функцию {{functionName}}. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>Не удалось получить содержимое для {{fileName}}. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>Сейчас не удается извлечь ваши функции. Повторите попытку позже.</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>Не удалось извлечь файл секретов для {{functionName}}. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>Не удалось сохранить содержимое для {{fileName}}. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>Не удалось извлечь содержимое каталога для функции. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>Не удалось получить функцию {{functionName}}. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>Не удалось извлечь конфигурацию среды выполнения. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>Не удалось извлечь главный ключ среды выполнения. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>Не удалось обновить функцию {{functionName}}. Повторите попытку позже.</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>Не удалось запустить среду выполнения функции. Проверьте журналы среды выполнения на наличие ошибок или повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>Не удалось создать или обновить ключ {{keyName}} для функции {{functionName}}. Это могло произойти, если среде выполнения не удалось загрузить функцию. Проверьте другие ошибки функций.</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>Не удалось удалить ключ {{keyName}} для функции {{functionName}}. Это могло произойти, если среде выполнения не удалось загрузить функцию. Проверьте другие ошибки функций.</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>Не удалось повторно создать ключ {{keyName}} для функции {{functionName}}. Это могло произойти, если среде выполнения не удалось загрузить функцию. Проверьте другие ошибки функций.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>Не удалось извлечь ключи для функции {{functionName}}. Это могло произойти, если среде выполнения не удалось загрузить функцию. Проверьте другие ошибки функций.</value>
+  </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>Приложение недоступно в сети. Проверьте подключение к Интернету.</value>
+  </data>
+  <data name="functionKeys_actions" xml:space="preserve">
+    <value>ДЕЙСТВИЯ</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>перейдите к краткому руководству</value>
+  </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>Отсутствуют параметры запроса</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>Свернуть</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>Вы действительно хотите удалить определение API?</value>
+  </data>
+  <data name="swaggerDefinition_documentation" xml:space="preserve">
+    <value>Документация</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>Развернуть</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>Внешний URL-адрес</value>
+  </data>
+  <data name="swaggerDefinition_feature_overview" xml:space="preserve">
+    <value>Прочтите общие сведения о функции.</value>
+  </data>
+  <data name="swaggerDefinition_getting_started" xml:space="preserve">
+    <value>Ознакомьтесь с учебником по началу работы.</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>Функция</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>Ключ определения API</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>Загрузить определение API</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>Создать шаблон определения API</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>Экспорт в Power Apps + Flow</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>Не удается сохранить определение API в неправильном формате.</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>Продлить</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>Задать URL-адрес внешнего определения</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>Источник определения API</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>Используйте функции, активированные HTTP в разных службах с помощью определения OpenAPI 2.0 (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>Определение API функции (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>URL-адрес определения API</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>Использовать определение API</value>
+  </data>
+  <data name="tab_api_definition" xml:space="preserve">
+    <value>Определение API (предварительная версия)</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>Не удалось создать или обновить ключ swaggerdocumentationkey для конечной точки Swagger. Проверьте журналы среды выполнения на предмет ошибок или повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>Не удалось удалить определение API. Проверьте журналы среды выполнения на предмет ошибок или повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>Не удалось получить ключ {{keyName}}. Проверьте журналы среды выполнения на предмет ошибок или повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>Не удалось загрузить созданное определение API. Проверьте журналы среды выполнения на предмет ошибок или повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>Не удалось обновить конфигурацию среды выполнения. Повторите попытку позже.</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>Не удалось обновить определение API. Проверьте журналы среды выполнения на предмет ошибок или повторите попытку позже.</value>
+  </data>
+  <data name="swaggerDefinition_revert" xml:space="preserve">
+    <value>Вернуть к последнему сохранению</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>Настроить проверку подлинности или авторизацию службы приложений</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#Щелкните "Создать шаблон определения API", чтобы начать работу.</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>Вы действительно хотите перезаписать определение API в редакторе?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>Используйте определение API, чтобы получить доступ к функциям из &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; и &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt;. </value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>Создайте разреженное определение с метаданными из функций, активируемых по HTTP.
+Укажите &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;объекты операций&lt;/a&gt; и другие сведения об API перед использованием.</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>Этот ключ запрещает доступ к определению API для всех пользователей без ключа.
+Он не защищает базовый API. Ознакомьтесь с каждой функцией, чтобы проверить безопасность ключа.</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>Выберите пункт "Функция", чтобы разрешить создание размещенных определений API и шаблонов.
+Выберите пункт "Внешний URL-адрес", чтобы использовать определение API, которое размещается в другом месте.</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>Используйте этот URL-адрес, чтобы напрямую получить доступ к определению API и импортировать его в сторонние средства </value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>Изменить режим правки приложения-функции</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Режим правки приложения-функции</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Только чтение</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Чтение и запись</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Повторяющиеся значения запрещены</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>Это обязательное поле</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>Имя должно содержать не менее 2 символов.</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>Имя должно содержать меньше 60 символов.</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>Недопустимый символ ("{0}")</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>Имя приложения \"{0}\" недоступно.</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>Не удалось изменить режим правки приложения-функции. Повторите попытку позже.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Приложение сейчас находится в режиме "только для чтения", так как вы перевели его в режим правки. Чтобы изменить режим правки, посетите </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>Приложение сейчас находится в режиме "чтение и запись", так как вы перевели его в режим правки, несмотря на включенную систему управления версиями. Любые вносимые изменения могут быть переопределены при следующем развертывании. Чтобы изменить режим правки, посетите </value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Получить URL-адрес функции</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL-адрес</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>Скачать содержимое приложения</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>Вы действительно хотите возобновить ключ {{name}}?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Функции Azure представляют собой вычислительный инструмент на основе событий и без привязки к серверу. С помощью функций Azure вы сможете повысить скорость разработки. Доступно масштабирование по требованию; вы платите только за те ресурсы, которые используете.</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>Дополнительные сведения о функциях Azure</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>Концентратор событий</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>Пространство имен</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Не найдено.</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>Конечная точка</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>Нет приложений-функций для отображения</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Слоты (предварительная версия)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Включить слоты развертывания (предварительная версия). Это однократное действие в приложении-функции, которое невозможно отменить. Оно сбросит все существующие секреты. После обновления секреты можно скопировать на </value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>узле "Управление" для каждой функции.</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Создание слота развертывания</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>С помощью слотов развертывания можно развертывать различные версии приложения-функции с различными URL-адресами. Вы можете проверить одну из версий приложения и затем перенести содержимое и конфигурацию из одного слота в другой.</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>Создание нового слота {0} </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>Слот {0} успешно создан </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Не удалось создать слот {0} </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Не удалось обновить список слотов</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>Отсутствует доступ для создания слота. Убедитесь, что для приложения-функции правильно настроен доступ на основе ролей, а блокировки на чтение отключены.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Состояние</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>План обслуживания приложений</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Слоты (предварительная версия)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>Дополнительные возможности мониторинга, включая метрики в реальном времени и пользовательские запросы, можно получить в &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;.</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>Это значение будет добавлено к URL-адресу вашего главного веб-приложения и будет общедоступным адресом слота. Например, если у вас есть веб-приложение "contoso" и слот "staging", то новый слот будет иметь URL-адрес вида "http://contoso-staging.azurewebsites.net".</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>План потребления допускает только один слот. Если вам нужно больше одного слота, используйте выделенные планы службы приложений.</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Поиск по функциям</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>Удаление функции</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>Для вызова этой функции требуется сертификат клиента. Чтобы запустить ее на портале, нужно отключить сертификат клиента.</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>Приложение сейчас находится в режиме только для чтения, так как у вас есть настроенные слоты. Чтобы изменить режим правки, посетите</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>Управление параметрами приложения</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>Центр IoT</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>Ключ</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>Подключение</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>Настраиваемый</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>События (встроенная конечная точка)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>Мониторинг операций</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>Политика</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>Ошибка проверки схемы proxies.json</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>В плане потребления вы можете ограничить использование платформы, задав ежедневную квоту использования (в ГБ/с). По ее достижении приложение-функция будет остановлено до 0:00 UTC следующего дня.</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(политика концентратора)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(политика пространства имен)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Служебная шина</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>Параметр приложения не найден.</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>Показать значение</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>Добавить параметр приложения</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>Включить параметры приложения при скачивании</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>При этом будет добавлен файл local.settings.json со значениями параметров вашего приложения. Файл не будет зашифрован при скачивании; это можно сделать в командной строке основных инструментов Функций Azure.</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>Содержимое сайта</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>Содержимое и проект Visual Studio</value>
+  </data>
+</root>

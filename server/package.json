@@ -32,8 +32,11 @@
     "@types/pug": "^2.0.4",
     "@types/uuid": "^3.4.0",
     "concurrently": "^3.5.0",
+    "gulp": "^3.9.1",
     "nodemon": "^1.11.0",
     "ts-node": "^3.1.0",
-    "typescript": "^2.4.1"
+    "typescript": "^2.4.1",
+    "gulp-resx2": "^1.0.1",
+    "gulp-rename" : "^1.2.2"
   }
 }

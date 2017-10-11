@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import * as jsonfromresx from 'jsonfromresx';
 const resources = require('./resources.en.json');
 const bindingConfig = require('./binding-config.json');
 
@@ -7,7 +8,10 @@ export function getBindingConfig(_: Request, res: Response) {
 }
 
 
-export function getResources(_: Request, res: Response) {
+export function getResources(req: Request, res: Response) {
+    const runtime = req.query['runtime'] || 'default';
+
+
     res.json(resources);
 }
 
