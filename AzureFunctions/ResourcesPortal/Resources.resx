@@ -1222,6 +1222,9 @@
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>This feature is not supported for slots</value>
   </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>This feature is not supported for Linux apps</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to use this feature</value>
   </data>
