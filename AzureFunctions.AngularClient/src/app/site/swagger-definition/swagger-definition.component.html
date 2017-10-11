@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="setting-wrapper column">
-                    <button *ngIf="!swaggerEnabled" class="custom-button medium" style="margin-top:10px;margin-left:0px;width:200px" (click)='openBlade("ApiDefinition")'>
+                    <button *ngIf="!swaggerEnabled" class="custom-button medium" style="margin-top:10px;margin-left:0px;" (click)='openBlade("ApiDefinition")'>
                         {{'swaggerDefinition_setExternal' | translate}}
                     </button>
                 </div>
@@ -104,7 +104,7 @@
                 <div class="header left">
                     <button class="custom-button left" (click)="saveChanges()">{{ 'save' | translate }}</button>
                     <button class="custom-button-invert left medium" (click)="resetEditor()">{{ 'swaggerDefinition_revert' | translate }}</button>
-                    <button class="custom-button left medium" (click)='LoadGeneratedDataInEditor()'>{{'swaggerDefinition_loadGeneratedDefinition' | translate}}</button>
+                    <button class="custom-button left medium" (click)='LoadGeneratedDataInEditor()' style="width:200px;">{{'swaggerDefinition_loadGeneratedDefinition' | translate}}</button>
                     <pop-over [position]="'bottom'" style="padding:5px;" [message]="'swaggerDefinition_generateHelp' | translate">
                         <span class="glyphicon glyphicon-info-sign button-title"></span>
                     </pop-over>
