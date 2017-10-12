@@ -370,6 +370,7 @@ export class PortalResources
     public static siteSummary_restartNotifyFail: string = "siteSummary_restartNotifyFail";
     public static featureNotSupportedConsumption: string = "featureNotSupportedConsumption";
     public static featureNotSupportedForSlots: string = "featureNotSupportedForSlots";
+    public static featureNotSupportedForLinuxApps: string = "featureNotSupportedForLinuxApps";
     public static featureRequiresWritePermissionOnApp: string = "featureRequiresWritePermissionOnApp";
     public static featureDisabledReadOnlyLockOnApp: string = "featureDisabledReadOnlyLockOnApp";
     public static featureDisabledNoPermissionToPlan: string = "featureDisabledNoPermissionToPlan";
@@ -380,6 +381,8 @@ export class PortalResources
     public static feature_deploymentCredsInfo: string = "feature_deploymentCredsInfo";
     public static feature_consoleName: string = "feature_consoleName";
     public static feature_consoleInfo: string = "feature_consoleInfo";
+    public static feature_sshName: string = "feature_sshName";
+    public static feature_sshInfo: string = "feature_sshInfo";
     public static feature_extensionsName: string = "feature_extensionsName";
     public static feature_extensionsInfo: string = "feature_extensionsInfo";
     public static emptyAppSettings: string = "emptyAppSettings";
@@ -391,11 +394,11 @@ export class PortalResources
     public static feature_autoSwapSettingsName: string = "feature_autoSwapSettingsName";
     public static feature_debuggingSettingsName: string = "feature_debuggingSettingsName";
     public static feature_linuxRuntimeName: string = "feature_linuxRuntimeName";
+    public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
+    public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
     public static feature_defaultDocumentsName: string = "feature_defaultDocumentsName";
     public static feature_handlerMappingsName: string = "feature_handlerMappingsName";
     public static feature_virtualDirectoriesName: string = "feature_virtualDirectoriesName";
-    public static feature_applicationSettingsName: string = "feature_applicationSettingsName";
-    public static feature_applicationSettingsInfo: string = "feature_applicationSettingsInfo";
     public static configRequiresWritePermissionOnApp: string = "configRequiresWritePermissionOnApp";
     public static configDisabledReadOnlyLockOnApp: string = "configDisabledReadOnlyLockOnApp";
     public static configViewReadOnlySettings: string = "configViewReadOnlySettings";
@@ -607,6 +610,7 @@ export class PortalResources
     public static error_unableToUpdateFunctionAppEditMode: string = "error_unableToUpdateFunctionAppEditMode";
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";
+    public static readOnlyGeneratedBy: string = "readOnlyGeneratedBy";
     public static copypre_copy: string = "copypre_copy";
     public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
     public static keysDialog_key: string = "keysDialog_key";
@@ -622,7 +626,11 @@ export class PortalResources
     public static emptyBrowse_title: string = "emptyBrowse_title";
     public static appFunctionSettings_slotsOptinSettings: string = "appFunctionSettings_slotsOptinSettings";
     public static appFunctionSettings_slotsDesc: string = "appFunctionSettings_slotsDesc";
-    public static appFunctionSettings_slotsDescBold: string = "appFunctionSettings_slotsDescBold";
+    public static appFunctionSettings_warning_1: string = "appFunctionSettings_warning_1";
+    public static appFunctionSettings_warning_2: string = "appFunctionSettings_warning_2";
+    public static appFunctionSettings_warning_3: string = "appFunctionSettings_warning_3";
+    public static appFunctionSettings_warning_4: string = "appFunctionSettings_warning_4";
+    public static appFunctionSettings_warning_5: string = "appFunctionSettings_warning_5";
     public static slotNew_nameLabel: string = "slotNew_nameLabel";
     public static slotNew_heading: string = "slotNew_heading";
     public static slotNew_desc: string = "slotNew_desc";
@@ -754,8 +762,12 @@ export class PortalResources
     public static extension_integrate_warning: string = "extension_integrate_warning";
     public static extension_template_warning: string = "extension_template_warning";
     public static installingExtension: string = "installingExtension";
-    public static functionAppSettings_quotaPlaceHolder: string = "functionAppSettings_quotaPlaceHolder";
-    public static notificationHubPicker_notificationHub: string = "notificationHubPicker_notificationHub";
     public static failedToInstallFunctionRuntimeExtensionForId: string = "failedToInstallFunctionRuntimeExtensionForId";
+    public static functionAppSettings_quotaPlaceHolder: string = "functionAppSettings_quotaPlaceHolder";
+    public static notificationHubPicker_connection: string = "notificationHubPicker_connection";
+    public static notificationHubPicker_notificationHub: string = "notificationHubPicker_notificationHub";
+    public static java_splash_line_1: string = "java_splash_line_1";
+    public static java_splash_line_2: string = "java_splash_line_2";
+    public static java_splash_button: string = "java_splash_button";
 }
 
