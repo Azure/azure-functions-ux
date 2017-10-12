@@ -435,22 +435,7 @@ export class SiteManageComponent implements OnDestroy {
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site })),
-
-            this._scenarioService.checkScenario(ScenarioIds.addTinfoil, { site: site }).status !== 'disabled'
-                ? new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_securityScanningName),
-                    this._translateService.instant(PortalResources.feature_securityScanningName) + ' tinfoil',
-                    this._translateService.instant(PortalResources.feature_securityScanningInfo),
-                    'image/tinfoil-flat-21px.png',
-                    {
-                        detailBlade: 'TinfoilSecurityBlade',
-                        detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
-                    },
-                    this._portalService,
-                    null,
-                    this._scenarioService.checkScenario(ScenarioIds.enableTinfoil, { site: site }))
-                : null,
+                this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site }))
         ];
 
         this.groups2 = [

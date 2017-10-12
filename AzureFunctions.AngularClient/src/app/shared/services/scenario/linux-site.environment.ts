@@ -25,6 +25,11 @@ export class LinuxSiteEnvironment extends Environment {
             runCheck: () => disabledResult
         };
 
+        this.scenarioChecks[ScenarioIds.enableBackups] = {
+            id: ScenarioIds.enableBackups,
+            runCheck: () => disabledResult
+        };
+
         this.scenarioChecks[ScenarioIds.enableNetworking] = {
             id: ScenarioIds.enableNetworking,
             runCheck: () => disabledResult
