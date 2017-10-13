@@ -1,0 +1,6 @@
+#app-root[theme=dark] {
+    .modal-content{
+        background-color: lighten($body-bg-color-dark, 10%);
+        color: $default-text-color-dark;
+    }
+}

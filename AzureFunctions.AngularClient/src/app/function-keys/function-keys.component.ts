@@ -22,7 +22,7 @@ import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { UtilitiesService } from '../shared/services/utilities.service';
-import { AccessibilityHelper } from './../shared/utilities/accessibility-helper';
+import { AccessibilityHelper } from './../shared/Utilities/accessibility-helper';
 
 
 @Component({

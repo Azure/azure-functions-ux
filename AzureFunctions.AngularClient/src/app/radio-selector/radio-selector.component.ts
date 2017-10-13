@@ -9,34 +9,32 @@ import { SelectOption } from '../shared/models/select-option';
     styleUrls: ['./radio-selector.component.scss'],
 })
 export class RadioSelectorComponent<T> implements OnInit, OnChanges {
-    private _initialized: boolean = false;
-    public selectedValue: T = null;
+    selectedValue: T = null;
     @Input() control: FormControl;
     @Input() group: FormGroup;
     @Input() name: string;
     @Input() options: SelectOption<T>[];
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
-    @Input() public defaultValue: T;
-    @Output() public value: Subject<T>;
+    @Input() defaultValue: T;
+    @Output() value: Subject<T>;
 
+    private _initialized: boolean = false;
+    private _originalValue: T = null;
 
     constructor() {
         this.value = new EventEmitter<T>();
     }
 
-
-    private _setControl() {
-        if (this.group && this.name) {
-            this.control = <FormControl>this.group.controls[this.name];
-        }
-    }
-
     private _setControlValue(value: T) {
         if (this.control) {
-            if (this.control.value !== value) {
+
+            if (value !== this._originalValue) {
                 this.control.markAsDirty();
+            } else {
+                this.control.markAsPristine();
             }
+
             this.control.setValue(value);
         }
     }
@@ -52,14 +50,15 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
         let value = null;
         let valueChanged = false;
 
+        if (this.group && this.name) {
+            this.control = <FormControl>this.group.controls[this.name];
+            this._originalValue = this.control.value;
+        }
+
         if (changes['control']) {
             value = this.control ? this.control.value : null;
             valueChanged = true;
-        }
-        else if (changes['group'] || changes['name']) {
-            this._setControl();
-            value = this.control ? this.control.value : null;
-            valueChanged = true;
+            this._originalValue = value;
         }
 
         if (changes['defaultValue']) {
@@ -69,7 +68,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
 
         if (valueChanged) {
             this.selectedValue = value;
-            if(this._initialized) {
+            if (this._initialized) {
                 this.value.next(value);
             }
         }

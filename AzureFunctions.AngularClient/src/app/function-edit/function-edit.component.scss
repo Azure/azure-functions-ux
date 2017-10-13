@@ -1,0 +1,12 @@
+@import '../../sass/common/variables';
+
+.function-edit-content{
+    padding: 7px 25px 0px 25px;
+    width: 100%;
+}
+
+:host-context(#app-root[theme=dark]){
+    .function-edit-content{
+        background-color: $body-bg-color-dark;
+    }
+}

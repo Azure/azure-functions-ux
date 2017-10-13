@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .sidenav {
     width: $sidenav-width;
@@ -10,6 +10,10 @@
     bottom: 0;
     z-index: 100;
     border-right: $border;
+}
+
+:host-context(#app-root[theme=dark]) .sidenav{
+    background-color: $chrome-color-dark;
 }
 
 .sidenav-try{

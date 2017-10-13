@@ -17,9 +17,10 @@ export class EditModeWarningComponent implements OnInit {
   public readOnlySourceControlled = false;
   public readWriteSourceControlled = false;
   public readOnlySlots = false;
+  public ReadOnlyVSGenerated = false;
 
   ngOnInit() {
-    this.functionApp &&
+    if (this.functionApp) {
       this.functionApp
         .getFunctionAppEditMode()
         .subscribe(editMode => {
@@ -31,8 +32,11 @@ export class EditModeWarningComponent implements OnInit {
             this.readWriteSourceControlled = true;
           } else if (editMode === FunctionAppEditMode.ReadOnlySlots) {
             this.readOnlySlots = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlyVSGenerated) {
+            this.ReadOnlyVSGenerated = true;
           }
         });
+      }
   }
 
   onFunctionAppSettingsClicked() {

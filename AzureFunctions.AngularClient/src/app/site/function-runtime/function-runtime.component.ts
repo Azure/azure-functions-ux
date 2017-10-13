@@ -1,6 +1,5 @@
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ConfigService } from './../../shared/services/config.service';
-import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
-import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
@@ -13,7 +12,6 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
 import { NotificationIds, Constants, SiteTabIds } from './../../shared/models/constants';
@@ -34,7 +32,7 @@ import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode'
 import { SiteService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from '../../../../../common/models/functions-version-info';
-import { AccessibilityHelper } from './../../shared/utilities/accessibility-helper';
+import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
 
 @Component({
   selector: 'function-runtime',
@@ -75,8 +73,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public slotsStatusOptions: SelectOption<boolean>[];
   public slotsAppSetting: string;
   public slotsEnabled: boolean;
-  private slotsValueChange: Subject<boolean>;
-  private _busyState: BusyStateComponent;
+  public slotsValueChange: Subject<boolean>;
+  private _busyManager: BusyStateScopeManager;
 
   constructor(
     private _armService: ArmService,
@@ -87,15 +85,14 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _translateService: TranslateService,
     private _slotsService: SiteService,
     private _configService: ConfigService,
-    siteTabsComponent: SiteTabComponent
   ) {
 
-    this._busyState = siteTabsComponent.busyState;
+    this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
     this._viewInfoSub = this._viewInfoStream
       .switchMap(viewInfo => {
         this._viewInfo = viewInfo;
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
 
         this._appNode = (<AppNode>viewInfo.node);
 
@@ -162,7 +159,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         } else {
           this.functionAppEditMode = true;
         }
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
         this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
         // settings for enabling slots, display if there are no slots && appSetting property for slot is set
@@ -214,7 +211,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this.proxySettingValueStream
       .subscribe((value: boolean) => {
         if (this.showProxyEnable) {
-          this._busyState.setBusyState();
+
+          this._busyManager.setBusy();
 
           this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
             .mergeMap(r => {
@@ -223,7 +221,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
             .subscribe(() => {
               this.showProxyEnable = false;
               this.showProxyEnabledWarning = true;
-              this._busyState.clearBusyState();
+              this._busyManager.clearBusy();
               this._cacheService.clearArmIdCachePrefix(this.site.id);
             });
         }
@@ -233,7 +231,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this.functionEditModeValueStream
       .switchMap(state => {
         const originalState = this.functionAppEditMode;
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this.functionAppEditMode = state;
         const appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
@@ -246,7 +244,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       })
       .do(null, originalState => {
         this.functionAppEditMode = originalState;
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
           message: this._translateService.instant(PortalResources.error_unableToUpdateFunctionAppEditMode),
           errorType: ErrorType.ApiError,
@@ -263,26 +261,26 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this._aiService.stopTrace('/timings/site/tab/function-runtime/full-ready',
           this._viewInfo.data.siteTabFullReadyTraceKey);
 
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
       });
 
     this.slotsValueChange = new Subject<boolean>();
     this.slotsValueChange.subscribe((value: boolean) => {
-      this._busyState.setBusyState();
+      this._busyManager.setBusy();
       const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
       this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
         .mergeMap(r => {
           return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
         })
         .do(null, e => {
-          this._busyState.clearBusyState();
+          this._busyManager.clearBusy();
           this._aiService.trackException(e, 'function-runtime');
         })
         .retry()
         .subscribe(() => {
           this.functionApp.fireSyncTrigger();
           this.slotsEnabled = value;
-          this._busyState.clearBusyState();
+          this._busyManager.clearBusy();
           this._cacheService.clearArmIdCachePrefix(this.site.id);
         });
     });
@@ -313,9 +311,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   saveMemorySize(value: string | number) {
-    this._busyState.setBusyState();
+    this._busyManager.setBusy();
     this._updateMemorySize(this.site, value)
-      .subscribe(r => { this._busyState.clearBusyState(); Object.assign(this.site, r); this.dirty = false; });
+      .subscribe(r => { this._busyManager.clearBusy(); Object.assign(this.site, r); this.dirty = false; });
   }
 
   isIE(): boolean {
@@ -332,7 +330,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       version = this.getLatestVersion(this.extensionVersion);
     };
     this._aiService.trackEvent('/actions/app_settings/update_version');
-    this._busyState.setBusyState();
+    this._busyManager.setBusy();
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
       .mergeMap(r => {
         return this._updateContainerVersion(r.json(), version);
@@ -356,7 +354,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         });
       })
       .do(null, e => {
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
         this._aiService.trackException(e, '/errors/rutime-update');
         console.error(e);
       })
@@ -365,12 +363,11 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
         this.extensionVersion = version;
         this.setNeedUpdateExtensionVersion();
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
         this._cacheService.clearArmIdCachePrefix(this.site.id);
         this._appNode.clearNotification(NotificationIds.newRuntimeVersion);
       });
   }
-
 
   setQuota() {
     if (this.dailyMemoryTimeQuotaOriginal !== this.dailyMemoryTimeQuota) {
@@ -378,28 +375,28 @@ export class FunctionRuntimeComponent implements OnDestroy {
       const dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
 
       if (dailyMemoryTimeQuota > 0) {
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe((r) => {
           const site = r.json();
           this.showDailyMemoryWarning = (!site.properties.enabled && site.properties.siteDisabledReason === 1);
           this.showDailyMemoryInfo = true;
           this.site.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
           this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
-          this._busyState.clearBusyState();
+          this._busyManager.clearBusy();
         });
       }
     }
   }
 
   removeQuota() {
-    this._busyState.setBusyState();
+    this._busyManager.setBusy();
     this._updateDailyMemory(this.site, 0).subscribe(() => {
       this.showDailyMemoryInfo = false;
       this.showDailyMemoryWarning = false;
       this.dailyMemoryTimeQuota = '';
       this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
       this.site.properties.dailyMemoryTimeQuota = 0;
-      this._busyState.clearBusyState();
+      this._busyManager.clearBusy();
     });
   }
 

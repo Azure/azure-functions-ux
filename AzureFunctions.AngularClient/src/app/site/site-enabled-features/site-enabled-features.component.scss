@@ -1,16 +1,11 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
 
 div.site-enabled-feature{
     padding : 6px 0px;
     line-height: 22px;
 
-    img{
-        height : 16px;
-        width: 16px;
+    .icon-small{
         margin: 0px 5px;
-    }
-
-    &:hover{
-        background-color: $chrome-color;
+        vertical-align: middle;
     }
 }

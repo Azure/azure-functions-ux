@@ -196,7 +196,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.tab_functionSettings),
                     feature: feature,
-                    iconUrl: 'images/Functions.svg',
+                    iconUrl: 'image/Functions.svg',
                     featureId: SiteTabIds.functionRuntime
                 };
 
@@ -204,7 +204,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.feature_applicationSettingsName),
                     feature: feature,
-                    iconUrl: 'images/application-settings.svg',
+                    iconUrl: 'image/application-settings.svg',
                     featureId: SiteTabIds.applicationSettings
                 };
 
@@ -212,7 +212,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_appInsights),
                     feature: feature,
-                    iconUrl: 'images/appInsights.svg',
+                    iconUrl: 'image/appInsights.svg',
                     bladeInfo: {
                         detailBlade: 'AspNetOverview',
                         detailBladeInputs: {
@@ -226,7 +226,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_cors).format(args),
                     feature: feature,
-                    iconUrl: 'images/cors.svg',
+                    iconUrl: 'image/cors.svg',
                     bladeInfo: {
                         detailBlade: 'ApiCors',
                         detailBladeInputs: {
@@ -239,7 +239,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_deploymentSource).format(args),
                     feature: feature,
-                    iconUrl: 'images/deployment-source.svg',
+                    iconUrl: 'image/deployment-source.svg',
                     bladeInfo: {
                         detailBlade: 'ContinuousDeploymentListBlade',
                         detailBladeInputs: {
@@ -253,7 +253,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.authentication),
                     feature: feature,
-                    iconUrl: 'images/authentication.svg',
+                    iconUrl: 'image/authentication.svg',
                     bladeInfo: {
                         detailBlade: 'AppAuth',
                         detailBladeInputs: {
@@ -266,7 +266,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.feature_customDomainsName),
                     feature: feature,
-                    iconUrl: 'images/custom-domains.svg',
+                    iconUrl: 'image/custom-domains.svg',
                     bladeInfo: {
                         detailBlade: 'CustomDomainsAndSSL',
                         detailBladeInputs: {
@@ -280,7 +280,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_sslCert),
                     feature: feature,
-                    iconUrl: 'images/ssl.svg',
+                    iconUrl: 'image/ssl.svg',
                     bladeInfo: {
                         detailBlade: 'CertificatesBlade',
                         detailBladeInputs: {
@@ -293,7 +293,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.feature_apiDefinitionName),
                     feature: feature,
-                    iconUrl: 'images/api-definition.svg',
+                    iconUrl: 'image/api-definition.svg',
                     featureId: SiteTabIds.apiDefinition
                 };
 
@@ -301,7 +301,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_webjobs).format(args),
                     feature: feature,
-                    iconUrl: 'images/webjobs.svg',
+                    iconUrl: 'image/webjobs.svg',
                     bladeInfo:
                     {
                         detailBlade: 'webjobsNewBlade',
@@ -315,7 +315,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.featureEnabled_extensions).format(args),
                     feature: feature,
-                    iconUrl: 'images/extensions.svg',
+                    iconUrl: 'image/extensions.svg',
                     bladeInfo:
                     {
                         detailBlade: 'SiteExtensionsListBlade',

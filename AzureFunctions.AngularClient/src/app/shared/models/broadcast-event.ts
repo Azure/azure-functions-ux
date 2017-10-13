@@ -4,7 +4,7 @@ export enum BroadcastEvent {
     FunctionSelected,
     FunctionUpdated,
     // FunctionNew,
-    BusyState,
+    UpdateBusyState,
     TutorialStep,
     IntegrateChanged,
     Error,
@@ -35,4 +35,10 @@ export enum BroadcastEvent {
 export interface DirtyStateEvent {
     dirty: boolean;
     reason: string | null;
+}
+
+export interface BusyStateEvent{
+    busyComponentName: string;
+    action: 'setBusyState' | 'clearBusyState' | 'clearOverallBusyState';
+    busyStateKey: string;
 }

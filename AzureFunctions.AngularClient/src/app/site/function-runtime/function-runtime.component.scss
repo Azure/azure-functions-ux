@@ -1,4 +1,5 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
+@import '../../../sass/base/typography';
 
 #function-runtime-container{
     padding: 20px 35px;
@@ -38,4 +39,18 @@ input[type=text], select{
 
 .title-label {
     font-weight: bold;
+}
+
+.alert{
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.alert-icon{
+    width: 30px;
+}
+
+.alert-message{
+    padding-left: 5px;
 }

@@ -1,83 +1,15 @@
-
-/*
-Styles only available in tabs component
-*/
-.tabs-wrapper{
-    min-width: 950px;
-
-    ul{
-        box-sizing: border-box;
-        list-style-type: none;
-        padding-left: 0px;
-        margin: 0px;
-        border-bottom: $border;
-    }
-
-    li{
-        box-sizing: border-box;
-        display: inline-block;
-        border-top-width: 0px;
-        text-align: center;
-        padding: 8px 25px;
-        min-width: 150px;
-        outline: none;
-        margin-left: 0px;
-        position: relative;
-
-        &.not-closable{
-            padding: 8px 25px;
-        }
-
-        &.closeable{
-            border: 1px #d8e1e6 solid;
-            border-bottom: none;
-            padding: 8px 15px 12px 15px;
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-            margin-left: 10px;
-        }
-
-        // Simulate a "first-of-class" selector
-        &.closeable ~ .closeable{
-            margin-left: 0px;
-        }
-
-        .bottom{
-            position: absolute;
-            bottom: -1px;
-            background-color: $body-bg-color;
-            height: 1px;
-            width: 100%;
-            left: 0px;
-        }
-
-        img{
-            height: 16px;
-            width: 16px;
-            margin-right: 2px;
-        }
-
-        .close-button{
-            margin-left: 5px;
-        }
-    }
-
-    .tab-content{
-        background-color: $body-bg-color;
-    }
-}
-
 /*
 Shared global tab styles
 */
 .tab-label {
-    @extend .text-subheading;
+    display: inline;
     padding-bottom: 12px;
     padding-top: 8px;
     padding-left: 5px;
     padding-right: 5px;
     cursor: pointer;
     margin-left: 10px;
+    margin-bottom: 0px;
     color: $primary-color;
 
     &:hover{
@@ -85,13 +17,13 @@ Shared global tab styles
     }
 }
 
-
 .tab-label-selected {
-    @extend .text-subheading;
+    display: inline;
     padding: 8px 5px 8px 5px;
     border-bottom: 4px solid $default-text-color;
-    cursor: pointer;
+    margin-bottom: 0px;
     margin-left: 10px;
+    cursor: pointer;
     color: $default-text-color;
 
     &.closeable{
@@ -100,27 +32,36 @@ Shared global tab styles
 }
 
 .tab-label-disabled {
-    @extend .text-subheading;
+    display: inline;
     padding: 8px 5px 8px 5px;
     border-bottom: 4px solid #ccc;
     cursor: pointer;
     margin-left: 10px;
+    margin-bottom: 0px;
 }
 
 .tab-label-rotate-right {
-    @extend .text-subheading;
+    display: inline;
     padding-top: 12px; 
     padding-bottom: 8px;
     padding-left: 5x;
     padding-right: 5px;
     cursor: pointer;
     margin-left: 10px;
+    margin-bottom: 0px;
 }
 
 .tab-label-rotate {
-    @extend .text-subheading;
+    display: inline;
     padding: 8px 5px 8px 5px;
     border-top: 4px solid #ccc;
     cursor: pointer;
     margin-left: 10px;
+    margin-top: 0px;
+}
+
+#app-root[theme=dark]{
+    .tab-label-selected{
+        border-bottom: 4px solid $default-text-color-dark;
+    }
 }

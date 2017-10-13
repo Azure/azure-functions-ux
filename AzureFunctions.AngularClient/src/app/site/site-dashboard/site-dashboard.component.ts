@@ -9,7 +9,7 @@ import { FunctionRuntimeComponent } from './../function-runtime/function-runtime
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { SiteManageComponent } from './../site-manage/site-manage.component';
-import { TabInfo } from './../../controls/tabs/tab/tab-info';
+import { TabInfo } from './site-tab/tab-info';
 import { SiteSummaryComponent } from './../site-summary/site-summary.component';
 import { SiteData } from './../../tree-view/models/tree-view-info';
 import { Component, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';
@@ -285,13 +285,13 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
 
             case SiteTabIds.functionRuntime:
                 info.title = this._translateService.instant(PortalResources.tab_functionSettings);
-                info.iconUrl = 'images/Functions.svg';
+                info.iconUrl = 'image/Functions.svg';
                 info.componentFactory = FunctionRuntimeComponent;
                 break;
 
             case SiteTabIds.apiDefinition:
                 info.title = this._translateService.instant(PortalResources.tab_api_definition);
-                info.iconUrl = 'images/api-definition.svg';
+                info.iconUrl = 'image/api-definition.svg';
                 info.componentFactory = SwaggerDefinitionComponent;
                 break;
 
@@ -303,7 +303,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
 
             case SiteTabIds.applicationSettings:
                 info.title = this._translateService.instant(PortalResources.tab_applicationSettings);
-                info.iconUrl = 'images/application-settings.svg';
+                info.iconUrl = 'image/application-settings.svg';
                 info.componentFactory = SiteConfigComponent;
                 info.closeable = true;
                 break;

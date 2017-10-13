@@ -22,7 +22,7 @@
                     aria-labelledby="dailyUsageQuotaLabel dailyUsageQuotaValue">
                 <button 
                     class="custom-button" 
-                    [class.custom-button-disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota" 
+                    [disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota" 
                     (click)="setQuota()" 
                     tabindex="0"
                     id="setQuotaButton"
@@ -135,26 +135,34 @@
         </div>
     </div>
 
-    <div *ngIf="!slotsEnabled" class="setting-wrapper">
+    <div class="setting-wrapper">
         <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
-        <div tabindex="-1">
-            {{ 'appFunctionSettings_slotsDesc' | translate}}
-            <span id="slotEnableDescLabel2" class="title-label" tabindex="-1">{{'appFunctionSettings_slotsDescBold' | translate}}</span>
+        <p>{{ 'appFunctionSettings_slotsDesc' | translate }}</p>
+        <div class="alert alert-warning">
+            <div class="alert-icon" load-image="image/warning.svg"></div>
+            <div class="alert-message">
+                <span class="title-label">{{ 'appFunctionSettings_warning_1' | translate }}</span><br/>
+                <span>{{ 'appFunctionSettings_warning_2' | translate }}</span><br/>
+                <span>
+                    {{ 'appFunctionSettings_warning_3' | translate }}
+                    <span class="title-label">{{ 'appFunctionSettings_warning_4' | translate }}</span>
+                    {{ 'appFunctionSettings_warning_5' | translate }}
+                </span>
+            </div>
         </div>
-
         <div>
-            <radio-selector 
-                [defaultValue]="slotsEnabled" 
-                [options]="slotsStatusOptions" 
-                (value)="slotsValueChange.next($event)" 
-                tabindex="0" 
+            <radio-selector
+                [disabled]="slotsEnabled"
+                [defaultValue]="slotsEnabled"
+                [options]="slotsStatusOptions"
+                (value)="slotsValueChange.next($event)"
+                tabindex="0"
                 (keydown)="keyDown($event, 'slotsValueChange')"
                 id="slotEnableRadioButton"
                 aria-labelledby="slotEnableLabel slotEnableRadioButton">
             </radio-selector>
         </div>
     </div>
-
 
     <function-keys
         [autoSelect]="true"

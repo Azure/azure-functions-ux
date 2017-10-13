@@ -1,4 +1,4 @@
-import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +13,6 @@ import { PortalResources } from './../../shared/models/portal-resources';
 import { EnumEx } from './../../shared/Utilities/enumEx';
 import { DropDownElement } from './../../shared/models/drop-down-element';
 import { ConnectionStrings, ConnectionStringType } from './../../shared/models/arm/connection-strings';
-import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { CustomFormGroup, CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { CacheService } from './../../shared/services/cache.service';
@@ -37,12 +36,13 @@ export class SiteConfigStandaloneComponent implements OnInit {
   private _viewInfoSubscription: RxSubscription;
   private _appSettingsArm: ArmObj<any>;
   private _connectionStringsArm: ArmObj<ConnectionStrings>;
-  private _busyState: BusyStateComponent;
   private _resourceId: string;
 
   private _requiredValidator: RequiredValidator;
   private _uniqueAppSettingValidator: UniqueValidator;
   private _uniqueCsValidator: UniqueValidator;
+
+  private _busyManager: BusyStateScopeManager;
 
   constructor(
     private _cacheService: CacheService,
@@ -50,15 +50,14 @@ export class SiteConfigStandaloneComponent implements OnInit {
     private _translateService: TranslateService,
     private _aiService: AiService,
     private _broadcastService: BroadcastService,
-    siteTabsComponent: SiteTabComponent
   ) {
-    this._busyState = siteTabsComponent.busyState;
+    this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
     this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
       .switchMap(viewInfo => {
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this._resourceId = viewInfo.resourceId;
 
         // Not bothering to check RBAC since this component will only be used in Standalone mode
@@ -70,11 +69,11 @@ export class SiteConfigStandaloneComponent implements OnInit {
       })
       .do(null, error => {
         this._aiService.trackEvent('/errors/site-config', error);
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
         this._appSettingsArm = r.appSettingResponse.json();
         this._connectionStringsArm = r.connectionStringResponse.json();
 
@@ -229,7 +228,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
         connectionStringsArm.properties[connectionStringGroups[i].value.name] = connectionString;
       }
 
-      this._busyState.setBusyState();
+      this._busyManager.setBusy();
 
       Observable.zip(
         this._cacheService.putArm(`${this._resourceId}/config/appSettings`, null, appSettingsArm),
@@ -237,7 +236,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
         (a, c) => ({ appSettingsResponse: a, connectionStringsResponse: c })
       )
         .subscribe(r => {
-          this._busyState.clearBusyState();
+          this._busyManager.clearBusy();
           this._appSettingsArm = r.appSettingsResponse.json();
           this._connectionStringsArm = r.connectionStringsResponse.json();
           this._setupForm(this._appSettingsArm, this._connectionStringsArm);

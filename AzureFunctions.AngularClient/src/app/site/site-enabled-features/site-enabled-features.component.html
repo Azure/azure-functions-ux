@@ -3,9 +3,12 @@
 </div>
 
 <div #enabledFeatures>
-    <div *ngFor="let featureItem of featureItems" class="site-enabled-feature">
-        <img [src]="featureItem.iconUrl" />
-        <a class="link" (click)="openFeature(featureItem)" (keydown)="onKeyPress($event, featureItem)" [tabIndex] = "featureItem.focusable ? 0 : -1">{{featureItem.title}}</a>
+    <div *ngFor="let featureItem of featureItems" class="list-item site-enabled-feature">
+        <span [load-image]="featureItem.iconUrl" class="icon-small"></span>
+        <a class="link"
+            (click)="openFeature(featureItem)"
+            (keydown)="onKeyPress($event, featureItem)"
+            [tabIndex] = "featureItem.focusable ? 0 : -1">{{featureItem.title}}</a>
     </div>  
 </div>
 

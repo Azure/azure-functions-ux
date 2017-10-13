@@ -133,7 +133,8 @@ export enum ResourceType {
     DocumentDB = <any>"DocumentDB",
     ApiHub = <any>"ApiHub",
     AppSetting = <any>"AppSetting",
-    MSGraph = <any>"MSGraph"
+    MSGraph = <any>'MSGraph',
+    NotificationHub = <any>'NotificationHub'
 }
 
 export class SettingType {

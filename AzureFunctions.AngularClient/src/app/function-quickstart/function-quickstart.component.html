@@ -1,17 +1,17 @@
 <java-splash-page *ngIf="showJavaSplashPage" [setShowJavaSplashPage]="setShowJavaSplashPage"></java-splash-page>
 <div id="quickstart-container">
 <div id="quickstart-header">
-    <img src="images/functions.svg" />
+    <img src="image/functions.svg" />
 
-    <h2 class="text-main2-heading">{{ 'intro_getStarted' | translate }}</h2>
-    <div class="text-level1-heading">{{ 'intro_chooseScenario' | translate }}</div>
+    <h1>{{ 'intro_getStarted' | translate }}</h1>
+    <h2>{{ 'intro_chooseScenario' | translate }}</h2>
     <div id="quickstart-templates">
         <div class="quickstart-template"
              (click)="onFunctionClicked('HttpTrigger')"
              [class.quickstart-template-selected]="selectedFunction === 'HttpTrigger'">
 
             <div class="quickstart-template-icon">
-                <img src="images/code.svg" />
+                <div load-image="image/code.svg" class="icon-template"></div>
                 <div>{{ 'intro_webHook' | translate }}</div>
             </div>
         </div>
@@ -21,7 +21,7 @@
             [class.quickstart-template-selected]="selectedFunction === 'TimerTrigger'">
 
             <div class="quickstart-template-icon">
-                <img src="images/clock.svg" />
+                <div load-image="image/clock.svg" class="icon-template"></div>
                 <div>{{ 'intro_timer' | translate }}</div>
             </div>
 
@@ -32,7 +32,7 @@
             [class.quickstart-template-selected]="selectedFunction === 'QueueTrigger'">
 
             <div class="quickstart-template-icon">
-                <img src="images/databaseMini3.svg" />
+                <div load-image="image/databaseMini3.svg" class="icon-template"></div>
                 <div>{{ 'intro_dataProcessing' | translate}}</div>
             </div>
             
@@ -40,7 +40,7 @@
 
     </div>
 
-    <div class="text-level1-heading">{{ 'intro_chooseLanguage' | translate }}</div>
+    <h2>{{ 'intro_chooseLanguage' | translate }}</h2>
 
 
     <div id="quickstart-lang-radios">
@@ -68,11 +68,14 @@
 </div>  <!-- /intro-header -->
 
 <div id="quickstart-footer">
-    <div class="circle text-level1-heading">
-        {{ 'intro_or' | translate}}
-    </div>
+    <h2 class="circle-container">
+        <!-- Need to split the "circle" into 3 parts to allow it to expand if the text is long -->
+        <span class="circle-left"></span>
+        <span class="circle-middle">{{ 'intro_or' | translate}}</span>
+        <span class="circle-right"></span>
+    </h2>
 
-    <h3 class="text-main2-heading">{{ 'intro_getStartedOn' | translate }}</h3>
+    <h1>{{ 'intro_getStartedOn' | translate }}</h1>
     <div>
         <span class="link" (click)='createFromScratch()'>{{ 'intro_customFunction' | translate }}</span>
     </div>

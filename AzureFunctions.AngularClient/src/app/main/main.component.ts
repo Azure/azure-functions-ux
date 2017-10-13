@@ -44,15 +44,15 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
     private _ngUnsubscribe = new Subject();
-    private _busyStateScopeManager: BusyStateScopeManager;
+    private _busyManager: BusyStateScopeManager;
 
     constructor(private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _cacheService: CacheService,
         private _portalService: PortalService,
+        private _broadcastService: BroadcastService,
         _ngHttp: Http,
         _translateService: TranslateService,
-        _broadcastService: BroadcastService,
         _armService: ArmService,
         _languageService: LanguageService,
         _authZService: AuthzService,
@@ -89,12 +89,11 @@ export class MainComponent implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
         this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
-        this._busyStateScopeManager = this.busyStateComponent.getScopeManager();
+        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
         this._userService.getStartupInfo()
             .first()
             .subscribe(info => {
-
                 this.ready = true;
 
                 this._portalService.sendTimerEvent({
@@ -106,7 +105,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this._ngUnsubscribe.next();
-        this._busyStateScopeManager.dispose();
+        this._busyManager.clearBusy();
     }
 
     private initializeChildWindow(_userService: UserService,
@@ -183,13 +182,13 @@ export class MainComponent implements AfterViewInit, OnDestroy {
 
     private _navigationInterceptor(event: RouterEvent): void {
         if (event instanceof NavigationStart) {
-            this._busyStateScopeManager.setBusy();
+            this._busyManager.setBusy();
         } else if (event instanceof NavigationEnd) {
-            this._busyStateScopeManager.clearBusy();
+            this._busyManager.clearBusy();
         } else if (event instanceof NavigationCancel) {
-            this._busyStateScopeManager.clearBusy();
+            this._busyManager.clearBusy();
         } else if (event instanceof NavigationError) {
-            this._busyStateScopeManager.clearBusy();
+            this._busyManager.clearBusy();
         }
     }
 }

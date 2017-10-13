@@ -9,7 +9,7 @@
       "outDir": "../server/src/public/ng-full",
       "assets": [
         "assets",
-        "images",
+        "image",
         "../node_modules/swagger-editor",
         "sass/main.scss"
       ],

@@ -41,7 +41,7 @@ export interface MutableCollection {
 export class TreeNode implements Disposable, Removable, CanBlockNavChange, CustomSelection, Collection {
     public isExpanded: boolean;
     public showExpandIcon = true;
-    public nodeClass = 'tree-node';
+    public nodeClass = 'list-item tree-node';
     public iconClass: string;
     public iconUrl: string;
     public isLoading: boolean;

@@ -1,4 +1,6 @@
-import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
+import { CacheService } from 'app/shared/services/cache.service';
+import { Site } from './../../shared/models/arm/site';
+import { ArmObj, ArmObjMap } from './../../shared/models/arm/arm-obj';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -7,19 +9,22 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
 import { PortalResources } from './../../shared/models/portal-resources';
-import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { ConnectionStringsComponent } from './connection-strings/connection-strings.component';
+import { DefaultDocumentsComponent } from './default-documents/default-documents.component';
+import { HandlerMappingsComponent } from './handler-mappings/handler-mappings.component';
+import { VirtualDirectoriesComponent } from './virtual-directories/virtual-directories.component';
 import { PortalService } from './../../shared/services/portal.service';
 import { AuthzService } from './../../shared/services/authz.service';
 import { SiteTabIds } from './../../shared/models/constants';
 import { BroadcastService } from './../../shared/services/broadcast.service';
-import { AiService } from './../../shared/services/ai.service';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../shared/services/log.service';
 
-export interface SaveResult {
+export interface SaveOrValidationResult {
   success: boolean;
   error?: string;
 }
@@ -38,10 +43,10 @@ export class SiteConfigComponent implements OnDestroy {
 
   public mainForm: FormGroup;
   private _valueSubscription: RxSubscription;
-  private resourceId: string;
+  public resourceId: string;
+  public resourceType: string;
 
-  private _busyState: BusyStateComponent;
-  private _busyStateScopeManager: BusyStateScopeManager;
+  private _busyManager: BusyStateScopeManager;
 
   @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
     this.viewInfoStream.next(viewInfo);
@@ -50,36 +55,51 @@ export class SiteConfigComponent implements OnDestroy {
   @ViewChild(GeneralSettingsComponent) generalSettings: GeneralSettingsComponent;
   @ViewChild(AppSettingsComponent) appSettings: AppSettingsComponent;
   @ViewChild(ConnectionStringsComponent) connectionStrings: ConnectionStringsComponent;
+  @ViewChild(DefaultDocumentsComponent) defaultDocuments: DefaultDocumentsComponent;
+  @ViewChild(HandlerMappingsComponent) handlerMappings: HandlerMappingsComponent;
+  @ViewChild(VirtualDirectoriesComponent) virtualDirectories: VirtualDirectoriesComponent;
+
+  private _site: ArmObj<Site>;
 
   constructor(
     private _fb: FormBuilder,
     private _translateService: TranslateService,
     private _portalService: PortalService,
-    private _aiService: AiService,
+    private _logService: LogService,
     private _broadcastService: BroadcastService,
     private _authZService: AuthzService,
-    siteTabsComponent: SiteTabComponent
+    private _cacheService: CacheService
   ) {
-    this._busyState = siteTabsComponent.busyState;
-    this._busyStateScopeManager = this._busyState.getScopeManager();
+    this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
     this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     this._viewInfoSubscription = this.viewInfoStream
       .distinctUntilChanged()
       .switchMap(viewInfo => {
-        this._busyStateScopeManager.setBusy();
+        this._busyManager.setBusy();
         return Observable.zip(
           Observable.of(viewInfo.resourceId),
           this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
           this._authZService.hasReadOnlyLock(viewInfo.resourceId),
           (r, wp, rl) => ({ resourceId: r, writePermission: wp, readOnlyLock: rl })
-        )
+        );
+      })
+      .switchMap(res => {
+        if (res.writePermission && !res.readOnlyLock) {
+          return this._cacheService.getArm(res.resourceId)
+            .map(site => {
+              this._site = <ArmObj<Site>>site.json();
+              return res;
+            });
+        } else {
+          return Observable.of(res);
+        }
       })
       .do(null, error => {
         this.resourceId = null;
         this._setupForm();
-        this._aiService.trackEvent('/errors/site-config', error);
-        this._busyStateScopeManager.clearBusy();
+        this._logService.error(LogCategories.siteConfig, '/site-config', error);
+        this._busyManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
@@ -88,7 +108,37 @@ export class SiteConfigComponent implements OnDestroy {
         this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
         this.resourceId = r.resourceId;
         this._setupForm();
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
+      });
+  }
+
+  scaleUp() {
+    const inputs = {
+      aspResourceId: this._site.properties.serverFarmId,
+      aseResourceId: this._site.properties.hostingEnvironmentProfile
+      && this._site.properties.hostingEnvironmentProfile.id
+    };
+
+    const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
+      '',
+      inputs,
+      'site-manage',
+      (value => {
+        console.log('return from scale');
+      }),
+      'WebsiteSpecPickerV3');
+
+    openScaleUpBlade
+      .first()
+      .subscribe(r => {
+        if(r){
+          console.log('final call back succeeded!');
+        } else{
+          console.log('final call back was cancelled');
+        }
+      },
+      e => {
+        console.log('final call back failed!');
       });
   }
 
@@ -108,6 +158,9 @@ export class SiteConfigComponent implements OnDestroy {
       if (this.mainForm.dirty) {
         this._broadcastService.setDirtyState(SiteTabIds.applicationSettings);
       }
+      else {
+        this._broadcastService.clearDirtyState(SiteTabIds.applicationSettings);
+      }
     });
   }
 
@@ -120,7 +173,7 @@ export class SiteConfigComponent implements OnDestroy {
       this._valueSubscription.unsubscribe();
       this._valueSubscription = null;
     }
-    this._busyStateScopeManager.dispose();
+    this._busyManager.clearBusy();
     this._broadcastService.clearDirtyState(SiteTabIds.applicationSettings);
   }
 
@@ -128,42 +181,105 @@ export class SiteConfigComponent implements OnDestroy {
     this.generalSettings.validate();
     this.appSettings.validate();
     this.connectionStrings.validate();
+    this.defaultDocuments.validate();
+    this.handlerMappings.validate();
+    this.virtualDirectories.validate();
 
-    this._busyStateScopeManager.setBusy();
-    let notificationId = null;
-    this._portalService.startNotification(
-      this._translateService.instant(PortalResources.configUpdating),
-      this._translateService.instant(PortalResources.configUpdating))
-      .first()
-      .switchMap(s => {
-        notificationId = s.id;
-        return Observable.zip(
-          this.generalSettings.save(),
-          this.appSettings.save(),
-          this.connectionStrings.save(),
-          (g, a, c) => ({ generalSettingsResult: g, appSettingsResult: a, connectionStringsResult: c })
-        );
-      })
-      .subscribe(r => {
-        this._busyStateScopeManager.clearBusy();
+    if (this.mainForm.valid) {
 
-        const saveResults: SaveResult[] = [r.generalSettingsResult, r.appSettingsResult, r.connectionStringsResult];
-        const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
-        const saveSuccess: boolean = saveFailures.length === 0;
-        const saveNotification = saveSuccess ?
-          this._translateService.instant(PortalResources.configUpdateSuccess) :
-          this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
+      this._busyManager.setBusy();
+      let notificationId = null;
+      let saveAttempted = false;
 
-        // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
-        // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
-        // with a successful save state regenerate their form before adding it to mainForm, while those with an unsuccessful save state just add their existing form to mainForm.
-        this._setupForm(!saveSuccess);
-        if (!saveSuccess) {
-          this.mainForm.markAsDirty();
-        }
+      this._portalService.startNotification(
+        this._translateService.instant(PortalResources.configUpdating),
+        this._translateService.instant(PortalResources.configUpdating))
+        .first()
+        .switchMap(s => {
+          notificationId = s.id;
 
-        this._portalService.stopNotification(notificationId, saveSuccess, saveNotification);
-      });
+          // This is a temporary workaround for merging the slotConfigNames config from AppSettingsModule and ConnectionStringsModule.
+          // Adding a proper solution (for all config APIs) is tracked here: https://github.com/Azure/azure-functions-ux/issues/1856
+          const asConfig: ArmObjMap = this.appSettings.getConfigForSave();
+          const csConfig: ArmObjMap = this.connectionStrings.getConfigForSave();
+
+          const errors = [asConfig.error, csConfig.error].filter(e => !!e);
+          if (errors.length > 0) {
+            return Observable.throw(errors);
+          }
+          else {
+            const slotConfigNamesArm: ArmObj<any> =
+              JSON.parse(JSON.stringify(asConfig["slotConfigNames"]));
+            slotConfigNamesArm.properties.connectionStringNames =
+              JSON.parse(JSON.stringify(csConfig["slotConfigNames"].properties.connectionStringNames));
+
+            return Observable.zip(
+              this._cacheService.putArm(slotConfigNamesArm.id, null, slotConfigNamesArm),
+              Observable.of(asConfig["appSettings"]),
+              Observable.of(csConfig["connectionStrings"]),
+              (s, a, c) => ({ slotConfigNamesResult: s, appSettingsArm: a, connectionStringsArm: c })
+            );
+          }
+        })
+        .mergeMap(r => {
+          saveAttempted = true;
+          return Observable.zip(
+            this.generalSettings.save(),
+            this.appSettings.save(r.appSettingsArm, r.slotConfigNamesResult),
+            this.connectionStrings.save(r.connectionStringsArm, r.slotConfigNamesResult),
+            this.defaultDocuments.save(),
+            this.handlerMappings.save(),
+            this.virtualDirectories.save(),
+            (g, a, c, d, h, v) => ({
+              generalSettingsResult: g,
+              appSettingsResult: a,
+              connectionStringsResult: c,
+              defaultDocumentsResult: d,
+              handlerMappingsResult: h,
+              virtualDirectoriesResult: v
+            })
+          );
+        })
+        .do(null, error => {
+          this._logService.error(LogCategories.siteConfig, '/site-config', error);
+          this._busyManager.clearBusy();
+          if (saveAttempted) {
+            this._setupForm(true /*retain dirty state*/);
+            this.mainForm.markAsDirty();
+          }
+          this._portalService.stopNotification(
+            notificationId,
+            false,
+            this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error));
+        })
+        .subscribe(r => {
+          this._busyManager.clearBusy();
+
+          const saveResults: SaveOrValidationResult[] = [
+            r.generalSettingsResult,
+            r.appSettingsResult,
+            r.connectionStringsResult,
+            r.defaultDocumentsResult,
+            r.handlerMappingsResult,
+            r.virtualDirectoriesResult
+          ];
+          const saveFailures: string[] = saveResults.filter(r => !r.success).map(r => r.error);
+          const saveSuccess: boolean = saveFailures.length === 0;
+          const saveNotification = saveSuccess ?
+            this._translateService.instant(PortalResources.configUpdateSuccess) :
+            this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
+
+          // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
+          // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
+          // with a successful save state regenerate their form before adding it to mainForm, while those with an unsuccessful save state just add their existing form to mainForm.
+          this._setupForm(!saveSuccess);
+          if (!saveSuccess) {
+            this.mainForm.markAsDirty();
+          }
+
+          this._portalService.stopNotification(notificationId, saveSuccess, saveNotification);
+        });
+    }
   }
 
   discard() {

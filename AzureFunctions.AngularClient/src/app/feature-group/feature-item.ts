@@ -1,3 +1,4 @@
+import { ScenarioResult } from './../shared/services/scenario/scenario.models';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { Subject } from 'rxjs/Subject';
@@ -20,7 +21,7 @@ export class FeatureItem {
     public isHighlighted: boolean | null;
     public isEmpty: boolean | null;   // Used to reserve blank space when filtering results
     public highlight: boolean | null;
-    public iconUrl = 'images/activity-log.svg';
+    public iconUrl = 'image/activity-log.svg';
     public superScriptIconUrl: string | null = null;
     public nameFocusable: boolean;
     public imageFocusable: boolean;
@@ -53,24 +54,26 @@ export class DisableableFeature extends FeatureItem {
         info: string,
         imageUrl: string,
         _disableInfoStream?: Subject<DisableInfo>,
-        overrideDisableInfo?: DisableInfo // If the feature is known to be disabled before any async logic, then use this disable immediately
+        overrideDisableInfo?: ScenarioResult // If the feature is known to be disabled before any async logic, then use this disable immediately
     ) {
         super(title, keywords, info, imageUrl);
 
         if (overrideDisableInfo) {
-            if (!overrideDisableInfo.enabled) {
-                this.warning = overrideDisableInfo.disableMessage;
+
+            // Assumes that all scenario results for feature items are a black list
+            if (overrideDisableInfo.status === 'disabled') {
+                this.warning = overrideDisableInfo.data;
             }
 
-            this.enabled = overrideDisableInfo.enabled;
+            this.enabled = overrideDisableInfo.status !== 'disabled';
         } else if (_disableInfoStream) {
-            this._enabledRxSub = _disableInfoStream.subscribe(info => {
-                this.enabled = info.enabled;
+            this._enabledRxSub = _disableInfoStream.subscribe(disableInfo => {
+                this.enabled = disableInfo.enabled;
 
                 if (!this.enabled) {
-                    this.warning = info.disableMessage;
+                    this.warning = disableInfo.disableMessage;
                 }
-            })
+            });
         }
     }
 
@@ -91,35 +94,8 @@ export class DisableableBladeFeature extends DisableableFeature {
         protected _bladeInfo: OpenBladeInfo,
         protected _portalService: PortalService,
         disableInfoStream?: Subject<DisableInfo>,
-        overrideDisableInfo?: DisableInfo) {
+        overrideDisableInfo?: ScenarioResult) {
         super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
-    }
-
-    click() {
-        this._portalService.openBlade(this._bladeInfo, 'site-manage');
-    }
-}
-
-export class DisableableDyanmicBladeFeature extends DisableableBladeFeature {
-    constructor(
-        title: string,
-        keywords: string,
-        info: string,
-        imageUrl: string,
-        bladeInfo: OpenBladeInfo,
-        portalService: PortalService,
-        disableInfoStream?: Subject<DisableInfo>,
-        overrideDisableInfoStream?: DisableInfo) {
-
-        super(
-            title,
-            keywords,
-            info,
-            imageUrl,
-            bladeInfo,
-            portalService,
-            disableInfoStream,
-            overrideDisableInfoStream);
     }
 
     click() {
@@ -166,7 +142,7 @@ export class TabFeature extends FeatureItem {
         public featureId: string,
         private _broadcastService: BroadcastService) {
 
-        super(title, keywords, info, imageUrl, 'images/new-tab.svg');
+        super(title, keywords, info, imageUrl, 'image/new-tab.svg');
     }
 
     click() {

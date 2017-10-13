@@ -19,7 +19,6 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.FunctionsDashboard;
     public newDashboardType = DashboardType.CreateFunctionAutoDetectDashboard;
-    public nodeClass = 'tree-node collection-node';
     public action: Action;
 
     constructor(
@@ -33,7 +32,8 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
             functionApp.site.id + '/functions/new/function');
 
         this.iconClass = 'tree-node-collection-icon';
-        this.iconUrl = 'images/BulletList.svg';
+        this.iconUrl = 'image/BulletList.svg';
+        this.nodeClass += ' collection-node';
 
         functionApp.getFunctionAppEditMode()
             .map(EditModeHelper.isReadOnly)
