@@ -54,10 +54,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public exactExtensionVersion: string;
 
   public functionStatusOptions: SelectOption<boolean>[];
-  public needUpdateRoutingExtensionVersion: boolean;
-  public routingExtensionVersion: string;
-  public latestRoutingExtensionVersion: string;
-  public apiProxiesEnabled: boolean;
+  public showProxyEnable = false;
+  public showProxyEnabledWarning = false;
   public functionRutimeOptions: SelectOption<string>[];
   public functionRuntimeValueStream: Subject<string>;
   public proxySettingValueStream: Subject<boolean>;
@@ -152,14 +150,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
         this.setNeedUpdateExtensionVersion();
 
-        this.routingExtensionVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
-        if (!this.routingExtensionVersion) {
-          this.routingExtensionVersion = Constants.disabled;
-        }
-        this.latestRoutingExtensionVersion = this._configService.FunctionsVersionInfo.proxyDefault;
-        this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
-        this.needUpdateRoutingExtensionVersion
-          = this._configService.FunctionsVersionInfo.proxyDefault !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
+        this.showProxyEnable = appSettings.properties[Constants.routingExtensionVersionAppSettingName]
+          ?  appSettings.properties[Constants.routingExtensionVersionAppSettingName].toLocaleLowerCase() === Constants.disabled.toLocaleLowerCase()
+          : false;
 
         if (EditModeHelper.isReadOnly(r.editMode)) {
           this.functionAppEditMode = false;
@@ -217,19 +210,17 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this.proxySettingValueStream = new Subject<boolean>();
     this.proxySettingValueStream
       .subscribe((value: boolean) => {
-        if (this.apiProxiesEnabled !== value) {
+        if (this.showProxyEnable) {
+
           this._busyManager.setBusy();
-          const appSettingValue: string = value ? this._configService.FunctionsVersionInfo.proxyDefault : Constants.disabled;
 
           this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
             .mergeMap(r => {
-              return this._updateProxiesVersion(r.json(), appSettingValue);
+              return this._updateProxiesVersion(r.json());
             })
             .subscribe(() => {
-              this.functionApp.fireSyncTrigger();
-              this.apiProxiesEnabled = value;
-              this.needUpdateRoutingExtensionVersion = false;
-              this.routingExtensionVersion = this._configService.FunctionsVersionInfo.proxyDefault;
+              this.showProxyEnable = false;
+              this.showProxyEnabledWarning = true;
               this._busyManager.clearBusy();
               this._cacheService.clearArmIdCachePrefix(this.site.id);
             });
@@ -378,21 +369,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
       });
   }
 
-  updateRoutingExtensionVersion() {
-    this._aiService.trackEvent('/actions/app_settings/update_routing_version');
-    this._busyManager.setBusy();
-
-    this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-      .mergeMap(r => {
-        return this._updateProxiesVersion(r.json(), this._configService.FunctionsVersionInfo.proxyDefault);
-      })
-      .subscribe(() => {
-        this.needUpdateRoutingExtensionVersion = false;
-        this._busyManager.clearBusy();
-        this._cacheService.clearArmIdCachePrefix(this.site.id);
-      });
-  }
-
   setQuota() {
     if (this.dailyMemoryTimeQuotaOriginal !== this.dailyMemoryTimeQuota) {
 
@@ -428,6 +404,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
   }
 
+
   keyDown(event: any, command: string) {
     if (AccessibilityHelper.isEnterOrSpace(event)) {
       switch (command) {
@@ -436,11 +413,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
           this.openAppSettings();
           break;
         }
-        case 'proxySettingValue':
-        {
-          this.proxySettingValueStream.next(!this.apiProxiesEnabled);
-          break;
-        }
+
         case 'functionEditModeValue':
         {
           this.functionEditModeValueStream.next(!this.functionAppEditMode);
@@ -476,16 +449,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
   }
 
-  private _updateProxiesVersion(appSettings: ArmObj<any>, value?: string) {
-
-    if (value !== Constants.disabled) {
-      this._aiService.trackEvent('/actions/proxy/enabled');
-    }
-
-    if (appSettings[Constants.routingExtensionVersionAppSettingName]) {
+  private _updateProxiesVersion(appSettings: ArmObj<any>) {
+    if (appSettings.properties[Constants.routingExtensionVersionAppSettingName]) {
       delete appSettings.properties[Constants.routingExtensionVersionAppSettingName];
     }
-    appSettings.properties[Constants.routingExtensionVersionAppSettingName] = value ? value : this._configService.FunctionsVersionInfo.proxyDefault;
 
     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
   }

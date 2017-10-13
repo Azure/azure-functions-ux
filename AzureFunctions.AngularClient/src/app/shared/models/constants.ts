@@ -188,6 +188,7 @@ export class NationalCloudArmUris {
 }
 
 export class LogCategories {
+    public static readonly FunctionMonitor = 'FunctionMonitor';
     public static readonly SideNav = 'SideNav';
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';

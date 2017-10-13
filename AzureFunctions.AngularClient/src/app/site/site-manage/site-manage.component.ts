@@ -270,7 +270,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_backupsInfo),
                 'image/backups.svg',
                 {
-                    detailBlade: 'Backup',
+                    detailBlade: 'BackupSummaryBlade',
                     detailBladeInputs: {
                         resourceUri: site.id
                     }

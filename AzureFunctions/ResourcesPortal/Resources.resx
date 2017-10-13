@@ -1003,17 +1003,8 @@
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxies (preview)</value>
   </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
-  </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Enable Azure Functions Proxies (preview)</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>Azure Functions Proxies are currently disabled. To enable, visit</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>Changes made to proxy {{name}} will be lost. Are you sure you want to continue?</value>
@@ -2418,6 +2409,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="java_splash_line_2" xml:space="preserve">
     <value>Click below to get started with documentation on how to build your first Azure Function with Java.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>Proxies has been enabled. To disable again, delete or disable all individual proxies.</value>
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Java on Azure Functions Quickstart</value>
