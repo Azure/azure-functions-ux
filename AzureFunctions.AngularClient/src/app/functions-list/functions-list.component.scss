@@ -21,3 +21,24 @@ h2{
     width: 250px;
     margin-bottom: 15px;
 }
+
+td.icon-cell{
+    &:hover{
+        background-color: $item-selected-color;
+    }
+}
+
+.icon-small{
+    height: 18px;
+    width: 18px;
+    vertical-align: middle;
+    margin-left: 7px;
+}
+
+:host-context(#app-root[theme=dark]){
+    td.icon-cell{
+        &:hover{
+            background-color: $item-selected-color-dark;
+        }
+    }
+}
