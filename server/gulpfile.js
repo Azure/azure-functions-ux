@@ -9,27 +9,27 @@ const path = require('path');
 const merge = require('gulp-merge-json');
 const del = require('del');
 
-gulp.task('build-resources', function(cb) {
+gulp.task('build-resources', function (cb) {
     runSequence('resources-convert', 'resources-build', 'resources-combine', 'resources-clean', cb);
 });
 
-gulp.task('resources-clean', function() {
+gulp.task('resources-clean', function () {
     return del(['resources-convert', 'templateResoureces-convert', 'resources-build', 'templateresources-build']);
 });
 
-gulp.task('resources-convert', function() {
+gulp.task('resources-convert', function () {
     const s = gulp
         .src(['resources/**/Resources.resx'])
         .pipe(resx2())
         .pipe(
-            rename(function(path) {
-                const language = path.dirname.split('/')[0];
-                if (!!language && language !== '.') {
-                    path.basename = 'Resources.' + language;
-                }
-                path.dirname = '.';
-                path.extname = '.json';
-            })
+        rename(function (p) {
+            const language = p.dirname.split(path.sep)[0];
+            if (!!language && language !== '.') {
+                p.basename = 'Resources.' + language;
+            }
+            p.dirname = '.';
+            p.extname = '.json';
+        })
         )
         .pipe(gulp.dest('resources-convert'));
 
@@ -37,31 +37,77 @@ gulp.task('resources-convert', function() {
         .src(['templates/**/Resources/**/Resources.resx'])
         .pipe(resx2())
         .pipe(
-            rename(function(path) {
-                const parts = path.dirname.split('/');
-                const version = parts[0];
+        rename(function (p) {
+            const parts = p.dirname.split(path.sep);
+            const version = parts[0];
 
-                const language = parts.length > 2 ? parts[parts.length - 2] : null;
-                if (!!language && language !== '.') {
-                    path.basename = 'Resources.' + language;
-                }
-                path.dirname = './' + version + '/';
-                path.extname = '.json';
-            })
+            const language = parts.length > 2 ? parts[parts.length - 2] : null;
+            if (!!language && language !== '.') {
+                p.basename = 'Resources.' + language;
+            }
+            p.dirname = '.' + path.sep + version + path.sep;
+            p.extname = '.json';
+        })
         )
         .pipe(gulp.dest('templateResoureces-convert'));
     return gulpMerge(s, t);
 });
 
-gulp.task('resources-build', function() {
+gulp.task('resources-build', function () {
     const streams = [];
     streams.push(
         gulp
             .src(['resources-convert/**/Resources.*.json'])
             .pipe(
+            jeditor(
+                function (json) {
+                    const enver = require(path.normalize('../server/resources-convert/Resources.json'));
+                    t = {
+                        lang: json,
+                        en: enver
+                    };
+
+                    return t;
+                },
+                {
+                    indent_char: ' ',
+                    indent_size: 4
+                }
+            )
+            )
+            .pipe(gulp.dest('resources-build'))
+    );
+
+    streams.push(
+        gulp
+            .src(['resources-convert/Resources.json'])
+            .pipe(
+            jeditor(
+                function (json) {
+                    t = {
+                        en: json
+                    };
+
+                    return t;
+                },
+                {
+                    indent_char: ' ',
+                    indent_size: 4
+                }
+            )
+            )
+            .pipe(gulp.dest('resources-build'))
+    );
+
+    const TemplateVersionDirectories = getSubDirectories('templateResoureces-convert');
+    TemplateVersionDirectories.forEach(x => {
+        streams.push(
+            gulp
+                .src('templateResoureces-convert/' + x + '/Resources.*.json')
+                .pipe(
                 jeditor(
-                    function(json) {
-                        const enver = require('./resources-convert/Resources.json');
+                    function (json) {
+                        const enver = require(path.normalize('../server/templateResoureces-convert/' + x + '/Resources.json'));
                         t = {
                             lang: json,
                             en: enver
@@ -74,16 +120,16 @@ gulp.task('resources-build', function() {
                         indent_size: 4
                     }
                 )
-            )
-            .pipe(gulp.dest('resources-build'))
-    );
+                )
+                .pipe(gulp.dest('templateresources-build/' + x))
+        );
 
-    streams.push(
-        gulp
-            .src(['resources-convert/Resources.json'])
-            .pipe(
+        streams.push(
+            gulp
+                .src('templateResoureces-convert/' + x + '/Resources.json')
+                .pipe(
                 jeditor(
-                    function(json) {
+                    function (json) {
                         t = {
                             en: json
                         };
@@ -95,52 +141,6 @@ gulp.task('resources-build', function() {
                         indent_size: 4
                     }
                 )
-            )
-            .pipe(gulp.dest('resources-build'))
-    );
-
-    const TemplateVersionDirectories = getSubDirectories('templateResoureces-convert');
-    TemplateVersionDirectories.forEach(x => {
-        streams.push(
-            gulp
-                .src('templateResoureces-convert/' + x + '/Resources.*.json')
-                .pipe(
-                    jeditor(
-                        function(json) {
-                            const enver = require('./templateResoureces-convert/' + x + '/Resources.json');
-                            t = {
-                                lang: json,
-                                en: enver
-                            };
-
-                            return t;
-                        },
-                        {
-                            indent_char: ' ',
-                            indent_size: 4
-                        }
-                    )
-                )
-                .pipe(gulp.dest('templateresources-build/' + x))
-        );
-
-        streams.push(
-            gulp
-                .src('templateResoureces-convert/' + x + '/Resources.json')
-                .pipe(
-                    jeditor(
-                        function(json) {
-                            t = {
-                                en: json
-                            };
-
-                            return t;
-                        },
-                        {
-                            indent_char: ' ',
-                            indent_size: 4
-                        }
-                    )
                 )
                 .pipe(gulp.dest('templateresources-build/' + x))
         );
@@ -157,7 +157,7 @@ const parentFolders = [];
 let streams = [];
 const baseNames = [];
 
-gulp.task('resources-combine', function() {
+gulp.task('resources-combine', function () {
     const TemplateVersionDirectories = getSubDirectories('templateresources-build');
     const s = [];
     TemplateVersionDirectories.forEach(x => {
@@ -176,9 +176,9 @@ gulp.task('resources-combine', function() {
                     .src(stream)
                     .pipe(merge({ fileName: fileName }))
                     .pipe(
-                        rename(function(path) {
-                            path.basename += '.' + x;
-                        })
+                    rename(function (p) {
+                        p.basename += '.' + x;
+                    })
                     )
                     .pipe(gulp.dest('src/actions/resources'))
             );
@@ -202,10 +202,10 @@ function getSubDirectories(folder) {
 function getFiles(folders) {
     let possibleDirectory;
 
-    folders.forEach(function(folder, index) {
+    folders.forEach(function (folder, index) {
         let tempFiles = fs.readdirSync('./' + folder);
 
-        tempFiles.forEach(function(fileOrDirectory) {
+        tempFiles.forEach(function (fileOrDirectory) {
             possibleDirectory = path.join(folder, fileOrDirectory);
             if (fs.lstatSync(possibleDirectory).isDirectory()) {
                 getFiles([possibleDirectory]);
@@ -221,7 +221,7 @@ function getFiles(folders) {
 }
 
 function makeStreams() {
-    files.forEach(function(file) {
+    files.forEach(function (file) {
         let thisParentFolders = path.dirname(file).substr(file.indexOf(path.sep));
 
         if (parentFolders.indexOf(thisParentFolders) === -1) {
@@ -229,12 +229,12 @@ function makeStreams() {
         }
     });
 
-    parentFolders.forEach(function(folder) {
+    parentFolders.forEach(function (folder) {
         let foldersFile = folder.substr(folder.indexOf(path.sep));
 
-        baseNames.forEach(function(baseName) {
+        baseNames.forEach(function (baseName) {
             streams.push(
-                files.filter(function(file) {
+                files.filter(function (file) {
                     return file.endsWith(path.join(foldersFile, baseName));
                 })
             );
