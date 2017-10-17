@@ -19,7 +19,7 @@ gulp.task('resources-clean', function () {
 
 gulp.task('resources-convert', function () {
     const s = gulp
-        .src(['resources/**/Resources.resx'])
+        .src(['../AzureFunctions/ResourcesPortal/**/Resources.resx'])
         .pipe(resx2())
         .pipe(
         rename(function (p) {
