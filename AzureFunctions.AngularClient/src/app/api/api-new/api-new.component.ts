@@ -4,7 +4,6 @@ import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppNode } from './../../tree-view/app-node';
-import { Constants } from './../../shared/models/constants';
 import { CacheService } from './../../shared/services/cache.service';
 import { AiService } from './../../shared/services/ai.service';
 import { ApiProxy } from '../../shared/models/api-proxy';
@@ -30,7 +29,6 @@ export class ApiNewComponent implements OnDestroy {
     @ViewChild(RequestResposeOverrideComponent) rrComponent: RequestResposeOverrideComponent;
     complexForm: FormGroup;
     isMethodsVisible = false;
-    isEnabled: boolean;
 
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
@@ -93,9 +91,6 @@ export class ApiNewComponent implements OnDestroy {
                 this._globalStateService.clearBusyState();
                 this.functionsInfo = res.fcs;
                 this.apiProxies = res.proxies;
-
-                const extensionVersion = res.appSettings.properties[Constants.routingExtensionVersionAppSettingName];
-                this.isEnabled = extensionVersion && extensionVersion !== Constants.disabled;
             });
     }
 
