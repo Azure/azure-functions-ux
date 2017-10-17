@@ -36,12 +36,12 @@ export function getResources(req: Request, res: Response) {
         langCode === 'en' ? `Resources.${cleanDefaultRuntimeVersion}.json` : `Resources.${langCode}.${cleanDefaultRuntimeVersion}.json`;
     //This is for development only so people can develop without having a templates folder laid out
     var defaultFallbackFile =
-        langCode === 'en' ? `Resources.${cleanDefaultRuntimeVersion}.json` : `Resources.${langCode}.${cleanDefaultRuntimeVersion}.json`;
+        langCode === 'en' ? `Resources.json` : `Resources.${langCode}.json`;
 
     var folder = './resources/';
     if (fs.existsSync(`${folder}${versionFile}`)) {
         res.json(require(`${folder}${versionFile}`));
-    } else if (fs.existsSync(`${folder}${versionFile}`)) {
+    } else if (fs.existsSync(`${folder}${defaultVersionFile}`)) {
         res.json(require(`${folder}${defaultVersionFile}`));
     } else {
         res.json(require(`${folder}${defaultFallbackFile}`));
