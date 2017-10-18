@@ -240,6 +240,7 @@ gulp.task('build-templates', function() {
         }
         writePath = path.join(writePath, version + '.json');
         fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateListJson)));
+
     });
 });
 
@@ -248,17 +249,24 @@ gulp.task('build-templates', function() {
  */
 
 gulp.task('build-bindings', function() {
-    return gulp
-        .src(['Templates/**/bindings.json'])
-        .pipe(
-            rename(function(p) {
-                const version = p.dirname.split(path.sep)[0];
-                p.basename = version;
-                p.dirname = '.';
-                p.extname = '.json';
-            })
-        )
-        .pipe(gulp.dest('src/actions/bindings'));
+    const templateRuntimeVersions = getSubDirectories('Templates');
+    templateRuntimeVersions.forEach(version => {
+        const bindingFile = require(path.join(__dirname, 'Templates', version, 'Bindings', 'bindings.json'));
+        bindingFile.bindings.forEach(binding => {
+            if (binding.documentation) {
+                const documentationSplit = binding.documentation.split('\\');
+                const documentationFile = documentationSplit[documentationSplit.length - 1];
+                const documentationString = fs.readFileSync(path.join(__dirname, 'Templates', version, 'Documentation', documentationFile), { encoding: 'utf8' });
+                binding.documentation = documentationString;
+            }
+        });
+        let writePath = path.join(__dirname, 'src', 'actions', 'bindings');
+        if (!fs.existsSync(writePath)) {
+            fs.mkdirSync(writePath);
+        }
+        writePath = path.join(writePath, version + '.json');
+        fs.writeFileSync(writePath, new Buffer(JSON.stringify(bindingFile)));
+    });
 });
 
 /********
