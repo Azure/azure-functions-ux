@@ -43,6 +43,7 @@ export class LogicAppsComponent implements OnInit {
   public logicApps: LogicAppInfo[] = [];
   public tableItems: TableItem[] = [];
   public subId: string;
+  public title: string;
   public logicAppsIcon = 'images/logicapp.svg';
   public initialized = false;
 
@@ -88,19 +89,32 @@ export class LogicAppsComponent implements OnInit {
 
         this._appNode = <AppNode>viewInfo.node;
         this.subId = this._appNode.subscriptionId;
+        this.title = this._appNode.title;
 
-        return this._cacheService.getArm(
-          `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows`,
-          true,
-          '2016-06-01',
-          true
-        );
-      })
+      //   return [this._cacheService.getArm(
+      //     `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows&$filter=contains(referencedResourceId, '${this.title}')`,
+      //     true,
+      //     '2017-07-01',
+      //     true
+      //   ), this._cacheService.getArm(
+      //     `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows`,
+      //     true,
+      //     '2017-07-01',
+      //     true)];
+      // })
+      return this._cacheService.getArm(
+        `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${this.title}')`,
+        true,
+        '2017-07-01',
+        true
+      );
+    })
       .do(null, e => {
         this._aiService.trackException(e, 'logic-apps');
       })
       .retry()
       .subscribe(r => {
+        // const index = r[0].length > 0 ? 0 : 1;
         this.logicApps = r.json().value
         .map(app => (<LogicAppInfo>{
           name: app.name,
