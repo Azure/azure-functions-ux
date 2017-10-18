@@ -21,7 +21,7 @@ function ExecuteTemplatesBuild($buildRoot, $outPath) {
         }
 
         # Copy over the contents from build output to App_data
-        $portalOutputFolder = Join-Path $buildRoot -ChildPath "Functions.Templates\bin\Portal\release\Azure.Functions.Templates.Portal\*"
+        $portalOutputFolder = Join-Path $buildRoot -ChildPath "Functions.Templates\bin\Portal\release\Azure.Functions.Ux.Templates\*"
         Remove-Item $outPath -Recurse -Force
         New-Item $outPath -Type Directory
         Copy-Item $portalOutputFolder $outPath -Recurse -Force 
