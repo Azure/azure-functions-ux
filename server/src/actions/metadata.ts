@@ -48,24 +48,6 @@ export async function getResources(req: Request, res: Response) {
     else{
         res.sendFile(path.join(folder, defaultFallbackFile));
     }
-
-
-    try {
-        let payload = await fs.readFile(path.join(folder, versionFile));
-        res.json(JSON.parse(payload));
-    } catch (e) {
-        try {
-            let payload = await fs.readFile(path.join(folder, defaultVersionFile));
-            res.json(JSON.parse(payload));
-        } catch (e) {
-            try {
-                let payload = await fs.readFile(path.join(folder, defaultFallbackFile));
-                res.json(JSON.parse(payload));
-            } catch (e) {
-                res.sendStatus(404);
-            }
-        }
-    }
 }
 
 export function getRuntimeVersion(_: Request, res: Response) {
