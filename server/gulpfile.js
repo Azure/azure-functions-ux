@@ -12,6 +12,10 @@ const del = require('del');
 /********
 *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
 */
+
+gulp.task('build-all', function(cb) {
+    runSequence('build-resources', 'build-templates', 'build-bindings');
+});
 gulp.task('build-resources', function(cb) {
     runSequence('resources-convert', 'resources-build', 'resources-combine', 'resources-clean', cb);
 });
@@ -63,7 +67,6 @@ gulp.task('resources-convert', function() {
     return gulpMerge(portalResourceStream, templateResourceStream);
 });
 
-
 /********
 *   This is the task takes the output of the  convert task and formats the json to be in the format that gets sent back to the client by the API, it's easier to do this here than at the end
 */
@@ -108,17 +111,15 @@ gulp.task('resources-build', function() {
             gulp
                 .src('templateResoureces-convert/' + x + '/Resources.*.json')
                 .pipe(
-                    jeditor(
-                        function(json) {
-                            const enver = require(path.normalize('../server/templateResoureces-convert/' + x + '/Resources.json'));
-                            const retVal = {
-                                lang: json,
-                                en: enver
-                            };
+                    jeditor(function(json) {
+                        const enver = require(path.normalize('../server/templateResoureces-convert/' + x + '/Resources.json'));
+                        const retVal = {
+                            lang: json,
+                            en: enver
+                        };
 
-                            return retVal;
-                        }
-                    )
+                        return retVal;
+                    })
                 )
                 .pipe(gulp.dest('templateresources-build/' + x))
         );
@@ -127,15 +128,13 @@ gulp.task('resources-build', function() {
             gulp
                 .src('templateResoureces-convert/' + x + '/Resources.json')
                 .pipe(
-                    jeditor(
-                        function(json) {
-                            const retVal = {
-                                en: json
-                            };
+                    jeditor(function(json) {
+                        const retVal = {
+                            en: json
+                        };
 
-                            return retVal;
-                        }
-                    )
+                        return retVal;
+                    })
                 )
                 .pipe(gulp.dest('templateresources-build/' + x))
         );
@@ -190,35 +189,6 @@ gulp.task('resources-combine', function() {
     return gulpMerge(s);
 });
 
-function getSubDirectories(folder) {
-    if (!fs.existsSync(folder)) {
-        return [];
-    }
-    const dir = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
-    return dir(folder);
-}
-
-function getFiles(folders) {
-    let possibleDirectory;
-
-    folders.forEach(function(folder, index) {
-        let tempFiles = fs.readdirSync('./' + folder);
-
-        tempFiles.forEach(function(fileOrDirectory) {
-            possibleDirectory = path.join(folder, fileOrDirectory);
-            if (fs.lstatSync(possibleDirectory).isDirectory()) {
-                getFiles([possibleDirectory]);
-            } else {
-                files.push(path.join(folder, fileOrDirectory));
-
-                if (baseNames.indexOf(fileOrDirectory) === -1) {
-                    baseNames.push(fileOrDirectory);
-                }
-            }
-        });
-    });
-}
-
 function makeStreams() {
     files.forEach(function(file) {
         let thisParentFolders = path.dirname(file).substr(file.indexOf(path.sep));
@@ -240,4 +210,100 @@ function makeStreams() {
         });
     });
     streams = streams.filter(stream => stream.length >= 1);
+}
+
+/***********************************************************
+ * Templates Building
+ */
+
+gulp.task('build-templates', function() {
+    const templateRuntimeVersions = getSubDirectories('Templates');
+    templateRuntimeVersions.forEach(version => {
+        let templateListJson = [];
+        const templates = getSubDirectories(path.join(__dirname, 'Templates', version, 'Templates'));
+        templates.forEach(template => {
+            let templateObj = {};
+            var filePath = path.join(__dirname, 'Templates', version, 'Templates', template);
+            let files = getFilesWithContent(filePath, ['function.json', 'metadata.json']);
+
+            templateObj.id = template;
+            templateObj.runtime = version;
+            templateObj.files = files;
+
+            templateObj.function = require(path.join(filePath, 'function.json'));
+            templateObj.metadata = require(path.join(filePath, 'metadata.json'));
+            templateListJson.push(templateObj);
+        });
+        let writePath = path.join(__dirname, 'src', 'actions', 'templates');
+        if (!fs.existsSync(writePath)) {
+            fs.mkdirSync(writePath);
+        }
+        writePath = path.join(writePath, version + '.json');
+        fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateListJson)));
+    });
+});
+
+/********
+ * Place Binding Templates
+ */
+
+gulp.task('build-bindings', function() {
+    return gulp
+        .src(['Templates/**/bindings.json'])
+        .pipe(
+            rename(function(p) {
+                const version = p.dirname.split(path.sep)[0];
+                p.basename = version;
+                p.dirname = '.';
+                p.extname = '.json';
+            })
+        )
+        .pipe(gulp.dest('src/actions/bindings'));
+});
+
+/********
+ * UTILITIES
+ */
+
+function getSubDirectories(folder) {
+    if (!fs.existsSync(folder)) {
+        return [];
+    }
+    const dir = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
+    return dir(folder);
+}
+
+function getFilesWithContent(folder, filesToIgnore) {
+    if (!fs.existsSync(folder)) {
+        return {};
+    }
+    let obj = {};
+    const fileNames = fs.readdirSync(folder).filter(f => fs.statSync(path.join(folder, f)).isFile());
+    fileNames.filter(x => filesToIgnore.indexOf(x) === -1).forEach(fileName => {
+        const fileContent = fs.readFileSync(path.join(folder, fileName), { encoding: 'utf8' });
+        obj[fileName] = fileContent;
+    });
+
+    return obj;
+}
+
+function getFiles(folders) {
+    let possibleDirectory;
+
+    folders.forEach(function(folder, index) {
+        let tempFiles = fs.readdirSync('./' + folder);
+
+        tempFiles.forEach(function(fileOrDirectory) {
+            possibleDirectory = path.join(folder, fileOrDirectory);
+            if (fs.lstatSync(possibleDirectory).isDirectory()) {
+                getFiles([possibleDirectory]);
+            } else {
+                files.push(path.join(folder, fileOrDirectory));
+
+                if (baseNames.indexOf(fileOrDirectory) === -1) {
+                    baseNames.push(fileOrDirectory);
+                }
+            }
+        });
+    });
 }
