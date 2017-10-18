@@ -24,9 +24,9 @@ echo Handling frontend Angular2 project.
     echo %CD%
 
 	echo Bundle angular2 app
-	call :ExecuteCmd node_modules\.bin\ng build --output-path="%PACKAGEPATH%\ng"
+	call :ExecuteCmd node_modules\.bin\ng build --output-path="%PACKAGEPATH%\ng-full"
 	IF !ERRORLEVEL! NEQ 0 (
-		call :ExecuteCmd node_modules\.bin\ng build --output-path="%PACKAGEPATH%\ng"
+		call :ExecuteCmd node_modules\.bin\ng build --output-path="%PACKAGEPATH%\ng-full"
 		IF !ERRORLEVEL! NEQ 0 goto error
 	)
 
