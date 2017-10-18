@@ -2,15 +2,10 @@
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../shared/services/ai.service';
-
 import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
-import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput} from '../shared/models/binding-input';
+import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput } from '../shared/models/binding-input';
 import { BindingManager } from '../shared/models/binding-manager';
 import { BindingInputList } from '../shared/models/binding-input-list';
 import { BroadcastService } from '../shared/services/broadcast.service';
@@ -21,7 +16,6 @@ import { Validator } from '../shared/models/binding';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from '../shared/services/cache.service';
 import { AuthSettings } from '../shared/models/auth-settings';
-import { MicrosoftGraphHelper } from "../pickers/microsoft-graph/microsoft-graph-helper";
 import { FunctionInfo } from '../shared/models/function-info';
 
 declare var marked: any;
@@ -57,7 +51,6 @@ export class BindingComponent {
     public hasInputsToShow = false;
     public isDirty = false;
     public isDocShown = false;
-    public GraphWebhookTrigger = false;
     public functionApp: FunctionApp;
 
     // While there are no uses for this in the code, it's used in
@@ -87,7 +80,7 @@ export class BindingComponent {
         private _aiService: AiService) {
         const renderer = new marked.Renderer();
 
-        const funcStream = this._functionAppStream
+        this._functionAppStream
             .distinctUntilChanged()
             .switchMap(functionApp => {
                 this.functionApp = functionApp;
@@ -95,25 +88,21 @@ export class BindingComponent {
                     this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`),
                     this.functionApp.getAuthSettings(),
                     (a, e) => ({ appSettings: a.json(), authSettings: e }));
+            }).do(null, e => {
+                this._aiService.trackException(e, '/errors/binding');
+                console.error(e);
+            }).subscribe(res => {
+                this._appSettings = res.appSettings.properties;
+                this.authSettings = res.authSettings;
+                this.filterWarnings();
+                this._updateBinding();
             });
 
-        funcStream
-            .merge(this._bindingStream)
-            .subscribe((res: { appSettings: any, authSettings: AuthSettings }) => {
-                try {
-                    if (res.appSettings) {
-                        this._appSettings = res.appSettings.properties;
-                    } else {
-                        this._updateBinding(<any>res);
-                    }
-                    if (res.authSettings) {
-                        this.authSettings = res.authSettings;
-                        this.filterWarnings();
-                    }
-                } catch (e) {
-                    console.error(e);
-                }
-            });
+        this._bindingStream.subscribe((binding: UIFunctionBinding) => {
+            this.bindingValue = binding;
+            this._updateBinding();
+
+        });
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>';
@@ -173,6 +162,16 @@ export class BindingComponent {
 
     set binding(value: UIFunctionBinding) {
         this._bindingStream.next(value);
+    }
+
+    populateExclusiveSave(rule: Rule): any {
+        const functionSettingV = this.bindingValue.settings.find((s) => {
+            return s.name === rule.name;
+        });
+
+        if (functionSettingV && functionSettingV.value) {
+            this.model.inputs[0].value = functionSettingV.value;
+        }
     }
 
     private _handleExclusivityRule(rule: Rule, isHidden: boolean): SelectInput | null {
@@ -349,11 +348,15 @@ export class BindingComponent {
         return true;
     }
 
-    private _updateBinding(value: UIFunctionBinding) {
+    private _updateBinding() {
+        // Binding should be created only if both bindingStream and functionStream get values
+        if (!this.bindingValue || !this._appSettings) {
+            return;
+        }
+
         this.isDirty = false;
         const that = this;
         this.functionApp.getBindingConfig().subscribe((bindings) => {
-            this.bindingValue = value;
             this.setDirtyIfNewBinding();
             // Convert settings to input conotrls
             let order = 0;
@@ -363,8 +366,6 @@ export class BindingComponent {
             if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
                 this.newFunction = true;
             }
-
-            this.GraphWebhookTrigger = that.bindingValue.type === BindingType.GraphWebhookTrigger;
 
             this.model.actions = [];
             this.model.warnings = [];
@@ -524,6 +525,7 @@ export class BindingComponent {
                             // Want to save value of input used to hide/show other settings
                             ddInput.explicitSave = true;
                             this.model.inputs.splice(0, 0, ddInput);
+                            this.populateExclusiveSave(rule);
                         } else if (rule.type === 'NAND') {
                             this._handleNANDRule(rule);
                         } else if (rule.type === 'changeOptionsDisplayed') {
@@ -645,12 +647,6 @@ export class BindingComponent {
         this.isDirty = false;
     }
 
-    saveWebHook() {
-        const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-        helper.binding = this;
-        helper.saveWebHook();
-    }
-
     onValidChanged() {
         this.areInputsValid = this.model.isValid();
         this.validChange.emit(this);
@@ -759,8 +755,8 @@ export class BindingComponent {
                 break;
             case ResourceType.EventHub:
             case ResourceType.ServiceBus:
+            case ResourceType.NotificationHub:
                 for (const key in this._appSettings) {
-
                     const value = this._appSettings[key].toLowerCase();
                     if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
                         result.push(key);

@@ -1,14 +1,30 @@
 input[type=text], select{
-    // background: $body-bg-color;
     border: $border;
     position: relative;
     vertical-align: middle;
     height: 29px;
-    // width: 85%;
     margin-right: 10px;
     padding: 0 5px;
+    background-color: $body-bg-color;
+    color: inherit;
 }
+
 input[type=text]:focus, select:focus, textarea:focus {
     border: 1px solid $primary-color;
     outline: none;  
+}
+
+#app-root[theme=dark] {
+    input, select{
+        background-color: $body-bg-color-dark;
+    }
+
+    option{
+        background-color: $body-bg-color-dark;
+        color: $default-text-color-dark;
+    }
+
+    textarea{
+        background-color: lighten($body-bg-color-dark, 5%);
+    }
 }

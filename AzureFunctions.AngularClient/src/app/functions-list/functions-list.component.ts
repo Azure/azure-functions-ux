@@ -2,13 +2,8 @@ import { ErrorIds } from './../shared/models/error-ids';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { AppNode } from './../tree-view/app-node';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-
 import { FunctionNode } from './../tree-view/function-node';
 import { FunctionsNode } from './../tree-view/functions-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
@@ -25,25 +20,23 @@ import { ErrorType, ErrorEvent } from 'app/shared/models/error-event';
     templateUrl: './functions-list.component.html',
     styleUrls: ['./functions-list.component.scss']
 })
-export class FunctionsListComponent implements OnInit, OnDestroy {
-    public viewInfoStream: Subject<TreeViewInfo<any>>;
+export class FunctionsListComponent implements OnDestroy {
     public functions: FunctionNode[] = [];
     public isLoading: boolean;
     public functionApp: FunctionApp;
     public appNode: AppNode;
 
-    private _viewInfoSubscription: RxSubscription;
-
     private _functionsNode: FunctionsNode;
+    private _ngUnsubscribe = new Subject<void>();
 
     constructor(private _globalStateService: GlobalStateService,
         private _portalService: PortalService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService
     ) {
-        this.viewInfoStream = new Subject<TreeViewInfo<any>>();
-
-        this._viewInfoSubscription = this.viewInfoStream
+        this._broadcastService.getEvents<TreeViewInfo<void>>(BroadcastEvent.FunctionsDashboard)
+        .takeUntil(this._ngUnsubscribe)
+            .takeUntil(this._ngUnsubscribe)
             .distinctUntilChanged()
             .switchMap(viewInfo => {
                 this.isLoading = true;
@@ -58,23 +51,16 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
             });
     }
 
-    ngOnInit() {
-    }
-
     ngOnDestroy(): void {
-        this._viewInfoSubscription.unsubscribe();
-    }
-
-    @Input() set viewInfoInput(viewInfo: TreeViewInfo<any>) {
-        this.viewInfoStream.next(viewInfo);
+        this._ngUnsubscribe.next();
     }
 
     clickRow(item: FunctionNode) {
         item.select();
     }
 
-    enableChange(item: FunctionNode) {
-        item.functionInfo.config.disabled = !item.functionInfo.config.disabled;
+    enableChange(item: FunctionNode, enabled: boolean) {
+        item.functionInfo.config.disabled = !enabled;
         return this.functionApp.updateFunction(item.functionInfo)
             .do(null, e => {
                 item.functionInfo.config.disabled = !item.functionInfo.config.disabled;
@@ -133,6 +119,6 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
     }
 
     onNewFunctionClick() {
-        this._functionsNode.openCreateDashboard(DashboardType.createFunction);
+        this._functionsNode.openCreateDashboard(DashboardType.CreateFunctionDashboard);
     }
 }

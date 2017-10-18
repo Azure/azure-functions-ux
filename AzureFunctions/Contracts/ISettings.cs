@@ -7,6 +7,7 @@ namespace AzureFunctions.Contracts
     {
         ClientConfiguration GetClientConfiguration();
         Task<string> GetCurrentSiteExtensionVersion();
+        string GetConfigServiceObject();
         string AppDataPath { get; }
         string TemplatesPath { get; }
         string ResourcesPortalPath { get; }

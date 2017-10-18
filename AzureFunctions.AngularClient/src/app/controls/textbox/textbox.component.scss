@@ -1,4 +1,4 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
 
 .textbox-wrapper{
     width: 100%;
@@ -7,6 +7,10 @@
     input{
         height: 23px;
         width: 100%;
+
+        &.dirty{
+            border-color: $alt1-color;
+        }
     }
 
     .validation-error{

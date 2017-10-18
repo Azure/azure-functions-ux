@@ -1,15 +1,15 @@
-﻿import { Url } from './../Utilities/url';
+﻿import { Observable } from 'rxjs/Observable';
+import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo } from './../models/portal';
+import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, BladeResult } from './../models/portal';
 import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
 import { BroadcastEvent } from '../models/broadcast-event'
 import { AiService } from './ai.service';
-import { SetupOAuthRequest, SetupOAuthResponse } from '../../site/deployment-source/deployment';
 import { LocalStorageService } from './local-storage.service';
 import { Guid } from '../Utilities/Guid';
 import { TabCommunicationVerbs } from '../models/constants';
@@ -22,24 +22,23 @@ export class PortalService {
     public iFrameId: string | null;
 
     public sessionId = '';
+    public resourceId: string;
 
     private portalSignature = 'FxAppBlade';
     private portalSignatureFrameBlade = 'FxFrameBlade';
     private startupInfo: StartupInfo | null;
     private startupInfoObservable: ReplaySubject<StartupInfo>;
-    private setupOAuthObservable: Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
     private notificationStartStream: Subject<NotificationStartedInfo>;
 
-    public resourceId: string;
+    private operationStream = new Subject<DataMessage<any>>();
 
     constructor(private _broadcastService: BroadcastService,
         private _aiService: AiService,
         private _storageService: LocalStorageService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
-        this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
 
         if (PortalService.inIFrame()) {
@@ -52,11 +51,6 @@ export class PortalService {
 
     getStartupInfo() {
         return this.startupInfoObservable;
-    }
-
-    setupOAuth(input: SetupOAuthRequest) {
-        this.postMessage(Verbs.setupOAuth, JSON.stringify(input));
-        return this.setupOAuthObservable;
     }
 
     private initializeIframe(): void {
@@ -214,7 +208,12 @@ export class PortalService {
         this.postMessage(Verbs.openBladeCollector, JSON.stringify(payload));
     }
 
-    openCollectorBladeWithInputs(resourceId: string, obj: any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
+    openCollectorBladeWithInputs(
+        resourceId: string,
+        obj: any,
+        source: string,
+        getAppSettingCallback: (appSettingName: string) => void,
+        bladeName?: string) {
         this.logAction(source, 'open-blade-collector-inputs' + obj.bladeName, null);
 
         this._aiService.trackEvent('/site/open-collector-blade', {
@@ -224,12 +223,27 @@ export class PortalService {
 
         this.getAppSettingCallback = getAppSettingCallback;
 
+        const operationId = Guid.newGuid();
+
         const payload = {
             resourceId: resourceId,
-            input: obj
+            input: obj,
+            bladeName: bladeName,
+            operationId: operationId
         };
 
         this.postMessage(Verbs.openBladeCollectorInputs, JSON.stringify(payload));
+        return this.operationStream
+            .filter(o => o.operationId === operationId)
+            .switchMap((o: DataMessage<BladeResult>) => {
+                if (o.data.status === 'success') {
+                    return Observable.of(o.data);
+                } else if (o.data.status === 'cancelled') {
+                    return Observable.of(null);
+                } else {
+                    return Observable.throw(o.data);
+                }
+            });
     }
 
     closeBlades() {
@@ -326,32 +340,28 @@ export class PortalService {
             this._aiService.setSessionId(this.sessionId);
 
             this.startupInfoObservable.next(this.startupInfo);
-        }
-        else if (methodName === Verbs.sendToken) {
+        } else if (methodName === Verbs.sendToken) {
             if (this.startupInfo) {
                 this.startupInfo.token = <string>data;
                 this.startupInfoObservable.next(this.startupInfo);
             }
-        }
-        else if (methodName === Verbs.sendAppSettingName) {
+        } else if (methodName === Verbs.sendAppSettingName) {
             if (this.getAppSettingCallback) {
                 this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;
             }
-        }
-        else if (methodName === Verbs.sendOAuthInfo) {
-            this.setupOAuthObservable.next(data);
-        }
-        else if (methodName === Verbs.sendNotificationStarted) {
+        } else if (methodName === Verbs.sendNotificationStarted) {
             this.notificationStartStream.next(data);
-        }
-        else if (methodName === Verbs.sendInputs) {
+        } else if (methodName === Verbs.sendInputs) {
             if (!this.startupInfo) {
                 return;
             }
 
             this.startupInfo.resourceId = data.resourceId;
             this.startupInfoObservable.next(this.startupInfo);
+
+        } else if (methodName === Verbs.sendData) {
+            this.operationStream.next(data);
         }
     }
 

@@ -27,7 +27,7 @@ export class Cache {
 @Injectable()
 export class CacheService {
     private _cache: Cache;
-    private _expireMS = parseInt(Url.getParameterByName(window.location.href, 'appsvc.debug.cacheinterval'), 10) || 60000;
+    private _expireMS = parseInt(Url.getParameterByName(null, 'appsvc.debug.cacheinterval'), 10) || 60000;
     private _cleanUpMS = 3 * this._expireMS;
     public cleanUpEnabled = true;
 
@@ -51,6 +51,12 @@ export class CacheService {
         const url: string = this._getArmUrl(resourceId, apiVersion);
         delete this._cache[url.toLowerCase()];
         return this._armService.send('PUT', url, content);
+    }
+
+    patchArm(resourceId: string, apiVersion?: string, content?: any) {
+        const url: string = this._getArmUrl(resourceId, apiVersion);
+        delete this._cache[url.toLowerCase()];
+        return this._armService.send('PATCH', url, content);
     }
 
     get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean) {

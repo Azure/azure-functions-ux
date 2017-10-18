@@ -37,12 +37,6 @@ export class FunctionsService {
         private _userService: UserService,
         private _globalStateService: GlobalStateService) {
 
-        if (!Constants.runtimeVersion) {
-            this.getLatestRuntime().subscribe((runtime: any) => {
-                Constants.runtimeVersion = runtime;
-            });
-        }
-
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo().subscribe(info => { this.token = info.token });
         }
@@ -100,7 +94,8 @@ export class FunctionsService {
         const url = this.tryAppServiceUrl + '/api/resource?appServiceName=Function'
             + (provider ? '&provider=' + provider : '')
             + '&templateId=' + encodeURIComponent(selectedTemplate.id)
-            + '&functionName=' + encodeURIComponent(functionName);
+            + '&functionName=' + encodeURIComponent(functionName)
+            + '&trial=true';
 
         const template = <ITryAppServiceTemplate>{
             name: selectedTemplate.id,
@@ -122,14 +117,6 @@ export class FunctionsService {
         } else {
             return 'Unknown';
         }
-    }
-
-    getLatestRuntime() {
-        return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
-            .map(r => {
-                return r.json();
-            })
-            .retryWhen(this.retryAntares);
     }
 
     // to talk to Functions Portal

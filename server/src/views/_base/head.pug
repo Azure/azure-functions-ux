@@ -1,13 +1,7 @@
 head
     meta(charset="utf-8" name="viewport" content="width=device-width, initial-scale=1")
     script(type='text/javascript').
-        window.appsvc = {
-            env: {
-                hostName: '#{hostName}',
-                runtimeType: '#{config.runtimeType}',
-                azureResourceManagerEndpoint: '#{config.azureResourceManagerEndpoint}'
-            }
-        };
+        window.appsvc = !{JSON.stringify(config)}
     style
         include iframe-loading.css
     if !isAzure

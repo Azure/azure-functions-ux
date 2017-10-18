@@ -6,19 +6,19 @@ import { TranslateService } from '@ngx-translate/core';
 import { Validator } from '@angular/forms/src/forms';
 import { FormControl } from "@angular/forms/src/model";
 import { Validations } from "app/shared/models/constants";
-import { SlotsService } from "app/shared/services/slots.service";
+import { SiteService } from "app/shared/services/slots.service";
 import { Site } from "app/shared/models/arm/site";
 
 export class SlotNameValidator implements Validator {
     private _ts: TranslateService;
-    private _slotService: SlotsService;
+    private _slotService: SiteService;
 
     constructor(
         injector: Injector,
         private _siteId: string,
     ) {
         this._ts = injector.get(TranslateService);
-        this._slotService = injector.get(SlotsService);
+        this._slotService = injector.get(SiteService);
     }
 
     validate(control: FormControl) {

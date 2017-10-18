@@ -1,5 +1,5 @@
-import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
-import { BusyStateComponent } from './../../busy-state/busy-state.component';
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
+import { ConfigService } from './../../shared/services/config.service';
 import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
@@ -12,7 +12,6 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { ErrorIds } from './../../shared/models/error-ids';
 import { ErrorEvent, ErrorType } from './../../shared/models/error-event';
 import { NotificationIds, Constants, SiteTabIds } from './../../shared/models/constants';
@@ -30,8 +29,10 @@ import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
-import { SlotsService } from '../../shared/services/slots.service';
+import { SiteService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
+import { FunctionsVersionInfoHelper } from '../../../../../common/models/functions-version-info';
+import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
 
 @Component({
   selector: 'function-runtime',
@@ -53,13 +54,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public exactExtensionVersion: string;
 
   public functionStatusOptions: SelectOption<boolean>[];
-  public needUpdateRoutingExtensionVersion: boolean;
-  public routingExtensionVersion: string;
-  public latestRoutingExtensionVersion: string;
-  public apiProxiesEnabled: boolean;
-  private proxySettingValueStream: Subject<boolean>;
-  private functionEditModeValueStream: Subject<boolean>;
-  public showTryView: boolean;
+  public showProxyEnable = false;
+  public showProxyEnabledWarning = false;
+  public functionRutimeOptions: SelectOption<string>[];
+  public functionRuntimeValueStream: Subject<string>;
+  public proxySettingValueStream: Subject<boolean>;
+  public functionEditModeValueStream: Subject<boolean>;
 
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   private _viewInfo: TreeViewInfo<SiteData>;
@@ -73,8 +73,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public slotsStatusOptions: SelectOption<boolean>[];
   public slotsAppSetting: string;
   public slotsEnabled: boolean;
-  private slotsValueChange: Subject<boolean>;
-  private _busyState: BusyStateComponent;
+  public slotsValueChange: Subject<boolean>;
+  private _busyManager: BusyStateScopeManager;
 
   constructor(
     private _armService: ArmService,
@@ -83,17 +83,16 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _globalStateService: GlobalStateService,
     private _aiService: AiService,
     private _translateService: TranslateService,
-    private _slotsService: SlotsService,
-    siteTabsComponent: SiteTabComponent
+    private _slotsService: SiteService,
+    private _configService: ConfigService,
   ) {
 
-    this._busyState = siteTabsComponent.busyState;
+    this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
-    this.showTryView = this._globalStateService.showTryView;
     this._viewInfoSub = this._viewInfoStream
       .switchMap(viewInfo => {
         this._viewInfo = viewInfo;
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
 
         this._appNode = (<AppNode>viewInfo.node);
 
@@ -127,7 +126,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.functionApp = r.functionApp;
         this.site = r.siteResponse.json();
         this.exactExtensionVersion = r.hostStatus ? r.hostStatus.version : '';
-        this._isSlotApp = SlotsService.isSlot(this.site.id);
+        this._isSlotApp = SiteService.isSlot(this.site.id);
         this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
           ? this.site.properties.dailyMemoryTimeQuota.toString()
           : '0';
@@ -143,31 +142,24 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.showDailyMemoryWarning = (!this.site.properties.enabled && this.site.properties.siteDisabledReason === 1);
 
         this.memorySize = this.site.properties.containerSize;
-        this.latestExtensionVersion = Constants.runtimeVersion;
         this.extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
 
         if (!this.extensionVersion) {
           this.extensionVersion = Constants.latest;
         }
 
-        this.needUpdateExtensionVersion =
-          Constants.runtimeVersion !== this.extensionVersion && Constants.latest !== this.extensionVersion.toLowerCase();
+        this.setNeedUpdateExtensionVersion();
 
-        this.routingExtensionVersion = appSettings.properties[Constants.routingExtensionVersionAppSettingName];
-        if (!this.routingExtensionVersion) {
-          this.routingExtensionVersion = Constants.disabled;
-        }
-        this.latestRoutingExtensionVersion = Constants.routingExtensionVersion;
-        this.apiProxiesEnabled = ((this.routingExtensionVersion) && (this.routingExtensionVersion !== Constants.disabled));
-        this.needUpdateRoutingExtensionVersion
-          = Constants.routingExtensionVersion !== this.routingExtensionVersion && Constants.latest !== this.routingExtensionVersion.toLowerCase();
+        this.showProxyEnable = appSettings.properties[Constants.routingExtensionVersionAppSettingName]
+          ?  appSettings.properties[Constants.routingExtensionVersionAppSettingName].toLocaleLowerCase() === Constants.disabled.toLocaleLowerCase()
+          : false;
 
         if (EditModeHelper.isReadOnly(r.editMode)) {
           this.functionAppEditMode = false;
         } else {
           this.functionAppEditMode = true;
         }
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
         this._aiService.stopTrace('/timings/site/tab/function-runtime/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
         // settings for enabling slots, display if there are no slots && appSetting property for slot is set
@@ -206,33 +198,40 @@ export class FunctionRuntimeComponent implements OnDestroy {
         value: true
       }];
 
-      this.proxySettingValueStream = new Subject<boolean>();
-      this.proxySettingValueStream
-        .subscribe((value: boolean) => {
-          if (this.apiProxiesEnabled !== value) {
-            this._busyState.setBusyState();
-            const appSettingValue: string = value ? Constants.routingExtensionVersion : Constants.disabled;
+    this.functionRutimeOptions = [
+      {
+        displayLabel: '~1',
+        value: '~1'
+      }, {
+        displayLabel: 'beta',
+        value: 'beta'
+      }];
 
-            this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-              .mergeMap(r => {
-                return this._updateProxiesVersion(r.json(), appSettingValue);
-              })
-              .subscribe(() => {
-                this.functionApp.fireSyncTrigger();
-                this.apiProxiesEnabled = value;
-                this.needUpdateRoutingExtensionVersion = false;
-                this.routingExtensionVersion = Constants.routingExtensionVersion;
-                this._busyState.clearBusyState();
-                this._cacheService.clearArmIdCachePrefix(this.site.id);
-              });
-          }
-        });
+    this.proxySettingValueStream = new Subject<boolean>();
+    this.proxySettingValueStream
+      .subscribe((value: boolean) => {
+        if (this.showProxyEnable) {
+
+          this._busyManager.setBusy();
+
+          this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+            .mergeMap(r => {
+              return this._updateProxiesVersion(r.json());
+            })
+            .subscribe(() => {
+              this.showProxyEnable = false;
+              this.showProxyEnabledWarning = true;
+              this._busyManager.clearBusy();
+              this._cacheService.clearArmIdCachePrefix(this.site.id);
+            });
+        }
+      });
 
     this.functionEditModeValueStream = new Subject<boolean>();
     this.functionEditModeValueStream
       .switchMap(state => {
         const originalState = this.functionAppEditMode;
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this.functionAppEditMode = state;
         const appSetting = this.functionAppEditMode ? Constants.ReadWriteMode : Constants.ReadOnlyMode;
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
@@ -245,7 +244,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       })
       .do(null, originalState => {
         this.functionAppEditMode = originalState;
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
           message: this._translateService.instant(PortalResources.error_unableToUpdateFunctionAppEditMode),
           errorType: ErrorType.ApiError,
@@ -262,28 +261,33 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this._aiService.stopTrace('/timings/site/tab/function-runtime/full-ready',
           this._viewInfo.data.siteTabFullReadyTraceKey);
 
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
       });
 
     this.slotsValueChange = new Subject<boolean>();
     this.slotsValueChange.subscribe((value: boolean) => {
-      this._busyState.setBusyState();
+      this._busyManager.setBusy();
       const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
       this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
         .mergeMap(r => {
           return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
         })
         .do(null, e => {
-          this._busyState.clearBusyState();
+          this._busyManager.clearBusy();
           this._aiService.trackException(e, 'function-runtime');
         })
         .retry()
         .subscribe(() => {
           this.functionApp.fireSyncTrigger();
           this.slotsEnabled = value;
-          this._busyState.clearBusyState();
+          this._busyManager.clearBusy();
           this._cacheService.clearArmIdCachePrefix(this.site.id);
         });
+    });
+
+    this.functionRuntimeValueStream = new Subject<string>();
+    this.functionRuntimeValueStream.subscribe((value: string) => {
+      this.updateVersion(value);
     });
   }
 
@@ -307,42 +311,61 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   saveMemorySize(value: string | number) {
-    this._busyState.setBusyState();
+    this._busyManager.setBusy();
     this._updateMemorySize(this.site, value)
-      .subscribe(r => { this._busyState.clearBusyState(); Object.assign(this.site, r); this.dirty = false; });
+      .subscribe(r => { this._busyManager.clearBusy(); Object.assign(this.site, r); this.dirty = false; });
   }
 
   isIE(): boolean {
     return navigator.userAgent.toLocaleLowerCase().indexOf('trident') !== -1;
   }
 
-  updateVersion() {
+  updateVersion(version?: string) {
+    if (version === this.extensionVersion) {
+      return;
+    }
+    let updateButtonClicked = false;
+    if (!version) {
+      updateButtonClicked = true;
+      version = this.getLatestVersion(this.extensionVersion);
+    };
     this._aiService.trackEvent('/actions/app_settings/update_version');
-    this._busyState.setBusyState();
+    this._busyManager.setBusy();
     this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
       .mergeMap(r => {
-        return this._updateContainerVersion(r.json());
+        return this._updateContainerVersion(r.json(), version);
       })
-      .subscribe(() => {
-        this.needUpdateExtensionVersion = false;
-        this._busyState.clearBusyState();
+      .mergeMap(r => {
+        return this.functionApp.getFunctionHostStatus()
+        .map((hostStatus: HostStatus) => {
+          if (!hostStatus.version || (hostStatus.version === this.exactExtensionVersion && !updateButtonClicked)) {
+            throw Observable.throw('Host version is not updated yet');
+          }
+          return hostStatus;
+        })
+        .retryWhen(error => {
+          return error.scan((errorCount: number, err: any) => {
+            if (errorCount >= 20) {
+                throw err;
+            } else {
+                return errorCount + 1;
+            }
+          }, 0).delay(3000);
+        });
+      })
+      .do(null, e => {
+        this._busyManager.clearBusy();
+        this._aiService.trackException(e, '/errors/rutime-update');
+        console.error(e);
+      })
+      .subscribe((hostStatus: HostStatus) => {
+
+        this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
+        this.extensionVersion = version;
+        this.setNeedUpdateExtensionVersion();
+        this._busyManager.clearBusy();
         this._cacheService.clearArmIdCachePrefix(this.site.id);
         this._appNode.clearNotification(NotificationIds.newRuntimeVersion);
-      });
-  }
-
-  updateRoutingExtensionVersion() {
-    this._aiService.trackEvent('/actions/app_settings/update_routing_version');
-    this._busyState.setBusyState();
-
-    this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-      .mergeMap(r => {
-        return this._updateProxiesVersion(r.json(), Constants.routingExtensionVersion);
-      })
-      .subscribe(() => {
-        this.needUpdateRoutingExtensionVersion = false;
-        this._busyState.clearBusyState();
-        this._cacheService.clearArmIdCachePrefix(this.site.id);
       });
   }
 
@@ -352,55 +375,84 @@ export class FunctionRuntimeComponent implements OnDestroy {
       const dailyMemoryTimeQuota = +this.dailyMemoryTimeQuota;
 
       if (dailyMemoryTimeQuota > 0) {
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this._updateDailyMemory(this.site, dailyMemoryTimeQuota).subscribe((r) => {
           const site = r.json();
           this.showDailyMemoryWarning = (!site.properties.enabled && site.properties.siteDisabledReason === 1);
           this.showDailyMemoryInfo = true;
           this.site.properties.dailyMemoryTimeQuota = dailyMemoryTimeQuota;
           this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
-          this._busyState.clearBusyState();
+          this._busyManager.clearBusy();
         });
       }
     }
   }
 
   removeQuota() {
-    this._busyState.setBusyState();
+    this._busyManager.setBusy();
     this._updateDailyMemory(this.site, 0).subscribe(() => {
       this.showDailyMemoryInfo = false;
       this.showDailyMemoryWarning = false;
       this.dailyMemoryTimeQuota = '';
       this.dailyMemoryTimeQuotaOriginal = this.dailyMemoryTimeQuota;
       this.site.properties.dailyMemoryTimeQuota = 0;
-      this._busyState.clearBusyState();
+      this._busyManager.clearBusy();
     });
   }
 
   openAppSettings() {
-    this._broadcastService.broadcast<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
+    this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, SiteTabIds.applicationSettings);
   }
 
-  private _updateContainerVersion(appSettings: ArmObj<any>) {
+
+  keyDown(event: any, command: string) {
+    if (AccessibilityHelper.isEnterOrSpace(event)) {
+      switch (command) {
+        case 'openAppSettings':
+        {
+          this.openAppSettings();
+          break;
+        }
+
+        case 'functionEditModeValue':
+        {
+          this.functionEditModeValueStream.next(!this.functionAppEditMode);
+          break;
+        }
+        case 'slotsValue':
+        {
+          this.slotsValueChange.next(!this.slotsEnabled);
+          break;
+        }
+        case 'functionRuntimeValue':
+        {
+          const findOptionIndex = this.functionRutimeOptions.findIndex(item => {
+            return item.value === this.extensionVersion;
+          });
+          const runtimeValue = findOptionIndex === -1 || findOptionIndex === this.functionRutimeOptions.length ?
+            this.functionRutimeOptions[0].value :
+            this.functionRutimeOptions[findOptionIndex + 1].value;
+          this.functionRuntimeValueStream.next(runtimeValue);
+          break;
+        }
+      }
+    }
+  }
+
+  private _updateContainerVersion(appSettings: ArmObj<any>, version: string) {
     if (appSettings.properties[Constants.azureJobsExtensionVersion]) {
       delete appSettings[Constants.azureJobsExtensionVersion];
     }
-    appSettings.properties[Constants.runtimeVersionAppSettingName] = Constants.runtimeVersion;
+    appSettings.properties[Constants.runtimeVersionAppSettingName] = version;
     appSettings.properties[Constants.nodeVersionAppSettingName] = Constants.nodeVersion;
 
     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
   }
 
-  private _updateProxiesVersion(appSettings: ArmObj<any>, value?: string) {
-
-    if (value !== Constants.disabled) {
-      this._aiService.trackEvent('/actions/proxy/enabled');
-    }
-
-    if (appSettings[Constants.routingExtensionVersionAppSettingName]) {
+  private _updateProxiesVersion(appSettings: ArmObj<any>) {
+    if (appSettings.properties[Constants.routingExtensionVersionAppSettingName]) {
       delete appSettings.properties[Constants.routingExtensionVersionAppSettingName];
     }
-    appSettings.properties[Constants.routingExtensionVersionAppSettingName] = value ? value : Constants.routingExtensionVersion;
 
     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
   }
@@ -429,5 +481,27 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
   public get GlobalDisabled() {
     return this._globalStateService.GlobalDisabled;
+  }
+
+  private setNeedUpdateExtensionVersion() {
+    this.needUpdateExtensionVersion = FunctionsVersionInfoHelper.needToUpdateRuntime(this._configService.FunctionsVersionInfo, this.extensionVersion);
+    this.latestExtensionVersion = this.getLatestVersion(this.extensionVersion);
+  }
+
+  private getLatestVersion(version: string): string {
+    const match = this._configService.FunctionsVersionInfo.runtimeStable.find(v => {
+      return this.extensionVersion.toLowerCase() === v;
+    });
+    if (match) {
+      return match;
+    } else {
+      if (version.startsWith('1.')) {
+        return '~1';
+      } else if (version.startsWith('2.')) {
+        return '~2';
+      } else {
+        return this._configService.FunctionsVersionInfo.runtimeDefault;
+      }
+    }
   }
 }

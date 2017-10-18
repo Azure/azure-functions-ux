@@ -1,5 +1,5 @@
 ﻿import { Subject } from 'rxjs/Subject';
-import { SlotsService } from './services/slots.service';
+import { SiteService } from './services/slots.service';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -30,7 +30,7 @@ import { CreateFunctionInfo } from './models/create-function-info';
 import { FunctionTemplate } from './models/function-template';
 import { DesignerSchema } from './models/designer-schema';
 import { FunctionSecrets } from './models/function-secrets';
-import { BindingConfig } from './models/binding';
+import { BindingConfig, RuntimeExtension } from './models/binding';
 import { UserService } from './services/user.service';
 import { FunctionContainer } from './models/function-container';
 import { RunFunctionResult } from './models/run-function-result';
@@ -38,7 +38,6 @@ import { Constants } from './models/constants';
 import { Cache, ClearCache, ClearAllFunctionCache } from './decorators/cache.decorator';
 import { GlobalStateService } from './services/global-state.service';
 import { PortalResources } from './models/portal-resources';
-import { UIResource, ITryAppServiceTemplate } from './models/ui-resource';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { BroadcastService } from './services/broadcast.service';
 import { ArmService } from './services/arm.service';
@@ -54,6 +53,7 @@ import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
 
 import * as jsonschema from 'jsonschema';
+import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
 export class FunctionApp {
     private masterKey: string;
@@ -124,7 +124,6 @@ export class FunctionApp {
         500: 'Server Error'
     };
 
-    private _tryAppServiceUrl = 'https://tryappservice.azure.com';
     public tryFunctionsScmCreds: string;
     private _http: NoCorsHttpService;
 
@@ -141,21 +140,11 @@ export class FunctionApp {
         private _authZService: AuthzService,
         private _aiService: AiService,
         private _configService: ConfigService,
-        private _slotsService: SlotsService) {
+        private _slotsService: SiteService) {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
-        if (!Constants.runtimeVersion) {
-            this.getLatestRuntime().subscribe((runtime: any) => {
-                Constants.runtimeVersion = runtime;
-            });
-        }
 
-        if (!Constants.routingExtensionVersion) {
-            this._getLatestRoutingExtensionVersion().subscribe((routingVersion: any) => {
-                Constants.routingExtensionVersion = routingVersion;
-            });
-        }
 
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo()
@@ -245,13 +234,6 @@ export class FunctionApp {
         }
     }
 
-    private _getLatestRoutingExtensionVersion() {
-        return this._cacheService.get(Constants.serviceHost + 'api/latestrouting', false, this.getPortalHeaders())
-            .map(r => {
-                return r.json();
-            })
-            .retryWhen(this.retryAntares);
-    }
 
     getFunctions() {
         let fcs: FunctionInfo[];
@@ -259,14 +241,11 @@ export class FunctionApp {
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
             .catch(() => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
-            .flatMap((r: Response) => {
+            .map((r: Response) => {
                 try {
                     fcs = r.json() as FunctionInfo[];
                     fcs.forEach(fc => fc.functionApp = this);
-                    const vsCreatedFunc = fcs.find((fc: any) => !!fc.config.generatedBy);
-                    return vsCreatedFunc
-                        ? this.createApplicationSetting(Constants.functionAppEditModeSettingName, Constants.ReadOnlyMode, false)
-                        : Observable.of(null);
+                    return fcs;
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
                     // comments because Json.NET is okay with comments in the JSON file.
@@ -281,12 +260,8 @@ export class FunctionApp {
                         error: e,
                         content: r.text(),
                     });
-                    fcs = <FunctionInfo[]>[];
-                    return Observable.of(null);
+                    return <FunctionInfo[]>[];
                 }
-            })
-            .map(() => {
-                return fcs;
             })
             .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
             (error: FunctionsResponse) => {
@@ -799,7 +774,9 @@ export class FunctionApp {
     }
 
     getHostSecretsFromScm() {
-        return this.getAuthSettings()
+        return reachableInternalLoadBalancerApp(this, this._cacheService)
+            .filter(i => i)
+            .mergeMap(() => this.getAuthSettings())
             .mergeMap(authSettings => {
                 return authSettings.clientCertEnabled
                     ? Observable.of()
@@ -995,33 +972,6 @@ export class FunctionApp {
         return this.masterKey;
     }
 
-    getTrialResource(provider?: string): Observable<UIResource> {
-        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
-            + (provider ? '&provider=' + provider : '');
-
-        return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryGetTrialResource)
-            .map(r => <UIResource>r.json());
-    }
-
-    createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
-            + (provider ? '&provider=' + provider : '')
-            + '&templateId=' + encodeURIComponent(selectedTemplate.id)
-            + '&functionName=' + encodeURIComponent(functionName);
-
-        const template = <ITryAppServiceTemplate>{
-            name: selectedTemplate.id,
-            appService: 'Function',
-            language: selectedTemplate.metadata.language,
-            githubRepo: ''
-        };
-
-        return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryCreateTrialResource)
-            .map(r => <UIResource>r.json());
-    }
-
     updateFunction(fi: FunctionInfo) {
         ClearAllFunctionCache(fi);
         const fiCopy = <FunctionInfo>{};
@@ -1204,13 +1154,7 @@ export class FunctionApp {
     @ClearCache('clearAllCachedData')
     clearAllCachedData() { }
 
-    getLatestRuntime() {
-        return this._http.get(Constants.serviceHost + 'api/latestruntime', { headers: this.getPortalHeaders() })
-            .map(r => {
-                return r.json();
-            })
-            .retryWhen(this.retryAntares);
-    }
+
 
     getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
@@ -1438,10 +1382,11 @@ export class FunctionApp {
         Observable.zip(
             this.checkIfSourceControlEnabled(),
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
-            SlotsService.isSlot(this.site.id)
+            SiteService.isSlot(this.site.id)
                 ? Observable.of(true)
                 : this._slotsService.getSlotsList(this.site.id).map(r => r.length > 0),
-            (a, b, s) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s })
+                this.getFunctions(),
+            (a, b, s, f: FunctionInfo[]) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f })
         )
             .map(result => {
                 const appSettings: ArmObj<any> = result.appSettingsResponse.json();
@@ -1449,7 +1394,10 @@ export class FunctionApp {
 
                 let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
                 editModeSettingString = editModeSettingString.toLocaleLowerCase();
-
+                const vsCreatedFunc = result.functions.find((fc: any) => !!fc.config.generatedBy);
+                if (vsCreatedFunc) {
+                    return FunctionAppEditMode.ReadOnlyVSGenerated;
+                }
                 if (editModeSettingString === Constants.ReadWriteMode) {
                     return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
                 } else if (editModeSettingString === Constants.ReadOnlyMode) {
@@ -1504,10 +1452,10 @@ export class FunctionApp {
     /**
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
-    pingScmSite() {
+    pingScmSite(): Observable<boolean> {
         return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
-            .map(_ => null)
-            .catch(() => Observable.of(null));
+            .map(_ => true)
+            .catch(() => Observable.of(false));
     }
 
     private getExtensionVersion() {
@@ -1558,21 +1506,6 @@ export class FunctionApp {
         return headers;
     }
 
-    // to talk to TryAppservice
-    private getTryAppServiceHeaders(contentType?: string): Headers {
-        contentType = contentType || 'application/json';
-        const headers = new Headers();
-        headers.append('Content-Type', contentType);
-        headers.append('Accept', 'application/json,*/*');
-
-        if (this._globalStateService.TryAppServiceToken) {
-            headers.append('Authorization', `Bearer ${this._globalStateService.TryAppServiceToken}`);
-        } else {
-            headers.append('ms-x-user-agent', 'Functions/');
-        }
-        return headers;
-    }
-
     private localize(objectToLocalize: any): any {
         if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {
             const key = objectToLocalize.substring(1, objectToLocalize.length);
@@ -1597,28 +1530,6 @@ export class FunctionApp {
     private retryAntares(error: Observable<any>): Observable<any> {
         return error.scan((errorCount: number, err: FunctionsResponse) => {
             if (err.isHandled || err.status < 500 || errorCount >= 10) {
-                throw err;
-            } else {
-                return errorCount + 1;
-            }
-        }, 0).delay(1000);
-    }
-
-    private retryCreateTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount: number, err: Response) => {
-            // 400 => you already have a resource, 403 => No login creds provided
-            if (err.status === 400 || err.status === 403 || errorCount >= 10) {
-                throw err;
-            } else {
-                return errorCount + 1;
-            }
-        }, 0).delay(1000);
-    }
-
-    private retryGetTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount: number, err: Response) => {
-            // 403 => No login creds provided
-            if (err.status === 403 || errorCount >= 10) {
                 throw err;
             } else {
                 return errorCount + 1;
@@ -1823,6 +1734,131 @@ export class FunctionApp {
                         content: error.text(),
                     });
                 }
+            });
+    }
+
+    // Try and the list of runtime extensions install.
+    // If there was an error getting the list, show an error. return an empty list.
+    getHostExtensions(): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.get(`${this.mainSiteUrl}/admin/host/extensions`, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToGetFunctionRuntimeExtensions),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            this.trackEvent(ErrorIds.failedToGetFunctionRuntimeExtensions, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                            if (error.status !== 503) {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.failedToGetFunctionRuntimeExtensions),
+                                    errorId: ErrorIds.failedToGetFunctionRuntimeExtensions,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            }
+                        }
+                    });
+            }).catch(e => {
+                return Observable.of(e);
+            });
+    }
+
+    showTimeoutError() {
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension),
+            errorId: ErrorIds.timeoutInstallingFunctionRuntimeExtension,
+            errorType: ErrorType.RuntimeError,
+            resourceId: this.site.id
+        });
+        this.trackEvent(ErrorIds.timeoutInstallingFunctionRuntimeExtension, {
+            content: this._translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension)
+        });
+    }
+
+    showInstallFailed(id) {
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtensionForId, { installationId: id }),
+            errorId: ErrorIds.timeoutInstallingFunctionRuntimeExtension,
+            errorType: ErrorType.RuntimeError,
+            resourceId: this.site.id
+        });
+        this.trackEvent(ErrorIds.timeoutInstallingFunctionRuntimeExtension, {
+            content: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension)
+        });
+    }
+
+    // Todo: Capture 409
+    // returns error object when resulted in error
+    // error.id is not defined
+    installExtension(extension: RuntimeExtension): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.post(`${this.mainSiteUrl}/admin/host/extensions`, extension, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToInstallFunctionRuntimeExtension),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            if (error.status === 409) {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.extensionAlreadyInstalledWithDifferentVersion, { extensionId: extension.id }),
+                                    errorId: ErrorIds.extensionAlreadyInstalledWithDifferentVersion,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            } else {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension, { extensionId: extension.id }),
+                                    errorId: ErrorIds.failedToInstallFunctionRuntimeExtension,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            }
+
+                            this.trackEvent(ErrorIds.failedToInstallFunctionRuntimeExtension, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
+            }).catch(e => {
+                return Observable.of(e);
+            });
+    }
+
+    getExtensionInstallStatus(jobId: string): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.get(`${this.mainSiteUrl}/admin/host/extensions/jobs/` + jobId, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToGetExtensionInstallStatus),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            this.trackEvent(ErrorIds.failedToGetExtensionInstallStatus, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
+            }).catch(_ => {
+                return Observable.of(
+                    {
+                        id: jobId
+                    });
             });
     }
 

@@ -14,6 +14,7 @@ bld/
 AzureFunctions/ng
 AzureFunctions/ng-full
 AzureFunctions/ng-min
+server/src/actions/resources
 
 # User-specific files
 *.suo

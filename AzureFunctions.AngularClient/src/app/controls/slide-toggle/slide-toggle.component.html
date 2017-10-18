@@ -1,0 +1,17 @@
+<a #toggleContainer
+    class="toggle-container clickable"
+    [attr.role]="role"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-checked]="ariaChecked"
+    [attr.aria-pressed]="ariaPressed"
+    (mousedown)="onMousedown($event)"
+    (mouseup)="onMouseup($event)"
+    (click)="onClick($event)"
+    (keydown)="onKeyPress($event)">
+    <div role="presentation" class="toggle">
+        <span class="slider round" [class.on]="on"></span>
+    </div>
+    <span role="presentation" class="state-label">
+        {{ displayLabel }}
+    </span>
+</a>

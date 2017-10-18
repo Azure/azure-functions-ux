@@ -1,0 +1,10 @@
+@import '../common/variables';
+.sidebar {
+    background-color: $body-bg-color;
+
+    width: 30vw;
+
+    &.ng-sidebar--opened.ng-sidebar--push {
+        border-left: $border;
+    }
+}

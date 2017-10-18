@@ -2,7 +2,8 @@
     *ngIf="_options"
     class="drop-down-container"
     [class.dirty]="highlightDirty && control?.dirty"
-    [class.disabled]="control ? control.disabled : disabled">
+    [class.disabled]="control ? control.disabled : disabled"
+    [class.small]="size === 'small'">
 
     <select
         *ngIf="!control"
@@ -11,7 +12,12 @@
         [disabled]="disabled">
 
         <option selected disabled hidden style='display: none' value=''></option>
-        <option *ngFor="let option of _options" [value]="option.id">{{option.displayLabel}}</option>
+
+        <optgroup *ngFor="let group of (optionsGrouped ? _options : [])" [label]="group.displayLabel">
+            <option *ngFor="let option of group.dropDownElements" [value]="option.id">{{option.displayLabel}}</option>
+        </optgroup>
+
+        <option *ngFor="let option of (!optionsGrouped ? _options : [])" [value]="option.id">{{option.displayLabel}}</option>
 
     </select>
 
@@ -24,11 +30,15 @@
         (change)="onSelectValue($event.target.value)"
         class="drop-down-select"
         [formControl]="control"
-        (blur)="onBlur($event)"
         #selectInput>
 
         <option selected disabled hidden style='display: none' value=''></option>
-        <option *ngFor="let option of _options" [value]="option.value">{{option.displayLabel}}</option>
+
+        <optgroup *ngFor="let group of (optionsGrouped ? _options : [])" [label]="group.displayLabel">
+            <option *ngFor="let option of group.dropDownElements" [value]="option.value">{{option.displayLabel}}</option>
+        </optgroup>
+
+        <option *ngFor="let option of (!optionsGrouped ? _options : [])" [value]="option.value">{{option.displayLabel}}</option>
 
     </select>
 

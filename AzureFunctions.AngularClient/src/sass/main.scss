@@ -2,10 +2,11 @@
         'common/mixins';
 
 @import 'base/base',
-        'base/typography';
+        'base/typography',
+        'base/images';
 
 @import 'controls/buttons',
-        // 'controls/log-streaming',
+        'controls/list',
         'controls/monaco',
         'controls/radio',
         'controls/input',
@@ -13,11 +14,14 @@
         'controls/tbl',
         'controls/dialogs',
         'controls/command-bar',
-        'controls/popover';
+        'controls/popover',
+        'controls/modal',
+        'controls/bootstrap';
 
 @import 'pages/binding-designer',
         'pages/deployment-source',
-        'pages/list-collection';
+        'pages/browse',
+        'pages/sidebar';
 
 // common
 // vendors

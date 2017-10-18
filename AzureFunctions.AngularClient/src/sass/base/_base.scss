@@ -8,10 +8,6 @@ html, body {
 body {
     margin: 0;
     height: 100%;
-    font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
-    background-color: $body-bg-color;
-    font-size: 12px;
-    color: #464f59;
 }
 
 pre {
@@ -31,11 +27,6 @@ pre {
 
 .clickable {
     cursor: pointer;
-}
-
-.link{
-    cursor: pointer;
-    color: $primary-color;
 }
 
 :focus{
@@ -69,4 +60,16 @@ pre {
 
 .invisible{
     visibility: hidden;
+}
+
+#app-root[theme=dark]{
+    pre{
+        background-color: lighten($body-bg-color-dark, 5%);
+        color: $default-text-color-dark;
+    }
+
+    // Overriding bootstrap
+    .panel-body{
+        background-color: $body-bg-color-dark;
+    }
 }

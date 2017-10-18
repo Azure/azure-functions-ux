@@ -4,22 +4,43 @@
 
     <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
         <div class="choose">
-            <span class="text-level1-heading">{{ 'functionNew_chooseTemplate' | translate }}</span>
-            <span class="text-level1-heading quickstart" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</span>
+            <h2>{{ 'functionNew_chooseTemplate' | translate }}</h2>
+            <h2 class="quickstart link" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</h2>
         </div>
         <template-picker
             [functionAppInput]="functionApp"
             [type]="type"
-            [showFooter]="false"
+            [showFooter]="false" 
             (complete)="onTemplatePickUpComplete($event)"
             [template]="selectedTemplateId"></template-picker>
-    </div>
+    </div>    
 
     <div *ngIf="selectedTemplate">
         <div *ngIf="templateWarning" class="alert alert-warning alert-dismissible" role="alert">
             <div [innerHTML]="templateWarning"></div>
             <div *ngIf="addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
-        </div>
+        </div>        
+    </div>        
+                
+    <div *ngIf="selectedTemplate && selectedTemplate.metadata.extensions">
+        <extension-install 
+            [integrateText]="false" 
+            [functionApp]="functionApp"
+            [requiredExtensions]="selectedTemplate.metadata.extensions"
+            (installed)="runtimeExtensionInstalled($event)">
+        </extension-install>
+    </div>
+    
+    <div class="create-button-container" *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions">
+            <aad-registration 
+                [functionApp]="functionApp" 
+                [AADPermissions]="selectedTemplate.metadata.AADPermissions" 
+                (configured)="aadRegistrationConfigured($event)">
+            </aad-registration>
+    </div>
+
+    <div *ngIf="selectedTemplate">
+
         <h3>{{ 'functionNew_nameYourFunction' | translate }}</h3>
         <input type="text"
                [(ngModel)]="functionName"
@@ -71,15 +92,12 @@
         <div *ngIf="model.trigger && model.trigger.type === 'eventGridTrigger'" class="alert alert-warning alert-dismissible" role="alert">
             {{ 'eventGrid_createMessage' | translate }}
         </div>
-
-        <button [class.custom-button]="areInputsValid"
-                [class.custom-button-disabled]="!areInputsValid"
-                style="display: block; margin-top: 40px"
-                (click)="onCreate()">{{ 'create' | translate }}</button>
-
-        <div *ngIf="showAADExpressRegistration">
-            <br/>
-            <button class="custom-button" (click)="createAADApplication()" [disabled]="showTryView">{{ 'expressAADRegistration' | translate }}</button>
+        
+        <div class>
+            <button class="custom-button"
+                    [disabled]="!areInputsValid || !aadConfigured || !extensionInstalled"
+                    (click)="onCreate()">{{ 'create' | translate }}</button>
+            <span *ngIf="selectedTemplate && selectedTemplate.metadata.AADPermissions && !aadConfigured">&nbsp;&nbsp;{{ 'aadreg_authConfRequired' | translate}}</span>
         </div>
 
     </div>

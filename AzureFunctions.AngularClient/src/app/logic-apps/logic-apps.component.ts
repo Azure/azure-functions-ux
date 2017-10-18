@@ -45,7 +45,7 @@ export class LogicAppsComponent implements OnInit {
   public tableItems: TableItem[] = [];
   public subId: string;
   public title: string;
-  public logicAppsIcon = 'images/logicapp.svg';
+  public logicAppsIcon = 'image/logicapp.svg';
   public initialized = false;
 
   public allLocations = this._translateService.instant(PortalResources.allLocations);

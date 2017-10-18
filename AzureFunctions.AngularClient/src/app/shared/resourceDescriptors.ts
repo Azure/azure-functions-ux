@@ -73,14 +73,18 @@ export class SiteDescriptor extends Descriptor {
         }
     }
 
+    getSiteOnlyResourceId() : string{
+        return `/subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/sites/${this.site}`;
+    }
+
     getResourceId() : string{
         // resource id without slot information
-        let resource : string = `/subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/sites/${this.site}`;
+        let resource = this.getSiteOnlyResourceId();
         // add slots if available
         if (this.slot) {
             resource = `${resource}/slots/${this.slot}`;
         }
-        return resource
+        return resource;
     }
 
     getWebsiteId() : WebsiteId{

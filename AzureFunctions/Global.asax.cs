@@ -96,7 +96,10 @@ namespace AzureFunctions
             var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
             // In some cases, context.Request.RawUrl may not be populated, but context.Request.UrlReferrer will be populated.
             // context.Request.UrlReferrer = null evals to true, is okay in this case
-            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
+            //var isTryPageRequested = context.Request.RawUrl.EndsWith("/try", StringComparison.OrdinalIgnoreCase);
+
+            var isTryPageRequested = context.Request.Params["trial"] == "true";
+            //var isTryPageRequested = context.Request.RawUrl.Split(new char[] {'?'})[0].EndsWith("/try", StringComparison.OrdinalIgnoreCase);
 
             if (!isFile              //skip auth for files
                 && runtimeType != RuntimeType.Standalone   // Skip auth for Standalone mode
@@ -241,7 +244,6 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
             config.Routes.MapHttpRoute("get-resources", "api/resources", new { controller = "AzureFunctions", action = "GetResources", authenticated = false}, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("get-latest-runtime", "api/latestruntime", new { controller = "AzureFunctions", action = "GetLatestRuntime", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("get-latest-routing", "api/latestrouting", new { controller = "AzureFunctions", action = "GetLatestRoutingExtensionVersion", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 

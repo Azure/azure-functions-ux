@@ -4,10 +4,10 @@
 
 @{
     var settings = (ISettings)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ISettings));
-    var clientConfig = settings.GetClientConfiguration();
 
     var isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
     bool isOnPrem = System.Configuration.ConfigurationManager.AppSettings["RuntimeType"] == "OnPrem";
+
     var view = View.Azure;
 
     if (!isAzure)
@@ -27,13 +27,7 @@
     <title>AzureFunctions</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript">
-        window.appsvc = {
-            env: {
-                hostName: '@Environment.GetEnvironmentVariable("WEBSITE_HOSTNAME")',
-                runtimeType: '@clientConfig.RuntimeType',
-                azureResourceManagerEndpoint: '@clientConfig.AzureResourceManagerEndpoint'
-            }
-        };
+        window.appsvc = JSON.parse('@Html.Raw(settings.GetConfigServiceObject())');
     </script>
     <link rel="stylesheet" type="text/css" href="/iframe-loading.css" />
     @ViewHelpers.RenderHead(this, view)

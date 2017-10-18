@@ -1,0 +1,27 @@
+@import '../../sass/main';
+
+.fit-width {
+    width:fit-content;
+}
+.fa-warning {
+    color: $warning-color;
+    padding-right: 5px;
+}
+
+.fa-check-circle {
+    color: $success-color;
+    padding-right: 5px;
+}
+
+.fa-info-circle {
+    color: $primary-color;
+    padding-right: 5px;
+}
+
+.heading {
+    font-size: 15px;
+}
+
+div {
+    line-height: 22px;
+}

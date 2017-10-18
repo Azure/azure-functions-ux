@@ -12,7 +12,7 @@ import { FunctionInfo } from '../shared/models/function-info';
 import { Url } from 'app/shared/Utilities/url';
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
-    public dashboardType = DashboardType.function;
+    public dashboardType = DashboardType.FunctionDashboard;
     public supportsTab: boolean;
 
     constructor(
@@ -25,8 +25,8 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             functionInfo.functionApp.site.id + '/functions/' + functionInfo.name,
             parentNode);
         this.iconClass = 'tree-node-svg-icon';
-        this.iconUrl = 'images/function_f.svg';
-        this.supportsTab = (Url.getParameterByName(window.location.href, 'appsvc.feature') === 'tabbed');
+        this.iconUrl = 'image/function_f.svg';
+        this.supportsTab = (Url.getParameterByName(null, 'appsvc.feature') === 'tabbed');
     }
 
     // This will be called on every change detection run. So I'm making sure to always
@@ -130,7 +130,7 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
 }
 
 export class FunctionIntegrateNode extends FunctionEditBaseNode {
-    public dashboardType = DashboardType.functionIntegrate;
+    public dashboardType = DashboardType.FunctionIntegrateDashboard;
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_integrate);
 
     constructor(
@@ -143,12 +143,12 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode {
             functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/integrate',
             parentNode);
 
-        this.iconClass = 'fa fa-flash tree-node-function-edit-icon';
+        this.iconClass = 'fa fa-flash tree-node-function-edit-icon link';
     }
 }
 
 export class FunctionManageNode extends FunctionEditBaseNode implements Removable {
-    public dashboardType = DashboardType.functionManage;
+    public dashboardType = DashboardType.FunctionManageDashboard;
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_manage);;
 
     constructor(
@@ -162,7 +162,7 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
             functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/manage',
             parentNode);
 
-        this.iconClass = 'fa fa-cog tree-node-function-edit-icon';
+        this.iconClass = 'fa fa-cog tree-node-function-edit-icon link';
     }
 
     public remove() {
@@ -178,7 +178,7 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
 }
 
 export class FunctionMonitorNode extends FunctionEditBaseNode {
-    public dashboardType = DashboardType.functionMonitor;
+    public dashboardType = DashboardType.FunctionMonitorDashboard;
     public title = this.sideNav.translateService.instant(PortalResources.tabNames_monitor);;
 
     constructor(
@@ -191,6 +191,6 @@ export class FunctionMonitorNode extends FunctionEditBaseNode {
             functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/monitor',
             parentNode);
 
-        this.iconClass = 'fa fa-search tree-node-function-edit-icon';
+        this.iconClass = 'fa fa-search tree-node-function-edit-icon link';
     }
 }

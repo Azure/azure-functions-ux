@@ -1,9 +1,8 @@
-@import '../../../sass/main';
+@import '../../../sass/common/variables';
 
 #site-dashboard-container{
-    // padding-top: 5px;
     background-color: $chrome-color;
-    min-width: 900px;
+    min-width: 1000px;
 }
 
 #site-dashboard-pin{
@@ -31,23 +30,23 @@
 }
 
 .site-tab-label{
-    @extend .text-subheading;
     border-bottom: 4px solid $default-text-color;
     cursor: pointer;
     padding: 8px 25px;
     width: 200px;
     margin-top: 5px;
-      text-align: center;
+    text-align: center;
 
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
     position: relative;
 
-    img{
-        height: 16px;
-        width: 16px;
+    .icon-small{
+        vertical-align: middle;
+        margin-top: -4px;
+        margin-right: 5px;
+
     }
 
     .close-button{
@@ -57,6 +56,10 @@
 
     .tab-diry{
         font-style: italic;
+    }
+
+    h4{
+        display: inline;
     }
 }
 
@@ -72,7 +75,7 @@
 .closeable{
     border: 1px #d8e1e6 solid;
     border-bottom: none;
-    padding: 8px 16px 12px 5px;
+    padding: 8px 16px 8px 5px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     margin-left: 10px;
@@ -100,4 +103,27 @@
 
 #site-tab-content{
     background-color: $body-bg-color;
+}
+
+:host-context(#app-root[theme=dark]){
+    #site-tab-content, #site-dashboard-container, .closeable, .bottom{
+        background-color: $chrome-color-dark;
+    }
+
+    .site-tab-label{
+        border-bottom: 4px solid $default-text-color-dark;
+    }
+
+    .inactive-label{
+        border-bottom: 4px solid $chrome-color-dark;
+    }
+
+    .closeable{
+        border-bottom: 4px solid lighten($chrome-color-dark, 10%);
+        background-color: lighten($chrome-color-dark, 10%);
+
+        &.inactive-label{
+            background-color: $chrome-color-dark;
+        }
+    }
 }

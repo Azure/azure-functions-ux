@@ -5,7 +5,8 @@
             <div *ngIf="functionInfo" class="function-state">
                 <radio-selector [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
                 <span class="clickable delete-app" (click)="deleteFunction()">
-                    <img src="images/delete.svg" />{{ 'functionManage_deleteFunction' | translate }}
+                    <span load-image="image/delete.svg" class="icon-small"></span>
+                    {{ 'functionManage_deleteFunction' | translate }}
                 </span>
             </div>
         </div>

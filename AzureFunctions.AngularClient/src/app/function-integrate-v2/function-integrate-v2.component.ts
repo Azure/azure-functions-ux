@@ -81,7 +81,7 @@ export class FunctionIntegrateV2Component {
         this._elementRef = elementRef;
     }
 
-    newBinding(type: DirectionType) {
+    newBinding(type: 'trigger' | 'in' | 'out' | 'inout') {
         if (!this.checkDirty()) {
             return;
         }
@@ -89,18 +89,18 @@ export class FunctionIntegrateV2Component {
         this.currentBindingId = type.toString();
 
         switch (type) {
-            case DirectionType.in:
+            case 'in':
                 this.pickerType = TemplatePickerType.in;
                 break;
-            case DirectionType.out:
+            case 'out':
                 this.pickerType = TemplatePickerType.out;
                 break;
-            case DirectionType.trigger:
+            case 'trigger':
                 this.pickerType = TemplatePickerType.trigger;
                 break;
         }
 
-        this.behavior = type;
+        this.behavior = <any>type;
         this.currentBinding = null;
 
     }
@@ -148,7 +148,7 @@ export class FunctionIntegrateV2Component {
             }
             if (template) {
                 action.templateId = templateId;
-                (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.createFunction, action);
+                (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.CreateFunctionDashboard, action);
             }
         });
 

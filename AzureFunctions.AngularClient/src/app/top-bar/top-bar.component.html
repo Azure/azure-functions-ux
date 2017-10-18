@@ -11,17 +11,6 @@
             <div *ngIf="!isStandalone" class=" function-information"><h4>{{ appName }} - {{ fnName }}</h4></div>
         </div>
 
-        <div class="left vertical-align-center" [class.info-azure]="!isStandalone" [class.info-standalone]="isStandalone" [class.info-no-iframe]="!inIFrame">
-            <span *ngFor="let notification of topBarNotifications; let isFirst = first"
-                  [class.top-bar-notification-extra]="!isFirst">
-
-                <span class="top-bar-notification" [class.top-bar-notification-clickable]="!!notification.clickCallback" (click)="notificationClick(notification)">
-                    <i [class]="notification.iconClass"></i>
-                    {{notification.message}}
-                </span>
-                <a  *ngIf="notification.learnMoreLink!==''" class="top-bar-notification-learn" target="_blank" [href]="notification.learnMoreLink">Learn more</a>
-            </span>
-        </div>
 
         <div class="top-bar-tools right vertical-align-center">
             <span *ngIf="user && currentTenant && !inIFrame && !inTab"

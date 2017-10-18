@@ -79,6 +79,159 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to App service Authentication / Authorization:.
+        /// </summary>
+        internal static string aadreg_appService {
+            get {
+                return ResourceManager.GetString("aadreg_appService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auth configuration required.
+        /// </summary>
+        internal static string aadreg_authConfRequired {
+            get {
+                return ResourceManager.GetString("aadreg_authConfRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure AAD now.
+        /// </summary>
+        internal static string aadreg_configureAADNow {
+            get {
+                return ResourceManager.GetString("aadreg_configureAADNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add permissions now.
+        /// </summary>
+        internal static string aadreg_configureAADPermissionsNow {
+            get {
+                return ResourceManager.GetString("aadreg_configureAADPermissionsNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to configured.
+        /// </summary>
+        internal static string aadreg_configured {
+            get {
+                return ResourceManager.GetString("aadreg_configured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identity requirements (not satisfied).
+        /// </summary>
+        internal static string aadreg_identityRequirements {
+            get {
+                return ResourceManager.GetString("aadreg_identityRequirements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identity requirements.
+        /// </summary>
+        internal static string aadreg_identityRequirementsInfo {
+            get {
+                return ResourceManager.GetString("aadreg_identityRequirementsInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        internal static string aadreg_manage {
+            get {
+                return ResourceManager.GetString("aadreg_manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not configured.
+        /// </summary>
+        internal static string aadreg_notConfigured {
+            get {
+                return ResourceManager.GetString("aadreg_notConfigured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Required permissions.
+        /// </summary>
+        internal static string aadreg_requiredPerm {
+            get {
+                return ResourceManager.GetString("aadreg_requiredPerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The template needs the following permission:.
+        /// </summary>
+        internal static string aadreg_templateNeeds {
+            get {
+                return ResourceManager.GetString("aadreg_templateNeeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This integration requires an AAD configuration for the function app..
+        /// </summary>
+        internal static string aadreg_thisIntegration {
+            get {
+                return ResourceManager.GetString("aadreg_thisIntegration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This template requires an AAD configuration for the function app..
+        /// </summary>
+        internal static string aadreg_thisTemplate {
+            get {
+                return ResourceManager.GetString("aadreg_thisTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You may need to configure any additional permissions you function requires. Please see the documentation for this binding..
+        /// </summary>
+        internal static string aadreg_youMayNeed {
+            get {
+                return ResourceManager.GetString("aadreg_youMayNeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to + Add new document.
+        /// </summary>
+        internal static string addNewDocument {
+            get {
+                return ResourceManager.GetString("addNewDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to + Add new handler mapping.
+        /// </summary>
+        internal static string addNewHandlerMapping {
+            get {
+                return ResourceManager.GetString("addNewHandlerMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to + Add new virtual application or directory.
+        /// </summary>
+        internal static string addNewVirtualDirectory {
+            get {
+                return ResourceManager.GetString("addNewVirtualDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to + Add new connection string.
         /// </summary>
         internal static string addNewConnectionString {
@@ -156,15 +309,6 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string alwaysOnLabelHelp {
             get {
                 return ResourceManager.GetString("alwaysOnLabelHelp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Azure Functions Proxies are currently disabled. To enable, visit.
-        /// </summary>
-        internal static string apiProxies_warningOff {
-            get {
-                return ResourceManager.GetString("apiProxies_warningOff", resourceCulture);
             }
         }
         
@@ -340,20 +484,11 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
+        ///   Looks up a localized string similar to Proxies has been enabled. To disable again, delete or disable all individual proxies..
         /// </summary>
-        internal static string appFunctionSettings_proxyRuntimeVersion1 {
+        internal static string appFunctionSettings_proxyEnabled {
             get {
-                return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Proxy runtime version: latest ({{latestExtensionVersion}}).
-        /// </summary>
-        internal static string appFunctionSettings_proxyRuntimeVersion2 {
-            get {
-                return ResourceManager.GetString("appFunctionSettings_proxyRuntimeVersion2", resourceCulture);
+                return ResourceManager.GetString("appFunctionSettings_proxyEnabled", resourceCulture);
             }
         }
         
@@ -498,6 +633,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string architecture64 {
             get {
                 return ResourceManager.GetString("architecture64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage App Service Authentication / Authorization.
+        /// </summary>
+        internal static string asdreg_manageAppService {
+            get {
+                return ResourceManager.GetString("asdreg_manageAppService", resourceCulture);
             }
         }
         
@@ -1429,6 +1573,69 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter extension.
+        /// </summary>
+        internal static string enterExtension {
+            get {
+                return ResourceManager.GetString("enterExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter script processor.
+        /// </summary>
+        internal static string enterScriptProcessor {
+            get {
+                return ResourceManager.GetString("enterScriptProcessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter arguments.
+        /// </summary>
+        internal static string enterArguments {
+            get {
+                return ResourceManager.GetString("enterArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter virtual path.
+        /// </summary>
+        internal static string enterVirtualPath {
+            get {
+                return ResourceManager.GetString("enterVirtualPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter physical path.
+        /// </summary>
+        internal static string enterPhysicalPath {
+            get {
+                return ResourceManager.GetString("enterPhysicalPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
+        internal static string isApplication {
+            get {
+                return ResourceManager.GetString("isApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slot Setting.
+        /// </summary>
+        internal static string isSlotSetting {
+            get {
+                return ResourceManager.GetString("isSlotSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The application is offline. Please check your internet connection..
         /// </summary>
         internal static string error_appOffline {
@@ -1969,6 +2176,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expand or Collapse.
+        /// </summary>
+        internal static string expandCollapse {
+            get {
+                return ResourceManager.GetString("expandCollapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Express AAD Registration.
         /// </summary>
         internal static string expressAADRegistration {
@@ -1978,11 +2194,101 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Install.
+        /// </summary>
+        internal static string extension_install_button {
+            get {
+                return ResourceManager.GetString("extension_install_button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extension Installation Succeeded.
+        /// </summary>
+        internal static string extension_install_success {
+            get {
+                return ResourceManager.GetString("extension_install_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extensions not Installed.
+        /// </summary>
+        internal static string extension_install_warning {
+            get {
+                return ResourceManager.GetString("extension_install_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This integration requires the following extensions..
+        /// </summary>
+        internal static string extension_integrate_warning {
+            get {
+                return ResourceManager.GetString("extension_integrate_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This template requires the following extensions..
+        /// </summary>
+        internal static string extension_template_warning {
+            get {
+                return ResourceManager.GetString("extension_template_warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The extension {{extensionId}} with a different version is already installed.
+        /// </summary>
+        internal static string extensionAlreadyInstalledWithDifferentVersion {
+            get {
+                return ResourceManager.GetString("extensionAlreadyInstalledWithDifferentVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to get the list of installed runtime extensions.
+        /// </summary>
+        internal static string failedToGetFunctionRuntimeExtensions {
+            get {
+                return ResourceManager.GetString("failedToGetFunctionRuntimeExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to install runtime extension {{extensionId}}.
+        /// </summary>
+        internal static string failedToInstallFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("failedToInstallFunctionRuntimeExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to install runtime extension. Install id {{installationId}}.
+        /// </summary>
+        internal static string failedToInstallFunctionRuntimeExtensionForId {
+            get {
+                return ResourceManager.GetString("failedToInstallFunctionRuntimeExtensionForId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to {{state}} function: {{functionName}}.
         /// </summary>
         internal static string failedToSwitchFunctionState {
             get {
                 return ResourceManager.GetString("failedToSwitchFunctionState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are not able to uninstall runtime extension {{extensionId}}.
+        /// </summary>
+        internal static string failedToUnInstallFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("failedToUnInstallFunctionRuntimeExtension", resourceCulture);
             }
         }
         
@@ -2100,6 +2406,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string feature_applicationSettingsName {
             get {
                 return ResourceManager.GetString("feature_applicationSettingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default documents.
+        /// </summary>
+        internal static string feature_defaultDocumentsName {
+            get {
+                return ResourceManager.GetString("feature_defaultDocumentsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handler mappings.
+        /// </summary>
+        internal static string feature_handlerMappingsName {
+            get {
+                return ResourceManager.GetString("feature_handlerMappingsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Virtual applications and directories.
+        /// </summary>
+        internal static string feature_virtualDirectoriesName {
+            get {
+                return ResourceManager.GetString("feature_virtualDirectoriesName", resourceCulture);
             }
         }
         
@@ -2257,6 +2590,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Runtime.
+        /// </summary>
+        internal static string feature_linuxRuntimeName {
+            get {
+                return ResourceManager.GetString("feature_linuxRuntimeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure Azure account-level deployment credentials. To change your app-level credentials (also known as &apos;Publish Credentials&apos;), choose &apos;Reset publish credentials&apos; in the &apos;Overview&apos; tab. &lt;a href=&quot;https://go.microsoft.com/fwlink/?linkid=846056&quot;&gt;Learn more&lt;/a&gt;..
         /// </summary>
         internal static string feature_deploymentCredsInfo {
@@ -2347,6 +2689,51 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (no application settings to display).
+        /// </summary>
+        internal static string emptyAppSettings {
+            get {
+                return ResourceManager.GetString("emptyAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no connection strings to display)
+        /// </summary>
+        internal static string emptyConnectionStrings {
+            get {
+                return ResourceManager.GetString("emptyConnectionStrings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no default documents to display)
+        /// </summary>
+        internal static string emptyDefaultDocuments {
+            get {
+                return ResourceManager.GetString("emptyDefaultDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no handler mappings to display)
+        /// </summary>
+        internal static string emptyHandlerMappings {
+            get {
+                return ResourceManager.GetString("emptyHandlerMappings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (no virtual applications or directories to display)
+        /// </summary>
+        internal static string emptyVirtualDirectories {
+            get {
+                return ResourceManager.GetString("emptyVirtualDirectories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General Settings.
         /// </summary>
         internal static string feature_generalSettings {
@@ -2406,6 +2793,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string feature_monitoring {
             get {
                 return ResourceManager.GetString("feature_monitoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity..
+        /// </summary>
+        internal static string feature_msiInfo {
+            get {
+                return ResourceManager.GetString("feature_msiInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Managed service identity.
+        /// </summary>
+        internal static string feature_msiName {
+            get {
+                return ResourceManager.GetString("feature_msiName", resourceCulture);
             }
         }
         
@@ -2653,6 +3058,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This feature is not supported for slots.
+        /// </summary>
+        internal static string featureNotSupportedForSlots {
+            get {
+                return ResourceManager.GetString("featureNotSupportedForSlots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must have write permissions on the current app in order to use this feature.
         /// </summary>
         internal static string featureRequiresWritePermissionOnApp {
@@ -2802,6 +3216,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionAppSettings_quotaInfo {
             get {
                 return ResourceManager.GetString("functionAppSettings_quotaInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter value in GB-sec.
+        /// </summary>
+        internal static string functionAppSettings_quotaPlaceHolder {
+            get {
+                return ResourceManager.GetString("functionAppSettings_quotaPlaceHolder", resourceCulture);
             }
         }
         
@@ -3121,6 +3544,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click to hide.
+        /// </summary>
+        internal static string functionKeys_clickToHide {
+            get {
+                return ResourceManager.GetString("functionKeys_clickToHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click to show.
         /// </summary>
         internal static string functionKeys_clickToShow {
@@ -3234,6 +3666,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string functionManage_areYouSure {
             get {
                 return ResourceManager.GetString("functionManage_areYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Function {{name}}.
+        /// </summary>
+        internal static string functionManage_delete {
+            get {
+                return ResourceManager.GetString("functionManage_delete", resourceCulture);
             }
         }
         
@@ -3760,6 +4201,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installing required extensions. It may take upto 10 minutes for this operation..
+        /// </summary>
+        internal static string installingExtension {
+            get {
+                return ResourceManager.GetString("installingExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional..
         /// </summary>
         internal static string integrate_inputsHelp {
@@ -3963,6 +4413,33 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string japanwest {
             get {
                 return ResourceManager.GetString("japanwest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Java on Azure Functions Quickstart.
+        /// </summary>
+        internal static string java_splash_button {
+            get {
+                return ResourceManager.GetString("java_splash_button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Java Functions can be built, tested and deployed locally from your machine. No portal required!.
+        /// </summary>
+        internal static string java_splash_line_1 {
+            get {
+                return ResourceManager.GetString("java_splash_line_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click below to get started with documentation on how to build your first Azure Function with Java..
+        /// </summary>
+        internal static string java_splash_line_2 {
+            get {
+                return ResourceManager.GetString("java_splash_line_2", resourceCulture);
             }
         }
         
@@ -4201,11 +4678,65 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, we recommend using &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;Azure Application Insights.&lt;/a&gt;.
+        ///   Looks up a localized string similar to Auto swap destinations cannot be configured from production slot.
+        /// </summary>
+        internal static string autoSwapNotSupportedFromProd {
+            get {
+                return ResourceManager.GetString("autoSwapNotSupportedFromProd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Swap.
+        /// </summary>
+        internal static string autoSwapEnabledLabel {
+            get {
+                return ResourceManager.GetString("autoSwapEnabledLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Swap Slot.
+        /// </summary>
+        internal static string autoSwapSlotNameLabel {
+            get {
+                return ResourceManager.GetString("autoSwapSlotNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;enable Application Insights for your Function app&lt;/a&gt;.
         /// </summary>
         internal static string monitoring_appInsights {
             get {
                 return ResourceManager.GetString("monitoring_appInsights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Application Insights.
+        /// </summary>
+        internal static string monitoring_appInsightsOpen {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App Insights is enabled for your function..
+        /// </summary>
+        internal static string monitoring_appInsightsSetUp {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsSetUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Monitoring data to display.
+        /// </summary>
+        internal static string monitoring_noMonitoring {
+            get {
+                return ResourceManager.GetString("monitoring_noMonitoring", resourceCulture);
             }
         }
         
@@ -4350,6 +4881,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string notFound {
             get {
                 return ResourceManager.GetString("notFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection.
+        /// </summary>
+        internal static string notificationHubPicker_connection {
+            get {
+                return ResourceManager.GetString("notificationHubPicker_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notification Hub.
+        /// </summary>
+        internal static string notificationHubPicker_notificationHub {
+            get {
+                return ResourceManager.GetString("notificationHubPicker_notificationHub", resourceCulture);
             }
         }
         
@@ -4548,6 +5097,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string remoteDebuggingVersionLabel {
             get {
                 return ResourceManager.GetString("remoteDebuggingVersionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stack.
+        /// </summary>
+        internal static string linuxFxVersionLabel {
+            get {
+                return ResourceManager.GetString("linuxFxVersionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startup File.
+        /// </summary>
+        internal static string appCommandLineLabel {
+            get {
+                return ResourceManager.GetString("appCommandLineLabel", resourceCulture);
             }
         }
         
@@ -5445,7 +6012,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export to Power Apps + Flow.
+        ///   Looks up a localized string similar to Export to PowerApps + Flow.
         /// </summary>
         internal static string swaggerDefinition_powerAppsFlow {
             get {
@@ -5734,6 +6301,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installing runtime extensions is taking longer than expected.
+        /// </summary>
+        internal static string timeoutInstallingFunctionRuntimeExtension {
+            get {
+                return ResourceManager.GetString("timeoutInstallingFunctionRuntimeExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;AlwaysOn&apos; is not enabled. Your app may not function properly.
         /// </summary>
         internal static string topBar_alwaysOn {
@@ -5802,6 +6378,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string topBar_releaseNotes {
             get {
                 return ResourceManager.GetString("topBar_releaseNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;re using a prerelease version of Azure Functions. Thanks for trying it out!.
+        /// </summary>
+        internal static string topBar_runtimeV2 {
+            get {
+                return ResourceManager.GetString("topBar_runtimeV2", resourceCulture);
             }
         }
         

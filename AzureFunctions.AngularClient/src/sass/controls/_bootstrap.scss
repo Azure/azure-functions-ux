@@ -1,0 +1,16 @@
+
+.panel-default {    
+    .panel-body, .panel-heading, .panel-footer {
+        background-color: $grey-color;
+        color: $default-text-color;
+    }
+}
+
+#app-root[theme=dark]{
+    .panel-default {    
+        .panel-body, .panel-heading, .panel-footer {
+            background-color: $body-bg-color-dark;
+            color: $default-text-color-dark;
+        }
+    }
+}

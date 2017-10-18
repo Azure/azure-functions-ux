@@ -1,4 +1,4 @@
-﻿import { Component, ElementRef, Inject } from '@angular/core';
+import { Component, ElementRef, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -23,9 +23,6 @@ import { FunctionsNode } from '../tree-view/functions-node';
 import { FunctionApp } from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import { Constants } from '../shared/models/constants';
-import { CacheService } from './../shared/services/cache.service';
-import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 @Component({
     selector: 'function-new',
@@ -35,12 +32,9 @@ import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph
     inputs: ['viewInfoInput']
 })
 export class FunctionNewComponent {
-
     private functionsNode: FunctionsNode;
-
     public functionApp: FunctionApp;
     public functionsInfo: FunctionInfo[];
-
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
     functionName: string;
@@ -55,10 +49,12 @@ export class FunctionNewComponent {
     selectedTemplateId: string;
     templateWarning: string;
     addLinkToAuth = false;
-    showAADExpressRegistration = false;
     action: Action;
+    aadConfigured = true;
+    extensionInstalled = true;
     public disabled: boolean;
     private _bindingComponents: BindingComponent[] = [];
+    public viewInfo: TreeViewInfo<any>;
     private _exclutionFileList = [
         'test.json',
         'readme.md',
@@ -74,13 +70,13 @@ export class FunctionNewComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService,
-        private _cacheService: CacheService) {
+        private _aiService: AiService) {
         this.elementRef = elementRef;
         this.disabled = !!_broadcastService.getDirtyState("function_disabled");
 
         this._viewInfoStream
             .switchMap(viewInfo => {
+                this.viewInfo = viewInfo;
                 this._globalStateService.setBusyState();
                 this.functionsNode = <FunctionsNode>viewInfo.node;
                 this.appNode = <AppNode>viewInfo.node.parent;
@@ -116,14 +112,13 @@ export class FunctionNewComponent {
         this.functionApp.getTemplates().subscribe((templates) => {
             setTimeout(() => {
                 this.selectedTemplate = templates.find((t) => t.id === templateName);
-
-                if (this.selectedTemplate && this.selectedTemplate.metadata) {
-                    this.showAADExpressRegistration = !!this.selectedTemplate.metadata.AADPermissions;
-                }
-              
                 const experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
                     return c === 'Experimental';
                 });
+
+                // setting values to default
+                this.runtimeExtensionInstalled(true);
+                this.aadRegistrationConfigured(true);
 
                 this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
                 if (this.selectedTemplate.metadata.warning) {
@@ -224,7 +219,7 @@ export class FunctionNewComponent {
     }
 
     quickstart() {
-        this.functionsNode.openCreateDashboard(DashboardType.createFunctionQuickstart);
+        this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
     }
 
     onAuth() {
@@ -254,7 +249,7 @@ export class FunctionNewComponent {
             });
             if (nameMatch) {
                 this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExsists, { name: this.functionName });
-                this.areInputsValid = true;
+                this.areInputsValid = false;
             }
         }
 
@@ -263,19 +258,13 @@ export class FunctionNewComponent {
         });
     }
 
-    createAADApplication() {
-        this._globalStateService.setBusyState();
-        this._portalService.getStartupInfo().subscribe(info => {
-            let helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-            helper.createAADApplication(this.selectedTemplate.metadata, info.graphToken, this._globalStateService)
-                .subscribe(r => { 
-                    this._globalStateService.clearBusyState();
-                },
-                err => {
-                    this._globalStateService.clearBusyState();
-                    this._aiService.trackException(err, "Error during creation of AAD application");
-                });
-        });
+
+    aadRegistrationConfigured(value: boolean) {
+        this.aadConfigured = value;
+    }
+
+    runtimeExtensionInstalled(value: boolean) {
+        this.extensionInstalled = value;
     }
 
     private createFunction() {
@@ -298,12 +287,6 @@ export class FunctionNewComponent {
                 // If someone refreshed the app, it would created a new set of child nodes under the app node.
                 this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
                 this.functionsNode.addChild(res);
-
-                if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
-                    const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-                    helper.function = this;
-                    helper.createO365WebhookSupportFunction(this._globalStateService);
-                }
             },
             () => {
                 this._globalStateService.clearBusyState();

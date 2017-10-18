@@ -1,15 +1,9 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 #quickstart-container{
     text-align: center;
     height: 100%;
     background-color: $qs-footer-bg-color;
-
-    .custom-button{
-        &:hover{
-            background-color:$primary-color-hover;
-        }
-    }
 
     label{
         font-weight: normal;
@@ -25,11 +19,11 @@
         height: 75px;
     }
 
-    .text-main2-heading{
+    h1{
         margin: 15px 0px 25px 0px;
     }
 
-    .text-level1-heading{
+    h2{
         margin-bottom: 10px;
     }
 
@@ -51,7 +45,6 @@
     cursor: pointer;
 
     .quickstart-template-icon{
-        background-color: $body-bg-color;
         padding: 10px;
         width: 150px;
         height: 80px;
@@ -62,10 +55,12 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             margin-top: 5px;
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 
-    img{
+    .icon-template{
         width: 32px;
         height: 32px;
     }
@@ -95,7 +90,6 @@
 }
 
 #quickstart-lang-radios{
-    @extend .text-subheading;
     margin-bottom: 15px;
     color: $value-text-color;
 
@@ -108,15 +102,34 @@
     margin-bottom: 25px;
 }
 
-.circle {
-    background-color: $qs-header-bg-color;
-	border-radius: 50%;
-	width: 35px;
-	height: 35px;
+.circle-container{
+    height: 35px;
     margin: auto;
     padding-top: 3px;
     position: relative;
     top: -33px;
+}
+
+.circle-left, .circle-middle, .circle-right{
+    background-color: $qs-header-bg-color;
+    height: 35px;
+    display: inline-block;
+}
+
+.circle-left{
+    border-bottom-left-radius: 50%;
+    width: 22px;
+    margin-right: -5px;
+}
+
+.circle-middle{
+    vertical-align: top;
+}
+
+.circle-right{
+    border-bottom-right-radius: 50%;
+    width: 22px;
+    margin-left: -5px;
 }
 
 #quickstart-footer{
@@ -124,7 +137,7 @@
     color: $body-bg-color;
     background-color: $qs-footer-bg-color;
 
-    .text-main2-heading{
+    h1{
         margin-top: 0px;
         color: $body-bg-color;
     }
@@ -139,4 +152,18 @@
     cursor: not-allowed;
     background-color: lightgray;
     color: white;
+}
+
+:host-context(#app-root[theme=dark]){
+    #quickstart-container, #quickstart-footer{
+        background-color: lighten($body-bg-color-dark, 10%);
+    }
+
+    #quickstart-header, .circle-left, .circle-middle, .circle-right{
+        background-color: $body-bg-color-dark;
+    }
+
+    .quickstart-template-icon{
+        background-color: lighten($body-bg-color-dark, 10%);
+    }
 }

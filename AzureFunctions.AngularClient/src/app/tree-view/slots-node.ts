@@ -8,20 +8,23 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { Subscription } from '../shared/models/subscription';
 
 export class SlotsNode extends TreeNode {
-    public dashboardType = DashboardType.slots;
-    public newDashboardType = DashboardType.createSlot;
+    public dashboardType = DashboardType.SlotsDashboard;
+    public newDashboardType = DashboardType.CreateSlotDashboard;
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_slotsOptinSettings);
-    public nodeClass = 'tree-node collection-node';
 
     constructor(
         sideNav: SideNavComponent,
         private _subscriptions: Subscription[],
         private _siteArmCacheObj: ArmObj<Site>,
         parentNode: TreeNode) {
-        super(sideNav, _siteArmCacheObj.id + '/slots', parentNode);
+        super(sideNav,
+            _siteArmCacheObj.id + '/slots',
+            parentNode,
+            _siteArmCacheObj.id + '/slots/new/slot');
 
+        this.nodeClass += ' collection-node';
         this.iconClass = 'tree-node-collection-icon';
-        this.iconUrl = 'images/BulletList.svg';
+        this.iconUrl = 'image/BulletList.svg';
     }
 
     public loadChildren() {

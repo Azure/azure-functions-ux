@@ -3,8 +3,8 @@ export enum BroadcastEvent {
     FunctionAdded,
     FunctionSelected,
     FunctionUpdated,
-    FunctionNew,
-    BusyState,
+    // FunctionNew,
+    UpdateBusyState,
     TutorialStep,
     IntegrateChanged,
     Error,
@@ -14,10 +14,31 @@ export enum BroadcastEvent {
     RefreshPortal,
     ClearError,
     OpenTab,
-    DirtyStateChange
+    DirtyStateChange,
+    AppsDashboard,
+    AppDashboard,
+    FunctionsDashboard,
+    FunctionDashboard,
+    FunctionIntegrateDashboard,
+    FunctionManageDashboard,
+    FunctionMonitorDashboard,
+    CreateFunctionAutoDetectDashboard,
+    CreateFunctionDashboard,
+    CreateFunctionQuickstartDashboard,
+    CreateProxyDashboard,
+    ProxiesDashboard,
+    ProxyDashboard,
+    CreateSlotDashboard,
+    SlotsDashboard,
 }
 
 export interface DirtyStateEvent {
     dirty: boolean;
     reason: string | null;
+}
+
+export interface BusyStateEvent{
+    busyComponentName: string;
+    action: 'setBusyState' | 'clearBusyState' | 'clearOverallBusyState';
+    busyStateKey: string;
 }

@@ -20,7 +20,7 @@ import {
     getRoutingVersion
 } from './actions/metadata';
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
-import { config } from './config';
+import { staticConfig } from './config';
 
 const app = express();
 
@@ -37,18 +37,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 setupAuthentication(app);
 
-app.get('/', maybeAuthenticate, (_, res) => {
-    res.render('index', {
-        config: {
-            runtimeType: config.runtimeType,
-            azureResourceManagerEndpoint: config.azureResourceManagerEndpoint
-        },
-        // TODO: [ehamai] I wouldn't use "isAzure" or "isOnPrem" as properties. RuntimeType should contain all of those variations.
-        isAzure: process.env.WEBSITE_SITE_NAME,
-        isOnPrem: config.runtimeType === 'OnPrem',
-        hostName: process.env.WEBSITE_HOSTNAME
-    });
-});
+const renderIndex = (_: express.Request, res: express.Response) => {
+    res.render('index', staticConfig);
+}
+app.get('/', maybeAuthenticate, renderIndex);
 
 app.get('/api/ping', (_, res) => {
     res.send('success');
@@ -73,6 +65,10 @@ app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
 app.get('/api/config', maybeAuthenticate, getConfig);
 app.post('/api/proxy', maybeAuthenticate, proxy);
 app.post('/api/passthrough', maybeAuthenticate, proxy);
+
+// if are here, that means we didn't match any of the routes above including those for static content.
+// render index and let angular handle the path.
+app.get('*', renderIndex);
 
 var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
 var certificate = fs.readFileSync('selfcert.pem', 'utf8');

@@ -1,6 +1,6 @@
-<div class="list-collection-container">
-<img src="images/logicapp.svg" />
-<span class="text-level1-heading">{{'logicApps' | translate}}</span><i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i>
+<div class="browse-container">
+<img src="image/logicapp.svg" />
+<h2>{{'logicApps' | translate}}</h2><i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i>
 
 <div class="description-text">
   <span class="text-level3-heading">{{'logicApp_description' | translate}}</span>
@@ -66,7 +66,7 @@
 </tbl>
 
 <div *ngIf="initialized && table.items.length === 0" class="empty-browse">
-    <img src="images/grey-logicapp.svg" />
+    <img src="image/grey-logicapp.svg" />
     <h4>{{'noLogicApps_title' | translate}}</h4>
     <a type="button" class="custom-button" target="_blank" href="https://portal.azure.com/#create/Microsoft.EmptyWorkflow ">{{'createLogicApps' | translate}}</a>
 </div>

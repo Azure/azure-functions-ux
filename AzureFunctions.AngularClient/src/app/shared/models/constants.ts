@@ -1,4 +1,5 @@
-﻿export class HttpMethods {
+﻿
+export class HttpMethods {
     public GET = "get";
     public POST = "post";
     public DELETE = "delete";
@@ -17,8 +18,6 @@ export class Constants {
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
-    public static runtimeVersion: string;
-    public static routingExtensionVersion: string;
     public static nodeVersion = '6.5.0';
     public static latest = 'latest';
     public static disabled = 'disabled';
@@ -31,6 +30,7 @@ export class Constants {
     public static slotsSecretStorageSettingsName = "AzureWebJobsSecretStorageType";
     public static slotsSecretStorageSettingsValue = "Blob";
     public static contentShareConfigSettingsName = "WEBSITE_CONTENTSHARE";
+    public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
@@ -87,7 +87,8 @@ export class AvailabilityStates {
 export class NotificationIds {
     public static alwaysOn = 'alwaysOn';
     public static newRuntimeVersion = 'newRuntimeVersion';
-    public static slotsHostId = "slotsBlobStorage"
+    public static slotsHostId = 'slotsBlobStorage';
+    public static runtimeV2 = 'runtimeV2';
 }
 
 export class Validations {
@@ -150,9 +151,23 @@ export class ScenarioIds {
     public static readonly showSiteAvailability = 'ShowSiteAvailability';
     public static readonly addResourceExplorer = 'AddResourceExplorer';
     public static readonly addPushNotifications = 'AddPushNotifications';
+    public static readonly addMsi = 'AddMsi';
     public static readonly addTinfoil = 'AddTinfoil';
-    public static readonly showSiteQuotas = 'ShowSiteQuotas';
-    public static readonly showSiteFileStorage = 'ShowSiteFileStorage';
+    public static readonly addSiteQuotas = 'ShowSiteQuotas';
+    public static readonly addConsole = 'AddConsole';
+    public static readonly addSsh = 'AddSsh';
+    public static readonly enablePushNotifications = 'EnablePushNotifications';
+    public static readonly enableAuth = 'EnableAuth';
+    public static readonly enableMsi = 'EnableMsi';
+    public static readonly enableNetworking = 'EnableNetworking';
+    public static readonly enableAppServiceEditor = 'EnableAppServiceEditor';
+    public static readonly enableExtensions = 'EnableExtensions';
+    public static readonly enableLogStream = 'EnableLogStream';
+    public static readonly enableProcessExplorer = 'EnableProcessExplorer';
+    public static readonly enableBackups = 'EnableBackups';
+    public static readonly enableTinfoil = 'EnableTinfoil';
+
+    public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
 }
 
@@ -174,8 +189,21 @@ export class NationalCloudArmUris {
 }
 
 export class LogCategories {
+    public static readonly FunctionMonitor = 'FunctionMonitor';
+    public static readonly SideNav = 'SideNav';
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';
+    public static readonly apiDetails = 'ApiDetails';
+    public static readonly newSlot = 'NewSlot';
+    public static readonly svgLoader = 'SvgLoader';
+    public static readonly busyState = 'BusyState';
+    public static readonly siteConfig = 'SiteConfig';
+    public static readonly generalSettings = 'GeneralSettings';
+    public static readonly appSettings = 'AppSettings';
+    public static readonly connectionStrings = 'ConnectionStrings';
+    public static readonly defaultDocuments = 'DefaultDocuments';
+    public static readonly handlerMappings = 'HandlerMappings';
+    public static readonly virtualDirectories = 'VirtualDirectories';
 }
 
 export class KeyCodes {
@@ -189,6 +217,12 @@ export class KeyCodes {
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
     public static readonly delete = 46;
+}
+
+export class ExtensionInstallStatus {
+    public static readonly Started = 'Started';
+    public static readonly Succeeded = 'Succeeded';
+    public static readonly Failed = 'Failed';
 }
 
 export class DomEvents {

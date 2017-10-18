@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 /*div {
     text-align: center;
@@ -26,6 +26,8 @@ label {
     background-color: $primary-color;
     height: 150px;
     text-align: center;
+    position: relative;
+    z-index: 0;
 }
 
 .start-banner-content{

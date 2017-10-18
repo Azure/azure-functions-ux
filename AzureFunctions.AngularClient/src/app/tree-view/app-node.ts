@@ -1,5 +1,5 @@
 import { SiteTabIds } from './../shared/models/constants';
-import { SlotsService } from './../shared/services/slots.service';
+import { SiteService } from './../shared/services/slots.service';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -34,13 +34,14 @@ import { FunctionApp } from '../shared/function-app';
 import { Constants, NotificationIds } from '../shared/models/constants';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
+import { FunctionsVersionInfoHelper } from '../../../../common/models/functions-version-info';
 
 export class AppNode extends TreeNode
     implements Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange {
 
     public supportsAdvanced = true;
     public inAdvancedMode = false;
-    public dashboardType = DashboardType.app;
+    public dashboardType = DashboardType.AppDashboard;
     public disabled = false;
     public supportsScope = false;
     public supportsRefresh = false;
@@ -57,9 +58,8 @@ export class AppNode extends TreeNode
     private _functionApp: FunctionApp;
     public openTabId: string | null;
 
-    public nodeClass = 'tree-node app-node';
     public iconClass = 'tree-node-svg-icon';
-    public iconUrl = 'images/functions.svg';
+    public iconUrl = 'image/functions.svg';
 
     private _pollingTask: RxSubscription;
     private _loadingObservable: Observable<any>;
@@ -82,6 +82,7 @@ export class AppNode extends TreeNode
         const descriptor = new SiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
+        this.nodeClass += ' app-node';
 
         const sub = _subscriptions.find(sub => {
             return sub.subscriptionId === descriptor.subscription;
@@ -124,6 +125,7 @@ export class AppNode extends TreeNode
             this.sideNav.authZService.hasPermission(this._siteArmCacheObj.id, [AuthzService.writeScope]),
             this.sideNav.authZService.hasReadOnlyLock(this._siteArmCacheObj.id),
             this.sideNav.cacheService.getArm(this._siteArmCacheObj.id),
+
             (h, r, s) => ({ hasWritePermission: h, hasReadOnlyLock: r, siteResponse: s })
         )
             .mergeMap(r => {
@@ -273,7 +275,7 @@ export class AppNode extends TreeNode
             // Tests whether you've selected a child node or newselectedNode is not a slot node
             if (newSelectedNode.resourceId !== this.resourceId
                 && newSelectedNode.resourceId.startsWith(this.resourceId + '/')
-                && !SlotsService.isSlot(newSelectedNode.resourceId)) {
+                && !SiteService.isSlot(newSelectedNode.resourceId)) {
                 return;
             } else if (newSelectedNode.resourceId === this.resourceId && newSelectedNode === this) {
                 // Tests whether you're navigating to this node from a child node
@@ -391,8 +393,21 @@ export class AppNode extends TreeNode
                 const extensionVersion = appSettings.properties[Constants.runtimeVersionAppSettingName];
                 let isLatestFunctionRuntime = null;
                 if (extensionVersion) {
-                    isLatestFunctionRuntime = Constants.runtimeVersion === extensionVersion || Constants.latest === extensionVersion.toLowerCase();
-                    this.sideNav.aiService.trackEvent('/values/runtime_version', { runtime: extensionVersion, appName: this.resourceId });
+                    if (extensionVersion === 'beta') {
+                        isLatestFunctionRuntime = true;
+                        notifications.push({
+                            id: NotificationIds.runtimeV2,
+                            message: this.sideNav.translateService.instant(PortalResources.topBar_runtimeV2),
+                            iconClass: 'fa fa-exclamation-triangle warning',
+                            learnMoreLink: '',
+                            clickCallback: () => {
+                                this.openSettings();
+                            }
+                        });
+                    } else {
+                        isLatestFunctionRuntime = !FunctionsVersionInfoHelper.needToUpdateRuntime(this.sideNav.configService.FunctionsVersionInfo, extensionVersion);
+                        this.sideNav.aiService.trackEvent('/values/runtime_version', { runtime: extensionVersion, appName: this.resourceId });
+                    }
                 }
 
                 if (!isLatestFunctionRuntime) {

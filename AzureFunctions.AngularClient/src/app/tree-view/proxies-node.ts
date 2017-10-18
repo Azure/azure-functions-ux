@@ -1,63 +1,55 @@
+import { BaseFunctionsProxiesNode } from 'app/tree-view/base-functions-proxies-node';
+import { PortalResources } from './../shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 
-import { AuthzService } from './../shared/services/authz.service';
-import { AppNode } from './app-node';
 import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
-import { PortalResources } from '../shared/models/portal-resources';
 import { ApiProxy } from '../shared/models/api-proxy';
 import { ProxyNode } from './proxy-node';
 import { FunctionApp } from '../shared/function-app';
 
-export class ProxiesNode extends TreeNode implements MutableCollection, Disposable, CustomSelection, Collection {
-    public title = 'Proxies (preview)';
-    public dashboardType = DashboardType.proxies;
-    public newDashboardType = DashboardType.createProxy;
-    public nodeClass = 'tree-node collection-node';
+export class ProxiesNode extends BaseFunctionsProxiesNode implements MutableCollection, Disposable, CustomSelection, Collection {
+    public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
+    public dashboardType = DashboardType.ProxiesDashboard;
+    public newDashboardType = DashboardType.CreateProxyDashboard;
 
     constructor(
         sideNav: SideNavComponent,
         public functionApp: FunctionApp,
         parentNode: TreeNode) {
-        super(sideNav, functionApp.site.id + '/proxies', parentNode);
 
-        this.iconClass = 'tree-node-collection-icon'
-        this.iconUrl = 'images/BulletList.svg';
+        super(sideNav,
+            functionApp.site.id + '/proxies',
+            functionApp,
+            parentNode,
+            functionApp.site.id + '/proxies/new/proxy');
+
+        this.nodeClass += ' collection-node';
+        this.iconClass = 'tree-node-collection-icon';
+        this.iconUrl = 'image/BulletList.svg';
     }
 
     public loadChildren() {
-        if (this.functionApp.site.properties.state === 'Running') {
-            return Observable.zip(
-                this.sideNav.authZService.hasPermission(this.functionApp.site.id, [AuthzService.writeScope]),
-                this.sideNav.authZService.hasReadOnlyLock(this.functionApp.site.id),
-                (p, l) => ({ hasWritePermission: p, hasReadOnlyLock: l }))
-                .switchMap(r => {
-                    if (r.hasWritePermission && !r.hasReadOnlyLock) {
-                        return this._updateTreeForStartedSite();
-                    } else if (!r.hasWritePermission) {
-                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesNoAccess));
-                    } else {
-                        return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesReadOnlyLock));
-                    }
-                });
-
-        } else {
-            return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesStopped));
-        }
-    }
-
-    public handleSelection(): Observable<any> {
-        if (!this.disabled) {
-            this.parent.inSelectedTree = true;
-            return (<AppNode>this.parent).initialize();
-        }
-
-        return Observable.of({});
+        return this.baseLoadChildren({
+            default: {
+                title: this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies),
+                newDashboard: DashboardType.CreateProxyDashboard
+            },
+            readOnly: {
+                title: `${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`,
+                newDashboard: DashboardType.none
+            }
+        }, {
+                stoppedTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesStopped),
+                noAccessTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesNoAccess),
+                nonReachableTitle: this.sideNav.translateService.instant('Proxies (Inaccessible)'),
+                readOnlyTitle: this.sideNav.translateService.instant(PortalResources.sideNav_ProxiesReadOnlyLock)
+            });
     }
 
     public addChild(functionInfo: ApiProxy) {
@@ -82,7 +74,8 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
         this.parent.dispose(newSelectedNode);
     }
 
-    private _updateTreeForNonUsableState(title: string) {
+    protected _updateTreeForNonUsableState(title: string) {
+        this.disabled = true;
         this.newDashboardType = null;
         this.children = [];
         this.title = title;
@@ -91,9 +84,10 @@ export class ProxiesNode extends TreeNode implements MutableCollection, Disposab
         return Observable.of(null);
     }
 
-    private _updateTreeForStartedSite() {
-        this.title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
-        this.newDashboardType = DashboardType.createProxy;
+    protected _updateTreeForStartedSite(title: string, newDashboardType: DashboardType) {
+        this.title = title;
+        this.newDashboardType = newDashboardType;
+
         this.showExpandIcon = true;
 
         if (this.parent.inSelectedTree) {
