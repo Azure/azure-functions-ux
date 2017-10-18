@@ -2,6 +2,7 @@ body{
     font-family: "Segoe UI", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
     color: $default-text-color;
     font-size: 12px;
+    overflow: hidden;
 }
 
 body #app-root[theme=dark]{
