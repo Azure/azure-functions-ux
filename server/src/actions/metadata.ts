@@ -40,6 +40,16 @@ export async function getResources(req: Request, res: Response) {
     var defaultFallbackFile = langCode === 'en' ? `Resources.json` : `Resources.${langCode}.json`;
 
     var folder = path.join(__dirname, 'resources');
+    if(await fs.exists(path.join(folder, versionFile))){
+        res.sendFile(path.join(folder, versionFile));
+    } else if(await fs.exists(path.join(folder, defaultVersionFile))){
+        res.sendFile(path.join(folder, defaultVersionFile));
+    }
+    else{
+        res.sendFile(path.join(folder, defaultFallbackFile));
+    }
+
+
     try {
         let payload = await fs.readFile(path.join(folder, versionFile));
         res.json(JSON.parse(payload));
