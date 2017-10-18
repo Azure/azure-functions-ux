@@ -13,6 +13,7 @@ import { CacheService } from './../shared/services/cache.service';
 import { PortalService } from './../shared/services/portal.service';
 import { AiService } from './../shared/services/ai.service';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 interface LogicAppInfo {
   name: string;
@@ -91,31 +92,29 @@ export class LogicAppsComponent implements OnInit {
         this.subId = this._appNode.subscriptionId;
         this.title = this._appNode.title;
 
-      //   return [this._cacheService.getArm(
-      //     `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows&$filter=contains(referencedResourceId, '${this.title}')`,
-      //     true,
-      //     '2017-07-01',
-      //     true
-      //   ), this._cacheService.getArm(
-      //     `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows`,
-      //     true,
-      //     '2017-07-01',
-      //     true)];
-      // })
-      return this._cacheService.getArm(
-        `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${this.title}')`,
-        true,
-        '2017-07-01',
-        true
-      );
-    })
+        return Observable.zip(
+          this._cacheService.getArm(
+            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${this.title}')`,
+            true,
+            '2017-07-01',
+            true
+          ),
+          this._cacheService.getArm(
+              `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows`,
+              true,
+              '2017-07-01',
+              true
+          ),
+          (a, s) => ({ app: a.json(), sub: s.json() })
+        );
+      })
       .do(null, e => {
         this._aiService.trackException(e, 'logic-apps');
       })
       .retry()
       .subscribe(r => {
-        // const index = r[0].length > 0 ? 0 : 1;
-        this.logicApps = r.json().value
+        const selectedJson = r.app.value.length > 0 ? r.app : r.sub;
+        this.logicApps = selectedJson.value
         .map(app => (<LogicAppInfo>{
           name: app.name,
           id: app.id,
