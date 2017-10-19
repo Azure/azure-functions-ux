@@ -199,7 +199,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 const result: ArmArrayResult<any> = r.json();
                 const nodes = result.value
                     .filter(armObj => {
-                        return armObj.kind && armObj.kind.toLowerCase() === 'functionapp';
+                        return armObj.kind && armObj.kind.toLowerCase().indexOf('functionapp') !== -1;
                     })
                     .map(armObj => {
 
