@@ -8,7 +8,6 @@ import { GlobalErrorHandler } from './GlobalErrorHandler';
 import { GlobalStateService } from './services/global-state.service';
 import { BackgroundTasksService } from './services/background-tasks.service';
 import { UtilitiesService } from './services/utilities.service';
-import { TelemetryService } from './services/telemetry.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthzService } from './services/authz.service';
 import { SiteService } from './services/slots.service';
@@ -48,6 +47,7 @@ import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ArmService } from 'app/shared/services/arm.service';
 import { Url } from 'app/shared/Utilities/url';
+import { EmptyDashboardComponent } from 'app/main/empty-dashboard.component';
 
 export function ArmServiceFactory(
     http: Http,
@@ -88,7 +88,8 @@ export function AiServiceFactory() {
         TooltipContentComponent,
         TooltipDirective,
         SlideToggleComponent,
-        LoadImageDirective
+        LoadImageDirective,
+        EmptyDashboardComponent
     ],
     exports: [
         CommonModule,
@@ -115,7 +116,8 @@ export function AiServiceFactory() {
         TooltipContentComponent,
         TooltipDirective,
         SlideToggleComponent,
-        LoadImageDirective
+        LoadImageDirective,
+        EmptyDashboardComponent
     ],
     imports: [
         FormsModule,
@@ -149,7 +151,6 @@ export class SharedModule {
                 SiteService,
                 AuthzService,
                 LocalStorageService,
-                TelemetryService,
                 UtilitiesService,
                 BackgroundTasksService,
                 GlobalStateService,

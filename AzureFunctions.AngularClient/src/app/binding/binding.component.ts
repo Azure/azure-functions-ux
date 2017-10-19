@@ -164,6 +164,16 @@ export class BindingComponent {
         this._bindingStream.next(value);
     }
 
+    populateExclusiveSave(rule: Rule): any {
+        const functionSettingV = this.bindingValue.settings.find((s) => {
+            return s.name === rule.name;
+        });
+
+        if (functionSettingV && functionSettingV.value) {
+            this.model.inputs[0].value = functionSettingV.value;
+        }
+    }
+
     private _handleExclusivityRule(rule: Rule, isHidden: boolean): SelectInput | null {
         if (rule.values.length === 0) {
             return null;
@@ -515,6 +525,7 @@ export class BindingComponent {
                             // Want to save value of input used to hide/show other settings
                             ddInput.explicitSave = true;
                             this.model.inputs.splice(0, 0, ddInput);
+                            this.populateExclusiveSave(rule);
                         } else if (rule.type === 'NAND') {
                             this._handleNANDRule(rule);
                         } else if (rule.type === 'changeOptionsDisplayed') {
@@ -744,8 +755,8 @@ export class BindingComponent {
                 break;
             case ResourceType.EventHub:
             case ResourceType.ServiceBus:
+            case ResourceType.NotificationHub:
                 for (const key in this._appSettings) {
-
                     const value = this._appSettings[key].toLowerCase();
                     if (value.indexOf('sb://') > -1 && value.indexOf('sharedaccesskeyname') > -1) {
                         result.push(key);

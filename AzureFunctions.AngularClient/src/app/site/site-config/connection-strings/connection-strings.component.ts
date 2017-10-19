@@ -1,4 +1,5 @@
-import { SiteTabComponent } from './../../site-dashboard/site-tab/site-tab.component';
+import { Response } from '@angular/http';
+import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -6,18 +7,20 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
-import { SaveResult } from './../site-config.component';
-import { AiService } from './../../../shared/services/ai.service';
+import { SaveOrValidationResult } from './../site-config.component';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
-import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj } from './../../../shared/models/arm/arm-obj';
+import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
@@ -36,8 +39,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   public permissionsMessage: string;
   public showPermissionsMessage: boolean;
 
-  private _busyState: BusyStateComponent;
-  private _busyStateScopeManager: BusyStateScopeManager;
+  private _busyManager: BusyStateScopeManager;
 
   private _saveError: string;
 
@@ -45,36 +47,49 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   private _uniqueCsValidator: UniqueValidator;
 
   private _connectionStringsArm: ArmObj<ConnectionStrings>;
+  private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
   public connectionStringTypes: DropDownElement<ConnectionStringType>[];
 
   public loadingFailureMessage: string;
+  public loadingMessage: string;
+
+  public newItem: CustomFormGroup;
+  public originalItemsDeleted: number;
 
   @Input() mainForm: FormGroup;
 
   @Input() resourceId: string;
+  private _slotConfigNamesArmPath: string;
 
   constructor(
     private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _translateService: TranslateService,
-    private _aiService: AiService,
+    private _logService: LogService,
     private _authZService: AuthzService,
-    siteTabComponent: SiteTabComponent
+    broadcastService: BroadcastService
   ) {
-    this._busyState = siteTabComponent.busyState;
-    this._busyStateScopeManager = this._busyState.getScopeManager();
+    this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
     this._resetPermissionsAndLoadingState();
+
+    this.newItem = null;
+    this.originalItemsDeleted = 0;
 
     this._resourceIdStream = new Subject<string>();
     this._resourceIdSubscription = this._resourceIdStream
       .distinctUntilChanged()
       .switchMap(() => {
-        this._busyStateScopeManager.setBusy();
+        this._busyManager.setBusy();
         this._saveError = null;
         this._connectionStringsArm = null;
+        this._slotConfigNamesArm = null;
         this.groupArray = null;
+        this.newItem = null;
+        this.originalItemsDeleted = 0;
         this._resetPermissionsAndLoadingState();
+        this._slotConfigNamesArmPath =
+          `${SiteDescriptor.getSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
         return Observable.zip(
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
           this._authZService.hasReadOnlyLock(this.resourceId),
@@ -87,24 +102,29 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
           Observable.of(this.hasWritePermissions),
           this.hasWritePermissions ?
             this._cacheService.postArm(`${this.resourceId}/config/connectionstrings/list`, true) : Observable.of(null),
-          (h, c) => ({ hasWritePermissions: h, connectionStringsResponse: c })
+          this.hasWritePermissions ?
+            this._cacheService.getArm(this._slotConfigNamesArmPath, true) : Observable.of(null),
+          (h, c, s) => ({ hasWritePermissions: h, connectionStringsResponse: c, slotConfigNamesResponse: s })
         )
       })
       .do(null, error => {
-        this._aiService.trackEvent("/errors/connection-strings", error);
-        this._setupForm(this._connectionStringsArm);
-        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
+        this._logService.error(LogCategories.connectionStrings, '/connection-strings', error);
+        this._setupForm(null, null);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
         if (r.hasWritePermissions) {
           this._connectionStringsArm = r.connectionStringsResponse.json();
-          this._setupForm(this._connectionStringsArm);
+          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+          this._setupForm(this._connectionStringsArm, this._slotConfigNamesArm);
         }
+        this.loadingMessage = null;
         this.showPermissionsMessage = true;
-        this._busyStateScopeManager.clearBusy();
+        this._busyManager.clearBusy();
       });
   }
 
@@ -113,15 +133,16 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
       this._resourceIdStream.next(this.resourceId);
     }
     if (changes['mainForm'] && !changes['resourceId']) {
-      this._setupForm(this._connectionStringsArm);
+      this._setupForm(this._connectionStringsArm, this._slotConfigNamesArm);
     }
   }
 
   ngOnDestroy(): void {
     if (this._resourceIdSubscription) {
-      this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
+      this._resourceIdSubscription.unsubscribe();
+      this._resourceIdSubscription = null;
     }
-    this._busyStateScopeManager.dispose();
+    this._busyManager.clearBusy();
   }
 
   private _resetPermissionsAndLoadingState() {
@@ -129,25 +150,26 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     this.permissionsMessage = "";
     this.showPermissionsMessage = false;
     this.loadingFailureMessage = "";
+    this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
     if (!writePermission) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configRequiresWritePermissionOnApp);
-    }
-    else if (readOnlyLock) {
+    } else if (readOnlyLock) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configDisabledReadOnlyLockOnApp);
-    }
-    else {
+    } else {
       this.permissionsMessage = "";
     }
 
     this.hasWritePermissions = writePermission && !readOnlyLock;
   }
 
-  private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>) {
-    if (!!connectionStringsArm) {
+  private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
+    if (!!connectionStringsArm && !!slotConfigNamesArm) {
       if (!this._saveError || !this.groupArray) {
+        this.newItem = null;
+        this.originalItemsDeleted = 0;
         this.groupArray = this._fb.array([]);
 
         this._requiredValidator = new RequiredValidator(this._translateService);
@@ -156,6 +178,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
           "name",
           this.groupArray,
           this._translateService.instant(PortalResources.validation_duplicateError));
+
+        const stickyConnectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
 
         for (let name in connectionStringsArm.properties) {
           if (connectionStringsArm.properties.hasOwnProperty(name)) {
@@ -170,10 +194,13 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
               value: [connectionString.value],
-              type: [connectionStringDropDownTypes.find(t => t.default).value]
-            });
+              type: [connectionStringDropDownTypes.find(t => t.default).value],
+              isSlotSetting: [stickyConnectionStringNames.indexOf(name) !== -1]
+            }) as CustomFormGroup;
 
             (<any>group).csTypes = connectionStringDropDownTypes;
+
+            group._msExistenceState = 'original';
             this.groupArray.push(group);
           }
         }
@@ -187,6 +214,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
       }
     }
     else {
+      this.newItem = null;
+      this.originalItemsDeleted = 0;
       this.groupArray = null;
       if (this.mainForm.contains("connectionStrings")) {
         this.mainForm.removeControl("connectionStrings");
@@ -196,9 +225,21 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     this._saveError = null;
   }
 
-  validate() {
-    let connectionStringGroups = this.groupArray.controls;
-    connectionStringGroups.forEach(group => {
+  validate(): SaveOrValidationResult {
+    let groups = this.groupArray.controls;
+
+    // Purge any added entries that were never modified
+    for (let i = groups.length - 1; i >= 0; i--) {
+      let group = groups[i] as CustomFormGroup;
+      if (group._msStartInEditMode && group.pristine) {
+        groups.splice(i, 1);
+        if (group === this.newItem) {
+          this.newItem = null;
+        }
+      }
+    }
+
+    groups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for (let controlName in controls) {
         let control = <CustomFormControl>controls[controlName];
@@ -206,79 +247,173 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
   }
 
-  save(): Observable<SaveResult> {
+  getConfigForSave(): ArmObjMap {
+    let configObjects: ArmObjMap = {
+      objects: {}
+    };
+
     let connectionStringGroups = this.groupArray.controls;
 
-    if (this.mainForm.valid) {
+    if (this.mainForm.contains("connectionStrings") && this.mainForm.controls["connectionStrings"].valid) {
       let connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
       connectionStringsArm.properties = {};
 
-      for (let i = 0; i < connectionStringGroups.length; i++) {
-        let connectionStringControl = connectionStringGroups[i];
-        let connectionString = {
-          value: connectionStringControl.value.value,
-          type: ConnectionStringType[connectionStringControl.value.type]
-        }
+      this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
+      let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+      slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
+      let connectionStringNames = slotConfigNamesArm.properties.connectionStringNames as string[];
 
-        connectionStringsArm.properties[connectionStringGroups[i].value.name] = connectionString;
+      for (let i = 0; i < connectionStringGroups.length; i++) {
+        if ((connectionStringGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
+          let connectionStringControl = connectionStringGroups[i];
+          let connectionString = {
+            value: connectionStringControl.value.value,
+            type: ConnectionStringType[connectionStringControl.value.type]
+          }
+
+          let name = connectionStringGroups[i].value.name;
+
+          connectionStringsArm.properties[name] = connectionString;
+
+          if (connectionStringGroups[i].value.isSlotSetting) {
+            if (connectionStringNames.indexOf(name) === -1) {
+              connectionStringNames.push(name);
+            }
+          }
+          else {
+            let index = connectionStringNames.indexOf(name);
+            if (index !== -1) {
+              connectionStringNames.splice(index, 1);
+            }
+          }
+        }
       }
 
-      return this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm)
-        .map(connectionStringsResponse => {
-          this._connectionStringsArm = connectionStringsResponse.json();
-          return {
-            success: true,
-            error: null
-          };
-        })
-        .catch(error => {
-          this._saveError = error._body;
-          return Observable.of({
-            success: false,
-            error: error._body
-          });
-        });
+      configObjects["slotConfigNames"] = slotConfigNamesArm;
+      configObjects["connectionStrings"] = connectionStringsArm;
     }
     else {
-      let configGroupName = this._translateService.instant(PortalResources.connectionStrings);
-      let failureMessage = this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
-      return Observable.of({
-        success: false,
-        error: failureMessage
+      configObjects.error = this._validationFailureMessage();
+    }
+
+    return configObjects;
+  }
+
+  save(
+    connectionStringsArm: ArmObj<any>,
+    slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
+
+    return Observable.zip(
+      this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
+      Observable.of(slotConfigNamesResponse),
+      (c, s) => ({ connectionStringsResponse: c, slotConfigNamesResponse: s })
+    )
+      .map(r => {
+        this._connectionStringsArm = r.connectionStringsResponse.json();
+        this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+        return {
+          success: true,
+          error: null
+        };
+      })
+      .catch(error => {
+        this._saveError = error._body;
+        return Observable.of({
+          success: false,
+          error: error._body
+        });
       });
-    }
   }
 
-  deleteConnectionString(group: FormGroup) {
-    let connectionStrings = this.groupArray;
-    let index = connectionStrings.controls.indexOf(group);
+  private _validationFailureMessage(): string {
+    const configGroupName = this._translateService.instant(PortalResources.connectionStrings);
+    return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+  }
+
+  deleteItem(group: FormGroup) {
+    let groups = this.groupArray;
+    let index = groups.controls.indexOf(group);
     if (index >= 0) {
-      connectionStrings.markAsDirty();
-      connectionStrings.removeAt(index);
-      connectionStrings.updateValueAndValidity();
+      if ((group as CustomFormGroup)._msExistenceState === 'original') {
+        this._deleteOriginalItem(groups, group);
+      }
+      else {
+        this._deleteAddedItem(groups, group, index);
+      }
     }
   }
 
-  addConnectionString() {
-    let connectionStrings = this.groupArray;
+  private _deleteOriginalItem(groups: FormArray, group: FormGroup) {
+    // Keep the deleted group around with its state set to dirty.
+    // This keeps the overall state of this.groupArray and this.mainForm dirty.
+    group.markAsDirty();
+
+    // Set the group._msExistenceState to 'deleted' so we know to ignore it when validating and saving.
+    (group as CustomFormGroup)._msExistenceState = 'deleted';
+
+    // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
+    for (let key in group.controls) {
+      const control = group.controls[key];
+      control.clearAsyncValidators();
+      control.clearValidators();
+      control.updateValueAndValidity();
+    }
+
+    this.originalItemsDeleted++;
+
+    groups.updateValueAndValidity();
+  }
+
+  private _deleteAddedItem(groups: FormArray, group: FormGroup, index: number) {
+    // Remove group from groups
+    groups.removeAt(index);
+    if (group === this.newItem) {
+      this.newItem = null;
+    }
+
+    // If group was dirty, then groups is also dirty.
+    // If all the remaining controls in groups are pristine, mark groups as pristine.
+    if (!group.pristine) {
+      let pristine = true;
+      for (let control of groups.controls) {
+        pristine = pristine && control.pristine;
+      }
+
+      if (pristine) {
+        groups.markAsPristine();
+      }
+    }
+
+    groups.updateValueAndValidity();
+  }
+
+  addItem() {
+    let groups = this.groupArray;
     let connectionStringDropDownTypes = this._getConnectionStringTypes(ConnectionStringType.SQLAzure);
 
-    let group = this._fb.group({
+    this.newItem = this._fb.group({
       name: [
         null,
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
           this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
       value: [null],
-      type: [connectionStringDropDownTypes.find(t => t.default).value]
-    });
+      type: [connectionStringDropDownTypes.find(t => t.default).value],
+      isSlotSetting: [false]
+    }) as CustomFormGroup;
 
-    (<CustomFormGroup>group)._msStartInEditMode = true;
-    (<any>group).csTypes = connectionStringDropDownTypes;
-    connectionStrings.markAsDirty();
-    connectionStrings.push(group);
+    (<any>this.newItem).csTypes = connectionStringDropDownTypes;
+
+    this.newItem._msExistenceState = 'new';
+    this.newItem._msStartInEditMode = true;
+    groups.push(this.newItem);
   }
 
   private _getConnectionStringTypes(defaultType: ConnectionStringType) {

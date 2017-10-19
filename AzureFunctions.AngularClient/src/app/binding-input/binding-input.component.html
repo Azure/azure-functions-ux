@@ -16,6 +16,12 @@
              (selectItem)="finishDialogPicker($event)">
 </app-setting>
 
+<notification-hub *ngIf="pickerName === 'NotificationHub'"
+             [functionApp]="functionApp"
+             (close)="closePicker($event)"
+             (selectItem)="finishDialogPicker($event)">
+</notification-hub>
+
 <popover-content #pickerPopover
                  placement="auto right"
                  [animation]="true"

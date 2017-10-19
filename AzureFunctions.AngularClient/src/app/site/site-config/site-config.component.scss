@@ -23,20 +23,46 @@ td{
     }
 }
 
-.nameCol{
-    width: 30%;
+.padded-col {
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
-.valueCol{
-    width: 65%;
+.one-third-col{
+    width: 33%;
 }
 
-.typeCol{
+.two-thirds-Col{
+    width: 66%;
+}
+
+.one-half-col{
+    width: 50%;
+}
+
+.single-col{
+    width: 100%;
+}
+
+.type-col, .is-app-col, .slot-setting-col{
     width: 200px;
 }
 
-.actionCol{
+.is-app-col, .slot-setting-col{
+    text-align: center;
+}
+
+.action-col{
     width: 25px;
+    text-align: center;
+}
+
+input[type="checkbox"]{
+    vertical-align: text-bottom;
+}
+
+.message-row{
+    text-align: center;
 }
 
 .add-setting{
@@ -56,6 +82,17 @@ h3{
     &.first-config-heading{
         margin-top: 10px;
     }
+}
+
+.auto-swap-warning{
+    border-left-color: $warning-color;
+    border-left-style: solid;
+    border-left-width: 2px;
+    padding-left: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .shield{

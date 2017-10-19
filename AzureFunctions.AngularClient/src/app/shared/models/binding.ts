@@ -34,6 +34,9 @@ export enum BindingType {
     GraphWebhookCreator = <any>"GraphWebhookCreator",
     eventGridTrigger = <any>"eventGridTrigger",
     cosmosDBTrigger = <any>"cosmosDBTrigger",
+    activityTrigger = <any>"activityTrigger",
+    orchestrationTrigger = <any>"orchestrationTrigger",
+    orchestrationClient = <any>"orchestrationClient"
 }
 
 export interface BindingConfig {
@@ -130,7 +133,8 @@ export enum ResourceType {
     DocumentDB = <any>"DocumentDB",
     ApiHub = <any>"ApiHub",
     AppSetting = <any>"AppSetting",
-    MSGraph = <any>"MSGraph"
+    MSGraph = <any>'MSGraph',
+    NotificationHub = <any>'NotificationHub'
 }
 
 export class SettingType {

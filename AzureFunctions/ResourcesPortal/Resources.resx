@@ -337,11 +337,41 @@
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Add new connection string</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ Add new document</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ Add new handler mapping</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ Add new virtual application or directory</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>Enter a name</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>Enter a value</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>Enter extension</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>Enter script processor</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>Enter arguments</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>Enter virtual path</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>Enter physical path</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>Slot Setting</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
@@ -973,17 +1003,8 @@
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxies (preview)</value>
   </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
-  </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Enable Azure Functions Proxies (preview)</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>Azure Functions Proxies are currently disabled. To enable, visit</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>Changes made to proxy {{name}} will be lost. Are you sure you want to continue?</value>
@@ -1192,6 +1213,9 @@
   <data name="featureNotSupportedForSlots" xml:space="preserve">
     <value>This feature is not supported for slots</value>
   </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>This feature is not supported for Linux apps</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to use this feature</value>
   </data>
@@ -1222,11 +1246,32 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explore your app's file system from an interactive web-based console.</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH provides a Web SSH console experience for your Linux app code</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Extensions</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Extensions add functionality to your entire app.</value>
+  </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(no application settings to display)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(no connection strings to display)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(no default documents to display)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(no handler mappings to display)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(no virtual applications or directories to display)</value>
   </data>
   <data name="feature_generalSettingsName" xml:space="preserve">
     <value>General settings</value>
@@ -1237,11 +1282,23 @@
   <data name="feature_debuggingSettingsName" xml:space="preserve">
     <value>Debugging</value>
   </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>Runtime</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Application settings</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Manage app settings, connection strings, runtime settings, and more.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>Default documents</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>Handler mappings</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>Virtual applicataions and directories</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to edit these settings.</value>
@@ -1327,6 +1384,15 @@
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Managed Pipeline Version</value>
   </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>Auto swap destinations cannot be configured from production slot</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>Auto Swap</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>Auto Swap Slot</value>
+  </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR Affinity</value>
   </data>
@@ -1335,6 +1401,12 @@
   </data>
   <data name="remoteDebuggingVersionLabel" xml:space="preserve">
     <value>Remote Visual Studio version</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>Startup File</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Newest</value>
@@ -1864,6 +1936,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
   </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -1907,10 +1982,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Slots (preview)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Enable deployment slots (preview). This is a one-time opt-in on the Function app that cannot be disabled and will reset any pre-existing secrets. After the update, the secrets may be copied from under the </value>
+    <value>Enable deployment slots (preview).</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>'Manage' node for each function.</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Known issues:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>Opting into this preview feature will reset any pre-existing secrets. Function secrets can be found under the</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'Manage'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>node for each function.</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
@@ -2332,5 +2419,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
     <value>Enter value in GB-sec</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>Notification Hub</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>Java Functions can be built, tested and deployed locally from your machine. No portal required!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Click below to get started with documentation on how to build your first Azure Function with Java.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>Proxies has been enabled. To disable again, delete or disable all individual proxies.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Java on Azure Functions Quickstart</value>
   </data>
 </root>

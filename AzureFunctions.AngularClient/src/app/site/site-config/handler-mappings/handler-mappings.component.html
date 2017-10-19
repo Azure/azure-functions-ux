@@ -1,0 +1,99 @@
+<div class="settings-group-wrapper">
+
+  <h3>{{ 'feature_handlerMappingsName' | translate }}</h3>
+
+  <div class="settings-wrapper">
+
+    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
+    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #handlerMappingsTable>
+
+      <!-- Data/Content Rows -->
+      <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each handler mapping returned (if any) -->
+      <tr *ngFor="let group of handlerMappingsTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+
+        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+          <click-to-edit [group]="group" name="extension">
+
+            <textbox [control]="group.controls['extension']" [placeholder]="Resources.enterExtension | translate"></textbox>
+
+          </click-to-edit>
+        </td>
+
+        <td class="one-third-col padded-col">
+          <click-to-edit [group]="group" name="scriptProcessor">
+
+            <textbox [control]="group.controls['scriptProcessor']" [placeholder]="Resources.enterScriptProcessor | translate"></textbox>
+
+          </click-to-edit>
+        </td>
+
+        <td class="one-third-col padded-col">
+          <click-to-edit [group]="group" name="arguments">
+
+            <textbox [control]="group.controls['arguments']" [placeholder]="Resources.enterArguments | translate"></textbox>
+
+          </click-to-edit>
+        </td>
+
+        <td class="action-col">
+          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
+        </td>
+
+      </tr>
+
+      <!-- Placeholder/Message Row -->
+      <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+      <tr *ngIf="!groupArray || (!!groupArray && handlerMappingsTable.items.length - originalItemsDeleted === 0)">
+
+        <!-- ARM call did not return successfully, and user has permissions -->
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4">
+          {{ (loadingFailureMessage || loadingMessage) }}
+        </td>
+
+        <!-- ARM call did not return successfully, and user doesn't have permissions -->
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4">
+          {{ showPermissionsMessage ? permissionsMessage : '' }}
+        </td>
+
+        <!-- ARM call returned successfully, but there are no entries to display -->
+        <td *ngIf="!!groupArray && handlerMappingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4">
+          {{ ('emptyHandlerMappings' | translate) }}
+        </td>
+
+      </tr>
+
+    </tbl>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
+    <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
+    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" class="link add-setting" (click)="addItem()">
+      {{ 'addNewHandlerMapping' | translate }}
+    </div>
+
+    <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
+    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" class="disabled-link add-setting">
+      {{ 'addNewHandlerMapping' | translate }}
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- ---------------------------------------------------------- SHIELD ---------------------------------------------------------- -->
+    <div *ngIf="!groupArray || !hasWritePermissions" class="shield">
+      <div *ngIf="!groupArray && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+        {{ loadingFailureMessage }}
+      </div>
+    </div>
+
+    <div *ngIf="!hasWritePermissions" class="shield transparent">
+      <div *ngIf="showPermissionsMessage" class="shield-message">
+        <p>{{ permissionsMessage }}</p>
+        <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
+      </div>
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+  </div>
+
+</div>

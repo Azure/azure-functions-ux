@@ -8,6 +8,7 @@ import { FunctionMonitorComponent } from './function-monitor/function-monitor.co
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
 import { ServiceBusComponent } from './pickers/service-bus/service-bus.component';
+import { NotificationHubComponent } from './pickers/notification-hub/notification-hub.component';
 import { EventHubComponent } from './pickers/event-hub/event-hub.component';
 import { SecretsBoxContainerComponent } from './secrets-box-container/secrets-box-container.component';
 import { BindingInputComponent } from './binding-input/binding-input.component';
@@ -33,6 +34,7 @@ import { SecretsBoxInputDirective } from 'app/secrets-box-container/secrets-box-
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
 import { FunctionNewComponent } from 'app/function-new/function-new.component';
 import { ExtensionInstallComponent } from './extension-install/extension-install.component';
+import { JavaSplashPageComponent } from './java-splash-page/java-splash-page.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -92,6 +94,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SecretsBoxInputDirective,
         EventHubComponent,
         ServiceBusComponent,
+        NotificationHubComponent,
         AppSettingComponent,
         BindingEventGridComponent,
         FunctionMonitorComponent,
@@ -100,7 +103,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         TableFunctionMonitorComponent,
         TableFunctionMonitorPipe,
         RunHttpComponent,
-        AadRegistrationComponent
+        AadRegistrationComponent,
+        JavaSplashPageComponent
     ],
     providers: []
 })

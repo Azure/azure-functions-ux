@@ -32,6 +32,8 @@ export class FunctionQuickstartComponent {
     selectedFunction: string;
     selectedLanguage: string;
     bc: BindingManager = new BindingManager();
+    showJavaSplashPage = false;
+    setShowJavaSplashPage = new Subject<boolean>();
 
     public functionApp: FunctionApp;
     private functionsNode: FunctionsNode;
@@ -63,6 +65,10 @@ export class FunctionQuickstartComponent {
                 this._globalStateService.clearBusyState();
                 this.functionsInfo = fcs;
             });
+
+        this.setShowJavaSplashPage.subscribe (show => {
+            this.showJavaSplashPage = show;
+        });
     }
 
     set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
@@ -70,13 +76,13 @@ export class FunctionQuickstartComponent {
 
     }
 
-    onFunctionCliked(selectedFunction: string) {
+    onFunctionClicked(selectedFunction: string) {
         if (!this._broadcastService.getDirtyState('function_disabled')) {
             this.selectedFunction = selectedFunction;
         }
     }
 
-    onLanguageCliked(selectedLanguage: string) {
+    onLanguageClicked(selectedLanguage: string) {
         if (!this._broadcastService.getDirtyState('function_disabled')) {
             this.selectedLanguage = selectedLanguage;
         }
@@ -88,6 +94,10 @@ export class FunctionQuickstartComponent {
         }
 
         this._globalStateService.setBusyState();
+
+        if (this.selectedLanguage === 'Java') {
+            this.setShowJavaSplashPage.next(true);
+        }
         this.functionApp.getTemplates().subscribe((templates) => {
             const selectedTemplate: FunctionTemplate = templates.find((t) => {
                 return t.id === this.selectedFunction + '-' + this.selectedLanguage;

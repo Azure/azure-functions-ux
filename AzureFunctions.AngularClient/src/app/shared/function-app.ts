@@ -241,14 +241,11 @@ export class FunctionApp {
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
             .catch(() => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
-            .flatMap((r: Response) => {
+            .map((r: Response) => {
                 try {
                     fcs = r.json() as FunctionInfo[];
                     fcs.forEach(fc => fc.functionApp = this);
-                    const vsCreatedFunc = fcs.find((fc: any) => !!fc.config.generatedBy);
-                    return vsCreatedFunc
-                        ? this.createApplicationSetting(Constants.functionAppEditModeSettingName, Constants.ReadOnlyMode, false)
-                        : Observable.of(null);
+                    return fcs;
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
                     // comments because Json.NET is okay with comments in the JSON file.
@@ -263,12 +260,8 @@ export class FunctionApp {
                         error: e,
                         content: r.text(),
                     });
-                    fcs = <FunctionInfo[]>[];
-                    return Observable.of(null);
+                    return <FunctionInfo[]>[];
                 }
-            })
-            .map(() => {
-                return fcs;
             })
             .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
             (error: FunctionsResponse) => {
@@ -1392,7 +1385,8 @@ export class FunctionApp {
             SiteService.isSlot(this.site.id)
                 ? Observable.of(true)
                 : this._slotsService.getSlotsList(this.site.id).map(r => r.length > 0),
-            (a, b, s) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s })
+                this.getFunctions(),
+            (a, b, s, f: FunctionInfo[]) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f })
         )
             .map(result => {
                 const appSettings: ArmObj<any> = result.appSettingsResponse.json();
@@ -1400,7 +1394,10 @@ export class FunctionApp {
 
                 let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
                 editModeSettingString = editModeSettingString.toLocaleLowerCase();
-
+                const vsCreatedFunc = result.functions.find((fc: any) => !!fc.config.generatedBy);
+                if (vsCreatedFunc) {
+                    return FunctionAppEditMode.ReadOnlyVSGenerated;
+                }
                 if (editModeSettingString === Constants.ReadWriteMode) {
                     return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
                 } else if (editModeSettingString === Constants.ReadOnlyMode) {

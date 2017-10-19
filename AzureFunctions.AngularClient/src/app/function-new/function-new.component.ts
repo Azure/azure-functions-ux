@@ -249,7 +249,7 @@ export class FunctionNewComponent {
             });
             if (nameMatch) {
                 this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExsists, { name: this.functionName });
-                this.areInputsValid = true;
+                this.areInputsValid = false;
             }
         }
 

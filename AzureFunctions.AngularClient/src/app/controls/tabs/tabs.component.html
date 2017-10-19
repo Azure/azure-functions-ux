@@ -1,0 +1,17 @@
+<nav>
+    <ul class="tabs-row">
+      <li *ngFor="let tab of tabs"
+          [class.tab-label]="!tab.active"
+          [class.tab-label-selected]="tab.active"
+          (click)="selectTab(tab)"
+          class="tab-cell clickable foo">
+
+        <span >{{tab.title}}</span>
+
+        <div class="bottom" *ngIf="tab.active"></div>
+      </li>
+    </ul>
+    <div class="tab-content">
+        <ng-content></ng-content>
+    </div>
+</nav>

@@ -1,8 +1,8 @@
+import { BroadcastService } from './../../shared/services/broadcast.service';
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
-import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { UserService } from './../../shared/services/user.service';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Input } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -15,7 +15,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { ConfigService } from './../../shared/services/config.service';
 import { FunctionApp } from './../../shared/function-app';
 import { PortalResources } from './../../shared/models/portal-resources';
@@ -46,8 +45,7 @@ interface DataModel {
 @Component({
     selector: 'site-summary',
     templateUrl: './site-summary.component.html',
-    styleUrls: ['./site-summary.component.scss'],
-    inputs: ['viewInfoInput']
+    styleUrls: ['./site-summary.component.scss']
 })
 
 export class SiteSummaryComponent implements OnDestroy {
@@ -78,7 +76,8 @@ export class SiteSummaryComponent implements OnDestroy {
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
-    private _busyState: BusyStateComponent;
+
+    private _busyManager: BusyStateScopeManager;
 
     constructor(
         private _cacheService: CacheService,
@@ -92,11 +91,12 @@ export class SiteSummaryComponent implements OnDestroy {
         private _configService: ConfigService,
         private _slotService: SiteService,
         userService: UserService,
-        siteTabComponent: SiteTabComponent,
-        scenarioService: ScenarioService) {
+        scenarioService: ScenarioService,
+        broadcastService: BroadcastService) {
 
         this.isStandalone = _configService.isStandalone();
-        this._busyState = siteTabComponent.busyState;
+
+        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
         userService.getStartupInfo()
             .first()
@@ -112,7 +112,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     timerId: 'TreeViewLoad',
                     timerAction: 'stop'
                 });
-                this._busyState.setBusyState();
+                // this._busyState.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
 
             })
@@ -150,7 +150,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.plan = `${serverFarm} (${site.properties.sku.replace('Dynamic', 'Consumption')})`;
                 this._isSlot = SiteService.isSlot(site.id);
 
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
                 this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
                 this.hideAvailability = scenarioService.checkScenario(ScenarioIds.showSiteAvailability, {site: site}).status === 'disabled';
@@ -214,7 +214,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 return Observable.of(res);
             })
             .do(null, e => {
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
 
                 if (!this._globalStateService.showTryView) {
                     this._aiService.trackException(e, 'site-summary');
@@ -239,7 +239,7 @@ export class SiteSummaryComponent implements OnDestroy {
         return this._globalStateService.showTryView;
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
+    @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         if (!viewInfo) {
             return;
         }
@@ -327,7 +327,7 @@ export class SiteSummaryComponent implements OnDestroy {
         if (confirmResult) {
 
             let notificationId = null;
-            this._busyState.setBusyState();
+            this._busyManager.setBusy();
             this._portalService.startNotification(
                 this.ts.instant(PortalResources.siteSummary_resetProfileNotifyTitle),
                 this.ts.instant(PortalResources.siteSummary_resetProfileNotifyTitle))
@@ -337,14 +337,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     return this._armService.post(`${this.site.id}/newpassword`, null);
                 })
                 .subscribe(() => {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         true,
                         this.ts.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
                 },
                 e => {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         false,
@@ -365,7 +365,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
         const confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_restartConfirmation).format(this.site.name));
         if (confirmResult) {
-            this._busyState.setBusyState();
+            this._busyManager.setBusy();
 
             this._portalService.startNotification(
                 this.ts.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name),
@@ -376,14 +376,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     return this._armService.post(`${site.id}/restart`, null);
                 })
                 .subscribe(() => {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         true,
                         this.ts.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
                 },
                 e => {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         false,
@@ -466,7 +466,7 @@ export class SiteSummaryComponent implements OnDestroy {
             ? this.ts.instant(PortalResources.siteSummary_stopNotifyTitle).format(site.name)
             : this.ts.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
 
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
 
         this._portalService.startNotification(notifyTitle, notifyTitle)
             .first()
@@ -501,7 +501,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
                     : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
 
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
                 this._portalService.stopNotification(
                     notificationId,
                     false,

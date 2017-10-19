@@ -1,4 +1,9 @@
 <div id="function-runtime-container">
+
+    <div *ngIf="showProxyEnabledWarning" class="alert alert-warning alert-dismissible" role="alert">
+      {{ 'appFunctionSettings_proxyEnabled' | translate }}
+    </div>
+
     <div *ngIf="site?.properties?.sku === 'Dynamic'" class="setting-wrapper">
         <label id="dailyUsageQuotaLabel" class="title-label">{{ 'functionAppSettings_dailyUsageQuota' | translate }}
             <pop-over [message]="( 'functionAppSettings_dailyUsageQuotaHelp' | translate )" [position]="'bottom'">
@@ -92,13 +97,13 @@
         </div>
     </div>
 
-    <div class="setting-wrapper">
+    <div class="setting-wrapper" *ngIf="showProxyEnable">
         <label id="apiProxiesLabel" class="title-label">{{ 'appFunctionSettings_apiProxies' | translate }}</label>
         <div>
             <label id="apiProxiesLabel1" class="title-spacing">{{ 'appFunctionSettings_useApiProxies' | translate }}</label>
             <div>
                 <radio-selector 
-                    [defaultValue]="apiProxiesEnabled"
+                    [defaultValue]="!showProxyEnable"
                     [options]="functionStatusOptions"
                     (value)="proxySettingValueStream.next($event)" 
                     (keydown)="keyDown($event, 'proxySettingValue')"
@@ -106,25 +111,7 @@
                     id="apiProxiesRadioButton"
                     aria-labelledby="apiProxiesLabel1 apiProxiesRadioButton">
                 </radio-selector>
-            </div>
-            <ng-container *ngIf="apiProxiesEnabled">
-                <label *ngIf="!needUpdateRoutingExtensionVersion">
-                    {{ 'appFunctionSettings_proxyRuntimeVersion2' | translate: {latestExtensionVersion:latestRoutingExtensionVersion} }}
-                </label>
-                <div *ngIf="needUpdateRoutingExtensionVersion">
-                    <label id="proxyRuntimeUpdateLabel">
-                        {{ 'appFunctionSettings_proxyRuntimeVersion1' | translate: {extensionVersion: routingExtensionVersion, latestExtensionVersion:latestRoutingExtensionVersion} }}
-                    </label>
-                    <button 
-                        class="custom-button" 
-                        (click)="updateRoutingExtensionVersion()" 
-                        tabindex="0"
-                        id="proxyRuntimeUpdateButton"
-                        aria-labelledby="proxyRuntimeUpdateLabel proxyRuntimeUpdateButton">
-                        {{ 'update' | translate }}
-                    </button>
-                </div>
-            </ng-container>
+        </div>
         </div>
     </div>
 
@@ -148,26 +135,34 @@
         </div>
     </div>
 
-    <div *ngIf="!slotsEnabled" class="setting-wrapper">
+    <div class="setting-wrapper">
         <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
-        <div tabindex="-1">
-            {{ 'appFunctionSettings_slotsDesc' | translate}}
-            <span id="slotEnableDescLabel2" class="title-label" tabindex="-1">{{'appFunctionSettings_slotsDescBold' | translate}}</span>
+        <p>{{ 'appFunctionSettings_slotsDesc' | translate }}</p>
+        <div class="alert alert-warning">
+            <div class="alert-icon" load-image="image/warning.svg"></div>
+            <div class="alert-message">
+                <span class="title-label">{{ 'appFunctionSettings_warning_1' | translate }}</span><br/>
+                <span>{{ 'appFunctionSettings_warning_2' | translate }}</span><br/>
+                <span>
+                    {{ 'appFunctionSettings_warning_3' | translate }}
+                    <span class="title-label">{{ 'appFunctionSettings_warning_4' | translate }}</span>
+                    {{ 'appFunctionSettings_warning_5' | translate }}
+                </span>
+            </div>
         </div>
-
         <div>
-            <radio-selector 
-                [defaultValue]="slotsEnabled" 
-                [options]="slotsStatusOptions" 
-                (value)="slotsValueChange.next($event)" 
-                tabindex="0" 
+            <radio-selector
+                [disabled]="slotsEnabled"
+                [defaultValue]="slotsEnabled"
+                [options]="slotsStatusOptions"
+                (value)="slotsValueChange.next($event)"
+                tabindex="0"
                 (keydown)="keyDown($event, 'slotsValueChange')"
                 id="slotEnableRadioButton"
                 aria-labelledby="slotEnableLabel slotEnableRadioButton">
             </radio-selector>
         </div>
     </div>
-
 
     <function-keys
         [autoSelect]="true"

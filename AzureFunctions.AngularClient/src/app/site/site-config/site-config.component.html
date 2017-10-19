@@ -13,6 +13,8 @@
 
 </command-bar>
 
+<!-- <a (click)="scaleUp()" >SCALE UP!!!</a> -->
+
 <div *ngIf="!!mainForm" id="site-config-wrapper">
 
 <general-settings [mainForm]="mainForm" [resourceId]="resourceId"></general-settings>
@@ -20,5 +22,11 @@
 <app-settings [mainForm]="mainForm" [resourceId]="resourceId"></app-settings>
 
 <connection-strings [mainForm]="mainForm" [resourceId]="resourceId"></connection-strings>
+
+<default-documents [mainForm]="mainForm" [resourceId]="resourceId"></default-documents>
+
+<handler-mappings [mainForm]="mainForm" [resourceId]="resourceId"></handler-mappings>
+
+<virtual-directories [mainForm]="mainForm" [resourceId]="resourceId"></virtual-directories>
 
 </div>

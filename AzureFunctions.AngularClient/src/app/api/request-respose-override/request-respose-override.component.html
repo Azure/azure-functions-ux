@@ -77,7 +77,8 @@
             <div monacoEditor class="monaco response-body"
                     (onContentChanged)="contentChanged($event)"
                     [content]="model.body"
-                    [functionAppInput]="functionApp">
+                    [functionAppInput]="functionApp"
+                    fileName="body.json">
             </div>
         </div>
     </div>

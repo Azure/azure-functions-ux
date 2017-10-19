@@ -9,7 +9,6 @@ import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
 
 import './polyfills';
-import { getTemplates } from './actions/templates';
 import { getTenants, switchTenant, getToken } from './actions/user-account';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
@@ -17,7 +16,8 @@ import {
     getBindingConfig,
     getResources,
     getRuntimeVersion,
-    getRoutingVersion
+    getRoutingVersion,
+    getTemplates
 } from './actions/metadata';
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
 import { staticConfig } from './config';

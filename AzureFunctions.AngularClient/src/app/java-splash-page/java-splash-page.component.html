@@ -1,0 +1,28 @@
+<div>
+  <div id="splash-page-background" (click)="onClickOutside()"></div>
+  <div id="splash-page-square">
+    <span id="splash-page-message">
+      <div>
+        <div class="splash-page-large" load-image="image/functions.svg"></div>
+        <div class="splash-page-heart" load-image="image/heart.svg"></div>
+        <div class="splash-page-large" load-image="image/java.svg"></div>
+      </div>
+      <div id="splash-page-text">
+        <div>
+          <h2>{{ 'java_splash_line_1' | translate }}</h2>
+        </div>
+        <div id="splash-page-text-line">
+          <h2>{{ 'java_splash_line_2' | translate }}</h2>
+        </div>
+      </div>
+      <div id="splash-page-button-location">
+        <a href="https://go.microsoft.com/fwlink/?linkid=859422" target="_blank" >
+          <button id="splash-page-button" class="custom-button">
+            <div load-image="image/external.svg" class="icon-small"></div>
+            {{ 'java_splash_button' | translate }}
+          </button>
+        </a>
+      </div>
+    </span>
+  </div>
+</div>

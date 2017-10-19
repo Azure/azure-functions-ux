@@ -1,8 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
-import { BusyStateComponent } from '../../../../busy-state/busy-state.component';
-import { SiteTabComponent } from '../../../../site/site-dashboard/site-tab/site-tab.component';
 import { AuthzService } from '../../../../shared/services/authz.service';
 import { AiService } from '../../../../shared/services/ai.service';
 import { Observable, Subject } from 'rxjs/Rx';
@@ -32,10 +29,8 @@ export class VsoDashboardComponent implements OnChanges {
     private _tableItems: ActivityDetailsLog[];
     public activeDeployment: ActivityDetailsLog;
 
-    _busyState: BusyStateComponent;
     public viewInfoStream: Subject<string>;
     _viewInfoSubscription: RxSubscription;
-    _busyStateScopeManager: BusyStateScopeManager;
     _writePermission = true;
     _readOnlyLock = false;
     public hasWritePermissions = true;
@@ -46,17 +41,13 @@ export class VsoDashboardComponent implements OnChanges {
         private _cacheService: CacheService,
         private _aiService: AiService,
         private _authZService: AuthzService,
-        siteTabsComponent: SiteTabComponent,
         private _translateService: TranslateService
     ) {
-        this._busyState = siteTabsComponent.busyState;
-        this._busyStateScopeManager = this._busyState.getScopeManager();
 
         this.viewInfoStream = new Subject<string>();
         this._viewInfoSubscription = this.viewInfoStream
             .distinctUntilChanged()
             .switchMap(resourceId => {
-                this._busyStateScopeManager.setBusy();
                 return Observable.zip(
                     this._cacheService.getArm(resourceId),
                     this._cacheService.getArm(`${resourceId}/config/web`),
@@ -81,7 +72,6 @@ export class VsoDashboardComponent implements OnChanges {
             .do(null, error => {
                 this.deploymentObject = null;
                 this._aiService.trackEvent('/errors/deployment-center', error);
-                this._busyStateScopeManager.clearBusy();
             })
             .retry()
             .switchMap(r => {
@@ -107,7 +97,6 @@ export class VsoDashboardComponent implements OnChanges {
                 this._writePermission = r.writePermission;
                 this._readOnlyLock = r.readOnlyLock;
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
-                this._busyStateScopeManager.clearBusy();
 
                 const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;
 

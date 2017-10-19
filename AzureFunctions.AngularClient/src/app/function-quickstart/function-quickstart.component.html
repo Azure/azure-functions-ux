@@ -1,3 +1,4 @@
+<java-splash-page *ngIf="showJavaSplashPage" [setShowJavaSplashPage]="setShowJavaSplashPage"></java-splash-page>
 <div id="quickstart-container">
 <div id="quickstart-header">
     <img src="image/functions.svg" />
@@ -6,7 +7,7 @@
     <h2>{{ 'intro_chooseScenario' | translate }}</h2>
     <div id="quickstart-templates">
         <div class="quickstart-template"
-             (click)="onFunctionCliked('HttpTrigger')"
+             (click)="onFunctionClicked('HttpTrigger')"
              [class.quickstart-template-selected]="selectedFunction === 'HttpTrigger'">
 
             <div class="quickstart-template-icon">
@@ -16,7 +17,7 @@
         </div>
 
         <div class="quickstart-template"
-            (click)="onFunctionCliked('TimerTrigger')"
+            (click)="onFunctionClicked('TimerTrigger')"
             [class.quickstart-template-selected]="selectedFunction === 'TimerTrigger'">
 
             <div class="quickstart-template-icon">
@@ -27,7 +28,7 @@
         </div>
 
         <div class="quickstart-template"
-            (click)="onFunctionCliked('QueueTrigger')"
+            (click)="onFunctionClicked('QueueTrigger')"
             [class.quickstart-template-selected]="selectedFunction === 'QueueTrigger'">
 
             <div class="quickstart-template-icon">
@@ -46,6 +47,7 @@
         <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="CSharp" checked>CSharp</label>
         <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="JavaScript">JavaScript</label>
         <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="FSharp">FSharp</label>
+        <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="Java">Java</label>
     </div>
 
     <div id="quickstart-lang-custom">
@@ -66,7 +68,12 @@
 </div>  <!-- /intro-header -->
 
 <div id="quickstart-footer">
-    <h2 class="circle">{{ 'intro_or' | translate}}</h2>
+    <h2 class="circle-container">
+        <!-- Need to split the "circle" into 3 parts to allow it to expand if the text is long -->
+        <span class="circle-left"></span>
+        <span class="circle-middle">{{ 'intro_or' | translate}}</span>
+        <span class="circle-right"></span>
+    </h2>
 
     <h1>{{ 'intro_getStartedOn' | translate }}</h1>
     <div>

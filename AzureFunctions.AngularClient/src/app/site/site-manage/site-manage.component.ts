@@ -1,4 +1,4 @@
-import { SiteService } from 'app/shared/services/slots.service';
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -12,18 +12,10 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
-import { GlobalStateService } from './../../shared/services/global-state.service';
 import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { AiService } from './../../shared/services/ai.service';
-import {
-    DisableableBladeFeature,
-    DisableableFeature,
-    DisableInfo,
-    TabFeature,
-    FeatureItem,
-    BladeFeature
-} from './../../feature-group/feature-item';
+import { DisableInfo, TabFeature, FeatureItem, BladeFeature, DisableableBladeFeature, DisableableFeature } from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
 import { AuthzService } from '../../shared/services/authz.service';
 import { PortalService } from '../../shared/services/portal.service';
@@ -52,13 +44,11 @@ export class SiteManageComponent implements OnDestroy {
     private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
     private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
 
-    private _dynamicDisableInfo: DisableInfo;
-    private _slotDisableInfo: DisableInfo;
-
     private _selectedFeatureSubscription: RxSubscription;
 
-    @Input()
-    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
+    private _busyManager: BusyStateScopeManager;
+
+    @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this._viewInfoStream.next(viewInfo);
     }
 
@@ -67,36 +57,26 @@ export class SiteManageComponent implements OnDestroy {
         private _portalService: PortalService,
         private _aiService: AiService,
         private _cacheService: CacheService,
-        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
-        private _scenarioService: ScenarioService
-    ) {
+        private _scenarioService: ScenarioService) {
+
+        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+
         this._viewInfoStream
             .switchMap(viewInfo => {
+                this._busyManager.setBusy();
                 this.viewInfo = viewInfo;
-                this._globalStateService.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
             .switchMap(r => {
-                this._globalStateService.clearBusyState();
-
+                this._busyManager.clearBusy();
                 this._aiService.stopTrace('/timings/site/tab/features/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
 
                 const site: ArmObj<Site> = r.json();
+
                 this._portalService.closeBlades();
                 this._descriptor = new SiteDescriptor(site.id);
-
-                this._dynamicDisableInfo = {
-                    enabled: site.properties.sku !== 'Dynamic',
-                    disableMessage: this._translateService.instant(PortalResources.featureNotSupportedConsumption)
-                };
-
-                this._slotDisableInfo = {
-                    enabled: !SiteService.isSlot(site.id),
-                    disableMessage: this._translateService.instant(PortalResources.featureNotSupportedForSlots)
-                };
-
                 this._disposeGroups();
 
                 this._initCol1Groups(site);
@@ -137,6 +117,7 @@ export class SiteManageComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
+        this._busyManager.clearBusy();
         this._portalService.closeBlades();
         this._disposeGroups();
         if (this._selectedFeatureSubscription) {
@@ -199,26 +180,30 @@ export class SiteManageComponent implements OnDestroy {
         ];
 
         const developmentToolFeatures = [
-            new DisableableBladeFeature(
-                this._translateService.instant(PortalResources.feature_consoleName),
-                this._translateService.instant(PortalResources.feature_consoleName) +
-                    ' ' +
-                    this._translateService.instant(PortalResources.debug),
-                this._translateService.instant(PortalResources.feature_consoleInfo),
-                'image/console.svg',
-                {
-                    detailBlade: 'ConsoleBlade',
-                    detailBladeInputs: {
-                        resourceUri: site.id
-                    }
-                },
-                this._portalService,
-                this._hasSiteWritePermissionStream
-            ),
+            this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled'
+                ? new DisableableBladeFeature(
+                    this._translateService.instant(PortalResources.feature_consoleName),
+                    this._translateService.instant(PortalResources.feature_consoleName) +
+                    ' ' + this._translateService.instant(PortalResources.debug),
+                    this._translateService.instant(PortalResources.feature_consoleInfo),
+                    'image/console.svg',
+                    {
+                        detailBlade: 'ConsoleBlade',
+                        detailBladeInputs: {
+                            resourceUri: site.id
+                        }
+                    },
+                    this._portalService,
+                    this._hasSiteWritePermissionStream)
+                : null,
+
+            this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled'
+                ? new OpenSshFeature(site, this._hasSiteWritePermissionStream, this._translateService)
+                : null,
 
             new OpenKuduFeature(site, this._hasSiteWritePermissionStream, this._translateService),
 
-            new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService),
+            new OpenEditorFeature(site, this._hasSiteWritePermissionStream, this._translateService, this._scenarioService),
 
             this._scenarioService.checkScenario(ScenarioIds.addResourceExplorer, { site: site }).status !== 'disabled'
                 ? new OpenResourceExplorer(site, this._translateService)
@@ -237,8 +222,7 @@ export class SiteManageComponent implements OnDestroy {
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._dynamicDisableInfo
-            )
+                this._scenarioService.checkScenario(ScenarioIds.enableExtensions, { site: site })),
         ];
 
         const generalFeatures: FeatureItem[] = [
@@ -280,15 +264,14 @@ export class SiteManageComponent implements OnDestroy {
                 this._translateService.instant(PortalResources.feature_backupsInfo),
                 'image/backups.svg',
                 {
-                    detailBlade: 'Backup',
+                    detailBlade: 'BackupSummaryBlade',
                     detailBladeInputs: {
                         resourceUri: site.id
                     }
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._dynamicDisableInfo
-            ),
+                this._scenarioService.checkScenario(ScenarioIds.enableBackups, { site: site })),
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_allSettingsName),
@@ -337,8 +320,7 @@ export class SiteManageComponent implements OnDestroy {
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._dynamicDisableInfo
-            ),
+                this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })),
 
             new DisableableBladeFeature(
                 'SSL',
@@ -382,39 +364,40 @@ export class SiteManageComponent implements OnDestroy {
                     detailBladeInputs: { resourceUri: site.id }
                 },
                 this._portalService,
-                this._hasSiteWritePermissionStream
-            ),
+                this._hasSiteWritePermissionStream,
+                this._scenarioService.checkScenario(ScenarioIds.enableAuth, { site: site })),
 
-            new DisableableBladeFeature(
-                this._translateService.instant(PortalResources.feature_msiName),
-                this._translateService.instant(PortalResources.feature_msiName) +
+            this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled'
+                ? new DisableableBladeFeature(
+                    this._translateService.instant(PortalResources.feature_msiName),
+                    this._translateService.instant(PortalResources.feature_msiName) +
                     this._translateService.instant(PortalResources.authentication) +
                     'MSI',
-                this._translateService.instant(PortalResources.feature_msiInfo),
-                'image/toolbox.svg',
-                {
-                    detailBlade: 'MSIBlade',
-                    detailBladeInputs: { resourceUri: site.id }
-                },
-                this._portalService,
-                null,
-                this._slotDisableInfo
-            ),
+                    this._translateService.instant(PortalResources.feature_msiInfo),
+                    'image/toolbox.svg',
+                    {
+                        detailBlade: 'MSIBlade',
+                        detailBladeInputs: { resourceUri: site.id }
+                    },
+                    this._portalService,
+                    null,
+                    this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site }))
+                : null,
 
             this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
-                      this._translateService.instant(PortalResources.feature_pushNotificationsName),
-                      this._translateService.instant(PortalResources.feature_pushNotificationsName),
-                      this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
-                      'image/push.svg',
-                      {
-                          detailBlade: 'PushRegistrationBlade',
-                          detailBladeInputs: { resourceUri: this._descriptor.resourceId }
-                      },
-                      this._portalService,
-                      this._hasSiteWritePermissionStream
-                  )
-                : null
+                    this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                    this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                    this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
+                    'image/push.svg',
+                    {
+                        detailBlade: 'PushRegistrationBlade',
+                        detailBladeInputs: { resourceUri: this._descriptor.resourceId }
+                    },
+                    this._portalService,
+                    this._hasSiteWritePermissionStream,
+                    this._scenarioService.checkScenario(ScenarioIds.enablePushNotifications, { site: site }))
+                : null,
         ];
 
         const monitoringFeatures = [
@@ -440,8 +423,8 @@ export class SiteManageComponent implements OnDestroy {
                     detailBladeInputs: { resourceUri: site.id }
                 },
                 this._portalService,
-                this._hasSiteWritePermissionStream
-            ),
+                this._hasSiteWritePermissionStream,
+                this._scenarioService.checkScenario(ScenarioIds.enableLogStream, { site: site })),
 
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_processExplorerName),
@@ -453,22 +436,8 @@ export class SiteManageComponent implements OnDestroy {
                     detailBladeInputs: { resourceUri: site.id }
                 },
                 this._portalService,
-                this._hasSiteWritePermissionStream
-            ),
-
-            this._scenarioService.checkScenario(ScenarioIds.addTinfoil, { site: site }).status !== 'disabled'
-                ? new BladeFeature(
-                      this._translateService.instant(PortalResources.feature_securityScanningName),
-                      this._translateService.instant(PortalResources.feature_securityScanningName) + ' tinfoil',
-                      this._translateService.instant(PortalResources.feature_securityScanningInfo),
-                      'image/tinfoil-flat-21px.png',
-                      {
-                          detailBlade: 'TinfoilSecurityBlade',
-                          detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
-                      },
-                      this._portalService
-                  )
-                : null
+                this._hasSiteWritePermissionStream,
+                this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site }))
         ];
 
         this.groups2 = [
@@ -517,7 +486,7 @@ export class SiteManageComponent implements OnDestroy {
                 this._hasPlanReadPermissionStream
             ),
 
-            this._scenarioService.checkScenario(ScenarioIds.showSiteQuotas, { site: site }).status !== 'disabled'
+            this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
                       this._translateService.instant(PortalResources.feature_quotasName),
                       this._translateService.instant(PortalResources.feature_quotasName),
@@ -534,7 +503,7 @@ export class SiteManageComponent implements OnDestroy {
                   )
                 : null,
 
-            this._scenarioService.checkScenario(ScenarioIds.showSiteFileStorage, { site: site }).status !== 'disabled'
+            this._scenarioService.checkScenario(ScenarioIds.addSiteFileStorage, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
                       this._translateService.instant(PortalResources.feature_quotasName),
                       this._translateService.instant(PortalResources.feature_quotasName),
@@ -658,6 +627,27 @@ export class SiteManageComponent implements OnDestroy {
     }
 }
 
+export class OpenSshFeature extends DisableableFeature {
+    constructor(
+        private _site: ArmObj<Site>,
+        disableInfoStream: Subject<DisableInfo>,
+        _translateService: TranslateService) {
+
+        super(
+            _translateService.instant(PortalResources.feature_sshName),
+            _translateService.instant(PortalResources.feature_sshName)
+            + _translateService.instant(PortalResources.feature_consoleName),
+            _translateService.instant(PortalResources.feature_sshInfo),
+            'image/console.svg',
+            disableInfoStream);
+    }
+
+    click() {
+        const scmHostName = this._site.properties.hostNameSslStates.find(h => h.hostType === 1).name;
+        window.open(`https://${scmHostName}/webssh/host`);
+    }
+}
+
 export class OpenKuduFeature extends DisableableFeature {
     constructor(private _site: ArmObj<Site>, disableInfoStream: Subject<DisableInfo>, _translateService: TranslateService) {
         super(
@@ -676,14 +666,18 @@ export class OpenKuduFeature extends DisableableFeature {
 }
 
 export class OpenEditorFeature extends DisableableFeature {
-    constructor(private _site: ArmObj<Site>, disabledInfoStream: Subject<DisableInfo>, _translateService: TranslateService) {
+    constructor(
+        private _site: ArmObj<Site>,
+        disabledInfoStream: Subject<DisableInfo>,
+        _translateService: TranslateService,
+        scenarioService: ScenarioService) {
+
         super(
             _translateService.instant(PortalResources.feature_appServiceEditorName),
             _translateService.instant(PortalResources.feature_appServiceEditorName),
             _translateService.instant(PortalResources.feature_appServiceEditorInfo),
             'image/appsvc-editor.svg',
-            disabledInfoStream
-        );
+            disabledInfoStream, scenarioService.checkScenario(ScenarioIds.enableAppServiceEditor, { site: _site }));
     }
 
     click() {

@@ -1,8 +1,6 @@
 export interface FunctionsVersionInfo {
     runtimeStable: string[];
-    proxyStable: string[];
     runtimeDefault: string;
-    proxyDefault: string;
 }
 
 export class FunctionsVersionInfoHelper {

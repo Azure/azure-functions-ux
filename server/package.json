@@ -2,7 +2,8 @@
     "name": "azure-functions-ux-server",
     "version": "0.0.0",
     "scripts": {
-        "watch": "nodemon ./src/nodemon.json"
+        "watch": "nodemon .\\src\\nodemon.json",
+        "watchu" : "nodemon .\\src\\nodemon-unix.json"
     },
     "dependencies": {
         "async": "^2.5.0",
@@ -21,7 +22,8 @@
         "passport-github2": "^0.1.10",
         "client-oauth2": "^4.1.0",
         "request": "^2.81.0",
-        "@types/request": "^2.0.2"
+        "@types/request": "^2.0.2",
+        "async-file": "^2.0.2"
     },
     "devDependencies": {
         "@types/async": "^2.0.40",
@@ -39,6 +41,16 @@
         "concurrently": "^3.5.0",
         "nodemon": "^1.11.0",
         "ts-node": "^3.1.0",
-        "typescript": "^2.4.1"
+        "typescript": "^2.4.1",
+        "gulp": "^3.9.1",
+        "gulp-resx2": "^1.0.1",
+        "gulp-rename": "^1.2.2",
+        "merge-stream": "^1.0.1",
+        "gulp-json-editor": "^2.2.1",
+        "gulp-merge-json": "^1.2.0",
+        "run-sequence": "^2.2.0",
+        "del": "^3.0.0",
+        "gulp-download": "^0.0.1",
+        "gulp-decompress": "^2.0.1"
     }
 }

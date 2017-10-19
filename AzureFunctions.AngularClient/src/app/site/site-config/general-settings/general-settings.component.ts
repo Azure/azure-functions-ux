@@ -1,24 +1,26 @@
-import { SiteTabComponent } from './../../site-dashboard/site-tab/site-tab.component';
+import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-import { SaveResult } from '../site-config.component';
+import { SaveOrValidationResult } from '../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
-import { AvailableStackNames, AvailableStack, MajorVersion } from 'app/shared/models/arm/stacks';
-import { DropDownElement } from './../../../shared/models/drop-down-element';
+import { AvailableStackNames, AvailableStack, Framework, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
+import { DropDownElement, DropDownGroupElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
-import { AiService } from './../../../shared/services/ai.service';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
-import { BusyStateComponent } from './../../../busy-state/busy-state.component';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
+import { CustomFormControl } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
 
@@ -38,14 +40,14 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   public showPermissionsMessage: boolean;
   public showReadOnlySettingsMessage: string;
 
-  private _busyState: BusyStateComponent;
-  private _busyStateScopeManager: BusyStateScopeManager;
+  private _busyManager: BusyStateScopeManager;
 
   private _saveError: string;
 
   private _webConfigArm: ArmObj<SiteConfig>;
   private _siteConfigArm: ArmObj<Site>;
   public loadingFailureMessage: string;
+  public loadingMessage: string;
 
   private _sku: string;
   private _kind: string;
@@ -67,6 +69,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   private _selectedJavaVersion: string;
 
+  public netFrameworkSupported = false;
   public phpSupported = false;
   public pythonSupported = false;
   public javaSupported = false;
@@ -74,11 +77,25 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   public webSocketsSupported = false;
   public alwaysOnSupported = false;
   public classicPipelineModeSupported = false;
+  public remoteDebuggingSupported = false;
   public clientAffinitySupported = false;
+
+  public autoSwapSupported = false;
+  public autoSwapEnabledOptions: SelectOption<boolean>[];
+  public autoSwapSlotNameOptions: DropDownElement<string>[];
+
+  public linuxRuntimeSupported = false;
+  public linuxFxVersionOptions: DropDownGroupElement<string>[];
+  private _linuxFxVersionOptionsClean: DropDownGroupElement<string>[];
+
 
   @Input() mainForm: FormGroup;
 
   @Input() resourceId: string;
+
+  private _slotsConfigArmPath: string;
+  private _slotsConfigArm: ArmArrayResult<Site>;
+  public isProductionSlot: boolean;
 
   private _ignoreChildEvents = true;
 
@@ -86,12 +103,13 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     private _cacheService: CacheService,
     private _fb: FormBuilder,
     private _translateService: TranslateService,
-    private _aiService: AiService,
+    private _logService: LogService,
     private _authZService: AuthzService,
-    siteTabComponent: SiteTabComponent
+    broadcastService: BroadcastService
   ) {
-    this._busyState = siteTabComponent.busyState;
-    this._busyStateScopeManager = this._busyState.getScopeManager();
+    this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+
+    this._resetSlotsInfo();
 
     this._resetPermissionsAndLoadingState();
 
@@ -101,13 +119,14 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this._resourceIdSubscription = this._resourceIdStream
       .distinctUntilChanged()
       .switchMap(() => {
-        this._busyStateScopeManager.setBusy();
+        this._busyManager.setBusy();
         this._saveError = null;
         this._siteConfigArm = null;
         this._webConfigArm = null;
         this.group = null;
         this.versionOptionsMap = null;
         this._ignoreChildEvents = true;
+        this._resetSlotsInfo();
         this._resetSupportedControls();
         this._resetPermissionsAndLoadingState();
         return Observable.zip(
@@ -121,28 +140,43 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         return Observable.zip(
           Observable.of(this.hasWritePermissions),
           this._cacheService.getArm(`${this.resourceId}`, true),
+          this._cacheService.getArm(this._slotsConfigArmPath, true),
           this._cacheService.getArm(`${this.resourceId}/config/web`, true),
           this._cacheService.getArm(`/providers/Microsoft.Web/availablestacks`),
-          (h, c, w, s) => ({ hasWritePermissions: h, siteConfigResponse: c, webConfigResponse: w, availableStacksResponse: s })
+          (h, c, t, w, s) => ({
+            hasWritePermissions: h,
+            siteConfigResponse: c,
+            slotsConfigResponse: t,
+            webConfigResponse: w,
+            availableStacksResponse: s
+          })
         );
       })
       .do(null, error => {
-        this._aiService.trackEvent('/errors/general-settings', error);
-        this._setupForm(this._webConfigArm, this._siteConfigArm);
-        this.loadingFailureMessage = this._translateService.instant(PortalResources.loading);
-        this._busyStateScopeManager.clearBusy();
+        this._logService.error(LogCategories.generalSettings, '/general-settings', error);
+        this._setupForm(null, null, null);
+        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+        this.loadingMessage = null;
+        this.showPermissionsMessage = true;
+        this._busyManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
         this._siteConfigArm = r.siteConfigResponse.json();
         this._webConfigArm = r.webConfigResponse.json();
+        this._slotsConfigArm = r.slotsConfigResponse.json();
         const availableStacksArm = r.availableStacksResponse.json();
         if (!this._versionOptionsMapClean) {
           this._parseAvailableStacks(availableStacksArm);
         }
-        this._processSkuAndKind(this._siteConfigArm);
-        this._setupForm(this._webConfigArm, this._siteConfigArm);
-        this._busyStateScopeManager.clearBusy();
+        if (!this._linuxFxVersionOptionsClean) {
+          this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
+        }
+        this._processSupportedControls(this._siteConfigArm, this._webConfigArm, this._slotsConfigArm);
+        this._setupForm(this._webConfigArm, this._siteConfigArm, this._slotsConfigArm);
+        this.loadingMessage = null;
+        this.showPermissionsMessage = true;
+        this._busyManager.clearBusy();
       });
   }
 
@@ -151,15 +185,28 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       this._resourceIdStream.next(this.resourceId);
     }
     if (changes['mainForm'] && !changes['resourceId']) {
-      this._setupForm(this._webConfigArm, this._siteConfigArm);
+      this._setupForm(this._webConfigArm, this._siteConfigArm, this._slotsConfigArm);
     }
   }
 
   ngOnDestroy(): void {
     if (this._resourceIdSubscription) {
-      this._resourceIdSubscription.unsubscribe(); this._resourceIdSubscription = null;
+      this._resourceIdSubscription.unsubscribe();
+      this._resourceIdSubscription = null;
     }
-    this._busyStateScopeManager.dispose();
+    this._busyManager.clearBusy();
+  }
+
+  private _resetSlotsInfo() {
+    this._slotsConfigArmPath = null;
+    this._slotsConfigArm = null;
+    this.isProductionSlot = true;
+
+    if (this.resourceId) {
+      const siteDescriptor = new SiteDescriptor(this.resourceId);
+      this._slotsConfigArmPath = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
+      this.isProductionSlot = !siteDescriptor.slot;
+    }
   }
 
   private _resetPermissionsAndLoadingState() {
@@ -168,6 +215,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.showPermissionsMessage = false;
     this.showReadOnlySettingsMessage = this._translateService.instant(PortalResources.configViewReadOnlySettings);
     this.loadingFailureMessage = '';
+    this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
   private _setPermissions(writePermission: boolean, readOnlyLock: boolean) {
@@ -180,10 +228,10 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
 
     this.hasWritePermissions = writePermission && !readOnlyLock;
-    this.showPermissionsMessage = true;
   }
 
   private _resetSupportedControls() {
+    this.netFrameworkSupported = false;
     this.phpSupported = false;
     this.pythonSupported = false;
     this.javaSupported = false;
@@ -191,11 +239,15 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.webSocketsSupported = false;
     this.alwaysOnSupported = false;
     this.classicPipelineModeSupported = false;
+    this.remoteDebuggingSupported = false;
     this.clientAffinitySupported = false;
+    this.autoSwapSupported = false;
+    this.linuxRuntimeSupported = false;
   }
 
-  private _processSkuAndKind(siteConfigArm: ArmObj<Site>) {
+  private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>, slotsConfigArm: ArmArrayResult<Site>) {
     if (!!siteConfigArm) {
+      let netFrameworkSupported = true;
       let phpSupported = true;
       let pythonSupported = true;
       let javaSupported = true;
@@ -203,10 +255,34 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       let webSocketsSupported = true;
       let alwaysOnSupported = true;
       let classicPipelineModeSupported = true;
+      let remoteDebuggingSupported = true;
       let clientAffinitySupported = true;
+      let autoSwapSupported = false;
+      let linuxRuntimeSupported = false;
 
       this._sku = siteConfigArm.properties.sku;
       this._kind = siteConfigArm.kind;
+
+      if (slotsConfigArm && slotsConfigArm.value && slotsConfigArm.value.length > 0) {
+        autoSwapSupported = true;
+      }
+
+      if (this._kind.indexOf('linux') >= 0) {
+        netFrameworkSupported = false;
+        phpSupported = false;
+        pythonSupported = false;
+        javaSupported = false;
+        platform64BitSupported = false;
+        webSocketsSupported = false;
+        classicPipelineModeSupported = false;
+        remoteDebuggingSupported = false;
+
+        if ((webConfigArm.properties.linuxFxVersion || '').indexOf(LinuxConstants.dockerPrefix) === -1) {
+          linuxRuntimeSupported = true;
+        }
+
+        autoSwapSupported = false;
+      }
 
       if (this._kind === 'functionapp') {
         phpSupported = false;
@@ -225,6 +301,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         alwaysOnSupported = false;
       }
 
+      this.netFrameworkSupported = netFrameworkSupported;
       this.phpSupported = phpSupported;
       this.pythonSupported = pythonSupported;
       this.javaSupported = javaSupported;
@@ -232,18 +309,23 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       this.webSocketsSupported = webSocketsSupported;
       this.alwaysOnSupported = alwaysOnSupported;
       this.classicPipelineModeSupported = classicPipelineModeSupported;
+      this.remoteDebuggingSupported = remoteDebuggingSupported;
       this.clientAffinitySupported = clientAffinitySupported;
+      this.autoSwapSupported = autoSwapSupported;
+      this.linuxRuntimeSupported = linuxRuntimeSupported;
     }
   }
 
-  private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
-    if (!!webConfigArm && !!siteConfigArm) {
+  private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>, slotsConfigArm: ArmArrayResult<Site>) {
+    if (!!webConfigArm && !!siteConfigArm && !!slotsConfigArm) {
 
       this._ignoreChildEvents = true;
 
       if (!this._saveError || !this.group) {
         const group = this._fb.group({});
         const versionOptionsMap: { [key: string]: DropDownElement<string>[] } = {};
+        const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
+        const autoSwapSlotNameOptions: DropDownElement<string>[] = [];
 
         this._setupNetFramworkVersion(group, versionOptionsMap, webConfigArm.properties.netFrameworkVersion);
         this._setupPhpVersion(group, versionOptionsMap, webConfigArm.properties.phpVersion);
@@ -251,8 +333,14 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         this._setupJava(group, versionOptionsMap, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
         this._setupGeneralSettings(group, webConfigArm, siteConfigArm);
 
+        this._setupAutoSwapSettings(group, autoSwapSlotNameOptions, webConfigArm, siteConfigArm, slotsConfigArm);
+
+        this._setupLinux(group, linuxFxVersionOptions, webConfigArm.properties.linuxFxVersion, webConfigArm.properties.appCommandLine);
+
         this.group = group;
         this.versionOptionsMap = versionOptionsMap;
+        this.linuxFxVersionOptions = linuxFxVersionOptions;
+        this.autoSwapSlotNameOptions = autoSwapSlotNameOptions;
 
       }
 
@@ -295,7 +383,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setEnabledStackControls() {
-    this._setControlsEnabledState(['netFrameWorkVersion'], !this._selectedJavaVersion);
+    this._setControlsEnabledState(['netFrameworkVersion'], !this._selectedJavaVersion);
     if (this.phpSupported) {
       this._setControlsEnabledState(['phpVersion'], !this._selectedJavaVersion);
     }
@@ -341,6 +429,10 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       { displayLabel: '2013', value: 'VS2013' },
       { displayLabel: '2015', value: 'VS2015' },
       { displayLabel: '2017', value: 'VS2017' }];
+
+    this.autoSwapEnabledOptions =
+      [{ displayLabel: offString, value: false },
+      { displayLabel: onString, value: true }];
   }
 
   private _setupGeneralSettings(group: FormGroup, webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
@@ -359,14 +451,60 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     if (this.clientAffinitySupported) {
       group.addControl('clientAffinityEnabled', this._fb.control(siteConfigArm.properties.clientAffinityEnabled));
     }
-    group.addControl('remoteDebuggingEnabled', this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
-    group.addControl('remoteDebuggingVersion', this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
-    setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
+    if (this.remoteDebuggingSupported) {
+      group.addControl('remoteDebuggingEnabled', this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
+      group.addControl('remoteDebuggingVersion', this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
+      setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
+    }
   }
 
   public updateRemoteDebuggingVersionOptions(enabled: boolean) {
     if (!this._ignoreChildEvents) {
       this._setControlsEnabledState(['remoteDebuggingVersion'], enabled);
+    }
+  }
+
+  private _setupAutoSwapSettings(
+    group: FormGroup,
+    autoSwapSlotNameOptions: DropDownElement<string>[],
+    webConfigArm: ArmObj<SiteConfig>,
+    siteConfigArm: ArmObj<Site>,
+    slotsConfigArm: ArmArrayResult<Site>
+  ) {
+    if (this.autoSwapSupported) {
+      if (this.isProductionSlot) {
+        group.addControl('autoSwapEnabled', this._fb.control(false));
+        group.addControl('autoSwapSlotName', this._fb.control(null));
+        setTimeout(() => { this._setControlsEnabledState(['autoSwapEnabled', 'autoSwapSlotName'], false); }, 0);
+      }
+      else {
+        const slotNames: string[] = ['production'];
+        slotsConfigArm.value
+          .map(s => s.name)
+          .filter(r => r !== siteConfigArm.name)
+          .forEach(n => slotNames.push(n.split("/").slice(-1)[0]))
+
+        slotNames.forEach(name => {
+          autoSwapSlotNameOptions.push({
+            displayLabel: name,
+            value: name,
+            default: name === webConfigArm.properties.autoSwapSlotName
+          });
+        })
+
+        group.addControl('autoSwapEnabled', this._fb.control(!!webConfigArm.properties.autoSwapSlotName));
+        group.addControl('autoSwapSlotName', this._fb.control(webConfigArm.properties.autoSwapSlotName));
+        setTimeout(() => { this._setControlsEnabledState(['autoSwapSlotName'], !!webConfigArm.properties.autoSwapSlotName); }, 0);
+      }
+    }
+  }
+
+  public updateAutoSwapSlotNameOptions(enabled: boolean) {
+    if (!this._ignoreChildEvents) {
+      this._setControlsEnabledState(['autoSwapSlotName'], enabled);
+      setTimeout(() => {
+        this.group.controls['autoSwapSlotName'].markAsDirty();
+      }, 0);
     }
   }
 
@@ -376,26 +514,28 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setupNetFramworkVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, netFrameworkVersion: string) {
-    let defaultValue = '';
+    if (this.netFrameworkSupported) {
+      let defaultValue = '';
 
-    const netFrameworkVersionOptions: DropDownElement<string>[] = [];
-    const netFrameworkVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.NetStack];
+      const netFrameworkVersionOptions: DropDownElement<string>[] = [];
+      const netFrameworkVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.NetStack];
 
-    netFrameworkVersionOptionsClean.forEach(element => {
-      const match = element.value === netFrameworkVersion || (!element.value && !netFrameworkVersion);
-      defaultValue = match ? element.value : defaultValue;
+      netFrameworkVersionOptionsClean.forEach(element => {
+        const match = element.value === netFrameworkVersion || (!element.value && !netFrameworkVersion);
+        defaultValue = match ? element.value : defaultValue;
 
-      netFrameworkVersionOptions.push({
-        displayLabel: element.displayLabel,
-        value: element.value,
-        default: match
+        netFrameworkVersionOptions.push({
+          displayLabel: element.displayLabel,
+          value: element.value,
+          default: match
+        });
       });
-    });
 
-    const netFrameWorkVersionControl = this._fb.control(defaultValue);
-    group.addControl('netFrameWorkVersion', netFrameWorkVersionControl);
+      const netFrameworkVersionControl = this._fb.control(defaultValue);
+      group.addControl('netFrameworkVersion', netFrameworkVersionControl);
 
-    versionOptionsMap["netFrameWorkVersion"] = netFrameworkVersionOptions;
+      versionOptionsMap["netFrameworkVersion"] = netFrameworkVersionOptions;
+    }
   }
 
   private _setupPhpVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, phpVersion: string) {
@@ -527,7 +667,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       group.addControl('javaVersion', javaVersionControl);
       group.addControl('javaMinorVersion', javaMinorVersionControl);
       group.addControl('javaWebContainer', javaWebContainerControl);
- 
+
       versionOptionsMap["javaVersion"] = javaVersionOptions;
       versionOptionsMap["javaMinorVersion"] = javaMinorVersionOptions;
       versionOptionsMap["javaWebContainer"] = javaWebContainerOptions;
@@ -777,22 +917,105 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this._versionOptionsMapClean[AvailableStackNames.JavaContainer] = javaWebContainerOptions;
   }
 
-  validate() {
+  private _parseLinuxBuiltInStacks(builtInStacks: Framework[]) {
+    const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
+
+    LinuxConstants.builtInStacks.forEach(framework => {
+
+      const dropDownGroupElement: DropDownGroupElement<string> = {
+        displayLabel: framework.display,
+        dropDownElements: []
+      };
+
+      framework.majorVersions.forEach(majorVersion => {
+
+        majorVersion.minorVersions.forEach(minorVersion => {
+
+          dropDownGroupElement.dropDownElements.push({
+            displayLabel: framework.display + ' ' + minorVersion.displayVersion,
+            value: framework.name + '|' + minorVersion.displayVersion,
+            default: false
+          });
+
+        });
+
+      });
+
+      linuxFxVersionOptions.push(dropDownGroupElement);
+    });
+
+    this._linuxFxVersionOptionsClean = linuxFxVersionOptions;
   }
 
-  save(): Observable<SaveResult> {
+  private _setupLinux(group: FormGroup, linuxFxVersionOptions: DropDownGroupElement<string>[], linuxFxVersion: string, appCommandLine: string) {
+    if (this.linuxRuntimeSupported) {
+      let defaultFxVersionValue = '';
+
+      this._linuxFxVersionOptionsClean.forEach(group => {
+
+        const dropDownGroupElement: DropDownGroupElement<string> = {
+          displayLabel: group.displayLabel,
+          dropDownElements: []
+        };
+
+        group.dropDownElements.forEach(element => {
+
+          const match = element.value === linuxFxVersion || (!element.value && !linuxFxVersion);
+          defaultFxVersionValue = match ? element.value : defaultFxVersionValue;
+
+          dropDownGroupElement.dropDownElements.push({
+            displayLabel: element.displayLabel,
+            value: element.value,
+            default: match
+          });
+
+        });
+
+        linuxFxVersionOptions.push(dropDownGroupElement);
+      });
+
+      const linuxFxVersionControl = this._fb.control(defaultFxVersionValue);
+      group.addControl('linuxFxVersion', linuxFxVersionControl);
+
+      const appCommandLineControl = this._fb.control(appCommandLine);
+      group.addControl('appCommandLine', appCommandLineControl);
+    }
+  }
+
+  validate(): SaveOrValidationResult {
+    let controls = this.group.controls;
+    for (let controlName in controls) {
+      let control = <CustomFormControl>controls[controlName];
+      control._msRunValidation = true;
+      control.updateValueAndValidity();
+    }
+
+    return {
+      success: this.group.valid,
+      error: this.group.valid ? null : this._validationFailureMessage()
+    };
+  }
+
+  save(): Observable<SaveOrValidationResult> {
     const generalSettingsControls = this.group.controls;
 
-    if (this.mainForm.valid) {
+    if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
       // level: site
       const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this._siteConfigArm));
+
       if (this.clientAffinitySupported) {
         const clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
         siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled;
       }
 
+      // BUGBUG: Workaround.  Eventually the back-end should allow us to send same identity value from GET
+      if (siteConfigArm.identity) {
+        delete siteConfigArm.identity;
+      }
+
       // level: site/config/web
-      const webConfigArm: ArmObj<SiteConfig> = JSON.parse(JSON.stringify(this._webConfigArm));
+      const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
+      webConfigArm.properties = {};
 
       // -- non-stack settings --
       if (this.platform64BitSupported) {
@@ -807,11 +1030,19 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       if (this.classicPipelineModeSupported) {
         webConfigArm.properties.managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value);
       }
-      webConfigArm.properties.remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
-      webConfigArm.properties.remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
+      if (this.remoteDebuggingSupported) {
+        webConfigArm.properties.remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
+        webConfigArm.properties.remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
+      }
+      if (this.autoSwapSupported) {
+        const autoSwapEnabled = <boolean>(generalSettingsControls['autoSwapEnabled'].value);
+        webConfigArm.properties.autoSwapSlotName = autoSwapEnabled ? <string>(generalSettingsControls['autoSwapSlotName'].value) : '';
+      }
 
       // -- stacks settings --
-      webConfigArm.properties.netFrameworkVersion = <string>(generalSettingsControls['netFrameWorkVersion'].value);
+      if (this.netFrameworkSupported) {
+        webConfigArm.properties.netFrameworkVersion = <string>(generalSettingsControls['netFrameworkVersion'].value);
+      }
       if (this.phpSupported) {
         webConfigArm.properties.phpVersion = <string>(generalSettingsControls['phpVersion'].value);
       }
@@ -824,10 +1055,14 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         webConfigArm.properties.javaContainer = !webConfigArm.properties.javaVersion ? '' : (javaWebContainerProperties.container || '');
         webConfigArm.properties.javaContainerVersion = !webConfigArm.properties.javaVersion ? '' : (javaWebContainerProperties.containerMinorVersion || javaWebContainerProperties.containerMajorVersion || '');
       }
+      if (this.linuxRuntimeSupported) {
+        webConfigArm.properties.linuxFxVersion = <string>(generalSettingsControls['linuxFxVersion'].value);
+        webConfigArm.properties.appCommandLine = <string>(generalSettingsControls['appCommandLine'].value);
+      }
 
       return Observable.zip(
         this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm),
-        this._cacheService.putArm(`${this.resourceId}/config/web`, null, webConfigArm),
+        this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm),
         (c, w) => ({ siteConfigResponse: c, webConfigResponse: w })
       )
         .map(r => {
@@ -846,12 +1081,17 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           });
         });
     } else {
-      const configGroupName = this._translateService.instant(PortalResources.feature_generalSettingsName);
-      const failureMessage = this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+      let failureMessage = this._validationFailureMessage();
+      this._saveError = failureMessage;
       return Observable.of({
         success: false,
         error: failureMessage
       });
     }
+  }
+
+  private _validationFailureMessage(): string {
+    const configGroupName = this._translateService.instant(PortalResources.feature_generalSettingsName);
+    return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
   }
 }

@@ -11,7 +11,29 @@
     }
 
     tr{
+        border-top: 1px solid $border-color;
         border-bottom: 1px solid $border-color;
+
+        th, td{
+            border-top: $border;
+            border-bottom: $border;
+        }
+    }
+    
+    tr:not(.hidden) ~ tr:not(.hidden){
+        border-top-width: 0px;
+
+        th, td{
+            border-top-width: 0px;
+        }
+    }
+        
+    tr.header-row{
+        border-top: 0px;
+
+        th, td{
+            border-top: 0px;
+        }
     }
 
     th{
@@ -27,7 +49,6 @@
 
     th, td{
         height: 32px;
-        border-bottom: $border;
     }
 
     td{
@@ -97,6 +118,10 @@
 
 #app-root[theme=dark]{
     .tbl{
+        th{
+            color: $default-text-color-dark;
+        }
+
         td{
             &.pristine{
                 border-left: 3px solid $body-bg-color-dark;

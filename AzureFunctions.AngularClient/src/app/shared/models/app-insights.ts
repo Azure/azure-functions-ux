@@ -13,7 +13,6 @@ export interface IAppInsights {
     trackMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number, properties?: { [name: string]: string; });
     trackTrace(message: string, properties?: { [name: string]: string; });
     flush();
-    setAuthenticatedUserContext(authenticatedUserId: string, accountId?: string);
     clearAuthenticatedUserContext();
     downloadAndSetup?(config: IConfig): void;
     _onerror(message: string, url: string, lineNumber: number, columnNumber: number, error: Error);

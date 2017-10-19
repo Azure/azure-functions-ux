@@ -159,6 +159,7 @@ export class MonacoEditorDirective {
                     that.setMonacoSchema(fileName, that._functionApp);
                 } else {
                     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                        validate: true,
                         schemas: []
                     });
                 }

@@ -15,15 +15,15 @@ export class AzureEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.showSiteQuotas] = {
-            id: ScenarioIds.showSiteQuotas,
+        this.scenarioChecks[ScenarioIds.addSiteQuotas] = {
+            id: ScenarioIds.addSiteQuotas,
             runCheck: (input: ScenarioCheckInput) => {
                 return this._showSiteQuotas(input);
             }
         };
 
-        this.scenarioChecks[ScenarioIds.showSiteFileStorage] = {
-            id: ScenarioIds.showSiteFileStorage,
+        this.scenarioChecks[ScenarioIds.addSiteFileStorage] = {
+            id: ScenarioIds.addSiteFileStorage,
             runCheck: (input: ScenarioCheckInput) => {
                 return this._showSiteFileStorage(input);
             }

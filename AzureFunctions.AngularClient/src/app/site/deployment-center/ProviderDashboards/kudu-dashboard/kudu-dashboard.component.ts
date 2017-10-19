@@ -3,13 +3,10 @@ import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { TableItem, TblComponent } from '../../../../controls/tbl/tbl.component';
 import { AiService } from '../../../../shared/services/ai.service';
 import { AuthzService } from '../../../../shared/services/authz.service';
-import { SiteTabComponent } from '../../../../site/site-dashboard/site-tab/site-tab.component';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
-import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
 import { Observable, Subject } from 'rxjs/Rx';
 import { Deployment, DeploymentData } from '../../Models/deploymentData';
-import { BusyStateComponent } from '../../../../busy-state/busy-state.component';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -35,10 +32,8 @@ export class KuduDashboardComponent implements OnChanges {
     @Output() disconnected = new EventEmitter();
     private _tableItems: KuduTableItem[];
 
-    _busyState: BusyStateComponent;
     public viewInfoStream: Subject<string>;
     _viewInfoSubscription: RxSubscription;
-    _busyStateScopeManager: BusyStateScopeManager;
     _writePermission = true;
     _readOnlyLock = false;
     public hasWritePermissions = true;
@@ -53,16 +48,12 @@ export class KuduDashboardComponent implements OnChanges {
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _aiService: AiService,
-        private _authZService: AuthzService,
-        siteTabsComponent: SiteTabComponent
+        private _authZService: AuthzService
     ) {
-        this._busyState = siteTabsComponent.busyState;
-        this._busyStateScopeManager = this._busyState.getScopeManager();
         this._tableItems = [];
         this.viewInfoStream = new Subject<string>();
         this._viewInfoSubscription = this.viewInfoStream
             .switchMap(resourceId => {
-                this._busyStateScopeManager.setBusy();
                 return Observable.zip(
                     this._cacheService.getArm(resourceId, this._forceLoad),
                     this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad),
@@ -100,7 +91,6 @@ export class KuduDashboardComponent implements OnChanges {
                 this._forceLoad = false;
                 this.deploymentObject = null;
                 this._aiService.trackEvent('/errors/deployment-center', error);
-                this._busyStateScopeManager.clearBusy();
             })
             .retry()
             .subscribe(r => {
@@ -121,7 +111,6 @@ export class KuduDashboardComponent implements OnChanges {
                 this._writePermission = r.writePermission;
                 this._readOnlyLock = r.readOnlyLock;
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
-                this._busyStateScopeManager.clearBusy();
             });
     }
 
@@ -193,16 +182,13 @@ export class KuduDashboardComponent implements OnChanges {
     }
 
     SyncScm() {
-        this._busyStateScopeManager.setBusy();
         this._cacheService
             .postArm(`${this.resourceId}/sync`, true)
             .do(r => {
-                this._busyStateScopeManager.clearBusy();
             })
             .retry()
             .subscribe(r => {
                 this._forceLoad = true;
-                this._busyStateScopeManager.clearBusy();
             });
     }
 

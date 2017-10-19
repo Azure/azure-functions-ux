@@ -1,3 +1,5 @@
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../shared/services/log.service';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -41,7 +43,8 @@ export class FunctionMonitorComponent implements OnDestroy {
         private _translateService: TranslateService,
         private _slotsService: SiteService,
         private _portalService: PortalService,
-        private _cacheService: CacheService
+        private _cacheService: CacheService,
+        private _logService: LogService
     ) {
         this.columns = [
             {
@@ -111,7 +114,10 @@ export class FunctionMonitorComponent implements OnDestroy {
                             : Observable.of([]);
                     });
             })
-            .do(null, () => this._globalStateService.clearBusyState())
+            .do(null, (e) => {
+                this._logService.error(LogCategories.FunctionMonitor, '/function-monitor/selected-function-stream', e);
+                this._globalStateService.clearBusyState();
+            })
             .retry()
             .subscribe(result => {
                 this._globalStateService.clearBusyState();

@@ -151,9 +151,23 @@ export class ScenarioIds {
     public static readonly showSiteAvailability = 'ShowSiteAvailability';
     public static readonly addResourceExplorer = 'AddResourceExplorer';
     public static readonly addPushNotifications = 'AddPushNotifications';
+    public static readonly addMsi = 'AddMsi';
     public static readonly addTinfoil = 'AddTinfoil';
-    public static readonly showSiteQuotas = 'ShowSiteQuotas';
-    public static readonly showSiteFileStorage = 'ShowSiteFileStorage';
+    public static readonly addSiteQuotas = 'ShowSiteQuotas';
+    public static readonly addConsole = 'AddConsole';
+    public static readonly addSsh = 'AddSsh';
+    public static readonly enablePushNotifications = 'EnablePushNotifications';
+    public static readonly enableAuth = 'EnableAuth';
+    public static readonly enableMsi = 'EnableMsi';
+    public static readonly enableNetworking = 'EnableNetworking';
+    public static readonly enableAppServiceEditor = 'EnableAppServiceEditor';
+    public static readonly enableExtensions = 'EnableExtensions';
+    public static readonly enableLogStream = 'EnableLogStream';
+    public static readonly enableProcessExplorer = 'EnableProcessExplorer';
+    public static readonly enableBackups = 'EnableBackups';
+    public static readonly enableTinfoil = 'EnableTinfoil';
+
+    public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
 }
 
@@ -175,12 +189,21 @@ export class NationalCloudArmUris {
 }
 
 export class LogCategories {
+    public static readonly FunctionMonitor = 'FunctionMonitor';
     public static readonly SideNav = 'SideNav';
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';
     public static readonly apiDetails = 'ApiDetails';
     public static readonly newSlot = 'NewSlot';
     public static readonly svgLoader = 'SvgLoader';
+    public static readonly busyState = 'BusyState';
+    public static readonly siteConfig = 'SiteConfig';
+    public static readonly generalSettings = 'GeneralSettings';
+    public static readonly appSettings = 'AppSettings';
+    public static readonly connectionStrings = 'ConnectionStrings';
+    public static readonly defaultDocuments = 'DefaultDocuments';
+    public static readonly handlerMappings = 'HandlerMappings';
+    public static readonly virtualDirectories = 'VirtualDirectories';
 }
 
 export class KeyCodes {
