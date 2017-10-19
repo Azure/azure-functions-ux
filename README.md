@@ -21,7 +21,7 @@ git clone git@github.com:Azure/azure-functions-ux.git
 # there are 2 places to restore packages in
 cd azure-functions-ux/server
 yarn install
-yarn run gulp build-resources
+yarn run gulp build-all
 cd ../AzureFunctions.AngularClient
 yarn install
  ```
