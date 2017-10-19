@@ -46,7 +46,7 @@ export class LogicAppsComponent implements OnInit {
   public logicApps: LogicAppInfo[] = [];
   public tableItems: TableItem[] = [];
   public subId: string;
-  public functionAppName: string;
+  public resourceId: string;
   public logicAppsIcon = 'image/logicapp.svg';
   public initialized = false;
 
@@ -96,11 +96,13 @@ export class LogicAppsComponent implements OnInit {
 
         this._appNode = <AppNode>viewInfo.node;
         this.subId = this._appNode.subscriptionId;
-        this.functionAppName = SiteDescriptor.getSiteDescriptor(this._appNode.resourceId).getWebsiteId().Name;
+        // Have to remove leading '/' for filter to function
+        this.resourceId = SiteDescriptor.getSiteDescriptor(this._appNode.resourceId).getResourceId().substr(1);
 
+        // Will replace with more accurate 'eq' filter once deployed
         return Observable.zip(
           this._cacheService.getArm(
-            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${this.functionAppName}')`,
+            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${this.resourceId}')`,
             true,
             this._armService.logicAppsApiVersion,
             true
@@ -184,6 +186,8 @@ export class LogicAppsComponent implements OnInit {
 
     return typeArray.sort();
   }
+
+  // Todo: Encapsulate locations/resources drop-down logic - https://github.com/Azure/azure-functions-ux/issues/1897
 
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
