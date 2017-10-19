@@ -6,7 +6,6 @@
     * [Node 6.*](https://nodejs.org/en/download/)
     * [yarn](https://yarnpkg.com/en/docs/install)
     * A text editor. [vscode](https://code.visualstudio.com/)
-    * [Gulp CLI] (https://github.com/gulpjs/gulp-cli)
 
 2. **Environment Prerequisites**
     * `AADClientId` **Required**
