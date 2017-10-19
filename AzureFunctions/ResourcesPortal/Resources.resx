@@ -2318,7 +2318,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Create Logic Apps</value>
   </data>
   <data name="noLogicApps_title" xml:space="preserve">
-    <value>No logic apps to display</value>
+    <value>No Logic Apps to display</value>
   </data>
   <data name="logicApps" xml:space="preserve">
     <value>Logic Apps</value>
