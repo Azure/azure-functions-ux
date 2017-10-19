@@ -32,7 +32,7 @@ gulp.task('build-all', function(cb) {
 *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
 */
 gulp.task('resources-clean', function() {
-    return del(['downloads', 'Templates', 'resources-convert', 'templateResoureces-convert', 'resources-build', 'templateresources-build']);
+    return del(['template-downloads', 'Templates', 'resources-convert', 'templateResoureces-convert', 'resources-build', 'templateresources-build']);
 });
 
 /********
@@ -293,19 +293,19 @@ gulp.task('download-templates', function() {
     const templateLocations = Object.keys(templateVersionMap);
     let streams = [];
     templateLocations.forEach(tempLoc => {
-        streams.push(download(mygetUrl + templateVersionMap[tempLoc]).pipe(gulp.dest('downloads/' + tempLoc)));
+        streams.push(download(mygetUrl + templateVersionMap[tempLoc]).pipe(gulp.dest('template-downloads/' + tempLoc)));
     });
     return gulpMerge(streams);
 });
 
 gulp.task('unzip-templates', function() {
-    const versions = getSubDirectories('downloads');
+    const versions = getSubDirectories('template-downloads');
 
     let streams = [];
     versions.forEach(version => {
         streams.push(
             gulp
-                .src(`downloads/${version}/*`)
+                .src(`template-downloads/${version}/*`)
                 .pipe(decompress())
                 .pipe(gulp.dest(`Templates/${version}`))
         );
