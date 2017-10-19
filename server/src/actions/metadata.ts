@@ -56,9 +56,9 @@ export async function getResources(req: Request, res: Response) {
     //this is the ideal item to return, it is the correct language and version asked for
     var versionFile = langCode === 'en' ? `Resources.${cleanRuntimeVersion}.json` : `Resources.${langCode}.${cleanRuntimeVersion}.json`;
     //This means the version asked for don't exist but the strings for hte default version will be returned
-    var defaultVersionFile = langCode === 'en' ? `Resources.default.json` : `Resources.${langCode}.default.json`;
+    var defaultVersionFile = langCode === 'en' ? 'Resources.default.json' : `Resources.${langCode}.default.json`;
     //This is for development only so people can develop without having a templates folder laid out
-    var defaultFallbackFile = langCode === 'en' ? `Resources.json` : `Resources.${langCode}.json`;
+    var defaultFallbackFile = langCode === 'en' ? 'Resources.json' : 'Resources.${langCode}.json';
 
     var folder = path.join(__dirname, 'resources');
     if (await fs.exists(path.join(folder, versionFile))) {
