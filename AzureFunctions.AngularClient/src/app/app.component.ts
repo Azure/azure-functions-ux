@@ -34,6 +34,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         this._userService.getStartupInfo()
             .subscribe(info => {
                 if (this.theme) {
+                    // Need to make sure we continue to set the theme even if we don't want to
+                    // rerun the routing logic below.
                     this.theme = info.theme;
                     return;
                 }
