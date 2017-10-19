@@ -2,7 +2,8 @@
     "name": "azure-functions-ux-server",
     "version": "0.0.0",
     "scripts": {
-        "watch": "nodemon .\\src\\nodemon.json"
+        "watch": "nodemon .\\src\\nodemon.json",
+        "watchu" : "nodemon .\\src\\nodemon-unix.json"
     },
     "dependencies": {
         "async": "^2.5.0",

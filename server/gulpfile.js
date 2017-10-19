@@ -13,19 +13,26 @@ const decompress = require('gulp-decompress');
 /********
 *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
 */
-
 gulp.task('build-all', function(cb) {
-    runSequence('build-resources', 'build-templates', 'build-bindings');
-});
-gulp.task('build-resources', function(cb) {
-    runSequence('resources-clean', 'download-templates', 'unzip-templates', 'resources-convert', 'resources-build', 'resources-combine', 'resources-clean', cb);
+    runSequence(
+        'resources-clean',
+        'download-templates',
+        'unzip-templates',
+        'resources-convert',
+        'resources-build',
+        'resources-combine',
+        'build-templates',
+        'build-bindings',
+        'resources-clean',
+        cb
+    );
 });
 
 /********
 *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
 */
 gulp.task('resources-clean', function() {
-    return del(['downloads', 'Templates','resources-convert', 'templateResoureces-convert', 'resources-build', 'templateresources-build']);
+    return del(['downloads', 'Templates', 'resources-convert', 'templateResoureces-convert', 'resources-build', 'templateresources-build']);
 });
 
 /********
@@ -273,10 +280,9 @@ gulp.task('build-bindings', function() {
 });
 
 const templateVersionMap = {
-
-    'default': '1.0.1.10082',
-    '1' : '1.0.1.10082',
-    'beta' : '2.0.0-beta-10083',
+    default: '1.0.1.10082',
+    '1': '1.0.1.10082',
+    beta: '2.0.0-beta-10083',
     '2': '2.0.0-beta-10083'
 };
 /*****
@@ -294,7 +300,7 @@ gulp.task('download-templates', function() {
 
 gulp.task('unzip-templates', function() {
     const versions = getSubDirectories('downloads');
-    
+
     let streams = [];
     versions.forEach(version => {
         streams.push(
