@@ -3,7 +3,7 @@
   <h2>{{'logicApps' | translate}}</h2><i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i>
 
   <div class="description-text">
-    <h4 style="display: inline">{{'logicApp_description' | translate}}</h4>
+    <h5 style="display: inline">{{'logicApp_description' | translate}}</h5>
     <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=858702">{{'topBar_learnMore' | translate}}</a>
   </div>
 
@@ -66,9 +66,10 @@
   </tbl>
 
   <div *ngIf="initialized && table.items.length === 0" class="empty-browse">
-      <img src="image/grey-logicapp.svg" />
+      <span load-image="image/grey-logicapp.svg" class="empty-browse-img"></span>
       <h4>{{'noLogicApps_title' | translate}}</h4>
-      <a type="button" class="custom-button" target="_blank" href="https://portal.azure.com/#create/Microsoft.EmptyWorkflow ">{{'createLogicApps' | translate}}</a>
+      <!-- Fix in issue 1895: use sheel uri to build link for national clouds -->
+      <a type="button" class="custom-button" target="_blank" href="https://portal.azure.com/#create/Microsoft.EmptyWorkflow">{{'createLogicApps' | translate}}</a>
   </div>
 
 </div>
