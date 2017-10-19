@@ -8,7 +8,8 @@ const fs = require('fs');
 const path = require('path');
 const merge = require('gulp-merge-json');
 const del = require('del');
-
+var download = require('gulp-download');
+const decompress = require('gulp-decompress');
 /********
 *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
 */
@@ -17,14 +18,14 @@ gulp.task('build-all', function(cb) {
     runSequence('build-resources', 'build-templates', 'build-bindings');
 });
 gulp.task('build-resources', function(cb) {
-    runSequence('resources-convert', 'resources-build', 'resources-combine', 'resources-clean', cb);
+    runSequence('resources-clean', 'download-templates', 'unzip-templates', 'resources-convert', 'resources-build', 'resources-combine', 'resources-clean', cb);
 });
 
 /********
 *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
 */
 gulp.task('resources-clean', function() {
-    return del(['resources-convert', 'templateResoureces-convert', 'resources-build', 'templateresources-build']);
+    return del(['downloads', 'Templates','resources-convert', 'templateResoureces-convert', 'resources-build', 'templateresources-build']);
 });
 
 /********
@@ -240,7 +241,6 @@ gulp.task('build-templates', function() {
         }
         writePath = path.join(writePath, version + '.json');
         fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateListJson)));
-
     });
 });
 
@@ -256,7 +256,10 @@ gulp.task('build-bindings', function() {
             if (binding.documentation) {
                 const documentationSplit = binding.documentation.split('\\');
                 const documentationFile = documentationSplit[documentationSplit.length - 1];
-                const documentationString = fs.readFileSync(path.join(__dirname, 'Templates', version, 'Documentation', documentationFile), { encoding: 'utf8' });
+                const documentationString = fs.readFileSync(
+                    path.join(__dirname, 'Templates', version, 'Documentation', documentationFile),
+                    { encoding: 'utf8' }
+                );
                 binding.documentation = documentationString;
             }
         });
@@ -267,6 +270,41 @@ gulp.task('build-bindings', function() {
         writePath = path.join(writePath, version + '.json');
         fs.writeFileSync(writePath, new Buffer(JSON.stringify(bindingFile)));
     });
+});
+
+const templateVersionMap = {
+
+    'default': '1.0.1.10082',
+    '1' : '1.0.1.10082',
+    'beta' : '2.0.0-beta-10083',
+    '2': '2.0.0-beta-10083'
+};
+/*****
+ * Download and unzip nuget packages with templates
+ */
+gulp.task('download-templates', function() {
+    const mygetUrl = 'https://www.myget.org/F/azure-appservice/api/v2/package/Azure.Functions.Ux.Templates/';
+    const templateLocations = Object.keys(templateVersionMap);
+    let streams = [];
+    templateLocations.forEach(tempLoc => {
+        streams.push(download(mygetUrl + templateVersionMap[tempLoc]).pipe(gulp.dest('downloads/' + tempLoc)));
+    });
+    return gulpMerge(streams);
+});
+
+gulp.task('unzip-templates', function() {
+    const versions = getSubDirectories('downloads');
+    
+    let streams = [];
+    versions.forEach(version => {
+        streams.push(
+            gulp
+                .src(`downloads/${version}/*`)
+                .pipe(decompress())
+                .pipe(gulp.dest(`Templates/${version}`))
+        );
+    });
+    return gulpMerge(streams);
 });
 
 /********
