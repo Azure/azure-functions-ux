@@ -30,39 +30,30 @@ export class AppComponent implements OnInit, AfterViewInit {
     ) {
         const devGuide = Url.getParameterByName(null, 'appsvc.devguide');
 
+        // TODO: for now we don't honor any deep links.  We'll need to make a bunch of updates to our
+        // tree logic in order to get it working properly
+        if (_globalStateService.showTryView) {
+            this._router.navigate(['/try'], { queryParams: Url.getQueryStringObj() });
+        } else if (devGuide) {
+            this._router.navigate(['/devguide'], { queryParams: Url.getQueryStringObj() });
+        } else if (
+            !this._userService.inIFrame &&
+            window.location.protocol !== 'http:' &&
+            !this._userService.inTab &&
+            !configService.isStandalone() &&
+            !this._userService.deeplinkAllowed
+        ) {
+            this._router.navigate(['/landing'], { queryParams: Url.getQueryStringObj() });
+        } else if (!this._userService.deeplinkAllowed) {
+            this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
+        }
 
-        this._userService.getStartupInfo()
-            .subscribe(info => {
-                if (this.theme) {
-                    // Need to make sure we continue to set the theme even if we don't want to
-                    // rerun the routing logic below.
-                    this.theme = info.theme;
-                    return;
-                }
-
-                this.theme = info.theme;
-
-                // TODO: for now we don't honor any deep links.  We'll need to make a bunch of updates to our
-                // tree logic in order to get it working properly
-                if (_globalStateService.showTryView) {
-                    this._router.navigate(['/try'], { queryParams: Url.getQueryStringObj() });
-                } else if (devGuide) {
-                    this._router.navigate(['/devguide'], { queryParams: Url.getQueryStringObj() });
-                } else if (
-                    !this._userService.inIFrame &&
-                    window.location.protocol !== 'http:' &&
-                    !this._userService.inTab &&
-                    !configService.isStandalone() &&
-                    !this._userService.deeplinkAllowed
-                ) {
-                    this._router.navigate(['/landing'], { queryParams: Url.getQueryStringObj() });
-                } else if (!this._userService.deeplinkAllowed) {
-                    this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
-                }
-            });
+        this._userService.getStartupInfo().subscribe(info => {
+            this.theme = info.theme;
+        });
     }
 
-    ngOnInit() { }
+    ngOnInit() {}
 
     ngAfterViewInit() {
         this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;
