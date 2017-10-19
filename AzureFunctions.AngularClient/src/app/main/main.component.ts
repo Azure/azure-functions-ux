@@ -32,7 +32,6 @@ import { NavigationStart, Event as RouterEvent, NavigationEnd, NavigationCancel,
     styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements AfterViewInit, OnDestroy {
-    public ready = false;
     public resourceId: string;
     public viewInfo: TreeViewInfo<any>;
     public dashboardType: string;
@@ -94,7 +93,6 @@ export class MainComponent implements AfterViewInit, OnDestroy {
         this._userService.getStartupInfo()
             .first()
             .subscribe(info => {
-                this.ready = true;
 
                 this._portalService.sendTimerEvent({
                     timerId: 'PortalReady',

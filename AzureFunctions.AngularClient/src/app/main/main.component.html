@@ -1,12 +1,12 @@
-<top-bar *ngIf="ready"></top-bar>
+<top-bar></top-bar>
 <busy-state name='dashboard' cssClass="busy-dashboard"></busy-state>
 
 <div id="content">
 
-    <side-nav *ngIf="ready" [tryFunctionAppInput]="tryFunctionApp"></side-nav>
+    <side-nav  [tryFunctionAppInput]="tryFunctionApp"></side-nav>
     <top-warning></top-warning>
 
-    <div id="dashboard" [hidden]="!ready">
+    <div id="dashboard">
         <router-outlet></router-outlet>
     </div>
 </div>

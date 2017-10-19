@@ -40,4 +40,5 @@ dist/**/*
 # Build
 build
 
-Templates/
+[Tt]emplates/
+[Bb]indings
