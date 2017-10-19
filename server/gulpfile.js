@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const merge = require('gulp-merge-json');
 const del = require('del');
-var download = require('gulp-download');
+const download = require('gulp-download');
 const decompress = require('gulp-decompress');
 /********
 *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
@@ -231,7 +231,7 @@ gulp.task('build-templates', function() {
         const templates = getSubDirectories(path.join(__dirname, 'Templates', version, 'Templates'));
         templates.forEach(template => {
             let templateObj = {};
-            var filePath = path.join(__dirname, 'Templates', version, 'Templates', template);
+            const filePath = path.join(__dirname, 'Templates', version, 'Templates', template);
             let files = getFilesWithContent(filePath, ['function.json', 'metadata.json']);
 
             templateObj.id = template;
