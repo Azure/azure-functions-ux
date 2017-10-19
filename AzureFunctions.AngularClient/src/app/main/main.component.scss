@@ -10,3 +10,7 @@
         padding-left: $sidenav-width;
     }
 }
+
+.content-standalone{
+    height: calc(100% - 40px) !important;
+}
