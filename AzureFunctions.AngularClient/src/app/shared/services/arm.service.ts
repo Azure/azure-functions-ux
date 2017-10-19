@@ -20,6 +20,7 @@ export class ArmService {
     public websiteApiVersion = '2015-08-01';
     public appInsightsApiVersion = '2015-05-01';
     public notificationHubApiVersion = '2017-04-01';
+    public logicAppsApiVersion = '2017-07-01';
 
     private _token: string;
     private _sessionId: string;

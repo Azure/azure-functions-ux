@@ -204,6 +204,7 @@ export class LogCategories {
     public static readonly defaultDocuments = 'DefaultDocuments';
     public static readonly handlerMappings = 'HandlerMappings';
     public static readonly virtualDirectories = 'VirtualDirectories';
+    public static readonly logicapps = 'LogicApps';
 }
 
 export class KeyCodes {

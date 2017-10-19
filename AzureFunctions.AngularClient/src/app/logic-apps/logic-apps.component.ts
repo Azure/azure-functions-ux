@@ -1,3 +1,9 @@
+import { LogCategories } from './../shared/models/constants';
+import { LogService } from './../shared/services/log.service';
+import { ArmService } from 'app/shared/services/arm.service';
+import { SiteDescriptor } from './../shared/resourceDescriptors';
+import { BusyStateScopeManager } from './../busy-state/busy-state-scope-manager';
+import { BroadcastService } from './../shared/services/broadcast.service';
 import { DropDownElement } from './../shared/models/drop-down-element';
 import { PortalResources } from './../shared/models/portal-resources';
 import { TableItem, TblComponent } from './../controls/tbl/tbl.component';
@@ -6,12 +12,9 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { TreeViewInfo, SiteData } from './../tree-view/models/tree-view-info';
 import { AppNode } from './../tree-view/app-node';
-import { BusyStateComponent } from './../busy-state/busy-state.component';
-import { SiteTabComponent } from './../site/site-dashboard/site-tab/site-tab.component';
 import { TranslateService } from '@ngx-translate/core';
 import { CacheService } from './../shared/services/cache.service';
 import { PortalService } from './../shared/services/portal.service';
-import { AiService } from './../shared/services/ai.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -39,12 +42,11 @@ export class LogicAppsComponent implements OnInit {
   private _viewInfo: TreeViewInfo<SiteData>;
   private _viewInfoSub: RxSubscription;
   private _appNode: AppNode;
-  private _busyState: BusyStateComponent;
 
   public logicApps: LogicAppInfo[] = [];
   public tableItems: TableItem[] = [];
   public subId: string;
-  public title: string;
+  public functionAppName: string;
   public logicAppsIcon = 'image/logicapp.svg';
   public initialized = false;
 
@@ -60,6 +62,8 @@ export class LogicAppsComponent implements OnInit {
   public resourceGroupsDisplayText = this.allResourceGroups;
   public selectedResourceGroups: string[] = [];
 
+  private _busyManager: BusyStateScopeManager;
+
   @ViewChild('table') logicAppTable: TblComponent;
 
   public groupOptions: DropDownElement<string>[] = [{ displayLabel: this._translateService.instant(PortalResources.grouping_none), value: 'none' },
@@ -74,42 +78,44 @@ export class LogicAppsComponent implements OnInit {
   }
 
   constructor(
-    private _aiService: AiService,
+    private _armService: ArmService,
     private _portalService: PortalService,
     private _cacheService: CacheService,
     private _translateService: TranslateService,
-    siteTabComponent: SiteTabComponent
+    private _logService: LogService,
+    broadcastService: BroadcastService
   ) {
-    this._busyState = siteTabComponent.busyState;
+
+    this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
     this._viewInfoSub = this._viewInfoStream
       .switchMap(viewInfo => {
         this._viewInfo = viewInfo;
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this.initialized = false;
 
         this._appNode = <AppNode>viewInfo.node;
         this.subId = this._appNode.subscriptionId;
-        this.title = this._appNode.title;
+        this.functionAppName = SiteDescriptor.getSiteDescriptor(this._appNode.resourceId).getWebsiteId().Name;
 
         return Observable.zip(
           this._cacheService.getArm(
-            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${this.title}')`,
+            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${this.functionAppName}')`,
             true,
-            '2017-07-01',
+            this._armService.logicAppsApiVersion,
             true
           ),
           this._cacheService.getArm(
-              `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows`,
-              true,
-              '2017-07-01',
-              true
+            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows`,
+            true,
+            this._armService.logicAppsApiVersion,
+            true
           ),
           (a, s) => ({ app: a.json(), sub: s.json() })
         );
       })
       .do(null, e => {
-        this._aiService.trackException(e, 'logic-apps');
+        this._logService.error(LogCategories.generalSettings, '/logic-apps', e);
       })
       .retry()
       .subscribe(r => {
@@ -145,7 +151,7 @@ export class LogicAppsComponent implements OnInit {
             value: resourceGroup
           }));
 
-        this._busyState.clearBusyState();
+        this._busyManager.clearBusy();
         this.initialized = true;
       });
   }

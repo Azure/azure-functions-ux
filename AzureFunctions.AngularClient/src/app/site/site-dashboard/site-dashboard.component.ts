@@ -207,7 +207,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         this._logService.verbose(LogCategories.siteDashboard, `Select Tab - ${info.id}`);
 
         this._aiService.trackEvent('/sites/open-tab', { name: info.id });
-        this.tabInfos.forEach(t => (t.active = t.id === info.id));
+        this.tabInfos.forEach(t => t.active = t.id === info.id);
 
         this.viewInfo.data.siteTabRevealedTraceKey = this._aiService.startTrace();
         this.viewInfo.data.siteTabFullReadyTraceKey = this._aiService.startTrace();
