@@ -30,7 +30,7 @@ import 'rxjs/add/observable/zip';
 
 // Prevents a route from loading until the observable has been resolved
 @Injectable()
-class InitResolver implements Resolve<any>{
+export class InitResolver implements Resolve<any>{
     constructor(private _userService: UserService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
@@ -40,7 +40,7 @@ class InitResolver implements Resolve<any>{
     }
 }
 
-const routes = RouterModule.forRoot([
+export const routes = RouterModule.forRoot([
     // "/resources" will load the main component which has the tree view for all resources
     {
         path: 'resources',
