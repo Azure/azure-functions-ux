@@ -727,6 +727,14 @@ export class PortalResources
     public static rrOverride_request: string = "rrOverride_request";
     public static rrOverride_response: string = "rrOverride_response";
     public static optional: string = "optional";
+    public static feature_logicAppsInfo: string = "feature_logicAppsInfo";
+    public static tab_logicApps: string = "tab_logicApps";
+    public static associatedLogicApps_title: string = "associatedLogicApps_title";
+    public static orchestrateWithLogicApps_title: string = "orchestrateWithLogicApps_title";
+    public static createLogicApps: string = "createLogicApps";
+    public static noLogicApps_title: string = "noLogicApps_title";
+    public static logicApps: string = "logicApps";
+    public static logicApp_description: string = "logicApp_description";
     public static topBar_runtimeV2: string = "topBar_runtimeV2";
     public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
     public static expandCollapse: string = "expandCollapse";

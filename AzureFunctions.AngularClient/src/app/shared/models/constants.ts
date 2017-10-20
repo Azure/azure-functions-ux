@@ -68,6 +68,7 @@ export class SiteTabIds {
     public static readonly apiDefinition = "apiDefinition";
     public static readonly config = "config";
     public static readonly applicationSettings = "appSettings";
+    public static readonly logicApps = "logicApps";
 }
 
 export class Arm {
@@ -203,6 +204,7 @@ export class LogCategories {
     public static readonly defaultDocuments = 'DefaultDocuments';
     public static readonly handlerMappings = 'HandlerMappings';
     public static readonly virtualDirectories = 'VirtualDirectories';
+    public static readonly logicapps = 'LogicApps';
 }
 
 export class KeyCodes {
