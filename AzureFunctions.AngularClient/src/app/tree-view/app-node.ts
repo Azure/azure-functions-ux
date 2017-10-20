@@ -51,6 +51,7 @@ export class AppNode extends TreeNode
     public subscription: string;
     public resourceGroup: string;
     public location: string;
+    public subscriptionId: string;
 
     public functionAppStream = new ReplaySubject<FunctionApp>(1);
     public slotProperties: any;
@@ -88,6 +89,7 @@ export class AppNode extends TreeNode
         });
 
         this.subscription = sub && sub.displayName;
+        this.subscriptionId = sub && sub.subscriptionId;
     }
 
     public handleSelection(): Observable<any> {

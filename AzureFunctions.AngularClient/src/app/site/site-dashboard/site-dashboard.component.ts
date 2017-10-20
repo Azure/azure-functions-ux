@@ -1,3 +1,4 @@
+import { LogicAppsComponent } from './../../logic-apps/logic-apps.component';
 import { Dom } from './../../shared/Utilities/dom';
 import { LogService } from './../../shared/services/log.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
@@ -31,7 +32,7 @@ import { PartSize } from '../../shared/models/portal';
 @Component({
     selector: 'site-dashboard',
     templateUrl: './site-dashboard.component.html',
-    styleUrls: ['./site-dashboard.component.scss'],
+    styleUrls: ['./site-dashboard.component.scss']
 })
 export class SiteDashboardComponent implements OnDestroy, OnInit {
 
@@ -77,7 +78,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         .takeUntil(this._ngUnsubscribe)
         .subscribe(event =>{
             if (!event.dirty && !event.reason) {
-                this.tabInfos.forEach(t => t.dirty = false);
+                this.tabInfos.forEach(t => (t.dirty = false));
             } else {
                 const info = this.tabInfos.find(t => t.id === event.reason);
                 if (info) {
@@ -87,7 +88,6 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         });
 
         if (this.tabInfos.length === 0) {
-
             // Setup initial tabs without inputs immediate so that they load right away
             this.tabInfos = [this._getTabInfo(SiteTabIds.overview, true /* active */, null)];
 
@@ -109,9 +109,10 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
         this.viewInfoStream
             .switchMap(viewInfo => {
-
                 if (this._globalStateService.showTryView) {
-                    this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
+                    this._globalStateService.setDisabledMessage(
+                        this._translateService.instant(PortalResources.try_appDisabled)
+                    );
                 }
 
                 viewInfo.data.siteTabRevealedTraceKey = this._aiService.startTrace();
@@ -123,9 +124,13 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
             })
             .do(null, e => {
                 const descriptor = new SiteDescriptor(this.viewInfo.resourceId);
-                let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
+                let message = this._translateService
+                    .instant(PortalResources.siteDashboard_getAppError)
+                    .format(descriptor.site);
                 if (e && e.status === 404) {
-                    message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
+                    message = this._translateService
+                        .instant(PortalResources.siteDashboard_appNotFound)
+                        .format(descriptor.site);
                 }
 
                 this._logService.error(LogCategories.siteDashboard, '/site-dashboard', e);
@@ -135,7 +140,6 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
             })
             .retry()
             .subscribe(r => {
-
                 this._broadcastService.clearAllDirtyStates();
 
                 this._logService.verbose(LogCategories.siteDashboard, `Received new input, updating tabs`);
@@ -144,18 +148,25 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                     const info = this.tabInfos[i];
 
                     if (info.active) {
-                        this._logService.debug(LogCategories.siteDashboard, `Updating inputs for active tab '${info.id}'`);
+                        this._logService.debug(
+                            LogCategories.siteDashboard,
+                            `Updating inputs for active tab '${info.id}'`
+                        );
 
                         // We're not recreating the active tab so that it doesn't flash in the UI
                         this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo };
                     } else {
-
                         // Just to be extra safe, we create new component instances for tabs that
                         // aren't visible to be sure that we can't accidentally load them with the wrong
                         // input in the future.  This also helps to dispose of other unused components
                         // when we switch apps.
-                        this.tabInfos[i] = this._getTabInfo(info.id, false /* active */, { viewInfoInput: this.viewInfo });
-                        this._logService.debug(LogCategories.siteDashboard, `Creating new component for inactive tab '${info.id}'`);
+                        this.tabInfos[i] = this._getTabInfo(info.id, false /* active */, {
+                            viewInfoInput: this.viewInfo
+                        });
+                        this._logService.debug(
+                            LogCategories.siteDashboard,
+                            `Creating new component for inactive tab '${info.id}'`
+                        );
                     }
                 }
 
@@ -237,7 +248,6 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
     }
 
     openFeature(featureId: string) {
-
         this._prevTabId = this._currentTabId;
         let tabInfo = this.tabInfos.find(t => t.id === featureId);
 
@@ -307,6 +317,13 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                 info.componentFactory = SiteConfigComponent;
                 info.closeable = true;
                 break;
+
+            case SiteTabIds.logicApps:
+                info.title = this._translateService.instant(PortalResources.tab_logicApps);
+                info.iconUrl = 'image/logicapp.svg';
+                info.componentFactory = LogicAppsComponent;
+                info.closeable = true;
+                break;
         }
 
         return info;
@@ -346,23 +363,19 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
     }
 
     onKeyPress(event: KeyboardEvent, info: TabInfo) {
-
         if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
             this.selectTab(info);
             event.preventDefault();
-
         } else if (event.keyCode === KeyCodes.arrowRight) {
             const tabElements = this._getTabElements();
             this._clearFocusOnTab(tabElements, this._currentTabIndex);
             this._setFocusOnTab(tabElements, this._currentTabIndex + 1);
             event.preventDefault();
-
         } else if (event.keyCode === KeyCodes.arrowLeft) {
             const tabElements = this._getTabElements();
             this._clearFocusOnTab(tabElements, this._currentTabIndex);
             this._setFocusOnTab(tabElements, this._currentTabIndex - 1);
             event.preventDefault();
-
         } else if (event.keyCode === KeyCodes.delete) {
             if (info.closeable) {
                 this.closeTab(info);

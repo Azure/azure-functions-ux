@@ -1,0 +1,75 @@
+<div class="browse-container">
+  <img src="image/logicapp.svg" />
+  <h2>{{'logicApps' | translate}}</h2><i *ngIf="!initialized" class="fa fa-refresh fa-spin fa-fw"></i>
+
+  <div class="description-text">
+    <h5 style="display: inline">{{'logicApp_description' | translate}}</h5>
+    <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=858702">{{'topBar_learnMore' | translate}}</a>
+  </div>
+
+  <div class="bars">
+      <label>{{ 'locationColon' | translate }}</label>
+    
+      <multi-drop-down id="locationsFilter"
+          [inputOptions]="locationOptions"
+          [displayText]="locationsDisplayText"
+          (selectedValues)="onLocationsSelect($event)"
+          [allItemsDisplay]="allLocations"
+          [numberItemsDisplay]="numberLocations">
+      </multi-drop-down>
+    
+      <label>{{ 'resourceGroupColon' | translate }}</label>
+    
+      <multi-drop-down id="resourceGroupsFilter"
+          [inputOptions]="resourceGroupOptions"
+          [displayText]="resourceGroupsDisplayText"
+          (selectedValues)="onResourceGroupsSelect($event)"
+          [allItemsDisplay]="allResourceGroups"
+          [numberItemsDisplay]="numberResourceGroups">
+      </multi-drop-down>
+
+      <drop-down id="groupingDropDown"
+          [options]="groupOptions"
+          (value)=onGroupSelect($event)>
+    </drop-down>
+  </div>
+
+  <tbl [items]="tableItems" #table="tbl" id="logic-apps-list" [name]="'logicApps' | translate" groupColName="title">
+    <tr>
+      <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
+      <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>
+      <th><tbl-th name="location">{{ 'location' | translate }}</tbl-th></th>
+    </tr>
+
+    <tr *ngFor="let item of table.items">
+      <ng-container *ngIf="item.type === 'row' && table.groupedBy === 'none'">
+        <td><a (click)="clickRow(item)">{{item.title}}</a></td>
+        <td>{{item.resourceGroup}}</td>
+        <td>{{item.location}}</td>
+      </ng-container>
+
+      <ng-container *ngIf="item.type === 'row' && table.groupedBy !== 'none'">
+        <td class='tabbed'><a (click)="clickRow(item)">{{item.title}}</a></td>
+        <td>{{item.resourceGroup}}</td>
+        <td>{{item.location}}</td>
+      </ng-container>
+
+      <ng-container *ngIf="item.type === 'group'">
+        <td colspan="4">{{item.title}}</td>
+      </ng-container>
+    </tr>
+
+    <tr *ngIf="!initialized">
+      <td colspan="4">{{'functionMonitor_loading' | translate}}</td>
+      <td colspan="4"></td>
+    </tr>
+  </tbl>
+
+  <div *ngIf="initialized && table.items.length === 0" class="empty-browse">
+      <span load-image="image/grey-logicapp.svg" class="empty-browse-img"></span>
+      <h4>{{'noLogicApps_title' | translate}}</h4>
+      <!-- Fix in issue 1895: use sheel uri to build link for national clouds -->
+      <a type="button" class="custom-button" target="_blank" href="https://portal.azure.com/#create/Microsoft.EmptyWorkflow">{{'createLogicApps' | translate}}</a>
+  </div>
+
+</div>

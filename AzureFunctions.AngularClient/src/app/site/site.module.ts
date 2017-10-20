@@ -1,3 +1,4 @@
+import { LogicAppsComponent } from './../logic-apps/logic-apps.component';
 import { SiteTabComponent } from 'app/site/site-dashboard/site-tab/site-tab.component';
 import { SharedFunctionsModule } from './../shared/shared-functions.module';
 import { FeatureGroupComponent } from './../feature-group/feature-group.component';
@@ -28,6 +29,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         FunctionRuntimeComponent,
         SwaggerDefinitionComponent,
         SiteConfigComponent,
+        LogicAppsComponent
     ],
     imports: [
         TranslateModule.forChild(),
@@ -47,7 +49,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         DownloadFunctionAppContentComponent,
         SiteEnabledFeaturesComponent,
         HostEditorComponent,
-        SiteTabComponent
+        SiteTabComponent,
+        LogicAppsComponent
     ],
     providers: []
 })

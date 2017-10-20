@@ -12,7 +12,7 @@ body #app-root[theme=dark]{
     color: $primary-color-dark;
 }
 
-h1, h2, h3, h4{
+h1, h2, h3, h4, h5{
     font-weight: normal;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -46,6 +46,10 @@ h3{
 
 h4{
     font-size: 14px;
+}
+
+h5{
+    font-size: 12px;
 }
 
 a, .link{

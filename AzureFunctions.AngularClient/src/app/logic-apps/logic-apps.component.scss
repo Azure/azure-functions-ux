@@ -1,0 +1,69 @@
+@import '../../sass/common/variables';
+
+.tabbed{
+    padding-left: 20px;
+}
+
+#logic-apps-list{
+    width: 100%
+}
+
+.empty-browse{
+    width: 80%;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-browse-img{
+    width: 20%; 
+    height: 20%;
+    vertical-align: middle;
+    margin-bottom: 20px;
+    margin-left: 5px;
+}
+
+.custom-button{
+    margin-top: 10px;
+    vertical-align: middle;
+    margin-right: 18px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.description-text{
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border-bottom: $border;
+    padding-bottom: 8px;
+}
+
+.bars{
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+#locationsFilter{
+    padding-left: 10px;
+    padding-right: 15px;
+    width: 35%;
+}
+
+#resourceGroupsFilter{
+    padding-left: 10px;
+    padding-right: 15px;
+    width: 35%;
+}
+
+#groupingDropDown{
+    padding-left:10px;
+    width: 18%;
+}
+
+h2{
+    display: inline-block;
+}
