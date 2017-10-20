@@ -1,6 +1,6 @@
 @import '../../sass/common/variables';
 
-#content {
+.content {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -12,5 +12,11 @@
 }
 
 .content-standalone{
-    height: calc(100% - 40px) !important;
+    position: absolute;
+    width: 100%;
+    
+    #dashboard {
+        height: 100%;
+        padding-left: $sidenav-width;
+    }
 }
