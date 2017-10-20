@@ -96,10 +96,9 @@ export class LogicAppsComponent implements OnInit {
 
         this._resourceId = viewInfo.resourceId;
         this.subId = SiteDescriptor.getSiteDescriptor(this._resourceId).getWebsiteId().SubscriptionId;
-        // Have to remove leading '/' for filter to function
-        const logicAppResId = this._resourceId.substr(1);
+        // Have to remove leading '/' for filter to function and ending '/' for unique function apps
+        const logicAppResId = this._resourceId.substr(1) + '/';
 
-        // Will replace with more accurate 'eq' filter once deployed
         return Observable.zip(
           this._cacheService.getArm(
             `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${logicAppResId}')`,
