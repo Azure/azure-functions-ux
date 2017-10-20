@@ -11,7 +11,6 @@ import { Input, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { TreeViewInfo, SiteData } from './../tree-view/models/tree-view-info';
-import { AppNode } from './../tree-view/app-node';
 import { TranslateService } from '@ngx-translate/core';
 import { CacheService } from './../shared/services/cache.service';
 import { PortalService } from './../shared/services/portal.service';
@@ -37,16 +36,16 @@ export interface LogicAppTableItem extends TableItem {
   templateUrl: './logic-apps.component.html',
   styleUrls: ['./logic-apps.component.scss']
 })
+
 export class LogicAppsComponent implements OnInit {
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   private _viewInfo: TreeViewInfo<SiteData>;
   private _viewInfoSub: RxSubscription;
-  private _appNode: AppNode;
+  private _resourceId: string;
 
   public logicApps: LogicAppInfo[] = [];
   public tableItems: TableItem[] = [];
   public subId: string;
-  public resourceId: string;
   public logicAppsIcon = 'image/logicapp.svg';
   public initialized = false;
 
@@ -66,9 +65,10 @@ export class LogicAppsComponent implements OnInit {
 
   @ViewChild('table') logicAppTable: TblComponent;
 
-  public groupOptions: DropDownElement<string>[] = [{ displayLabel: this._translateService.instant(PortalResources.grouping_none), value: 'none' },
-  { displayLabel: this._translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup' },
-  { displayLabel: this._translateService.instant(PortalResources.grouping_location), value: 'location' }];
+  public groupOptions: DropDownElement<string>[] = [
+    { displayLabel: this._translateService.instant(PortalResources.grouping_none), value: 'none' },
+    { displayLabel: this._translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup' },
+    { displayLabel: this._translateService.instant(PortalResources.grouping_location), value: 'location' }];
   public groupDisplayText = '';
   public currGroup = 'none';
 
@@ -94,15 +94,15 @@ export class LogicAppsComponent implements OnInit {
         this._busyManager.setBusy();
         this.initialized = false;
 
-        this._appNode = <AppNode>viewInfo.node;
-        this.subId = this._appNode.subscriptionId;
+        this._resourceId = viewInfo.resourceId;
+        this.subId = SiteDescriptor.getSiteDescriptor(this._resourceId).getWebsiteId().SubscriptionId;
         // Have to remove leading '/' for filter to function
-        this.resourceId = SiteDescriptor.getSiteDescriptor(this._appNode.resourceId).getResourceId().substr(1);
+        const logicAppResId = this._resourceId.substr(1);
 
         // Will replace with more accurate 'eq' filter once deployed
         return Observable.zip(
           this._cacheService.getArm(
-            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${this.resourceId}')`,
+            `/subscriptions/${this.subId}/providers/Microsoft.Logic/workflows?api-version=2017-07-01&$filter=contains(referencedResourceId, '${logicAppResId}')`,
             true,
             this._armService.logicAppsApiVersion,
             true
@@ -123,22 +123,23 @@ export class LogicAppsComponent implements OnInit {
       .subscribe(r => {
         const selectedJson = r.app.value.length > 0 ? r.app : r.sub;
         this.logicApps = selectedJson.value
-        .map(app => (<LogicAppInfo>{
-          name: app.name,
-          id: app.id,
-          resourceGroup: app.id.split('/')[4],
-          location:  this._translateService.instant(app.location),
-          type: 'row'
-        }))
-        .sort((a: LogicAppInfo, b: LogicAppInfo) => { return a.name.localeCompare(b.name);
-        });
+          .map(app => (<LogicAppInfo>{
+            name: app.name,
+            id: app.id,
+            resourceGroup: app.id.split('/')[4],
+            location: this._translateService.instant(app.location),
+            type: 'row'
+          }))
+          .sort((a: LogicAppInfo, b: LogicAppInfo) => {
+            return a.name.localeCompare(b.name);
+          });
 
         this.tableItems = this.logicApps
           .map(app => (<LogicAppTableItem>{
             title: app.name,
             id: app.id,
             resourceGroup: app.resourceGroup,
-            location:  app.location,
+            location: app.location,
             type: 'row'
           }));
 
@@ -147,6 +148,7 @@ export class LogicAppsComponent implements OnInit {
             displayLabel: location,
             value: location
           }));
+
         this.resourceGroupOptions = this.uniqueTypes(this.logicApps, 'resourceGroup')
           .map(resourceGroup => ({
             displayLabel: resourceGroup,
@@ -158,7 +160,7 @@ export class LogicAppsComponent implements OnInit {
       });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   clickRow(item: LogicAppTableItem) {
     this._portalService.openBlade(
