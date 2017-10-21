@@ -1,4 +1,5 @@
-﻿import { Subject } from 'rxjs/Subject';
+﻿import { UrlTemplates } from './url-templates';
+import { Subject } from 'rxjs/Subject';
 import { SiteService } from './services/slots.service';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -56,15 +57,15 @@ import * as jsonschema from 'jsonschema';
 import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
 export class FunctionApp {
+    private urlTemplates: UrlTemplates;
     private masterKey: string;
     private token: string;
-    private _scmUrl: string;
     private siteName: string;
-    private mainSiteUrl: string;
     public selectedFunction: string;
     public selectedLanguage: string;
     public selectedProvider: string;
     public selectedFunctionName: string;
+    public functionAppVersion: 1 | 2;
 
     public isMultiKeySupported = true;
     public isAlwaysOn = false;
@@ -144,8 +145,6 @@ export class FunctionApp {
 
         this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
-
-
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo()
                 .mergeMap(info => {
@@ -170,31 +169,19 @@ export class FunctionApp {
 
                     return Observable.of(null);
                 })
-                .do(_ => {
-                    this.diagnose(this.site)
-                        .subscribe(diagnosticsResults => {
-                            if (diagnosticsResults) {
-                                for (let i = 0; i < diagnosticsResults.length; i++) {
-                                    if (diagnosticsResults[i].isDiagnosingSuccessful) {
-                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: `${diagnosticsResults[i].successResult.message} ${diagnosticsResults[i].successResult.userAction}`,
-                                            errorId: diagnosticsResults[i].successResult.actionId,
-                                            errorType: diagnosticsResults[i].successResult.isTerminating ? ErrorType.Fatal : ErrorType.UserError,
-                                            resourceId: this.site.id
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                }, e => {
+                .do(null, e => {
                     this._aiService.trackException(e, 'FunctionApp().getStartupInfo()');
                 })
                 .subscribe(() => { });
 
         }
 
-        this._scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
-        this.mainSiteUrl = FunctionApp.getMainUrl(this._configService, this.site);
+        const scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
+        const mainSiteUrl = FunctionApp.getMainUrl(this._configService, this.site);
+
+        const useV2Urls = this.site.kind && this.site.kind.toLocaleLowerCase().indexOf('linux') !== -1;
+        this.urlTemplates = new UrlTemplates(scmUrl, mainSiteUrl, useV2Urls);
+        this.functionAppVersion = useV2Urls ? 2 : 1;
 
         this.siteName = this.site.name;
 
@@ -238,8 +225,8 @@ export class FunctionApp {
     getFunctions() {
         let fcs: FunctionInfo[];
 
-        return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
-            .catch(() => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
+        return this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
+            .catch(() => this._http.get(this.urlTemplates.functionsUrl, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
                 try {
@@ -283,8 +270,8 @@ export class FunctionApp {
 
     getApiProxies() {
         return Observable.zip(
-            this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
-                .catch(() => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
+            this._cacheService.get(this.urlTemplates.proxiesJsonUrl, false, this.getScmSiteHeaders())
+                .catch(() => this._http.get(this.urlTemplates.proxiesJsonUrl, { headers: this.getScmSiteHeaders() }))
                 .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                     if (err.status === 404 || errorCount >= 10) {
                         throw err;
@@ -319,7 +306,7 @@ export class FunctionApp {
         // https://github.com/projectkudu/kudu/wiki/REST-API
         headers.append('If-Match', '*');
 
-        const uri = `${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`;
+        const uri = this.urlTemplates.proxiesJsonUrl;
         this._cacheService.clearCachePrefix(uri);
 
         return this._http.put(uri, jsonString, { headers: headers });
@@ -452,14 +439,13 @@ export class FunctionApp {
         if (templateId) {
             const body: CreateFunctionInfo = {
                 name: functionName,
-                templateId: (templateId && templateId !== 'Empty' ? templateId : null),
-                containerScmUrl: this._scmUrl
+                templateId: (templateId && templateId !== 'Empty' ? templateId : null)
             };
-            observable = this._http.put(`${this._scmUrl}/api/functions/${functionName}`, JSON.stringify(body), { headers: this.getScmSiteHeaders() })
+            observable = this._http.put(this.urlTemplates.getFunctionUrl(functionName), JSON.stringify(body), { headers: this.getScmSiteHeaders() })
                 .map(r => r.json());
         } else {
             observable = this._http
-                .put(`${this._scmUrl}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
+                .put(this.urlTemplates.getFunctionUrl(functionName), JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
                 .map(r => r.json());
         }
 
@@ -482,7 +468,7 @@ export class FunctionApp {
     }
 
     getFunctionContainerAppSettings() {
-        const url = `${this._scmUrl}/api/settings`;
+        const url = this.urlTemplates.scmSettingsUrl;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .map(r => <{ [key: string]: string }>r.json());
@@ -495,7 +481,7 @@ export class FunctionApp {
         delete filesCopy['sample.dat'];
 
         const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
-        const url = `${this._scmUrl}/api/functions/${functionName}`;
+        const url = this.urlTemplates.getFunctionUrl(functionName);
 
         return this._http.put(url, content, { headers: this.getScmSiteHeaders() })
             .map(r => <FunctionInfo>r.json())
@@ -629,7 +615,7 @@ export class FunctionApp {
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
-        const url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+        const url = this.urlTemplates.getRunFunctionUrl(functionInfo.name.toLocaleLowerCase());
         const _content: string = JSON.stringify({ input: content });
         let contentType: string;
 
@@ -677,7 +663,7 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        const warmupSite = this._http.post(`${this.mainSiteUrl}/admin/host/ping`, '')
+        const warmupSite = this._http.post(this.urlTemplates.pingUrl, '')
             .retryWhen(this.retryAntares)
             .catch(() => Observable.of(null));
 
@@ -720,7 +706,7 @@ export class FunctionApp {
     }
 
     getHostJson(): Observable<any> {
-        return this._http.get(`${this._scmUrl}/api/functions/config`, { headers: this.getScmSiteHeaders() })
+        return this._http.get(this.urlTemplates.hostJsonUrl, { headers: this.getScmSiteHeaders() })
             .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeConfig),
             (error: FunctionsResponse) => {
@@ -762,7 +748,7 @@ export class FunctionApp {
     }
 
     getScmUrl() {
-        return this._scmUrl;
+        return this.urlTemplates.scmSiteUrl;
     }
 
     getSiteName() {
@@ -770,7 +756,13 @@ export class FunctionApp {
     }
 
     getMainSiteUrl(): string {
-        return this.mainSiteUrl;
+        return this.urlTemplates.runtimeSiteUrl;
+    }
+
+    getHostToken() {
+        return this.functionAppVersion === 1
+            ? this._http.get(this.urlTemplates.scmTokenUrl, { headers: this.getScmSiteHeaders() })
+            : this._http.get(Constants.serviceHost + `api/runtimetoken${this.site.id}`, { headers: this.getPortalHeaders() });
     }
 
     getHostSecretsFromScm() {
@@ -780,7 +772,7 @@ export class FunctionApp {
             .mergeMap(authSettings => {
                 return authSettings.clientCertEnabled
                     ? Observable.of()
-                    : this._http.get(`${this._scmUrl}/api/functions/admin/token`, { headers: this.getScmSiteHeaders() })
+                    : this.getHostToken()
                         .retryWhen(this.retryAntares)
                         .map(r => r.json())
                         .mergeMap((token: string) => {
@@ -788,24 +780,24 @@ export class FunctionApp {
                             // build authorization header
                             const authHeader = new Headers();
                             authHeader.append('Authorization', `Bearer ${token}`);
-                            return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
+                            return this._http.get(this.urlTemplates.masterKeyUrl, { headers: authHeader })
                                 .catch((error: FunctionsResponse) => {
                                     if (error.status === 405) {
                                         // If the result from calling the API above is 405, that means they are running on an older runtime.
                                         // It should be safe to call kudu for the master key since they won't be using slots.
-                                        return this._http.get(`${this._scmUrl}/api/functions/admin/masterKey`, { headers: this.getScmSiteHeaders() });
+                                        return this._http.get(this.urlTemplates.deprecatedKuduMasterKeyUrl, { headers: this.getScmSiteHeaders() });
                                     } else {
                                         throw error;
                                     }
                                 })
                                 .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
-                                    if (err.isHandled || err.status < 500 || errorCount >= 10) {
+                                    if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
                                         throw err;
                                     } else {
                                         return errorCount + 1;
                                     }
                                 }, 0).delay(1000))
-                                .catch(e => this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: authHeader })
+                                .catch(e => this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: authHeader })
                                     .do(null, _ => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                                         message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
                                         errorId: ErrorIds.functionRuntimeIsUnableToStart,
@@ -873,7 +865,7 @@ export class FunctionApp {
     }
 
     legacyGetHostSecrets() {
-        return this._http.get(`${this._scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getScmSiteHeaders() })
+        return this._http.get(this.urlTemplates.legacyGetHostSecretsUrl, { headers: this.getScmSiteHeaders() })
             .map(r => <string>r.json().masterKey)
             .do(h => {
                 this.masterKey = h;
@@ -888,7 +880,7 @@ export class FunctionApp {
                 if (r.clientCertEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
-                return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
+                return this._http.get(this.urlTemplates.adminKeysUrl, { headers: this.getMainSiteHeaders() })
                     .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                         if (err.status < 500 && err.status !== 0) {
                             throw err;
@@ -1005,7 +997,7 @@ export class FunctionApp {
             .mergeMap((authSettings: AuthSettings) => {
                 return authSettings.clientCertEnabled
                     ? Observable.of([])
-                    : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
+                    : this._http.get(this.urlTemplates.getFunctionRuntimeErrorsUrl(fi.name), { headers: this.getMainSiteHeaders() })
                         .retryWhen(this.retryAntares)
                         .map(r => <string[]>(r.json().errors || []))
                         .catch((error: Response) => {
@@ -1029,7 +1021,7 @@ export class FunctionApp {
                 if (authSettings.clientCertEnabled || !this.masterKey) {
                     return Observable.of([]);
                 } else {
-                    return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                    return this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: this.getMainSiteHeaders() })
                         .retryWhen(e => e.scan((errorCount: number, err: FunctionsResponse) => {
                             // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
                             if (errorCount >= 10 || err.status === 401) {
@@ -1074,7 +1066,7 @@ export class FunctionApp {
                 if (authSettings.clientCertEnabled || !this.masterKey) {
                     return Observable.of(null);
                 } else {
-                    return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                    return this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: this.getMainSiteHeaders() })
                         .map(r => (r.json()))
                         .catch((error: Response) => {
                             if (handleUnauthorized && error.status === 401) {
@@ -1102,7 +1094,7 @@ export class FunctionApp {
     // }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
-        const url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
+        const url = this.urlTemplates.getFunctionLogUrl(fi.name);
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .catch(() => Observable.of({ json: () => [] }))
             .mergeMap(r => {
@@ -1163,7 +1155,7 @@ export class FunctionApp {
                 if (authSettings.clientCertEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
-                return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
+                return this._http.get(this.urlTemplates.getFunctionKeysUrl(functionInfo.name), { headers: this.getMainSiteHeaders() })
                     .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
                         if (err.isHandled || (err.status < 500 && err.status !== 404) || errorCount >= 10) {
                             throw err;
@@ -1205,8 +1197,8 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
         const url = functionInfo
-            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${keyName}`
-            : `${this.mainSiteUrl}/admin/host/keys/${keyName}`;
+            ? this.urlTemplates.getFunctionKeyUrl(functionInfo.name, keyName)
+            : this.urlTemplates.getAdminKeyUrl(keyName);
 
         let result: Observable<FunctionKey>;
         if (keyValue) {
@@ -1256,8 +1248,8 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
         const url = functionInfo
-            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
-            : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
+            ? this.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
+            : this.urlTemplates.getAdminKeyUrl(key.name);
 
         return this._http.delete(url, { headers: this.getMainSiteHeaders() })
             .retryWhen(this.retryAntares)
@@ -1294,8 +1286,8 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
         const url = functionInfo
-            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
-            : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
+            ? this.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
+            : this.urlTemplates.getAdminKeyUrl(key.name);
         return this._http.post(url, '', { headers: this.getMainSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch((error: Response) => {
@@ -1333,7 +1325,7 @@ export class FunctionApp {
     }
 
     fireSyncTrigger() {
-        const url = `${this._scmUrl}/api/functions/synctriggers`;
+        const url = this.urlTemplates.syncTriggersUrl;
         this._http.post(url, '', { headers: this.getScmSiteHeaders() })
             .subscribe(success => console.log(success), error => console.log(error));
     }
@@ -1385,7 +1377,7 @@ export class FunctionApp {
             SiteService.isSlot(this.site.id)
                 ? Observable.of(true)
                 : this._slotsService.getSlotsList(this.site.id).map(r => r.length > 0),
-                this.getFunctions(),
+            this.getFunctions(),
             (a, b, s, f: FunctionInfo[]) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f })
         )
             .map(result => {
@@ -1453,7 +1445,7 @@ export class FunctionApp {
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite(): Observable<boolean> {
-        return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
+        return this._http.get(this.urlTemplates.pingScmSiteUrl, { headers: this.getScmSiteHeaders() })
             .map(_ => true)
             .catch(() => Observable.of(false));
     }
@@ -1478,6 +1470,10 @@ export class FunctionApp {
 
         if (this.tryFunctionsScmCreds) {
             headers.append('Authorization', `Basic ${this.tryFunctionsScmCreds}`);
+        }
+
+        if (this.masterKey) {
+            headers.append('x-functions-key', this.masterKey);
         }
         return headers;
     }
@@ -1610,7 +1606,7 @@ export class FunctionApp {
      */
     private trackEvent(name: string, params: { [name: string]: string }) {
         const standardParams = {
-            scmUrl: this._scmUrl
+            scmUrl: this.urlTemplates.pingScmSiteUrl
         };
 
         for (const key in params) {
@@ -1696,7 +1692,7 @@ export class FunctionApp {
     saveHostJson(jsonString: string): Observable<any> {
         const headers = this.getScmSiteHeaders();
         headers.append('If-Match', '*');
-        return this._http.put(`${this._scmUrl}/api/functions/config`, jsonString, { headers: headers })
+        return this._http.put(this.urlTemplates.hostJsonUrl, jsonString, { headers: headers })
             .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateRuntimeConfig),
             (error: FunctionsResponse) => {
@@ -1718,7 +1714,7 @@ export class FunctionApp {
     createSystemKey(keyName: string) {
         const headers = this.getMainSiteHeaders();
         headers.append('If-Match', '*');
-        return this._http.post(`${this.mainSiteUrl}/admin/host/systemkeys/${keyName}`, '', { headers: headers })
+        return this._http.post(this.urlTemplates.getSystemKeyUrl(keyName), '', { headers: headers })
             .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateSwaggerKey),
             (error: FunctionsResponse) => {
@@ -1746,7 +1742,7 @@ export class FunctionApp {
         return masterKey
             .mergeMap(_ => {
                 const headers = this.getMainSiteHeaders();
-                return this._http.get(`${this.mainSiteUrl}/admin/host/extensions`, { headers: headers })
+                return this._http.get(this.urlTemplates.runtimeHostExtensionsUrl, { headers: headers })
                     .map(r => <FunctionKeys>r.json())
                     .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToGetFunctionRuntimeExtensions),
                     (error: FunctionsResponse) => {
@@ -1804,7 +1800,7 @@ export class FunctionApp {
         return masterKey
             .mergeMap(_ => {
                 const headers = this.getMainSiteHeaders();
-                return this._http.post(`${this.mainSiteUrl}/admin/host/extensions`, extension, { headers: headers })
+                return this._http.post(this.urlTemplates.runtimeHostExtensionsUrl, extension, { headers: headers })
                     .map(r => <FunctionKeys>r.json())
                     .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToInstallFunctionRuntimeExtension),
                     (error: FunctionsResponse) => {
@@ -1843,7 +1839,7 @@ export class FunctionApp {
         return masterKey
             .mergeMap(_ => {
                 const headers = this.getMainSiteHeaders();
-                return this._http.get(`${this.mainSiteUrl}/admin/host/extensions/jobs/` + jobId, { headers: headers })
+                return this._http.get(this.urlTemplates.getRuntimeHostExtensionsJobStatusUrl(jobId), { headers: headers })
                     .map(r => <FunctionKeys>r.json())
                     .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToGetExtensionInstallStatus),
                     (error: FunctionsResponse) => {
@@ -1870,7 +1866,7 @@ export class FunctionApp {
         return masterKey
             .mergeMap(_ => {
                 const headers = this.getMainSiteHeaders();
-                return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys`, { headers: headers })
+                return this._http.get(this.urlTemplates.systemKeysUrl, { headers: headers })
                     .map(r => <FunctionKeys>r.json())
                     .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToGetSystemKey),
                     (error: FunctionsResponse) => {

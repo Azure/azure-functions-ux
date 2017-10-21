@@ -202,7 +202,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
                 this._userService.updateStartupInfo(this._startupInfo);
             }
 
-            this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj()});
+            this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
         }
     }
 
@@ -268,7 +268,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         return this._armService.send('GET', url)
             .map(r => {
                 const sites: FunctionContainer[] = r.json().value;
-                return sites.filter(e => e.kind === 'functionapp');
+                return sites.filter(e => e.kind && e.kind.indexOf('functionapp') !== -1);
             });
     }
 

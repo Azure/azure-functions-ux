@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +22,6 @@ namespace AzureFunctions.Controllers
 {
     public class AzureFunctionsController : ApiController
     {
-
         private readonly ITemplatesManager _templatesManager;
         private readonly ISettings _settings;
         private readonly IDiagnosticsManager _diagnosticsManager;
@@ -64,7 +63,6 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, await _templatesManager.GetBindingConfigAsync(runtime));
         }
 
-
         [HttpGet]
         public HttpResponseMessage GetLatestRuntime()
         {
@@ -81,9 +79,10 @@ namespace AzureFunctions.Controllers
 
             if (name != "en")
             {
-                if (!_languageMap.TryGetValue(name, out languageFolder)) {
+                if (!_languageMap.TryGetValue(name, out languageFolder))
+                {
                     languageFolder = name + "-" + name;
-                } 
+                }
                 portalFolder = Path.Combine(languageFolder, "AzureFunctions\\ResourcesPortal");
                 sdkFolder = Path.Combine(languageFolder, "Resources");
             }
@@ -107,9 +106,10 @@ namespace AzureFunctions.Controllers
 
             // Always add english strings
             resxFiles.Add(Path.Combine(this._settings.ResourcesPortalPath.Replace(".Client", ""), "Resources.resx"));
-            
+
             templateResourcesPath = Path.Combine(this._settings.TemplatesPath, runtime + "\\Resources\\Resources.resx");
-            if (!File.Exists(templateResourcesPath)) {
+            if (!File.Exists(templateResourcesPath))
+            {
                 templateResourcesPath = Path.Combine(this._settings.TemplatesPath, "default\\Resources\\Resources.resx");
             }
             resxFiles.Add(templateResourcesPath);
@@ -135,6 +135,18 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, diagnosticResult);
         }
 
+        // HACK: this is temporary until ANT68
+        [Authorize]
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetRuntimeToken(string armId)
+        {
+            (var success, var runtimeTokenOrError) = await _diagnosticsManager.GetRuntimeToken(armId);
+
+            return success
+                ? Request.CreateResponse(HttpStatusCode.OK, runtimeTokenOrError)
+                : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, runtimeTokenOrError);
+        }
+
         [Authorize]
         [HttpPost]
         public Task<HttpResponseMessage> PassThrough(RequestObject clientRequest)
@@ -146,10 +158,10 @@ namespace AzureFunctions.Controllers
         {
             var jo = new JObject();
 
-            foreach (var file in resxFiles) {
-
+            foreach (var file in resxFiles)
+            {
                 if (File.Exists(file))
-                { 
+                {
                     // Create a ResXResourceReader for the file items.resx.
                     ResXResourceReader rsxr = new ResXResourceReader(file);
 
