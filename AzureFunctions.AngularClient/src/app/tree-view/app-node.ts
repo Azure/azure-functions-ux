@@ -129,8 +129,6 @@ export class AppNode extends TreeNode
             (h, r, s) => ({ hasWritePermission: h, hasReadOnlyLock: r, siteResponse: s })
         )
             .mergeMap(r => {
-                this.isLoading = false;
-
                 const site: ArmObj<Site> = r.siteResponse.json();
 
                 if (!this._functionApp) {
