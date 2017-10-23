@@ -267,7 +267,7 @@ export class SideNavComponent implements AfterViewInit {
         this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
 
         const dashboardString = DashboardType[newDashboardType];
-        this.broadcastService.broadcastEvent(BroadcastEvent[dashboardString], viewInfo);
+        setTimeout(() => this.broadcastService.broadcastEvent(BroadcastEvent[dashboardString], viewInfo), 100);
 
         this._updateTitle(newSelectedNode);
         this.portalService.closeBlades();
@@ -315,7 +315,7 @@ export class SideNavComponent implements AfterViewInit {
         // We only want to clear the view if the user is currently looking at something
         // under the tree path being deleted
         if (this.resourceId.startsWith(resourceId)) {
-            this.router.navigate(['blank'], { relativeTo: this.route, queryParams: Url.getQueryStringObj()});
+            this.router.navigate(['blank'], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
         }
     }
 

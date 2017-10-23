@@ -151,7 +151,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this.setNeedUpdateExtensionVersion();
 
         this.showProxyEnable = appSettings.properties[Constants.routingExtensionVersionAppSettingName]
-          ?  appSettings.properties[Constants.routingExtensionVersionAppSettingName].toLocaleLowerCase() === Constants.disabled.toLocaleLowerCase()
+          ? appSettings.properties[Constants.routingExtensionVersionAppSettingName].toLocaleLowerCase() === Constants.disabled.toLocaleLowerCase()
           : false;
 
         if (EditModeHelper.isReadOnly(r.editMode)) {
@@ -324,9 +324,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
     if (version === this.extensionVersion) {
       return;
     }
-    let updateButtonClicked = false;
     if (!version) {
-      updateButtonClicked = true;
       version = this.getLatestVersion(this.extensionVersion);
     };
     this._aiService.trackEvent('/actions/app_settings/update_version');
@@ -337,21 +335,16 @@ export class FunctionRuntimeComponent implements OnDestroy {
       })
       .mergeMap(r => {
         return this.functionApp.getFunctionHostStatus()
-        .map((hostStatus: HostStatus) => {
-          if (!hostStatus.version || (hostStatus.version === this.exactExtensionVersion && !updateButtonClicked)) {
-            throw Observable.throw('Host version is not updated yet');
-          }
-          return hostStatus;
-        })
-        .retryWhen(error => {
-          return error.scan((errorCount: number, err: any) => {
-            if (errorCount >= 20) {
+          .delay(4000)
+          .retryWhen(error => {
+            return error.scan((errorCount: number, err: any) => {
+              if (errorCount >= 20) {
                 throw err;
-            } else {
+              } else {
                 return errorCount + 1;
-            }
-          }, 0).delay(3000);
-        });
+              }
+            }, 0).delay(3000);
+          });
       })
       .do(null, e => {
         this._busyManager.clearBusy();
@@ -409,32 +402,32 @@ export class FunctionRuntimeComponent implements OnDestroy {
     if (AccessibilityHelper.isEnterOrSpace(event)) {
       switch (command) {
         case 'openAppSettings':
-        {
-          this.openAppSettings();
-          break;
-        }
+          {
+            this.openAppSettings();
+            break;
+          }
 
         case 'functionEditModeValue':
-        {
-          this.functionEditModeValueStream.next(!this.functionAppEditMode);
-          break;
-        }
+          {
+            this.functionEditModeValueStream.next(!this.functionAppEditMode);
+            break;
+          }
         case 'slotsValue':
-        {
-          this.slotsValueChange.next(!this.slotsEnabled);
-          break;
-        }
+          {
+            this.slotsValueChange.next(!this.slotsEnabled);
+            break;
+          }
         case 'functionRuntimeValue':
-        {
-          const findOptionIndex = this.functionRutimeOptions.findIndex(item => {
-            return item.value === this.extensionVersion;
-          });
-          const runtimeValue = findOptionIndex === -1 || findOptionIndex === this.functionRutimeOptions.length ?
-            this.functionRutimeOptions[0].value :
-            this.functionRutimeOptions[findOptionIndex + 1].value;
-          this.functionRuntimeValueStream.next(runtimeValue);
-          break;
-        }
+          {
+            const findOptionIndex = this.functionRutimeOptions.findIndex(item => {
+              return item.value === this.extensionVersion;
+            });
+            const runtimeValue = findOptionIndex === -1 || findOptionIndex === this.functionRutimeOptions.length ?
+              this.functionRutimeOptions[0].value :
+              this.functionRutimeOptions[findOptionIndex + 1].value;
+            this.functionRuntimeValueStream.next(runtimeValue);
+            break;
+          }
       }
     }
   }

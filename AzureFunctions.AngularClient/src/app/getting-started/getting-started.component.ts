@@ -268,7 +268,9 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         return this._armService.send('GET', url)
             .map(r => {
                 const sites: FunctionContainer[] = r.json().value;
-                return sites.filter(e => e.kind && e.kind.indexOf('functionapp') !== -1);
+                return sites.filter(e =>
+                    (e.kind && e.kind.indexOf('functionapp') !== -1) ||
+                    (e.name && e.name.startsWith('00fun')));
             });
     }
 
