@@ -675,9 +675,6 @@ export class PortalResources
     public static apiProxy_delete: string = "apiProxy_delete";
     public static apiProxy_new: string = "apiProxy_new";
     public static apiProxy_noOverride: string = "apiProxy_noOverride";
-    public static functionDev_saveFunctionFailure: string = "functionDev_saveFunctionFailure";
-    public static functionDev_saveFunctionNotifyTitle: string = "functionDev_saveFunctionNotifyTitle";
-    public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
     public static expressAADRegistration: string = "expressAADRegistration";
     public static eventGrid_create: string = "eventGrid_create";
     public static eventGrid_createMessage: string = "eventGrid_createMessage";
@@ -727,6 +724,8 @@ export class PortalResources
     public static rrOverride_request: string = "rrOverride_request";
     public static rrOverride_response: string = "rrOverride_response";
     public static optional: string = "optional";
+    public static topBar_runtimeV2: string = "topBar_runtimeV2";
+    public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
     public static feature_logicAppsInfo: string = "feature_logicAppsInfo";
     public static tab_logicApps: string = "tab_logicApps";
     public static associatedLogicApps_title: string = "associatedLogicApps_title";
@@ -735,8 +734,6 @@ export class PortalResources
     public static noLogicApps_title: string = "noLogicApps_title";
     public static logicApps: string = "logicApps";
     public static logicApp_description: string = "logicApp_description";
-    public static topBar_runtimeV2: string = "topBar_runtimeV2";
-    public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
     public static expandCollapse: string = "expandCollapse";
     public static aadreg_appService: string = "aadreg_appService";
     public static aadreg_configureAADNow: string = "aadreg_configureAADNow";
