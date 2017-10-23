@@ -2143,15 +2143,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="apiProxy_noOverride" xml:space="preserve">
     <value>No override</value>
   </data>
-  <data name="functionDev_saveFunctionFailure" xml:space="preserve">
-    <value>Failed to save function '{0}'</value>
-  </data>
-  <data name="functionDev_saveFunctionNotifyTitle" xml:space="preserve">
-    <value>Saving function '{0}'</value>
-  </data>
-  <data name="functionDev_saveFunctionSuccess" xml:space="preserve">
-    <value>Successfully saved function '{0}'</value>
-  </data>
   <data name="expressAADRegistration" xml:space="preserve">
     <value>Express AAD Registration</value>
   </data>

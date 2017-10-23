@@ -676,9 +676,6 @@ export class PortalResources
     public static apiProxy_delete: string = "apiProxy_delete";
     public static apiProxy_new: string = "apiProxy_new";
     public static apiProxy_noOverride: string = "apiProxy_noOverride";
-    public static functionDev_saveFunctionFailure: string = "functionDev_saveFunctionFailure";
-    public static functionDev_saveFunctionNotifyTitle: string = "functionDev_saveFunctionNotifyTitle";
-    public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
     public static expressAADRegistration: string = "expressAADRegistration";
     public static eventGrid_create: string = "eventGrid_create";
     public static eventGrid_createMessage: string = "eventGrid_createMessage";
