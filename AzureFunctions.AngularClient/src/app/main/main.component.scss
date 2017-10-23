@@ -12,11 +12,5 @@
 }
 
 .content-standalone{
-    position: absolute;
-    width: 100%;
-    
-    #dashboard {
-        height: 100%;
-        padding-left: $sidenav-width;
-    }
+    height: calc(100% - #{$top-bar-height});
 }
