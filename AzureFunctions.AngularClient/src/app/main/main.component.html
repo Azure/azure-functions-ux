@@ -1,7 +1,7 @@
 <top-bar *ngIf="ready"></top-bar>
 <busy-state name='dashboard' cssClass="busy-dashboard"></busy-state>
 
-<div [class.content]="!showTopBar" [class.content-standalone]="showTopBar">
+<div class = "content" [class.content-standalone]="showTopBar">
 
     <side-nav *ngIf="ready" [tryFunctionAppInput]="tryFunctionApp"></side-nav>
     <top-warning></top-warning>
