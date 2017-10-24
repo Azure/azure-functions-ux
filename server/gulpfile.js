@@ -57,7 +57,8 @@ export class PortalResources
         typescriptFileContent += `    public static ${stringName}: string = "${stringName}";
 `;
     });
-    typescriptFileContent += `}`;
+    typescriptFileContent += `}
+`;
     let writePath = path.normalize(path.join(__dirname,'..', 'AzureFunctions.AngularClient','src', 'app', 'shared', 'models', 'portal-resources.ts'));
     fs.writeFileSync(writePath, new Buffer(typescriptFileContent));
 });
