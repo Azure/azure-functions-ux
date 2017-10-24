@@ -47,7 +47,7 @@ gulp.task('resources-clean', function() {
 *   This will make the portal-resources.ts file
 */
 gulp.task('resx-to-typescript-models', function() {
-    var resources = require('../server/src/actions/resources/Resources.json').en;
+    const resources = require('../server/src/actions/resources/Resources.json').en;
     let typescriptFileContent = `// This file is auto generated
     
 export class PortalResources
@@ -58,8 +58,7 @@ export class PortalResources
 `;
     });
     typescriptFileContent += `}`;
-    let writePath = path.normalize(path.join(__dirname,'..', 'AzureFunctions.AngularClient','src', 'app', 'shared', 'models'));
-    writePath = path.join(writePath, 'portal-resources.ts');
+    let writePath = path.normalize(path.join(__dirname,'..', 'AzureFunctions.AngularClient','src', 'app', 'shared', 'models', 'portal-resources.ts'));
     fs.writeFileSync(writePath, new Buffer(typescriptFileContent));
 });
 
