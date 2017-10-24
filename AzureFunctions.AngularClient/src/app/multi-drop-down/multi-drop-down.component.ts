@@ -1,3 +1,4 @@
+import { Dom } from './../shared/Utilities/dom';
 import { PortalResources } from './../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { KeyCodes } from './../shared/models/constants';
@@ -12,15 +13,17 @@ import { MultiDropDownElement } from './../shared/models/drop-down-element';
   inputs: ['inputOptions'],
   outputs: ['selectedValues'],
   host: {
-    '(document:click)': 'onDocumentClick($event)',
+    '(document:mousedown)': 'onDocumentMouseDown($event)',
   }
 })
 export class MultiDropDownComponent<T> implements OnInit {
 
   @Input() displayText = '';
+  @Input() ariaLabel = '';
   @Input() allItemsDisplay: string | null;
   @Input() numberItemsDisplay: string | null;
   @ViewChild('itemListContainer') itemListContainer: ElementRef;
+  @ViewChild('displayToggle') displayToggle: ElementRef;
   public opened = false;
   public options: MultiDropDownElement<T>[];
   public selectedValues = new ReplaySubject<T[]>(1);
@@ -60,17 +63,8 @@ export class MultiDropDownComponent<T> implements OnInit {
     this._notifyChangeSubscriptions();
   }
 
-  click() {
-    if (this.opened) {
-      this._notifyChangeSubscriptions();
-    }
-
-    this.opened = !this.opened;
-  }
-
   // http://stackoverflow.com/questions/35712379/angular2-close-dropdown-on-click-outside-is-there-an-easiest-way
-  onDocumentClick(event) {
-
+  onDocumentMouseDown(event: MouseEvent) {
     if (this.opened && !this._eref.nativeElement.contains(event.target)) {
       this._notifyChangeSubscriptions();
     }
@@ -80,77 +74,135 @@ export class MultiDropDownComponent<T> implements OnInit {
     this._notifyChangeSubscriptions();
   }
 
-  handleChecked(option: MultiDropDownElement<T>) {
-    if (option !== this._selectAllOption) {
-      this._selectAllOption.isSelected = false;
-      option.isSelected = !option.isSelected;
-    } else {
-      this._updateAllSelected(!option.isSelected);
+  globalKeyPress(event: KeyboardEvent) {
+    if (this.opened) {
+      if (event.keyCode === KeyCodes.escape) {
+        this._notifyChangeSubscriptions();
+        Dom.setFocus(this.displayToggle.nativeElement);
+      }
+      else if (event.keyCode === KeyCodes.tab) {
+        this._notifyChangeSubscriptions();
+      }
     }
   }
 
-  onKeyPress(event: KeyboardEvent) {
+  toggleClick() {
+    if (this.opened) {
+      this._notifyChangeSubscriptions();
+    }
+    else {
+      this.opened = true;
+    }
+  }
+
+  toggleKeyPress(event: KeyboardEvent) {
+    let preventDefault = true;
 
     if (event.keyCode === KeyCodes.arrowDown) {
-      this._moveFocusedItemDown();
-    } else if (event.keyCode === KeyCodes.arrowUp) {
-      this._moveFocusedItemUp();
-    } else if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
-      if (this._focusedIndex >= 0 && this._focusedIndex < this.options.length) {
-        const option = this.options[this._focusedIndex];
-        option.isSelected = !option.isSelected;
-
-        if (option === this._selectAllOption) {
-          if (option.isSelected) {
-            this.options.forEach(o => o.isSelected = true);
-          } else {
-            this.options.forEach(o => o.isSelected = false);
-          }
-        }
+      if(!this.opened) {
+        this.opened = true;
       }
-    } else if (event.keyCode === KeyCodes.escape) {
-      this._notifyChangeSubscriptions();
-    } else if (event.keyCode === KeyCodes.tab) {
-      this._notifyChangeSubscriptions();
+      else {
+        this._moveFocusedItem(0);
+      }
+    }
+    else {
+      preventDefault = false;
     }
 
-    if (event.keyCode !== KeyCodes.tab) {
-
-      // Prevents the entire page from scrolling on up/down key press
+    // Prevents the entire page from scrolling on space/up/down/end/home/pageUp/pageDown key press
+    if (preventDefault) {
       event.preventDefault();
     }
-
   }
 
-  private _moveFocusedItemDown() {
-    if (!this.opened) {
-      this.opened = true;
-      return;
+  private _getListItems(): NodeList {
+    if (this.itemListContainer && this.itemListContainer.nativeElement) {
+      return (this.itemListContainer.nativeElement as HTMLElement).querySelectorAll('li');
+    }
+    else {
+      return null;
+    }
+  }
+
+  optionClick(optionIndex: number) {
+    this._moveFocusedItem(optionIndex);
+    this._toggleItemSelect(optionIndex);
+  }
+
+  optionKeyPress(event: KeyboardEvent) {
+    let preventDefault = true;
+
+    if (event.keyCode === KeyCodes.arrowDown) {
+      this._moveFocusedItem(Math.min(this._focusedIndex + 1, this.options.length - 1));
+    }
+    else if (event.keyCode === KeyCodes.arrowUp) {
+      this._moveFocusedItem(Math.max(this._focusedIndex - 1, 0));
+    }
+    else if (event.keyCode === KeyCodes.end) {
+      this._moveFocusedItem(this.options.length - 1);
+    }
+    else if (event.keyCode === KeyCodes.home) {
+      this._moveFocusedItem(0);
+    }
+    else if (event.keyCode === KeyCodes.space) {
+      this._toggleItemSelect(this._focusedIndex);
+    }
+    else if (event.keyCode === KeyCodes.enter) {
+      this._toggleItemSelect(this._focusedIndex);
+      preventDefault = false;
+    }
+    else {
+      preventDefault = false;
     }
 
-    if (this._focusedIndex < this.options.length - 1) {
-      if (this._focusedIndex > -1) {
-        this.options[this._focusedIndex].isFocused = false;
+    // Prevents the entire page from scrolling on space/up/down/end/home/pageUp/pageDown key press
+    if (preventDefault) {
+      event.preventDefault();
+    }
+  }
+
+  private _moveFocusedItem(index: number) {
+    if (index >= 0 && index < this.options.length) {
+      let listItems = this._getListItems();
+      if (index < listItems.length) {
+        if (this._focusedIndex >= 0 && this._focusedIndex < this.options.length && this._focusedIndex < listItems.length) {
+          this.options[this._focusedIndex].isFocused = false;
+          Dom.clearFocus(listItems[this._focusedIndex] as HTMLElement);
+        }
+        this._focusedIndex = index;
+        this.options[this._focusedIndex].isFocused = true;
+        Dom.setFocus(listItems[this._focusedIndex] as HTMLElement);
       }
-
-      this.options[++this._focusedIndex].isFocused = true;
     }
-
     this._scrollIntoView();
   }
 
-  private _moveFocusedItemUp() {
-
-    if (this._focusedIndex > 0) {
-      this.options[this._focusedIndex].isFocused = false;
-      this.options[--this._focusedIndex].isFocused = true;
+  private _toggleItemSelect(index: number) {
+    if (index >= 0 && index < this.options.length) {
+      const option = this.options[index];
+      option.isSelected = !option.isSelected;
+      if (option === this._selectAllOption) {
+        if (option.isSelected) {
+          this.options.forEach(o => o.isSelected = true);
+        } else {
+          this.options.forEach(o => o.isSelected = false);
+        }
+      }
+      else {
+        if (option.isSelected) {
+          this._selectAllOption.isSelected = this.options.every(o => {
+            return o === this._selectAllOption || o.isSelected;
+          });
+        } else {
+          this._selectAllOption.isSelected = false;
+        }
+      }
     }
-
-    this._scrollIntoView();
   }
 
   private _getViewContainer(): HTMLDivElement {
-    return this.itemListContainer && <HTMLDivElement>this.itemListContainer.nativeElement;
+    return this.itemListContainer && this.itemListContainer.nativeElement;
   }
 
   private _scrollIntoView() {
@@ -190,6 +242,7 @@ export class MultiDropDownComponent<T> implements OnInit {
 
   private _notifyChangeSubscriptions() {
     this.opened = false;
+    this._focusedIndex = -1;
 
     let displayText = null;
     const selectedValues: T[] = [];

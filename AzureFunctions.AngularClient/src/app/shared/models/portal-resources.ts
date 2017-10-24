@@ -96,6 +96,7 @@ export class PortalResources
     public static scopeToItem: string = "scopeToItem";
     public static searchFeatures: string = "searchFeatures";
     public static searchFunctionApps: string = "searchFunctionApps";
+    public static filterSubscriptions: string = "filterSubscriptions";
     public static subscription: string = "subscription";
     public static subscriptionName: string = "subscriptionName";
     public static resourceGroup: string = "resourceGroup";
@@ -689,6 +690,7 @@ export class PortalResources
     public static allLocations: string = "allLocations";
     public static locationCount: string = "locationCount";
     public static locationColon: string = "locationColon";
+    public static locationFilter: string = "locationFilter";
     public static grouping_location: string = "grouping_location";
     public static grouping_none: string = "grouping_none";
     public static grouping_resourceGroup: string = "grouping_resourceGroup";
@@ -722,6 +724,7 @@ export class PortalResources
     public static allResourceGroups: string = "allResourceGroups";
     public static resourceGroupColon: string = "resourceGroupColon";
     public static resourceGroupCount: string = "resourceGroupCount";
+    public static resourceGroupFilter: string = "resourceGroupFilter";
     public static rrOverride_boby: string = "rrOverride_boby";
     public static rrOverride_code: string = "rrOverride_code";
     public static rrOverride_message: string = "rrOverride_message";

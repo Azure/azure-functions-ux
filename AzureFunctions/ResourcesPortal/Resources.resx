@@ -400,6 +400,9 @@
   <data name="searchFunctionApps" xml:space="preserve">
     <value>Search Function apps</value>
   </data>
+  <data name="filterSubscriptions" xml:space="preserve">
+    <value>Filter subscriptions</value>
+  </data>
   <data name="subscription" xml:space="preserve">
     <value>Subscription ID</value>
   </data>
@@ -2182,6 +2185,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="locationColon" xml:space="preserve">
     <value>Location:</value>
   </data>
+  <data name="locationFilter" xml:space="preserve">
+    <value>Location filter</value>
+  </data>
   <data name="grouping_location" xml:space="preserve">
     <value>Group by location</value>
   </data>
@@ -2280,6 +2286,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="resourceGroupCount" xml:space="preserve">
     <value>{0} resource groups</value>
+  </data>
+  <data name="resourceGroupFilter" xml:space="preserve">
+    <value>Resource group filter</value>
   </data>
   <data name="rrOverride_boby" xml:space="preserve">
     <value>Body</value>
