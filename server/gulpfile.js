@@ -54,7 +54,7 @@ export class PortalResources
 {
 `;
     Object.keys(resources).forEach(function(stringName) {
-        typescriptFileContent += `  public static ${stringName}: string = "${stringName}";
+        typescriptFileContent += `    public static ${stringName}: string = "${stringName}";
 `;
     });
     typescriptFileContent += `}`;
