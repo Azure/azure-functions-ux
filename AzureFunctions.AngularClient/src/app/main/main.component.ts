@@ -181,6 +181,10 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     }
 
     private _navigationInterceptor(event: RouterEvent): void {
+        if (!this._busyManager) {
+            return;
+        }
+
         if (event instanceof NavigationStart) {
             this._busyManager.setBusy();
         } else if (event instanceof NavigationEnd) {

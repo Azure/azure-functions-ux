@@ -69,6 +69,7 @@ export class SiteTabIds {
     public static readonly config = "config";
     public static readonly applicationSettings = "appSettings";
     public static readonly continuousDeployment = "continuousDeployment";
+    public static readonly logicApps = "logicApps";
 }
 
 export class Arm {
@@ -99,6 +100,7 @@ export class Validations {
 export class Regex {
     public static readonly invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
     public static readonly header: RegExp = /^[a-zA-Z0-9\-_]+$/;
+    public static readonly functionName: RegExp = /^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$/;
 }
 
 export class Links {
@@ -204,6 +206,7 @@ export class LogCategories {
     public static readonly defaultDocuments = 'DefaultDocuments';
     public static readonly handlerMappings = 'HandlerMappings';
     public static readonly virtualDirectories = 'VirtualDirectories';
+    public static readonly logicapps = 'LogicApps';
 }
 
 export class KeyCodes {

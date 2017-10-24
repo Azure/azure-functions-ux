@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using AzureFunctions.Code.Extensions;
@@ -17,12 +18,12 @@ namespace AzureFunctions.Code
     public class DiagnosticsManager : IDiagnosticsManager
     {
         private readonly IArmClient _client;
-        const string AntaresApiVersion = "2015-08-01";
+        private const string AntaresApiVersion = "2015-08-01";
 
-        const string AzureWebJobsStorageAppSetting = "AzureWebJobsStorage";
-        const string FunctionsExtensionVersionAppSetting = "FUNCTIONS_EXTENSION_VERSION";
-        const string AzureFilesConnectionString = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING";
-        const string AzureFilesContentShare = "WEBSITE_CONTENTSHARE";
+        private const string AzureWebJobsStorageAppSetting = "AzureWebJobsStorage";
+        private const string FunctionsExtensionVersionAppSetting = "FUNCTIONS_EXTENSION_VERSION";
+        private const string AzureFilesConnectionString = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING";
+        private const string AzureFilesContentShare = "WEBSITE_CONTENTSHARE";
 
         public DiagnosticsManager(IArmClient client)
         {
@@ -98,6 +99,56 @@ namespace AzureFunctions.Code
             return resourceCheckResult.DiagnosticsResults
                     .Concat(appSettingsCheckResult.DiagnosticsResults)
                     .Concat(new[] { storageCheckResult });
+        }
+
+        public async Task<(bool, string)> GetRuntimeToken(string armId)
+        {
+            string siteName = armId.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+            var getAppSettingsUrl = $"{armId}/config/appsettings/list";
+
+            // Dictionary<string, string> is all we need from app settings.
+            var maybeAppSettings = await _client.Post<ArmResource<Dictionary<string, string>>>(getAppSettingsUrl, AntaresApiVersion);
+            if (!maybeAppSettings.IsSuccessful)
+            {
+                return (false, await maybeAppSettings.Error.Content.ReadAsStringAsync());
+            }
+            else
+            {
+                var appSettings = maybeAppSettings.Result;
+                var diagResults = new List<DiagnosticsResult>();
+                var machineKey = appSettings.Properties.FirstOrDefault(k => k.Key.Equals("MACHINEKEY_DecryptionKey", StringComparison.OrdinalIgnoreCase));
+
+                if (string.IsNullOrEmpty(machineKey.Key) || string.IsNullOrEmpty(machineKey.Value))
+                {
+                    using (var aes = new AesManaged())
+                    {
+                        aes.GenerateKey();
+                        var key = BitConverter.ToString(aes.Key).Replace("-", "");
+                        appSettings.Properties.Add("MACHINEKEY_DecryptionKey", key);
+                        var setAppSettingsUrl = $"{armId}/config/appsettings";
+                        var result = await _client.Put<ArmResource<Dictionary<string, string>>>(setAppSettingsUrl, AntaresApiVersion, appSettings);
+                        if (result.IsSuccessful)
+                        {
+                            return (true, GetRuntimeToken(siteName, key));
+                        }
+                        else
+                        {
+                            return (false, await result.Error.Content.ReadAsStringAsync());
+                        }
+                    }
+                }
+                else
+                {
+                    return (true, GetRuntimeToken(siteName, machineKey.Value));
+                }
+            }
+        }
+
+        private string GetRuntimeToken(string siteName, string machineKey)
+        {
+            string issuer = $"https://{siteName}.scm.azurewebsites.net";
+            string audience = $"https://{siteName}.azurewebsites.net/azurefunctions";
+            return JwtGenerator.GenerateToken(issuer, audience, expires: DateTime.UtcNow.AddMinutes(5), key: machineKey);
         }
 
         private async Task<DiagnosticsResult> CheckFunctionRuntimeResult(ArmResource<ArmFunctionApp> functionApp, string masterKey)
@@ -254,8 +305,8 @@ namespace AzureFunctions.Code
         /// <summary>
         /// This is another very common issue where after scaling to a non-home stamp, the scaled site
         /// doesn't work on the non-home stamp and it's very hard to get what is going on there.
-        /// To figure out this issue, we need to DNS resolve the host and get all addresses, then 
-        /// then send a status request to all of them. 
+        /// To figure out this issue, we need to DNS resolve the host and get all addresses, then
+        /// then send a status request to all of them.
         /// <param name="functionApp"> The function app to be checked for cross stamp issues. </param>
         /// <param name="masterKey"> The masterKey for the function app to be diagnosed. </param>
         /// </summary>
@@ -481,7 +532,7 @@ namespace AzureFunctions.Code
             var maybeAppSettings = await _client.Post<ArmResource<Dictionary<string, string>>>(armId, AntaresApiVersion);
             if (!maybeAppSettings.IsSuccessful)
             {
-                return new TypedPair<ArmResource<Dictionary<string, string>>>(HandleArmResponseError(armId, maybeAppSettings.Error),null);
+                return new TypedPair<ArmResource<Dictionary<string, string>>>(HandleArmResponseError(armId, maybeAppSettings.Error), null);
             }
             else
             {
@@ -635,6 +686,7 @@ namespace AzureFunctions.Code
                             ErrorAction = string.Format("First make sure you have proper access to the Azure resource {0}. If you still see this error try refreshing the portal to renew your authentication token.", armId)
                         }
                     };
+
                 case HttpStatusCode.InternalServerError:
                 case HttpStatusCode.GatewayTimeout:
                 case HttpStatusCode.ServiceUnavailable:
@@ -648,6 +700,7 @@ namespace AzureFunctions.Code
                             ErrorId = ErrorIds.UnexpectedArmError
                         }
                     };
+
                 default:
                     return new DiagnosticsResult
                     {
@@ -699,7 +752,7 @@ namespace AzureFunctions.Code
     ///   Tuple<IEnumerable<DiagnosticsResult>, T>  vs  TypedPair<T>
     /// Though obviously it still ugly. Hopefully will come back and clean this a bit once C#7 is out.
     /// </summary>
-    class TypedPair<T>
+    internal class TypedPair<T>
     {
         public IEnumerable<DiagnosticsResult> DiagnosticsResults { get; private set; }
         public T Data { get; private set; }

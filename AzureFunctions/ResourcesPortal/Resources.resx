@@ -2324,6 +2324,30 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Click to hide</value>
   </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Logic Apps allow you to easily utilize your function across multiple platforms</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>Associated Logic Apps</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Orchestrate with Logic Apps</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Create Logic Apps</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>No Logic Apps to display</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows.</value>
+  </data>
   <data name="expandCollapse" xml:space="preserve">
     <value>Expand or Collapse</value>
   </data>

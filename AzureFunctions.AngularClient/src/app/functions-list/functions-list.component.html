@@ -40,13 +40,14 @@
                     (change)="enableChange(item, $event)"></slide-toggle>
                 </div>
             </td>
-            <td class="command-icon">
+            <td class="icon-cell">
                 <div [fnWriteAccess]="functionApp">
-                    <a role="button"
-                    [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
-                    style="background-image: url('image/delete.svg')"
-                    (click)="clickDelete(item)">
-                    </a>
+                    <span role="button"
+                        class="icon-small"
+                        load-image="image/delete.svg"
+                        [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
+                        (click)="clickDelete(item)">
+                    </span>
                 </div>
             </td>
         </tr>

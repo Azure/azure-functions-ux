@@ -284,7 +284,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         autoSwapSupported = false;
       }
 
-      if (this._kind === 'functionapp') {
+      if (this._kind && this._kind.indexOf('functionapp') !== -1) {
         phpSupported = false;
         pythonSupported = false;
         javaSupported = false;

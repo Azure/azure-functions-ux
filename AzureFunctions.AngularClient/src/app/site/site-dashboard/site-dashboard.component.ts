@@ -1,4 +1,5 @@
 import { DeploymentCenterComponent } from '../deployment-center/deployment-center.component';
+import { LogicAppsComponent } from './../../logic-apps/logic-apps.component';
 import { Dom } from './../../shared/Utilities/dom';
 import { LogService } from './../../shared/services/log.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
@@ -110,7 +111,9 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         this.viewInfoStream
             .switchMap(viewInfo => {
                 if (this._globalStateService.showTryView) {
-                    this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
+                    this._globalStateService.setDisabledMessage(
+                        this._translateService.instant(PortalResources.try_appDisabled)
+                    );
                 }
 
                 viewInfo.data.siteTabRevealedTraceKey = this._aiService.startTrace();
@@ -122,9 +125,13 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
             })
             .do(null, e => {
                 const descriptor = new SiteDescriptor(this.viewInfo.resourceId);
-                let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
+                let message = this._translateService
+                    .instant(PortalResources.siteDashboard_getAppError)
+                    .format(descriptor.site);
                 if (e && e.status === 404) {
-                    message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
+                    message = this._translateService
+                        .instant(PortalResources.siteDashboard_appNotFound)
+                        .format(descriptor.site);
                 }
 
                 this._logService.error(LogCategories.siteDashboard, '/site-dashboard', e);
@@ -142,7 +149,10 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                     const info = this.tabInfos[i];
 
                     if (info.active) {
-                        this._logService.debug(LogCategories.siteDashboard, `Updating inputs for active tab '${info.id}'`);
+                        this._logService.debug(
+                            LogCategories.siteDashboard,
+                            `Updating inputs for active tab '${info.id}'`
+                        );
 
                         // We're not recreating the active tab so that it doesn't flash in the UI
                         this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo };
@@ -151,8 +161,13 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                         // aren't visible to be sure that we can't accidentally load them with the wrong
                         // input in the future.  This also helps to dispose of other unused components
                         // when we switch apps.
-                        this.tabInfos[i] = this._getTabInfo(info.id, false /* active */, { viewInfoInput: this.viewInfo });
-                        this._logService.debug(LogCategories.siteDashboard, `Creating new component for inactive tab '${info.id}'`);
+                        this.tabInfos[i] = this._getTabInfo(info.id, false /* active */, {
+                            viewInfoInput: this.viewInfo
+                        });
+                        this._logService.debug(
+                            LogCategories.siteDashboard,
+                            `Creating new component for inactive tab '${info.id}'`
+                        );
                     }
                 }
 
@@ -305,6 +320,13 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                 info.title = this._translateService.instant(PortalResources.tab_applicationSettings);
                 info.iconUrl = 'image/application-settings.svg';
                 info.componentFactory = SiteConfigComponent;
+                info.closeable = true;
+                break;
+
+            case SiteTabIds.logicApps:
+                info.title = this._translateService.instant(PortalResources.tab_logicApps);
+                info.iconUrl = 'image/logicapp.svg';
+                info.componentFactory = LogicAppsComponent;
                 info.closeable = true;
                 break;
         }

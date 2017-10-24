@@ -59,7 +59,7 @@ node_modules/
 npm-debug.log
 testem.log
 /typings
-
+portal-resources.ts
 # e2e
 /e2e/*.js
 /e2e/*.map

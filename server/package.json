@@ -3,12 +3,14 @@
     "version": "0.0.0",
     "scripts": {
         "watch": "nodemon .\\src\\nodemon.json",
-        "watchu" : "nodemon .\\src\\nodemon-unix.json"
+        "watchu": "nodemon .\\src\\nodemon-unix.json"
     },
     "dependencies": {
         "async": "^2.5.0",
+        "async-file": "^2.0.2",
         "axios": "^0.16.2",
         "body-parser": "^1.17.2",
+        "circular-json": "^0.4.0",
         "cookie-parser": "^1.4.3",
         "express": "^4.15.3",
         "express-session": "^1.15.3",
@@ -29,6 +31,7 @@
         "@types/async": "^2.0.40",
         "@types/axios": "^0.14.0",
         "@types/body-parser": "^1.16.4",
+        "@types/circular-json": "^0.4.0",
         "@types/cookie-parser": "^1.3.30",
         "@types/express": "^4.0.36",
         "@types/express-session": "^1.15.0",
@@ -39,18 +42,18 @@
         "@types/uuid": "^3.4.0",
         "@types/passport-github2": "^1.1.0",
         "concurrently": "^3.5.0",
-        "nodemon": "^1.11.0",
-        "ts-node": "^3.1.0",
-        "typescript": "^2.4.1",
+        "del": "^3.0.0",
         "gulp": "^3.9.1",
-        "gulp-resx2": "^1.0.1",
-        "gulp-rename": "^1.2.2",
-        "merge-stream": "^1.0.1",
+        "gulp-decompress": "^2.0.1",
+        "gulp-download": "^0.0.1",
         "gulp-json-editor": "^2.2.1",
         "gulp-merge-json": "^1.2.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-resx2": "^1.0.1",
+        "merge-stream": "^1.0.1",
+        "nodemon": "^1.11.0",
         "run-sequence": "^2.2.0",
-        "del": "^3.0.0",
-        "gulp-download": "^0.0.1",
-        "gulp-decompress": "^2.0.1"
+        "ts-node": "^3.1.0",
+        "typescript": "^2.4.1"
     }
 }

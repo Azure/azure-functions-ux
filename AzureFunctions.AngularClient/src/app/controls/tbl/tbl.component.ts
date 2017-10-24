@@ -1,7 +1,12 @@
 import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
-import { Input, OnChanges, SimpleChange, ElementRef, ViewChild} from '@angular/core';
-import { Component, OnInit} from '@angular/core';
+import { TblThComponent } from './tbl-th/tbl-th.component';
+import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, ContentChildren, QueryList } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterContentChecked
+} from "@angular/core";
 
 export interface TableItem {
   type: 'row' | 'group';
@@ -21,14 +26,14 @@ export interface TableItem {
   </table>`,
   exportAs: 'tbl'
 })
-export class TblComponent implements OnInit, OnChanges {
+export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
   @Input() items: TableItem[];
   // groupColName will be what col items are sorted by within individual groups
   // if no grouping is done in the table it is null
   @Input() groupColName: string | null;
-  //@ContentChildren(forwardRef(() => TblThComponent)) headers: QueryList<TblThComponent>;
+  @ContentChildren(TblThComponent) headers: QueryList<TblThComponent>;
 
   @ViewChild('tbl') table: ElementRef;
 
@@ -46,6 +51,10 @@ export class TblComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterContentChecked(){
+    this.headers.forEach(h => h.table = this);
   }
 
   ngOnChanges(changes: { [key: string]: SimpleChange }) {

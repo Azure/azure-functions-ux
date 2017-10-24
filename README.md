@@ -6,7 +6,6 @@
     * [Node 6.*](https://nodejs.org/en/download/)
     * [yarn](https://yarnpkg.com/en/docs/install)
     * A text editor. [vscode](https://code.visualstudio.com/)
-    * [Gulp CLI] (https://github.com/gulpjs/gulp-cli)
 
 2. **Environment Prerequisites**
     * `AADClientId` **Required**
@@ -21,7 +20,7 @@ git clone git@github.com:Azure/azure-functions-ux.git
 # there are 2 places to restore packages in
 cd azure-functions-ux/server
 yarn install
-yarn run gulp build-resources
+yarn run gulp build-all
 cd ../AzureFunctions.AngularClient
 yarn install
  ```

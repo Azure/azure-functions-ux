@@ -180,6 +180,15 @@ export class SiteManageComponent implements OnDestroy {
         ];
 
         const developmentToolFeatures = [
+            new TabFeature(
+                this._translateService.instant(PortalResources.tab_logicApps),
+                this._translateService.instant(PortalResources.tab_logicApps),
+                this._translateService.instant(PortalResources.feature_logicAppsInfo),
+                'image/logicapp.svg',
+                SiteTabIds.logicApps,
+                this._broadcastService),
+
+
             this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
                     this._translateService.instant(PortalResources.feature_consoleName),

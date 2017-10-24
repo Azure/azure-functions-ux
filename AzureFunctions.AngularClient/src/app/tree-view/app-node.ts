@@ -51,6 +51,7 @@ export class AppNode extends TreeNode
     public subscription: string;
     public resourceGroup: string;
     public location: string;
+    public subscriptionId: string;
 
     public functionAppStream = new ReplaySubject<FunctionApp>(1);
     public slotProperties: any;
@@ -88,6 +89,7 @@ export class AppNode extends TreeNode
         });
 
         this.subscription = sub && sub.displayName;
+        this.subscriptionId = sub && sub.subscriptionId;
     }
 
     public handleSelection(): Observable<any> {
@@ -127,23 +129,22 @@ export class AppNode extends TreeNode
             (h, r, s) => ({ hasWritePermission: h, hasReadOnlyLock: r, siteResponse: s })
         )
             .mergeMap(r => {
-                this.isLoading = false;
-
                 const site: ArmObj<Site> = r.siteResponse.json();
 
                 if (!this._functionApp) {
-                    this._setupFunctionApp(site);
-
-                    if (site.properties.state === 'Running' && r.hasWritePermission && !r.hasReadOnlyLock) {
-                        return this._setupBackgroundTasks()
-                            .map(() => {
+                    return this._setupFunctionApp(site)
+                        .mergeMap(() => {
+                            if (site.properties.state === 'Running' && r.hasWritePermission && !r.hasReadOnlyLock) {
+                                return this._setupBackgroundTasks()
+                                    .map(() => {
+                                        this.supportsRefresh = true;
+                                    });
+                            } else {
+                                this.dispose();
                                 this.supportsRefresh = true;
-                            });
-                    } else {
-                        this.dispose();
-                        this.supportsRefresh = true;
-                        return Observable.of(null);
-                    }
+                                return Observable.of(null);
+                            }
+                        });
                 }
 
                 this.supportsRefresh = true;
@@ -183,6 +184,8 @@ export class AppNode extends TreeNode
     }
 
     private _setupFunctionApp(site: ArmObj<Site>) {
+        let result = Observable.of();
+
         if (this.sideNav.tryFunctionApp) {
             this._functionApp = this.sideNav.tryFunctionApp;
 
@@ -206,27 +209,37 @@ export class AppNode extends TreeNode
                 this.sideNav.slotsService
             );
 
-            this.functionAppStream.next(this._functionApp);
+            const postFunctionApp = () => {
+                this.functionAppStream.next(this._functionApp);
 
-            const functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
-            functionsNode.toggle(null);
-            this.children = [functionsNode];
+                const functionsNode = new FunctionsNode(this.sideNav, this._functionApp, this);
+                functionsNode.toggle(null);
+                this.children = [functionsNode];
 
-            if (!this.sideNav.configService.isStandalone()) {
-                const proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
-                const slotsNode = new SlotsNode(this.sideNav, this._subscriptions, this._siteArmCacheObj, this);
-                proxiesNode.toggle(null);
-                // Do not auto expand slotsNode
-                // for slots Node hide the slots as child Node
-                if (this.isSlot) {
-                    this.supportsScope = false;
-                    this.children.push(proxiesNode);
-                } else {
-                    this.supportsScope = true;
-                    this.children.push(proxiesNode, slotsNode);
+                if (!this.sideNav.configService.isStandalone()) {
+                    const proxiesNode = new ProxiesNode(this.sideNav, this._functionApp, this);
+                    const slotsNode = new SlotsNode(this.sideNav, this._subscriptions, this._siteArmCacheObj, this);
+                    proxiesNode.toggle(null);
+                    // Do not auto expand slotsNode
+                    // for slots Node hide the slots as child Node
+                    if (this.isSlot) {
+                        this.supportsScope = false;
+                        this.children.push(proxiesNode);
+                    } else {
+                        this.supportsScope = true;
+                        this.children.push(proxiesNode, slotsNode);
+                    }
                 }
+            };
+
+            if (this._functionApp.functionAppVersion === 2) {
+                result = this._functionApp.getHostSecretsFromScm().do(() => postFunctionApp());
+            } else {
+                postFunctionApp();
             }
         }
+
+        return result;
     }
 
     public handleRefresh(): Observable<any> {
