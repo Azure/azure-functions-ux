@@ -1,5 +1,6 @@
 // This file is auto generated
-    export class PortalResources
+
+export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
@@ -72,6 +73,7 @@
     public static region: string = "region";
     public static run: string = "run";
     public static save: string = "save";
+    public static saveOperationInProgressWarning: string = "saveOperationInProgressWarning";
     public static addNewSetting: string = "addNewSetting";
     public static addNewConnectionString: string = "addNewConnectionString";
     public static addNewDocument: string = "addNewDocument";
@@ -726,12 +728,6 @@
     public static rrOverride_request: string = "rrOverride_request";
     public static rrOverride_response: string = "rrOverride_response";
     public static optional: string = "optional";
-    public static redeploy: string = "redeploy";
-    public static time: string = "time";
-    public static log: string = "log";
-    public static showLogs: string = "showLogs";
-    public static commitIdAuthor: string = "commitIdAuthor";
-    public static checkinMessage: string = "checkinMessage";
     public static topBar_runtimeV2: string = "topBar_runtimeV2";
     public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
     public static feature_logicAppsInfo: string = "feature_logicAppsInfo";
@@ -781,3 +777,4 @@
     public static appFunctionSettings_proxyEnabled: string = "appFunctionSettings_proxyEnabled";
     public static java_splash_button: string = "java_splash_button";
 }
+
