@@ -51,14 +51,11 @@ gulp.task('resx-to-typescript-models', function() {
     let typescriptFileContent = `// This file is auto generated
     
 export class PortalResources
-{
-`;
+{\r\n`;
     Object.keys(resources).forEach(function(stringName) {
-        typescriptFileContent += `    public static ${stringName}: string = "${stringName}";
-`;
+        typescriptFileContent += `    public static ${stringName}: string = "${stringName}";\r\n`;
     });
-    typescriptFileContent += `}
-`;
+    typescriptFileContent += `}`;
     let writePath = path.normalize(path.join(__dirname,'..', 'AzureFunctions.AngularClient','src', 'app', 'shared', 'models', 'portal-resources.ts'));
     fs.writeFileSync(writePath, new Buffer(typescriptFileContent));
 });
