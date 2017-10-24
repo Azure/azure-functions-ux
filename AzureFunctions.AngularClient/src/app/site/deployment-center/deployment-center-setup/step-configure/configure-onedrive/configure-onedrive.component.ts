@@ -6,6 +6,8 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { Constants } from 'app/shared/models/constants';
+import { MovingDirection } from 'app/controls/form-wizard/util/moving-direction.enum';
+import { KuduBuildSettings } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
 
 @Component({
     selector: 'app-configure-onedrive',
@@ -13,8 +15,10 @@ import { Constants } from 'app/shared/models/constants';
     styleUrls: ['./configure-onedrive.component.scss', '../step-configure.component.scss']
 })
 export class ConfigureOnedriveComponent {
-  private _resourceId: string;
-  public folderList: DropDownElement<string>[];
+    private _resourceId: string;
+    public folderList: DropDownElement<string>[];
+    private _chosenFolder: string;
+
     constructor(
         private _wizard: DeploymentCenterWizardService,
         _portalService: PortalService,
@@ -28,8 +32,25 @@ export class ConfigureOnedriveComponent {
         this._wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });
+        this._wizard.StepExitListener.subscribe(r => {
+            if (r.step !== 'configure' || r.direction !== MovingDirection.Forwards) {
+                return;
+            }
+
+            const buildSettings: KuduBuildSettings = {
+                repoUrl: this._chosenFolder,
+                branch: '',
+                isManualIntegration: false,
+                deploymentRollbackEnabled: false,
+                isMercurial: false
+            };
+            this._wizard.currentWizardState.buildSettings = buildSettings;
+        });
     }
 
+    folderChanged(value) {
+        this._chosenFolder = value;
+    }
     public fillOnedriveFolders() {
         this.folderList = [];
         return this._cacheService

@@ -1,5 +1,6 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { MovingDirection } from 'app/controls/form-wizard/util/moving-direction.enum';
 
 @Component({
     selector: 'app-deployment-center-setup',
@@ -35,5 +36,12 @@ export class DeploymentCenterSetupComponent {
         if (changes['resourceId']) {
             this._wizardService.resourceIdStream.next(this.resourceId);
         }
+    }
+
+    stepExit(exitDirection: MovingDirection, step: string){
+        this._wizardService.StepExitListener.next({
+            direction: exitDirection,
+            step: step
+        });
     }
 }

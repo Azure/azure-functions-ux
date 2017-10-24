@@ -1,8 +1,8 @@
 <wizard navBarLayout="large-filled-symbols" style="height: 100vh" #wizard>
-    <app-step-source-control wizardStep title="Source Control" navigationSymbol="1" (stepExit)="stepExit($event)"></app-step-source-control>
-    <app-step-build-provider wizardStep title="Build Provider" *ngIf="showBuildStep" navigationSymbol="2" (stepExit)="stepExit($event)"></app-step-build-provider>
-    <app-step-configure wizardStep title="Configure"  *ngIf="showConfigureStep" navigationSymbol="3" (stepExit)="stepExit($event)"></app-step-configure>
-    <app-step-test wizardStep title="Test" *ngIf="showTestStep" navigationSymbol="4" (stepExit)="stepExit($event)"></app-step-test>
-    <app-step-deployment-slot wizardStep title="Deploy" *ngIf="showDeployStep" navigationSymbol="5" (stepExit)="stepExit($event)"></app-step-deployment-slot>
-    <app-step-complete wizardCompletionStep title="Summary" navigationSymbol="6" (stepExit)="stepExit($event)"></app-step-complete>
+    <app-step-source-control wizardStep title="Source Control" navigationSymbol="1" (stepExit)="stepExit($event, 'sourceControl')"></app-step-source-control>
+    <app-step-build-provider wizardStep title="Build Provider" *ngIf="showBuildStep" navigationSymbol="2" (stepExit)="stepExit($event, 'buildProvider')"></app-step-build-provider>
+    <app-step-configure wizardStep title="Configure"  *ngIf="showConfigureStep" navigationSymbol="3" (stepExit)="stepExit($event, 'configure')"></app-step-configure>
+    <app-step-test wizardStep title="Test" *ngIf="showTestStep" navigationSymbol="4" (stepExit)="stepExit($event, 'test')"></app-step-test>
+    <app-step-deployment-slot wizardStep title="Deploy" *ngIf="showDeployStep" navigationSymbol="5" (stepExit)="stepExit($event, 'deployment-slot')"></app-step-deployment-slot>
+    <app-step-complete wizardCompletionStep title="Summary" navigationSymbol="6" (stepExit)="stepExit($event, 'complete')"></app-step-complete>
 </wizard>

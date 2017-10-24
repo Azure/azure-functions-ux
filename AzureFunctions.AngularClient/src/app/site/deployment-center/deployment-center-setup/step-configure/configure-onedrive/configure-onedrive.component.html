@@ -11,7 +11,7 @@
       </div>
       <div class="setting-control-container">
         <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!folderList ? folderList : []"
-          [highlightDirty]="true">
+          [highlightDirty]="true" (value)="folderChanged($event)">
         </drop-down>
       </div>
     </div>

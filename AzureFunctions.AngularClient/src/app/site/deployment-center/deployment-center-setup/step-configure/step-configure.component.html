@@ -1,10 +1,10 @@
-<app-configure-onedrive *ngIf="provider === 'onedrive'"  (stepExit)="stepExit($event)"></app-configure-onedrive>
-<app-configure-dropbox *ngIf="provider === 'dropbox'" (stepExit)="stepExit($event)"></app-configure-dropbox>
-<app-configure-github *ngIf="provider === 'github'" (stepExit)="stepExit($event)"></app-configure-github>
-<app-configure-vsts-source *ngIf="provider === 'vsts'" (stepExit)="stepExit($event)"></app-configure-vsts-source>
-<app-configure-bitbucket *ngIf="provider === 'bitbucket'" (stepExit)="stepExit($event)"></app-configure-bitbucket>
+<app-configure-onedrive *ngIf="provider === 'onedrive'"></app-configure-onedrive>
+<app-configure-dropbox *ngIf="provider === 'dropbox'"></app-configure-dropbox>
+<app-configure-github *ngIf="provider === 'github'"></app-configure-github>
+<app-configure-vsts-source *ngIf="provider === 'vsts'"></app-configure-vsts-source>
+<app-configure-bitbucket *ngIf="provider === 'bitbucket'"></app-configure-bitbucket>
 <app-configure-external *ngIf="provider === 'external'" (stepExit)="stepExit($event)"></app-configure-external>
-<app-configure-vsts-build *ngIf="buildProvider === 'vsts' && provider != 'vsts'" (stepExit)="stepExit($event)"></app-configure-vsts-build>
+<app-configure-vsts-build *ngIf="buildProvider === 'vsts' && provider != 'vsts'"></app-configure-vsts-build>
 <div class="footer">
   <button type="button" class="custom-button" style="margin-top:12px" previousStep>Back</button>
   <button type="button" class="custom-button" style="margin-top:12px" nextStep>Continue</button>
