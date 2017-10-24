@@ -11,10 +11,18 @@ export class VstsBuildSettings {
     public applicationFramework: string;
     public testEnvironment: VstsTestEnvironment;
 }
+
+export class KuduBuildSettings {
+    public repoUrl: string;
+    public branch: string;
+    public isManualIntegration: boolean;
+    public deploymentRollbackEnabled: boolean;
+    public isMercurial: boolean;
+}
 export class DeploymentCenterSetupModel {
     public sourceProvider: sourceControlProvider
     public buildProvider: sourceControlProvider;
-    public vstsBuildSettings: VstsBuildSettings
+    public buildSettings: VstsBuildSettings | KuduBuildSettings;
     public deploymentSlot: string;
     public sourceCodeSettings: any;
 

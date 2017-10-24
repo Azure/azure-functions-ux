@@ -2,6 +2,7 @@ import { Application } from 'express';
 import { setupGithubAuthentication, getGithubTokens } from './githubAuth';
 import { setupBitbucketAuthentication, getBitbucketTokens } from './bitbucketAuth';
 import { setupOnedriveAuthentication, getOnedriveTokens } from './onedriveAuth';
+import { setupDropboxAuthentication } from './dropboxAuth';
 
 export function setupDeploymentCenter(app: Application) {
     app.get('/api/SourceControlAuthenticationState', async (req, res) => {
@@ -13,4 +14,5 @@ export function setupDeploymentCenter(app: Application) {
     setupGithubAuthentication(app);
     setupBitbucketAuthentication(app);
     setupOnedriveAuthentication(app);
+    setupDropboxAuthentication(app);
 }

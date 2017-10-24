@@ -1,7 +1,7 @@
 <div class="selectionContainer">
   <div class="cardContainer" *ngFor="let card of providerCards" (click)="selectProvider(card)">
     <div class="headerBox" [style.background-color]="card.barColor">
-      <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}} <img *ngIf="selectedProvider && selectedProvider.name === card.name"
+      <img [src]="card.icon" [style.background-color]="card.color" [style.color]="white" style="padding: 5px"/> {{card.name}} <img *ngIf="selectedProvider && selectedProvider.name === card.name"
         style="float:right" src="image/success-blue.svg">
     </div>
     <div class="sourceDescription">

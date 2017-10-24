@@ -30,8 +30,8 @@ export class StepSourceControlComponent {
         {
             id: 'onedrive',
             name: 'OneDrive',
-            icon: 'image/deployment-center/onedrive-logo.svg',
-            color: '#0A4AB1',
+            icon: 'image/deployment-center/onedrive.svg',
+            color: '#0A4BB3',
             barColor: '#D7E2F2',
             description: 'Sync content from a OneDrive cloud folder.',
             authorizedStatus: 'none'
@@ -39,54 +39,72 @@ export class StepSourceControlComponent {
         {
             id: 'github',
             name: 'Github',
-            icon: 'image/deployment-center/onedrive-logo.svg',
-            color: '#000000',
-            barColor: '#D6D6D6',
+            icon: 'image/deployment-center/github.svg',
+            color: '#68217A',
+            barColor: '#c473d9',
             description: 'Configure continuous integration with a Github repo.',
             authorizedStatus: 'none'
         },
         {
             id: 'vsts',
             name: 'VSTS',
-            icon: 'image/deployment-center/onedrive-logo.svg',
-            color: '#68227A',
-            barColor: '#CED2EA',
+            icon: 'image/deployment-center/vsts.svg',
+            color: '#0071bc',
+            barColor: '#5ebeff',
             description: 'Configure continuous integration with a VSTS repo.',
             authorizedStatus: 'none'
         },
         {
             id: 'external',
             name: 'External',
-            icon: 'image/deployment-center/onedrive-logo.svg',
-            color: '#9E0F00',
-            barColor: '#EFD8D6',
+            icon: 'image/deployment-center/External.svg',
+            color: '#7FBA00',
+            barColor: '#cbff5d',
             description: 'Deploy from a public Git or Mercurial repo.',
             authorizedStatus: 'none'
         },
         {
             id: 'bitbucket',
             name: 'Bitbucket',
-            icon: 'image/deployment-center/onedrive-logo.svg',
-            color: '#215081',
-            barColor: '#DBE3EB',
+            icon: 'image/deployment-center/Bitbucket.svg',
+            color: '#205081',
+            barColor: '#73a7dc',
+            description: 'Configure continuous integration with a Bitbucket repo.',
+            authorizedStatus: 'none'
+        },
+        {
+            id: 'dropbox',
+            name: 'Dropbox',
+            icon: 'image/deployment-center/Dropbox.svg',
+            color: '#007EE5',
+            barColor: '#72bfff',
             description: 'Configure continuous integration with a Bitbucket repo.',
             authorizedStatus: 'none'
         },
         {
             id: 'localgit',
             name: 'Local Git',
-            icon: 'image/deployment-center/onedrive-logo.svg',
-            color: '#FFB901',
-            barColor: '#FFF2D1',
+            icon: 'image/deployment-center/LocalGit.svg',
+            color: '#ba141a',
+            barColor: '#f0757a',
             description: 'Deploy from a local Git repo.',
+            authorizedStatus: 'none'
+        },
+        {
+            id: 'webdeploy',
+            name: 'Web Deploy',
+            icon: 'image/deployment-center/WebDeploy.svg',
+            color: '#B8D432',
+            barColor: '#dbe998',
+            description: 'use ms deploy',
             authorizedStatus: 'none'
         },
         {
             id: 'ftp',
             name: 'FTP',
-            icon: 'image/deployment-center/onedrive-logo.svg',
-            color: '#F46300',
-            barColor: '#FDE6D6',
+            icon: 'image/deployment-center/FTP.svg',
+            color: '#FCD116',
+            barColor: '#fde88a',
             description: 'Use an FTP connection to access and copy app files.',
             authorizedStatus: 'none'
         }
@@ -107,6 +125,7 @@ export class StepSourceControlComponent {
             this.providerCards[0].authorizedStatus = 'loadingAuth';
             this.providerCards[1].authorizedStatus = 'loadingAuth';
             this.providerCards[4].authorizedStatus = 'loadingAuth';
+            this.providerCards[5].authorizedStatus = 'loadingAuth';
             return _cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
         })
         .switchMap(dep=>{
@@ -122,22 +141,29 @@ export class StepSourceControlComponent {
                  _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true,null, {
                      url: 'https://api.bitbucket.org/2.0/user'
                  }),
-                (github, onedrive, bitbucket) => ({
+                 _cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true,null, {
+                     url: 'https://api.dropboxapi.com/2/users/get_current_account'
+                 }),
+                (github, onedrive, bitbucket, dropbox) => ({
                     github: github.json(),
                     onedrive: onedrive.json(),
                     bitbucket: bitbucket.json(),
+                    dropbox: dropbox.json(),
                     onedriveAuth: r.onedrive,
                     githubAuth: r.github,
-                    bitbucketAuth: r.bitbucket
+                    bitbucketAuth: r.bitbucket,
+                    DropboxAuth: r.dropbox
                 }));
         })
         .subscribe(r => {
             this.providerCards[1].authenticatedId = r.github.login;
             this.providerCards[0].authenticatedId = r.onedrive.owner.user.displayName;
             this.providerCards[4].authenticatedId = r.bitbucket.display_name;
+            this.providerCards[5].authenticatedId = r.dropbox.name.display_name;
             this.providerCards[0].authorizedStatus = r.onedrive ? 'authorized' : 'notAuthorized';
             this.providerCards[1].authorizedStatus = r.github ? 'authorized' : 'notAuthorized';
             this.providerCards[4].authorizedStatus = r.bitbucket ? 'authorized' : 'notAuthorized';
+            this.providerCards[5].authorizedStatus = r.dropbox ? 'authorized' : 'notAuthorized';
 
         });
     }
