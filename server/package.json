@@ -24,8 +24,7 @@
         "passport-github2": "^0.1.10",
         "client-oauth2": "^4.1.0",
         "request": "^2.81.0",
-        "@types/request": "^2.0.2",
-        "async-file": "^2.0.2"
+        "@types/request": "^2.0.2"
     },
     "devDependencies": {
         "@types/async": "^2.0.40",
