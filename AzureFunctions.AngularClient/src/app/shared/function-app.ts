@@ -282,10 +282,23 @@ export class FunctionApp {
                     json: () => { return {}; }
                 })),
             this._cacheService.get('assets/schemas/proxies.json', false, this.getPortalHeaders()),
-            (p, s) => ({ proxies: p.json(), schema: s.json() })
+            (p, s) => ({ proxies: p, schema: s.json() })
         ).map(r => {
-            if (r.proxies.proxies) {
-                const validateResult = jsonschema.validate(r.proxies, r.schema).toString();
+            let proxies = null;
+            try {
+                proxies = r.proxies.json();
+            } catch (e) {
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: `${this._translateService.instant(PortalResources.error_schemaValidationProxies)}. ${e}`,
+                    errorId: ErrorIds.proxySchemaValidationFails,
+                    errorType: ErrorType.Fatal,
+                    resourceId: this.site.id
+                });
+                return ApiProxy.fromJson({});
+            }
+
+            if (proxies.proxies) {
+                const validateResult = jsonschema.validate(proxies, r.schema).toString();
 
                 if (validateResult) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -297,7 +310,7 @@ export class FunctionApp {
                     return ApiProxy.fromJson({});
                 }
             }
-            return ApiProxy.fromJson(r.proxies);
+            return ApiProxy.fromJson(proxies);
         });
     }
 
