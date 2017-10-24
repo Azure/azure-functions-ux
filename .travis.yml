@@ -5,4 +5,4 @@ before_script:
   - npm install -g --silent @angular/cli@1.1.3
   - npm install -g --silent yarn
 script:
-  - cd AzureFunctions.AngularClient && yarn install && ng build -prod && cd ../server && yarn install && tsc
+  - cd server && yarn install && yarn run gulp build-all && tsc && cd ../AzureFunctions.AngularClient && yarn install && ng build -prod 
