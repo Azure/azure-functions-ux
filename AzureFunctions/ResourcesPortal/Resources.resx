@@ -331,6 +331,9 @@
   <data name="save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ Add new setting</value>
   </data>

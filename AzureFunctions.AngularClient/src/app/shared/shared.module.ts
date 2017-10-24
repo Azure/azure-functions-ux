@@ -1,3 +1,4 @@
+import { IsDirtyDirective } from './directives/is-dirty.directive';
 import { LoadImageDirective } from './../controls/load-image/load-image.directive';
 import { SlideToggleComponent } from './../controls/slide-toggle/slide-toggle.component';
 import { TryNowBusyStateComponent } from './../try-now-busy-state/try-now-busy-state.component';
@@ -79,6 +80,7 @@ export function AiServiceFactory() {
         CommandComponent,
         CheckScenarioDirective,
         DynamicLoaderDirective,
+        IsDirtyDirective,
         RadioSelectorComponent,
         PopOverComponent,
         TextboxComponent,
@@ -107,6 +109,7 @@ export function AiServiceFactory() {
         CommandComponent,
         CheckScenarioDirective,
         DynamicLoaderDirective,
+        IsDirtyDirective,
         RadioSelectorComponent,
         PopOverComponent,
         TextboxComponent,

@@ -45,6 +45,7 @@ export class SiteConfigComponent implements OnDestroy {
   private _valueSubscription: RxSubscription;
   public resourceId: string;
   public resourceType: string;
+  public dirtyMessage: string;
 
   private _busyManager: BusyStateScopeManager;
 
@@ -178,6 +179,8 @@ export class SiteConfigComponent implements OnDestroy {
   }
 
   save() {
+    this.dirtyMessage = this._translateService.instant(PortalResources.saveOperationInProgressWarning);
+
     this.generalSettings.validate();
     this.appSettings.validate();
     this.connectionStrings.validate();
@@ -241,6 +244,7 @@ export class SiteConfigComponent implements OnDestroy {
           );
         })
         .do(null, error => {
+          this.dirtyMessage = null;
           this._logService.error(LogCategories.siteConfig, '/site-config', error);
           this._busyManager.clearBusy();
           if (saveAttempted) {
@@ -253,6 +257,7 @@ export class SiteConfigComponent implements OnDestroy {
             this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error));
         })
         .subscribe(r => {
+          this.dirtyMessage = null;
           this._busyManager.clearBusy();
 
           const saveResults: SaveOrValidationResult[] = [

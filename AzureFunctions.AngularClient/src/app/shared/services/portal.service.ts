@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, BladeResult } from './../models/portal';
+import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, BladeResult, DirtyStateInfo } from './../models/portal';
 import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
@@ -308,8 +308,18 @@ export class PortalService {
         this.postMessage(Verbs.logAction, actionStr);
     }
 
+    // Deprecated
     setDirtyState(dirty: boolean): void {
         this.postMessage(Verbs.setDirtyState, JSON.stringify(dirty));
+    }
+
+    updateDirtyState(dirty: boolean, message?: string): void {
+        const info: DirtyStateInfo = {
+            dirty: dirty,
+            message: message
+        };
+
+        this.postMessage(Verbs.updateDirtyState, JSON.stringify(info));
     }
 
     logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
