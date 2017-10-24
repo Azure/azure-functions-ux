@@ -48,10 +48,7 @@ gulp.task('resources-clean', function() {
 */
 gulp.task('resx-to-typescript-models', function() {
     const resources = require('../server/src/actions/resources/Resources.json').en;
-    let typescriptFileContent = `// This file is auto generated
-    
-export class PortalResources
-{\r\n`;
+    let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources\r\n{\r\n';
     Object.keys(resources).forEach(function(stringName) {
         typescriptFileContent += `    public static ${stringName}: string = "${stringName}";\r\n`;
     });
