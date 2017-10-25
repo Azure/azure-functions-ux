@@ -149,7 +149,8 @@
           check-scenario="EnableAlwaysOn"
           [cs-input]="{site: siteArm}">
         </radio-selector>
-        <span check-scenario="EnablePlatform64" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+
+        <span check-scenario="EnableAlwaysOn" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
           <pop-over [message]="'alwaysOnUpsell' | translate">
             <span load-image="image/upsell.svg" class="icon-small"></span>
