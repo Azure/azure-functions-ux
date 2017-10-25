@@ -113,36 +113,6 @@ export class SiteConfigComponent implements OnDestroy {
       });
   }
 
-  scaleUp() {
-    const inputs = {
-      aspResourceId: this._site.properties.serverFarmId,
-      aseResourceId: this._site.properties.hostingEnvironmentProfile
-      && this._site.properties.hostingEnvironmentProfile.id
-    };
-
-    const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
-      '',
-      inputs,
-      'site-manage',
-      (value => {
-        console.log('return from scale');
-      }),
-      'WebsiteSpecPickerV3');
-
-    openScaleUpBlade
-      .first()
-      .subscribe(r => {
-        if(r){
-          console.log('final call back succeeded!');
-        } else{
-          console.log('final call back was cancelled');
-        }
-      },
-      e => {
-        console.log('final call back failed!');
-      });
-  }
-
   private _setupForm(retainDirtyState?: boolean) {
     this.mainForm = this._fb.group({});
 

@@ -167,9 +167,10 @@ export class ScenarioIds {
     public static readonly enableProcessExplorer = 'EnableProcessExplorer';
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
-
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
+    public static readonly enablePlatform64 = 'EnablePlatform64';
+    public static readonly enableAlwaysOn = 'EnableAlwaysOn';
 }
 
 export class ServerFarmSku {

@@ -1,11 +1,11 @@
 // This file is auto generated
-
-export class PortalResources
+    export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
+    public static upgradeToEnable: string = "upgradeToEnable";
     public static selectAll: string = "selectAll";
     public static allItemsSelected: string = "allItemsSelected";
     public static numItemsSelected: string = "numItemsSelected";
@@ -420,10 +420,12 @@ export class PortalResources
     public static javaWebContainerLabelHelp: string = "javaWebContainerLabelHelp";
     public static use32BitWorkerProcessLabel: string = "use32BitWorkerProcessLabel";
     public static use32BitWorkerProcessLabelHelp: string = "use32BitWorkerProcessLabelHelp";
+    public static use32BitWorkerProcessUpsell: string = "use32BitWorkerProcessUpsell";
     public static webSocketsEnabledLabel: string = "webSocketsEnabledLabel";
     public static webSocketsEnabledLabelHelp: string = "webSocketsEnabledLabelHelp";
     public static alwaysOnLabel: string = "alwaysOnLabel";
     public static alwaysOnLabelHelp: string = "alwaysOnLabelHelp";
+    public static alwaysOnUpsell: string = "alwaysOnUpsell";
     public static managedPipelineModeLabel: string = "managedPipelineModeLabel";
     public static autoSwapNotSupportedFromProd: string = "autoSwapNotSupportedFromProd";
     public static autoSwapEnabledLabel: string = "autoSwapEnabledLabel";
@@ -774,4 +776,3 @@ export class PortalResources
     public static appFunctionSettings_proxyEnabled: string = "appFunctionSettings_proxyEnabled";
     public static java_splash_button: string = "java_splash_button";
 }
-
