@@ -106,8 +106,17 @@
         <radio-selector
           [control]="!!group ? group.controls['use32BitWorkerProcess'] : null"
           [options]="use32BitWorkerProcessOptions"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          check-scenario="EnablePlatform64"
+          [cs-input]="{site: siteArm}">
         </radio-selector>
+
+        <span check-scenario="EnablePlatform64" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+          <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+          <pop-over [message]="'use32BitWorkerProcessUpsell' | translate">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
+        </span>
       </div>
     </div>
 
@@ -136,8 +145,17 @@
         <radio-selector
           [control]="!!group ? group.controls['alwaysOn'] : null"
           [options]="alwaysOnOptions"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          check-scenario="EnableAlwaysOn"
+          [cs-input]="{site: siteArm}">
         </radio-selector>
+
+        <span check-scenario="EnableAlwaysOn" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+          <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+          <pop-over [message]="'alwaysOnUpsell' | translate">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
+        </span>
       </div>
     </div>
 
