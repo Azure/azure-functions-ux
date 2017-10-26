@@ -25,12 +25,18 @@ export class SiteService {
             const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
             let result = null;
             if (ikey) {
-                r.appInsights.json().value.forEach((ai) => {
-                    if (ai.properties.InstrumentationKey === ikey) {
-                        result = ai.id;
-                    }
-                });
+                const aiResources = r.appInsights.json();
+
+                // AI RP has an issue where they return an array instead of a JSON response if empty
+                if (aiResources && !Array.isArray(aiResources)) {
+                    aiResources.value.forEach((ai) => {
+                        if (ai.properties.InstrumentationKey === ikey) {
+                            result = ai.id;
+                        }
+                    });
+                }
             }
+
             return result;
         });
     }
