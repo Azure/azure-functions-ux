@@ -266,8 +266,9 @@ export class SideNavComponent implements AfterViewInit {
         this.logService.debug(LogCategories.SideNav, `Navigating to ${navId}`);
         this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
 
-        const dashboardString = DashboardType[newDashboardType];
-        setTimeout(() => this.broadcastService.broadcastEvent(BroadcastEvent[dashboardString], viewInfo), 100);
+        // const dashboardString = DashboardType[newDashboardType];
+        // setTimeout(() => this.broadcastService.broadcastEvent(BroadcastEvent[dashboardString], viewInfo), 100);
+        this.broadcastService.broadcastEvent(BroadcastEvent.TreeNavigation, viewInfo);
 
         this._updateTitle(newSelectedNode);
         this.portalService.closeBlades();

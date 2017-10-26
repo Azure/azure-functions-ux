@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { Component, Injector, OnDestroy } from '@angular/core';
@@ -69,12 +70,14 @@ export class SlotNewComponent implements OnDestroy {
         injector: Injector) {
         const validator = new RequiredValidator(this._translateService);
 
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.CreateSlotDashboard)
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+            .filter(info => info.dashboardType === DashboardType.CreateSlotDashboard)
             .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this._slotsNode = <SlotsNode>viewInfo.node;
                 this._viewInfo = viewInfo;
+
                 // parse the site resourceId from slot's
                 this._siteId = viewInfo.resourceId.substring(0, viewInfo.resourceId.indexOf('/slots'));
                 const slotNameValidator = new SlotNameValidator(injector, this._siteId);

@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, OnDestroy } from '@angular/core';
@@ -29,7 +30,8 @@ export class ProxiesListComponent implements OnDestroy {
   constructor(private _broadcastService: BroadcastService) {
     this.viewInfoStream = new Subject<TreeViewInfo<any>>();
 
-    this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.ProxiesDashboard)
+    this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+      .filter(info => info.dashboardType === DashboardType.ProxiesDashboard)
       .takeUntil(this._ngUnsubscribe)
       .distinctUntilChanged()
       .switchMap(viewInfo => {

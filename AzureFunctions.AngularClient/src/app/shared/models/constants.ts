@@ -196,6 +196,7 @@ export class LogCategories {
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';
     public static readonly apiDetails = 'ApiDetails';
+    public static readonly broadcastService = 'BroadcastService';
     public static readonly newSlot = 'NewSlot';
     public static readonly svgLoader = 'SvgLoader';
     public static readonly busyState = 'BusyState';
