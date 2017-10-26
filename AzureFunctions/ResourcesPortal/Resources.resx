@@ -1379,7 +1379,7 @@
     <value>Select the desired Java minor version. Selecting 'Newest' will keep your app using the JVM most recently added to the portal.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Web container</value>
+    <value>Java web container</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>The web container version used to run your web app if using Java</value>
