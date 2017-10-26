@@ -3076,7 +3076,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Virtual applicataions and directories.
+        ///   Looks up a localized string similar to Virtual applications and directories.
         /// </summary>
         internal static string feature_virtualDirectoriesName {
             get {
