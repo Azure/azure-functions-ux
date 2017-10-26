@@ -448,6 +448,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Provide an optional startup command that will be run as part of container startup. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.
+        /// </summary>
+        internal static string appCommandLineLabelHelp {
+            get {
+                return ResourceManager.GetString("appCommandLineLabelHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proxies (preview).
         /// </summary>
         internal static string appFunctionSettings_apiProxies {
@@ -4665,6 +4674,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string linuxFxVersionLabel {
             get {
                 return ResourceManager.GetString("linuxFxVersionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.
+        /// </summary>
+        internal static string linuxFxVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("linuxFxVersionLabelHelp", resourceCulture);
             }
         }
         

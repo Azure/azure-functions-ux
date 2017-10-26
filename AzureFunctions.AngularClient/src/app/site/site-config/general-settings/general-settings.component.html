@@ -261,7 +261,11 @@
     <div class="settings-wrapper">
 
       <div class="setting-wrapper">
-        <label class="setting-label">{{ 'linuxFxVersionLabel' | translate }}</label>
+        <label class="setting-label">{{ 'linuxFxVersionLabel' | translate }}
+          <pop-over [message]="('linuxFxVersionLabelHelp' | translate)">
+              <span class="glyphicon glyphicon-info-sign button-title"></span>
+          </pop-over>
+        </label>
         <div class="setting-control-container">
           <drop-down
             [control]="!!group ? group.controls['linuxFxVersion'] : null"
@@ -272,7 +276,11 @@
       </div>
 
       <div class="setting-wrapper last">
-        <label class="setting-label">{{ 'appCommandLineLabel' | translate }}</label>
+        <label class="setting-label">{{ 'appCommandLineLabel' | translate }}
+          <pop-over [message]="('appCommandLineLabelHelp' | translate)">
+              <span class="glyphicon glyphicon-info-sign button-title"></span>
+          </pop-over>
+        </label>
         <div class="setting-control-container">
           <textbox
             [control]="!!group ? group.controls['appCommandLine'] : null"
