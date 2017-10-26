@@ -10,9 +10,10 @@ export class VstsBuildSettings {
     public location :string;
     public applicationFramework: string;
     public testEnvironment: VstsTestEnvironment;
+    public deploymentSlot: string;
 }
 
-export class KuduBuildSettings {
+export class SourceSettings {
     public repoUrl: string;
     public branch: string;
     public isManualIntegration: boolean;
@@ -22,9 +23,8 @@ export class KuduBuildSettings {
 export class DeploymentCenterSetupModel {
     public sourceProvider: sourceControlProvider
     public buildProvider: sourceControlProvider;
-    public buildSettings: VstsBuildSettings | KuduBuildSettings;
-    public deploymentSlot: string;
-    public sourceCodeSettings: any;
+    public sourceSettings: SourceSettings;
+    public vstsBuildSettings:  VstsBuildSettings;    
 
 }
 

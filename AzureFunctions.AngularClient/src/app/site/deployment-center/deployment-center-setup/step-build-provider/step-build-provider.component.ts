@@ -34,6 +34,6 @@ export class StepBuildProviderComponent {
     constructor(public wizard: DeploymentCenterWizardService) {}
 
     chooseBuildProvider(card : ProviderCard){
-      this.wizard.changeBuildProvider(card.id);
+        this.wizard.wizardForm.controls['buildProvider'].setValue(card.id, { onlySelf: true });
     }
 }

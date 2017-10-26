@@ -79,6 +79,11 @@ export class ArmService {
         return this._http.put(url, JSON.stringify(body), { headers: ArmServiceHelper.getHeaders(this._token, this._sessionId) });
     }
 
+    patch(resourceId: string, body: any, apiVersion?: string) {
+        const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
+        return this._http.patch(url, JSON.stringify(body), { headers: ArmServiceHelper.getHeaders(this._token, this._sessionId) });
+    }
+
     post(resourceId: string, body: any, apiVersion?: string) {
         const content = !!body ? JSON.stringify(body) : null;
         const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;

@@ -31,9 +31,7 @@ export class ConfigureBitbucketComponent {
             this.fetchBranches(r);
         });
 
-        this._wizard.sourceControlProvider$.subscribe(provider => {
-            this.fetchRepos();
-        });
+        this.fetchRepos();
         this._wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });

@@ -41,7 +41,7 @@ import { ArmTryService } from './services/arm-try.service';
 import { AiService } from './services/ai.service';
 import { UserService } from './services/user.service';
 import { Http } from '@angular/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
@@ -138,6 +138,7 @@ export class SharedModule {
                 PortalService,
                 BroadcastService,
                 FunctionMonitorService,
+                FormBuilder,
                 LogService,
                 {
                     provide: ArmService, useFactory: ArmServiceFactory, deps: [

@@ -120,57 +120,57 @@ export class StepSourceControlComponent {
         _armService: ArmService,
         _aiService: AiService
     ) {
-        this._wizardService.resourceIdStream.switchMap(r => {
+        this._wizardService.resourceIdStream
+            .switchMap(r => {
+                this.providerCards[0].authorizedStatus = 'loadingAuth';
+                this.providerCards[1].authorizedStatus = 'loadingAuth';
+                this.providerCards[4].authorizedStatus = 'loadingAuth';
+                this.providerCards[5].authorizedStatus = 'loadingAuth';
+                return _cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
+            })
+            .switchMap(dep => {
+                const r = dep.json();
 
-            this.providerCards[0].authorizedStatus = 'loadingAuth';
-            this.providerCards[1].authorizedStatus = 'loadingAuth';
-            this.providerCards[4].authorizedStatus = 'loadingAuth';
-            this.providerCards[5].authorizedStatus = 'loadingAuth';
-            return _cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
-        })
-        .switchMap(dep=>{
-            const r = dep.json();
-            
-            return Observable.zip(
-                _cacheService.post(Constants.serviceHost + 'api/github/passthrough', true,null, {
-                    url: 'https://api.github.com/user'
-                }),
-                _cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true,null, {
-                    url: 'https://api.onedrive.com/v1.0/drive'
-                }),
-                 _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true,null, {
-                     url: 'https://api.bitbucket.org/2.0/user'
-                 }),
-                 _cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true,null, {
-                     url: 'https://api.dropboxapi.com/2/users/get_current_account'
-                 }),
-                (github, onedrive, bitbucket, dropbox) => ({
-                    github: github.json(),
-                    onedrive: onedrive.json(),
-                    bitbucket: bitbucket.json(),
-                    dropbox: dropbox.json(),
-                    onedriveAuth: r.onedrive,
-                    githubAuth: r.github,
-                    bitbucketAuth: r.bitbucket,
-                    DropboxAuth: r.dropbox
-                }));
-        })
-        .subscribe(r => {
-            this.providerCards[1].authenticatedId = r.github.login;
-            this.providerCards[0].authenticatedId = r.onedrive.owner.user.displayName;
-            this.providerCards[4].authenticatedId = r.bitbucket.display_name;
-            this.providerCards[5].authenticatedId = r.dropbox.name.display_name;
-            this.providerCards[0].authorizedStatus = r.onedrive ? 'authorized' : 'notAuthorized';
-            this.providerCards[1].authorizedStatus = r.github ? 'authorized' : 'notAuthorized';
-            this.providerCards[4].authorizedStatus = r.bitbucket ? 'authorized' : 'notAuthorized';
-            this.providerCards[5].authorizedStatus = r.dropbox ? 'authorized' : 'notAuthorized';
-
-        });
+                return Observable.zip(
+                    _cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
+                        url: 'https://api.github.com/user'
+                    }),
+                    _cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
+                        url: 'https://api.onedrive.com/v1.0/drive'
+                    }),
+                    _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
+                        url: 'https://api.bitbucket.org/2.0/user'
+                    }),
+                    _cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
+                        url: 'https://api.dropboxapi.com/2/users/get_current_account'
+                    }),
+                    (github, onedrive, bitbucket, dropbox) => ({
+                        github: github.json(),
+                        onedrive: onedrive.json(),
+                        bitbucket: bitbucket.json(),
+                        dropbox: dropbox.json(),
+                        onedriveAuth: r.onedrive,
+                        githubAuth: r.github,
+                        bitbucketAuth: r.bitbucket,
+                        DropboxAuth: r.dropbox
+                    })
+                );
+            })
+            .subscribe(r => {
+                this.providerCards[1].authenticatedId = r.github.login;
+                this.providerCards[0].authenticatedId = r.onedrive.owner.user.displayName;
+                this.providerCards[4].authenticatedId = r.bitbucket.display_name;
+                this.providerCards[5].authenticatedId = r.dropbox.name.display_name;
+                this.providerCards[0].authorizedStatus = r.onedrive ? 'authorized' : 'notAuthorized';
+                this.providerCards[1].authorizedStatus = r.github ? 'authorized' : 'notAuthorized';
+                this.providerCards[4].authorizedStatus = r.bitbucket ? 'authorized' : 'notAuthorized';
+                this.providerCards[5].authorizedStatus = r.dropbox ? 'authorized' : 'notAuthorized';
+            });
     }
 
     public selectProvider(card: ProviderCard) {
         this.selectedProvider = card;
-        this._wizardService.changeSourceControlProvider(card.id);
+        this._wizardService.wizardForm.controls['sourceProvider'].setValue(card.id, { onlySelf: true });
     }
 
     public authorize(card: ProviderCard) {

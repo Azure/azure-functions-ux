@@ -81,10 +81,7 @@ export class ConfigureVstsSourceComponent {
             this.token = r.token;
         });
 
-        this._wizard.sourceControlProvider$
-            .switchMap(r => {
-                return this.GetMemberId();
-            })
+        this.GetMemberId()
             .switchMap(r => {
                 this._vstsProfileInfo = r.json();
                 return this.FetchAccounts();
@@ -177,10 +174,10 @@ export class ConfigureVstsSourceComponent {
         return headers;
     }
 
-    frameworkChanged(framework){
+    frameworkChanged(framework) {
         this.chosenBuildFramework = framework;
     }
-    get showWorkingDirectory(){
+    get showWorkingDirectory() {
         return true;
     }
 }

@@ -36,9 +36,7 @@ export class ConfigureGithubComponent {
           this.fetchBranches(r);
         });
 
-        this._wizard.sourceControlProvider$.subscribe(provider => {
-            this.fetchOrgs();
-        });
+        this.fetchOrgs();
         this._wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });
