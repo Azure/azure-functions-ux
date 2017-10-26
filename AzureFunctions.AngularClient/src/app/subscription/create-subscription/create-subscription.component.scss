@@ -1,0 +1,45 @@
+@import '../../../sass/common/variables';
+
+h2{
+    display: inline;
+}
+
+.newsub-container{
+    padding: 20px;
+}
+
+.newsub-container > div{
+    margin-bottom: 40px;
+}
+
+input{
+    border: 2px solid $border-color;
+    width: 300px;
+    padding-left: 5px;
+    margin-right: 10px;
+}
+
+input.input-error {
+    padding-right:25px;
+}
+
+.choose {
+    padding-bottom:10px;
+}
+
+.sub-name-separator {
+    margin-bottom: 20px;
+}
+
+.create-button-container {
+    display: flex;
+    button {
+        display: block; 
+        margin-top: 20px
+    }
+    span {
+        align-self: flex-end;
+        padding-bottom: 5px;
+        padding-left: 20px;
+    }
+}

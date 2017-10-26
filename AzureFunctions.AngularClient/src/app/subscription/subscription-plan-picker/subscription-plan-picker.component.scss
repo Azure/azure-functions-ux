@@ -1,0 +1,81 @@
+@import '../../../sass/common/variables';
+
+drop-down{
+    display: inline-block;
+}
+
+.tp-templates{
+    border: 2px solid #D4D2D2;
+    margin-top: 5px;
+    max-height: 375px;
+    overflow-y: scroll;
+}
+
+.tp-template{
+    display: inline-block;
+    width: 175px;
+    height: 175px;
+    border: 3px solid transparent;
+    text-align: center;
+    margin: 5px;
+}
+
+.tp-template:hover{
+    border: 2px solid $primary-color;
+}
+
+.tp-template-selected{
+    border: 2px solid $primary-color !important;
+}
+
+.tp-template-selected:hover{
+    border: 2px solid $primary-color;
+}
+
+.tp-template-content{
+    /* Makes the content size not count to container which allows squares to line up vertically */
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.tp-template-plan{
+    display: inline-block;
+    width: 175px;
+    height: 175px;
+    margin: 5px;
+    border: 2px solid #C2C5C9;
+    vertical-align: top;
+}
+
+.tp-template-plan:hover{
+    border: 2px solid $primary-color;
+    cursor: default;
+}
+
+.tp-template-plan-title{
+    padding: 10px 5px 10px 5px;
+    padding-bottom: 10px;
+    background-color: #E6E7E8;
+    text-align: center;
+}
+
+/*http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/*/
+.tp-template-plan-description{
+    margin: 5px;
+    text-align: left;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+
+.custom-button, .custom-button-invert{
+    margin-left: 0px;
+}
+
+:host-context(#app-root[theme=dark]){
+    .tp-template-plan-title{
+        background-color: lighten($body-bg-color-dark, 10%);
+    }
+}

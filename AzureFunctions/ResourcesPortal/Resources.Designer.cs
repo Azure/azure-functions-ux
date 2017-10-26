@@ -3803,6 +3803,16 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_chooseTemplate", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a plan below.
+        /// </summary>
+        internal static string subNew_chooseTemplate {
+            get {
+                return ResourceManager.GetString("subNew_chooseTemplate", resourceCulture);
+            }
+        }
+
         
         /// <summary>
         ///   Looks up a localized string similar to go to the quickstart.

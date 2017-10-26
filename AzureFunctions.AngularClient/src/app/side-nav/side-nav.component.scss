@@ -12,6 +12,14 @@
     border-right: $border;
 }
 
+.create-refresh-sub {
+    font-size: 20px;
+}
+
+.float-right {
+    float: right;
+}
+
 :host-context(#app-root[theme=dark]) .sidenav{
     background-color: $chrome-color-dark;
 }

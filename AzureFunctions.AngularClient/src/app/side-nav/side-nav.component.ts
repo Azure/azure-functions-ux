@@ -72,6 +72,7 @@ export class SideNavComponent implements AfterViewInit {
     private _initialized = false;
 
     private _tryFunctionAppStream = new Subject<FunctionApp>();
+    public isStandAlone: boolean;
 
     @Input() set tryFunctionAppInput(functionApp: FunctionApp) {
         if (functionApp) {
@@ -99,6 +100,7 @@ export class SideNavComponent implements AfterViewInit {
         public router: Router,
         public route: ActivatedRoute) {
 
+        this.isStandAlone = configService.isStandalone();
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
@@ -274,6 +276,16 @@ export class SideNavComponent implements AfterViewInit {
 
         return newSelectedNode.handleSelection();
     }
+
+    navidateToNewSub() {
+        var navId = "subs/new/subscription";
+        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });        
+    }
+
+    refreshSubs() {
+        //TODO: RDBug 10600857:[Functions] Refresh subscription drop down list after new subscription added or when user click refresh
+    }
+
 
     private _logDashboardTypeChange(oldDashboard: DashboardType, newDashboard: DashboardType) {
         const oldDashboardType = DashboardType[oldDashboard];

@@ -1,0 +1,10 @@
+<div>
+    <div class="tp-templates">
+        <div class="tp-template-plan" *ngFor="let plan of plans"
+             (click)="onTemplateClicked(plan.name, plan.invitionCodeRequired)"
+             [class.tp-template-selected]="selectedPlan == plan.name">
+            <div class="tp-template-plan-title">{{plan.name}}</div>
+            <div class="tp-template-plan-description">{{plan.description}}</div>
+        </div>
+    </div>
+</div>

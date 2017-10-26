@@ -9,7 +9,23 @@
                     [warning]="true"
                     [ariaLabel]="'searchFunctionApps' | translate">
         </search-box>
-
+        <div class="create-refresh-sub" *ngIf="isStandAlone">
+             <span>{{'sideNav_Subscriptions' | translate}}</span>
+             <div class="float-right">
+                <i
+                    (click)="navidateToNewSub()"
+                    (keydown)="navidateToNewSub()"
+                    class="fa fa-plus link"
+                    [title]="'createNew' | translate">
+                </i>
+                <i 
+                    (click)="refreshSubs()"
+                    (keydown)="refreshSubs()"
+                    class="fa fa-refresh tree-node-refresh-icon link"
+                    [title]="'sideBar_refresh' | translate">
+                </i>
+            </div>
+        </div>
         <div id="sidenav-subs">
             <multi-drop-down
                 [inputOptions]="subscriptionOptions"
