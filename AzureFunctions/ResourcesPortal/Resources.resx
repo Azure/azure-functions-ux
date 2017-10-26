@@ -1319,7 +1319,7 @@
     <value>Handler mappings</value>
   </data>
   <data name="feature_virtualDirectoriesName" xml:space="preserve">
-    <value>Virtual applicataions and directories</value>
+    <value>Virtual applications and directories</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to edit these settings.</value>
