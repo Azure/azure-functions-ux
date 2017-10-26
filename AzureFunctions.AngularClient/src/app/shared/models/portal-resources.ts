@@ -439,7 +439,9 @@
     public static remoteDebuggingEnabledLabel: string = "remoteDebuggingEnabledLabel";
     public static remoteDebuggingVersionLabel: string = "remoteDebuggingVersionLabel";
     public static linuxFxVersionLabel: string = "linuxFxVersionLabel";
+    public static linuxFxVersionLabelHelp: string = "linuxFxVersionLabelHelp";
     public static appCommandLineLabel: string = "appCommandLineLabel";
+    public static appCommandLineLabelHelp: string = "appCommandLineLabelHelp";
     public static newest: string = "newest";
     public static architecture32: string = "architecture32";
     public static architecture64: string = "architecture64";
