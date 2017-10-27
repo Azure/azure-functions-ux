@@ -48,7 +48,7 @@ export class CreateSubscriptionComponent implements OnInit {
         this._globalStateService.clearBusyState();
         this._location.back();
       }, error => {
-        this._logService.error(LogCategories.subsCriptions, '/subscriptions', error);
+        this._logService.error(LogCategories.subsCriptions, '/create-subscriptions', error);
         this._globalStateService.clearBusyState();
       });
   }
