@@ -2,6 +2,11 @@ import { Component, OnInit} from '@angular/core';
 import { Guid } from './../../shared/Utilities/Guid';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { CacheService } from './../../shared/services/cache.service';
+import {Location} from '@angular/common';
+import { LogService } from './../../shared/services/log.service';
+import { LogCategories } from 'app/shared/models/constants';
+import { FormControl, FormBuilder } from '@angular/forms';
+
 
 
 @Component({
@@ -11,34 +16,41 @@ import { CacheService } from './../../shared/services/cache.service';
 })
 export class CreateSubscriptionComponent implements OnInit {
   planName: string;
-  friendlySubName: string;
+  friendlySubName: FormControl;
   areInputsValid = true;
-  invitationCode: string;
+  invitationCode: FormControl;
   invitationCodeRequired = false;
-  constructor(
-    private _cacheService: CacheService,    
-    private _globalStateService: GlobalStateService    
-  ) {
 
+  constructor(
+    private _cacheService: CacheService,
+    private _globalStateService: GlobalStateService,
+    private _location: Location,
+    private _logService: LogService,
+    fb: FormBuilder
+  ) {
+    this.friendlySubName = fb.control('');
+    this.invitationCode = fb.control('');
   }
   ngOnInit() {
   }
 
   onCreate() {
-    let id = `/subscriptions/${Guid.newGuid()}`;
-    let body = {
+    const id = `/subscriptions/${Guid.newGuid()}`;
+    const body = {
       planname: this.planName,
-      displayname: this.friendlySubName,
-      invitationcode: this.invitationCode,
+      displayname: this.friendlySubName.value,
+      invitationcode: this.invitationCode.value,
     };
 
     this._globalStateService.setBusyState();
     this._cacheService.putArm(id, null, body)
       .subscribe(r => {
         this._globalStateService.clearBusyState();
+        this._location.back();
       }, error => {
+        this._logService.error(LogCategories.subsCriptions, '/subscriptions', error);
         this._globalStateService.clearBusyState();
-      }); 
+      });
   }
 
   invitationCodeChanged() {
@@ -54,7 +66,7 @@ export class CreateSubscriptionComponent implements OnInit {
   }
 
   validate() {
-    //BUGBUG : RDBug 10600949:[Functions]Add validation for invitation code when creating subscription
+    // BUGBUG : RDBug 10600949:[Functions]Add validation for invitation code when creating subscription
     this.areInputsValid = true;
   }
 }

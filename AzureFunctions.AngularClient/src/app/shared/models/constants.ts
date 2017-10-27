@@ -169,6 +169,7 @@ export class ScenarioIds {
 
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
+    public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
 }
 
 export class ServerFarmSku {
@@ -205,6 +206,7 @@ export class LogCategories {
     public static readonly handlerMappings = 'HandlerMappings';
     public static readonly virtualDirectories = 'VirtualDirectories';
     public static readonly logicapps = 'LogicApps';
+    public static readonly subsCriptions = 'SubsCriptions';
 }
 
 export class KeyCodes {

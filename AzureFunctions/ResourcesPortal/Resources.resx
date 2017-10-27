@@ -181,7 +181,7 @@
     <value>Choose a template below or</value>
   </data>
   <data name="subNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a plan below</value>
+    <value>Choose a plan below to create new subscription</value>
   </data>
   <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
     <value>Provide a friendly subscription name</value>

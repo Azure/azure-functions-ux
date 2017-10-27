@@ -4,42 +4,23 @@ drop-down{
     display: inline-block;
 }
 
-.tp-templates{
+.tp-plantemplates{
     border: 2px solid #D4D2D2;
     margin-top: 5px;
     max-height: 375px;
     overflow-y: scroll;
 }
 
-.tp-template{
-    display: inline-block;
-    width: 175px;
-    height: 175px;
-    border: 3px solid transparent;
-    text-align: center;
-    margin: 5px;
-}
 
-.tp-template:hover{
-    border: 2px solid $primary-color;
-}
-
-.tp-template-selected{
+.tp-plantemplate-selected{
     border: 2px solid $primary-color !important;
 }
 
-.tp-template-selected:hover{
+.tp-plantemplate-selected:hover{
     border: 2px solid $primary-color;
 }
 
-.tp-template-content{
-    /* Makes the content size not count to container which allows squares to line up vertically */
-    position: absolute;
-    left: 0;
-    right: 0;
-}
-
-.tp-template-plan{
+.tp-plantemplate-plan{
     display: inline-block;
     width: 175px;
     height: 175px;
@@ -48,12 +29,12 @@ drop-down{
     vertical-align: top;
 }
 
-.tp-template-plan:hover{
+.tp-plantemplate-plan:hover{
     border: 2px solid $primary-color;
     cursor: default;
 }
 
-.tp-template-plan-title{
+.tp-plantemplate-plan-title{
     padding: 10px 5px 10px 5px;
     padding-bottom: 10px;
     background-color: #E6E7E8;
@@ -61,7 +42,7 @@ drop-down{
 }
 
 /*http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/*/
-.tp-template-plan-description{
+.tp-plantemplate-plan-description{
     margin: 5px;
     text-align: left;
     overflow: hidden;
@@ -70,12 +51,8 @@ drop-down{
     -webkit-box-orient: vertical;
 }
 
-.custom-button, .custom-button-invert{
-    margin-left: 0px;
-}
-
 :host-context(#app-root[theme=dark]){
-    .tp-template-plan-title{
+    .tp-plantemplate-plan-title{
         background-color: lighten($body-bg-color-dark, 10%);
     }
 }

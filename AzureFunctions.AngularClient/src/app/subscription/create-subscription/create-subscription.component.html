@@ -9,20 +9,24 @@
     <div *ngIf="planName">
             <div class="sub-name-separator"></div>            
             <h3>{{ 'subNew_nameYourFriendlySubName' | translate }}</h3>
-            <input  type="text"
-                    [(ngModel)]="friendlySubName"
-                    placeholder="{{ 'subNew_friendlySubNameName' | translate }}">
+            <div class="textbox-sub">      
+                <textbox
+                        [control]="friendlySubName"
+                        placeholder="{{ 'subNew_friendlySubNameName' | translate }}"></textbox>
+                </div>
             <div class="sub-name-separator"></div>
             <div *ngIf="invitationCodeRequired">
                 <h3>{{ 'subNew_invitationCode' | translate }}</h3>
-                <input  type="text"
-                        [(ngModel)]="invitationCode"
-                        (ngModelChange)="invitationCodeChanged($event)"                    
-                        placeholder="{{ 'subNew_invitationCode' | translate }}">
-                <div class="sub-name-separator"></div>
+                <div class="textbox-sub">                  
+                    <textbox
+                            [control]="invitationCode"
+                            (ngModelChange)="invitationCodeChanged($event)"                    
+                            placeholder="{{ 'subNew_invitationCode' | translate }}"></textbox>
+                </div>
+                <div class="sub-name-separator"></div>                
             </div>
             <div>
-                <button class="custom-button"
+                <button class="custom-button create-sub-button"
                         [disabled]="!areInputsValid"
                         (click)="onCreate()">{{ 'create' | translate }}</button>
             </div>

@@ -18,7 +18,7 @@ import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { Arm, LogCategories } from './../shared/models/constants';
+import { Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -38,6 +38,8 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SiteService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
+import { ScenarioService } from './../shared/services/scenario/scenario.service';
+
 
 @Component({
     selector: 'side-nav',
@@ -72,7 +74,7 @@ export class SideNavComponent implements AfterViewInit {
     private _initialized = false;
 
     private _tryFunctionAppStream = new Subject<FunctionApp>();
-    public isStandAlone: boolean;
+    public showCreateRefreshSub = this._scenarioService.checkScenario(ScenarioIds.showCreateRefreshSub).status === 'enabled';
 
     @Input() set tryFunctionAppInput(functionApp: FunctionApp) {
         if (functionApp) {
@@ -98,9 +100,9 @@ export class SideNavComponent implements AfterViewInit {
         public slotsService: SiteService,
         public logService: LogService,
         public router: Router,
-        public route: ActivatedRoute) {
+        public route: ActivatedRoute,
+        private _scenarioService: ScenarioService) {
 
-        this.isStandAlone = configService.isStandalone();
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
