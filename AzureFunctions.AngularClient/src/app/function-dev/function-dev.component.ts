@@ -478,15 +478,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.functionInfo.config = JSON.parse(this.updatedContent);
         }
 
-        let notificationId = null;
-        return this._portalService.startNotification(
-            this._translateService.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name),
-            this._translateService.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name))
-            .first()
-            .switchMap(r => {
-                notificationId = r.id;
-                return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo);
-            })
+        return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo)
             .subscribe(r => {
                 if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
@@ -499,19 +491,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (syncTriggers) {
                     this.functionApp.fireSyncTrigger();
                 }
-                this._portalService.stopNotification(
-                    notificationId,
-                    true,
-                    this._translateService.instant(PortalResources.functionDev_saveFunctionSuccess).format(this.functionInfo.name));
                 this.content = this.updatedContent;
             },
             () => {
                 this._globalStateService.clearBusyState();
-                this._portalService.stopNotification(
-                    notificationId,
-                    false,
-                    this._translateService.instant(PortalResources.functionDev_saveFunctionFailure).format(this.functionInfo.name));
-
             });
     }
 

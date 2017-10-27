@@ -1,3 +1,4 @@
+import { PortalService } from './../../../shared/services/portal.service';
 import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -45,7 +46,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _saveError: string;
 
   private _webConfigArm: ArmObj<SiteConfig>;
-  private _siteConfigArm: ArmObj<Site>;
+  public siteArm: ArmObj<Site>;
   public loadingFailureMessage: string;
   public loadingMessage: string;
 
@@ -105,6 +106,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     private _translateService: TranslateService,
     private _logService: LogService,
     private _authZService: AuthzService,
+    private _portalService: PortalService,
     broadcastService: BroadcastService
   ) {
     this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
@@ -121,7 +123,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       .switchMap(() => {
         this._busyManager.setBusy();
         this._saveError = null;
-        this._siteConfigArm = null;
+        this.siteArm = null;
         this._webConfigArm = null;
         this.group = null;
         this.versionOptionsMap = null;
@@ -162,7 +164,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       })
       .retry()
       .subscribe(r => {
-        this._siteConfigArm = r.siteConfigResponse.json();
+        this.siteArm = r.siteConfigResponse.json();
         this._webConfigArm = r.webConfigResponse.json();
         this._slotsConfigArm = r.slotsConfigResponse.json();
         const availableStacksArm = r.availableStacksResponse.json();
@@ -172,8 +174,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         if (!this._linuxFxVersionOptionsClean) {
           this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
         }
-        this._processSupportedControls(this._siteConfigArm, this._webConfigArm, this._slotsConfigArm);
-        this._setupForm(this._webConfigArm, this._siteConfigArm, this._slotsConfigArm);
+        this._processSupportedControls(this.siteArm, this._webConfigArm, this._slotsConfigArm);
+        this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyManager.clearBusy();
@@ -185,7 +187,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       this._resourceIdStream.next(this.resourceId);
     }
     if (changes['mainForm'] && !changes['resourceId']) {
-      this._setupForm(this._webConfigArm, this._siteConfigArm, this._slotsConfigArm);
+      this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
     }
   }
 
@@ -195,6 +197,34 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       this._resourceIdSubscription = null;
     }
     this._busyManager.clearBusy();
+  }
+
+  scaleUp() {
+    this._busyManager.setBusy();
+
+    const inputs = {
+      aspResourceId: this.siteArm.properties.serverFarmId,
+      aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
+      && this.siteArm.properties.hostingEnvironmentProfile.id
+    };
+
+    const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
+      '',
+      inputs,
+      'site-manage',
+      null,
+      'WebsiteSpecPickerV3');
+
+    openScaleUpBlade
+      .first()
+      .subscribe(r => {
+        this._busyManager.clearBusy();
+        this._logService.debug(LogCategories.siteConfig, `Scale up ${r ? 'succeeded' : 'cancelled'}`);
+      },
+      e => {
+        this._busyManager.clearBusy();
+        this._logService.error(LogCategories.siteConfig, '/scale-up', `Scale up failed: ${e}`);
+      });
   }
 
   private _resetSlotsInfo() {
@@ -284,7 +314,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         autoSwapSupported = false;
       }
 
-      if (this._kind === 'functionapp') {
+      if (this._kind && this._kind.indexOf('functionapp') !== -1) {
         phpSupported = false;
         pythonSupported = false;
         javaSupported = false;
@@ -296,10 +326,10 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           clientAffinitySupported = false;
         }
       }
-      if (this._sku === 'Free' || this._sku === 'Shared') {
-        platform64BitSupported = false;
-        alwaysOnSupported = false;
-      }
+      // if (this._sku === 'Free' || this._sku === 'Shared') {
+      //   platform64BitSupported = false;
+      //   alwaysOnSupported = false;
+      // }
 
       this.netFrameworkSupported = netFrameworkSupported;
       this.phpSupported = phpSupported;
@@ -1001,7 +1031,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
       // level: site
-      const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this._siteConfigArm));
+      const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this.siteArm));
 
       if (this.clientAffinitySupported) {
         const clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
@@ -1066,7 +1096,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         (c, w) => ({ siteConfigResponse: c, webConfigResponse: w })
       )
         .map(r => {
-          this._siteConfigArm = r.siteConfigResponse.json();
+          this.siteArm = r.siteConfigResponse.json();
           this._webConfigArm = r.webConfigResponse.json();
           return {
             success: true,

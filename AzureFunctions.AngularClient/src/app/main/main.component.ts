@@ -40,6 +40,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     public inTab: boolean;
     public selectedFunction: FunctionInfo;
     public tryFunctionApp: FunctionApp;
+    public showTopBar: boolean;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
@@ -84,6 +85,16 @@ export class MainComponent implements AfterViewInit, OnDestroy {
                 _configService,
                 _slotsService,
                 _aiService);
+        }
+
+        this._setTopBarVisibility();
+    }
+
+    private _setTopBarVisibility() {
+        if (this.inIFrame) {
+            this.showTopBar = false;
+        } else if (!this._globalStateService.showTryView) {
+            this.showTopBar = true;
         }
     }
 
@@ -181,6 +192,10 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     }
 
     private _navigationInterceptor(event: RouterEvent): void {
+        if (!this._busyManager) {
+            return;
+        }
+
         if (event instanceof NavigationStart) {
             this._busyManager.setBusy();
         } else if (event instanceof NavigationEnd) {

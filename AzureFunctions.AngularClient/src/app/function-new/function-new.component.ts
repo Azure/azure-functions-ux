@@ -23,6 +23,7 @@ import { FunctionsNode } from '../tree-view/functions-node';
 import { FunctionApp } from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
+import { Regex } from './../shared/models/constants';
 
 @Component({
     selector: 'function-new',
@@ -236,8 +237,7 @@ export class FunctionNewComponent {
         // Lookbehind is not supported in JS
         this.areInputsValid = true;
         this.functionNameError = '';
-        const regexp = new RegExp('^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$');
-        this.areInputsValid = regexp.test(this.functionName);
+        this.areInputsValid = Regex.functionName.test(this.functionName);
         if (this.functionName.toLowerCase() === 'host') {
             this.areInputsValid = false;
         }

@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -255,6 +256,7 @@
     <Compile Include="Code\Extensions\HttpResponseMessageExtensions.cs" />
     <Compile Include="Code\Extensions\TaskExtensions.cs" />
     <Compile Include="Code\FileSystemHelpers.cs" />
+    <Compile Include="Code\JwtGenerator.cs" />
     <Compile Include="Code\PassThroughRequestManager.cs" />
     <Compile Include="Code\Settings.cs" />
     <Compile Include="Code\TelemetryExceptionLogger.cs" />

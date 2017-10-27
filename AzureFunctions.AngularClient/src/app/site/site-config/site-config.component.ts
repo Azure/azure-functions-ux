@@ -45,6 +45,7 @@ export class SiteConfigComponent implements OnDestroy {
   private _valueSubscription: RxSubscription;
   public resourceId: string;
   public resourceType: string;
+  public dirtyMessage: string;
 
   private _busyManager: BusyStateScopeManager;
 
@@ -112,36 +113,6 @@ export class SiteConfigComponent implements OnDestroy {
       });
   }
 
-  scaleUp() {
-    const inputs = {
-      aspResourceId: this._site.properties.serverFarmId,
-      aseResourceId: this._site.properties.hostingEnvironmentProfile
-      && this._site.properties.hostingEnvironmentProfile.id
-    };
-
-    const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
-      '',
-      inputs,
-      'site-manage',
-      (value => {
-        console.log('return from scale');
-      }),
-      'WebsiteSpecPickerV3');
-
-    openScaleUpBlade
-      .first()
-      .subscribe(r => {
-        if(r){
-          console.log('final call back succeeded!');
-        } else{
-          console.log('final call back was cancelled');
-        }
-      },
-      e => {
-        console.log('final call back failed!');
-      });
-  }
-
   private _setupForm(retainDirtyState?: boolean) {
     this.mainForm = this._fb.group({});
 
@@ -178,6 +149,8 @@ export class SiteConfigComponent implements OnDestroy {
   }
 
   save() {
+    this.dirtyMessage = this._translateService.instant(PortalResources.saveOperationInProgressWarning);
+
     this.generalSettings.validate();
     this.appSettings.validate();
     this.connectionStrings.validate();
@@ -241,6 +214,7 @@ export class SiteConfigComponent implements OnDestroy {
           );
         })
         .do(null, error => {
+          this.dirtyMessage = null;
           this._logService.error(LogCategories.siteConfig, '/site-config', error);
           this._busyManager.clearBusy();
           if (saveAttempted) {
@@ -253,6 +227,7 @@ export class SiteConfigComponent implements OnDestroy {
             this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error));
         })
         .subscribe(r => {
+          this.dirtyMessage = null;
           this._busyManager.clearBusy();
 
           const saveResults: SaveOrValidationResult[] = [

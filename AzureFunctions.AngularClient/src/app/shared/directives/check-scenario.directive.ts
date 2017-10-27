@@ -16,7 +16,7 @@ export class CheckScenarioDirective implements OnChanges {
     @Input('cs-input') input: ScenarioCheckInput;
     @Input('cs-showByDefault') enabledByDefault = false;
     @Input('cs-enabledClass') enabledClass = '';
-    @Input('cs-disabledClass') disabledClass = 'invisible';
+    @Input('cs-disabledClass') disabledClass = 'hidden';
 
     private _idStream = new Subject<string>();
 

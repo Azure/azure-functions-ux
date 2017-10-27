@@ -23,6 +23,7 @@ gulp.task('build-all', function(cb) {
         'resources-combine',
         'build-templates',
         'build-bindings',
+        'resx-to-typescript-models',
         'resources-clean',
         cb
     );
@@ -32,7 +33,28 @@ gulp.task('build-all', function(cb) {
 *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
 */
 gulp.task('resources-clean', function() {
-    return del(['template-downloads', 'Templates', 'resources-convert', 'templateResoureces-convert', 'resources-build', 'templateresources-build']);
+    return del([
+        'template-downloads',
+        'Templates',
+        'resources-convert',
+        'templateResoureces-convert',
+        'resources-build',
+        'templateresources-build'
+    ]);
+});
+
+/********
+*   This will make the portal-resources.ts file
+*/
+gulp.task('resx-to-typescript-models', function() {
+    const resources = require('../server/src/actions/resources/Resources.json').en;
+    let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources\r\n{\r\n';
+    Object.keys(resources).forEach(function(stringName) {
+        typescriptFileContent += `    public static ${stringName}: string = "${stringName}";\r\n`;
+    });
+    typescriptFileContent += `}`;
+    let writePath = path.normalize(path.join(__dirname,'..', 'AzureFunctions.AngularClient','src', 'app', 'shared', 'models', 'portal-resources.ts'));
+    fs.writeFileSync(writePath, new Buffer(typescriptFileContent));
 });
 
 /********

@@ -1,11 +1,11 @@
 // This file is auto generated
-
-export class PortalResources
+    export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
+    public static upgradeToEnable: string = "upgradeToEnable";
     public static selectAll: string = "selectAll";
     public static allItemsSelected: string = "allItemsSelected";
     public static numItemsSelected: string = "numItemsSelected";
@@ -74,6 +74,7 @@ export class PortalResources
     public static region: string = "region";
     public static run: string = "run";
     public static save: string = "save";
+    public static saveOperationInProgressWarning: string = "saveOperationInProgressWarning";
     public static addNewSetting: string = "addNewSetting";
     public static addNewConnectionString: string = "addNewConnectionString";
     public static addNewDocument: string = "addNewDocument";
@@ -420,10 +421,12 @@ export class PortalResources
     public static javaWebContainerLabelHelp: string = "javaWebContainerLabelHelp";
     public static use32BitWorkerProcessLabel: string = "use32BitWorkerProcessLabel";
     public static use32BitWorkerProcessLabelHelp: string = "use32BitWorkerProcessLabelHelp";
+    public static use32BitWorkerProcessUpsell: string = "use32BitWorkerProcessUpsell";
     public static webSocketsEnabledLabel: string = "webSocketsEnabledLabel";
     public static webSocketsEnabledLabelHelp: string = "webSocketsEnabledLabelHelp";
     public static alwaysOnLabel: string = "alwaysOnLabel";
     public static alwaysOnLabelHelp: string = "alwaysOnLabelHelp";
+    public static alwaysOnUpsell: string = "alwaysOnUpsell";
     public static managedPipelineModeLabel: string = "managedPipelineModeLabel";
     public static autoSwapNotSupportedFromProd: string = "autoSwapNotSupportedFromProd";
     public static autoSwapEnabledLabel: string = "autoSwapEnabledLabel";
@@ -676,9 +679,6 @@ export class PortalResources
     public static apiProxy_delete: string = "apiProxy_delete";
     public static apiProxy_new: string = "apiProxy_new";
     public static apiProxy_noOverride: string = "apiProxy_noOverride";
-    public static functionDev_saveFunctionFailure: string = "functionDev_saveFunctionFailure";
-    public static functionDev_saveFunctionNotifyTitle: string = "functionDev_saveFunctionNotifyTitle";
-    public static functionDev_saveFunctionSuccess: string = "functionDev_saveFunctionSuccess";
     public static expressAADRegistration: string = "expressAADRegistration";
     public static eventGrid_create: string = "eventGrid_create";
     public static eventGrid_createMessage: string = "eventGrid_createMessage";
@@ -728,6 +728,8 @@ export class PortalResources
     public static rrOverride_request: string = "rrOverride_request";
     public static rrOverride_response: string = "rrOverride_response";
     public static optional: string = "optional";
+    public static topBar_runtimeV2: string = "topBar_runtimeV2";
+    public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
     public static feature_logicAppsInfo: string = "feature_logicAppsInfo";
     public static tab_logicApps: string = "tab_logicApps";
     public static associatedLogicApps_title: string = "associatedLogicApps_title";
@@ -736,8 +738,6 @@ export class PortalResources
     public static noLogicApps_title: string = "noLogicApps_title";
     public static logicApps: string = "logicApps";
     public static logicApp_description: string = "logicApp_description";
-    public static topBar_runtimeV2: string = "topBar_runtimeV2";
-    public static functionKeys_clickToHide: string = "functionKeys_clickToHide";
     public static expandCollapse: string = "expandCollapse";
     public static aadreg_appService: string = "aadreg_appService";
     public static aadreg_configureAADNow: string = "aadreg_configureAADNow";
@@ -777,4 +777,3 @@ export class PortalResources
     public static appFunctionSettings_proxyEnabled: string = "appFunctionSettings_proxyEnabled";
     public static java_splash_button: string = "java_splash_button";
 }
-

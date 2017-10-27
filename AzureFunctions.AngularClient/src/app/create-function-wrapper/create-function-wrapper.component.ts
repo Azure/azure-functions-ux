@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { ConfigService } from './../shared/services/config.service';
@@ -8,7 +9,6 @@ import { FunctionInfo } from './../shared/models/function-info';
 import { AppNode } from './../tree-view/app-node';
 import { AiService } from './../shared/services/ai.service';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { DashboardType } from '../tree-view/models/dashboard-type';
 
 @Component({
   selector: 'create-function-wrapper',
@@ -72,24 +72,16 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._broadCastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.CreateFunctionDashboard)
-    .takeUntil(this._ngUnsubscribe)
-    .subscribe(info => {
-      this._viewInfoStream.next(info);
-    });
-
-    this._broadCastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.CreateFunctionAutoDetectDashboard)
-    .takeUntil(this._ngUnsubscribe)
-    .subscribe(info => {
-      this._viewInfoStream.next(info);
-    });
-
-    this._broadCastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.CreateFunctionQuickstartDashboard)
-    .takeUntil(this._ngUnsubscribe)
-    .subscribe(info => {
-      this._viewInfoStream.next(info);
-    });
-
+    this._broadCastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+      .filter(info => {
+        return info.dashboardType === DashboardType.CreateFunctionAutoDetectDashboard
+          || info.dashboardType === DashboardType.CreateFunctionDashboard
+          || info.dashboardType === DashboardType.CreateFunctionQuickstartDashboard;
+      })
+      .takeUntil(this._ngUnsubscribe)
+      .subscribe(info => {
+        this._viewInfoStream.next(info);
+      });
   }
 
   ngOnDestroy() {

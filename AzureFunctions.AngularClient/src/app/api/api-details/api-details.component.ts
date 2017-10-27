@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
 import { CacheService } from 'app/shared/services/cache.service';
@@ -50,7 +51,8 @@ export class ApiDetailsComponent implements OnDestroy {
 
         this.initComplexFrom();
 
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.ProxyDashboard)
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+            .filter(info => info.dashboardType === DashboardType.ProxyDashboard)
             .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
