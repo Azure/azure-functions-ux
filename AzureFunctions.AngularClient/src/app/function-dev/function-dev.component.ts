@@ -141,7 +141,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.checkErrors(fi);
 
                 this.functionApp.getEventGridKey().subscribe(eventGridKey => {
-                    this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this.functionInfo.name}&code=${eventGridKey}`;;
+                    this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${fi.name}&code=${eventGridKey}`;;
                 });
 
                 return Observable.zip(

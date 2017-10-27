@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { LogicAppsComponent } from './../../logic-apps/logic-apps.component';
 import { Dom } from './../../shared/Utilities/dom';
@@ -58,6 +59,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
 
     private _tabsLoaded = false;
     private _ngUnsubscribe: Subject<void> = new Subject<void>();
+    private _openTabSubscription: Subscription;
 
     constructor(
         private _cacheService: CacheService,
@@ -68,12 +70,6 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         private _broadcastService: BroadcastService,
         private _scenarioService: ScenarioService,
         private _logService: LogService) {
-
-        this._broadcastService.getEvents<string>(BroadcastEvent.OpenTab)
-            .takeUntil(this._ngUnsubscribe)
-            .subscribe(tabId => {
-                this.openFeature(tabId);
-            });
 
         this._broadcastService.getEvents<DirtyStateEvent>(BroadcastEvent.DirtyStateChange)
             .takeUntil(this._ngUnsubscribe)
@@ -120,6 +116,14 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                 viewInfo.data.siteTabFullReadyTraceKey = this._aiService.startTrace();
 
                 this._globalStateService.setBusyState();
+
+                if (!this._openTabSubscription) {
+                    this._openTabSubscription = this._broadcastService.getEvents<string>(BroadcastEvent.OpenTab)
+                        .takeUntil(this._ngUnsubscribe)
+                        .subscribe(tabId => {
+                            this.openFeature(tabId);
+                        });
+                }
 
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
