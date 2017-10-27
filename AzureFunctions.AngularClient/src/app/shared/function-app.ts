@@ -1,4 +1,5 @@
-﻿import { UrlTemplates } from './url-templates';
+﻿import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { UrlTemplates } from './url-templates';
 import { Subject } from 'rxjs/Subject';
 import { SiteService } from './services/slots.service';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
@@ -65,7 +66,6 @@ export class FunctionApp {
     public selectedLanguage: string;
     public selectedProvider: string;
     public selectedFunctionName: string;
-    public functionAppVersion: 1 | 2;
 
     public isMultiKeySupported = true;
     public isAlwaysOn = false;
@@ -179,9 +179,7 @@ export class FunctionApp {
         const scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
         const mainSiteUrl = FunctionApp.getMainUrl(this._configService, this.site);
 
-        const useV2Urls = this.site.kind && this.site.kind.toLocaleLowerCase().indexOf('linux') !== -1;
-        this.urlTemplates = new UrlTemplates(scmUrl, mainSiteUrl, useV2Urls);
-        this.functionAppVersion = useV2Urls ? 2 : 1;
+        this.urlTemplates = new UrlTemplates(scmUrl, mainSiteUrl, ArmUtil.isLinuxApp(this.site));
 
         this.siteName = this.site.name;
 
@@ -773,9 +771,9 @@ export class FunctionApp {
     }
 
     getHostToken() {
-        return this.functionAppVersion === 1
-            ? this._http.get(this.urlTemplates.scmTokenUrl, { headers: this.getScmSiteHeaders() })
-            : this._http.get(Constants.serviceHost + `api/runtimetoken${this.site.id}`, { headers: this.getPortalHeaders() });
+        return ArmUtil.isLinuxApp(this.site)
+            ? this._http.get(Constants.serviceHost + `api/runtimetoken${this.site.id}`, { headers: this.getPortalHeaders() })
+            : this._http.get(this.urlTemplates.scmTokenUrl, { headers: this.getScmSiteHeaders() });
     }
 
     getHostSecretsFromScm() {

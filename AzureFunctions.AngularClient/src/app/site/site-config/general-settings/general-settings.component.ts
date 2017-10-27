@@ -24,6 +24,7 @@ import { AuthzService } from './../../../shared/services/authz.service';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 @Component({
   selector: 'general-settings',
@@ -205,7 +206,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     const inputs = {
       aspResourceId: this.siteArm.properties.serverFarmId,
       aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
-      && this.siteArm.properties.hostingEnvironmentProfile.id
+        && this.siteArm.properties.hostingEnvironmentProfile.id
     };
 
     const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
@@ -314,7 +315,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         autoSwapSupported = false;
       }
 
-      if (this._kind && this._kind.indexOf('functionapp') !== -1) {
+      if (ArmUtil.isFunctionApp(siteConfigArm)) {
         phpSupported = false;
         pythonSupported = false;
         javaSupported = false;

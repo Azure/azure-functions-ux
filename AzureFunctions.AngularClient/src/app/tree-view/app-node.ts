@@ -35,6 +35,7 @@ import { Constants, NotificationIds } from '../shared/models/constants';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { FunctionsVersionInfoHelper } from '../../../../common/models/functions-version-info';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 export class AppNode extends TreeNode
     implements Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange {
@@ -232,7 +233,7 @@ export class AppNode extends TreeNode
                 }
             };
 
-            if (this._functionApp.functionAppVersion === 2) {
+            if (ArmUtil.isLinuxApp(this._functionApp.site)) {
                 result = this._functionApp.getHostSecretsFromScm().do(() => postFunctionApp());
             } else {
                 postFunctionApp();

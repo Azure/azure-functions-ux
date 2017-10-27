@@ -14,6 +14,7 @@ import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
@@ -198,9 +199,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
                 const result: ArmArrayResult<any> = r.json();
                 const nodes = result.value
-                    .filter(armObj =>
-                        (armObj.kind && armObj.kind.toLowerCase().indexOf('functionapp') !== -1) ||
-                        (armObj.name && armObj.name.startsWith('00fun')))
+                    .filter(ArmUtil.isFunctionApp)
                     .map(armObj => {
 
                         let newNode: AppNode;
