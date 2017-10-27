@@ -129,6 +129,18 @@
   <data name="configure" xml:space="preserve">
     <value>Configura</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>Per abilitarla, aggiornare il piano</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>Seleziona tutto</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>Tutti gli elementi selezionati</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>{0} elementi selezionati</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Errore durante la creazione della funzione: {{error}}</value>
   </data>
@@ -170,6 +182,18 @@
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Scegliere un modello sotto oppure</value>
+  </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>Per creare una nuova sottoscrizione, scegliere un piano sotto</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>Specificare un nome descrittivo per la sottoscrizione</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>Nome descrittivo sottoscrizione</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>Codice di invito</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>Questo modello è sperimentale e quindi il supporto completo non è ancora disponibile. Se si verificano problemi, pubblicare un bug nel &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repository di GitHub.&lt;/a&gt;</value>
@@ -322,17 +346,50 @@
   <data name="save" xml:space="preserve">
     <value>Salva</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>È in corso un'operazione di salvataggio. Se si esce adesso alcune modifiche potrebbero andare perse.</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ Aggiungi nuova impostazione</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Aggiungi nuova stringa di connessione</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ Aggiungi nuovo documento</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ Aggiungi nuovo mapping del gestore</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ Aggiungi nuova directory o applicazione virtuale</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>Immettere un nome</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>Immettere un valore</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>Immettere l'estensione</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>Immettere il processore script</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>Immettere gli argomenti</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>Immettere il percorso virtuale</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>Immettere il percorso fisico</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>Applicazione</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>Impostazione slot</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Valore nascosto. Fare clic per visualizzarlo.</value>
@@ -349,8 +406,14 @@
   <data name="search" xml:space="preserve">
     <value>Cerca</value>
   </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>Imposta questo elemento come ambito</value>
+  </data>
   <data name="searchFeatures" xml:space="preserve">
     <value>Cerca funzionalità</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>Cerca app per le funzioni</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>ID sottoscrizione</value>
@@ -424,6 +487,12 @@
   <data name="enabled" xml:space="preserve">
     <value>Abilitato</value>
   </data>
+  <data name="disable" xml:space="preserve">
+    <value>disabilita</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>abilitato</value>
+  </data>
   <data name="errorList_here" xml:space="preserve">
     <value>qui</value>
   </data>
@@ -432,6 +501,9 @@
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>Errore durante l'analisi della configurazione: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>Non è stato possibile {{state}} la funzione: {{functionName}}</value>
   </data>
   <data name="features" xml:space="preserve">
     <value>Funzionalità</value>
@@ -462,6 +534,9 @@
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>Editor standard</value>
+  </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>Elimina funzione {{name}}</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Eliminare la funzione {{name}}?</value>
@@ -946,17 +1021,8 @@
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxy (anteprima)</value>
   </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Versione runtime del proxy: {{extensionVersion}}. È disponibile una versione più recente ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Versione runtime proxy: più recente ({{latestExtensionVersion}})</value>
-  </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Abilita Proxy di Funzioni di Azure (anteprima)</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>I proxy di Funzioni di Azure sono attualmente disabilitati. Per abilitarli, visitare</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>Le modifiche apportate al proxy {{name}} andranno perse. Continuare?</value>
@@ -967,8 +1033,8 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Gli slot di Funzioni di Azure (anteprima) sono attualmente disabilitati. Per abilitarli, visitare</value>
   </data>
-  <data name="discrard" xml:space="preserve">
-    <value>Rimuovi</value>
+  <data name="discard" xml:space="preserve">
+    <value>Ignora</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
     <value>Funzioni</value>
@@ -1017,6 +1083,9 @@
   </data>
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>Tutte le sottoscrizioni</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>Sottoscrizioni</value>
   </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>Sottoscrizioni: {0}</value>
@@ -1093,6 +1162,9 @@
   <data name="enabledFeatures_description" xml:space="preserve">
     <value>Dopo aver configurato i collegamenti rapidi alle funzionalità nella scheda "Funzionalità della piattaforma" disponibile sopra, i collegamenti saranno visualizzati qui.</value>
   </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>Le modifiche non salvate per l'app '{0}' andranno perse. Continuare?</value>
+  </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>Si è verificato un errore durante il recupero delle informazioni per l'app '{0}'</value>
   </data>
@@ -1159,6 +1231,12 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Questa funzionalità non è supportata per le app con un piano a consumo</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>Questa funzionalità non è supportata per gli slot</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>Questa funzionalità non è supportata per le app Linux</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Per usare questa funzionalità, è necessario disporre delle autorizzazioni di scrittura per l'app corrente</value>
   </data>
@@ -1189,17 +1267,188 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Consente di esplorare il file system dell'app da una console interattiva basata sul Web.</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH offre un'esperienza console SSH Web per il codice dell'app Linux</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Estensioni</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Le estensioni aggiungono funzionalità all'intera app.</value>
   </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(nessuna impostazione dell'applicazione da visualizzare)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(nessuna stringa di connessione da visualizzare)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(nessun documento predefinito da visualizzare)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(nessun mapping del gestore da visualizzare)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(nessuna directory o applicazione virtuale da visualizzare)</value>
+  </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>Impostazioni generali</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>Scambio automatico</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>Runtime</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Impostazioni dell'applicazione</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Consente di gestire le impostazioni dell'app, le stringhe di connessione, le impostazioni di runtime e altro ancora.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>Documenti predefiniti</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>Mapping del gestore</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>Directory e applicazioni virtuali</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>Per modificare queste impostazioni, è necessario disporre delle autorizzazioni di scrittura per l'app corrente.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>Questa app include un blocco di sola lettura che impedisce la modifica delle impostazioni o il recupero dei dati protetti. Rimuovere il blocco e riprovare.</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>Visualizza le impostazioni è in modalità di sola lettura.</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>Non è stato possibile caricare le impostazioni.</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Caricamento...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>Aggiornamento delle impostazioni dell'app Web</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>Le impostazioni dell'app Web sono state aggiornate</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>Non è stato possibile aggiornare le impostazioni dell'app Web: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>Errore di salvataggio per {{configGroupName}}: è stato specificato un input non valido.</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>Versione di .NET Framework</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>Versione usata per eseguire l'app Web, se si usa .NET Framework</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>Versione PHP</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>Versione usata per eseguire l'app Web, se si usa PHP</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Versione Python</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>Versione usata per eseguire l'app Web, se si usa Python</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Versione Java</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>Versione usata per eseguire l'app Web, se si usa Java</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Versione secondaria Java</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>Selezionare la versione secondaria Java desiderata. Se si seleziona "Più recente", l'app continuerà a usare la JVM aggiunta più di recente al portale.</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Contenitore Web</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>Versione del contenitore Web usata per eseguire l'app Web, se si usa Java</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>Piattaforma</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>Architettura della piattaforma eseguita dall'app Web</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>La configurazione a 64 bit richiede un piano di servizio app Basic o superiore</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Web Socket</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>I WebSocket offrono connettività flessibile tra le app Web e i browser moderni. L'app Web deve essere creata in modo da poter usufruire di queste funzionalità.</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>Sempre online</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>Indica che l'app Web deve essere sempre caricata. Per impostazione predefinita, se le app Web diventano inattive vengono scaricati. È consigliabile abilitare questa opzione quando nell'app Web sono in esecuzione processi Web continui.</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>La modalità Always On richiede un piano di servizio app Basic o superiore</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>Versione pipeline gestita</value>
+  </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>Non è possibile configurare le destinazioni di scambio automatico dallo slot di produzione</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>Scambio automatico</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>Scambia automaticamente slot</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>Affinità ARR</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>Debug remoto</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>Debug remoto: versione di Visual Studio</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>File di avvio</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>Più recenti</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32 bit</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64 bit</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>Classica</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>Integrata</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Proprietà</value>
@@ -1220,7 +1469,7 @@
     <value>Consente di visualizzare tutte le impostazioni del servizio app.</value>
   </data>
   <data name="feature_functionSettingsInfo" xml:space="preserve">
-    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+    <value>Consente di gestire le impostazioni che interessano il runtime delle funzioni per tutte le funzioni all'interno dell'app.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>Impostazioni generali</value>
@@ -1251,6 +1500,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>Consente di usare la modalità Autenticazione/Autorizzazione per proteggere l'applicazione e di lavorare con i dati per utente.</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>Identità del servizio gestito</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>L'applicazione può comunicare con altri servizi di Azure come se stessa usando un'identità di Azure Active Directory gestita.</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>Notifiche push</value>
@@ -1379,10 +1634,13 @@
     <value>Impostazioni</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function settings</value>
+    <value>Impostazioni dell'app per le funzioni</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Configurazione</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>Impostazioni dell'applicazione</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Con questa versione di valutazione, non è possibile gestire l'app per le funzioni.</value>
@@ -1574,7 +1832,7 @@
     <value>Vedere l'esercitazione introduttiva</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>Funzione</value>
+    <value>Funzione (anteprima)</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
     <value>Chiave di definizione dell'API</value>
@@ -1613,7 +1871,7 @@
     <value>Usare una definizione dell'API personalizzata</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>Definizione API (anteprima)</value>
+    <value>Definizione API</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
     <value>Non è possibile creare o aggiornare la chiave swaggerdocumentationkey per l'endpoint Swagger. Esaminare i log di runtime per individuare eventuali errori o riprovare più tardi.</value>
@@ -1646,7 +1904,7 @@
     <value>Sovrascrivere la definizione dell'API nell'editor?</value>
   </data>
   <data name="swaggerDefinition_exporthelp" xml:space="preserve">
-    <value>Usare la definizione dell'API per accedere alle funzioni da &lt;a href="https://powerapps.microsoft.com/it-it/" target="_blank"&gt;PowerApps&lt;/a&gt; e &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Microsoft Flow&lt;/a&gt;. </value>
+    <value>Usare la definizione dell'API per accedere alle funzioni da &lt;a href="https://powerapps.microsoft.com/it-it/" target="_blank"&gt;PowerApps&lt;/a&gt; e &lt;a href="https://ms.flow.microsoft.com/it-it/" target="_blank"&gt;Microsoft Flow&lt;/a&gt;. </value>
   </data>
   <data name="swaggerDefinition_generateHelp" xml:space="preserve">
     <value>Creare una definizione di tipo sparse con i metadati delle funzioni attivate tramite HTTP.
@@ -1676,7 +1934,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Sola lettura</value>
   </data>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
-    <value>Lettura\Scrittura</value>
+    <value>Lettura/Scrittura</value>
   </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>I valori duplicati non sono consentiti</value>
@@ -1704,6 +1962,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>L'app è attualmente in modalità di lettura\scrittura perché la modalità di modifica è stata impostata su lettura\scrittura anche se è abilitato il controllo del codice sorgente. È possibile che le modifiche effettuate vengano sovrascritte alla distribuzione successiva. Per cambiare la modalità di modifica, visitare </value>
+  </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>L'app è attualmente in modalità di sola lettura perché è stato pubblicato un file function.json generato. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure. </value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copia</value>
@@ -1748,10 +2009,22 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Slot (anteprima)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Abilita slot di distribuzione (anteprima). Questa funzionalità prevede un consenso esplicito da fornire una sola volta per l'app per le funzioni, non può essere disabilitata successivamente e reimposta tutti i segreti preesistenti. Dopo l'aggiornamento, è possibile copiare i segreti dal </value>
+    <value>Abilita slot di distribuzione (anteprima)</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>nodo 'Gestisci' per ogni funzione.</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Problemi noti:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>l'integrazione delle app per la logica con Funzioni di Azure non funziona quando è abilitata la funzionalità Slot (anteprima).</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>L'uso di questa funzionalità in anteprima reimposterà i segreti preesistenti. I segreti della funzione sono disponibili nel nodo</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'Gestisci'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>di ogni funzione.</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Nome</value>
@@ -1790,7 +2063,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Slot (anteprima)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Per un'esperienza di monitoraggio avanzata, con metriche in tempo reale e query personalizzate, è consigliabile usare &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights.&lt;/a&gt;</value>
+    <value>Per un'esperienza di monitoraggio avanzata, con metriche in tempo reale e query personalizzate, &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;abilitare Application Insights per l'app per le funzioni&lt;/a&gt;</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Questo valore verrà aggiunto all'URL dell'app Web principale e verrà usato come indirizzo pubblico dello slot. Ad esempio, per un'app Web denominata 'contoso' e uno slot denominato 'staging', l'URL del nuovo slot sarà il seguente 'http://contoso-staging.azurewebsites.net'.</value>
@@ -1803,6 +2076,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="new_" xml:space="preserve">
     <value>Nuovo</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
+    <value>Crea nuovo</value>
   </data>
   <data name="functionManage_deleteFunction" xml:space="preserve">
     <value>Elimina funzione</value>
@@ -1878,5 +2154,308 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
     <value>Contenuto e progetto di Visual Studio</value>
+  </data>
+  <data name="bindingInput_retrieve" xml:space="preserve">
+    <value>recupera</value>
+  </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>Elimina proxy</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>Nuovo proxy</value>
+  </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>Nessun override</value>
+  </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>Registrazione rapida per AAD</value>
+  </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>crea</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>È necessario aggiungere la sottoscrizione di Griglia di eventi dopo la creazione della funzione.</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>URL sottoscrizione di Griglia di eventi</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>URL sottoscrizione di Griglia di eventi</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Gestisci sottoscrizioni di Griglia di eventi</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Aggiungi sottoscrizione di Griglia di eventi</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>Tutte le località</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>{0} località</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>Località:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>Raggruppa per località</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>Nessun raggruppamento</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>Raggruppa per gruppo di risorse</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>Raggruppa per sottoscrizione</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>Stati Uniti centro-meridionali</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>Europa settentrionale</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>Europa occidentale</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>Asia sudorientale</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>Corea centrale</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>Corea meridionale</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>Stati Uniti occidentali</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>Stati Uniti orientali</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>Giappone occidentale</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>Giappone orientale</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>Asia orientale</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>Stati Uniti orientali 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>Stati Uniti centro-settentrionali</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>Stati Uniti centrali</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>Brasile meridionale</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>Australia orientale</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>Australia Southeast</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>India occidentale</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>India centrale</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>India meridionale</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>Canada centrale</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>Canada orientale</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>Stati Uniti centro-occidentali</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>Regno Unito occidentale</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>Regno Unito meridionale</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>Stati Uniti occidentali 2</value>
+  </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>Tutti i gruppi di risorse</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>Gruppo di risorse:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0} gruppi di risorse</value>
+  </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>Corpo</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>Codice di stato</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>Messaggio di stato</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>Override della richiesta</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>Override della risposta</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>Facoltativo</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>È in uso una versione non definitiva di Funzioni di Azure. Grazie per aver scelto di provare il servizio.</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>Fare clic per nascondere</value>
+  </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Le app per la logica consentono di usare facilmente le funzioni in più piattaforme</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>App per la logica</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>App per la logica associate</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Orchestrare con le app per la logica</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Crea app per la logica</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>Nessuna app per la logica da visualizzare</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>App per la logica</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Le app per la logica consentono di creare rapidamente integrazioni con app SaaS e aziendali, nonché con processi di progettazione visivi e flussi di lavoro.</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>Espandi/Comprimi</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>Autenticazione/Autorizzazione del servizio app:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>Configura AAD adesso</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>Aggiungi autorizzazioni adesso</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>configurato</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>Requisiti di identità (non soddisfatti)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>non configurato</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>Autorizzazioni necessarie</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>Per il modello è necessaria l'autorizzazione seguente:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>Questa integrazione richiede una configurazione di AAD per l'app per le funzioni.</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>Questo modello richiede una configurazione di AAD per l'app per le funzioni.</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>Potrebbe essere necessario configurare le eventuali autorizzazioni aggiuntive richieste dalla funzione. Vedere la documentazione per questa associazione.</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>Gestisci autenticazione/autorizzazione del servizio app</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>Configurazione autenticazione/autorizzazione obbligatoria</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>Requisiti di identità</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>Gestisci</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>Non è possibile recuperare l'elenco delle estensioni di runtime installate</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>Non è possibile installare l'estensione di runtime {{extensionId}}</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>Non è possibile disinstallare l'estensione di runtime {{extensionId}}</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>L'installazione delle estensioni di runtime richiede più tempo del previsto</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>È già installata un'estensione {{extensionId}} ma con una versione diversa</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Apri Application Insights</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>Application Insights non è abilitato per la funzione corrente.</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>Nessun dato di monitoraggio da visualizzare</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>Installa</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>L'installazione dell'estensione è riuscita</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>Estensioni non installate</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>Questa integrazione richiede le estensioni seguenti.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>Questo modello richiede le estensioni seguenti.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>Installazione delle estensioni necessarie. L'operazione potrebbe richiedere fino a 10 minuti.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>Non è possibile installare l'estensione di runtime. ID installazione: {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>Specificare il valore in GB/sec</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>Connessione</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>Hub di notifica</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>È possibile creare, testare e distribuire funzioni Java in locale dal computer in uso. Non è richiesto l'uso del portale.</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Fare clic sotto per la documentazione che illustra come creare la prima funzione di Azure con Java.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>I proxy sono stati abilitati. Per disabilitarli, eliminare o disabilitare i singoli proxy.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Guida introduttiva a Java in Funzioni di Azure</value>
   </data>
 </root>

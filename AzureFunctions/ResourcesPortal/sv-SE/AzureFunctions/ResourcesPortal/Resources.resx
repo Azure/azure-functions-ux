@@ -129,6 +129,18 @@
   <data name="configure" xml:space="preserve">
     <value>Konfigurera</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>Uppgradera för att aktivera</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>Markera alla</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>Alla objekt har valts</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>{0} objekt har valts</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Fel när funktion skapades: {{error}}</value>
   </data>
@@ -170,6 +182,18 @@
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Välj en mall nedan eller</value>
+  </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>Skapa en ny prenumeration genom att först välja en plan nedan</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>Ange ett eget namn på prenumerationen</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>Eget namn på prenumeration</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>Inbjudningskod</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>Det här är en experimentell mall som ännu inte stöds fullt ut. Om du får problem kan du rapportera programfelet till vår &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-lagringsplats.&lt;/a&gt;</value>
@@ -322,17 +346,50 @@
   <data name="save" xml:space="preserve">
     <value>Spara</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>En åtgärd för att spara pågår för tillfället. Om du lämnar platsen kan vissa ändringar gå förlorade.</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ Lägg till ny inställning</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Lägg till ny anslutningssträng</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ Lägg till nytt dokument</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ Lägg till ny hanterarmappning</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ Lägg till ny virtuell installation eller katalog</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>Ange ett namn</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>Ange ett värde</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>Ange tillägg</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>Ange skriptprocessor</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>Ange argument</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>Ange virtuell sökväg</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>Ange fysisk sökväg</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>Platsinställning</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Dolt värde. Klicka för att visa.</value>
@@ -349,8 +406,14 @@
   <data name="search" xml:space="preserve">
     <value>Sök</value>
   </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>Styr till det här objektet</value>
+  </data>
   <data name="searchFeatures" xml:space="preserve">
     <value>Sök efter funktioner</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>Sök funktionsappar</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Prenumerations-ID</value>
@@ -424,6 +487,12 @@
   <data name="enabled" xml:space="preserve">
     <value>Aktiverad</value>
   </data>
+  <data name="disable" xml:space="preserve">
+    <value>inaktivera</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>aktiverad</value>
+  </data>
   <data name="errorList_here" xml:space="preserve">
     <value>här</value>
   </data>
@@ -432,6 +501,9 @@
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>Fel vid parsning av konfiguration: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>Det gick inte att {{state}} funktionen: {{functionName}}</value>
   </data>
   <data name="features" xml:space="preserve">
     <value>Egenskaper</value>
@@ -462,6 +534,9 @@
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>Standardredigeringsprogram</value>
+  </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>Ta bort funktionen {{name}}</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Vill du ta bort funktionen {{name}}?</value>
@@ -946,17 +1021,8 @@
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxyservrar (förhandsgranskning)</value>
   </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Körningsversion av proxyserver: {{extensionVersion}}. En senare version är tillgänglig ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Körningsversion av proxyserver: senaste ({{latestExtensionVersion}})</value>
-  </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Aktivera Azure Functions-proxyservrar (förhandsgranskning)</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>Azure Functions-proxyservrar är för närvarande inaktiverade. Aktivera dem genom att gå till</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>Ändringar i proxyservern {{name}} går förlorade. Vill du fortsätta?</value>
@@ -967,8 +1033,8 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Azure Functions-platser (förhandsversion) är för närvarande inaktiverat. Aktivera det på</value>
   </data>
-  <data name="discrard" xml:space="preserve">
-    <value>Ta bort</value>
+  <data name="discard" xml:space="preserve">
+    <value>Ignorera</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
     <value>Funktioner</value>
@@ -1017,6 +1083,9 @@
   </data>
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>Alla prenumerationer</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>Prenumerationer</value>
   </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>{0} prenumerationer</value>
@@ -1093,6 +1162,9 @@
   <data name="enabledFeatures_description" xml:space="preserve">
     <value>Snabblänkar till funktionerna visas här när du har konfigurerat dem på fliken "Plattformsfunktioner" ovan.</value>
   </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>Ändringar som inte har sparats för appen {0} kommer att försvinna. Vill du fortsätta?</value>
+  </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>Ett fel uppstod när informationen om appen {0} skulle hämtas</value>
   </data>
@@ -1159,6 +1231,12 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Den här funktionen stöds inte för appar i en förbrukningsplan</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>Den här funktionen stöds inte för platser</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>Den här funktionen stöds inte för Linux-appar</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Du måste ha skrivbehörighet för den aktuella appen för att kunna använda den här funktionen</value>
   </data>
@@ -1189,17 +1267,188 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Utforska appfilsystemet från en interaktiv webbaserad konsol.</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH tillhandahåller en SSH-webbkonsol för din Linux-appkod</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Tillägg</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Med tillägg får du fler funktioner i hela appen.</value>
   </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(det finns inga programinställningar att visa)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(det finns inga anslutningssträngar att visa)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(det finns inga standarddokument att visa)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(det finns inga hanterarmappningar att visa)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(det finns inga virtuella installationer eller kataloger att visa)</value>
+  </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>Allmänna ändringar</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>Autoväxling</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>Felsökning</value>
+  </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>Körning</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Programinställningar</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Hantera appinställningar, anslutningssträngar, körtidsinställningar och mycket mer.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>Standarddokument</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>Hanterarmappningar</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>Virtuella installationer och kataloger</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>Du måste ha skrivbehörighet för den aktuella appen för att redigera de här inställningarna.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>Den här appen har ett skrivskyddat lås som förhindrar redigering av inställningar och hämtning av skyddade data. Ta bort låset och försök igen.</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>Visa inställningar i skrivskyddat läge.</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>Det gick inte att läsa in inställningar.</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Läser in…</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>Uppdaterar webbappinställningar</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>Webbprograminställningarna har uppdaterats</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>Det gick inte att uppdatera webbappinställningar: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} Fel vid sparande: Ogiltiga indata.</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework-version</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>Den version som används för att köra ditt webbprogram om det använder .NET Framework</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP-version</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>Den version som används för att köra ditt webbprogram om det använder PHP</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python-version</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>Den version som används för att köra ditt webbprogram om det använder Python</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java-version</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>Den version som används för att köra ditt webbprogram om det använder Java</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java minor-version</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>Välj önskad Java minor-version. Om du väljer Nyaste kommer din app att använda den JVM som senast lades till på portalen.</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Webbehållare</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>Den webbehållarversion som används för att köra ditt webbprogram om det använder Java</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>Plattform</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>Den plattformsarkitektur som ditt webbprogram kör</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>För 64-bitarskonfiguration krävs en grundläggande eller högre App Service-plan</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Web Sockets</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>WebSockets möjliggör mer flexibel anslutning mellan webbprogram och moderna webbläsare.  Ditt webbprogram bör skapas så att det kan utnyttja dessa funktioner.</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>Alltid på</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>Anger att ditt webbprogram alltid måste aktiveras. Webbprogram inaktiveras alltid som standard när de inte har använts. Det rekommenderas att du aktiverar det här alternativet om du har webbjobb som körs kontinuerligt i webbprogrammet.</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>För "Alltid på" krävs en grundläggande eller högre App Service-plan</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>Hanterad pipelineversion</value>
+  </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>Autoväxlingsmålen kan inte konfigureras från produktionsplatsen</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>Autoväxling</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>Autoväxlingsplats</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>ARR-tillhörighet</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>Fjärrfelsökning</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>Visual Studio-fjärrversion</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>Startfil</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>Nyast</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32-bitars</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64-bitars</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>Klassisk</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>Integrerad</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Egenskaper</value>
@@ -1220,7 +1469,7 @@
     <value>Visa alla App Service-inställningar.</value>
   </data>
   <data name="feature_functionSettingsInfo" xml:space="preserve">
-    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+    <value>Hantera inställningar som påverkar Functions-körningstiden för alla funktioner i appen.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>Allmänna inställningar</value>
@@ -1251,6 +1500,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>Använd autentisering/auktorisering för att skydda program och arbeta med data per användare.</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>Hanterad tjänstidentitet</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>Ditt program kan kommunicera med andra Azure-tjänster som sig självt med hjälp av en hanterad Azure Active Directory-identitet.</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>Push-meddelanden</value>
@@ -1379,10 +1634,13 @@
     <value>Inställningar</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function settings</value>
+    <value>Funktionsappinställningar</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Konfiguration</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>Programinställningar</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Det går inte att hantera funktionsappen i den här utvärderingsversionen.</value>
@@ -1574,7 +1832,7 @@
     <value>Kolla in våra komma igång-tips</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>Funktion</value>
+    <value>Funktion (förhandsversion)</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
     <value>API-definitionsnyckel</value>
@@ -1586,7 +1844,7 @@
     <value>Generera API-definitionsmall</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Exportera till Power Apps och Flow</value>
+    <value>Exportera till PowerApps + Flow</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
     <value>Det går inte att spara felaktigt formaterad API-definition.</value>
@@ -1613,7 +1871,7 @@
     <value>Använd API-definitionen</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API-definition (förhandsversion)</value>
+    <value>API-definition</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
     <value>Vi kunde inte skapa eller uppdatera nyckeln swaggerdocumentationkey för Swagger-slutpunkten. Se efter i körtidsloggarna om det finns fel eller försök igen senare.</value>
@@ -1649,16 +1907,16 @@
     <value>Använd API-definitionen för att komma åt dina funktioner inifrån &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; och &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt;. </value>
   </data>
   <data name="swaggerDefinition_generateHelp" xml:space="preserve">
-    <value>Skapa en sparse-definition med metadata från de utlösta HTTP-funktionerna.
-Fyll i &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;åtgärdsobjekten&lt;/a&gt; och annan information om API:t före användning.</value>
+    <value>Skapa en sparse-definition med metadata från dina HTTP-utlösta funktioner.
+Fyll i &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;åtgärdsobjekten&lt;/a&gt; och annan information om ditt API före användning.</value>
   </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
-    <value>Den här nyckeln skyddar API-definitionen från åtkomst för alla som saknar nyckel.
-Det underliggande API:t skyddas inte. Varje funktion innehåller information om dess nyckelskydd.</value>
+    <value>Den här nyckeln skyddar din API-definition från åtkomst för alla som saknar nyckeln.
+Det underliggande API:t skyddas inte. Se varje funktion för att se deras nyckelsäkerhet.</value>
   </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
-    <value>Ställ in på "Funktion" för att aktivera funktioner för att skapa en värdbaserad API-definition och malldefinition.
-Ställ in på "Extern URL" för att använda en API-definition med värd på annan plats.</value>
+    <value>Ställ in på funktion för att aktivera skapandet av en värdbaserad API-definition och malldefinition.
+Ställ in på extern URL för att använda en API-definition som finns på någon annan plats.</value>
   </data>
   <data name="swaggerDefinition_urlHelp" xml:space="preserve">
     <value>Använd den här webbadressen för att komma åt API-definitionen direkt och importera till verktyg från tredje part </value>
@@ -1676,7 +1934,7 @@ Ställ in på "Extern URL" för att använda en API-definition med värd på ann
     <value>Skrivskyddad</value>
   </data>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
-    <value>Läs\skriv</value>
+    <value>Läsa/skriva</value>
   </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>Dubblettvärden tillåts inte</value>
@@ -1704,6 +1962,9 @@ Ställ in på "Extern URL" för att använda en API-definition med värd på ann
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Appen är för närvarande i läs\skrivläge eftersom redigeringsläget har angetts till läs\skriv trots att källkontroll är aktiverat. Eventuella ändringar som du gör kanske skrivs över vid nästa distribution. Om du vill ändra redigeringsläget går du till </value>
+  </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>Appen är nu i skrivskyddat läge eftersom du har publicerat en genererad function.json. Ändringar i function.json kommer inte att hanteras av Functions-körningen. </value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopiera</value>
@@ -1748,10 +2009,22 @@ Ställ in på "Extern URL" för att använda en API-definition med värd på ann
     <value>Platser (förhandsversion)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Aktivera distributionsplatser (förhandsversion). Det här är ett engångsval i funktionsappen som inte kan inaktiveras och som återställer alla eventuella tidigare hemligheter. Efter uppdateringen kan hemligheterna kopieras från </value>
+    <value>Aktivera distributionsplatser (förhandsgranskning).</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>Hanteringsnod för varje funktion.</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Kända problem:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Logikprogramintegrering med funktioner fungerar inte när Platser (förhandsgranskning) aktiveras.</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>Val av förhandsgranskningsfunktionen återställer alla befintliga hemligheter. Funktionshemligheter finns under</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>Hantera</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>nod för varje funktion.</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Namn</value>
@@ -1790,7 +2063,7 @@ Ställ in på "Extern URL" för att använda en API-definition med värd på ann
     <value>Platser (förhandsversion)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Om du är ute efter mer avancerad övervakning med Live Metrics och anpassade sökfrågor rekommenderar vi att du använder &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights.&lt;/a&gt;</value>
+    <value>Om du är ute efter mer avancerad övervakning med Live Metrics och anpassade sökfrågor så &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;aktivera Application Insights för din funktionsapp&lt;/a&gt;</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Det här värdet läggs till ditt huvudwebbprograms URL och fungerar som platsens offentliga adress. Om du t.ex. har ett webbprogram med namnet "contoso" och en plats med namnet "staging" får den nya platsen en adress som ser ut så här: http://contoso-staging.azurewebsites.net.</value>
@@ -1803,6 +2076,9 @@ Ställ in på "Extern URL" för att använda en API-definition med värd på ann
   </data>
   <data name="new_" xml:space="preserve">
     <value>Ny</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
+    <value>Skapa ny</value>
   </data>
   <data name="functionManage_deleteFunction" xml:space="preserve">
     <value>Ta bort funktion</value>
@@ -1878,5 +2154,308 @@ Ställ in på "Extern URL" för att använda en API-definition med värd på ann
   </data>
   <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
     <value>Innehålls- och Visual Studio-projekt</value>
+  </data>
+  <data name="bindingInput_retrieve" xml:space="preserve">
+    <value>hämta</value>
+  </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>Ta bort proxy</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>Ny proxyserver</value>
+  </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>Ingen åsidosättning</value>
+  </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>AAD-expressregistrering</value>
+  </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>skapa</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>Du måste lägga till Event Grid-prenumeration när du har skapat en funktion.</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>Webbadress för Event Grid-prenumeration</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>Webbadress för Event Grid-prenumeration</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Hantera Event Grid-prenumerationer</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Lägg till Event Grid-prenumeration</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>Alla platser</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>{0} platser</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>Plats:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>Gruppera efter plats</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>Ingen gruppering</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>Gruppera efter resursgrupp</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>Gruppera efter prenumeration</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>Södra centrala USA</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>Nordeuropa</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>Västeuropa</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>Sydostasien</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>Centrala Korea</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>Södra Korea</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>Västra USA</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>Östra USA</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>Västra Japan</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>Östra Japan</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>Östasien</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>Östra USA 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>Norra centrala USA</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>Centrala USA</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>Södra Brasilien</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>Östra Australien</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>Australia Southeast</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>Indien, västra</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>Indien, centrala</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>Indien, södra</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>Kanada, centrala</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>Kanada, östra</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>Västra centrala USA</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>Västra Storbritannien</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>Södra Storbritannien</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>Västra USA 2</value>
+  </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>Alla resursgrupper</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>Resursgrupp:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0} resursgrupper</value>
+  </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>Statuskod</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>Statusmeddelande</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>Begär åsidosättning</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>Åsidosätt svar</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>Valfritt</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>Du använder en förhandsversion av Azure Functions. Tack för att du testar den!</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>Klicka för att dölja</value>
+  </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Med Logic Apps kan du enkelt använda din funktion på flera plattformar</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>Tillhörande Logic Apps</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Samordna med Logic Apps</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Skapa Logic Apps</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>Det finns inga Logic Apps att visa</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>Logikappar</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Med Logic Apps kan du snabbt skapa integreringar med SaaS- och Enterprise-appar och visuellt utforma processer och arbetsflöden.</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>Visa eller dölja</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>App Service autentisering/auktorisering:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>Konfigurera AAD nu</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>Lägg till behörigheter nu</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>konfigurerad</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>Identitetskrav (inte uppfyllda)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>inte konfigurerad</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>Nödvändiga behörigheter</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>Mallen behöver följande behörighet:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>Den här integrationen kräver en AAD-konfiguration för funktionsappen.</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>Den här mallen kräver en AAD-konfiguration för funktionsappen.</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>Du kan behöva konfigurera ytterligare behörigheter som din funktion kräver. Se dokumentationen för den här bindningen.</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>Hantera App Service autentisering/auktorisering</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>Autentiseringskonfiguration krävs</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>Identitetskrav</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>Hantera</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>Vi kunde inte hämta listan över installerade runtime-tillägg</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>Vi kunde inte installera runtime-tillägget {{extensionId}}</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>Vi kunde inte avinstallera runtime-tillägget {{extensionId}}</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>Installationen av runtime-tillägg tar längre tid än beräknat</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>Tillägget {{extensionId}} har redan installerats med en annan version</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Öppna Application Insights</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>App Insights har aktiverats för din funktion.</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>Det finns inga övervakningsdata att visa</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>Installera</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>Tillägget har installerats</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>Tillägg som inte har installerats</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>Den här integrationen kräver följande tillägg.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>Den här mallen kräver följande tillägg.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>Installerar tillägg som krävs. Det kan ta upp till 10 minuter för den här åtgärden.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>Vi kunde inte installera runtime-tillägget. Installations-ID {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>Ange värdet i GB-s</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>Anslutning</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>Notification Hub</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>Java-funktioner kan byggas, testas och distribueras lokalt från din dator. Ingen portal krävs!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Klicka nedan för att komma igång med dokumentation om hur du skapar din första Azure-funktion med Java.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>Proxyservrar har aktiverats. Om du vill inaktivera det igen tar du bort eller inaktiverar enskilda proxyservrar.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Snabbstart för Java på Azure Functions</value>
   </data>
 </root>
