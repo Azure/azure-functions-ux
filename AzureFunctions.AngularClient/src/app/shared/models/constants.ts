@@ -99,6 +99,7 @@ export class Validations {
 export class Regex {
     public static readonly invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
     public static readonly header: RegExp = /^[a-zA-Z0-9\-_]+$/;
+    public static readonly functionName: RegExp = /^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$/;
 }
 
 export class Links {
@@ -166,9 +167,11 @@ export class ScenarioIds {
     public static readonly enableProcessExplorer = 'EnableProcessExplorer';
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
-
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
+    public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
+    public static readonly enablePlatform64 = 'EnablePlatform64';
+    public static readonly enableAlwaysOn = 'EnableAlwaysOn';
 }
 
 export class ServerFarmSku {
@@ -194,6 +197,7 @@ export class LogCategories {
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';
     public static readonly apiDetails = 'ApiDetails';
+    public static readonly broadcastService = 'BroadcastService';
     public static readonly newSlot = 'NewSlot';
     public static readonly svgLoader = 'SvgLoader';
     public static readonly busyState = 'BusyState';
@@ -205,6 +209,7 @@ export class LogCategories {
     public static readonly handlerMappings = 'HandlerMappings';
     public static readonly virtualDirectories = 'VirtualDirectories';
     public static readonly logicapps = 'LogicApps';
+    public static readonly subsCriptions = 'SubsCriptions';
 }
 
 export class KeyCodes {

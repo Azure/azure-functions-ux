@@ -129,6 +129,9 @@
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>Upgrade to enable</value>
+  </data>
   <data name="selectAll" xml:space="preserve">
     <value>Select all</value>
   </data>
@@ -179,6 +182,18 @@
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Choose a template below or</value>
+  </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>Choose a plan below to create new subscription</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>Provide a friendly subscription name</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>Friendly subscription name</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>Invitation code</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
@@ -330,6 +345,9 @@
   </data>
   <data name="save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ Add new setting</value>
@@ -1066,6 +1084,9 @@
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>All subscriptions</value>
   </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>{0} subscriptions</value>
   </data>
@@ -1369,6 +1390,9 @@
   <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
     <value>The platform architecture your web app runs</value>
   </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>64-bit configuration requires a basic or higher App Service plan</value>
+  </data>
   <data name="webSocketsEnabledLabel" xml:space="preserve">
     <value>Web sockets</value>
   </data>
@@ -1380,6 +1404,9 @@
   </data>
   <data name="alwaysOnLabelHelp" xml:space="preserve">
     <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>Always on requires a basic or higher App Service plan</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Managed Pipeline Version</value>
@@ -2139,15 +2166,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="apiProxy_noOverride" xml:space="preserve">
     <value>No override</value>
-  </data>
-  <data name="functionDev_saveFunctionFailure" xml:space="preserve">
-    <value>Failed to save function '{0}'</value>
-  </data>
-  <data name="functionDev_saveFunctionNotifyTitle" xml:space="preserve">
-    <value>Saving function '{0}'</value>
-  </data>
-  <data name="functionDev_saveFunctionSuccess" xml:space="preserve">
-    <value>Successfully saved function '{0}'</value>
   </data>
   <data name="expressAADRegistration" xml:space="preserve">
     <value>Express AAD Registration</value>

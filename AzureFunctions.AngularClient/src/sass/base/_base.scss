@@ -58,8 +58,8 @@ pre {
     display: table-row-group;
 }
 
-.invisible{
-    visibility: hidden;
+.hidden{
+    display: none;
 }
 
 #app-root[theme=dark]{

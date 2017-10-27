@@ -82,7 +82,7 @@ export class ScenarioService {
                 if (check.runCheckAsync) {
                     runCheckObs = check.runCheckAsync(input);
                 } else if (check.runCheck) {
-                    runCheckObs = Observable.of(check.runCheck());
+                    runCheckObs = Observable.of(check.runCheck(input));
                 } else {
                     throw Error('No runCheckAsync or runCheck method implemented for Environment: "${env.name}", Scenario: "${check.id}"');
                 }
