@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { AppNode } from './../tree-view/app-node';
 import { Component, ViewChild, OnDestroy } from '@angular/core';
@@ -69,25 +70,13 @@ export class FunctionEditComponent implements OnDestroy {
                 }
             });
 
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.FunctionDashboard)
-            .takeUntil(this._ngUnsubscribe)
-            .subscribe(info => {
-                this._viewInfoStream.next(info);
-            });
-
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.FunctionIntegrateDashboard)
-            .takeUntil(this._ngUnsubscribe)
-            .subscribe(info => {
-                this._viewInfoStream.next(info);
-            });
-
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.FunctionManageDashboard)
-            .takeUntil(this._ngUnsubscribe)
-            .subscribe(info => {
-                this._viewInfoStream.next(info);
-            });
-
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.FunctionMonitorDashboard)
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+            .filter(info => {
+                return info.dashboardType === DashboardType.FunctionDashboard
+                    || info.dashboardType === DashboardType.FunctionIntegrateDashboard
+                    || info.dashboardType === DashboardType.FunctionManageDashboard
+                    || info.dashboardType === DashboardType.FunctionMonitorDashboard;
+            })
             .takeUntil(this._ngUnsubscribe)
             .subscribe(info => {
                 this._viewInfoStream.next(info);

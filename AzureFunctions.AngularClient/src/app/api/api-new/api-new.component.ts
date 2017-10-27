@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -67,7 +68,8 @@ export class ApiNewComponent implements OnDestroy {
             this.isMethodsVisible = !(value === 'All');
         });
 
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.CreateProxyDashboard)
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+            .filter(info => info.dashboardType === DashboardType.CreateProxyDashboard)
             .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();

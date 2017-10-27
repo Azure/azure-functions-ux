@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { ErrorIds } from './../shared/models/error-ids';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
@@ -12,7 +13,6 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { PortalService } from '../shared/services/portal.service';
-import { DashboardType } from '../tree-view/models/dashboard-type';
 import { ErrorType, ErrorEvent } from 'app/shared/models/error-event';
 
 @Component({
@@ -34,8 +34,8 @@ export class FunctionsListComponent implements OnDestroy {
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService
     ) {
-        this._broadcastService.getEvents<TreeViewInfo<void>>(BroadcastEvent.FunctionsDashboard)
-        .takeUntil(this._ngUnsubscribe)
+        this._broadcastService.getEvents<TreeViewInfo<void>>(BroadcastEvent.TreeNavigation)
+            .filter(viewInfo => viewInfo.dashboardType === DashboardType.FunctionsDashboard)
             .takeUntil(this._ngUnsubscribe)
             .distinctUntilChanged()
             .switchMap(viewInfo => {

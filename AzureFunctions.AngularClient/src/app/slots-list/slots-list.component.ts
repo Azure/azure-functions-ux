@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -35,14 +36,15 @@ export class SlotsListComponent implements OnDestroy {
         private _translateService: TranslateService
     ) {
 
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.SlotsDashboard)
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+            .filter(info => info.dashboardType === DashboardType.SlotsDashboard)
             .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this.isLoading = true;
                 this._slotsNode = (<SlotsNode>viewInfo.node);
                 return this._slotsNode.loadChildren();
             })
-            .do(null, e =>{
+            .do(null, e => {
                 this.isLoading = false;
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.error_unableToLoadSlotsList),

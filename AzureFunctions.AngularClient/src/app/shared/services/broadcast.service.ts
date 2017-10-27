@@ -1,3 +1,6 @@
+import { Subject } from 'rxjs/Subject';
+import { LogCategories } from './../models/constants';
+import { LogService } from './log.service';
 import { Observable } from 'rxjs/Observable';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -30,9 +33,9 @@ export class BroadcastService {
     private dirtyStateMap: { [key: string]: string } = {};
     private defaultDirtyReason = 'global';
 
-    private replayEvent = new ReplaySubject<EventInfo<any>>(1);
+    private _streamMap: { [key: string]: Subject<EventInfo<any>> } = {};
 
-    constructor() {
+    constructor(private _logService: LogService) {
         this.functionDeletedEvent = new EventEmitter<FunctionInfo>();
         this.functionAddedEvent = new EventEmitter<FunctionInfo>();
         this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
@@ -44,6 +47,14 @@ export class BroadcastService {
         this.functionNewEvent = new EventEmitter<any>();
         this.resetKeySelection = new EventEmitter<FunctionInfo>();
         this.clearErrorEvent = new EventEmitter<string>();
+
+        // Busy state events have separate categories for each event, so I set a high
+        // upper limit so that we don't lose events.
+        this._streamMap[BroadcastEvent.UpdateBusyState] = new ReplaySubject(128);
+        this._streamMap[BroadcastEvent.TreeNavigation] = new ReplaySubject(1);
+        this._streamMap[BroadcastEvent.OpenTab] = new ReplaySubject(1);
+        this._streamMap[BroadcastEvent.DirtyStateChange] = new ReplaySubject(1);
+
     }
 
     // DEPRECATED - Use broadcastEvent
@@ -59,15 +70,25 @@ export class BroadcastService {
     }
 
     broadcastEvent<T>(eventType: BroadcastEvent, obj?: T) {
-        this.replayEvent.next({
+        const subject = this._streamMap[eventType];
+        if (!subject) {
+            throw Error(`EventType ${BroadcastEvent[eventType]} not found`);
+        }
+
+        subject.next({
             eventType: eventType,
             obj: obj
         });
     }
 
     getEvents<T>(eventType: BroadcastEvent): Observable<T> {
-        return this.replayEvent
-            .filter(e => e.eventType === eventType)
+        const subject = this._streamMap[eventType];
+        if (!subject) {
+            throw Error(`EventType ${BroadcastEvent[eventType]} not found`);
+        }
+
+        return subject
+            .do(e => this._logService.verbose(LogCategories.broadcastService, BroadcastEvent[e.eventType]))
             .map(e => <T>e.obj);
     }
 

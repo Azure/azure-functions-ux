@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { LogicAppsComponent } from './../../logic-apps/logic-apps.component';
 import { Dom } from './../../shared/Utilities/dom';
 import { LogService } from './../../shared/services/log.service';
@@ -69,23 +70,23 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         private _logService: LogService) {
 
         this._broadcastService.getEvents<string>(BroadcastEvent.OpenTab)
-        .takeUntil(this._ngUnsubscribe)
-        .subscribe(tabId =>{
-            this.openFeature(tabId);
-        });
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(tabId => {
+                this.openFeature(tabId);
+            });
 
         this._broadcastService.getEvents<DirtyStateEvent>(BroadcastEvent.DirtyStateChange)
-        .takeUntil(this._ngUnsubscribe)
-        .subscribe(event =>{
-            if (!event.dirty && !event.reason) {
-                this.tabInfos.forEach(t => (t.dirty = false));
-            } else {
-                const info = this.tabInfos.find(t => t.id === event.reason);
-                if (info) {
-                    info.dirty = event.dirty;
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(event => {
+                if (!event.dirty && !event.reason) {
+                    this.tabInfos.forEach(t => (t.dirty = false));
+                } else {
+                    const info = this.tabInfos.find(t => t.id === event.reason);
+                    if (info) {
+                        info.dirty = event.dirty;
+                    }
                 }
-            }
-        });
+            });
 
         if (this.tabInfos.length === 0) {
             // Setup initial tabs without inputs immediate so that they load right away
@@ -184,7 +185,8 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit() {
-        this._broadcastService.getEvents<TreeViewInfo<SiteData>>(BroadcastEvent.AppDashboard)
+        this._broadcastService.getEvents<TreeViewInfo<SiteData>>(BroadcastEvent.TreeNavigation)
+            .filter(viewInfo => viewInfo.dashboardType === DashboardType.AppDashboard)
             .takeUntil(this._ngUnsubscribe)
             .subscribe(viewInfo => {
                 this.viewInfo = viewInfo;

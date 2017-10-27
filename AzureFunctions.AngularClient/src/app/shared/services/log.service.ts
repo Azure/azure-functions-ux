@@ -77,7 +77,7 @@ export class LogService {
         }
 
         if (this._shouldLog(category, LogLevel.verbose)) {
-            console.log(`[${category}] - ${data}`);
+            console.log(`${this._getTime()} [${category}] - ${data}`);
         }
     }
 
@@ -94,5 +94,10 @@ export class LogService {
         }
 
         return false;
+    }
+
+    private _getTime(){
+        const now = new Date();
+        return now.toISOString();
     }
 }

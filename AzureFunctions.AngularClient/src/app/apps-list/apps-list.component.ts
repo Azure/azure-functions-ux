@@ -1,3 +1,4 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { ActivatedRoute } from '@angular/router';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -62,7 +63,8 @@ export class AppsListComponent implements OnDestroy {
     public broadcastService: BroadcastService,
     public route: ActivatedRoute) {
 
-    this.broadcastService.getEvents<TreeViewInfo<SiteData>>(BroadcastEvent.AppsDashboard)
+    this.broadcastService.getEvents<TreeViewInfo<SiteData>>(BroadcastEvent.TreeNavigation)
+      .filter(viewInfo => viewInfo.dashboardType === DashboardType.AppsDashboard)
       .takeUntil(this._ngUnsubscribe)
       .distinctUntilChanged()
       .switchMap(viewInfo => {
