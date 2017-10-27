@@ -22,6 +22,10 @@ const routing: ModuleWithProviders = RouterModule.forChild([
                 loadChildren: 'app/apps-list/apps-list.module#AppsListModule'
             },
             {
+                path: 'subs',
+                loadChildren: 'app/subscription/subscription.module#SubscriptionComponentModule'
+            },
+            {
                 path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/sites/:site',
                 loadChildren: 'app/site/site.module#SiteModule'
             },

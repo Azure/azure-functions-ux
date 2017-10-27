@@ -18,7 +18,7 @@ import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { Arm, LogCategories } from './../shared/models/constants';
+import { Arm, LogCategories} from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -38,6 +38,7 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SiteService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
+
 
 @Component({
     selector: 'side-nav',
@@ -72,7 +73,6 @@ export class SideNavComponent implements AfterViewInit {
     private _initialized = false;
 
     private _tryFunctionAppStream = new Subject<FunctionApp>();
-
     @Input() set tryFunctionAppInput(functionApp: FunctionApp) {
         if (functionApp) {
             this._tryFunctionAppStream.next(functionApp);
@@ -275,6 +275,16 @@ export class SideNavComponent implements AfterViewInit {
 
         return newSelectedNode.handleSelection();
     }
+
+    navidateToNewSub() {
+        var navId = "subs/new/subscription";
+        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });        
+    }
+
+    refreshSubs() {
+        //TODO: RDBug 10600857:[Functions] Refresh subscription drop down list after new subscription added or when user click refresh
+    }
+
 
     private _logDashboardTypeChange(oldDashboard: DashboardType, newDashboard: DashboardType) {
         const oldDashboardType = DashboardType[oldDashboard];

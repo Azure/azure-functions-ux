@@ -1,0 +1,34 @@
+<div class="newsub-container" >
+    <div class="choose">
+        <h2>{{ 'subNew_chooseTemplate' | translate }}</h2>
+    </div>
+    <subscription-plan-picker
+    (planName)="planNameChanged($event)"
+    (invitationCodeRequired)="invitationCodeRequiredChanged($event)"></subscription-plan-picker>
+
+    <div *ngIf="planName">
+            <div class="sub-name-separator"></div>            
+            <h3>{{ 'subNew_nameYourFriendlySubName' | translate }}</h3>
+            <div class="textbox-sub">      
+                <textbox
+                        [control]="friendlySubName"
+                        placeholder="{{ 'subNew_friendlySubNameName' | translate }}"></textbox>
+                </div>
+            <div class="sub-name-separator"></div>
+            <div *ngIf="invitationCodeRequired">
+                <h3>{{ 'subNew_invitationCode' | translate }}</h3>
+                <div class="textbox-sub">                  
+                    <textbox
+                            [control]="invitationCode"
+                            (ngModelChange)="invitationCodeChanged($event)"                    
+                            placeholder="{{ 'subNew_invitationCode' | translate }}"></textbox>
+                </div>
+                <div class="sub-name-separator"></div>                
+            </div>
+            <div>
+                <button class="custom-button create-sub-button"
+                        [disabled]="!areInputsValid"
+                        (click)="onCreate()">{{ 'create' | translate }}</button>
+            </div>
+    </div>            
+</div>

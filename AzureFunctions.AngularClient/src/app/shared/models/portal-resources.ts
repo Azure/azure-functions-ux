@@ -23,6 +23,7 @@
     public static functionDev_status: string = "functionDev_status";
     public static functionDev_viewFiles: string = "functionDev_viewFiles";
     public static functionNew_chooseTemplate: string = "functionNew_chooseTemplate";
+    public static subNew_chooseTemplate: string = "subNew_chooseTemplate";    
     public static functionNew_experimentalTemplate: string = "functionNew_experimentalTemplate";
     public static functionNew_functionName: string = "functionNew_functionName";
     public static functionNew_functionNameRequired: string = "functionNew_functionNameRequired";
