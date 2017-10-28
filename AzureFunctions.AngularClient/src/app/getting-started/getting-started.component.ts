@@ -29,7 +29,8 @@ import { FunctionContainer } from '../shared/models/function-container';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
-import { Url } from "app/shared/Utilities/url";
+import { Url } from '../shared/Utilities/url';
+import { ArmUtil } from '../shared/Utilities/arm-utils';
 
 @Component({
     selector: 'getting-started',
@@ -268,9 +269,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         return this._armService.send('GET', url)
             .map(r => {
                 const sites: FunctionContainer[] = r.json().value;
-                return sites.filter(e =>
-                    (e.kind && e.kind.indexOf('functionapp') !== -1) ||
-                    (e.name && e.name.startsWith('00fun')));
+                return sites.filter(ArmUtil.isFunctionApp);
             });
     }
 
