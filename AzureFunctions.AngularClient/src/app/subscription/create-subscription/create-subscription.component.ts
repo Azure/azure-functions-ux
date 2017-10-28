@@ -37,9 +37,9 @@ export class CreateSubscriptionComponent implements OnInit {
   onCreate() {
     const id = `/subscriptions/${Guid.newGuid()}`;
     const body = {
-      planname: this.planName,
-      displayname: this.friendlySubName.value,
-      invitationcode: this.invitationCode.value,
+      planName: this.planName,
+      displayName: this.friendlySubName.value,
+      invitationCode: this.invitationCode.value,
     };
 
     this._globalStateService.setBusyState();

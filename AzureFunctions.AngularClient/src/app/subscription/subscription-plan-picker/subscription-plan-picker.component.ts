@@ -21,9 +21,9 @@ export class SubscriptionPlanPickerComponent {
             this.plans = response.json().value;
         });
     }
-    onTemplateClicked(name: string, invitionCodeRequired: boolean) {
+    onTemplateClicked(name: string, invitationCodeRequired: boolean) {
         this.selectedPlan = name;
         this.planName.emit(name);
-        this.invitationCodeRequired.emit(invitionCodeRequired);
+        this.invitationCodeRequired.emit(invitationCodeRequired);
     }
 }
