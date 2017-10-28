@@ -47,7 +47,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Standalone|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -244,6 +244,9 @@
     <Compile Include="Authentication\AADOAuth2AccessToken.cs" />
     <Compile Include="Authentication\AzureFunctionsIdentity.cs" />
     <Compile Include="Authentication\AzureFunctionsPrincipal.cs" />
+    <Compile Include="Authentication\NativeMethods.cs" />
+    <Compile Include="Authentication\NetworkHelper.cs" />
+    <Compile Include="Authentication\StandaloneAuthProvider.cs" />
     <Compile Include="Authentication\ClaimTypes.cs" />
     <Compile Include="Authentication\FrontEndAuthProvider.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />
@@ -316,6 +319,7 @@
   <ItemGroup>
     <Content Include="ResourcesPortal\cs-CZ\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="ResourcesPortal\de-DE\AzureFunctions\ResourcesPortal\Resources.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
