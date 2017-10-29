@@ -49,6 +49,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ArmService } from 'app/shared/services/arm.service';
 import { Url } from 'app/shared/Utilities/url';
 import { EmptyDashboardComponent } from 'app/main/empty-dashboard.component';
+import { InfoBoxComponent } from './../controls/info-box/info-box.component';
 
 export function ArmServiceFactory(
     http: Http,
@@ -91,7 +92,8 @@ export function AiServiceFactory() {
         TooltipDirective,
         SlideToggleComponent,
         LoadImageDirective,
-        EmptyDashboardComponent
+        EmptyDashboardComponent,
+        InfoBoxComponent
     ],
     exports: [
         CommonModule,
@@ -120,7 +122,8 @@ export function AiServiceFactory() {
         TooltipDirective,
         SlideToggleComponent,
         LoadImageDirective,
-        EmptyDashboardComponent
+        EmptyDashboardComponent,
+        InfoBoxComponent
     ],
     imports: [
         FormsModule,
