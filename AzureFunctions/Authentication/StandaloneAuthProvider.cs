@@ -112,12 +112,19 @@ namespace AzureFunctions.Authentication
 
         private static X509Certificate2 FindSigningCertificate()
         {
-            X509Store myStore = new X509Store(StoreName.My, StoreLocation.LocalMachine);
-            myStore.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-            X509Certificate2Collection certCollection = myStore.Certificates.Find(X509FindType.FindByThumbprint, SecuritySettings.SigningCertificateThumbprint, validOnly: false);
-            myStore.Close();
+            try
+            {
+                X509Store myStore = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+                myStore.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
+                X509Certificate2Collection certCollection = myStore.Certificates.Find(X509FindType.FindByThumbprint, SecuritySettings.SigningCertificateThumbprint, validOnly: false);
+                myStore.Close();
 
-            return certCollection[0];
+                return certCollection[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private bool AuthenticateUser(string credentials, out AADOAuth2AccessToken token)
