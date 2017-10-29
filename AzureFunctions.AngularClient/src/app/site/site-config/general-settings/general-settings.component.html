@@ -36,6 +36,7 @@
     </div>
 
     <div *ngIf="pythonSupported" class="setting-wrapper">
+      <info-box [infoText]="('pythonInfoText' | translate)" [infoLink]="FwLinks.pythonLearnMore"></info-box>
       <label class="setting-label">{{ 'pythonVersionLabel' | translate }}
         <pop-over [message]="('pythonVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -171,6 +172,7 @@
     </div>
 
     <div *ngIf="clientAffinitySupported" class="setting-wrapper" [class.last]="!autoSwapSupported">
+      <info-box [infoText]="('clientAffinityInfoText' | translate)" [infoLink]="FwLinks.clientAffinityLearnMore"></info-box>
       <label class="setting-label">{{ 'clientAffinityEnabledLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector

@@ -104,6 +104,8 @@ export class Regex {
 
 export class Links {
     public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
+    public static pythonLearnMore = "https://go.microsoft.com/fwlink/?linkid=852196";
+    public static clientAffinityLearnMore = "https://go.microsoft.com/fwlink/?linkid=798249";
 }
 
 export class LocalStorageKeys {

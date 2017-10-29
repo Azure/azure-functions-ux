@@ -417,6 +417,7 @@
     public static phpVersionLabelHelp: string = "phpVersionLabelHelp";
     public static pythonVersionLabel: string = "pythonVersionLabel";
     public static pythonVersionLabelHelp: string = "pythonVersionLabelHelp";
+    public static pythonInfoText: string = "pythonInfoText";
     public static javaVersionLabel: string = "javaVersionLabel";
     public static javaVersionLabelHelp: string = "javaVersionLabelHelp";
     public static javaMinorVersionLabel: string = "javaMinorVersionLabel";
@@ -436,6 +437,7 @@
     public static autoSwapEnabledLabel: string = "autoSwapEnabledLabel";
     public static autoSwapSlotNameLabel: string = "autoSwapSlotNameLabel";
     public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLabel";
+    public static clientAffinityInfoText: string = "clientAffinityInfoText";
     public static remoteDebuggingEnabledLabel: string = "remoteDebuggingEnabledLabel";
     public static remoteDebuggingVersionLabel: string = "remoteDebuggingVersionLabel";
     public static linuxFxVersionLabel: string = "linuxFxVersionLabel";

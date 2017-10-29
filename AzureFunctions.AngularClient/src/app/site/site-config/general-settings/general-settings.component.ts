@@ -13,7 +13,7 @@ import { AvailableStackNames, AvailableStack, Framework, MajorVersion, LinuxCons
 import { DropDownElement, DropDownGroupElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
-import { LogCategories } from 'app/shared/models/constants';
+import { Links, LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -53,6 +53,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   private _sku: string;
   private _kind: string;
+
+  public FwLinks = Links;
 
   public clientAffinityEnabledOptions: SelectOption<boolean>[];
   public use32BitWorkerProcessOptions: SelectOption<boolean>[];
