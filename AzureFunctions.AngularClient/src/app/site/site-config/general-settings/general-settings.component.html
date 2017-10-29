@@ -182,9 +182,8 @@
     </div>
 
     <ng-container *ngIf="autoSwapSupported">
-      <div class="auto-swap-warning" >{{ 'autoSwapNotSupportedFromProd' | translate }}</div>
-
       <div class="setting-wrapper">
+        <info-box [infoText]="('autoSwapNotSupportedFromProd' | translate)"></info-box>
         <label class="setting-label">{{ 'autoSwapEnabledLabel' | translate }}</label>
         <div class="setting-control-container">
           <radio-selector
