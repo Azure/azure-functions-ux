@@ -34,13 +34,6 @@ export class StandaloneEnvironment extends Environment {
                 return { status: 'disabled' };
             }
         };
-
-        this.scenarioChecks[ScenarioIds.showCreateRefreshSub] = {
-            id: ScenarioIds.showCreateRefreshSub,
-            runCheck: () => {
-                return { status: 'enabled' };
-            }
-        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -49,6 +49,13 @@ export class AzureEnvironment extends Environment {
                 return this._enableIfBasicOrHigher(input);
             }
         };
+
+        this.scenarioChecks[ScenarioIds.showCreateRefreshSub] = {
+            id: ScenarioIds.showCreateRefreshSub,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
