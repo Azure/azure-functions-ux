@@ -23,7 +23,10 @@
     public static functionDev_status: string = "functionDev_status";
     public static functionDev_viewFiles: string = "functionDev_viewFiles";
     public static functionNew_chooseTemplate: string = "functionNew_chooseTemplate";
-    public static subNew_chooseTemplate: string = "subNew_chooseTemplate";    
+    public static subNew_chooseTemplate: string = "subNew_chooseTemplate";
+    public static subNew_nameYourFriendlySubName: string = "subNew_nameYourFriendlySubName";
+    public static subNew_friendlySubNameName: string = "subNew_friendlySubNameName";
+    public static subNew_invitationCode: string = "subNew_invitationCode";
     public static functionNew_experimentalTemplate: string = "functionNew_experimentalTemplate";
     public static functionNew_functionName: string = "functionNew_functionName";
     public static functionNew_functionNameRequired: string = "functionNew_functionNameRequired";
@@ -320,6 +323,7 @@
     public static httpRun_headers: string = "httpRun_headers";
     public static httpRun_noHeaders: string = "httpRun_noHeaders";
     public static sideNav_AllSubscriptions: string = "sideNav_AllSubscriptions";
+    public static sideNav_Subscriptions: string = "sideNav_Subscriptions";
     public static sideNav_SubscriptionCount: string = "sideNav_SubscriptionCount";
     public static sideNav_FunctionsNoAccess: string = "sideNav_FunctionsNoAccess";
     public static sideNav_FunctionsReadOnlyLock: string = "sideNav_FunctionsReadOnlyLock";
