@@ -1366,6 +1366,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>The version used to run your web app if using Python</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python. Click here to learn more.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java version</value>
   </data>
@@ -1422,6 +1425,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR Affinity</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Remote debugging</value>
