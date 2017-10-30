@@ -315,7 +315,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       }
 
       if (this._kind && this._kind.indexOf('functionapp') !== -1) {
-        phpSupported = false;
+        netFrameworkSupported = false;
         pythonSupported = false;
         javaSupported = false;
         classicPipelineModeSupported = false;
