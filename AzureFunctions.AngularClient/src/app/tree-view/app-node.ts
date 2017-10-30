@@ -152,7 +152,11 @@ export class AppNode extends TreeNode
                 return Observable.of(null);
             })
             .do(() => {
-                this.isLoading = false;
+                // Temporary workaround to make sure we clear loading
+                // https://github.com/Azure/azure-functions-ux/issues/1872
+                setTimeout(() => {
+                    this.isLoading = false;
+                });
 
                 if (this.inSelectedTree) {
                     this.children.forEach(c => c.inSelectedTree = true);
@@ -160,7 +164,11 @@ export class AppNode extends TreeNode
 
                 this._loadingObservable = null;
             }, () => {
-                this.isLoading = false;
+                // Temporary workaround to make sure we clear loading
+                // https://github.com/Azure/azure-functions-ux/issues/1872
+                setTimeout(() => {
+                    this.isLoading = false;
+                });
             })
             .share();
 
@@ -185,7 +193,7 @@ export class AppNode extends TreeNode
     }
 
     private _setupFunctionApp(site: ArmObj<Site>) {
-        let result = Observable.of();
+        let result = Observable.of(null);
 
         if (this.sideNav.tryFunctionApp) {
             this._functionApp = this.sideNav.tryFunctionApp;
