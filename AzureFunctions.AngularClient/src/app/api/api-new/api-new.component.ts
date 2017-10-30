@@ -20,7 +20,6 @@ import { ErrorEvent, ErrorType } from '../../shared/models/error-event';
 import { FunctionInfo } from '../../shared/models/function-info';
 import { ErrorIds } from '../../shared/models/error-ids';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
-import { Regex } from '../../shared/models/constants';
 
 @Component({
     selector: 'api-new',
@@ -124,7 +123,6 @@ export class ApiNewComponent implements OnDestroy {
         return (control: AbstractControl): { [key: string]: any } => {
             let existingProxy = null;
             let existingFunction = null;
-            let regexCheck = false;
             if (that.complexForm) {
                 const name = control.value;
 
@@ -140,10 +138,9 @@ export class ApiNewComponent implements OnDestroy {
                         });
                     }
                 }
-                regexCheck = !Regex.functionName.test(name);
             }
 
-            return existingProxy || existingFunction || regexCheck ? {
+            return existingProxy || existingFunction ? {
                 validateName: {
                     valid: false
                 }
