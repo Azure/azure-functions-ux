@@ -316,7 +316,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       }
 
       if (ArmUtil.isFunctionApp(siteConfigArm)) {
-        phpSupported = false;
+        netFrameworkSupported = false;
         pythonSupported = false;
         javaSupported = false;
         classicPipelineModeSupported = false;
