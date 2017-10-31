@@ -271,9 +271,16 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
   }
 
   save(): Observable<SaveOrValidationResult> {
-    let virtualDirGroups = this.groupArray.controls;
+    // Don't make unnecessary PATCH call if these settings haven't been changed
+    if (this.groupArray.pristine) {
+      return Observable.of({
+        success: true,
+        error: null
+      });
+    }
+    else if (this.mainForm.contains("virtualDirectories") && this.mainForm.controls["virtualDirectories"].valid) {
+      let virtualDirGroups = this.groupArray.controls;
 
-    if (this.mainForm.contains("virtualDirectories") && this.mainForm.controls["virtualDirectories"].valid) {
       let webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
       webConfigArm.properties = {};
 

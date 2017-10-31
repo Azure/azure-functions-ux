@@ -1028,9 +1028,16 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   save(): Observable<SaveOrValidationResult> {
-    const generalSettingsControls = this.group.controls;
+    // Don't make unnecessary PATCH call if these settings haven't been changed
+    if (this.group.pristine) {
+      return Observable.of({
+        success: true,
+        error: null
+      });
+    }
+    else if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
+      const generalSettingsControls = this.group.controls;
 
-    if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
       // level: site
       const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this.siteArm));
 
