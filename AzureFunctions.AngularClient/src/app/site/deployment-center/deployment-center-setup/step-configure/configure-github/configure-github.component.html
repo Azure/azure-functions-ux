@@ -10,8 +10,8 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!OrgList ? OrgList : []"
-          [highlightDirty]="true" (value)="OrgChanged($event)">
+        <drop-down [options]="!!OrgList ? OrgList : []"
+          [highlightDirty]="false" (value)="OrgChanged($event)">
         </drop-down>
       </div>
     </div>
@@ -23,8 +23,8 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!RepoList ? RepoList : []"
-          [highlightDirty]="true" (value)="RepoChanged($event)">
+        <drop-down [control]="this._wizard?.wizardForm?.controls?.sourceSettings?.controls?.repoUrl" [options]="!!RepoList ? RepoList : []"
+          [highlightDirty]="false" (value)="RepoChanged($event)">
         </drop-down>
       </div>
     </div>
@@ -36,8 +36,8 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!BranchList ? BranchList : []"
-          [highlightDirty]="true">
+        <drop-down [control]="this._wizard?.wizardForm?.controls?.sourceSettings?.controls?.branch" [options]="!!BranchList ? BranchList : []"
+          [highlightDirty]="false">
         </drop-down>
       </div>
     </div>

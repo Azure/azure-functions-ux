@@ -8,6 +8,7 @@ import { AiService } from 'app/shared/services/ai.service';
 import { Constants } from 'app/shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Guid } from 'app/shared/Utilities/Guid';
 
 @Component({
     selector: 'app-configure-github',
@@ -18,6 +19,7 @@ export class ConfigureGithubComponent {
     private _resourceId: string;
     public OrgList: DropDownElement<string>[];
     public RepoList: DropDownElement<string>[];
+    private repoUrlToNameMap: { [key: string]: string } = {};
     public BranchList: DropDownElement<string>[];
 
     private reposStream = new ReplaySubject<string>();
@@ -30,10 +32,10 @@ export class ConfigureGithubComponent {
         _aiService: AiService
     ) {
         this.orgStream.subscribe(r => {
-          this.fetchRepos(r);
+            this.fetchRepos(r);
         });
         this.reposStream.subscribe(r => {
-          this.fetchBranches(r);
+            this.fetchBranches(r);
         });
 
         this.fetchOrgs();
@@ -64,7 +66,7 @@ export class ConfigureGithubComponent {
             r.orgs.forEach(org => {
                 newOrgsList.push({
                     displayLabel: org.login,
-                    value: org.repos_url
+                    value: org.url
                 });
             });
 
@@ -74,23 +76,65 @@ export class ConfigureGithubComponent {
 
     fetchRepos(org: string) {
         if (org) {
+            let fetchListCall: Observable<any[]> = null;
             this.RepoList = [];
-            this._cacheService
-                .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                    url: org
-                })
-                .subscribe(r => {
-                    const newRepoList: DropDownElement<string>[] = [];
-
-                    r.json().forEach(repo => {
+            this.BranchList = [];
+            if (org.includes('github.com/users/')) {
+                fetchListCall = this._cacheService
+                    .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
+                        url: `${org}`
+                    })
+                    .switchMap(r => {
+                        return Observable.of(r.json());
+                    });
+            } else {
+                fetchListCall = this._cacheService
+                    .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
+                        url: `${org}`
+                    })
+                    .switchMap(r => {
+                        const orgData = r.json();
+                        const pageCount = (orgData.public_repos + orgData.total_private_repos) / 100 + 1;
+                        let pageCalls: Observable<Response>[] = [];
+                        for (let i = 1; i <= pageCount; i++) {
+                            pageCalls.push(
+                                this._cacheService.post(
+                                    Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`,
+                                    true,
+                                    null,
+                                    {
+                                        url: `${org}/repos?per_page=100&page=${i}`
+                                    }
+                                )
+                            );
+                        }
+                        return Observable.forkJoin(pageCalls);
+                    })
+                    .switchMap(r => {
+                        let ret: any[] = [];
+                        r.forEach(e => {
+                            ret = ret.concat(e.json());
+                        });
+                        return Observable.of(ret);
+                    });
+            }
+            fetchListCall.subscribe(r => {
+                const newRepoList: DropDownElement<string>[] = [];
+                this.repoUrlToNameMap = {};
+                r
+                    .filter(repo => {
+                        return !repo.permissions || repo.permissions.admin;
+                    })
+                    .forEach(repo => {
                         newRepoList.push({
                             displayLabel: repo.name,
-                            value: repo.full_name
+                            value: repo.html_url
                         });
+                        this.repoUrlToNameMap[repo.html_url] = repo.full_name;
                     });
 
-                    this.RepoList = newRepoList;
-                });
+                this.RepoList = newRepoList;
+            });
         }
     }
 
@@ -99,7 +143,7 @@ export class ConfigureGithubComponent {
             this.BranchList = [];
             this._cacheService
                 .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
-                    url: `https://api.github.com/repos/${repo}/branches`
+                    url: `https://api.github.com/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`
                 })
                 .subscribe(r => {
                     const newBranchList: DropDownElement<string>[] = [];
@@ -107,7 +151,7 @@ export class ConfigureGithubComponent {
                     r.json().forEach(branch => {
                         newBranchList.push({
                             displayLabel: branch.name,
-                            value: branch.full_name
+                            value: branch.name
                         });
                     });
 
@@ -117,6 +161,7 @@ export class ConfigureGithubComponent {
     }
 
     RepoChanged(repo: string) {
+        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://github.com/${this.repoUrlToNameMap[repo]}`;
         this.reposStream.next(repo);
     }
 
@@ -124,6 +169,7 @@ export class ConfigureGithubComponent {
         this.orgStream.next(org);
     }
 
-    BranchChanged(branch: string) {
+    BranchChanged(branch:string){
+        this._wizard.wizardForm.controls.sourceSettings.value.branch = branch;
     }
 }

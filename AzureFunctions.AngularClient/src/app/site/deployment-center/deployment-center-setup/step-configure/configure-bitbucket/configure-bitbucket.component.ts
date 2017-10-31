@@ -30,11 +30,11 @@ export class ConfigureBitbucketComponent {
         this.reposStream.subscribe(r => {
             this.fetchBranches(r);
         });
-
         this.fetchRepos();
         this._wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });
+
     }
 
     fetchRepos() {
@@ -79,8 +79,11 @@ export class ConfigureBitbucketComponent {
     }
 
     RepoChanged(repo: string) {
+        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://bitbucket.org/${repo}`;
         this.reposStream.next(repo);
     }
 
-    BranchChanged(branch: string) {}
+    BranchChanged(branch: string) {
+        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://bitbucket.org/${branch}`;
+    }
 }

@@ -27,12 +27,16 @@ export class StepCompleteComponent implements OnInit {
     }
 
     Save() {
+        let payload = this.wizard.wizardForm.controls.sourceSettings.value;
+        if (this.wizard.wizardForm.controls.sourceProvider.value === 'external') {
+            payload.isManualIntegration = true;
+        }
 
         Observable.zip(
             this._armService.put(`${this.resourceId}/sourcecontrols/web`, {
                 properties: this.wizard.wizardForm.controls.sourceSettings.value
             }),
-            (t) => ({
+            t => ({
                 sc: t.json()
             })
         ).subscribe(r => {});

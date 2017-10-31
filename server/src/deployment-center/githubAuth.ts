@@ -13,12 +13,12 @@ const githubAuth = new ClientOAuth2({
 });
 
 export async function getGithubTokens(req: any): Promise<any> {
-    if(req && req.session && req.session['githubAccess'])
-    {
-        return {authenticated: true};
+    if (req && req.session && req.session['githubAccess']) {
+        return { authenticated: true };
     }
-    try{
-        const r = await axios.get( `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/GitHub?api-version=2016-03-01`,
+    try {
+        const r = await axios.get(
+            `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/GitHub?api-version=2016-03-01`,
             {
                 headers: {
                     Authorization: req.headers.authorization
@@ -27,31 +27,28 @@ export async function getGithubTokens(req: any): Promise<any> {
         );
         const body = r.data;
         if (req && req.session && body && body.properties && body.properties.token) {
-            return {authenticated: true, token: body.properties.token};
+            return { authenticated: true, token: body.properties.token };
+        } else {
+            return { authenticated: false };
         }
-        else{
-            return {authenticated: false};
-        }
-
-    }
-    catch(_)
-    {
-        return {authenticated: false};
+    } catch (_) {
+        return { authenticated: false };
     }
 }
 
 export function setupGithubAuthentication(app: Application) {
-
     app.post('/api/github/passthrough', async (req, res) => {
         const tokenData = await getGithubTokens(req);
-        if(!tokenData.authenticated){
+        if (!tokenData.authenticated) {
             res.sendStatus(401);
         }
+        
         const response = await axios.get(req.body.url, {
-                headers: {
-                    Authorization: `Bearer ${tokenData.token}`
-                }
-            });
+            headers: {
+                Authorization: `Bearer ${tokenData.token}`
+            }
+        });
+        res.set(response.headers);
         res.json(response.data);
     });
 

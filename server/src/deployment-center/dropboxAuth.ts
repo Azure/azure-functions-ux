@@ -40,11 +40,11 @@ export function setupDropboxAuthentication(app: Application) {
             res.sendStatus(401);
         }
         try {
-            const response = await axios.post(req.body.url, undefined, {
+            const response = await axios.post(req.body.url, req.body.arg, {
                 headers: {
                     Authorization: `Bearer ${tokenData.token}`,
                    // Accept: 'application/json, text/plain, */*',
-                    'Content-Type': ""
+                    'Content-Type': req.body.content_type || ''
                 }
             });
             res.json(response.data);

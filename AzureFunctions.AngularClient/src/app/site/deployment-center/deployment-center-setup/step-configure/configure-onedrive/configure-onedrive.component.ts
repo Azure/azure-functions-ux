@@ -25,7 +25,7 @@ export class ConfigureOnedriveComponent {
         _armService: ArmService,
         _aiService: AiService
     ) {
-        
+        this._wizard.wizardForm.controls.sourceSettings.value.isManualIntegration = false;
         this._wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });
@@ -58,7 +58,9 @@ export class ConfigureOnedriveComponent {
                         });
                     }
                 });
+                
                 this.folderList = options;
+                this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://api.onedrive.com/v1.0/drive/special/approot:/${siteName}`;
             });
     }
 }
