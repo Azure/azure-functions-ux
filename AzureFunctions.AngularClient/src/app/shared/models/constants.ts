@@ -107,7 +107,8 @@ export class Links {
 }
 
 export class LocalStorageKeys {
-    public static readonly siteTabs = "/site/tabs"
+    public static readonly siteTabs = '/site/tabs';
+    public static readonly savedSubsKey = '/subscriptions/selectedIds';
 }
 
 export class Order {

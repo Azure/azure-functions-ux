@@ -15,9 +15,9 @@ export class SubscriptionPlanPickerComponent {
     selectedPlan: string;
 
     constructor(
-        private _cacheService: CacheService,            
+        private _cacheService: CacheService,
     ) {
-        this._cacheService.getArm("/plans").subscribe(response => {
+        this._cacheService.getArm('/plans').subscribe(response => {
             this.plans = response.json().value;
         });
     }

@@ -1,10 +1,11 @@
 import { LogService } from './../shared/services/log.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { Dom } from './../shared/Utilities/dom';
+import { SubUtil } from './../shared/Utilities/sub-util';
 import { SearchBoxComponent } from './../search-box/search-box.component';
-import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -18,7 +19,7 @@ import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { Arm, LogCategories} from './../shared/models/constants';
+import { LocalStorageKeys, Arm, LogCategories} from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -41,6 +42,7 @@ import { Url } from 'app/shared/Utilities/url';
 
 
 @Component({
+    changeDetection : ChangeDetectionStrategy.OnPush,
     selector: 'side-nav',
     templateUrl: './side-nav.component.html',
     styleUrls: ['./side-nav.component.scss']
@@ -66,7 +68,6 @@ export class SideNavComponent implements AfterViewInit {
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
 
-    private _savedSubsKey = '/subscriptions/selectedIds';
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new ReplaySubject<string>(1);
 
@@ -277,14 +278,24 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     navidateToNewSub() {
-        var navId = "subs/new/subscription";
+        const navId = 'subs/new/subscription';
         this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });        
     }
 
     refreshSubs() {
-        //TODO: RDBug 10600857:[Functions] Refresh subscription drop down list after new subscription added or when user click refresh
+        this.cacheService.getArm('/subscriptions', true).subscribe(r => {
+            this.userService.getStartupInfo()
+            .first()
+            .subscribe((info) => {
+                const subs: Subscription[] = r.json().value;
+                if (!SubUtil.subsChanged(info.subscriptions, subs)) {
+                    return;
+                }
+                info.subscriptions = subs;
+                this.userService.updateStartupInfo(info);
+            });
+        });
     }
-
 
     private _logDashboardTypeChange(oldDashboard: DashboardType, newDashboard: DashboardType) {
         const oldDashboardType = DashboardType[oldDashboard];
@@ -375,7 +386,7 @@ export class SideNavComponent implements AfterViewInit {
         }
 
         const storedSelectedSubIds: StoredSubscriptions = {
-            id: this._savedSubsKey,
+            id: LocalStorageKeys.savedSubsKey,
             subscriptions: subIds
         };
 
@@ -404,22 +415,21 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     private _setupInitialSubscriptions(resourceId: string) {
-        const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(this._savedSubsKey);
-        const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
-        let descriptor: SiteDescriptor;
-
-        if (resourceId) {
-            descriptor = new SiteDescriptor(resourceId);
-        }
-
         // Need to set an initial value to force the tree to render with an initial list first.
         // Otherwise the tree won't load in batches of objects for long lists until the entire
         // observable sequence has completed.
         this._subscriptionsStream.next([]);
 
         this.userService.getStartupInfo()
-            .first()
             .subscribe(info => {
+                const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
+                const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
+                let descriptor: SiteDescriptor;
+
+                if (resourceId) {
+                    descriptor = new SiteDescriptor(resourceId);
+                }
+
                 let count = 0;
 
                 this.subscriptionOptions =
