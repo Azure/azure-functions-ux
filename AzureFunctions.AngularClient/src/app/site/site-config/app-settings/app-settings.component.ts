@@ -246,75 +246,90 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
   getConfigForSave(): ArmObjMap {
-    let configObjects: ArmObjMap = {
-      objects: {}
-    };
+    // Prevent unnecessary PUT call if these settings haven't been changed
+    if (this.groupArray.pristine) {
+      return null;
+    }
+    else {
+      let configObjects: ArmObjMap = {
+        objects: {}
+      };
 
-    let appSettingGroups = this.groupArray.controls;
+      let appSettingGroups = this.groupArray.controls;
 
-    if (this.mainForm.contains("appSettings") && this.mainForm.controls["appSettings"].valid) {
-      let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
-      appSettingsArm.properties = {};
+      if (this.mainForm.contains("appSettings") && this.mainForm.controls["appSettings"].valid) {
+        let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
+        appSettingsArm.properties = {};
 
-      this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-      let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-      slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
-      let appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
+        this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
+        let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+        slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
+        let appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
 
-      for (let i = 0; i < appSettingGroups.length; i++) {
-        if ((appSettingGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
-          let name = appSettingGroups[i].value.name;
+        for (let i = 0; i < appSettingGroups.length; i++) {
+          if ((appSettingGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
+            let name = appSettingGroups[i].value.name;
 
-          appSettingsArm.properties[name] = appSettingGroups[i].value.value;
+            appSettingsArm.properties[name] = appSettingGroups[i].value.value;
 
-          if (appSettingGroups[i].value.isSlotSetting) {
-            if (appSettingNames.indexOf(name) === -1) {
-              appSettingNames.push(name);
+            if (appSettingGroups[i].value.isSlotSetting) {
+              if (appSettingNames.indexOf(name) === -1) {
+                appSettingNames.push(name);
+              }
             }
-          }
-          else {
-            let index = appSettingNames.indexOf(name);
-            if (index !== -1) {
-              appSettingNames.splice(index, 1);
+            else {
+              let index = appSettingNames.indexOf(name);
+              if (index !== -1) {
+                appSettingNames.splice(index, 1);
+              }
             }
           }
         }
+
+        configObjects["slotConfigNames"] = slotConfigNamesArm;
+        configObjects["appSettings"] = appSettingsArm;
+      }
+      else {
+        configObjects.error = this._validationFailureMessage();
       }
 
-      configObjects["slotConfigNames"] = slotConfigNamesArm;
-      configObjects["appSettings"] = appSettingsArm;
+      return configObjects;
     }
-    else {
-      configObjects.error = this._validationFailureMessage();
-    }
-
-    return configObjects;
   }
 
   save(
     appSettingsArm: ArmObj<any>,
     slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
 
-    return Observable.zip(
-      this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
-      Observable.of(slotConfigNamesResponse),
-      (a, s) => ({ appSettingsResponse: a, slotConfigNamesResponse: s })
-    )
-      .map(r => {
-        this._appSettingsArm = r.appSettingsResponse.json();
-        this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
-        return {
-          success: true,
-          error: null
-        };
-      })
-      .catch(error => {
-        this._saveError = error._body;
-        return Observable.of({
-          success: false,
-          error: error._body
-        });
+    // Don't make unnecessary PUT call if these settings haven't been changed
+    if (this.groupArray.pristine) {
+      return Observable.of({
+        success: true,
+        error: null
       });
+    }
+    else {
+      return Observable.zip(
+        this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
+        Observable.of(slotConfigNamesResponse),
+        (a, s) => ({ appSettingsResponse: a, slotConfigNamesResponse: s })
+      )
+        .map(r => {
+          this._appSettingsArm = r.appSettingsResponse.json();
+          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+          return {
+            success: true,
+            error: null
+          };
+        })
+        .catch(error => {
+          this._saveError = error._body;
+          return Observable.of({
+            success: false,
+            error: error._body
+          });
+        });
+    }
   }
 
   private _validationFailureMessage(): string {
