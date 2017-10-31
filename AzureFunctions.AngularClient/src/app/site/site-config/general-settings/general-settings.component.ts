@@ -177,7 +177,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         if (!this._linuxFxVersionOptionsClean) {
           this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
         }
-        this._processSupportedControls(this.siteArm, this._webConfigArm, this._slotsConfigArm);
+        this._processSupportedControls(this.siteArm, this._webConfigArm);
         this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
@@ -208,7 +208,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     const inputs = {
       aspResourceId: this.siteArm.properties.serverFarmId,
       aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
-        && this.siteArm.properties.hostingEnvironmentProfile.id
+      && this.siteArm.properties.hostingEnvironmentProfile.id
     };
 
     const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
@@ -278,7 +278,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.linuxRuntimeSupported = false;
   }
 
-  private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>, slotsConfigArm: ArmArrayResult<Site>) {
+  private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>) {
     if (!!siteConfigArm) {
       let netFrameworkSupported = true;
       let phpSupported = true;
@@ -290,17 +290,13 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       let classicPipelineModeSupported = true;
       let remoteDebuggingSupported = true;
       let clientAffinitySupported = true;
-      let autoSwapSupported = false;
+      let autoSwapSupported = true;
       let linuxRuntimeSupported = false;
 
       this._sku = siteConfigArm.properties.sku;
       this._kind = siteConfigArm.kind;
 
-      if (slotsConfigArm && slotsConfigArm.value && slotsConfigArm.value.length > 0) {
-        autoSwapSupported = true;
-      }
-
-      if (this._kind.indexOf('linux') >= 0) {
+      if (ArmUtil.isLinuxApp(siteConfigArm)) {
         netFrameworkSupported = false;
         phpSupported = false;
         pythonSupported = false;
@@ -329,6 +325,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           clientAffinitySupported = false;
         }
       }
+
       // if (this._sku === 'Free' || this._sku === 'Shared') {
       //   platform64BitSupported = false;
       //   alwaysOnSupported = false;
@@ -512,10 +509,12 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       }
       else {
         const slotNames: string[] = ['production'];
-        slotsConfigArm.value
-          .map(s => s.name)
-          .filter(r => r !== siteConfigArm.name)
-          .forEach(n => slotNames.push(n.split("/").slice(-1)[0]))
+        if (slotsConfigArm && slotsConfigArm.value) {
+          slotsConfigArm.value
+            .map(s => s.name)
+            .filter(r => r !== siteConfigArm.name)
+            .forEach(n => slotNames.push(n.split("/").slice(-1)[0]))
+        }
 
         slotNames.forEach(name => {
           autoSwapSlotNameOptions.push({

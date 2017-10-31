@@ -434,6 +434,7 @@
     public static alwaysOnUpsell: string = "alwaysOnUpsell";
     public static managedPipelineModeLabel: string = "managedPipelineModeLabel";
     public static autoSwapNotSupportedFromProd: string = "autoSwapNotSupportedFromProd";
+    public static autoSwapUpsell: string = "autoSwapUpsell";
     public static autoSwapEnabledLabel: string = "autoSwapEnabledLabel";
     public static autoSwapSlotNameLabel: string = "autoSwapSlotNameLabel";
     public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLabel";
