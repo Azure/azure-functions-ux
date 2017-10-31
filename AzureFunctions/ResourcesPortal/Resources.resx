@@ -1417,6 +1417,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Auto swap destinations cannot be configured from production slot</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Auto Swap requires a standard or higher App Service Plan</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Auto Swap</value>
   </data>

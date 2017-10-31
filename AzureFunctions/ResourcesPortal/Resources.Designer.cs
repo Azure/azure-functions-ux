@@ -772,6 +772,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto Swap requires a standard or higher App Service Plan.
+        /// </summary>
+        internal static string autoSwapUpsell {
+            get {
+                return ResourceManager.GetString("autoSwapUpsell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Swap Slot.
         /// </summary>
         internal static string autoSwapSlotNameLabel {

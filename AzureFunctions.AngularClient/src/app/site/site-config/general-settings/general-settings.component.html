@@ -184,20 +184,29 @@
     </div>
 
     <ng-container *ngIf="autoSwapSupported">
-      <div class="setting-wrapper">
-        <info-box [infoText]="('autoSwapNotSupportedFromProd' | translate)"></info-box>
+      <div class="setting-wrapper" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="" cs-disabledClass="last">
+        <info-box [infoText]="('autoSwapNotSupportedFromProd' | translate)" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}"></info-box>
         <label class="setting-label">{{ 'autoSwapEnabledLabel' | translate }}</label>
         <div class="setting-control-container">
           <radio-selector
             [control]="!!group ? group.controls['autoSwapEnabled'] : null"
             [options]="autoSwapEnabledOptions"
             [highlightDirty]="true"
-            (value)="updateAutoSwapSlotNameOptions($event)">
+            (value)="updateAutoSwapSlotNameOptions($event)"
+            check-scenario="EnableAutoSwap"
+            [cs-input]="{site: siteArm}">
           </radio-selector>
+
+          <span check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+            <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+            <pop-over [message]="'autoSwapUpsell' | translate">
+              <span load-image="image/upsell.svg" class="icon-small"></span>
+            </pop-over>
+          </span>
         </div>
       </div>
       
-      <div class="setting-wrapper last">
+      <div class="setting-wrapper last" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}">
         <label class="setting-label">{{ 'autoSwapSlotNameLabel' | translate }}</label>
         <div class="setting-control-container">
           <drop-down
