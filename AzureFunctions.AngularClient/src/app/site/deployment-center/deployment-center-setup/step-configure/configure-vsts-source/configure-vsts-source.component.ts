@@ -8,7 +8,7 @@ import { AiService } from 'app/shared/services/ai.service';
 import { Headers } from '@angular/http';
 import { UserService } from 'app/shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
-
+import * as _ from 'lodash';
 export const PythonFramework = {
     Bottle: 'Bottle',
     Django: 'Django',
@@ -28,6 +28,14 @@ export const WebAppFramework = {
     PHP: 'PHP',
     Python: 'Python'
 };
+
+export class VSTSRepository {
+    name: string;
+    account: string;
+    remoteUrl: string;
+    projectName: string;
+    id: string;
+}
 
 @Component({
     selector: 'app-configure-vsts-source',
@@ -58,17 +66,16 @@ export class ConfigureVstsSourceComponent {
         }
     ];
     chosenBuildFramework: string;
-    private _vstsProfileInfo: any;
     private _resourceId: string;
-    private _chosenAccount: string;
-    private _chosenProject: string;
-    private _chosenRepository: string;
+    //private _chosenRepository: string;
     public AllGitRepoList: any[];
     public AccountList: DropDownElement<string>[];
     public ProjectList: DropDownElement<string>[];
     public RepositoryList: DropDownElement<string>[];
     public BranchList: DropDownElement<string>[];
     private token: string;
+
+    private vstsRepositories: VSTSRepository[];
     constructor(
         private _wizard: DeploymentCenterWizardService,
         _portalService: PortalService,
@@ -81,27 +88,111 @@ export class ConfigureVstsSourceComponent {
             this.token = r.token;
         });
 
-        this.GetMemberId()
-            .switchMap(r => {
-                this._vstsProfileInfo = r.json();
-                return this.FetchAccounts();
-            })
-            .subscribe(r => {});
         this._wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });
+
+        this.populate();
+        this._wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().subscribe(r => {
+            this.populate();
+        });
     }
 
+    private populate() {
+        this.GetMemberId()
+            .switchMap(r => {
+                return this.FetchAccounts(r.id);
+            })
+            .switchMap(r => {
+                let projectCalls: Observable<any[]>[] = [];
+                r.forEach(account => {
+                    projectCalls.push(this.FetchProjectsForAccount(account.accountName));
+                });
+                return Observable.forkJoin(projectCalls);
+            })
+            .subscribe(r => {
+                this.vstsRepositories = [];
+                r.forEach(repoList => {
+                    repoList.forEach(repo => {
+                        let url: string = repo.remoteUrl;
+
+                        this.vstsRepositories.push({
+                            name: repo.name,
+                            remoteUrl: url,
+                            account: url.split('.')[0].replace('https://', ''),
+                            projectName: repo.project.name,
+                            id: repo.id
+                        });
+                    });
+                });
+                this.AccountList = _.uniqBy(
+                    this.vstsRepositories.map(repo => {
+                        return {
+                            displayLabel: repo.account,
+                            value: repo.account
+                        };
+                    }),
+                    'value'
+                );
+            });
+    }
     private GetMemberId() {
-        return this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me');
+        return this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me').switchMap(r => {
+            return Observable.of(r.json());
+        });
     }
 
-    RepoChanged(repoId: string) {
-        this._chosenRepository = repoId;
+    private FetchAccounts(memberId: string): Observable<any[]> {
+        const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
+        return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
+            const accounts = r.json().value as any[];
+            if (this._wizard.wizardForm.controls.buildProvider.value === 'kudu') {
+                return Observable.of(accounts.filter(x => x.isAccountOwner));
+            } else {
+                return Observable.of(accounts);
+            }
+        });
+    }
+
+    private FetchProjectsForAccount(accountName: string): Observable<any[]> {
+        return this._cacheService
+            .get(`https://${accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`, true, this.getHeaders())
+            .switchMap(r => {
+                return Observable.of(r.json().value);
+            });
+    }
+
+    AccountChanged(accountName: string) {
+        this.ProjectList = _.uniqBy(
+            this.vstsRepositories.filter(r => r.account === accountName).map(repo => {
+                return {
+                    displayLabel: repo.projectName,
+                    value: repo.projectName
+                };
+            }),
+            'value'
+        );
+    }
+
+    ProjectChanged(projectName: string) {
+        this.RepositoryList = _.uniqBy(
+            this.vstsRepositories.filter(r => r.projectName === projectName).map(repo => {
+                return {
+                    displayLabel: repo.name,
+                    value: repo.remoteUrl
+                };
+            }),
+            'value'
+        );
+    }
+    RepoChanged(repoUri: string) {
+        const repoObj = _.first(this.vstsRepositories.filter(x => x.remoteUrl === repoUri));
+        const repoId = repoObj.id;
+        const account = repoObj.account;
+        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = repoUri;
         this._cacheService
             .get(
-                `https://${this
-                    ._chosenAccount}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
+                `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
                 true,
                 this.getHeaders()
             )
@@ -117,54 +208,9 @@ export class ConfigureVstsSourceComponent {
             });
     }
 
-    AccountChanged(accountName: string) {
-        this._chosenAccount = accountName;
-
-        return this._cacheService
-            .get(`https://${accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`, true, this.getHeaders())
-            .subscribe(r => {
-                let projectList: DropDownElement<string>[] = [];
-                this.AllGitRepoList = r.json().value;
-                this.AllGitRepoList.forEach(x => {
-                    if (!projectList.find(y => y.value === x.project.name)) {
-                        projectList.push({
-                            displayLabel: x.project.name,
-                            value: x.project.name
-                        });
-                    }
-                });
-                this.ProjectList = projectList;
-            });
+    BranchChanged(branch: string) {
+        this._wizard.wizardForm.controls.sourceSettings.value.branch = branch;
     }
-
-    ProjectChanged(projectName: string) {
-        this._chosenProject = projectName;
-        this.RepositoryList = this.AllGitRepoList.filter(x => x.project.name === projectName).map(x => {
-            const item: DropDownElement<string> = {
-                displayLabel: x.name,
-                value: x.id
-            };
-            return item;
-        });
-    }
-
-    private FetchAccounts() {
-        const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline&memberId=${this
-            ._vstsProfileInfo.id}`;
-        return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
-            const accounts = r.json().value as any[];
-
-            this.AccountList = accounts.map(x => {
-                const item: DropDownElement<string> = {
-                    displayLabel: x.accountName,
-                    value: x.accountName
-                };
-                return item;
-            });
-            return Observable.of(r);
-        });
-    }
-
     private getHeaders(): Headers {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
