@@ -42,6 +42,11 @@ export class CacheService {
         return this._send(url, 'GET', force, null, null, invokeApi);
     }
 
+    deleteArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<Response> {
+        const url = this._getArmUrl(resourceId, apiVersion);
+        return this._send(url, 'DELETE', force, null, null, invokeApi);
+    }
+
     postArm(resourceId: string, force?: boolean, apiVersion?: string): Observable<Response> {
         const url = this._getArmUrl(resourceId, apiVersion);
         return this._send(url, 'POST', force);
