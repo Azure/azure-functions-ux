@@ -90,24 +90,24 @@ export class StepSourceControlComponent {
             description: 'Deploy from a local Git repo.',
             authorizedStatus: 'none'
         },
-        {
-            id: 'webdeploy',
-            name: 'Web Deploy',
-            icon: 'image/deployment-center/WebDeploy.svg',
-            color: '#B8D432',
-            barColor: '#dbe998',
-            description: 'use ms deploy',
-            authorizedStatus: 'none'
-        },
-        {
-            id: 'ftp',
-            name: 'FTP',
-            icon: 'image/deployment-center/FTP.svg',
-            color: '#FCD116',
-            barColor: '#fde88a',
-            description: 'Use an FTP connection to access and copy app files.',
-            authorizedStatus: 'none'
-        }
+        // {
+        //     id: 'webdeploy',
+        //     name: 'Web Deploy',
+        //     icon: 'image/deployment-center/WebDeploy.svg',
+        //     color: '#B8D432',
+        //     barColor: '#dbe998',
+        //     description: 'use ms deploy',
+        //     authorizedStatus: 'none'
+        // },
+        // {
+        //     id: 'ftp',
+        //     name: 'FTP',
+        //     icon: 'image/deployment-center/FTP.svg',
+        //     color: '#FCD116',
+        //     barColor: '#fde88a',
+        //     description: 'Use an FTP connection to access and copy app files.',
+        //     authorizedStatus: 'none'
+        // }
     ];
 
     public selectedProvider: ProviderCard = null;

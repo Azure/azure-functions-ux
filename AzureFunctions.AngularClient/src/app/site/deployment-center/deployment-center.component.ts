@@ -13,9 +13,11 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { AuthzService } from '../../shared/services/authz.service';
 import { AiService } from '../../shared/services/ai.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 
 @Component({
     selector: 'app-deployment-center',
@@ -35,8 +37,7 @@ export class DeploymentCenterComponent implements OnInit {
     public hasWritePermissions = true;
 
     private _siteConfigObject: ArmObj<SiteConfig>;
-    //private _busyState: BusyStateComponent;
-  //  private _busyStateScopeManager: BusyStateScopeManager;
+    private _busyManager: BusyStateScopeManager;
 
     public resourceId: string;
 
@@ -46,16 +47,17 @@ export class DeploymentCenterComponent implements OnInit {
     constructor(
         private _aiService: AiService,
         private _authZService: AuthzService,
-        private _cacheService: CacheService
+        private _cacheService: CacheService,
+        broadcastService: BroadcastService
     ) {
-        //this._busyState = siteTabsComponent.busyState;
-        //this._busyStateScopeManager = this._busyState.getScopeManager();
+        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
         this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
         this._viewInfoSubscription = this.viewInfoStream
             .switchMap(viewInfo => {
-                //this._busyStateScopeManager.setBusy();
+                this._busyManager.setBusy();
                 this.resourceId = viewInfo.resourceId;
+                this._siteConfigObject = null;
                 return Observable.zip(
                     this._cacheService.getArm(`${viewInfo.resourceId}/config/web`),
                     this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
@@ -70,7 +72,7 @@ export class DeploymentCenterComponent implements OnInit {
             .do(null, error => {
                 this._siteConfigObject = null;
                 this._aiService.trackEvent('/errors/deployment-center', error);
-               // this._busyStateScopeManager.clearBusy();
+               this._busyManager.clearBusy();
             })
             .retry()
             .subscribe(r => {
@@ -78,7 +80,7 @@ export class DeploymentCenterComponent implements OnInit {
                 this._writePermission = r.writePermission;
                 this._readOnlyLock = r.readOnlyLock;
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
-              //  this._busyStateScopeManager.clearBusy();
+                this._busyManager.clearBusy();
             });
     }
 

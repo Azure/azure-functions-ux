@@ -77,7 +77,14 @@ export class DeploymentCenterSetupComponent  {
             this._wizardService.wizardForm &&
             this._wizardService.wizardForm.controls['sourceProvider'] &&
             this._wizardService.wizardForm.controls['sourceProvider'].value;
-        return sourceControlProvider !== 'ftp' && sourceControlProvider !== 'webdeploy';
+
+        const buildProvider =
+            this._wizardService &&
+            this._wizardService.wizardForm &&
+            this._wizardService.wizardForm.controls['buildProvider'] &&
+            this._wizardService.wizardForm.controls['buildProvider'].value;
+        const localGitKudu = sourceControlProvider === 'localgit' && buildProvider === 'kudu'
+        return sourceControlProvider !== 'ftp' && sourceControlProvider !== 'webdeploy' && !localGitKudu;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

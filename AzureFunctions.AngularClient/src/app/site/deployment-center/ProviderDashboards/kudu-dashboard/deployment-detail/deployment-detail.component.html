@@ -5,6 +5,7 @@
   </span>
 </command-bar>
 <div class="list-collection-container">
+  <busy-state name="deployment-detail"></busy-state>
   <tbl [items]="TableItems" #table="tbl" id="deployment-log" [name]="'functionApps' | translate" groupColName="time">
     <tr>
       <th>

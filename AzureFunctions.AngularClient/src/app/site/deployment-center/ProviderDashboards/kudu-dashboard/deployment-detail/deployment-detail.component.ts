@@ -12,6 +12,7 @@ import { ArmArrayResult, ArmObj } from '../../../../../shared/models/arm/arm-obj
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 
 class DeploymentDetailTableItem implements TableItem {
     public type: 'row' | 'group';
@@ -45,12 +46,18 @@ export class DeploymentDetailComponent implements OnChanges {
     private _tableItems: DeploymentDetailTableItem[];
 
     public logsToShow;
-    constructor(private _cacheService: CacheService, private _aiService: AiService, private _translateService: TranslateService) {
+    constructor(
+        private _cacheService: CacheService,
+        private _aiService: AiService,
+        private _translateService: TranslateService,
+        broadcastService: BroadcastService
+    ) {
         this._tableItems = [];
         this.viewInfoStream = new Subject<ArmObj<Deployment>>();
         this._viewInfoSubscription = this.viewInfoStream
             .distinctUntilChanged()
             .switchMap(deploymentObject => {
+                this.busyState.setBusyState();
                 this.logsToShow = null;
                 const deploymentId = deploymentObject.id;
                 return this._cacheService.getArm(`${deploymentId}/log`);
@@ -58,10 +65,11 @@ export class DeploymentDetailComponent implements OnChanges {
             .do(null, error => {
                 this.deploymentObject = null;
                 this._aiService.trackEvent('/errors/deployment-center', error);
-                this._busyStateScopeManager.clearBusy();
+                this.busyState.clearBusyState();
             })
             .retry()
             .subscribe(r => {
+                this.busyState.clearBusyState();
                 const logs: ArmArrayResult<DeploymentLogItem> = r.json();
                 this._tableItems = [];
                 logs.value.forEach(val => {

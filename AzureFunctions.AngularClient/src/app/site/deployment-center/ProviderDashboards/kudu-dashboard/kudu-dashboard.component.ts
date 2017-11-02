@@ -11,6 +11,8 @@ import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
+import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 class KuduTableItem implements TableItem {
     public type: 'row' | 'group';
     public time: string;
@@ -40,7 +42,7 @@ export class KuduDashboardComponent implements OnChanges {
     public deploymentObject: DeploymentData;
 
     public RightPaneItem: ArmObj<Deployment>;
-
+    private _busyManager: BusyStateScopeManager;
     private _forceLoad = false;
     public sidePanelOpened = false;
     constructor(
@@ -48,12 +50,15 @@ export class KuduDashboardComponent implements OnChanges {
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _aiService: AiService,
-        private _authZService: AuthzService
+        private _authZService: AuthzService,
+        broadcastService: BroadcastService
     ) {
+        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
         this._tableItems = [];
         this.viewInfoStream = new Subject<string>();
         this._viewInfoSubscription = this.viewInfoStream
             .switchMap(resourceId => {
+                this._busyManager.setBusy();
                 return Observable.zip(
                     this._cacheService.getArm(resourceId, this._forceLoad),
                     this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad),
@@ -88,12 +93,14 @@ export class KuduDashboardComponent implements OnChanges {
                 );
             })
             .do(null, error => {
+                this._busyManager.clearBusy();
                 this._forceLoad = false;
                 this.deploymentObject = null;
                 this._aiService.trackEvent('/errors/deployment-center', error);
             })
             .retry()
             .subscribe(r => {
+                this._busyManager.clearBusy();
                 this._forceLoad = false;
                 this.deploymentObject = {
                     site: r.site,
