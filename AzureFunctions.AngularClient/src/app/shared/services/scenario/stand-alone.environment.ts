@@ -42,6 +42,12 @@ export class StandaloneEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.deleteAppDirectly] = {
+            id: ScenarioIds.deleteAppDirectly,
+            runCheck: () => {
+                return { status: 'enabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
