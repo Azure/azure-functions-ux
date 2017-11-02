@@ -313,6 +313,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Always on requires a basic or higher App Service plan.
+        /// </summary>
+        internal static string alwaysOnUpsell {
+            get {
+                return ResourceManager.GetString("alwaysOnUpsell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All methods.
         /// </summary>
         internal static string apiProxy_allMethods {
@@ -709,7 +718,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Australia Sputheast.
+        ///   Looks up a localized string similar to Australia Southeast.
         /// </summary>
         internal static string australiasoutheast {
             get {
@@ -3884,16 +3893,6 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_chooseTemplate", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Choose a plan below.
-        /// </summary>
-        internal static string subNew_chooseTemplate {
-            get {
-                return ResourceManager.GetString("subNew_chooseTemplate", resourceCulture);
-            }
-        }
-
         
         /// <summary>
         ///   Looks up a localized string similar to go to the quickstart.
@@ -5363,6 +5362,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A save operation is currently in progress.  Navigating away may cause some changes to be lost..
+        /// </summary>
+        internal static string saveOperationInProgressWarning {
+            get {
+                return ResourceManager.GetString("saveOperationInProgressWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to scale.
         /// </summary>
         internal static string scale {
@@ -5557,6 +5565,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string sideNav_SubscriptionCount {
             get {
                 return ResourceManager.GetString("sideNav_SubscriptionCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscriptions.
+        /// </summary>
+        internal static string sideNav_Subscriptions {
+            get {
+                return ResourceManager.GetString("sideNav_Subscriptions", resourceCulture);
             }
         }
         
@@ -5953,6 +5970,42 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string storageLockNote {
             get {
                 return ResourceManager.GetString("storageLockNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a plan below to create new subscription.
+        /// </summary>
+        internal static string subNew_chooseTemplate {
+            get {
+                return ResourceManager.GetString("subNew_chooseTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Friendly subscription name.
+        /// </summary>
+        internal static string subNew_friendlySubNameName {
+            get {
+                return ResourceManager.GetString("subNew_friendlySubNameName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invitation code.
+        /// </summary>
+        internal static string subNew_invitationCode {
+            get {
+                return ResourceManager.GetString("subNew_invitationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide a friendly subscription name.
+        /// </summary>
+        internal static string subNew_nameYourFriendlySubName {
+            get {
+                return ResourceManager.GetString("subNew_nameYourFriendlySubName", resourceCulture);
             }
         }
         
@@ -6869,6 +6922,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upgrade to enable.
+        /// </summary>
+        internal static string upgradeToEnable {
+            get {
+                return ResourceManager.GetString("upgradeToEnable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Platform.
         /// </summary>
         internal static string use32BitWorkerProcessLabel {
@@ -6883,6 +6945,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string use32BitWorkerProcessLabelHelp {
             get {
                 return ResourceManager.GetString("use32BitWorkerProcessLabelHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 64-bit configuration requires a basic or higher App Service plan.
+        /// </summary>
+        internal static string use32BitWorkerProcessUpsell {
+            get {
+                return ResourceManager.GetString("use32BitWorkerProcessUpsell", resourceCulture);
             }
         }
         
