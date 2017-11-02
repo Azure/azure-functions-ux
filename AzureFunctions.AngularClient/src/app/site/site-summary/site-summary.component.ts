@@ -527,7 +527,8 @@ export class SiteSummaryComponent implements OnDestroy {
 
     openDeleteBlade() {
         if (this._scenarioService.checkScenario(ScenarioIds.deleteAppDirectly).status === 'enabled') {
-            this.delteAppDirectly();
+            this.deleteAppDirectly();
+            return;
         }
         this._portalService.openBlade({
             detailBlade: 'AppDeleteBlade',
@@ -537,20 +538,20 @@ export class SiteSummaryComponent implements OnDestroy {
         );
     }
 
-    private delteAppDirectly() {
+    private deleteAppDirectly() {
         const appNode = <AppNode>this._viewInfo.node;
         const appsNode = appNode.parent;
         appsNode.select(true);
 
-        this._globalStateService.setBusyState();
-        this._cacheService.delteArm(this.site.id, true)
+        this._busyManager.setBusy();
+        this._cacheService.deleteArm(this.site.id, true)
             .subscribe(r => {
-                this._globalStateService.clearBusyState();
+                this._busyManager.clearBusy();
                 appsNode.refresh();
                 this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
             }, err => {
                 this._logService.error(LogCategories.subsCriptions, '/delete-app', err);
-                this._globalStateService.clearBusyState();
+                this._busyManager.clearBusy();
                 this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
             });
     }
