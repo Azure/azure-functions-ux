@@ -114,8 +114,8 @@ export class CreateAppComponent implements OnInit, OnDestroy {
     this._cacheService.putArm(id, null, body)
       .subscribe(r => {
         this._globalStateService.clearBusyState();
-        const siteObj = <ArmObj<Site>>r.json();
-        const appsNode = <AppsNode>this._viewInfo.node;
+        const siteObj: ArmObj<Site> = r.json();
+        const appsNode: AppsNode = <AppsNode>this._viewInfo.node;
         appsNode.addChild(siteObj);
       }, error => {
         this._globalStateService.clearBusyState();
