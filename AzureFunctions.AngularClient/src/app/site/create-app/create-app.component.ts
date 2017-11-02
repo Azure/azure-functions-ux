@@ -1,6 +1,6 @@
 import { UserService } from './../../shared/services/user.service';
 import { Links } from './../../shared/models/constants';
-import { Component, OnInit, Input, Injector } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Injector } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
@@ -18,13 +18,14 @@ import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { Site } from 'app/shared/models/arm/site';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 
 @Component({
   selector: 'create-app',
   templateUrl: './create-app.component.html',
   styleUrls: ['./create-app.component.scss']
 })
-export class CreateAppComponent implements OnInit {
+export class CreateAppComponent implements OnInit, OnDestroy {
   public Resources = PortalResources;
   public group: FormGroup;
   public viewInfoStream: Subject<TreeViewInfo<any>>;
@@ -32,6 +33,7 @@ export class CreateAppComponent implements OnInit {
 
   private _viewInfo: TreeViewInfo<any>;
   private _subscriptionId: string;
+  private _ngUnsubscribe = new Subject<void>();
 
   constructor(
     private _broadcastService: BroadcastService,
@@ -68,7 +70,7 @@ export class CreateAppComponent implements OnInit {
     this.viewInfoStream
       .subscribe(viewInfo => {
         this._viewInfo = viewInfo;
-      })
+      });
 
   }
 
@@ -77,14 +79,26 @@ export class CreateAppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+    .filter(info => {
+      return info.dashboardType === DashboardType.createApp;
+    })
+    .takeUntil(this._ngUnsubscribe)
+    .subscribe(info => {
+      this.viewInfoStream.next(info);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._ngUnsubscribe.next();
   }
 
   create() {
-    let name = this.group.controls['name'].value;
+    const name = this.group.controls['name'].value;
 
-    let id = `/subscriptions/${this._subscriptionId}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
+    const id = `/subscriptions/${this._subscriptionId}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
 
-    let body = {
+    const body = {
       properties: {
         siteConfig: {
           appSettings: []
@@ -92,7 +106,7 @@ export class CreateAppComponent implements OnInit {
         sku: 'Dynamic',
         clientAffinityEnabled: false
       },
-      location: "local",
+      location: 'local',
       kind: 'functionapp'
     };
 
@@ -100,9 +114,8 @@ export class CreateAppComponent implements OnInit {
     this._cacheService.putArm(id, null, body)
       .subscribe(r => {
         this._globalStateService.clearBusyState();
-
-        let siteObj = <ArmObj<Site>>r.json();
-        let appsNode = <AppsNode>this._viewInfo.node;
+        const siteObj: ArmObj<Site> = r.json();
+        const appsNode: AppsNode = <AppsNode>this._viewInfo.node;
         appsNode.addChild(siteObj);
       }, error => {
         this._globalStateService.clearBusyState();
