@@ -151,7 +151,6 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
                 .map(fcs => {
                     const fcNodes = <FunctionNode[]>[];
                     fcs.forEach(fc => {
-                        // fc.functionApp = this.functionApp;
                         fcNodes.push(new FunctionNode(this.sideNav, fc, this));
                     });
 

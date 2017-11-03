@@ -163,9 +163,8 @@ export class ApiDetailsComponent implements OnDestroy {
                 this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
                     operation: 'remove',
                     resourceId: `${this.context.site.id}/proxies/${this.apiProxyEdit.name}`
-                })
+                });
 
-                // this.proxiesNode.removeChild(this.apiProxyEdit);
             });
         });
     }

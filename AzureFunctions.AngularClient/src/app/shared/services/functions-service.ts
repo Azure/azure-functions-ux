@@ -103,7 +103,6 @@ export class FunctionsService {
             .map((r: Response) => {
                 try {
                     fcs = r.json() as FunctionInfo[];
-                    // fcs.forEach(fc => fc.functionApp = this);
                     fcs.forEach(fc => fc.context = context);
                     return fcs;
                 } catch (e) {
@@ -202,7 +201,6 @@ export class FunctionsService {
         }
     }
 
-    // private _editModeSubject: Subject<FunctionAppEditMode>;
     getFunctionAppEditMode(context: FunctionAppContext): Observable<FunctionAppEditMode> {
         // The we have 2 settings to check here. There is the SourceControl setting which comes from /config/web
         // and there is FUNCTION_APP_EDIT_MODE which comes from app settings.
@@ -224,9 +222,6 @@ export class FunctionsService {
         // | Yes  | false         | readOnly        | ReadOnly                      |
         // | Yes  | false         | undefined       | ReadOnlySlots                 |
         // |______|_______________|_________________|_______________________________|
-        // if (!this._editModeSubject) {
-        //     this._editModeSubject = new Subject<FunctionAppEditMode>();
-        // }
 
         return Observable.zip(
             this._checkIfSourceControlEnabled(context.site),
@@ -257,10 +252,7 @@ export class FunctionsService {
                     return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
                 }
             })
-            .catch(() => Observable.of(FunctionAppEditMode.ReadWrite))
-        // .subscribe(r => this._editModeSubject.next(r));
-
-        // return this._editModeSubject;
+            .catch(() => Observable.of(FunctionAppEditMode.ReadWrite));
     }
 
     reachableInternalLoadBalancerApp(context: FunctionAppContext, http: CacheService): Observable<boolean> {
@@ -462,15 +454,6 @@ export class FunctionsService {
 
         return headers;
     }
-
-    // private _getMainSiteHeaders(contentType?: string): Headers {
-    //     contentType = contentType || 'application/json';
-    //     const headers = new Headers();
-    //     headers.append('Content-Type', contentType);
-    //     headers.append('Accept', 'application/json,*/*');
-    //     headers.append('x-functions-key', this.masterKey);
-    //     return headers;
-    // }
 
     // to talk to Functions Portal
     private _getPortalHeaders(contentType?: string): Headers {

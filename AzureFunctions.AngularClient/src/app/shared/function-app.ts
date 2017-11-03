@@ -7,17 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { SiteService } from './services/slots.service';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/scan';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { ConfigService } from './services/config.service';
 import { NoCorsHttpService } from './no-cors-http-service';
 import { ErrorIds } from './models/error-ids';
@@ -54,7 +44,6 @@ import { Site } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
-
 import * as jsonschema from 'jsonschema';
 import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
@@ -246,7 +235,6 @@ export class FunctionApp {
             .map((r: Response) => {
                 try {
                     fcs = r.json() as FunctionInfo[];
-                    // fcs.forEach(fc => fc.functionApp = this);
                     return fcs;
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained

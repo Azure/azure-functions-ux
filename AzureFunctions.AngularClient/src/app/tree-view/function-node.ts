@@ -187,7 +187,6 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
 
     constructor(
         sideNav: SideNavComponent,
-        // private _functionsNode: FunctionsNode,
         functionInfo: FunctionInfo,
         parentNode: TreeNode) {
 

@@ -19,7 +19,6 @@ import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/switchMap';
 import { TranslateService } from '@ngx-translate/core';
 import { FunctionApp } from '../shared/function-app';
 import { PortalService } from '../shared/services/portal.service';
@@ -138,7 +137,6 @@ export class FunctionEditComponent implements OnDestroy {
                 this._globalStateService.clearBusyState();
                 this._setupPollingTasks();
 
-                // this.appNode = <AppNode>viewInfo.node.parent.parent;
                 const segments = this.viewInfo.resourceId.split('/');
                 // support for both site & slots
                 if (segments.length === 13 && segments[11] === 'functions' || segments.length === 11 && segments[9] === 'functions') {

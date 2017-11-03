@@ -94,7 +94,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             .switchMap(result => {
 
                 this._broadcastService.broadcastEvent<AppNode[]>(BroadcastEvent.UpdateAppsList, null);
-                // this.childrenStream.next([]);
 
                 this.isLoading = true;
                 this.supportsRefresh = false;
@@ -135,7 +134,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                         // Purposely don't update the stream with the filtered list of children.
                         // This is because we only want the exact matching to affect the tree view,
                         // not any other listeners.
-                        // this.childrenStream.next(<AppNode[]>result.children);
                         this._broadcastService.broadcastEvent<AppNode[]>(BroadcastEvent.UpdateAppsList, result.children as AppNode[]);
                         this.children = filteredChildren;
 

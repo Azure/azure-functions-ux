@@ -1,13 +1,8 @@
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { FunctionAppContext } from './../shared/services/functions-service';
 import { ApiProxy } from './../shared/models/api-proxy';
-// import { BaseFunctionsProxiesNode } from 'app/tree-view/base-functions-proxies-node';
 import { PortalResources } from './../shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
 import { BaseFunctionsProxiesNode } from 'app/tree-view/base-functions-proxies-node';
 import { TreeNode } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
@@ -53,9 +48,6 @@ export class ProxiesNode extends BaseFunctionsProxiesNode{
     }
 
     public addChild(proxy: ApiProxy) {
-        // functionInfo.functionApp = this.functionApp;
-        // this.sideNav.cacheService.clearCachePrefix(this.functionApp.getScmUrl());
-
         const newNode = new ProxyNode(this.sideNav, proxy, this._context.site, this);
         this._addChildAlphabetically(newNode);
         newNode.select();
@@ -68,10 +60,6 @@ export class ProxiesNode extends BaseFunctionsProxiesNode{
 
         const removeIndex = this.children.findIndex(c => c.resourceId.toLowerCase() === resourceId.toLowerCase());
         this._removeHelper(removeIndex);
-    }
-
-    public handleDeselection(newSelectedNode?: TreeNode) {
-        // this.parent.dispose(newSelectedNode);
     }
 
     protected _updateTreeForNonUsableState(title: string) {

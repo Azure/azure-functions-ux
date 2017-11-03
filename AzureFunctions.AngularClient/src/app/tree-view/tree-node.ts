@@ -95,7 +95,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
 
     // Virtual
     public handleSelection(data?: any): Observable<any> {
-        // this.isLoading = false;
         return Observable.of(null);
     }
 
@@ -107,7 +106,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             }
         }
 
-        // this.isLoading = true;
         this.handleRefresh()
             .do(null, e => {
                 this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh');
@@ -122,8 +120,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
                         this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh/update-view');
                     })
                     .subscribe(() => { });
-
-                // this.isLoading = false;
             });
 
         this.treeView.setFocus(this);
@@ -140,7 +136,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public toggle(event) {
 
         if (!this.isExpanded) {
-            // this.isLoading = true;
             this.isExpanded = true;
 
             this._loadAndExpandChildrenIfSingle();

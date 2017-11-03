@@ -10,9 +10,6 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../shared/services/config.service';
 import { FunctionApp } from './../shared/function-app';
@@ -39,7 +36,6 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SiteService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
-
 
 @Component({
     selector: 'side-nav',
@@ -240,7 +236,6 @@ export class SideNavComponent implements AfterViewInit {
                 }
 
                 this.selectedNode.handleDeselection(newSelectedNode);
-                // this.globalStateService.clearBusyState();
             }
         }
 
