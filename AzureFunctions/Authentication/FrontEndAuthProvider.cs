@@ -54,9 +54,6 @@ namespace AzureFunctions.Authentication
                 principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.AnonymousUserName));
             }
 
-            context.User = principal;
-            Thread.CurrentPrincipal = principal;
-
             return (principal.Identity as AzureFunctionsIdentity)?.IsAuthenticated == true;
         }
 
