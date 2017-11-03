@@ -1,10 +1,13 @@
-import { FunctionApp } from './../shared/function-app';
+import { GlobalStateService } from './../shared/services/global-state.service';
+import { Subject } from 'rxjs/Subject';
+import { FunctionsNode } from './functions-node';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { TreeUpdateEvent } from './../shared/models/broadcast-event';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { AppNode } from './app-node';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
-import { FunctionsNode } from './functions-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { PortalResources } from '../shared/models/portal-resources';
@@ -14,16 +17,40 @@ import { Url } from 'app/shared/Utilities/url';
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public dashboardType = DashboardType.FunctionDashboard;
     public supportsTab: boolean;
+    private _globalStateService: GlobalStateService;
+    private _broadcastService: BroadcastService;
+    private _ngUnsubscribe = new Subject();
+
+    public static blockNavChangeHelper(currentNode: TreeNode) {
+        let canSwitchFunction = true;
+        if (currentNode.sideNav.broadcastService.getDirtyState('function')
+            || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
+            || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
+
+            const descriptor = new FunctionDescriptor(currentNode.resourceId);
+
+            canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
+                PortalResources.sideBar_changeMade,
+                {
+                    name: descriptor.name
+                }));
+        }
+
+        return !canSwitchFunction;
+    }
 
     constructor(
         sideNav: SideNavComponent,
-        private _functionsNode: FunctionsNode,
         public functionInfo: FunctionInfo,
         parentNode: TreeNode) {
 
         super(sideNav,
-            functionInfo.functionApp.site.id + '/functions/' + functionInfo.name,
+            functionInfo.context.site.id + '/functions/' + functionInfo.name,
             parentNode);
+
+        this._broadcastService = sideNav.injector.get(BroadcastService);
+        this._globalStateService = sideNav.injector.get(GlobalStateService);
+
         this.iconClass = 'tree-node-svg-icon';
         this.iconUrl = 'image/function_f.svg';
         this.supportsTab = (Url.getParameterByName(null, 'appsvc.feature') === 'tabbed');
@@ -43,18 +70,31 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     public get functionName(): string {
         return this.functionInfo.name;
     }
-    public handleSelection(): Observable<any> {
-        if (!this.disabled) {
-            return (<AppNode>this.parent.parent).initialize();
-        }
 
+    public handleSelection(): Observable<any> {
+        this._broadcastService.getEvents<TreeUpdateEvent>(BroadcastEvent.TreeUpdate)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(event => {
+
+                if (event.operation === 'navigate'
+                    && event.resourceId.toLowerCase() === this.parent.parent.resourceId.toLowerCase()) {
+                    this.parent.parent.select(event.data);
+                    this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, event.data);
+                }
+            });
         return Observable.of({});
+    }
+
+    public handleDeselection(newSelectedNode?: TreeNode) {
+        this._globalStateService.setTopBarNotifications([]);
+        this.sideNav.broadcastService.clearAllDirtyStates();
+        this._ngUnsubscribe.next();
     }
 
     public loadChildren() {
         this.children = [
             new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
-            new FunctionManageNode(this.sideNav, this._functionsNode, this.functionInfo, this),
+            new FunctionManageNode(this.sideNav, this.functionInfo, this),
         ];
 
         if (!this.sideNav.configService.isStandalone()) {
@@ -71,33 +111,13 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     public shouldBlockNavChange(): boolean {
         return FunctionNode.blockNavChangeHelper(this);
     }
-
-    public dispose(newSelectedNode?: TreeNode) {
-        this.sideNav.broadcastService.clearAllDirtyStates();
-        this.parent.dispose(newSelectedNode);
-    }
-
-    public static blockNavChangeHelper(currentNode: TreeNode) {
-        let canSwitchFunction = true;
-        if (currentNode.sideNav.broadcastService.getDirtyState('function')
-            || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
-            || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
-
-            const descriptor = new FunctionDescriptor(currentNode.resourceId);
-
-            canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
-                PortalResources.sideBar_changeMade,
-                {
-                    name: descriptor.functionName
-                }));
-        }
-
-        return !canSwitchFunction;
-    }
 }
 
 export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public showExpandIcon = false;
+    private _broadcastService: BroadcastService;
+    private _ngUnsubscribe = new Subject();
+    private _globalStateService: GlobalStateService;
 
     constructor(
         sideNav: SideNavComponent,
@@ -106,14 +126,8 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
         public parentNode: TreeNode) {
 
         super(sideNav, resourceId, parentNode);
-    }
-
-    public handleSelection(): Observable<any> {
-        if (!this.disabled) {
-            return (<AppNode>this.parent.parent.parent).initialize();
-        }
-
-        return Observable.of({});
+        this._broadcastService = sideNav.injector.get(BroadcastService);
+        this._globalStateService = sideNav.injector.get(GlobalStateService);
     }
 
     public getViewData(): any {
@@ -124,8 +138,28 @@ export class FunctionEditBaseNode extends TreeNode implements CanBlockNavChange,
         return FunctionNode.blockNavChangeHelper(this);
     }
 
-    public dispose(newSelectedNode?: TreeNode) {
-        this.parentNode.dispose(newSelectedNode);
+    public handleSelection(): Observable<any> {
+        this._broadcastService.getEvents<TreeUpdateEvent>(BroadcastEvent.TreeUpdate)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(event => {
+                if (event.operation === 'remove') {
+                    (<FunctionsNode>this.parent.parent).removeChild(event.resourceId);
+                    this.handleDeselection();
+                } else if (event.operation === 'update') {
+                    this.functionInfo.config.disabled = event.data;
+                } else if (event.operation === 'navigate'
+                    && event.resourceId.toLowerCase() === this.parent.parent.parent.resourceId.toLowerCase()) {
+                    this.parent.parent.parent.select();
+                    this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, event.data);
+                }
+            });
+
+        return Observable.of({});
+    }
+
+    public handleDeselection(newSelectedNode?: TreeNode) {
+        this._ngUnsubscribe.next();
+        this._globalStateService.setTopBarNotifications([]);
     }
 }
 
@@ -140,7 +174,7 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode {
 
         super(sideNav,
             functionInfo,
-            functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/integrate',
+            functionInfo.context.site.id + '/functions/' + functionInfo.name + '/integrate',
             parentNode);
 
         this.iconClass = 'fa fa-flash tree-node-function-edit-icon link';
@@ -153,27 +187,16 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
 
     constructor(
         sideNav: SideNavComponent,
-        private _functionsNode: FunctionsNode,
+        // private _functionsNode: FunctionsNode,
         functionInfo: FunctionInfo,
         parentNode: TreeNode) {
 
         super(sideNav,
             functionInfo,
-            functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/manage',
+            functionInfo.context.site.id + '/functions/' + functionInfo.name + '/manage',
             parentNode);
 
         this.iconClass = 'fa fa-cog tree-node-function-edit-icon link';
-    }
-
-    public remove() {
-        this._functionsNode.removeChild(this.functionInfo, false);
-
-        this.sideNav.cacheService.clearCachePrefix(
-            FunctionApp.getMainUrl(this.sideNav.configService, this.functionInfo.functionApp.site));
-
-        this.sideNav.cacheService.clearCachePrefix(
-            FunctionApp.getScmUrl(this.sideNav.configService, this.functionInfo.functionApp.site));
-
     }
 }
 
@@ -188,7 +211,7 @@ export class FunctionMonitorNode extends FunctionEditBaseNode {
 
         super(sideNav,
             functionInfo,
-            functionInfo.functionApp.site.id + '/functions/' + functionInfo.name + '/monitor',
+            functionInfo.context.site.id + '/functions/' + functionInfo.name + '/monitor',
             parentNode);
 
         this.iconClass = 'fa fa-search tree-node-function-edit-icon link';

@@ -1,3 +1,5 @@
+import { TreeUpdateEvent } from './../../shared/models/broadcast-event';
+import { FunctionsService, FunctionAppContext } from './../../shared/services/functions-service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
@@ -5,7 +7,7 @@ import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiProxy } from '../../shared/models/api-proxy';
@@ -19,6 +21,7 @@ import { ProxyNode } from '../../tree-view/proxy-node';
 import { FunctionApp } from '../../shared/function-app';
 import { AiService } from '../../shared/services/ai.service';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
+import { SiteDescriptor } from '../../shared/resourceDescriptors';
 
 @Component({
     selector: 'api-details',
@@ -31,11 +34,13 @@ export class ApiDetailsComponent implements OnDestroy {
     isMethodsVisible = false;
     proxyUrl: string;
 
+    public context: FunctionAppContext;
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
     public apiProxyEdit: ApiProxy;
     public appNode: AppNode;
     public rrOverrideValid: boolean;
+
     private selectedNode: ProxyNode;
     private proxiesNode: ProxiesNode;
     private _rrOverrideValue: any;
@@ -47,19 +52,34 @@ export class ApiDetailsComponent implements OnDestroy {
         private _broadcastService: BroadcastService,
         private _aiService: AiService,
         private _cacheService: CacheService,
-        private _logService: LogService) {
+        private _logService: LogService,
+        private _functionsService: FunctionsService,
+        private _injector: Injector) {
 
         this.initComplexFrom();
 
         this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
-            .filter(info => info.dashboardType === DashboardType.ProxyDashboard)
             .takeUntil(this._ngUnsubscribe)
+            .filter(info => info.dashboardType === DashboardType.ProxyDashboard)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
+
                 this.selectedNode = <ProxyNode>viewInfo.node;
                 this.proxiesNode = (<ProxiesNode>this.selectedNode.parent);
-                this.functionApp = this.proxiesNode.functionApp;
                 this.apiProxyEdit = this.selectedNode.proxy;
+
+                const siteDescriptor = new SiteDescriptor(viewInfo.resourceId);
+                return this._functionsService.getAppContext(siteDescriptor.getTrimmedResourceId());
+            })
+            .switchMap(context => {
+                this.context = context;
+
+                if (this.functionApp) {
+                    this.functionApp.dispose();
+                }
+
+                this.functionApp = new FunctionApp(this.context.site, this._injector);
+                this.apiProxyEdit.functionApp = this.functionApp;
                 this.initEdit();
 
                 return Observable.zip(
@@ -87,6 +107,9 @@ export class ApiDetailsComponent implements OnDestroy {
 
     ngOnDestroy() {
         this._ngUnsubscribe.next();
+        if (this.functionApp) {
+            this.functionApp.dispose();
+        }
     }
 
     private initEdit() {
@@ -137,7 +160,12 @@ export class ApiDetailsComponent implements OnDestroy {
             this.functionApp.saveApiProxy(ApiProxy.toJson(this.apiProxies, this._translateService)).subscribe(() => {
                 this._globalStateService.clearBusyState();
                 this._aiService.trackEvent('/actions/proxy/delete');
-                this.proxiesNode.removeChild(this.apiProxyEdit);
+                this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+                    operation: 'remove',
+                    resourceId: `${this.context.site.id}/proxies/${this.apiProxyEdit.name}`
+                })
+
+                // this.proxiesNode.removeChild(this.apiProxyEdit);
             });
         });
     }

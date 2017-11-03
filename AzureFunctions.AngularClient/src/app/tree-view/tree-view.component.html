@@ -26,6 +26,8 @@
 
   {{node.title}}
 
+  <span *ngIf="node.isLoading !== undefined" [log-message]="node.title + ' isLoading=' + node.isLoading" log-category="SideNav"></span>
+
   <i *ngIf="node.isLoading" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
 
   <!-- Optional menu icons that show up on right side of each node -->

@@ -1,15 +1,15 @@
 <div *ngIf="tabId === 'develop'" class="function-edit-content-dev">
-    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
+    <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
     <function-dev [selectedFunction]="selectedFunction"></function-dev>
 </div>
 <div *ngIf="tabId === 'integrate'" class="function-edit-content">
-    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
+    <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
     <function-integrate-v2 *ngIf="editorType === 'standard'" (changeEditor)="onEditorChange($event)" [viewInfo]="viewInfo" [selectedFunction]="selectedFunction"></function-integrate-v2>
     <function-integrate *ngIf="editorType === 'advanced'" (changeEditor)="onEditorChange($event)" [selectedFunction]="selectedFunction"></function-integrate>
 </div>
 <div *ngIf="tabId === 'manage'" class="function-edit-content">
-    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
-    <function-manage [viewInfoInput]="viewInfo"></function-manage>
+    <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
+    <function-manage [selectedFunction]="selectedFunction"></function-manage>
 </div>
 <div *ngIf="tabId === 'monitor'" class="function-edit-content">
     <function-monitor [selectedFunction]="selectedFunction"></function-monitor>
