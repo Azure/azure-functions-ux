@@ -1,12 +1,16 @@
 <div
     *ngIf="options"
-    class="switch"
-    [class.dirty]="control?.dirty">
+    role="radiogroup"
+    [class.dirty]="control?.dirty"
+    [attr.aria-disabled]="control ? control.disabled : disabled"
+    [tabIndex]="(control && control.disabled) || disabled ? -1 : 0"
+    [attr.aria-activedescendant]="activeDescendantId"
+    (keydown)="onKeyDown($event)">
 
     <div *ngFor="let option of options"
-        class="switch-label"
-        [class.selected]="option.value === selectedValue"
-        [class.disabled]="control ? control.disabled : disabled"
+        role="radio"
+        [id]="id + '-' + option.id"
+        [attr.aria-checked]="option.value === selectedValue"
         (click)="select(option)">
         {{option.displayLabel}}
     </div>
