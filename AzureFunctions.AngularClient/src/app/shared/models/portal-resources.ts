@@ -280,6 +280,9 @@
     public static functionDev_loading: string = "functionDev_loading";
     public static test: string = "test";
     public static runtimeVersion: string = "runtimeVersion";
+    public static runtimeImagev1: string = "runtimeImagev1";
+    public static runtimeImagev2: string = "runtimeImagev2";
+    public static runtimeImageCustom: string = "runtimeImageCustom";
     public static error_FunctionExceededQuota: string = "error_FunctionExceededQuota";
     public static error_siteStopped: string = "error_siteStopped";
     public static error_NoPermissionToAccessApp: string = "error_NoPermissionToAccessApp";

@@ -951,9 +951,21 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
-  </data>
+  </data> 
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
+  </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Runtime image</value>
+  </data>
+    <data name="runtimeImagev1" xml:space="preserve">
+    <value>V1</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>V2</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>custom</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
