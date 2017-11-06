@@ -240,3 +240,9 @@ export class DomEvents {
     public static readonly keydown = 'keydown';
     public static readonly click = 'click';
 }
+
+export class RuntimeImage {
+    public static readonly v1 = "v1";
+    public static readonly v2 = "v2";
+    public static readonly custom = "custom";
+}
