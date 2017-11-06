@@ -1,4 +1,5 @@
-﻿import { Observable } from 'rxjs/Observable';
+﻿import { Jwt } from './../Utilities/jwt';
+import { Observable } from 'rxjs/Observable';
 import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
@@ -346,14 +347,15 @@ export class PortalService {
         if (methodName === Verbs.sendStartupInfo) {
             this.startupInfo = <StartupInfo>data;
             this.sessionId = this.startupInfo.sessionId;
-            // this._userService.setToken(startupInfo.token);
             this._aiService.setSessionId(this.sessionId);
 
             this.startupInfoObservable.next(this.startupInfo);
+            this.logTokenExpiration(this.startupInfo.token, '/portal-service/token-new-startupInfo');
         } else if (methodName === Verbs.sendToken) {
             if (this.startupInfo) {
                 this.startupInfo.token = <string>data;
                 this.startupInfoObservable.next(this.startupInfo);
+                this.logTokenExpiration(this.startupInfo.token, '/portal-service/token-new');
             }
         } else if (methodName === Verbs.sendAppSettingName) {
             if (this.getAppSettingCallback) {
@@ -373,6 +375,13 @@ export class PortalService {
         } else if (methodName === Verbs.sendData) {
             this.operationStream.next(data);
         }
+    }
+
+    private logTokenExpiration(token: string, eventId: string) {
+        const jwt = Jwt.tryParseJwt(this.startupInfo.token);
+        this._aiService.trackEvent(eventId, {
+            expire: jwt ? new Date(jwt.exp).toISOString() : ''
+        });
     }
 
     private postMessage(verb: string, data: string) {
