@@ -129,6 +129,18 @@
   <data name="configure" xml:space="preserve">
     <value>配置</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>升级以启用</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>已选择所有项</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>已选择 {0} 项</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>创建函数出错: {{error}}</value>
   </data>
@@ -170,6 +182,18 @@
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>选择下面的模板或</value>
+  </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>选择下面的一个计划以创建新订阅</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>提供一个友好的订阅名称</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>友好的订阅名称</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>邀请代码</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>此模板是实验模板，尚无完全支持。如果遇到问题，请将 bug 提交于我们的 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub 存储库。&lt;/a&gt;</value>
@@ -322,17 +346,50 @@
   <data name="save" xml:space="preserve">
     <value>保存</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>当前正在进行保存操作。离开页面可能会导致某些更改丢失。</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ 添加新设置</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ 添加新连接字符串</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ 添加新文档</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ 添加新的处理程序映射</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ 添加新的虚拟应用程序或目录</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>输入名称</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>输入一个值</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>输入扩展</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>输入脚本处理器</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>输入参数</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>输入虚拟路径</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>输入物理路径</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>应用程序</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>插槽设置</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>隐藏值。单击以显示。</value>
@@ -349,8 +406,14 @@
   <data name="search" xml:space="preserve">
     <value>搜索</value>
   </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>此项的范围</value>
+  </data>
   <data name="searchFeatures" xml:space="preserve">
     <value>搜索功能</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>搜索 Function 应用</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>订阅 ID</value>
@@ -424,6 +487,12 @@
   <data name="enabled" xml:space="preserve">
     <value>已启用</value>
   </data>
+  <data name="disable" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>已启用</value>
+  </data>
   <data name="errorList_here" xml:space="preserve">
     <value>此处</value>
   </data>
@@ -432,6 +501,9 @@
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>错误分析配置: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>未能切换函数 {{functionName}} 的状态 {{state}} </value>
   </data>
   <data name="features" xml:space="preserve">
     <value>功能</value>
@@ -462,6 +534,9 @@
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>标准编辑器</value>
+  </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>删除函数 {{name}}</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>是否确实要删除函数 {{name}}?</value>
@@ -761,7 +836,7 @@
     <value>编辑</value>
   </data>
   <data name="fileExplorer_upload" xml:space="preserve">
-    <value>上传</value>
+    <value>上载</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>已将一个或多个 Function App 链接到此存储帐户。可以在“文件”或“共享”下看到所有链接到该帐户的 Function App。</value>
@@ -946,17 +1021,8 @@
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>代理(预览)</value>
   </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>代理运行时版本: {{extensionVersion}}。已提供较新的版本({{latestExtensionVersion}})。</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>代理运行时版本: 最新版本({{latestExtensionVersion}})</value>
-  </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>启用 Azure Functions 代理(预览)</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>当前已禁用 Azure Functions 代理。若要启用，请访问</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>对代理 {{name}} 所作的更改将丢失。是否确定要继续?</value>
@@ -967,7 +1033,7 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Azure Functions 槽位(预览)当前已禁用。要启用，请访问</value>
   </data>
-  <data name="discrard" xml:space="preserve">
+  <data name="discard" xml:space="preserve">
     <value>放弃</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
@@ -983,7 +1049,7 @@
     <value>使用 Google 登录</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>通过 Microsoft 登录</value>
+    <value>Microsoft 登录</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
     <value>后端 URL 必须以 "http://" 或 "https://" 开头</value>
@@ -1017,6 +1083,9 @@
   </data>
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>所有订阅</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>订阅</value>
   </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>{0} 个订阅</value>
@@ -1093,6 +1162,9 @@
   <data name="enabledFeatures_description" xml:space="preserve">
     <value>从上面的“平台功能”选项卡配置指向功能的快速链接后，这些快速链接将在此处显示。</value>
   </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>应用“{0}”未保存的更改将丢失。确实要继续吗?</value>
+  </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>检索应用“{0}”相关信息时发生错误</value>
   </data>
@@ -1159,6 +1231,12 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>“消耗”计划上的应用不支持此功能</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>槽不支持此功能</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>Linux 应用不支持此功能</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>必须具有当前应用的写入权限才可使用此功能</value>
   </data>
@@ -1189,17 +1267,188 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>通过基于 Web 的交互式控制台浏览应用文件系统。</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH 为 Linux 应用代码提供 Web SSH 控制台体验</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>扩展</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>扩展可向整个应用添加功能。</value>
   </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(没有要显示的应用程序设置)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(没有要显示的连接字符串)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(没有要显示的默认文档)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(没有要显示的处理程序映射)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(没有要显示的虚拟应用程序或目录)</value>
+  </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>常规设置</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>自动交换</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>调试</value>
+  </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>运行时</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>应用程序设置</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>管理应用设置、连接字符串、运行时设置等。</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>默认文档</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>处理程序映射</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>虚拟应用程序和目录</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>必须具有当前应用的写入权限才可编辑这些设置。</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>此应用具有一个阻止编辑设置或阻止检索安全数据的只读锁定。请删除该锁定并重试。</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>在只读模式下查看设置。</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>未能加载设置。</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>正在加载...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>正在更新 Web 应用设置</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>已成功更新 Web 应用设置</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>未能更新 Web 应用设置: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} 保存错误: 提供了无效的输入。</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework 版本</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>使用 .NET Framework 时用于运行 Web 应用的版本</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP 版本</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>使用 PHP 时用于运行 Web 应用的版本</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python 版本</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>使用 Python 时用于运行 Web 应用的版本</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java 版本</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>使用 Java 时用于运行 Web 应用的版本</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java 次要版本</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>选择所需的 Java 次要版本。选择“最新”将保持应用使用最近添加到门户的 JVM。</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Web 容器</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>使用 Java 时用于运行 Web 应用的 Web 容器版本</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>平台</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>Web 应用运行的平台体系结构</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>64 位配置需要基本或更高级别的应用服务计划</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Web 套接字</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>WebSocket 让 Web 应用和现代浏览器之间拥有更灵活的连接性。你的 Web 应用可能需要利用这些功能进行构建。</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>始终可用</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>指示需要一直加载你的 Web 应用。默认情况下，Web 应用在空闲时将被卸载。建议当 Web 应用上有正在运行的连续 Web 作业时启用此选项。</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>始终开启需要基本或更高级别的应用服务计划</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>托管管道版本</value>
+  </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>不能在生产槽中配置自动交换目标</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>自动交换</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>自动交换槽</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>ARR 相关性</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>远程调试</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>远程　Visual Studio　版本</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>堆栈</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>启动文件</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32 位</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64 位</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>经典</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>集成</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>属性</value>
@@ -1220,7 +1469,7 @@
     <value>查看所有应用服务设置。</value>
   </data>
   <data name="feature_functionSettingsInfo" xml:space="preserve">
-    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+    <value>管理影响应用内所有功能的 Functions 运行时的设置。</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>常规设置</value>
@@ -1251,6 +1500,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>使用身份验证/授权来保护应用程序，并使用按用户划分的数据工作。</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>托管的服务标识</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>应用程序可以与其他 Azure 服务通信，因为它本身使用的是托管 Azure Active Directory 标识。</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>推送通知</value>
@@ -1331,7 +1586,7 @@
     <value>自动化脚本</value>
   </data>
   <data name="feature_automationScriptInfo" xml:space="preserve">
-    <value>通过 Azure Resource Manager 模板在单一、协调的操作中自动部署资源。定义资源和可配置的输入参数并使用脚本或代码进行部署。</value>
+    <value>通过 Azure 资源管理器模板在单一、协调的操作中自动部署资源。定义资源和可配置的输入参数并使用脚本或代码进行部署。</value>
   </data>
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>资源管理</value>
@@ -1379,10 +1634,13 @@
     <value>设置</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function settings</value>
+    <value>Function App 设置</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>配置</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>应用程序设置</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>此试用版不支持管理 Function App。</value>
@@ -1574,7 +1832,7 @@
     <value>查看我们的入门教程</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>函数</value>
+    <value>功能(预览)</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
     <value>API 定义密钥</value>
@@ -1586,7 +1844,7 @@
     <value>生成 API 定义模板</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>导出到 Power Apps + Flow</value>
+    <value>导出到 PowerApps 和 Flow</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
     <value>无法保存格式不正确的 API 定义。</value>
@@ -1613,7 +1871,7 @@
     <value>使用你的 API 定义</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API 定义(预览)</value>
+    <value>API 定义</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
     <value>我们无法创建或更新 Swagger 终结点的密钥 swaggerdocumentationkey。请检查运行时日志以查看是否有任何错误，或稍后重试。</value>
@@ -1649,11 +1907,11 @@
     <value>使用你的 API 定义，从 &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; 和 &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt; 内部访问你的函数。</value>
   </data>
   <data name="swaggerDefinition_generateHelp" xml:space="preserve">
-    <value>通过从 HTTP 触发功能获取的元数据创建稀疏定义
+    <value>通过从 HTTP 触发功能获取的元数据创建稀疏定义。
 使用之前，请填充&lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;操作对象&lt;/a&gt;和有关 API 的其他信息。</value>
   </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
-    <value>此密钥可保护你的 API 定义，阻止没有此密钥的任何人访问。
+    <value>此密钥可保护 API 定义，阻止没有此密钥的任何人访问。
 它不能保护基础 API。请查看每个函数以了解其密钥安全性。</value>
   </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
@@ -1676,7 +1934,7 @@
     <value>只读</value>
   </data>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
-    <value>读取\写入</value>
+    <value>读/写</value>
   </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>不允许重复值</value>
@@ -1704,6 +1962,9 @@
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>尽管已启用源控件，但由于你已将读取/写入模式设为“读取\写入”，因此应用当前处于读取\写入模式。下次部署可能会替代所做的所有更改。若要更改编辑模式，请访问 </value>
+  </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>应用当前处于只读模式，因为你发布了生成的 function.json。Functions 运行时不会采用对 function.json 所做的更改。</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>复制</value>
@@ -1748,10 +2009,22 @@
     <value>槽位(预览)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>启用部署槽位(预览)。这是对无法被禁用并将重置任何预存在密码的 Function App 的一次性选择加入。更新后，可从每个函数的“管理”节点下复制</value>
+    <value>启用部署槽位(预览)。</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>密码。</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>已知问题:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>启用槽位(预览)后，逻辑应用与 Functions 集成无法运行。</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>选择加入此预览功能将重置任何预先存在的密码。无法在每个函数的</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>“管理”</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>节点找到函数密码。</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>名称</value>
@@ -1790,7 +2063,7 @@
     <value>槽位(预览)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>若要获得更丰富的监视体验，包括实时指标和自定义查询，我们建议使用 &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;。</value>
+    <value>要获得更丰富的监视体验(包括实时指标和自定义查询)，&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;请为函数应用启用 Azure Application Insights&lt;/a&gt;</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>此值将附加到主 Web 应用程序的 URL 并作为插槽的公用地址。例如，如果你有一个名为 "contoso" 的 Web 应用程序以及一个名为 "staging" 的插槽，则新插槽将有一个类似于“http://contoso-staging.azurewebsites.net”的 URL。</value>
@@ -1802,6 +2075,9 @@
     <value>搜索函数</value>
   </data>
   <data name="new_" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
     <value>新建</value>
   </data>
   <data name="functionManage_deleteFunction" xml:space="preserve">
@@ -1878,5 +2154,308 @@
   </data>
   <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
     <value>内容和 Visual Studio 项目</value>
+  </data>
+  <data name="bindingInput_retrieve" xml:space="preserve">
+    <value>检索</value>
+  </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>删除代理</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>新增代理</value>
+  </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>无替代</value>
+  </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>快速 AAD 注册</value>
+  </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>创建函数后需要添加事件网格订阅。</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>事件网格订阅 URL</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>事件网格订阅 URL</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>管理事件网格订阅</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>添加事件网格订阅</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>所有位置</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>{0} 个位置</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>位置:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>按位置分组</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>不进行分组</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>按资源组分组</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>按订阅分组</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>美国中南部</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>北欧</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>西欧</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>东南亚</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>韩国中部</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>韩国南部</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>美国西部</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>美国东部</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>日本西部</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>日本东部</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>东亚</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>美国东部 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>美国中北部</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>美国中部</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>巴西南部</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>澳大利亚东部</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>Australia Southeast</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>印度西部</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>印度中部</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>印度南部</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>加拿大中部</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>加拿大东部</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>美国中西部</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>英国西部</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>英国南部</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>美国西部 2</value>
+  </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>所有资源组</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>资源组:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0} 个资源组</value>
+  </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>正文</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>状态代码</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>状态消息</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>请求替代</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>响应替代</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>可选</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>你正在使用 Azure Functions 的预发行版本。感谢试用!</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>单击以隐藏</value>
+  </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>通过逻辑应用，可以轻松地跨多个平台利用函数</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>逻辑应用 </value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>关联逻辑应用</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>与逻辑应用协调</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>创建逻辑应用</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>无可显示的逻辑应用</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>通过逻辑应用，可以快速构建与 SaaS 和企业应用的集成，并可以可视方式设计进程和工作流。</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>展开或折叠</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>应用服务身份验证/授权:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>立即配置 AAD</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>立即添加权限</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>已配置</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>标识要求(未满足)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>未配置</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>所需权限</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>模板需要以下权限:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>此集成需要对函数应用进行 AAD 配置。</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>此模板需要对函数应用进行 AAD 配置。</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>可能需要配置你的函数所需的任何额外权限。请查看文档了解此绑定。</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>管理应用服务身份验证/授权</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>需要身份验证配置</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>标识要求</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>我们无法获取已安装的运行时扩展的列表</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>我们无法安装运行时扩展 {{extensionId}}</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>我们无法卸载运行时扩展 {{extensionId}}</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>安装运行时扩展所用的时间比预期时间长</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>已安装不同版本的扩展 {{extensionId}}</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>打开 Application Insights</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>为函数启用 App Insights。</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>没有要显示的监视数据</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>扩展安装成功</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>未安装扩展</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>此集成需要以下扩展。</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>此模板需要以下扩展。</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>正在安装所需的扩展。此操作可能需要多达 10 分钟。</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>我们无法安装运行时扩展。安装 ID {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>在“GB/秒”中输入值</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>通知中心</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>可以从本地计算机生成、测试和部署 Java 函数。无需任何门户!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>单击下面的链接，了解有关如何使用 Java 生成第一个 Azure 函数的信息。</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>已启用代理。若要再次禁用，删除或禁用所有单独的代理。</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>使用 Java 编写 Azure Functions 快速入门</value>
   </data>
 </root>

@@ -25,10 +25,10 @@
 
   <connection-strings [mainForm]="mainForm" [resourceId]="resourceId"></connection-strings>
 
-  <default-documents [mainForm]="mainForm" [resourceId]="resourceId"></default-documents>
+  <default-documents *ngIf="defaultDocumentsSupported" [mainForm]="mainForm" [resourceId]="resourceId"></default-documents>
 
-  <handler-mappings [mainForm]="mainForm" [resourceId]="resourceId"></handler-mappings>
+  <handler-mappings *ngIf="handlerMappingsSupported" [mainForm]="mainForm" [resourceId]="resourceId"></handler-mappings>
 
-  <virtual-directories [mainForm]="mainForm" [resourceId]="resourceId"></virtual-directories>
+  <virtual-directories *ngIf="virtualDirectoriesSupported" [mainForm]="mainForm" [resourceId]="resourceId"></virtual-directories>
 
 </div>

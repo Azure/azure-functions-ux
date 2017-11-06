@@ -1398,10 +1398,10 @@ export class FunctionApp {
                 let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
                 editModeSettingString = editModeSettingString.toLocaleLowerCase();
                 const vsCreatedFunc = result.functions.find((fc: any) => !!fc.config.generatedBy);
-                if (vsCreatedFunc) {
+
+                if (vsCreatedFunc && (editModeSettingString === Constants.ReadOnlyMode || editModeSettingString === '')) {
                     return FunctionAppEditMode.ReadOnlyVSGenerated;
-                }
-                if (editModeSettingString === Constants.ReadWriteMode) {
+                } else if (editModeSettingString === Constants.ReadWriteMode) {
                     return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
                 } else if (editModeSettingString === Constants.ReadOnlyMode) {
                     return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadOnly;

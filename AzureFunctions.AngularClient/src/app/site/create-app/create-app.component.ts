@@ -1,6 +1,6 @@
 import { UserService } from './../../shared/services/user.service';
-import { Links } from './../../shared/models/constants';
-import { Component, OnInit, Input, Injector } from '@angular/core';
+import { Links, RuntimeImage } from './../../shared/models/constants';
+import { Component, OnInit, OnDestroy, Input, Injector } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
@@ -12,26 +12,33 @@ import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { SiteNameValidator } from './../../shared/validators/siteNameValidator';
+import { DropDownElement } from './../../shared/models/drop-down-element';
+import { SelectOption } from './../../shared/models/select-option';
 import { AppsNode } from './../../tree-view/apps-node';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { Site } from 'app/shared/models/arm/site';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
+
 
 @Component({
   selector: 'create-app',
   templateUrl: './create-app.component.html',
   styleUrls: ['./create-app.component.scss']
 })
-export class CreateAppComponent implements OnInit {
+export class CreateAppComponent implements OnInit, OnDestroy {
   public Resources = PortalResources;
   public group: FormGroup;
   public viewInfoStream: Subject<TreeViewInfo<any>>;
   public FwdLinks = Links;
+  public subscriptionOptions: DropDownElement<string>[] = [];
+  public runtimeImageOptions: SelectOption<string>[] = [];
 
   private _viewInfo: TreeViewInfo<any>;
   private _subscriptionId: string;
+  private _ngUnsubscribe = new Subject<void>();
 
   constructor(
     private _broadcastService: BroadcastService,
@@ -46,29 +53,59 @@ export class CreateAppComponent implements OnInit {
     userService.getStartupInfo()
       .first()
       .subscribe(info => {
-        const sub = info.subscriptions.find(s => s.state === 'Enabled');
+        const subs = info.subscriptions;
+        let defaultSubId: string;
+        subs.forEach(sub => {
+          if (sub.state === 'Enabled') {
+            this.subscriptionOptions.push({
+              displayLabel: `${sub.displayName}(${sub.subscriptionId})`,
+              value: sub.subscriptionId
+            });
+            if (!defaultSubId) {
+              defaultSubId = sub.subscriptionId;
+            }
+          }
+        });
+        const sub = subs.find(s => s.state === 'Enabled');
         if (!sub) {
           return;
         }
 
         this._subscriptionId = sub.subscriptionId;
 
-        let required = new RequiredValidator(this._translateService);
-        let siteNameValidator = new SiteNameValidator(injector, sub.subscriptionId);
+        const required = new RequiredValidator(this._translateService);
+        const siteNameValidator = new SiteNameValidator(injector, sub.subscriptionId);
 
         this.group = _fb.group({
           name: [
             null,
             required.validate.bind(required),
-            siteNameValidator.validate.bind(siteNameValidator)]
+            siteNameValidator.validate.bind(siteNameValidator)],
+          subscription: defaultSubId,
+          runtimeImage: RuntimeImage.v1
         });
       });
+
+    this.runtimeImageOptions.push({
+      displayLabel : this._translateService.instant(PortalResources.runtimeImagev1),
+      value: RuntimeImage.v1
+    });
+    this.runtimeImageOptions.push({
+      displayLabel : this._translateService.instant(PortalResources.runtimeImagev2),
+      value: RuntimeImage.v2
+    });
+    /* RDBug 10690532:[Functions] Add/Enable custom runtime Image switch for in create app page
+    this.runtimeImageOptions.push({
+      displayLabel : this._translateService.instant(PortalResources.runtimeImageCustom),
+      value: RuntimeImage.custom
+    });
+    */
 
     this.viewInfoStream = new Subject<TreeViewInfo<any>>();
     this.viewInfoStream
       .subscribe(viewInfo => {
         this._viewInfo = viewInfo;
-      })
+      });
 
   }
 
@@ -77,22 +114,35 @@ export class CreateAppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+    .filter(info => {
+      return info.dashboardType === DashboardType.createApp;
+    })
+    .takeUntil(this._ngUnsubscribe)
+    .subscribe(info => {
+      this.viewInfoStream.next(info);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._ngUnsubscribe.next();
   }
 
   create() {
-    let name = this.group.controls['name'].value;
+    const name = this.group.controls['name'].value;
 
-    let id = `/subscriptions/${this._subscriptionId}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
+    const id = `/subscriptions/${this.group.controls['subscription'].value}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
 
-    let body = {
+    const body = {
       properties: {
         siteConfig: {
           appSettings: []
         },
         sku: 'Dynamic',
-        clientAffinityEnabled: false
+        clientAffinityEnabled: false,
+        runtimeImage: this.group.controls['runtimeImage'].value
       },
-      location: "local",
+      location: 'local',
       kind: 'functionapp'
     };
 
@@ -100,9 +150,8 @@ export class CreateAppComponent implements OnInit {
     this._cacheService.putArm(id, null, body)
       .subscribe(r => {
         this._globalStateService.clearBusyState();
-
-        let siteObj = <ArmObj<Site>>r.json();
-        let appsNode = <AppsNode>this._viewInfo.node;
+        const siteObj: ArmObj<Site> = r.json();
+        const appsNode: AppsNode = <AppsNode>this._viewInfo.node;
         appsNode.addChild(siteObj);
       }, error => {
         this._globalStateService.clearBusyState();
