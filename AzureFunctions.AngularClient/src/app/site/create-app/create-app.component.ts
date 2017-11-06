@@ -94,10 +94,12 @@ export class CreateAppComponent implements OnInit, OnDestroy {
       displayLabel : this._translateService.instant(PortalResources.runtimeImagev2),
       value: RuntimeImage.v2
     });
+    /* RDBug 10690532:[Functions] Add/Enable custom runtime Image switch for in create app page
     this.runtimeImageOptions.push({
       displayLabel : this._translateService.instant(PortalResources.runtimeImageCustom),
       value: RuntimeImage.custom
     });
+    */
 
     this.viewInfoStream = new Subject<TreeViewInfo<any>>();
     this.viewInfoStream
