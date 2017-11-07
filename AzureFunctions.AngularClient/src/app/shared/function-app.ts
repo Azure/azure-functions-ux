@@ -518,24 +518,6 @@ export class FunctionApp {
             });
     }
 
-    getNewFunctionNode(): FunctionInfo {
-        return {
-            name: this._translateService.instant(PortalResources.newFunction),
-            href: null,
-            config: null,
-            script_href: null,
-            template_id: null,
-            clientOnly: true,
-            isDeleted: false,
-            secrets_file_href: null,
-            test_data: null,
-            script_root_path_href: null,
-            config_href: null,
-            functionApp: null,
-            context: null
-        };
-    }
-
     statusCodeToText(code: number) {
         const statusClass = Math.floor(code / 100) * 100;
         return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';

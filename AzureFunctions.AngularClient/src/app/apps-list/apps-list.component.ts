@@ -164,6 +164,10 @@ export class AppsListComponent implements OnDestroy {
   }
 
   onResourceGroupsSelect(resourceGroups: string[]) {
+    if(!this.apps){
+      return;
+    }
+
     this.selectedResourceGroups = resourceGroups;
     const newItems = this.tableItems.filter(item => item.type === 'group');
     const filteredItems = this.apps.filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
