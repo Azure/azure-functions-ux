@@ -1,9 +1,11 @@
+import { TreeNode } from './../../../tree-view/tree-node';
 import { Observable } from 'rxjs/Observable';
 import { Site } from './../../models/arm/site';
 import { ArmObj } from './../../models/arm/arm-obj';
 
 export interface ScenarioCheckInput {
     site?: ArmObj<Site>;
+    appNodeChildren?: TreeNode[];
 }
 
 export type ScenarioStatus = 'enabled' | 'disabled' | null;

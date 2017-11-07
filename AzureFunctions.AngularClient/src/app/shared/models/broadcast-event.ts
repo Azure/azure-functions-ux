@@ -1,5 +1,6 @@
 export enum BroadcastEvent {
     TreeNavigation,
+    TreeUpdate,
     FunctionDeleted,
     FunctionAdded,
     FunctionSelected,
@@ -15,7 +16,8 @@ export enum BroadcastEvent {
     RefreshPortal,
     ClearError,
     OpenTab,
-    DirtyStateChange
+    DirtyStateChange,
+    UpdateAppsList
 }
 
 export interface DirtyStateEvent {
@@ -27,4 +29,10 @@ export interface BusyStateEvent{
     busyComponentName: string;
     action: 'setBusyState' | 'clearBusyState' | 'clearOverallBusyState';
     busyStateKey: string;
+}
+
+export interface TreeUpdateEvent{
+    operation: 'add' | 'remove' | 'removeChild' | 'update' | 'navigate';
+    resourceId: string;
+    data?: any;
 }

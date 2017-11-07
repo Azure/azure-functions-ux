@@ -1,3 +1,9 @@
+import { Subject } from 'rxjs/Subject';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { TreeUpdateEvent } from './../shared/models/broadcast-event';
+import { CacheService } from 'app/shared/services/cache.service';
+import { FunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { FunctionAppContext } from './../shared/services/functions-service';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -11,7 +17,6 @@ import { DashboardType } from './models/dashboard-type';
 import { PortalResources } from '../shared/models/portal-resources';
 import { FunctionInfo } from '../shared/models/function-info';
 import { FunctionNode } from './function-node';
-import { FunctionApp } from '../shared/function-app';
 import { Action } from '../shared/models/binding';
 import { BaseFunctionsProxiesNode } from 'app/tree-view/base-functions-proxies-node';
 
@@ -21,21 +26,26 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
     public newDashboardType = DashboardType.CreateFunctionAutoDetectDashboard;
     public action: Action;
 
+    private _cacheService: CacheService;
+    private _ngUnsubscribe = new Subject();
+
     constructor(
         sideNav: SideNavComponent,
-        public functionApp: FunctionApp,
+        context: FunctionAppContext,
         parentNode: TreeNode) {
         super(sideNav,
-            functionApp.site.id + '/functions',
-            functionApp,
+            context.site.id + '/functions',
+            context,
             parentNode,
-            functionApp.site.id + '/functions/new/function');
+            context.site.id + '/functions/new/function');
+
+        this._cacheService = sideNav.injector.get(CacheService);
 
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'image/BulletList.svg';
         this.nodeClass += ' collection-node';
 
-        functionApp.getFunctionAppEditMode()
+        this._functionsService.getFunctionAppEditMode(context)
             .map(EditModeHelper.isReadOnly)
             .subscribe(isReadOnly => {
                 if (isReadOnly) {
@@ -46,6 +56,24 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
                     this.newDashboardType = DashboardType.CreateFunctionAutoDetectDashboard;
                 }
             });
+    }
+
+    public handleSelection(): Observable<any> {
+        this._broadcastService.getEvents<TreeUpdateEvent>(BroadcastEvent.TreeUpdate)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(event => {
+                if (event.operation === 'removeChild') {
+                    this.removeChild(event.resourceId);
+                } else if (event.operation === 'update') {
+                    this.updateChild(event.resourceId, event.data);
+                }
+            });
+
+        return Observable.of({});
+    }
+
+    public handleDeselection(newSelectedNode?: TreeNode) {
+        this._ngUnsubscribe.next();
     }
 
     public loadChildren() {
@@ -67,21 +95,30 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
     }
 
     public addChild(functionInfo: FunctionInfo) {
-        functionInfo.functionApp = this.functionApp;
-        this.sideNav.cacheService.clearCachePrefix(this.functionApp.getScmUrl());
+        this._cacheService.clearCachePrefix(functionInfo.context.urlTemplates.functionsUrl);
 
-        const newNode = new FunctionNode(this.sideNav, this, functionInfo, this);
+        const newNode = new FunctionNode(this.sideNav, functionInfo, this);
         this._addChildAlphabetically(newNode);
         newNode.select();
     }
 
-    public removeChild(functionInfo: FunctionInfo, callRemoveOnChild?: boolean) {
+    public removeChild(resourceId: string, callRemoveOnChild?: boolean) {
 
-        const removeIndex = this.children.findIndex((childNode: FunctionNode) => {
-            return childNode.functionInfo.name === functionInfo.name;
-        });
+        const descriptor = new FunctionDescriptor(resourceId);
+        resourceId = descriptor.getTrimmedResourceId();
 
-        this._removeHelper(removeIndex, callRemoveOnChild);
+        const removeIndex = this.children.findIndex(c => c.resourceId.toLowerCase() === resourceId.toLowerCase());
+        this._removeHelper(removeIndex);
+    }
+
+    public updateChild(resourceId: string, disabled: boolean) {
+        const descriptor = new FunctionDescriptor(resourceId);
+        resourceId = descriptor.getTrimmedResourceId();
+
+        const child = <FunctionNode>this.children.find(c => c.resourceId.toLowerCase() === resourceId.toLowerCase());
+        if (child) {
+            child.functionInfo.config.disabled = disabled;
+        }
     }
 
     public openCreateDashboard(dashboardType: DashboardType, action?: Action) {
@@ -90,17 +127,13 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
         this.openCreateNew();
     }
 
-    public dispose(newSelectedNode?: TreeNode) {
-        this.parent.dispose(newSelectedNode);
-    }
-
     protected _updateTreeForNonUsableState(title: string) {
         this.disabled = true;
         this.newDashboardType = null;
         this.children = [];
         this.title = title;
         this.showExpandIcon = false;
-        this.sideNav.cacheService.clearCachePrefix(`${this.functionApp.getScmUrl()}/api/functions`);
+        this.sideNav.cacheService.clearCachePrefix(`${this._context.scmUrl}/api/functions`);
         return Observable.of(null);
     }
 
@@ -114,12 +147,11 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
         }
 
         if (!this.children || this.children.length === 0) {
-            return this.functionApp.getFunctions()
+            return this._functionsService.getFunctions(this._context)
                 .map(fcs => {
                     const fcNodes = <FunctionNode[]>[];
                     fcs.forEach(fc => {
-                        fc.functionApp = this.functionApp;
-                        fcNodes.push(new FunctionNode(this.sideNav, this, fc, this))
+                        fcNodes.push(new FunctionNode(this.sideNav, fc, this));
                     });
 
                     this.children = fcNodes;

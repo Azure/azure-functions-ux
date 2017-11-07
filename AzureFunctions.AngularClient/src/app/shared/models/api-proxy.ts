@@ -66,6 +66,7 @@ export class ApiProxy {
         if (key === 'functionApp') {
             return undefined;
         }
+
         return value;
     }
 
