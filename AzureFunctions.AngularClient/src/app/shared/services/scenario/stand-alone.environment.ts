@@ -48,6 +48,14 @@ export class StandaloneEnvironment extends Environment {
                 return { status: 'enabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.createApp] = {
+            id: ScenarioIds.createApp,
+            runCheck: () => {
+                return { status: 'enabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -52,7 +52,7 @@ export class CreateSubscriptionComponent implements OnInit {
       .subscribe(r => {
         this._globalStateService.clearBusyState();
         this._userService.getStartupInfo().first().subscribe(info => {
-          info.subscriptions = r.json().value;
+          info.subscriptions.push(r.json().properties);
           this._localStorageService.addtoSavedSubsKey(subId);
           this._userService.updateStartupInfo(info);
         });

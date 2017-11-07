@@ -4,7 +4,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { ErrorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
-import { Arm } from './../shared/models/constants';
+import { Arm, ScenarioIds } from './../shared/models/constants';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
@@ -15,6 +15,10 @@ import { AppNode } from './app-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { UserService } from '../shared/services/user.service';
+import { ScenarioService } from '../shared/services/scenario/scenario.service';
+
+
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
@@ -35,13 +39,25 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     constructor(
         sideNav: SideNavComponent,
         rootNode: TreeNode,
+        private _userService: UserService,
+        private _scenarioService: ScenarioService,
         private _subscriptionsStream: Subject<Subscription[]>,
         private _searchTermStream: Subject<string>,
         private _initialResourceId: string) {  // Should only be used for when the iframe is open on a specific app
 
         super(sideNav, null, rootNode, '/apps/new/app');
 
-        this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
+        this.newDashboardType =  null;
+
+        this._userService.getStartupInfo().subscribe(info => {
+            if (this._scenarioService.checkScenario(ScenarioIds.createApp).status === 'enabled'
+                    && info.subscriptions
+                    && info.subscriptions.length > 0) {
+                this.newDashboardType = DashboardType.createApp;
+            } else {
+                this.newDashboardType = null;
+            }
+        });
 
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'image/BulletList.svg';
