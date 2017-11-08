@@ -2,7 +2,7 @@
 
   <h2>{{ 'apiProxy_new' | translate }} </h2>
 
-  <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
+  <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
   <form [formGroup]="complexForm" (ngSubmit)="submitForm()">
 

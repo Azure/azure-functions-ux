@@ -951,9 +951,21 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
-  </data>
+  </data> 
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
+  </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Runtime image</value>
+  </data>
+    <data name="runtimeImagev1" xml:space="preserve">
+    <value>V1</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>V2</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>custom</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
@@ -1319,7 +1331,7 @@
     <value>Handler mappings</value>
   </data>
   <data name="feature_virtualDirectoriesName" xml:space="preserve">
-    <value>Virtual applicataions and directories</value>
+    <value>Virtual applications and directories</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to edit these settings.</value>
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>The version used to run your web app if using Python</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python. Click here to learn more.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java version</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>Select the desired Java minor version. Selecting 'Newest' will keep your app using the JVM most recently added to the portal.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Web container</value>
+    <value>Java web container</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>The web container version used to run your web app if using Java</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Auto swap destinations cannot be configured from production slot</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Auto Swap requires a standard or higher App Service Plan</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Auto Swap</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR Affinity</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Remote debugging</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>Stack</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Startup File</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Newest</value>

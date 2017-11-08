@@ -8,11 +8,11 @@ import { TopBarNotification } from './../../top-bar/top-bar-models';
 import { FunctionContainer } from '../models/function-container';
 import { UserService } from './user.service';
 import { BusyStateComponent } from '../../busy-state/busy-state.component';
-import { FunctionsService } from './functions.service';
+import { TryFunctionsService } from './try-functions.service';
 
 @Injectable()
 export class GlobalStateService {
-    public _functionsService: FunctionsService;
+    public _functionsService: TryFunctionsService;
     public showTryView: boolean;
     public showTopbar: boolean;
     public isAlwaysOn = true;

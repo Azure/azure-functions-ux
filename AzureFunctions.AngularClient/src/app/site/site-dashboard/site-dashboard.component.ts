@@ -121,7 +121,10 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                     this._openTabSubscription = this._broadcastService.getEvents<string>(BroadcastEvent.OpenTab)
                         .takeUntil(this._ngUnsubscribe)
                         .subscribe(tabId => {
-                            this.openFeature(tabId);
+                            if (tabId) {
+                                this.openFeature(tabId);
+                                this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, null);
+                            }
                         });
                 }
 

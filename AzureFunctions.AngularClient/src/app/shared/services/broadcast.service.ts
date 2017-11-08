@@ -52,9 +52,10 @@ export class BroadcastService {
         // upper limit so that we don't lose events.
         this._streamMap[BroadcastEvent.UpdateBusyState] = new ReplaySubject(128);
         this._streamMap[BroadcastEvent.TreeNavigation] = new ReplaySubject(1);
+        this._streamMap[BroadcastEvent.TreeUpdate] = new Subject();
         this._streamMap[BroadcastEvent.OpenTab] = new ReplaySubject(1);
         this._streamMap[BroadcastEvent.DirtyStateChange] = new ReplaySubject(1);
-
+        this._streamMap[BroadcastEvent.UpdateAppsList] = new ReplaySubject(1);
     }
 
     // DEPRECATED - Use broadcastEvent

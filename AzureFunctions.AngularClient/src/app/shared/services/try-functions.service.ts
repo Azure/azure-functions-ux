@@ -19,9 +19,8 @@ import { UIResource, ITryAppServiceTemplate } from '../models/ui-resource';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 @Injectable()
-export class FunctionsService {
+export class TryFunctionsService {
     private token: string;
-    private _scmUrl: string;
     public isEasyAuthEnabled: boolean;
     public selectedFunction: string;
     public selectedLanguage: string;
@@ -31,7 +30,7 @@ export class FunctionsService {
     public isMultiKeySupported = true;
 
     private tryAppServiceUrl = 'https://tryappservice.azure.com';
-    private functionContainer: FunctionContainer;
+    public functionContainer: FunctionContainer;
 
     constructor(private _http: Http,
         private _userService: UserService,
@@ -107,16 +106,6 @@ export class FunctionsService {
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryCreateTrialResource)
             .map(r => <UIResource>r.json());
-    }
-
-    getFunctionAppArmId() {
-        if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
-            return this.functionContainer.id;
-        } else if (this._scmUrl) {
-            return this._scmUrl;
-        } else {
-            return 'Unknown';
-        }
     }
 
     // to talk to Functions Portal

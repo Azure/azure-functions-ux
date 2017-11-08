@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { FunctionAppContext, FunctionsService } from './../shared/services/functions-service';
+import { Site } from './../shared/models/arm/site';
+import { ArmObj } from './../shared/models/arm/arm-obj';
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { CacheService } from 'app/shared/services/cache.service';
+import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -27,8 +33,10 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
     styleUrls: ['./function-quickstart.component.scss'],
     inputs: ['viewInfoInput']
 })
-export class FunctionQuickstartComponent {
+export class FunctionQuickstartComponent implements OnDestroy {
     @Input() functionsInfo: FunctionInfo[];
+    private context: FunctionAppContext;
+
     selectedFunction: string;
     selectedLanguage: string;
     bc: BindingManager = new BindingManager();
@@ -43,7 +51,10 @@ export class FunctionQuickstartComponent {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _cacheService: CacheService,
+        private _injector: Injector,
+        private _functionsService: FunctionsService) {
 
         this.selectedFunction = 'HttpTrigger';
         this.selectedLanguage = 'CSharp';
@@ -52,7 +63,21 @@ export class FunctionQuickstartComponent {
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this.functionsNode = <FunctionsNode>viewInfo.node;
-                this.functionApp = this.functionsNode.functionApp;
+                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+                return Observable.zip(
+                    this._cacheService.getArm(descriptor.getTrimmedResourceId()),
+                    this._functionsService.getAppContext(descriptor.getTrimmedResourceId()),
+                    (s, c) =>({ siteResponse: s, context: c}))
+            })
+            .switchMap(r => {
+                const site: ArmObj<Site> = r.siteResponse.json();
+                this.context = r.context;
+
+                if (this.functionApp) {
+                    this.functionApp.dispose();
+                }
+
+                this.functionApp = new FunctionApp(site, this._injector);
 
                 return this.functionApp.getFunctions();
             })
@@ -66,7 +91,7 @@ export class FunctionQuickstartComponent {
                 this.functionsInfo = fcs;
             });
 
-        this.setShowJavaSplashPage.subscribe (show => {
+        this.setShowJavaSplashPage.subscribe(show => {
             this.showJavaSplashPage = show;
         });
     }
@@ -74,6 +99,12 @@ export class FunctionQuickstartComponent {
     set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfoInput);
 
+    }
+
+    ngOnDestroy() {
+        if (this.functionApp) {
+            this.functionApp.dispose();
+        }
     }
 
     onFunctionClicked(selectedFunction: string) {
@@ -113,6 +144,7 @@ export class FunctionQuickstartComponent {
                     this.functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
                         .subscribe(res => {
                             this._portalService.logAction('intro-create-from-template', 'success', { template: selectedTemplate.id, name: functionName });
+                            res.context = this.context;
                             this.functionsNode.addChild(res);
                             // this._broadcastService.broadcast<TutorialEvent>(
                             //    BroadcastEvent.TutorialStep,

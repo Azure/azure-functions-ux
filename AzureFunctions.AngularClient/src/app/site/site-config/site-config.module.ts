@@ -13,6 +13,9 @@ import { SharedModule } from 'app/shared/shared.module';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
 
 @NgModule({
+  entryComponents: [
+    SiteConfigStandaloneComponent
+  ],
   imports: [
     TranslateModule.forChild(), SharedModule, SharedFunctionsModule
   ],

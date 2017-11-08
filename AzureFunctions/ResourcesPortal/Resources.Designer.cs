@@ -448,6 +448,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Provide an optional startup command that will be run as part of container startup. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.
+        /// </summary>
+        internal static string appCommandLineLabelHelp {
+            get {
+                return ResourceManager.GetString("appCommandLineLabelHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proxies (preview).
         /// </summary>
         internal static string appFunctionSettings_apiProxies {
@@ -759,6 +768,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string autoSwapNotSupportedFromProd {
             get {
                 return ResourceManager.GetString("autoSwapNotSupportedFromProd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Swap requires a standard or higher App Service Plan.
+        /// </summary>
+        internal static string autoSwapUpsell {
+            get {
+                return ResourceManager.GetString("autoSwapUpsell", resourceCulture);
             }
         }
         
@@ -1254,6 +1272,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string clientAffinityEnabledLabel {
             get {
                 return ResourceManager.GetString("clientAffinityEnabledLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.
+        /// </summary>
+        internal static string clientAffinityInfoText {
+            get {
+                return ResourceManager.GetString("clientAffinityInfoText", resourceCulture);
             }
         }
         
@@ -3076,7 +3103,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Virtual applicataions and directories.
+        ///   Looks up a localized string similar to Virtual applications and directories.
         /// </summary>
         internal static string feature_virtualDirectoriesName {
             get {
@@ -4588,7 +4615,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Web container.
+        ///   Looks up a localized string similar to Java web container.
         /// </summary>
         internal static string javaWebContainerLabel {
             get {
@@ -4665,6 +4692,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string linuxFxVersionLabel {
             get {
                 return ResourceManager.GetString("linuxFxVersionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.
+        /// </summary>
+        internal static string linuxFxVersionLabelHelp {
+            get {
+                return ResourceManager.GetString("linuxFxVersionLabelHelp", resourceCulture);
             }
         }
         
@@ -5160,6 +5196,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string pythonVersionLabelHelp {
             get {
                 return ResourceManager.GetString("pythonVersionLabelHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App Service supports installing newer versions of Python. Click here to learn more.
+        /// </summary>
+        internal static string pythonInfoText {
+            get {
+                return ResourceManager.GetString("pythonInfoText", resourceCulture);
             }
         }
         

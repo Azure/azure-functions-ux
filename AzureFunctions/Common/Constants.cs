@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Web.Hosting;
 
@@ -22,10 +22,12 @@ namespace AzureFunctions.Common
         public const string AnonymousUserName = "Anonymous";
         public const string PortalReferrer = "portal.azure.com";
         public const string PortalAnonymousUser = "Portal/1.0.0";
+        public const string FrontEndAuthenticatedUser = "FrontEndAuthenticatedUser";
         public const string CurrentLatestRuntimeVersion = "~1";
 
         private static object _lock = new object();
         private static string _currentCommitId;
+
         public static string CurrentCommitId
         {
             get
