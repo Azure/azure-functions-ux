@@ -46,8 +46,9 @@ export class NoCorsHttpService {
 
     /**
      * Performs a request with `post` http method.
+     * the default for `force` is true since it's not used for ARM requests, so caching POSTs is not correct.
      */
-    post(url: string, body: any, options?: RequestOptionsArgs, force?: boolean): Observable<Response> {
+    post(url: string, body: any, options?: RequestOptionsArgs, force: boolean = true): Observable<Response> {
         return this._cacheService.post(url, force, options && options.headers ? options.headers : new Headers(), body)
             .catch(e => this.tryPassThroughController(e, 'POST', url, body, options));
     }

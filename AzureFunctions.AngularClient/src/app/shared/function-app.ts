@@ -584,16 +584,18 @@ export class FunctionApp {
         let response: Observable<Response>;
         switch (model.method) {
             case Constants.httpMethods.GET:
-                response = this._http.get(url, { headers: headers });
+                // make sure to pass 'true' to force make a request.
+                // there is no scenario where we want cached data for a function run.
+                response = this._http.get(url, { headers: headers }, true);
                 break;
             case Constants.httpMethods.POST:
-                response = this._http.post(url, content, { headers: headers });
+                response = this._http.post(url, content, { headers: headers }, true);
                 break;
             case Constants.httpMethods.DELETE:
                 response = this._http.delete(url, { headers: headers });
                 break;
             case Constants.httpMethods.HEAD:
-                response = this._http.head(url, { headers: headers });
+                response = this._http.head(url, { headers: headers }, true);
                 break;
             case Constants.httpMethods.PATCH:
                 response = this._http.patch(url, content, { headers: headers });
@@ -667,7 +669,7 @@ export class FunctionApp {
     initKeysAndWarmupMainSite() {
         this._http.post(this.urlTemplates.pingUrl, '')
             .retryWhen(this.retryAntares)
-            .subscribe(() =>{});
+            .subscribe(() => { });
 
         return this.getHostSecretsFromScm();
     }
