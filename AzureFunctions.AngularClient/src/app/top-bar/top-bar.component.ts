@@ -48,7 +48,7 @@ export class TopBarComponent implements OnInit {
                     const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.resourceId);
                     this.appName = descriptor.site;
                     const fnDescriptor = new FunctionDescriptor(this.resourceId);
-                    this.fnName = fnDescriptor.functionName;
+                    this.fnName = fnDescriptor.name;
                 });
         }
 

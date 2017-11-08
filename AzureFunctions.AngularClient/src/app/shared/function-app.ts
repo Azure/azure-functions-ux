@@ -1,27 +1,19 @@
-﻿import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+﻿import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { AiService } from 'app/shared/services/ai.service';
+import { Injector } from '@angular/core';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { UrlTemplates } from './url-templates';
 import { Subject } from 'rxjs/Subject';
 import { SiteService } from './services/slots.service';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/scan';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { ConfigService } from './services/config.service';
 import { NoCorsHttpService } from './no-cors-http-service';
 import { ErrorIds } from './models/error-ids';
 import { DiagnosticsResult } from './models/diagnostics-result';
 import { WebApiException, FunctionRuntimeError } from './models/webapi-exception';
 import { FunctionsResponse } from './models/functions-response';
-import { AiService } from './services/ai.service';
 import { AuthzService } from './services/authz.service';
 import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
@@ -41,7 +33,6 @@ import { Cache, ClearCache, ClearAllFunctionCache } from './decorators/cache.dec
 import { GlobalStateService } from './services/global-state.service';
 import { PortalResources } from './models/portal-resources';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import { BroadcastService } from './services/broadcast.service';
 import { ArmService } from './services/arm.service';
 import { BroadcastEvent } from './models/broadcast-event';
 import { ErrorEvent, ErrorType } from './models/error-event';
@@ -53,7 +44,6 @@ import { Site } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
-
 import * as jsonschema from 'jsonschema';
 import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
@@ -62,6 +52,8 @@ export class FunctionApp {
     private masterKey: string;
     private token: string;
     private siteName: string;
+    private ngUnsubscribe = new Subject();
+
     public selectedFunction: string;
     public selectedLanguage: string;
     public selectedProvider: string;
@@ -128,25 +120,39 @@ export class FunctionApp {
     public tryFunctionsScmCreds: string;
     private _http: NoCorsHttpService;
 
-    constructor(
-        public site: ArmObj<Site>,
-        _ngHttp: Http,
-        private _userService: UserService,
-        private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService,
-        private _broadcastService: BroadcastService,
-        private _armService: ArmService,
-        private _cacheService: CacheService,
-        private _languageService: LanguageService,
-        private _authZService: AuthzService,
-        private _aiService: AiService,
-        private _configService: ConfigService,
-        private _slotsService: SiteService) {
+    private _ngHttp: Http;
+    private _userService: UserService;
+    private _globalStateService: GlobalStateService;
+    private _translateService: TranslateService;
+    private _broadcastService: BroadcastService;
+    private _armService: ArmService;
+    private _cacheService: CacheService;
+    private _languageService: LanguageService;
+    private _authZService: AuthzService;
+    private _aiService: AiService;
+    private _configService: ConfigService;
+    private _slotsService: SiteService;
 
-        this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
+    constructor(public site: ArmObj<Site>, injector: Injector) {
 
-        if (!_globalStateService.showTryView) {
+        this._ngHttp = injector.get(Http);
+        this._userService = injector.get(UserService);
+        this._globalStateService = injector.get(GlobalStateService);
+        this._translateService = injector.get(TranslateService);
+        this._broadcastService = injector.get(BroadcastService);
+        this._armService = injector.get(ArmService);
+        this._cacheService = injector.get(CacheService);
+        this._languageService = injector.get(LanguageService);
+        this._authZService = injector.get(AuthzService);
+        this._aiService = injector.get(AiService);
+        this._configService = injector.get(ConfigService);
+        this._slotsService = injector.get(SiteService);
+
+        this._http = new NoCorsHttpService(this._cacheService, this._ngHttp, this._broadcastService, this._aiService, this._translateService, () => this.getPortalHeaders());
+
+        if (!this._globalStateService.showTryView) {
             this._userService.getStartupInfo()
+                .takeUntil(this.ngUnsubscribe)
                 .mergeMap(info => {
                     this.token = info.token;
                     return Observable.zip(
@@ -229,7 +235,6 @@ export class FunctionApp {
             .map((r: Response) => {
                 try {
                     fcs = r.json() as FunctionInfo[];
-                    fcs.forEach(fc => fc.functionApp = this);
                     return fcs;
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
@@ -513,23 +518,6 @@ export class FunctionApp {
             });
     }
 
-    getNewFunctionNode(): FunctionInfo {
-        return {
-            name: this._translateService.instant(PortalResources.newFunction),
-            href: null,
-            config: null,
-            script_href: null,
-            template_id: null,
-            clientOnly: true,
-            isDeleted: false,
-            secrets_file_href: null,
-            test_data: null,
-            script_root_path_href: null,
-            config_href: null,
-            functionApp: null
-        };
-    }
-
     statusCodeToText(code: number) {
         const statusClass = Math.floor(code / 100) * 100;
         return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
@@ -648,7 +636,10 @@ export class FunctionApp {
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
             .map(r => r.statusText)
-            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name),
+            .do(_ => {
+                this._cacheService.clearCachePrefix(this.urlTemplates.functionsUrl);
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name);
+            },
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -674,17 +665,11 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        const warmupSite = this._http.post(this.urlTemplates.pingUrl, '')
+        this._http.post(this.urlTemplates.pingUrl, '')
             .retryWhen(this.retryAntares)
-            .catch(() => Observable.of(null));
+            .subscribe(() =>{});
 
-        const observable = Observable.zip(
-            warmupSite,
-            this.getHostSecretsFromScm(),
-            (w: any, s: any) => ({ warmUp: w, secrets: s })
-        );
-
-        return observable;
+        return this.getHostSecretsFromScm();
     }
 
     @Cache('secrets_file_href')
@@ -1935,5 +1920,9 @@ export class FunctionApp {
         } else {
             return Observable.of(null);
         }
+    }
+
+    dispose() {
+        this.ngUnsubscribe.next();
     }
 }

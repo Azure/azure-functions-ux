@@ -1,34 +1,34 @@
 <div *ngIf="readOnly">
   <br />
   <div class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'readOnly' | translate }} <span *ngIf="appNode" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+    {{ 'readOnly' | translate }} <span *ngIf="context" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
   </div>
 </div>
 
 <div *ngIf="readOnlySourceControlled">
   <br />
   <div class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'readOnlySourceControlled' | translate }} <span *ngIf="appNode" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+    {{ 'readOnlySourceControlled' | translate }} <span *ngIf="context" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
   </div>
 </div>
 
 <div *ngIf="readWriteSourceControlled">
   <br />
   <div class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'readWriteSourceControlled' | translate }} <span *ngIf="appNode" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+    {{ 'readWriteSourceControlled' | translate }} <span *ngIf="context" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
   </div>
 </div>
 
 <div *ngIf="readOnlySlots">
   <br />
   <div class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'readOnlySlots' | translate }} <span *ngIf="appNode" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+    {{ 'readOnlySlots' | translate }} <span *ngIf="context" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
   </div>
 </div>
 
 <div *ngIf="ReadOnlyVSGenerated">
   <br />
   <div class="alert alert-warning alert-dismissible" role="alert">
-    {{ 'readOnlyGeneratedBy' | translate }} <a *ngIf="appNode" class="link" href="https://go.microsoft.com/fwlink/?linkid=856288" target="_blank">{{ 'topBar_learnMore' | translate }}</a>.
+    {{ 'readOnlyGeneratedBy' | translate }} <a *ngIf="context" class="link" href="https://go.microsoft.com/fwlink/?linkid=856288" target="_blank">{{ 'topBar_learnMore' | translate }}</a>.
   </div>
 </div>

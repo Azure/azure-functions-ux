@@ -1,3 +1,4 @@
+import { FunctionsService } from './services/functions-service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
 import { LoadImageDirective } from './../controls/load-image/load-image.directive';
 import { SlideToggleComponent } from './../controls/slide-toggle/slide-toggle.component';
@@ -19,7 +20,7 @@ import { FunctionMonitorService } from './services/function-monitor.service';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { PortalService } from './services/portal.service';
 import { LanguageService } from './services/language.service';
-import { FunctionsService } from './services/functions.service';
+import { TryFunctionsService } from './services/try-functions.service';
 import { ConfigService } from 'app/shared/services/config.service';
 import { SearchBoxComponent } from './../search-box/search-box.component';
 import { CopyPreComponent } from './../copy-pre/copy-pre.component';
@@ -50,6 +51,7 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { Url } from 'app/shared/Utilities/url';
 import { EmptyDashboardComponent } from 'app/main/empty-dashboard.component';
 import { InfoBoxComponent } from './../controls/info-box/info-box.component';
+import { LogMessageDirective } from 'app/shared/directives/log-message.directive';
 
 export function ArmServiceFactory(
     http: Http,
@@ -81,6 +83,7 @@ export function AiServiceFactory() {
         CommandComponent,
         CheckScenarioDirective,
         DynamicLoaderDirective,
+        LogMessageDirective,
         IsDirtyDirective,
         RadioSelectorComponent,
         PopOverComponent,
@@ -111,6 +114,7 @@ export function AiServiceFactory() {
         CommandComponent,
         CheckScenarioDirective,
         DynamicLoaderDirective,
+        LogMessageDirective,
         IsDirtyDirective,
         RadioSelectorComponent,
         PopOverComponent,
@@ -138,6 +142,7 @@ export class SharedModule {
             ngModule: SharedModule,
             providers: [
                 ConfigService,
+                TryFunctionsService,
                 FunctionsService,
                 UserService,
                 LanguageService,

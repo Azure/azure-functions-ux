@@ -177,7 +177,9 @@ export class ScenarioIds {
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
+
     public static readonly createApp = 'createApp';
+    public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
 }
 
 export class ServerFarmSku {
@@ -198,6 +200,7 @@ export class NationalCloudArmUris {
 }
 
 export class LogCategories {
+    public static readonly FunctionEdit = 'FunctionEdit';
     public static readonly FunctionMonitor = 'FunctionMonitor';
     public static readonly SideNav = 'SideNav';
     public static readonly siteDashboard = 'SiteDashboard';
@@ -216,6 +219,8 @@ export class LogCategories {
     public static readonly virtualDirectories = 'VirtualDirectories';
     public static readonly logicapps = 'LogicApps';
     public static readonly subsCriptions = 'SubsCriptions';
+    public static readonly functionAppSettings = 'FunctionAppSettings';
+    public static readonly swaggerDefinition = 'SwaggerDefinition';
 }
 
 export class KeyCodes {

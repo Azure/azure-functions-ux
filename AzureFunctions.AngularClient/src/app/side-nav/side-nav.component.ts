@@ -5,14 +5,11 @@ import { StoredSubscriptions } from './../shared/models/localStorage/local-stora
 import { Dom } from './../shared/Utilities/dom';
 import { SubUtil } from './../shared/Utilities/sub-util';
 import { SearchBoxComponent } from './../search-box/search-box.component';
-import { Component, ViewChild, AfterViewInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, Injector } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../shared/services/config.service';
 import { FunctionApp } from './../shared/function-app';
@@ -29,7 +26,7 @@ import { AppNode } from '../tree-view/app-node';
 import { ArmService } from '../shared/services/arm.service';
 import { CacheService } from '../shared/services/cache.service';
 import { UserService } from '../shared/services/user.service';
-import { FunctionsService } from '../shared/services/functions.service';
+import { TryFunctionsService } from '../shared/services/try-functions.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { AiService } from '../shared/services/ai.service';
@@ -39,12 +36,8 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SiteService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
-import { ScenarioService } from './../shared/services/scenario/scenario.service';
-
-
 
 @Component({
-    changeDetection : ChangeDetectionStrategy.OnPush,
     selector: 'side-nav',
     templateUrl: './side-nav.component.html',
     styleUrls: ['./side-nav.component.scss']
@@ -83,10 +76,11 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     constructor(
+        public injector: Injector,
         public configService: ConfigService,
         public armService: ArmService,
         public cacheService: CacheService,
-        public functionsService: FunctionsService,
+        public functionsService: TryFunctionsService,
         public http: Http,
         public globalStateService: GlobalStateService,
         public broadcastService: BroadcastService,
@@ -100,8 +94,7 @@ export class SideNavComponent implements AfterViewInit {
         public slotsService: SiteService,
         public logService: LogService,
         public router: Router,
-        public route: ActivatedRoute,
-        private _scenarioService: ScenarioService) {
+        public route: ActivatedRoute) {
 
         userService.getStartupInfo().subscribe(info => {
 
@@ -126,8 +119,6 @@ export class SideNavComponent implements AfterViewInit {
                 const appsNode = new AppsNode(
                     this,
                     this.rootNode,
-                    userService,
-                    this._scenarioService,
                     this._subscriptionsStream,
                     this._searchTermStream,
                     this.resourceId);
@@ -244,7 +235,7 @@ export class SideNavComponent implements AfterViewInit {
                     return Observable.of(false);
                 }
 
-                this.selectedNode.dispose(newSelectedNode);
+                this.selectedNode.handleDeselection(newSelectedNode);
             }
         }
 

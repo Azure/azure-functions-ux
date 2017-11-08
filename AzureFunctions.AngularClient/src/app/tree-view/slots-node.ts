@@ -1,3 +1,5 @@
+import { LogCategories } from './../shared/models/constants';
+import { LogService } from './../shared/services/log.service';
 import { SlotNode } from './app-node';
 import { TreeNode } from './tree-node';
 import { DashboardType } from './models/dashboard-type';
@@ -11,6 +13,7 @@ export class SlotsNode extends TreeNode {
     public dashboardType = DashboardType.SlotsDashboard;
     public newDashboardType = DashboardType.CreateSlotDashboard;
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_slotsOptinSettings);
+    private _logService: LogService;
 
     constructor(
         sideNav: SideNavComponent,
@@ -25,16 +28,22 @@ export class SlotsNode extends TreeNode {
         this.nodeClass += ' collection-node';
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'image/BulletList.svg';
+        this._logService = sideNav.injector.get(LogService);
     }
 
     public loadChildren() {
+        this.isLoading = true;
         return this.sideNav.slotsService.getSlotsList(this._siteArmCacheObj.id)
             .do(slots => {
+                this.isLoading = false;
                 this.children = slots.map(s => new SlotNode(
                     this.sideNav,
                     s,
                     this,
                     this._subscriptions));
+            }, err =>{
+                this._logService.error(LogCategories.SideNav, '/slots-node-loadchildren', err);
+                this.isLoading = false;
             });
     }
 
@@ -52,9 +61,5 @@ export class SlotsNode extends TreeNode {
 
         this._removeHelper(removeIndex, callRemoveOnChild);
         this.sideNav.cacheService.clearArmIdCachePrefix('/slots');
-    }
-
-    public dispose(newSelectedNode?: TreeNode) {
-        this.parent.dispose(newSelectedNode);
     }
 }

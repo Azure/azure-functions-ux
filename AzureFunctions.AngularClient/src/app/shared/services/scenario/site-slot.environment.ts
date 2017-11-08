@@ -1,9 +1,10 @@
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { PortalResources } from './../../models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 import { ScenarioCheckInput } from './scenario.models';
 import { ScenarioIds } from './../../models/constants';
-import { Environment } from 'app/shared/services/scenario/scenario.models';
+import { Environment, ScenarioResult } from 'app/shared/services/scenario/scenario.models';
 
 export class SiteSlotEnvironment extends Environment {
     name = 'SiteSlot';
@@ -27,6 +28,12 @@ export class SiteSlotEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.filterAppNodeChildren] = {
+            id: ScenarioIds.filterAppNodeChildren,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._filterAppNodeChildren(input);
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
@@ -36,5 +43,19 @@ export class SiteSlotEnvironment extends Environment {
         }
 
         return false;
+    }
+
+    private _filterAppNodeChildren(input: ScenarioCheckInput) {
+        const descriptor = new SiteDescriptor(input.site.id);
+        let data = input.appNodeChildren;
+
+        if (descriptor.slot) {
+            data = input.appNodeChildren.filter(c => c.dashboardType !== DashboardType.SlotsDashboard);
+        }
+
+        return <ScenarioResult>{
+            status: 'enabled',
+            data: data
+        };
     }
 }
