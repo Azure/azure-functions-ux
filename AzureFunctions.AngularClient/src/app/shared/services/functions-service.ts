@@ -284,7 +284,7 @@ export class FunctionsService {
     }
 
     public getAuthSettings(context: FunctionAppContext): Observable<AuthSettings> {
-        if (context.tryFunctionsScmCreds) {
+        if (this._tryFunctionsService.functionContainer) {
             return Observable.of({
                 easyAuthEnabled: false,
                 AADConfigured: false,
