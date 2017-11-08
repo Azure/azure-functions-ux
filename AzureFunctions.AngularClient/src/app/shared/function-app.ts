@@ -589,7 +589,7 @@ export class FunctionApp {
                 response = this._http.get(url, { headers: headers }, true);
                 break;
             case Constants.httpMethods.POST:
-                response = this._http.post(url, content, { headers: headers }, true);
+                response = this._http.post(url, content, { headers: headers });
                 break;
             case Constants.httpMethods.DELETE:
                 response = this._http.delete(url, { headers: headers });
