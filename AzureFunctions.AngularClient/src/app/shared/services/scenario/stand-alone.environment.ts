@@ -63,6 +63,14 @@ export class StandaloneEnvironment extends Environment {
                 return this._filterAppNodeChildren(input);
             }
         };
+
+        this.scenarioChecks[ScenarioIds.headerOnTopOfSideNav] = {
+            id: ScenarioIds.headerOnTopOfSideNav,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'enabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
