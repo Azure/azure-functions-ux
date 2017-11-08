@@ -16,7 +16,7 @@ import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { LocalStorageKeys, Arm, LogCategories} from './../shared/models/constants';
+import { LocalStorageKeys, Arm, LogCategories } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -447,7 +447,7 @@ export class SideNavComponent implements AfterViewInit {
                         }
 
                         return {
-                            displayLabel: e.displayName,
+                            displayLabel: `${e.displayName}(${e.subscriptionId})`,
                             value: e,
                             isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
                         };

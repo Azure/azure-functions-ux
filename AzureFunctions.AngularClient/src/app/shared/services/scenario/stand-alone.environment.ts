@@ -50,6 +50,13 @@ export class StandaloneEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.createApp] = {
+            id: ScenarioIds.createApp,
+            runCheck: () => {
+                return { status: 'enabled' };
+            }
+        };
+
         this.scenarioChecks[ScenarioIds.filterAppNodeChildren] = {
             id: ScenarioIds.filterAppNodeChildren,
             runCheck: (input: ScenarioCheckInput) => {

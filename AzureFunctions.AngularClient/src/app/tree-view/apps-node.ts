@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ErrorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
-import { Arm, LogCategories } from './../shared/models/constants';
+import { Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
@@ -13,6 +13,9 @@ import { AppNode } from './app-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { UserService } from '../shared/services/user.service';
+import { ScenarioService } from '../shared/services/scenario/scenario.service';
+
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 
 interface SearchInfo {
@@ -34,6 +37,9 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     private _subscriptions: Subscription[];
     private _searchInfo = new Subject<SearchInfo>();
     private _broadcastService: BroadcastService;
+    private _userService: UserService;
+    private _scenarioService: ScenarioService;
+
 
     constructor(
         sideNav: SideNavComponent,
@@ -44,7 +50,19 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         super(sideNav, null, rootNode, '/apps/new/app');
 
-        this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
+        this.newDashboardType =  null;
+        this._userService = sideNav.injector.get(UserService);
+        this._scenarioService = sideNav.injector.get(ScenarioService);
+
+        this._userService.getStartupInfo().subscribe(info => {
+            if (this._scenarioService.checkScenario(ScenarioIds.createApp).status === 'enabled'
+                    && info.subscriptions
+                    && info.subscriptions.length > 0) {
+                this.newDashboardType = DashboardType.createApp;
+            } else {
+                this.newDashboardType = null;
+            }
+        });
 
         this._broadcastService = sideNav.injector.get(BroadcastService);
 
