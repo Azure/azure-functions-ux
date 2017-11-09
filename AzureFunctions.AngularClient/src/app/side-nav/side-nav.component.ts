@@ -61,7 +61,7 @@ export class SideNavComponent implements AfterViewInit {
     public searchTerm = '';
     public hasValue = false;
     public tryFunctionApp: FunctionApp;
-    public headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
+    public headerOnTopOfSideNav =  false;
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
@@ -71,8 +71,6 @@ export class SideNavComponent implements AfterViewInit {
 
     private _initialized = false;
 
-    private _subscriptionOptionsInitialized = false;
-    private _subscriptionOptionsUpdated = false;
     private _tryFunctionAppStream = new Subject<FunctionApp>();
     @Input() set tryFunctionAppInput(functionApp: FunctionApp) {
         if (functionApp) {
@@ -102,6 +100,7 @@ export class SideNavComponent implements AfterViewInit {
         public route: ActivatedRoute,
         private _scenarioService: ScenarioService) {
 
+        this.headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
@@ -407,13 +406,12 @@ export class SideNavComponent implements AfterViewInit {
     // so we need to make sure we're always overwriting them.  But if we simply
     // set the value to the same value twice, no change notification will happen.
     private _updateSubDisplayText(displayText: string) {
-        if (this._subscriptionOptionsUpdated) { // BUGBUG this is an workaround for https://github.com/Azure/azure-functions-ux/issues/2003
-            return;
-        }
-        this.subscriptionsDisplayText = '';
         setTimeout(() => {
-            this.subscriptionsDisplayText = displayText;
-        }, 0);
+            this.subscriptionsDisplayText = '';
+            setTimeout(() => {
+                this.subscriptionsDisplayText = displayText;
+            }, 0);
+        });
     }
 
     private _updateSubscriptions(info: StartupInfo) {
@@ -424,7 +422,7 @@ export class SideNavComponent implements AfterViewInit {
 
         const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
         const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
-        let descriptor: SiteDescriptor;
+        let descriptor: SiteDescriptor | null;
 
         if (info.resourceId) {
             descriptor = new SiteDescriptor(info.resourceId);
@@ -432,10 +430,6 @@ export class SideNavComponent implements AfterViewInit {
 
         let count = 0;
 
-        if (this._subscriptionOptionsInitialized) {
-            this._subscriptionOptionsUpdated = true;
-        }
-        this._subscriptionOptionsInitialized = true;
         this.subscriptionOptions =
             info.subscriptions.map(e => {
                 let subSelected: boolean;
