@@ -1,3 +1,5 @@
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from 'app/shared/services/log.service';
 import { Component, Input, Output, EventEmitter, ElementRef, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -71,16 +73,19 @@ export class BindingV2Component {
     private _subscription: Subscription;
     private _appSettings: { [key: string]: string };
     private _functionInfo: FunctionInfo;
+    private _ngUnsubscribe = new Subject();
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
         private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
         private _translateService: TranslateService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _logService: LogService) {
         const renderer = new marked.Renderer();
 
         this._functionAppStream
+            .takeUntil(this._ngUnsubscribe)
             .distinctUntilChanged()
             .switchMap(functionApp => {
                 this.functionApp = functionApp;
@@ -88,20 +93,23 @@ export class BindingV2Component {
                     this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`),
                     this.functionApp.getAuthSettings(),
                     (a, e) => ({ appSettings: a.json(), authSettings: e }));
-            }).do(null, e => {
-                this._aiService.trackException(e, '/errors/binding');
-                console.error(e);
-            }).subscribe(res => {
+            })
+            .do(null, e => {
+                this._logService.error(LogCategories.binding, '/errors/binding', e);
+            })
+            .retry()
+            .subscribe(res => {
                 this._appSettings = res.appSettings.properties;
                 this.authSettings = res.authSettings;
                 this.filterWarnings();
                 this._updateBinding();
             });
 
-        this._bindingStream.subscribe((binding: UIFunctionBinding) => {
-            this.bindingValue = binding;
-            this._updateBinding();
-
+        this._bindingStream
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe((binding: UIFunctionBinding) => {
+                this.bindingValue = binding;
+                this._updateBinding();
         });
 
         renderer.link = function (href, title, text) {
@@ -131,10 +139,10 @@ export class BindingV2Component {
                 if (this.canDelete) {
                     if (this.isDirty) {
                         this._broadcastService.setDirtyState('function_integrate');
-                        this._portalService.setDirtyState(true);
+                        this._portalService.updateDirtyState(true);
                     } else {
                         this._broadcastService.clearDirtyState('function_integrate', true);
-                        this._portalService.setDirtyState(false);
+                        this._portalService.updateDirtyState(false);
                     }
                 }
             });
@@ -143,6 +151,7 @@ export class BindingV2Component {
 
     ngOnDestroy() {
         this._subscription.unsubscribe();
+        this._ngUnsubscribe.next();
     }
 
     set functionAppInput(functionInput: any) {
@@ -571,8 +580,6 @@ export class BindingV2Component {
     saveClicked() {
         const data = this.getDataToLog();
 
-
-        this._portalService.logAction('binding', 'save', data);
         this._aiService.trackEvent('/binding/save', data);
 
         this.bindingValue.newBinding = false;
@@ -632,7 +639,7 @@ export class BindingV2Component {
         this.update.emit(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
-        this._portalService.setDirtyState(false);
+        this._portalService.updateDirtyState(false);
         this.isDirty = false;
     }
 
@@ -659,7 +666,6 @@ export class BindingV2Component {
 
         if (this.isDocShown) {
             const data = this.getDataToLog();
-            this._portalService.logAction('binding', 'openDocumentation', data);
             this._aiService.trackEvent('binding/openDocumentation', data);
         }
     }

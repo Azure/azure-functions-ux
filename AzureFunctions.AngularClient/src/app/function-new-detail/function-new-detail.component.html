@@ -22,7 +22,7 @@
         <label class="control-label">{{ 'nameColon' | translate }}</label>
     </div>
     <input type="text" 
-           style="width: 100%"
+           class="full-width"
            [(ngModel)]="functionName"
            (ngModelChange)="functionNameChanged()"
            placeholder="{{ 'functionNew_functionName' | translate }}"

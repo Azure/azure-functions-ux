@@ -93,18 +93,15 @@ export class SidebarPickerComponent implements OnInit {
         }
 
         templateExtensions.forEach(requiredExtension => {
-            let isInstalled = false;
-            r.extensions.forEach(installedExtension => {
-                isInstalled = isInstalled
-                    || (installedExtension.id
-                        && requiredExtension.id === installedExtension.id
-                        && requiredExtension.version === installedExtension.version);
-            });
-
-            if (!isInstalled) {
-                extensions.push(requiredExtension);
-            }
+          const ext = r.extensions.first(installedExtention => {
+            return installedExtention.id === requiredExtension.id
+                  && installedExtention.version === requiredExtension.version;
+          });
+          if (!ext) {
+            extensions.push(requiredExtension);
+          }
         });
+
         return extensions;
     });
   }

@@ -61,8 +61,6 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
     'metadata.json'
   ];
 
-
-
   constructor(
     private _globalStateService: GlobalStateService,
     private _translateService: TranslateService,
