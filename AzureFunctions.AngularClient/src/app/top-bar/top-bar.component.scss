@@ -16,7 +16,7 @@
 .logo-standalone{
     @extend .logo;
     font-size: 18px;
-    color: white;
+    color: $standalone-top-bar-text-color;
 }
 
 .function-information {
@@ -96,11 +96,6 @@
         /*border-left: 1px solid rgba(128,128,128,.4);*/
     }
 
-    .top-bar-tool-standalone {
-        color: white;
-    }
-
-
     .info-azure{
         margin-left: 265px;
     }
@@ -115,7 +110,8 @@
 }
 
 .top-bar-standalone {
-    background-color: #0058ad;
+    background-color: $standalone-top-bar-back-color;
+    color: $standalone-top-bar-text-color;
 }    
 
 .vertical-align-center {
@@ -161,10 +157,6 @@
 .top-bar-tool:hover {
     background-color: $body-bg-color;
     color: black;
-}
-
-.top-bar-tool-standalone:hover {
-    background-color: #0147ac;
 }
 
 

@@ -3,6 +3,8 @@
 $default-text-color: #464f59;
 $default-text-color-dark: #e0e0e0;
 
+$standalone-top-bar-text-color: white;
+
 $value-text-color: #1f2327;
 
 
@@ -49,6 +51,9 @@ $border: 1px $border-color solid;
 // Background colors:
 $success-color: #5db300;
 $success-color-faded: rgba($success-color, 0.18);
+
+$standalone-top-bar-back-color: #0058ad;
+$standalone-top-bar-item-hover-color: #0147ac;
 
 $error-color: #e81123;
 $error-color-faded: rgba($error-color, 0.18);

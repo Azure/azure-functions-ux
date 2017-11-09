@@ -1,21 +1,21 @@
 @import '../../sass/common/variables';
 
-.top-bar-tool-standalone {
-    padding: 7px 10px;        
-    color: white;
-    float: right;    
-}
-
-.top-bar-standalone {
-    background-color: #0058ad;
-}    
-
-.vertical-align-center-standalone {
+.top-bar-loginuser-tools-standalone {
+    padding: 7px 10px;     
+    float: right;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.top-bar-tool-standalone:hover {
-    background-color: #0147ac;
+.top-bar-loginuser-tool-standalone:hover {
+    background-color: $standalone-top-bar-item-hover-color;
+}
+
+.top-bar-loginuser-tools-standalone span{
+    margin-left: -5px;
+}
+
+.top-bar-loginuser-tools-standalone span:last-of-type{
+    margin-left: 2px;
 }
