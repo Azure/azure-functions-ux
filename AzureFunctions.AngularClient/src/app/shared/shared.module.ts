@@ -6,6 +6,7 @@ import { TryNowBusyStateComponent } from './../try-now-busy-state/try-now-busy-s
 import { TooltipDirective } from './../tooltip-content/tooltip.directive';
 import { TooltipContentComponent } from './../tooltip-content/tooltip-content.component';
 import { TryNowComponent } from './../try-now/try-now.component';
+import { TopBarStandAloneLoginUserComponent } from './../top-bar-standalone-loginuser/top-bar-standalone-loginuser.component';
 import { GlobalErrorHandler } from './GlobalErrorHandler';
 import { GlobalStateService } from './services/global-state.service';
 import { BackgroundTasksService } from './services/background-tasks.service';
@@ -73,6 +74,7 @@ export function AiServiceFactory() {
     declarations: [
         TopBarComponent,
         TryNowComponent,
+        TopBarStandAloneLoginUserComponent,
         TryNowBusyStateComponent,
         BusyStateComponent,
         MultiDropDownComponent,
@@ -105,6 +107,7 @@ export function AiServiceFactory() {
         MultiDropDownComponent,
         TopBarComponent,
         TryNowComponent,
+        TopBarStandAloneLoginUserComponent,
         TryNowBusyStateComponent,
         BusyStateComponent,
         DropDownComponent,

@@ -13,14 +13,11 @@
             <div *ngIf="!isStandalone" class=" function-information"><h4>{{ appName }} - {{ fnName }}</h4></div>
         </div>
 
-        <div *ngIf="isStandalone"class="top-bar-tools top-bar-tools-standalone right vertical-align-center">
-            <div *ngIf="user"
-                  class="top-bar-tool top-bar-tool-standalone clickable">
-                  <span>{{user.upn}}</span>
-                  <img src="image/Logins/user.svg" />
-            </div>
-        </div>>
-
+        <top-bar-standalone-loginuser
+            *ngIf="isStandalone"
+            [user]="user">
+        </top-bar-standalone-loginuser>
+        
         <div *ngIf="!isStandalone" class="top-bar-tools right vertical-align-center">
             <span *ngIf="user && currentTenant && !inIFrame && !inTab"
                   class="top-bar-tool clickable"

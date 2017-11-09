@@ -1,0 +1,21 @@
+@import '../../sass/common/variables';
+
+.top-bar-tool-standalone {
+    padding: 7px 10px;        
+    color: white;
+    float: right;    
+}
+
+.top-bar-standalone {
+    background-color: #0058ad;
+}    
+
+.vertical-align-center-standalone {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.top-bar-tool-standalone:hover {
+    background-color: #0147ac;
+}
