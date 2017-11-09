@@ -24,7 +24,7 @@
     <input type="text" 
            style="width: 100%"
            [(ngModel)]="functionName"
-           (ngModelChange)="functionNameChanged($event)"
+           (ngModelChange)="functionNameChanged()"
            placeholder="{{ 'functionNew_functionName' | translate }}"
            [ngClass]="{'input-error':!!functionNameError}">
     <pop-over *ngIf="!!functionNameError" 
