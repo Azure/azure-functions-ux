@@ -50,6 +50,8 @@ export class FunctionNewComponent {
     selectedTemplate: FunctionTemplate;
     selectedTemplateId: string;
     action: Action;
+    aadConfigured = true;
+    extensionInstalled = true;
     public disabled: boolean;
     public viewInfo: TreeViewInfo<any>;
 

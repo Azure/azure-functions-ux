@@ -2037,6 +2037,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Enable deployment slots (preview).</value>
+<<<<<<< HEAD
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Known issues:</value>
@@ -2044,6 +2045,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_warning_2" xml:space="preserve">
     <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
   </data>
+=======
+  </data>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Known issues:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
+  </data>
+>>>>>>> dev
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
     <value>Opting into this preview feature will reset any pre-existing secrets. Function secrets can be found under the</value>
   </data>
