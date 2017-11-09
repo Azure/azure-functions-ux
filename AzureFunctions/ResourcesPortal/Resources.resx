@@ -951,14 +951,14 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
-  </data> 
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
   </data>
   <data name="runtimeImage" xml:space="preserve">
     <value>Runtime image</value>
   </data>
-    <data name="runtimeImagev1" xml:space="preserve">
+  <data name="runtimeImagev1" xml:space="preserve">
     <value>V1</value>
   </data>
   <data name="runtimeImagev2" xml:space="preserve">
@@ -1031,7 +1031,7 @@
     <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxies (preview)</value>
+    <value>Proxies</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Enable Azure Functions Proxies (preview)</value>
