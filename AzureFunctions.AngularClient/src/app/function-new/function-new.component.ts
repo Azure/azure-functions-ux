@@ -3,7 +3,7 @@ import { Template } from './../shared/models/template-picker';
 import { DropDownElement } from './../shared/models/drop-down-element';
 import { FunctionsService, FunctionAppContext } from './../shared/services/functions-service';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
-import { Component, ElementRef, Inject, Injector } from '@angular/core';
+import { Component, ElementRef, Inject, Injector, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -37,7 +37,7 @@ interface CategoryOrder {
     outputs: ['functionAdded'],
     inputs: ['viewInfoInput']
 })
-export class FunctionNewComponent {
+export class FunctionNewComponent implements OnDestroy {
     public context: FunctionAppContext;
     private functionsNode: FunctionsNode;
     public functionApp: FunctionApp;
@@ -68,6 +68,7 @@ export class FunctionNewComponent {
     private category = '';
     private language = '';
     private search = '';
+    private _ngUnsubscribe = new Subject();
 
     private _orderedCategoties: CategoryOrder[] =
         [{
@@ -125,8 +126,10 @@ export class FunctionNewComponent {
 
         this.elementRef = elementRef;
         this.disabled = !!_broadcastService.getDirtyState('function_disabled');
+        this.showTryView = this._globalStateService.showTryView;
 
         this._viewInfoStream
+            .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this.viewInfo = viewInfo;
@@ -251,13 +254,6 @@ export class FunctionNewComponent {
                                 this.createCardTemplates[templateIndex].languages.push(`${template.metadata.language}`);
                                 this.createCardTemplates[templateIndex].categories = this.createCardTemplates[templateIndex].categories.concat(template.metadata.category);
                                 this.createCardTemplates[templateIndex].ids.push(`${template.id}`);
-                                // unique categories option 2
-                                // template.metadata.category.forEach(category => {
-                                //   const cat = this.createCardTemplates[templateIndex].categories.find(c => {return c === category;})
-                                //   if (!cat) {
-                                //     this.createCardTemplates[templateIndex].categories.push(category);
-                                //   }
-                                // });
                             }
                         });
 
@@ -281,6 +277,7 @@ export class FunctionNewComponent {
                             return a.displayLabel > b.displayLabel ? 1 : -1;
                         });
 
+                        // order preference defined in constants.ts
                         this.createCardTemplates.sort((a: Template, b: Template) => {
                             let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
                             let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
@@ -301,7 +298,6 @@ export class FunctionNewComponent {
                 });
             });
 
-        this.showTryView = this._globalStateService.showTryView;
         this.language = this._translateService.instant('temp_category_all');
     }
 
@@ -353,7 +349,7 @@ export class FunctionNewComponent {
 
     onScenarioChanged(category: string) {
         this.category = category;
-        this._intersectionOfCards();
+        this._findIntersectionOfCards();
         this._filterOnSearchValue();
     }
 
@@ -365,7 +361,7 @@ export class FunctionNewComponent {
         });
     }
 
-    private _intersectionOfCards() {
+    private _findIntersectionOfCards() {
         if (this.category === this._translateService.instant('temp_category_all') && this.language === this._translateService.instant('temp_category_all')) {
             this.templates = this.createCardTemplates;
         } else if (this.category === this._translateService.instant('temp_category_all')) {
@@ -386,13 +382,13 @@ export class FunctionNewComponent {
 
     onSearchChanged(value: string) {
         this.search = value;
-        this._intersectionOfCards();
+        this._findIntersectionOfCards();
         this._filterOnSearchValue();
     }
 
     onSearchCleared() {
         this.search = '';
-        this._intersectionOfCards();
+        this._findIntersectionOfCards();
     }
 
     validate() {
@@ -418,14 +414,12 @@ export class FunctionNewComponent {
     }
 
     onCardLanguageSelected(functionTemplate: Template, functionLanguage: string) {
-        console.log(functionTemplate.name + ': ' + functionLanguage);
         this.createFunctionTemplate = functionTemplate;
         this.createFunctionLanguage = functionLanguage;
         this.sidePanelOpened = true;
     }
 
     onCardSelected(functionTemplate: Template) {
-        console.log(functionTemplate.name);
         this.createFunctionTemplate = functionTemplate;
         this.createFunctionLanguage = null;
         this.sidePanelOpened = true;
@@ -441,5 +435,9 @@ export class FunctionNewComponent {
 
     quickstart() {
         this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
+    }
+
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 }

@@ -1,4 +1,4 @@
-<ng-sidebar-container style="height:100vh; width:100%;" [animate]="true">
+<ng-sidebar-container class="sidebar-container" [animate]="true">
     
     <div ng-sidebar-content>
         <div class="newfunc-container" >
@@ -13,15 +13,22 @@
                 </div>
 
                 <div class="search-and-sort">
-                        <search-box class="search-box-container" (onInputChange)="onSearchChanged($event)" (onClear)="onSearchCleared()" [placeholder]="'createFunction_search' | translate">
+                        <search-box class="search-box-container" 
+                                    (onInputChange)="onSearchChanged($event)" 
+                                    (onClear)="onSearchCleared()" 
+                                    [placeholder]="'createFunction_search' | translate">
                         </search-box>
             
                         {{ 'templatePicker_language' | translate }}
-                        <drop-down class="tpicker-dropdown" [options]="languages" (value)="onLanguageChanged($event)">
+                        <drop-down class="tpicker-dropdown" 
+                                   [options]="languages" 
+                                   (value)="onLanguageChanged($event)">
                         </drop-down>
             
                         {{ 'templatePicker_scenario' | translate }}
-                        <drop-down class="tpicker-dropdown" [options]="categories" (value)="onScenarioChanged($event)">
+                        <drop-down class="tpicker-dropdown" 
+                                   [options]="categories" 
+                                   (value)="onScenarioChanged($event)">
                         </drop-down>
                 </div>
             
@@ -44,8 +51,17 @@
         </div>
     </div>
 
-    <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="false" [trapFocus]="false"
-                [autoFocus]="true" [sidebarClass]="'sidebar-new-function'" [ariaLabel]="'Create Function'" [animate]="true" [closeOnClickBackdrop]="true" [showBackdrop]="true">
+    <ng-sidebar #sidebar [(opened)]="sidePanelOpened" 
+                         [mode]="'over'" 
+                         [position]="'right'" 
+                         [closeOnClickOutside]="false" 
+                         [trapFocus]="false"
+                         [autoFocus]="true" 
+                         [sidebarClass]="'sidebar-new-function'" 
+                         [ariaLabel]="'Create Function'" 
+                         [animate]="true" 
+                         [closeOnClickBackdrop]="true" 
+                         [showBackdrop]="true">
         
         <sidebar-picker *ngIf="sidePanelOpened" 
                         [functionCardTemplate]="createFunctionTemplate" 

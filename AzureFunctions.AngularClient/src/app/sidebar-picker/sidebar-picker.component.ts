@@ -32,13 +32,10 @@ export class SidebarPickerComponent implements OnInit {
   allInstalled = false;
   autoPickedLanguage = false;
 
-
-
   constructor() {
   }
 
   ngOnInit() {
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -63,9 +60,12 @@ export class SidebarPickerComponent implements OnInit {
               return id === t.id;
             });
         });
+        if (!this.currentTemplate) {
+          return;
+        }
         const runtimeExtensions = this.currentTemplate.metadata.extensions;
         if (runtimeExtensions && runtimeExtensions.length > 0) {
-          this.getRequiredExtensions(runtimeExtensions)
+          this._getRequiredExtensions(runtimeExtensions)
           .subscribe(extensions => {
               this.neededExtensions = extensions;
               this.allInstalled = (this.neededExtensions.length === 0);
@@ -84,7 +84,7 @@ export class SidebarPickerComponent implements OnInit {
     });
   }
 
-  getRequiredExtensions(templateExtensions: RuntimeExtension[]) {
+  private _getRequiredExtensions(templateExtensions: RuntimeExtension[]) {
     const extensions: RuntimeExtension[] = [];
     return this.functionApp.getHostExtensions().map(r => {
         // no extensions installed, all template extensions are required
@@ -108,12 +108,6 @@ export class SidebarPickerComponent implements OnInit {
         return extensions;
     });
   }
-
-  runtimeExtensionInstalled(value: boolean) {
-
-  }
-
-
 
   close() {
     this.closePanel.emit();
