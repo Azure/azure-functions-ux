@@ -37,6 +37,7 @@ import { Subscription } from '../shared/models/subscription';
 import { SiteService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
 import { ScenarioService } from '../shared/services/scenario/scenario.service';
+import { StartupInfo } from '../shared/models/portal';
 
 @Component({
     selector: 'side-nav',
@@ -142,11 +143,8 @@ export class SideNavComponent implements AfterViewInit {
                     .subscribe(term => {
                         this.searchTerm = term;
                     });
-
-                if (this.subscriptionOptions.length === 0) {
-                    this._setupInitialSubscriptions(info.resourceId);
-                }
             }
+            this._updateSubscriptions(info);
             this.initialResourceId = info.resourceId;
             if (this.initialResourceId) {
                 const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.initialResourceId);
@@ -418,53 +416,50 @@ export class SideNavComponent implements AfterViewInit {
         }, 0);
     }
 
-    private _setupInitialSubscriptions(resourceId: string) {
+    private _updateSubscriptions(info: StartupInfo) {
         // Need to set an initial value to force the tree to render with an initial list first.
         // Otherwise the tree won't load in batches of objects for long lists until the entire
         // observable sequence has completed.
         this._subscriptionsStream.next([]);
 
-        this.userService.getStartupInfo()
-            .subscribe(info => {
-                const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
-                const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
-                let descriptor: SiteDescriptor;
+        const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
+        const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
+        let descriptor: SiteDescriptor;
 
-                if (resourceId) {
-                    descriptor = new SiteDescriptor(resourceId);
+        if (info.resourceId) {
+            descriptor = new SiteDescriptor(info.resourceId);
+        }
+
+        let count = 0;
+
+        if (this._subscriptionOptionsInitialized) {
+            this._subscriptionOptionsUpdated = true;
+        }
+        this._subscriptionOptionsInitialized = true;
+        this.subscriptionOptions =
+            info.subscriptions.map(e => {
+                let subSelected: boolean;
+
+                if (descriptor) {
+                    subSelected = descriptor.subscription === e.subscriptionId;
+                } else {
+                    // Multi-dropdown defaults to all of none is selected.  So setting it here
+                    // helps us figure out whether we need to limit the # of initial subscriptions
+                    subSelected =
+                        savedSelectedSubscriptionIds.length === 0
+                        || savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
                 }
 
-                let count = 0;
-
-                if (this._subscriptionOptionsInitialized) {
-                    this._subscriptionOptionsUpdated = true;
+                if (subSelected) {
+                    count++;
                 }
-                this._subscriptionOptionsInitialized = true;
-                this.subscriptionOptions =
-                    info.subscriptions.map(e => {
-                        let subSelected: boolean;
 
-                        if (descriptor) {
-                            subSelected = descriptor.subscription === e.subscriptionId;
-                        } else {
-                            // Multi-dropdown defaults to all of none is selected.  So setting it here
-                            // helps us figure out whether we need to limit the # of initial subscriptions
-                            subSelected =
-                                savedSelectedSubscriptionIds.length === 0
-                                || savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
-                        }
-
-                        if (subSelected) {
-                            count++;
-                        }
-
-                        return {
-                            displayLabel: `${e.displayName}(${e.subscriptionId})`,
-                            value: e,
-                            isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
-                        };
-                    })
-                        .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-            });
+                return {
+                    displayLabel: `${e.displayName}(${e.subscriptionId})`,
+                    value: e,
+                    isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
+                };
+            })
+                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
     }
 }
