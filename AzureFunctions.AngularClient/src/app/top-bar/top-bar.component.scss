@@ -16,6 +16,7 @@
 .logo-standalone{
     @extend .logo;
     font-size: 18px;
+    color: white;
 }
 
 .function-information {
@@ -85,11 +86,20 @@
         height: 100%;
         display: inline-block;
     }
+    .standalone-logo {
+        padding-left: 0px;
+    }
+
 
     .top-bar-tool {
         padding: 7px 10px;
         /*border-left: 1px solid rgba(128,128,128,.4);*/
     }
+
+    .top-bar-tool-standalone {
+        color: white;
+    }
+
 
     .info-azure{
         margin-left: 265px;
@@ -103,6 +113,10 @@
         margin-left: 145px !important;
     }
 }
+
+.top-bar-standalone {
+    background-color: #0058ad;
+}    
 
 .vertical-align-center {
     position: relative;
@@ -148,6 +162,11 @@
     background-color: $body-bg-color;
     color: black;
 }
+
+.top-bar-tool-standalone:hover {
+    background-color: #0147ac;
+}
+
 
 .top-bar-drop-down {
     width: 220px;

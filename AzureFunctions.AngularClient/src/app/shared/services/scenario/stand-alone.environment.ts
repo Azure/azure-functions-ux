@@ -71,6 +71,12 @@ export class StandaloneEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.topBarWarning] = {
+            id: ScenarioIds.topBarWarning,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'disabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
