@@ -1,13 +1,13 @@
-import { AppNode } from './app-node';
+import { BroadcastService } from './../shared/services/broadcast.service';
+import { FunctionAppContext, FunctionsService } from './../shared/services/functions-service';
+import { LogCategories } from './../shared/models/constants';
+import { LogService } from './../shared/services/log.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { AuthzService } from './../shared/services/authz.service';
 import { Observable } from 'rxjs/Observable';
 import { SideNavComponent } from './../side-nav/side-nav.component';
-import { FunctionApp } from './../shared/function-app';
 import { TreeNode } from './tree-node';
-import { reachableInternalLoadBalancerApp } from 'app/shared/Utilities/internal-load-balancer';
-
 
 interface ErrorTitles {
     noAccessTitle: string;
@@ -23,12 +23,21 @@ interface WorkingTitles {
 
 export abstract class BaseFunctionsProxiesNode extends TreeNode {
 
+    protected _logService: LogService;
+    protected _functionsService: FunctionsService;
+    protected _broadcastService: BroadcastService;
+
     constructor(
         sideNav: SideNavComponent,
         resourceId: string,
-        public functionApp: FunctionApp,
-        parentNode: TreeNode) {
-        super(sideNav, resourceId, parentNode);
+        protected _context: FunctionAppContext,
+        parentNode: TreeNode,
+        createResourceId?: string) {
+        super(sideNav, resourceId, parentNode, createResourceId);
+
+        this._logService = sideNav.injector.get(LogService);
+        this._functionsService = sideNav.injector.get(FunctionsService);
+        this._broadcastService = sideNav.injector.get(BroadcastService);
     }
 
     abstract loadChildren(): Observable<any>;
@@ -37,13 +46,14 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
 
     protected abstract _updateTreeForNonUsableState(title: string);
 
-    public baseLoadChildren(workingTitles: WorkingTitles, errorTitles: ErrorTitles) {
-        if (this.functionApp.site.properties.state === 'Running') {
+    public baseLoadChildren(workingTitles: WorkingTitles, errorTitles: ErrorTitles): Observable<any> {
+        if (this._context.site.properties.state === 'Running') {
+            this.isLoading = true;
             return Observable.zip(
-                this.sideNav.authZService.hasPermission(this.functionApp.site.id, [AuthzService.writeScope]),
-                this.sideNav.authZService.hasReadOnlyLock(this.functionApp.site.id),
-                reachableInternalLoadBalancerApp(this.functionApp, this.sideNav.cacheService),
-                this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly),
+                this.sideNav.authZService.hasPermission(this._context.site.id, [AuthzService.writeScope]),
+                this.sideNav.authZService.hasReadOnlyLock(this._context.site.id),
+                this._functionsService.reachableInternalLoadBalancerApp(this._context, this.sideNav.cacheService),
+                this._functionsService.getFunctionAppEditMode(this._context).map(EditModeHelper.isReadOnly),
                 (p, l, r, isReadOnly) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly }))
                 .switchMap(r => {
                     if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly) {
@@ -61,6 +71,12 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                         this.disabledReason = this.sideNav.translateService.instant('You have read only access. Functions require write access to view');
                         return this._updateTreeForNonUsableState(errorTitles.readOnlyTitle);
                     }
+                })
+                .do(() => {
+                    this.isLoading = false;
+                }, err => {
+                    this._logService.error(LogCategories.SideNav, '/base-function-proxies-node/load-children', err);
+                    this.isLoading = false;
                 });
         } else {
             this.disabledReason = this.sideNav.translateService.instant('All functions are stopped. Start your app to view your functions.')
@@ -69,11 +85,7 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
     }
 
     public handleSelection(): Observable<any> {
-        if (!this.disabled) {
-            this.parent.inSelectedTree = true;
-            return (<AppNode>this.parent).initialize();
-        }
-
+        this.parent.inSelectedTree = true;
         return Observable.of({});
     }
 }

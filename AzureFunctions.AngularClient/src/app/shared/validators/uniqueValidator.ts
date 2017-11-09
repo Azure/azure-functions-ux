@@ -1,6 +1,6 @@
 import { Validator, FormArray, FormGroup } from '@angular/forms';
 
-import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
+import { CustomFormGroup, CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 
 /**
  * Used to check if a value is unique in an array of controls.  The layout
@@ -17,7 +17,8 @@ export class UniqueValidator implements Validator {
     constructor(
         private _controlName: string,
         private _controlsArray: FormArray,
-        private _error) {
+        private _error,
+        private _stringTransform?: (s: string) => string) {
     }
 
     validate(control: CustomFormControl) {
@@ -25,18 +26,33 @@ export class UniqueValidator implements Validator {
             return null;
         }
 
+        let controlVal = this._normalizeValue(control.value);
+
         let match = this._controlsArray.controls.find(group => {
-            let cs = (<FormGroup>group).controls;
+            let customFormGroup = group as CustomFormGroup;
+            if (customFormGroup._msExistenceState === 'deleted') {
+                return null;
+            }
+
+            let cs = (group as FormGroup).controls;
             if (!cs) {
                 throw "Validator requires hierarchy of FormArray -> FormGroup -> FormControl";
             }
 
             let c = cs[this._controlName];
+            let cVal = this._normalizeValue(c.value);
 
-            return c !== control
-                && c.value.toString().toLowerCase() === control.value.toString().toLowerCase();
+            return c !== control && cVal === controlVal;
         });
 
         return !!match ? { "notUnique": this._error } : null;
+    }
+
+    private _normalizeValue(value) {
+        let valueString = value ? value.toString().toLowerCase() : null;
+        if (this._stringTransform) {
+            valueString = this._stringTransform(valueString);
+        }
+        return valueString;
     }
 }

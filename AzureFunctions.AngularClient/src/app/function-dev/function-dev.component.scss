@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .dev-full {
     height:100%;
@@ -16,7 +16,6 @@
 }
 
 .control-label {
-    @extend .text-label;
     padding: 8px 0px 5px 0px
 }
 
@@ -72,7 +71,6 @@
 }
 
 .get-url {
-    @extend .text-hl;
     align-self: center;
     padding-left: 10px
 }

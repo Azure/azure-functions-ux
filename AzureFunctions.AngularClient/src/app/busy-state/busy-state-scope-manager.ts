@@ -1,32 +1,32 @@
-import { BusyStateComponent } from './busy-state.component';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { BusyStateEvent } from './../shared/models/broadcast-event';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { Guid } from './../shared/Utilities/Guid';
+import { BusyStateName } from './busy-state.component';
 
 export class BusyStateScopeManager {
 
-  private _busyState: BusyStateComponent;
   private _busyStateKey: string | undefined;
-  private _busyStateSubscription: RxSubscription;
 
-  constructor(busyState: BusyStateComponent) {
-    this._busyState = busyState;
-    this._busyStateSubscription = this._busyState.clear.subscribe(() => this._busyStateKey = null);
+  constructor(
+    private _broadcastService: BroadcastService,
+    private _name: BusyStateName) {
+    this._busyStateKey = Guid.newGuid();
   }
 
   public setBusy() {
-    this._busyStateKey = this._busyState.setScopedBusyState(this._busyStateKey);
+    this._broadcastService.broadcastEvent<BusyStateEvent>(BroadcastEvent.UpdateBusyState, {
+      busyComponentName: this._name,
+      action: 'setBusyState',
+      busyStateKey: this._busyStateKey
+    });
   }
 
   public clearBusy() {
-    this._busyState.clearBusyState(this._busyStateKey);
-    this._busyStateKey = null;
+    this._broadcastService.broadcastEvent<BusyStateEvent>(BroadcastEvent.UpdateBusyState, {
+      busyComponentName: this._name,
+      action: 'clearBusyState',
+      busyStateKey: this._busyStateKey
+    });
   }
-
-  public dispose() {
-    this.clearBusy();
-    if (this._busyStateSubscription) {
-      this._busyStateSubscription.unsubscribe();
-      this._busyStateSubscription = null;
-    }
-  }
-
 }

@@ -1,3 +1,5 @@
+import { VirtualApplication } from './virtual-application';
+
 export interface SiteConfig {
     scmType: string;
     alwaysOn: boolean;
@@ -18,4 +20,14 @@ export interface SiteConfig {
     managedPipelineMode: string;
     remoteDebuggingEnabled: boolean;
     remoteDebuggingVersion: string;
+    defaultDocuments: string[];
+    handlerMappings: [{
+        extension: string;
+        scriptProcessor: string;
+        arguments: string;
+    }];
+    linuxFxVersion: string;
+    appCommandLine: string;
+    virtualApplications: VirtualApplication[];
+    autoSwapSlotName: string;
 }

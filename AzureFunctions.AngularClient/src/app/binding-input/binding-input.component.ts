@@ -13,8 +13,6 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { FunctionApp } from '../shared/function-app';
 import { CacheService } from './../shared/services/cache.service';
-import { AiService } from '../shared/services/ai.service';
-import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 @Component({
     selector: 'binding-input',
@@ -41,8 +39,7 @@ export class BindingInputComponent {
         private _userService: UserService,
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
-        private _cacheService: CacheService,
-        private _aiService: AiService) {
+        private _cacheService: CacheService) {
         this.showTryView = this._globalStateService.showTryView;
     }
 
@@ -86,6 +83,9 @@ export class BindingInputComponent {
             case ResourceType.ServiceBus:
                 this.pickerName = 'ServiceBus';
                 break;
+            case ResourceType.NotificationHub:
+                this.pickerName = 'NotificationHub';
+                break;
             case ResourceType.AppSetting:
                 this.pickerName = 'AppSetting';
                 break;
@@ -116,7 +116,10 @@ export class BindingInputComponent {
         const picker = <PickerInput>this.input;
         picker.inProcess = true;
 
-        if (this.pickerName !== 'EventHub' && this.pickerName !== 'ServiceBus' && this.pickerName !== 'AppSetting') {
+        if (this.pickerName !== 'EventHub' &&
+            this.pickerName !== 'ServiceBus' &&
+            this.pickerName !== 'AppSetting' &&
+            this.pickerName !== 'NotificationHub') {
 
             this._globalStateService.setBusyState(this._translateService.instant(PortalResources.resourceSelect));
 
@@ -137,23 +140,6 @@ export class BindingInputComponent {
                         this.finishResourcePickup(appSettingName, picker);
                     });
             }
-        }
-
-        if (this.pickerName === 'AppSetting' && input.id === 'PrincipalId') {
-            const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-            helper.openLogin(picker).then(values => {
-                this._globalStateService.setBusyState();
-                this.functionApp.createApplicationSetting(values.appSettingName, values.OID).subscribe(
-                    () => {
-                        this._globalStateService.clearBusyState();
-                        this.finishResourcePickup(values.appSettingName, input); // set selected drop-down item to app setting just created
-                    },
-                    error => {
-                        this._globalStateService.clearBusyState();
-                        this._aiService.trackException(error, 'Binding Input component - createApplicationSetting()');
-                    }
-                );
-            });
         }
     }
 

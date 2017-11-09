@@ -21,6 +21,7 @@ export class BindingInputBase<T>
     explicitSave: boolean = false;
 
     isDisabled: boolean = false;
+    showHelp: boolean = false;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{

@@ -1,57 +1,138 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
-.switch {
+[role="radiogroup"] {
     position: relative;
     display: inline-block;
     height: 25px;
-    background: #ccc;
 
-    &.disabled {
-        background: $background-color-disabled;
+    &:focus {
+        outline: none;
     }
 }
 
-.switch-label {
+$border-light: 1px $primary-color solid;
+
+[role="radio"] {
+    display: block;
+    border-top: $border-light;
+    border-left: $border-light;
+    border-bottom: $border-light;
+    border-right: $border-light;
     position: relative;
     z-index: 2;
     float: left;
     line-height: 25px;
     font-size: 11px;
-    color: #f2f2f2;
     text-align: center;
     cursor: pointer;
     padding-left: 20px;
     padding-right: 20px;
+    color: $primary-color;
+
+    background: $body-bg-color;
 }
 
-.switch-input {
-    display: none;
+[role="radio"] ~ [role="radio"] {
+    border-left-width: 0px;
 }
-    .switch-input:checked + .switch-label {
-        font-weight: bold;
-        color: white;
+
+[role="radiogroup"]:not([aria-disabled="true"]):focus {
+    [role="radio"][aria-checked="true"] {
+        outline: $border-focus;
+    }
+}
+
+[role="radiogroup"]:not([aria-disabled="true"]) {
+    [role="radio"]:hover {
+        background-color: $item-hover-color;
+        color: $primary-color;
+    }
+    
+    [role="radio"][aria-checked="true"] {
+        background-color: $primary-color;
+        color: $body-bg-color;
+    }
+    
+    &.dirty {
+        [role="radio"][aria-checked="true"] {
+            background-color: $alt1-color;
+        }
+    }
+}
+
+[role="radiogroup"][aria-disabled="true"] {
+    [role="radio"] {
+        border-color: $disabled-color;
+        color: $disabled-color;
+
+        &:hover {
+            cursor: default;
+        }
     }
 
-.selected {
-    display: block;
-    z-index: 1;
-    background: $primary-color;
+    [role="radio"][aria-checked="true"] {
+        background: $background-color-disabled;
+    }
+    
+    &.dirty {
+        [role="radio"][aria-checked="true"] {
+            background: $background-color-disabled;
+            color: $alt1-color-faded;
+        }
+    }
 }
 
-.disabled {
-   .selected {
-        background: $primary-color-faded;
-    } 
-}
+:host-context(#app-root[theme=dark]){
+    $border-dark: 1px $primary-color-dark solid;
 
-.dirty {
-    .selected {
-        background: $alt1-color;
+    [role="radio"] {
+        border-top: $border-dark;
+        border-left: $border-dark;
+        border-bottom: $border-dark;
+        border-right: $border-dark;
+        color: $primary-color-dark;
+
+        background: $body-bg-color-dark;
     }
 
-    &.disabled {
-        .selected {
-            background: $alt1-color-faded;
+    [role="radio"] ~ [role="radio"] {
+        border-left-width: 0px;
+    }
+
+    [role="radiogroup"]:not([aria-disabled="true"]) {
+        [role="radio"]:hover {
+            background-color: $item-hover-color-dark;
+            color: $primary-color-dark;
+        }
+        
+        [role="radio"][aria-checked="true"] {
+            background-color: $primary-color-dark;
+            color: $body-bg-color-dark;
+        }
+        
+        &.dirty {
+            [role="radio"][aria-checked="true"] {
+                background-color: $alt1-color-faded;
+            }
+        }
+    }
+
+    [role="radiogroup"][aria-disabled="true"] {
+        [role="radio"] {
+            border-color: $disabled-color-dark;
+            color: $disabled-color-dark;
+        }
+
+        [role="radio"][aria-checked="true"] {
+            background: $background-color-disabled;
+            color: $disabled-color;
+        }
+        
+        &.dirty {
+            [role="radio"][aria-checked="true"] {
+                background: $background-color-disabled;
+                color: $alt1-color-faded;
+            }
         }
     }
 }

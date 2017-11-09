@@ -1,3 +1,9 @@
+import { Subject } from 'rxjs/Subject';
+import { LogCategories } from './../models/constants';
+import { LogService } from './log.service';
+import { Observable } from 'rxjs/Observable';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { DirtyStateEvent } from './../models/broadcast-event';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
@@ -5,7 +11,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { FunctionInfo } from '../models/function-info';
 import { TutorialEvent } from '../models/tutorial';
 import { ErrorEvent } from '../models/error-event';
-import { BroadcastEvent } from '../models/broadcast-event';
+
+interface EventInfo<T> {
+    eventType: BroadcastEvent;
+    obj: T;
+}
 
 @Injectable()
 export class BroadcastService {
@@ -17,15 +27,15 @@ export class BroadcastService {
     private integrateChangedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private errorEvent: EventEmitter<ErrorEvent>;
-    private dirtyStateEvent: EventEmitter<DirtyStateEvent>;
     private trialExpired: EventEmitter<void>;
     private resetKeySelection: EventEmitter<FunctionInfo>;
-    private openTabEvent: EventEmitter<string>;
     private clearErrorEvent: EventEmitter<string>;
     private dirtyStateMap: { [key: string]: string } = {};
     private defaultDirtyReason = 'global';
 
-    constructor() {
+    private _streamMap: { [key: string]: Subject<EventInfo<any>> } = {};
+
+    constructor(private _logService: LogService) {
         this.functionDeletedEvent = new EventEmitter<FunctionInfo>();
         this.functionAddedEvent = new EventEmitter<FunctionInfo>();
         this.functionSelectedEvent = new EventEmitter<FunctionInfo>();
@@ -37,22 +47,54 @@ export class BroadcastService {
         this.functionNewEvent = new EventEmitter<any>();
         this.resetKeySelection = new EventEmitter<FunctionInfo>();
         this.clearErrorEvent = new EventEmitter<string>();
-        this.openTabEvent = new EventEmitter<string>();
-        this.dirtyStateEvent = new EventEmitter<DirtyStateEvent>();
+
+        // Busy state events have separate categories for each event, so I set a high
+        // upper limit so that we don't lose events.
+        this._streamMap[BroadcastEvent.UpdateBusyState] = new ReplaySubject(128);
+        this._streamMap[BroadcastEvent.TreeNavigation] = new ReplaySubject(1);
+        this._streamMap[BroadcastEvent.TreeUpdate] = new Subject();
+        this._streamMap[BroadcastEvent.OpenTab] = new ReplaySubject(1);
+        this._streamMap[BroadcastEvent.DirtyStateChange] = new ReplaySubject(1);
+        this._streamMap[BroadcastEvent.UpdateAppsList] = new ReplaySubject(1);
     }
 
+    // DEPRECATED - Use broadcastEvent
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
         var emitter = <EventEmitter<T>>this.getEventEmitter(eventType);
         emitter.emit(obj);
     }
 
+    // DEPRECATED - Use getEvents
     subscribe<T>(eventType: BroadcastEvent, callback: (obj?: T) => void, errorCallback?: (obj: any) => void, completedCallback?: (obj: any) => void): Subscription {
         var emitter = <EventEmitter<T>>this.getEventEmitter(eventType);
         return emitter.subscribe(callback, errorCallback, completedCallback);
     }
 
+    broadcastEvent<T>(eventType: BroadcastEvent, obj?: T) {
+        const subject = this._streamMap[eventType];
+        if (!subject) {
+            throw Error(`EventType ${BroadcastEvent[eventType]} not found`);
+        }
+
+        subject.next({
+            eventType: eventType,
+            obj: obj
+        });
+    }
+
+    getEvents<T>(eventType: BroadcastEvent): Observable<T> {
+        const subject = this._streamMap[eventType];
+        if (!subject) {
+            throw Error(`EventType ${BroadcastEvent[eventType]} not found`);
+        }
+
+        return subject
+            .do(e => this._logService.verbose(LogCategories.broadcastService, BroadcastEvent[e.eventType]))
+            .map(e => <T>e.obj);
+    }
+
     setDirtyState(reason?: string) {
-        this.broadcast<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: true, reason: reason });
+        this.broadcastEvent<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: true, reason: reason });
 
         reason = reason || this.defaultDirtyReason;
         this.dirtyStateMap[reason] = reason;
@@ -65,7 +107,7 @@ export class BroadcastService {
             return;
         }
 
-        this.broadcast<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: false, reason: reason });
+        this.broadcastEvent<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: false, reason: reason });
         delete this.dirtyStateMap[reason];
     }
 
@@ -78,7 +120,7 @@ export class BroadcastService {
     }
 
     clearAllDirtyStates() {
-        this.broadcast<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: false, reason: null });
+        this.broadcastEvent<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: false, reason: null });
         this.dirtyStateMap = {};
     }
 
@@ -94,6 +136,7 @@ export class BroadcastService {
 
     getEventEmitter(eventType: BroadcastEvent): any {
         switch (eventType) {
+
             case BroadcastEvent.FunctionDeleted:
                 return this.functionDeletedEvent;
 
@@ -123,11 +166,7 @@ export class BroadcastService {
             case BroadcastEvent.ClearError:
                 return this.clearErrorEvent;
 
-            case BroadcastEvent.OpenTab:
-                return this.openTabEvent;
 
-            case BroadcastEvent.DirtyStateChange:
-                return this.dirtyStateEvent;
         }
     }
 }

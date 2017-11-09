@@ -1,0 +1,92 @@
+@import '../../sass/common/variables';
+
+.headerBox{
+    width: 100%;
+    height: 40px;
+    text-align: left;
+    color: #000000;
+    font-size: 14px;
+    line-height: 37px;
+    margin-bottom: 20px;
+    img {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        margin-right: 15px;
+        float: left;
+        padding: 5px;
+    }
+}
+
+.content {
+    font-size: 12px;
+    margin: 32px;
+    padding-right: 50px;
+}
+
+p {
+    margin-bottom: 8px;
+    padding-top: 20px;
+}
+
+.custom-button {
+    margin-left: 0px;
+    margin-top: 20px;
+}
+
+.custom-button-invert {
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.alert-notice {
+    margin-top: 20px;
+    margin-bottom: 0px;
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    padding: 15px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.control-label{
+    text-align: left;
+    padding-left: 0px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 8px;
+}
+
+.input-header {
+    display: flex;
+    width: 300px;
+    margin-top: 5px;
+}
+
+.input-header label {
+    flex-grow: 1;
+}
+
+.input-header span {
+    margin-bottom: 4px;
+    align-self: flex-end;
+}
+
+input.input-error {
+    padding-right:25px;
+}
+
+.input-error-adjust {
+    float: right;
+    margin-top: -25px;
+    margin-right: -13px;
+}

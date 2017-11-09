@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -96,10 +96,12 @@ namespace AzureFunctions
             var isAuthenticated = route != null && (route.Values["authenticated"] == null || (bool)route.Values["authenticated"]);
             // In some cases, context.Request.RawUrl may not be populated, but context.Request.UrlReferrer will be populated.
             // context.Request.UrlReferrer = null evals to true, is okay in this case
-            var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
+            //var isTryPageRequested = context.Request.RawUrl.EndsWith("/try", StringComparison.OrdinalIgnoreCase);
+
+            var isTryPageRequested = context.Request.Params["trial"] == "true";
+            //var isTryPageRequested = context.Request.RawUrl.Split(new char[] {'?'})[0].EndsWith("/try", StringComparison.OrdinalIgnoreCase);
 
             if (!isFile              //skip auth for files
-                && runtimeType != RuntimeType.Standalone   // Skip auth for Standalone mode
                 && !isTryPageRequested  //when requesting /try users can be unauthenticated
                 && !SecurityManager.TryAuthenticateRequest(context)) // and if the user is not loggedon
             {
@@ -114,7 +116,7 @@ namespace AzureFunctions
                     context.Response.StatusCode = 302;
                     context.Response.End();
                 }
-            } 
+            }
         }
 
         private IContainer InitAutofacContainer()
@@ -232,14 +234,14 @@ namespace AzureFunctions
         private void RegisterRoutes(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute("list-templates", "api/templates", new { controller = "AzureFunctions", action = "ListTemplates", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = false}, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-binding-config", "api/bindingconfig", new { controller = "AzureFunctions", action = "GetBindingConfig", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("list-tenants", "api/tenants", new { controller = "ARM", action = "GetTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("switch-tenants", "api/switchtenants/{tenantId}/{*path}", new { controller = "ARM", action = "SwitchTenants", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true}, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-token", "api/token", new { controller = "ARM", action = "GetToken", authenticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("report-client-error", "api/clienterror", new { controller = "AzureFunctions", action = "ReportClientError", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
-            config.Routes.MapHttpRoute("get-resources", "api/resources", new { controller = "AzureFunctions", action = "GetResources", authenticated = false}, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
+            config.Routes.MapHttpRoute("get-resources", "api/resources", new { controller = "AzureFunctions", action = "GetResources", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
             config.Routes.MapHttpRoute("get-latest-runtime", "api/latestruntime", new { controller = "AzureFunctions", action = "GetLatestRuntime", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
@@ -247,6 +249,8 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
 
             config.Routes.MapHttpRoute("passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "PassThrough", authrnticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+
+            config.Routes.MapHttpRoute("get-runtime-token", "api/runtimeToken/{*armId}", new { controller = "AzureFunctions", action = "GetRuntimeToken", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
         }
     }
 }

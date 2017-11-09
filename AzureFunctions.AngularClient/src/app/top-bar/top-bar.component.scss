@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 /* top-bar styles */
 .logo {
@@ -70,6 +70,8 @@
     background-color: #E6E7E8;
     color: $primary-color;
     height: $top-bar-height;
+    position: relative;
+    z-index: 1;
 
     .left {
         float: left;

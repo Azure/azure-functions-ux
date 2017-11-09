@@ -21,7 +21,7 @@ function ExecuteTemplatesBuild($buildRoot, $outPath) {
         }
 
         # Copy over the contents from build output to App_data
-        $portalOutputFolder = Join-Path $buildRoot -ChildPath "Functions.Templates\bin\Portal\release\Azure.Functions.Templates.Portal\*"
+        $portalOutputFolder = Join-Path $buildRoot -ChildPath "Functions.Templates\bin\Portal\release\Azure.Functions.Ux.Templates\*"
         Remove-Item $outPath -Recurse -Force
         New-Item $outPath -Type Directory
         Copy-Item $portalOutputFolder $outPath -Recurse -Force 
@@ -81,41 +81,30 @@ try {
     Set-Location $defaultTemplatesBinDirectory
     ExecuteTemplatesBuild $defaultTemplatesBinDirectory $siteDefaultTemplates
 
-    # Only get tags for staging environment
-    if ($Env:FUNCTIONS_SLOT_NAME -eq "staging") {
-        foreach ($tag in $response) {                        
-            $siteTemplatesTagDirectory = $siteTemplates + "\" + $tag.name
+    # Only get tags for staging environment    
+    foreach ($tag in $response) {                        
+        $siteTemplatesTagDirectory = $siteTemplates + "\" + $tag.name
 
-            $tagNumber = 0;
-            # For tags 1 and above run the template build if present
-            if ([decimal]::TryParse($tag.name, [ref] $tagNumber) -and $tagNumber -ge 1) {
-                $tagBuildDirectory = $binDirectory + $tag.name
-                if (!(Test-Path -Path $tagBuildDirectory -PathType Container)) {
-                    Start-Process git -ArgumentList "clone $repoUrl $tagBuildDirectory" -NoNewWindow -Wait
-                }
-
-                Set-Location $tagBuildDirectory
-                Start-Process git -ArgumentList "fetch origin" -NoNewWindow -Wait
-                Start-Process git -ArgumentList "fetch origin --tags" -NoNewWindow -Wait
-                $sha = $tag.commit.sha
-                Start-Process git -ArgumentList "reset --hard $sha" -NoNewWindow -Wait                
-                ExecuteTemplatesBuild $tagBuildDirectory $siteTemplatesTagDirectory            
+        $tagNumber = 0;
+        # For tags 1 and above run the template build if present
+        if ($tag.name -eq "beta" -or 
+            ($Env:FUNCTIONS_SLOT_NAME -eq "staging" -and 
+            [decimal]::TryParse($tag.name, [ref] $tagNumber) -and 
+            $tagNumber -ge 1)
+        ) {
+            $tagBuildDirectory = $binDirectory + $tag.name
+            if (!(Test-Path -Path $tagBuildDirectory -PathType Container)) {
+                Start-Process git -ArgumentList "clone $repoUrl $tagBuildDirectory" -NoNewWindow -Wait
             }
-            # For other tags just clone into app_data folder
-            else {
-                if (!(Test-Path -Path $siteTemplatesTagDirectory -PathType Container)) {
-                    Start-Process git -ArgumentList "clone $repoUrl $siteTemplatesTagDirectory" -NoNewWindow -Wait
-                }
 
-                cd $siteTemplatesTagDirectory
-                Start-Process git -ArgumentList "fetch origin" -NoNewWindow -Wait
-                Start-Process git -ArgumentList "fetch origin --tags" -NoNewWindow -Wait
-                $sha = $tag.commit.sha
-                Start-Process git -ArgumentList "reset --hard $sha" -NoNewWindow -Wait
-                cd $siteTemplates
-            }        
-        }
-    }
+            Set-Location $tagBuildDirectory
+            Start-Process git -ArgumentList "fetch origin" -NoNewWindow -Wait
+            Start-Process git -ArgumentList "fetch origin --tags" -NoNewWindow -Wait
+            $sha = $tag.commit.sha
+            Start-Process git -ArgumentList "reset --hard $sha" -NoNewWindow -Wait                
+            ExecuteTemplatesBuild $tagBuildDirectory $siteTemplatesTagDirectory            
+        }        
+    }   
 }
 catch {    
     Write-Output $_.Exception|format-list -force

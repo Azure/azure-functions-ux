@@ -1,33 +1,33 @@
-<busy-state name="try-functions"></busy-state>
+<busy-state name="try-functions" cssClass="try-functions"></busy-state>
 <top-bar gettingStarted="true" isTry="true"></top-bar>
 <div class="trylanding-container">
     <div [ngClass]="busyState?.busy? 'trylanding-body-disabled' : 'trylanding-body'">
-        <h2>{{ 'intro_getStarted' | translate }}</h2>
-        <h3>{{ 'intro_chooseScenario' | translate }}</h3>
+        <h1>{{ 'intro_getStarted' | translate }}</h1>
+        <h2>{{ 'intro_chooseScenario' | translate }}</h2>
         <div>
             <div class="trylanding-template"
                  (click)="onFunctionClicked('HttpTrigger')"
                  [class.trylanding-template-selected]="selectedFunction === 'HttpTrigger'">
 
-                <div><img src="images/webhook-api-template.svg" /></div>
+                <div><img src="image/webhook-api-template.svg" /></div>
                 <div>{{ 'intro_webHook' | translate }}</div>
             </div>
             <div class="trylanding-template"
                  (click)="onFunctionClicked('TimerTrigger')"
                  [class.trylanding-template-selected]="selectedFunction === 'TimerTrigger'">
 
-                <div><img src="images/timer-template.svg" /></div>
+                <div><img src="image/timer-template.svg" /></div>
                 <div>{{ 'intro_timer' | translate }}</div>
             </div>
             <div class="trylanding-template"
                  (click)="onFunctionClicked('QueueTrigger')"
                  [class.trylanding-template-selected]="selectedFunction === 'QueueTrigger'">
 
-                <div><img src="images/data-process-template.svg" /></div>
+                <div><img src="image/data-process-template.svg" /></div>
                 <div>{{ 'intro_dataProcessing' | translate}}</div>
             </div>
         </div>
-        <h3>{{ 'intro_chooseLanguage' | translate }}</h3>
+        <h2>{{ 'intro_chooseLanguage' | translate }}</h2>
         <div class="trylanding-lang-container">
             <div class="trylanding-template-lang"
                  (click)="onLanguageClicked('CSharp')"

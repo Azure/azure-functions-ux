@@ -11,19 +11,29 @@ namespace AzureFunctions.Authentication
         private static readonly ISettings _settings;
         private static readonly IAuthProvider _frontEndAuthProvider;
         private static readonly IAuthProvider _localhostAuthProvider;
+        private static readonly IAuthProvider _standaloneAuthProvider;
 
         static SecurityManager()
         {
             _settings = new Settings();
             _frontEndAuthProvider = new FrontEndAuthProvider(_settings);
             _localhostAuthProvider = new LocalhostAuthProvider(_settings);
+            _standaloneAuthProvider = new StandaloneAuthProvider(_settings);
         }
 
         private static IAuthProvider GetAuthProvider(HttpContextBase context)
         {
-            return context.Request.Url.IsLoopback || _settings.RuntimeType == RuntimeType.OnPrem
-                ? _localhostAuthProvider
-                : _frontEndAuthProvider;
+            if (_settings.RuntimeType == RuntimeType.Standalone)
+            {
+                return _standaloneAuthProvider;
+            }
+
+            if (context.Request.Url.IsLoopback || _settings.RuntimeType == RuntimeType.OnPrem)
+            {
+                return _localhostAuthProvider;
+            }
+               
+            return _frontEndAuthProvider;
         }
 
         public static bool TryAuthenticateRequest(HttpContextBase context)
@@ -43,20 +53,39 @@ namespace AzureFunctions.Authentication
 
         public static void HandleTryAppServiceResponse(HttpContextBase context)
         {
-            if (context.Request.RawUrl.StartsWith("/try") && context.Request.Params["cookie"] != null)
+            // Try scenario's used to require a /try path but we changed it to a query string instead.
+            if (context.Request.RawUrl.StartsWith("/try") && HttpUtility.ParseQueryString(context.Request.Url.Query)["trial"] != "true")
             {
-                var tryAppServiceToken = context.Request.Params["cookie"];
-                var state = context.Request.Params["state"];
-                var uri = new Uri(state);
-                var querystring = uri.ParseQueryString();
-                context.Response.SetCookie(new HttpCookie("TryAppServiceToken", tryAppServiceToken));
-                context.Response.SetCookie(new HttpCookie("templateId", querystring["templateId"]));
-                context.Response.SetCookie(new HttpCookie("provider", querystring["provider"]));
-                context.Response.SetCookie(new HttpCookie("functionName", querystring["functionName"]));
-                context.Response.RedirectLocation = "/try";
+                context.Response.RedirectLocation = "/?trial=true";
                 context.Response.StatusCode = 302;
                 context.Response.End();
             }
+            else if (context.Request.Params["cookie"] != null)
+            {
+                var state = context.Request.Params["state"];
+
+                if (!string.IsNullOrEmpty(state)
+                    && String.Equals(HttpUtility.ParseQueryString(state)["trial"], "true", StringComparison.OrdinalIgnoreCase))
+                {
+                    var tryAppServiceToken = context.Request.Params["cookie"];
+                    var uri = new Uri(state);
+                    var querystring = uri.ParseQueryString();
+                    context.Response.SetCookie(SetCookieExpiry(new HttpCookie("TryAppServiceToken", tryAppServiceToken)));
+                    context.Response.SetCookie(SetCookieExpiry(new HttpCookie("templateId", querystring["templateId"])));
+                    context.Response.SetCookie(SetCookieExpiry(new HttpCookie("provider", querystring["provider"])));
+                    context.Response.SetCookie(SetCookieExpiry(new HttpCookie("functionName", querystring["functionName"])));
+                    context.Response.RedirectLocation = "/?trial=true";
+                    context.Response.StatusCode = 302;
+                    context.Response.End();
+
+                }
+            }
+        }
+
+        private static HttpCookie SetCookieExpiry(HttpCookie httpCookie)
+        {
+            httpCookie.Expires = DateTime.Now.AddHours(1);
+            return httpCookie;
         }
     }
 }

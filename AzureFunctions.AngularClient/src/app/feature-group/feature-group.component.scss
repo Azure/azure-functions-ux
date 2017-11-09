@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .feature-group-header{
     margin-bottom: 5px;
@@ -17,22 +17,18 @@
         text-overflow: ellipsis;
     }
 
-    img{
-        height: 16px;
-        width: 16px;
+    .icon-small{
         vertical-align: middle;
         margin-bottom: 2px;
         margin-left: 3px;
     }
 
-    img.super-icon{
+    .icon-super{
+        display: inline-block;
         vertical-align: top;
+        margin-top: -3px;
         height: 14px;
         width: 14px;
-    }
-
-    &:hover{
-        background-color: $chrome-color;
     }
 
     .feature-group-result-title{
@@ -56,4 +52,13 @@
 
 .feature-group-disabled{
     color: darken($chrome-color, 30%);
+}
+
+:host-context(#app-root[theme=dark]){
+    .feature-group-item{
+        .feature-group-result-title a{
+            background-color: $highlight-text-color;
+            color: $primary-color;
+        }
+    }
 }

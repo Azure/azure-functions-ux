@@ -56,7 +56,8 @@ export class BindingManager {
                     direction: direction,
                     enabledInTryMode: false,
                     settings: [],
-                    displayName: bindingConfig ? bindingConfig.displayName : ''
+                    displayName: bindingConfig ? bindingConfig.displayName : '',
+                    AADPermissions: bindingConfig ? bindingConfig.AADPermissions : null
                 };
 
                 // Copy binding level settings
@@ -138,7 +139,9 @@ export class BindingManager {
             direction: direction,
             enabledInTryMode: false,
             settings: [],
-            displayName: schema.displayName
+            displayName: schema.displayName,
+            AADPermissions: schema.AADPermissions,
+            extension: schema.extension
         };
 
 

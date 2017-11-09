@@ -1,8 +1,8 @@
+import { BroadcastService } from './../../shared/services/broadcast.service';
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
-import { BusyStateComponent } from './../../busy-state/busy-state.component';
 import { UserService } from './../../shared/services/user.service';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Input } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -15,13 +15,12 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { ConfigService } from './../../shared/services/config.service';
 import { FunctionApp } from './../../shared/function-app';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
-import { AvailabilityStates, KeyCodes, ScenarioIds } from './../../shared/models/constants';
+import { AvailabilityStates, KeyCodes, ScenarioIds, LogCategories } from './../../shared/models/constants';
 import { Availability } from './../site-notifications/notifications';
 import { AiService } from './../../shared/services/ai.service';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
@@ -29,12 +28,15 @@ import { AppNode } from './../../tree-view/app-node';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { ArmService } from './../../shared/services/arm.service';
 import { GlobalStateService } from './../../shared/services/global-state.service';
+import { LogService } from './../../shared/services/log.service';
+import { Router } from '@angular/router';
+import { Url } from './../../shared/Utilities/url';
 
 import { CacheService } from '../../shared/services/cache.service';
 import { AuthzService } from '../../shared/services/authz.service';
 import { SiteDescriptor } from '../../shared/resourceDescriptors';
 import { Site } from '../../shared/models/arm/site';
-import { SlotsService } from '../../shared/services/slots.service';
+import { SiteService } from '../../shared/services/slots.service';
 
 interface DataModel {
     hasWritePermission: boolean;
@@ -46,8 +48,7 @@ interface DataModel {
 @Component({
     selector: 'site-summary',
     templateUrl: './site-summary.component.html',
-    styleUrls: ['./site-summary.component.scss'],
-    inputs: ['viewInfoInput']
+    styleUrls: ['./site-summary.component.scss']
 })
 
 export class SiteSummaryComponent implements OnDestroy {
@@ -78,7 +79,8 @@ export class SiteSummaryComponent implements OnDestroy {
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
-    private _busyState: BusyStateComponent;
+
+    private _busyManager: BusyStateScopeManager;
 
     constructor(
         private _cacheService: CacheService,
@@ -90,13 +92,16 @@ export class SiteSummaryComponent implements OnDestroy {
         private _domSanitizer: DomSanitizer,
         public ts: TranslateService,
         private _configService: ConfigService,
-        private _slotService: SlotsService,
+        private _slotService: SiteService,
+        private _logService: LogService,
+        private _router: Router,
         userService: UserService,
-        siteTabComponent: SiteTabComponent,
-        scenarioService: ScenarioService) {
+        private _scenarioService: ScenarioService,
+        broadcastService: BroadcastService) {
 
         this.isStandalone = _configService.isStandalone();
-        this._busyState = siteTabComponent.busyState;
+
+        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
         userService.getStartupInfo()
             .first()
@@ -112,7 +117,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     timerId: 'TreeViewLoad',
                     timerAction: 'stop'
                 });
-                this._busyState.setBusyState();
+                // this._busyState.setBusyState();
                 return this._cacheService.getArm(viewInfo.resourceId);
 
             })
@@ -137,7 +142,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this.location = site.location;
                 this.state = site.properties.state;
-                this.stateIcon = this.state === 'Running' ? 'images/success.svg' : 'images/stopped.svg';
+                this.stateIcon = this.state === 'Running' ? 'image/success.svg' : 'image/stopped.svg';
 
 
                 this.availabilityState = null;
@@ -148,12 +153,12 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 const serverFarm = site.properties.serverFarmId.split('/')[8];
                 this.plan = `${serverFarm} (${site.properties.sku.replace('Dynamic', 'Consumption')})`;
-                this._isSlot = SlotsService.isSlot(site.id);
+                this._isSlot = SiteService.isSlot(site.id);
 
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
                 this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
-                this.hideAvailability = scenarioService.checkScenario(ScenarioIds.showSiteAvailability, {site: site}).status === 'disabled';
+                this.hideAvailability = this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, {site: site}).status === 'disabled';
 
                 // Go ahead and assume write access at this point to unveal everything. This allows things to work when the RBAC API fails and speeds up reveal. In
                 // cases where this causes a false positive, the backend will take care of giving a graceful failure.
@@ -214,7 +219,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 return Observable.of(res);
             })
             .do(null, e => {
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
 
                 if (!this._globalStateService.showTryView) {
                     this._aiService.trackException(e, 'site-summary');
@@ -239,7 +244,7 @@ export class SiteSummaryComponent implements OnDestroy {
         return this._globalStateService.showTryView;
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
+    @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         if (!viewInfo) {
             return;
         }
@@ -327,7 +332,7 @@ export class SiteSummaryComponent implements OnDestroy {
         if (confirmResult) {
 
             let notificationId = null;
-            this._busyState.setBusyState();
+            this._busyManager.setBusy();
             this._portalService.startNotification(
                 this.ts.instant(PortalResources.siteSummary_resetProfileNotifyTitle),
                 this.ts.instant(PortalResources.siteSummary_resetProfileNotifyTitle))
@@ -337,14 +342,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     return this._armService.post(`${this.site.id}/newpassword`, null);
                 })
                 .subscribe(() => {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         true,
                         this.ts.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
                 },
                 e => {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         false,
@@ -365,7 +370,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
         const confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_restartConfirmation).format(this.site.name));
         if (confirmResult) {
-            this._busyState.setBusyState();
+            this._busyManager.setBusy();
 
             this._portalService.startNotification(
                 this.ts.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name),
@@ -376,14 +381,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     return this._armService.post(`${site.id}/restart`, null);
                 })
                 .subscribe(() => {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         true,
                         this.ts.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
                 },
                 e => {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         false,
@@ -440,15 +445,15 @@ export class SiteSummaryComponent implements OnDestroy {
                 this.availabilityMesg = this.ts.instant(PortalResources.notApplicable);
                 break;
             case AvailabilityStates.unavailable:
-                this.availabilityIcon = 'images/error.svg';
+                this.availabilityIcon = 'image/error.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
             case AvailabilityStates.available:
-                this.availabilityIcon = 'images/success.svg';
+                this.availabilityIcon = 'image/success.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.available);
                 break;
             case AvailabilityStates.userinitiated:
-                this.availabilityIcon = 'images/info.svg';
+                this.availabilityIcon = 'image/info.svg';
                 this.availabilityMesg = this.ts.instant(PortalResources.notAvailable);
                 break;
 
@@ -466,7 +471,7 @@ export class SiteSummaryComponent implements OnDestroy {
             ? this.ts.instant(PortalResources.siteSummary_stopNotifyTitle).format(site.name)
             : this.ts.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
 
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
 
         this._portalService.startNotification(notifyTitle, notifyTitle)
             .first()
@@ -501,7 +506,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
                     : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
 
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
                 this._portalService.stopNotification(
                     notificationId,
                     false,
@@ -521,6 +526,10 @@ export class SiteSummaryComponent implements OnDestroy {
     }
 
     openDeleteBlade() {
+        if (this._scenarioService.checkScenario(ScenarioIds.deleteAppDirectly).status === 'enabled') {
+            this.deleteAppDirectly();
+            return;
+        }
         this._portalService.openBlade({
             detailBlade: 'AppDeleteBlade',
             detailBladeInputs: { resourceUri: this.site.id }
@@ -529,6 +538,23 @@ export class SiteSummaryComponent implements OnDestroy {
         );
     }
 
+    private deleteAppDirectly() {
+        const appNode = <AppNode>this._viewInfo.node;
+        const appsNode = appNode.parent;
+        appsNode.select(true);
+
+        this._busyManager.setBusy();
+        this._cacheService.deleteArm(this.site.id, true)
+            .subscribe(r => {
+                this._busyManager.clearBusy();
+                appsNode.refresh();
+                this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
+            }, err => {
+                this._logService.error(LogCategories.subsCriptions, '/delete-app', err);
+                this._busyManager.clearBusy();
+                this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
+            });
+    }
     onKeyPress(event: KeyboardEvent, header: string) {
         if (event.keyCode === KeyCodes.enter) {
             switch (header) {

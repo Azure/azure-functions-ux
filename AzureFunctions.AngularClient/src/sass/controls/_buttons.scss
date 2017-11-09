@@ -10,9 +10,23 @@
     background-color: $primary-color;
 }
 
+
 .custom-button{
     @extend %button;
-    border: 1px solid transparent;    
+    border: 1px solid transparent;
+
+    &:hover{
+        background-color: lighten($primary-color, 10%);
+    }
+
+    &:active{
+        background-color: darken($primary-color, 10%)
+    }
+
+    &:disabled {
+        background: $disabled-color;
+        cursor: arrow;
+    }
 }
 
 .custom-button-invert{
@@ -20,21 +34,54 @@
     border: 1px solid $primary-color;
     background-color: $body-bg-color;
     color: $primary-color;
-}
 
-.custom-button-danger{
-    @extend %button;
-    background-color: $error-color;
-    color: $body-bg-color;
-}
+    &:hover{
+        color: lighten($primary-color, 10%);
+        border-color: lighten($primary-color, 10%);
+    }
 
-.custom-button-disabled{
-    @extend %button;
-    cursor: not-allowed;
-    background-color : darken($chrome-color, 10%);    
-    pointer-events: none;
+    &:active{
+        color: darken($primary-color-dark, 10%);
+        border-color: darken($primary-color, 10%);
+    }
 }
 
 .button-block{
     display: block;
+}
+
+#app-root[theme=dark]{
+    .custom-button{
+        background-color: $primary-color-dark;
+        color: $body-bg-color-dark;
+
+        &:hover{
+            background-color: lighten($primary-color-dark, 10%);
+        }
+    
+        &:active{
+            background-color: darken($primary-color-dark, 10%)
+        }
+
+        &:disabled {
+            background-color: $disabled-color-dark;
+            color: lighten($disabled-color-dark, 20%);
+        }
+    }
+    
+    .custom-button-invert{
+        border: 1px solid $primary-color-dark;
+        background-color: $body-bg-color-dark;
+        color: $primary-color-dark;
+
+        &:hover{
+            color: lighten($primary-color-dark, 10%);
+            border-color: lighten($primary-color-dark, 10%);
+        }
+    
+        &:active{
+            color: darken($primary-color-dark, 10%);
+            border-color: darken($primary-color-dark, 10%);
+        }
+    }
 }

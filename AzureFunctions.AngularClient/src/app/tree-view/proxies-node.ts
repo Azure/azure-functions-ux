@@ -1,39 +1,39 @@
-import { BaseFunctionsProxiesNode } from 'app/tree-view/base-functions-proxies-node';
+import { FunctionDescriptor } from './../shared/resourceDescriptors';
+import { FunctionAppContext } from './../shared/services/functions-service';
+import { ApiProxy } from './../shared/models/api-proxy';
+import { PortalResources } from './../shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
-
-import { TreeNode, MutableCollection, Disposable, CustomSelection, Collection } from './tree-node';
+import { BaseFunctionsProxiesNode } from 'app/tree-view/base-functions-proxies-node';
+import { TreeNode } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
-import { PortalResources } from '../shared/models/portal-resources';
-import { ApiProxy } from '../shared/models/api-proxy';
 import { ProxyNode } from './proxy-node';
-import { FunctionApp } from '../shared/function-app';
 
-export class ProxiesNode extends BaseFunctionsProxiesNode implements MutableCollection, Disposable, CustomSelection, Collection {
-    public title = 'Proxies (preview)';
-    public dashboardType = DashboardType.proxies;
-    public newDashboardType = DashboardType.createProxy;
-    public nodeClass = 'tree-node collection-node';
+export class ProxiesNode extends BaseFunctionsProxiesNode{
+    public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
+    public dashboardType = DashboardType.ProxiesDashboard;
+    public newDashboardType = DashboardType.CreateProxyDashboard;
 
     constructor(
         sideNav: SideNavComponent,
-        public functionApp: FunctionApp,
+        context: FunctionAppContext,
         parentNode: TreeNode) {
-        super(sideNav, functionApp.site.id + '/proxies', functionApp, parentNode);
+        super(sideNav,
+            context.site.id + '/proxies',
+            context,
+            parentNode,
+            context.site.id + '/proxies/new/proxy');
 
-        this.iconClass = 'tree-node-collection-icon'
-        this.iconUrl = 'images/BulletList.svg';
+        this.nodeClass += ' collection-node';
+        this.iconClass = 'tree-node-collection-icon';
+        this.iconUrl = 'image/BulletList.svg';
     }
 
     public loadChildren() {
         return this.baseLoadChildren({
             default: {
                 title: this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies),
-                newDashboard: DashboardType.createProxy
+                newDashboard: DashboardType.CreateProxyDashboard
             },
             readOnly: {
                 title: `${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`,
@@ -47,26 +47,19 @@ export class ProxiesNode extends BaseFunctionsProxiesNode implements MutableColl
             });
     }
 
-    public addChild(functionInfo: ApiProxy) {
-        functionInfo.functionApp = this.functionApp;
-        this.sideNav.cacheService.clearCachePrefix(this.functionApp.getScmUrl());
-
-        const newNode = new ProxyNode(this.sideNav, functionInfo, this);
+    public addChild(proxy: ApiProxy) {
+        const newNode = new ProxyNode(this.sideNav, proxy, this._context.site, this);
         this._addChildAlphabetically(newNode);
         newNode.select();
     }
 
-    public removeChild(functionInfo: ApiProxy, callRemoveOnChild?: boolean) {
+    public removeChild(resourceId: string, callRemoveOnChild?: boolean) {
 
-        const removeIndex = this.children.findIndex((childNode: ProxyNode) => {
-            return childNode.proxy.name === functionInfo.name;
-        });
+        const descriptor = new FunctionDescriptor(resourceId);
+        resourceId = descriptor.getTrimmedResourceId();
 
-        this._removeHelper(removeIndex, callRemoveOnChild);
-    }
-
-    public dispose(newSelectedNode?: TreeNode) {
-        this.parent.dispose(newSelectedNode);
+        const removeIndex = this.children.findIndex(c => c.resourceId.toLowerCase() === resourceId.toLowerCase());
+        this._removeHelper(removeIndex);
     }
 
     protected _updateTreeForNonUsableState(title: string) {
@@ -75,7 +68,7 @@ export class ProxiesNode extends BaseFunctionsProxiesNode implements MutableColl
         this.children = [];
         this.title = title;
         this.showExpandIcon = false;
-        this.sideNav.cacheService.clearCachePrefix(`${this.functionApp.getScmUrl()}/api/functions`);
+        this.sideNav.cacheService.clearCachePrefix(`${this._context.scmUrl}/api/functions`);
         return Observable.of(null);
     }
 
@@ -90,12 +83,11 @@ export class ProxiesNode extends BaseFunctionsProxiesNode implements MutableColl
         }
 
         if (!this.children || this.children.length === 0) {
-            return this.functionApp.getApiProxies()
+            return this._functionsService.getApiProxies(this._context)
                 .map(proxies => {
                     const fcNodes = <ProxyNode[]>[];
                     proxies.forEach(proxy => {
-                        proxy.functionApp = this.functionApp;
-                        fcNodes.push(new ProxyNode(this.sideNav, proxy, this));
+                        fcNodes.push(new ProxyNode(this.sideNav, proxy, this._context.site, this));
                     });
 
                     this.children = fcNodes;

@@ -1,3 +1,5 @@
+import { AzureTryEnvironment } from './azure-try.environment';
+import { TranslateService } from '@ngx-translate/core';
 import { LogService } from './../log.service';
 import { NationalCloudEnvironment } from './national-cloud.environment';
 import { DynamicSiteEnvironment } from './dynamic-site.environment';
@@ -10,17 +12,20 @@ import { StandaloneEnvironment } from './stand-alone.environment';
 import { Environment } from './scenario.models';
 import { Injectable } from '@angular/core';
 import { LogCategories } from 'app/shared/models/constants';
+import { LinuxSiteEnvironment } from 'app/shared/services/scenario/linux-site.environment';
 
 @Injectable()
 export class ScenarioService {
 
     private _environments: Environment[] = [
         new StandaloneEnvironment(),
-        new SiteSlotEnvironment(),
-        new DynamicSiteEnvironment()
+        new SiteSlotEnvironment(this._translateService),
+        new DynamicSiteEnvironment(this._translateService),
+        new LinuxSiteEnvironment(this._translateService),
+        new AzureTryEnvironment()
     ];
 
-    constructor(private _logService: LogService) {
+    constructor(private _logService: LogService, private _translateService: TranslateService) {
 
         // National cloud environments inherit from AzureEnvironment so we ensure there
         // aren't duplicates to reduce the chance of conflicts in behavior.
@@ -79,7 +84,7 @@ export class ScenarioService {
                 if (check.runCheckAsync) {
                     runCheckObs = check.runCheckAsync(input);
                 } else if (check.runCheck) {
-                    runCheckObs = Observable.of(check.runCheck());
+                    runCheckObs = Observable.of(check.runCheck(input));
                 } else {
                     throw Error('No runCheckAsync or runCheck method implemented for Environment: "${env.name}", Scenario: "${check.id}"');
                 }

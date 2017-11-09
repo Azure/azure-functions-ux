@@ -1,0 +1,99 @@
+@import '../../sass/common/variables';
+
+$splash-page-size: 700px;
+
+#splash-page-background{
+    position: fixed;
+    z-index: 200;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    opacity: 0.8;
+    background-color: rgba($disabled-color, .5);
+}
+
+#splash-page-square{
+    position: absolute;
+    z-index: 201;
+    top: calc(50% - #{$splash-page-size}/2);
+    left: calc(50% - #{$splash-page-size}/2);
+    width: $splash-page-size;
+    height: $splash-page-size;
+}
+
+#splash-page-message{
+    width: $splash-page-size;
+    height: $splash-page-size;
+    color: black;
+    text-align: center;
+    background-color: $chrome-color;
+    display: inline-block;
+    border: 2px solid lighten($qs-footer-bg-color, 20%);
+    box-shadow: 5px 5px 5px black;
+    vertical-align: middle;
+    padding: 75px;
+}
+
+.icon-small{
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+
+.splash-page-large{
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+}
+
+.splash-page-heart{
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+    top: -50px;
+    position: relative;
+    left: 25px;
+}
+
+#splash-page-text{
+    text-align: left;
+    position: relative;
+    top: 50px;
+}
+
+#splash-page-text-line{
+    position: relative;
+    top: 25px;
+}
+
+#splash-page-button-location{
+    position: relative; 
+    top: 125px;
+}
+
+#splash-page-button{
+    width: 100%;
+    border-radius: 10px;
+}
+
+.custom-button{
+    font-size: 22px;
+}
+
+h2{
+    font-size: 22px;
+    font-weight: normal;
+}
+
+:host-context(#app-root[theme=dark]){
+    #splash-page-message{
+        background-color: lighten($body-bg-color-dark, 10%);
+        color: white;
+    }
+
+    #splash-page-button{
+        border: 1px solid black;
+        color: white;
+    }
+}

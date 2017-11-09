@@ -15,15 +15,15 @@ export class AzureEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.showSiteQuotas] = {
-            id: ScenarioIds.showSiteQuotas,
+        this.scenarioChecks[ScenarioIds.addSiteQuotas] = {
+            id: ScenarioIds.addSiteQuotas,
             runCheck: (input: ScenarioCheckInput) => {
                 return this._showSiteQuotas(input);
             }
         };
 
-        this.scenarioChecks[ScenarioIds.showSiteFileStorage] = {
-            id: ScenarioIds.showSiteFileStorage,
+        this.scenarioChecks[ScenarioIds.addSiteFileStorage] = {
+            id: ScenarioIds.addSiteFileStorage,
             runCheck: (input: ScenarioCheckInput) => {
                 return this._showSiteFileStorage(input);
             }
@@ -35,10 +35,56 @@ export class AzureEnvironment extends Environment {
                 return Observable.of(this._getSlotLimit(input));
             }
         };
+
+        this.scenarioChecks[ScenarioIds.enablePlatform64] = {
+            id: ScenarioIds.enablePlatform64,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._enableIfBasicOrHigher(input);
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.enableAlwaysOn] = {
+            id: ScenarioIds.enableAlwaysOn,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._enableIfBasicOrHigher(input);
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.enableAutoSwap] = {
+            id: ScenarioIds.enableAutoSwap,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._enableIfStandardOrHigher(input);
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
         return window.appsvc.env.runtimeType === 'Azure';
+    }
+
+    private _enableIfBasicOrHigher(input: ScenarioCheckInput) {
+        const disabled = input
+            && input.site
+            && (input.site.properties.sku === ServerFarmSku.free
+                || input.site.properties.sku === ServerFarmSku.shared);
+
+        return <ScenarioResult>{
+            status: disabled ? 'disabled' : 'enabled',
+            data: null
+        };
+    }
+
+    private _enableIfStandardOrHigher(input: ScenarioCheckInput) {
+        const disabled = input
+            && input.site
+            && (input.site.properties.sku === ServerFarmSku.free
+                || input.site.properties.sku === ServerFarmSku.shared
+                || input.site.properties.sku === ServerFarmSku.basic);
+
+        return <ScenarioResult>{
+            status: disabled ? 'disabled' : 'enabled',
+            data: null
+        };
     }
 
     private _showSiteQuotas(input: ScenarioCheckInput) {

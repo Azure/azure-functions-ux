@@ -6,16 +6,43 @@ import { CacheService } from './cache.service';
 import { ArmObj } from '../models/arm/arm-obj';
 import { Site } from '../models/arm/site';
 import { Constants } from '../../shared/models/constants';
+import { SiteDescriptor } from './../../shared/resourceDescriptors';
 
 @Injectable()
-export class SlotsService {
+export class SiteService {
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService
     ) { }
 
+    isAppInsightsEnabled(siteId: string) {
+        const descriptor = new SiteDescriptor(siteId);
+        return Observable.zip(
+            this._cacheService.postArm(`${siteId}/config/appsettings/list`),
+            this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, this._armService.appInsightsApiVersion),
+            (as, ai) => ({ appSettings: as, appInsights: ai })
+        ).map(r => {
+            const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
+            let result = null;
+            if (ikey) {
+                const aiResources = r.appInsights.json();
+
+                // AI RP has an issue where they return an array instead of a JSON response if empty
+                if (aiResources && !Array.isArray(aiResources)) {
+                    aiResources.value.forEach((ai) => {
+                        if (ai.properties.InstrumentationKey === ikey) {
+                            result = ai.id;
+                        }
+                    });
+                }
+            }
+
+            return result;
+        });
+    }
+
     getSlotsList(siteId: string) {
-        if (SlotsService.isSlot(siteId)) {
+        if (SiteService.isSlot(siteId)) {
             return Observable.of([]);
         }
         return this._cacheService.getArm(`/${siteId}/slots`).map(r => <ArmObj<Site>[]>r.json().value);

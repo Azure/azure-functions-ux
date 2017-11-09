@@ -1,3 +1,5 @@
+import { LogCategories } from './../shared/models/constants';
+import { LogService } from './../shared/services/log.service';
 import { SlotNode } from './app-node';
 import { TreeNode } from './tree-node';
 import { DashboardType } from './models/dashboard-type';
@@ -8,30 +10,40 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { Subscription } from '../shared/models/subscription';
 
 export class SlotsNode extends TreeNode {
-    public dashboardType = DashboardType.slots;
-    public newDashboardType = DashboardType.createSlot;
+    public dashboardType = DashboardType.SlotsDashboard;
+    public newDashboardType = DashboardType.CreateSlotDashboard;
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_slotsOptinSettings);
-    public nodeClass = 'tree-node collection-node';
+    private _logService: LogService;
 
     constructor(
         sideNav: SideNavComponent,
         private _subscriptions: Subscription[],
         private _siteArmCacheObj: ArmObj<Site>,
         parentNode: TreeNode) {
-        super(sideNav, _siteArmCacheObj.id + '/slots', parentNode);
+        super(sideNav,
+            _siteArmCacheObj.id + '/slots',
+            parentNode,
+            _siteArmCacheObj.id + '/slots/new/slot');
 
+        this.nodeClass += ' collection-node';
         this.iconClass = 'tree-node-collection-icon';
-        this.iconUrl = 'images/BulletList.svg';
+        this.iconUrl = 'image/BulletList.svg';
+        this._logService = sideNav.injector.get(LogService);
     }
 
     public loadChildren() {
+        this.isLoading = true;
         return this.sideNav.slotsService.getSlotsList(this._siteArmCacheObj.id)
             .do(slots => {
+                this.isLoading = false;
                 this.children = slots.map(s => new SlotNode(
                     this.sideNav,
                     s,
                     this,
                     this._subscriptions));
+            }, err =>{
+                this._logService.error(LogCategories.SideNav, '/slots-node-loadchildren', err);
+                this.isLoading = false;
             });
     }
 
@@ -49,9 +61,5 @@ export class SlotsNode extends TreeNode {
 
         this._removeHelper(removeIndex, callRemoveOnChild);
         this.sideNav.cacheService.clearArmIdCachePrefix('/slots');
-    }
-
-    public dispose(newSelectedNode?: TreeNode) {
-        this.parent.dispose(newSelectedNode);
     }
 }

@@ -1,14 +1,12 @@
-import {Component, OnInit, ViewChild } from '@angular/core';
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { FunctionsService, FunctionAppContext } from './../../shared/services/functions-service';
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
+import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppNode } from './../../tree-view/app-node';
-import { Constants } from './../../shared/models/constants';
 import { CacheService } from './../../shared/services/cache.service';
 import { AiService } from './../../shared/services/ai.service';
 import { ApiProxy } from '../../shared/models/api-proxy';
@@ -24,19 +22,19 @@ import { ErrorEvent, ErrorType } from '../../shared/models/error-event';
 import { FunctionInfo } from '../../shared/models/function-info';
 import { ErrorIds } from '../../shared/models/error-ids';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
+import { Regex } from '../../shared/models/constants';
 
 @Component({
     selector: 'api-new',
     templateUrl: './api-new.component.html',
     styleUrls: ['./api-new.component.scss', '../../binding-input/binding-input.component.css'],
-    inputs: ['viewInfoInput']
 })
-export class ApiNewComponent implements OnInit {
+export class ApiNewComponent implements OnDestroy {
     @ViewChild(RequestResposeOverrideComponent) rrComponent: RequestResposeOverrideComponent;
     complexForm: FormGroup;
     isMethodsVisible = false;
-    isEnabled: boolean;
 
+    public context: FunctionAppContext;
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
     public functionsInfo: FunctionInfo[];
@@ -44,14 +42,16 @@ export class ApiNewComponent implements OnInit {
     public rrOverrideValid: boolean;
     private _proxiesNode: ProxiesNode;
     private _rrOverrideValue: any;
-    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
+    private _ngUnsubscribe = new Subject();
 
     constructor(fb: FormBuilder,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
         private _aiService: AiService,
-        private _cacheService: CacheService) {
+        private _cacheService: CacheService,
+        private _functionsService: FunctionsService,
+        private _injector: Injector) {
 
         this.complexForm = fb.group({
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we�ll default the gender to female.
@@ -73,12 +73,26 @@ export class ApiNewComponent implements OnInit {
             this.isMethodsVisible = !(value === 'All');
         });
 
-        this._viewInfoStream
+        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+            .filter(info => info.dashboardType === DashboardType.CreateProxyDashboard)
+            .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this._proxiesNode = <ProxiesNode>viewInfo.node;
-                this.functionApp = this._proxiesNode.functionApp;
                 this.appNode = (<AppNode>this._proxiesNode.parent);
+
+                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+
+                return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
+            })
+            .switchMap(context => {
+                this.context = context;
+
+                if (this.functionApp) {
+                    this.functionApp.dispose();
+                }
+
+                this.functionApp = new FunctionApp(context.site, this._injector);
 
                 // Should be okay to query app settings without checkout RBAC/locks since this component
                 // shouldn't load unless you have write access.
@@ -86,7 +100,7 @@ export class ApiNewComponent implements OnInit {
                     this.functionApp.getFunctions(),
                     this.functionApp.getApiProxies(),
                     this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true),
-                    (f, p, a) => ({ fcs: f, proxies: p, appSettings: a.json() }))
+                    (f, p, a) => ({ fcs: f, proxies: p, appSettings: a.json() }));
             })
             .do(null, e => {
                 this._aiService.trackException(e, '/errors/proxy-create');
@@ -97,14 +111,7 @@ export class ApiNewComponent implements OnInit {
                 this._globalStateService.clearBusyState();
                 this.functionsInfo = res.fcs;
                 this.apiProxies = res.proxies;
-
-                const extensionVersion = res.appSettings.properties[Constants.routingExtensionVersionAppSettingName];
-                this.isEnabled = extensionVersion && extensionVersion !== Constants.disabled;
             });
-    }
-
-    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
-        this._viewInfoStream.next(viewInfoInput);
     }
 
     onFunctionAppSettingsClicked() {
@@ -134,6 +141,7 @@ export class ApiNewComponent implements OnInit {
         return (control: AbstractControl): { [key: string]: any } => {
             let existingProxy = null;
             let existingFunction = null;
+            let regexCheck = false;
             if (that.complexForm) {
                 const name = control.value;
 
@@ -149,9 +157,10 @@ export class ApiNewComponent implements OnInit {
                         });
                     }
                 }
+                regexCheck = !Regex.functionName.test(name);
             }
 
-            return existingProxy || existingFunction ? {
+            return existingProxy || existingFunction || regexCheck ? {
                 validateName: {
                     valid: false
                 }
@@ -159,7 +168,11 @@ export class ApiNewComponent implements OnInit {
         };
     };
 
-    ngOnInit() {
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
+        if (this.functionApp) {
+            this.functionApp.dispose();
+        }
     }
 
     submitForm() {

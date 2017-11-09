@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UIResource } from '../shared/models/ui-resource';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { FunctionsService } from '../shared/services/functions.service';
+import { TryFunctionsService } from '../shared/services/try-functions.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { GlobalStateService } from '../shared/services/global-state.service';
@@ -22,7 +22,7 @@ export class TryNowComponent implements OnInit {
     public timerText: string;
     public discoverMoreUri: string;
 
-    constructor(private _functionsService: FunctionsService,
+    constructor(private _functionsService: TryFunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,

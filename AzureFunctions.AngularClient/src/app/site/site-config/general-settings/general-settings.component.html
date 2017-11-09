@@ -1,31 +1,31 @@
 <div class="settings-group-wrapper">
 
   <h3 class="first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
-  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{permissionsMessage}})</span>
+  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
 
   <div class="settings-wrapper">
 
-    <div class="setting-wrapper">
-      <div class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}
+    <div *ngIf="netFrameworkSupported" class="setting-wrapper">
+      <label class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}
         <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
-          [control]="!!group ? group.controls['netFrameWorkVersion'] : null"
-          [options]="!!versionOptionsMap ? versionOptionsMap['netFrameWorkVersion'] : []"
+          [control]="!!group ? group.controls['netFrameworkVersion'] : null"
+          [options]="!!versionOptionsMap ? versionOptionsMap['netFrameworkVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
     </div>
 
     <div *ngIf="phpSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'phpVersionLabel' | translate }}
+      <label class="setting-label">{{ 'phpVersionLabel' | translate }}
         <pop-over [message]="('phpVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['phpVersion'] : null"
@@ -36,11 +36,12 @@
     </div>
 
     <div *ngIf="pythonSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'pythonVersionLabel' | translate }}
+      <info-box [infoText]="('pythonInfoText' | translate)" [infoLink]="FwLinks.pythonLearnMore"></info-box>
+      <label class="setting-label">{{ 'pythonVersionLabel' | translate }}
         <pop-over [message]="('pythonVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['pythonVersion'] : null"
@@ -51,11 +52,11 @@
     </div>
 
     <div *ngIf="javaSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'javaVersionLabel' | translate }}
+      <label class="setting-label">{{ 'javaVersionLabel' | translate }}
         <pop-over [message]="('javaVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaVersion'] : null"
@@ -67,11 +68,11 @@
     </div>
 
     <div *ngIf="javaSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'javaMinorVersionLabel' | translate }}
+      <label class="setting-label">{{ 'javaMinorVersionLabel' | translate }}
         <pop-over [message]="('javaMinorVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaMinorVersion'] : null"
@@ -82,11 +83,11 @@
     </div>
 
     <div *ngIf="javaSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'javaWebContainerLabel' | translate }}
+      <label class="setting-label">{{ 'javaWebContainerLabel' | translate }}
         <pop-over [message]="('javaWebContainerLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaWebContainer'] : null"
@@ -97,26 +98,35 @@
     </div>
 
     <div *ngIf="platform64BitSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'use32BitWorkerProcessLabel' | translate }}
+      <label class="setting-label">{{ 'use32BitWorkerProcessLabel' | translate }}
         <pop-over [message]="('use32BitWorkerProcessLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['use32BitWorkerProcess'] : null"
           [options]="use32BitWorkerProcessOptions"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          check-scenario="EnablePlatform64"
+          [cs-input]="{site: siteArm}">
         </radio-selector>
+
+        <span check-scenario="EnablePlatform64" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+          <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+          <pop-over [message]="'use32BitWorkerProcessUpsell' | translate">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
+        </span>
       </div>
     </div>
 
     <div *ngIf="webSocketsSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'webSocketsEnabledLabel' | translate }}
+      <label class="setting-label">{{ 'webSocketsEnabledLabel' | translate }}
         <pop-over [message]="('webSocketsEnabledLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['webSocketsEnabled'] : null"
@@ -127,23 +137,31 @@
     </div>
 
     <div *ngIf="alwaysOnSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'alwaysOnLabel' | translate }}
+      <label class="setting-label">{{ 'alwaysOnLabel' | translate }}
         <pop-over [message]="('alwaysOnLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
-      </div>
+      </label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['alwaysOn'] : null"
           [options]="alwaysOnOptions"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          check-scenario="EnableAlwaysOn"
+          [cs-input]="{site: siteArm}">
         </radio-selector>
+
+        <span check-scenario="EnableAlwaysOn" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+          <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+          <pop-over [message]="'alwaysOnUpsell' | translate">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
+        </span>
       </div>
     </div>
 
     <div *ngIf="classicPipelineModeSupported" class="setting-wrapper">
-      <div class="setting-label">{{ 'managedPipelineModeLabel' | translate }}
-      </div>
+      <label class="setting-label">{{ 'managedPipelineModeLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['managedPipelineMode'] : null"
@@ -153,9 +171,9 @@
       </div>
     </div>
 
-    <div *ngIf="clientAffinitySupported" class="setting-wrapper last">
-      <div class="setting-label">{{ 'clientAffinityEnabledLabel' | translate }}
-      </div>
+    <div *ngIf="clientAffinitySupported" class="setting-wrapper" [class.last]="!autoSwapSupported">
+      <info-box [infoText]="('clientAffinityInfoText' | translate)" [infoLink]="FwLinks.clientAffinityLearnMore"></info-box>
+      <label class="setting-label">{{ 'clientAffinityEnabledLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector
           [control]="!!group ? group.controls['clientAffinityEnabled'] : null"
@@ -165,56 +183,135 @@
       </div>
     </div>
 
-    <div *ngIf="!hasWritePermissions || (!group && !!loadingFailureMessage)" class="shield">
-      <div *ngIf="!group && !!loadingFailureMessage" class="shield-message">
-        {{loadingFailureMessage}}
+    <ng-container *ngIf="autoSwapSupported">
+      <div class="setting-wrapper" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="" cs-disabledClass="last">
+        <info-box [infoText]="('autoSwapNotSupportedFromProd' | translate)" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}"></info-box>
+        <label class="setting-label">{{ 'autoSwapEnabledLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <radio-selector
+            [control]="!!group ? group.controls['autoSwapEnabled'] : null"
+            [options]="autoSwapEnabledOptions"
+            [highlightDirty]="true"
+            (value)="updateAutoSwapSlotNameOptions($event)"
+            check-scenario="EnableAutoSwap"
+            [cs-input]="{site: siteArm}">
+          </radio-selector>
+
+          <span check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+            <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+            <pop-over [message]="'autoSwapUpsell' | translate">
+              <span load-image="image/upsell.svg" class="icon-small"></span>
+            </pop-over>
+          </span>
+        </div>
+      </div>
+      
+      <div class="setting-wrapper last" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}">
+        <label class="setting-label">{{ 'autoSwapSlotNameLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <drop-down
+            [control]="!!group ? group.controls['autoSwapSlotName'] : null"
+            [options]="autoSwapSlotNameOptions || []"
+            [highlightDirty]="true">
+          </drop-down>
+        </div>
+      </div>
+    </ng-container>
+
+    <div *ngIf="!group || !hasWritePermissions" class="shield">
+      <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+        {{ loadingFailureMessage }}
       </div>
     </div>
 
   </div>
+  
+  <ng-container *ngIf="remoteDebuggingSupported">
+    <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
+    <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
 
-  <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
-  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{permissionsMessage}})</span>
+    <div class="settings-wrapper">
 
-  <div class="settings-wrapper">
-
-    <div class="setting-wrapper">
-      <div class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}
+      <div class="setting-wrapper">
+        <label class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <radio-selector
+            [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
+            [options]="remoteDebuggingEnabledOptions"
+            [highlightDirty]="true"
+            (value)="updateRemoteDebuggingVersionOptions($event)">
+          </radio-selector>
+        </div>
       </div>
-      <div class="setting-control-container">
-        <radio-selector
-          [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
-          [options]="remoteDebuggingEnabledOptions"
-          [highlightDirty]="true"
-          (value)="updateRemoteDebuggingVersionOptions($event)">
-        </radio-selector>
+
+      <div class="setting-wrapper last">
+        <label class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}</label>
+        <div class="setting-control-container">
+          <radio-selector
+            [control]="!!group ? group.controls['remoteDebuggingVersion'] : null"
+            [options]="remoteDebuggingVersionOptions"
+            [highlightDirty]="true">
+          </radio-selector>
+        </div>
       </div>
+
+      <div *ngIf="!group || !hasWritePermissions" class="shield">
+        <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+          {{ loadingFailureMessage }}
+        </div>
+      </div>
+
     </div>
+  </ng-container>
 
-    <div class="setting-wrapper last">
-      <div class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}
+  <ng-container *ngIf="linuxRuntimeSupported">
+    <h3>{{ 'feature_linuxRuntimeName' | translate }}</h3>
+    <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+
+    <div class="settings-wrapper">
+
+      <div class="setting-wrapper">
+        <label class="setting-label">{{ 'linuxFxVersionLabel' | translate }}
+          <pop-over [message]="('linuxFxVersionLabelHelp' | translate)">
+              <span class="glyphicon glyphicon-info-sign button-title"></span>
+          </pop-over>
+        </label>
+        <div class="setting-control-container">
+          <drop-down
+            [control]="!!group ? group.controls['linuxFxVersion'] : null"
+            [options]="linuxFxVersionOptions"
+            [highlightDirty]="true">
+          </drop-down>
+        </div>
       </div>
-      <div class="setting-control-container">
-        <radio-selector
-          [control]="!!group ? group.controls['remoteDebuggingVersion'] : null"
-          [options]="remoteDebuggingVersionOptions"
-          [highlightDirty]="true">
-        </radio-selector>
+
+      <div class="setting-wrapper last">
+        <label class="setting-label">{{ 'appCommandLineLabel' | translate }}
+          <pop-over [message]="('appCommandLineLabelHelp' | translate)">
+              <span class="glyphicon glyphicon-info-sign button-title"></span>
+          </pop-over>
+        </label>
+        <div class="setting-control-container">
+          <textbox
+            [control]="!!group ? group.controls['appCommandLine'] : null"
+            [highlightDirty]="true">
+          </textbox>
+        </div>
       </div>
+
+      <div *ngIf="!group || !hasWritePermissions" class="shield">
+        <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
+          {{ loadingFailureMessage }}
+        </div>
+      </div>
+
     </div>
-
-    <div *ngIf="!hasWritePermissions || (!group && !!loadingFailureMessage)" class="shield">
-      <div *ngIf="!group && !!loadingFailureMessage" class="shield-message">
-        {{loadingFailureMessage}}
-      </div>
-    </div>
-
-  </div>
+  </ng-container>
 
   <div *ngIf="!hasWritePermissions" class="shield transparent">
     <div *ngIf="showPermissionsMessage" class="shield-message">
-      <p>{{permissionsMessage}}</p>
-      <button class="transparent" (click)="showPermissionsMessage=false">{{showReadOnlySettingsMessage}}</button>
+      <p>{{ permissionsMessage }}</p>
+      <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
     </div>
   </div>
 

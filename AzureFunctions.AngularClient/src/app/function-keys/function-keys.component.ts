@@ -22,6 +22,7 @@ import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { UtilitiesService } from '../shared/services/utilities.service';
+import { AccessibilityHelper } from './../shared/Utilities/accessibility-helper';
 
 
 @Component({
@@ -218,4 +219,28 @@ export class FunctionKeysComponent implements OnChanges, OnDestroy, OnInit {
             this.busyState.clearBusyState();
         }
     }
+
+  keyDown(event: any, command: string, key: FunctionKey) {
+    if (AccessibilityHelper.isEnterOrSpace(event)) {
+        switch (command) {
+            case 'showKey': {
+                key.show = true;
+                break;
+            }
+            case 'renewKey': {
+                this.renewKey(key);
+                break;
+            }
+            case 'revokeKey': {
+                this.revokeKey(key);
+                break;
+            }
+            case 'copyKey': {
+                this.copyKey(key);
+                break;
+            }
+        }
+    }
+  }
+
 }

@@ -1,20 +1,19 @@
-﻿import { Component, ElementRef, Inject } from '@angular/core';
+import { Binding } from './../shared/models/binding';
+import { Template } from './../shared/models/template-picker';
+import { DropDownElement } from './../shared/models/drop-down-element';
+import { FunctionsService, FunctionAppContext } from './../shared/services/functions-service';
+import { SiteDescriptor } from './../shared/resourceDescriptors';
+import { Component, ElementRef, Inject, Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import { TranslateService } from '@ngx-translate/core';
-
-import { BindingComponent } from '../binding/binding.component';
 import { TemplatePickerType } from '../shared/models/template-picker';
-import { UIFunctionBinding } from '../shared/models/binding';
-import { BindingList } from '../shared/models/binding-list';
 import { Action } from '../shared/models/binding';
 import { FunctionInfo } from '../shared/models/function-info';
-import { BindingManager } from '../shared/models/binding-manager';
 import { FunctionTemplate } from '../shared/models/function-template';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { PortalService } from '../shared/services/portal.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
@@ -23,9 +22,13 @@ import { FunctionsNode } from '../tree-view/functions-node';
 import { FunctionApp } from '../shared/function-app';
 import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import { Constants } from '../shared/models/constants';
-import { CacheService } from './../shared/services/cache.service';
-import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
+import { Order } from '../shared/models/constants';
+import { Regex } from './../shared/models/constants';
+
+interface CategoryOrder {
+    name: string;
+    index: number;
+}
 
 @Component({
     selector: 'function-new',
@@ -35,56 +38,112 @@ import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph
     inputs: ['viewInfoInput']
 })
 export class FunctionNewComponent {
-
+    public context: FunctionAppContext;
     private functionsNode: FunctionsNode;
-
     public functionApp: FunctionApp;
     public functionsInfo: FunctionInfo[];
-
     elementRef: ElementRef;
     type: TemplatePickerType = TemplatePickerType.template;
     functionName: string;
     functionNameError = '';
-    bc: BindingManager = new BindingManager();
-    model: BindingList = new BindingList();
-    clickSave = false;
-    updateBindingsCount = 0;
     areInputsValid = false;
-    hasConfigUI = true;
     selectedTemplate: FunctionTemplate;
     selectedTemplateId: string;
-    templateWarning: string;
-    addLinkToAuth = false;
-    showAADExpressRegistration = false;
     action: Action;
     public disabled: boolean;
-    private _bindingComponents: BindingComponent[] = [];
-    private _exclutionFileList = [
-        'test.json',
-        'readme.md',
-        'metadata.json'
-    ];
+    public viewInfo: TreeViewInfo<any>;
 
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
     public appNode: AppNode;
 
+    public languages: DropDownElement<string>[] = [];
+    public categories: DropDownElement<string>[] = [];
+    private showTryView: boolean;
+    sidePanelOpened = false;
+    title: string;
+    templates: Template[] = [];
+    bindings: Binding[];
+    private category = '';
+    private language = '';
+    private search = '';
+
+    private _orderedCategoties: CategoryOrder[] =
+        [{
+            name: this._translateService.instant('temp_category_core'),
+            index: 0
+        },
+        {
+            name: this._translateService.instant('temp_category_api'),
+            index: 1,
+        },
+        {
+            name: this._translateService.instant('temp_category_dataProcessing'),
+            index: 2,
+        },
+        {
+            name: this._translateService.instant('temp_category_samples'),
+            index: 3,
+        },
+        {
+            name: this._translateService.instant('temp_category_experimental'),
+            index: 4,
+        },
+        {
+            name: this._translateService.instant('temp_category_all'),
+            index: 1000,
+        }];
+
+    private _functionAppStream = new Subject<FunctionApp>();
+    private _functionApp: FunctionApp;
+    createCardTemplates: Template[] = [];
+    createFunctionTemplate: Template;
+    createFunctionLanguage: string = null;
+
+    public createCardStyles = {
+        'blob':         {color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg'},
+        'cosmosDB':     {color: '#379DA6', barcolor: '#DCF1F3', icon: 'image/cosmosDB.svg'},
+        'eventHub':     {color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventHub.svg'},
+        'http':         {color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/http.svg'},
+        'iot':          {color: '#990000', barcolor: '#EFD9D9', icon: 'image/iot.svg'},
+        'other':        {color: '#000000', barcolor: '#D9D9D9', icon: 'image/other.svg'},
+        'queue':        {color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/queue.svg'},
+        'serviceBus':   {color: '#F67600', barcolor: '#FDEDDE', icon: 'image/serviceBus.svg'},
+        'timer':        {color: '#3C86FF', barcolor: '#DFEDFF', icon: 'image/timer.svg'},
+        'webhook':      {color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg'}
+    };
+
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
         _broadcastService: BroadcastService,
-        private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _cacheService: CacheService) {
+        private _functionsService: FunctionsService,
+        private _injector: Injector) {
+
         this.elementRef = elementRef;
-        this.disabled = !!_broadcastService.getDirtyState("function_disabled");
+        this.disabled = !!_broadcastService.getDirtyState('function_disabled');
 
         this._viewInfoStream
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
+                this.viewInfo = viewInfo;
                 this.functionsNode = <FunctionsNode>viewInfo.node;
                 this.appNode = <AppNode>viewInfo.node.parent;
-                this.functionApp = this.functionsNode.functionApp;
+
+                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+                return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
+            })
+            .switchMap(context => {
+                this.context = context;
+
+                if (this.functionApp) {
+                    this.functionApp.dispose();
+                }
+
+                this.functionApp = new FunctionApp(context.site, this._injector);
+                this._functionAppStream.next(this.functionApp);
+
                 if (this.functionsNode.action) {
                     this.action = Object.create(this.functionsNode.action);
                     delete this.functionsNode.action;
@@ -104,136 +163,234 @@ export class FunctionNewComponent {
                     this.selectedTemplateId = this.action.templateId;
                 }
             });
-    }
 
-    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
-        this._viewInfoStream.next(viewInfoInput);
-    }
+        this._functionAppStream
+            .distinctUntilChanged()
+            .subscribe(functionApp => {
+                this._functionApp = functionApp;
+                this._globalStateService.setBusyState();
+                this._functionApp.getTemplates().subscribe((templates) => {
+                    this._functionApp.getBindingConfig().subscribe((config) => {
+                        this._globalStateService.clearBusyState();
+                        this.bindings = config.bindings;
+                        this.templates = [];
+                        this.createCardTemplates = [];
 
-    onTemplatePickUpComplete(templateName: string) {
-        this._bindingComponents = [];
-        this._globalStateService.setBusyState();
-        this.functionApp.getTemplates().subscribe((templates) => {
-            setTimeout(() => {
-                this.selectedTemplate = templates.find((t) => t.id === templateName);
+                        // Init title, language drop-down, and category drop-down
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
+                        this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all'), default: true }];
+                        this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all') }];
 
-                if (this.selectedTemplate && this.selectedTemplate.metadata) {
-                    this.showAADExpressRegistration = !!this.selectedTemplate.metadata.AADPermissions;
-                }
-              
-                const experimentalCategory = this.selectedTemplate.metadata.category.find((c) => {
-                    return c === 'Experimental';
-                });
+                        templates.forEach((template) => {
 
-                this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
-                if (this.selectedTemplate.metadata.warning) {
-                    this.addLinkToAuth = (<any>this.selectedTemplate.metadata.warning).addLinkToAuth ? true : false;
-                    if (this.templateWarning) {
-                        this.templateWarning += '<br/>' + this.selectedTemplate.metadata.warning.text;
-                    } else {
-                        this.templateWarning += this.selectedTemplate.metadata.warning.text;
-                    }
-                }
+                            if (template.metadata.visible === false) {
+                                return;
+                            }
 
-                this.functionName = BindingManager.getFunctionName(this.selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                this.functionApp.getBindingConfig().subscribe((bindings) => {
-                    this._globalStateService.clearBusyState();
-                    this.bc.setDefaultValues(this.selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
-
-                    this.model.config = this.bc.functionConfigToUI({
-                        disabled: false,
-                        bindings: this.selectedTemplate.function.bindings
-                    }, bindings.bindings);
-
-                    this.model.config.bindings.forEach((b) => {
-                        b.hiddenList = this.selectedTemplate.metadata.userPrompt || [];
-                    });
-
-                    this.hasConfigUI = ((this.selectedTemplate.metadata.userPrompt) && (this.selectedTemplate.metadata.userPrompt.length > 0));
-
-                    this.model.setBindings();
-                    this.validate();
-
-                    if (this.action) {
-
-                        const binding = this.model.config.bindings.find((b) => {
-                            return b.type.toString() === this.action.binding;
-                        });
-
-                        if (binding) {
-                            this.action.settings.forEach((s, index) => {
-                                const setting = binding.settings.find(bs => {
-                                    return bs.name === s;
+                            // add template language to languages (if needed)
+                            const lang = this.languages.find((l) => {
+                                return l.value === template.metadata.language;
+                            });
+                            if (!lang) {
+                                this.languages.push({
+                                    displayLabel: template.metadata.language,
+                                    value: template.metadata.language
                                 });
-                                if (setting) {
-                                    setting.value = this.action.settingValues[index];
+                            }
+
+                            // add template category/categories to categories (if needed)
+                            template.metadata.category.forEach((c) => {
+                                if ((this.language === this._translateService.instant('temp_category_all') || (template.metadata.language === this.language))) {
+
+                                    const index = this.categories.findIndex((category) => {
+                                        return category.value === c;
+                                    });
+
+                                    if (index === -1) {
+                                        const dropDownElement: any = {
+                                            displayLabel: c,
+                                            value: c
+                                        };
+
+                                        if (this.category === c) {
+                                            dropDownElement.default = true;
+                                        } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
+                                            dropDownElement.default = true;
+                                        }
+
+                                        this.categories.push(dropDownElement);
+                                    }
                                 }
                             });
-                        }
-                    }
 
+                            const templateIndex = this.createCardTemplates.findIndex(finalTemplate => {
+                                return finalTemplate.name === template.metadata.name;
+                            });
+
+                            // if the card doesn't exist, create it based off the template, else add information to the preexisting card
+                            if (templateIndex === -1) {
+                                this.createCardTemplates.push({
+                                    name: `${template.metadata.name}`,
+                                    value: template.id,
+                                    description: template.metadata.description,
+                                    enabledInTryMode: template.metadata.enabledInTryMode,
+                                    AADPermissions: template.metadata.AADPermissions,
+                                    languages: [`${template.metadata.language}`],
+                                    categories: template.metadata.category,
+                                    ids: [`${template.id}`],
+                                    icon: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                                        this.createCardStyles[template.metadata.categoryStyle].icon : this.createCardStyles['other'].icon,
+                                    color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                                        this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
+                                    barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                                        this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor
+                                });
+                            } else {
+                                this.createCardTemplates[templateIndex].languages.push(`${template.metadata.language}`);
+                                this.createCardTemplates[templateIndex].categories = this.createCardTemplates[templateIndex].categories.concat(template.metadata.category);
+                                this.createCardTemplates[templateIndex].ids.push(`${template.id}`);
+                                // unique categories option 2
+                                // template.metadata.category.forEach(category => {
+                                //   const cat = this.createCardTemplates[templateIndex].categories.find(c => {return c === category;})
+                                //   if (!cat) {
+                                //     this.createCardTemplates[templateIndex].categories.push(category);
+                                //   }
+                                // });
+                            }
+                        });
+
+                        // unique categories
+                        this.createCardTemplates.forEach((template, index) => {
+                            const categoriesDict = {};
+                            template.categories.forEach(category => {
+                                categoriesDict[category] = category;
+                            });
+                            this.createCardTemplates[index].categories = [];
+                            for (const category in categoriesDict) {
+                                if (categoriesDict.hasOwnProperty(category)) {
+                                    this.createCardTemplates[index].categories.push(category);
+                                }
+                            }
+                        });
+
+                        this._sortCategories();
+
+                        this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+                            return a.displayLabel > b.displayLabel ? 1 : -1;
+                        });
+
+                        this.createCardTemplates.sort((a: Template, b: Template) => {
+                            let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
+                            let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
+                            if (ia === -1) {
+                                ia = Number.MAX_VALUE;
+                            }
+                            if (ib === -1) {
+                                ib = Number.MAX_VALUE;
+                            }
+                            if (ia === ib) {
+                                // If templates are not in ordered list apply alphabetical order
+                                return a.name > b.name ? 1 : -1;
+                            } else {
+                                return ia > ib ? 1 : -1;
+                            }
+                        });
+                    });
                 });
             });
-        });
+
+        this.showTryView = this._globalStateService.showTryView;
+        this.language = this._translateService.instant('temp_category_all');
     }
 
-    onCreate() {
-        if (!this.functionName || this._globalStateService.IsBusy) {
-            return;
-        }
+    onLanguageChanged(language: string) {
+        this.language = language;
+        this.categories = [];
 
-        this.updateBindingsCount = this.model.config.bindings.length;
-        if (this.updateBindingsCount === 0 || !this.hasConfigUI) {
-            this.createFunction();
-            return;
-        }
-
-        this.clickSave = true;
-    }
-
-    onRemoveBinding(binding: UIFunctionBinding) {
-        this.model.removeBinding(binding.id);
-        this.model.setBindings();
-    }
-
-    onUpdateBinding(binding: UIFunctionBinding) {
-        this.model.updateBinding(binding);
-        this.updateBindingsCount--;
-
-        if (this.updateBindingsCount === 0) {
-            // Last binding update
-            this.createFunction();
-        }
-    }
-
-    functionNameChanged() {
-        this.validate();
-    }
-
-    onValidChanged(component: BindingComponent) {
-        const i = this._bindingComponents.findIndex((b) => {
-            return b.bindingValue.id === component.bindingValue.id;
-        });
-
-        if (i !== -1) {
-            this._bindingComponents[i] = component;
+        if (this.language === this._translateService.instant('temp_category_all')) {
+            this.templates = this.createCardTemplates;
+            this.category = this._translateService.instant('temp_category_core');
         } else {
-            this._bindingComponents.push(component);
+            this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language));
         }
-        this.validate();
+
+        this.templates.forEach(template => template.categories.forEach((c) => {
+            const index = this.categories.findIndex((category) => {
+                return category.value === c;
+            });
+
+            if (index === -1) {
+                const dropDownElement: any = {
+                    displayLabel: c,
+                    value: c
+                };
+
+                if (this.category === c) {
+                    dropDownElement.default = true;
+                } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
+                    dropDownElement.default = true;
+                }
+
+                this.categories.push(dropDownElement);
+            }
+        }));
+
+        const dropDownElement: any = {
+            displayLabel: this._translateService.instant('temp_category_all'),
+            value: this._translateService.instant('temp_category_all')
+        };
+
+        if (this.category === this._translateService.instant('temp_category_all')) {
+            dropDownElement.default = true;
+        }
+
+        this.categories.push(dropDownElement);
+
+        this._sortCategories();
     }
 
-    quickstart() {
-        this.functionsNode.openCreateDashboard(DashboardType.createFunctionQuickstart);
+    onScenarioChanged(category: string) {
+        this.category = category;
+        this._intersectionOfCards();
+        this._filterOnSearchValue();
     }
 
-    onAuth() {
-        this._portalService.openBlade({
-            detailBlade: 'AppAuth',
-            detailBladeInputs: { resourceUri: this.functionApp.site.id }
-        },
-            'binding'
-        );
+    private _sortCategories() {
+        this.categories.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+            const ca = this._orderedCategoties.find(c => { return c.name === a.displayLabel; });
+            const cb = this._orderedCategoties.find(c => { return c.name === b.displayLabel; });
+            return ((ca ? ca.index : 500) > (cb ? cb.index : 500)) ? 1 : -1;
+        });
+    }
+
+    private _intersectionOfCards() {
+        if (this.category === this._translateService.instant('temp_category_all') && this.language === this._translateService.instant('temp_category_all')) {
+            this.templates = this.createCardTemplates;
+        } else if (this.category === this._translateService.instant('temp_category_all')) {
+            this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language));
+        } else if (this.language === this._translateService.instant('temp_category_all')) {
+            this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.categories.find(c => c === this.category));
+        } else {
+            this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language))
+                .filter(cardTemplate => cardTemplate.categories.find(c => c === this.category));
+        }
+    }
+
+    private _filterOnSearchValue() {
+        this.templates = this.templates.filter(cardTemplate => cardTemplate.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || cardTemplate.languages.find(language => { return language.toLowerCase().indexOf(this.search.toLowerCase()) > -1; })
+            || cardTemplate.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
+    }
+
+    onSearchChanged(value: string) {
+        this.search = value;
+        this._intersectionOfCards();
+        this._filterOnSearchValue();
+    }
+
+    onSearchCleared() {
+        this.search = '';
+        this._intersectionOfCards();
     }
 
     validate() {
@@ -241,8 +398,7 @@ export class FunctionNewComponent {
         // Lookbehind is not supported in JS
         this.areInputsValid = true;
         this.functionNameError = '';
-        const regexp = new RegExp('^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$');
-        this.areInputsValid = regexp.test(this.functionName);
+        this.areInputsValid = Regex.functionName.test(this.functionName);
         if (this.functionName.toLowerCase() === 'host') {
             this.areInputsValid = false;
         }
@@ -254,59 +410,34 @@ export class FunctionNewComponent {
             });
             if (nameMatch) {
                 this.functionNameError = this._translateService.instant(PortalResources.functionNew_functionExsists, { name: this.functionName });
-                this.areInputsValid = true;
+                this.areInputsValid = false;
             }
         }
-
-        this._bindingComponents.forEach((b) => {
-            this.areInputsValid = b.areInputsValid && this.areInputsValid;
-        });
     }
 
-    createAADApplication() {
-        this._globalStateService.setBusyState();
-        this._portalService.getStartupInfo().subscribe(info => {
-            let helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-            helper.createAADApplication(this.selectedTemplate.metadata, info.graphToken, this._globalStateService)
-                .subscribe(r => { 
-                    this._globalStateService.clearBusyState();
-                },
-                err => {
-                    this._globalStateService.clearBusyState();
-                    this._aiService.trackException(err, "Error during creation of AAD application");
-                });
-        });
+    onCardLanguageSelected(functionTemplate: Template, functionLanguage: string) {
+        console.log(functionTemplate.name + ': ' + functionLanguage);
+        this.createFunctionTemplate = functionTemplate;
+        this.createFunctionLanguage = functionLanguage;
+        this.sidePanelOpened = true;
     }
 
-    private createFunction() {
-        this._portalService.logAction('new-function', 'creating', { template: this.selectedTemplate.id, name: this.functionName });
+    onCardSelected(functionTemplate: Template) {
+        console.log(functionTemplate.name);
+        this.createFunctionTemplate = functionTemplate;
+        this.createFunctionLanguage = null;
+        this.sidePanelOpened = true;
+    }
 
-        this._exclutionFileList.forEach((file) => {
-            for (const p in this.selectedTemplate.files) {
-                if (this.selectedTemplate.files.hasOwnProperty(p) && file === (p + '').toLowerCase()) {
-                    delete this.selectedTemplate.files[p];
-                }
-            }
-        });
+    closeSidePanel() {
+        this.sidePanelOpened = false;
+    }
 
-        this._globalStateService.setBusyState();
-        this.functionApp.createFunctionV2(this.functionName, this.selectedTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
-            .subscribe(res => {
-                this._portalService.logAction('new-function', 'success', { template: this.selectedTemplate.id, name: this.functionName });
-                this._aiService.trackEvent('new-function', { template: this.selectedTemplate.id, result: 'success', first: 'false' });
+    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
+        this._viewInfoStream.next(viewInfoInput);
+    }
 
-                // If someone refreshed the app, it would created a new set of child nodes under the app node.
-                this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
-                this.functionsNode.addChild(res);
-
-                if (this.selectedTemplate.id.startsWith(Constants.WebhookFunctionName)) {
-                    const helper = new MicrosoftGraphHelper(this.functionApp, this._cacheService, this._aiService);
-                    helper.function = this;
-                    helper.createO365WebhookSupportFunction(this._globalStateService);
-                }
-            },
-            () => {
-                this._globalStateService.clearBusyState();
-            });
+    quickstart() {
+        this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
     }
 }

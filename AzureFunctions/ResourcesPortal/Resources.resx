@@ -129,6 +129,9 @@
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>Upgrade to enable</value>
+  </data>
   <data name="selectAll" xml:space="preserve">
     <value>Select all</value>
   </data>
@@ -180,8 +183,20 @@
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Choose a template below or</value>
   </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>Choose a plan below to create new subscription</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>Provide a friendly subscription name</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>Friendly subscription name</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>Invitation code</value>
+  </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
+    <value>This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Function name</value>
@@ -331,17 +346,50 @@
   <data name="save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ Add new setting</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Add new connection string</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ Add new document</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ Add new handler mapping</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ Add new virtual application or directory</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>Enter a name</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>Enter a value</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>Enter extension</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>Enter script processor</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>Enter arguments</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>Enter virtual path</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>Enter physical path</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>Slot Setting</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Hidden value.  Click to show.</value>
@@ -903,9 +951,21 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
-  </data>
+  </data> 
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
+  </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Runtime image</value>
+  </data>
+    <data name="runtimeImagev1" xml:space="preserve">
+    <value>V1</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>V2</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>custom</value>
   </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar.</value>
@@ -973,17 +1033,8 @@
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
     <value>Proxies (preview)</value>
   </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
-  </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Enable Azure Functions Proxies (preview)</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>Azure Functions Proxies are currently disabled. To enable, visit</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>Changes made to proxy {{name}} will be lost. Are you sure you want to continue?</value>
@@ -994,7 +1045,7 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Azure functions slots (preview) is currently disabled. To enable, visit</value>
   </data>
-  <data name="discrard" xml:space="preserve">
+  <data name="discard" xml:space="preserve">
     <value>Discard</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
@@ -1044,6 +1095,9 @@
   </data>
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>All subscriptions</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>Subscriptions</value>
   </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>{0} subscriptions</value>
@@ -1189,6 +1243,12 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>This feature is not supported for apps on a Consumption plan</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>This feature is not supported for slots</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>This feature is not supported for Linux apps</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to use this feature</value>
   </data>
@@ -1219,11 +1279,32 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Explore your app's file system from an interactive web-based console.</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH provides a Web SSH console experience for your Linux app code</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Extensions</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Extensions add functionality to your entire app.</value>
+  </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(no application settings to display)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(no connection strings to display)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(no default documents to display)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(no handler mappings to display)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(no virtual applications or directories to display)</value>
   </data>
   <data name="feature_generalSettingsName" xml:space="preserve">
     <value>General settings</value>
@@ -1234,11 +1315,23 @@
   <data name="feature_debuggingSettingsName" xml:space="preserve">
     <value>Debugging</value>
   </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>Runtime</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Application settings</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Manage app settings, connection strings, runtime settings, and more.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>Default documents</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>Handler mappings</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>Virtual applications and directories</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>You must have write permissions on the current app in order to edit these settings.</value>
@@ -1285,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>The version used to run your web app if using Python</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service supports installing newer versions of Python. Click here to learn more.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java version</value>
   </data>
@@ -1298,7 +1394,7 @@
     <value>Select the desired Java minor version. Selecting 'Newest' will keep your app using the JVM most recently added to the portal.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Web container</value>
+    <value>Java web container</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>The web container version used to run your web app if using Java</value>
@@ -1308,6 +1404,9 @@
   </data>
   <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
     <value>The platform architecture your web app runs</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>64-bit configuration requires a basic or higher App Service plan</value>
   </data>
   <data name="webSocketsEnabledLabel" xml:space="preserve">
     <value>Web sockets</value>
@@ -1321,17 +1420,47 @@
   <data name="alwaysOnLabelHelp" xml:space="preserve">
     <value>Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app.</value>
   </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>Always on requires a basic or higher App Service plan</value>
+  </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Managed Pipeline Version</value>
   </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>Auto swap destinations cannot be configured from production slot</value>
+  </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Auto Swap requires a standard or higher App Service Plan</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>Auto Swap</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>Auto Swap Slot</value>
+  </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR Affinity</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Remote debugging</value>
   </data>
   <data name="remoteDebuggingVersionLabel" xml:space="preserve">
     <value>Remote Visual Studio version</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>Stack</value>
+  </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>Startup File</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Provide an optional startup command that will be run as part of container startup. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Newest</value>
@@ -1398,6 +1527,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>Use Authentication / Authorization to protect your application and work with per-user data.</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>Managed service identity</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity.</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>Push notifications</value>
@@ -1736,7 +1871,7 @@
     <value>Generate API definition template</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Export to Power Apps + Flow</value>
+    <value>Export to PowerApps + Flow</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
     <value>Cannot save malformed API definition.</value>
@@ -1855,6 +1990,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
   </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -1898,10 +2036,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Slots (preview)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Enable deployment slots (preview). This is a one-time opt-in on the Function app that cannot be disabled and will reset any pre-existing secrets. After the update, the secrets may be copied from under the </value>
+    <value>Enable deployment slots (preview).</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>'Manage' node for each function.</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Known issues:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>Opting into this preview feature will reset any pre-existing secrets. Function secrets can be found under the</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'Manage'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>node for each function.</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
@@ -1940,7 +2090,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Slots (preview)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>For a richer monitoring experience, including live metrics and custom queries, we recommend using &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights.&lt;/a&gt;</value>
+    <value>For a richer monitoring experience, including live metrics and custom queries, &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;enable Application Insights for your Function app&lt;/a&gt;</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
@@ -2044,15 +2194,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="apiProxy_noOverride" xml:space="preserve">
     <value>No override</value>
   </data>
-  <data name="functionDev_saveFunctionFailure" xml:space="preserve">
-    <value>Failed to save function '{0}'</value>
-  </data>
-  <data name="functionDev_saveFunctionNotifyTitle" xml:space="preserve">
-    <value>Saving function '{0}'</value>
-  </data>
-  <data name="functionDev_saveFunctionSuccess" xml:space="preserve">
-    <value>Successfully saved function '{0}'</value>
-  </data>
   <data name="expressAADRegistration" xml:space="preserve">
     <value>Express AAD Registration</value>
   </data>
@@ -2144,7 +2285,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Australia East</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Sputheast</value>
+    <value>Australia Southeast</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>West India</value>
@@ -2206,7 +2347,151 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="functionKeys_clickToHide" xml:space="preserve">
     <value>Click to hide</value>
   </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Logic Apps allow you to easily utilize your function across multiple platforms</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>Associated Logic Apps</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Orchestrate with Logic Apps</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Create Logic Apps</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>No Logic Apps to display</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows.</value>
+  </data>
   <data name="expandCollapse" xml:space="preserve">
     <value>Expand or Collapse</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>App service Authentication / Authorization:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>Configure AAD now</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>Add permissions now</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>configured</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>Identity requirements (not satisfied)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>not configured</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>Required permissions</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>The template needs the following permission:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>This integration requires an AAD configuration for the function app.</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>This template requires an AAD configuration for the function app.</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>You may need to configure any additional permissions you function requires. Please see the documentation for this binding.</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>Manage App Service Authentication / Authorization</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>Auth configuration required</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>Identity requirements</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>We are not able to get the list of installed runtime extensions</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>We are not able to install runtime extension {{extensionId}}</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>We are not able to uninstall runtime extension {{extensionId}}</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>Installing runtime extensions is taking longer than expected</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>The extension {{extensionId}} with a different version is already installed</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Open Application Insights</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>App Insights is enabled for your function.</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>No Monitoring data to display</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>Extension Installation Succeeded</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>Extensions not Installed</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>This integration requires the following extensions.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>This template requires the following extensions.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>Installing required extensions. It may take upto 10 minutes for this operation.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>We are not able to install runtime extension. Install id {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>Enter value in GB-sec</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>Connection</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>Notification Hub</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>Java Functions can be built, tested and deployed locally from your machine. No portal required!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Click below to get started with documentation on how to build your first Azure Function with Java.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>Proxies has been enabled. To disable again, delete or disable all individual proxies.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Java on Azure Functions Quickstart</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Search by trigger, language, or description</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>hide value</value>
   </data>
 </root>

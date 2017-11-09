@@ -1,5 +1,8 @@
-import { AppNode } from './../tree-view/app-node';
-import { FunctionApp } from './../shared/function-app';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { SiteTabIds } from './../shared/models/constants';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { TreeUpdateEvent } from './../shared/models/broadcast-event';
+import { FunctionAppContext, FunctionsService } from './../shared/services/functions-service';
 import { Component, OnInit, Input } from '@angular/core';
 import { FunctionAppEditMode } from '../shared/models/function-app-edit-mode';
 
@@ -10,18 +13,20 @@ import { FunctionAppEditMode } from '../shared/models/function-app-edit-mode';
 })
 export class EditModeWarningComponent implements OnInit {
 
-  @Input() functionApp: FunctionApp;
-  @Input() appNode: AppNode;
+  @Input() context: FunctionAppContext;
 
   public readOnly = false;
   public readOnlySourceControlled = false;
   public readWriteSourceControlled = false;
   public readOnlySlots = false;
+  public ReadOnlyVSGenerated = false;
+
+  constructor(private _functionsService: FunctionsService, private _broadcastService: BroadcastService) { }
 
   ngOnInit() {
-    this.functionApp &&
-      this.functionApp
-        .getFunctionAppEditMode()
+    if (this.context) {
+      this._functionsService
+        .getFunctionAppEditMode(this.context)
         .subscribe(editMode => {
           if (editMode === FunctionAppEditMode.ReadOnly) {
             this.readOnly = true;
@@ -31,11 +36,18 @@ export class EditModeWarningComponent implements OnInit {
             this.readWriteSourceControlled = true;
           } else if (editMode === FunctionAppEditMode.ReadOnlySlots) {
             this.readOnlySlots = true;
+          } else if (editMode === FunctionAppEditMode.ReadOnlyVSGenerated) {
+            this.ReadOnlyVSGenerated = true;
           }
         });
+    }
   }
 
   onFunctionAppSettingsClicked() {
-    this.appNode.openSettings();
+    this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+      operation: 'navigate',
+      resourceId: this.context.site.id,
+      data: SiteTabIds.functionRuntime
+    });
   }
 }

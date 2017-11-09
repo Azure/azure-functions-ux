@@ -1,6 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { Component, OnInit, Input, Output, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'textbox',
@@ -10,9 +9,8 @@ import { Subject } from 'rxjs/Subject';
 export class TextboxComponent implements OnInit {
 
   @Input() control: FormControl;
-  @Input() placeholder: string;
-
-  @Output() blur = new Subject<any>();
+  @Input() placeholder = '';
+  @Input() highlightDirty: boolean;
 
   @ViewChild('textboxInput') textboxInput: any;
 
@@ -24,15 +22,9 @@ export class TextboxComponent implements OnInit {
   ngOnInit() {
   }
 
-  onBlur(event: any) {
-    this.blur.next(event);
-  }
-
   focus() {
     if (this.textboxInput) {
-      setTimeout(() => {
-        this.textboxInput.nativeElement.focus();
-      })
+      this.textboxInput.nativeElement.focus();
     }
   }
 }

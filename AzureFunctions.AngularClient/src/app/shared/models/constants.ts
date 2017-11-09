@@ -30,6 +30,7 @@ export class Constants {
     public static slotsSecretStorageSettingsName = "AzureWebJobsSecretStorageType";
     public static slotsSecretStorageSettingsValue = "Blob";
     public static contentShareConfigSettingsName = "WEBSITE_CONTENTSHARE";
+    public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
 
     public static httpMethods = new HttpMethods();
     public static swaggerSecretName = 'swaggerdocumentationkey';
@@ -67,6 +68,7 @@ export class SiteTabIds {
     public static readonly apiDefinition = "apiDefinition";
     public static readonly config = "config";
     public static readonly applicationSettings = "appSettings";
+    public static readonly logicApps = "logicApps";
 }
 
 export class Arm {
@@ -97,14 +99,18 @@ export class Validations {
 export class Regex {
     public static readonly invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
     public static readonly header: RegExp = /^[a-zA-Z0-9\-_]+$/;
+    public static readonly functionName: RegExp = /^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$/;
 }
 
 export class Links {
     public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
+    public static pythonLearnMore = "https://go.microsoft.com/fwlink/?linkid=852196";
+    public static clientAffinityLearnMore = "https://go.microsoft.com/fwlink/?linkid=798249";
 }
 
 export class LocalStorageKeys {
-    public static readonly siteTabs = "/site/tabs"
+    public static readonly siteTabs = '/site/tabs';
+    public static readonly savedSubsKey = '/subscriptions/selectedIds';
 }
 
 export class Order {
@@ -149,10 +155,31 @@ export class ScenarioIds {
     public static readonly showSiteAvailability = 'ShowSiteAvailability';
     public static readonly addResourceExplorer = 'AddResourceExplorer';
     public static readonly addPushNotifications = 'AddPushNotifications';
+    public static readonly addMsi = 'AddMsi';
     public static readonly addTinfoil = 'AddTinfoil';
-    public static readonly showSiteQuotas = 'ShowSiteQuotas';
-    public static readonly showSiteFileStorage = 'ShowSiteFileStorage';
+    public static readonly addSiteQuotas = 'ShowSiteQuotas';
+    public static readonly addConsole = 'AddConsole';
+    public static readonly addSsh = 'AddSsh';
+    public static readonly enablePushNotifications = 'EnablePushNotifications';
+    public static readonly enableAuth = 'EnableAuth';
+    public static readonly enableMsi = 'EnableMsi';
+    public static readonly enableNetworking = 'EnableNetworking';
+    public static readonly enableAppServiceEditor = 'EnableAppServiceEditor';
+    public static readonly enableExtensions = 'EnableExtensions';
+    public static readonly enableLogStream = 'EnableLogStream';
+    public static readonly enableProcessExplorer = 'EnableProcessExplorer';
+    public static readonly enableBackups = 'EnableBackups';
+    public static readonly enableTinfoil = 'EnableTinfoil';
+    public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
+    public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
+    public static readonly enablePlatform64 = 'EnablePlatform64';
+    public static readonly enableAlwaysOn = 'EnableAlwaysOn';
+    public static readonly deleteAppDirectly = 'deleteAppDirectly';
+    public static readonly enableAutoSwap = 'EnableAutoSwap';
+
+    public static readonly createApp = 'createApp';
+    public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
 }
 
 export class ServerFarmSku {
@@ -173,8 +200,27 @@ export class NationalCloudArmUris {
 }
 
 export class LogCategories {
+    public static readonly FunctionEdit = 'FunctionEdit';
+    public static readonly FunctionMonitor = 'FunctionMonitor';
+    public static readonly SideNav = 'SideNav';
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';
+    public static readonly apiDetails = 'ApiDetails';
+    public static readonly broadcastService = 'BroadcastService';
+    public static readonly newSlot = 'NewSlot';
+    public static readonly svgLoader = 'SvgLoader';
+    public static readonly busyState = 'BusyState';
+    public static readonly siteConfig = 'SiteConfig';
+    public static readonly generalSettings = 'GeneralSettings';
+    public static readonly appSettings = 'AppSettings';
+    public static readonly connectionStrings = 'ConnectionStrings';
+    public static readonly defaultDocuments = 'DefaultDocuments';
+    public static readonly handlerMappings = 'HandlerMappings';
+    public static readonly virtualDirectories = 'VirtualDirectories';
+    public static readonly logicapps = 'LogicApps';
+    public static readonly subsCriptions = 'SubsCriptions';
+    public static readonly functionAppSettings = 'FunctionAppSettings';
+    public static readonly swaggerDefinition = 'SwaggerDefinition';
 }
 
 export class KeyCodes {
@@ -190,7 +236,19 @@ export class KeyCodes {
     public static readonly delete = 46;
 }
 
+export class ExtensionInstallStatus {
+    public static readonly Started = 'Started';
+    public static readonly Succeeded = 'Succeeded';
+    public static readonly Failed = 'Failed';
+}
+
 export class DomEvents {
     public static readonly keydown = 'keydown';
     public static readonly click = 'click';
+}
+
+export class RuntimeImage {
+    public static readonly v1 = "v1";
+    public static readonly v2 = "v2";
+    public static readonly custom = "custom";
 }

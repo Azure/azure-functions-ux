@@ -14,9 +14,11 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpAvailability",
-            "description": "$AppInsightsHttpAvailabilityCSharp_description",
+            "description": "$AppInsightsHttpAvailability_description",
             "name": "$AppInsightsHttpAvailability_name",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_monitoring",
                 "$temp_category_samples"
@@ -48,9 +50,11 @@
         },
         "metadata": {
             "defaultFunctionName": "RealtimePowerBI",
-            "description": "$AppInsightsRealtimePowerBICSharp_description",
+            "description": "$AppInsightsRealtimePowerBI_description",
             "name": "$AppInsightsRealtimePowerBI_name",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_monitoring",
                 "$temp_category_samples"
@@ -81,9 +85,11 @@
         },
         "metadata": {
             "defaultFunctionName": "ScheduledAnalytics",
-            "description": "$AppInsightsScheduledAnalyticsCSharp_description",
+            "description": "$AppInsightsScheduledAnalytics_description",
             "name": "$AppInsightsScheduledAnalytics_name",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_dataProcessing",
                 "$temp_category_monitoring",
@@ -124,9 +130,11 @@
         },
         "metadata": {
             "defaultFunctionName": "ScheduledDigest",
-            "description": "$AppInsightsScheduledDigestCSharp_description",
+            "description": "$AppInsightsScheduledDigest_description",
             "name": "$AppInsightsScheduledDigest_name",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_monitoring",
                 "$temp_category_samples"
@@ -161,9 +169,11 @@
         },
         "metadata": {
             "name": "BlobTrigger",
-            "description": "$BlobTriggerBatch_description",
+            "description": "$BlobTrigger_description",
             "defaultFunctionName": "BlobTriggerBatch",
             "language": "Batch",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -195,9 +205,11 @@
         },
         "metadata": {
             "name": "BlobTrigger",
-            "description": "$BlobTriggerCSharp_description",
+            "description": "$BlobTrigger_description",
             "defaultFunctionName": "BlobTriggerCSharp",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -231,9 +243,11 @@
         },
         "metadata": {
             "name": "BlobTrigger",
-            "description": "$BlobTriggerFSharp_description",
+            "description": "$BlobTrigger_description",
             "defaultFunctionName": "BlobTriggerFSharp",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -267,9 +281,11 @@
         },
         "metadata": {
             "name": "BlobTrigger",
-            "description": "$BlobTriggerNodeJS_description",
+            "description": "$BlobTrigger_description",
             "defaultFunctionName": "BlobTriggerJS",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -303,9 +319,11 @@
         },
         "metadata": {
             "name": "BlobTrigger",
-            "description": "$BlobTriggerNodeTS_description",
+            "description": "$BlobTrigger_description",
             "defaultFunctionName": "BlobTriggerTS",
             "language": "TypeScript",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -342,9 +360,11 @@
         },
         "metadata": {
             "name": "Cds WebHook",
-            "description": "$cdsWebHookCSharp_description",
+            "description": "$cdsWebHook_description",
             "defaultFunctionName": "CdsWebHookCSharp",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -383,9 +403,11 @@
         },
         "metadata": {
             "defaultFunctionName": "EventHubTriggerCSharp",
-            "description": "$EventHubTriggerCSharp_description",
+            "description": "$EventHubTrigger_description",
             "name": "EventHubTrigger",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "eventHub",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -418,9 +440,11 @@
         },
         "metadata": {
             "defaultFunctionName": "EventHubTriggerFSharp",
-            "description": "$EventHubTriggerFSharp_description",
+            "description": "$EventHubTrigger_description",
             "name": "EventHubTrigger",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "eventHub",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -454,9 +478,11 @@
         },
         "metadata": {
             "defaultFunctionName": "EventHubTriggerJS",
-            "description": "$EventHubTriggerNodeJS_description",
+            "description": "$EventHubTrigger_description",
             "name": "EventHubTrigger",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "eventHub",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -490,9 +516,11 @@
         },
         "metadata": {
             "defaultFunctionName": "EventHubTriggerTS",
-            "description": "$EventHubTriggerNodeTS_description",
+            "description": "$EventHubTrigger_description",
             "name": "EventHubTrigger",
             "language": "TypeScript",
+            "displayName": "",
+            "categoryStyle": "eventHub",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -530,9 +558,11 @@
         },
         "metadata": {
             "name": "ExternalFileTrigger",
-            "description": "$SaasFileTriggerBatch_description",
+            "description": "$SaasFileTrigger_description",
             "defaultFunctionName": "ExternalFileTriggerBatch",
             "language": "Batch",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -570,9 +600,11 @@
         },
         "metadata": {
             "name": "ExternalFileTrigger",
-            "description": "$SaasFileTriggerCSharp_description",
+            "description": "$SaasFileTrigger_description",
             "defaultFunctionName": "ExternalFileTriggerCSharp",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -610,9 +642,11 @@
         },
         "metadata": {
             "name": "ExternalFileTrigger",
-            "description": "$SaasFileTriggerFSharp_description",
+            "description": "$SaasFileTrigger_description",
             "defaultFunctionName": "ExternalFileTriggerFSharp",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -650,9 +684,11 @@
         },
         "metadata": {
             "name": "ExternalFileTrigger",
-            "description": "$SaasFileTriggerNodeJS_description",
+            "description": "$SaasFileTrigger_description",
             "defaultFunctionName": "ExternalFileTriggerJS",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -695,9 +731,11 @@
         },
         "metadata": {
             "name": "ExternalTable",
-            "description": "$SaasTableCSharp_description",
+            "description": "$SaasTable_description",
             "defaultFunctionName": "ExternalTableCSharp",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -738,9 +776,11 @@
         },
         "metadata": {
             "name": "ExternalTable",
-            "description": "$SaasTableFSharp_description",
+            "description": "$SaasTable_description",
             "defaultFunctionName": "ExternalTableFSharp",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -779,10 +819,12 @@
         },
         "metadata": {
             "defaultFunctionName": "FaceLocatorCSharp",
-            "description": "$FaceLocatorCSharp_description",
+            "description": "$FaceLocator_description",
             "name": "FaceLocator",
             "language": "C#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_samples"
             ],
@@ -822,10 +864,12 @@
         },
         "metadata": {
             "defaultFunctionName": "FaceLocatorFSharp",
-            "description": "$FaceLocatorFSharp_description",
+            "description": "$FaceLocator_description",
             "name": "FaceLocator",
             "language": "F#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_samples"
             ],
@@ -866,10 +910,12 @@
         },
         "metadata": {
             "defaultFunctionName": "FaceLocatorJS",
-            "description": "$FaceLocatorNodeJS_description",
+            "description": "$FaceLocator_description",
             "name": "FaceLocator",
             "language": "JavaScript",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_samples"
             ],
@@ -907,10 +953,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GenericWebhookCSharp",
-            "description": "$GenericWebhookCSharp_description",
+            "description": "$GenericWebhook_description",
             "name": "Generic Webhook",
             "language": "C#",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -942,10 +990,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GenericWebhookFSharp",
-            "description": "$GenericWebhookFSharp_description",
+            "description": "$GenericWebhook_description",
             "name": "Generic Webhook",
             "language": "F#",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -977,10 +1027,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GenericWebhookJS",
-            "description": "$GenericWebhookNodeJS_description",
+            "description": "$GenericWebhook_description",
             "name": "Generic Webhook",
             "language": "JavaScript",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -1012,10 +1064,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GenericWebhookTS",
-            "description": "$GenericWebhookNodeTS_description",
+            "description": "$GenericWebhook_description",
             "name": "Generic Webhook",
             "language": "TypeScript",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_experimental"
             ]
@@ -1041,10 +1095,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GitHubCommenterCSharp",
-            "description": "$CSharp_description",
+            "description": "$GitHubCommenter_description",
             "name": "GitHub Commenter",
             "language": "C#",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_samples"
             ]
@@ -1070,10 +1126,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GitHubCommenterFSharp",
-            "description": "$GitHubCommenterFSharp_description",
+            "description": "$GitHubCommenter_description",
             "name": "GitHub Commenter",
             "language": "F#",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_samples"
             ]
@@ -1099,10 +1157,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GitHubCommenterJS",
-            "description": "$GitHubCommenterNodeJS_description",
+            "description": "$GitHubCommenter_description",
             "name": "GitHub Commenter",
             "language": "JavaScript",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_samples"
             ]
@@ -1134,10 +1194,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GithubWebhookCSharp",
-            "description": "$GithubWebhookCSharp_description",
+            "description": "$GithubWebhook_description",
             "name": "GitHub Webhook",
             "language": "C#",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -1169,10 +1231,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GithubWebhookFSharp",
-            "description": "$GithubWebhookFSharp_description",
+            "description": "$GithubWebhook_description",
             "name": "GitHub Webhook",
             "language": "F#",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -1204,10 +1268,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GithubWebhookJS",
-            "description": "$GithubWebhookNodeJS_description",
+            "description": "$GithubWebhook_description",
             "name": "GitHub Webhook",
             "language": "JavaScript",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -1239,10 +1305,12 @@
         },
         "metadata": {
             "defaultFunctionName": "GithubWebhookTS",
-            "description": "$GithubWebhookNodeTS_description",
+            "description": "$GithubWebhook_description",
             "name": "GitHub Webhook",
             "language": "TypeScript",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "webhook",
             "category": [
                 "$temp_category_experimental"
             ]
@@ -1282,10 +1350,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpGET-CRUD-CSharp",
-            "description": "$HttpGETCRUDC_description",
+            "description": "$HttpGETCRUD_description",
             "name": "HttpGET(CRUD)",
             "language": "C#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1331,10 +1401,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpGET-CRUD-FSharp",
-            "description": "$HttpGETCRUDFSharp_description",
+            "description": "$HttpGETCRUD_description",
             "name": "HttpGET(CRUD)",
             "language": "F#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1380,10 +1452,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpGET-CRUD-JS",
-            "description": "$HttpGETCRUDNodeJS_description",
+            "description": "$HttpGETCRUD_description",
             "name": "HttpGET(CRUD)",
             "language": "JavaScript",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1429,10 +1503,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpGET-CRUD-PHP",
-            "description": "$HttpGETCRUDPHP_description",
+            "description": "$HttpGETCRUD_description",
             "name": "HttpGET(CRUD)",
             "language": "Php",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1478,10 +1554,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpPOST-CRUD-CSharp",
-            "description": "$HttpPOSTCRUDCSharp_description",
+            "description": "$HttpPOSTCRUD_description",
             "name": "HttpPOST(CRUD)",
             "language": "C#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1527,10 +1605,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpPOST-CRUD-FSharp",
-            "description": "$HttpPOSTCRUDFSharp_description",
+            "description": "$HttpPOSTCRUD_description",
             "name": "HttpPOST(CRUD)",
             "language": "F#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1578,10 +1658,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpPOST-CRUD-JS",
-            "description": "$HttpPOSTCRUDNodeJS_description",
+            "description": "$HttpPOSTCRUD_description",
             "name": "HttpPOST(CRUD)",
             "language": "JavaScript",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1627,10 +1709,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpPOST-CRUD-Queue-FSharp",
-            "description": "$HttpPOST(CRUD)Queue-FSharp_description",
+            "description": "$HttpPOST(CRUD)Queue_description",
             "name": "HttpPOST(CRUD)Queue",
             "language": "F#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1676,10 +1760,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpPUT-CRUD-CSharp",
-            "description": "$HttpPUTCRUDC_description",
+            "description": "$HttpPUTCRUD_description",
             "name": "HttpPUT(CRUD)",
             "language": "C#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1725,10 +1811,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpPUT-CRUD-FSharp",
-            "description": "$HttpPUTCRUDFSharp_description",
+            "description": "$HttpPUTCRUD_description",
             "name": "HttpPUT(CRUD)",
             "language": "F#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_samples"
             ],
@@ -1765,10 +1853,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerBatch",
-            "description": "$HttpTriggerBatch_description",
+            "description": "$HttpTrigger_description",
             "name": "HttpTrigger",
             "language": "Batch",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -1802,9 +1892,11 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerCSharp",
-            "description": "$HttpTriggerCSharp_description",
+            "description": "$HttpTrigger_description",
             "name": "HttpTrigger",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -1841,9 +1933,11 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerFSharp",
-            "description": "$HttpTriggerFSharp_description",
+            "description": "$HttpTrigger_description",
             "name": "HttpTrigger",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -1881,10 +1975,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerJS",
-            "description": "$HttpTriggerNodeJS_description",
+            "description": "$HttpTrigger_description",
             "name": "HttpTrigger",
             "language": "JavaScript",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -1919,9 +2015,11 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerPowerShell",
-            "description": "$HttpTriggerPowerShell_description",
+            "description": "$HttpTrigger_description",
             "name": "HttpTrigger",
             "language": "PowerShell",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -1960,10 +2058,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerPython3",
-            "description": "$HttpTriggerPython_description",
+            "description": "$HttpTrigger_description",
             "name": "HttpTrigger",
             "language": "Python",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -1998,10 +2098,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerTS",
-            "description": "$HttpTriggerNodeTS_description",
+            "description": "$HttpTrigger_description",
             "name": "HttpTrigger",
             "language": "TypeScript",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -2040,10 +2142,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerCSharpWithParameters",
-            "description": "$HttpTriggerCSharpWithParameters_description",
+            "description": "$HttpTriggerWithParameters_description",
             "name": "HttpTriggerWithParameters",
             "language": "C#",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -2083,10 +2187,12 @@
         },
         "metadata": {
             "defaultFunctionName": "HttpTriggerWithParametersJS",
-            "description": "$HttpTriggerWithParametersNodeJS_description",
+            "description": "$HttpTriggerWithParameters_description",
             "name": "HttpTriggerWithParameters",
             "language": "JavaScript",
             "trigger": "HttpTrigger",
+            "displayName": "",
+            "categoryStyle": "http",
             "category": [
                 "$temp_category_core",
                 "$temp_category_api"
@@ -2131,9 +2237,11 @@
         },
         "metadata": {
             "name": "Image resize",
-            "description": "$ImageResizerCSharp_description",
+            "description": "$ImageResizer_description",
             "defaultFunctionName": "ResizeImageCSharp",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_samples"
             ],
@@ -2180,9 +2288,11 @@
         },
         "metadata": {
             "name": "Image resize",
-            "description": "$ImageResizerFSharp_description",
+            "description": "$ImageResizer_description",
             "defaultFunctionName": "ResizeImageFSharp",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_samples"
             ],
@@ -2213,11 +2323,13 @@
         },
         "metadata": {
             "defaultFunctionName": "ManualTriggerCSharp",
-            "description": "$ManualTriggerCSharp_description",
+            "description": "$ManualTrigger_description",
             "name": "ManualTrigger",
             "trigger": "ManualTrigger",
             "language": "C#",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_core"
             ]
@@ -2242,11 +2354,13 @@
         },
         "metadata": {
             "defaultFunctionName": "ManualTriggerFSharp",
-            "description": "$ManualTriggerFSharp_description",
+            "description": "$ManualTrigger_description",
             "name": "ManualTrigger",
             "trigger": "ManualTrigger",
             "language": "F#",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_core"
             ]
@@ -2271,11 +2385,13 @@
         },
         "metadata": {
             "defaultFunctionName": "ManualTriggerJS",
-            "description": "$ManualTriggerNodeJS_description",
+            "description": "$ManualTrigger_description",
             "name": "ManualTrigger",
             "trigger": "ManualTrigger",
             "language": "JavaScript",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_core"
             ]
@@ -2300,11 +2416,13 @@
         },
         "metadata": {
             "defaultFunctionName": "ManualTriggerTS",
-            "description": "$ManualTriggerNodeTS_description",
+            "description": "$ManualTrigger_description",
             "name": "ManualTrigger",
             "trigger": "ManualTrigger",
             "language": "TypeScript",
             "enabledInTryMode": true,
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_experimental"
             ]
@@ -2331,10 +2449,12 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerBash",
-            "description": "$QueueTriggerBash_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "Bash",
             "trigger": "QueueTrigger",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -2366,10 +2486,12 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerBatch",
-            "description": "$QueueTriggerBatch_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "Batch",
             "trigger": "QueueTrigger",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -2401,9 +2523,11 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerCSharp",
-            "description": "$QueueTriggerCSharp_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -2437,9 +2561,11 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerFSharp",
-            "description": "$QueueTriggerFSharp_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -2473,9 +2599,11 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerJS",
-            "description": "$QueueTriggerNodeJS_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -2509,10 +2637,12 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerPHP",
-            "description": "$QueueTriggerPHP_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "Php",
             "trigger": "QueueTrigger",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -2544,10 +2674,12 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerPowerShell",
-            "description": "$QueueTriggerPowerShell_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "PowerShell",
             "trigger": "QueueTrigger",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -2579,10 +2711,12 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerPython",
-            "description": "$QueueTriggerPython_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "Python",
             "trigger": "QueueTrigger",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -2614,9 +2748,11 @@
         },
         "metadata": {
             "defaultFunctionName": "QueueTriggerTS",
-            "description": "$QueueTriggerNodeTS_description",
+            "description": "$QueueTrigger_description",
             "name": "QueueTrigger",
             "language": "TypeScript",
+            "displayName": "",
+            "categoryStyle": "queue",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -2663,9 +2799,11 @@
         },
         "metadata": {
             "defaultFunctionName": "SasTokenCSharp",
-            "description": "A C# function that generates a SAS token for Azure Storage for a given container and blob name",
+            "description": "$SasToken_description",
             "name": "SAS Token Generator",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_samples"
             ],
@@ -2705,9 +2843,11 @@
         },
         "metadata": {
             "defaultFunctionName": "SasTokenFSharp",
-            "description": "$SasTokenFSharp_description",
+            "description": "$SasToken_description",
             "name": "SAS Token Generator",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_samples"
             ],
@@ -2746,9 +2886,11 @@
         },
         "metadata": {
             "defaultFunctionName": "SasTokenJS",
-            "description": "$SaasFileTokenNodeJS_description",
+            "description": "$SasToken_description",
             "name": "SAS Token Generator",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "blob",
             "category": [
                 "$temp_category_samples"
             ],
@@ -2787,9 +2929,11 @@
         },
         "metadata": {
             "defaultFunctionName": "ScheduledMailCSharp",
-            "description": "$ScheduledMailCSharp_description",
+            "description": "$ScheduledMail_description",
             "name": "ScheduledMail",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "timer",
             "category": [
                 "$temp_category_samples"
             ],
@@ -2828,9 +2972,11 @@
         },
         "metadata": {
             "defaultFunctionName": "SendGridCSharp",
-            "description": "$SendGridCSharp_description",
+            "description": "$SendGrid_description",
             "name": "SendGrid",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_samples",
                 "$temp_category_dataProcessing"
@@ -2870,9 +3016,11 @@
         },
         "metadata": {
             "defaultFunctionName": "SendGridFSharp",
-            "description": "$SendGridFSharp_description",
+            "description": "$SendGrid_description",
             "name": "SendGrid",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_samples"
             ],
@@ -2913,9 +3061,11 @@
         },
         "metadata": {
             "defaultFunctionName": "SendGridJS",
-            "description": "$SendGridNodeJS_description",
+            "description": "$SendGrid_description",
             "name": "SendGrid",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "other",
             "category": [
                 "$temp_category_samples",
                 "$temp_category_dataProcessing"
@@ -2952,8 +3102,10 @@
         "metadata": {
             "name": "ServiceBusQueueTrigger",
             "defaultFunctionName": "ServiceBusQueueTriggerCSharp",
-            "description": "$ServiceBusQueueTriggerCSharp_description",
+            "description": "$ServiceBusQueueTrigger_description",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "serviceBus",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -2988,8 +3140,10 @@
         "metadata": {
             "name": "ServiceBusQueueTrigger",
             "defaultFunctionName": "ServiceBusQueueTriggerFSharp",
-            "description": "$ServiceBusQueueTriggerFSharp_description",
+            "description": "$ServiceBusQueueTrigger_description",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "serviceBus",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -3023,9 +3177,11 @@
         },
         "metadata": {
             "defaultFunctionName": "ServiceBusQueueTriggerJS",
-            "description": "$ServiceBusQueueTriggerNodeJS_description",
+            "description": "$ServiceBusQueueTrigger_description",
             "name": "ServiceBusQueueTrigger",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "serviceBus",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -3059,9 +3215,11 @@
         },
         "metadata": {
             "defaultFunctionName": "ServiceBusQueueTriggerTS",
-            "description": "$ServiceBusQueueTriggerNodeTS_description",
+            "description": "$ServiceBusQueueTrigger_description",
             "name": "ServiceBusQueueTrigger",
             "language": "TypeScript",
+            "displayName": "",
+            "categoryStyle": "serviceBus",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -3098,6 +3256,8 @@
             "defaultFunctionName": "ServiceBusTopicTriggerCSharp",
             "description": "A C# function that will be run whenever a message is added to the specified Service Bus topic",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "serviceBus",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -3134,8 +3294,10 @@
         "metadata": {
             "name": "ServiceBusTopicTrigger",
             "defaultFunctionName": "ServiceBusTopicTriggerFSharp",
-            "description": "$ServiceBusTopicTriggerFSharp_description",
+            "description": "$ServiceBusTopicTrigger_description",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "serviceBus",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -3171,9 +3333,11 @@
         },
         "metadata": {
             "defaultFunctionName": "ServiceBusTopicTriggerJS",
-            "description": "$ServiceBusTopicTriggerNodeJS_description",
+            "description": "$ServiceBusTopicTrigger_description",
             "name": "ServiceBusTopicTrigger",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "serviceBus",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -3209,9 +3373,11 @@
         },
         "metadata": {
             "defaultFunctionName": "ServiceBusTopicTriggerTS",
-            "description": "$ServiceBusTopicTriggerNodeTS_description",
+            "description": "$ServiceBusTopicTrigger_description",
             "name": "ServiceBusTopicTrigger",
             "language": "TypeScript",
+            "displayName": "",
+            "categoryStyle": "serviceBus",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -3244,9 +3410,11 @@
         },
         "metadata": {
             "defaultFunctionName": "TimerTriggerCSharp",
-            "description": "$TimerTriggerCSharp_description",
+            "description": "$TimerTrigger_description",
             "name": "TimerTrigger",
             "language": "C#",
+            "displayName": "",
+            "categoryStyle": "timer",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -3278,9 +3446,11 @@
         },
         "metadata": {
             "defaultFunctionName": "TimerTriggerFSharp",
-            "description": "$TimerTriggerFSharp_description",
+            "description": "$TimerTrigger_description",
             "name": "TimerTrigger",
             "language": "F#",
+            "displayName": "",
+            "categoryStyle": "timer",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -3312,9 +3482,11 @@
         },
         "metadata": {
             "defaultFunctionName": "TimerTriggerJS",
-            "description": "$TimerTriggerNodeJS_description",
+            "description": "$TimerTrigger_description",
             "name": "TimerTrigger",
             "language": "JavaScript",
+            "displayName": "",
+            "categoryStyle": "timer",
             "category": [
                 "$temp_category_core",
                 "$temp_category_dataProcessing"
@@ -3346,9 +3518,11 @@
         },
         "metadata": {
             "defaultFunctionName": "TimerTriggerPowerShell",
-            "description": "$TimerTriggerPowerShell_description",
+            "description": "$TimerTrigger_description",
             "name": "TimerTrigger",
             "language": "PowerShell",
+            "displayName": "",
+            "categoryStyle": "timer",
             "category": [
                 "$temp_category_experimental"
             ],
@@ -3379,9 +3553,11 @@
         },
         "metadata": {
             "defaultFunctionName": "TimerTriggerTS",
-            "description": "$TimerTriggerNodeTS_description",
+            "description": "$TimerTrigger_description",
             "name": "TimerTrigger",
             "language": "TypeScript",
+            "displayName": "",
+            "categoryStyle": "timer",
             "category": [
                 "$temp_category_experimental"
             ],

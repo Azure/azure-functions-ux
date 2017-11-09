@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChange
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../shared/models/select-option';
+import { KeyCodes } from '../shared/models/constants';
+import { Guid } from '../shared/Utilities/Guid';
 
 @Component({
     selector: 'radio-selector',
@@ -9,34 +11,36 @@ import { SelectOption } from '../shared/models/select-option';
     styleUrls: ['./radio-selector.component.scss'],
 })
 export class RadioSelectorComponent<T> implements OnInit, OnChanges {
-    private _initialized: boolean = false;
-    public selectedValue: T = null;
+    selectedValue: T = null;
     @Input() control: FormControl;
     @Input() group: FormGroup;
     @Input() name: string;
     @Input() options: SelectOption<T>[];
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
-    @Input() public defaultValue: T;
-    @Output() public value: Subject<T>;
+    @Input() defaultValue: T;
+    @Output() value: Subject<T>;
 
+    public id: string;
+    public activeDescendantId: string;
+
+    private _initialized: boolean = false;
+    private _originalValue: T = null;
 
     constructor() {
         this.value = new EventEmitter<T>();
-    }
-
-
-    private _setControl() {
-        if (this.group && this.name) {
-            this.control = <FormControl>this.group.controls[this.name];
-        }
+        this.id = Guid.newGuid();
     }
 
     private _setControlValue(value: T) {
         if (this.control) {
-            if (this.control.value !== value) {
+
+            if (value !== this._originalValue) {
                 this.control.markAsDirty();
+            } else {
+                this.control.markAsPristine();
             }
+
             this.control.setValue(value);
         }
     }
@@ -52,14 +56,15 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
         let value = null;
         let valueChanged = false;
 
+        if (this.group && this.name) {
+            this.control = <FormControl>this.group.controls[this.name];
+            this._originalValue = this.control.value;
+        }
+
         if (changes['control']) {
             value = this.control ? this.control.value : null;
             valueChanged = true;
-        }
-        else if (changes['group'] || changes['name']) {
-            this._setControl();
-            value = this.control ? this.control.value : null;
-            valueChanged = true;
+            this._originalValue = value;
         }
 
         if (changes['defaultValue']) {
@@ -69,8 +74,69 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
 
         if (valueChanged) {
             this.selectedValue = value;
-            if(this._initialized) {
+            if (this._initialized) {
                 this.value.next(value);
+            }
+        }
+
+        if (changes['options'] && !!this.options) {
+            for (let i = 0; i < this.options.length; i++) {
+                this.options[i].id = i;
+            }
+        }
+
+        if (valueChanged || changes['options']) {
+            const activeOptionIndex = this._getActiveOptionIndex();
+            this.activeDescendantId = activeOptionIndex >= 0 ? `${this.id}-${activeOptionIndex}` : null;
+        }
+    }
+
+    private _getActiveOptionIndex(): number {
+        if (this.selectedValue === undefined || !this.options) {
+            return null;
+        }
+
+        for (let i = 0; i < this.options.length; i++) {
+            if (this.options[i].value === this.selectedValue) {
+                return i;
+            }
+        }
+
+        return null;
+    }
+
+    private _selectAdjacent(direction: 'forward' | 'reverse') {
+        if (!this.options || this.options.length === 0) {
+            return;
+        }
+
+        let newIndex = 0;
+
+        const activeOptionIndex = this._getActiveOptionIndex();
+        if (activeOptionIndex >= 0) {
+            if (direction === 'forward') {
+                newIndex = activeOptionIndex === this.options.length - 1 ? 0 : activeOptionIndex + 1;
+            }
+            else {
+                newIndex = activeOptionIndex === 0 ? this.options.length - 1 : activeOptionIndex - 1;
+            }
+        }
+        else {
+            newIndex = direction === 'forward' ? 0 : this.options.length - 1;
+        }
+
+        this.select(this.options[newIndex]);
+    }
+
+    onKeyDown(event: KeyboardEvent) {
+        if (this.control ? !this.control.disabled : !this.disabled) {
+            if (event.keyCode === KeyCodes.arrowLeft || event.keyCode === KeyCodes.arrowUp) {
+                this._selectAdjacent('reverse');
+                event.preventDefault();
+            }
+            else if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowDown) {
+                this._selectAdjacent('forward');
+                event.preventDefault();
             }
         }
     }
@@ -80,6 +146,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
             this._setControlValue(option.value);
             this.selectedValue = option.value;
             this.value.next(option.value);
+            this.activeDescendantId = `${this.id}-${option.id}`
         }
     }
 }

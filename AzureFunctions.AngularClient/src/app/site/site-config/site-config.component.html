@@ -1,24 +1,34 @@
 <command-bar *ngIf="!!mainForm">
   <command
-    displayText="Save"
-    iconUrl="images/save.svg"
+    [displayText]="'save' | translate"
+    iconUrl="image/save.svg"
     (click)="save()"
     [disabled]="!mainForm.valid || mainForm.pristine || !hasWritePermissions"></command>
 
   <command
-    displayText="Discard"
-    iconUrl="images/discard.svg"
+    [displayText]="'discard' | translate"
+    iconUrl="image/discard.svg"
     (click)="discard()"
     [disabled]="mainForm.pristine || !hasWritePermissions"></command>
 
 </command-bar>
 
-<div *ngIf="!!mainForm" id="site-config-wrapper">
+<div
+  *ngIf="!!mainForm"
+  id="site-config-wrapper"
+  [is-dirty]="mainForm.dirty"
+  [is-dirty-message]="dirtyMessage">
 
-<general-settings [mainForm]="mainForm" [resourceId]="resourceId"></general-settings>
+  <general-settings [mainForm]="mainForm" [resourceId]="resourceId"></general-settings>
 
-<app-settings [mainForm]="mainForm" [resourceId]="resourceId"></app-settings>
+  <app-settings [mainForm]="mainForm" [resourceId]="resourceId"></app-settings>
 
-<connection-strings [mainForm]="mainForm" [resourceId]="resourceId"></connection-strings>
+  <connection-strings [mainForm]="mainForm" [resourceId]="resourceId"></connection-strings>
+
+  <default-documents *ngIf="defaultDocumentsSupported" [mainForm]="mainForm" [resourceId]="resourceId"></default-documents>
+
+  <handler-mappings *ngIf="handlerMappingsSupported" [mainForm]="mainForm" [resourceId]="resourceId"></handler-mappings>
+
+  <virtual-directories *ngIf="virtualDirectoriesSupported" [mainForm]="mainForm" [resourceId]="resourceId"></virtual-directories>
 
 </div>

@@ -1,0 +1,21 @@
+@import '../common/variables';
+.sidebar {
+    background-color: $body-bg-color;
+
+    width: 30vw;
+
+    &.ng-sidebar--opened.ng-sidebar--push {
+        border-left: $border;
+    }
+}
+
+.sidebar-new-function {
+    width: 30vw;
+    background-color: $body-bg-color;
+}
+
+#app-root[theme=dark]{
+    .sidebar-new-function {
+        background-color: $body-bg-color-dark;
+    }
+}

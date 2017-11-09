@@ -1,14 +1,10 @@
 <div class="newproxy-container">
 
-  <div class="text-level1-heading">{{ 'apiProxy_new' | translate }} </div>
+  <h2>{{ 'apiProxy_new' | translate }} </h2>
 
-  <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
+  <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
   <form [formGroup]="complexForm" (ngSubmit)="submitForm()">
-
-    <div *ngIf="!isEnabled" class="alert alert-warning alert-dismissible" role="alert">
-      {{ 'apiProxies_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
-    </div>
 
     <div class="edit">
       <div>
@@ -100,7 +96,7 @@
           (valueChanges)="rrOverriedValueChanges($event)">
       </request-respose-override>
       <div>
-          <button [fnWriteAccess]="functionApp" type="submit" [class.custom-button-disabled]="!complexForm.valid || !rrOverrideValid" [disabled]="!complexForm.valid" class="custom-button">{{ 'create' | translate }}</button>
+          <button [fnWriteAccess]="functionApp" type="submit" [disabled]="!complexForm.valid || !rrOverrideValid" [disabled]="!complexForm.valid" class="custom-button">{{ 'create' | translate }}</button>
       </div>
   </form>
 </div>

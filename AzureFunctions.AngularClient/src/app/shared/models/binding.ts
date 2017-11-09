@@ -29,11 +29,14 @@ export enum BindingType {
     token = <any>"token",
     outlook = <any>"outlook",
     onedrive = <any>"onedrive",
-    GraphWebhook = <any>"GraphWebhook",
-    GraphWebhookTrigger = <any>"GraphWebhookTrigger",
+    graphWebhookSubscription = <any>"graphWebhookSubscription",
+    graphWebhookTrigger = <any>"graphWebhookTrigger",
     GraphWebhookCreator = <any>"GraphWebhookCreator",
     eventGridTrigger = <any>"eventGridTrigger",
     cosmosDBTrigger = <any>"cosmosDBTrigger",
+    activityTrigger = <any>"activityTrigger",
+    orchestrationTrigger = <any>"orchestrationTrigger",
+    orchestrationClient = <any>"orchestrationClient"
 }
 
 export interface BindingConfig {
@@ -55,6 +58,12 @@ export interface Binding {
     enabledInTryMode?: boolean;
     actions: Action[];
     AADPermissions?: AADPermissions[];
+    extension?: RuntimeExtension;
+}
+
+export interface RuntimeExtension {
+    id: string;
+    version: string;
 }
 
 export interface Setting {
@@ -124,7 +133,8 @@ export enum ResourceType {
     DocumentDB = <any>"DocumentDB",
     ApiHub = <any>"ApiHub",
     AppSetting = <any>"AppSetting",
-    MSGraph = <any>"MSGraph"
+    MSGraph = <any>'MSGraph',
+    NotificationHub = <any>'NotificationHub'
 }
 
 export class SettingType {
@@ -166,6 +176,8 @@ export interface UIFunctionBinding extends FunctionBindingBase {
     hiddenList?: string[];
     displayName: string;
     newBinding?: boolean;
+    AADPermissions?: AADPermissions[];
+    extension?: RuntimeExtension;
 }
 
 export interface Action {

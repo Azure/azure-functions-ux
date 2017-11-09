@@ -1,11 +1,29 @@
+
+// Font colors:
 $default-text-color: #464f59;
+$default-text-color-dark: #e0e0e0;
+
+$value-text-color: #1f2327;
+
+
+$label-text-color: #595959;
+$label-text-color-dark: #acacac;
+
+$highlight-text-color: #ffed10;
+
+$heading-text-color: #000000;
+$heading-text-color-dark: #e0e0e0;
 
 $body-bg-color : #fff;
+$body-bg-color-dark: #252525;
+
 $qs-header-bg-color : #e8ebef;
 $qs-footer-bg-color: #004075;
 $qs-footer-link-color: #9cdcff;
 
 $chrome-color : #f7f9fa;
+$chrome-color-dark: $body-bg-color-dark;
+
 $back-bar-color: #e8ebed;
 
 $border-selection-color: #419BF3;
@@ -16,12 +34,15 @@ $sidenav-width: 250px;
 $top-bar-height: 40px;
 
 $disabled-color: rgba(#7f7f7f, .7);
+$disabled-color-dark: lighten($body-bg-color-dark, 10%);
 
 $border-color: darken($chrome-color, 10%);
 
-$tree-node-selection-color: #e1efff;
+$item-selected-color: #e1efff;
+$item-selected-color-dark: lighten($body-bg-color-dark, 20%);
 
-$tree-node-hover-color: rgba($tree-node-selection-color, 0.5);
+$item-hover-color: darken($chrome-color, 5%);
+$item-hover-color-dark: lighten($body-bg-color-dark, 10%);
 
 $border: 1px $border-color solid;
 
@@ -39,16 +60,19 @@ $primary-color: #0058ad;
 $primary-color-faded: rgba($primary-color, 0.18);
 $primary-color-hover: lighten($primary-color, 10%);
 
+$primary-color-dark: #4894fe;
+$primary-color-hover-dark: lighten($primary-color-dark, 10%);
+
 $alt1-color: #6917aa;
-$alt1-color-faded: rgba($alt1-color, 0.18);
+$alt1-color-faded: lighten($alt1-color, 35%);
 
 $background-color-opaque: #ccc;
 $background-color-disabled: rgba(127, 127, 127, 0.5);
 
-$command-color-hover: #f1f1f8;
+$grey-color: #f5f5f5;
 
-// Font colors:
-$value-text-color: #1f2327;
-$label-text-color: #595959;
-$highlight-text-color: #ffed10;
+$command-color-hover: #f1f1f8;
 $heading-text-color: #252525;
+
+$info-box-color: #d1e7f8;
+$info-box-color-hover: darken($info-box-color, 5%);

@@ -1,0 +1,18 @@
+<function-new-detail *ngIf="openFunctionNewDetail" 
+  [functionCardTemplate]="functionCardTemplate" 
+  [functionLanguage]="functionLanguage" 
+  [functionsInfo]="functionsInfo"
+  [functionApp]="functionApp"
+  [appNode]="appNode"
+  [functionsNode]="functionsNode"
+  [context]="context"
+  (closePanel) ="close()">
+</function-new-detail>
+
+<extension-install-detail *ngIf="openExtensionInstallDetail"
+  [functionApp]="functionApp"
+  [functionCardTemplate]="functionCardTemplate"
+  [requiredExtensions]="currentTemplate.metadata.extensions"
+  (installed)="runtimeExtensionInstalled($event)"
+  (closePanel) ="close()">
+</extension-install-detail>

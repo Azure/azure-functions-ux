@@ -1,4 +1,4 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .sidenav {
     width: $sidenav-width;
@@ -10,6 +10,34 @@
     bottom: 0;
     z-index: 100;
     border-right: $border;
+}
+
+.create-refresh-sub {
+    padding-left: 10px;
+    background-color: #e1efff;
+    height: 34px;
+    text-overflow: ellipsis;
+    padding-top: 8px;
+    position: relative;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.float-right {
+    float: right;
+    font-size: 20px
+}
+
+.tree-node-refresh-icon{
+    font-size: 14px;
+    vertical-align: text-top;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+
+:host-context(#app-root[theme=dark]) .sidenav{
+    background-color: $chrome-color-dark;
 }
 
 .sidenav-try{

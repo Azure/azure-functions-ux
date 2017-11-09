@@ -10,11 +10,11 @@
         margin-right: 10px;
     }
 
-    .text-main2-heading{
+    h1{
         display: inline-block;
     }
 
-    .text-subheading{
+    h4{
         margin-top: 5px;
 
         img{
@@ -30,6 +30,34 @@
         display: block;
     }
 
+    .createapp-wrapper{
+        width: 535px;
+        padding-bottom: 15px;
+
+        &.last{
+            padding-bottom: 0px;
+        }
+
+        .createapp-label{
+            box-sizing: border-box;
+            display: inline-block;
+            min-height: 20px;
+            width: 32%;
+        }
+
+        .createapp-control-container{
+            display: inline-block;
+            vertical-align: middle;
+            width: 66%;
+        }
+    }
+
+    .createapp-control-container{
+        display: inline-block;
+        vertical-align: middle;
+        width: 66%;
+    }
+
     .name-textbox{
        width: 250px;
        display: block;
@@ -39,5 +67,4 @@
         margin-left: 0px;
         margin-top: 15px;
     }
-
 }

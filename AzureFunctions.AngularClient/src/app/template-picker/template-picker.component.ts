@@ -9,12 +9,9 @@ import { BindingManager } from '../shared/models/binding-manager';
 import { FunctionApp } from '../shared/function-app';
 import { TemplateFilterItem } from '../shared/models/template';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { PortalService } from '../shared/services/portal.service';
-import { CacheService } from '../shared/services/cache.service';
 import { DropDownElement } from '../shared/models/drop-down-element';
 import { PortalResources } from '../shared/models/portal-resources';
 import { Order } from '../shared/models/constants';
-import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
 
 interface CategoryOrder {
     name: string;
@@ -39,7 +36,6 @@ export class TemplatePickerComponent {
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
     isTemplate = false;
-    showAADExpressRegistration = false;
     private category = '';
     private _language = '';
     private _type: TemplatePickerType;
@@ -59,9 +55,7 @@ export class TemplatePickerComponent {
 
     constructor(
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService,
-        private _cacheService: CacheService,
-        private _portalService: PortalService) {
+        private _translateService: TranslateService) {
 
         this._functionAppStream
             .distinctUntilChanged()
@@ -260,22 +254,6 @@ export class TemplatePickerComponent {
         if (!templateDisabled) {
             this.selectedTemplate = template;
 
-            // Some bindings (and templates that use them) require an AAD app; if so, show express button
-            if (this.bindings) {
-                let binding = this.bindings.find((b) => {
-                    return b.type.toString() === this.selectedTemplate;
-                });
-                if (binding) {
-                    this.showAADExpressRegistration = !!binding.AADPermissions;
-                } else {
-                    // Could be improved by determining which bindings a template uses automatically
-                    let templateObject = this.templates.find((t) => {
-                        return t.value === template;
-                    });
-                    this.showAADExpressRegistration = templateObject && !!templateObject.AADPermissions;
-                }
-            }
-            
             if (!this.showFooter) {
                 this.complete.emit(this.selectedTemplate);
             }
@@ -305,24 +283,6 @@ export class TemplatePickerComponent {
                 this.type = this._type;
             }
         }
-    }
-
-    createAADApplication(templateName: string) {
-        this._globalStateService.setBusyState();
-        this._portalService.getStartupInfo().subscribe(info => {
-            let helper = new MicrosoftGraphHelper(this._functionApp, this._cacheService);
-            let binding = this.bindings.find((b) => {
-                return b.type.toString() === templateName;
-            });
-
-            helper.createAADApplication(binding, info.graphToken, this._globalStateService)
-                .subscribe(r => { 
-                    this._globalStateService.clearBusyState();
-                },
-                err => {
-                    this._globalStateService.clearBusyState();
-                });
-        });
     }
 
     private getBindingTemplates(direction: DirectionType): Template[] {

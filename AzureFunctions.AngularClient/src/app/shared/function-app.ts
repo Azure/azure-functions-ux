@@ -1,25 +1,19 @@
-﻿import { Subject } from 'rxjs/Subject';
-import { SlotsService } from './services/slots.service';
+﻿import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { AiService } from 'app/shared/services/ai.service';
+import { Injector } from '@angular/core';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { UrlTemplates } from './url-templates';
+import { Subject } from 'rxjs/Subject';
+import { SiteService } from './services/slots.service';
 import { Http, Headers, Response, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/scan';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { ConfigService } from './services/config.service';
 import { NoCorsHttpService } from './no-cors-http-service';
 import { ErrorIds } from './models/error-ids';
 import { DiagnosticsResult } from './models/diagnostics-result';
 import { WebApiException, FunctionRuntimeError } from './models/webapi-exception';
 import { FunctionsResponse } from './models/functions-response';
-import { AiService } from './services/ai.service';
 import { AuthzService } from './services/authz.service';
 import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
@@ -30,7 +24,7 @@ import { CreateFunctionInfo } from './models/create-function-info';
 import { FunctionTemplate } from './models/function-template';
 import { DesignerSchema } from './models/designer-schema';
 import { FunctionSecrets } from './models/function-secrets';
-import { BindingConfig } from './models/binding';
+import { BindingConfig, RuntimeExtension } from './models/binding';
 import { UserService } from './services/user.service';
 import { FunctionContainer } from './models/function-container';
 import { RunFunctionResult } from './models/run-function-result';
@@ -38,9 +32,7 @@ import { Constants } from './models/constants';
 import { Cache, ClearCache, ClearAllFunctionCache } from './decorators/cache.decorator';
 import { GlobalStateService } from './services/global-state.service';
 import { PortalResources } from './models/portal-resources';
-import { UIResource, ITryAppServiceTemplate } from './models/ui-resource';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import { BroadcastService } from './services/broadcast.service';
 import { ArmService } from './services/arm.service';
 import { BroadcastEvent } from './models/broadcast-event';
 import { ErrorEvent, ErrorType } from './models/error-event';
@@ -52,16 +44,16 @@ import { Site } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
-
 import * as jsonschema from 'jsonschema';
 import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
 export class FunctionApp {
+    private urlTemplates: UrlTemplates;
     private masterKey: string;
     private token: string;
-    private _scmUrl: string;
     private siteName: string;
-    private mainSiteUrl: string;
+    private ngUnsubscribe = new Subject();
+
     public selectedFunction: string;
     public selectedLanguage: string;
     public selectedProvider: string;
@@ -125,31 +117,42 @@ export class FunctionApp {
         500: 'Server Error'
     };
 
-    private _tryAppServiceUrl = 'https://tryappservice.azure.com';
     public tryFunctionsScmCreds: string;
     private _http: NoCorsHttpService;
 
-    constructor(
-        public site: ArmObj<Site>,
-        _ngHttp: Http,
-        private _userService: UserService,
-        private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService,
-        private _broadcastService: BroadcastService,
-        private _armService: ArmService,
-        private _cacheService: CacheService,
-        private _languageService: LanguageService,
-        private _authZService: AuthzService,
-        private _aiService: AiService,
-        private _configService: ConfigService,
-        private _slotsService: SlotsService) {
+    private _ngHttp: Http;
+    private _userService: UserService;
+    private _globalStateService: GlobalStateService;
+    private _translateService: TranslateService;
+    private _broadcastService: BroadcastService;
+    private _armService: ArmService;
+    private _cacheService: CacheService;
+    private _languageService: LanguageService;
+    private _authZService: AuthzService;
+    private _aiService: AiService;
+    private _configService: ConfigService;
+    private _slotsService: SiteService;
 
-        this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
+    constructor(public site: ArmObj<Site>, injector: Injector) {
 
+        this._ngHttp = injector.get(Http);
+        this._userService = injector.get(UserService);
+        this._globalStateService = injector.get(GlobalStateService);
+        this._translateService = injector.get(TranslateService);
+        this._broadcastService = injector.get(BroadcastService);
+        this._armService = injector.get(ArmService);
+        this._cacheService = injector.get(CacheService);
+        this._languageService = injector.get(LanguageService);
+        this._authZService = injector.get(AuthzService);
+        this._aiService = injector.get(AiService);
+        this._configService = injector.get(ConfigService);
+        this._slotsService = injector.get(SiteService);
 
+        this._http = new NoCorsHttpService(this._cacheService, this._ngHttp, this._broadcastService, this._aiService, this._translateService, () => this.getPortalHeaders());
 
-        if (!_globalStateService.showTryView) {
+        if (!this._globalStateService.showTryView) {
             this._userService.getStartupInfo()
+                .takeUntil(this.ngUnsubscribe)
                 .mergeMap(info => {
                     this.token = info.token;
                     return Observable.zip(
@@ -172,31 +175,17 @@ export class FunctionApp {
 
                     return Observable.of(null);
                 })
-                .do(_ => {
-                    this.diagnose(this.site)
-                        .subscribe(diagnosticsResults => {
-                            if (diagnosticsResults) {
-                                for (let i = 0; i < diagnosticsResults.length; i++) {
-                                    if (diagnosticsResults[i].isDiagnosingSuccessful) {
-                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: `${diagnosticsResults[i].successResult.message} ${diagnosticsResults[i].successResult.userAction}`,
-                                            errorId: diagnosticsResults[i].successResult.actionId,
-                                            errorType: diagnosticsResults[i].successResult.isTerminating ? ErrorType.Fatal : ErrorType.UserError,
-                                            resourceId: this.site.id
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                }, e => {
+                .do(null, e => {
                     this._aiService.trackException(e, 'FunctionApp().getStartupInfo()');
                 })
                 .subscribe(() => { });
 
         }
 
-        this._scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
-        this.mainSiteUrl = FunctionApp.getMainUrl(this._configService, this.site);
+        const scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
+        const mainSiteUrl = FunctionApp.getMainUrl(this._configService, this.site);
+
+        this.urlTemplates = new UrlTemplates(scmUrl, mainSiteUrl, ArmUtil.isLinuxApp(this.site));
 
         this.siteName = this.site.name;
 
@@ -240,17 +229,13 @@ export class FunctionApp {
     getFunctions() {
         let fcs: FunctionInfo[];
 
-        return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
-            .catch(() => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
+        return this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
+            .catch(() => this._http.get(this.urlTemplates.functionsUrl, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
-            .flatMap((r: Response) => {
+            .map((r: Response) => {
                 try {
                     fcs = r.json() as FunctionInfo[];
-                    fcs.forEach(fc => fc.functionApp = this);
-                    const vsCreatedFunc = fcs.find((fc: any) => !!fc.config.generatedBy);
-                    return vsCreatedFunc
-                        ? this.createApplicationSetting(Constants.functionAppEditModeSettingName, Constants.ReadOnlyMode, false)
-                        : Observable.of(null);
+                    return fcs;
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
                     // comments because Json.NET is okay with comments in the JSON file.
@@ -265,12 +250,8 @@ export class FunctionApp {
                         error: e,
                         content: r.text(),
                     });
-                    fcs = <FunctionInfo[]>[];
-                    return Observable.of(null);
+                    return <FunctionInfo[]>[];
                 }
-            })
-            .map(() => {
-                return fcs;
             })
             .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
             (error: FunctionsResponse) => {
@@ -292,8 +273,8 @@ export class FunctionApp {
 
     getApiProxies() {
         return Observable.zip(
-            this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
-                .catch(() => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
+            this._cacheService.get(this.urlTemplates.proxiesJsonUrl, false, this.getScmSiteHeaders())
+                .catch(() => this._http.get(this.urlTemplates.proxiesJsonUrl, { headers: this.getScmSiteHeaders() }))
                 .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                     if (err.status === 404 || errorCount >= 10) {
                         throw err;
@@ -304,10 +285,23 @@ export class FunctionApp {
                     json: () => { return {}; }
                 })),
             this._cacheService.get('assets/schemas/proxies.json', false, this.getPortalHeaders()),
-            (p, s) => ({ proxies: p.json(), schema: s.json() })
+            (p, s) => ({ proxies: p, schema: s.json() })
         ).map(r => {
-            if (r.proxies.proxies) {
-                const validateResult = jsonschema.validate(r.proxies, r.schema).toString();
+            let proxies = null;
+            try {
+                proxies = r.proxies.json();
+            } catch (e) {
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: `${this._translateService.instant(PortalResources.error_schemaValidationProxies)}. ${e}`,
+                    errorId: ErrorIds.proxySchemaValidationFails,
+                    errorType: ErrorType.Fatal,
+                    resourceId: this.site.id
+                });
+                return ApiProxy.fromJson({});
+            }
+
+            if (proxies.proxies) {
+                const validateResult = jsonschema.validate(proxies, r.schema).toString();
 
                 if (validateResult) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -319,7 +313,7 @@ export class FunctionApp {
                     return ApiProxy.fromJson({});
                 }
             }
-            return ApiProxy.fromJson(r.proxies);
+            return ApiProxy.fromJson(proxies);
         });
     }
 
@@ -328,7 +322,7 @@ export class FunctionApp {
         // https://github.com/projectkudu/kudu/wiki/REST-API
         headers.append('If-Match', '*');
 
-        const uri = `${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`;
+        const uri = this.urlTemplates.proxiesJsonUrl;
         this._cacheService.clearCachePrefix(uri);
 
         return this._http.put(uri, jsonString, { headers: headers });
@@ -461,14 +455,13 @@ export class FunctionApp {
         if (templateId) {
             const body: CreateFunctionInfo = {
                 name: functionName,
-                templateId: (templateId && templateId !== 'Empty' ? templateId : null),
-                containerScmUrl: this._scmUrl
+                templateId: (templateId && templateId !== 'Empty' ? templateId : null)
             };
-            observable = this._http.put(`${this._scmUrl}/api/functions/${functionName}`, JSON.stringify(body), { headers: this.getScmSiteHeaders() })
+            observable = this._http.put(this.urlTemplates.getFunctionUrl(functionName), JSON.stringify(body), { headers: this.getScmSiteHeaders() })
                 .map(r => r.json());
         } else {
             observable = this._http
-                .put(`${this._scmUrl}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
+                .put(this.urlTemplates.getFunctionUrl(functionName), JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
                 .map(r => r.json());
         }
 
@@ -491,7 +484,7 @@ export class FunctionApp {
     }
 
     getFunctionContainerAppSettings() {
-        const url = `${this._scmUrl}/api/settings`;
+        const url = this.urlTemplates.scmSettingsUrl;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
             .map(r => <{ [key: string]: string }>r.json());
@@ -504,7 +497,7 @@ export class FunctionApp {
         delete filesCopy['sample.dat'];
 
         const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
-        const url = `${this._scmUrl}/api/functions/${functionName}`;
+        const url = this.urlTemplates.getFunctionUrl(functionName);
 
         return this._http.put(url, content, { headers: this.getScmSiteHeaders() })
             .map(r => <FunctionInfo>r.json())
@@ -523,23 +516,6 @@ export class FunctionApp {
                     });
                 }
             });
-    }
-
-    getNewFunctionNode(): FunctionInfo {
-        return {
-            name: this._translateService.instant(PortalResources.newFunction),
-            href: null,
-            config: null,
-            script_href: null,
-            template_id: null,
-            clientOnly: true,
-            isDeleted: false,
-            secrets_file_href: null,
-            test_data: null,
-            script_root_path_href: null,
-            config_href: null,
-            functionApp: null
-        };
     }
 
     statusCodeToText(code: number) {
@@ -638,7 +614,7 @@ export class FunctionApp {
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
-        const url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+        const url = this.urlTemplates.getRunFunctionUrl(functionInfo.name.toLocaleLowerCase());
         const _content: string = JSON.stringify({ input: content });
         let contentType: string;
 
@@ -660,7 +636,10 @@ export class FunctionApp {
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
             .map(r => r.statusText)
-            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name),
+            .do(_ => {
+                this._cacheService.clearCachePrefix(this.urlTemplates.functionsUrl);
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name);
+            },
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -686,17 +665,11 @@ export class FunctionApp {
     }
 
     initKeysAndWarmupMainSite() {
-        const warmupSite = this._http.post(`${this.mainSiteUrl}/admin/host/ping`, '')
+        this._http.post(this.urlTemplates.pingUrl, '')
             .retryWhen(this.retryAntares)
-            .catch(() => Observable.of(null));
+            .subscribe(() =>{});
 
-        const observable = Observable.zip(
-            warmupSite,
-            this.getHostSecretsFromScm(),
-            (w: any, s: any) => ({ warmUp: w, secrets: s })
-        );
-
-        return observable;
+        return this.getHostSecretsFromScm();
     }
 
     @Cache('secrets_file_href')
@@ -729,7 +702,7 @@ export class FunctionApp {
     }
 
     getHostJson(): Observable<any> {
-        return this._http.get(`${this._scmUrl}/api/functions/config`, { headers: this.getScmSiteHeaders() })
+        return this._http.get(this.urlTemplates.hostJsonUrl, { headers: this.getScmSiteHeaders() })
             .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeConfig),
             (error: FunctionsResponse) => {
@@ -771,7 +744,7 @@ export class FunctionApp {
     }
 
     getScmUrl() {
-        return this._scmUrl;
+        return this.urlTemplates.scmSiteUrl;
     }
 
     getSiteName() {
@@ -779,7 +752,13 @@ export class FunctionApp {
     }
 
     getMainSiteUrl(): string {
-        return this.mainSiteUrl;
+        return this.urlTemplates.runtimeSiteUrl;
+    }
+
+    getHostToken() {
+        return ArmUtil.isLinuxApp(this.site)
+            ? this._http.get(Constants.serviceHost + `api/runtimetoken${this.site.id}`, { headers: this.getPortalHeaders() })
+            : this._http.get(this.urlTemplates.scmTokenUrl, { headers: this.getScmSiteHeaders() });
     }
 
     getHostSecretsFromScm() {
@@ -789,7 +768,7 @@ export class FunctionApp {
             .mergeMap(authSettings => {
                 return authSettings.clientCertEnabled
                     ? Observable.of()
-                    : this._http.get(`${this._scmUrl}/api/functions/admin/token`, { headers: this.getScmSiteHeaders() })
+                    : this.getHostToken()
                         .retryWhen(this.retryAntares)
                         .map(r => r.json())
                         .mergeMap((token: string) => {
@@ -797,24 +776,24 @@ export class FunctionApp {
                             // build authorization header
                             const authHeader = new Headers();
                             authHeader.append('Authorization', `Bearer ${token}`);
-                            return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
+                            return this._http.get(this.urlTemplates.masterKeyUrl, { headers: authHeader })
                                 .catch((error: FunctionsResponse) => {
                                     if (error.status === 405) {
                                         // If the result from calling the API above is 405, that means they are running on an older runtime.
                                         // It should be safe to call kudu for the master key since they won't be using slots.
-                                        return this._http.get(`${this._scmUrl}/api/functions/admin/masterKey`, { headers: this.getScmSiteHeaders() });
+                                        return this._http.get(this.urlTemplates.deprecatedKuduMasterKeyUrl, { headers: this.getScmSiteHeaders() });
                                     } else {
                                         throw error;
                                     }
                                 })
                                 .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
-                                    if (err.isHandled || err.status < 500 || errorCount >= 10) {
+                                    if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
                                         throw err;
                                     } else {
                                         return errorCount + 1;
                                     }
                                 }, 0).delay(1000))
-                                .catch(e => this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: authHeader })
+                                .catch(e => this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: authHeader })
                                     .do(null, _ => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                                         message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
                                         errorId: ErrorIds.functionRuntimeIsUnableToStart,
@@ -882,7 +861,7 @@ export class FunctionApp {
     }
 
     legacyGetHostSecrets() {
-        return this._http.get(`${this._scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getScmSiteHeaders() })
+        return this._http.get(this.urlTemplates.legacyGetHostSecretsUrl, { headers: this.getScmSiteHeaders() })
             .map(r => <string>r.json().masterKey)
             .do(h => {
                 this.masterKey = h;
@@ -897,7 +876,7 @@ export class FunctionApp {
                 if (r.clientCertEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
-                return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
+                return this._http.get(this.urlTemplates.adminKeysUrl, { headers: this.getMainSiteHeaders() })
                     .retryWhen(e => e.scan((errorCount: number, err: Response) => {
                         if (err.status < 500 && err.status !== 0) {
                             throw err;
@@ -981,33 +960,6 @@ export class FunctionApp {
         return this.masterKey;
     }
 
-    getTrialResource(provider?: string): Observable<UIResource> {
-        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
-            + (provider ? '&provider=' + provider : '');
-
-        return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryGetTrialResource)
-            .map(r => <UIResource>r.json());
-    }
-
-    createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
-            + (provider ? '&provider=' + provider : '')
-            + '&templateId=' + encodeURIComponent(selectedTemplate.id)
-            + '&functionName=' + encodeURIComponent(functionName);
-
-        const template = <ITryAppServiceTemplate>{
-            name: selectedTemplate.id,
-            appService: 'Function',
-            language: selectedTemplate.metadata.language,
-            githubRepo: ''
-        };
-
-        return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
-            .retryWhen(this.retryCreateTrialResource)
-            .map(r => <UIResource>r.json());
-    }
-
     updateFunction(fi: FunctionInfo) {
         ClearAllFunctionCache(fi);
         const fiCopy = <FunctionInfo>{};
@@ -1041,7 +993,7 @@ export class FunctionApp {
             .mergeMap((authSettings: AuthSettings) => {
                 return authSettings.clientCertEnabled
                     ? Observable.of([])
-                    : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
+                    : this._http.get(this.urlTemplates.getFunctionRuntimeErrorsUrl(fi.name), { headers: this.getMainSiteHeaders() })
                         .retryWhen(this.retryAntares)
                         .map(r => <string[]>(r.json().errors || []))
                         .catch((error: Response) => {
@@ -1065,7 +1017,7 @@ export class FunctionApp {
                 if (authSettings.clientCertEnabled || !this.masterKey) {
                     return Observable.of([]);
                 } else {
-                    return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                    return this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: this.getMainSiteHeaders() })
                         .retryWhen(e => e.scan((errorCount: number, err: FunctionsResponse) => {
                             // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
                             if (errorCount >= 10 || err.status === 401) {
@@ -1110,7 +1062,7 @@ export class FunctionApp {
                 if (authSettings.clientCertEnabled || !this.masterKey) {
                     return Observable.of(null);
                 } else {
-                    return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                    return this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: this.getMainSiteHeaders() })
                         .map(r => (r.json()))
                         .catch((error: Response) => {
                             if (handleUnauthorized && error.status === 401) {
@@ -1138,7 +1090,7 @@ export class FunctionApp {
     // }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
-        const url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
+        const url = this.urlTemplates.getFunctionLogUrl(fi.name);
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .catch(() => Observable.of({ json: () => [] }))
             .mergeMap(r => {
@@ -1199,7 +1151,7 @@ export class FunctionApp {
                 if (authSettings.clientCertEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
-                return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
+                return this._http.get(this.urlTemplates.getFunctionKeysUrl(functionInfo.name), { headers: this.getMainSiteHeaders() })
                     .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
                         if (err.isHandled || (err.status < 500 && err.status !== 404) || errorCount >= 10) {
                             throw err;
@@ -1241,8 +1193,8 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
         const url = functionInfo
-            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${keyName}`
-            : `${this.mainSiteUrl}/admin/host/keys/${keyName}`;
+            ? this.urlTemplates.getFunctionKeyUrl(functionInfo.name, keyName)
+            : this.urlTemplates.getAdminKeyUrl(keyName);
 
         let result: Observable<FunctionKey>;
         if (keyValue) {
@@ -1292,8 +1244,8 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
         const url = functionInfo
-            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
-            : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
+            ? this.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
+            : this.urlTemplates.getAdminKeyUrl(key.name);
 
         return this._http.delete(url, { headers: this.getMainSiteHeaders() })
             .retryWhen(this.retryAntares)
@@ -1330,8 +1282,8 @@ export class FunctionApp {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
         const url = functionInfo
-            ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
-            : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
+            ? this.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
+            : this.urlTemplates.getAdminKeyUrl(key.name);
         return this._http.post(url, '', { headers: this.getMainSiteHeaders() })
             .retryWhen(this.retryAntares)
             .catch((error: Response) => {
@@ -1369,7 +1321,7 @@ export class FunctionApp {
     }
 
     fireSyncTrigger() {
-        const url = `${this._scmUrl}/api/functions/synctriggers`;
+        const url = this.urlTemplates.syncTriggersUrl;
         this._http.post(url, '', { headers: this.getScmSiteHeaders() })
             .subscribe(success => console.log(success), error => console.log(error));
     }
@@ -1418,10 +1370,11 @@ export class FunctionApp {
         Observable.zip(
             this.checkIfSourceControlEnabled(),
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
-            SlotsService.isSlot(this.site.id)
+            SiteService.isSlot(this.site.id)
                 ? Observable.of(true)
                 : this._slotsService.getSlotsList(this.site.id).map(r => r.length > 0),
-            (a, b, s) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s })
+            this.getFunctions(),
+            (a, b, s, f: FunctionInfo[]) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s, functions: f })
         )
             .map(result => {
                 const appSettings: ArmObj<any> = result.appSettingsResponse.json();
@@ -1429,8 +1382,11 @@ export class FunctionApp {
 
                 let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
                 editModeSettingString = editModeSettingString.toLocaleLowerCase();
+                const vsCreatedFunc = result.functions.find((fc: any) => !!fc.config.generatedBy);
 
-                if (editModeSettingString === Constants.ReadWriteMode) {
+                if (vsCreatedFunc && (editModeSettingString === Constants.ReadOnlyMode || editModeSettingString === '')) {
+                    return FunctionAppEditMode.ReadOnlyVSGenerated;
+                } else if (editModeSettingString === Constants.ReadWriteMode) {
                     return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
                 } else if (editModeSettingString === Constants.ReadOnlyMode) {
                     return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadOnly;
@@ -1485,7 +1441,7 @@ export class FunctionApp {
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite(): Observable<boolean> {
-        return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
+        return this._http.get(this.urlTemplates.pingScmSiteUrl, { headers: this.getScmSiteHeaders() })
             .map(_ => true)
             .catch(() => Observable.of(false));
     }
@@ -1510,6 +1466,10 @@ export class FunctionApp {
 
         if (this.tryFunctionsScmCreds) {
             headers.append('Authorization', `Basic ${this.tryFunctionsScmCreds}`);
+        }
+
+        if (this.masterKey) {
+            headers.append('x-functions-key', this.masterKey);
         }
         return headers;
     }
@@ -1538,21 +1498,6 @@ export class FunctionApp {
         return headers;
     }
 
-    // to talk to TryAppservice
-    private getTryAppServiceHeaders(contentType?: string): Headers {
-        contentType = contentType || 'application/json';
-        const headers = new Headers();
-        headers.append('Content-Type', contentType);
-        headers.append('Accept', 'application/json,*/*');
-
-        if (this._globalStateService.TryAppServiceToken) {
-            headers.append('Authorization', `Bearer ${this._globalStateService.TryAppServiceToken}`);
-        } else {
-            headers.append('ms-x-user-agent', 'Functions/');
-        }
-        return headers;
-    }
-
     private localize(objectToLocalize: any): any {
         if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {
             const key = objectToLocalize.substring(1, objectToLocalize.length);
@@ -1577,28 +1522,6 @@ export class FunctionApp {
     private retryAntares(error: Observable<any>): Observable<any> {
         return error.scan((errorCount: number, err: FunctionsResponse) => {
             if (err.isHandled || err.status < 500 || errorCount >= 10) {
-                throw err;
-            } else {
-                return errorCount + 1;
-            }
-        }, 0).delay(1000);
-    }
-
-    private retryCreateTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount: number, err: Response) => {
-            // 400 => you already have a resource, 403 => No login creds provided
-            if (err.status === 400 || err.status === 403 || errorCount >= 10) {
-                throw err;
-            } else {
-                return errorCount + 1;
-            }
-        }, 0).delay(1000);
-    }
-
-    private retryGetTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan((errorCount: number, err: Response) => {
-            // 403 => No login creds provided
-            if (err.status === 403 || errorCount >= 10) {
                 throw err;
             } else {
                 return errorCount + 1;
@@ -1679,7 +1602,7 @@ export class FunctionApp {
      */
     private trackEvent(name: string, params: { [name: string]: string }) {
         const standardParams = {
-            scmUrl: this._scmUrl
+            scmUrl: this.urlTemplates.pingScmSiteUrl
         };
 
         for (const key in params) {
@@ -1765,7 +1688,7 @@ export class FunctionApp {
     saveHostJson(jsonString: string): Observable<any> {
         const headers = this.getScmSiteHeaders();
         headers.append('If-Match', '*');
-        return this._http.put(`${this._scmUrl}/api/functions/config`, jsonString, { headers: headers })
+        return this._http.put(this.urlTemplates.hostJsonUrl, jsonString, { headers: headers })
             .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateRuntimeConfig),
             (error: FunctionsResponse) => {
@@ -1787,7 +1710,7 @@ export class FunctionApp {
     createSystemKey(keyName: string) {
         const headers = this.getMainSiteHeaders();
         headers.append('If-Match', '*');
-        return this._http.post(`${this.mainSiteUrl}/admin/host/systemkeys/${keyName}`, '', { headers: headers })
+        return this._http.post(this.urlTemplates.getSystemKeyUrl(keyName), '', { headers: headers })
             .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateSwaggerKey),
             (error: FunctionsResponse) => {
@@ -1806,6 +1729,131 @@ export class FunctionApp {
             });
     }
 
+    // Try and the list of runtime extensions install.
+    // If there was an error getting the list, show an error. return an empty list.
+    getHostExtensions(): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.get(this.urlTemplates.runtimeHostExtensionsUrl, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToGetFunctionRuntimeExtensions),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            this.trackEvent(ErrorIds.failedToGetFunctionRuntimeExtensions, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                            if (error.status !== 503) {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.failedToGetFunctionRuntimeExtensions),
+                                    errorId: ErrorIds.failedToGetFunctionRuntimeExtensions,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            }
+                        }
+                    });
+            }).catch(e => {
+                return Observable.of(e);
+            });
+    }
+
+    showTimeoutError() {
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension),
+            errorId: ErrorIds.timeoutInstallingFunctionRuntimeExtension,
+            errorType: ErrorType.RuntimeError,
+            resourceId: this.site.id
+        });
+        this.trackEvent(ErrorIds.timeoutInstallingFunctionRuntimeExtension, {
+            content: this._translateService.instant(PortalResources.timeoutInstallingFunctionRuntimeExtension)
+        });
+    }
+
+    showInstallFailed(id) {
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtensionForId, { installationId: id }),
+            errorId: ErrorIds.timeoutInstallingFunctionRuntimeExtension,
+            errorType: ErrorType.RuntimeError,
+            resourceId: this.site.id
+        });
+        this.trackEvent(ErrorIds.timeoutInstallingFunctionRuntimeExtension, {
+            content: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension)
+        });
+    }
+
+    // Todo: Capture 409
+    // returns error object when resulted in error
+    // error.id is not defined
+    installExtension(extension: RuntimeExtension): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.post(this.urlTemplates.runtimeHostExtensionsUrl, extension, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToInstallFunctionRuntimeExtension),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            if (error.status === 409) {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.extensionAlreadyInstalledWithDifferentVersion, { extensionId: extension.id }),
+                                    errorId: ErrorIds.extensionAlreadyInstalledWithDifferentVersion,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            } else {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.failedToInstallFunctionRuntimeExtension, { extensionId: extension.id }),
+                                    errorId: ErrorIds.failedToInstallFunctionRuntimeExtension,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                            }
+
+                            this.trackEvent(ErrorIds.failedToInstallFunctionRuntimeExtension, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
+            }).catch(e => {
+                return Observable.of(e);
+            });
+    }
+
+    getExtensionInstallStatus(jobId: string): Observable<any> {
+        const masterKey = this.masterKey
+            ? Observable.of(null)
+            : this.getHostSecretsFromScm();
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.get(this.urlTemplates.getRuntimeHostExtensionsJobStatusUrl(jobId), { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.failedToGetExtensionInstallStatus),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            this.trackEvent(ErrorIds.failedToGetExtensionInstallStatus, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
+            }).catch(_ => {
+                return Observable.of(
+                    {
+                        id: jobId
+                    });
+            });
+    }
+
     getSystemKey(): Observable<FunctionKeys> {
         const masterKey = this.masterKey
             ? Observable.of(null) // you have to pass something to Observable.of() otherwise it doesn't trigger subscribers.
@@ -1814,7 +1862,7 @@ export class FunctionApp {
         return masterKey
             .mergeMap(_ => {
                 const headers = this.getMainSiteHeaders();
-                return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys`, { headers: headers })
+                return this._http.get(this.urlTemplates.systemKeysUrl, { headers: headers })
                     .map(r => <FunctionKeys>r.json())
                     .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToGetSystemKey),
                     (error: FunctionsResponse) => {
@@ -1872,5 +1920,9 @@ export class FunctionApp {
         } else {
             return Observable.of(null);
         }
+    }
+
+    dispose() {
+        this.ngUnsubscribe.next();
     }
 }

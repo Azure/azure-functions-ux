@@ -1,6 +1,6 @@
-<div class="list-collection-container">
-  <img src="images/Functions.svg" />
-  <span class="text-level1-heading">{{ 'slotsList_title' | translate }}</span><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+<div class="browse-container">
+  <img src="image/Functions.svg" />
+  <h2>{{ 'slotsList_title' | translate }}</h2><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
   <tbl [items]="slots" #table="tbl">
     <tr>

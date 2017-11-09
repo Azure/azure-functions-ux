@@ -1,3 +1,5 @@
+import { PortalResources } from './../../models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
 import { ScenarioCheckInput } from './scenario.models';
 import { ScenarioIds } from './../../models/constants';
 import { Environment } from './scenario.models';
@@ -5,7 +7,7 @@ import { Environment } from './scenario.models';
 export class DynamicSiteEnvironment extends Environment {
     name = 'DynamicSite';
 
-    constructor() {
+    constructor(translateService: TranslateService) {
         super();
         this.scenarioChecks[ScenarioIds.showSiteAvailability] = {
             id: ScenarioIds.showSiteAvailability,
@@ -13,6 +15,17 @@ export class DynamicSiteEnvironment extends Environment {
                 return { status: 'disabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.enableBackups] = {
+            id: ScenarioIds.enableBackups,
+            runCheck: () => {
+                return {
+                    status: 'disabled',
+                    data: translateService.instant(PortalResources.featureNotSupportedConsumption)
+                };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

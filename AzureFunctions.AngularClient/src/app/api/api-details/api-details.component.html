@@ -2,7 +2,7 @@
 
   <div class="header">
     <div>
-      <span class="text-level1-heading">{{apiProxyEdit.name}}&nbsp;</span>
+      <h2>{{apiProxyEdit.name}}&nbsp;</h2>
       <span class="link" (click)="deleteProxyClicked()">
                 <i class="fa fa-remove"></i> {{ 'apiProxy_delete' | translate }}
             </span>
@@ -12,13 +12,9 @@
     </div>
   </div>
 
-  <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
+  <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
   <form [formGroup]="complexForm">
-
-    <div *ngIf="!isEnabled" class="alert alert-warning alert-dismissible" role="alert">
-      {{ 'apiProxies_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
-    </div>
 
     <div class="edit">
 
@@ -111,8 +107,8 @@
     </request-respose-override>
 
     <div>
-        <button (click)="submitForm()" [class.custom-button-disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
-        <button (click)="onReset()" [class.custom-button-disabled]="!complexForm.dirty" [disabled]="!complexForm.dirty" class="custom-button">{{ 'discrard' | translate }}</button>
+        <button (click)="submitForm()" [disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
+        <button (click)="onReset()" [disabled]="!complexForm.dirty" [disabled]="!complexForm.dirty" class="custom-button">{{ 'discard' | translate }}</button>
     </div>
 
   </form>

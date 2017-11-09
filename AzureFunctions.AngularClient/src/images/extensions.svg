@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" role="presentation" focusable="false" aria-hidden="true">
-   <g>
-      <path d="M30 42h28v28H30z" style="fill: #59b4d9" />
-      <path d="M56 0v22h22v22h22V0z" style="fill: #804998" />
-      <path d="M22 78V34h16V12H0v88h88V60H66.2v18z" style="fill: #a0a1a2" />
-   </g>
-</svg>

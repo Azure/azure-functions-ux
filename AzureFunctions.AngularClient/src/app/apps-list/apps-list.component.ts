@@ -1,16 +1,13 @@
+import { ActivatedRoute } from '@angular/router';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { TblComponent, TableItem } from './../controls/tbl/tbl.component';
 import { TranslateService } from '@ngx-translate/core';
 import { DropDownElement } from './../shared/models/drop-down-element';
 import { PortalResources } from './../shared/models/portal-resources';
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
-
-import { AppsNode } from './../tree-view/apps-node';
 import { AppNode } from './../tree-view/app-node';
-import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 
 interface AppTableItem extends TableItem {
   title: string;
@@ -25,14 +22,11 @@ interface AppTableItem extends TableItem {
   templateUrl: './apps-list.component.html',
   styleUrls: ['./apps-list.component.scss'],
 })
-export class AppsListComponent implements OnInit, OnDestroy {
-  public viewInfoStream: Subject<TreeViewInfo<any>>;
+export class AppsListComponent implements OnDestroy {
   public apps: AppNode[] = [];
   public tableItems: TableItem[] = [];
-  public appsNode: AppsNode;
   public Resources = PortalResources;
-
-  public initialized = false;
+  public isLoading = true;
 
   public allLocations = this.translateService.instant(PortalResources.allLocations);
   public numberLocations = this.translateService.instant(PortalResources.locationCount);
@@ -48,28 +42,29 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   @ViewChild('table') appTable: TblComponent;
 
-  public groupOptions: DropDownElement<string>[] = [{ displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none' },
-  { displayLabel: this.translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup' },
-  { displayLabel: this.translateService.instant(PortalResources.grouping_subscription), value: 'subscription' },
-  { displayLabel: this.translateService.instant(PortalResources.grouping_location), value: 'location' }];
+  public groupOptions: DropDownElement<string>[] = [
+    { displayLabel: this.translateService.instant(PortalResources.grouping_none), value: 'none' },
+    { displayLabel: this.translateService.instant(PortalResources.grouping_resourceGroup), value: 'resourceGroup' },
+    { displayLabel: this.translateService.instant(PortalResources.grouping_subscription), value: 'subscription' },
+    { displayLabel: this.translateService.instant(PortalResources.grouping_location), value: 'location' }];
+
   public groupDisplayText = '';
   public currGroup = 'none';
 
-  private _viewInfoSubscription: RxSubscription;
+  private _ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(public translateService: TranslateService) {
-    this.viewInfoStream = new Subject<TreeViewInfo<any>>();
+  constructor(
+    public translateService: TranslateService,
+    public broadcastService: BroadcastService,
+    public route: ActivatedRoute) {
 
-    this._viewInfoSubscription = this.viewInfoStream
+    this.broadcastService.getEvents<AppNode[]>(BroadcastEvent.UpdateAppsList)
+      .takeUntil(this._ngUnsubscribe)
       .distinctUntilChanged()
-      .switchMap(viewInfo => {
-        this.appsNode = (<AppsNode>viewInfo.node);
-        this.initialized = false;
-        return (<AppsNode>viewInfo.node).childrenStream;
-      })
       .subscribe(children => {
-        this.apps = children;
-        this.initialized = true;
+        this.isLoading = !children;
+        this.apps = children ? children : [];
+
         this.tableItems = this.apps.map(app => (<AppTableItem>{
           title: app.title,
           subscription: app.subscription,
@@ -92,15 +87,8 @@ export class AppsListComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {
-  }
-
   ngOnDestroy(): void {
-    this._viewInfoSubscription.unsubscribe();
-  }
-
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo<any>) {
-    this.viewInfoStream.next(viewInfo);
+    this._ngUnsubscribe.next();
   }
 
   clickRow(item: AppTableItem) {
@@ -123,6 +111,10 @@ export class AppsListComponent implements OnInit, OnDestroy {
 
   onLocationsSelect(locations: string[]) {
     this.selectedLocations = locations;
+    if (!this.apps) {
+      return;
+    }
+
     const newItems = this.tableItems.filter(item => item.type === 'group');
     const filteredItems = this.apps.filter(app => this.selectedLocations.find(l => l === this.translateService.instant(app.location)))
       .filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))
@@ -172,6 +164,10 @@ export class AppsListComponent implements OnInit, OnDestroy {
   }
 
   onResourceGroupsSelect(resourceGroups: string[]) {
+    if(!this.apps){
+      return;
+    }
+
     this.selectedResourceGroups = resourceGroups;
     const newItems = this.tableItems.filter(item => item.type === 'group');
     const filteredItems = this.apps.filter(app => this.selectedResourceGroups.find(r => r === app.resourceGroup))

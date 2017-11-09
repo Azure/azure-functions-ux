@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { EditModeHelper } from './../Utilities/edit-mode.helper';
 import { Directive, Input, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
@@ -22,7 +23,9 @@ export class FnWriteAccessDirective {
 
         this.functionAppStream
             .debounceTime(100)
-            .switchMap(fa => fa.getFunctionAppEditMode())
+            .switchMap(fa => {
+                return fa ? fa.getFunctionAppEditMode() : Observable.of(null);
+            })
             .map(EditModeHelper.isReadOnly)
             .subscribe(isReadOnly => {
                 if (isReadOnly) {

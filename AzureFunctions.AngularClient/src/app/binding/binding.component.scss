@@ -1,7 +1,11 @@
-@import '../../sass/main';
+@import '../../sass/common/variables';
 
 .panel{
     border: none;
+}
+
+.panel, .panel-heading{
+    background-color: inherit;
 }
 
 .binding-title{
@@ -12,7 +16,6 @@
 }
 
 .panel-heading, .panel-body{
-    background-color: #FFF;
     border: none;
     padding-left: 0px;
     padding-right: 0px;
@@ -49,17 +52,12 @@
 }
 
 input, select{
-    background: #fff;
     position: relative;
     vertical-align: middle;
     height: 29px;
     width: 85%;
     margin-right: 10px;
     padding: 0 5px;
-}
-
-input:disabled{
-    background-color: #F3F3F3;
 }
 
 input[type=checkbox]{
@@ -83,12 +81,7 @@ i.select {
 button.go {
     margin-left: 100px;
 }
-.button-go-disabled {
-    cursor: not-allowed;
-    background-color: $background-color-disabled;
-    opacity: 0.4;
-    color: black;
-}
+
 .storage-creds-texbox {
     float: left; 
     margin-right: 0px;

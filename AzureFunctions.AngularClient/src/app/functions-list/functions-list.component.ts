@@ -1,14 +1,12 @@
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { FunctionsService, FunctionAppContext } from './../shared/services/functions-service';
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { ErrorIds } from './../shared/models/error-ids';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { AppNode } from './../tree-view/app-node';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-
 import { FunctionNode } from './../tree-view/function-node';
 import { FunctionsNode } from './../tree-view/functions-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
@@ -17,7 +15,6 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { PortalService } from '../shared/services/portal.service';
-import { DashboardType } from '../tree-view/models/dashboard-type';
 import { ErrorType, ErrorEvent } from 'app/shared/models/error-event';
 
 @Component({
@@ -25,31 +22,42 @@ import { ErrorType, ErrorEvent } from 'app/shared/models/error-event';
     templateUrl: './functions-list.component.html',
     styleUrls: ['./functions-list.component.scss']
 })
-export class FunctionsListComponent implements OnInit, OnDestroy {
-    public viewInfoStream: Subject<TreeViewInfo<any>>;
+export class FunctionsListComponent implements OnDestroy {
     public functions: FunctionNode[] = [];
     public isLoading: boolean;
     public functionApp: FunctionApp;
     public appNode: AppNode;
-
-    private _viewInfoSubscription: RxSubscription;
+    public context: FunctionAppContext;
 
     private _functionsNode: FunctionsNode;
+    private _ngUnsubscribe = new Subject<void>();
 
     constructor(private _globalStateService: GlobalStateService,
         private _portalService: PortalService,
         private _translateService: TranslateService,
-        private _broadcastService: BroadcastService
-    ) {
-        this.viewInfoStream = new Subject<TreeViewInfo<any>>();
+        private _broadcastService: BroadcastService,
+        private _functionsService: FunctionsService,
+        private _injector: Injector) {
 
-        this._viewInfoSubscription = this.viewInfoStream
+        this._broadcastService.getEvents<TreeViewInfo<void>>(BroadcastEvent.TreeNavigation)
+            .filter(viewInfo => viewInfo.dashboardType === DashboardType.FunctionsDashboard)
+            .takeUntil(this._ngUnsubscribe)
             .distinctUntilChanged()
             .switchMap(viewInfo => {
                 this.isLoading = true;
                 this._functionsNode = (<FunctionsNode>viewInfo.node);
                 this.appNode = (<AppNode>viewInfo.node.parent);
-                this.functionApp = this._functionsNode.functionApp;
+                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+                return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
+            })
+            .switchMap(context => {
+                this.context = context;
+
+                if (this.functionApp) {
+                    this.functionApp.dispose();
+                }
+
+                this.functionApp = new FunctionApp(context.site, this._injector);
                 return this._functionsNode.loadChildren();
             })
             .subscribe(() => {
@@ -58,15 +66,11 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
             });
     }
 
-    ngOnInit() {
-    }
-
     ngOnDestroy(): void {
-        this._viewInfoSubscription.unsubscribe();
-    }
-
-    @Input() set viewInfoInput(viewInfo: TreeViewInfo<any>) {
-        this.viewInfoStream.next(viewInfo);
+        this._ngUnsubscribe.next();
+        if (this.functionApp) {
+            this.functionApp.dispose();
+        }
     }
 
     clickRow(item: FunctionNode) {
@@ -109,10 +113,11 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
                         this.functions.splice(indexToDelete, 1);
                     }
 
-                    this._functionsNode.removeChild(item.functionInfo, false);
+                    const resourceId = `${this._functionsNode.resourceId}/${item.functionInfo.name}`;
+                    this._functionsNode.removeChild(resourceId, false);
 
-                    const defaultHostName = this._functionsNode.functionApp.site.properties.defaultHostName;
-                    const scmHostName = this._functionsNode.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 1).name;
+                    const defaultHostName = this.functionApp.site.properties.defaultHostName;
+                    const scmHostName = this.functionApp.site.properties.hostNameSslStates.find(s => s.hostType === 1).name;
 
                     item.sideNav.cacheService.clearCachePrefix(`https://${defaultHostName}`);
                     item.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);
@@ -133,6 +138,6 @@ export class FunctionsListComponent implements OnInit, OnDestroy {
     }
 
     onNewFunctionClick() {
-        this._functionsNode.openCreateDashboard(DashboardType.createFunction);
+        this._functionsNode.openCreateDashboard(DashboardType.CreateFunctionDashboard);
     }
 }

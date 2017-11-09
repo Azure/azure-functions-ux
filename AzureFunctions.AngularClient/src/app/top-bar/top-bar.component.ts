@@ -48,7 +48,7 @@ export class TopBarComponent implements OnInit {
                     const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.resourceId);
                     this.appName = descriptor.site;
                     const fnDescriptor = new FunctionDescriptor(this.resourceId);
-                    this.fnName = fnDescriptor.functionName;
+                    this.fnName = fnDescriptor.name;
                 });
         }
 
@@ -71,7 +71,6 @@ export class TopBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._globalStateService.showTryView = this._globalStateService.showTryView;
         if (!this.showTryView) {
 
             // nothing to do if we're running in an iframe

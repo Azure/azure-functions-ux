@@ -1,21 +1,22 @@
+import { LogService } from './../shared/services/log.service';
+import { Router, ActivatedRoute} from '@angular/router';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { Dom } from './../shared/Utilities/dom';
+import { SubUtil } from './../shared/Utilities/sub-util';
 import { SearchBoxComponent } from './../search-box/search-box.component';
-import { Component, EventEmitter, Output, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, Injector } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../shared/services/config.service';
 import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { Arm } from './../shared/models/constants';
+import { LocalStorageKeys, Arm, LogCategories } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -25,7 +26,7 @@ import { AppNode } from '../tree-view/app-node';
 import { ArmService } from '../shared/services/arm.service';
 import { CacheService } from '../shared/services/cache.service';
 import { UserService } from '../shared/services/user.service';
-import { FunctionsService } from '../shared/services/functions.service';
+import { TryFunctionsService } from '../shared/services/try-functions.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { AiService } from '../shared/services/ai.service';
@@ -33,15 +34,15 @@ import { DropDownElement } from '../shared/models/drop-down-element';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
-import { SlotsService } from './../shared/services/slots.service';
+import { SiteService } from './../shared/services/slots.service';
+import { Url } from 'app/shared/Utilities/url';
+
 @Component({
     selector: 'side-nav',
     templateUrl: './side-nav.component.html',
-    styleUrls: ['./side-nav.component.scss'],
-    inputs: ['tryFunctionAppInput']
+    styleUrls: ['./side-nav.component.scss']
 })
 export class SideNavComponent implements AfterViewInit {
-    @Output() treeViewInfoEvent: EventEmitter<TreeViewInfo<any>>;
     @ViewChild('treeViewContainer') treeViewContainer;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
 
@@ -62,25 +63,24 @@ export class SideNavComponent implements AfterViewInit {
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
 
-    private _savedSubsKey = '/subscriptions/selectedIds';
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new ReplaySubject<string>(1);
 
     private _initialized = false;
 
     private _tryFunctionAppStream = new Subject<FunctionApp>();
-
-    set tryFunctionAppInput(functionApp: FunctionApp) {
+    @Input() set tryFunctionAppInput(functionApp: FunctionApp) {
         if (functionApp) {
             this._tryFunctionAppStream.next(functionApp);
         }
     }
 
     constructor(
+        public injector: Injector,
         public configService: ConfigService,
         public armService: ArmService,
         public cacheService: CacheService,
-        public functionsService: FunctionsService,
+        public functionsService: TryFunctionsService,
         public http: Http,
         public globalStateService: GlobalStateService,
         public broadcastService: BroadcastService,
@@ -91,9 +91,10 @@ export class SideNavComponent implements AfterViewInit {
         public portalService: PortalService,
         public languageService: LanguageService,
         public authZService: AuthzService,
-        public slotsService: SlotsService) {
-
-        this.treeViewInfoEvent = new EventEmitter<TreeViewInfo<any>>();
+        public slotsService: SiteService,
+        public logService: LogService,
+        public router: Router,
+        public route: ActivatedRoute) {
 
         userService.getStartupInfo().subscribe(info => {
 
@@ -110,7 +111,7 @@ export class SideNavComponent implements AfterViewInit {
             // child blades close.  If we get a new info object, then we'll rebuild the tree.
             // The true fix would be to make sure that we never set the resourceId of the hosting
             // blade, but that's a pretty large change and this should be sufficient for now.
-            if (!this._initialized) {
+            if (!this._initialized && !this.globalStateService.showTryView) {
 
                 this._initialized = true;
                 this.rootNode = new TreeNode(this, null, null);
@@ -169,6 +170,8 @@ export class SideNavComponent implements AfterViewInit {
                     this.initialResourceId = this.tryFunctionApp.site.id;
                 }
 
+                this.rootNode = new TreeNode(this, null, null);
+
                 const appNode = new AppNode(
                     this,
                     this.tryFunctionApp.site,
@@ -178,7 +181,6 @@ export class SideNavComponent implements AfterViewInit {
 
                 appNode.select();
 
-                this.rootNode = new TreeNode(this, null, null);
                 this.rootNode.children = [appNode];
                 this.rootNode.isExpanded = true;
             });
@@ -217,7 +219,12 @@ export class SideNavComponent implements AfterViewInit {
         }, 0);
     }
 
-    updateView(newSelectedNode: TreeNode, newDashboardType: DashboardType, force?: boolean): Observable<boolean> {
+    updateView(
+        newSelectedNode: TreeNode,
+        newDashboardType: DashboardType,
+        resourceId: string,
+        force?: boolean): Observable<boolean> {
+
         if (this.selectedNode) {
 
             if (!force && this.selectedNode === newSelectedNode && this.selectedDashboardType === newDashboardType) {
@@ -228,7 +235,7 @@ export class SideNavComponent implements AfterViewInit {
                     return Observable.of(false);
                 }
 
-                this.selectedNode.dispose(newSelectedNode);
+                this.selectedNode.handleDeselection(newSelectedNode);
             }
         }
 
@@ -236,21 +243,54 @@ export class SideNavComponent implements AfterViewInit {
 
         this.selectedNode = newSelectedNode;
         this.selectedDashboardType = newDashboardType;
-        this.resourceId = newSelectedNode.resourceId;
+        this.resourceId = newSelectedNode.resourceId;   // TODO: should this be updated to resourceId passed in or is this fine?
 
         const viewInfo = <TreeViewInfo<any>>{
-            resourceId: newSelectedNode.resourceId,
+            resourceId: resourceId,
             dashboardType: newDashboardType,
             node: newSelectedNode,
             data: {}
         };
 
         this.globalStateService.setDisabledMessage(null);
-        this.treeViewInfoEvent.emit(viewInfo);
+
+        // TODO: I can't seem to get Angular to handle case-insensitive routes properly, even if
+        // I follow the example from here: https://stackoverflow.com/questions/36154672/angular2-make-route-paths-case-insensitive
+
+        // BUG: For now we need to remove the "microsoft.web" piece from the URL or Kudu won't list functions properly:
+        // https://github.com/projectkudu/kudu/issues/2543
+        const navId = resourceId.slice(1, resourceId.length).toLowerCase().replace('/providers/microsoft.web', '');
+        this.logService.debug(LogCategories.SideNav, `Navigating to ${navId}`);
+        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
+
+        // const dashboardString = DashboardType[newDashboardType];
+        // setTimeout(() => this.broadcastService.broadcastEvent(BroadcastEvent[dashboardString], viewInfo), 100);
+        this.broadcastService.broadcastEvent(BroadcastEvent.TreeNavigation, viewInfo);
+
         this._updateTitle(newSelectedNode);
         this.portalService.closeBlades();
 
         return newSelectedNode.handleSelection();
+    }
+
+    navidateToNewSub() {
+        const navId = 'subs/new/subscription';
+        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });        
+    }
+
+    refreshSubs() {
+        this.cacheService.getArm('/subscriptions', true).subscribe(r => {
+            this.userService.getStartupInfo()
+            .first()
+            .subscribe((info) => {
+                const subs: Subscription[] = r.json().value;
+                if (!SubUtil.subsChanged(info.subscriptions, subs)) {
+                    return;
+                }
+                info.subscriptions = subs;
+                this.userService.updateStartupInfo(info);
+            });
+        });
     }
 
     private _logDashboardTypeChange(oldDashboard: DashboardType, newDashboard: DashboardType) {
@@ -293,7 +333,7 @@ export class SideNavComponent implements AfterViewInit {
         // We only want to clear the view if the user is currently looking at something
         // under the tree path being deleted
         if (this.resourceId.startsWith(resourceId)) {
-            this.treeViewInfoEvent.emit(null);
+            this.router.navigate(['blank'], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
         }
     }
 
@@ -342,7 +382,7 @@ export class SideNavComponent implements AfterViewInit {
         }
 
         const storedSelectedSubIds: StoredSubscriptions = {
-            id: this._savedSubsKey,
+            id: LocalStorageKeys.savedSubsKey,
             subscriptions: subIds
         };
 
@@ -371,22 +411,21 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     private _setupInitialSubscriptions(resourceId: string) {
-        const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(this._savedSubsKey);
-        const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
-        let descriptor: SiteDescriptor;
-
-        if (resourceId) {
-            descriptor = new SiteDescriptor(resourceId);
-        }
-
         // Need to set an initial value to force the tree to render with an initial list first.
         // Otherwise the tree won't load in batches of objects for long lists until the entire
         // observable sequence has completed.
         this._subscriptionsStream.next([]);
 
         this.userService.getStartupInfo()
-            .first()
             .subscribe(info => {
+                const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
+                const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
+                let descriptor: SiteDescriptor;
+
+                if (resourceId) {
+                    descriptor = new SiteDescriptor(resourceId);
+                }
+
                 let count = 0;
 
                 this.subscriptionOptions =
@@ -408,7 +447,7 @@ export class SideNavComponent implements AfterViewInit {
                         }
 
                         return {
-                            displayLabel: e.displayName,
+                            displayLabel: `${e.displayName}(${e.subscriptionId})`,
                             value: e,
                             isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
                         };

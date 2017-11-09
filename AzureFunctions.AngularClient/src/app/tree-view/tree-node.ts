@@ -1,19 +1,20 @@
+import { AiService } from 'app/shared/services/ai.service';
 import { DomEvents, KeyCodes } from './../shared/models/constants';
 import { TreeViewComponent } from './tree-view.component';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/observable/of';
-
 import { Disposable } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/of';
+
 
 export interface CustomSelection {
     handleSelection();
 }
 
 export interface Disposable {
-    dispose(newSelectedNode?: TreeNode);
+    handleDeselection(newSelectedNode?: TreeNode);
 }
 
 export interface Removable {
@@ -41,7 +42,7 @@ export interface MutableCollection {
 export class TreeNode implements Disposable, Removable, CanBlockNavChange, CustomSelection, Collection {
     public isExpanded: boolean;
     public showExpandIcon = true;
-    public nodeClass = 'tree-node';
+    public nodeClass = 'list-item tree-node';
     public iconClass: string;
     public iconUrl: string;
     public isLoading: boolean;
@@ -60,11 +61,15 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public supportsTab = false;
     public treeView: TreeViewComponent;
 
+    private _aiService: AiService;
+
     constructor(
         public sideNav: SideNavComponent,
         public resourceId: string,
-        public parent: TreeNode) {
+        public parent: TreeNode,
+        public createResourceId?: string ) {
         this.disabledReason = this.sideNav.translateService.instant('You either do not have access to this app or there are orphaned slots associated with it');
+        this._aiService = sideNav.injector.get(AiService);
     }
 
     public select(force?: boolean): void {
@@ -78,7 +83,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             this.isExpanded = true;
         }
 
-        this.sideNav.updateView(this, this.dashboardType, force)
+        this.sideNav.updateView(this, this.dashboardType, this.resourceId, force)
             .do(null, e => {
                 this.sideNav.aiService.trackException(e, '/errors/tree-node/select');
             })
@@ -93,8 +98,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     }
 
     // Virtual
-    public handleSelection(): Observable<any> {
-        this.isLoading = false;
+    public handleSelection(data?: any): Observable<any> {
         return Observable.of(null);
     }
 
@@ -106,19 +110,20 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             }
         }
 
-        this.isLoading = true;
         this.handleRefresh()
             .do(null, e => {
                 this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh');
             })
             .subscribe(() => {
-                this.sideNav.updateView(this.sideNav.selectedNode, this.sideNav.selectedDashboardType, true)
+                this.sideNav.updateView(
+                    this.sideNav.selectedNode,
+                    this.sideNav.selectedDashboardType,
+                    this.resourceId,
+                    true)
                     .do(null, e => {
                         this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh/update-view');
                     })
                     .subscribe(() => { });
-
-                this.isLoading = false;
             });
 
         this.treeView.setFocus(this);
@@ -135,7 +140,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public toggle(event) {
 
         if (!this.isExpanded) {
-            this.isLoading = true;
             this.isExpanded = true;
 
             this._loadAndExpandChildrenIfSingle();
@@ -154,7 +158,6 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
                 this.sideNav.aiService.trackException(e, '/errors/tree-node/expand-single/load-children');
             })
             .subscribe(() => {
-                this.isLoading = false;
                 if (this.children && this.children.length > 0) {
                     const matchingChild = this.children.find(c => {
                         return this.sideNav.initialResourceId && this.sideNav.initialResourceId.toLowerCase().startsWith(`${this.resourceId}/${c.title}`.toLowerCase());
@@ -184,7 +187,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             }
         }
 
-        this.sideNav.updateView(this, this.newDashboardType)
+        this.sideNav.updateView(this, this.newDashboardType, this.createResourceId)
             .do(null, e => {
                 this.sideNav.aiService.trackException(e, '/errors/tree-node/open-create/update-view');
             })
@@ -203,7 +206,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         return Observable.of(null);
     }
 
-    public dispose(_?: TreeNode) {
+    public handleDeselection(_?: TreeNode) {
     }
 
     public remove() {
@@ -240,6 +243,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
                 return;
             }
         }
+
+        this._aiService.trackEvent('/SideNav/scopeToNode');
 
         this.sideNav.searchExact(this.title);
     }
