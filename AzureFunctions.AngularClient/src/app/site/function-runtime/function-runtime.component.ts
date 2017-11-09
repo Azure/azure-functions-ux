@@ -29,12 +29,13 @@ import { GlobalStateService } from '../../shared/services/global-state.service';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
 import { SiteService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from './../../shared/models/functions-version-info';
 import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
+import { FunctionAppContext } from './../../shared/services/functions-service';
+import { FunctionApp } from './../../shared/function-app';
 
 @Component({
   selector: 'function-runtime',
@@ -52,6 +53,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public dailyMemoryTimeQuotaOriginal: string;
   public showDailyMemoryWarning = false;
   public showDailyMemoryInfo = false;
+  public context: FunctionAppContext;
   public functionApp: FunctionApp;
   public exactExtensionVersion: string;
 
@@ -104,12 +106,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return this._functionsService.getAppContext(this._viewInfo.resourceId);
       })
       .switchMap(context => {
+        this.context = context;
         this.site = context.site;
 
         if (this.functionApp) {
           this.functionApp.dispose();
         }
-
         this.functionApp = new FunctionApp(context.site, this._injector);
 
         return Observable.zip(
@@ -117,14 +119,16 @@ export class FunctionRuntimeComponent implements OnDestroy {
           this._slotsService.getSlotsList(this._viewInfo.resourceId),
           (a: Response, slots: ArmObj<Site>[]) => ({ appSettingsResponse: a, slotsList: slots }))
           .mergeMap(result => {
-            return Observable.zip(this.functionApp.getFunctionAppEditMode(), this.functionApp.getFunctionHostStatus(),
+            return Observable.zip(
+              this._functionsService.getFunctionAppEditMode(this.context),
+              this._functionsService.getFunctionHostStatus(this.context),
               (editMode: FunctionAppEditMode, hostStatus: HostStatus) => ({ editMode: editMode, hostStatus: hostStatus }))
-              .map(r => ({
-                appSettingsResponse: result.appSettingsResponse,
-                editMode: r.editMode,
-                hostStatus: r.hostStatus,
-                slotsList: result.slotsList
-              })
+                .map(r => ({
+                  appSettingsResponse: result.appSettingsResponse,
+                  editMode: r.editMode,
+                  hostStatus: r.hostStatus,
+                  slotsList: result.slotsList
+                })
               );
           });
       })
@@ -262,13 +266,13 @@ export class FunctionRuntimeComponent implements OnDestroy {
           message: this._translateService.instant(PortalResources.error_unableToUpdateFunctionAppEditMode),
           errorType: ErrorType.ApiError,
           errorId: ErrorIds.unableToUpdateFunctionAppEditMode,
-          resourceId: this.functionApp.site.id
+          resourceId: this.site.id
         });
       })
       .retry()
       // This is needed to update the editMode value for other subscribers
       // getFunctionAppEditMode returns a subject and updates it on demand.
-      .mergeMap(_ => this.functionApp.getFunctionAppEditMode())
+      .mergeMap(_ => this._functionsService.getFunctionAppEditMode(this.context))
       .subscribe(() => {
 
         this._aiService.stopTrace('/timings/site/tab/function-runtime/full-ready',
@@ -293,7 +297,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
           })
           .retry()
           .subscribe(() => {
-            this.functionApp.fireSyncTrigger();
+            this._functionsService.fireSyncTrigger(this.context);
             this.slotsEnabled = value;
             this._busyManager.clearBusy();
             this._cacheService.clearArmIdCachePrefix(this.site.id);
@@ -319,11 +323,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this._ngUnsubscribe.next();
-
     if (this.functionApp) {
       this.functionApp.dispose();
     }
+    this._ngUnsubscribe.next();
   }
 
   saveMemorySize(value: string | number) {
@@ -350,7 +353,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return this._updateContainerVersion(r.json(), version);
       })
       .mergeMap(r => {
-        return this.functionApp.getFunctionHostStatus()
+        return this._functionsService.getFunctionHostStatus(this.context)
           .delay(4000)
           .retryWhen(error => {
             return error.scan((errorCount: number, err: any) => {

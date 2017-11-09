@@ -31,6 +31,7 @@ import { ErrorEvent, ErrorType } from '../models/error-event';
 import { Constants } from 'app/shared/models/constants';
 import * as jsonschema from 'jsonschema';
 import { FunctionsVersionInfoHelper} from '../models/functions-version-info';
+import { HostStatus } from './../models/host-status';
 
 export interface FunctionAppContext {
     site: ArmObj<Site>;
@@ -214,6 +215,30 @@ export class FunctionsService {
         } else {
             return `https://${site.properties.defaultHostName}`;
         }
+    }
+
+    getFunctionHostStatus(context: FunctionAppContext, handleUnauthorized?: boolean): Observable<HostStatus> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+        return this.getAuthSettings(context)
+            .mergeMap(authSettings => {
+                if (authSettings.clientCertEnabled || !context.masterKey) {
+                    return Observable.of(null);
+                } else {
+                    return this._http.get(context.urlTemplates.runtimeStatusUrl, { headers: this.getMainSiteHeaders(context) })
+                        .map(r => (r.json()))
+                        .catch((error: Response) => {
+                            if (handleUnauthorized && error.status === 401) {
+                                this._trackEvent(context, ErrorIds.unauthorizedTalkingToRuntime, {
+                                    usedKey: this.sanitize(context.masterKey)
+                                });
+                                return this._getHostSecretsFromScm(context).mergeMap(() => this.getFunctionHostStatus(context, false));
+                            } else {
+                                throw error;
+                            }
+                        })
+                        .catch(() => Observable.of(null));
+                }
+            });
     }
 
     getFunctionAppEditMode(context: FunctionAppContext): Observable<FunctionAppEditMode> {
@@ -556,5 +581,22 @@ export class FunctionsService {
                 return errorCount + 1;
             }
         }, 0).delay(1000);
+    }
+
+    private sanitize(value: string): string {
+        if (value) {
+            return value.substring(0, Math.min(3, value.length));
+        } else {
+            return 'undefined';
+        }
+    }
+
+    private getMainSiteHeaders(context: FunctionAppContext, contentType?: string): Headers {
+        contentType = contentType || 'application/json';
+        const headers = new Headers();
+        headers.append('Content-Type', contentType);
+        headers.append('Accept', 'application/json,*/*');
+        headers.append('x-functions-key', context.masterKey);
+        return headers;
     }
 }
