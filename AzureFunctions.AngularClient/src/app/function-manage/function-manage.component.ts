@@ -33,7 +33,7 @@ export class FunctionManageComponent {
     public isHttpFunction = false;
     public runtimeVersion: string;
 
-    private functionStream: Subject<FunctionInfo>;
+    private functionStream: Subject<FunctionApp>;
     private functionStateValueChange: Subject<boolean>;
 
     constructor(private _portalService: PortalService,
@@ -86,10 +86,11 @@ export class FunctionManageComponent {
                 });
             });
 
+        this.functionStream = new Subject<FunctionApp>(); 
         this.functionStream
-            .switchMap(functionInfo => {
+            .switchMap(functionApp => {
                 // Getting function runtime version
-                return this.functionApp.getRuntimeGeneration();
+                return functionApp.getRuntimeGeneration();
             })
             .do(null, (e) => {
                 console.error(e);
@@ -103,6 +104,8 @@ export class FunctionManageComponent {
         this.functionInfo = functionInfo;
         this.functionApp = this.functionInfo.functionApp;
         this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
+
+        this.functionStream.next(this.functionApp);
     }
 
     deleteFunction() {
