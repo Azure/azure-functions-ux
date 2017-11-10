@@ -1,3 +1,4 @@
+import { LogCategories } from 'app/shared/models/constants';
 import { Binding } from './../shared/models/binding';
 import { Template } from './../shared/models/template-picker';
 import { DropDownElement } from './../shared/models/drop-down-element';
@@ -16,7 +17,7 @@ import { FunctionTemplate } from '../shared/models/function-template';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
-import { AiService } from '../shared/services/ai.service';
+import { LogService } from 'app/shared/services/log.service';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { FunctionsNode } from '../tree-view/functions-node';
 import { FunctionApp } from '../shared/function-app';
@@ -98,8 +99,6 @@ export class FunctionNewComponent implements OnDestroy {
         index: 1000,
     }];
 
-    // private _functionAppStream = new Subject<FunctionApp>();
-    private _functionApp: FunctionApp;
     createCardTemplates: Template[] = [];
     createFunctionTemplate: Template;
     createFunctionLanguage: string = null;
@@ -122,7 +121,7 @@ export class FunctionNewComponent implements OnDestroy {
         _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService,
+        private _logService: LogService,
         private _functionsService: FunctionsService,
         private _injector: Injector) {
 
@@ -149,7 +148,6 @@ export class FunctionNewComponent implements OnDestroy {
                 }
 
                 this.functionApp = new FunctionApp(context.site, this._injector);
-                // this._functionAppStream.next(this.functionApp);
 
                 if (this.functionsNode.action) {
                     this.action = Object.create(this.functionsNode.action);
@@ -161,18 +159,8 @@ export class FunctionNewComponent implements OnDestroy {
                     this.functionApp.getFunctions(),
                     (c, fcs) => ({ cards: c, fcs: fcs}));
             })
-            // .switchMap(r => {
-
-            //     if (this.functionsNode.action) {
-            //         this.action = Object.create(this.functionsNode.action);
-            //         delete this.functionsNode.action;
-            //     }
-
-            //     return this.functionApp.getFunctions();
-            // })
             .do(null, e => {
-                this._aiService.trackException(e, '/errors/function-new');
-                console.error(e);
+                this._logService.error(LogCategories.functionNew, '/errors/function-new', e);
             })
             .retry()
             .subscribe(r => {
@@ -188,11 +176,10 @@ export class FunctionNewComponent implements OnDestroy {
     }
 
     private _buildCreateCardTemplates(functionApp: FunctionApp) {
-        this._functionApp = functionApp;
-        return this._functionApp.getTemplates()
+        return functionApp.getTemplates()
             .switchMap(templates => {
                 return Observable.zip(
-                    this._functionApp.getBindingConfig(),
+                    functionApp.getBindingConfig(),
                     Observable.of(templates),
                     (c, t) => ({ config: c, templates: t }));
             })

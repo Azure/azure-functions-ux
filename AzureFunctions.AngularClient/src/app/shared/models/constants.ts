@@ -221,7 +221,8 @@ export class LogCategories {
     public static readonly subsCriptions = 'SubsCriptions';
     public static readonly functionAppSettings = 'FunctionAppSettings';
     public static readonly swaggerDefinition = 'SwaggerDefinition';
-    public static readonly binding = "Binding";
+    public static readonly binding = 'Binding';
+    public static readonly functionNew = 'FunctionNew';
 }
 
 export class KeyCodes {
