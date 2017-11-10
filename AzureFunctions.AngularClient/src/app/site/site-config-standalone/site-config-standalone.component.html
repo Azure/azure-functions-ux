@@ -1,12 +1,12 @@
 <command-bar *ngIf="!!mainForm">
   <command
-    [displayText]="save | translate"
+    [displayText]="'save' | translate"
     iconUrl="image/save.svg"
     (click)="save()"
     [disabled]="!mainForm.valid || mainForm.pristine"></command>
 
   <command
-    [displayText]="discard | translate"
+    [displayText]="'discard' | translate"
     iconUrl="image/discard.svg"
     (click)="discard()"
     [disabled]="mainForm.pristine"></command>

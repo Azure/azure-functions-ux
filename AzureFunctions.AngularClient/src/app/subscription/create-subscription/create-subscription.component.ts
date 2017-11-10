@@ -5,9 +5,12 @@ import { CacheService } from './../../shared/services/cache.service';
 import {Location} from '@angular/common';
 import { LogService } from './../../shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
+import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { FormControl, FormBuilder } from '@angular/forms';
-
-
+import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
+import { UserService } from '../../shared/services/user.service';
+import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'create-subscription',
@@ -26,26 +29,52 @@ export class CreateSubscriptionComponent implements OnInit {
     private _globalStateService: GlobalStateService,
     private _location: Location,
     private _logService: LogService,
+    private  _userService: UserService,
+    private _localStorageService: LocalStorageService,
+    translateService: TranslateService,
     fb: FormBuilder
   ) {
-    this.friendlySubName = fb.control('');
-    this.invitationCode = fb.control('');
+    const required = new RequiredValidator(translateService);
+    this.friendlySubName = fb.control('', required.validate.bind(required));
+    this.invitationCode = fb.control('', required.validate.bind(required));
   }
   ngOnInit() {
   }
 
   onCreate() {
-    const id = `/subscriptions/${Guid.newGuid()}`;
+    const friendlySubNameControl = <CustomFormControl>this.friendlySubName;
+    const invitationCodeControl = <CustomFormControl>this.invitationCode;
+    const invitationCode = invitationCodeControl.value;
+    const displayName = friendlySubNameControl.value;
+    if (!displayName) {
+      friendlySubNameControl._msRunValidation = true;
+      friendlySubNameControl.updateValueAndValidity();
+      return;
+    }
+
+    if (this.invitationCodeRequired && !invitationCode) {
+      invitationCodeControl._msRunValidation = true;
+      invitationCodeControl.updateValueAndValidity();
+      return;
+    }
+
+    const subId = Guid.newGuid();
+    const id = `/subscriptions/${subId}`;
     const body = {
-      planname: this.planName,
-      displayname: this.friendlySubName.value,
-      invitationcode: this.invitationCode.value,
+      planName: this.planName,
+      displayName: displayName,
+      invitationCode: invitationCode,
     };
 
     this._globalStateService.setBusyState();
     this._cacheService.putArm(id, null, body)
       .subscribe(r => {
         this._globalStateService.clearBusyState();
+        this._userService.getStartupInfo().first().subscribe(info => {
+          info.subscriptions.push(r.json().properties);
+          this._localStorageService.addtoSavedSubsKey(subId);
+          this._userService.updateStartupInfo(info);
+        });
         this._location.back();
       }, error => {
         this._logService.error(LogCategories.subsCriptions, '/create-subscriptions', error);

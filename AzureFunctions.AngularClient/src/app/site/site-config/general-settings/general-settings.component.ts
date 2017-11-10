@@ -13,7 +13,7 @@ import { AvailableStackNames, AvailableStack, Framework, MajorVersion, LinuxCons
 import { DropDownElement, DropDownGroupElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
-import { LogCategories } from 'app/shared/models/constants';
+import { Links, LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -24,6 +24,7 @@ import { AuthzService } from './../../../shared/services/authz.service';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 @Component({
   selector: 'general-settings',
@@ -52,6 +53,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   private _sku: string;
   private _kind: string;
+
+  public FwLinks = Links;
 
   public clientAffinityEnabledOptions: SelectOption<boolean>[];
   public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -174,7 +177,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         if (!this._linuxFxVersionOptionsClean) {
           this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
         }
-        this._processSupportedControls(this.siteArm, this._webConfigArm, this._slotsConfigArm);
+        this._processSupportedControls(this.siteArm, this._webConfigArm);
         this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
@@ -275,7 +278,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.linuxRuntimeSupported = false;
   }
 
-  private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>, slotsConfigArm: ArmArrayResult<Site>) {
+  private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>) {
     if (!!siteConfigArm) {
       let netFrameworkSupported = true;
       let phpSupported = true;
@@ -287,17 +290,13 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       let classicPipelineModeSupported = true;
       let remoteDebuggingSupported = true;
       let clientAffinitySupported = true;
-      let autoSwapSupported = false;
+      let autoSwapSupported = true;
       let linuxRuntimeSupported = false;
 
       this._sku = siteConfigArm.properties.sku;
       this._kind = siteConfigArm.kind;
 
-      if (slotsConfigArm && slotsConfigArm.value && slotsConfigArm.value.length > 0) {
-        autoSwapSupported = true;
-      }
-
-      if (this._kind.indexOf('linux') >= 0) {
+      if (ArmUtil.isLinuxApp(siteConfigArm)) {
         netFrameworkSupported = false;
         phpSupported = false;
         pythonSupported = false;
@@ -314,7 +313,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         autoSwapSupported = false;
       }
 
-      if (this._kind && this._kind.indexOf('functionapp') !== -1) {
+      if (ArmUtil.isFunctionApp(siteConfigArm)) {
         netFrameworkSupported = false;
         pythonSupported = false;
         javaSupported = false;
@@ -326,6 +325,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           clientAffinitySupported = false;
         }
       }
+
       // if (this._sku === 'Free' || this._sku === 'Shared') {
       //   platform64BitSupported = false;
       //   alwaysOnSupported = false;
@@ -509,10 +509,12 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       }
       else {
         const slotNames: string[] = ['production'];
-        slotsConfigArm.value
-          .map(s => s.name)
-          .filter(r => r !== siteConfigArm.name)
-          .forEach(n => slotNames.push(n.split("/").slice(-1)[0]))
+        if (slotsConfigArm && slotsConfigArm.value) {
+          slotsConfigArm.value
+            .map(s => s.name)
+            .filter(r => r !== siteConfigArm.name)
+            .forEach(n => slotNames.push(n.split("/").slice(-1)[0]))
+        }
 
         slotNames.forEach(name => {
           autoSwapSlotNameOptions.push({
@@ -1027,9 +1029,16 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   save(): Observable<SaveOrValidationResult> {
-    const generalSettingsControls = this.group.controls;
+    // Don't make unnecessary PATCH call if these settings haven't been changed
+    if (this.group.pristine) {
+      return Observable.of({
+        success: true,
+        error: null
+      });
+    }
+    else if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
+      const generalSettingsControls = this.group.controls;
 
-    if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
       // level: site
       const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this.siteArm));
 

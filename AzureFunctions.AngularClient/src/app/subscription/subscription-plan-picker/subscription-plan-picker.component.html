@@ -1,7 +1,7 @@
 <div>
     <div class="tp-plantemplates">
         <div class="tp-plantemplate-plan" *ngFor="let plan of plans"
-             (click)="onTemplateClicked(plan.name, plan.invitionCodeRequired)"
+             (click)="onTemplateClicked(plan.name, plan.invitationCodeRequired)"
              [class.tp-plantemplate-selected]="selectedPlan == plan.name">
             <div class="tp-plantemplate-plan-title">{{plan.name}}</div>
             <div class="tp-plantemplate-plan-description">{{plan.description}}</div>

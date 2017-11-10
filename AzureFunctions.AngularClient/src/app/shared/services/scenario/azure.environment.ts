@@ -50,10 +50,10 @@ export class AzureEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.showCreateRefreshSub] = {
-            id: ScenarioIds.showCreateRefreshSub,
-            runCheck: () => {
-                return { status: 'disabled' };
+        this.scenarioChecks[ScenarioIds.enableAutoSwap] = {
+            id: ScenarioIds.enableAutoSwap,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._enableIfStandardOrHigher(input);
             }
         };
     }
@@ -67,6 +67,19 @@ export class AzureEnvironment extends Environment {
             && input.site
             && (input.site.properties.sku === ServerFarmSku.free
                 || input.site.properties.sku === ServerFarmSku.shared);
+
+        return <ScenarioResult>{
+            status: disabled ? 'disabled' : 'enabled',
+            data: null
+        };
+    }
+
+    private _enableIfStandardOrHigher(input: ScenarioCheckInput) {
+        const disabled = input
+            && input.site
+            && (input.site.properties.sku === ServerFarmSku.free
+                || input.site.properties.sku === ServerFarmSku.shared
+                || input.site.properties.sku === ServerFarmSku.basic);
 
         return <ScenarioResult>{
             status: disabled ? 'disabled' : 'enabled',

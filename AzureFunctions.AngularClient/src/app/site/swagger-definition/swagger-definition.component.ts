@@ -1,9 +1,11 @@
-import { SiteTabComponent } from './../site-dashboard/site-tab/site-tab.component';
+import { Injector } from '@angular/core';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../shared/services/log.service';
+import { FunctionsService } from './../../shared/services/functions-service';
+import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
@@ -57,43 +59,46 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     private swaggerEditor: SwaggerEditor;
     private swaggerDocument: any;
 
-
     private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
-    private _viewInfoSub: RxSubscription;
+    private _ngUnsubscribe = new Subject();
     private _viewInfo: TreeViewInfo<SiteData>;
     private _appNode: AppNode;
-    private _busyState: BusyStateComponent;
+    private _busyManager: BusyStateScopeManager;
 
     constructor(private _aiService: AiService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
         private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        siteTabComponent: SiteTabComponent
+        private _functionsService: FunctionsService,
+        private _logService: LogService,
+        private _injector: Injector
     ) {
-        this._busyState = siteTabComponent.busyState;
-
-        this._viewInfoSub = this._viewInfoStream
+        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+        this._viewInfoStream
+            .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._viewInfo = viewInfo;
-                this._busyState.setBusyState();
+                this._busyManager.setBusy();
 
                 this._appNode = (<AppNode>viewInfo.node);
 
-                return Observable.zip(
-                    this._cacheService.getArm(viewInfo.resourceId),
-                    this._appNode.functionAppStream,
-                    (s: Response, fa: FunctionApp) => ({ siteResponse: s, functionApp: fa }));
+                return this._functionsService.getAppContext(this._viewInfo.resourceId);
             })
-            .switchMap(r => {
-                this.functionApp = r.functionApp;
-                this.site = r.siteResponse.json();
+            .switchMap(context => {
+                this.site = context.site;
+
+                if (this.functionApp) {
+                    this.functionApp.dispose();
+                }
+
+                this.functionApp = new FunctionApp(context.site, this._injector);
                 return this.functionApp.getHostJson();
             })
             .do(null, e => {
-                this._aiService.trackException(e, 'swagger-definition');
+                this._logService.error(LogCategories.swaggerDefinition, '/load-failure', e);
                 this.swaggerEnabled = false;
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
             })
             .retry()
             .mergeMap(jsonObj => {
@@ -114,7 +119,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             })
             .mergeMap(key => {
                 // global busy state
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy()
                 this._aiService.stopTrace('/timings/site/tab/api-definition/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
                 // busy state for Editor Section
@@ -148,9 +153,9 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         this.valueChange = new Subject<boolean>();
         this.valueChange
             .subscribe((swaggerEnabled: boolean) => {
-                this._busyState.setBusyState();
+                this._busyManager.setBusy();
                 if (this.swaggerEnabled === swaggerEnabled) {
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                 } else {
                     this.swaggerEnabled = swaggerEnabled;
                     this.setSwaggerEndpointState(swaggerEnabled)
@@ -178,12 +183,11 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this._viewInfoSub) {
-            this._viewInfoSub.unsubscribe();
-            this._viewInfoSub = null;
+        this._ngUnsubscribe.next();
+        this._busyManager.clearBusy();
+        if(this.functionApp){
+            this.functionApp.dispose();
         }
-
-        this._busyState.clearBusyState();
     }
 
     openBlade(name: string) {
@@ -232,7 +236,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 const jsonString = JSON.stringify(jsonObj);
                 return this.functionApp.saveHostJson(jsonString);
             }).catch(() => {
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
                 return Observable.of(null);
             }).mergeMap(config => {
                 if (config == null) {
@@ -252,7 +256,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             })
             .mergeMap(key => {
                 // global busy state
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
 
                 // busy state for Editor Section
                 this.setBusyState();
@@ -309,7 +313,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     public saveChanges(): void {
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this.swaggerEditor.getDocument((swaggerDocument, error) => {
             if (error) {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
@@ -318,7 +322,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     errorType: ErrorType.UserError,
                     resourceId: this.functionApp.site.id
                 });
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
                 return;
             }
 
@@ -326,9 +330,9 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 this.functionApp.addOrUpdateSwaggerDocument(this.swaggerURL, swaggerDocument).
                     subscribe(updatedDocument => {
                         this.swaggerDocument = updatedDocument;
-                        this._busyState.clearBusyState();
+                        this._busyManager.clearBusy();
                     }, () => {
-                        this._busyState.clearBusyState();
+                        this._busyManager.clearBusy();
                     });
                 return;
             }
@@ -339,13 +343,13 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                     this.functionApp.deleteSwaggerDocument(this.swaggerURL).
                         subscribe(() => {
                             this.swaggerDocument = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
-                            this._busyState.clearBusyState();
+                            this._busyManager.clearBusy();
                         }, () => {
-                            this._busyState.clearBusyState();
+                            this._busyManager.clearBusy();
                         });
                 } else {
                     this.assignDocumentToEditor(this.swaggerDocument);
-                    this._busyState.clearBusyState();
+                    this._busyManager.clearBusy();
                 }
                 return;
             }
@@ -353,19 +357,19 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     public resetEditor(): void {
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this.functionApp.getSwaggerDocument(this.swaggerKey)
             .subscribe((swaggerDoc: any) => {
                 this.swaggerDocument = swaggerDoc;
                 this.assignDocumentToEditor(swaggerDoc);
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
             }, () => {
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
             });
     }
 
     public renewSwaggerSecret() {
-        this._busyState.setBusyState();
+        this._busyManager.setBusy();
         this.createSwaggerSecret()
             .mergeMap(key => {
                 this.swaggerKey = key;
@@ -375,7 +379,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             .catch(() => {
                 return Observable.of(false);
             }).subscribe(() => {
-                this._busyState.clearBusyState();
+                this._busyManager.clearBusy();
             });
     }
 

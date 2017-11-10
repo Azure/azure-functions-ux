@@ -255,81 +255,96 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
   }
 
   getConfigForSave(): ArmObjMap {
-    let configObjects: ArmObjMap = {
-      objects: {}
-    };
+    // Prevent unnecessary PUT call if these settings haven't been changed
+    if (this.groupArray.pristine) {
+      return null;
+    }
+    else {
+      let configObjects: ArmObjMap = {
+        objects: {}
+      };
 
-    let connectionStringGroups = this.groupArray.controls;
+      let connectionStringGroups = this.groupArray.controls;
 
-    if (this.mainForm.contains("connectionStrings") && this.mainForm.controls["connectionStrings"].valid) {
-      let connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
-      connectionStringsArm.properties = {};
+      if (this.mainForm.contains("connectionStrings") && this.mainForm.controls["connectionStrings"].valid) {
+        let connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
+        connectionStringsArm.properties = {};
 
-      this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-      let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-      slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
-      let connectionStringNames = slotConfigNamesArm.properties.connectionStringNames as string[];
+        this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
+        let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+        slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
+        let connectionStringNames = slotConfigNamesArm.properties.connectionStringNames as string[];
 
-      for (let i = 0; i < connectionStringGroups.length; i++) {
-        if ((connectionStringGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
-          let connectionStringControl = connectionStringGroups[i];
-          let connectionString = {
-            value: connectionStringControl.value.value,
-            type: ConnectionStringType[connectionStringControl.value.type]
-          }
-
-          let name = connectionStringGroups[i].value.name;
-
-          connectionStringsArm.properties[name] = connectionString;
-
-          if (connectionStringGroups[i].value.isSlotSetting) {
-            if (connectionStringNames.indexOf(name) === -1) {
-              connectionStringNames.push(name);
+        for (let i = 0; i < connectionStringGroups.length; i++) {
+          if ((connectionStringGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
+            let connectionStringControl = connectionStringGroups[i];
+            let connectionString = {
+              value: connectionStringControl.value.value,
+              type: ConnectionStringType[connectionStringControl.value.type]
             }
-          }
-          else {
-            let index = connectionStringNames.indexOf(name);
-            if (index !== -1) {
-              connectionStringNames.splice(index, 1);
+
+            let name = connectionStringGroups[i].value.name;
+
+            connectionStringsArm.properties[name] = connectionString;
+
+            if (connectionStringGroups[i].value.isSlotSetting) {
+              if (connectionStringNames.indexOf(name) === -1) {
+                connectionStringNames.push(name);
+              }
+            }
+            else {
+              let index = connectionStringNames.indexOf(name);
+              if (index !== -1) {
+                connectionStringNames.splice(index, 1);
+              }
             }
           }
         }
+
+        configObjects["slotConfigNames"] = slotConfigNamesArm;
+        configObjects["connectionStrings"] = connectionStringsArm;
+      }
+      else {
+        configObjects.error = this._validationFailureMessage();
       }
 
-      configObjects["slotConfigNames"] = slotConfigNamesArm;
-      configObjects["connectionStrings"] = connectionStringsArm;
+      return configObjects;
     }
-    else {
-      configObjects.error = this._validationFailureMessage();
-    }
-
-    return configObjects;
   }
 
   save(
     connectionStringsArm: ArmObj<any>,
     slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
 
-    return Observable.zip(
-      this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
-      Observable.of(slotConfigNamesResponse),
-      (c, s) => ({ connectionStringsResponse: c, slotConfigNamesResponse: s })
-    )
-      .map(r => {
-        this._connectionStringsArm = r.connectionStringsResponse.json();
-        this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
-        return {
-          success: true,
-          error: null
-        };
-      })
-      .catch(error => {
-        this._saveError = error._body;
-        return Observable.of({
-          success: false,
-          error: error._body
-        });
+    // Don't make unnecessary PUT call if these settings haven't been changed
+    if (this.groupArray.pristine) {
+      return Observable.of({
+        success: true,
+        error: null
       });
+    }
+    else {
+      return Observable.zip(
+        this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
+        Observable.of(slotConfigNamesResponse),
+        (c, s) => ({ connectionStringsResponse: c, slotConfigNamesResponse: s })
+      )
+        .map(r => {
+          this._connectionStringsArm = r.connectionStringsResponse.json();
+          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+          return {
+            success: true,
+            error: null
+          };
+        })
+        .catch(error => {
+          this._saveError = error._body;
+          return Observable.of({
+            success: false,
+            error: error._body
+          });
+        });
+    }
   }
 
   private _validationFailureMessage(): string {

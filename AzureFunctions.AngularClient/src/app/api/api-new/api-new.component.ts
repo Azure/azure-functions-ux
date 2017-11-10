@@ -1,5 +1,7 @@
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { FunctionsService, FunctionAppContext } from './../../shared/services/functions-service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,6 +33,7 @@ export class ApiNewComponent implements OnDestroy {
     complexForm: FormGroup;
     isMethodsVisible = false;
 
+    public context: FunctionAppContext;
     public functionApp: FunctionApp;
     public apiProxies: ApiProxy[];
     public functionsInfo: FunctionInfo[];
@@ -45,7 +48,9 @@ export class ApiNewComponent implements OnDestroy {
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
         private _aiService: AiService,
-        private _cacheService: CacheService) {
+        private _cacheService: CacheService,
+        private _functionsService: FunctionsService,
+        private _injector: Injector) {
 
         this.complexForm = fb.group({
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we�ll default the gender to female.
@@ -73,8 +78,20 @@ export class ApiNewComponent implements OnDestroy {
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this._proxiesNode = <ProxiesNode>viewInfo.node;
-                this.functionApp = this._proxiesNode.functionApp;
                 this.appNode = (<AppNode>this._proxiesNode.parent);
+
+                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+
+                return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
+            })
+            .switchMap(context => {
+                this.context = context;
+
+                if (this.functionApp) {
+                    this.functionApp.dispose();
+                }
+
+                this.functionApp = new FunctionApp(context.site, this._injector);
 
                 // Should be okay to query app settings without checkout RBAC/locks since this component
                 // shouldn't load unless you have write access.
@@ -82,7 +99,7 @@ export class ApiNewComponent implements OnDestroy {
                     this.functionApp.getFunctions(),
                     this.functionApp.getApiProxies(),
                     this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true),
-                    (f, p, a) => ({ fcs: f, proxies: p, appSettings: a.json() }))
+                    (f, p, a) => ({ fcs: f, proxies: p, appSettings: a.json() }));
             })
             .do(null, e => {
                 this._aiService.trackException(e, '/errors/proxy-create');
@@ -150,6 +167,9 @@ export class ApiNewComponent implements OnDestroy {
 
     ngOnDestroy() {
         this._ngUnsubscribe.next();
+        if (this.functionApp) {
+            this.functionApp.dispose();
+        }
     }
 
     submitForm() {

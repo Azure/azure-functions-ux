@@ -50,7 +50,7 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> GetTenants()
         {
-            if (!Request.RequestUri.IsLoopback && _settings.RuntimeType != RuntimeType.OnPrem)
+            if (!Request.RequestUri.IsLoopback && _settings.RuntimeType != RuntimeType.OnPrem && _settings.RuntimeType != RuntimeType.Standalone)
             {
                 using (var client = GetClient(Request.RequestUri.GetLeftPart(UriPartial.Authority)))
                 {

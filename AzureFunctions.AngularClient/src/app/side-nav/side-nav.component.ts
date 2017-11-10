@@ -1,24 +1,22 @@
 import { LogService } from './../shared/services/log.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { Dom } from './../shared/Utilities/dom';
+import { SubUtil } from './../shared/Utilities/sub-util';
 import { SearchBoxComponent } from './../search-box/search-box.component';
-import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, Injector } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../shared/services/config.service';
 import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { Arm, LogCategories} from './../shared/models/constants';
+import { LocalStorageKeys, Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -28,7 +26,7 @@ import { AppNode } from '../tree-view/app-node';
 import { ArmService } from '../shared/services/arm.service';
 import { CacheService } from '../shared/services/cache.service';
 import { UserService } from '../shared/services/user.service';
-import { FunctionsService } from '../shared/services/functions.service';
+import { TryFunctionsService } from '../shared/services/try-functions.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { AiService } from '../shared/services/ai.service';
@@ -38,7 +36,8 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SiteService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
-
+import { ScenarioService } from '../shared/services/scenario/scenario.service';
+import { StartupInfo } from '../shared/models/portal';
 
 @Component({
     selector: 'side-nav',
@@ -62,11 +61,11 @@ export class SideNavComponent implements AfterViewInit {
     public searchTerm = '';
     public hasValue = false;
     public tryFunctionApp: FunctionApp;
+    public headerOnTopOfSideNav =  false;
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
 
-    private _savedSubsKey = '/subscriptions/selectedIds';
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new ReplaySubject<string>(1);
 
@@ -80,10 +79,11 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     constructor(
+        public injector: Injector,
         public configService: ConfigService,
         public armService: ArmService,
         public cacheService: CacheService,
-        public functionsService: FunctionsService,
+        public functionsService: TryFunctionsService,
         public http: Http,
         public globalStateService: GlobalStateService,
         public broadcastService: BroadcastService,
@@ -97,8 +97,10 @@ export class SideNavComponent implements AfterViewInit {
         public slotsService: SiteService,
         public logService: LogService,
         public router: Router,
-        public route: ActivatedRoute) {
+        public route: ActivatedRoute,
+        private _scenarioService: ScenarioService) {
 
+        this.headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
@@ -140,11 +142,8 @@ export class SideNavComponent implements AfterViewInit {
                     .subscribe(term => {
                         this.searchTerm = term;
                     });
-
-                if (this.subscriptionOptions.length === 0) {
-                    this._setupInitialSubscriptions(info.resourceId);
-                }
             }
+            this._updateSubscriptions(info);
             this.initialResourceId = info.resourceId;
             if (this.initialResourceId) {
                 const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.initialResourceId);
@@ -238,7 +237,7 @@ export class SideNavComponent implements AfterViewInit {
                     return Observable.of(false);
                 }
 
-                this.selectedNode.dispose(newSelectedNode);
+                this.selectedNode.handleDeselection(newSelectedNode);
             }
         }
 
@@ -277,14 +276,24 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     navidateToNewSub() {
-        var navId = "subs/new/subscription";
+        const navId = 'subs/new/subscription';
         this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });        
     }
 
     refreshSubs() {
-        //TODO: RDBug 10600857:[Functions] Refresh subscription drop down list after new subscription added or when user click refresh
+        this.cacheService.getArm('/subscriptions', true).subscribe(r => {
+            this.userService.getStartupInfo()
+            .first()
+            .subscribe((info) => {
+                const subs: Subscription[] = r.json().value;
+                if (!SubUtil.subsChanged(info.subscriptions, subs)) {
+                    return;
+                }
+                info.subscriptions = subs;
+                this.userService.updateStartupInfo(info);
+            });
+        });
     }
-
 
     private _logDashboardTypeChange(oldDashboard: DashboardType, newDashboard: DashboardType) {
         const oldDashboardType = DashboardType[oldDashboard];
@@ -375,7 +384,7 @@ export class SideNavComponent implements AfterViewInit {
         }
 
         const storedSelectedSubIds: StoredSubscriptions = {
-            id: this._savedSubsKey,
+            id: LocalStorageKeys.savedSubsKey,
             subscriptions: subIds
         };
 
@@ -397,56 +406,51 @@ export class SideNavComponent implements AfterViewInit {
     // so we need to make sure we're always overwriting them.  But if we simply
     // set the value to the same value twice, no change notification will happen.
     private _updateSubDisplayText(displayText: string) {
-        this.subscriptionsDisplayText = '';
         setTimeout(() => {
             this.subscriptionsDisplayText = displayText;
-        }, 0);
+        });
     }
 
-    private _setupInitialSubscriptions(resourceId: string) {
-        const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(this._savedSubsKey);
-        const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
-        let descriptor: SiteDescriptor;
-
-        if (resourceId) {
-            descriptor = new SiteDescriptor(resourceId);
-        }
-
+    private _updateSubscriptions(info: StartupInfo) {
         // Need to set an initial value to force the tree to render with an initial list first.
         // Otherwise the tree won't load in batches of objects for long lists until the entire
         // observable sequence has completed.
         this._subscriptionsStream.next([]);
 
-        this.userService.getStartupInfo()
-            .first()
-            .subscribe(info => {
-                let count = 0;
+        const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
+        const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
+        let descriptor: SiteDescriptor | null;
 
-                this.subscriptionOptions =
-                    info.subscriptions.map(e => {
-                        let subSelected: boolean;
+        if (info.resourceId) {
+            descriptor = new SiteDescriptor(info.resourceId);
+        }
 
-                        if (descriptor) {
-                            subSelected = descriptor.subscription === e.subscriptionId;
-                        } else {
-                            // Multi-dropdown defaults to all of none is selected.  So setting it here
-                            // helps us figure out whether we need to limit the # of initial subscriptions
-                            subSelected =
-                                savedSelectedSubscriptionIds.length === 0
-                                || savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
-                        }
+        let count = 0;
 
-                        if (subSelected) {
-                            count++;
-                        }
+        this.subscriptionOptions =
+            info.subscriptions.map(e => {
+                let subSelected: boolean;
 
-                        return {
-                            displayLabel: e.displayName,
-                            value: e,
-                            isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
-                        };
-                    })
-                        .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-            });
+                if (descriptor) {
+                    subSelected = descriptor.subscription === e.subscriptionId;
+                } else {
+                    // Multi-dropdown defaults to all of none is selected.  So setting it here
+                    // helps us figure out whether we need to limit the # of initial subscriptions
+                    subSelected =
+                        savedSelectedSubscriptionIds.length === 0
+                        || savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
+                }
+
+                if (subSelected) {
+                    count++;
+                }
+
+                return {
+                    displayLabel: `${e.displayName}(${e.subscriptionId})`,
+                    value: e,
+                    isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
+                };
+            })
+                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
     }
 }

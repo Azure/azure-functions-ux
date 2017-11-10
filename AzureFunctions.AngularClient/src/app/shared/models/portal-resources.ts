@@ -1,5 +1,6 @@
 // This file is auto generated
-    export class PortalResources
+
+export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
@@ -280,6 +281,9 @@
     public static functionDev_loading: string = "functionDev_loading";
     public static test: string = "test";
     public static runtimeVersion: string = "runtimeVersion";
+    public static runtimeImagev1: string = "runtimeImagev1";
+    public static runtimeImagev2: string = "runtimeImagev2";
+    public static runtimeImageCustom: string = "runtimeImageCustom";
     public static error_FunctionExceededQuota: string = "error_FunctionExceededQuota";
     public static error_siteStopped: string = "error_siteStopped";
     public static error_NoPermissionToAccessApp: string = "error_NoPermissionToAccessApp";
@@ -417,6 +421,7 @@
     public static phpVersionLabelHelp: string = "phpVersionLabelHelp";
     public static pythonVersionLabel: string = "pythonVersionLabel";
     public static pythonVersionLabelHelp: string = "pythonVersionLabelHelp";
+    public static pythonInfoText: string = "pythonInfoText";
     public static javaVersionLabel: string = "javaVersionLabel";
     public static javaVersionLabelHelp: string = "javaVersionLabelHelp";
     public static javaMinorVersionLabel: string = "javaMinorVersionLabel";
@@ -433,13 +438,17 @@
     public static alwaysOnUpsell: string = "alwaysOnUpsell";
     public static managedPipelineModeLabel: string = "managedPipelineModeLabel";
     public static autoSwapNotSupportedFromProd: string = "autoSwapNotSupportedFromProd";
+    public static autoSwapUpsell: string = "autoSwapUpsell";
     public static autoSwapEnabledLabel: string = "autoSwapEnabledLabel";
     public static autoSwapSlotNameLabel: string = "autoSwapSlotNameLabel";
     public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLabel";
+    public static clientAffinityInfoText: string = "clientAffinityInfoText";
     public static remoteDebuggingEnabledLabel: string = "remoteDebuggingEnabledLabel";
     public static remoteDebuggingVersionLabel: string = "remoteDebuggingVersionLabel";
     public static linuxFxVersionLabel: string = "linuxFxVersionLabel";
+    public static linuxFxVersionLabelHelp: string = "linuxFxVersionLabelHelp";
     public static appCommandLineLabel: string = "appCommandLineLabel";
+    public static appCommandLineLabelHelp: string = "appCommandLineLabelHelp";
     public static newest: string = "newest";
     public static architecture32: string = "architecture32";
     public static architecture64: string = "architecture64";

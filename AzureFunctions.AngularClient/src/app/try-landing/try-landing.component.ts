@@ -1,21 +1,14 @@
 import { Router } from '@angular/router';
-import { SiteService } from 'app/shared/services/slots.service';
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { Http } from '@angular/http';
+import { Component, ViewChild, OnInit, OnDestroy, Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
-
-import { ConfigService } from './../shared/services/config.service';
 import { ArmTryService } from './../shared/services/arm-try.service';
-import { CacheService } from './../shared/services/cache.service';
-import { AuthzService } from './../shared/services/authz.service';
-import { LanguageService } from './../shared/services/language.service';
 import { ArmService } from './../shared/services/arm.service';
 import { FunctionApp } from './../shared/function-app';
 import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { ErrorIds } from './../shared/models/error-ids';
-import { FunctionsService } from '../shared/services/functions.service';
+import { TryFunctionsService } from '../shared/services/try-functions.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { UserService } from '../shared/services/user.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event'
@@ -47,20 +40,15 @@ export class TryLandingComponent implements OnInit, OnDestroy {
     private _ngUnsubscribe = new Subject();
 
     constructor(
-        private _httpService: Http,
-        private _functionsService: FunctionsService,
+        private _tryFunctionsService: TryFunctionsService,
         private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _userService: UserService,
         private _translateService: TranslateService,
         private _aiService: AiService,
         private _armService: ArmService,
-        private _cacheService: CacheService,
-        private _languageService: LanguageService,
-        private _authZService: AuthzService,
-        private _configService: ConfigService,
-        private _slotsService: SiteService,
-        private _router: Router) {
+        private _router: Router,
+        private _injector: Injector) {
     }
 
     ngOnInit() {
@@ -68,47 +56,47 @@ export class TryLandingComponent implements OnInit, OnDestroy {
         // possibly related to https://github.com/angular/angular/issues/6782
         // and strangely the clearbusystate doesnt get called.
         // this.setBusyState();
-        this.selectedFunction = this._functionsService.selectedFunction || 'HttpTrigger';
-        this.selectedLanguage = this._functionsService.selectedLanguage || 'CSharp';
+        this.selectedFunction = this._tryFunctionsService.selectedFunction || 'HttpTrigger';
+        this.selectedLanguage = this._tryFunctionsService.selectedLanguage || 'CSharp';
 
         this._globalStateService.setBusyState();
 
         this._userService.getStartupInfo()
-        .takeUntil(this._ngUnsubscribe)
-        .switchMap(info =>{
-            return this._functionsService.getTemplates();
-        })
-        .subscribe(templates =>{
-            this._globalStateService.clearBusyState();
+            .takeUntil(this._ngUnsubscribe)
+            .switchMap(info => {
+                return this._tryFunctionsService.getTemplates();
+            })
+            .subscribe(templates => {
+                this._globalStateService.clearBusyState();
 
-            if (this._globalStateService.TryAppServiceToken) {
-                const selectedTemplate: FunctionTemplate = templates.find((t) => {
-                    return t.id === this.selectedFunction + '-' + this.selectedLanguage;
-                });
+                if (this._globalStateService.TryAppServiceToken) {
+                    const selectedTemplate: FunctionTemplate = templates.find((t) => {
+                        return t.id === this.selectedFunction + '-' + this.selectedLanguage;
+                    });
 
-                if (selectedTemplate) {
-                    this.setBusyState();
-                    this._functionsService.createTrialResource(selectedTemplate,
-                        this._functionsService.selectedProvider, this._functionsService.selectedFunctionName)
-                        .subscribe((resource) => {
-                            this.clearBusyState();
-                            this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
-                        },
-                        error => {
-                            if (error.status === 400) {
-                                // If there is already a free resource assigned ,
-                                // we'll get a HTTP 400 ..so lets get it.
-                                this._functionsService.getTrialResource(this._functionsService.selectedProvider)
-                                    .subscribe((resource) => {
-                                        this.createFunctioninResource(resource, selectedTemplate, this._functionsService.selectedFunctionName);
-                                    });
-                            } else {
+                    if (selectedTemplate) {
+                        this.setBusyState();
+                        this._tryFunctionsService.createTrialResource(selectedTemplate,
+                            this._tryFunctionsService.selectedProvider, this._tryFunctionsService.selectedFunctionName)
+                            .subscribe((resource) => {
                                 this.clearBusyState();
-                            }
-                        });
+                                this.createFunctioninResource(resource, selectedTemplate, this._tryFunctionsService.selectedFunctionName);
+                            },
+                            error => {
+                                if (error.status === 400) {
+                                    // If there is already a free resource assigned ,
+                                    // we'll get a HTTP 400 ..so lets get it.
+                                    this._tryFunctionsService.getTrialResource(this._tryFunctionsService.selectedProvider)
+                                        .subscribe((resource) => {
+                                            this.createFunctioninResource(resource, selectedTemplate, this._tryFunctionsService.selectedFunctionName);
+                                        });
+                                } else {
+                                    this.clearBusyState();
+                                }
+                            });
+                    }
                 }
-            }
-        });
+            });
 
         const result = {
             name: this._translateService.instant(PortalResources.sideBar_newFunction),
@@ -122,13 +110,14 @@ export class TryLandingComponent implements OnInit, OnDestroy {
             test_data: null,
             script_root_path_href: null,
             config_href: null,
-            functionApp: null
+            functionApp: null,
+            context: null
         };
 
         this.functionsInfo.push(result);
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this._ngUnsubscribe.next();
     }
 
@@ -145,7 +134,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
     }
 
     handleLoginClick(provider: string) {
-        this._functionsService.getTemplates().subscribe((templates) => {
+        this._tryFunctionsService.getTemplates().subscribe((templates) => {
             const selectedTemplate: FunctionTemplate = templates.find((t) => {
                 return t.id === this.selectedFunction + '-' + this.selectedLanguage;
             });
@@ -162,7 +151,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
                         this.setBusyState();
                         // login
                         // get trial account
-                        this._functionsService.createTrialResource(selectedTemplate, provider, functionName)
+                        this._tryFunctionsService.createTrialResource(selectedTemplate, provider, functionName)
                             .subscribe((resource) => {
                                 this.clearBusyState();
                                 this.createFunctioninResource(resource, selectedTemplate, functionName);
@@ -178,7 +167,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
                                     }
                                     this.clearBusyState();
                                 } else if (error.status === 400) {
-                                    this._functionsService.getTrialResource(provider)
+                                    this._tryFunctionsService.getTrialResource(provider)
                                         .subscribe((resource) => {
                                             this.createFunctioninResource(resource, selectedTemplate, functionName);
                                         }
@@ -213,7 +202,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
     createFunctioninResource(resource: UIResource, selectedTemplate: FunctionTemplate, functionName: string) {
         const scmUrl = resource.gitUrl.substring(0, resource.gitUrl.lastIndexOf('/'));
         const encryptedCreds = btoa(scmUrl.substring(8, scmUrl.indexOf('@')));
-        // TODO: find a better way to handle this
+
         const tryfunctionContainer = <ArmObj<Site>>{
             id: resource.csmId,
             name: resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length),
@@ -241,20 +230,8 @@ export class TryLandingComponent implements OnInit, OnDestroy {
             tryScmCred: encryptedCreds
         };
 
-        this._functionApp = new FunctionApp(
-            tryfunctionContainer,
-            this._httpService,
-            this._userService,
-            this._globalStateService,
-            this._translateService,
-            this._broadcastService,
-            this._armService,
-            this._cacheService,
-            this._languageService,
-            this._authZService,
-            this._aiService,
-            this._configService,
-            this._slotsService);
+        this._tryFunctionsService.functionContainer = tryfunctionContainer;
+        this._functionApp = new FunctionApp(tryfunctionContainer, this._injector);
 
         (<ArmTryService>this._armService).tryFunctionApp = this._functionApp;
 
@@ -267,7 +244,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
                 this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'success', first: 'true' });
                 this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
                 const navId = this._functionApp.site.id.slice(1, this._functionApp.site.id.length).toLowerCase().replace('/providers/microsoft.web', '');
-                this._router.navigate([`/resources/${navId}}/functions/${res.name}`], { queryParams: Url.getQueryStringObj()});
+                this._router.navigate([`/resources/${navId}}/functions/${res.name}`], { queryParams: Url.getQueryStringObj() });
             },
             e => {
                 this.clearBusyState();

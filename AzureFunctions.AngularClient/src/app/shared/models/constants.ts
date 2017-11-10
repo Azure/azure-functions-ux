@@ -104,10 +104,13 @@ export class Regex {
 
 export class Links {
     public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
+    public static pythonLearnMore = "https://go.microsoft.com/fwlink/?linkid=852196";
+    public static clientAffinityLearnMore = "https://go.microsoft.com/fwlink/?linkid=798249";
 }
 
 export class LocalStorageKeys {
-    public static readonly siteTabs = "/site/tabs"
+    public static readonly siteTabs = '/site/tabs';
+    public static readonly savedSubsKey = '/subscriptions/selectedIds';
 }
 
 export class Order {
@@ -172,6 +175,12 @@ export class ScenarioIds {
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
     public static readonly enablePlatform64 = 'EnablePlatform64';
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
+    public static readonly deleteAppDirectly = 'deleteAppDirectly';
+    public static readonly enableAutoSwap = 'EnableAutoSwap';
+
+    public static readonly createApp = 'createApp';
+    public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
+    public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';
 }
 
 export class ServerFarmSku {
@@ -192,6 +201,7 @@ export class NationalCloudArmUris {
 }
 
 export class LogCategories {
+    public static readonly FunctionEdit = 'FunctionEdit';
     public static readonly FunctionMonitor = 'FunctionMonitor';
     public static readonly SideNav = 'SideNav';
     public static readonly siteDashboard = 'SiteDashboard';
@@ -210,6 +220,8 @@ export class LogCategories {
     public static readonly virtualDirectories = 'VirtualDirectories';
     public static readonly logicapps = 'LogicApps';
     public static readonly subsCriptions = 'SubsCriptions';
+    public static readonly functionAppSettings = 'FunctionAppSettings';
+    public static readonly swaggerDefinition = 'SwaggerDefinition';
 }
 
 export class KeyCodes {
@@ -234,4 +246,10 @@ export class ExtensionInstallStatus {
 export class DomEvents {
     public static readonly keydown = 'keydown';
     public static readonly click = 'click';
+}
+
+export class RuntimeImage {
+    public static readonly v1 = "v1";
+    public static readonly v2 = "v2";
+    public static readonly custom = "custom";
 }

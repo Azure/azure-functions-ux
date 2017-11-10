@@ -14,7 +14,7 @@ export class CheckScenarioDirective implements OnChanges {
 
     @Input('check-scenario') id: string;
     @Input('cs-input') input: ScenarioCheckInput;
-    @Input('cs-showByDefault') enabledByDefault = false;
+    @Input('cs-enabledByDefault') enabledByDefault = false;
     @Input('cs-enabledClass') enabledClass = '';
     @Input('cs-disabledClass') disabledClass = 'hidden';
 
@@ -58,7 +58,7 @@ export class CheckScenarioDirective implements OnChanges {
                 nativeElement.classList.add(this.disabledClass);
             }
 
-        } else {
+        } else if (status === 'enabled') {
 
             if (this.disabledClass) {
                 nativeElement.classList.remove(this.disabledClass);

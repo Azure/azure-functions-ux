@@ -1,3 +1,4 @@
+import { FunctionsService } from './../shared/services/functions-service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
@@ -6,9 +7,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { FunctionInfo } from './../shared/models/function-info';
-import { AppNode } from './../tree-view/app-node';
 import { AiService } from './../shared/services/ai.service';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 
 @Component({
   selector: 'create-function-wrapper',
@@ -25,7 +26,8 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
   constructor(
     private _aiService: AiService,
     private _configService: ConfigService,
-    private _broadCastService: BroadcastService
+    private _broadCastService: BroadcastService,
+    private _functionsService: FunctionsService
   ) {
 
     this._viewInfoStream
@@ -43,15 +45,15 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
         // Set default for autodetect to CreateFunction while we load function list
         this.dashboardType = DashboardType[DashboardType.CreateFunctionDashboard];
 
-        const appNode = <AppNode>info.node.parent;
-        return appNode.functionAppStream;
+        const siteDescriptor = new SiteDescriptor(this.viewInfo.resourceId);
+        return this._functionsService.getAppContext(siteDescriptor.getTrimmedResourceId());
       })
-      .switchMap(functionApp => {
-        if (!functionApp) {
+      .switchMap(context => {
+        if (!context) {
           return Observable.of(null);
         }
 
-        return functionApp.getFunctions();
+        return this._functionsService.getFunctions(context);
       })
       .do(null, e => {
         this._aiService.trackException(e, '/errors/create-function-wrapper');
@@ -64,8 +66,7 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
 
         if (fcs.length > 0 || this._configService.isStandalone()) {
           this.dashboardType = DashboardType[DashboardType.CreateFunctionDashboard];
-        }
-        else {
+        } else {
           this.dashboardType = DashboardType[DashboardType.CreateFunctionQuickstartDashboard];
         }
       });

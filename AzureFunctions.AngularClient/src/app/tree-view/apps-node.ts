@@ -1,10 +1,8 @@
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-
 import { ErrorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
-import { Arm } from './../shared/models/constants';
+import { Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
@@ -14,6 +12,17 @@ import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { UserService } from '../shared/services/user.service';
+import { ScenarioService } from '../shared/services/scenario/scenario.service';
+
+import { BroadcastService } from 'app/shared/services/broadcast.service';
+
+interface SearchInfo {
+    searchTerm: string;
+    subscriptions: Subscription[];
+}
+
 
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
@@ -21,15 +30,16 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     public supportsRefresh = true;
 
     public resourceId = '/apps';
-    public childrenStream = new ReplaySubject<AppNode[]>(1);
     public isExpanded = true;
     private _exactAppSearchExp = '\"(.+)\"';
-    private _subscriptions: Subscription[];
 
-    private _searchObs: Observable<{
-        term: string;
-        children: TreeNode[];
-    }>;
+    private _searchTerm: string;
+    private _subscriptions: Subscription[];
+    private _searchInfo = new Subject<SearchInfo>();
+    private _broadcastService: BroadcastService;
+    private _userService: UserService;
+    private _scenarioService: ScenarioService;
+
 
     constructor(
         sideNav: SideNavComponent,
@@ -40,59 +50,136 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         super(sideNav, null, rootNode, '/apps/new/app');
 
-        this.newDashboardType = sideNav.configService.isStandalone() ? DashboardType.createApp : null;
+        this.newDashboardType =  null;
+        this._userService = sideNav.injector.get(UserService);
+        this._scenarioService = sideNav.injector.get(ScenarioService);
+
+        this._userService.getStartupInfo().subscribe(info => {
+            if (this._scenarioService.checkScenario(ScenarioIds.createApp).status === 'enabled'
+                    && info.subscriptions
+                    && info.subscriptions.length > 0) {
+                this.newDashboardType = DashboardType.createApp;
+            } else {
+                this.newDashboardType = null;
+            }
+        });
+
+        this._broadcastService = sideNav.injector.get(BroadcastService);
 
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'image/BulletList.svg';
         this.showExpandIcon = false;
-        this.childrenStream.subscribe(children => {
-            this.children = children;
-        });
 
-        this._getSearchStream()
-            .subscribe((result: { term: string, children: TreeNode[] }) => {
+        // Always listening for list update
+        this._broadcastService.getEvents<AppNode[]>(BroadcastEvent.UpdateAppsList)
+            .subscribe(children => {
+                this.children = children ? children : [];
+            })
 
-                if (!result) {
-                    this.isLoading = false;
+        // Always listening for subscription changes
+        this._subscriptionsStream
+            .subscribe(subs => {
+                this._subscriptions = subs;
+
+                if (!this._initialized()) {
                     return;
                 }
 
-                const regex = new RegExp(this._exactAppSearchExp, 'i');
-                const exactSearchResult = regex.exec(result.term);
+                this._searchInfo.next({
+                    searchTerm: this._searchTerm,
+                    subscriptions: subs
+                });
+            });
 
-                if (exactSearchResult && exactSearchResult.length > 1) {
-                    const filteredChildren = result.children.filter(c => {
-                        if (c.title.toLowerCase() === exactSearchResult[1].toLowerCase()) {
-                            c.select();
-                            return true;
-                        }
+        // Always listening for search term changes
+        this._searchTermStream
+            .distinctUntilChanged()
+            .debounceTime(500)
+            .subscribe(term => {
+                this._searchTerm = term;
 
-                        return false;
-                    });
-
-                    // Purposely don't update the stream with the filtered list of children.
-                    // This is because we only want the exact matching to affect the tree view,
-                    // not any other listeners.
-                    this.childrenStream.next(<AppNode[]>result.children);
-                    this.children = filteredChildren;
-
-                    // Scoping to an app will cause the currently focused item in the tree to be
-                    // recreated.  In that case, we'll just refocus on the root node.  It's probably
-                    // not ideal but simple for us to do.
-                    this.treeView.setFocus(this);
+                if (!this._initialized()) {
+                    return;
                 }
 
-                this.isLoading = false;
+                this._searchInfo.next({
+                    searchTerm: this._searchTerm,
+                    subscriptions: this._subscriptions
+                });
+            });
+
+        this._searchInfo
+            .switchMap(result => {
+
+                this._broadcastService.broadcastEvent<AppNode[]>(BroadcastEvent.UpdateAppsList, null);
+
+                this.isLoading = true;
+                this.supportsRefresh = false;
+
+                this._subscriptions = result.subscriptions;
+
+                return this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, 0, null);
+            })
+            .do(() => {
+                this.supportsRefresh = true;
+            }, err => {
+                this.sideNav.logService.error(LogCategories.SideNav, '/search-error', err);
+            })
+            .retry()
+            .subscribe((result: { term: string, children: TreeNode[] }) => {
+
+                try {
+                    if (!result) {
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    const regex = new RegExp(this._exactAppSearchExp, 'i');
+                    const exactSearchResult = regex.exec(result.term);
+
+                    if (exactSearchResult && exactSearchResult.length > 1) {
+                        this.supportsRefresh = false;
+
+                        const filteredChildren = result.children.filter(c => {
+                            if (c.title.toLowerCase() === exactSearchResult[1].toLowerCase()) {
+                                c.select();
+                                return true;
+                            }
+
+                            return false;
+                        });
+
+                        // Purposely don't update the stream with the filtered list of children.
+                        // This is because we only want the exact matching to affect the tree view,
+                        // not any other listeners.
+                        this._broadcastService.broadcastEvent<AppNode[]>(BroadcastEvent.UpdateAppsList, result.children as AppNode[]);
+                        this.children = filteredChildren;
+
+                        // Scoping to an app will cause the currently focused item in the tree to be
+                        // recreated.  In that case, we'll just refocus on the root node.  It's probably
+                        // not ideal but simple for us to do.
+                        this.treeView.setFocus(this);
+                    } else{
+                        this.supportsRefresh = true;
+                    }
+
+                    this.isLoading = false;
+
+                } catch (err) {
+                    this.isLoading = false;
+                    this.sideNav.logService.error(LogCategories.SideNav, '/parse-search', err);
+                }
+
             });
     }
 
     public handleSelection(): Observable<any> {
         this.inSelectedTree = true;
         this.supportsRefresh = true;
-        return super.handleSelection();
+        return Observable.of(null);
     }
 
-    public dispose() {
+    public handleDeselection() {
 
         // For now, we're just hiding the refresh icon if you're not currently on the apps node.  The only reason
         // is because we're not properly handling the restoration of the selection properly if you're currently
@@ -105,49 +192,20 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     }
 
     public handleRefresh(): Observable<any> {
-        this.childrenStream.next([]);
         this.sideNav.cacheService.clearArmIdCachePrefix(`/resources`);
 
-        return this._getSearchStream().first();
+        this.isLoading = true;
+
+        this._searchInfo.next({
+            searchTerm: this._searchTerm,
+            subscriptions: this._subscriptions
+        })
+
+        return Observable.of(null);
     }
 
-    private _getSearchStream() {
-        return this._searchTermStream
-            .debounceTime(400)
-            .distinctUntilChanged()
-            .switchMap((searchTerm) => {
-                return this._subscriptionsStream.distinctUntilChanged()
-                    .map(subscriptions => {
-                        return {
-                            searchTerm: searchTerm,
-                            subscriptions: subscriptions
-                        };
-                    });
-            })
-            .switchMap(result => {
-
-                if (!result.subscriptions || result.subscriptions.length === 0) {
-                    return Observable.of(null);
-                }
-
-                this.childrenStream.next([]);
-
-                this.isLoading = true;
-                this.supportsRefresh = false;
-
-                this._subscriptions = result.subscriptions;
-
-                if (!this._searchObs) {
-                    this._searchObs = this._doSearch(<AppNode[]>this.children, result.searchTerm, result.subscriptions, 0, null);
-                }
-
-                return this._searchObs;
-            })
-            .do(() => {
-                this._searchObs = null;
-                this.supportsRefresh = true;
-            })
-            .share();
+    private _initialized(){
+        return this._subscriptions && this._subscriptions.length > 0 && this._searchTerm !== undefined;
     }
 
     private _doSearch(
@@ -198,9 +256,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
                 const result: ArmArrayResult<any> = r.json();
                 const nodes = result.value
-                    .filter(armObj =>
-                        (armObj.kind && armObj.kind.toLowerCase().indexOf('functionapp') !== -1) ||
-                        (armObj.name && armObj.name.startsWith('00fun')))
+                    .filter(ArmUtil.isFunctionApp)
                     .map(armObj => {
 
                         let newNode: AppNode;
@@ -221,7 +277,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 // Only update children if we're not doing an exact match.  For exact matches, we
                 // wait until everything is done loading and then show the final result
                 if (!exactSearch) {
-                    this.childrenStream.next(children);
+                    this._broadcastService.broadcastEvent<AppNode[]>(BroadcastEvent.UpdateAppsList, children);
                 }
 
                 if (result.nextLink || (subsIndex + Arm.MaxSubscriptionBatchSize < subscriptions.length)) {
@@ -253,7 +309,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         });
 
         this._removeHelper(removeIndex, callRemoveOnChild);
-        this.childrenStream.next(<AppNode[]>this.children);
+        this._broadcastService.broadcastEvent<AppNode[]>(BroadcastEvent.UpdateAppsList, this.children as AppNode[]);
         this.sideNav.cacheService.clearArmIdCachePrefix(`/resources`);
     }
 

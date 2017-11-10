@@ -238,11 +238,11 @@ export class MicrosoftGraphHelper {
         }
         else if (method.toLowerCase() === Constants.httpMethods.PUT) {
             headers.append('Content-Type', 'application/json');
-            return this._cacheService.put(url, force, headers, jsonPayload);
+            return this._cacheService.put(url, headers, jsonPayload);
         }
         else if (method.toLowerCase() === Constants.httpMethods.PATCH) {
             headers.append('Content-Type', 'application/json; charset=utf-8');
-            return this._cacheService.patch(url, force, headers, jsonPayload);
+            return this._cacheService.patch(url, headers, jsonPayload);
         }
         return this._cacheService.get(url, force, headers);
     }

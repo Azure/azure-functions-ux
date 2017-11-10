@@ -1,11 +1,13 @@
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from './../../shared/services/log.service';
+import { FunctionsService } from './../../shared/services/functions-service';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ConfigService } from './../../shared/services/config.service';
 import { EditModeHelper } from './../../shared/Utilities/edit-mode.helper';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/retry';
@@ -63,7 +65,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   private _viewInfo: TreeViewInfo<SiteData>;
-  private _viewInfoSub: RxSubscription;
   private _appNode: AppNode;
 
   public functionAppEditMode = true;
@@ -75,6 +76,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public slotsEnabled: boolean;
   public slotsValueChange: Subject<boolean>;
   private _busyManager: BusyStateScopeManager;
+  private _ngUnsubscribe = new Subject();
 
   constructor(
     private _armService: ArmService,
@@ -85,30 +87,40 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _translateService: TranslateService,
     private _slotsService: SiteService,
     private _configService: ConfigService,
-  ) {
+    private _functionsService: FunctionsService,
+    private _injector: Injector,
+    private _logService: LogService) {
 
     this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
-    this._viewInfoSub = this._viewInfoStream
+    this._viewInfoStream
+      .takeUntil(this._ngUnsubscribe)
       .switchMap(viewInfo => {
         this._viewInfo = viewInfo;
         this._busyManager.setBusy();
 
         this._appNode = (<AppNode>viewInfo.node);
 
+        return this._functionsService.getAppContext(this._viewInfo.resourceId);
+      })
+      .switchMap(context => {
+        this.site = context.site;
+
+        if (this.functionApp) {
+          this.functionApp.dispose();
+        }
+
+        this.functionApp = new FunctionApp(context.site, this._injector);
+
         return Observable.zip(
-          this._cacheService.getArm(viewInfo.resourceId),
-          this._cacheService.postArm(`${viewInfo.resourceId}/config/appsettings/list`, true),
-          this._appNode.functionAppStream,
-          this._slotsService.getSlotsList(viewInfo.resourceId),
-          (s: Response, a: Response, fa: FunctionApp, slots: ArmObj<Site>[]) => ({ siteResponse: s, appSettingsResponse: a, functionApp: fa, slotsList: slots }))
+          this._cacheService.postArm(`${this._viewInfo.resourceId}/config/appsettings/list`, true),
+          this._slotsService.getSlotsList(this._viewInfo.resourceId),
+          (a: Response, slots: ArmObj<Site>[]) => ({ appSettingsResponse: a, slotsList: slots }))
           .mergeMap(result => {
-            return Observable.zip(result.functionApp.getFunctionAppEditMode(), result.functionApp.getFunctionHostStatus(),
+            return Observable.zip(this.functionApp.getFunctionAppEditMode(), this.functionApp.getFunctionHostStatus(),
               (editMode: FunctionAppEditMode, hostStatus: HostStatus) => ({ editMode: editMode, hostStatus: hostStatus }))
               .map(r => ({
-                siteResponse: result.siteResponse,
                 appSettingsResponse: result.appSettingsResponse,
-                functionApp: result.functionApp,
                 editMode: r.editMode,
                 hostStatus: r.hostStatus,
                 slotsList: result.slotsList
@@ -117,14 +129,13 @@ export class FunctionRuntimeComponent implements OnDestroy {
           });
       })
       .do(null, e => {
-        this._aiService.trackException(e, 'function-runtime');
+        this._logService.error(LogCategories.functionAppSettings, 'function-runtime-load', e);
+        this._busyManager.clearBusy();
       })
       .retry()
       .subscribe(r => {
         const appSettings: ArmObj<any> = r.appSettingsResponse.json();
 
-        this.functionApp = r.functionApp;
-        this.site = r.siteResponse.json();
         this.exactExtensionVersion = r.hostStatus ? r.hostStatus.version : '';
         this._isSlotApp = SiteService.isSlot(this.site.id);
         this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
@@ -209,6 +220,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this.proxySettingValueStream = new Subject<boolean>();
     this.proxySettingValueStream
+      .filter(value => value === true)
       .subscribe((value: boolean) => {
         if (this.showProxyEnable) {
 
@@ -229,6 +241,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this.functionEditModeValueStream = new Subject<boolean>();
     this.functionEditModeValueStream
+      .filter(state => state !== this.functionAppEditMode)
       .switchMap(state => {
         const originalState = this.functionAppEditMode;
         this._busyManager.setBusy();
@@ -265,8 +278,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
       });
 
     this.slotsValueChange = new Subject<boolean>();
-    this.slotsValueChange.subscribe((value: boolean) => {
-      if (value !== this.slotsEnabled) {
+    this.slotsValueChange
+      .filter(value => value !== this.slotsEnabled)
+      .subscribe((value: boolean) => {
         this._busyManager.setBusy();
         const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
         this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
@@ -275,7 +289,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
           })
           .do(null, e => {
             this._busyManager.clearBusy();
-            this._aiService.trackException(e, 'function-runtime');
+            this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', e);
           })
           .retry()
           .subscribe(() => {
@@ -284,7 +298,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this._busyManager.clearBusy();
             this._cacheService.clearArmIdCachePrefix(this.site.id);
           });
-      }
     });
 
     this.functionRuntimeValueStream = new Subject<string>();
@@ -306,9 +319,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this._viewInfoSub) {
-      this._viewInfoSub.unsubscribe();
-      this._viewInfoSub = null;
+    this._ngUnsubscribe.next();
+
+    if (this.functionApp) {
+      this.functionApp.dispose();
     }
   }
 
@@ -406,28 +420,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
         case 'openAppSettings':
           {
             this.openAppSettings();
-            break;
-          }
-
-        case 'functionEditModeValue':
-          {
-            this.functionEditModeValueStream.next(!this.functionAppEditMode);
-            break;
-          }
-        case 'slotsValue':
-          {
-            this.slotsValueChange.next(!this.slotsEnabled);
-            break;
-          }
-        case 'functionRuntimeValue':
-          {
-            const findOptionIndex = this.functionRutimeOptions.findIndex(item => {
-              return item.value === this.extensionVersion;
-            });
-            const runtimeValue = findOptionIndex === -1 || findOptionIndex === this.functionRutimeOptions.length ?
-              this.functionRutimeOptions[0].value :
-              this.functionRutimeOptions[findOptionIndex + 1].value;
-            this.functionRuntimeValueStream.next(runtimeValue);
             break;
           }
       }

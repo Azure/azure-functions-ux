@@ -1,6 +1,6 @@
 import { LocalStorageKeys } from './../models/constants';
 import { Injectable } from '@angular/core';
-import { StorageItem } from '../models/localStorage/local-storage';
+import { StorageItem, StoredSubscriptions } from '../models/localStorage/local-storage';
 import { AiService } from "app/shared/services/ai.service";
 
 @Injectable()
@@ -20,6 +20,18 @@ export class LocalStorageService {
 
     getItem(key: string): StorageItem {
         return JSON.parse(localStorage.getItem(key));
+    }
+
+    addtoSavedSubsKey(sub: string) {
+        let savedSubs = <StoredSubscriptions>this.getItem(LocalStorageKeys.savedSubsKey);
+        if (!savedSubs) {
+            savedSubs =  <StoredSubscriptions>{
+                id: LocalStorageKeys.savedSubsKey,
+                subscriptions: []
+            };
+        }
+        savedSubs.subscriptions.push(sub);
+        this.setItem(LocalStorageKeys.savedSubsKey, savedSubs);
     }
 
     setItem(key: string, item: StorageItem) {

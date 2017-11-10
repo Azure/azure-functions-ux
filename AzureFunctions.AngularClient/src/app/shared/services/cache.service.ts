@@ -39,40 +39,55 @@ export class CacheService {
 
     getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<Response> {
         const url = this._getArmUrl(resourceId, apiVersion);
-        return this._send(url, 'GET', force, null, null, invokeApi);
+        return this.send(url, 'GET', force, null, null, invokeApi);
+    }
+
+    deleteArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<Response> {
+        const url = this._getArmUrl(resourceId, apiVersion);
+        return this.send(url, 'DELETE', force, null, null, invokeApi);
     }
 
     postArm(resourceId: string, force?: boolean, apiVersion?: string): Observable<Response> {
         const url = this._getArmUrl(resourceId, apiVersion);
-        return this._send(url, 'POST', force);
+        return this.send(url, 'POST', force);
     }
 
     putArm(resourceId: string, apiVersion?: string, content?: any) {
         const url: string = this._getArmUrl(resourceId, apiVersion);
-        delete this._cache[url.toLowerCase()];
         return this._armService.send('PUT', url, content);
     }
 
     patchArm(resourceId: string, apiVersion?: string, content?: any) {
         const url: string = this._getArmUrl(resourceId, apiVersion);
-        delete this._cache[url.toLowerCase()];
         return this._armService.send('PATCH', url, content);
     }
 
     get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean) {
-        return this._send(url, 'GET', force, headers, null, invokeApi);
+        return this.send(url, 'GET', force, headers, null, invokeApi);
     }
 
     post(url: string, force?: boolean, headers?: Headers, content?: any) {
-        return this._send(url, 'POST', force, headers, content);
+        return this.send(url, 'POST', force, headers, content);
     }
 
-    put(url: string, force?: boolean, headers?: Headers, content?: any) {
-        return this._send(url, 'PUT', force, headers, content);
+    put(url: string, headers?: Headers, content?: any) {
+        return this.send(url, 'PUT', true, headers, content);
     }
 
-    patch(url: string, force?: boolean, headers?: Headers, content?: any) {
-        return this._send(url, "PATCH", force, headers, content);
+    patch(url: string, headers?: Headers, content?: any) {
+        return this.send(url, 'PATCH', true, headers, content);
+    }
+
+    head(url: string, force?: boolean, headers?: Headers) {
+        return this.send(url, 'HEAD', force, headers);
+    }
+
+    delete(url: string, headers?: Headers) {
+        return this.send(url, 'DELETE', true, headers);
+    }
+
+    options(url: string, force?: boolean, headers?: Headers) {
+        return this.send(url, 'OPTIONS', force, headers);
     }
 
     @ClearCache('clearAllCachedData')
@@ -95,45 +110,7 @@ export class CacheService {
         }
     }
 
-    // searchArm(term : string, subs: Subscription[], nextLink : string){
-    //     let url : string;
-    //     if(nextLink){
-    //         url = nextLink;
-    //     }
-    //     else{
-    //         url = `${this._armService.armUrl}/resources?api-version=${this._armService.armApiVersion}&$filter=(`;
-
-    //         for(let i = 0; i < subs.length; i++){
-    //             url += `subscriptionId eq '${subs[i].subscriptionId}'`;
-    //             if(i < subs.length - 1){
-    //                 url += ` or `;
-    //             }
-    //         }
-
-    //         url += `) and (substringof('${term}', name)) and (resourceType eq 'microsoft.web/sites')`;
-    //     }
-
-    //     return this.get(url).map<ArmArrayResult<any>>(r => r.json());
-    // }
-
-    private _cleanUp() {
-        if (!this.cleanUpEnabled) {
-            return;
-        }
-
-        for (const key in this._cache) {
-            if (this._cache.hasOwnProperty(key)) {
-                const item = this._cache[key];
-                if (Date.now() >= item.expireTime) {
-                    delete this._cache[key];
-                }
-            }
-        }
-
-        setTimeout(this._cleanUp.bind(this), this._cleanUpMS);
-    }
-
-    public _send(
+    public send(
         url: string,
         method: string,
         force: boolean,
@@ -165,7 +142,7 @@ export class CacheService {
 
             const responseObs = this._armService.send(method, url, content, etag, headers, invokeApi)
                 .map(response => {
-                    return this._mapAndCacheResponse(response, key);
+                    return this._mapAndCacheResponse(method, response, key);
                 })
                 .share()
                 .catch(error => {
@@ -194,9 +171,16 @@ export class CacheService {
         }
     }
 
-    public _mapAndCacheResponse(response: Response, key: string) {
-        const responseETag = response.headers.get('ETag');
-        this._cache[key] = this.createCacheItem(key, response, responseETag, null, true);
+    public _mapAndCacheResponse(method: string, response: Response, key: string) {
+        // Clear cache for update requests.  Not doing this for POST because ARM doesn't consider that
+        // as an update.  For non-ARM, caller needs to manually clear cache entry.
+        if (method === 'PUT' || method === 'PATCH' || method === 'DELETE') {
+            delete this._cache[key];
+        } else {
+            const responseETag = response.headers.get('ETag');
+            this._cache[key] = this.createCacheItem(key, response, responseETag, null, true);
+        }
+
         return response;
     }
 
@@ -219,6 +203,23 @@ export class CacheService {
             responseObservable: responseObs,
             isRawResponse: isRawResponse
         };
+    }
+
+    private _cleanUp() {
+        if (!this.cleanUpEnabled) {
+            return;
+        }
+
+        for (const key in this._cache) {
+            if (this._cache.hasOwnProperty(key)) {
+                const item = this._cache[key];
+                if (Date.now() >= item.expireTime) {
+                    delete this._cache[key];
+                }
+            }
+        }
+
+        setTimeout(this._cleanUp.bind(this), this._cleanUpMS);
     }
 
     private _getArmUrl(resourceId: string, apiVersion?: string) {

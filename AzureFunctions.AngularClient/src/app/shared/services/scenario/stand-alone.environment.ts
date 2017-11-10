@@ -1,4 +1,5 @@
-import { ScenarioCheckInput } from './scenario.models';
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
+import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { ScenarioIds } from './../../models/constants';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
 
@@ -34,9 +35,53 @@ export class StandaloneEnvironment extends Environment {
                 return { status: 'disabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.showCreateRefreshSub] = {
+            id: ScenarioIds.showCreateRefreshSub,
+            runCheck: () => {
+                return { status: 'enabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.deleteAppDirectly] = {
+            id: ScenarioIds.deleteAppDirectly,
+            runCheck: () => {
+                return { status: 'enabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.createApp] = {
+            id: ScenarioIds.createApp,
+            runCheck: () => {
+                return { status: 'enabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.filterAppNodeChildren] = {
+            id: ScenarioIds.filterAppNodeChildren,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._filterAppNodeChildren(input);
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.headerOnTopOfSideNav] = {
+            id: ScenarioIds.headerOnTopOfSideNav,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'enabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
         return window.appsvc.env.runtimeType === 'Standalone';
+    }
+
+    private _filterAppNodeChildren(input: ScenarioCheckInput){
+        const data = input.appNodeChildren.find(c => c.dashboardType === DashboardType.FunctionsDashboard);
+        return <ScenarioResult>{
+            status: 'enabled',
+            data: [data]
+        };
     }
 }

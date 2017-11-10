@@ -23,6 +23,7 @@ import { SiteTabIds } from './../../shared/models/constants';
 import { BroadcastService } from './../../shared/services/broadcast.service';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 export interface SaveOrValidationResult {
   success: boolean;
@@ -40,6 +41,10 @@ export class SiteConfigComponent implements OnDestroy {
   private _writePermission = true;
   private _readOnlyLock = false;
   public hasWritePermissions = true;
+
+  public defaultDocumentsSupported = false;
+  public handlerMappingsSupported = false;
+  public virtualDirectoriesSupported = false;
 
   public mainForm: FormGroup;
   private _valueSubscription: RxSubscription;
@@ -107,6 +112,11 @@ export class SiteConfigComponent implements OnDestroy {
         this._writePermission = r.writePermission;
         this._readOnlyLock = r.readOnlyLock;
         this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+        if (!ArmUtil.isLinuxApp(this._site)) {
+          this.defaultDocumentsSupported = true;
+          this.handlerMappingsSupported = true;
+          this.virtualDirectoriesSupported = true;
+        }
         this.resourceId = r.resourceId;
         this._setupForm();
         this._busyManager.clearBusy();
@@ -154,9 +164,15 @@ export class SiteConfigComponent implements OnDestroy {
     this.generalSettings.validate();
     this.appSettings.validate();
     this.connectionStrings.validate();
-    this.defaultDocuments.validate();
-    this.handlerMappings.validate();
-    this.virtualDirectories.validate();
+    if (this.defaultDocumentsSupported) {
+      this.defaultDocuments.validate();
+    }
+    if (this.handlerMappingsSupported) {
+      this.handlerMappings.validate();
+    }
+    if (this.virtualDirectoriesSupported) {
+      this.virtualDirectories.validate();
+    }
 
     if (this.mainForm.valid) {
 
@@ -176,22 +192,33 @@ export class SiteConfigComponent implements OnDestroy {
           const asConfig: ArmObjMap = this.appSettings.getConfigForSave();
           const csConfig: ArmObjMap = this.connectionStrings.getConfigForSave();
 
-          const errors = [asConfig.error, csConfig.error].filter(e => !!e);
-          if (errors.length > 0) {
-            return Observable.throw(errors);
+          if (!asConfig && !csConfig) {
+            return Observable.of({ slotConfigNamesResult: null, appSettingsArm: null, connectionStringsArm: null });
           }
           else {
-            const slotConfigNamesArm: ArmObj<any> =
-              JSON.parse(JSON.stringify(asConfig["slotConfigNames"]));
-            slotConfigNamesArm.properties.connectionStringNames =
-              JSON.parse(JSON.stringify(csConfig["slotConfigNames"].properties.connectionStringNames));
-
-            return Observable.zip(
-              this._cacheService.putArm(slotConfigNamesArm.id, null, slotConfigNamesArm),
-              Observable.of(asConfig["appSettings"]),
-              Observable.of(csConfig["connectionStrings"]),
-              (s, a, c) => ({ slotConfigNamesResult: s, appSettingsArm: a, connectionStringsArm: c })
-            );
+            const errors = [asConfig, csConfig].filter(c => !!c && !!c.error).map(c => c.error);
+            if (errors.length > 0) {
+              return Observable.throw(errors);
+            }
+            else {
+              let slotConfigNamesArm: ArmObj<any>;
+              if (!!asConfig) {
+                slotConfigNamesArm = JSON.parse(JSON.stringify(asConfig["slotConfigNames"]));
+                if (!!csConfig) {
+                  slotConfigNamesArm.properties.connectionStringNames =
+                    JSON.parse(JSON.stringify(csConfig["slotConfigNames"].properties.connectionStringNames));
+                }
+              }
+              else {
+                slotConfigNamesArm = JSON.parse(JSON.stringify(csConfig["slotConfigNames"]));
+              }
+              return Observable.zip(
+                this._cacheService.putArm(slotConfigNamesArm.id, null, slotConfigNamesArm),
+                !!asConfig ? Observable.of(asConfig["appSettings"]) : Observable.of(null),
+                !!csConfig ? Observable.of(csConfig["connectionStrings"]) : Observable.of(null),
+                (s, a, c) => ({ slotConfigNamesResult: s, appSettingsArm: a, connectionStringsArm: c })
+              );
+            }
           }
         })
         .mergeMap(r => {
@@ -200,9 +227,9 @@ export class SiteConfigComponent implements OnDestroy {
             this.generalSettings.save(),
             this.appSettings.save(r.appSettingsArm, r.slotConfigNamesResult),
             this.connectionStrings.save(r.connectionStringsArm, r.slotConfigNamesResult),
-            this.defaultDocuments.save(),
-            this.handlerMappings.save(),
-            this.virtualDirectories.save(),
+            this.defaultDocumentsSupported ? this.defaultDocuments.save() : Observable.of({ success: true }),
+            this.handlerMappingsSupported ? this.handlerMappings.save() : Observable.of({ success: true }),
+            this.virtualDirectoriesSupported ? this.virtualDirectories.save() : Observable.of({ success: true }),
             (g, a, c, d, h, v) => ({
               generalSettingsResult: g,
               appSettingsResult: a,
