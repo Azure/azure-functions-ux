@@ -1,4 +1,4 @@
-<div class="top-bar-loginuser-tools-standalone">
+<div *ngIf="isStandalone" class="top-bar-loginuser-tools-standalone">
     <div *ngIf="user"
             class="top-bar-loginuser-tool-standalone clickable">
             <span>{{user.upn}}</span>

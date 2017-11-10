@@ -16,7 +16,7 @@
 .logo-standalone{
     @extend .logo;
     font-size: 18px;
-    color: $standalone-top-bar-text-color;
+    color: $body-bg-color;
 }
 
 .function-information {
@@ -110,8 +110,8 @@
 }
 
 .top-bar-standalone {
-    background-color: $standalone-top-bar-back-color;
-    color: $standalone-top-bar-text-color;
+    background-color: $primary-color;
+    color: $body-bg-color;
 }    
 
 .vertical-align-center {

@@ -9,7 +9,7 @@
 }
 
 .top-bar-loginuser-tool-standalone:hover {
-    background-color: $standalone-top-bar-item-hover-color;
+    background-color: darken($primary-color, 10%);
 }
 
 .top-bar-loginuser-tools-standalone span{
