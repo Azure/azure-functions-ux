@@ -24,6 +24,7 @@ import { AppNode } from '../tree-view/app-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Order } from '../shared/models/constants';
 import { Regex } from './../shared/models/constants';
+import { Observable } from 'rxjs/Observable';
 
 interface CategoryOrder {
     name: string;
@@ -72,48 +73,48 @@ export class FunctionNewComponent implements OnDestroy {
     private defaultIndex = 500;
 
     private _orderedCategoties: CategoryOrder[] =
-        [{
-            name: this._translateService.instant('temp_category_core'),
-            index: 0
-        },
-        {
-            name: this._translateService.instant('temp_category_api'),
-            index: 1,
-        },
-        {
-            name: this._translateService.instant('temp_category_dataProcessing'),
-            index: 2,
-        },
-        {
-            name: this._translateService.instant('temp_category_samples'),
-            index: 3,
-        },
-        {
-            name: this._translateService.instant('temp_category_experimental'),
-            index: 4,
-        },
-        {
-            name: this._translateService.instant('temp_category_all'),
-            index: 1000,
-        }];
+    [{
+        name: this._translateService.instant('temp_category_core'),
+        index: 0
+    },
+    {
+        name: this._translateService.instant('temp_category_api'),
+        index: 1,
+    },
+    {
+        name: this._translateService.instant('temp_category_dataProcessing'),
+        index: 2,
+    },
+    {
+        name: this._translateService.instant('temp_category_samples'),
+        index: 3,
+    },
+    {
+        name: this._translateService.instant('temp_category_experimental'),
+        index: 4,
+    },
+    {
+        name: this._translateService.instant('temp_category_all'),
+        index: 1000,
+    }];
 
-    private _functionAppStream = new Subject<FunctionApp>();
+    // private _functionAppStream = new Subject<FunctionApp>();
     private _functionApp: FunctionApp;
     createCardTemplates: Template[] = [];
     createFunctionTemplate: Template;
     createFunctionLanguage: string = null;
 
     public createCardStyles = {
-        'blob':         {color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg'},
-        'cosmosDB':     {color: '#379DA6', barcolor: '#DCF1F3', icon: 'image/cosmosDB.svg'},
-        'eventHub':     {color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventHub.svg'},
-        'http':         {color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/http.svg'},
-        'iot':          {color: '#990000', barcolor: '#EFD9D9', icon: 'image/iot.svg'},
-        'other':        {color: '#000000', barcolor: '#D9D9D9', icon: 'image/other.svg'},
-        'queue':        {color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/queue.svg'},
-        'serviceBus':   {color: '#F67600', barcolor: '#FDEDDE', icon: 'image/serviceBus.svg'},
-        'timer':        {color: '#3C86FF', barcolor: '#DFEDFF', icon: 'image/timer.svg'},
-        'webhook':      {color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg'}
+        'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
+        'cosmosDB': { color: '#379DA6', barcolor: '#DCF1F3', icon: 'image/cosmosDB.svg' },
+        'eventHub': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventHub.svg' },
+        'http': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/http.svg' },
+        'iot': { color: '#990000', barcolor: '#EFD9D9', icon: 'image/iot.svg' },
+        'other': { color: '#000000', barcolor: '#D9D9D9', icon: 'image/other.svg' },
+        'queue': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/queue.svg' },
+        'serviceBus': { color: '#F67600', barcolor: '#FDEDDE', icon: 'image/serviceBus.svg' },
+        'timer': { color: '#3C86FF', barcolor: '#DFEDFF', icon: 'image/timer.svg' },
+        'webhook': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg' }
     };
 
     constructor(
@@ -148,158 +149,176 @@ export class FunctionNewComponent implements OnDestroy {
                 }
 
                 this.functionApp = new FunctionApp(context.site, this._injector);
-                this._functionAppStream.next(this.functionApp);
+                // this._functionAppStream.next(this.functionApp);
 
                 if (this.functionsNode.action) {
                     this.action = Object.create(this.functionsNode.action);
                     delete this.functionsNode.action;
                 }
-                return this.functionApp.getFunctions();
+
+                return Observable.zip(
+                    this._buildCreateCardTemplates(this.functionApp),
+                    this.functionApp.getFunctions(),
+                    (c, fcs) => ({ cards: c, fcs: fcs}));
             })
+            // .switchMap(r => {
+
+            //     if (this.functionsNode.action) {
+            //         this.action = Object.create(this.functionsNode.action);
+            //         delete this.functionsNode.action;
+            //     }
+
+            //     return this.functionApp.getFunctions();
+            // })
             .do(null, e => {
                 this._aiService.trackException(e, '/errors/function-new');
                 console.error(e);
             })
             .retry()
-            .subscribe(fcs => {
+            .subscribe(r => {
                 this._globalStateService.clearBusyState();
-                this.functionsInfo = fcs;
+                this.functionsInfo = r.fcs;
 
                 if (this.action && this.functionsInfo && !this.selectedTemplate) {
                     this.selectedTemplateId = this.action.templateId;
                 }
             });
 
-        this._functionAppStream
-            .distinctUntilChanged()
-            .subscribe(functionApp => {
-                this._functionApp = functionApp;
-                this._globalStateService.setBusyState();
-                this._functionApp.getTemplates().subscribe((templates) => {
-                    this._functionApp.getBindingConfig().subscribe((config) => {
-                        this._globalStateService.clearBusyState();
-                        this.bindings = config.bindings;
-                        this.templates = [];
-                        this.createCardTemplates = [];
 
-                        // Init title, language drop-down, and category drop-down
-                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
-                        this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all'), default: true }];
-                        this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all') }];
+    }
 
-                        templates.forEach((template) => {
+    private _buildCreateCardTemplates(functionApp: FunctionApp) {
+        this._functionApp = functionApp;
+        return this._functionApp.getTemplates()
+            .switchMap(templates => {
+                return Observable.zip(
+                    this._functionApp.getBindingConfig(),
+                    Observable.of(templates),
+                    (c, t) => ({ config: c, templates: t }));
+            })
+            .do(r => {
+                this._globalStateService.clearBusyState();
+                this.bindings = r.config.bindings;
+                this.templates = [];
+                this.createCardTemplates = [];
 
-                            if (template.metadata.visible === false) {
-                                return;
-                            }
+                this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
+                this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all),
+                                    value: this._translateService.instant('temp_category_all'), default: true }];
+                this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), 
+                                     value: this._translateService.instant('temp_category_all') }];
 
-                            // add template language to languages (if needed)
-                            const lang = this.languages.find((l) => {
-                                return l.value === template.metadata.language;
-                            });
-                            if (!lang) {
-                                this.languages.push({
-                                    displayLabel: template.metadata.language,
-                                    value: template.metadata.language
-                                });
-                            }
+                r.templates.forEach((template) => {
 
-                            // add template category/categories to categories (if needed)
-                            template.metadata.category.forEach((c) => {
-                                if ((this.language === this._translateService.instant('temp_category_all') || (template.metadata.language === this.language))) {
+                    if (template.metadata.visible === false) {
+                        return;
+                    }
 
-                                    const index = this.categories.findIndex((category) => {
-                                        return category.value === c;
-                                    });
-
-                                    if (index === -1) {
-                                        const dropDownElement: any = {
-                                            displayLabel: c,
-                                            value: c
-                                        };
-
-                                        if (this.category === c) {
-                                            dropDownElement.default = true;
-                                        } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
-                                            dropDownElement.default = true;
-                                        }
-
-                                        this.categories.push(dropDownElement);
-                                    }
-                                }
-                            });
-
-                            const templateIndex = this.createCardTemplates.findIndex(finalTemplate => {
-                                return finalTemplate.name === template.metadata.name;
-                            });
-
-                            // if the card doesn't exist, create it based off the template, else add information to the preexisting card
-                            if (templateIndex === -1) {
-                                this.createCardTemplates.push({
-                                    name: `${template.metadata.name}`,
-                                    value: template.id,
-                                    description: template.metadata.description,
-                                    enabledInTryMode: template.metadata.enabledInTryMode,
-                                    AADPermissions: template.metadata.AADPermissions,
-                                    languages: [`${template.metadata.language}`],
-                                    categories: template.metadata.category,
-                                    ids: [`${template.id}`],
-                                    icon: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                                        this.createCardStyles[template.metadata.categoryStyle].icon : this.createCardStyles['other'].icon,
-                                    color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                                        this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
-                                    barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                                        this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor
-                                });
-                            } else {
-                                this.createCardTemplates[templateIndex].languages.push(`${template.metadata.language}`);
-                                this.createCardTemplates[templateIndex].categories = this.createCardTemplates[templateIndex].categories.concat(template.metadata.category);
-                                this.createCardTemplates[templateIndex].ids.push(`${template.id}`);
-                            }
-                        });
-
-                        // unique categories
-                        this.createCardTemplates.forEach((template, index) => {
-                            const categoriesDict = {};
-                            template.categories.forEach(category => {
-                                categoriesDict[category] = category;
-                            });
-                            this.createCardTemplates[index].categories = [];
-                            for (const category in categoriesDict) {
-                                if (categoriesDict.hasOwnProperty(category)) {
-                                    this.createCardTemplates[index].categories.push(category);
-                                }
-                            }
-                        });
-
-                        this._sortCategories();
-
-                        this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
-                            return a.displayLabel > b.displayLabel ? 1 : -1;
-                        });
-
-                        // order preference defined in constants.ts
-                        this.createCardTemplates.sort((a: Template, b: Template) => {
-                            let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
-                            let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
-                            if (ia === -1) {
-                                ia = Number.MAX_VALUE;
-                            }
-                            if (ib === -1) {
-                                ib = Number.MAX_VALUE;
-                            }
-                            if (ia === ib) {
-                                // If templates are not in ordered list apply alphabetical order
-                                return a.name > b.name ? 1 : -1;
-                            } else {
-                                return ia > ib ? 1 : -1;
-                            }
-                        });
+                    // add template language to languages (if needed)
+                    const lang = this.languages.find((l) => {
+                        return l.value === template.metadata.language;
                     });
-                });
-            });
+                    if (!lang) {
+                        this.languages.push({
+                            displayLabel: template.metadata.language,
+                            value: template.metadata.language
+                        });
+                    }
 
-        this.language = this._translateService.instant('temp_category_all');
+                    // add template category/categories to categories (if needed)
+                    template.metadata.category.forEach((c) => {
+                        if ((this.language === this._translateService.instant('temp_category_all') || (template.metadata.language === this.language))) {
+
+                            const index = this.categories.findIndex((category) => {
+                                return category.value === c;
+                            });
+
+                            if (index === -1) {
+                                const dropDownElement: any = {
+                                    displayLabel: c,
+                                    value: c
+                                };
+
+                                if (this.category === c) {
+                                    dropDownElement.default = true;
+                                } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
+                                    dropDownElement.default = true;
+                                }
+
+                                this.categories.push(dropDownElement);
+                            }
+                        }
+                    });
+
+                    const templateIndex = this.createCardTemplates.findIndex(finalTemplate => {
+                        return finalTemplate.name === template.metadata.name;
+                    });
+
+                    // if the card doesn't exist, create it based off the template, else add information to the preexisting card
+                    if (templateIndex === -1) {
+                        this.createCardTemplates.push({
+                            name: `${template.metadata.name}`,
+                            value: template.id,
+                            description: template.metadata.description,
+                            enabledInTryMode: template.metadata.enabledInTryMode,
+                            AADPermissions: template.metadata.AADPermissions,
+                            languages: [`${template.metadata.language}`],
+                            categories: template.metadata.category,
+                            ids: [`${template.id}`],
+                            icon: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                                this.createCardStyles[template.metadata.categoryStyle].icon : this.createCardStyles['other'].icon,
+                            color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                                this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
+                            barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                                this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor
+                        });
+                    } else {
+                        this.createCardTemplates[templateIndex].languages.push(`${template.metadata.language}`);
+                        this.createCardTemplates[templateIndex].categories = this.createCardTemplates[templateIndex].categories.concat(template.metadata.category);
+                        this.createCardTemplates[templateIndex].ids.push(`${template.id}`);
+                    }
+                });
+
+                // unique categories
+                this.createCardTemplates.forEach((template, index) => {
+                    const categoriesDict = {};
+                    template.categories.forEach(category => {
+                        categoriesDict[category] = category;
+                    });
+                    this.createCardTemplates[index].categories = [];
+                    for (const category in categoriesDict) {
+                        if (categoriesDict.hasOwnProperty(category)) {
+                            this.createCardTemplates[index].categories.push(category);
+                        }
+                    }
+                });
+
+                this._sortCategories();
+
+                this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+                    return a.displayLabel > b.displayLabel ? 1 : -1;
+                });
+
+                // order preference defined in constants.ts
+                this.createCardTemplates.sort((a: Template, b: Template) => {
+                    let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
+                    let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
+                    if (ia === -1) {
+                        ia = Number.MAX_VALUE;
+                    }
+                    if (ib === -1) {
+                        ib = Number.MAX_VALUE;
+                    }
+                    if (ia === ib) {
+                        // If templates are not in ordered list apply alphabetical order
+                        return a.name > b.name ? 1 : -1;
+                    } else {
+                        return ia > ib ? 1 : -1;
+                    }
+                });
+
+                this.language = this._translateService.instant('temp_category_all');
+            });
     }
 
     onLanguageChanged(language: string) {
