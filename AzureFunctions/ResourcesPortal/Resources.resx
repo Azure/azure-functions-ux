@@ -2485,4 +2485,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="java_splash_button" xml:space="preserve">
     <value>Java on Azure Functions Quickstart</value>
   </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights instrumentation key is presented in app settings but App Insights is not found in Function App's subscription. Please make sure your App Insights is localted in the same subscription as Function App.</value>
+  </data>
 </root>

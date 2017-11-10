@@ -4858,6 +4858,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to App Insights instrumentation key is presented in app settings but App Insights is not found in Function App&apos;s subscription. Please make sure your App Insights is localted in the same subscription as Function App..
+        /// </summary>
+        internal static string monitoring_appInsightsIsNotFound {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsIsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Application Insights.
         /// </summary>
         internal static string monitoring_appInsightsOpen {
