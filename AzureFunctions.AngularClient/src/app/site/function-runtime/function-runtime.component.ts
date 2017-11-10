@@ -277,23 +277,25 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this.slotsValueChange = new Subject<boolean>();
     this.slotsValueChange.subscribe((value: boolean) => {
-      this._busyManager.setBusy();
-      const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
-      this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-        .mergeMap(r => {
-          return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
-        })
-        .do(null, e => {
-          this._busyManager.clearBusy();
-          this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', e);
-        })
-        .retry()
-        .subscribe(() => {
-          this.functionApp.fireSyncTrigger();
-          this.slotsEnabled = value;
-          this._busyManager.clearBusy();
-          this._cacheService.clearArmIdCachePrefix(this.site.id);
-        });
+      if (value !== this.slotsEnabled) {
+        this._busyManager.setBusy();
+        const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
+        this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+          .mergeMap(r => {
+            return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
+          })
+          .do(null, e => {
+            this._busyManager.clearBusy();
+            this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', e);
+          })
+          .retry()
+          .subscribe(() => {
+            this.functionApp.fireSyncTrigger();
+            this.slotsEnabled = value;
+            this._busyManager.clearBusy();
+            this._cacheService.clearArmIdCachePrefix(this.site.id);
+          });
+      }
     });
 
     this.functionRuntimeValueStream = new Subject<string>();
