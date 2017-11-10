@@ -69,6 +69,7 @@ export class FunctionNewComponent implements OnDestroy {
     private language = '';
     private search = '';
     private _ngUnsubscribe = new Subject();
+    private defaultIndex = 500;
 
     private _orderedCategoties: CategoryOrder[] =
         [{
@@ -357,7 +358,7 @@ export class FunctionNewComponent implements OnDestroy {
         this.categories.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
             const ca = this._orderedCategoties.find(c => { return c.name === a.displayLabel; });
             const cb = this._orderedCategoties.find(c => { return c.name === b.displayLabel; });
-            return ((ca ? ca.index : 500) > (cb ? cb.index : 500)) ? 1 : -1;
+            return ((ca ? ca.index : this.defaultIndex) > (cb ? cb.index : this.defaultIndex)) ? 1 : -1;
         });
     }
 

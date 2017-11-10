@@ -76,7 +76,7 @@
     </div>
 
     <button class="custom-button"
-            [disabled]="!areInputsValid || !aadConfigured || !extensionInstalled"
+            [disabled]="!areInputsValid || !aadConfigured"
             (click)="onCreate()">{{ 'create' | translate }}
     </button>
     <button class="custom-button-invert"

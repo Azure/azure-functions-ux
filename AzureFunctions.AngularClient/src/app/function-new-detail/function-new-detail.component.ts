@@ -41,7 +41,6 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
   functionName: string;
   currentTemplate: FunctionTemplate;
   aadConfigured = true;
-  extensionInstalled = true;
   templateWarning: string;
   addLinkToAuth = false;
   bc: BindingManager = new BindingManager();
@@ -120,7 +119,6 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
         });
 
         // setting values to default
-        this.runtimeExtensionInstalled(true);
         this.aadRegistrationConfigured(true);
 
         this.templateWarning = experimentalCategory === undefined ? '' : this._translateService.instant(PortalResources.functionNew_experimentalTemplate);
@@ -178,10 +176,6 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
 
   aadRegistrationConfigured(value: boolean) {
     this.aadConfigured = value;
-  }
-
-  runtimeExtensionInstalled(value: boolean) {
-    this.extensionInstalled = value;
   }
 
   functionNameChanged() {

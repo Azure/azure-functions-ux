@@ -136,6 +136,7 @@ export class BindingV2Component {
                     this.isDirty = false;
                 }
 
+                // consolidate dirty state updates from broadcast and portal services: https://github.com/Azure/azure-functions-ux/issues/2015
                 if (this.canDelete) {
                     if (this.isDirty) {
                         this._broadcastService.setDirtyState('function_integrate');
