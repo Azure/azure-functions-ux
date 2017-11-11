@@ -16,7 +16,7 @@ import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
-import { LocalStorageKeys, Arm, LogCategories } from './../shared/models/constants';
+import { LocalStorageKeys, Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
 import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
@@ -36,6 +36,8 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SiteService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
+import { ScenarioService } from '../shared/services/scenario/scenario.service';
+import { StartupInfo } from '../shared/models/portal';
 
 @Component({
     selector: 'side-nav',
@@ -59,6 +61,7 @@ export class SideNavComponent implements AfterViewInit {
     public searchTerm = '';
     public hasValue = false;
     public tryFunctionApp: FunctionApp;
+    public headerOnTopOfSideNav =  false;
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
@@ -94,8 +97,10 @@ export class SideNavComponent implements AfterViewInit {
         public slotsService: SiteService,
         public logService: LogService,
         public router: Router,
-        public route: ActivatedRoute) {
+        public route: ActivatedRoute,
+        private _scenarioService: ScenarioService) {
 
+        this.headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
@@ -137,11 +142,8 @@ export class SideNavComponent implements AfterViewInit {
                     .subscribe(term => {
                         this.searchTerm = term;
                     });
-
-                if (this.subscriptionOptions.length === 0) {
-                    this._setupInitialSubscriptions(info.resourceId);
-                }
             }
+            this._updateSubscriptions(info);
             this.initialResourceId = info.resourceId;
             if (this.initialResourceId) {
                 const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.initialResourceId);
@@ -404,55 +406,51 @@ export class SideNavComponent implements AfterViewInit {
     // so we need to make sure we're always overwriting them.  But if we simply
     // set the value to the same value twice, no change notification will happen.
     private _updateSubDisplayText(displayText: string) {
-        this.subscriptionsDisplayText = '';
         setTimeout(() => {
             this.subscriptionsDisplayText = displayText;
-        }, 0);
+        });
     }
 
-    private _setupInitialSubscriptions(resourceId: string) {
+    private _updateSubscriptions(info: StartupInfo) {
         // Need to set an initial value to force the tree to render with an initial list first.
         // Otherwise the tree won't load in batches of objects for long lists until the entire
         // observable sequence has completed.
         this._subscriptionsStream.next([]);
 
-        this.userService.getStartupInfo()
-            .subscribe(info => {
-                const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
-                const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
-                let descriptor: SiteDescriptor;
+        const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
+        const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
+        let descriptor: SiteDescriptor | null;
 
-                if (resourceId) {
-                    descriptor = new SiteDescriptor(resourceId);
+        if (info.resourceId) {
+            descriptor = new SiteDescriptor(info.resourceId);
+        }
+
+        let count = 0;
+
+        this.subscriptionOptions =
+            info.subscriptions.map(e => {
+                let subSelected: boolean;
+
+                if (descriptor) {
+                    subSelected = descriptor.subscription === e.subscriptionId;
+                } else {
+                    // Multi-dropdown defaults to all of none is selected.  So setting it here
+                    // helps us figure out whether we need to limit the # of initial subscriptions
+                    subSelected =
+                        savedSelectedSubscriptionIds.length === 0
+                        || savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
                 }
 
-                let count = 0;
+                if (subSelected) {
+                    count++;
+                }
 
-                this.subscriptionOptions =
-                    info.subscriptions.map(e => {
-                        let subSelected: boolean;
-
-                        if (descriptor) {
-                            subSelected = descriptor.subscription === e.subscriptionId;
-                        } else {
-                            // Multi-dropdown defaults to all of none is selected.  So setting it here
-                            // helps us figure out whether we need to limit the # of initial subscriptions
-                            subSelected =
-                                savedSelectedSubscriptionIds.length === 0
-                                || savedSelectedSubscriptionIds.findIndex(s => s === e.subscriptionId) > -1;
-                        }
-
-                        if (subSelected) {
-                            count++;
-                        }
-
-                        return {
-                            displayLabel: `${e.displayName}(${e.subscriptionId})`,
-                            value: e,
-                            isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
-                        };
-                    })
-                        .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
-            });
+                return {
+                    displayLabel: `${e.displayName}(${e.subscriptionId})`,
+                    value: e,
+                    isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
+                };
+            })
+                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
     }
 }

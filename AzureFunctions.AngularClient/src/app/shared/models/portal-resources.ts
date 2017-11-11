@@ -1,6 +1,5 @@
 // This file is auto generated
-
-export class PortalResources
+    export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";

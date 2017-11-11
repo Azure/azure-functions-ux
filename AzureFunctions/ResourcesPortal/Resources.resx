@@ -951,14 +951,14 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
-  </data> 
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
   </data>
   <data name="runtimeImage" xml:space="preserve">
     <value>Runtime image</value>
   </data>
-    <data name="runtimeImagev1" xml:space="preserve">
+  <data name="runtimeImagev1" xml:space="preserve">
     <value>V1</value>
   </data>
   <data name="runtimeImagev2" xml:space="preserve">
@@ -1031,7 +1031,7 @@
     <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxies (preview)</value>
+    <value>Proxies</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Enable Azure Functions Proxies (preview)</value>
@@ -2037,7 +2037,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
     <value>Enable deployment slots (preview).</value>
-<<<<<<< HEAD
   </data>
   <data name="appFunctionSettings_warning_1" xml:space="preserve">
     <value>Known issues:</value>
@@ -2045,15 +2044,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_warning_2" xml:space="preserve">
     <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
   </data>
-=======
-  </data>
-  <data name="appFunctionSettings_warning_1" xml:space="preserve">
-    <value>Known issues:</value>
-  </data>
-  <data name="appFunctionSettings_warning_2" xml:space="preserve">
-    <value>Logic apps integration with Functions does not work when Slots(preview) is enabled.</value>
-  </data>
->>>>>>> dev
   <data name="appFunctionSettings_warning_3" xml:space="preserve">
     <value>Opting into this preview feature will reset any pre-existing secrets. Function secrets can be found under the</value>
   </data>
@@ -2503,5 +2493,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="bindingInput_hide" xml:space="preserve">
     <value>hide value</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights instrumentation key is presented in app settings but App Insights is not found in Function App's subscription. Please make sure your App Insights is localted in the same subscription as Function App.</value>
   </data>
 </root>

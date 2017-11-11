@@ -7,9 +7,10 @@ import { LogService } from './../../shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { FormControl, FormBuilder } from '@angular/forms';
+import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 import { UserService } from '../../shared/services/user.service';
-
-
+import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'create-subscription',
@@ -30,21 +31,39 @@ export class CreateSubscriptionComponent implements OnInit {
     private _logService: LogService,
     private  _userService: UserService,
     private _localStorageService: LocalStorageService,
+    translateService: TranslateService,
     fb: FormBuilder
   ) {
-    this.friendlySubName = fb.control('');
-    this.invitationCode = fb.control('');
+    const required = new RequiredValidator(translateService);
+    this.friendlySubName = fb.control('', required.validate.bind(required));
+    this.invitationCode = fb.control('', required.validate.bind(required));
   }
   ngOnInit() {
   }
 
   onCreate() {
+    const friendlySubNameControl = <CustomFormControl>this.friendlySubName;
+    const invitationCodeControl = <CustomFormControl>this.invitationCode;
+    const invitationCode = invitationCodeControl.value;
+    const displayName = friendlySubNameControl.value;
+    if (!displayName) {
+      friendlySubNameControl._msRunValidation = true;
+      friendlySubNameControl.updateValueAndValidity();
+      return;
+    }
+
+    if (this.invitationCodeRequired && !invitationCode) {
+      invitationCodeControl._msRunValidation = true;
+      invitationCodeControl.updateValueAndValidity();
+      return;
+    }
+
     const subId = Guid.newGuid();
     const id = `/subscriptions/${subId}`;
     const body = {
       planName: this.planName,
-      displayName: this.friendlySubName.value,
-      invitationCode: this.invitationCode.value,
+      displayName: displayName,
+      invitationCode: invitationCode,
     };
 
     this._globalStateService.setBusyState();

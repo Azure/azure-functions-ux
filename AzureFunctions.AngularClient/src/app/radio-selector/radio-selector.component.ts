@@ -19,9 +19,9 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
     @Input() defaultValue: T;
+    @Input() id: string;
     @Output() value: Subject<T>;
 
-    public id: string;
     public activeDescendantId: string;
 
     private _initialized: boolean = false;
@@ -87,7 +87,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
 
         if (valueChanged || changes['options']) {
             const activeOptionIndex = this._getActiveOptionIndex();
-            this.activeDescendantId = activeOptionIndex >= 0 ? `${this.id}-${activeOptionIndex}` : null;
+            this.activeDescendantId = (activeOptionIndex === null || activeOptionIndex === undefined) ? null : `${this.id}-${activeOptionIndex}`;
         }
     }
 
@@ -113,7 +113,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
         let newIndex = 0;
 
         const activeOptionIndex = this._getActiveOptionIndex();
-        if (activeOptionIndex >= 0) {
+        if (activeOptionIndex !== null && activeOptionIndex >= 0) {
             if (direction === 'forward') {
                 newIndex = activeOptionIndex === this.options.length - 1 ? 0 : activeOptionIndex + 1;
             }

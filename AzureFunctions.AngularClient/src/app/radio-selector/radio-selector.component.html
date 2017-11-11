@@ -5,6 +5,7 @@
     [attr.aria-disabled]="control ? control.disabled : disabled"
     [tabIndex]="(control && control.disabled) || disabled ? -1 : 0"
     [attr.aria-activedescendant]="activeDescendantId"
+    [class.selected]="activeDescendantId === null"
     (keydown)="onKeyDown($event)">
 
     <div *ngFor="let option of options"
