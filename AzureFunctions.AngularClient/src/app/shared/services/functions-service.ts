@@ -131,7 +131,7 @@ export class FunctionsService {
                 const appSettings = result.appSettings as ArmObj<any>;
                 if (FunctionsVersionInfoHelper.getFuntionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
                     result.functions.forEach(f => {
-                        const disabledSetting = appSettings.properties[`${f.name}.Disabled`];
+                        const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
                         f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
                     });
                 }
