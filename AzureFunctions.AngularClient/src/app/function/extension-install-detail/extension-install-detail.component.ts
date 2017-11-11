@@ -1,9 +1,9 @@
-import { Template } from './../shared/models/template-picker';
-import { ExtensionInstallStatus } from './../shared/models/constants';
+import { Template } from './../../shared/models/template-picker';
+import { ExtensionInstallStatus } from './../../shared/models/constants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { FunctionApp } from './../shared/function-app';
-import { RuntimeExtension } from './../shared/models/binding';
+import { FunctionApp } from './../../shared/function-app';
+import { RuntimeExtension } from './../../shared/models/binding';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({

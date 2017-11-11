@@ -1,23 +1,23 @@
-import { FunctionAppContext } from './../shared/services/functions-service';
-import { CacheService } from './../shared/services/cache.service';
-import { AppNode } from './../tree-view/app-node';
-import { FunctionsNode } from './../tree-view/functions-node';
-import { AiService } from './../shared/services/ai.service';
-import { BindingList } from './../shared/models/binding-list';
-import { BindingManager } from './../shared/models/binding-manager';
+import { FunctionAppContext } from './../../shared/services/functions-service';
+import { CacheService } from './../../shared/services/cache.service';
+import { AppNode } from './../../tree-view/app-node';
+import { FunctionsNode } from './../../tree-view/functions-node';
+import { AiService } from './../../shared/services/ai.service';
+import { BindingList } from './../../shared/models/binding-list';
+import { BindingManager } from './../../shared/models/binding-manager';
 import { TranslateService } from '@ngx-translate/core';
-import { BindingComponent } from './../binding/binding.component';
-import { GlobalStateService } from './../shared/services/global-state.service';
-import { FunctionApp } from './../shared/function-app';
-import { FunctionInfo } from './../shared/models/function-info';
-import { DropDownElement } from './../shared/models/drop-down-element';
-import { Template } from './../shared/models/template-picker';
+import { BindingComponent } from './../../binding/binding.component';
+import { GlobalStateService } from './../../shared/services/global-state.service';
+import { FunctionApp } from './../../shared/function-app';
+import { FunctionInfo } from './../../shared/models/function-info';
+import { DropDownElement } from './../../shared/models/drop-down-element';
+import { Template } from './../../shared/models/template-picker';
 import { Component, Input, SimpleChanges, OnChanges, OnInit, Output, EventEmitter } from '@angular/core';
-import { FunctionTemplate } from '../shared/models/function-template';
-import { PortalResources } from '../shared/models/portal-resources';
-import { Action } from '../shared/models/binding';
-import { UIFunctionBinding } from '../shared/models/binding';
-import { PortalService } from '../shared/services/portal.service';
+import { FunctionTemplate } from '../../shared/models/function-template';
+import { PortalResources } from '../../shared/models/portal-resources';
+import { Action } from '../../shared/models/binding';
+import { UIFunctionBinding } from '../../shared/models/binding';
+import { PortalService } from '../../shared/services/portal.service';
 
 @Component({
   selector: 'function-new-detail',

@@ -1,18 +1,18 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PopoverContent } from 'ng2-popover';
-import { BindingInputBase } from '../shared/models/binding-input';
-import { PortalService } from '../shared/services/portal.service';
-import { UserService } from '../shared/services/user.service';
-import { PickerInput } from '../shared/models/binding-input';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { SettingType, ResourceType, UIFunctionBinding } from '../shared/models/binding';
-import { DropDownElement } from '../shared/models/drop-down-element';
-import { PortalResources } from '../shared/models/portal-resources';
-import { GlobalStateService } from '../shared/services/global-state.service';
-import { FunctionApp } from '../shared/function-app';
-import { CacheService } from './../shared/services/cache.service';
+import { BindingInputBase } from '../../shared/models/binding-input';
+import { PortalService } from '../../shared/services/portal.service';
+import { UserService } from '../../shared/services/user.service';
+import { PickerInput } from '../../shared/models/binding-input';
+import { BroadcastService } from '../../shared/services/broadcast.service';
+import { BroadcastEvent } from '../../shared/models/broadcast-event';
+import { SettingType, ResourceType, UIFunctionBinding } from '../../shared/models/binding';
+import { DropDownElement } from '../../shared/models/drop-down-element';
+import { PortalResources } from '../../shared/models/portal-resources';
+import { GlobalStateService } from '../../shared/services/global-state.service';
+import { FunctionApp } from '../../shared/function-app';
+import { CacheService } from './../../shared/services/cache.service';
 
 @Component({
     selector: 'binding-input-v2',

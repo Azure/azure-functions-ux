@@ -33,14 +33,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { SecretsBoxInputDirective } from 'app/secrets-box-container/secrets-box-input.directive';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
-import { FunctionNewComponent } from 'app/function-new/function-new.component';
+import { FunctionNewComponent } from 'app/function/function-new/function-new.component';
 import { ExtensionInstallComponent } from './extension-install/extension-install.component';
 import { JavaSplashPageComponent } from './java-splash-page/java-splash-page.component';
-import { FunctionNewDetailComponent } from './function-new-detail/function-new-detail.component';
-import { BindingV2Component } from './binding-v2/binding-v2.component';
-import { BindingInputV2Component } from './binding-input-v2/binding-input-v2.component';
-import { SidebarPickerComponent } from './sidebar-picker/sidebar-picker.component';
-import { ExtensionInstallDetailComponent } from './extension-install-detail/extension-install-detail.component';
+import { FunctionNewDetailComponent } from './function/function-new-detail/function-new-detail.component';
+import { BindingV2Component } from './function/binding-v2/binding-v2.component';
+import { BindingInputV2Component } from './function/binding-input-v2/binding-input-v2.component';
+import { SidebarPickerComponent } from './function/sidebar-picker/sidebar-picker.component';
+import { ExtensionInstallDetailComponent } from './function/extension-install-detail/extension-install-detail.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {

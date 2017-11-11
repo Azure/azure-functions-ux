@@ -1,11 +1,11 @@
-import { FunctionAppContext } from './../shared/services/functions-service';
-import { RuntimeExtension } from './../shared/models/binding';
-import { FunctionTemplate } from './../shared/models/function-template';
-import { FunctionsNode } from './../tree-view/functions-node';
-import { AppNode } from './../tree-view/app-node';
-import { FunctionApp } from './../shared/function-app';
+import { FunctionAppContext } from './../../shared/services/functions-service';
+import { RuntimeExtension } from './../../shared/models/binding';
+import { FunctionTemplate } from './../../shared/models/function-template';
+import { FunctionsNode } from './../../tree-view/functions-node';
+import { AppNode } from './../../tree-view/app-node';
+import { FunctionApp } from './../../shared/function-app';
 import { FunctionInfo } from 'app/shared/models/function-info';
-import { Template } from './../shared/models/template-picker';
+import { Template } from './../../shared/models/template-picker';
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 @Component({

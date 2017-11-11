@@ -5,20 +5,20 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-import { AiService } from '../shared/services/ai.service';
-import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../shared/models/binding';
-import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput } from '../shared/models/binding-input';
-import { BindingManager } from '../shared/models/binding-manager';
-import { BindingInputList } from '../shared/models/binding-input-list';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
-import { PortalService } from '../shared/services/portal.service';
-import { PortalResources } from '../shared/models/portal-resources';
-import { Validator } from '../shared/models/binding';
-import { FunctionApp } from '../shared/function-app';
-import { CacheService } from '../shared/services/cache.service';
-import { AuthSettings } from '../shared/models/auth-settings';
-import { FunctionInfo } from '../shared/models/function-info';
+import { AiService } from '../../shared/services/ai.service';
+import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../../shared/models/binding';
+import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput } from '../../shared/models/binding-input';
+import { BindingManager } from '../../shared/models/binding-manager';
+import { BindingInputList } from '../../shared/models/binding-input-list';
+import { BroadcastService } from '../../shared/services/broadcast.service';
+import { BroadcastEvent } from '../../shared/models/broadcast-event'
+import { PortalService } from '../../shared/services/portal.service';
+import { PortalResources } from '../../shared/models/portal-resources';
+import { Validator } from '../../shared/models/binding';
+import { FunctionApp } from '../../shared/function-app';
+import { CacheService } from '../../shared/services/cache.service';
+import { AuthSettings } from '../../shared/models/auth-settings';
+import { FunctionInfo } from '../../shared/models/function-info';
 
 declare var marked: any;
 
