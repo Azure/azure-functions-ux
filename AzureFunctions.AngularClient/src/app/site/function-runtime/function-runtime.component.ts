@@ -112,6 +112,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
         this.functionApp = new FunctionApp(context.site, this._injector);
 
+        return this.functionApp.initKeysAndWarmupMainSite();
+      })
+      .switchMap(r => {
+
         return Observable.zip(
           this._cacheService.postArm(`${this._viewInfo.resourceId}/config/appsettings/list`, true),
           this._slotsService.getSlotsList(this._viewInfo.resourceId),
@@ -298,7 +302,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this._busyManager.clearBusy();
             this._cacheService.clearArmIdCachePrefix(this.site.id);
           });
-    });
+      });
 
     this.functionRuntimeValueStream = new Subject<string>();
     this.functionRuntimeValueStream.subscribe((value: string) => {
