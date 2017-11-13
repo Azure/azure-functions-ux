@@ -1,3 +1,5 @@
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Component, Input, Output, ElementRef, Inject } from '@angular/core';
@@ -10,8 +12,6 @@ import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, Res
 import { CheckboxInput, TextboxInput, TextboxIntInput, SelectInput, PickerInput, CheckBoxListInput, EventGridInput } from '../../shared/models/binding-input';
 import { BindingManager } from '../../shared/models/binding-manager';
 import { BindingInputList } from '../../shared/models/binding-input-list';
-import { BroadcastService } from '../../shared/services/broadcast.service';
-import { BroadcastEvent } from '../../shared/models/broadcast-event'
 import { PortalService } from '../../shared/services/portal.service';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { Validator } from '../../shared/models/binding';
@@ -67,7 +67,6 @@ export class BindingV2Component {
     public authSettings: AuthSettings;
 
     private _functionAppStream = new Subject<any>();
-    private _bindingStream = new Subject<UIFunctionBinding>();
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     private _subscription: Subscription;
@@ -105,13 +104,6 @@ export class BindingV2Component {
                 this._updateBinding();
             });
 
-        this._bindingStream
-            .takeUntil(this._ngUnsubscribe)
-            .subscribe((binding: UIFunctionBinding) => {
-                this.bindingValue = binding;
-                this._updateBinding();
-        });
-
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>';
         };
@@ -128,25 +120,24 @@ export class BindingV2Component {
         });
 
         this._elementRef = elementRef;
-        this._subscription = this._broadcastService.subscribe(BroadcastEvent.IntegrateChanged, () => {
+        this._broadcastService.getEvents<any>(BroadcastEvent.IntegrateChanged)
+        .takeUntil(this._ngUnsubscribe)
+        .subscribe(r => {
+            this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
+            if (this.isDirty === undefined) {
+                this.isDirty = false;
+            }
 
-            setTimeout(() => {
-                this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
-                if (this.isDirty === undefined) {
-                    this.isDirty = false;
+            // consolidate dirty state updates from broadcast and portal services: https://github.com/Azure/azure-functions-ux/issues/2015
+            if (this.canDelete) {
+                if (this.isDirty) {
+                    this._broadcastService.setDirtyState('function_integrate');
+                    this._portalService.updateDirtyState(true);
+                } else {
+                    this._broadcastService.clearDirtyState('function_integrate', true);
+                    this._portalService.updateDirtyState(false);
                 }
-
-                // consolidate dirty state updates from broadcast and portal services: https://github.com/Azure/azure-functions-ux/issues/2015
-                if (this.canDelete) {
-                    if (this.isDirty) {
-                        this._broadcastService.setDirtyState('function_integrate');
-                        this._portalService.updateDirtyState(true);
-                    } else {
-                        this._broadcastService.clearDirtyState('function_integrate', true);
-                        this._portalService.updateDirtyState(false);
-                    }
-                }
-            });
+            }
         });
     }
 
@@ -171,7 +162,8 @@ export class BindingV2Component {
     }
 
     set binding(value: UIFunctionBinding) {
-        this._bindingStream.next(value);
+        this.bindingValue = value;
+        this._updateBinding();
     }
 
     private _handleExclusivityRule(rule: Rule, isHidden: boolean): SelectInput | null {

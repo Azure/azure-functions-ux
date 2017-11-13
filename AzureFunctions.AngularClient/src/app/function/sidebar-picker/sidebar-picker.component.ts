@@ -1,3 +1,6 @@
+import { LogService } from 'app/shared/services/log.service';
+import { LogCategories } from 'app/shared/models/constants';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { FunctionAppContext } from './../../shared/services/functions-service';
 import { RuntimeExtension } from './../../shared/models/binding';
@@ -33,7 +36,8 @@ export class SidebarPickerComponent implements OnInit {
   allInstalled = false;
   autoPickedLanguage = false;
 
-  constructor() {
+  constructor(
+    private _logService: LogService) {
   }
 
   ngOnInit() {
@@ -47,43 +51,82 @@ export class SidebarPickerComponent implements OnInit {
           this.functionLanguage = this.functionCardTemplate.languages[0];
           this.autoPickedLanguage = true;
         }
-        this.pickUpTemplate();
+        this.pickUpTemplate()
+        .subscribe(() => {
+        });
       }
     }
   }
 
   pickUpTemplate() {
-    this.functionApp.getTemplates().subscribe((templates) => {
-      setTimeout(() => {
-        this.currentTemplate = templates.find((t) => {
-          return t.metadata.language === this.functionLanguage &&
-            this.functionCardTemplate.ids.find((id) => {
-              return id === t.id;
-            });
-        });
-        if (!this.currentTemplate) {
-          return;
-        }
-        const runtimeExtensions = this.currentTemplate.metadata.extensions;
-        if (runtimeExtensions && runtimeExtensions.length > 0) {
-          this._getRequiredExtensions(runtimeExtensions)
-          .subscribe(extensions => {
-              this.neededExtensions = extensions;
-              this.allInstalled = (this.neededExtensions.length === 0);
-              this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
-              this.openFunctionNewDetail = this.allInstalled;
-              this.openExtensionInstallDetail = !this.allInstalled;
+    return this.functionApp.getTemplates()
+    .switchMap(templates => {
+      this.currentTemplate = templates.find((t) => {
+        return t.metadata.language === this.functionLanguage &&
+          this.functionCardTemplate.ids.find((id) => {
+            return id = t.id;
           });
-        } else {
-          this.neededExtensions = [];
-          this.allInstalled = true;
-          this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
-          this.openFunctionNewDetail = true;
-          this.openExtensionInstallDetail = false;
-        }
       });
+      return Observable.of(this.currentTemplate);
+    })
+    .switchMap(currentTemplate => {
+      const runtimeExtensions = this.currentTemplate.metadata.extensions;
+      if (runtimeExtensions && runtimeExtensions.length > 0) {
+        return this._getRequiredExtensions(runtimeExtensions);
+      }
+      return Observable.of(null);
+    })
+    .do(extensions => {
+      if (extensions) {
+        this.neededExtensions = extensions;
+        this.allInstalled = (this.neededExtensions.length === 0);
+        this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
+        this.openFunctionNewDetail = this.allInstalled;
+        this.openExtensionInstallDetail = !this.allInstalled;
+      } else {
+        this.neededExtensions = [];
+        this.allInstalled = true;
+        this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
+        this.openFunctionNewDetail = true;
+        this.openExtensionInstallDetail = false;
+      }
+    }, e => {
+      this._logService.error(LogCategories.functionNew, '/sidebar-error', e);
     });
   }
+
+  // pickUpTemplate() {
+  //   this.functionApp.getTemplates().subscribe((templates) => {
+  //     setTimeout(() => {
+  //       this.currentTemplate = templates.find((t) => {
+  //         return t.metadata.language === this.functionLanguage &&
+  //           this.functionCardTemplate.ids.find((id) => {
+  //             return id === t.id;
+  //           });
+  //       });
+  //       if (!this.currentTemplate) {
+  //         return;
+  //       }
+  //       const runtimeExtensions = this.currentTemplate.metadata.extensions;
+  //       if (runtimeExtensions && runtimeExtensions.length > 0) {
+  //         this._getRequiredExtensions(runtimeExtensions)
+  //         .subscribe(extensions => {
+  //             this.neededExtensions = extensions;
+  //             this.allInstalled = (this.neededExtensions.length === 0);
+  //             this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
+  //             this.openFunctionNewDetail = this.allInstalled;
+  //             this.openExtensionInstallDetail = !this.allInstalled;
+  //         });
+  //       } else {
+  //         this.neededExtensions = [];
+  //         this.allInstalled = true;
+  //         this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
+  //         this.openFunctionNewDetail = true;
+  //         this.openExtensionInstallDetail = false;
+  //       }
+  //     });
+  //   });
+  // }
 
   private _getRequiredExtensions(templateExtensions: RuntimeExtension[]) {
     const extensions: RuntimeExtension[] = [];

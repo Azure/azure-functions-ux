@@ -1,3 +1,4 @@
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
 import { Component, Input, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,7 +8,6 @@ import { PortalService } from '../../shared/services/portal.service';
 import { UserService } from '../../shared/services/user.service';
 import { PickerInput } from '../../shared/models/binding-input';
 import { BroadcastService } from '../../shared/services/broadcast.service';
-import { BroadcastEvent } from '../../shared/models/broadcast-event';
 import { SettingType, ResourceType, UIFunctionBinding } from '../../shared/models/binding';
 import { DropDownElement } from '../../shared/models/drop-down-element';
 import { PortalResources } from '../../shared/models/portal-resources';
@@ -149,7 +149,7 @@ export class BindingInputV2Component {
         }
 
         this.setClass(value);
-        this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
+        this._broadcastService.broadcastEvent<any>(BroadcastEvent.IntegrateChanged);
     }
 
     onAppSettingValueShown() {
