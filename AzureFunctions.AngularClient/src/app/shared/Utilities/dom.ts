@@ -1,6 +1,6 @@
 
 export class Dom {
-    public static setFocusable(element: HTMLElement){
+    public static setFocusable(element: HTMLElement) {
         element.tabIndex = 0;
     }
 
@@ -16,14 +16,30 @@ export class Dom {
     // This isn't comprehensive but is good enough for our current scenarios.  To get more context, checkout these links:
     // https://stackoverflow.com/questions/7208161/focus-next-element-in-tab-index
     // https://stackoverflow.com/questions/7668525/is-there-a-jquery-selector-to-get-all-elements-that-can-get-focus
-    public static getTabbableControl(element: HTMLElement): HTMLElement {
+    public static getTabbableControl(element: HTMLElement, excludedClassList?: string[]): HTMLElement {
+        const controls = element.querySelectorAll('input, select, textarea, button, object, a, area, .link, div.sortable, [tabindex="0"]');
 
-        const controls = element.querySelectorAll('input, select, textarea, button, object, a, area, .link, div.sortable');
-        if (controls.length === 0) {
-            return element;
-        } else {
-            return <HTMLElement>controls[0];
+        if (controls.length !== 0) {
+            if (!excludedClassList || excludedClassList.length === 0) {
+                return <HTMLElement>controls[0];
+            } else {
+                for (let i = 0; i < controls.length; i++) {
+                    const controlElement = <HTMLElement>controls[i];
+                    let excluded = false;
+                    for (let j = 0; j < excludedClassList.length; j++) {
+                        if (controlElement.classList.contains(excludedClassList[j])) {
+                            excluded = true;
+                            break;
+                        }
+                    }
+                    if (!excluded) {
+                        return controlElement;
+                    }
+                }
+            }
         }
+
+        return element;
     }
 
     //https://stackoverflow.com/questions/5598743/finding-elements-position-relative-to-the-document

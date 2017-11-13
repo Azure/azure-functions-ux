@@ -7163,5 +7163,23 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("westus2", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start of row.
+        /// </summary>
+        internal static string table_startOfRow {
+            get {
+                return ResourceManager.GetString("table_startOfRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End of row
+        /// </summary>
+        internal static string table_endOfRow {
+            get {
+                return ResourceManager.GetString("table_endOfRow", resourceCulture);
+            }
+        }
     }
 }
