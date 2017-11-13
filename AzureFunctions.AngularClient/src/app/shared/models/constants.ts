@@ -230,11 +230,14 @@ export class KeyCodes {
     public static readonly shiftLeft = 16;
     public static readonly space = 32;
     public static readonly escape = 27;
+    public static readonly end = 35;
+    public static readonly home = 36;
     public static readonly arrowLeft = 37;
     public static readonly arrowUp = 38;
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
     public static readonly delete = 46;
+    public static readonly f2 = 113;
 }
 
 export class ExtensionInstallStatus {

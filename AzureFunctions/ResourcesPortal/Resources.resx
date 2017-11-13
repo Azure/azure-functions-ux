@@ -2488,4 +2488,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
     <value>App Insights instrumentation key is presented in app settings but App Insights is not found in Function App's subscription. Please make sure your App Insights is localted in the same subscription as Function App.</value>
   </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Start of row</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>End of row</value>
+  </data>
 </root>
