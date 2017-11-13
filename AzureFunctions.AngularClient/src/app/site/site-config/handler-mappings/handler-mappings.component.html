@@ -5,13 +5,13 @@
   <div class="settings-wrapper">
 
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
-    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #handlerMappingsTable>
+    <table-root tblClass="tbl fixed stretch" name="Resources.feature_handlerMappingsName | translate" [items]="groupArray?.controls" #handlerMappingsTable>
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each handler mapping returned (if any) -->
-      <tr *ngFor="let group of handlerMappingsTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+      <tr *ngFor="let group of handlerMappingsTable.items | excludeDeleted:true" table-row [group]="group">
 
-        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
           <click-to-edit [group]="group" name="extension">
 
             <textbox [control]="group.controls['extension']" [placeholder]="Resources.enterExtension | translate"></textbox>
@@ -19,7 +19,7 @@
           </click-to-edit>
         </td>
 
-        <td class="one-third-col padded-col">
+        <td class="one-third-col padded-col" table-cell [editable]="true">
           <click-to-edit [group]="group" name="scriptProcessor">
 
             <textbox [control]="group.controls['scriptProcessor']" [placeholder]="Resources.enterScriptProcessor | translate"></textbox>
@@ -27,7 +27,7 @@
           </click-to-edit>
         </td>
 
-        <td class="one-third-col padded-col">
+        <td class="one-third-col padded-col" table-cell [editable]="true">
           <click-to-edit [group]="group" name="arguments">
 
             <textbox [control]="group.controls['arguments']" [placeholder]="Resources.enterArguments | translate"></textbox>
@@ -35,34 +35,34 @@
           </click-to-edit>
         </td>
 
-        <td class="action-col">
-          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
+        <td class="action-col" table-cell [editable]="false">
+          <span tabindex="0" class="fa fa-times delete" (click)="deleteItem(group)"></span>
         </td>
 
       </tr>
 
       <!-- Placeholder/Message Row -->
       <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && handlerMappingsTable.items.length - originalItemsDeleted === 0)">
+      <tr *ngIf="!groupArray || (!!groupArray && handlerMappingsTable.items.length - originalItemsDeleted === 0)" table-row>
 
         <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4">
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
           {{ (loadingFailureMessage || loadingMessage) }}
         </td>
 
         <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4">
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
           {{ showPermissionsMessage ? permissionsMessage : '' }}
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && handlerMappingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4">
+        <td *ngIf="!!groupArray && handlerMappingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4" table-cell [editable]="false">
           {{ ('emptyHandlerMappings' | translate) }}
         </td>
 
       </tr>
 
-    </tbl>
+    </table-root>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 
 

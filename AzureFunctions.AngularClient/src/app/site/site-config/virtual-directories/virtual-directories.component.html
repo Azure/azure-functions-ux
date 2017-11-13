@@ -5,13 +5,13 @@
   <div class="settings-wrapper">
 
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
-    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #virtualDirectoriesTable>
+    <table-root tblClass="tbl fixed stretch" name="Resources.feature_virtualDirectoriesName | translate" [items]="groupArray?.controls" #virtualDirectoriesTable>
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each virtual application or directory returned (if any) -->
-      <tr *ngFor="let group of virtualDirectoriesTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+      <tr *ngFor="let group of virtualDirectoriesTable.items | excludeDeleted:true" table-row [group]="group">
 
-        <td class="one-half-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+        <td class="one-half-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
           <click-to-edit [group]="group" name="virtualPath">
 
             <textbox [control]="group.controls['virtualPath']" [placeholder]="Resources.enterVirtualPath | translate"></textbox>
@@ -19,7 +19,7 @@
           </click-to-edit>
         </td>
 
-        <td class="one-half-col padded-col">
+        <td class="one-half-col padded-col" table-cell [editable]="true">
           <click-to-edit [group]="group" name="physicalPath">
 
             <textbox [control]="group.controls['physicalPath']" [placeholder]="Resources.enterPhysicalPath | translate"></textbox>
@@ -27,45 +27,41 @@
           </click-to-edit>
         </td>
 
-        <td class="is-app-col padded-col">
-          <click-to-edit [group]="group" name="isApplication" alwaysShow="true">
-
-            <label>
-              <input [formControl]="group.controls['isApplication']" type="checkbox">
-              {{ 'isApplication' | translate }}
-            </label>
-
-          </click-to-edit>
+        <td class="is-app-col padded-col" table-cell [editable]="false">
+          <label>
+            <input [formControl]="group.controls['isApplication']" type="checkbox">
+            {{ 'isApplication' | translate }}
+          </label>
         </td>
 
-        <td class="action-col">
-          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
+        <td class="action-col" table-cell [editable]="false">
+          <span tabindex="0" class="fa fa-times delete" (click)="deleteItem(group)"></span>
         </td>
 
       </tr>
 
       <!-- Placeholder/Message Row -->
       <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && virtualDirectoriesTable.items.length - originalItemsDeleted === 0)">
+      <tr *ngIf="!groupArray || (!!groupArray && virtualDirectoriesTable.items.length - originalItemsDeleted === 0)" table-row>
 
         <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4">
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
           {{ (loadingFailureMessage || loadingMessage) }}
         </td>
 
         <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4">
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
           {{ showPermissionsMessage ? permissionsMessage : '' }}
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && virtualDirectoriesTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4">
+        <td *ngIf="!!groupArray && virtualDirectoriesTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4" table-cell [editable]="false">
           {{ ('emptyVirtualDirectories' | translate) }}
         </td>
 
       </tr>
 
-    </tbl>
+    </table-root>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 
 

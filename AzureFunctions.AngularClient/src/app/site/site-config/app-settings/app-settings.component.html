@@ -5,13 +5,13 @@
   <div class="settings-wrapper">
 
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
-    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #appSettingsTable>
+    <table-root tblClass="tbl fixed stretch" name="Resources.feature_applicationSettingsName | translate" [items]="groupArray?.controls" #appSettingsTable>
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
-      <tr *ngFor="let group of appSettingsTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+      <tr *ngFor="let group of appSettingsTable.items | excludeDeleted:true" table-row [group]="group">
 
-        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
           <click-to-edit [group]="group" name="name">
 
             <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
@@ -19,7 +19,7 @@
           </click-to-edit>
         </td>
 
-        <td class="two-thirds-col padded-col">
+        <td class="two-thirds-col padded-col" table-cell [editable]="true">
           <click-to-edit [group]="group" name="value">
 
             <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
@@ -27,45 +27,40 @@
           </click-to-edit>
         </td>
 
-        <td class="slot-setting-col padded-col">
-          <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
-
-            <label>
-              <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
-              {{ 'isSlotSetting' | translate }}
-            </label>
-
-          </click-to-edit>
+        <td class="slot-setting-col padded-col" table-cell [editable]="false">
+          <label>
+            <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
+            {{ 'isSlotSetting' | translate }}
+          </label>
         </td>
 
-        <td class="action-col">
-          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
+        <td class="action-col" table-cell [editable]="false">
+          <span tabindex="0" class="fa fa-times delete" (keypress)="deleteItem(group, $event.keyCode !== keyCodes.enter)" (click)="deleteItem(group, false)"></span>
         </td>
 
       </tr>
 
       <!-- Placeholder/Message Row -->
       <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0)">
+      <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0)" table-row>
 
         <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="3">
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="3" table-cell [editable]="false">
           {{ (loadingFailureMessage || loadingMessage) }}
         </td>
 
         <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="3">
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="3" table-cell [editable]="false">
           {{ (showPermissionsMessage) ? permissionsMessage : '' }}
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3">
+        <td *ngIf="!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell [editable]="false">
           {{ ('emptyAppSettings' | translate) }}
         </td>
 
       </tr>
-
-    </tbl>
+    </table-root>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 
 
