@@ -33,7 +33,7 @@ import { FunctionApp } from './../../shared/function-app';
 import { FunctionAppEditMode } from '../../shared/models/function-app-edit-mode';
 import { SiteService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
-import { FunctionsVersionInfoHelper } from '../../../../../common/models/functions-version-info';
+import { FunctionsVersionInfoHelper } from './../../shared/models/functions-version-info';
 import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
 
 @Component({
@@ -220,6 +220,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this.proxySettingValueStream = new Subject<boolean>();
     this.proxySettingValueStream
+      .filter(value => value === true)
       .subscribe((value: boolean) => {
         if (this.showProxyEnable) {
 
@@ -240,6 +241,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this.functionEditModeValueStream = new Subject<boolean>();
     this.functionEditModeValueStream
+      .filter(state => state !== this.functionAppEditMode)
       .switchMap(state => {
         const originalState = this.functionAppEditMode;
         this._busyManager.setBusy();
@@ -276,24 +278,26 @@ export class FunctionRuntimeComponent implements OnDestroy {
       });
 
     this.slotsValueChange = new Subject<boolean>();
-    this.slotsValueChange.subscribe((value: boolean) => {
-      this._busyManager.setBusy();
-      const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
-      this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-        .mergeMap(r => {
-          return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
-        })
-        .do(null, e => {
-          this._busyManager.clearBusy();
-          this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', e);
-        })
-        .retry()
-        .subscribe(() => {
-          this.functionApp.fireSyncTrigger();
-          this.slotsEnabled = value;
-          this._busyManager.clearBusy();
-          this._cacheService.clearArmIdCachePrefix(this.site.id);
-        });
+    this.slotsValueChange
+      .filter(value => value !== this.slotsEnabled)
+      .subscribe((value: boolean) => {
+        this._busyManager.setBusy();
+        const slotsSettingsValue: string = value ? Constants.slotsSecretStorageSettingsValue : Constants.disabled;
+        this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+          .mergeMap(r => {
+            return this._slotsService.setStatusOfSlotOptIn(r.json(), slotsSettingsValue);
+          })
+          .do(null, e => {
+            this._busyManager.clearBusy();
+            this._logService.error(LogCategories.functionAppSettings, '/save-slot-change', e);
+          })
+          .retry()
+          .subscribe(() => {
+            this.functionApp.fireSyncTrigger();
+            this.slotsEnabled = value;
+            this._busyManager.clearBusy();
+            this._cacheService.clearArmIdCachePrefix(this.site.id);
+          });
     });
 
     this.functionRuntimeValueStream = new Subject<string>();
@@ -416,28 +420,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
         case 'openAppSettings':
           {
             this.openAppSettings();
-            break;
-          }
-
-        case 'functionEditModeValue':
-          {
-            this.functionEditModeValueStream.next(!this.functionAppEditMode);
-            break;
-          }
-        case 'slotsValue':
-          {
-            this.slotsValueChange.next(!this.slotsEnabled);
-            break;
-          }
-        case 'functionRuntimeValue':
-          {
-            const findOptionIndex = this.functionRutimeOptions.findIndex(item => {
-              return item.value === this.extensionVersion;
-            });
-            const runtimeValue = findOptionIndex === -1 || findOptionIndex === this.functionRutimeOptions.length ?
-              this.functionRutimeOptions[0].value :
-              this.functionRutimeOptions[findOptionIndex + 1].value;
-            this.functionRuntimeValueStream.next(runtimeValue);
             break;
           }
       }

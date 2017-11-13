@@ -1,3 +1,4 @@
+import { AzureTryEnvironment } from './azure-try.environment';
 import { TranslateService } from '@ngx-translate/core';
 import { LogService } from './../log.service';
 import { NationalCloudEnvironment } from './national-cloud.environment';
@@ -20,7 +21,8 @@ export class ScenarioService {
         new StandaloneEnvironment(),
         new SiteSlotEnvironment(this._translateService),
         new DynamicSiteEnvironment(this._translateService),
-        new LinuxSiteEnvironment(this._translateService)
+        new LinuxSiteEnvironment(this._translateService),
+        new AzureTryEnvironment()
     ];
 
     constructor(private _logService: LogService, private _translateService: TranslateService) {

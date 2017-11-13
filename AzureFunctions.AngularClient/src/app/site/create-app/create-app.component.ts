@@ -2,6 +2,7 @@ import { UserService } from './../../shared/services/user.service';
 import { Links, RuntimeImage } from './../../shared/models/constants';
 import { Component, OnInit, OnDestroy, Input, Injector } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { ErrorIds } from './../../shared/models/error-ids';
@@ -82,7 +83,7 @@ export class CreateAppComponent implements OnInit, OnDestroy {
             required.validate.bind(required),
             siteNameValidator.validate.bind(siteNameValidator)],
           subscription: defaultSubId,
-          runtimeImage: RuntimeImage.v1
+          runtimeImage: RuntimeImage.v2
         });
       });
 
@@ -129,7 +130,13 @@ export class CreateAppComponent implements OnInit, OnDestroy {
   }
 
   create() {
-    const name = this.group.controls['name'].value;
+    const nameControl = <CustomFormControl>this.group.controls['name'];
+    const name = nameControl.value;
+    if (!name) {
+      nameControl._msRunValidation = true;
+      nameControl.updateValueAndValidity();
+      return;
+    }
 
     const id = `/subscriptions/${this.group.controls['subscription'].value}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
 

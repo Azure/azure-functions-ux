@@ -30,6 +30,7 @@ import { ErrorIds } from '../models/error-ids';
 import { ErrorEvent, ErrorType } from '../models/error-event';
 import { Constants } from 'app/shared/models/constants';
 import * as jsonschema from 'jsonschema';
+import { FunctionsVersionInfoHelper} from '../models/functions-version-info';
 
 export interface FunctionAppContext {
     site: ArmObj<Site>;
@@ -97,7 +98,8 @@ export class FunctionsService {
     getFunctions(context: FunctionAppContext) {
         let fcs: FunctionInfo[];
 
-        return this._cacheService.get(context.urlTemplates.functionsUrl, false, this._getScmSiteHeaders(context))
+        return Observable.zip(
+            this._cacheService.get(context.urlTemplates.functionsUrl, false, this._getScmSiteHeaders(context))
             .catch(() => this._http.get(context.urlTemplates.functionsUrl, { headers: this._getScmSiteHeaders(context) }))
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
@@ -121,22 +123,35 @@ export class FunctionsService {
                     });
                     return <FunctionInfo[]>[];
                 }
-            })
-            .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
-            (error: FunctionsResponse) => {
-                if (!error.isHandled) {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionListFromKudu),
-                        errorId: ErrorIds.unableToRetrieveFunctionsList,
-                        errorType: ErrorType.RuntimeError,
-                        resourceId: context.site.id
-                    });
-                    this._trackEvent(context, ErrorIds.unableToRetrieveFunctionsList, {
-                        content: error.text(),
-                        status: error.status.toString()
+            }),
+            this._cacheService.postArm(`${context.site.id}/config/appsettings/list`),
+            (functions, appSettings) => ({functions: functions, appSettings: appSettings.json()}))
+            .map(result => {
+                // For runtime 2.0 we use settings for disabling functionsgit branch
+                const appSettings = result.appSettings as ArmObj<any>;
+                if (FunctionsVersionInfoHelper.getFuntionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
+                    result.functions.forEach(f => {
+                        const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
+                        f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
                     });
                 }
-            });
+                return result.functions;
+            })
+            .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
+                (error: FunctionsResponse) => {
+                    if (!error.isHandled) {
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionListFromKudu),
+                            errorId: ErrorIds.unableToRetrieveFunctionsList,
+                            errorType: ErrorType.RuntimeError,
+                            resourceId: context.site.id
+                        });
+                        this._trackEvent(context, ErrorIds.unableToRetrieveFunctionsList, {
+                            content: error.text(),
+                            status: error.status.toString()
+                        });
+                    }
+                });
     }
 
     getApiProxies(context: FunctionAppContext) {
@@ -284,7 +299,7 @@ export class FunctionsService {
     }
 
     public getAuthSettings(context: FunctionAppContext): Observable<AuthSettings> {
-        if (context.tryFunctionsScmCreds) {
+        if (this._tryFunctionsService.functionContainer) {
             return Observable.of({
                 easyAuthEnabled: false,
                 AADConfigured: false,

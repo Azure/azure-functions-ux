@@ -448,7 +448,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Provide an optional startup command that will be run as part of container startup. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.
+        ///   Looks up a localized string similar to Provide an optional startup command that will be run as part of container startup. &lt;a href=&quot;https://go.microsoft.com/fwlink/?linkid=861969&quot;&gt;Learn more&lt;/a&gt;..
         /// </summary>
         internal static string appCommandLineLabelHelp {
             get {
@@ -457,7 +457,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proxies (preview).
+        ///   Looks up a localized string similar to Proxies.
         /// </summary>
         internal static string appFunctionSettings_apiProxies {
             get {
@@ -772,20 +772,20 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto Swap requires a standard or higher App Service Plan.
-        /// </summary>
-        internal static string autoSwapUpsell {
-            get {
-                return ResourceManager.GetString("autoSwapUpsell", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Auto Swap Slot.
         /// </summary>
         internal static string autoSwapSlotNameLabel {
             get {
                 return ResourceManager.GetString("autoSwapSlotNameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Swap requires a standard or higher App Service Plan.
+        /// </summary>
+        internal static string autoSwapUpsell {
+            get {
+                return ResourceManager.GetString("autoSwapUpsell", resourceCulture);
             }
         }
         
@@ -1276,7 +1276,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.
+        ///   Looks up a localized string similar to You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more..
         /// </summary>
         internal static string clientAffinityInfoText {
             get {
@@ -4696,7 +4696,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Learn more&lt;/a&gt;.
+        ///   Looks up a localized string similar to Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href=&quot;https://go.microsoft.com/fwlink/?linkid=861969&quot;&gt;Learn more&lt;/a&gt;..
         /// </summary>
         internal static string linuxFxVersionLabelHelp {
             get {
@@ -4854,6 +4854,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string monitoring_appInsights {
             get {
                 return ResourceManager.GetString("monitoring_appInsights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App Insights instrumentation key is presented in app settings but App Insights is not found in Function App&apos;s subscription. Please make sure your App Insights is localted in the same subscription as Function App..
+        /// </summary>
+        internal static string monitoring_appInsightsIsNotFound {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsIsNotFound", resourceCulture);
             }
         }
         
@@ -5182,6 +5191,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to App Service supports installing newer versions of Python. Click here to learn more..
+        /// </summary>
+        internal static string pythonInfoText {
+            get {
+                return ResourceManager.GetString("pythonInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Python version.
         /// </summary>
         internal static string pythonVersionLabel {
@@ -5196,15 +5214,6 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string pythonVersionLabelHelp {
             get {
                 return ResourceManager.GetString("pythonVersionLabelHelp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to App Service supports installing newer versions of Python. Click here to learn more.
-        /// </summary>
-        internal static string pythonInfoText {
-            get {
-                return ResourceManager.GetString("pythonInfoText", resourceCulture);
             }
         }
         
@@ -5385,6 +5394,42 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string run {
             get {
                 return ResourceManager.GetString("run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runtime image.
+        /// </summary>
+        internal static string runtimeImage {
+            get {
+                return ResourceManager.GetString("runtimeImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to custom.
+        /// </summary>
+        internal static string runtimeImageCustom {
+            get {
+                return ResourceManager.GetString("runtimeImageCustom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to V1.
+        /// </summary>
+        internal static string runtimeImagev1 {
+            get {
+                return ResourceManager.GetString("runtimeImagev1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to V2.
+        /// </summary>
+        internal static string runtimeImagev2 {
+            get {
+                return ResourceManager.GetString("runtimeImagev2", resourceCulture);
             }
         }
         
