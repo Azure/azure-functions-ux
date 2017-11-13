@@ -1,6 +1,6 @@
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
-import { Component, Input, Output, EventEmitter, ElementRef, Inject } from '@angular/core';
+import { Component, Input, Output, ElementRef, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -33,15 +33,15 @@ export class BindingV2Component {
     @Input() canDelete = true;
     @Input() canSave = true;
     @Input() canCancel = true;
-    @Input() saveClick = new EventEmitter<void>();
+    @Input() saveClick = new Subject<void>();
     @Input() allBindings: UIFunctionBinding[];
 
-    @Output() remove = new EventEmitter<UIFunctionBinding>();
-    @Output() update = new EventEmitter<UIFunctionBinding>();
-    @Output() validChange = new EventEmitter<BindingV2Component>();
-    @Output() hasInputsToShowEvent = new EventEmitter<boolean>();
-    @Output() go = new EventEmitter<Action>();
-    @Output() cancel = new EventEmitter<void>();
+    @Output() remove = new Subject<UIFunctionBinding>();
+    @Output() update = new Subject<UIFunctionBinding>();
+    @Output() validChange = new Subject<BindingV2Component>();
+    @Output() hasInputsToShowEvent = new Subject<boolean>();
+    @Output() go = new Subject<Action>();
+    @Output() cancel = new Subject<void>();
 
     public newFunction = false;
     public storageAccountName: string;
@@ -560,7 +560,7 @@ export class BindingV2Component {
 
                 this.model.saveOriginInputs();
                 this.hasInputsToShow = this.model.leftInputs.length !== 0;
-                this.hasInputsToShowEvent.emit(this.hasInputsToShow);
+                this.hasInputsToShowEvent.next(this.hasInputsToShow);
                 this.model.documentation = marked(bindingSchema.documentation);
                 this.setStorageInformation(selectedStorage);
             }
@@ -568,14 +568,14 @@ export class BindingV2Component {
     }
 
     removeClicked() {
-        this.remove.emit(this.bindingValue);
+        this.remove.next(this.bindingValue);
     }
 
     cancelClicked() {
         this._broadcastService.clearDirtyState('function_integrate', true);
         this._portalService.setDirtyState(false);
         this.isDirty = false;
-        this.cancel.emit(null);
+        this.cancel.next(null);
     }
 
     saveClicked() {
@@ -637,7 +637,7 @@ export class BindingV2Component {
             this.setStorageInformation(selectedStorage);
         });
 
-        this.update.emit(this.bindingValue);
+        this.update.next(this.bindingValue);
 
         this._broadcastService.clearDirtyState('function_integrate', true);
         this._portalService.updateDirtyState(false);
@@ -646,7 +646,7 @@ export class BindingV2Component {
 
     onValidChanged() {
         this.areInputsValid = this.model.isValid();
-        this.validChange.emit(this);
+        this.validChange.next(this);
     }
 
     goClicked(action: Action) {
@@ -659,7 +659,7 @@ export class BindingV2Component {
             action.settingValues.push(setting.value);
         });
 
-        this.go.emit(action);
+        this.go.next(action);
     }
 
     showDoc(value: boolean) {

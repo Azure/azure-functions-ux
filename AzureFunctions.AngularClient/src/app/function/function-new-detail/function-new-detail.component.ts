@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Subject';
 import { FunctionAppContext } from './../../shared/services/functions-service';
 import { CacheService } from './../../shared/services/cache.service';
 import { AppNode } from './../../tree-view/app-node';
@@ -12,7 +13,7 @@ import { FunctionApp } from './../../shared/function-app';
 import { FunctionInfo } from './../../shared/models/function-info';
 import { DropDownElement } from './../../shared/models/drop-down-element';
 import { Template } from './../../shared/models/template-picker';
-import { Component, Input, SimpleChanges, OnChanges, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, OnInit, Output } from '@angular/core';
 import { FunctionTemplate } from '../../shared/models/function-template';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { Action } from '../../shared/models/binding';
@@ -35,7 +36,7 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
   @Input() appNode: AppNode;
   @Input() functionsNode: FunctionsNode;
   @Input() context: FunctionAppContext;
-  @Output() closePanel = new EventEmitter();
+  @Output() closePanel = new Subject();
 
   languageOptions: DropDownElement<string>[] = [];
   functionName: string;
@@ -286,7 +287,7 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
   }
 
   close() {
-    this.closePanel.emit();
+    this.closePanel.next();
   }
 
 }

@@ -1,10 +1,11 @@
+import { Subject } from 'rxjs/Subject';
 import { Template } from './../../shared/models/template-picker';
 import { ExtensionInstallStatus } from './../../shared/models/constants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../../shared/function-app';
 import { RuntimeExtension } from './../../shared/models/binding';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'extension-install-detail',
@@ -15,7 +16,7 @@ export class ExtensionInstallDetailComponent {
   @Input() functionApp: FunctionApp;
   @Input() functionCardTemplate: Template;
   @Output() installed: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  @Output() closePanel = new EventEmitter();
+  @Output() closePanel = new Subject();
 
   loading = false;
   installJobs: any[] = [];
@@ -151,7 +152,7 @@ export class ExtensionInstallDetailComponent {
   }
 
   close() {
-    this.closePanel.emit();
+    this.closePanel.next();
   }
 
   }

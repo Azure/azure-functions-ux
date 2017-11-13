@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Subject';
 import { FunctionAppContext } from './../../shared/services/functions-service';
 import { RuntimeExtension } from './../../shared/models/binding';
 import { FunctionTemplate } from './../../shared/models/function-template';
@@ -6,7 +7,7 @@ import { AppNode } from './../../tree-view/app-node';
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { Template } from './../../shared/models/template-picker';
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'sidebar-picker',
@@ -22,7 +23,7 @@ export class SidebarPickerComponent implements OnInit {
   @Input() appNode: AppNode;
   @Input() functionsNode: FunctionsNode;
   @Input() context: FunctionAppContext;
-  @Output() closePanel = new EventEmitter();
+  @Output() closePanel = new Subject();
 
   openFunctionNewDetail = false;
   openExtensionInstallDetail = false;
@@ -107,7 +108,7 @@ export class SidebarPickerComponent implements OnInit {
   }
 
   close() {
-    this.closePanel.emit();
+    this.closePanel.next();
   }
 
 }

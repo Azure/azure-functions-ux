@@ -267,7 +267,7 @@ export class FunctionNewComponent implements OnDestroy {
 
                 // unique categories
                 this.createCardTemplates.forEach((template, index) => {
-                    const categoriesDict = {};
+                    const categoriesDict: {[key: string]: string; } = {};
                     template.categories.forEach(category => {
                         categoriesDict[category] = category;
                     });

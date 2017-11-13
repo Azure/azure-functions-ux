@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Component, Input, Output, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PopoverContent } from 'ng2-popover';
 import { BindingInputBase } from '../../shared/models/binding-input';
@@ -21,7 +22,7 @@ import { CacheService } from './../../shared/services/cache.service';
 })
 export class BindingInputV2Component {
     @Input() binding: UIFunctionBinding;
-    @Output() validChange = new EventEmitter<BindingInputBase<any>>(false);
+    @Output() validChange = new Subject<BindingInputBase<any>>();
     @ViewChild('pickerPopover') pickerPopover: PopoverContent;
     public disabled: boolean;
     public enumInputs: DropDownElement<any>[];
@@ -234,7 +235,7 @@ export class BindingInputV2Component {
             }
 
             if (saveValid !== this._input.isValid) {
-                this.validChange.emit(this._input);
+                this.validChange.next(this._input);
             }
 
         }
