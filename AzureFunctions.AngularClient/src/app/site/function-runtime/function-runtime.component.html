@@ -83,7 +83,7 @@
                         {{ 'update' | translate }}
                 </button>
             </div>
-            <div>
+            <div *ngIf="!isLinuxApp">
                 <radio-selector
                     [defaultValue]="extensionVersion" 
                     [options]="functionRutimeOptions"
