@@ -794,4 +794,6 @@
     public static createFunction_search: string = "createFunction_search";
     public static bindingInput_hide: string = "bindingInput_hide";
     public static monitoring_appInsightsIsNotFound: string = "monitoring_appInsightsIsNotFound";
+    public static table_startOfRow: string = "table_startOfRow";
+    public static table_endOfRow: string = "table_endOfRow";
 }
