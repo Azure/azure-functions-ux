@@ -18,6 +18,9 @@ export class CustomFormGroup extends FormGroup {
   public _msStartInEditMode: boolean;
 
   public _msExistenceState: 'original' | 'new' | 'deleted' = 'original';
+
+  // Overrides the ClickToEdit default behavior to remain in edit mode
+  public _msStayInEditMode: boolean;
 }
 
 export class CustomFormControl extends FormControl {
@@ -33,7 +36,10 @@ export class CustomFormControl extends FormControl {
 export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public showTextbox = false;
-  @Input() group: FormGroup;
+  public group: CustomFormGroup;
+  @Input('group') set origGroup(group: FormGroup) {
+    this.group = group as CustomFormGroup;
+  }
   @Input() name: string;
   @Input() placeholder: string;
   @Input() hiddenText: boolean;
@@ -41,6 +47,8 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   // This allows for a given control to affect the state of other controls in the group while not actually being "click-to-edit-able" itself.
   // (i.e. The control's own editable/non-editable state is not affected by the extended fields in the CustomFormGroup its associated with.)
   @Input() alwaysShow: boolean;
+
+  @ViewChild('container') container: ElementRef;
 
   @ViewChild('target') target: ElementRef;
 
@@ -52,7 +60,7 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _targetFocusState: 'focused' | 'blurring' | 'blurred';
   private _focusFunc = (e: FocusEvent) => { this._targetFocusListener(e); };
-  private _blurFunc =  (e: FocusEvent) => { this._targetBlurListener(e); };
+  private _blurFunc = (e: FocusEvent) => { this._targetBlurListener(e); };
 
   constructor() { }
 
@@ -62,6 +70,7 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.control = this.group.controls[this.name] as CustomFormControl;
 
     const group = this.group as CustomFormGroup;
+
     if (!group._msShowTextbox) {
       group._msShowTextbox = new Subject<boolean>();
     }
@@ -99,6 +108,14 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _focusChild() {
+    if (!this.target) {
+      return;
+    }
+
+    if ((this.target.nativeElement as HTMLElement).contains(document.activeElement)) {
+      return;
+    }
+
     if (this.textbox) {
       this.textbox.focus();
     } else if (this.dropdown) {
@@ -113,7 +130,12 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   onMouseDown(event: MouseEvent) {
     if (!this.showTextbox) {
       event.preventDefault();
+      event.stopPropagation();
       this._updateShowTextbox(true);
+
+      // Simulate 'mousedown', 'mouseup', click' event sequence on the outer-most element.
+      // We do this because the actual clicked element will be removed from the DOM before 'mouseup' and 'click' can occur.
+      this._simulateMouseEvents(this.container.nativeElement, ['mousedown', 'mouseup', 'click']);
     }
   }
 
@@ -173,6 +195,22 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
       this._onTargetFocus();
     }
     this._targetFocusState = 'focused';
+  }
+
+  private _simulateMouseEvents(target: HTMLElement, eventTypes: string[]) {
+    if (!eventTypes || eventTypes.length === 0) {
+      return;
+    }
+
+    //const newEvent = document.createEvent('MouseEvents');
+    //newEvent.initEvent(eventTypes[0], true, true);
+    const newEvent = new MouseEvent(eventTypes[0], { bubbles: true, cancelable: true });
+    target.dispatchEvent(newEvent);
+
+    setTimeout(() => {
+      eventTypes.splice(0, 1);
+      this._simulateMouseEvents(target, eventTypes);
+    });
   }
 
 }
