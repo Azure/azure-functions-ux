@@ -35,6 +35,7 @@ import { SiteService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from '../../../../../common/models/functions-version-info';
 import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
+import { ArmUtil } from './../../shared/Utilities/arm-utils';
 
 @Component({
   selector: 'function-runtime',
@@ -62,6 +63,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public functionRuntimeValueStream: Subject<string>;
   public proxySettingValueStream: Subject<boolean>;
   public functionEditModeValueStream: Subject<boolean>;
+  public isLinuxApp: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   private _viewInfo: TreeViewInfo<SiteData>;
@@ -112,6 +114,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
         this.functionApp = new FunctionApp(context.site, this._injector);
 
+        this.isLinuxApp = ArmUtil.isLinuxApp(this.site);
         return this.functionApp.initKeysAndWarmupMainSite();
       })
       .switchMap(r => {
@@ -139,7 +142,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .retry()
       .subscribe(r => {
         const appSettings: ArmObj<any> = r.appSettingsResponse.json();
-
         this.exactExtensionVersion = r.hostStatus ? r.hostStatus.version : '';
         this._isSlotApp = SiteService.isSlot(this.site.id);
         this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
@@ -344,7 +346,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
     if (version === this.extensionVersion) {
       return;
     }
+    let updateButtonClicked = false;
     if (!version) {
+      updateButtonClicked = true;
       version = this.getLatestVersion(this.extensionVersion);
     };
     this._aiService.trackEvent('/actions/app_settings/update_version');
@@ -355,7 +359,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
       })
       .mergeMap(r => {
         return this.functionApp.getFunctionHostStatus()
-          .delay(4000)
+          .map((hostStatus: HostStatus) => {
+            if (!hostStatus.version || (hostStatus.version === this.exactExtensionVersion && !updateButtonClicked)) {
+              throw Observable.throw('Host version is not updated yet');
+            }
+            return hostStatus;
+          })
           .retryWhen(error => {
             return error.scan((errorCount: number, err: any) => {
               if (errorCount >= 20) {
