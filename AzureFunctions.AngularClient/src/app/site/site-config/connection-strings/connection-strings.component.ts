@@ -11,7 +11,7 @@ import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names'
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
 import { SaveOrValidationResult } from './../site-config.component';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
@@ -55,6 +55,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
+
+  public keyCodes: KeyCodes = KeyCodes;
 
   @Input() mainForm: FormGroup;
 
