@@ -53,6 +53,13 @@ p {
     font-size: 12px;
 }
 
+:host-context(#app-root[theme=dark]){
+    .alert-notice {
+        background-color: $chrome-color-dark;
+        border-color: $heading-text-color-dark;
+    }
+}
+
 h2 {
     font-size: 24px;
     margin-bottom: 20px;
@@ -86,9 +93,32 @@ input.input-error {
 }
 
 .input-error-adjust {
-    float: right;
-    margin-top: -25px;
-    margin-right: -13px;
+    position: absolute;
+    background-color: $error-color;
+    color: $body-bg-color;
+    height: 25px;
+    padding: 5px 5px 0px 5px;
+    margin-left: 445px;
+    margin-top: -27px;
+}
+
+.input-show-error {
+    margin-top: 20px;
+    background-color: $error-color-faded;
+    border-color: $border-color;
+    padding: 15px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+:host-context(#app-root[theme=dark]){
+    .input-show-error {
+        background-color: $chrome-color-dark;
+        border-color: $heading-text-color-dark;
+    }
 }
 
 .full-width {

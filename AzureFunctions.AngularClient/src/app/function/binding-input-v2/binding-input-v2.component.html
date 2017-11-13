@@ -16,16 +16,6 @@
              (selectItem)="finishDialogPicker($event)">
 </app-setting>
 
-<popover-content #pickerPopover
-                 placement="auto right"
-                 [animation]="true"
-                 [closeOnClickOutside]="true">
-  <div>
-    <span *ngIf="appSettingValue" class="text-label" style="word-wrap: break-word;">{{appSettingValue}}</span>
-    <i *ngIf="!appSettingValue" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
-  </div>
-</popover-content>
-
 
 <div>
   <div class="input-header">
@@ -77,8 +67,15 @@
            [ngClass]="{'input-error':!!input.errorText}"
            onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
 
-    <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputWarning]="true" [isInputError]="!input.isValid" class="input-error-adjust">
-    </pop-over>
+    <ng-container *ngIf="!!input.errorText && !input.isValid">
+      <span class="fa fa-exclamation input-error-adjust"></span>
+      <div class="input-show-error">{{input.errorText}}</div>
+    </ng-container>
+
+    <ng-container *ngIf="!!input.errorText && input.isValid">
+      <span class="fa fa-exclamation input-warning-adjust"></span>
+      <div class="input-show-warning">{{input.errorText}}</div>
+    </ng-container>
 
     <div *ngIf="description && !input.errorText">
       {{description}}
@@ -101,12 +98,17 @@
     <drop-down [options]="pickerInputs" 
                (value)="onDropDownInputChanged($event)" 
                [disabled]="input.isDisabled"></drop-down>
-    <pop-over *ngIf="!!input.errorText" 
-              [message]="input.errorText" 
-              [isInputWarning]="true" 
-              [isInputError]="!input.isValid"
-              class="input-error-adjust">
-    </pop-over>
+
+    <ng-container *ngIf="!!input.errorText && !input.isValid">
+      <span class="fa fa-exclamation input-error-adjust"></span>
+      <div class="input-show-error">{{input.errorText}}</div>
+    </ng-container>
+
+    <ng-container *ngIf="!!input.errorText && input.isValid">
+      <span class="fa fa-exclamation input-warning-adjust"></span>
+      <div class="input-show-warning">{{input.errorText}}</div>
+    </ng-container>
+
     <span *ngIf="!input.inProcess && showTryView" 
           disabled [class.select]="input.errorText" 
           [tooltip]="freeAccountTooltip"
