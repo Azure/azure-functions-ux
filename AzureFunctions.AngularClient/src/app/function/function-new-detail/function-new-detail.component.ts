@@ -1,3 +1,5 @@
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
 import { FunctionAppContext } from './../../shared/services/functions-service';
 import { CacheService } from './../../shared/services/cache.service';
@@ -19,6 +21,7 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { Action } from '../../shared/models/binding';
 import { UIFunctionBinding } from '../../shared/models/binding';
 import { PortalService } from '../../shared/services/portal.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'function-new-detail',
@@ -66,7 +69,8 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
     private _translateService: TranslateService,
     private _portalService: PortalService,
     private _aiService: AiService,
-    private _cacheService: CacheService) {
+    private _cacheService: CacheService,
+    private _logService: LogService) {
   }
 
   ngOnInit() {
@@ -100,16 +104,23 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
   onLanguageChanged(language: string) {
     this.functionLanguage = language;
     if (this.functionLanguage) {
-      this.onTemplatePickUpComplete();
+      this.onTemplatePickUpComplete()
+      .subscribe(() => {
+      });
     }
   }
 
   onTemplatePickUpComplete() {
-    this._bindingComponents = [];
-    this._globalStateService.setBusyState();
-    this.functionApp.getTemplates().subscribe((templates) => {
-      setTimeout(() => {
-        this.currentTemplate = templates.find((t) => {
+    return this.functionApp.getTemplates()
+      .switchMap(templates => {
+        this._globalStateService.setBusyState();
+        return Observable.zip(
+          this.functionApp.getBindingConfig(),
+          Observable.of(templates),
+          (c, t) => ({ config: c, templates: t }));
+      })
+      .do(r => {
+        this.currentTemplate = r.templates.find((t) => {
           return t.metadata.language === this.functionLanguage &&
             this.functionCardTemplate.ids.find((id) => {
               return id === t.id;
@@ -133,48 +144,47 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
         }
 
         this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
-        this.functionApp.getBindingConfig().subscribe((bindings) => {
-          this._globalStateService.clearBusyState();
-          this.bc.setDefaultValues(this.currentTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-          this.model.config = this.bc.functionConfigToUI({
-            disabled: false,
-            bindings: this.currentTemplate.function.bindings
-          }, bindings.bindings);
+        this._globalStateService.clearBusyState();
+        this.bc.setDefaultValues(this.currentTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-          this.model.config.bindings.forEach((b) => {
-            b.hiddenList = this.currentTemplate.metadata.userPrompt || [];
+        this.model.config = this.bc.functionConfigToUI({
+          disabled: false,
+          bindings: this.currentTemplate.function.bindings
+        }, r.config.bindings);
+
+        this.model.config.bindings.forEach((b) => {
+          b.hiddenList = this.currentTemplate.metadata.userPrompt || [];
+        });
+
+        this.hasConfigUI = ((this.currentTemplate.metadata.userPrompt) && (this.currentTemplate.metadata.userPrompt.length > 0));
+
+        this.model.setBindings();
+        this.currentBinding = this.model.trigger;
+        this.validate();
+
+        if (this.action) {
+
+          const binding = this.model.config.bindings.find((b) => {
+            return b.type.toString() === this.action.binding;
           });
 
-          this.hasConfigUI = ((this.currentTemplate.metadata.userPrompt) && (this.currentTemplate.metadata.userPrompt.length > 0));
-
-          this.model.setBindings();
-          this.currentBinding = this.model.trigger;
-          this.validate();
-
-          if (this.action) {
-
-            const binding = this.model.config.bindings.find((b) => {
-              return b.type.toString() === this.action.binding;
-            });
-
-            if (binding) {
-              this.action.settings.forEach((s, index) => {
-                const setting = binding.settings.find(bs => {
-                  return bs.name === s;
-                });
-                if (setting) {
-                  setting.value = this.action.settingValues[index];
-                }
+          if (binding) {
+            this.action.settings.forEach((s, index) => {
+              const setting = binding.settings.find(bs => {
+                return bs.name === s;
               });
-            }
+              if (setting) {
+                setting.value = this.action.settingValues[index];
+              }
+            });
           }
-
-        });
+        }
+      }, e => {
+        this._logService.error(LogCategories.functionNew, '/load-function-template-error', e);
       });
-    });
   }
-
+  
   aadRegistrationConfigured(value: boolean) {
     this.aadConfigured = value;
   }

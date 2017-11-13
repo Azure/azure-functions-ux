@@ -159,7 +159,7 @@ export class FunctionNewComponent implements OnDestroy {
                     (c, fcs) => ({ cards: c, fcs: fcs}));
             })
             .do(null, e => {
-                this._logService.error(LogCategories.functionNew, '/errors/function-new', e);
+                this._logService.error(LogCategories.functionNew, '/load-functions-cards-failure', e);
             })
             .retry()
             .subscribe(r => {
@@ -183,7 +183,6 @@ export class FunctionNewComponent implements OnDestroy {
                     (c, t) => ({ config: c, templates: t }));
             })
             .do(r => {
-                this._globalStateService.clearBusyState();
                 this.bindings = r.config.bindings;
                 this.templates = [];
                 this.createCardTemplates = [];
@@ -191,7 +190,7 @@ export class FunctionNewComponent implements OnDestroy {
                 this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
                 this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all),
                                     value: this._translateService.instant('temp_category_all'), default: true }];
-                this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), 
+                this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all),
                                      value: this._translateService.instant('temp_category_all') }];
 
                 r.templates.forEach((template) => {

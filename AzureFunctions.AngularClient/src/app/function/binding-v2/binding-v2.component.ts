@@ -95,7 +95,7 @@ export class BindingV2Component {
                     (a, e) => ({ appSettings: a.json(), authSettings: e }));
             })
             .do(null, e => {
-                this._logService.error(LogCategories.binding, '/errors/binding', e);
+                this._logService.error(LogCategories.binding, '/binding-components-load-error', e);
             })
             .retry()
             .subscribe(res => {
