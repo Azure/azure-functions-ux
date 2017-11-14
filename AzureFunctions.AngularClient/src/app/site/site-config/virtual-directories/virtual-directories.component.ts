@@ -233,7 +233,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
       isApplication: [isApplication]
     }) as CustomFormGroup;
 
-    group._msExistenceState = 'original';
+    group.msExistenceState = 'original';
     this.groupArray.push(group);
   }
 
@@ -249,7 +249,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
     // Purge any added entries that were never modified
     for (let i = groups.length - 1; i >= 0; i--) {
       let group = groups[i] as CustomFormGroup;
-      if (group._msStartInEditMode && group.pristine) {
+      if (group.msStartInEditMode && group.pristine) {
         groups.splice(i, 1);
         if (group === this.newItem) {
           this.newItem = null;
@@ -290,7 +290,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
       const virtualDirectories: VirtualDirectory[] = [];
 
       virtualDirGroups.forEach(group => {
-        if ((group as CustomFormGroup)._msExistenceState !== 'deleted') {
+        if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
           const formGroup = (group as FormGroup);
           if (formGroup.controls["isApplication"].value) {
             virtualApplications.push({
@@ -362,7 +362,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
     let groups = this.groupArray;
     let index = groups.controls.indexOf(group);
     if (index >= 0) {
-      if ((group as CustomFormGroup)._msExistenceState === 'original') {
+      if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
       }
       else {
@@ -376,8 +376,8 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
     // This keeps the overall state of this.groupArray and this.mainForm dirty.
     group.markAsDirty();
 
-    // Set the group._msExistenceState to 'deleted' so we know to ignore it when validating and saving.
-    (group as CustomFormGroup)._msExistenceState = 'deleted';
+    // Set the group.msExistenceState to 'deleted' so we know to ignore it when validating and saving.
+    (group as CustomFormGroup).msExistenceState = 'deleted';
 
     // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
     for (let key in group.controls) {
@@ -430,8 +430,8 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
       isApplication: [false]
     }) as CustomFormGroup;
 
-    this.newItem._msExistenceState = 'new';
-    this.newItem._msStartInEditMode = true;
+    this.newItem.msExistenceState = 'new';
+    this.newItem.msStartInEditMode = true;
     groups.push(this.newItem);
   }
 }

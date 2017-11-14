@@ -11,6 +11,6 @@ export class DeletedItemsFilter implements PipeTransform {
             return items;
         }
 
-        return items.filter(item => (item as CustomFormGroup)._msExistenceState != 'deleted');
+        return items.filter(item => (item as CustomFormGroup).msExistenceState != 'deleted');
     }
 }
