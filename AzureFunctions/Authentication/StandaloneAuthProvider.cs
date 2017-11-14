@@ -22,7 +22,7 @@ namespace AzureFunctions.Authentication
         private const string TenantIdClaimType = "http://schemas.microsoft.com/identity/claims/tenantid";
         private const string NonceClaimType = "nonce";
         private const string OAuthTokenCookie = "OAuthToken";
-        private const string DeleteCookieFormat = "{0}=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        private const string DeleteCookieFormat = "{0}=deleted; ; path=/; secure; HttpOnly;expires=Thu, 01 Jan 1970 00:00:00 GMT";
         private const int CookieChunkSize = 2000;
 
         private readonly X509Certificate2 _signingCert;
@@ -54,15 +54,11 @@ namespace AzureFunctions.Authentication
                 return false;
             }
 
-            if (request.Url.PathAndQuery.StartsWith("/logout", StringComparison.OrdinalIgnoreCase))
-            {
-                RemoveSessionCookie(context);
-                return true;
-            }
-
+            bool authTokenAvailableInHeader;
             var token = ReadOAuthTokenCookie(context);
             if (token != null)
             {
+                authTokenAvailableInHeader = true;
                 if (token.IsValid())
                 {
                     principal = new ClaimsPrincipal(new ClaimsIdentity("Standalone"));
@@ -71,6 +67,7 @@ namespace AzureFunctions.Authentication
             }
             else
             {
+                authTokenAvailableInHeader = false;
                 var authHeader = context.Request.Headers["Authorization"];
                 if (authHeader != null)
                 {
@@ -88,6 +85,18 @@ namespace AzureFunctions.Authentication
                 }
             }
 
+            if (request.QueryString["logout"] == "true")
+            {
+
+                if (!authTokenAvailableInHeader)
+                {
+                    response.Redirect(String.Format("https://{0}", request.Url.Authority), endResponse: true);
+                    return true;
+                }
+                RemoveSessionCookie(context);
+                principal = null;
+            }
+
             if (principal == null)
             {
                 response.StatusCode = 401;
@@ -96,7 +105,6 @@ namespace AzureFunctions.Authentication
 
             Thread.CurrentPrincipal = principal;
             HttpContext.Current.User = principal;
-
             return true;
         }
 
@@ -177,6 +185,7 @@ namespace AzureFunctions.Authentication
                     // remove old cookie
                     response.Headers.Add("Set-Cookie", String.Format(DeleteCookieFormat, cookieName));
                     ++index;
+
                 }
             }
         }
@@ -316,6 +325,10 @@ namespace AzureFunctions.Authentication
 
         private AADOAuth2AccessToken CreateTokenWithX509SigningCredentials(string username)
         {
+            string displayName;
+            if (!NetworkHelper.TryGetAccountFullName(username, out displayName)) {
+                displayName = string.Empty;
+            } 
             DateTime expiresOn = DateTime.UtcNow.AddYears(1);
 
             var claimsIdentity = new ClaimsIdentity(new List<Claim>()
@@ -325,6 +338,7 @@ namespace AzureFunctions.Authentication
                 new Claim(System.Security.Claims.ClaimTypes.Role, "User"),
                 new Claim(System.Security.Claims.ClaimTypes.Upn, username),
                 new Claim(System.Security.Claims.ClaimTypes.Version, "1.0"),
+                new Claim(System.Security.Claims.ClaimTypes.GivenName, displayName)
             }, "Custom");
 
             var securityTokenDescriptor = new SecurityTokenDescriptor()

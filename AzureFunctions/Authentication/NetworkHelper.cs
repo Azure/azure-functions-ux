@@ -194,7 +194,41 @@ namespace AzureFunctions.Authentication
 
             return false;
         }
+        public static bool TryGetAccountFullName(string accountName, out string fullName)
+        {
+            fullName = String.Empty;
 
+            if (accountName.Length == 0)
+            {
+                throw new ArgumentException("Account Name is required");
+            }
+
+            string userName;
+            string domainName;
+            ParseUserName(accountName, out userName, out domainName);
+            try
+            {
+                NativeMethods.USER_INFO_10 objUserInfo10 = new NativeMethods.USER_INFO_10();
+                IntPtr bufPtr;
+                int lngReturn = NativeMethods.NetUserGetInfo(domainName, userName, 10, out bufPtr);
+                if (lngReturn == 0)
+                {
+                    objUserInfo10 = (NativeMethods.USER_INFO_10)Marshal.PtrToStructure(bufPtr, typeof(NativeMethods.USER_INFO_10));
+                    fullName = objUserInfo10.usri10_full_name;
+                }
+
+                NativeMethods.NetApiBufferFree(bufPtr);
+                bufPtr = IntPtr.Zero;
+
+                return lngReturn == 0;
+            }
+            catch (Exception)
+            { 
+                // Do nothing
+            }
+
+            return false;
+        }
         public static bool IsValidLocalUser(string fullUserName, string password)
         {
             if (!IsDomainUser(fullUserName))

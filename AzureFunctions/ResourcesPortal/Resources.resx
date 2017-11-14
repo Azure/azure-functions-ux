@@ -1063,6 +1063,9 @@
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
     <value>Sign in with Microsoft</value>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
     <value>Backend URL must start with 'http://' or 'https://'</value>
   </data>

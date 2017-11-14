@@ -266,6 +266,19 @@ namespace AzureFunctions.Authentication
             public byte[] PathBuffer;
         }
 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct USER_INFO_10
+        {
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string usri10_name;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string usri10_comment;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string usri10_usr_comment;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string usri10_full_name;
+        }
+
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool LogonUser(
@@ -275,6 +288,16 @@ namespace AzureFunctions.Authentication
             LOGON_TYPE logonType,
             LogonProvider logonProvider,
             out SafeFileHandle token);
+
+        [DllImport("Netapi32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+        internal extern static int NetUserGetInfo(
+            [MarshalAs(UnmanagedType.LPWStr)] string ServerName,
+            [MarshalAs(UnmanagedType.LPWStr)] string UserName,
+            int level,
+            out IntPtr BufPtr);
+
+        [DllImport("Netapi32.dll", EntryPoint = "NetApiBufferFree")]
+        internal static extern uint NetApiBufferFree(IntPtr buffer);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
