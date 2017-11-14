@@ -457,7 +457,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proxies (preview).
+        ///   Looks up a localized string similar to Proxies.
         /// </summary>
         internal static string appFunctionSettings_apiProxies {
             get {
