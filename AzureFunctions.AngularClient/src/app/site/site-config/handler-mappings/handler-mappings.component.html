@@ -1,6 +1,8 @@
 <div class="settings-group-wrapper">
 
   <h3>{{ 'feature_handlerMappingsName' | translate }}</h3>
+  <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+  <info-box *ngIf="!groupArray && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
   <div class="settings-wrapper">
 
@@ -83,22 +85,6 @@
     <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
     <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" tabindex="-1" role="button" class="disabled-link add-setting" aria-disabled="true">
       {{ 'addNewHandlerMapping' | translate }}
-    </div>
-    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-
-
-    <!-- ---------------------------------------------------------- SHIELD ---------------------------------------------------------- -->
-    <div *ngIf="!groupArray || !hasWritePermissions" class="shield">
-      <div *ngIf="!groupArray && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-        {{ loadingFailureMessage }}
-      </div>
-    </div>
-
-    <div *ngIf="!hasWritePermissions" class="shield transparent">
-      <div *ngIf="showPermissionsMessage" class="shield-message">
-        <p>{{ permissionsMessage }}</p>
-        <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
-      </div>
     </div>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 

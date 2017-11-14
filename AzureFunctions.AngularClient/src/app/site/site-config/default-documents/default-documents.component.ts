@@ -170,7 +170,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
           webConfigArm.properties.defaultDocuments.forEach(document => {
             let group = this._fb.group({
               name: [
-                document,
+                {value: document, disabled: !this.hasWritePermissions},
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueDocumentValidator.validate.bind(this._uniqueDocumentValidator)])]

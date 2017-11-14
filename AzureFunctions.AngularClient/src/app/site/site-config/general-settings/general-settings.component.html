@@ -1,7 +1,8 @@
 <div class="settings-group-wrapper">
 
   <h3 class="first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
-  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+  <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+  <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
   <div class="settings-wrapper">
 
@@ -218,17 +219,12 @@
       </div>
     </ng-container>
 
-    <div *ngIf="!group || !hasWritePermissions" class="shield">
-      <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-        {{ loadingFailureMessage }}
-      </div>
-    </div>
-
   </div>
   
   <ng-container *ngIf="remoteDebuggingSupported">
     <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
-    <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+    <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+    <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
     <div class="settings-wrapper">
 
@@ -254,19 +250,14 @@
           </radio-selector>
         </div>
       </div>
-
-      <div *ngIf="!group || !hasWritePermissions" class="shield">
-        <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-          {{ loadingFailureMessage }}
-        </div>
-      </div>
-
+      
     </div>
   </ng-container>
 
   <ng-container *ngIf="linuxRuntimeSupported">
     <h3>{{ 'feature_linuxRuntimeName' | translate }}</h3>
-    <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+    <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+    <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
     <div class="settings-wrapper">
 
@@ -299,20 +290,6 @@
         </div>
       </div>
 
-      <div *ngIf="!group || !hasWritePermissions" class="shield">
-        <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-          {{ loadingFailureMessage }}
-        </div>
-      </div>
-
     </div>
   </ng-container>
-
-  <div *ngIf="!hasWritePermissions" class="shield transparent">
-    <div *ngIf="showPermissionsMessage" class="shield-message">
-      <p>{{ permissionsMessage }}</p>
-      <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
-    </div>
-  </div>
-
 </div>

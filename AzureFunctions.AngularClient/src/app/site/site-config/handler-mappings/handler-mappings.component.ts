@@ -163,9 +163,9 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
         if (webConfigArm.properties.handlerMappings) {
           webConfigArm.properties.handlerMappings.forEach(mapping => {
             let group = this._fb.group({
-              extension: [mapping.extension, this._requiredValidator.validate.bind(this._requiredValidator)],
-              scriptProcessor: [mapping.scriptProcessor, this._requiredValidator.validate.bind(this._requiredValidator)],
-              arguments: [mapping.arguments]
+              extension: [{value: mapping.extension, disabled: !this.hasWritePermissions}, this._requiredValidator.validate.bind(this._requiredValidator)],
+              scriptProcessor: [{value: mapping.scriptProcessor, disabled: !this.hasWritePermissions}, this._requiredValidator.validate.bind(this._requiredValidator)],
+              arguments: [{value: mapping.arguments, disabled: !this.hasWritePermissions}]
             }) as CustomFormGroup;
 
             group.msExistenceState = 'original';

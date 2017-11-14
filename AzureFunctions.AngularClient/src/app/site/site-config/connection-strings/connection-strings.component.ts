@@ -191,13 +191,13 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
             let group = this._fb.group({
               name: [
-                name,
+                {value: name, disabled: !this.hasWritePermissions},
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
-              value: [connectionString.value],
-              type: [connectionStringDropDownTypes.find(t => t.default).value],
-              isSlotSetting: [stickyConnectionStringNames.indexOf(name) !== -1]
+              value: [{value: connectionString.value, disabled: !this.hasWritePermissions}],
+              type: [{value: connectionStringDropDownTypes.find(t => t.default).value, disabled: !this.hasWritePermissions}],
+              isSlotSetting: [{value: stickyConnectionStringNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions}]
             }) as CustomFormGroup;
 
             (<any>group).csTypes = connectionStringDropDownTypes;
