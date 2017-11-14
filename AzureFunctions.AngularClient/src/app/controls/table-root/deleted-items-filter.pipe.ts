@@ -12,6 +12,6 @@ export class DeletedItemsFilter implements PipeTransform {
         }
         // filter items array, items which match and return true will be
         // kept, false will be filtered out
-        return items.filter(item => (item as CustomFormGroup)._msExistenceState != 'deleted');
+        return items.filter(item => (item as CustomFormGroup).msExistenceState != 'deleted');
     }
 }

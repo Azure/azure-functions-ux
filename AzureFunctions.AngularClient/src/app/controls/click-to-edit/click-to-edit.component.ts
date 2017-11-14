@@ -9,18 +9,18 @@ import { Subscription } from 'rxjs/Subscription';
 export class CustomFormGroup extends FormGroup {
 
   // Tells other ClickToEdit components when we're in "edit" mode for the form group.
-  public _msShowTextbox: Subject<boolean>;
+  public msShowTextbox: Subject<boolean>;
 
   // Tells other ClickToEdit components which control currently has focus
-  public _msFocusedControl: string;
+  public msFocusedControl: string;
 
   // Overrides the ClickToEdit default behavior to start in edit mode for new items
-  public _msStartInEditMode: boolean;
+  public msStartInEditMode: boolean;
 
-  public _msExistenceState: 'original' | 'new' | 'deleted' = 'original';
+  public msExistenceState: 'original' | 'new' | 'deleted' = 'original';
 
   // Overrides the ClickToEdit default behavior to remain in edit mode
-  public _msStayInEditMode: boolean;
+  public msStayInEditMode: boolean;
 }
 
 export class CustomFormControl extends FormControl {
@@ -71,20 +71,20 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const group = this.group as CustomFormGroup;
 
-    if (!group._msShowTextbox) {
-      group._msShowTextbox = new Subject<boolean>();
+    if (!group.msShowTextbox) {
+      group.msShowTextbox = new Subject<boolean>();
     }
 
-    this._sub = group._msShowTextbox.subscribe(showTextbox => {
-      this.showTextbox = showTextbox || this.alwaysShow || (group._msStartInEditMode && group.pristine);
-      if (this.showTextbox && (this.group as CustomFormGroup)._msFocusedControl === this.name) {
+    this._sub = group.msShowTextbox.subscribe(showTextbox => {
+      this.showTextbox = showTextbox || this.alwaysShow || (group.msStartInEditMode && group.pristine);
+      if (this.showTextbox && (this.group as CustomFormGroup).msFocusedControl === this.name) {
         setTimeout(() => {
           this._focusChild();
         });
       }
     });
 
-    if (group._msStartInEditMode || this.alwaysShow) {
+    if (group.msStartInEditMode || this.alwaysShow) {
       this.showTextbox = true;
     }
   }
@@ -170,13 +170,13 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
     const group = this.group as CustomFormGroup;
 
     if (show) {
-      group._msFocusedControl = this.name;
-    } else if (group._msFocusedControl === this.name) {
-      group._msFocusedControl = '';
+      group.msFocusedControl = this.name;
+    } else if (group.msFocusedControl === this.name) {
+      group.msFocusedControl = '';
     }
 
-    if (!group._msFocusedControl || group._msFocusedControl === this.name) {
-      group._msShowTextbox.next(show);
+    if (!group.msFocusedControl || group.msFocusedControl === this.name) {
+      group.msShowTextbox.next(show);
     }
   }
 

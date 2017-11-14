@@ -90,7 +90,7 @@ export class TableRowComponent implements AfterContentInit, OnDestroy {
 
 
         if (this.group) {
-            this.group._msStayInEditMode = this.parentTable.editMode;
+            this.group.msStayInEditMode = this.parentTable.editMode;
         }
     }
 
