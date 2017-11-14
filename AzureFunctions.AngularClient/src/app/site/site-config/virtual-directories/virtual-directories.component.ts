@@ -221,14 +221,14 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
   private _addVDirToGroup(virtualPath: string, physicalPath: string, isApplication: boolean) {
     let group = this._fb.group({
       virtualPath: [
-        virtualPath,
+        {value: virtualPath, disabled: !this.hasWritePermissions},
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
           this._uniqueValidator.validate.bind(this._uniqueValidator)])],
       physicalPath: [
-        physicalPath,
+        {value: physicalPath, disabled: !this.hasWritePermissions},
         this._requiredValidator.validate.bind(this._requiredValidator)],
-      isApplication: [isApplication]
+      isApplication: [{value: isApplication, disabled: !this.hasWritePermissions}]
     }) as CustomFormGroup;
 
     group.msExistenceState = 'original';

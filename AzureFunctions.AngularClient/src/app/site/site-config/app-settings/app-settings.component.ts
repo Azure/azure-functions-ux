@@ -184,12 +184,12 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           if (appSettingsArm.properties.hasOwnProperty(name)) {
             const group = this._fb.group({
               name: [
-                name,
+                {value: name, disabled: !this.hasWritePermissions},
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
-              value: [appSettingsArm.properties[name]],
-              isSlotSetting: [stickyAppSettingNames.indexOf(name) !== -1]
+              value: [{value: appSettingsArm.properties[name], disabled: !this.hasWritePermissions}],
+              isSlotSetting: [{value: stickyAppSettingNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions}]
             }) as CustomFormGroup;
 
             group.msExistenceState = 'original';

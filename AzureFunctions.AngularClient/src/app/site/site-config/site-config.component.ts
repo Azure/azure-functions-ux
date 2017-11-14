@@ -91,15 +91,11 @@ export class SiteConfigComponent implements OnDestroy {
         );
       })
       .switchMap(res => {
-        if (res.writePermission && !res.readOnlyLock) {
-          return this._cacheService.getArm(res.resourceId)
-            .map(site => {
-              this._site = <ArmObj<Site>>site.json();
-              return res;
-            });
-        } else {
-          return Observable.of(res);
-        }
+        return this._cacheService.getArm(res.resourceId)
+          .map(site => {
+            this._site = <ArmObj<Site>>site.json();
+            return res;
+          });
       })
       .do(null, error => {
         this.resourceId = null;

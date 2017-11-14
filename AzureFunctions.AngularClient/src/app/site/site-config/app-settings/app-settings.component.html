@@ -1,6 +1,8 @@
 <div class="settings-group-wrapper">
 
   <h3>{{ 'feature_applicationSettingsName' | translate }}</h3>
+  <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+  <info-box *ngIf="!groupArray && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
   <div class="settings-wrapper">
 
@@ -81,27 +83,6 @@
     <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
     <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" tabindex="-1" role="button" class="disabled-link add-setting" aria-disabled="true">
       {{ 'addNewSetting' | translate }}
-    </div>
-    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-
-
-    <!-- ---------------------------------------------------------- SHIELD ---------------------------------------------------------- -->
-    <!-- If ARM call has not returned yet or ARM call failed, show shield -->
-    <!-- If ARM call did not return successfully, show approriate shield message based on permissions -->
-    <div *ngIf="!groupArray" class="shield">
-      <div *ngIf="hasWritePermissions && !!loadingFailureMessage" class="shield-message">
-        {{ loadingFailureMessage }}
-      </div>
-      <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield-message">
-        {{ permissionsMessage }}
-      </div>
-    </div>
-
-    <!-- If ARM call returned successfully, show shield and shield message if necessary based on permissions -->
-    <div *ngIf="!!groupArray && !hasWritePermissions && showPermissionsMessage" class="shield">
-      <div class="shield-message">
-        {{ permissionsMessage }}
-      </div>
     </div>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 
