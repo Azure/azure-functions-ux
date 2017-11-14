@@ -792,4 +792,5 @@
     public static nameColon: string = "nameColon";
     public static createFunction_search: string = "createFunction_search";
     public static bindingInput_hide: string = "bindingInput_hide";
+    public static monitoring_appInsightsIsNotFound: string = "monitoring_appInsightsIsNotFound";
 }

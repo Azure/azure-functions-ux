@@ -95,39 +95,6 @@ export class SidebarPickerComponent implements OnInit {
     });
   }
 
-  // pickUpTemplate() {
-  //   this.functionApp.getTemplates().subscribe((templates) => {
-  //     setTimeout(() => {
-  //       this.currentTemplate = templates.find((t) => {
-  //         return t.metadata.language === this.functionLanguage &&
-  //           this.functionCardTemplate.ids.find((id) => {
-  //             return id === t.id;
-  //           });
-  //       });
-  //       if (!this.currentTemplate) {
-  //         return;
-  //       }
-  //       const runtimeExtensions = this.currentTemplate.metadata.extensions;
-  //       if (runtimeExtensions && runtimeExtensions.length > 0) {
-  //         this._getRequiredExtensions(runtimeExtensions)
-  //         .subscribe(extensions => {
-  //             this.neededExtensions = extensions;
-  //             this.allInstalled = (this.neededExtensions.length === 0);
-  //             this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
-  //             this.openFunctionNewDetail = this.allInstalled;
-  //             this.openExtensionInstallDetail = !this.allInstalled;
-  //         });
-  //       } else {
-  //         this.neededExtensions = [];
-  //         this.allInstalled = true;
-  //         this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
-  //         this.openFunctionNewDetail = true;
-  //         this.openExtensionInstallDetail = false;
-  //       }
-  //     });
-  //   });
-  // }
-
   private _getRequiredExtensions(templateExtensions: RuntimeExtension[]) {
     const extensions: RuntimeExtension[] = [];
     return this.functionApp.getHostExtensions().map(r => {

@@ -5,7 +5,6 @@ import { LogService } from 'app/shared/services/log.service';
 import { Component, Input, Output, ElementRef, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { Binding, SettingType, BindingType, UIFunctionBinding, Rule, Action, ResourceType, EnumOption } from '../../shared/models/binding';
@@ -69,7 +68,6 @@ export class BindingV2Component {
     private _functionAppStream = new Subject<any>();
     private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
-    private _subscription: Subscription;
     private _appSettings: { [key: string]: string };
     private _functionInfo: FunctionInfo;
     private _ngUnsubscribe = new Subject();
@@ -142,7 +140,6 @@ export class BindingV2Component {
     }
 
     ngOnDestroy() {
-        this._subscription.unsubscribe();
         this._ngUnsubscribe.next();
     }
 
