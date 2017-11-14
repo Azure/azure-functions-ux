@@ -1485,6 +1485,14 @@ export class FunctionApp {
         return headers;
     }
 
+    private getSystemKeyAuthHeaders(key: string): Headers {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json,*/*');
+        headers.append('x-functions-key', key);
+        return headers;
+    }
+
     // to talk to Functions Portal
     private getPortalHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
@@ -1649,8 +1657,8 @@ export class FunctionApp {
         return this._http.get(url).map(r => { return r.json(); });
     }
 
-    addOrUpdateSwaggerDocument(swaggerUrl: string, content: string) {
-        return this._http.post(swaggerUrl, content).map(r => { return r.json(); })
+    addOrUpdateSwaggerDocument(swaggerUrl: string, key: string , content: string) {
+        return this._http.post(swaggerUrl, content, { headers: this.getSystemKeyAuthHeaders(key) }).map(r => { return r.json(); })
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateSwaggerData),
             (error: FunctionsResponse) => {
                 if (!error.isHandled) {

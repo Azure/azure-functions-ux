@@ -327,7 +327,8 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             }
 
             if (swaggerDocument) {
-                this.functionApp.addOrUpdateSwaggerDocument(this.swaggerURL, swaggerDocument).
+                const url = this.functionApp.getMainSiteUrl() + '/admin/host/swagger';
+                this.functionApp.addOrUpdateSwaggerDocument(url, this.swaggerKey, swaggerDocument).
                     subscribe(updatedDocument => {
                         this.swaggerDocument = updatedDocument;
                         this._busyManager.clearBusy();
