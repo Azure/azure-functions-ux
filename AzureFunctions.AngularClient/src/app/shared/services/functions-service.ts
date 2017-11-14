@@ -217,26 +217,36 @@ export class FunctionsService {
     }
 
     getFunctionAppEditMode(context: FunctionAppContext): Observable<FunctionAppEditMode> {
-        // The we have 2 settings to check here. There is the SourceControl setting which comes from /config/web
-        // and there is FUNCTION_APP_EDIT_MODE which comes from app settings.
+        // 4 settings to check here, SourceControl, Visual Studio generated, Slots, FUNCTION_APP_EDIT_MODE
         // editMode (true -> readWrite, false -> readOnly)
         // Table
-        // |Slots | SourceControl | AppSettingValue | EditMode                      |
-        // |------|---------------|-----------------|-------------------------------|
-        // | No   | true          | readWrite       | ReadWriteSourceControlled     |
-        // | No   | true          | readOnly        | ReadOnlySourceControlled      |
-        // | No   | true          | undefined       | ReadOnlySourceControlled      |
-        // | No   | false         | readWrite       | ReadWrite                     |
-        // | No   | false         | readOnly        | ReadOnly                      |
-        // | No   | false         | undefined       | ReadWrite                     |
-
-        // | Yes  | true          | readWrite       | ReadWriteSourceControlled     |
-        // | Yes  | true          | readOnly        | ReadOnlySourceControlled      |
-        // | Yes  | true          | undefined       | ReadOnlySourceControlled      |
-        // | Yes  | false         | readWrite       | ReadWrite                     |
-        // | Yes  | false         | readOnly        | ReadOnly                      |
-        // | Yes  | false         | undefined       | ReadOnlySlots                 |
-        // |______|_______________|_________________|_______________________________|
+        // | SourceControl | VS    | Slots | AppSettingValue | EditMode                  |
+        // |---------------|-------|-------|-----------------|---------------------------|
+        // | true          | true  | Yes   | readWrite       | ReadWriteSourceControlled |
+        // | true          | true  | Yes   | readOnly        | ReadOnlySourceControlled  |
+        // | true          | true  | Yes   | undefined       | ReadOnlySourceControlled  |
+        // | true          | true  | No    | readWrite       | ReadWriteSourceControlled |
+        // | true          | true  | No    | readOnly        | ReadOnlySourceControlled  |
+        // | true          | true  | No    | undefined       | ReadOnlySourceControlled  |
+        // | true          | false | Yes   | readWrite       | ReadWriteSourceControlled |
+        // | true          | false | Yes   | readOnly        | ReadOnlySourceControlled  |
+        // | true          | false | Yes   | undefined       | ReadOnlySourceControlled  |
+        // | true          | false | No    | readWrite       | ReadWriteSourceControlled |
+        // | true          | false | No    | readOnly        | ReadOnlySourceControlled  |
+        // | true          | false | No    | undefined       | ReadOnlySourceControlled  |
+        // | false         | true  | Yes   | readWrite       | ReadWriteVSGenerated      |
+        // | false         | true  | Yes   | readOnly        | ReadOnlyVSGenerated       |
+        // | false         | true  | Yes   | undefined       | ReadOnlyVSGenerated       |
+        // | false         | true  | No    | readWrite       | ReadWriteVSGenerated      |
+        // | false         | true  | No    | readOnly        | ReadOnlyVSGenerated       |
+        // | false         | true  | No    | undefined       | ReadOnlyVSGenerated       |
+        // | false         | false | Yes   | readWrite       | ReadWrite                 |
+        // | false         | false | Yes   | readOnly        | ReadOnly                  |
+        // | false         | false | Yes   | undefined       | ReadOnlySlots             |
+        // | false         | false | No    | readWrite       | ReadWrite                 |
+        // | false         | false | No    | readOnly        | ReadOnly                  |
+        // | false         | false | No    | undefined       | ReadWrite                 |
+        // |_______________|_______|_______|_________________|___________________________|
 
         return Observable.zip(
             this._checkIfSourceControlEnabled(context.site),
@@ -254,17 +264,50 @@ export class FunctionsService {
                 let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
                 editModeSettingString = editModeSettingString.toLocaleLowerCase();
                 const vsCreatedFunc = result.functions.find((fc: any) => !!fc.config.generatedBy);
-                if (vsCreatedFunc) {
-                    return FunctionAppEditMode.ReadOnlyVSGenerated;
-                }
+                const hasSlots = result.hasSlots;
+
+                const resolveReadOnlyMode = () => {
+                    if (sourceControlled) {
+                        return FunctionAppEditMode.ReadOnlySourceControlled;
+                    } else if (vsCreatedFunc) {
+                        return FunctionAppEditMode.ReadOnlyVSGenerated;
+                    } else if (hasSlots) {
+                        return FunctionAppEditMode.ReadOnly;
+                    } else {
+                        return FunctionAppEditMode.ReadOnly;
+                    };
+                };
+
+                const resolveReadWriteMode = () => {
+                    if (sourceControlled) {
+                        return FunctionAppEditMode.ReadWriteSourceControlled;
+                    } else if (vsCreatedFunc) {
+                        return FunctionAppEditMode.ReadWriteVSGenerated;
+                    } else if (hasSlots) {
+                        return FunctionAppEditMode.ReadWrite;
+                    } else {
+                        return FunctionAppEditMode.ReadWrite;
+                    };
+                };
+
+                const resolveUndefined = () => {
+                    if (sourceControlled) {
+                        return FunctionAppEditMode.ReadOnlySourceControlled;
+                    } else if (vsCreatedFunc) {
+                        return FunctionAppEditMode.ReadOnlyVSGenerated;
+                    } else if (hasSlots) {
+                        return FunctionAppEditMode.ReadOnlySlots;
+                    } else {
+                        return FunctionAppEditMode.ReadWrite;
+                    };
+                };
+
                 if (editModeSettingString === Constants.ReadWriteMode) {
-                    return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
+                    return resolveReadWriteMode();
                 } else if (editModeSettingString === Constants.ReadOnlyMode) {
-                    return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadOnly;
-                } else if (sourceControlled) {
-                    return FunctionAppEditMode.ReadOnlySourceControlled;
+                    return resolveReadOnlyMode();
                 } else {
-                    return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
+                    return resolveUndefined();
                 }
             })
             .catch(() => Observable.of(FunctionAppEditMode.ReadWrite));
