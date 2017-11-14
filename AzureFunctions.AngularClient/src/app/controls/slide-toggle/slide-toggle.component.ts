@@ -124,8 +124,7 @@ export class SlideToggleComponent implements OnChanges {
                         addSuffix = true;
                         ariaLabel = this.name;
                         ariaPressed = this.on;
-                    }
-                    else {
+                    } else {
                         ariaLabel = stateNames[state];
                     }
                     break;
@@ -232,8 +231,7 @@ export class SlideToggleComponent implements OnChanges {
 
             // trigger click action
             (<HTMLElement>this.toggleContainer.nativeElement).click();
-        }
-        else {
+        } else {
             this._toggle();
         }
     }

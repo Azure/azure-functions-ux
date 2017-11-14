@@ -506,8 +506,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         group.addControl('autoSwapEnabled', this._fb.control(false));
         group.addControl('autoSwapSlotName', this._fb.control(null));
         setTimeout(() => { this._setControlsEnabledState(['autoSwapEnabled', 'autoSwapSlotName'], false); }, 0);
-      }
-      else {
+      } else {
         const slotNames: string[] = ['production'];
         if (slotsConfigArm && slotsConfigArm.value) {
           slotsConfigArm.value
@@ -1035,8 +1034,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         success: true,
         error: null
       });
-    }
-    else if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
+    } else if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
       const generalSettingsControls = this.group.controls;
 
       // level: site

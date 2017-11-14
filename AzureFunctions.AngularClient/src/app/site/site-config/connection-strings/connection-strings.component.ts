@@ -210,12 +210,10 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
       if (this.mainForm.contains("connectionStrings")) {
         this.mainForm.setControl("connectionStrings", this.groupArray);
-      }
-      else {
+      } else {
         this.mainForm.addControl("connectionStrings", this.groupArray);
       }
-    }
-    else {
+    } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
@@ -260,8 +258,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     // Prevent unnecessary PUT call if these settings haven't been changed
     if (this.groupArray.pristine) {
       return null;
-    }
-    else {
+    } else {
       let configObjects: ArmObjMap = {
         objects: {}
       };
@@ -293,8 +290,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
               if (connectionStringNames.indexOf(name) === -1) {
                 connectionStringNames.push(name);
               }
-            }
-            else {
+            } else {
               let index = connectionStringNames.indexOf(name);
               if (index !== -1) {
                 connectionStringNames.splice(index, 1);
@@ -305,8 +301,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
         configObjects["slotConfigNames"] = slotConfigNamesArm;
         configObjects["connectionStrings"] = connectionStringsArm;
-      }
-      else {
+      } else {
         configObjects.error = this._validationFailureMessage();
       }
 
@@ -324,8 +319,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         success: true,
         error: null
       });
-    }
-    else {
+    } else {
       return Observable.zip(
         this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
         Observable.of(slotConfigNamesResponse),
@@ -360,8 +354,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     if (index >= 0) {
       if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
-      }
-      else {
+      } else {
         this._deleteAddedItem(groups, group, index);
       }
     }

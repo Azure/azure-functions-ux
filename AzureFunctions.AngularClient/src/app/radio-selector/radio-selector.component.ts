@@ -116,12 +116,10 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
         if (activeOptionIndex !== null && activeOptionIndex >= 0) {
             if (direction === 'forward') {
                 newIndex = activeOptionIndex === this.options.length - 1 ? 0 : activeOptionIndex + 1;
-            }
-            else {
+            } else {
                 newIndex = activeOptionIndex === 0 ? this.options.length - 1 : activeOptionIndex - 1;
             }
-        }
-        else {
+        } else {
             newIndex = direction === 'forward' ? 0 : this.options.length - 1;
         }
 
@@ -133,8 +131,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
             if (event.keyCode === KeyCodes.arrowLeft || event.keyCode === KeyCodes.arrowUp) {
                 this._selectAdjacent('reverse');
                 event.preventDefault();
-            }
-            else if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowDown) {
+            } else if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowDown) {
                 this._selectAdjacent('forward');
                 event.preventDefault();
             }

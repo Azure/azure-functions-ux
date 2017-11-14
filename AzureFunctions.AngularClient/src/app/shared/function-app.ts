@@ -208,8 +208,7 @@ export class FunctionApp {
     public static getMainUrl(configService: ConfigService, site: ArmObj<Site>) {
         if (configService.isStandalone()) {
             return `https://${site.properties.defaultHostName}/functions/${site.name}`;
-        }
-        else {
+        } else {
             return `https://${site.properties.defaultHostName}`;
         }
     }
@@ -220,8 +219,7 @@ export class FunctionApp {
     public static getScmUrl(configService: ConfigService, site: ArmObj<Site>) {
         if (configService.isStandalone()) {
             return FunctionApp.getMainUrl(configService, site);
-        }
-        else {
+        } else {
             return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         }
     }

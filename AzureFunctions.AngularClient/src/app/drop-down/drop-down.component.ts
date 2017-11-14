@@ -91,8 +91,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
                 options.push(optionsGroup);
             });
             this._options = options;
-        }
-        else {
+        } else {
             let options: DropDownElement<T>[] = [];
             let inputs: DropDownElement<T>[] = (value as DropDownElement<T>[]);
             inputs.forEach(opt => {
@@ -119,8 +118,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
 
         if (!this.control) {
             this.onSelect(selectedOptionId.toString());
-        }
-        else {
+        } else {
             this.onSelectValue(selectedOptionValue);
         }
 
@@ -142,8 +140,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
             (this._options as DropDownGroupElement<T>[]).forEach(g => {
                 element = element || g.dropDownElements.find(e => e.id.toString() === id);
             });
-        }
-        else {
+        } else {
             element = (this._options as DropDownElement<T>[]).find(e => e.id.toString() === id);
         }
         this.selectedElement = element;
@@ -156,8 +153,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
             (this._options as DropDownGroupElement<T>[]).forEach(g => {
                 element = element || g.dropDownElements.find(e => e.value === value);
             });
-        }
-        else {
+        } else {
             element = (this._options as DropDownElement<T>[]).find(e => e.value === value);
         }
         this.selectedElement = element;

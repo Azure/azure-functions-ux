@@ -138,8 +138,7 @@ export class SiteConfigComponent implements OnDestroy {
       // There isn't a callback for dirty state on a form, so this is a workaround.
       if (this.mainForm.dirty) {
         this._broadcastService.setDirtyState(SiteTabIds.applicationSettings);
-      }
-      else {
+      } else {
         this._broadcastService.clearDirtyState(SiteTabIds.applicationSettings);
       }
     });
@@ -194,13 +193,11 @@ export class SiteConfigComponent implements OnDestroy {
 
           if (!asConfig && !csConfig) {
             return Observable.of({ slotConfigNamesResult: null, appSettingsArm: null, connectionStringsArm: null });
-          }
-          else {
+          } else {
             const errors = [asConfig, csConfig].filter(c => !!c && !!c.error).map(c => c.error);
             if (errors.length > 0) {
               return Observable.throw(errors);
-            }
-            else {
+            } else {
               let slotConfigNamesArm: ArmObj<any>;
               if (!!asConfig) {
                 slotConfigNamesArm = JSON.parse(JSON.stringify(asConfig["slotConfigNames"]));
@@ -208,8 +205,7 @@ export class SiteConfigComponent implements OnDestroy {
                   slotConfigNamesArm.properties.connectionStringNames =
                     JSON.parse(JSON.stringify(csConfig["slotConfigNames"].properties.connectionStringNames));
                 }
-              }
-              else {
+              } else {
                 slotConfigNamesArm = JSON.parse(JSON.stringify(csConfig["slotConfigNames"]));
               }
               return Observable.zip(

@@ -223,8 +223,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 if (!this._globalStateService.showTryView) {
                     this._aiService.trackException(e, 'site-summary');
-                }
-                else {
+                } else {
                     this._setAvailabilityState(AvailabilityStates.available);
                     this.plan = 'Trial';
                 }
@@ -266,8 +265,7 @@ export class SiteSummaryComponent implements OnDestroy {
             if (confirmResult) {
                 this._stopOrStartSite(true);
             }
-        }
-        else {
+        } else {
             this._stopOrStartSite(false);
         }
     }

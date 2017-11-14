@@ -44,8 +44,7 @@ export class PortalService {
 
         if (PortalService.inIFrame()) {
             this.initializeIframe();
-        }
-        else if (PortalService.inTab()) {
+        } else if (PortalService.inTab()) {
             this.initializeTab();
         }
     }
@@ -123,26 +122,18 @@ export class PortalService {
                 }
                 // send over startupinfo
                 this.sendTabStartupInfo(id);
-            }
-
-            else if (msg.verb === TabCommunicationVerbs.updatedFile) {
+            } else if (msg.verb === TabCommunicationVerbs.updatedFile) {
                 // check if file is open, if yes then update
             }
-        }
-
-        else if (PortalService.inTab()) {
+        } else if (PortalService.inTab()) {
             // if the startup message is meant for the child tab
             if (msg.dest_id === this.tabId && msg.verb === TabCommunicationVerbs.sentStartInfo) {
                 // get new startup info and update
                 msg.data.resourceId = Url.getParameterByName(null, 'rid');
                 this.startupInfoObservable.next(msg.data);
-            }
-
-            else if (msg.verb === TabCommunicationVerbs.updatedFile) {
+            } else if (msg.verb === TabCommunicationVerbs.updatedFile) {
                 // check if file is open, if yes then update
-            }
-
-            else if (msg.verb === TabCommunicationVerbs.newToken) {
+            } else if (msg.verb === TabCommunicationVerbs.newToken) {
                 // TODO: handle recieved new token
             }
         }
@@ -273,8 +264,7 @@ export class PortalService {
             };
 
             this.postMessage(Verbs.setNotification, JSON.stringify(payload));
-        }
-        else {
+        } else {
             setTimeout(() => {
                 this.notificationStartStream.next({ id: 'id' });
             });

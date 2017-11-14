@@ -106,15 +106,13 @@ describe('TreeViewComponent', () => {
     do{
       if(forward){
         curNode = iterator.next();
-      }
-      else{
+      } else{
         curNode = iterator.previous();
       }
 
       if(curNode){
         expect(curNode.title).toEqual(results[testNum]);
-      }
-      else{
+      } else{
         expect(results[testNum]).toBeNull();
       }
 
@@ -135,8 +133,7 @@ describe('TreeViewComponent', () => {
   function getLastDescendantNode(node : TreeNode){
     if(node.children.length > 0){
       return getLastDescendantNode(node.children[node.children.length - 1]);
-    }
-    else{
+    } else{
       return node;
     }
   }

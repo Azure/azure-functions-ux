@@ -396,8 +396,7 @@ export class SideNavComponent implements AfterViewInit {
             this._updateSubDisplayText(this.allSubscriptions);
         } else if (subscriptions.length > 1) {
             this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_SubscriptionCount).format(subscriptions.length));
-        }
-        else {
+        } else {
             this._updateSubDisplayText(`${subscriptions[0].displayName}`);
         }
     }

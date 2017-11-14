@@ -176,12 +176,10 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
 
       if (this.mainForm.contains("handlerMappings")) {
         this.mainForm.setControl("handlerMappings", this.groupArray);
-      }
-      else {
+      } else {
         this.mainForm.addControl("handlerMappings", this.groupArray);
       }
-    }
-    else {
+    } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
@@ -229,8 +227,7 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
         success: true,
         error: null
       });
-    }
-    else if (this.mainForm.contains("handlerMappings") && this.mainForm.controls["handlerMappings"].valid) {
+    } else if (this.mainForm.contains("handlerMappings") && this.mainForm.controls["handlerMappings"].valid) {
       let handlerMappingGroups = this.groupArray.controls;
 
       let webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
@@ -263,8 +260,7 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
             error: error._body
           });
         });
-    }
-    else {
+    } else {
       let failureMessage = this._validationFailureMessage();
       this._saveError = failureMessage;
       return Observable.of({
@@ -285,8 +281,7 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
     if (index >= 0) {
       if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
-      }
-      else {
+      } else {
         this._deleteAddedItem(groups, group, index);
       }
     }

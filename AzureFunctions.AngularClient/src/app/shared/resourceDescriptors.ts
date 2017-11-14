@@ -45,8 +45,7 @@ export class Descriptor {
 
         if (parts.length >= 7 && parts[6].toLowerCase() === 'sites') {
             return new SiteDescriptor(resourceId);
-        }
-        else {
+        } else {
             return new Descriptor(resourceId);
         }
     }
@@ -110,11 +109,9 @@ export class SiteDescriptor extends Descriptor {
 
         if (parts.length >= 10 && parts[8].toLowerCase() === 'slots') {
             maxIndex = 9;
-        }
-        else if (parts.length >= 8 && parts[6].toLowerCase() === 'sites') {
+        } else if (parts.length >= 8 && parts[6].toLowerCase() === 'sites') {
             maxIndex = 7;
-        }
-        else {
+        } else {
             throw 'Not enough segments in site or slot id';
         }
 

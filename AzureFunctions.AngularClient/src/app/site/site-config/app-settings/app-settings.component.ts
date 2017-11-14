@@ -201,12 +201,10 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
       if (this.mainForm.contains("appSettings")) {
         this.mainForm.setControl("appSettings", this.groupArray);
-      }
-      else {
+      } else {
         this.mainForm.addControl("appSettings", this.groupArray);
       }
-    }
-    else {
+    } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
@@ -251,8 +249,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     // Prevent unnecessary PUT call if these settings haven't been changed
     if (this.groupArray.pristine) {
       return null;
-    }
-    else {
+    } else {
       let configObjects: ArmObjMap = {
         objects: {}
       };
@@ -278,8 +275,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
               if (appSettingNames.indexOf(name) === -1) {
                 appSettingNames.push(name);
               }
-            }
-            else {
+            } else {
               let index = appSettingNames.indexOf(name);
               if (index !== -1) {
                 appSettingNames.splice(index, 1);
@@ -290,8 +286,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
         configObjects["slotConfigNames"] = slotConfigNamesArm;
         configObjects["appSettings"] = appSettingsArm;
-      }
-      else {
+      } else {
         configObjects.error = this._validationFailureMessage();
       }
 
@@ -309,8 +304,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         success: true,
         error: null
       });
-    }
-    else {
+    } else {
       return Observable.zip(
         this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
         Observable.of(slotConfigNamesResponse),
@@ -345,8 +339,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     if (index >= 0) {
       if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
-      }
-      else {
+      } else {
         this._deleteAddedItem(groups, group, index);
       }
     }

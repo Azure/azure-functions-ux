@@ -27,8 +27,7 @@ export class SiteNameValidator implements Validator {
 
         if (control.value.length < Validations.websiteNameMinLength) {
             return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameMinChars) });
-        }
-        else if (control.value.length > Validations.websiteNameMaxLength) {
+        } else if (control.value.length > Validations.websiteNameMaxLength) {
             return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameMaxChars) });
         }
 
@@ -44,8 +43,7 @@ export class SiteNameValidator implements Validator {
                     let result = <ArmObj<boolean>>r.json();
                     if (result.properties) {
                         resolve(null);
-                    }
-                    else {
+                    } else {
                         resolve({
                             invalidSiteName: this._ts.instant(PortalResources.validation_siteNameNotAvailable).format(control.value)
                         });

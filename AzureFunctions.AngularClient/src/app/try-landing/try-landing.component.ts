@@ -141,8 +141,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
             if (provider === '') {
                 // clicked on "Create this Function" button
                 this.loginOptions = true;
-            }
-            else
+            } else
                 if (selectedTemplate) {
                     try {
                         const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
