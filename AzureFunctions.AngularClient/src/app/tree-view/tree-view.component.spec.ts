@@ -15,7 +15,7 @@ describe('TreeViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(AppModule.moduleDefinition)
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -28,44 +28,44 @@ describe('TreeViewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return the next sibling when not expanded', () =>{
+  it('should return the next sibling when not expanded', () => {
     let root = getMockTree();
     let iterator = new TreeNodeIterator(root.children[0]);
 
-    let results : string[] = ['a', 'b', null];
+    let results: string[] = ['a', 'b', null];
     runTest(root.children[0], results, true /* forward */);
   })
 
-  it('should return the next siblings children when expanded', () =>{
+  it('should return the next siblings children when expanded', () => {
     let root = getMockTree();
     expandAllDescendants(root);
 
-    let results : string[] = ['a', 'a1', 'a2', 'a2x', 'a3', 'b', 'b1', null];
+    let results: string[] = ['a', 'a1', 'a2', 'a2x', 'a3', 'b', 'b1', null];
     runTest(root.children[0], results, true /* forward */);
   })
 
-  it('should return the previous sibling when not expanded', () =>{
+  it('should return the previous sibling when not expanded', () => {
     let root = getMockTree();
     let startNode = root.children[root.children.length - 1];
     let iterator = new TreeNodeIterator(startNode);
 
-    let results : string[] = ['b', 'a', null];
+    let results: string[] = ['b', 'a', null];
     runTest(startNode, results, false /* backward */);
   })
 
-  it('should return the previous siblings descendents when expanded', () =>{
+  it('should return the previous siblings descendents when expanded', () => {
     let root = getMockTree();
     expandAllDescendants(root);
-    
+
     let startNode = getLastDescendantNode(root);
     let iterator = new TreeNodeIterator(startNode);
 
-    let results : string[] = ['b1', 'b', 'a3', 'a2x', 'a2', 'a1', 'a', null];
+    let results: string[] = ['b1', 'b', 'a3', 'a2x', 'a2', 'a1', 'a', null];
     runTest(startNode, results, false /* backward */);
   })
 
 
-  function getMockTree(){
+  function getMockTree() {
     let root = new TreeNode(null, null, null);
     root.title = "root";
 
@@ -98,31 +98,31 @@ describe('TreeViewComponent', () => {
     return root;
   }
 
-  function runTest(startNode : TreeNode, results : string[], forward : boolean){
+  function runTest(startNode: TreeNode, results: string[], forward: boolean) {
     let iterator = new TreeNodeIterator(startNode);
-    let curNode : TreeNode;;
+    let curNode: TreeNode;;
     let testNum = 1;
 
-    do{
-      if(forward){
+    do {
+      if (forward) {
         curNode = iterator.next();
-      } else{
+      } else {
         curNode = iterator.previous();
       }
 
-      if(curNode){
+      if (curNode) {
         expect(curNode.title).toEqual(results[testNum]);
-      } else{
+      } else {
         expect(results[testNum]).toBeNull();
       }
 
       testNum++;
-    }while(curNode && testNum < results.length);
+    } while (curNode && testNum < results.length);
 
     expect(testNum).toEqual(results.length);
   }
 
-  function expandAllDescendants(node : TreeNode){
+  function expandAllDescendants(node: TreeNode) {
     node.isExpanded = true;
 
     node.children.forEach(c => {
@@ -130,10 +130,10 @@ describe('TreeViewComponent', () => {
     });
   }
 
-  function getLastDescendantNode(node : TreeNode){
-    if(node.children.length > 0){
+  function getLastDescendantNode(node: TreeNode) {
+    if (node.children.length > 0) {
       return getLastDescendantNode(node.children[node.children.length - 1]);
-    } else{
+    } else {
       return node;
     }
   }

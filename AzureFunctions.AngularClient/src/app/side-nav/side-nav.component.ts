@@ -1,5 +1,5 @@
 import { LogService } from './../shared/services/log.service';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { Dom } from './../shared/Utilities/dom';
@@ -61,7 +61,7 @@ export class SideNavComponent implements AfterViewInit {
     public searchTerm = '';
     public hasValue = false;
     public tryFunctionApp: FunctionApp;
-    public headerOnTopOfSideNav =  false;
+    public headerOnTopOfSideNav = false;
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
@@ -100,7 +100,7 @@ export class SideNavComponent implements AfterViewInit {
         public route: ActivatedRoute,
         private _scenarioService: ScenarioService) {
 
-        this.headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
+        this.headerOnTopOfSideNav = this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
@@ -277,21 +277,21 @@ export class SideNavComponent implements AfterViewInit {
 
     navidateToNewSub() {
         const navId = 'subs/new/subscription';
-        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });        
+        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
     }
 
     refreshSubs() {
         this.cacheService.getArm('/subscriptions', true).subscribe(r => {
             this.userService.getStartupInfo()
-            .first()
-            .subscribe((info) => {
-                const subs: Subscription[] = r.json().value;
-                if (!SubUtil.subsChanged(info.subscriptions, subs)) {
-                    return;
-                }
-                info.subscriptions = subs;
-                this.userService.updateStartupInfo(info);
-            });
+                .first()
+                .subscribe((info) => {
+                    const subs: Subscription[] = r.json().value;
+                    if (!SubUtil.subsChanged(info.subscriptions, subs)) {
+                        return;
+                    }
+                    info.subscriptions = subs;
+                    this.userService.updateStartupInfo(info);
+                });
         });
     }
 

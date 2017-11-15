@@ -141,60 +141,59 @@ export class TryLandingComponent implements OnInit, OnDestroy {
             if (provider === '') {
                 // clicked on "Create this Function" button
                 this.loginOptions = true;
-            } else
-                if (selectedTemplate) {
-                    try {
-                        const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                        this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
+            } else if (selectedTemplate) {
+                try {
+                    const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                    this.bc.setDefaultValues(selectedTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
-                        this.setBusyState();
-                        // login
-                        // get trial account
-                        this._tryFunctionsService.createTrialResource(selectedTemplate, provider, functionName)
-                            .subscribe((resource) => {
-                                this.clearBusyState();
-                                this.createFunctioninResource(resource, selectedTemplate, functionName);
-                            }, (error: Response) => {
-                                if (error.status === 401 || error.status === 403) {
-                                    // show login options
-                                    const headerObject = error.headers.get('LoginUrl');
-                                    if (provider !== '' && headerObject) {
-                                        (<any>window).location = headerObject;
-                                        return;
-                                    } else {
-                                        this.loginOptions = true;
-                                    }
-                                    this.clearBusyState();
-                                } else if (error.status === 400) {
-                                    this._tryFunctionsService.getTrialResource(provider)
-                                        .subscribe((resource) => {
-                                            this.createFunctioninResource(resource, selectedTemplate, functionName);
-                                        }
-                                        );
+                    this.setBusyState();
+                    // login
+                    // get trial account
+                    this._tryFunctionsService.createTrialResource(selectedTemplate, provider, functionName)
+                        .subscribe((resource) => {
+                            this.clearBusyState();
+                            this.createFunctioninResource(resource, selectedTemplate, functionName);
+                        }, (error: Response) => {
+                            if (error.status === 401 || error.status === 403) {
+                                // show login options
+                                const headerObject = error.headers.get('LoginUrl');
+                                if (provider !== '' && headerObject) {
+                                    (<any>window).location = headerObject;
+                                    return;
                                 } else {
-                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                        message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
-                                        details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}`,
-                                        errorId: ErrorIds.tryAppServiceError,
-                                        errorType: ErrorType.Warning,
-                                        resourceId: 'try-app'
-                                    });
-                                    this.clearBusyState();
-                                    throw error;
+                                    this.loginOptions = true;
                                 }
                                 this.clearBusyState();
-                            });
-                    } catch (e) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
-                            details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
-                            errorId: ErrorIds.tryAppServiceError,
-                            errorType: ErrorType.Warning,
-                            resourceId: 'try-app'
+                            } else if (error.status === 400) {
+                                this._tryFunctionsService.getTrialResource(provider)
+                                    .subscribe((resource) => {
+                                        this.createFunctioninResource(resource, selectedTemplate, functionName);
+                                    }
+                                    );
+                            } else {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
+                                    details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}`,
+                                    errorId: ErrorIds.tryAppServiceError,
+                                    errorType: ErrorType.Warning,
+                                    resourceId: 'try-app'
+                                });
+                                this.clearBusyState();
+                                throw error;
+                            }
+                            this.clearBusyState();
                         });
-                        throw e;
-                    }
+                } catch (e) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
+                        details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
+                        errorId: ErrorIds.tryAppServiceError,
+                        errorType: ErrorType.Warning,
+                        resourceId: 'try-app'
+                    });
+                    throw e;
                 }
+            }
         });
     }
 

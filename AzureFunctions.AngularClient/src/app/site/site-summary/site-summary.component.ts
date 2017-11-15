@@ -158,7 +158,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._busyManager.clearBusy();
                 this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
-                this.hideAvailability = this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, {site: site}).status === 'disabled';
+                this.hideAvailability = this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, { site: site }).status === 'disabled';
 
                 // Go ahead and assume write access at this point to unveal everything. This allows things to work when the RBAC API fails and speeds up reveal. In
                 // cases where this causes a false positive, the backend will take care of giving a graceful failure.
