@@ -1,3 +1,4 @@
+import { SidebarModule } from 'ng-sidebar';
 import { AadRegistrationComponent } from './aad-registration/aad-registration.component';
 import { RunHttpComponent } from './run-http/run-http.component';
 import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
@@ -32,9 +33,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { SecretsBoxInputDirective } from 'app/secrets-box-container/secrets-box-input.directive';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
-import { FunctionNewComponent } from 'app/function-new/function-new.component';
+import { FunctionNewComponent } from 'app/function/function-new/function-new.component';
 import { ExtensionInstallComponent } from './extension-install/extension-install.component';
 import { JavaSplashPageComponent } from './java-splash-page/java-splash-page.component';
+import { FunctionNewDetailComponent } from './function/function-new-detail/function-new-detail.component';
+import { BindingV2Component } from './function/binding-v2/binding-v2.component';
+import { BindingInputV2Component } from './function/binding-input-v2/binding-input-v2.component';
+import { SidebarPickerComponent } from './function/sidebar-picker/sidebar-picker.component';
+import { ExtensionInstallDetailComponent } from './function/extension-install-detail/extension-install-detail.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -72,7 +78,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SharedFunctionsModule,
         routing,
         FileUploadModule,
-        PopoverModule
+        PopoverModule,
+        SidebarModule
     ],
     declarations: [
         FunctionsListComponent,
@@ -104,7 +111,12 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         TableFunctionMonitorPipe,
         RunHttpComponent,
         AadRegistrationComponent,
-        JavaSplashPageComponent
+        FunctionNewDetailComponent,
+        BindingV2Component,
+        BindingInputV2Component,
+        JavaSplashPageComponent,
+        SidebarPickerComponent,
+        ExtensionInstallDetailComponent
     ],
     providers: []
 })

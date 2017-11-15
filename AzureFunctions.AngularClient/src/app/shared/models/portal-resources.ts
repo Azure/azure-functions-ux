@@ -789,4 +789,8 @@
     public static java_splash_line_2: string = "java_splash_line_2";
     public static appFunctionSettings_proxyEnabled: string = "appFunctionSettings_proxyEnabled";
     public static java_splash_button: string = "java_splash_button";
+    public static nameColon: string = "nameColon";
+    public static createFunction_search: string = "createFunction_search";
+    public static bindingInput_hide: string = "bindingInput_hide";
+    public static monitoring_appInsightsIsNotFound: string = "monitoring_appInsightsIsNotFound";
 }

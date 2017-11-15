@@ -2,7 +2,7 @@
 import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Observable';
 import { BindingComponent } from '../../binding/binding.component';
-import { FunctionNewComponent } from '../../function-new/function-new.component';
+import { FunctionNewComponent } from '../../function/function-new/function-new.component';
 import { FunctionApp } from '../../shared/function-app';
 import { CacheService } from '../../shared/services/cache.service';
 import { AiService } from '../../shared/services/ai.service';
