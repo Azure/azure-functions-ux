@@ -39,6 +39,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     private _broadcastService: BroadcastService;
     private _userService: UserService;
     private _scenarioService: ScenarioService;
+    private _subInitialized: boolean;
 
 
     constructor(
@@ -50,6 +51,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         super(sideNav, null, rootNode, '/apps/new/app');
 
+        this._subInitialized = false;
         this.newDashboardType =  null;
         this._userService = sideNav.injector.get(UserService);
         this._scenarioService = sideNav.injector.get(ScenarioService);
@@ -80,6 +82,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         this._subscriptionsStream
             .subscribe(subs => {
                 this._subscriptions = subs;
+                this._subInitialized = true;
 
                 if (!this._initialized()) {
                     return;
@@ -205,7 +208,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     }
 
     private _initialized(){
-        return this._subscriptions && this._subscriptions.length > 0 && this._searchTerm !== undefined;
+        return this._subInitialized && this._searchTerm !== undefined;
     }
 
     private _doSearch(
