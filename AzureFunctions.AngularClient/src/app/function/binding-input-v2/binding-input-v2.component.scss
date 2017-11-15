@@ -88,17 +88,17 @@ i.select {
     flex-grow: 1;
 }
 
-.input-header span {
+// .input-header ng-container {
+    
+// }
+
+// .input-header i {
+// }
+
+.link {
+    margin-left: 25px;
     margin-bottom: 4px;
     align-self: flex-end;
-}
-
-.input-header i {
-}
-
-.new-link {
-    margin-left: 25px;
-    margin-right: 25px;
 }
 
 .input-error-adjust {
