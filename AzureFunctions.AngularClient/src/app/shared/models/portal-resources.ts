@@ -1,6 +1,5 @@
 // This file is auto generated
-
-export class PortalResources
+    export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
@@ -281,6 +280,7 @@ export class PortalResources
     public static functionDev_loading: string = "functionDev_loading";
     public static test: string = "test";
     public static runtimeVersion: string = "runtimeVersion";
+    public static runtimeImage: string = "runtimeImage";
     public static runtimeImagev1: string = "runtimeImagev1";
     public static runtimeImagev2: string = "runtimeImagev2";
     public static runtimeImageCustom: string = "runtimeImageCustom";

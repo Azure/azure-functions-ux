@@ -103,7 +103,7 @@ export class FunctionMonitorComponent implements OnDestroy {
                 this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
                 this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format('MMM Do')}`;
 
-                return this.currentFunction.functionApp.getFunctionHostStatus()
+                return this.currentFunction.functionApp.checkRuntimeStatus()
                     .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(this.currentFunction, host.id))
                     .flatMap(data => {
                         this.functionId = !!data ? data.functionId : '';

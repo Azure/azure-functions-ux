@@ -28,7 +28,6 @@ import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
-import { AiService } from '../shared/services/ai.service';
 import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
 import { BindingManager } from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
@@ -105,7 +104,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService,
         configService: ConfigService,
         cd: ChangeDetectorRef) {
 
@@ -138,7 +136,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.functionApp = fi.functionApp;
                 this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
                 this._globalStateService.setBusyState();
-                this.checkErrors(fi);
 
                 this.functionApp.getEventGridKey().subscribe(eventGridKey => {
                     this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${fi.name}&code=${eventGridKey}`;;
@@ -148,7 +145,8 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
                     this.functionApp.getAuthSettings(),
-                    (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }));
+                    this.functionApp.checkFunctionStatus(fi),
+                    (s, f, e, _) => ({ secrets: s, functionInfo: f, authSettings: e }));
             })
             .subscribe(res => {
                 this._isClientCertEnabled = res.authSettings.clientCertEnabled;
@@ -578,46 +576,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    checkErrors(functionInfo: FunctionInfo) {
-        this.functionApp.getFunctionErrors(functionInfo)
-            .subscribe(errors => {
-                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalFunctionErrorFromHost + functionInfo.name);
-                // Give clearing a chance to run
-                setTimeout(() => {
-                    if (errors) {
-                        errors.forEach(e => {
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
-                                details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
-                                errorId: ErrorIds.generalFunctionErrorFromHost + functionInfo.name,
-                                errorType: ErrorType.FunctionError,
-                                resourceId: this.functionApp.site.id
-                            });
-                            this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
-                        });
-                    } else {
-                        this.functionApp.getHostErrors()
-                            .subscribe(hostErrors => {
-                                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalHostErrorFromHost);
-                                // Give clearing a chance to run
-                                setTimeout(() => {
-                                    hostErrors.forEach(e => {
-                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                                            errorId: ErrorIds.generalHostErrorFromHost,
-                                            errorType: ErrorType.RuntimeError,
-                                            resourceId: this.functionApp.site.id
-                                        });
-                                        this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
-                                    });
-                                });
-                            });
-                    }
-                });
-            });
-    }
-
     get codeEditor(): MonacoEditorDirective {
         return this.getMonacoDirective('code');
     }
@@ -732,14 +690,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             const result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
                 this.functionApp.runFunction(this.functionInfo, this.getTestData());
 
-            this.running = result.subscribe(r => {
-                this.runResult = r;
-                this._globalStateService.clearBusyState();
-                delete this.running;
-                if (this.runResult.statusCode >= 400) {
-                    this.checkErrors(this.functionInfo);
-                }
-            }, () => this._globalStateService.clearBusyState());
+            this.running = result
+                .switchMap(r => {
+                    return r.statusCode >= 400
+                        ? this.functionApp.checkFunctionStatus(this.functionInfo).map(_ => r)
+                        : Observable.of(r);
+                })
+                .subscribe(r => {
+                    this.runResult = r;
+                    this._globalStateService.clearBusyState();
+                    delete this.running;
+
+                }, () => this._globalStateService.clearBusyState());
         }
     }
 
