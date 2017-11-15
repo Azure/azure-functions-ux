@@ -12,6 +12,7 @@ import { PortalResources } from './models/portal-resources';
 import { BroadcastService } from './services/broadcast.service';
 import { FunctionsResponse } from './models/functions-response';
 import { BroadcastEvent } from './models/broadcast-event';
+import { Guid } from 'app/shared/Utilities/Guid';
 
 export class NoCorsHttpService {
     constructor(
@@ -121,19 +122,25 @@ export class NoCorsHttpService {
                     throw error;
                 })
                 .mergeMap(_ => {
-                    let headers = {};
+                    const headers = {};
                     if (options && options.headers) {
                         options.headers.forEach((v, n) => {
                             headers[n] = v.join(',');
                         });
                     }
-                    let passThroughBody = {
+                    const passThroughBody = {
                         method: method,
                         url: url,
                         body: body,
                         headers: headers
                     };
+                    const startTime = performance.now();
+                    const logDependency = (success: boolean, status: number) => {
+                        const endTime = performance.now();
+                        this._aiService.trackDependency(Guid.newGuid(), passThroughBody.method, passThroughBody.url, passThroughBody.url, endTime - startTime, success, status);
+                    };
                     return this._http.post('/api/passthrough', passThroughBody, { headers: this.portalHeadersCallback() })
+                        .do(r => logDependency(true, r.status), e => logDependency(false, e.status))
                         .catch((e: FunctionsResponse) => {
                             if (e.status === 400) {
                                 let content: { reason: string, exception: any } = null;

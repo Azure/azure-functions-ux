@@ -124,7 +124,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
           this._slotsService.getSlotsList(this._viewInfo.resourceId),
           (a: Response, slots: ArmObj<Site>[]) => ({ appSettingsResponse: a, slotsList: slots }))
           .mergeMap(result => {
-            return Observable.zip(this.functionApp.getFunctionAppEditMode(), this.functionApp.getFunctionHostStatus(),
+            return Observable.zip(this.functionApp.getFunctionAppEditMode(), this.functionApp.checkRuntimeStatus(),
               (editMode: FunctionAppEditMode, hostStatus: HostStatus) => ({ editMode: editMode, hostStatus: hostStatus }))
               .map(r => ({
                 appSettingsResponse: result.appSettingsResponse,
@@ -358,7 +358,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return this._updateContainerVersion(r.json(), version);
       })
       .mergeMap(r => {
-        return this.functionApp.getFunctionHostStatus()
+        return this.functionApp.checkRuntimeStatus()
           .map((hostStatus: HostStatus) => {
             if (!hostStatus.version || (hostStatus.version === this.exactExtensionVersion && !updateButtonClicked)) {
               throw Observable.throw('Host version is not updated yet');

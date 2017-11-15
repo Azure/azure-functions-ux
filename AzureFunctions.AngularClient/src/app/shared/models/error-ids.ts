@@ -11,14 +11,10 @@ export class ErrorIds {
     public static unableToUpdateRuntimeConfig = '/errors/unableToUpdateRuntimeConfig';
     public static unableToUpdateFunction = '/errors/unableToUpdateFunction';
     public static unableToRetrieveFunction = '/errors/unableToRetrieveFunction';
-    public static unableToDecryptKeys = '/errors/unableToDecryptKeys';
-    public static unableToRetrieveRuntimeKeyFromScm = '/errors/unableToRetrieveRuntimeKeyFromScm';
-    public static unableToRetrieveRuntimeKeyFromRuntime = '/errors/unableToRetrieveRuntimeKeyFromRuntime';
     public static unableToRetrieveDirectoryContent = '/errors/unableToRetrieveDirectoryContent';
     public static unableToSyncTriggers = '/errors/unableToSyncTriggers';
     public static unableToCallDiagnoseApi = '/errors/unableToCallDiagnoseApi';
     public static functionRuntimeIsUnableToStart = '/errors/functionRuntimeIsUnableToStart';
-    public static unableToRetrieveFunctionKeys = '/errors/unableToRetrieveFunctionKeys';
     public static unableToCreateFunctionKey = '/errors/unableToCreateFunctionKey';
     public static unableToCreateSwaggerKey = '/errors/unableToCreateSwaggerKey';
     public static unableToDeleteFunctionKey = '/errors/unableToDeleteFunctionKey';
@@ -35,7 +31,6 @@ export class ErrorIds {
     public static unauthorizedTalkingToRuntime = '/errors/unauthorizedTalkingToRuntime';
     public static applicationOffline = '/errors/applicationOffline';
     public static failedToQueryArmResource = '/errors/failedToQueryArmResource';
-    public static unableToGetSystemKey = '/errors/unableToGetSystemKey';
     public static unableToUpdateSwaggerData = '/errors/unableToUpdateSwaggerData';
     public static unableToDeleteSwaggerData = '/errors/unableToDeleteSwaggerData';
     public static unableToloadGeneratedAPIDefinition = '/errors/unableToloadGeneratedAPIDefinition';
