@@ -40,7 +40,7 @@ export class SlideToggleComponent implements OnChanges {
     //   mergedStateNames -> this.stateNames.off + "/" + this.stateNames.on [when applied to aria-lable, ' toggle' is appended]
 
     @Input() displayLabelFormat: LabelFormt;
-    
+
     //If role is 'switch', 'aria-label' should stay constant, so only 'name' and 'mergedStateNames' will be honored
     @Input() ariaLabelFormat: LabelFormt;
 
@@ -77,7 +77,7 @@ export class SlideToggleComponent implements OnChanges {
         this.displayLabelFormat = this.displayLabelFormat || 'stateName';
         this.ariaLabelFormat = this.ariaLabelFormat || 'name';
 
-        if(!this.disabled) {
+        if (!this.disabled) {
             if (!this._initialized || !!changes['on']) {
                 this._updateLabelAndAriaAttributes();
             }
@@ -142,13 +142,13 @@ export class SlideToggleComponent implements OnChanges {
                         addSuffix = true;
                         ariaLabel = stateNames.combined;
                         ariaPressed = this.on;
-                     } else if (this.name) {
+                    } else if (this.name) {
                         addSuffix = true;
                         ariaLabel = this.name;
                         ariaPressed = this.on;
-                     } else {
+                    } else {
                         ariaLabel = stateNames[state];
-                     };
+                    };
                     break;
                 default:
                     break;
@@ -177,7 +177,7 @@ export class SlideToggleComponent implements OnChanges {
     }
 
     private _getStateNames(): { [key: number]: string, isFallback: boolean, combined: string } {
-        let stateNames: { [key: number]: string, isFallback: boolean, combined: string } = { 
+        let stateNames: { [key: number]: string, isFallback: boolean, combined: string } = {
             isFallback: !this.stateNames || !this.stateNames.on || !this.stateNames.off,
             combined: ''
         };
@@ -198,8 +198,15 @@ export class SlideToggleComponent implements OnChanges {
             event.stopPropagation();
 
             // simulate mousedown
-            const newEvent = document.createEvent('MouseEvents');
-            newEvent.initEvent(event.type, event.bubbles, event.cancelable);
+            let newEvent: MouseEvent;
+            if (typeof (Event) === 'function') {
+                // This isn't IE, so we can use MouseEvent()
+                newEvent = new MouseEvent(event.type, { bubbles: event.bubbles, cancelable: event.cancelable });
+            } else {
+                // This is IE, so we have to use document.createEvent() and .initEvent()
+                newEvent = document.createEvent('MouseEvents');
+                newEvent.initEvent(event.type, event.bubbles, event.cancelable);
+            }
             (<HTMLElement>this.toggleContainer.nativeElement).dispatchEvent(newEvent);
 
             // move focus
@@ -218,8 +225,15 @@ export class SlideToggleComponent implements OnChanges {
             event.stopPropagation();
 
             // simulate mouseup
-            const newEvent = document.createEvent('MouseEvents');
-            newEvent.initEvent(event.type, event.bubbles, event.cancelable);
+            let newEvent: MouseEvent;
+            if (typeof (Event) === 'function') {
+                // This isn't IE, so we can use MouseEvent()
+                newEvent = new MouseEvent(event.type, { bubbles: event.bubbles, cancelable: event.cancelable });
+            } else {
+                // This is IE, so we have to use document.createEvent() and .initEvent()
+                newEvent = document.createEvent('MouseEvents');
+                newEvent.initEvent(event.type, event.bubbles, event.cancelable);
+            }
             (<HTMLElement>this.toggleContainer.nativeElement).dispatchEvent(newEvent);
         }
     }

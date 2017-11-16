@@ -33,18 +33,27 @@
                 </div>
             
                 <div class="selectionContainer">
-                    <div *ngFor="let template of templates" class="cardContainer" (click)="onCardSelected(template)">
-                        <div class="headerBox" [style.background-color]="template.barcolor">{{template.name}}
+                    <div *ngFor="let template of templates" 
+                         [ngClass]="showTryView && !template.enabledInTryMode ? 'cardDisabled' : 'cardContainer'" 
+                         (click)="onCardSelected(template, showTryView && !template.enabledInTryMode)">
+
+                        <div class="headerBox" [style.background-color]="template.barcolor">
+                            {{template.name}}
                             <img [src]="template.icon" [style.background-color]="template.color"/>
                         </div>
-                        <div class="sourceDescription">{{template.description}}</div>
+                        <div class="sourceDescription">
+                            {{template.description}}
+                        </div>
                         <div class="cardFooter" [style.background-color]="template.barcolor">
                             <ul>
                                 <ng-container *ngFor="let language of template.languages">
-                                    <li (click)="onCardLanguageSelected(template, language);$event.stopPropagation();">{{language}}</li>
+                                    <li (click)="onCardLanguageSelected(template, language, showTryView && !template.enabledInTryMode);$event.stopPropagation();">
+                                        {{language}}
+                                    </li>
                                 </ng-container>
                             </ul>
                         </div>
+                        
                     </div>
                 </div>
             </div>

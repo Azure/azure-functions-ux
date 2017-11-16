@@ -279,7 +279,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
       value: [null]
     });
 
-    (<CustomFormGroup>group)._msStartInEditMode = true;
+    (<CustomFormGroup>group).msStartInEditMode = true;
     appSettings.markAsDirty();
     appSettings.push(group);
   }
@@ -298,7 +298,7 @@ export class SiteConfigStandaloneComponent implements OnInit {
       type: [connectionStringDropDownTypes.find(t => t.default).value]
     });
 
-    (<CustomFormGroup>group)._msStartInEditMode = true;
+    (<CustomFormGroup>group).msStartInEditMode = true;
     (<any>group).csTypes = connectionStringDropDownTypes;
     connectionStrings.markAsDirty();
     connectionStrings.push(group);

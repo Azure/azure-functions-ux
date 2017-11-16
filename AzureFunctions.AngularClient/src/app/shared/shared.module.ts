@@ -53,6 +53,10 @@ import { Url } from 'app/shared/Utilities/url';
 import { EmptyDashboardComponent } from 'app/main/empty-dashboard.component';
 import { InfoBoxComponent } from './../controls/info-box/info-box.component';
 import { LogMessageDirective } from 'app/shared/directives/log-message.directive';
+import { TableCellComponent } from './../controls/table-cell/table-cell.component';
+import { TableRowComponent } from './../controls/table-row/table-row.component';
+import { TableRootComponent } from './../controls/table-root/table-root.component';
+import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filter.pipe';
 
 export function ArmServiceFactory(
     http: Http,
@@ -98,7 +102,11 @@ export function AiServiceFactory() {
         SlideToggleComponent,
         LoadImageDirective,
         EmptyDashboardComponent,
-        InfoBoxComponent
+        InfoBoxComponent,
+        TableCellComponent,
+        TableRowComponent,
+        TableRootComponent,
+        DeletedItemsFilter
     ],
     exports: [
         CommonModule,
@@ -130,7 +138,11 @@ export function AiServiceFactory() {
         SlideToggleComponent,
         LoadImageDirective,
         EmptyDashboardComponent,
-        InfoBoxComponent
+        InfoBoxComponent,
+        TableCellComponent,
+        TableRowComponent,
+        TableRootComponent,
+        DeletedItemsFilter
     ],
     imports: [
         FormsModule,

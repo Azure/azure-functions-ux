@@ -30,7 +30,7 @@ export class UniqueValidator implements Validator {
 
         let match = this._controlsArray.controls.find(group => {
             let customFormGroup = group as CustomFormGroup;
-            if (customFormGroup._msExistenceState === 'deleted') {
+            if (customFormGroup.msExistenceState === 'deleted') {
                 return null;
             }
 

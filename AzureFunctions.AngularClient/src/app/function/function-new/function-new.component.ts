@@ -418,16 +418,20 @@ export class FunctionNewComponent implements OnDestroy {
         }
     }
 
-    onCardLanguageSelected(functionTemplate: Template, functionLanguage: string) {
-        this.createFunctionTemplate = functionTemplate;
-        this.createFunctionLanguage = functionLanguage;
-        this.sidePanelOpened = true;
+    onCardLanguageSelected(functionTemplate: Template, functionLanguage: string, templateDisabled: boolean) {
+        if (!templateDisabled) {
+            this.createFunctionTemplate = functionTemplate;
+            this.createFunctionLanguage = functionLanguage;
+            this.sidePanelOpened = true;
+        }
     }
 
-    onCardSelected(functionTemplate: Template) {
-        this.createFunctionTemplate = functionTemplate;
-        this.createFunctionLanguage = null;
-        this.sidePanelOpened = true;
+    onCardSelected(functionTemplate: Template, templateDisabled: boolean) {
+        if (!templateDisabled) {
+            this.createFunctionTemplate = functionTemplate;
+            this.createFunctionLanguage = null;
+            this.sidePanelOpened = true;
+        }
     }
 
     closeSidePanel() {

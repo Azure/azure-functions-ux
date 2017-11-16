@@ -1,13 +1,14 @@
 <div class="settings-group-wrapper">
 
   <h3 class="first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
-  <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+  <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+  <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
   <div class="settings-wrapper">
 
     <div *ngIf="netFrameworkSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}
-        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -22,7 +23,7 @@
 
     <div *ngIf="phpSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'phpVersionLabel' | translate }}
-        <pop-over [message]="('phpVersionLabelHelp' | translate)">
+        <pop-over [message]="('phpVersionLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -38,7 +39,7 @@
     <div *ngIf="pythonSupported" class="setting-wrapper">
       <info-box [infoText]="('pythonInfoText' | translate)" [infoLink]="FwLinks.pythonLearnMore"></info-box>
       <label class="setting-label">{{ 'pythonVersionLabel' | translate }}
-        <pop-over [message]="('pythonVersionLabelHelp' | translate)">
+        <pop-over [message]="('pythonVersionLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -53,7 +54,7 @@
 
     <div *ngIf="javaSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'javaVersionLabel' | translate }}
-        <pop-over [message]="('javaVersionLabelHelp' | translate)">
+        <pop-over [message]="('javaVersionLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -69,7 +70,7 @@
 
     <div *ngIf="javaSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'javaMinorVersionLabel' | translate }}
-        <pop-over [message]="('javaMinorVersionLabelHelp' | translate)">
+        <pop-over [message]="('javaMinorVersionLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -84,7 +85,7 @@
 
     <div *ngIf="javaSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'javaWebContainerLabel' | translate }}
-        <pop-over [message]="('javaWebContainerLabelHelp' | translate)">
+        <pop-over [message]="('javaWebContainerLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -99,7 +100,7 @@
 
     <div *ngIf="platform64BitSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'use32BitWorkerProcessLabel' | translate }}
-        <pop-over [message]="('use32BitWorkerProcessLabelHelp' | translate)">
+        <pop-over [message]="('use32BitWorkerProcessLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -123,7 +124,7 @@
 
     <div *ngIf="webSocketsSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'webSocketsEnabledLabel' | translate }}
-        <pop-over [message]="('webSocketsEnabledLabelHelp' | translate)">
+        <pop-over [message]="('webSocketsEnabledLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -138,7 +139,7 @@
 
     <div *ngIf="alwaysOnSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'alwaysOnLabel' | translate }}
-        <pop-over [message]="('alwaysOnLabelHelp' | translate)">
+        <pop-over [message]="('alwaysOnLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
         </pop-over>
       </label>
@@ -218,17 +219,12 @@
       </div>
     </ng-container>
 
-    <div *ngIf="!group || !hasWritePermissions" class="shield">
-      <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-        {{ loadingFailureMessage }}
-      </div>
-    </div>
-
   </div>
   
   <ng-container *ngIf="remoteDebuggingSupported">
     <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
-    <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+    <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+    <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
     <div class="settings-wrapper">
 
@@ -254,25 +250,20 @@
           </radio-selector>
         </div>
       </div>
-
-      <div *ngIf="!group || !hasWritePermissions" class="shield">
-        <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-          {{ loadingFailureMessage }}
-        </div>
-      </div>
-
+      
     </div>
   </ng-container>
 
   <ng-container *ngIf="linuxRuntimeSupported">
     <h3>{{ 'feature_linuxRuntimeName' | translate }}</h3>
-    <span *ngIf="!hasWritePermissions && !showPermissionsMessage">({{ permissionsMessage }})</span>
+    <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+    <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
     <div class="settings-wrapper">
 
       <div class="setting-wrapper">
         <label class="setting-label">{{ 'linuxFxVersionLabel' | translate }}
-          <pop-over [message]="('linuxFxVersionLabelHelp' | translate)">
+          <pop-over [message]="('linuxFxVersionLabelHelp' | translate)" position="right">
               <span class="glyphicon glyphicon-info-sign button-title"></span>
           </pop-over>
         </label>
@@ -287,7 +278,7 @@
 
       <div class="setting-wrapper last">
         <label class="setting-label">{{ 'appCommandLineLabel' | translate }}
-          <pop-over [message]="('appCommandLineLabelHelp' | translate)">
+          <pop-over [message]="('appCommandLineLabelHelp' | translate)" position="right">
               <span class="glyphicon glyphicon-info-sign button-title"></span>
           </pop-over>
         </label>
@@ -299,20 +290,6 @@
         </div>
       </div>
 
-      <div *ngIf="!group || !hasWritePermissions" class="shield">
-        <div *ngIf="!group && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-          {{ loadingFailureMessage }}
-        </div>
-      </div>
-
     </div>
   </ng-container>
-
-  <div *ngIf="!hasWritePermissions" class="shield transparent">
-    <div *ngIf="showPermissionsMessage" class="shield-message">
-      <p>{{ permissionsMessage }}</p>
-      <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
-    </div>
-  </div>
-
 </div>

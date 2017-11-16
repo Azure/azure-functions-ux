@@ -11,7 +11,7 @@ import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names'
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
 import { SaveOrValidationResult } from './../site-config.component';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
@@ -55,6 +55,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
+
+  public keyCodes: KeyCodes = KeyCodes;
 
   @Input() mainForm: FormGroup;
 
@@ -189,18 +191,18 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
             let group = this._fb.group({
               name: [
-                name,
+                {value: name, disabled: !this.hasWritePermissions},
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
-              value: [connectionString.value],
-              type: [connectionStringDropDownTypes.find(t => t.default).value],
-              isSlotSetting: [stickyConnectionStringNames.indexOf(name) !== -1]
+              value: [{value: connectionString.value, disabled: !this.hasWritePermissions}],
+              type: [{value: connectionStringDropDownTypes.find(t => t.default).value, disabled: !this.hasWritePermissions}],
+              isSlotSetting: [{value: stickyConnectionStringNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions}]
             }) as CustomFormGroup;
 
             (<any>group).csTypes = connectionStringDropDownTypes;
 
-            group._msExistenceState = 'original';
+            group.msExistenceState = 'original';
             this.groupArray.push(group);
           }
         }
@@ -208,12 +210,10 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
       if (this.mainForm.contains("connectionStrings")) {
         this.mainForm.setControl("connectionStrings", this.groupArray);
-      }
-      else {
+      } else {
         this.mainForm.addControl("connectionStrings", this.groupArray);
       }
-    }
-    else {
+    } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
@@ -231,7 +231,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     // Purge any added entries that were never modified
     for (let i = groups.length - 1; i >= 0; i--) {
       let group = groups[i] as CustomFormGroup;
-      if (group._msStartInEditMode && group.pristine) {
+      if (group.msStartInEditMode && group.pristine) {
         groups.splice(i, 1);
         if (group === this.newItem) {
           this.newItem = null;
@@ -258,8 +258,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     // Prevent unnecessary PUT call if these settings haven't been changed
     if (this.groupArray.pristine) {
       return null;
-    }
-    else {
+    } else {
       let configObjects: ArmObjMap = {
         objects: {}
       };
@@ -276,7 +275,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         let connectionStringNames = slotConfigNamesArm.properties.connectionStringNames as string[];
 
         for (let i = 0; i < connectionStringGroups.length; i++) {
-          if ((connectionStringGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
+          if ((connectionStringGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
             let connectionStringControl = connectionStringGroups[i];
             let connectionString = {
               value: connectionStringControl.value.value,
@@ -291,8 +290,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
               if (connectionStringNames.indexOf(name) === -1) {
                 connectionStringNames.push(name);
               }
-            }
-            else {
+            } else {
               let index = connectionStringNames.indexOf(name);
               if (index !== -1) {
                 connectionStringNames.splice(index, 1);
@@ -303,8 +301,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
         configObjects["slotConfigNames"] = slotConfigNamesArm;
         configObjects["connectionStrings"] = connectionStringsArm;
-      }
-      else {
+      } else {
         configObjects.error = this._validationFailureMessage();
       }
 
@@ -322,8 +319,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         success: true,
         error: null
       });
-    }
-    else {
+    } else {
       return Observable.zip(
         this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
         Observable.of(slotConfigNamesResponse),
@@ -356,10 +352,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     let groups = this.groupArray;
     let index = groups.controls.indexOf(group);
     if (index >= 0) {
-      if ((group as CustomFormGroup)._msExistenceState === 'original') {
+      if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
-      }
-      else {
+      } else {
         this._deleteAddedItem(groups, group, index);
       }
     }
@@ -370,8 +365,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
     // This keeps the overall state of this.groupArray and this.mainForm dirty.
     group.markAsDirty();
 
-    // Set the group._msExistenceState to 'deleted' so we know to ignore it when validating and saving.
-    (group as CustomFormGroup)._msExistenceState = 'deleted';
+    // Set the group.msExistenceState to 'deleted' so we know to ignore it when validating and saving.
+    (group as CustomFormGroup).msExistenceState = 'deleted';
 
     // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
     for (let key in group.controls) {
@@ -426,8 +421,8 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
     (<any>this.newItem).csTypes = connectionStringDropDownTypes;
 
-    this.newItem._msExistenceState = 'new';
-    this.newItem._msStartInEditMode = true;
+    this.newItem.msExistenceState = 'new';
+    this.newItem.msStartInEditMode = true;
     groups.push(this.newItem);
   }
 

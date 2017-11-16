@@ -11,7 +11,27 @@ export class InfoBoxComponent {
     @Input() infoText: string = null;
     @Input() infoLink: string = null;
 
+    public typeClass = 'info';
+    public iconPath = 'image/info.svg';
+
     constructor() { }
+
+    @Input('typeClass') set type(value: 'info' | 'warning' | 'error') {
+        switch (value) {
+            case 'info':
+                this.typeClass = 'info';
+                this.iconPath = 'image/info.svg';
+                break;
+            case 'warning':
+                this.typeClass = 'warning';
+                this.iconPath = 'image/warning.svg';
+                break;
+            case 'error':
+                this.typeClass = 'error';
+                this.iconPath = 'image/error.svg';
+                break;
+        }
+    }
 
     onClick(event: any) {
         if (!!this.infoLink) {
