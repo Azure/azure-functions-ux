@@ -181,6 +181,9 @@ export class ScenarioIds {
     public static readonly createApp = 'createApp';
     public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
     public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';
+    public static readonly topBarWarning = 'TopBarWarning';
+    public static readonly userMenu = 'UserMenu';
+    public static readonly standAloneUserMenu = 'StandAloneUserMenu';
 }
 
 export class ServerFarmSku {

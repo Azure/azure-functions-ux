@@ -1,4 +1,7 @@
-<div *ngFor="let notification of notifications;" style="margin-left: 250px">
+<div check-scenario="TopBarWarning"
+     [cs-input]="{}"
+     cs-enabledByDefault="true"
+     *ngFor="let notification of notifications;" style="margin-left: 250px">
 
   <div class="alert alert-warning alert-dismissible" role="alert" style="margin-bottom: 0px;min-width:1000px;">
     <span class="link" (click)="notificationClick(notification)">

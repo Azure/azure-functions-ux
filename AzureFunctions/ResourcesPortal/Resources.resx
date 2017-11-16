@@ -959,10 +959,10 @@
     <value>Runtime image</value>
   </data>
   <data name="runtimeImagev1" xml:space="preserve">
-    <value>V1</value>
+    <value>v1(.net framework/server core)</value>
   </data>
   <data name="runtimeImagev2" xml:space="preserve">
-    <value>V2</value>
+    <value>v2(.net core/nano server)</value>
   </data>
   <data name="runtimeImageCustom" xml:space="preserve">
     <value>custom</value>
