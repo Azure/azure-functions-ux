@@ -625,6 +625,7 @@
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";
     public static readOnlyGeneratedBy: string = "readOnlyGeneratedBy";
+    public static readWriteGeneratedBy: string = "readWriteGeneratedBy";
     public static copypre_copy: string = "copypre_copy";
     public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
     public static keysDialog_key: string = "keysDialog_key";
