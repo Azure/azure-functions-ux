@@ -1,3 +1,4 @@
+import { AiService } from 'app/shared/services/ai.service';
 import { DomEvents, KeyCodes } from './../shared/models/constants';
 import { TreeViewComponent } from './tree-view.component';
 import { Observable } from 'rxjs/Observable';
@@ -60,12 +61,15 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
     public supportsTab = false;
     public treeView: TreeViewComponent;
 
+    private _aiService: AiService;
+
     constructor(
         public sideNav: SideNavComponent,
         public resourceId: string,
         public parent: TreeNode,
         public createResourceId?: string ) {
         this.disabledReason = this.sideNav.translateService.instant('You either do not have access to this app or there are orphaned slots associated with it');
+        this._aiService = sideNav.injector.get(AiService);
     }
 
     public select(force?: boolean): void {
@@ -239,6 +243,8 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
                 return;
             }
         }
+
+        this._aiService.trackEvent('/SideNav/scopeToNode');
 
         this.sideNav.searchExact(this.title);
     }

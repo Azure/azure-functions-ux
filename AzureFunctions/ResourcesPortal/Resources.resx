@@ -196,7 +196,7 @@
     <value>Invitation code</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
+    <value>This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Function name</value>
@@ -951,14 +951,14 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Test</value>
-  </data> 
+  </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime version</value>
   </data>
   <data name="runtimeImage" xml:space="preserve">
     <value>Runtime image</value>
   </data>
-    <data name="runtimeImagev1" xml:space="preserve">
+  <data name="runtimeImagev1" xml:space="preserve">
     <value>v1(.net framework/server core)</value>
   </data>
   <data name="runtimeImagev2" xml:space="preserve">
@@ -1031,7 +1031,7 @@
     <value>Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxies (preview)</value>
+    <value>Proxies</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Enable Azure Functions Proxies (preview)</value>
@@ -1993,6 +1993,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having a generated function.json. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -2484,5 +2487,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Java on Azure Functions Quickstart</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Search by trigger, language, or description</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>hide value</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights instrumentation key is presented in app settings but App Insights is not found in Function App's subscription. Please make sure your App Insights is localted in the same subscription as Function App.</value>
   </data>
 </root>

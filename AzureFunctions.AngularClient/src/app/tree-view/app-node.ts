@@ -8,7 +8,6 @@ import { CacheService } from './../shared/services/cache.service';
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
 import { SiteTabIds, ScenarioIds } from './../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { PortalResources } from './../shared/models/portal-resources';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { SiteDescriptor } from './../shared/resourceDescriptors';
@@ -19,7 +18,6 @@ import { Site } from '../shared/models/arm/site';
 import { SlotsNode } from './slots-node';
 import { FunctionsNode } from './functions-node';
 import { ProxiesNode } from './proxies-node';
-import { FunctionApp } from '../shared/function-app';
 import { Subscription } from 'app/shared/models/subscription';
 
 export class AppNode extends TreeNode
@@ -39,7 +37,6 @@ export class AppNode extends TreeNode
     public location: string;
     public subscriptionId: string;
 
-    public functionAppStream = new ReplaySubject<FunctionApp>(1);
     public slotProperties: any;
     public openTabId: string | null;
 
@@ -86,12 +83,15 @@ export class AppNode extends TreeNode
 
         this.subscription = sub && sub.displayName;
         this.subscriptionId = sub && sub.subscriptionId;
+
+        this.supportsScope = !descriptor.slot;
     }
 
     public loadChildren() {
 
         this.supportsRefresh = false;
         this.isLoading = true;
+
         return this._functionsService.getAppContext(this.resourceId)
             .do(context => {
                 this.isLoading = false;
@@ -149,8 +149,6 @@ export class AppNode extends TreeNode
         // be visible during load.
         this.sideNav.aiService.trackEvent('/actions/refresh');
         this.sideNav.cacheService.clearCache();
-        // this.dispose();
-        this.functionAppStream.next(null);
 
         return this.loadChildren()
             .do(context => {
@@ -172,7 +170,6 @@ export class AppNode extends TreeNode
     }
 
     public handleDeselection(newSelectedNode?: TreeNode) {
-
         this.inSelectedTree = false;
         this.children.forEach(c => c.inSelectedTree = false);
 

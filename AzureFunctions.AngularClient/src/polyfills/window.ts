@@ -1,5 +1,5 @@
 import 'core-js/es6/symbol';
-import { FunctionsVersionInfo } from '../../../common/models/functions-version-info';
+import { FunctionsVersionInfo } from '../app/shared/models/functions-version-info';
 
 interface Environment {
   hostName: string;

@@ -5,7 +5,6 @@ export enum BroadcastEvent {
     FunctionAdded,
     FunctionSelected,
     FunctionUpdated,
-    // FunctionNew,
     UpdateBusyState,
     TutorialStep,
     IntegrateChanged,
