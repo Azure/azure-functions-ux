@@ -14,10 +14,12 @@
         </div>
 
         <top-bar-standalone-loginuser
+            check-scenario="StandAloneUserMenu"
+            [cs-input]="{}"
             [user]="user">
         </top-bar-standalone-loginuser>
         
-        <div *ngIf="!isStandalone" class="top-bar-tools right vertical-align-center">
+        <div check-scenario="UserMenu" [cs-input]="{}" cs-enabledByDefault="true" class="top-bar-tools right vertical-align-center">
             <span *ngIf="user && currentTenant && !inIFrame && !inTab"
                   class="top-bar-tool clickable"
                   [class.top-bar-tool-selected]="showUserMenu"
