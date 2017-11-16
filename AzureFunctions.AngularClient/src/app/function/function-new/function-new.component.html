@@ -35,9 +35,6 @@
                 <div class="selectionContainer">
                     <div *ngFor="let template of templates" 
                          [ngClass]="showTryView && !template.enabledInTryMode ? 'cardDisabled' : 'cardContainer'" 
-                         [tooltip]="freeAccountTooltip"
-                         [tooltipDisabled]="! (showTryView && !template.enabledInTryMode)" 
-                         tooltipPlacement="right" 
                          (click)="onCardSelected(template, showTryView && !template.enabledInTryMode)">
 
                         <div class="headerBox" [style.background-color]="template.barcolor">

@@ -139,7 +139,7 @@ drop-down{
             padding-right: 15px;
         }
         li:hover{
-            cursor: pointer;
+            cursor: inherit;
             color: $primary-color;
             text-decoration: underline;
         }
