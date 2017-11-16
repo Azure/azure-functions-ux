@@ -1,0 +1,77 @@
+<ng-sidebar-container class="sidebar-container" [animate]="true">
+    
+    <div ng-sidebar-content>
+        <div class="newfunc-container" >
+
+            <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
+
+            <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
+
+                <div class="choose">
+                    <h2>{{ 'functionNew_chooseTemplate' | translate }}</h2>
+                    <h2 class="quickstart link" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</h2>
+                </div>
+
+                <div class="search-and-sort">
+                        <search-box class="search-box-container" 
+                                    (onInputChange)="onSearchChanged($event)" 
+                                    (onClear)="onSearchCleared()" 
+                                    [placeholder]="'createFunction_search' | translate">
+                        </search-box>
+            
+                        {{ 'templatePicker_language' | translate }}
+                        <drop-down class="tpicker-dropdown" 
+                                   [options]="languages" 
+                                   (value)="onLanguageChanged($event)">
+                        </drop-down>
+            
+                        {{ 'templatePicker_scenario' | translate }}
+                        <drop-down class="tpicker-dropdown" 
+                                   [options]="categories" 
+                                   (value)="onScenarioChanged($event)">
+                        </drop-down>
+                </div>
+            
+                <div class="selectionContainer">
+                    <div *ngFor="let template of templates" class="cardContainer" (click)="onCardSelected(template)">
+                        <div class="headerBox" [style.background-color]="template.barcolor">{{template.name}}
+                            <img [src]="template.icon" [style.background-color]="template.color"/>
+                        </div>
+                        <div class="sourceDescription">{{template.description}}</div>
+                        <div class="cardFooter" [style.background-color]="template.barcolor">
+                            <ul>
+                                <ng-container *ngFor="let language of template.languages">
+                                    <li (click)="onCardLanguageSelected(template, language);$event.stopPropagation();">{{language}}</li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-sidebar #sidebar [(opened)]="sidePanelOpened" 
+                         [mode]="'over'" 
+                         [position]="'right'" 
+                         [closeOnClickOutside]="false" 
+                         [trapFocus]="false"
+                         [autoFocus]="true" 
+                         [sidebarClass]="'sidebar-new-function'" 
+                         [ariaLabel]="'Create Function'" 
+                         [animate]="true" 
+                         [closeOnClickBackdrop]="true" 
+                         [showBackdrop]="true">
+        
+        <sidebar-picker *ngIf="sidePanelOpened" 
+                        [functionCardTemplate]="createFunctionTemplate" 
+                        [functionLanguage]="createFunctionLanguage" 
+                        [functionsInfo]="functionsInfo"
+                        [functionApp]="functionApp"
+                        [appNode]="appNode"
+                        [functionsNode]="functionsNode"
+                        [context]="context"
+                        (closePanel) ="closeSidePanel()">
+        </sidebar-picker>
+    </ng-sidebar>
+</ng-sidebar-container>

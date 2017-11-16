@@ -19,7 +19,8 @@ export class EditModeWarningComponent implements OnInit {
   public readOnlySourceControlled = false;
   public readWriteSourceControlled = false;
   public readOnlySlots = false;
-  public ReadOnlyVSGenerated = false;
+  public readOnlyVSGenerated = false;
+  public readWriteVSGenerated = false;
 
   constructor(private _functionsService: FunctionsService, private _broadcastService: BroadcastService) { }
 
@@ -37,7 +38,9 @@ export class EditModeWarningComponent implements OnInit {
           } else if (editMode === FunctionAppEditMode.ReadOnlySlots) {
             this.readOnlySlots = true;
           } else if (editMode === FunctionAppEditMode.ReadOnlyVSGenerated) {
-            this.ReadOnlyVSGenerated = true;
+            this.readOnlyVSGenerated = true;
+          } else if (editMode === FunctionAppEditMode.ReadWriteVSGenerated) {
+            this.readWriteVSGenerated = true;
           }
         });
     }

@@ -1,42 +1,42 @@
 ﻿import { AADPermissions } from './microsoft-graph';
 
-export enum BindingType {
-    timerTrigger = <any>"timerTrigger",
-    eventHubTrigger = <any>"eventHubTrigger",
-    eventHub = <any>"eventHub",
-    queue = <any>"queue",
-    queueTrigger = <any>"queueTrigger",
-    sqlQueueTrigger = <any>"sqlQueueTrigger",
-    blob = <any>"blob",
-    blobTrigger = <any>"blobTrigger",
-    apiHubFile = <any>"apiHubFile",
-    apiHubFileTrigger = <any>"apiHubFileTrigger",
-    apiHubTable = <any>"apiHubTable",
-    httpTrigger = <any>"httpTrigger",
-    http = <any>"http",
-    table = <any>"table",
-    serviceBus = <any>"serviceBus",
-    bot = <any>"bot",
-    serviceBusTrigger = <any>"serviceBusTrigger",
-    manualTrigger = <any>"manualTrigger",
-    documentDB = <any>"documentDB",
-    mobileTable = <any>"mobileTable",
-    notificationHub = <any>"notificationHub",
-    sendGrid = <any>"sendGrid",
-    twilioSms = <any>"twilioSms",
-    aadtoken = <any>"aadToken",
-    excel = <any>"excel",
-    token = <any>"token",
-    outlook = <any>"outlook",
-    onedrive = <any>"onedrive",
-    graphWebhookSubscription = <any>"graphWebhookSubscription",
-    graphWebhookTrigger = <any>"graphWebhookTrigger",
-    GraphWebhookCreator = <any>"GraphWebhookCreator",
-    eventGridTrigger = <any>"eventGridTrigger",
-    cosmosDBTrigger = <any>"cosmosDBTrigger",
-    activityTrigger = <any>"activityTrigger",
-    orchestrationTrigger = <any>"orchestrationTrigger",
-    orchestrationClient = <any>"orchestrationClient"
+export class BindingType {
+    static timerTrigger = "timerTrigger";
+    static eventHubTrigger = "eventHubTrigger";
+    static eventHub = "eventHub";
+    static queue = "queue";
+    static queueTrigger = "queueTrigger";
+    static sqlQueueTrigger = "sqlQueueTrigger";
+    static blob = "blob";
+    static blobTrigger = "blobTrigger";
+    static apiHubFile = "apiHubFile";
+    static apiHubFileTrigger = "apiHubFileTrigger";
+    static apiHubTable = "apiHubTable";
+    static httpTrigger = "httpTrigger";
+    static http = "http";
+    static table = "table";
+    static serviceBus = "serviceBus";
+    static bot = "bot";
+    static serviceBusTrigger = "serviceBusTrigger";
+    static manualTrigger = "manualTrigger";
+    static documentDB = "documentDB";
+    static mobileTable = "mobileTable";
+    static notificationHub = "notificationHub";
+    static sendGrid = "sendGrid";
+    static twilioSms = "twilioSms";
+    static aadtoken = "aadToken";
+    static excel = "excel";
+    static token = "token";
+    static outlook = "outlook";
+    static onedrive = "onedrive";
+    static graphWebhookSubscription = "graphWebhookSubscription";
+    static graphWebhookTrigger = "graphWebhookTrigger";
+    static GraphWebhookCreator = "GraphWebhookCreator";
+    static eventGridTrigger = "eventGridTrigger";
+    static cosmosDBTrigger = "cosmosDBTrigger";
+    static activityTrigger = "activityTrigger";
+    static orchestrationTrigger = "orchestrationTrigger";
+    static orchestrationClient = "orchestrationClient";
 }
 
 export interface BindingConfig {
