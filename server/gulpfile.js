@@ -29,6 +29,17 @@ gulp.task('build-all', function(cb) {
     );
 });
 
+gulp.task('build-test', function(cb) {
+    runSequence(
+        'resources-convert',
+        'resources-build',
+        'resources-combine',
+        'build-templates',
+        'build-bindings',
+        cb
+    );
+});
+
 /********
 *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
 */
@@ -302,10 +313,10 @@ gulp.task('build-bindings', function() {
 });
 
 const templateVersionMap = {
-    default: '1.0.1.10082',
-    '1': '1.0.1.10082',
-    beta: '2.0.0-beta-10083',
-    '2': '2.0.0-beta-10083'
+    default: '1.0.3.10139',
+    '1': '1.0.3.10139',
+    beta: '2.0.0-beta-10138',
+    '2': '2.0.0-beta-10138'
 };
 /*****
  * Download and unzip nuget packages with templates

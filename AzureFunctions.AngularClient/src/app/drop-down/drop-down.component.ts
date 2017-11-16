@@ -17,6 +17,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
     @Input() size: null | 'small' | 'large';
+    @Input() setDefault = true;
 
     @Output() value: EventEmitter<T>;
 
@@ -81,7 +82,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
                         default: opt.default
                     });
 
-                    if (optionCount === 1 || opt.default) {
+                    if ((optionCount === 1 && this.setDefault) || opt.default) {
                         selectedOptionId = optionCount - 1;
                         selectedOptionValue = opt.value;
                         defaultOptionFound = defaultOptionFound || opt.default;
@@ -95,7 +96,7 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
         else {
             let options: DropDownElement<T>[] = [];
             let inputs: DropDownElement<T>[] = (value as DropDownElement<T>[]);
-            inputs.forEach(opt => {
+            inputs.forEach((opt, ind, arr) => {
                 options.push({
                     id: optionCount++,
                     displayLabel: opt.displayLabel,
@@ -103,10 +104,10 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
                     default: opt.default
                 });
 
-                if (optionCount === 1 || opt.default) {
+                if ((optionCount === 1 && (this.setDefault || arr.length === 1)) || opt.default) {
                     selectedOptionId = optionCount - 1;
                     selectedOptionValue = opt.value;
-                    defaultOptionFound = defaultOptionFound || opt.default;
+                    defaultOptionFound = defaultOptionFound || opt.default || arr.length === 1;
                 }
             });
             this._options = options;
@@ -117,11 +118,12 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
             return;
         }
 
-        if (!this.control) {
-            this.onSelect(selectedOptionId.toString());
-        }
-        else {
-            this.onSelectValue(selectedOptionValue);
+        if (defaultOptionFound || this.setDefault) {
+            if (!this.control) {
+                this.onSelect(selectedOptionId.toString());
+            } else {
+                this.onSelectValue(selectedOptionValue);
+            }
         }
 
     }

@@ -408,9 +408,7 @@ export class SideNavComponent implements AfterViewInit {
     private _updateSubDisplayText(displayText: string) {
         setTimeout(() => {
             this.subscriptionsDisplayText = '';
-            setTimeout(() => {
-                this.subscriptionsDisplayText = displayText;
-            }, 0);
+            this.subscriptionsDisplayText = displayText;
         });
     }
 
