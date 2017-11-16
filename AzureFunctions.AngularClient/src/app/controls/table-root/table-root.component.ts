@@ -143,12 +143,10 @@ export class TableRootComponent implements OnChanges, AfterContentInit {
     public onFocusXfr(event: FocusEvent) {
         if (this._focusTransferForced) {
             this._focusTransferForced = false;
-        }
-        else {
+        } else {
             if (this.activeRow) {
                 this.activeRow.setFocusOnCell(null);
-            }
-            else {
+            } else {
                 this._resetFocus();
             }
         }
