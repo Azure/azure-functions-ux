@@ -71,8 +71,7 @@ export class TableCellComponent {
     public onKeyDown(event: KeyboardEvent) {
         if (this.parentRow.parentTable.editMode) {
             this._handleEditModeKeyDown(event);
-        }
-        else {
+        } else {
             this._handleStaticModeKeyDown(event);
         }
     }
@@ -105,8 +104,7 @@ export class TableCellComponent {
                         this.parentRow.setEditMode(true);
                     }
                 });
-            }
-            else {
+            } else {
                 // An element inside the cell is currently selected, so "click" on the that element.
                 (event.target as HTMLElement).click();
                 if (this.editable) {
@@ -137,15 +135,12 @@ export class TableCellComponent {
 
             if (this.boundaryLeft && this.boundaryRight) {
                 target = this.boundaryLeft.nativeElement === document.activeElement ? this.boundaryRight.nativeElement : this.boundaryLeft.nativeElement;
-            }
-            else if (this.isFirstCell && this.boundaryLeft) {
+            } else if (this.isFirstCell && this.boundaryLeft) {
                 target = this.boundaryLeft.nativeElement;
-            }
-            else if (this.isLastCell && this.boundaryRight) {
+            } else if (this.isLastCell && this.boundaryRight) {
                 target = this.boundaryRight.nativeElement;
             }
-        }
-        else {
+        } else {
             target = this._eref.nativeElement;
 
             if (!this.editable) {

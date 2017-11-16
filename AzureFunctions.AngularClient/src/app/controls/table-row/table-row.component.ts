@@ -40,8 +40,7 @@ export class TableRowComponent implements AfterContentInit, OnDestroy {
                 if (this.parentTable.editMode) {
                     this._addFocusTrackingListeners();
                 }
-            }
-            else {
+            } else {
                 this._removeFocusTrackingListeners();
             }
         }
@@ -82,8 +81,7 @@ export class TableRowComponent implements AfterContentInit, OnDestroy {
         if (this.parentTable.editMode) {
             // just entered editMode
             this._addFocusTrackingListeners();
-        }
-        else {
+        } else {
             // just left editMode
             this._removeFocusTrackingListeners();
         }
@@ -144,8 +142,7 @@ export class TableRowComponent implements AfterContentInit, OnDestroy {
     public onKeyDown(event: KeyboardEvent) {
         if (this.parentTable.editMode) {
             this._handleEditModeKeyDown(event);
-        }
-        else {
+        } else {
             this._handleStaticModeKeyDown(event);
         }
     }

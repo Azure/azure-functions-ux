@@ -189,12 +189,10 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
 
       if (this.mainForm.contains("virtualDirectories")) {
         this.mainForm.setControl("virtualDirectories", this.groupArray);
-      }
-      else {
+      } else {
         this.mainForm.addControl("virtualDirectories", this.groupArray);
       }
-    }
-    else {
+    } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
@@ -279,8 +277,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
         success: true,
         error: null
       });
-    }
-    else if (this.mainForm.contains("virtualDirectories") && this.mainForm.controls["virtualDirectories"].valid) {
+    } else if (this.mainForm.contains("virtualDirectories") && this.mainForm.controls["virtualDirectories"].valid) {
       let virtualDirGroups = this.groupArray.controls;
 
       let webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
@@ -342,8 +339,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
             error: error._body
           });
         });
-    }
-    else {
+    } else {
       let failureMessage = this._validationFailureMessage();
       this._saveError = failureMessage;
       return Observable.of({
@@ -364,8 +360,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
     if (index >= 0) {
       if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
-      }
-      else {
+      } else {
         this._deleteAddedItem(groups, group, index);
       }
     }
