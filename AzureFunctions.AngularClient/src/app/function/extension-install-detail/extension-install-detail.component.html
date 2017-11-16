@@ -1,0 +1,27 @@
+<div class="headerBox" [style.background-color]="functionCardTemplate.barcolor" >{{functionCardTemplate.name}}
+  <img [src]="functionCardTemplate.icon" [style.background-color]="functionCardTemplate.color" />
+</div>
+
+<div class="content">
+
+  <h2>{{ 'extension_install_warning' | translate }}</h2> 
+  
+  <ng-container *ngIf="!installing">
+    <h4>{{ 'extension_template_warning' | translate }}</h4>
+    <div *ngFor="let nugetPackage of extensions">
+      <i class="fa fa-warning"></i> {{nugetPackage.id}}
+    </div>
+  </ng-container>
+
+  <div *ngIf="installing">
+      <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'installingExtension' | translate }}
+  </div>
+
+  <button class="custom-button"
+          [disabled]="installing"
+          (click)="installRequiredExtensions()">{{ 'extension_install_button' | translate }}
+  </button>
+  <button class="custom-button-invert"
+          (click)="close()">{{ 'cancel' | translate}}
+  </button>
+</div>
