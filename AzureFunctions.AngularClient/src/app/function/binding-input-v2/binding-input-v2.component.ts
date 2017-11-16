@@ -162,10 +162,6 @@ export class BindingInputV2Component {
                 if (!this.appSettingValue) {
                     this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
                 }
-                // Use timeout as content is changed
-                setTimeout(() => {
-                    this.pickerPopover.show();
-                }, 0);
             });
     }
 

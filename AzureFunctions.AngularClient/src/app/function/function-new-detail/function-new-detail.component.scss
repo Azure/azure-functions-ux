@@ -20,8 +20,8 @@
 
 .content {
     font-size: 12px;
-    margin: 32px;
-    padding-right: 50px;
+    margin-left: 32px;
+    margin-right: 82px;
 }
 
 p {
@@ -32,10 +32,11 @@ p {
 .custom-button {
     margin-left: 0px;
     margin-top: 20px;
+    margin-right: 10px;
 }
 
 .custom-button-invert {
-    margin-left: 10px;
+    margin-left: 0px;
     margin-top: 20px;
 }
 
@@ -98,7 +99,8 @@ input.input-error {
     color: $body-bg-color;
     height: 25px;
     padding: 5px 5px 0px 5px;
-    margin-left: 445px;
+    margin-right: inherit;
+    right: 3px;
     margin-top: -27px;
 }
 
