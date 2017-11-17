@@ -196,7 +196,7 @@ export class SiteEnabledFeaturesComponent {
                 return <EnabledFeatureItem>{
                     title: this._translateService.instant(PortalResources.tab_functionSettings),
                     feature: feature,
-                    iconUrl: 'image/Functions.svg',
+                    iconUrl: 'image/functions.svg',
                     featureId: SiteTabIds.functionRuntime
                 };
 
@@ -303,12 +303,12 @@ export class SiteEnabledFeaturesComponent {
                     feature: feature,
                     iconUrl: 'image/webjobs.svg',
                     bladeInfo:
-                    {
-                        detailBlade: 'webjobsNewBlade',
-                        detailBladeInputs: {
-                            resourceUri: this._site.id
-                        }
-                    },
+                        {
+                            detailBlade: 'webjobsNewBlade',
+                            detailBladeInputs: {
+                                resourceUri: this._site.id
+                            }
+                        },
                 };
 
             case Feature.SiteExtensions:
@@ -317,12 +317,12 @@ export class SiteEnabledFeaturesComponent {
                     feature: feature,
                     iconUrl: 'image/extensions.svg',
                     bladeInfo:
-                    {
-                        detailBlade: 'SiteExtensionsListBlade',
-                        detailBladeInputs: {
-                            WebsiteId: this._descriptor.getWebsiteId()
-                        }
-                    },
+                        {
+                            detailBlade: 'SiteExtensionsListBlade',
+                            detailBladeInputs: {
+                                WebsiteId: this._descriptor.getWebsiteId()
+                            }
+                        },
                 };
         }
     }

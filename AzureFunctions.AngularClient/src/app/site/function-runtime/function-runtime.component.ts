@@ -64,6 +64,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public proxySettingValueStream: Subject<boolean>;
   public functionEditModeValueStream: Subject<boolean>;
   public isLinuxApp: boolean;
+  public isStopped: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   private _viewInfo: TreeViewInfo<SiteData>;
@@ -114,10 +115,11 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
         this.functionApp = new FunctionApp(context.site, this._injector);
 
+        this.isStopped = context.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
         this.isLinuxApp = ArmUtil.isLinuxApp(this.site);
         return this.functionApp.initKeysAndWarmupMainSite();
       })
-      .switchMap(r => {
+      .switchMap(() => {
 
         return Observable.zip(
           this._cacheService.postArm(`${this._viewInfo.resourceId}/config/appsettings/list`, true),
