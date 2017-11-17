@@ -140,9 +140,9 @@ namespace AzureFunctions.Authentication
                 string name = credentials.Substring(0, separator);
                 string password = credentials.Substring(separator + 1);
 
-                if (NetworkHelper.IsValidDomainUser(name, password) || NetworkHelper.IsValidLocalUser(name, password))
+                if (NetworkHelper.IsValidUser(name, password))
                 {
-                    token = CreateTokenWithX509SigningCredentials(NetworkHelper.GetFullyQualifiedUserName(name));
+                    token = CreateTokenWithX509SigningCredentials(NetworkHelper.GetUniqueLogonUserName(name));
 
                     return true;
                 }
