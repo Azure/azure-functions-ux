@@ -68,7 +68,7 @@
            [ngClass]="{'input-error':!!input.errorText}"
            onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
 
-    <ng-container *ngIf="!!input.errorText && !input.isValid">
+    <ng-container *ngIf="!!input.errorText && !input.isValid && !input.okEmpty">
       <span class="fa fa-exclamation input-error-adjust"></span>
       <div class="input-show-error">{{input.errorText}}</div>
     </ng-container>
