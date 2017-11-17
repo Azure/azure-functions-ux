@@ -12,7 +12,6 @@ import { ConfigService } from './services/config.service';
 import { NoCorsHttpService } from './no-cors-http-service';
 import { ErrorIds } from './models/error-ids';
 import { DiagnosticsResult } from './models/diagnostics-result';
-import { WebApiException, FunctionRuntimeError } from './models/webapi-exception';
 import { FunctionsResponse } from './models/functions-response';
 import { AuthzService } from './services/authz.service';
 import { LanguageService } from './services/language.service';
@@ -44,7 +43,7 @@ import { Site } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
-import { FunctionsVersionInfoHelper} from './models/functions-version-info';
+import { FunctionsVersionInfoHelper } from './models/functions-version-info';
 import * as jsonschema from 'jsonschema';
 import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
@@ -232,31 +231,31 @@ export class FunctionApp {
 
         return Observable.zip(
             this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
-            .catch(() => this._http.get(this.urlTemplates.functionsUrl, { headers: this.getScmSiteHeaders() }))
-            .retryWhen(this.retryAntares)
-            .map((r: Response) => {
-                try {
-                    fcs = r.json() as FunctionInfo[];
-                    return fcs;
-                } catch (e) {
-                    // We have seen this happen when kudu was returning JSON that contained
-                    // comments because Json.NET is okay with comments in the JSON file.
-                    // We can't parse that JSON in browser, so this is just to handle the error correctly.
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: this._translateService.instant(PortalResources.error_parsingFunctionListReturenedFromKudu),
-                        errorId: ErrorIds.deserializingKudusFunctionList,
-                        errorType: ErrorType.Fatal,
-                        resourceId: this.site.id
-                    });
-                    this.trackEvent(ErrorIds.deserializingKudusFunctionList, {
-                        error: e,
-                        content: r.text(),
-                    });
-                    return <FunctionInfo[]>[];
-                }
-            }),
+                .catch(() => this._http.get(this.urlTemplates.functionsUrl, { headers: this.getScmSiteHeaders() }))
+                .retryWhen(this.retryAntares)
+                .map((r: Response) => {
+                    try {
+                        fcs = r.json() as FunctionInfo[];
+                        return fcs;
+                    } catch (e) {
+                        // We have seen this happen when kudu was returning JSON that contained
+                        // comments because Json.NET is okay with comments in the JSON file.
+                        // We can't parse that JSON in browser, so this is just to handle the error correctly.
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: this._translateService.instant(PortalResources.error_parsingFunctionListReturenedFromKudu),
+                            errorId: ErrorIds.deserializingKudusFunctionList,
+                            errorType: ErrorType.Fatal,
+                            resourceId: this.site.id
+                        });
+                        this.trackEvent(ErrorIds.deserializingKudusFunctionList, {
+                            error: e,
+                            content: r.text(),
+                        });
+                        return <FunctionInfo[]>[];
+                    }
+                }),
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`),
-            (functions, appSettings) => ({functions: functions, appSettings: appSettings.json()}))
+            (functions, appSettings) => ({ functions: functions, appSettings: appSettings.json() }))
             .map(result => {
                 // For runtime 2.0 we use settings for disabling functions
                 const appSettings = result.appSettings as ArmObj<any>;
@@ -269,20 +268,20 @@ export class FunctionApp {
                 return result.functions;
             })
             .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionListFromKudu),
-                            errorId: ErrorIds.unableToRetrieveFunctionsList,
-                            errorType: ErrorType.RuntimeError,
-                            resourceId: this.site.id
-                        });
-                        this.trackEvent(ErrorIds.unableToRetrieveFunctionsList, {
-                            content: error.text(),
-                            status: error.status.toString()
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionListFromKudu),
+                        errorId: ErrorIds.unableToRetrieveFunctionsList,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToRetrieveFunctionsList, {
+                        content: error.text(),
+                        status: error.status.toString()
+                    });
+                }
+            });
 
     }
 
@@ -654,32 +653,32 @@ export class FunctionApp {
         return Observable.zip(
             this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() }),
             this.getRuntimeGeneration()
-            .switchMap((runtimeVersion: string) => {
-                return (runtimeVersion === 'V2') ?
-                    this.updateDisabledAppSettings([functionInfo])
-                    : Observable.of(null);
-            }),
-            (r) => ({ error: r.statusText})
+                .switchMap((runtimeVersion: string) => {
+                    return (runtimeVersion === 'V2') ?
+                        this.updateDisabledAppSettings([functionInfo])
+                        : Observable.of(null);
+                }),
+            (r) => ({ error: r.statusText })
         )
-        .do(_ => {
-			this._cacheService.clearCachePrefix(this.urlTemplates.functionsUrl);
-			this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name);
-		},
-        (error: FunctionsResponse) => {
-             if (!error.isHandled) {
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.error_unableToDeleteFunction, { functionName: functionInfo.name }),
-                    errorId: ErrorIds.unableToDeleteFunction + functionInfo.name,
-                    errorType: ErrorType.ApiError,
-                    resourceId: this.site.id
-                });
-                this.trackEvent(ErrorIds.unableToDeleteFunction, {
-                    content: error.text(),
-                    status: error.status.toString(),
-                    href: functionInfo.href
-                });
-            }
-        });
+            .do(_ => {
+                this._cacheService.clearCachePrefix(this.urlTemplates.functionsUrl);
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name);
+            },
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToDeleteFunction, { functionName: functionInfo.name }),
+                        errorId: ErrorIds.unableToDeleteFunction + functionInfo.name,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToDeleteFunction, {
+                        content: error.text(),
+                        status: error.status.toString(),
+                        href: functionInfo.href
+                    });
+                }
+            });
     }
 
     @Cache()
@@ -691,7 +690,6 @@ export class FunctionApp {
 
     initKeysAndWarmupMainSite() {
         this._http.post(this.urlTemplates.pingUrl, '')
-            .retryWhen(this.retryAntares)
             .subscribe(() => { });
 
         return this.getHostSecretsFromScm();
@@ -786,103 +784,51 @@ export class FunctionApp {
             : this._http.get(this.urlTemplates.scmTokenUrl, { headers: this.getScmSiteHeaders() });
     }
 
+    private _isAppStopped(): Observable<boolean> {
+        return this._cacheService.getArm(this.site.id)
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.state !== 'Running');
+    }
+
     getHostSecretsFromScm() {
         return reachableInternalLoadBalancerApp(this, this._cacheService)
-            .filter(i => i)
-            .mergeMap(() => this.getAuthSettings())
-            .mergeMap(authSettings => {
-                return authSettings.clientCertEnabled
-                    ? Observable.of()
-                    : this.getHostToken()
-                        .retryWhen(this.retryAntares)
-                        .map(r => r.json())
-                        .mergeMap((token: string) => {
-                            // Call the main site to get the masterKey
-                            // build authorization header
-                            const authHeader = new Headers();
-                            authHeader.append('Authorization', `Bearer ${token}`);
-                            return this._http.get(this.urlTemplates.masterKeyUrl, { headers: authHeader })
-                                .catch((error: FunctionsResponse) => {
-                                    if (error.status === 405) {
-                                        // If the result from calling the API above is 405, that means they are running on an older runtime.
-                                        // It should be safe to call kudu for the master key since they won't be using slots.
-                                        return this._http.get(this.urlTemplates.deprecatedKuduMasterKeyUrl, { headers: this.getScmSiteHeaders() });
-                                    } else {
-                                        throw error;
-                                    }
+            .concatMap(r => this._isAppStopped().map(s => !s && r))
+            .concatMap(reachableAndNotStopped => !reachableAndNotStopped
+                ? Observable.of(false)
+                : this.getAuthSettings()
+                    .mergeMap(authSettings => {
+                        return authSettings.clientCertEnabled
+                            ? Observable.of()
+                            : this.getHostToken()
+                                .retryWhen(this.retryAntares)
+                                .map(r => r.json())
+                                .mergeMap((token: string) => {
+                                    // Call the main site to get the masterKey
+                                    // build authorization header
+                                    const authHeader = new Headers();
+                                    authHeader.append('Authorization', `Bearer ${token}`);
+                                    return this._http.get(this.urlTemplates.masterKeyUrl, { headers: authHeader })
+                                        .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
+                                            if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
+                                                throw err;
+                                            } else if (err.status === 503 && errorCount >= 3) {
+                                                throw err;
+                                            } else {
+                                                return errorCount + 1;
+                                            }
+                                        }, 0).delay(1000))
+                                        .do((r: Response) => {
+                                            // Since we fall back to kudu above, use a union of kudu and runtime types.
+                                            const key: { name: string, value: string } & { masterKey: string } = r.json();
+                                            if (key.masterKey) {
+                                                this.masterKey = key.masterKey;
+                                            } else {
+                                                this.masterKey = key.value;
+                                            }
+                                        });
                                 })
-                                .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
-                                    if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
-                                        throw err;
-                                    } else {
-                                        return errorCount + 1;
-                                    }
-                                }, 0).delay(1000))
-                                .catch(e => this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: authHeader })
-                                    .do(null, _ => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                        message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
-                                        errorId: ErrorIds.functionRuntimeIsUnableToStart,
-                                        errorType: ErrorType.Fatal,
-                                        resourceId: this.site.id
-                                    })).map(_ => { throw e; })) // if /status call is successful, then throw the original error
-                                .do((r: Response) => {
-                                    // Since we fall back to kudu above, use a union of kudu and runtime types.
-                                    const key: { name: string, value: string } & { masterKey: string } = r.json();
-                                    if (key.masterKey) {
-                                        this.masterKey = key.masterKey;
-                                    } else {
-                                        this.masterKey = key.value;
-                                    }
-                                });
-                        })
-                        .do(() => {
-                            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromScm);
-                        },
-                        (error: FunctionsResponse) => {
-                            if (!error.isHandled) {
-                                try {
-                                    const exception: WebApiException & FunctionRuntimeError = error.json();
-                                    if (exception.ExceptionType === 'System.Security.Cryptography.CryptographicException') {
-                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: this._translateService.instant(PortalResources.error_unableToDecryptKeys),
-                                            errorId: ErrorIds.unableToDecryptKeys,
-                                            errorType: ErrorType.RuntimeError,
-                                            resourceId: this.site.id
-                                        });
-                                        this.trackEvent(ErrorIds.unableToDecryptKeys, {
-                                            content: error.text(),
-                                            status: error.status.toString()
-                                        });
-                                        return;
-                                    } else if (exception.message || exception.messsage) {
-                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: exception.message || exception.messsage,
-                                            errorId: ErrorIds.unableToDecryptKeys,
-                                            errorType: ErrorType.RuntimeError,
-                                            resourceId: this.site.id
-                                        });
-                                        this.trackEvent(ErrorIds.unableToDecryptKeys, {
-                                            content: error.text(),
-                                            status: error.status.toString()
-                                        });
-                                        return;
-                                    }
-                                } catch (e) {
-                                    // no-op
-                                }
-                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                    message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
-                                    errorId: ErrorIds.unableToRetrieveRuntimeKeyFromScm,
-                                    errorType: ErrorType.RuntimeError,
-                                    resourceId: this.site.id
-                                });
-                                this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromScm, {
-                                    status: error.status.toString(),
-                                    content: error.text(),
-                                });
-                            }
-                        });
-            });
+                                .catch(e => this.checkRuntimeStatus().map(_ => null));
+                    }));
     }
 
     legacyGetHostSecrets() {
@@ -931,30 +877,7 @@ export class FunctionApp {
                             throw error;
                         }
                     })
-                    .do(_ => {
-                        this.isMultiKeySupported = true;
-                        this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromRuntime);
-                    },
-                    (error: FunctionsResponse) => {
-                        if (!error.isHandled) {
-                            if (error.status === 404) {
-                                this.isMultiKeySupported = false;
-                                this.legacyGetHostSecrets();
-                            }
-
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
-                                errorId: ErrorIds.unableToRetrieveRuntimeKeyFromRuntime,
-                                errorType: ErrorType.RuntimeError,
-                                resourceId: this.site.id
-                            });
-
-                            this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromRuntime, {
-                                status: error.status.toString(),
-                                content: error.text(),
-                            });
-                        }
-                    });
+                    .catch(e => this.checkRuntimeStatus().map(_ => ({ keys: [], links: [] })));
             });
     }
 
@@ -1012,7 +935,7 @@ export class FunctionApp {
             });
     }
 
-    getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
+    private getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean): Observable<string[]> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap((authSettings: AuthSettings) => {
@@ -1080,15 +1003,30 @@ export class FunctionApp {
             });
     }
 
-    getFunctionHostStatus(handleUnauthorized?: boolean): Observable<HostStatus> {
+    private getFunctionHostStatus(handleUnauthorized?: boolean): Observable<HostStatus> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap(authSettings => {
-                if (authSettings.clientCertEnabled || !this.masterKey) {
+                if (authSettings.clientCertEnabled) {
                     return Observable.of(null);
+                } else if (!this.masterKey) {
+                    return this.getHostToken()
+                        .map(i => i.json() as string)
+                        .concatMap(t => this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: this.getMainSiteHeaders(null, t) })
+                            .map(r => r.json())
+                            .catch((error: Response) => {
+                                if (handleUnauthorized && error.status === 401) {
+                                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                                        usedKey: this.sanitize(this.masterKey)
+                                    });
+                                    return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionHostStatus(false));
+                                } else {
+                                    throw error;
+                                }
+                            }));
                 } else {
                     return this._http.get(this.urlTemplates.runtimeStatusUrl, { headers: this.getMainSiteHeaders() })
-                        .map(r => (r.json()))
+                        .map(r => r.json())
                         .catch((error: Response) => {
                             if (handleUnauthorized && error.status === 401) {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
@@ -1098,8 +1036,7 @@ export class FunctionApp {
                             } else {
                                 throw error;
                             }
-                        })
-                        .catch(() => Observable.of(null));
+                        });
                 }
             });
     }
@@ -1169,7 +1106,7 @@ export class FunctionApp {
 
 
 
-    getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
+    getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys | null> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
         return this.getAuthSettings()
             .mergeMap(authSettings => {
@@ -1195,22 +1132,7 @@ export class FunctionApp {
                             throw error;
                         }
                     })
-                    .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name),
-                    (error: FunctionsResponse) => {
-                        if (!error.isHandled) {
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionKeys, { functionName: functionInfo.name }),
-                                errorId: ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name,
-                                errorType: ErrorType.RuntimeError,
-                                resourceId: this.site.id
-                            });
-                            this.trackEvent(ErrorIds.unableToRetrieveFunctionKeys, {
-                                status: error.status.toString(),
-                                content: error.text(),
-                                functionName: functionInfo.name
-                            });
-                        }
-                    });
+                    .catch(e => this.checkRuntimeStatus().map(_ => ({ keys: [], links: [] })));
             });
     }
 
@@ -1499,12 +1421,15 @@ export class FunctionApp {
         return headers;
     }
 
-    private getMainSiteHeaders(contentType?: string): Headers {
+    private getMainSiteHeaders(contentType?: string, token?: string): Headers {
         contentType = contentType || 'application/json';
         const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
         headers.append('x-functions-key', this.masterKey);
+        if (token) {
+            headers.append('Authorization', `Bearer ${token}`);
+        }
         return headers;
     }
 
@@ -1546,10 +1471,10 @@ export class FunctionApp {
 
     private retryAntares(error: Observable<any>): Observable<any> {
         return error.scan((errorCount: number, err: FunctionsResponse) => {
-            if (err.isHandled || err.status < 500 || errorCount >= 10) {
-                throw err;
-            } else {
+            if (err.status === 500 || err.status === 502 && errorCount < 5) {
                 return errorCount + 1;
+            } else {
+                throw err;
             }
         }, 0).delay(1000);
     }
@@ -1889,21 +1814,7 @@ export class FunctionApp {
                 const headers = this.getMainSiteHeaders();
                 return this._http.get(this.urlTemplates.systemKeysUrl, { headers: headers })
                     .map(r => <FunctionKeys>r.json())
-                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToGetSystemKey),
-                    (error: FunctionsResponse) => {
-                        if (!error.isHandled) {
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant(PortalResources.error_unableToGetSystemKey, { keyName: Constants.swaggerSecretName }),
-                                errorId: ErrorIds.unableToCreateSwaggerKey,
-                                errorType: ErrorType.RuntimeError,
-                                resourceId: this.site.id
-                            });
-                            this.trackEvent(ErrorIds.unableToGetSystemKey, {
-                                status: error.status.toString(),
-                                content: error.text(),
-                            });
-                        }
-                    });
+                    .catch(e => this.checkRuntimeStatus().map(() => ({ keys: [], links: [] })));
             });
     }
 
@@ -1956,26 +1867,97 @@ export class FunctionApp {
     updateDisabledAppSettings(infos: FunctionInfo[]): Observable<any> {
         if (infos.length > 0) {
             return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
-            .flatMap(r => {
-                const appSettings: ArmObj<any> = r.json();
-                let needToUpdate = false;
-                infos.forEach(info => {
-                    const appSettingName = `AzureWebJobs.${info.name}.Disabled`;
-                    if (info.config.disabled) {
-                        appSettings.properties[appSettingName] = 'true';
-                        needToUpdate = true;
-                    } else if (appSettings.properties[appSettingName]) {
-                        delete appSettings.properties[appSettingName];
-                        needToUpdate = true;
-                    }
-                });
+                .flatMap(r => {
+                    const appSettings: ArmObj<any> = r.json();
+                    let needToUpdate = false;
+                    infos.forEach(info => {
+                        const appSettingName = `AzureWebJobs.${info.name}.Disabled`;
+                        if (info.config.disabled) {
+                            appSettings.properties[appSettingName] = 'true';
+                            needToUpdate = true;
+                        } else if (appSettings.properties[appSettingName]) {
+                            delete appSettings.properties[appSettingName];
+                            needToUpdate = true;
+                        }
+                    });
 
-                return needToUpdate ? this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings) : Observable.of(null);
-            });
+                    return needToUpdate ? this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings) : Observable.of(null);
+                });
         } else {
             return Observable.of(null);
         }
-	}
+    }
+
+    checkRuntimeStatus(): Observable<HostStatus | null> {
+        const hostStatus = this.getFunctionHostStatus(false);
+        hostStatus
+            .subscribe(status => {
+                if (status.state !== 'Running') {
+                    status.errors = status.errors || [];
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart)
+                            + '\n'
+                            + status.errors.reduce((a, b) => `${a}\n${b}`),
+                        errorId: ErrorIds.functionRuntimeIsUnableToStart,
+                        errorType: ErrorType.Fatal,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.functionRuntimeIsUnableToStart, {
+                        content: status.errors.reduce((a, b) => `${a}\n${b}`),
+                        status: '200'
+                    });
+                }
+            }, e => {
+                // 403 is app stopped. We shouldn't display an error
+                if (e.status !== 403) {
+                    let content = e;
+                    let status = '0';
+                    try {
+                        content = e.text ? e.text() : e;
+                        status = e.status ? e.status.toString() : '0';
+                    } catch (_) { }
+
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
+                        errorId: ErrorIds.functionRuntimeIsUnableToStart,
+                        errorType: ErrorType.Fatal,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.functionRuntimeIsUnableToStart, {
+                        content: content,
+                        status: status
+                    });
+                }
+            });
+        return hostStatus.catch(e => Observable.of(null));
+    }
+
+    checkFunctionStatus(fi: FunctionInfo): Observable<boolean> {
+        const functionErrors = this.getFunctionErrors(fi)
+            .switchMap(errors => {
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalFunctionErrorFromHost + ';' + fi.name);
+                // Give clearing a chance to run
+                if (errors) {
+                    setTimeout(() => {
+                        errors.forEach(e => {
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: fi.name, error: e }),
+                                details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
+                                errorId: ErrorIds.generalFunctionErrorFromHost + ';' + fi.name,
+                                errorType: ErrorType.FunctionError,
+                                resourceId: this.site.id
+                            });
+                            this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: fi.name, functionConfig: JSON.stringify(fi.config) });
+                        });
+                    });
+                    return Observable.of(true);
+                } else {
+                    return this.checkRuntimeStatus().map(s => s.state !== 'Running');
+                }
+            });
+        functionErrors.subscribe(_ => _);
+        return functionErrors;
+    }
 
     dispose() {
         this.ngUnsubscribe.next();

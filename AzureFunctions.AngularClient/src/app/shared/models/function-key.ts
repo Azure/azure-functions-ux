@@ -3,7 +3,7 @@ export interface FunctionKey {
     value: string;
     show?: boolean;
     selected?: boolean;
-    links?: Array<Links>
+    links?: Array<Links>;
 }
 
 export interface FunctionKeys {

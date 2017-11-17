@@ -3,7 +3,6 @@ import { GlobalStateService } from './../shared/services/global-state.service';
 import { ConfigService } from './../shared/services/config.service';
 import { AiService } from './../shared/services/ai.service';
 import { PortalResources } from './../shared/models/portal-resources';
-import { ErrorIds } from './../shared/models/error-ids';
 import { TopBarNotification } from './../top-bar/top-bar-models';
 import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
@@ -28,7 +27,6 @@ import { FunctionDevComponent } from '../function-dev/function-dev.component';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { Response } from '@angular/http';
 import { FunctionsVersionInfoHelper } from '../shared/models/functions-version-info';
 
@@ -150,7 +148,7 @@ export class FunctionEditComponent implements OnDestroy {
     ngOnDestroy() {
         this._ngUnsubscribe.next();
 
-        if(this._pollingTask){
+        if (this._pollingTask) {
             this._pollingTask.unsubscribe();
         }
 
@@ -172,44 +170,23 @@ export class FunctionEditComponent implements OnDestroy {
         this._pollingTask = Observable.timer(1, 60000)
             .takeUntil(this._ngUnsubscribe)
             .concatMap(() => {
-                const val = Observable.zip(
-                    this.functionApp.getHostErrors().catch(() => Observable.of([])),
+                return Observable.zip(
                     this._cacheService.getArm(`${this.context.site.id}/config/web`, true),
                     this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
                     this._siteService.getSlotsList(`${this.context.site.id}`),
                     this.functionApp.pingScmSite(),
-                    (e: string[], c: Response, a: Response, s: ArmObj<Site>[]) => ({ errors: e, configResponse: c, appSettingResponse: a, slotsResponse: s }));
-                return val;
+                    (c: Response, a: Response, s: ArmObj<Site>[]) => ({ configResponse: c, appSettingResponse: a, slotsResponse: s }));
             })
             .catch(() => Observable.of({}))
-            .subscribe((result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: ArmObj<Site>[] }) => {
+            .subscribe((result: { configResponse: Response, appSettingResponse: Response, slotsResponse: ArmObj<Site>[] }) => {
                 this._handlePollingTaskResult(result);
             });
     }
 
-    private _handlePollingTaskResult(result: { errors: string[], configResponse: Response, appSettingResponse: Response, slotsResponse: ArmObj<Site>[] }) {
+    private _handlePollingTaskResult(result: { configResponse: Response, appSettingResponse: Response, slotsResponse: ArmObj<Site>[] }) {
         if (result) {
 
             const notifications: TopBarNotification[] = [];
-
-            if (result.errors) {
-
-                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalHostErrorFromHost);
-                // Give clearing a chance to run
-                setTimeout(() => {
-                    result.errors.forEach(e => {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                            errorId: ErrorIds.generalHostErrorFromHost,
-                            errorType: ErrorType.RuntimeError,
-                            resourceId: this.functionApp.site.id
-                        });
-
-                        this._aiService.trackEvent('/errors/host', { error: e, app: this.context.site.id });
-                    });
-                });
-            }
 
             if (result.configResponse) {
                 const config = result.configResponse.json();

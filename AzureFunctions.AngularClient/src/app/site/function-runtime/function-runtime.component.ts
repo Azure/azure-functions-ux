@@ -35,6 +35,7 @@ import { SiteService } from '../../shared/services/slots.service';
 import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from './../../shared/models/functions-version-info';
 import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
+import { ArmUtil } from './../../shared/Utilities/arm-utils';
 
 @Component({
   selector: 'function-runtime',
@@ -62,6 +63,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public functionRuntimeValueStream: Subject<string>;
   public proxySettingValueStream: Subject<boolean>;
   public functionEditModeValueStream: Subject<boolean>;
+  public isLinuxApp: boolean;
+  public isStopped: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   private _viewInfo: TreeViewInfo<SiteData>;
@@ -112,12 +115,18 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
         this.functionApp = new FunctionApp(context.site, this._injector);
 
+        this.isStopped = context.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
+        this.isLinuxApp = ArmUtil.isLinuxApp(this.site);
+        return this.functionApp.initKeysAndWarmupMainSite();
+      })
+      .switchMap(() => {
+
         return Observable.zip(
           this._cacheService.postArm(`${this._viewInfo.resourceId}/config/appsettings/list`, true),
           this._slotsService.getSlotsList(this._viewInfo.resourceId),
           (a: Response, slots: ArmObj<Site>[]) => ({ appSettingsResponse: a, slotsList: slots }))
           .mergeMap(result => {
-            return Observable.zip(this.functionApp.getFunctionAppEditMode(), this.functionApp.getFunctionHostStatus(),
+            return Observable.zip(this.functionApp.getFunctionAppEditMode(), this.functionApp.checkRuntimeStatus(),
               (editMode: FunctionAppEditMode, hostStatus: HostStatus) => ({ editMode: editMode, hostStatus: hostStatus }))
               .map(r => ({
                 appSettingsResponse: result.appSettingsResponse,
@@ -135,7 +144,6 @@ export class FunctionRuntimeComponent implements OnDestroy {
       .retry()
       .subscribe(r => {
         const appSettings: ArmObj<any> = r.appSettingsResponse.json();
-
         this.exactExtensionVersion = r.hostStatus ? r.hostStatus.version : '';
         this._isSlotApp = SiteService.isSlot(this.site.id);
         this.dailyMemoryTimeQuota = this.site.properties.dailyMemoryTimeQuota
@@ -298,7 +306,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
             this._busyManager.clearBusy();
             this._cacheService.clearArmIdCachePrefix(this.site.id);
           });
-    });
+      });
 
     this.functionRuntimeValueStream = new Subject<string>();
     this.functionRuntimeValueStream.subscribe((value: string) => {
@@ -340,7 +348,9 @@ export class FunctionRuntimeComponent implements OnDestroy {
     if (version === this.extensionVersion) {
       return;
     }
+    let updateButtonClicked = false;
     if (!version) {
+      updateButtonClicked = true;
       version = this.getLatestVersion(this.extensionVersion);
     };
     this._aiService.trackEvent('/actions/app_settings/update_version');
@@ -350,8 +360,13 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return this._updateContainerVersion(r.json(), version);
       })
       .mergeMap(r => {
-        return this.functionApp.getFunctionHostStatus()
-          .delay(4000)
+        return this.functionApp.checkRuntimeStatus()
+          .map((hostStatus: HostStatus) => {
+            if (!hostStatus.version || (hostStatus.version === this.exactExtensionVersion && !updateButtonClicked)) {
+              throw Observable.throw('Host version is not updated yet');
+            }
+            return hostStatus;
+          })
           .retryWhen(error => {
             return error.scan((errorCount: number, err: any) => {
               if (errorCount >= 20) {

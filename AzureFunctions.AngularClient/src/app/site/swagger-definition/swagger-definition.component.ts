@@ -327,6 +327,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             }
 
             if (swaggerDocument) {
+                this._cacheService.clearCachePrefix(this.swaggerURL);
                 this.functionApp.addOrUpdateSwaggerDocument(this.swaggerURL, swaggerDocument).
                     subscribe(updatedDocument => {
                         this.swaggerDocument = updatedDocument;

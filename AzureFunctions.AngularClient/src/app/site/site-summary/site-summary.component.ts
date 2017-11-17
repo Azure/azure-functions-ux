@@ -158,7 +158,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 this._busyManager.clearBusy();
                 this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
 
-                this.hideAvailability = this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, {site: site}).status === 'disabled';
+                this.hideAvailability = this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, { site: site }).status === 'disabled';
 
                 // Go ahead and assume write access at this point to unveal everything. This allows things to work when the RBAC API fails and speeds up reveal. In
                 // cases where this causes a false positive, the backend will take care of giving a graceful failure.
@@ -266,8 +266,7 @@ export class SiteSummaryComponent implements OnDestroy {
             if (confirmResult) {
                 this._stopOrStartSite(true);
             }
-        }
-        else {
+        } else {
             this._stopOrStartSite(false);
         }
     }
@@ -477,10 +476,8 @@ export class SiteSummaryComponent implements OnDestroy {
             .first()
             .switchMap(r => {
                 notificationId = r.id;
-                return this._armService.post(`${site.id}/${action}`, null);
-            })
-            .switchMap(() => {
-                return this._cacheService.getArm(`${site.id}`, true);
+                return this._armService.post(`${site.id}/${action}`, null)
+                    .concatMap(() => this._cacheService.getArm(`${site.id}`, true));
             })
             .subscribe(r => {
                 const refreshedSite: ArmObj<Site> = r.json();
@@ -506,7 +503,6 @@ export class SiteSummaryComponent implements OnDestroy {
                     ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
                     : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
 
-                this._busyManager.clearBusy();
                 this._portalService.stopNotification(
                     notificationId,
                     false,
