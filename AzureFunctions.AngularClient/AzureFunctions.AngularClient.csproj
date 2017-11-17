@@ -215,7 +215,7 @@
     <Content Include="src\app\subscription\create-subscription\create-subscription.component.scss" />
     <TypeScriptCompile Include="src\app\subscription\create-subscription\create-subscription.component.spec.ts" />
     <TypeScriptCompile Include="src\app\subscription\create-subscription\create-subscription.component.ts" />
-    
+
     <Content Include="src\app\slots-list\slots-list.component.scss" />
     <Content Include="src\app\slot-new\slot-new.component.scss" />
     <Content Include="src\app\search-box\search-box.component.scss" />
@@ -280,7 +280,7 @@
     <Content Include="src\image\extensions.svg" />
     <Content Include="src\image\external_45.png" />
     <Content Include="src\image\function-io.svg" />
-    <Content Include="src\image\Functions.svg" />
+    <Content Include="src\image\functions.svg" />
     <Content Include="src\image\function_f.svg" />
     <Content Include="src\image\generic-template.svg" />
     <Content Include="src\image\GitHub_65.png" />

@@ -51,7 +51,7 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
                 if (isReadOnly) {
                     this.title = `${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`;
                     this.newDashboardType = DashboardType.none;
-                } else {
+                } else if (!this.disabled) {
                     this.title = this.sideNav.translateService.instant(PortalResources.functions);
                     this.newDashboardType = DashboardType.CreateFunctionAutoDetectDashboard;
                 }

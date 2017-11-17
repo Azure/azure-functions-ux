@@ -282,6 +282,12 @@ export class FunctionsService {
         }
     }
 
+    private _isAppStopped(context: FunctionAppContext, http: CacheService): Observable<boolean> {
+        return http.getArm(context.site.id)
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.state !== 'Running');
+    }
+
     /**
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
@@ -321,41 +327,44 @@ export class FunctionsService {
 
     private _getHostSecretsFromScm(context: FunctionAppContext) {
         return this.reachableInternalLoadBalancerApp(context, this._cacheService)
-            .filter(i => i)
-            .mergeMap(() => this.getAuthSettings(context))
-            .mergeMap(authSettings => {
-                return authSettings.clientCertEnabled
-                    ? Observable.of()
-                    : this._getHostToken(context)
-                        .retryWhen(this.retryAntares)
-                        .map(r => r.json())
-                        .mergeMap((token: string) => {
-                            // Call the main site to get the masterKey
-                            // build authorization header
-                            const authHeader = new Headers();
-                            authHeader.append('Authorization', `Bearer ${token}`);
-                            return this._http.get(context.urlTemplates.masterKeyUrl, { headers: authHeader })
-                                .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
-                                    if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
-                                        throw err;
-                                    } else if (err.status === 503 && errorCount >= 3) {
-                                        throw err;
-                                    } else {
-                                        return errorCount + 1;
-                                    }
-                                }, 0).delay(1000))
-                                .do((r: Response) => {
-                                    // Since we fall back to kudu above, use a union of kudu and runtime types.
-                                    const key: { name: string, value: string } & { masterKey: string } = r.json();
-                                    if (key.masterKey) {
-                                        context.masterKey = key.masterKey;
-                                    } else {
-                                        context.masterKey = key.value;
-                                    }
-                                });
-                        })
-                        .catch(e => this._checkRuntimeStatus(context).map(_ => null));
-            });
+            .concatMap(r => this._isAppStopped(context, this._cacheService).map(s => !s && r))
+            .concatMap(reachableAndNotStopped => !reachableAndNotStopped
+                ? Observable.of(false)
+                : this.getAuthSettings(context)
+                    .mergeMap(authSettings => {
+                        return authSettings.clientCertEnabled
+                            ? Observable.of()
+                            : this._getHostToken(context)
+                                .retryWhen(this.retryAntares)
+                                .map(r => r.json())
+                                .mergeMap((token: string) => {
+                                    // Call the main site to get the masterKey
+                                    // build authorization header
+                                    const authHeader = new Headers();
+                                    authHeader.append('Authorization', `Bearer ${token}`);
+                                    return this._http.get(context.urlTemplates.masterKeyUrl, { headers: authHeader })
+                                        .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
+                                            if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
+                                                throw err;
+                                            } else if (err.status === 503 && errorCount >= 3) {
+                                                throw err;
+                                            } else {
+                                                return errorCount + 1;
+                                            }
+                                        }, 0).delay(1000))
+                                        .do((r: Response) => {
+                                            // Since we fall back to kudu above, use a union of kudu and runtime types.
+                                            const key: { name: string, value: string } & { masterKey: string } = r.json();
+                                            if (key.masterKey) {
+                                                context.masterKey = key.masterKey;
+                                            } else {
+                                                context.masterKey = key.value;
+                                            }
+                                        });
+                                })
+                                .map(_ => true)
+                                .catch(e => this._checkRuntimeStatus(context).map(_ => null));
+                    }));
     }
 
     fireSyncTrigger(context: FunctionAppContext) {

@@ -12,18 +12,18 @@
         </label>
         <div>
             <div>
-                <input placeholder="{{ 'functionAppSettings_quotaPlaceHolder' | translate }}" 
-                    [(ngModel)]="dailyMemoryTimeQuota" 
-                    onkeypress='return event.charCode >= 48 && event.charCode <= 57' 
-                    type="text" 
-                    style="width:200px;" 
-                    tabindex="0" 
+                <input placeholder="{{ 'functionAppSettings_quotaPlaceHolder' | translate }}"
+                    [(ngModel)]="dailyMemoryTimeQuota"
+                    onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                    type="text"
+                    style="width:200px;"
+                    tabindex="0"
                     id="dailyUsageQuotaValue"
                     aria-labelledby="dailyUsageQuotaLabel dailyUsageQuotaValue">
-                <button 
-                    class="custom-button" 
-                    [disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota" 
-                    (click)="setQuota()" 
+                <button
+                    class="custom-button"
+                    [disabled]="dailyMemoryTimeQuotaOriginal === dailyMemoryTimeQuota"
+                    (click)="setQuota()"
                     tabindex="0"
                     id="setQuotaButton"
                     aria-labelledby="dailyUsageQuotaLabel setQuotaButton">
@@ -54,17 +54,17 @@
     <div class="setting-wrapper">
         <label id="applicationSettingsLabel" class="title-label">{{ 'feature_applicationSettingsName' | translate }}</label>
         <div>
-            <a (click)="openAppSettings()" 
-                (keydown)="keyDown($event, 'openAppSettings')" 
-                tabindex="0" 
-                id="applicationSettingsLink" 
+            <a (click)="openAppSettings()"
+                (keydown)="keyDown($event, 'openAppSettings')"
+                tabindex="0"
+                id="applicationSettingsLink"
                 aria-label="applicationSettingsLabel applicationSettingsLink">
                 {{ 'functionRuntime_manageAppSettings' | translate }}
             </a>
         </div>
     </div>
 
-    <div *ngIf="!GlobalDisabled" class="setting-wrapper">
+    <div *ngIf="!GlobalDisabled && !isStopped" class="setting-wrapper">
         <label id="runtimeVersionLabel" class="title-label">{{ 'runtimeVersion' | translate }}</label>
         <div>
             <label *ngIf="!needUpdateExtensionVersion">
@@ -74,9 +74,9 @@
                 <label id="updateRuntimeVersionLabel">
                     {{ 'appFunctionSettings_functionAppSettings1' | translate: {extensionVersion: extensionVersion, latestExtensionVersion:latestExtensionVersion} }}
                 </label>
-                <button 
-                    class="custom-button" 
-                    (click)="updateVersion()" 
+                <button
+                    class="custom-button"
+                    (click)="updateVersion()"
                     tabindex="0"
                     id="updateRuntimeVersionButton"
                     aria-labelledby="updateRuntimeVersionLabel updateRuntimeVersionButton">
@@ -85,7 +85,7 @@
             </div>
             <div *ngIf="!isLinuxApp">
                 <radio-selector
-                    [defaultValue]="extensionVersion" 
+                    [defaultValue]="extensionVersion"
                     [options]="functionRutimeOptions"
                     (value)="functionRuntimeValueStream.next($event)"
                     id="runtimeVersionRadioButton"
@@ -100,10 +100,10 @@
         <div>
             <label id="apiProxiesLabel1" class="title-spacing">{{ 'appFunctionSettings_useApiProxies' | translate }}</label>
             <div>
-                <radio-selector 
+                <radio-selector
                     [defaultValue]="!showProxyEnable"
                     [options]="functionStatusOptions"
-                    (value)="proxySettingValueStream.next($event)" 
+                    (value)="proxySettingValueStream.next($event)"
                     id="apiProxiesRadioButton"
                     aria-labelledby="apiProxiesLabel1 apiProxiesRadioButton">
                 </radio-selector>
@@ -157,6 +157,7 @@
     </div>
 
     <function-keys
+        *ngIf="!isStopped"
         [autoSelect]="true"
         [functionApp]="functionApp"></function-keys>
 
