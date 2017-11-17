@@ -667,7 +667,6 @@ export class FunctionApp {
 
     initKeysAndWarmupMainSite() {
         this._http.post(this.urlTemplates.pingUrl, '')
-            .retryWhen(this.retryAntares)
             .subscribe(() => { });
 
         return this.getHostSecretsFromScm();
@@ -762,43 +761,51 @@ export class FunctionApp {
             : this._http.get(this.urlTemplates.scmTokenUrl, { headers: this.getScmSiteHeaders() });
     }
 
+    private _isAppStopped(): Observable<boolean> {
+        return this._cacheService.getArm(this.site.id)
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.state !== 'Running');
+    }
+
     getHostSecretsFromScm() {
         return reachableInternalLoadBalancerApp(this, this._cacheService)
-            .filter(i => i)
-            .mergeMap(() => this.getAuthSettings())
-            .mergeMap(authSettings => {
-                return authSettings.clientCertEnabled
-                    ? Observable.of()
-                    : this.getHostToken()
-                        .retryWhen(this.retryAntares)
-                        .map(r => r.json())
-                        .mergeMap((token: string) => {
-                            // Call the main site to get the masterKey
-                            // build authorization header
-                            const authHeader = new Headers();
-                            authHeader.append('Authorization', `Bearer ${token}`);
-                            return this._http.get(this.urlTemplates.masterKeyUrl, { headers: authHeader })
-                                .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
-                                    if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
-                                        throw err;
-                                    } else if (err.status === 503 && errorCount >= 3) {
-                                        throw err;
-                                    } else {
-                                        return errorCount + 1;
-                                    }
-                                }, 0).delay(1000))
-                                .do((r: Response) => {
-                                    // Since we fall back to kudu above, use a union of kudu and runtime types.
-                                    const key: { name: string, value: string } & { masterKey: string } = r.json();
-                                    if (key.masterKey) {
-                                        this.masterKey = key.masterKey;
-                                    } else {
-                                        this.masterKey = key.value;
-                                    }
-                                });
-                        })
-                        .catch(e => this.checkRuntimeStatus().map(_ => null));
-            });
+            .concatMap(r => this._isAppStopped().map(s => !s && r))
+            .concatMap(reachableAndNotStopped => !reachableAndNotStopped
+                ? Observable.of(false)
+                : this.getAuthSettings()
+                    .mergeMap(authSettings => {
+                        return authSettings.clientCertEnabled
+                            ? Observable.of()
+                            : this.getHostToken()
+                                .retryWhen(this.retryAntares)
+                                .map(r => r.json())
+                                .mergeMap((token: string) => {
+                                    // Call the main site to get the masterKey
+                                    // build authorization header
+                                    const authHeader = new Headers();
+                                    authHeader.append('Authorization', `Bearer ${token}`);
+                                    return this._http.get(this.urlTemplates.masterKeyUrl, { headers: authHeader })
+                                        .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
+                                            if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
+                                                throw err;
+                                            } else if (err.status === 503 && errorCount >= 3) {
+                                                throw err;
+                                            } else {
+                                                return errorCount + 1;
+                                            }
+                                        }, 0).delay(1000))
+                                        .do((r: Response) => {
+                                            // Since we fall back to kudu above, use a union of kudu and runtime types.
+                                            const key: { name: string, value: string } & { masterKey: string } = r.json();
+                                            if (key.masterKey) {
+                                                this.masterKey = key.masterKey;
+                                            } else {
+                                                this.masterKey = key.value;
+                                            }
+                                        });
+                                })
+                                .catch(e => this.checkRuntimeStatus().map(_ => null));
+                    }));
     }
 
     legacyGetHostSecrets() {
@@ -1828,9 +1835,9 @@ export class FunctionApp {
         }
     }
 
-    checkRuntimeStatus(): Observable<HostStatus> {
-        const status = this.getFunctionHostStatus(false);
-        status
+    checkRuntimeStatus(): Observable<HostStatus | null> {
+        const hostStatus = this.getFunctionHostStatus(false);
+        hostStatus
             .subscribe(status => {
                 if (status.state !== 'Running') {
                     status.errors = status.errors || [];
@@ -1848,25 +1855,28 @@ export class FunctionApp {
                     });
                 }
             }, e => {
-                let content = e;
-                let status = '0';
-                try {
-                    content = e.text ? e.text() : e;
-                    status = e.status ? e.status.toString() : '0';
-                } catch (_) { }
+                // 403 is app stopped. We shouldn't display an error
+                if (e.status !== 403) {
+                    let content = e;
+                    let status = '0';
+                    try {
+                        content = e.text ? e.text() : e;
+                        status = e.status ? e.status.toString() : '0';
+                    } catch (_) { }
 
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
-                    errorId: ErrorIds.functionRuntimeIsUnableToStart,
-                    errorType: ErrorType.Fatal,
-                    resourceId: this.site.id
-                });
-                this.trackEvent(ErrorIds.functionRuntimeIsUnableToStart, {
-                    content: content,
-                    status: status
-                });
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
+                        errorId: ErrorIds.functionRuntimeIsUnableToStart,
+                        errorType: ErrorType.Fatal,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.functionRuntimeIsUnableToStart, {
+                        content: content,
+                        status: status
+                    });
+                }
             });
-        return status;
+        return hostStatus.catch(e => Observable.of(null));
     }
 
     checkFunctionStatus(fi: FunctionInfo): Observable<boolean> {
