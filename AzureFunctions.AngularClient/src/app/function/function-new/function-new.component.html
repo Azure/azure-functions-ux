@@ -43,6 +43,10 @@
                         </div>
                         <div class="sourceDescription">
                             {{template.description}}
+                            <p *ngIf="showTryView && !template.enabledInTryMode">
+                                <br>
+                                {{ 'tryNow_FreeAccountToolTip' | translate }}
+                            </p>
                         </div>
                         <div class="cardFooter" [style.background-color]="template.barcolor">
                             <ul>
@@ -69,7 +73,7 @@
                          [sidebarClass]="'sidebar-new-function'" 
                          [ariaLabel]="'Create Function'" 
                          [animate]="true" 
-                         [closeOnClickBackdrop]="true" 
+                         [closeOnClickBackdrop]="false" 
                          [showBackdrop]="true">
         
         <sidebar-picker *ngIf="sidePanelOpened" 
