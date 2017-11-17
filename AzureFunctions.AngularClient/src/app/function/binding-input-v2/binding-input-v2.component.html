@@ -23,20 +23,21 @@
       {{input?.label}}
         <span class="glyphicon glyphicon-info-sign" (click)="input.showHelp = !input.showHelp"></span>
     </label>
-    <span *ngIf="input?.type === 'picker'">
+    <ng-container *ngIf="input?.type === 'picker'">
       <i *ngIf="!input.inProcess && !showTryView" 
-         class="link new-link" 
+         class="link" 
          [class.select]="input.errorText" 
          (click)="openPicker(input)"> 
-         {{ 'bindingInput_new' | translate }}</i>
+         {{ 'bindingInput_new' | translate }}
+      </i>
       <i
          (click)="updateAppSettingValue()"
          class="link"
          style="font-style: normal">
          <ng-container *ngIf="showAppSettingValue">{{'bindingInput_hide' | translate}}</ng-container>
          <ng-container *ngIf="!showAppSettingValue">{{'bindingInput_show' | translate}}</ng-container>
-        </i>
-    </span>
+      </i>
+    </ng-container>
   </div>
   <div *ngIf="showAppSettingValue" class="input-show-help">
     <span *ngIf="appSettingValue" class="text-label" style="word-wrap: break-word;">{{appSettingValue}}</span>

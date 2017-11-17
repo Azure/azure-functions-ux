@@ -625,6 +625,7 @@
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";
     public static readOnlyGeneratedBy: string = "readOnlyGeneratedBy";
+    public static readWriteGeneratedBy: string = "readWriteGeneratedBy";
     public static copypre_copy: string = "copypre_copy";
     public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
     public static keysDialog_key: string = "keysDialog_key";
@@ -793,4 +794,6 @@
     public static createFunction_search: string = "createFunction_search";
     public static bindingInput_hide: string = "bindingInput_hide";
     public static monitoring_appInsightsIsNotFound: string = "monitoring_appInsightsIsNotFound";
+    public static table_startOfRow: string = "table_startOfRow";
+    public static table_endOfRow: string = "table_endOfRow";
 }

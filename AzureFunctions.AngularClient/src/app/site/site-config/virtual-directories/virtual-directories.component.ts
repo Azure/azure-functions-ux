@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { VirtualApplication, VirtualDirectory } from './../../../shared/models/arm/virtual-application';
 import { SiteConfig } from './../../../shared/models/arm/site-config'
 import { SaveOrValidationResult } from './../site-config.component';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -50,6 +50,8 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
 
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
+
+  public keyCodes: KeyCodes = KeyCodes;
 
   @Input() mainForm: FormGroup;
 
@@ -187,12 +189,10 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
 
       if (this.mainForm.contains("virtualDirectories")) {
         this.mainForm.setControl("virtualDirectories", this.groupArray);
-      }
-      else {
+      } else {
         this.mainForm.addControl("virtualDirectories", this.groupArray);
       }
-    }
-    else {
+    } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
@@ -221,17 +221,17 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
   private _addVDirToGroup(virtualPath: string, physicalPath: string, isApplication: boolean) {
     let group = this._fb.group({
       virtualPath: [
-        virtualPath,
+        {value: virtualPath, disabled: !this.hasWritePermissions},
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
           this._uniqueValidator.validate.bind(this._uniqueValidator)])],
       physicalPath: [
-        physicalPath,
+        {value: physicalPath, disabled: !this.hasWritePermissions},
         this._requiredValidator.validate.bind(this._requiredValidator)],
-      isApplication: [isApplication]
+      isApplication: [{value: isApplication, disabled: !this.hasWritePermissions}]
     }) as CustomFormGroup;
 
-    group._msExistenceState = 'original';
+    group.msExistenceState = 'original';
     this.groupArray.push(group);
   }
 
@@ -247,7 +247,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
     // Purge any added entries that were never modified
     for (let i = groups.length - 1; i >= 0; i--) {
       let group = groups[i] as CustomFormGroup;
-      if (group._msStartInEditMode && group.pristine) {
+      if (group.msStartInEditMode && group.pristine) {
         groups.splice(i, 1);
         if (group === this.newItem) {
           this.newItem = null;
@@ -277,8 +277,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
         success: true,
         error: null
       });
-    }
-    else if (this.mainForm.contains("virtualDirectories") && this.mainForm.controls["virtualDirectories"].valid) {
+    } else if (this.mainForm.contains("virtualDirectories") && this.mainForm.controls["virtualDirectories"].valid) {
       let virtualDirGroups = this.groupArray.controls;
 
       let webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
@@ -288,7 +287,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
       const virtualDirectories: VirtualDirectory[] = [];
 
       virtualDirGroups.forEach(group => {
-        if ((group as CustomFormGroup)._msExistenceState !== 'deleted') {
+        if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
           const formGroup = (group as FormGroup);
           if (formGroup.controls["isApplication"].value) {
             virtualApplications.push({
@@ -340,8 +339,7 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
             error: error._body
           });
         });
-    }
-    else {
+    } else {
       let failureMessage = this._validationFailureMessage();
       this._saveError = failureMessage;
       return Observable.of({
@@ -360,10 +358,9 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
     let groups = this.groupArray;
     let index = groups.controls.indexOf(group);
     if (index >= 0) {
-      if ((group as CustomFormGroup)._msExistenceState === 'original') {
+      if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
-      }
-      else {
+      } else {
         this._deleteAddedItem(groups, group, index);
       }
     }
@@ -374,8 +371,8 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
     // This keeps the overall state of this.groupArray and this.mainForm dirty.
     group.markAsDirty();
 
-    // Set the group._msExistenceState to 'deleted' so we know to ignore it when validating and saving.
-    (group as CustomFormGroup)._msExistenceState = 'deleted';
+    // Set the group.msExistenceState to 'deleted' so we know to ignore it when validating and saving.
+    (group as CustomFormGroup).msExistenceState = 'deleted';
 
     // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
     for (let key in group.controls) {
@@ -428,8 +425,8 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
       isApplication: [false]
     }) as CustomFormGroup;
 
-    this.newItem._msExistenceState = 'new';
-    this.newItem._msStartInEditMode = true;
+    this.newItem.msExistenceState = 'new';
+    this.newItem.msStartInEditMode = true;
     groups.push(this.newItem);
   }
 }

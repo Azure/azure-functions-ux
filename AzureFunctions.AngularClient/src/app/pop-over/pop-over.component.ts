@@ -13,7 +13,7 @@ export class PopOverComponent {
     @Input() isInputError: boolean;
     @Input() isInputWarning: boolean;
     @Input() popOverClass = 'pop-over-container';
-    @Input() position: string;
+    @Input() position: 'top' | 'bottom' | 'left' | 'right' = 'top';
     @Input() isShiftTabPressed: boolean;
 
     public show: boolean;

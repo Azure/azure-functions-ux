@@ -1,0 +1,21 @@
+@import '../../sass/common/variables';
+
+.top-bar-loginuser-tools-standalone {
+    padding: 7px 10px;     
+    float: right;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.top-bar-loginuser-tool-standalone:hover {
+    background-color: darken($primary-color, 10%);
+}
+
+.top-bar-loginuser-tools-standalone span{
+    margin-left: -5px;
+}
+
+.top-bar-loginuser-tools-standalone span:last-of-type{
+    margin-left: 2px;
+}
