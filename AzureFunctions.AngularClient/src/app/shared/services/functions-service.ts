@@ -346,7 +346,7 @@ export class FunctionsService {
                                         .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
                                             if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
                                                 throw err;
-                                            } else if (err.status === 503 && errorCount >= 3) {
+                                            } else if (err.status === 503 && errorCount >= 4) {
                                                 throw err;
                                             } else {
                                                 return errorCount + 1;
