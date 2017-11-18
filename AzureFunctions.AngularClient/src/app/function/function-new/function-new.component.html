@@ -49,13 +49,10 @@
                             </p>
                         </div>
                         <div class="cardFooter" [style.background-color]="template.barcolor">
-                            <ul>
-                                <ng-container *ngFor="let language of template.languages">
-                                    <li (click)="onCardLanguageSelected(template, language, showTryView && !template.enabledInTryMode);$event.stopPropagation();">
-                                        {{language}}
-                                    </li>
-                                </ng-container>
-                            </ul>
+                            <div *ngFor="let language of template.languages"
+                                 (click)="onCardLanguageSelected(template, language, showTryView && !template.enabledInTryMode);$event.stopPropagation();">
+                                 {{language}}
+                            </div>
                         </div>
                         
                     </div>

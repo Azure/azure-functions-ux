@@ -124,25 +124,23 @@ drop-down{
     height: auto;
     padding-left: 15px;
     padding-top: 5px;
+    padding-bottom: 5px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    ul {
-        list-style-type: none;
-        text-align: center;
-        margin-bottom: 5px;
-        padding: 0px;
-        li {
-            display: inline;
-            font-size: 14px;
-            font-weight: 600;
-            color: $heading-text-color;
-            padding-right: 15px;
-        }
-        li:hover{
-            cursor: inherit;
-            color: $primary-color;
-            text-decoration: underline;
-        }
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    div {
+        font-size: 14px;
+        font-weight: 600;
+        color: $heading-text-color;
+        padding-right: 15px;
+    }
+    div:hover{
+        cursor: inherit;
+        color: $primary-color;
+        text-decoration: underline;
     }
 }
 
