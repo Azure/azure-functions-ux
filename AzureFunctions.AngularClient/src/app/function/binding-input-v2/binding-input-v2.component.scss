@@ -50,6 +50,7 @@ input[type=checkbox]{
     height: 20px;
     width: 20px;
     margin: 0px;
+    position: relative;
 }
 
 input[type=text], #enum-list, select {
@@ -110,6 +111,7 @@ i.select {
     display: block;
     border-radius: 4px;
     font-size: 12px;
+    word-wrap: break-word;
 }
 
 :host-context(#app-root[theme=dark]){
@@ -140,6 +142,7 @@ i.select {
     display: block;
     border-radius: 4px;
     font-size: 12px;
+    word-wrap: break-word;
 }
 
 :host-context(#app-root[theme=dark]){
@@ -170,6 +173,7 @@ i.select {
     display: block;
     border-radius: 4px;
     font-size: 12px;
+    word-wrap: break-word;
 }
 
 :host-context(#app-root[theme=dark]){
