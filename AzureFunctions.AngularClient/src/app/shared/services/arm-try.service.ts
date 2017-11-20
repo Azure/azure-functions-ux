@@ -16,7 +16,8 @@ export class ArmTryService extends ArmService {
     private _tryFunctionApp: FunctionApp;
 
     private _whiteListedPrefixUrls: string[] = [
-        `${Constants.serviceHost}api`
+        `${Constants.serviceHost}api`,
+        'assets/schemas'
     ];
 
     constructor(http: Http,
