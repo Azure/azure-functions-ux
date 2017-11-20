@@ -229,8 +229,13 @@ export class FunctionApp {
     getFunctions() {
         let fcs: FunctionInfo[];
 
+        // TODO: move this to declarative pre-requisites.
+        const preRequisite = ArmUtil.isLinuxApp(this.site) && !this.masterKey
+            ? this.initKeysAndWarmupMainSite()
+            : Observable.of(null);
+
         return Observable.zip(
-            this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
+            preRequisite.concatMap(() => this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
                 .catch(() => this._http.get(this.urlTemplates.functionsUrl, { headers: this.getScmSiteHeaders() }))
                 .retryWhen(this.retryAntares)
                 .map((r: Response) => {
@@ -253,7 +258,7 @@ export class FunctionApp {
                         });
                         return <FunctionInfo[]>[];
                     }
-                }),
+                })),
             this._cacheService.postArm(`${this.site.id}/config/appsettings/list`),
             (functions, appSettings) => ({ functions: functions, appSettings: appSettings.json() }))
             .map(result => {
@@ -282,7 +287,6 @@ export class FunctionApp {
                     });
                 }
             });
-
     }
 
     getApiProxies() {
