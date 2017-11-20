@@ -304,7 +304,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
 
             case SiteTabIds.functionRuntime:
                 info.title = this._translateService.instant(PortalResources.tab_functionSettings);
-                info.iconUrl = 'image/Functions.svg';
+                info.iconUrl = 'image/functions.svg';
                 info.componentFactory = FunctionRuntimeComponent;
                 break;
 

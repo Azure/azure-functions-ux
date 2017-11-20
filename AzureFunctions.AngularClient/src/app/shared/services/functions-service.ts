@@ -1,6 +1,6 @@
+import { HostStatus } from './../models/host-status';
 import { TryFunctionsService } from './try-functions.service';
 import { ApiProxy } from './../models/api-proxy';
-import { WebApiException, FunctionRuntimeError } from './../models/webapi-exception';
 import { AuthSettings } from './../models/auth-settings';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { SiteService } from './slots.service';
@@ -93,6 +93,14 @@ export class FunctionsService {
             .map(fcs => {
                 return fcs && fcs.find(f => f.name.toLowerCase() === functionName.toLowerCase());
             });
+    }
+
+    private _initKeysAndWarmupMainSite(context: FunctionAppContext) {
+        this._http.post(context.urlTemplates.pingUrl, '')
+            .retryWhen(this.retryAntares)
+            .subscribe(() => { });
+
+        return this._getHostSecretsFromScm(context);
     }
 
     getFunctions(context: FunctionAppContext) {
@@ -332,6 +340,12 @@ export class FunctionsService {
         }
     }
 
+    private _isAppStopped(context: FunctionAppContext, http: CacheService): Observable<boolean> {
+        return http.getArm(context.site.id)
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.state !== 'Running');
+    }
+
     /**
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
@@ -363,123 +377,58 @@ export class FunctionsService {
             });
     }
 
-    private _initKeysAndWarmupMainSite(context: FunctionAppContext) {
-        this._http.post(context.urlTemplates.pingUrl, '')
-            .retryWhen(this.retryAntares)
-            .subscribe(() => { });
-
-        return this._getHostSecretsFromScm(context);
+    private _getHostToken(context: FunctionAppContext) {
+        return ArmUtil.isLinuxApp(context.site)
+            ? this._http.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, { headers: this._getPortalHeaders() })
+            : this._http.get(context.urlTemplates.scmTokenUrl, { headers: this._getScmSiteHeaders(context) });
     }
 
     private _getHostSecretsFromScm(context: FunctionAppContext) {
         return this.reachableInternalLoadBalancerApp(context, this._cacheService)
-            .filter(i => i)
-            .mergeMap(() => this.getAuthSettings(context))
-            .mergeMap(authSettings => {
-                return authSettings.clientCertEnabled
-                    ? Observable.of()
-                    : this._getHostToken(context)
-                        .retryWhen(this.retryAntares)
-                        .map(r => r.json())
-                        .mergeMap((token: string) => {
-                            // Call the main site to get the masterKey
-                            // build authorization header
-                            const authHeader = new Headers();
-                            authHeader.append('Authorization', `Bearer ${token}`);
-                            return this._http.get(context.urlTemplates.masterKeyUrl, { headers: authHeader })
-                                .catch((error: FunctionsResponse) => {
-                                    if (error.status === 405) {
-                                        // If the result from calling the API above is 405, that means they are running on an older runtime.
-                                        // It should be safe to call kudu for the master key since they won't be using slots.
-                                        return this._http.get(context.urlTemplates.deprecatedKuduMasterKeyUrl, { headers: this._getScmSiteHeaders(context) });
-                                    } else {
-                                        throw error;
-                                    }
+            .concatMap(r => this._isAppStopped(context, this._cacheService).map(s => !s && r))
+            .concatMap(reachableAndNotStopped => !reachableAndNotStopped
+                ? Observable.of(false)
+                : this.getAuthSettings(context)
+                    .mergeMap(authSettings => {
+                        return authSettings.clientCertEnabled
+                            ? Observable.of()
+                            : this._getHostToken(context)
+                                .retryWhen(this.retryAntares)
+                                .map(r => r.json())
+                                .mergeMap((token: string) => {
+                                    // Call the main site to get the masterKey
+                                    // build authorization header
+                                    const authHeader = new Headers();
+                                    authHeader.append('Authorization', `Bearer ${token}`);
+                                    return this._http.get(context.urlTemplates.masterKeyUrl, { headers: authHeader })
+                                        .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
+                                            if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
+                                                throw err;
+                                            } else if (err.status === 503 && errorCount >= 4) {
+                                                throw err;
+                                            } else {
+                                                return errorCount + 1;
+                                            }
+                                        }, 0).delay(1000))
+                                        .do((r: Response) => {
+                                            // Since we fall back to kudu above, use a union of kudu and runtime types.
+                                            const key: { name: string, value: string } & { masterKey: string } = r.json();
+                                            if (key.masterKey) {
+                                                context.masterKey = key.masterKey;
+                                            } else {
+                                                context.masterKey = key.value;
+                                            }
+                                        });
                                 })
-                                .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
-                                    if (err.isHandled || (err.status < 500 && err.status !== 401) || errorCount >= 30) {
-                                        throw err;
-                                    } else {
-                                        return errorCount + 1;
-                                    }
-                                }, 0).delay(1000))
-                                .catch(e => this._http.get(context.urlTemplates.runtimeStatusUrl, { headers: authHeader })
-                                    .do(null, _ => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                        message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
-                                        errorId: ErrorIds.functionRuntimeIsUnableToStart,
-                                        errorType: ErrorType.Fatal,
-                                        resourceId: context.site.id
-                                    })).map(_ => { throw e; })) // if /status call is successful, then throw the original error
-                                .do((r: Response) => {
-                                    // Since we fall back to kudu above, use a union of kudu and runtime types.
-                                    const key: { name: string, value: string } & { masterKey: string } = r.json();
-                                    if (key.masterKey) {
-                                        context.masterKey = key.masterKey;
-                                    } else {
-                                        context.masterKey = key.value;
-                                    }
-                                });
-                        })
-                        .do(() => {
-                            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromScm);
-                        },
-                        (error: FunctionsResponse) => {
-                            if (!error.isHandled) {
-                                try {
-                                    const exception: WebApiException & FunctionRuntimeError = error.json();
-                                    if (exception.ExceptionType === 'System.Security.Cryptography.CryptographicException') {
-                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: this._translateService.instant(PortalResources.error_unableToDecryptKeys),
-                                            errorId: ErrorIds.unableToDecryptKeys,
-                                            errorType: ErrorType.RuntimeError,
-                                            resourceId: context.site.id
-                                        });
-                                        this._trackEvent(context, ErrorIds.unableToDecryptKeys, {
-                                            content: error.text(),
-                                            status: error.status.toString()
-                                        });
-                                        return;
-                                    } else if (exception.message || exception.messsage) {
-                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: exception.message || exception.messsage,
-                                            errorId: ErrorIds.unableToDecryptKeys,
-                                            errorType: ErrorType.RuntimeError,
-                                            resourceId: context.site.id
-                                        });
-                                        this._trackEvent(context, ErrorIds.unableToDecryptKeys, {
-                                            content: error.text(),
-                                            status: error.status.toString()
-                                        });
-                                        return;
-                                    }
-                                } catch (e) {
-                                    // no-op
-                                }
-                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                    message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
-                                    errorId: ErrorIds.unableToRetrieveRuntimeKeyFromScm,
-                                    errorType: ErrorType.RuntimeError,
-                                    resourceId: context.site.id
-                                });
-                                this._trackEvent(context, ErrorIds.unableToRetrieveRuntimeKeyFromScm, {
-                                    status: error.status.toString(),
-                                    content: error.text(),
-                                });
-                            }
-                        });
-            });
+                                .map(_ => true)
+                                .catch(e => this._checkRuntimeStatus(context).map(_ => null));
+                    }));
     }
 
     fireSyncTrigger(context: FunctionAppContext) {
         const url = context.urlTemplates.syncTriggersUrl;
         this._http.post(url, '', { headers: this._getScmSiteHeaders(context) })
             .subscribe(success => console.log(success), error => console.log(error));
-    }
-
-    private _getHostToken(context: FunctionAppContext) {
-        return ArmUtil.isLinuxApp(context.site)
-            ? this._http.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, { headers: this._getPortalHeaders() })
-            : this._http.get(context.urlTemplates.scmTokenUrl, { headers: this._getScmSiteHeaders(context) });
     }
 
     private _checkIfSourceControlEnabled(site: ArmObj<Site>): Observable<boolean> {
@@ -492,13 +441,13 @@ export class FunctionsService {
     }
 
     // to talk to scm site
-    private _getScmSiteHeaders(context: FunctionAppContext, contentType?: string): Headers {
+    private _getScmSiteHeaders(context: FunctionAppContext, contentType?: string, token?: string): Headers {
         contentType = contentType || 'application/json';
 
         const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
-        if (!this._globalStateService.showTryView && this._token) {
+        if (!this._globalStateService.showTryView && this._token && !token) {
             headers.append('Authorization', `Bearer ${this._token}`);
         }
 
@@ -508,6 +457,10 @@ export class FunctionsService {
 
         if (context.masterKey) {
             headers.append('x-functions-key', context.masterKey);
+        }
+
+        if (token) {
+            headers.append('Authorization', `Bearer ${token}`);
         }
 
         return headers;
@@ -547,6 +500,74 @@ export class FunctionsService {
         this._aiService.trackEvent(name, standardParams);
     }
 
+    private _getFunctionHostStatus(context: FunctionAppContext): Observable<HostStatus> {
+        return this.getAuthSettings(context)
+            .mergeMap(authSettings => {
+                if (authSettings.clientCertEnabled) {
+                    return Observable.of(null);
+                } else if (!context.masterKey) {
+                    return this._getHostToken(context)
+                        .map(r => r.json() as string)
+                        .concatMap(t => this._http.get(context.urlTemplates.runtimeStatusUrl, { headers: this._getScmSiteHeaders(context, null, t) }).map(r => r.json()));
+                } else {
+                    return this._http.get(context.urlTemplates.runtimeStatusUrl, { headers: this._getScmSiteHeaders(context) })
+                        .map(r => r.json());
+                }
+            });
+    }
+
+    private _checkRuntimeStatus(context: FunctionAppContext): Observable<HostStatus> {
+        const hostStatus = this._getFunctionHostStatus(context);
+        hostStatus
+            .subscribe(status => {
+                if (status && status.state !== 'Running') {
+                    status.errors = status.errors || [];
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart)
+                            + '\n'
+                            + status.errors.reduce((a, b) => `${a}\n${b}`),
+                        errorId: ErrorIds.functionRuntimeIsUnableToStart,
+                        errorType: ErrorType.Fatal,
+                        resourceId: context.site.id
+                    });
+                    this._trackEvent(context, ErrorIds.functionRuntimeIsUnableToStart, {
+                        content: status.errors.reduce((a, b) => `${a}\n${b}`),
+                        status: '200'
+                    });
+                } else if (status) {
+                    status.errors = status.errors || [];
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: status.errors.reduce((a, b) => `${a}\n${b}`),
+                        errorId: ErrorIds.generalHostErrorFromHost,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: context.site.id
+                    });
+                    this._trackEvent(context, ErrorIds.functionRuntimeIsUnableToStart, {
+                        content: status.errors.reduce((a, b) => `${a}\n${b}`),
+                        status: '200'
+                    });
+                }
+            }, e => {
+                let content = e;
+                let resStatus = '0';
+                try {
+                    content = e.text ? e.text() : e;
+                    resStatus = e.status ? e.status.toString() : '0';
+                } catch (_) { }
+
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                    message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
+                    errorId: ErrorIds.functionRuntimeIsUnableToStart,
+                    errorType: ErrorType.Fatal,
+                    resourceId: context.site.id
+                });
+                this._trackEvent(context, ErrorIds.functionRuntimeIsUnableToStart, {
+                    content: content,
+                    status: resStatus
+                });
+            });
+        return hostStatus;
+    }
 
     private retryAntares(error: Observable<any>): Observable<any> {
         return error.scan((errorCount: number, err: FunctionsResponse) => {

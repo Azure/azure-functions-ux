@@ -14,6 +14,7 @@ namespace AzureFunctions.Authentication
         internal const string Whack = @"\";
         internal const char WhackChar = '\\';
         internal const string AtSign = "@";
+        internal const string Dot = ".";
 
         // UserName could be provided in any of the following forms:
         // 1. foo@redmond.corp.microsoft.com
@@ -161,34 +162,31 @@ namespace AzureFunctions.Authentication
             return GetDownLevelLogonUserName(userName, null);
         }
 
-        public static bool IsValidDomainUser(string fullUserName, string password)
+        public static bool IsValidUser(string fullUserName, string password)
         {
-            if (IsDomainUser(fullUserName))
-            {
-                string username;
-                string domainName;
-                ParseUserName(fullUserName, out username, out domainName);
+            string username;
+            string domainName;
+            ParseUserName(fullUserName, out username, out domainName);
 
-                SafeFileHandle logonToken = null;
-                try
+            SafeFileHandle logonToken = null;
+            try
+            {
+                if (NativeMethods.LogonUser(
+                        username,
+                        domainName,
+                        password,
+                        NativeMethods.LOGON_TYPE.LOGON32_LOGON_INTERACTIVE,
+                        NativeMethods.LogonProvider.LOGON32_PROVIDER_DEFAULT,
+                        out logonToken))
                 {
-                    if (NativeMethods.LogonUser(
-                            username,
-                            domainName,
-                            password,
-                            NativeMethods.LOGON_TYPE.LOGON32_LOGON_NETWORK,
-                            NativeMethods.LogonProvider.LOGON32_PROVIDER_DEFAULT,
-                            out logonToken))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-                finally
+            }
+            finally
+            {
+                if (logonToken != null)
                 {
-                    if (logonToken != null)
-                    {
-                        logonToken.Dispose();
-                    }
+                    logonToken.Dispose();
                 }
             }
 
@@ -229,38 +227,37 @@ namespace AzureFunctions.Authentication
 
             return false;
         }
-        public static bool IsValidLocalUser(string fullUserName, string password)
+        public static string GetUniqueLogonUserName(string userName)
         {
-            if (!IsDomainUser(fullUserName))
+            if (string.IsNullOrEmpty(userName))
             {
-                string username;
-                string domainName;
-                ParseUserName(fullUserName, out username, out domainName);
-
-                SafeFileHandle logonToken = null;
-                try
-                {
-                    if (NativeMethods.LogonUser(
-                            username,
-                            domainName,
-                            password,
-                            NativeMethods.LOGON_TYPE.LOGON32_LOGON_INTERACTIVE,
-                            NativeMethods.LogonProvider.LOGON32_PROVIDER_DEFAULT,
-                            out logonToken))
-                    {
-                        return true;
-                    }
-                }
-                finally
-                {
-                    if (logonToken != null)
-                    {
-                        logonToken.Dispose();
-                    }
-                }
+                throw new ArgumentNullException("userName");
             }
 
-            return false;
+            string parsedUserName;
+            string domainName;
+            ParseUserName(userName, out parsedUserName, out domainName);
+
+            if (IsUPNFormat(parsedUserName))
+            {
+                string[] userTokens = parsedUserName.Split(new string[] { AtSign }, StringSplitOptions.RemoveEmptyEntries);
+                parsedUserName = userTokens[0];
+                domainName = userTokens[1].Split(new string[] { Dot }, StringSplitOptions.RemoveEmptyEntries)[0];
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(domainName) || string.Compare(domainName, Dot, StringComparison.Ordinal) == 0)
+                {
+                    domainName = GetComputerName(ComputerNameFormat.DnsFullyQualified);
+                }
+
+                domainName = domainName.Split(new string[] { Dot }, StringSplitOptions.RemoveEmptyEntries)[0];
+            }
+
+            domainName = domainName.ToLowerInvariant();
+            parsedUserName = parsedUserName.ToLowerInvariant();
+
+            return string.Join(Whack, new string[] { domainName, parsedUserName });
         }
 
         public static bool IsUPNFormat(string userName)
