@@ -228,7 +228,12 @@ export class FunctionApp {
     getFunctions() {
         let fcs: FunctionInfo[];
 
-        return this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
+        // TODO: move this to declarative pre-requisites.
+        const preRequisite = ArmUtil.isLinuxApp(this.site) && !this.masterKey
+            ? this.initKeysAndWarmupMainSite()
+            : Observable.of(null);
+
+        return preRequisite.concatMap(() => this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
             .catch(() => this._http.get(this.urlTemplates.functionsUrl, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
@@ -266,7 +271,7 @@ export class FunctionApp {
                         status: error.status.toString()
                     });
                 }
-            });
+            }));
 
     }
 
