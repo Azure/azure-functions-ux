@@ -429,7 +429,7 @@ export class FunctionNewComponent implements OnDestroy {
     onCardSelected(functionTemplate: Template, templateDisabled: boolean) {
         if (!templateDisabled) {
             this.createFunctionTemplate = functionTemplate;
-            this.createFunctionLanguage = null;
+            this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
             this.sidePanelOpened = true;
         }
     }

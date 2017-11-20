@@ -43,15 +43,16 @@
                         </div>
                         <div class="sourceDescription">
                             {{template.description}}
+                            <p *ngIf="showTryView && !template.enabledInTryMode">
+                                <br>
+                                {{ 'tryNow_FreeAccountToolTip' | translate }}
+                            </p>
                         </div>
                         <div class="cardFooter" [style.background-color]="template.barcolor">
-                            <ul>
-                                <ng-container *ngFor="let language of template.languages">
-                                    <li (click)="onCardLanguageSelected(template, language, showTryView && !template.enabledInTryMode);$event.stopPropagation();">
-                                        {{language}}
-                                    </li>
-                                </ng-container>
-                            </ul>
+                            <div *ngFor="let language of template.languages"
+                                 (click)="onCardLanguageSelected(template, language, showTryView && !template.enabledInTryMode);$event.stopPropagation();">
+                                 {{language}}
+                            </div>
                         </div>
                         
                     </div>
@@ -69,7 +70,7 @@
                          [sidebarClass]="'sidebar-new-function'" 
                          [ariaLabel]="'Create Function'" 
                          [animate]="true" 
-                         [closeOnClickBackdrop]="true" 
+                         [closeOnClickBackdrop]="false" 
                          [showBackdrop]="true">
         
         <sidebar-picker *ngIf="sidePanelOpened" 
