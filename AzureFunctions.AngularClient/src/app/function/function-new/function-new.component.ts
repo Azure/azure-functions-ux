@@ -312,7 +312,7 @@ export class FunctionNewComponent implements OnDestroy {
 
         if (this.language === this._translateService.instant('temp_category_all')) {
             this.templates = this.createCardTemplates;
-            this.category = this._translateService.instant('temp_category_core');
+            this.category = this._translateService.instant('temp_category_all');
         } else {
             this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language));
         }
@@ -330,7 +330,7 @@ export class FunctionNewComponent implements OnDestroy {
 
                 if (this.category === c) {
                     dropDownElement.default = true;
-                } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
+                } else if (!this.category && c === this._translateService.instant('temp_category_all')) {
                     dropDownElement.default = true;
                 }
 
