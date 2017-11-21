@@ -111,7 +111,7 @@
                (value)="onDropDownInputChanged($event)" 
                [disabled]="input.isDisabled"></drop-down>
 
-    <ng-container *ngIf="!!input.errorText && !input.isValid">
+    <ng-container *ngIf="!!input.errorText && !input.isValid && !input.okEmpty">
       <span class="fa fa-exclamation input-error-adjust"></span>
       <div class="input-show-error" tabindex="0">{{input.errorText}}</div>
     </ng-container>

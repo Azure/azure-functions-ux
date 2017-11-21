@@ -58,7 +58,7 @@ export class BindingInputV2Component {
         }
 
         this._input = input;
-        this._input.okEmpty = input.value === '';
+        this._input.okEmpty = this._input.value === '' || !this._input.value;
         this.setBottomDescription(this._input.id);
 
         this.setClass(input.value);
@@ -229,7 +229,7 @@ export class BindingInputV2Component {
             const saveValid = this._input.isValid;
 
             if (this._input.required) {
-                this._input.okEmpty = value === '' && this._input.okEmpty;
+                this._input.okEmpty = (value === '' || !this._input.value) && this._input.okEmpty;
                 this._input.isValid = (value) ? true : false;
                 this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
 
