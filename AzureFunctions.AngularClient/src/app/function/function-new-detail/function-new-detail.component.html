@@ -68,7 +68,7 @@
         {{ 'eventGrid_createMessage' | translate }}
     </div>
 
-    <div *ngIf="templateWarning" class="alert-notice" role="alert">
+    <div *ngIf="templateWarning" class="alert-notice" role="alert" tabindex="0">
             <div [innerHTML]="templateWarning"></div>
             <div *ngIf="addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
     </div>

@@ -1,4 +1,4 @@
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
 import { DropDownElement } from './../../shared/models/drop-down-element';
@@ -431,6 +431,12 @@ export class FunctionNewComponent implements OnDestroy {
             this.createFunctionTemplate = functionTemplate;
             this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
             this.sidePanelOpened = true;
+        }
+    }
+
+    onKeyPress(event: KeyboardEvent, functionTemplate: Template, templateDisabled: boolean) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.onCardSelected(functionTemplate, templateDisabled);
         }
     }
 

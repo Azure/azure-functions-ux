@@ -35,7 +35,9 @@
                 <div class="selectionContainer">
                     <div *ngFor="let template of templates" 
                          [ngClass]="showTryView && !template.enabledInTryMode ? 'cardDisabled' : 'cardContainer'" 
-                         (click)="onCardSelected(template, showTryView && !template.enabledInTryMode)">
+                         (click)="onCardSelected(template, showTryView && !template.enabledInTryMode)"
+                         tabindex="0"
+                         (keydown)="onKeyPress($event, template, showTryView && !template.enabledInTryMode)">
 
                         <div class="headerBox" [style.background-color]="template.barcolor">
                             {{template.name}}

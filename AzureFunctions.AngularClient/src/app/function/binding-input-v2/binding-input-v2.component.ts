@@ -1,3 +1,4 @@
+import { KeyCodes } from 'app/shared/models/constants';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
 import { Component, Input, Output, ViewChild } from '@angular/core';
@@ -182,6 +183,24 @@ export class BindingInputV2Component {
     onDropDownInputChanged(value: any) {
         this._input.value = value;
         this.inputChanged(value);
+    }
+
+    onInfoKeyPress(event: KeyboardEvent, input: PickerInput) {
+        if (event.keyCode === KeyCodes.enter) {
+            input.showHelp = !input.showHelp;
+        }
+    }
+
+    onNewKeyPress(event: KeyboardEvent, input: PickerInput) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.openPicker(input);
+        }
+    }
+
+    onShowValueKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.updateAppSettingValue();
+        }
     }
 
     functionReturnValueChanged(value: any) {
