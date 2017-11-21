@@ -1,10 +1,11 @@
+import { Dom } from './../../shared/Utilities/dom';
 import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
 import { DropDownElement } from './../../shared/models/drop-down-element';
 import { FunctionsService, FunctionAppContext } from './../../shared/services/functions-service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
-import { Component, ElementRef, Inject, Injector, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Inject, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -29,6 +30,16 @@ import { Observable } from 'rxjs/Observable';
 interface CategoryOrder {
     name: string;
     index: number;
+}
+
+interface CreateCard extends Template {
+    languages: string[];
+    categories: string[];
+    ids: string[];
+    color: string;
+    icon: string;
+    barcolor: string;
+    focusable: boolean;
 }
 
 @Component({
@@ -64,13 +75,14 @@ export class FunctionNewComponent implements OnDestroy {
     private showTryView: boolean;
     sidePanelOpened = false;
     title: string;
-    templates: Template[] = [];
+    cards: CreateCard[] = [];
     bindings: Binding[];
     private category = '';
     private language = '';
     private search = '';
     private _ngUnsubscribe = new Subject();
     private defaultIndex = 500;
+    private _focusedCardIndex = -1;
 
     private _orderedCategoties: CategoryOrder[] =
     [{
@@ -98,7 +110,7 @@ export class FunctionNewComponent implements OnDestroy {
         index: 1000,
     }];
 
-    createCardTemplates: Template[] = [];
+    createCards: CreateCard[] = [];
     createFunctionTemplate: Template;
     createFunctionLanguage: string = null;
 
@@ -114,6 +126,8 @@ export class FunctionNewComponent implements OnDestroy {
         'timer': { color: '#3C86FF', barcolor: '#DFEDFF', icon: 'image/timer.svg' },
         'webhook': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg' }
     };
+
+    @ViewChild('container') createCardContainer: ElementRef;
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
@@ -184,8 +198,8 @@ export class FunctionNewComponent implements OnDestroy {
             })
             .do(r => {
                 this.bindings = r.config.bindings;
-                this.templates = [];
-                this.createCardTemplates = [];
+                this.cards = [];
+                this.createCards = [];
 
                 this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
                 this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all),
@@ -235,13 +249,13 @@ export class FunctionNewComponent implements OnDestroy {
                         }
                     });
 
-                    const templateIndex = this.createCardTemplates.findIndex(finalTemplate => {
+                    const templateIndex = this.createCards.findIndex(finalTemplate => {
                         return finalTemplate.name === template.metadata.name;
                     });
 
                     // if the card doesn't exist, create it based off the template, else add information to the preexisting card
                     if (templateIndex === -1) {
-                        this.createCardTemplates.push({
+                        this.createCards.push({
                             name: `${template.metadata.name}`,
                             value: template.id,
                             description: template.metadata.description,
@@ -255,25 +269,26 @@ export class FunctionNewComponent implements OnDestroy {
                             color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
                                 this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
                             barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                                this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor
+                                this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor,
+                            focusable: false
                         });
                     } else {
-                        this.createCardTemplates[templateIndex].languages.push(`${template.metadata.language}`);
-                        this.createCardTemplates[templateIndex].categories = this.createCardTemplates[templateIndex].categories.concat(template.metadata.category);
-                        this.createCardTemplates[templateIndex].ids.push(`${template.id}`);
+                        this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
+                        this.createCards[templateIndex].categories = this.createCards[templateIndex].categories.concat(template.metadata.category);
+                        this.createCards[templateIndex].ids.push(`${template.id}`);
                     }
                 });
 
                 // unique categories
-                this.createCardTemplates.forEach((template, index) => {
+                this.createCards.forEach((template, index) => {
                     const categoriesDict: {[key: string]: string; } = {};
                     template.categories.forEach(category => {
                         categoriesDict[category] = category;
                     });
-                    this.createCardTemplates[index].categories = [];
+                    this.createCards[index].categories = [];
                     for (const category in categoriesDict) {
                         if (categoriesDict.hasOwnProperty(category)) {
-                            this.createCardTemplates[index].categories.push(category);
+                            this.createCards[index].categories.push(category);
                         }
                     }
                 });
@@ -285,7 +300,7 @@ export class FunctionNewComponent implements OnDestroy {
                 });
 
                 // order preference defined in constants.ts
-                this.createCardTemplates.sort((a: Template, b: Template) => {
+                this.createCards.sort((a: Template, b: Template) => {
                     let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
                     let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
                     if (ia === -1) {
@@ -311,13 +326,15 @@ export class FunctionNewComponent implements OnDestroy {
         this.categories = [];
 
         if (this.language === this._translateService.instant('temp_category_all')) {
-            this.templates = this.createCardTemplates;
+            this.cards = this.createCards;
             this.category = this._translateService.instant('temp_category_all');
         } else {
-            this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language));
+            this.cards = this.createCards.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language));
         }
 
-        this.templates.forEach(template => template.categories.forEach((c) => {
+        // determine which categories are present for the selected cards
+
+        this.cards.forEach(card => card.categories.forEach((c) => {
             const index = this.categories.findIndex((category) => {
                 return category.value === c;
             });
@@ -368,21 +385,25 @@ export class FunctionNewComponent implements OnDestroy {
 
     private _findIntersectionOfCards() {
         if (this.category === this._translateService.instant('temp_category_all') && this.language === this._translateService.instant('temp_category_all')) {
-            this.templates = this.createCardTemplates;
+            this.cards = this.createCards;
         } else if (this.category === this._translateService.instant('temp_category_all')) {
-            this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language));
+            this.cards = this.createCards.filter(card => card.languages.find(l => l === this.language));
         } else if (this.language === this._translateService.instant('temp_category_all')) {
-            this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.categories.find(c => c === this.category));
+            this.cards = this.createCards.filter(card => card.categories.find(c => c === this.category));
         } else {
-            this.templates = this.createCardTemplates.filter(cardTemplate => cardTemplate.languages.find(l => l === this.language))
+            this.cards = this.createCards.filter(card => card.languages.find(l => l === this.language))
                 .filter(cardTemplate => cardTemplate.categories.find(c => c === this.category));
         }
+
+        this._initializeTabableCard();
     }
 
     private _filterOnSearchValue() {
-        this.templates = this.templates.filter(cardTemplate => cardTemplate.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || cardTemplate.languages.find(language => { return language.toLowerCase().indexOf(this.search.toLowerCase()) > -1; })
-            || cardTemplate.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
+        this.cards = this.cards.filter(card => card.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || card.languages.find(language => { return language.toLowerCase().indexOf(this.search.toLowerCase()) > -1; })
+            || card.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
+
+        this._initializeTabableCard();
     }
 
     onSearchChanged(value: string) {
@@ -437,8 +458,78 @@ export class FunctionNewComponent implements OnDestroy {
     onKeyPress(event: KeyboardEvent, functionTemplate: Template, templateDisabled: boolean) {
         if (event.keyCode === KeyCodes.enter) {
             this.onCardSelected(functionTemplate, templateDisabled);
+
+        } else if (event.keyCode === KeyCodes.arrowDown) {
+
+
+        } else if (event.keyCode === KeyCodes.arrowUp) {
+
+
+        } else if (event.keyCode === KeyCodes.arrowLeft) {
+            const cards = this._getCards();
+            this._clearFocusOnCard(cards, this._focusedCardIndex);
+            this._setFocusOnCard(cards, this._focusedCardIndex - 1);
+            this._scrollIntoView(cards[this._focusedCardIndex]);
+            event.preventDefault();
+
+        } else if (event.keyCode === KeyCodes.arrowRight) {
+            const cards = this._getCards();
+            this._clearFocusOnCard(cards, this._focusedCardIndex);
+            this._setFocusOnCard(cards, this._focusedCardIndex + 1);
+            this._scrollIntoView(cards[this._focusedCardIndex]);
+            event.preventDefault();
+
         }
     }
+
+    private _initializeTabableCard() {
+        this.cards.forEach(card => card.focusable = false);
+        this._focusedCardIndex = -1;
+
+        if (this.cards.length > 0) {
+            this.cards[0].focusable = true;
+            this._focusedCardIndex = 0;
+        }
+    }
+
+    private _getCards() {
+        return this.createCardContainer.nativeElement.children;
+    }
+
+    private _clearFocusOnCard(cards: HTMLCollection, index: number) {
+        const oldCard = Dom.getTabbableControl(<HTMLElement>cards[index]);
+        this.cards[index].focusable = false;
+        Dom.clearFocus(oldCard);
+    }
+
+    private _setFocusOnCard(cards: HTMLCollection, index: number) {
+        let finalIndex = -1;
+        let destCard: Element;
+
+        if (index >= 0 && index < cards.length) {
+            finalIndex = index;
+            destCard = cards[finalIndex];
+        } else if (cards.length > 0) {
+            if (index === -1) {
+                finalIndex = cards.length - 1;
+            } else {
+                finalIndex = 0;
+            }
+            destCard = cards[finalIndex];
+        }
+
+        if (destCard) {
+            const newCard = Dom.getTabbableControl(<HTMLElement>destCard);
+            this.cards[finalIndex].focusable = true;
+            Dom.setFocus(<HTMLElement>newCard);
+        }
+
+        this._focusedCardIndex = finalIndex;
+    }
+
+    private _scrollIntoView(elem: HTMLElement) {
+        Dom.scrollIntoView(elem, window.document.body);
+      }
 
     closeSidePanel() {
         this.sidePanelOpened = false;
