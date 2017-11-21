@@ -16,11 +16,12 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
     @Input() placeholder: string;
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
-    @Input() size: null | 'small' | 'large';
+    @Input() size: null | 'small' | 'medium' | 'large' = 'medium';
     @Input() setDefault = true;
 
     @Output() value: EventEmitter<T>;
 
+    public hasFocus: boolean = false;
     public selectedElement: DropDownElement<T>;
     public empty: any;
     public _options: DropDownGroupElement<T>[] | DropDownElement<T>[];
@@ -171,6 +172,4 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
             this.selectInput.nativeElement.focus();
         }
     }
-
-
 }
