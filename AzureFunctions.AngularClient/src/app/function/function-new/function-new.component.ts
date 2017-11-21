@@ -11,7 +11,6 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
 import { TranslateService } from '@ngx-translate/core';
-import { TemplatePickerType } from '../../shared/models/template-picker';
 import { Action } from '../../shared/models/binding';
 import { FunctionInfo } from '../../shared/models/function-info';
 import { FunctionTemplate } from '../../shared/models/function-template';
@@ -32,7 +31,7 @@ interface CategoryOrder {
     index: number;
 }
 
-interface CreateCard extends Template {
+export interface CreateCard extends Template {
     languages: string[];
     categories: string[];
     ids: string[];
@@ -51,32 +50,43 @@ interface CreateCard extends Template {
 })
 export class FunctionNewComponent implements OnDestroy {
     public context: FunctionAppContext;
-    private functionsNode: FunctionsNode;
     public functionApp: FunctionApp;
     public functionsInfo: FunctionInfo[];
-    elementRef: ElementRef;
-    type: TemplatePickerType = TemplatePickerType.template;
-    functionName: string;
-    functionNameError = '';
-    areInputsValid = false;
-    selectedTemplate: FunctionTemplate;
-    selectedTemplateId: string;
-    action: Action;
-    aadConfigured = true;
-    extensionInstalled = true;
+    public functionName: string;
+    public functionNameError = '';
+    public areInputsValid = false;
+    public selectedTemplate: FunctionTemplate;
+    public selectedTemplateId: string;
+    public action: Action;
     public disabled: boolean;
     public viewInfo: TreeViewInfo<any>;
-
-    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
     public appNode: AppNode;
-
     public languages: DropDownElement<string>[] = [];
     public categories: DropDownElement<string>[] = [];
-    private showTryView: boolean;
-    sidePanelOpened = false;
-    title: string;
-    cards: CreateCard[] = [];
-    bindings: Binding[];
+    public showTryView: boolean;
+    public sidePanelOpened = false;
+    public title: string;
+    public cards: CreateCard[] = [];
+    public bindings: Binding[];
+    public createCards: CreateCard[] = [];
+    public createFunctionCard: CreateCard;
+    public createFunctionLanguage: string = null;
+
+    public createCardStyles = {
+        'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
+        'cosmosDB': { color: '#379DA6', barcolor: '#DCF1F3', icon: 'image/cosmosDB.svg' },
+        'eventHub': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventHub.svg' },
+        'http': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/http.svg' },
+        'iot': { color: '#990000', barcolor: '#EFD9D9', icon: 'image/iot.svg' },
+        'other': { color: '#000000', barcolor: '#D9D9D9', icon: 'image/other.svg' },
+        'queue': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/queue.svg' },
+        'serviceBus': { color: '#F67600', barcolor: '#FDEDDE', icon: 'image/serviceBus.svg' },
+        'timer': { color: '#3C86FF', barcolor: '#DFEDFF', icon: 'image/timer.svg' },
+        'webhook': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg' }
+    };
+
+    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
+    private functionsNode: FunctionsNode;
     private category = '';
     private language = '';
     private search = '';
@@ -110,23 +120,6 @@ export class FunctionNewComponent implements OnDestroy {
         index: 1000,
     }];
 
-    createCards: CreateCard[] = [];
-    createFunctionTemplate: Template;
-    createFunctionLanguage: string = null;
-
-    public createCardStyles = {
-        'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
-        'cosmosDB': { color: '#379DA6', barcolor: '#DCF1F3', icon: 'image/cosmosDB.svg' },
-        'eventHub': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventHub.svg' },
-        'http': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/http.svg' },
-        'iot': { color: '#990000', barcolor: '#EFD9D9', icon: 'image/iot.svg' },
-        'other': { color: '#000000', barcolor: '#D9D9D9', icon: 'image/other.svg' },
-        'queue': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/queue.svg' },
-        'serviceBus': { color: '#F67600', barcolor: '#FDEDDE', icon: 'image/serviceBus.svg' },
-        'timer': { color: '#3C86FF', barcolor: '#DFEDFF', icon: 'image/timer.svg' },
-        'webhook': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg' }
-    };
-
     @ViewChild('container') createCardContainer: ElementRef;
 
     constructor(
@@ -138,7 +131,6 @@ export class FunctionNewComponent implements OnDestroy {
         private _functionsService: FunctionsService,
         private _injector: Injector) {
 
-        this.elementRef = elementRef;
         this.disabled = !!_broadcastService.getDirtyState('function_disabled');
         this.showTryView = this._globalStateService.showTryView;
 
@@ -440,25 +432,25 @@ export class FunctionNewComponent implements OnDestroy {
         }
     }
 
-    onCardLanguageSelected(functionTemplate: Template, functionLanguage: string, templateDisabled: boolean) {
-        if (!templateDisabled) {
-            this.createFunctionTemplate = functionTemplate;
+    onCardLanguageSelected(functionCard: CreateCard, functionLanguage: string, cardDisabled: boolean) {
+        if (!cardDisabled) {
+            this.createFunctionCard = functionCard;
             this.createFunctionLanguage = functionLanguage;
             this.sidePanelOpened = true;
         }
     }
 
-    onCardSelected(functionTemplate: Template, templateDisabled: boolean) {
-        if (!templateDisabled) {
-            this.createFunctionTemplate = functionTemplate;
+    onCardSelected(functionCard: CreateCard, cardDisabled: boolean) {
+        if (!cardDisabled) {
+            this.createFunctionCard = functionCard;
             this.createFunctionLanguage = this.language === this._translateService.instant('temp_category_all') ? null : this.language;
             this.sidePanelOpened = true;
         }
     }
 
-    onKeyPress(event: KeyboardEvent, functionTemplate: Template, templateDisabled: boolean) {
+    onKeyPress(event: KeyboardEvent, functionCard: CreateCard, cardDisabled: boolean) {
         if (event.keyCode === KeyCodes.enter) {
-            this.onCardSelected(functionTemplate, templateDisabled);
+            this.onCardSelected(functionCard, cardDisabled);
 
         } else if (event.keyCode === KeyCodes.arrowDown) {
             const cards = this._getCards();
@@ -569,7 +561,7 @@ export class FunctionNewComponent implements OnDestroy {
 
         let nextRowPosition = 0;
         let foundNextRowPosition = false;
-        let closestCardIndex = 0;
+        let closestCardIndex = index;
         let closestCardDistance = 0;
 
         const currentCardPosition = Dom.getElementCoordinates(<HTMLElement>cards[index]);
@@ -586,22 +578,22 @@ export class FunctionNewComponent implements OnDestroy {
                 }
                 continue;
             }
-            if (foundNextRowPosition && (nextRowPosition === nextCardPosition.top)) {
-                if (Math.abs(currentCardPosition.left - nextCardPosition.left) < closestCardDistance) {
+            if (foundNextRowPosition) {
+                if (nextCardPosition.top === nextRowPosition && Math.abs(currentCardPosition.left - nextCardPosition.left) < closestCardDistance) {
                     closestCardDistance = Math.abs(currentCardPosition.left - nextCardPosition.left);
                     closestCardIndex = i;
                     if (closestCardDistance < 350) {
                         return closestCardIndex;
                     }
+                } else {
+                    return closestCardIndex;
                 }
-            } else if (foundNextRowPosition) {
-                break;
             }
         }
 
         // If you don't find the position of the next row it means the current card is on the bottom row
         if (!foundNextRowPosition) {
-            for (let i = 0; i <= index; i++) {
+            for (let i = 0; i < index; i++) {
                 const nextCardPosition = Dom.getElementCoordinates(<HTMLElement>cards[i]);
                 if (nextCardPosition.top <= currentCardPosition.top && Math.abs(nextCardPosition.left - currentCardPosition.left) < 350) {
                     closestCardIndex = i;
@@ -623,7 +615,7 @@ export class FunctionNewComponent implements OnDestroy {
 
         let nextRowPosition = 0;
         let foundNextRowPosition = false;
-        let closestCardIndex = 0;
+        let closestCardIndex = index;
         let closestCardDistance = 0;
 
         const currentCardPosition = Dom.getElementCoordinates(<HTMLElement>cards[index]);
@@ -637,7 +629,7 @@ export class FunctionNewComponent implements OnDestroy {
         }
 
         // If you don't find the position of the next row it means the current card is on the top row
-        for (let i = cards.length - 1; i >= index; i--) {
+        for (let i = cards.length - 1; i > index; i--) {
             const nextCardPosition = Dom.getElementCoordinates(<HTMLElement>cards[i]);
             if (!foundNextRowPosition && nextCardPosition.top > currentCardPosition.top) {
                 nextRowPosition = nextCardPosition.top;
@@ -649,16 +641,16 @@ export class FunctionNewComponent implements OnDestroy {
                 }
                 continue;
             }
-            if (foundNextRowPosition && (nextRowPosition === nextCardPosition.top)) {
-                if (Math.abs(currentCardPosition.left - nextCardPosition.left) < closestCardDistance) {
+            if (foundNextRowPosition) {
+                if (nextCardPosition.top === nextRowPosition && Math.abs(currentCardPosition.left - nextCardPosition.left) < closestCardDistance) {
                     closestCardDistance = Math.abs(currentCardPosition.left - nextCardPosition.left);
                     closestCardIndex = i;
                     if (closestCardDistance < 350) {
                         return closestCardIndex;
                     }
+                } else {
+                    return closestCardDistance;
                 }
-            } else if (foundNextRowPosition) {
-                break;
             }
         }
 
