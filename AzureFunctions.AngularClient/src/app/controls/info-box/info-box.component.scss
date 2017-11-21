@@ -38,7 +38,7 @@
     }
 }
 
-:host /deep/ .msportalfx-svg-c15, :host /deep/ .msportalfx-svg-c16 {
+.info-box.info /deep/ .msportalfx-svg-c15, .info-box.info /deep/ .msportalfx-svg-c16 {
     fill: $primary-color;
 }
 
@@ -50,7 +50,7 @@
     }
 }
 
-:host /deep/ .msportalfx-svg-c10 {
+.info-box.warning /deep/ .msportalfx-svg-c10 {
     fill: $warning-color;
 }
 
@@ -62,6 +62,6 @@
     }
 }
 
-:host /deep/ .msportalfx-svg-c22 {
+.info-box.error /deep/ .msportalfx-svg-c22 {
     fill: $error-color;
 }
