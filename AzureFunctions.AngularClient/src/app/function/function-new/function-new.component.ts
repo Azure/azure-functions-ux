@@ -240,7 +240,7 @@ export class FunctionNewComponent implements OnDestroy {
 
                                 if (this.category === c) {
                                     dropDownElement.default = true;
-                                } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
+                                } else if (!this.category && c === this._translateService.instant('temp_category_all')) {
                                     dropDownElement.default = true;
                                 }
 
@@ -318,6 +318,7 @@ export class FunctionNewComponent implements OnDestroy {
                 });
 
                 this.language = this._translateService.instant('temp_category_all');
+                this.category === this._translateService.instant('temp_category_all');
             });
     }
 
@@ -460,6 +461,12 @@ export class FunctionNewComponent implements OnDestroy {
             this.onCardSelected(functionTemplate, templateDisabled);
 
         } else if (event.keyCode === KeyCodes.arrowDown) {
+            const cards = this._getCards();
+            const nextIndex = this._findNextVerticleCardDown(cards, this._focusedCardIndex);
+            this._clearFocusOnCard(cards, this._focusedCardIndex);
+            this._setFocusOnCard(cards, nextIndex);
+            this._scrollIntoView(cards[this._focusedCardIndex]);
+            event.preventDefault();
 
 
         } else if (event.keyCode === KeyCodes.arrowUp) {
@@ -525,6 +532,79 @@ export class FunctionNewComponent implements OnDestroy {
         }
 
         this._focusedCardIndex = finalIndex;
+    }
+
+    _findNextVerticleCardDown(cards: HTMLCollection, index: number) {
+        // Flexbox can have various arrangements of cards that make for some nasty up/down manuvering
+
+        // This difficulty does not exist with less than 7 cards because we are gaurenteed that the card to go
+        // down to is within a card's width of the current card OR that there is only one card below
+
+        //      [1]     |      [1] [2]     |    [1] [2] [3]    |   [1] [2] [3] [4]
+        //      [2]     |      [3] [4]     |      [4] [5]      |         [5]
+        //      [3]     |        [5]       |                   |
+        //      [4]     |                  |                   |
+        //      [5]     |                  |                   |
+
+        // ----------------------------------------------------------------------------------------------
+
+        //     [1] [2]  |    [1] [2] [3] [4] [5]    |  [1] [2] [3] [4]      |   [1] [2] [3] [4] [5] [6]
+        //     [3] [4]  |            [6]            |      [5] [6]          |
+        //     [5] [6]  |                           |                       |
+
+
+        // However with 7 cards we reach the 'base case' of difficulty:
+        // we need logic that ensures cards on the left map to the leftmost card below it
+        // and card on the right map to the rightmost card below it
+
+        //     [1] [2] [3] [4] [5]   |   [1] [2] [3] [4] [5] [6]   |   [1] [2] [3] [4] [5]    |   ETC....
+        //           [6] [7]         |           [7] [8]           |       [6] [7] [8]        |
+
+
+        let nextRowPosition = 0;
+        let foundNextRowPosition = false;
+        let closestCardIndex = 0;
+        let closestCardDistance = 0;
+
+        const currentCardPosition = Dom.getElementCoordinates(<HTMLElement>cards[index]);
+
+        for (let i = index + 1; i < cards.length; i++) {
+            const nextCardPosition = Dom.getElementCoordinates(<HTMLElement>cards[i]);
+            if (!foundNextRowPosition && nextCardPosition.top > currentCardPosition.top) {
+                nextRowPosition = nextCardPosition.top;
+                foundNextRowPosition = true;
+                closestCardIndex = i;
+                closestCardDistance = Math.abs(currentCardPosition.left - nextCardPosition.left);
+                if (closestCardDistance < 350) {
+                    break;
+                }
+                continue;
+            }
+            if (foundNextRowPosition && (nextRowPosition === nextCardPosition.top)) {
+                if (Math.abs(currentCardPosition.left - nextCardPosition.left) < closestCardDistance) {
+                    closestCardDistance = Math.abs(currentCardPosition.left - nextCardPosition.left);
+                    closestCardIndex = i;
+                    if (closestCardDistance < 350) {
+                        break;
+                    }
+                }
+            } else if (foundNextRowPosition) {
+                break;
+            }
+        }
+
+        // If you don't find the position of the next row it means the current card is on the bottom row
+        if (!foundNextRowPosition) {
+            for (let i = 0; i <= index; i++) {
+                const nextCardPosition = Dom.getElementCoordinates(<HTMLElement>cards[i]);
+                if (nextCardPosition.top <= currentCardPosition.top && Math.abs(nextCardPosition.left - currentCardPosition.left) < 350) {
+                    closestCardIndex = i;
+                    break;
+                }
+            }
+        }
+
+        return closestCardIndex;
     }
 
     private _scrollIntoView(elem: HTMLElement) {
