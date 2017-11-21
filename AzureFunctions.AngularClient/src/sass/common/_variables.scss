@@ -14,14 +14,14 @@ $highlight-text-color: #ffed10;
 $heading-text-color: #000000;
 $heading-text-color-dark: #e0e0e0;
 
-$body-bg-color : #fff;
+$body-bg-color: #fff;
 $body-bg-color-dark: #252525;
 
-$qs-header-bg-color : #e8ebef;
+$qs-header-bg-color: #e8ebef;
 $qs-footer-bg-color: #004075;
 $qs-footer-link-color: #9cdcff;
 
-$chrome-color : #f7f9fa;
+$chrome-color: #f7f9fa;
 $chrome-color-dark: $body-bg-color-dark;
 
 $back-bar-color: #e8ebed;
@@ -29,6 +29,9 @@ $back-bar-color: #e8ebed;
 $border-selection-color: #419BF3;
 $border-focus-color: #00bcf2;
 $border-focus: $border-focus-color dashed 1px;
+
+$border-focus-dirty-color: #7846ff;
+$border-focus-dirty: $border-focus-dirty-color dashed 1px;
 
 $sidenav-width: 250px;
 $top-bar-height: 40px;
