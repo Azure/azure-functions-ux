@@ -184,6 +184,7 @@ export class ScenarioIds {
     public static readonly topBarWarning = 'TopBarWarning';
     public static readonly userMenu = 'UserMenu';
     public static readonly standAloneUserMenu = 'StandAloneUserMenu';
+    public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
 }
 
 export class ServerFarmSku {

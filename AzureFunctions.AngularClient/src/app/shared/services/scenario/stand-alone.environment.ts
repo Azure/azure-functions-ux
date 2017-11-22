@@ -91,6 +91,13 @@ export class StandaloneEnvironment extends Environment {
                 return { status: 'enabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.standAloneUserMenu] = {
+            id: ScenarioIds.useCustomFunctionInputPicker,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'enabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

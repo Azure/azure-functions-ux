@@ -8,6 +8,7 @@ import { AggregateBlockComponent } from './aggregate-block/aggregate-block.compo
 import { FunctionMonitorComponent } from './function-monitor/function-monitor.component';
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
+import { StorageComponent } from './pickers/storage/storage.component';
 import { ServiceBusComponent } from './pickers/service-bus/service-bus.component';
 import { NotificationHubComponent } from './pickers/notification-hub/notification-hub.component';
 import { EventHubComponent } from './pickers/event-hub/event-hub.component';
@@ -103,6 +104,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         ServiceBusComponent,
         NotificationHubComponent,
         AppSettingComponent,
+        StorageComponent,
         BindingEventGridComponent,
         FunctionMonitorComponent,
         AggregateBlockComponent,

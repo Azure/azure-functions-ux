@@ -2173,6 +2173,33 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appSettingPicker_add" xml:space="preserve">
     <value>Add app setting</value>
   </data>
+  <data name="storage_add" xml:space="preserve">
+    <value>Add storage account connection string</value>
+  </data>
+  <data name="storage_accountName" xml:space="preserve">
+    <value>Account name</value>
+  </data>
+  <data name="storage_accountKey" xml:space="preserve">
+    <value>Account key</value>
+  </data>
+  <data name="storage_appSettingName" xml:space="preserve">
+    <value>storage account connection string name</value>
+  </data>
+  <data name="storage_appSettingName_empty_text" xml:space="preserve">
+    <value>Enter a name for storage account connection string</value>
+  </data>
+  <data name="storage_endpoint" xml:space="preserve">
+    <value>Storage endpoints domain</value>
+  </data>
+  <data name="storage_endpoint_azure" xml:space="preserve">
+    <value>Microsoft Azure</value>
+  </data>
+  <data name="storage_endpoint_other" xml:space="preserve">
+    <value>Other(specify bellow)</value>
+  </data>
+  <data name="storage_endpoint_empty_text" xml:space="preserve">
+    <value>Enter storage endpoints domain</value>
+  </data>
   <data name="download" xml:space="preserve">
     <value>Download</value>
   </data>

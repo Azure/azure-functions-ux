@@ -241,6 +241,8 @@ export class PortalResources {
     public static fileExplorer_edit: string = "fileExplorer_edit";
     public static fileExplorer_upload: string = "fileExplorer_upload";
     public static storageLockNote: string = "storageLockNote";
+    public static storage_endpoint_azure: string = "storage_endpoint_azure";
+    public static storage_endpoint_other: string = "storage_endpoint_other";
     public static fileExplorer_fileAlreadyExists: string = "fileExplorer_fileAlreadyExists";
     public static functionNew_functionExsists: string = "functionNew_functionExsists";
     public static binding_storageAccountKey: string = "binding_storageAccountKey";

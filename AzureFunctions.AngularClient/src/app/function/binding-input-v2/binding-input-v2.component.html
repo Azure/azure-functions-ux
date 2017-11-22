@@ -16,6 +16,12 @@
              (selectItem)="finishDialogPicker($event)">
 </app-setting>
 
+<storage *ngIf="pickerName === 'Storage'"
+  [functionApp]="functionApp"
+  (close)="closePicker($event)"
+  (selectItem)="finishDialogPicker($event)">
+</storage>
+
 
 <div>
   <div class="input-header">
