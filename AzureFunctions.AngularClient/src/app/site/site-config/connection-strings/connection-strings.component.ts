@@ -195,7 +195,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
-              value: [{value: connectionString.value, disabled: !this.hasWritePermissions}],
+              value: [
+                {value: connectionString.value, disabled: !this.hasWritePermissions},
+                this._requiredValidator.validate.bind(this._requiredValidator)],
               type: [{value: connectionStringDropDownTypes.find(t => t.default).value, disabled: !this.hasWritePermissions}],
               isSlotSetting: [{value: stickyConnectionStringNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions}]
             }) as CustomFormGroup;
@@ -414,7 +416,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
           this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
-      value: [null],
+      value: [
+        null,
+        this._requiredValidator.validate.bind(this._requiredValidator)],
       type: [connectionStringDropDownTypes.find(t => t.default).value],
       isSlotSetting: [false]
     }) as CustomFormGroup;
