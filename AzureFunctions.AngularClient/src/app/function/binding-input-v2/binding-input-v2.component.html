@@ -109,7 +109,8 @@
   <div *ngIf="input?.type === 'picker'" [ngClass]="input?.class">
     <drop-down [options]="pickerInputs" 
                (value)="onDropDownInputChanged($event)" 
-               [disabled]="input.isDisabled"></drop-down>
+               [disabled]="input.isDisabled"
+               attr.aria-label="{{input.label}}"></drop-down>
 
     <ng-container *ngIf="!!input.errorText && !input.isValid && !input.okEmpty">
       <span class="fa fa-exclamation input-error-adjust"></span>
@@ -145,7 +146,7 @@
   </div>
 
   <div *ngIf="input?.type === 'enum'" id="enum-list">
-    <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="functionApp"></drop-down>
+    <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="functionApp" attr.aria-label="{{input.label}}"></drop-down>
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 

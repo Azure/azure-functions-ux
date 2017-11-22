@@ -22,13 +22,15 @@
                         {{ 'templatePicker_language' | translate }}
                         <drop-down class="tpicker-dropdown" 
                                    [options]="languages" 
-                                   (value)="onLanguageChanged($event)">
+                                   (value)="onLanguageChanged($event)"
+                                   attr.aria-label="{{'templatePicker_language' | translate}}">
                         </drop-down>
             
                         {{ 'templatePicker_scenario' | translate }}
                         <drop-down class="tpicker-dropdown" 
                                    [options]="categories" 
-                                   (value)="onScenarioChanged($event)">
+                                   (value)="onScenarioChanged($event)"
+                                   attr.aria-label="{{'templatePicker_scenario' | translate}}">
                         </drop-down>
                 </div>
             

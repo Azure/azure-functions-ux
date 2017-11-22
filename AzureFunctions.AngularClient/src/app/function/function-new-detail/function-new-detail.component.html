@@ -16,7 +16,10 @@
     <div class="input-header">
         <label class="control-label">{{ 'templatePicker_language' | translate }}</label>
     </div>
-    <drop-down [options]="languageOptions" (value)="onLanguageChanged($event)" [setDefault]="false"></drop-down>
+    <drop-down [options]="languageOptions" 
+               (value)="onLanguageChanged($event)" 
+               [setDefault]="false" 
+               attr.aria-label="{{'templatePicker_language' | translate}}"></drop-down>
 
     <div class="input-header">
         <label class="control-label">{{ 'nameColon' | translate }}</label>
