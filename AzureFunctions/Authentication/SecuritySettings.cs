@@ -20,13 +20,5 @@ namespace AzureFunctions.Authentication
                 return Environment.GetEnvironmentVariable("AADClientSecret") ?? ConfigurationManager.AppSettings["SecuritySettings.AADClientSecret"];
             }
         }
-
-        public static string SigningCertificateThumbprint
-        {
-            get
-            {
-                return Environment.GetEnvironmentVariable("SigningCertificateThumbprint") ?? ConfigurationManager.AppSettings["SecuritySettings.SigningCertificateThumbprint"];
-            }
-        }
     }
 }

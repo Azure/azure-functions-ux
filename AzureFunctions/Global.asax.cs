@@ -102,6 +102,7 @@ namespace AzureFunctions
             //var isTryPageRequested = context.Request.RawUrl.Split(new char[] {'?'})[0].EndsWith("/try", StringComparison.OrdinalIgnoreCase);
 
             if (!isFile              //skip auth for files
+                && runtimeType != RuntimeType.Standalone   // Skip auth for Standalone mode
                 && !isTryPageRequested  //when requesting /try users can be unauthenticated
                 && !SecurityManager.TryAuthenticateRequest(context)) // and if the user is not loggedon
             {
