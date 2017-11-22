@@ -2,7 +2,7 @@
     <img [src]="functionCard.icon" [style.background-color]="functionCard.color" />
 </div>
 
-<div class="content">
+<div class="content" (keydown)="onKeyPress($event)">
     <h2>{{'sideBar_newFunction' | translate }}</h2>
 
     <div class="create-button-container" *ngIf="currentTemplate && currentTemplate.metadata.AADPermissions">

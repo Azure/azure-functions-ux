@@ -1,4 +1,4 @@
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
 import { FunctionAppContext } from './../../shared/services/functions-service';
@@ -294,6 +294,12 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
     }
 
     this.clickSave = true;
+  }
+
+  onKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.escape) {
+      this.close();
+    }
   }
 
   close() {

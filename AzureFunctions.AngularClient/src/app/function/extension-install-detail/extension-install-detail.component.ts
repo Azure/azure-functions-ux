@@ -1,3 +1,4 @@
+import { KeyCodes } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
 import { ExtensionInstallStatus } from './../../shared/models/constants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -151,8 +152,14 @@ export class ExtensionInstallDetailComponent {
     });
   }
 
+  onKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.escape) {
+      this.close();
+    }
+  }
+
   close() {
     this.closePanel.next();
   }
 
-  }
+}
