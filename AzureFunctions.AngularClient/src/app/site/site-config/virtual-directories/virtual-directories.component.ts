@@ -185,6 +185,8 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
             }
           })
         }
+
+        this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
       }
 
       if (this.mainForm.contains("virtualDirectories")) {
@@ -221,14 +223,14 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
   private _addVDirToGroup(virtualPath: string, physicalPath: string, isApplication: boolean) {
     let group = this._fb.group({
       virtualPath: [
-        {value: virtualPath, disabled: !this.hasWritePermissions},
+        { value: virtualPath, disabled: !this.hasWritePermissions },
         Validators.compose([
           this._requiredValidator.validate.bind(this._requiredValidator),
           this._uniqueValidator.validate.bind(this._uniqueValidator)])],
       physicalPath: [
-        {value: physicalPath, disabled: !this.hasWritePermissions},
+        { value: physicalPath, disabled: !this.hasWritePermissions },
         this._requiredValidator.validate.bind(this._requiredValidator)],
-      isApplication: [{value: isApplication, disabled: !this.hasWritePermissions}]
+      isApplication: [{ value: isApplication, disabled: !this.hasWritePermissions }]
     }) as CustomFormGroup;
 
     group.msExistenceState = 'original';
@@ -255,6 +257,15 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
       }
     }
 
+    this._validateAllControls(groups as CustomFormGroup[]);
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
+  }
+
+  private _validateAllControls(groups: CustomFormGroup[]) {
     groups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for (let controlName in controls) {
@@ -263,11 +274,6 @@ export class VirtualDirectoriesComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
-
-    return {
-      success: this.groupArray.valid,
-      error: this.groupArray.valid ? null : this._validationFailureMessage()
-    };
   }
 
   save(): Observable<SaveOrValidationResult> {

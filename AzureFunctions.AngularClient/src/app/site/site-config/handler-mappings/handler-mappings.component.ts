@@ -163,15 +163,17 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
         if (webConfigArm.properties.handlerMappings) {
           webConfigArm.properties.handlerMappings.forEach(mapping => {
             let group = this._fb.group({
-              extension: [{value: mapping.extension, disabled: !this.hasWritePermissions}, this._requiredValidator.validate.bind(this._requiredValidator)],
-              scriptProcessor: [{value: mapping.scriptProcessor, disabled: !this.hasWritePermissions}, this._requiredValidator.validate.bind(this._requiredValidator)],
-              arguments: [{value: mapping.arguments, disabled: !this.hasWritePermissions}]
+              extension: [{ value: mapping.extension, disabled: !this.hasWritePermissions }, this._requiredValidator.validate.bind(this._requiredValidator)],
+              scriptProcessor: [{ value: mapping.scriptProcessor, disabled: !this.hasWritePermissions }, this._requiredValidator.validate.bind(this._requiredValidator)],
+              arguments: [{ value: mapping.arguments, disabled: !this.hasWritePermissions }]
             }) as CustomFormGroup;
 
             group.msExistenceState = 'original';
             this.groupArray.push(group);
           })
         }
+
+        this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
       }
 
       if (this.mainForm.contains("handlerMappings")) {
@@ -205,6 +207,15 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
       }
     }
 
+    this._validateAllControls(groups as CustomFormGroup[]);
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
+  }
+
+  private _validateAllControls(groups: CustomFormGroup[]) {
     groups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for (let controlName in controls) {
@@ -213,11 +224,6 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
-
-    return {
-      success: this.groupArray.valid,
-      error: this.groupArray.valid ? null : this._validationFailureMessage()
-    };
   }
 
   save(): Observable<SaveOrValidationResult> {
