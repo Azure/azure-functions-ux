@@ -170,7 +170,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
           webConfigArm.properties.defaultDocuments.forEach(document => {
             let group = this._fb.group({
               name: [
-                {value: document, disabled: !this.hasWritePermissions},
+                { value: document, disabled: !this.hasWritePermissions },
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueDocumentValidator.validate.bind(this._uniqueDocumentValidator)])]
@@ -180,6 +180,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
             this.groupArray.push(group);
           })
         }
+
+        this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
       }
 
       if (this.mainForm.contains("defaultDocs")) {
@@ -213,6 +215,15 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
       }
     }
 
+    this._validateAllControls(groups as CustomFormGroup[]);
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
+  }
+
+  private _validateAllControls(groups: CustomFormGroup[]) {
     groups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for (let controlName in controls) {
@@ -221,11 +232,6 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
-
-    return {
-      success: this.groupArray.valid,
-      error: this.groupArray.valid ? null : this._validationFailureMessage()
-    };
   }
 
   save(): Observable<SaveOrValidationResult> {
