@@ -1,8 +1,6 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { FunctionApp } from '../../shared/function-app';
-import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { ArmObj, ArmArrayResult } from './../../shared/models/arm/arm-obj';
 import { ArmService } from '../../shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
@@ -11,6 +9,9 @@ import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { Subscription } from 'rxjs/Subscription';
+import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { BroadcastService } from '../../shared/services/broadcast.service';
 
 class OptionTypes {
     notificationHub = 'NotificationHub';
@@ -24,7 +25,7 @@ class OptionTypes {
     styleUrls: ['./../picker.scss']
 })
 
-export class NotificationHubComponent {
+export class NotificationHubComponent extends FunctionAppContextComponent {
     public namespaces: ArmArrayResult<any>;
     public notificationHubs: ArmArrayResult<any>;
     public namespacePolices: ArmArrayResult<any>;
@@ -44,14 +45,14 @@ export class NotificationHubComponent {
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
-    private _functionApp: FunctionApp;
-    private _descriptor: SiteDescriptor;
-
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        functionAppService: FunctionAppService,
+        broadcastService: BroadcastService) {
+        super('notification-hub', functionAppService, broadcastService);
 
         this.options = [
             {
@@ -73,19 +74,19 @@ export class NotificationHubComponent {
         });
     }
 
-    @Input() set functionApp(functionApp: FunctionApp) {
-        this._functionApp = functionApp;
-        this._descriptor = new SiteDescriptor(functionApp.site.id);
-
-        const id = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.NotificationHubs/namespaces`;
-
-        this._cacheService.getArm(id, true, this._armService.notificationHubApiVersion).subscribe(r => {
-            this.namespaces = r.json();
-            if (this.namespaces.value.length > 0) {
-                this.selectedNamespace = this.namespaces.value[0].id;
-                this.onChangeNamespace(this.selectedNamespace);
-            }
-        });
+    setup(): Subscription {
+        return this.viewInfoEvents
+            .switchMap(view => {
+                const id = `/subscriptions/${view.siteDescriptor.subscription}/providers/Microsoft.NotificationHubs/namespaces`;
+                return this._cacheService.getArm(id, true, this._armService.notificationHubApiVersion);
+            })
+            .subscribe(r => {
+                this.namespaces = r.json();
+                if (this.namespaces.value.length > 0) {
+                    this.selectedNamespace = this.namespaces.value[0].id;
+                    this.onChangeNamespace(this.selectedNamespace);
+                }
+            });
     }
 
     onChangeNamespace(value: string) {
@@ -109,7 +110,7 @@ export class NotificationHubComponent {
                 this.namespacePolices = r.namespacePolices;
                 if (this.namespacePolices.value.length > 0) {
                     this.namespacePolices.value.forEach((item) => {
-                        item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy);;
+                        item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_namespacePolicy);
                     });
 
                     this.selectedPolicy = r.namespacePolices.value[0].id;
@@ -125,26 +126,26 @@ export class NotificationHubComponent {
         this.selectedPolicy = null;
         this.polices = null;
         this._cacheService.getArm(value + '/AuthorizationRules', true, this._armService.notificationHubApiVersion)
-        .do(null, e => {
-            this._globalStateService.clearBusyState();
-            console.log(e);
-        })
-        .subscribe(r => {
-            this.polices = r.json();
+            .do(null, e => {
+                this._globalStateService.clearBusyState();
+                console.log(e);
+            })
+            .subscribe(r => {
+                this.polices = r.json();
 
-            this.polices.value.forEach((item) => {
-                item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
+                this.polices.value.forEach((item) => {
+                    item.name += ' ' + this._translateService.instant(PortalResources.eventHubPicker_eventHubPolicy);
+                });
+
+                if (this.namespacePolices.value.length > 0) {
+                    this.polices.value = this.polices.value.concat(this.namespacePolices.value);
+                }
+
+                if (this.polices.value.length > 0) {
+                    this.selectedPolicy = this.polices.value[0].id;
+                }
+                this.setSelect();
             });
-
-            if (this.namespacePolices.value.length > 0) {
-                this.polices.value = this.polices.value.concat(this.namespacePolices.value);
-            }
-
-            if (this.polices.value.length > 0) {
-                this.selectedPolicy = this.polices.value[0].id;
-            }
-            this.setSelect();
-        });
     }
 
     onClose() {
@@ -161,7 +162,7 @@ export class NotificationHubComponent {
                 let appSettingName: string;
                 return Observable.zip(
                     this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, this._armService.notificationHubApiVersion),
-                    this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true),
+                    this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
                         const namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
@@ -193,20 +194,20 @@ export class NotificationHubComponent {
             if (appSettingName && appSettingValue) {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
-                this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
+                this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true).flatMap(r => {
                     const appSettings: ArmObj<any> = r.json();
                     appSettings.properties[appSettingName] = appSettingValue;
                     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
                 })
-                .do(null, e => {
-                    this._globalStateService.clearBusyState();
-                    this.selectInProcess = false;
-                    console.log(e);
-                })
-                .subscribe(() => {
-                    this._globalStateService.clearBusyState();
-                    this.selectItem.next(appSettingName);
-                });
+                    .do(null, e => {
+                        this._globalStateService.clearBusyState();
+                        this.selectInProcess = false;
+                        console.log(e);
+                    })
+                    .subscribe(() => {
+                        this._globalStateService.clearBusyState();
+                        this.selectItem.next(appSettingName);
+                    });
             }
         }
         return null;

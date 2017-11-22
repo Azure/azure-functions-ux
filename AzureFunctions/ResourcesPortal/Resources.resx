@@ -1820,7 +1820,7 @@
     <value>We are not able to update function {{functionName}}. Please try again later.</value>
   </data>
   <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
-    <value>The function runtime is unable to start. Please check the runtime logs for any errors or try again later.</value>
+    <value>The function runtime is unable to start.</value>
   </data>
   <data name="error_unableToCreateFunctionKey" xml:space="preserve">
     <value>We are not able to create or update the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>

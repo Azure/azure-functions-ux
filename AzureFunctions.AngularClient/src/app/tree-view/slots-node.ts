@@ -1,3 +1,4 @@
+import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { LogCategories } from './../shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { SlotNode } from './app-node';
@@ -14,6 +15,7 @@ export class SlotsNode extends TreeNode {
     public newDashboardType = DashboardType.CreateSlotDashboard;
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_slotsOptinSettings);
     private _logService: LogService;
+    private _functionAppService: FunctionAppService;
 
     constructor(
         sideNav: SideNavComponent,
@@ -29,19 +31,22 @@ export class SlotsNode extends TreeNode {
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'image/BulletList.svg';
         this._logService = sideNav.injector.get(LogService);
+        this._functionAppService = sideNav.injector.get(FunctionAppService);
     }
 
     public loadChildren() {
         this.isLoading = true;
-        return this.sideNav.slotsService.getSlotsList(this._siteArmCacheObj.id)
+        return this._functionAppService.getSlotsList(this._siteArmCacheObj.id)
             .do(slots => {
                 this.isLoading = false;
-                this.children = slots.map(s => new SlotNode(
-                    this.sideNav,
-                    s,
-                    this,
-                    this._subscriptions));
-            }, err =>{
+                if (slots.isSuccessful) {
+                    this.children = slots.result.map(s => new SlotNode(
+                        this.sideNav,
+                        s,
+                        this,
+                        this._subscriptions));
+                }
+            }, err => {
                 this._logService.error(LogCategories.SideNav, '/slots-node-loadchildren', err);
                 this.isLoading = false;
             });

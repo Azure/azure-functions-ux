@@ -4,9 +4,9 @@
             <div class="title">{{ 'functionEdit_functionState' | translate }}</div>
             <div *ngIf="functionInfo" class="function-state">
                 <radio-selector *ngIf="!runtimeVersion" [disabled]="true" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled"></radio-selector>
-                <radio-selector *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="functionApp" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
+                <radio-selector *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="context" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
                 <radio-selector *ngIf="runtimeVersion === 'V2'" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
-                <button class="delete-app" (click)="deleteFunction()" [fnWriteAccess]="functionApp">
+                <button class="delete-app" (click)="deleteFunction()" [fnWriteAccess]="context">
                     <span load-image="image/delete.svg" class="icon-small" role="presentation"></span>
                     {{ 'functionManage_deleteFunction' | translate }}
                 </button>
@@ -16,15 +16,8 @@
 
 
     <div *ngIf="!isStandalone">
-        <function-keys
-            *ngIf="functionApp?.isMultiKeySupported && isHttpFunction"
-            [functionApp]="functionApp"
-            [functionInfo]="functionInfo"></function-keys>
-
-        <div style="margin-bottom: 25px" *ngIf="functionApp?.isMultiKeySupported"></div>
-
-        <function-keys
-            *ngIf="functionApp?.isMultiKeySupported"
-            [functionApp]="functionApp"></function-keys>
+        <function-keys *ngIf="isHttpFunction" [viewInfo]="viewInfo"></function-keys>
+        <div style="margin-bottom: 25px"></div>
+        <function-keys [viewInfo]="viewInfo" adminKeys="true"></function-keys>
     </div>
 </div>

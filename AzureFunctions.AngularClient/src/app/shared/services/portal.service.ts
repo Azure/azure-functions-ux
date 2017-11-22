@@ -1,4 +1,5 @@
-﻿import { Jwt } from './../Utilities/jwt';
+﻿import { TabCommunicationVerbs } from './../models/constants';
+import { Jwt } from './../Utilities/jwt';
 import { Observable } from 'rxjs/Observable';
 import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
@@ -9,11 +10,10 @@ import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo,
 import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
-import { BroadcastEvent } from '../models/broadcast-event'
+import { BroadcastEvent } from '../models/broadcast-event';
 import { AiService } from './ai.service';
 import { LocalStorageService } from './local-storage.service';
 import { Guid } from '../Utilities/Guid';
-import { TabCommunicationVerbs } from '../models/constants';
 import { TabMessage } from 'app/shared/models/localStorage/local-storage';
 import { Logger } from 'app/shared/Utilities/logger';
 
@@ -44,8 +44,7 @@ export class PortalService {
 
         if (PortalService.inIFrame()) {
             this.initializeIframe();
-        }
-        else if (PortalService.inTab()) {
+        } else if (PortalService.inTab()) {
             this.initializeTab();
         }
     }
@@ -75,8 +74,8 @@ export class PortalService {
         this.postMessage(Verbs.getStartupInfo, JSON.stringify(getStartupInfoObj));
 
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
-            if (error.details) {
-                this.logMessage(LogEntryLevel.Error, error.details);
+            if (error.message) {
+                this.logMessage(LogEntryLevel.Error, error.message);
             }
         });
     }
@@ -143,7 +142,7 @@ export class PortalService {
             }
 
             else if (msg.verb === TabCommunicationVerbs.newToken) {
-                // TODO: handle recieved new token
+                // TODO: [ehamai] handle recieved new token
             }
         }
     }
@@ -167,13 +166,13 @@ export class PortalService {
             data: data
         };
 
-        let id = `${verb}:${source}`;
-        if (dest) {
-            id += `:${dest}`;
-        }
+        // let id = `${verb}:${source}`;
+        // if (dest) {
+        //     id += `:${dest}`;
+        // }
 
         // send and then remove
-        // include the id in the key so that douplicate messages from different windows can not remove another
+        // include the id in the key so that duplicate messages from different windows can not remove another
         this._storageService.setItem(verb, tabMessage);
         this._storageService.removeItem(verb);
     }

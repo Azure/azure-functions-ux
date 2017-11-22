@@ -3,7 +3,8 @@
 
 <div class = "content" [class.content-standalone]="showTopBar">
 
-    <side-nav *ngIf="ready" [tryFunctionAppInput]="tryFunctionApp"></side-nav>
+    <!-- <side-nav *ngIf="ready" [tryFunctionAppContextInput]="tryFunctionApp"></side-nav> -->
+    <side-nav *ngIf="ready"></side-nav>
     <top-warning></top-warning>
 
     <div id="dashboard" [hidden]="!ready">

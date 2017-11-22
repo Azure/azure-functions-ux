@@ -116,4 +116,12 @@ export class UrlTemplates {
     get runtimeSiteUrl(): string {
         return this.mainSiteUrl;
     }
+
+    get getGeneratedSwaggerDataUrl(): string {
+        return `${this.mainSiteUrl}/admin/host/swagger/default`;
+    }
+
+    get getSwaggerDocumentUrl() {
+        return `${this.mainSiteUrl}/admin/host/swagger`;
+    }
 }

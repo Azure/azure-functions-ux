@@ -84,7 +84,7 @@ export class SiteDescriptor extends Descriptor {
         // resource id without slot information
         let resource = this.getSiteOnlyResourceId();
         // add slots if available
-        if (this.slot) {
+        if (this.slot && this.slot !== 'new') {
             resource = `${resource}/slots/${this.slot}`;
         }
         return resource;
@@ -97,7 +97,7 @@ export class SiteDescriptor extends Descriptor {
                 Name: name,
                 SubscriptionId: this.subscription,
                 ResourceGroup: this.resourceGroup
-            }
+            };
         }
 
         return this._websiteId;

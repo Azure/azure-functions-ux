@@ -1,8 +1,8 @@
-import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
+import { Dom } from './../../shared/Utilities/dom';
 import { TblThComponent } from './tbl-th/tbl-th.component';
 import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, ContentChildren, QueryList } from '@angular/core';
-import { Component, OnInit, AfterContentChecked } from "@angular/core";
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 
 export interface TableItem {
   type: 'row' | 'group';

@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "../server/src/public/ng-full",
+      "outDir": "../AzureFunctions/ng-full",
       "assets": [
         "assets",
         "image",

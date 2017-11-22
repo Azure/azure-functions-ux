@@ -1,18 +1,18 @@
 <command-bar>
-  <command [displayText]="site?.properties.state === 'Running' ? ts.instant(Resources.stop) : ts.instant(Resources.start)"
-    [iconUrl]="site?.properties.state === 'Running' ? 'image/stop.svg' : 'image/start.svg'"
+  <command [displayText]="context?.site.properties.state === 'Running' ? ts.instant(Resources.stop) : ts.instant(Resources.start)"
+    [iconUrl]="context?.site.properties.state === 'Running' ? 'image/stop.svg' : 'image/start.svg'"
     (click)="toggleState()"
     [disabled]="!hasWriteAccess"></command>
 
   <command displayText="{{ 'swap' | translate }}"
     iconUrl="image/swap.svg"
     (click)="openSwapBlade()"
-    [disabled]="!hasWriteAccess || !hasSwapAccess || site?.properties.targetSwapSlot !== null"></command>
+    [disabled]="!hasWriteAccess || !hasSwapAccess || context?.site.properties.targetSwapSlot !== null"></command>
 
   <command displayText="{{ 'restart' | translate }}"
     iconUrl="image/restart.svg"
     (click)="restart()"
-    [disabled]="!hasWriteAccess || site?.properties.state !== 'Running'"></command>
+    [disabled]="!hasWriteAccess || context?.site.properties.state !== 'Running'"></command>
 
   <command displayText="{{ 'downloadProfile' | translate}}"
     iconUrl="image/download.svg"
@@ -35,18 +35,18 @@
     [disabled]="!hasWriteAccess"></command>
 </command-bar>
 
-<download-function-app-content (close)="hideDownloadFunctionAppModal()" *ngIf="showDownloadFunctionAppModal" [scmUrl]="scmUrl"></download-function-app-content>
+<download-function-app-content (close)="hideDownloadFunctionAppModal()" *ngIf="showDownloadFunctionAppModal" [scmUrl]="context?.scmUrl"></download-function-app-content>
 
-<a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink" [href]="publishProfileLink" [download]="site?.name + '.PublishSettings'"></a>
+<a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink" [href]="publishProfileLink" [download]="context?.site.name + '.PublishSettings'"></a>
 
 <div id="essentials-container">
   <div class="essentials-col">
     <div>
       <label id="siteStatusLabel">{{'status' | translate}}</label>
-      <div tabindex="0" 
-           id="siteStatusValue" 
+      <div tabindex="0"
+           id="siteStatusValue"
            aria-labelledby="siteStatusLabel siteStatusValue">
-           <img *ngIf="stateIcon" 
+           <img *ngIf="stateIcon"
            [src]="stateIcon" />
            {{state}}
       </div>
@@ -54,10 +54,10 @@
 
     <div [class.invisible]="hideAvailability">
       <label id="siteAvailabilityLabel">{{'availability' | translate}}</label>
-      <div [class.site-faded-text]="availabilityState === 'unknown'" 
-           tabindex="0" id="siteAvailabilityValue" 
+      <div [class.site-faded-text]="availabilityState === 'unknown'"
+           tabindex="0" id="siteAvailabilityValue"
            aria-labelledby="siteAvailabilityLabel siteAvailabilityValue">
-           <img *ngIf="availabilityIcon" 
+           <img *ngIf="availabilityIcon"
            [src]="availabilityIcon" />
            {{availabilityMesg}}
       </div>
@@ -68,11 +68,11 @@
     <div>
       <label id="siteSubscriptionNameLabel">{{'subscriptionName' | translate}}</label>
       <div>
-        <a [class.disabled-link]="isStandalone" 
-          (click)="openSubscriptionBlade()" 
-          tabindex="0" 
-          (keydown)="onKeyPress($event, 'subscription')" 
-          id="siteSubscriptionNameLink" 
+        <a [class.disabled-link]="isStandalone"
+          (click)="openSubscriptionBlade()"
+          tabindex="0"
+          (keydown)="onKeyPress($event, 'subscription')"
+          id="siteSubscriptionNameLink"
           aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
           {{subscriptionName}}
         </a>
@@ -81,8 +81,8 @@
 
     <div>
       <label id="siteSubscriptionLabel">{{'subscription' | translate}}</label>
-      <div tabindex="0" 
-           id="siteSubscriptionValue" 
+      <div tabindex="0"
+           id="siteSubscriptionValue"
            aria-labelledby="siteSubscriptionLabel siteSubscriptionValue">
            {{subscriptionId}}
       </div>
@@ -93,11 +93,11 @@
     <div>
       <label id="siteResourceGroupLabel">{{'resourceGroup' | translate}}</label>
       <div>
-        <a [class.disabled-link]="isStandalone" 
-         (click)="openResourceGroupBlade()" 
-         tabindex="0" 
-         (keydown)="onKeyPress($event, 'resourceGroup')" 
-         id="siteResourceGroupLink" 
+        <a [class.disabled-link]="isStandalone"
+         (click)="openResourceGroupBlade()"
+         tabindex="0"
+         (keydown)="onKeyPress($event, 'resourceGroup')"
+         id="siteResourceGroupLink"
          aria-labelledby="siteResourceGroupLabel siteResourceGroupLink">
          {{resourceGroup}}
         </a>
@@ -106,8 +106,8 @@
 
     <div>
       <label id="siteLocationLabel">{{'location' | translate}}</label>
-      <div tabindex="0" 
-           id="siteLocationValue" 
+      <div tabindex="0"
+           id="siteLocationValue"
            aria-labelledby="siteLocationLabel siteLocationValue">
            {{location}}
       </div>
@@ -118,13 +118,13 @@
     <div>
       <label id="siteUrlLabel">URL</label>
       <div>
-        <a [class.disabled-link]="isStandalone" 
-          (click)="openUrl()" 
-          tabindex="0" 
-          (keydown)="onKeyPress($event, 'url')" 
-          id="siteUrlLink" 
+        <a [class.disabled-link]="isStandalone"
+          (click)="openMainAppUrl()"
+          tabindex="0"
+          (keydown)="onKeyPress($event, 'url')"
+          id="siteUrlLink"
           aria-labelledby="siteUrlLabel siteUrlLink">
-          {{url}}
+          {{context?.mainSiteUrl}}
         </a>
       </div>
     </div>
@@ -132,11 +132,11 @@
     <div>
       <label id="siteAppServicePlanLabel">{{'appServicePlanPricingTier' | translate}}</label>
       <div>
-        <a [class.disabled-link]="isStandalone" 
-          (click)="openPlanBlade()" 
-          tabindex="0" 
-          (keydown)="onKeyPress($event, 'appServicePlan')" 
-          id="siteAppServicePlanLink" 
+        <a [class.disabled-link]="isStandalone"
+          (click)="openPlanBlade()"
+          tabindex="0"
+          (keydown)="onKeyPress($event, 'appServicePlan')"
+          id="siteAppServicePlanLink"
           aria-labelledby="siteAppServicePlanLabel siteAppServicePlanLink">
           {{plan}}
         </a>
@@ -149,6 +149,6 @@
 <div id="site-summary-body">
   <div *ngIf="!isStandalone" id="site-summary-features">
     <h2>{{ 'enabledFeatures_header' | translate }}</h2>
-    <site-enabled-features [siteInput]="site"></site-enabled-features>
-  </div>  
+    <site-enabled-features [siteInput]="context?.site"></site-enabled-features>
+  </div>
 </div>

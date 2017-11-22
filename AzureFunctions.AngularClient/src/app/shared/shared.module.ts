@@ -1,4 +1,4 @@
-import { FunctionsService } from './services/functions-service';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
 import { LoadImageDirective } from './../controls/load-image/load-image.directive';
 import { SlideToggleComponent } from './../controls/slide-toggle/slide-toggle.component';
@@ -13,7 +13,7 @@ import { BackgroundTasksService } from './services/background-tasks.service';
 import { UtilitiesService } from './services/utilities.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthzService } from './services/authz.service';
-import { SiteService } from './services/slots.service';
+import { SlotsService } from './services/slots.service';
 import { ScenarioService } from './services/scenario/scenario.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from './services/log.service';
@@ -162,7 +162,7 @@ export class SharedModule {
             providers: [
                 ConfigService,
                 TryFunctionsService,
-                FunctionsService,
+                FunctionAppService,
                 UserService,
                 LanguageService,
                 PortalService,
@@ -178,7 +178,7 @@ export class SharedModule {
                 },
                 CacheService,
                 ScenarioService,
-                SiteService,
+                SlotsService,
                 AuthzService,
                 LocalStorageService,
                 UtilitiesService,
