@@ -185,7 +185,7 @@ export class BindingInputV2Component {
         this.inputChanged(value);
     }
 
-    onInfoKeyPress(event: KeyboardEvent, input: PickerInput) {
+    onInfoKeyPress(event: KeyboardEvent, input: BindingInputBase<any>) {
         if (event.keyCode === KeyCodes.enter) {
             input.showHelp = !input.showHelp;
         }
