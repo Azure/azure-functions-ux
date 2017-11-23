@@ -155,6 +155,8 @@ export class NoCorsHttpService {
                                     this._aiService.trackEvent(ErrorIds.passThroughApiError, content);
                                     throw error;
                                 }
+                            } else if (e.status === 403 && e.text().indexOf('This web app is stopped')) {
+                                e.isHandled = true;
                             }
                             throw e;
                         });
