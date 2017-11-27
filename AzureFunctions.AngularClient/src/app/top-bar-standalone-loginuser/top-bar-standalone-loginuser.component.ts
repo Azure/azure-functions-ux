@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { User } from '../shared/models/user';
 import { ConfigService } from './../shared/services/config.service';
-import { Router} from '@angular/router';
+import { UserService } from '../shared/services/user.service';
+
 
 @Component({
     selector: 'top-bar-standalone-loginuser',
@@ -14,13 +15,13 @@ export class TopBarStandAloneLoginUserComponent {
     public isStandalone: boolean;
     constructor(
         private _configService: ConfigService,
-        private router: Router
+        private _userService: UserService
     ) {
         this.isStandalone = this._configService.isStandalone();
     }
 
     logout() {
-        this.router.navigate(['/'], { queryParams: {logout: 'true'} });
+        this._userService.logout();
         window.location.reload();
     }
 

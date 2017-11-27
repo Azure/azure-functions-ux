@@ -116,6 +116,10 @@ export class UserService {
             .map(r => <User>r.json());
     }
 
+    logout() {
+        this._http.get(Constants.serviceHost + 'api/logout').subscribe();
+    }
+
     private _setToken(token: string) {
 
         if (token !== this._startupInfo.token) {
