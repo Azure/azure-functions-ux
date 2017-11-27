@@ -16,10 +16,4 @@ export interface Template {
     description?: string;
     enabledInTryMode?: boolean;
     AADPermissions?: AADPermissions[];
-    languages?: string[];
-    categories?: string[];
-    ids?: string[];
-    color?: string;
-    icon?: string;
-    barcolor?: string;
 }

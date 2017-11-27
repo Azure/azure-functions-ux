@@ -1,11 +1,12 @@
+import { KeyCodes } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
-import { Template } from './../../shared/models/template-picker';
 import { ExtensionInstallStatus } from './../../shared/models/constants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../../shared/function-app';
 import { RuntimeExtension } from './../../shared/models/binding';
 import { Component, Input, Output } from '@angular/core';
+import { CreateCard } from 'app/function/function-new/function-new.component';
 
 @Component({
   selector: 'extension-install-detail',
@@ -14,7 +15,7 @@ import { Component, Input, Output } from '@angular/core';
 })
 export class ExtensionInstallDetailComponent {
   @Input() functionApp: FunctionApp;
-  @Input() functionCardTemplate: Template;
+  @Input() functionCard: CreateCard;
   @Output() installed: BehaviorSubject<boolean> = new BehaviorSubject(false);
   @Output() closePanel = new Subject();
 
@@ -151,8 +152,14 @@ export class ExtensionInstallDetailComponent {
     });
   }
 
+  onKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.escape) {
+      this.close();
+    }
+  }
+
   close() {
     this.closePanel.next();
   }
 
-  }
+}

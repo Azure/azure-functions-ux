@@ -1,8 +1,8 @@
-<div class="headerBox" [style.background-color]="functionCardTemplate.barcolor" >{{functionCardTemplate.name}}
-    <img [src]="functionCardTemplate.icon" [style.background-color]="functionCardTemplate.color" />
+<div class="headerBox" [style.background-color]="functionCard.barcolor" >{{functionCard.name}}
+    <img [src]="functionCard.icon" [style.background-color]="functionCard.color" />
 </div>
 
-<div class="content">
+<div class="content" (keydown)="onKeyPress($event)">
     <h2>{{'sideBar_newFunction' | translate }}</h2>
 
     <div class="create-button-container" *ngIf="currentTemplate && currentTemplate.metadata.AADPermissions">
@@ -16,7 +16,10 @@
     <div class="input-header">
         <label class="control-label">{{ 'templatePicker_language' | translate }}</label>
     </div>
-    <drop-down [options]="languageOptions" (value)="onLanguageChanged($event)" [setDefault]="false"></drop-down>
+    <drop-down [options]="languageOptions" 
+               (value)="onLanguageChanged($event)" 
+               [setDefault]="false" 
+               attr.aria-label="{{'templatePicker_language' | translate}}"></drop-down>
 
     <div class="input-header">
         <label class="control-label">{{ 'nameColon' | translate }}</label>
@@ -68,7 +71,7 @@
         {{ 'eventGrid_createMessage' | translate }}
     </div>
 
-    <div *ngIf="templateWarning" class="alert-notice" role="alert">
+    <div *ngIf="templateWarning" class="alert-notice" role="alert" tabindex="0">
             <div [innerHTML]="templateWarning"></div>
             <div *ngIf="addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
     </div>

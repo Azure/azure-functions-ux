@@ -21,19 +21,27 @@
   <div class="input-header">
     <label [attr.for]="input?.id" class="control-label">
       {{input?.label}}
-        <span class="glyphicon glyphicon-info-sign" (click)="input.showHelp = !input.showHelp"></span>
+        <span class="glyphicon glyphicon-info-sign" 
+              (click)="input.showHelp = !input.showHelp" 
+              tabindex="0"
+              (keydown)="onInfoKeyPress($event, input)">
+        </span>
     </label>
     <ng-container *ngIf="input?.type === 'picker'">
       <i *ngIf="!input.inProcess && !showTryView" 
          class="link" 
          [class.select]="input.errorText" 
-         (click)="openPicker(input)"> 
+         (click)="openPicker(input)"
+         tabindex="0"
+         (keydown)="onNewKeyPress($event, input)"> 
          {{ 'bindingInput_new' | translate }}
       </i>
       <i
          (click)="updateAppSettingValue()"
          class="link"
-         style="font-style: normal">
+         style="font-style: normal"
+         tabindex="0"
+         (keydown)="onShowValueKeyPress($event)">
          <ng-container *ngIf="showAppSettingValue">{{'bindingInput_hide' | translate}}</ng-container>
          <ng-container *ngIf="!showAppSettingValue">{{'bindingInput_show' | translate}}</ng-container>
       </i>
@@ -43,7 +51,10 @@
     <span *ngIf="appSettingValue" class="text-label" style="word-wrap: break-word;">{{appSettingValue}}</span>
     <i *ngIf="!appSettingValue" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
   </div>
-  <div *ngIf="input.showHelp" class="input-show-help">
+  <div *ngIf="input.showHelp" 
+       class="input-show-help" 
+       tabindex="0"
+       (keydown)="onInfoKeyPress($event, input)">
     {{input?.help}}
   </div>
   <div *ngIf="input?.type === 'string' || input?.type === 'int'" 
@@ -70,12 +81,12 @@
 
     <ng-container *ngIf="!!input.errorText && !input.isValid && !input.okEmpty">
       <span class="fa fa-exclamation input-error-adjust"></span>
-      <div class="input-show-error">{{input.errorText}}</div>
+      <div class="input-show-error" tabindex="0">{{input.errorText}}</div>
     </ng-container>
 
     <ng-container *ngIf="!!input.errorText && input.isValid">
       <span class="fa fa-exclamation input-warning-adjust"></span>
-      <div class="input-show-warning">{{input.errorText}}</div>
+      <div class="input-show-warning" tabindex="0">{{input.errorText}}</div>
     </ng-container>
 
     <div *ngIf="description && !input.errorText">
@@ -98,16 +109,17 @@
   <div *ngIf="input?.type === 'picker'" [ngClass]="input?.class">
     <drop-down [options]="pickerInputs" 
                (value)="onDropDownInputChanged($event)" 
-               [disabled]="input.isDisabled"></drop-down>
+               [disabled]="input.isDisabled"
+               attr.aria-label="{{input.label}}"></drop-down>
 
-    <ng-container *ngIf="!!input.errorText && !input.isValid">
+    <ng-container *ngIf="!!input.errorText && !input.isValid && !input.okEmpty">
       <span class="fa fa-exclamation input-error-adjust"></span>
-      <div class="input-show-error">{{input.errorText}}</div>
+      <div class="input-show-error" tabindex="0">{{input.errorText}}</div>
     </ng-container>
 
     <ng-container *ngIf="!!input.errorText && input.isValid">
       <span class="fa fa-exclamation input-warning-adjust"></span>
-      <div class="input-show-warning">{{input.errorText}}</div>
+      <div class="input-show-warning" tabindex="0">{{input.errorText}}</div>
     </ng-container>
 
     <span *ngIf="!input.inProcess && showTryView" 
@@ -134,7 +146,7 @@
   </div>
 
   <div *ngIf="input?.type === 'enum'" id="enum-list">
-    <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="functionApp"></drop-down>
+    <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="functionApp" attr.aria-label="{{input.label}}"></drop-down>
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 

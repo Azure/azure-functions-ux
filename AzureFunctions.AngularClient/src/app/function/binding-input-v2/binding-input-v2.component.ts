@@ -1,3 +1,4 @@
+import { KeyCodes } from 'app/shared/models/constants';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
 import { Component, Input, Output, ViewChild } from '@angular/core';
@@ -57,7 +58,7 @@ export class BindingInputV2Component {
         }
 
         this._input = input;
-        this._input.okEmpty = input.value === '';
+        this._input.okEmpty = this._input.value === '' || !this._input.value;
         this.setBottomDescription(this._input.id);
 
         this.setClass(input.value);
@@ -184,6 +185,24 @@ export class BindingInputV2Component {
         this.inputChanged(value);
     }
 
+    onInfoKeyPress(event: KeyboardEvent, input: BindingInputBase<any>) {
+        if (event.keyCode === KeyCodes.enter) {
+            input.showHelp = !input.showHelp;
+        }
+    }
+
+    onNewKeyPress(event: KeyboardEvent, input: PickerInput) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.openPicker(input);
+        }
+    }
+
+    onShowValueKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.updateAppSettingValue();
+        }
+    }
+
     functionReturnValueChanged(value: any) {
         if (value) {
             this._input.value = '$return';
@@ -210,7 +229,7 @@ export class BindingInputV2Component {
             const saveValid = this._input.isValid;
 
             if (this._input.required) {
-                this._input.okEmpty = value === '' && this._input.okEmpty;
+                this._input.okEmpty = (value === '' || !this._input.value) && this._input.okEmpty;
                 this._input.isValid = (value) ? true : false;
                 this._input.class = this._input.isValid ? this._input.noErrorClass : this._input.errorClass;
 

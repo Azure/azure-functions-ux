@@ -1,4 +1,4 @@
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
 import { FunctionAppContext } from './../../shared/services/functions-service';
@@ -14,7 +14,6 @@ import { GlobalStateService } from './../../shared/services/global-state.service
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionInfo } from './../../shared/models/function-info';
 import { DropDownElement } from './../../shared/models/drop-down-element';
-import { Template } from './../../shared/models/template-picker';
 import { Component, Input, SimpleChanges, OnChanges, OnInit, Output } from '@angular/core';
 import { FunctionTemplate } from '../../shared/models/function-template';
 import { PortalResources } from '../../shared/models/portal-resources';
@@ -22,6 +21,7 @@ import { Action } from '../../shared/models/binding';
 import { UIFunctionBinding } from '../../shared/models/binding';
 import { PortalService } from '../../shared/services/portal.service';
 import { Observable } from 'rxjs/Observable';
+import { CreateCard } from 'app/function/function-new/function-new.component';
 
 @Component({
   selector: 'function-new-detail',
@@ -32,7 +32,7 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
 
   private _bindingComponents: BindingComponent[] = [];
 
-  @Input() functionCardTemplate: Template;
+  @Input() functionCard: CreateCard;
   @Input() functionLanguage: string;
   @Input() functionsInfo: FunctionInfo[];
   @Input() functionApp: FunctionApp;
@@ -77,8 +77,8 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['functionCardTemplate']) {
-      if (this.functionCardTemplate) {
+    if (changes['functionCard']) {
+      if (this.functionCard) {
         this.updateLanguageOptions();
       }
     }
@@ -86,7 +86,7 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
 
   updateLanguageOptions() {
     this.languageOptions = [];
-    this.functionCardTemplate.languages.forEach(language => {
+    this.functionCard.languages.forEach(language => {
       const dropDownElement: any = {
         displayLabel: language,
         value: language
@@ -122,7 +122,7 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
       .do(r => {
         this.currentTemplate = r.templates.find((t) => {
           return t.metadata.language === this.functionLanguage &&
-            this.functionCardTemplate.ids.find((id) => {
+            this.functionCard.ids.find((id) => {
               return id === t.id;
             });
         });
@@ -184,7 +184,7 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
         this._logService.error(LogCategories.functionNew, '/load-function-template-error', e);
       });
   }
-  
+
   aadRegistrationConfigured(value: boolean) {
     this.aadConfigured = value;
   }
@@ -294,6 +294,12 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
     }
 
     this.clickSave = true;
+  }
+
+  onKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.escape) {
+      this.close();
+    }
   }
 
   close() {
