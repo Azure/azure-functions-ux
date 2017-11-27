@@ -532,7 +532,7 @@ export class FunctionNewComponent implements OnDestroy {
         this._focusedCardIndex = finalIndex;
     }
 
-    _findNextVerticleCardDown(cards: HTMLCollection, index: number) {
+    private _findNextVerticleCardDown(cards: HTMLCollection, index: number) {
         // Flexbox can have various arrangements of cards that make for some edge cases in using the down arrow key
 
         // This difficulty does not exist with less than 7 cards because we are gaurenteed that the card to go
@@ -605,7 +605,7 @@ export class FunctionNewComponent implements OnDestroy {
         return closestCardIndex;
     }
 
-    _findNextVerticleCardUp(cards: HTMLCollection, index: number) {
+    private _findNextVerticleCardUp(cards: HTMLCollection, index: number) {
         // Up arrow is much easier for Flexbox
         // The row above always has more than or equal to the number of boxes of the current row
         // This means there is a card above the current card that will be within its width (350)
