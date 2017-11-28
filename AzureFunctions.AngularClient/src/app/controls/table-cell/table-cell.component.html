@@ -1,0 +1,17 @@
+<div class="cell-liner">
+    <div
+        *ngIf="parentRow.parentTable.editMode && parentRow.active && isFirstCell"
+        class="boundary-left"
+        tabindex="0"
+        [attr.aria-label]="Resources.table_startOfRow | translate"
+        #boundaryLeft>
+    </div>
+    <ng-content></ng-content>
+    <div
+        *ngIf="parentRow.parentTable.editMode && parentRow.active && isLastCell"
+        class="boundary-right"
+        tabindex="0"
+        [attr.aria-label]="Resources.table_endOfRow | translate"
+        #boundaryRight>
+    </div>
+</div>

@@ -1,9 +1,10 @@
 export enum BroadcastEvent {
+    TreeNavigation,
+    TreeUpdate,
     FunctionDeleted,
     FunctionAdded,
     FunctionSelected,
     FunctionUpdated,
-    // FunctionNew,
     UpdateBusyState,
     TutorialStep,
     IntegrateChanged,
@@ -15,22 +16,8 @@ export enum BroadcastEvent {
     ClearError,
     OpenTab,
     DirtyStateChange,
-    AppsDashboard,
-    AppDashboard,
-    FunctionsDashboard,
-    FunctionDashboard,
-    FunctionIntegrateDashboard,
-    FunctionManageDashboard,
-    FunctionMonitorDashboard,
-    CreateFunctionAutoDetectDashboard,
-    CreateFunctionDashboard,
-    CreateFunctionQuickstartDashboard,
-    CreateProxyDashboard,
-    ProxiesDashboard,
-    ProxyDashboard,
-    CreateSlotDashboard,
-    SlotsDashboard,
-    ReloadDeploymentCenter
+    ReloadDeploymentCenter,
+    UpdateAppsList
 }
 
 export interface DirtyStateEvent {
@@ -42,4 +29,10 @@ export interface BusyStateEvent{
     busyComponentName: string;
     action: 'setBusyState' | 'clearBusyState' | 'clearOverallBusyState';
     busyStateKey: string;
+}
+
+export interface TreeUpdateEvent{
+    operation: 'add' | 'remove' | 'removeChild' | 'update' | 'navigate';
+    resourceId: string;
+    data?: any;
 }

@@ -105,10 +105,13 @@ export class Regex {
 
 export class Links {
     public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
+    public static pythonLearnMore = "https://go.microsoft.com/fwlink/?linkid=852196";
+    public static clientAffinityLearnMore = "https://go.microsoft.com/fwlink/?linkid=798249";
 }
 
 export class LocalStorageKeys {
-    public static readonly siteTabs = "/site/tabs"
+    public static readonly siteTabs = '/site/tabs';
+    public static readonly savedSubsKey = '/subscriptions/selectedIds';
 }
 
 export class Order {
@@ -117,10 +120,14 @@ export class Order {
         'HttpTrigger-',
         'TimerTrigger-',
         'QueueTrigger-',
-        'BlobTrigger-',
-        'EventHubTrigger-',
         'ServiceBusQueueTrigger-',
         'ServiceBusTopicTrigger-',
+        'BlobTrigger-',
+        'EventHubTrigger-',
+        'CosmosDBTrigger-',
+        'IoTHubTrigger-',
+        'IoTHubServiceBusQueueTrigger-',
+        'IoTHubServiceBusTopicTrigger-',
         'GenericWebHook-',
         'GitHubCommenter-',
         'GitHubWebHook-',
@@ -168,9 +175,20 @@ export class ScenarioIds {
     public static readonly enableProcessExplorer = 'EnableProcessExplorer';
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
-
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
+    public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
+    public static readonly enablePlatform64 = 'EnablePlatform64';
+    public static readonly enableAlwaysOn = 'EnableAlwaysOn';
+    public static readonly deleteAppDirectly = 'deleteAppDirectly';
+    public static readonly enableAutoSwap = 'EnableAutoSwap';
+
+    public static readonly createApp = 'createApp';
+    public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
+    public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';
+    public static readonly topBarWarning = 'TopBarWarning';
+    public static readonly userMenu = 'UserMenu';
+    public static readonly standAloneUserMenu = 'StandAloneUserMenu';
 }
 
 export class ServerFarmSku {
@@ -191,11 +209,13 @@ export class NationalCloudArmUris {
 }
 
 export class LogCategories {
+    public static readonly FunctionEdit = 'FunctionEdit';
     public static readonly FunctionMonitor = 'FunctionMonitor';
     public static readonly SideNav = 'SideNav';
     public static readonly siteDashboard = 'SiteDashboard';
     public static readonly scenarioService = 'ScenarioService';
     public static readonly apiDetails = 'ApiDetails';
+    public static readonly broadcastService = 'BroadcastService';
     public static readonly newSlot = 'NewSlot';
     public static readonly svgLoader = 'SvgLoader';
     public static readonly busyState = 'BusyState';
@@ -207,6 +227,11 @@ export class LogCategories {
     public static readonly handlerMappings = 'HandlerMappings';
     public static readonly virtualDirectories = 'VirtualDirectories';
     public static readonly logicapps = 'LogicApps';
+    public static readonly subsCriptions = 'SubsCriptions';
+    public static readonly functionAppSettings = 'FunctionAppSettings';
+    public static readonly swaggerDefinition = 'SwaggerDefinition';
+    public static readonly binding = 'Binding';
+    public static readonly functionNew = 'FunctionNew';
 }
 
 export class KeyCodes {
@@ -215,11 +240,14 @@ export class KeyCodes {
     public static readonly shiftLeft = 16;
     public static readonly space = 32;
     public static readonly escape = 27;
+    public static readonly end = 35;
+    public static readonly home = 36;
     public static readonly arrowLeft = 37;
     public static readonly arrowUp = 38;
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
     public static readonly delete = 46;
+    public static readonly f2 = 113;
 }
 
 export class ExtensionInstallStatus {
@@ -231,4 +259,10 @@ export class ExtensionInstallStatus {
 export class DomEvents {
     public static readonly keydown = 'keydown';
     public static readonly click = 'click';
+}
+
+export class RuntimeImage {
+    public static readonly v1 = "v1";
+    public static readonly v2 = "v2";
+    public static readonly custom = "custom";
 }

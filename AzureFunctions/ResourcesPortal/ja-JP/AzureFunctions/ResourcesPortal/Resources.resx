@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -129,6 +129,18 @@
   <data name="configure" xml:space="preserve">
     <value>構成</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>アップグレードして有効にする</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>選択済みの項目すべて</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>{0} 個のアイテムが選択されています</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>関数の作成エラー: {{error}}</value>
   </data>
@@ -171,8 +183,20 @@
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>以下からテンプレートを選択するか、</value>
   </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>新しいサブスクリプションを作成するには、下のプランを選択します</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>サブスクリプションのフレンドリ名を指定します</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>サブスクリプションのフレンドリ名</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>招待コード</value>
+  </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>このテンプレートは試験段階であり、まだ完全にはサポートされていません。問題が発生した場合には、&lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub リポジトリ&lt;/a&gt;でバグを報告してください。</value>
+    <value>この言語は試験段階であり、まだ完全にはサポートされていません。問題が発生した場合には、&lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub リポジトリ&lt;/a&gt;でバグをご報告ください。</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>関数名</value>
@@ -322,17 +346,50 @@
   <data name="save" xml:space="preserve">
     <value>保存</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>保存操作が現在進行中です。移動すると、変更内容の一部が失われる可能性があります。</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ 新しい文字列の追加</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ 新しい接続文字列の追加</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ 新しいドキュメントを追加します</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ 新しいハンドラー マッピングを追加します</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ 新しい仮想アプリケーションまたはディレクトリを追加します</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>名前の入力</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>値を入力してください</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>拡張機能を入力してください</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>スクリプト プロセッサを入力してください</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>引数を入力してください</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>仮想パスを入力してください</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>物理パスを入力してください</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>アプリケーション</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>スロットの設定</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>非表示の値です。表示するには、クリックしてください。</value>
@@ -349,8 +406,14 @@
   <data name="search" xml:space="preserve">
     <value>検索する</value>
   </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>この項目にスコープを合わせる</value>
+  </data>
   <data name="searchFeatures" xml:space="preserve">
     <value>機能の検索</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>関数アプリの検索</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>サブスクリプション ID</value>
@@ -424,6 +487,12 @@
   <data name="enabled" xml:space="preserve">
     <value>有効</value>
   </data>
+  <data name="disable" xml:space="preserve">
+    <value>無効にする</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>有効</value>
+  </data>
   <data name="errorList_here" xml:space="preserve">
     <value>ここ</value>
   </data>
@@ -432,6 +501,9 @@
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>構成の解析エラー: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>関数 {{functionName}} を {{state}} できませんでした</value>
   </data>
   <data name="features" xml:space="preserve">
     <value>機能</value>
@@ -462,6 +534,9 @@
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>標準エディター</value>
+  </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>関数 {{name}} の削除</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>関数 {{name}} を削除してもよろしいですか?</value>
@@ -880,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>ランタイム バージョン</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>ランタイム イメージ</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.Net Framework/Server Core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.Net Core/Nano Server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Function App は設定されたクォータを超過しているため、無効になっています。クォータは、左側のサイド バーの Function App の設定ビューから変更できます。</value>
   </data>
@@ -944,19 +1031,10 @@
     <value>ランタイム バージョン: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>プロキシ (プレビュー)</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>プロキシのランタイム バージョン: {{extensionVersion}}。新しいバージョン ({{latestExtensionVersion}}) が利用可能です。</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>プロキシのランタイム バージョン: 最新 ({{latestExtensionVersion}})</value>
+    <value>プロキシ</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Azure Functions プロキシの有効化 (プレビュー)</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>現在、Azure Functions プロキシが無効になっています。有効にするには、</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>プロキシ {{name}} に対して行った変更が失われます。続行してもよろしいですか?</value>
@@ -967,7 +1045,7 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Azure Functions スロット (プレビュー) は現在無効になっています。有効にするには、</value>
   </data>
-  <data name="discrard" xml:space="preserve">
+  <data name="discard" xml:space="preserve">
     <value>破棄</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
@@ -1017,6 +1095,9 @@
   </data>
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>すべてのサブスクリプション</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>サブスクリプション</value>
   </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>{0} 個のサブスクリプション</value>
@@ -1093,6 +1174,9 @@
   <data name="enabledFeatures_description" xml:space="preserve">
     <value>上の [Platform features] タブで機能を構成すると、その機能へのクイック リンクがここに表示されます。</value>
   </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>アプリ '{0}' に未保存の変更がある場合には、変更内容が失われます。続行してもよろしいですか?</value>
+  </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>アプリ '{0}' に関する情報を取得している間にエラーが発生しました</value>
   </data>
@@ -1159,6 +1243,12 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>従量課金プランのアプリでは、この機能がサポートされていません</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>スロットではこの機能がサポートされていません。</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>Linux アプリでは、この機能はサポートされていません</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>この機能を使用するには、現在のアプリに対する書き込みアクセス許可が必要です</value>
   </data>
@@ -1189,17 +1279,203 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Web ベースの対話型コンソールでアプリのファイル システムを調査します。</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH は、Linux アプリのコードに Web SSH コンソールのエクスペリエンスを提供します</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>拡張機能</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>拡張機能では、アプリ全体に機能を追加できます。</value>
   </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(表示するアプリケーション設定がありません)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(表示する接続文字列がありません)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(表示する既定ドキュメントはありません)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(表示するハンドラー マッピングがありません)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(表示する仮想アプリケーションまたはディレクトリはありません)</value>
+  </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>全般設定</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>自動スワップ</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>デバッグ</value>
+  </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>ランタイム</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>アプリケーション設定</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>アプリの設定、接続文字列、ランタイム設定などを管理します。</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>既定のドキュメント</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>ハンドラー マッピング</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>仮想アプリケーションとディレクトリ</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>この設定を編集するには、現在のアプリに対する書き込みアクセス許可が必要です。</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>このアプリには読み取り専用ロックが設定されているため、設定の編集や保護されたデータの取得ができません。ロックを解除してからもう一度やり直してください。</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>読み取り専用モードで設定を表示します。</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>設定の読み込みに失敗しました。</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>読み込んでいます...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>Web アプリ設定を更新しています</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>Web アプリ設定が正常に更新されました</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>Web アプリ設定を更新できませんでした:</value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} 保存エラー: 入力内容が無効です。</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework のバージョン</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>.NET Framework を使用している場合に、Web アプリを実行するために使用されるバージョン</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP のバージョン</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>PHP を使用している場合に、Web アプリを実行するために使用されるバージョン</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python バージョン</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>Python を使用している場合に、Web アプリを実行するために使用されるバージョン</value>
+  </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service は、新しいバージョンの Python のインストールをサポートしています。詳しくは、ここをクリックしてください。</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java バージョン</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>Java を使用している場合に、Web アプリを実行するために使用されるバージョン</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java マイナー バージョン</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>希望する Java マイナー バージョンを選択してください。"最新" を選択すると、ポータルに追加された日時が最も新しい JVM が常にアプリで使用されます。</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Java Web コンテナー</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>Java を使用している場合に、Web アプリを実行するために使用される Web コンテナー バージョン</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>プラットフォーム</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>Web アプリが実行されているプラットフォーム アーキテクチャ</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>64 ビット構成には、Basic 以上の App Service プランが必要です</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Web ソケット</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>WebSocket では、Web アプリと最新ブラウザーをより柔軟に接続できます。Web アプリは、これらの機能を活用するように構築する必要があります。</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>常時接続</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>Web アプリを毎回読み込む必要があることを示します。既定では、Web アプリはアイドルになった後でアンロードされます。この Web アプリで実行されている継続的な Web ジョブがある場合は、このオプションを有効にすることをお勧めします。</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>常にオンにするには、Basic 以上の App Service プランが必要です</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>マネージ パイプライン バージョン</value>
+  </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>自動スワップの送信先を実稼働スロットから構成することはできません</value>
+  </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>自動スワップには、Standard 以上の App Service プランが必要です。</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>自動スワップ</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>自動スワップ スロット</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>ARR アフィニティ</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>アフィニティ Cookie を無効にすると、ステートレス アプリケーションのパフォーマンスを向上させることができます。ステートフル アプリケーションの場合、互換性向上のため アフィニティ Cookie を有効にしたままにする必要があります。詳細については、ここをクリックしてください。</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>リモート デバッグ</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>リモート Visual Studio のバージョン</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>スタック</value>
+  </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Web Apps on Linux では、組み込みコンテナーのコレクションで実行時のオプションが提供されます。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;詳細情報&lt;/a&gt;。</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>スタートアップ ファイル</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>コンテナーのスタートアップの一環として実行される、オプションのスタートアップ コマンドを提供します。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;詳細情報&lt;/a&gt;。</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>新しい順</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32 ビット</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64 ビット</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>クラシック</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>統合</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>プロパティ</value>
@@ -1220,7 +1496,7 @@
     <value>App Service の設定をすべて表示します。</value>
   </data>
   <data name="feature_functionSettingsInfo" xml:space="preserve">
-    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+    <value>アプリ内の関数すべてに使用する Functions ランタイムに影響を及ぼす設定を管理します。</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>全般設定</value>
@@ -1251,6 +1527,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>アプリケーションを保護してユーザーごとのデータを取り扱うには、認証/承認を使用します。</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>管理対象サービス ID</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>アプリケーションが、管理されている Azure Active Directory ID を使って自ら他の Azure サービスと通信できます。</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>プッシュ通知</value>
@@ -1379,10 +1661,13 @@
     <value>設定</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function settings</value>
+    <value>Function App の設定</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>構成</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>アプリケーション設定</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>この試用版では、Function App の管理機能は利用できません。</value>
@@ -1574,7 +1859,7 @@
     <value>入門用チュートリアルを確認する</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>関数</value>
+    <value>関数 (プレビュー)</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
     <value>API 定義キー</value>
@@ -1586,7 +1871,7 @@
     <value>API 定義テンプレートを生成する</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>PowerApps + Flow にエクスポートする</value>
+    <value>PowerApps + Flow にエクスポート</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
     <value>API 定義の形式が正しくないため、保存できません。</value>
@@ -1613,7 +1898,7 @@
     <value>自分の API 定義を使用する</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API 定義 (プレビュー)</value>
+    <value>API 定義</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
     <value>Swagger エンドポイント用のキー swaggerdocumentationkey を作成または更新できません。ランタイム ログでエラーの有無を確認するか、後でもう一度やり直してください。</value>
@@ -1676,7 +1961,7 @@
     <value>読み取り専用</value>
   </data>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
-    <value>読み取り\書き込み</value>
+    <value>読み取り/書き込み</value>
   </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>値の重複は許可されていません</value>
@@ -1704,6 +1989,12 @@
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>ソース管理が有効になっているにもかかわらず編集モードが [読み取り\書き込み] に設定されたため、アプリが現在 [読み取り\書き込み] モードになっています。今回の変更はいずれも、次回のデプロイで上書きされる可能性があります。編集モードを変更するには、</value>
+  </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>生成された function.json を公開しているため、アプリは現在読み取り専用モードになっています。function.json に加えられた変更は、Functions ランタイムでは受け入れられません。</value>
+  </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>function.json が生成されたにもかかわらず編集モードが [読み取り\書き込み] に設定されたため、アプリが現在 [読み取り\書き込み] モードになっています。今回の変更はいずれも、次回のデプロイで上書きされる可能性があります。編集モードを変更するには、</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>コピー</value>
@@ -1748,10 +2039,22 @@
     <value>スロット (プレビュー)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>展開スロット (プレビュー) を有効にします。これは、Function App に対する 1 回限りのオプトインであり、後から無効にはできません。シークレットが既に存在する場合には、リセットされます。更新後の新しいシークレットは、次の場所にコピーされます</value>
+    <value>デプロイ スロット (プレビュー) を有効にします。</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>各関数の [管理] ノード。</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>既知の問題:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Logic Apps の Functions との統合は、スロット (プレビュー) が有効になっている場合は機能しません。</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>このプレビュー機能の利用を選択すると、既存のシークレットがすべてリセットされます。関数のシークレットは、各関数の </value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'管理'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>ノードの下にあります。</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>名前</value>
@@ -1790,7 +2093,7 @@
     <value>スロット (プレビュー)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>ライブ メトリックやカスタム クエリなど、これまで以上に充実した監視エクスペリエンスを実現するために、&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt; の使用をお勧めします。</value>
+    <value>ライブ メトリックやカスタム クエリなど、これまで以上に充実した監視エクスペリエンスを実現するために、&lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Function App で Application Insights を有効にしてください&lt;/a&gt;</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>この値は、メイン Web アプリの URL に追加され、スロットのパブリック アドレスとして機能します。たとえば、'contoso' という名前の Web アプリで、スロットの名前が 'staging' である場合、新しいスロットの URL は 'http://contoso-staging.azurewebsites.net' のようになります。</value>
@@ -1803,6 +2106,9 @@
   </data>
   <data name="new_" xml:space="preserve">
     <value>新規</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
+    <value>新規作成</value>
   </data>
   <data name="functionManage_deleteFunction" xml:space="preserve">
     <value>関数の削除</value>
@@ -1878,5 +2184,326 @@
   </data>
   <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
     <value>コンテンツと Visual Studio プロジェクト</value>
+  </data>
+  <data name="bindingInput_retrieve" xml:space="preserve">
+    <value>取得</value>
+  </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>プロキシの削除</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>新しいプロキシ</value>
+  </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>上書きなし</value>
+  </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>簡易 AAD の登録</value>
+  </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>作成</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>関数の作成後に Event Grid のサブスクリプションを追加する必要があります。</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>Event Grid のサブスクリプション URL</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>Event Grid のサブスクリプション URL</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Event Grid サブスクリプションの管理</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Event Grid サブスクリプションの追加</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>すべての場所</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>{0} 箇所</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>場所:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>場所でグループ化</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>グループ化なし</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>リソース グループでグループ化</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>サブスクリプションでグループ化</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>米国中南部</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>北ヨーロッパ</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>西ヨーロッパ</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>東南アジア</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>韓国中部</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>韓国南部</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>米国西部</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>米国東部</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>西日本</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>東日本</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>東アジア</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>米国東部 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>米国中北部</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>米国中央部</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>ブラジル南部</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>オーストラリア東部</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>オーストラリア南東部</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>西インド</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>中央インド</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>南インド</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>カナダ中部</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>カナダ東部</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>西中央アメリカ</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>英国西部</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>英国南部</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>西アメリカ 2</value>
+  </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>すべてのリソース グループ</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>リソース グループ:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0} のリソース グループ</value>
+  </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>ボディ</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>状態コード</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>状態メッセージ</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>要求の上書き</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>応答の上書き</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>省略可能</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>プレリリース版の Azure Functions を使用しています。ご利用ありがとうございます。</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>非表示にするにはクリック</value>
+  </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Logic Apps を使用すると、関数を複数のプラットフォーム間で簡単に利用することができます</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>関連する Logic Apps</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Logic Apps を使用した調整</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Logic Apps の作成</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>表示する Logic Apps はありません</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Logic Apps により、SaaS と Enterprise アプリの統合を、視覚的な設計プロセスおよびワークフローと共に迅速に構築できるようになります。</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>展開または折りたたみ</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>App Service の認証と承認:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>AAD を今すぐ構成</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>アクセス許可を今すぐ追加</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>構成済み</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>ID 要件 (満たしていないもの)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>未構成</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>必要なアクセス許可</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>テンプレートに次のアクセス許可が必要です:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>この統合には、関数アプリ用の AAD 構成が必要です。</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>このテンプレートには、関数アプリ用の AAD 構成が必要です。</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>関数で必要とされるアクセス許可を追加で構成することが必要になる場合があります。このバインディングに関するドキュメントをご覧ください。</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>App Service の認証と承認の管理</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>認証の構成が必要です</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>ID 要件</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>インストールされているランタイム拡張機能の一覧を取得できません</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>ランタイム拡張機能 {{extensionId}} をインストールできません</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>ランタイム拡張機能 {{extensionId}} をアンインストールできません</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>ランタイム拡張機能のインストールに想定よりも長く時間がかかっています</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>拡張機能 {{extensionId}} は、別のバージョンが既にインストールされています</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Application Insights を開く</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>関数で App Insights が有効になっています。</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>表示する監視データはありません</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>拡張機能のインストールに成功しました</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>拡張機能がインストールされていません</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>この統合には次の拡張機能が必要です。</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>このテンプレートには次の拡張機能が必要です。</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>テンプレート依存関係をインストールするとき、インストール完了後に関数を作成できます。依存関係のインストールはバックグラウンドで発生し、最大 10 分かかる可能性があります。この間、ポータルは引き続き使用できます。</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>ランタイム拡張機能をインストールできません。インストール ID: {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>GB-秒単位で値を入力してください</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>接続</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>通知ハブ</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>お使いのコンピューターで Java 関数のビルド、テスト、ローカルへのデプロイが可能です。ポータルは必要ありません。</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Java で、最初の Azure 関数を構築する方法についてのドキュメントを開始するには下をクリックします。</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>プロキシが有効になっています。もう一度無効にするには、個々のプロキシをすべて削除するか、無効にします。</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Azure Functions 上の Java のクイック スタート</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>名前:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>トリガー、言語、説明で検索する</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>値を非表示にする</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights インストルメンテーション キーはアプリ設定に表示されていますが、App Insights は Function App のサブスクリプションで見つかりません。App Insights が Function App と同じサブスクリプションに位置していることをご確認ください。</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>行の先頭</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>行の最後</value>
   </data>
 </root>

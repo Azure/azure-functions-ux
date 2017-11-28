@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -129,6 +129,18 @@
   <data name="configure" xml:space="preserve">
     <value>Yapılandır</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>Etkinleştirmek için yükseltin</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>Tümünü seç</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>Tüm öğeler seçildi</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>{0} öğe seçildi</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>İşlev Oluşturma Hatası: {{error}}</value>
   </data>
@@ -171,8 +183,20 @@
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Aşağıdan bir şablon seçin veya</value>
   </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>Yeni abonelik oluşturmak için aşağıdan bir plan seçin</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>Abonelik için bir kolay ad belirtin</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>Aboneliğin kolay adı</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>Davet kodu</value>
+  </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Bu şablon deneysel ve henüz tam destek içermiyor. Sorun yaşarsanız lütfen &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub depomuzda bir hata oluşturun.&lt;/a&gt;</value>
+    <value>Bu dil, deneysel olduğundan henüz tam olarak desteklenmiyor. Sorun yaşarsanız lütfen &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub depomuzdan&lt;/a&gt; hata bildirimi yapın.</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>İşlev adı</value>
@@ -322,17 +346,50 @@
   <data name="save" xml:space="preserve">
     <value>Kaydet</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>Devam eden bir kayıt işlemi var. Sayfadan ayrılırsanız bazı değişiklikler kaybolabilir.</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ Yeni ayar ekle</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Yeni bağlantı dizesi ekle</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ Yeni belge ekle</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ Yeni işleyici eşlemesi ekle</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ Yeni sanal uygulama veya dizin ekle</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>Bir ad girin</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>Bir değer girin</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>Uzantıyı girin</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>Betik işleyicisini girin</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>Bağımsız değişkenleri girin</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>Sanal yolu girin</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>Fiziksel yolu girin</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>Yuva Ayarı</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Gizli değer. Göstermek için tıklayın.</value>
@@ -349,8 +406,14 @@
   <data name="search" xml:space="preserve">
     <value>Ara</value>
   </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>Bu öğeye yönelik kapsam</value>
+  </data>
   <data name="searchFeatures" xml:space="preserve">
     <value>Özelliklerde ara</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>İşlevi uygulamaları ara</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Abone Kimliği</value>
@@ -424,6 +487,12 @@
   <data name="enabled" xml:space="preserve">
     <value>Etkin</value>
   </data>
+  <data name="disable" xml:space="preserve">
+    <value>devre dışı bırak</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>etkin</value>
+  </data>
   <data name="errorList_here" xml:space="preserve">
     <value>buraya</value>
   </data>
@@ -432,6 +501,9 @@
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>Yapılandırma ayrıştırma hatası: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>{{functionName}} işlevi için {{state}} başarısız</value>
   </data>
   <data name="features" xml:space="preserve">
     <value>Özellikler</value>
@@ -462,6 +534,9 @@
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>Standart düzenleyici</value>
+  </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>{{name}} İşlevini sil</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>{{name}} İşlevini silmek istediğinizden emin misiniz?</value>
@@ -880,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Çalışma zamanı sürümü</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Çalışma zamanı görüntüsü</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.net framework/server core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.net core/nano server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>özel</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>İşlev uygulamanız ayarlanan kotayı aştığından devre dışı bırakıldı. Kotayı sol kenar çubuğundaki işlev uygulaması ayarları görünümünden değiştirebilirsiniz.</value>
   </data>
@@ -944,19 +1031,10 @@
     <value>Çalışma zamanı sürümü: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxy'ler (önizleme)</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Proxy çalışma zamanı sürümü: {{extensionVersion}}. Daha yeni bir sürüm ({{latestExtensionVersion}}) mevcut.</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Proxy çalışma zamanı sürümü: güncel ({{latestExtensionVersion}})</value>
+    <value>Proxy'ler</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Azure İşlevleri Proxy'lerini (önizleme) etkinleştir</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>Azure İşlevleri Proxy'leri şu anda devre dışı. Etkinleştirmek için şu sayfayı ziyaret edin:</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>{{name}} adlı proxy'de yapılan değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
@@ -967,7 +1045,7 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Azure İşlevleri yuvaları (önizleme) şu anda devre dışı. Etkinleştirmek için şuraya gidin:</value>
   </data>
-  <data name="discrard" xml:space="preserve">
+  <data name="discard" xml:space="preserve">
     <value>At</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
@@ -1017,6 +1095,9 @@
   </data>
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>Tüm abonelikler</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>Abonelikler</value>
   </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>{0} abonelik</value>
@@ -1093,6 +1174,9 @@
   <data name="enabledFeatures_description" xml:space="preserve">
     <value>Yukarıdaki "Platform özellikleri" sekmesinden özelliklerinizin hızlı bağlantılarını yapılandırarak, hızlı bağlantıların burada görüntülenmesini sağlayabilirsiniz.</value>
   </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>'{0}' uygulaması için kaydedilmemiş değişiklikler kaybolacak. Devam etmek istediğinizden emin misiniz?</value>
+  </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>'{0}' uygulamasıyla ilgili bilgiler alınırken bir hata oluştu</value>
   </data>
@@ -1159,6 +1243,12 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Bu özellik, Tüketim planlarındaki uygulamalarda desteklenmez</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>Bu özellik yuvalar için desteklenmiyor</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>Bu özellik Linux uygulamalarında desteklenmiyor</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Bu özelliği kullanabilmek için, geçerli uygulamada yazma izinlerine sahip olmanız gerekir</value>
   </data>
@@ -1189,17 +1279,203 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Uygulamanızın dosya sistemini etkileşimli bir web tabanlı konsoldan inceleyin.</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH, Linux uygulama kodunuz için bir Web SSH konsol deneyimi sağlar</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Uzantılar</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Uzantılar, uygulamanızın tamamına yönelik işlevler ekler.</value>
   </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(görüntülenecek uygulama ayarı yok)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(görüntülenecek bağlantı dizesi yok)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(görüntülenecek varsayılan belge yok)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(görüntülenecek işleyici eşlemesi yok)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(görüntülenecek sanal uygulama veya dizin yok)</value>
+  </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>Genel ayarlar</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>Otomatik Değiştirme</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>Hata ayıklama</value>
+  </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>Çalışma Zamanı</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Uygulama ayarları</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Uygulama ayarlarını, bağlantı dizelerini, çalışma zamanı ayarlarını ve daha fazlasını yönetin.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>Varsayılan belgeler</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>İşleyici eşlemeleri</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>Sanal uygulamalar ve dizinler</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>Bu ayarları düzenleyebilmeniz için, geçerli uygulamada yazma izinlerine sahip olmanız gerekir.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>Bu uygulamada, ayarların düzenlenmesini veya güvenli verilerin indirilmesini önleyen bir salt okunur kilidi var.</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>Ayarları salt okunur modda görüntüleyin.</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>Ayarlar yüklenemedi.</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Yükleniyor...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>Web uygulaması ayarları güncelleştiriliyor</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>Web uygulaması ayarları başarıyla güncelleştirildi</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>Web uygulaması ayarları güncelleştirilemedi: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} Kayıt Hatası: Geçersiz değerler girildi.</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework sürümü</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>.NET Framework kullanılıyorsa web uygulamanızı çalıştırmak için kullanılan sürüm</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP sürümü</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>PHP kullanılıyorsa web uygulamanızı çalıştırmak için kullanılan sürüm</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python sürümü</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>Python kullanılıyorsa web uygulamanızı çalıştırmak için kullanılan sürüm</value>
+  </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service, daha yeni Python sürümleri yüklemeyi destekler. Daha fazla bilgi için buraya tıklayın.</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java sürümü</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>Java kullanılıyorsa web uygulamanızı çalıştırmak için kullanılan sürüm</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java ikincil sürümü</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>İstediğiniz Java minor sürümünü seçin. 'En Yeni'yi seçerseniz, uygulamanız portala eklenen en son JVM'yi kullanmaya devam eder.</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Java web kapsayıcısı</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>Java kullanılıyorsa web uygulamanızı çalıştırmak için kullanılan web kapsayıcı sürümü</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>Web uygulamanızın çalıştırdığı platformun mimarisi</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>64 bit yapılandırma için temel veya daha yüksek bir App Service planı gerekir</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Web soketleri</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>WebSockets, web uygulamaları ve modern tarayıcılar arasında daha esnek bağlantı sağlar. Web uygulamanız bu özelliklerden yararlanacak şekilde oluşturulması gerekir.</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>Her Zaman Açık</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>Web uygulamanızın her zaman yüklenmesi gerektiğini belirtir. Web uygulamaları boşta kaldıktan sonra varsayılan olarak kaldırılır. Web uygulamasında çalışan sürekli web işleriniz olduğunda bu seçeneği etkinleştirmeniz önerilir.</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>Always On için temel veya daha yüksek bir App Service planı gerekir</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>Yönetilen Ardışık Düzen Sürümü</value>
+  </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>Otomatik değiştirme hedefleri üretim yuvasından yapılandırılamaz</value>
+  </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Otomatik Değiştirme standart veya daha yüksek bir App Service Planı gerektirir</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>Otomatik Değiştirme</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>Otomatik Değiştirme Yuvası</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>ARR Benzeşimi</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>Benzeşim Tanımlama Bilgisini kapatarak durum bilgisi olmayan uygulamalarınızın performansını iyileştirebilirsiniz. Durum bilgisi olan uygulamalarda, uyumluluğu artırmak için Benzeşim Tanımlama Bilgisi açık olmalıdır. Daha fazla bilgi almak için tıklayın.</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>Uzak hata ayıklama</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>Uzak Visual Studio sürümü</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>Yığın</value>
+  </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Linux üzerinde Web Apps, bir yerleşik kapsayıcılar koleksiyonu aracılığıyla çalışma zamanı seçenekleri sunar. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>Başlangıç Dosyası</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Kapsayıcı başlatmanın bir parçası olarak çalışan isteğe bağlı bir başlangıç komutu sağlayın. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Daha fazla bilgi edinin&lt;/a&gt;.</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>En Yeni</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32 bit</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64 bit</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>Klasik</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>Tümleşik</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Özellikler</value>
@@ -1220,7 +1496,7 @@
     <value>Tüm App Service ayarlarını görüntüleyin.</value>
   </data>
   <data name="feature_functionSettingsInfo" xml:space="preserve">
-    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+    <value>Uygulamanız içindeki tüm işlevler içinde, İşlevler çalışma zamanını etkileyen ayarları yönetin.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>Genel Ayarlar</value>
@@ -1251,6 +1527,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>Uygulamanızı korumak ve kullanıcı başına verilerle çalışmak için Kimlik Doğrulaması / Yetkilendirme kullanın.</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>Yönetilen hizmet kimliği</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>Uygulamanız diğer Azure hizmetleriyle kendisi olarak iletişim kurmak için, yönetilen bir Azure Active Directory kimliği kullanabilir.</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>Anında iletme bildirimleri</value>
@@ -1379,10 +1661,13 @@
     <value>Ayarlar</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function settings</value>
+    <value>İşlev uygulaması ayarları</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Yapılandırma</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>Uygulama ayarları</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Bu deneme sürümünde İşlev uygulamanızı yönetemezsiniz.</value>
@@ -1574,7 +1859,7 @@
     <value>Başlarken öğreticimize göz atın</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>İşlev</value>
+    <value>İşlev (önizleme)</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
     <value>API tanımı anahtarı</value>
@@ -1586,7 +1871,7 @@
     <value>API tanımı şablonu oluşturun</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>PowerApps + Flow'a aktar</value>
+    <value>PowerApps + Flow'a Aktar</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
     <value>Hatalı biçimlendirilmiş API tanımı kaydedilemiyor.</value>
@@ -1613,7 +1898,7 @@
     <value>API tanımınızı kullanın</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API tanımı (önizleme)</value>
+    <value>API tanımı</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
     <value>Swagger Uç Noktası için swaggerdocumentationkey anahtarı oluşturulamıyor veya güncelleştirilemiyor. Hatalar için çalışma zamanı günlüklerini kontrol edin veya daha sonra tekrar deneyin.</value>
@@ -1653,12 +1938,12 @@
 Kullanmadan önce, &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;işlem nesnelerini&lt;/a&gt; ve API'niz hakkındaki diğer bilgileri doldurun.</value>
   </data>
   <data name="swaggerDefinition_keyHelp" xml:space="preserve">
-    <value>Bu anahtar, API Tanımınıza anahtarı olmayanlar tarafından erişilmesini engeller.
-Temel API'yi korumaz. Anahtar güvenliklerini görmek için İşlevleri ayrı ayrı inceleyin.</value>
+    <value>Bu anahtar, anahtara sahip olmayanların API Tanımınıza erişmesini engeller.
+Temel API'nin güvenliğini sağlamaz. Anahtar güvenliklerini görmek için İşlevleri ayrı ayrı inceleyin.</value>
   </data>
   <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
-    <value>Barındırılan API tanımını ve şablon tanımı oluşturmayı etkinleştirmek için "İşlev" olarak ayarlayın.
-Başka bir yerde barındırılan API tanımını kullanmak için "Dış URL" olarak ayarlayın.</value>
+    <value>Barındırılan bir API tanımını ve şablon tanımı oluşturmayı etkinleştirmek için "İşlev" olarak ayarlayın.
+Başka yerde barındırılan bir API tanımı kullanmak için "Dış URL" olarak ayarlayın.</value>
   </data>
   <data name="swaggerDefinition_urlHelp" xml:space="preserve">
     <value>API tanımınıza doğrudan erişmek ve tanımı üçüncü taraf uygulamalarına aktarmak için bu URL'yi kullanın </value>
@@ -1676,7 +1961,7 @@ Başka bir yerde barındırılan API tanımını kullanmak için "Dış URL" ola
     <value>Salt Okunur</value>
   </data>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
-    <value>Okuma\Yazma</value>
+    <value>Okuma/Yazma</value>
   </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>Yinelenen değerlere izin verilmez</value>
@@ -1704,6 +1989,12 @@ Başka bir yerde barındırılan API tanımını kullanmak için "Dış URL" ola
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Kaynak denetimini etkinleştirmiş olmanıza karşın düzenleme modunu okuma\yazma olarak ayarladığınız için uygulamanız şu anda okuma\yazma modunda. Bir sonraki dağıtımınızda, yaptığınız tüm değişikliklerin üzerine yazılabilir. Düzenleme modunu değiştirmek için şurayı ziyaret edin:</value>
+  </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>Oluşturulan bir function.json yayımlamış olduğundan uygulamanız şu anda salt okunur modda çalışıyor. Function.json içinde yapılan değişiklikler, İşlevler çalışma zamanı tarafından kullanılmaz. </value>
+  </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Oluşturulmuş bir function.json dosyanız var, ancak düzenleme modunu okuma\yazma olarak ayarladığınız için uygulamanız şu anda okuma\yazma modunda. Bir sonraki dağıtımınızda, yaptığınız tüm değişikliklerin üzerine yazılabilir. Düzenleme modunu değiştirmek için şurayı ziyaret edin:</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopyala</value>
@@ -1748,10 +2039,22 @@ Başka bir yerde barındırılan API tanımını kullanmak için "Dış URL" ola
     <value>Yuvalar (önizleme)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Dağıtım yuvalarını (önizleme) etkinleştirin. Bu, İşlev uygulaması düzeyinde olan tek seferlik bir katılım olup devre dışı bırakılamaz ve önceden mevcut olan tüm gizli diziler sıfırlanır. Güncelleştirme sonrasında, gizli diziler her işlev için </value>
+    <value>Dağıtım yuvalarını etkinleştirin (önizleme).</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>'Yönet' düğümünden kopyalanabilir.</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Bilinen sorunlar:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Yuvalar (Önizleme) etkinleştirildiğinde İşlevler ile Logic Apps tümleştirmesi çalışmaz.</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>Bu önizleme özelliğine katılmayı seçmek, önceden mevcut olan tüm gizli dizileri sıfırlar. İşlev gizli dizileri her işlev için</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'Yönet'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>düğümünde bulunabilir.</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Ad</value>
@@ -1790,7 +2093,7 @@ Başka bir yerde barındırılan API tanımını kullanmak için "Dış URL" ola
     <value>Yuvalar (önizleme)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Canlı ölçümler ve özel sorgular içeren daha zengin bir izleme deneyimi için &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;'ın kullanılması önerilir.</value>
+    <value>Canlı ölçümler ve özel sorgular içeren daha zengin bir izleme deneyimi için &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;İşlev uygulamanız için Application Insights'ı etkinleştirin&lt;/a&gt;</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Bu değer ana web uygulamanızın URL'sine eklenir ve yuvanın genel adresi görevini görür. Örneğin, 'contoso' adında bir web uygulamanız ve ‘staging’ adında bir yuvanız varsa, yeni yuvanın URL'si ‘http://contoso-staging.azurewebsites.net’ olacaktır.</value>
@@ -1803,6 +2106,9 @@ Başka bir yerde barındırılan API tanımını kullanmak için "Dış URL" ola
   </data>
   <data name="new_" xml:space="preserve">
     <value>Yeni</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
+    <value>Yeni oluştur</value>
   </data>
   <data name="functionManage_deleteFunction" xml:space="preserve">
     <value>İşlevi sil</value>
@@ -1878,5 +2184,326 @@ Başka bir yerde barındırılan API tanımını kullanmak için "Dış URL" ola
   </data>
   <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
     <value>İçerik ve Visual Studio projesi</value>
+  </data>
+  <data name="bindingInput_retrieve" xml:space="preserve">
+    <value>al</value>
+  </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>Ara sunucuyu sil</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>Yeni proxy</value>
+  </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>Geçersiz kılma yok</value>
+  </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>Hızlı AAD Kaydı</value>
+  </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>oluştur</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>Event Grid aboneliğini işlev oluşturma işleminden sonra eklemeniz gerekir.</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>Event Grid Abonelik URL'si</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>Event Grid Abonelik URL'si</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Event Grid aboneliklerini yönet</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Event Grid aboneliği ekle</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>Tüm konumlar</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>{0} konum</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>Konum:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>Konuma göre gruplandır</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>Gruplandırma yok</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>Kaynak grubuna göre gruplandır</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>Aboneliğe göre gruplandır</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>Orta Güney ABD</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>Kuzey Avrupa</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>Batı Avrupa</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>Güneydoğu Asya</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>Kore Orta</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>Kore Güney</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>Batı ABD</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>Doğu ABD</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>Batı Japonya</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>Doğu Japonya</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>Doğu Asya</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>Doğu ABD 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>Orta Kuzey ABD</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>Orta ABD</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>Güney Brezilya</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>Doğu Avustralya</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>Avustralya Güneydoğu</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>Batı Hindistan</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>Orta Hindistan</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>Güney Hindistan</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>Kanada Orta</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>Kanada Doğu</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>Orta Batı ABD</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>Birleşik Krallık Batı</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>Birleşik Krallık Güney</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>Batı ABD 2</value>
+  </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>Tüm kaynak grupları</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>Kaynak Grubu:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0} kaynak grubu</value>
+  </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>Gövde</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>Durum kodu</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>Durum iletisi</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>Geçersiz kılma iste</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>Geçersiz kılmayı yanıtla</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>İsteğe bağlı</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>Azure İşlevleri'nin yayın öncesi sürümlerinden birini kullanıyorsunuz. Denediğiniz için teşekkür ederiz!</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>Gizlemek için tıklayın </value>
+  </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Logic Apps, işlevinizi birden çok platformda kolayca kullanmanıza olanak sağlar</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>İlişkili Mantıksal Uygulamalar</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Logic Apps ile Düzenleme</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Mantıksal Uygulama Oluşturma</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>Görüntülenecek Mantıksal Uygulama yok</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Logic Apps, SaaS uygulamalarıyla ve Kurumsal uygulamalarla hızla tümleştirme olanağı sunmanın yanı sıra işlemleri ve iş akışlarını görsel olarak tasarlamanıza da olanak tanır.</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>Genişlet veya Daralt</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>App Service Kimlik Doğrulaması / Yetkilendirmesi:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>AAD'yi şimdi yapılandırın</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>İzinleri şimdi ekleyin</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>yapılandırıldı</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>Kimlik gereksinimleri (karşılanmadı)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>yapılandırılmadı</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>Gerekli izinler</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>Şablon için aşağıdaki izinler gerekiyor:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>Bu tümleştirme, işlev uygulaması için bir AAD yapılandırması gerektirir.</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>Bu şablon, işlev uygulaması için bir AAD yapılandırması gerektirir.</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>İşlevinizin gerektirdiği ek izinleri yapılandırmanız gerekebilir. Lütfen bu bağlama için belgelere bakın.</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>App Service Kimlik Doğrulamasını / Yetkilendirmesini Yönet</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>Kimlik doğrulaması yapılandırması gerekiyor</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>Kimlik gereksinimleri</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>Yönet</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>Yüklü çalışma zamanı uzantılarının listesini alamıyoruz</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>{{extensionId}} çalışma zamanı uzantısını yükleyemiyoruz</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>{{extensionId}} çalışma zamanı uzantısını kaldıramıyoruz</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>Çalışma zamanı uzantılarının yüklenmesi beklenenden uzun sürüyor</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>{{extensionId}} adlı uzantının farklı bir sürümü zaten yüklü</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Application Insights'ı Aç</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>İşleviniz için App Insights etkin.</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>Görüntülenecek İzleme verisi yok</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>Yükle</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>Uzantı Yüklemesi Başarılı Oldu</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>Uzantılar yüklü değil</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>Bu tümleştirme aşağıdaki uzantıları gerektirir.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>Bu şablon aşağıdaki uzantıları gerektirir.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>Installing template dependencies, you will be able to create a function once this done. Dependency installation happens in the background and can take up to 10 minutes. You can continue to use the portal during this time.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>Çalışma zamanı uzantısını yükleyemiyoruz. Yükleme kimliği {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>Değeri GB-sn cinsinden girin</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>Bağlantı</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>Bildirim Hub'ı</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>Java İşlevleri makinenizde yerel olarak derlenebilir, test edilebilir ve dağıtılabilir. Portala gerek yoktur!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Java ile ilk Azure İşlevinizi nasıl oluşturacağınız hakkındaki belgeleri kullanmaya başlamak için aşağıdaki bağlantıya tıklayın.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>Proxy'ler etkinleştirildi. Tekrar devre dışı bırakmak için tüm bireysel proxy'leri silin veya devre dışı bırakın.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Azure İşlevleri Üzerinde Java Hızlı Başlangıç</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Ad:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Tetikleyici, dil veya açıklamaya göre arama</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>değeri gizle</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights izleme anahtarı, uygulama ayarlarında sunulur ancak App Insights, İşlev Uygulaması'nın aboneliğinde bulunmaz. Lütfen App Insights'ınızın İşlev Uygulaması ile aynı abonelikte bulunduğundan emin olun.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Start of row</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>End of row</value>
   </data>
 </root>

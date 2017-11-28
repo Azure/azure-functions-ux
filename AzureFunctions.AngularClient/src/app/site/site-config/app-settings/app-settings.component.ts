@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SaveOrValidationResult } from './../site-config.component';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -51,6 +51,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
+
+  public keyCodes: KeyCodes = KeyCodes;
 
   @Input() mainForm: FormGroup;
 
@@ -182,29 +184,28 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           if (appSettingsArm.properties.hasOwnProperty(name)) {
             const group = this._fb.group({
               name: [
-                name,
+                { value: name, disabled: !this.hasWritePermissions },
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
-              value: [appSettingsArm.properties[name]],
-              isSlotSetting: [stickyAppSettingNames.indexOf(name) !== -1]
+              value: [{ value: appSettingsArm.properties[name], disabled: !this.hasWritePermissions }],
+              isSlotSetting: [{ value: stickyAppSettingNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions }]
             }) as CustomFormGroup;
 
-            group._msExistenceState = 'original';
+            group.msExistenceState = 'original';
             this.groupArray.push(group);
           }
-
         }
+
+        this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
       }
 
       if (this.mainForm.contains("appSettings")) {
         this.mainForm.setControl("appSettings", this.groupArray);
-      }
-      else {
+      } else {
         this.mainForm.addControl("appSettings", this.groupArray);
       }
-    }
-    else {
+    } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
@@ -222,7 +223,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     // Purge any added entries that were never modified
     for (let i = groups.length - 1; i >= 0; i--) {
       let group = groups[i] as CustomFormGroup;
-      if (group._msStartInEditMode && group.pristine) {
+      if (group.msStartInEditMode && group.pristine) {
         groups.splice(i, 1);
         if (group === this.newItem) {
           this.newItem = null;
@@ -230,6 +231,15 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       }
     }
 
+    this._validateAllControls(groups as CustomFormGroup[]);
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
+  }
+
+  private _validateAllControls(groups: CustomFormGroup[]) {
     groups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for (let controlName in controls) {
@@ -238,83 +248,89 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
-
-    return {
-      success: this.groupArray.valid,
-      error: this.groupArray.valid ? null : this._validationFailureMessage()
-    };
   }
 
   getConfigForSave(): ArmObjMap {
-    let configObjects: ArmObjMap = {
-      objects: {}
-    };
+    // Prevent unnecessary PUT call if these settings haven't been changed
+    if (this.groupArray.pristine) {
+      return null;
+    } else {
+      let configObjects: ArmObjMap = {
+        objects: {}
+      };
 
-    let appSettingGroups = this.groupArray.controls;
+      let appSettingGroups = this.groupArray.controls;
 
-    if (this.mainForm.contains("appSettings") && this.mainForm.controls["appSettings"].valid) {
-      let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
-      appSettingsArm.properties = {};
+      if (this.mainForm.contains("appSettings") && this.mainForm.controls["appSettings"].valid) {
+        let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
+        appSettingsArm.properties = {};
 
-      this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-      let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-      slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
-      let appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
+        this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
+        let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+        slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
+        let appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
 
-      for (let i = 0; i < appSettingGroups.length; i++) {
-        if ((appSettingGroups[i] as CustomFormGroup)._msExistenceState !== 'deleted') {
-          let name = appSettingGroups[i].value.name;
+        for (let i = 0; i < appSettingGroups.length; i++) {
+          if ((appSettingGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
+            let name = appSettingGroups[i].value.name;
 
-          appSettingsArm.properties[name] = appSettingGroups[i].value.value;
+            appSettingsArm.properties[name] = appSettingGroups[i].value.value;
 
-          if (appSettingGroups[i].value.isSlotSetting) {
-            if (appSettingNames.indexOf(name) === -1) {
-              appSettingNames.push(name);
-            }
-          }
-          else {
-            let index = appSettingNames.indexOf(name);
-            if (index !== -1) {
-              appSettingNames.splice(index, 1);
+            if (appSettingGroups[i].value.isSlotSetting) {
+              if (appSettingNames.indexOf(name) === -1) {
+                appSettingNames.push(name);
+              }
+            } else {
+              let index = appSettingNames.indexOf(name);
+              if (index !== -1) {
+                appSettingNames.splice(index, 1);
+              }
             }
           }
         }
+
+        configObjects["slotConfigNames"] = slotConfigNamesArm;
+        configObjects["appSettings"] = appSettingsArm;
+      } else {
+        configObjects.error = this._validationFailureMessage();
       }
 
-      configObjects["slotConfigNames"] = slotConfigNamesArm;
-      configObjects["appSettings"] = appSettingsArm;
+      return configObjects;
     }
-    else {
-      configObjects.error = this._validationFailureMessage();
-    }
-
-    return configObjects;
   }
 
   save(
     appSettingsArm: ArmObj<any>,
     slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
 
-    return Observable.zip(
-      this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
-      Observable.of(slotConfigNamesResponse),
-      (a, s) => ({ appSettingsResponse: a, slotConfigNamesResponse: s })
-    )
-      .map(r => {
-        this._appSettingsArm = r.appSettingsResponse.json();
-        this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
-        return {
-          success: true,
-          error: null
-        };
-      })
-      .catch(error => {
-        this._saveError = error._body;
-        return Observable.of({
-          success: false,
-          error: error._body
-        });
+    // Don't make unnecessary PUT call if these settings haven't been changed
+    if (this.groupArray.pristine) {
+      return Observable.of({
+        success: true,
+        error: null
       });
+    } else {
+      return Observable.zip(
+        this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
+        Observable.of(slotConfigNamesResponse),
+        (a, s) => ({ appSettingsResponse: a, slotConfigNamesResponse: s })
+      )
+        .map(r => {
+          this._appSettingsArm = r.appSettingsResponse.json();
+          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+          return {
+            success: true,
+            error: null
+          };
+        })
+        .catch(error => {
+          this._saveError = error._body;
+          return Observable.of({
+            success: false,
+            error: error._body
+          });
+        });
+    }
   }
 
   private _validationFailureMessage(): string {
@@ -326,10 +342,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     let groups = this.groupArray;
     let index = groups.controls.indexOf(group);
     if (index >= 0) {
-      if ((group as CustomFormGroup)._msExistenceState === 'original') {
+      if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
-      }
-      else {
+      } else {
         this._deleteAddedItem(groups, group, index);
       }
     }
@@ -340,8 +355,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     // This keeps the overall state of this.groupArray and this.mainForm dirty.
     group.markAsDirty();
 
-    // Set the group._msExistenceState to 'deleted' so we know to ignore it when validating and saving.
-    (group as CustomFormGroup)._msExistenceState = 'deleted';
+    // Set the group.msExistenceState to 'deleted' so we know to ignore it when validating and saving.
+    (group as CustomFormGroup).msExistenceState = 'deleted';
 
     // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
     for (let key in group.controls) {
@@ -392,8 +407,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       isSlotSetting: [false]
     }) as CustomFormGroup;
 
-    this.newItem._msExistenceState = 'new';
-    this.newItem._msStartInEditMode = true;
+    this.newItem.msExistenceState = 'new';
+    this.newItem.msStartInEditMode = true;
     groups.push(this.newItem);
   }
 }

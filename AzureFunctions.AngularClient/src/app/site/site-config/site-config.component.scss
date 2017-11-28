@@ -23,7 +23,7 @@ td{
     }
 }
 
-.padded-col {
+.padded-col{
     padding-left: 2px;
     padding-right: 2px;
 }
@@ -32,7 +32,7 @@ td{
     width: 33%;
 }
 
-.two-thirds-Col{
+.two-thirds-col{
     width: 66%;
 }
 
@@ -142,6 +142,7 @@ h3{
     }
 
     .setting-wrapper{
+        width: 535px;
         padding-bottom: 15px;
 
         &.last{
@@ -152,17 +153,24 @@ h3{
             box-sizing: border-box;
             display: inline-block;
             min-height: 20px;
-            width: 16%;
+            width: 32%;
         }
 
         .setting-control-container{
             display: inline-block;
             vertical-align: middle;
-            width: 265px;
+            width: 66%;
         }
     }
 }
 
 .transparent{
     background: transparent;
+}
+
+.icon-small{
+    vertical-align: text-top;
+    margin-left: 5px;
+    height: 13px;
+    width: 13px;
 }

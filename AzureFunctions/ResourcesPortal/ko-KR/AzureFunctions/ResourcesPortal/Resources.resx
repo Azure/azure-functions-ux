@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -129,6 +129,18 @@
   <data name="configure" xml:space="preserve">
     <value>구성</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>사용하도록 설정하려면 업그레이드하세요.</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>모두 선택</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>모든 항목이 선택됨</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>{0}개 항목이 선택됨</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>함수 만들기 오류: {{error}}</value>
   </data>
@@ -171,8 +183,20 @@
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>아래 템플릿을 선택하거나</value>
   </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>아래 계획을 선택하여 새 구독을 만드세요.</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>친숙한 구독 이름 제공</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>친숙한 구독 이름</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>초대 코드</value>
+  </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>이 템플릿은 실험적이며 아직 완벽히 지원되지 않습니다. 문제가 발생하는 경우 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub 리포지토리&lt;/a&gt;에서 버그를 보고하세요.</value>
+    <value>이 언어는 실험적이며 아직 완벽히 지원되지 않습니다. 문제가 발생하는 경우 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub 리포지토리&lt;/a&gt;에서 버그를 보고하세요.</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>함수 이름</value>
@@ -322,17 +346,50 @@
   <data name="save" xml:space="preserve">
     <value>저장</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>저장 작업이 현재 진행 중입니다. 다른 곳으로 나가면 일부 변경 내용이 손실될 수 있습니다.</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ 새 설정 추가</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ 새 연결 문자열 추가</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ 새 문서 추가</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ 새 핸들러 매핑 추가</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ 새 가상 응용 프로그램 또는 디렉터리 추가</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>이름 입력</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>값 입력</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>확장명 입력</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>스크립트 처리기 입력</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>인수 입력</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>가상 경로 입력</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>물리적 경로 입력</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>응용 프로그램</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>슬롯 설정</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>숨겨진 값. 표시하려면 클릭하세요.</value>
@@ -349,8 +406,14 @@
   <data name="search" xml:space="preserve">
     <value>검색</value>
   </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>이 항목까지 범위 지정</value>
+  </data>
   <data name="searchFeatures" xml:space="preserve">
     <value>기능 검색</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>함수 앱 검색</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>구독 ID</value>
@@ -424,6 +487,12 @@
   <data name="enabled" xml:space="preserve">
     <value>사용</value>
   </data>
+  <data name="disable" xml:space="preserve">
+    <value>사용 안 함</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>사용</value>
+  </data>
   <data name="errorList_here" xml:space="preserve">
     <value>여기</value>
   </data>
@@ -432,6 +501,9 @@
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>구성 구문 분석 오류: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>{{state}} 함수: {{functionName}}에 실패했습니다.</value>
   </data>
   <data name="features" xml:space="preserve">
     <value>기능</value>
@@ -462,6 +534,9 @@
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>표준 편집기</value>
+  </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>{{name}} 함수 삭제</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>{{name}} 함수를 삭제하시겠습니까?</value>
@@ -880,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>런타임 버전</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>런타임 이미지</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.Net Framework/Server Core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.Net Core/Nano 서버)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>사용자 지정</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>함수 앱의 설정된 할당량이 초과되었으므로 함수 앱을 사용할 수 없습니다. 왼쪽 사이드 바의 함수 앱 설정 보기에서 할당량을 변경할 수 있습니다.</value>
   </data>
@@ -944,19 +1031,10 @@
     <value>런타임 버전: {{exactExtensionVersion}}({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>프록시(미리 보기)</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>프록시 런타임 버전: {{extensionVersion}}. 최신 버전을 사용할 수 있습니다({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>프록시 런타임 버전: 최신({{latestExtensionVersion}})</value>
+    <value>프록시</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Azure Functions 프록시(미리 보기) 사용</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>Azure Functions 프록시를 현재 사용할 수 없습니다. 이 프록시를 사용하려면 다음을 방문하세요.</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>{{name}} 프록시에 대한 변경 내용이 손실됩니다. 계속할까요?</value>
@@ -967,8 +1045,8 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Azure 함수 슬롯(미리 보기)이 현재 사용하지 않도록 설정되어 있습니다. 사용하도록 설정하려면 다음을 방문하세요.</value>
   </data>
-  <data name="discrard" xml:space="preserve">
-    <value>삭제</value>
+  <data name="discard" xml:space="preserve">
+    <value>취소</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
     <value>함수</value>
@@ -983,7 +1061,7 @@
     <value>Google로 로그인</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>Microsoft로 로그인</value>
+    <value>Microsoft에 로그인</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
     <value>백 엔드 URL은 'http://' 또는 'https://'로 시작해야 합니다.</value>
@@ -1017,6 +1095,9 @@
   </data>
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>모든 구독</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>구독</value>
   </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>{0}개 구독</value>
@@ -1093,6 +1174,9 @@
   <data name="enabledFeatures_description" xml:space="preserve">
     <value>위의 "플랫폼 기능" 탭에서 구성한 후 여기에 기능에 대한 빠른 링크가 표시됩니다.</value>
   </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>앱 '{0}'의 저장되지 않은 변경 내용이 손실됩니다. 계속하시겠습니까?</value>
+  </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>앱 '{0}'에 대한 정보를 검색하는 중 오류가 발생했습니다.</value>
   </data>
@@ -1159,6 +1243,12 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>사용 계획의 앱에 대해 이 기능은 지원되지 않습니다.</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>이 기능은 슬롯에 대해 지원되지 않습니다.</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>Linux 앱에 대해 이 기능은 지원되지 않습니다.</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>이 기능을 사용하려면 현재 앱에 대한 쓰기 권한이 있어야 합니다.</value>
   </data>
@@ -1189,17 +1279,203 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>대화형 웹 기반 콘솔에서 앱의 파일 시스템을 탐색합니다.</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH는 Linux 앱 코드에 대해 웹 SSH 콘솔 환경을 제공합니다.</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>확장</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>확장 프로그램은 전체 앱에 기능을 추가합니다.</value>
   </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(표시할 응용 프로그램 설정 없음)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(표시할 연결 문자열 없음)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(표시할 기본 문서 없음)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(표시할 핸들러 매핑 없음)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(표시할 가상 응용 프로그램 또는 디렉터리 없음)</value>
+  </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>일반 설정</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>자동 전환</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>디버깅</value>
+  </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>런타임</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>응용 프로그램 설정</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>앱 설정, 연결 문자열, 런타임 설정 등을 관리합니다.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>기본 문서</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>처리기 매핑</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>가상 응용 프로그램 및 디렉터리</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>이러한 설정을 편집하려면 현재 앱에 대한 쓰기 권한이 있어야 합니다.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>이 앱에는 설정 편집이나 보안 데이터 검색을 방지하는 읽기 전용 잠금이 있습니다. 잠금을 제거하고 다시 시도하세요.</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>읽기 전용 모드로 설정을 확인합니다.</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>설정을 로드하지 못했습니다.</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>로드 중...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>웹앱 설정을 업데이트하는 중</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>웹앱 설정을 업데이트함</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>웹앱 설정 업데이트 실패: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} 저장 오류: 잘못된 입력이 제공되었습니다.</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>.NET Framework 버전</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>.NET Framework를 사용하는 경우 웹앱을 실행하는 데 사용되는 버전</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>PHP 버전</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>PHP를 사용하는 경우 웹앱을 실행하는 데 사용되는 버전</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Python 버전</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>Python을 사용하는 경우 웹앱을 실행하는 데 사용되는 버전</value>
+  </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service는 최신 버전의 Python 설치를 지원합니다. 자세히 알아보려면 여기를 클릭하세요.</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Java 버전</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>Java를 사용하는 경우 웹앱을 실행하는 데 사용되는 버전</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Java 부 버전</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>원하는 Java 부 버전을 선택합니다. '가장 최근 항목'을 선택하면 가장 최근에 포털에 추가된 JVM을 사용하는 앱을 유지합니다.</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Java 웹 컨테이너</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>Java를 사용하는 경우 웹앱을 실행하는 데 사용되는 웹 컨테이너 버전</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>플랫폼</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>웹앱에서 실행되는 플랫폼 아키텍처</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>64비트 구성에서는 기본 이상의 App Service 계획이 필요합니다.</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>웹 소켓</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>WebSocket을 사용하면 웹앱과 최신 브라우저 간을 더욱 유연하게 연결할 수 있습니다. 이러한 기능을 활용하려면 웹앱을 빌드해야 합니다.</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>항상</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>웹앱을 항상 로드해야 함을 나타냅니다. 기본적으로 웹앱은 유휴 상태가 되면 언로드됩니다. 웹앱에서 연속 웹 작업이 실행되고 있는 경우 이 옵션을 사용하도록 설정하는 것이 좋습니다.</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>항상 켜려면 기본 이상의 App Service 계획이 필요합니다.</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>관리되는 파이프라인 버전</value>
+  </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>자동 전환 대상은 제품 슬롯에서 구성할 수 없습니다.</value>
+  </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>자동 전환을 사용하려면 표준 이상의 App Service 계획이 필요합니다.</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>자동 전환</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>슬롯 자동 전환</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>ARR 선호도</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>선호도 쿠키를 해제하여 상태 비저장 응용 프로그램의 성능을 향상할 수 있고, 호환성을 높이기 위해서는 상태 저장 응용 프로그램의 선호도 쿠키를 설정해야 합니다. 자세히 알아보려면 클릭하세요.</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>원격 디버깅</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>원격 Visual Studio 버전</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>스택</value>
+  </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Linux의 Web Apps는 기본 제공 컨테이너 모음을 통해 런타임 옵션을 제공합니다. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;자세한 정보&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>시작 파일</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>컨테이너 시작의 일부로 실행된 선택적 시작 명령을 제공합니다. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;자세한 정보&lt;/a&gt;.</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>최신</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32비트</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64비트</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>클래식</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>통합됨</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>속성</value>
@@ -1220,7 +1496,7 @@
     <value>모든 App Service 설정을 봅니다.</value>
   </data>
   <data name="feature_functionSettingsInfo" xml:space="preserve">
-    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+    <value>앱 내에서 모든 함수의 Functions 런타임에 영향을 주는 설정을 관리합니다.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>일반 설정</value>
@@ -1251,6 +1527,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>인증/권한 부여를 사용하여 응용 프로그램을 보호하고 사용자 단위 데이터로 작업합니다.</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>관리 서비스 ID</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>응용 프로그램은 관리되는 Azure Active Directory ID를 사용하여 다른 Azure 서비스와 통신할 수 있습니다.</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>푸시 알림</value>
@@ -1379,10 +1661,13 @@
     <value>설정</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function settings</value>
+    <value>함수 앱 설정</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>구성</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>응용 프로그램 설정</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>이 평가판에서는 함수 앱 관리를 사용할 수 없습니다.</value>
@@ -1394,7 +1679,7 @@
     <value>이벤트</value>
   </data>
   <data name="appServicePlan" xml:space="preserve">
-    <value>앱 서비스 계획</value>
+    <value>App Service 계획</value>
   </data>
   <data name="appServicePlanPricingTier" xml:space="preserve">
     <value>App Service 요금제 / 가격 책정 계층</value>
@@ -1574,7 +1859,7 @@
     <value>시작 자습서 확인</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>함수</value>
+    <value>함수(미리 보기)</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
     <value>API 정의 키</value>
@@ -1586,7 +1871,7 @@
     <value>API 정의 템플릿 생성</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Power Apps + Flow로 내보내기</value>
+    <value>PowerApps + Flow로 내보내기</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
     <value>형식이 잘못된 API 정의를 저장할 수 없습니다.</value>
@@ -1613,7 +1898,7 @@
     <value>API 정의 사용</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>API 정의(미리 보기)</value>
+    <value>API 정의</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
     <value>Swagger 끝점에 대해 swaggerdocumentationkey 키를 만들거나 업데이트할 수 없습니다. 오류에 대해서 런타임 로그를 확인하거나 나중에 다시 시도하세요.</value>
@@ -1676,7 +1961,7 @@
     <value>읽기 전용</value>
   </data>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
-    <value>읽기\쓰기</value>
+    <value>읽기/쓰기</value>
   </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>중복 값은 사용할 수 없습니다.</value>
@@ -1704,6 +1989,12 @@
   </data>
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>소스 제어를 사용하도록 설정했지만 편집 모드를 읽기\쓰기로 설정했으므로 현재 앱은 읽기\쓰기 모드입니다. 변경한 내용을 다음 배포 시 덮어쓸 수 있습니다. 편집 모드를 변경하려면 다음을 방문하세요. </value>
+  </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>생성된 function.json을 게시했기 때문에 현재 앱이 읽기 전용 모드입니다. function.json의 변경 내용이 함수 런타임에 적용되지 않습니다. </value>
+  </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>생성된 function.json이 있지만 편집 모드를 읽기\쓰기로 설정했으므로 현재 앱은 읽기\쓰기 모드입니다. 변경한 내용을 다음 배포 시 덮어쓸 수 있습니다. 편집 모드를 변경하려면 다음을 방문하세요. </value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>복사</value>
@@ -1748,10 +2039,22 @@
     <value>슬롯(미리 보기)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>배포 슬롯(미리 보기)을 사용하도록 설정합니다. 이는 사용하지 않도록 설정할 수 없는 함수 앱에 대한 일회성 옵트인이며 기존 암호를 다시 설정합니다. 업데이트 후 암호를 </value>
+    <value>배포 슬롯을 사용합니다(미리 보기).</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>각 함수의 '관리' 노드 아래에서 복사할 수 있습니다.</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>알려진 문제:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>슬롯(미리 보기)을 사용하도록 설정하면 논리 앱과 함수의 통합이 작동하지 않습니다.</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>이 미리 보기 기능을 선택하면 기존의 암호가 모두 재설정됩니다. 함수 암호는 각 함수에 대한</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>'관리'</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>노드 아래에서 확인할 수 있습니다.</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>이름</value>
@@ -1790,7 +2093,7 @@
     <value>슬롯(미리 보기)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>더 풍부한 모니터링 환경(라이브 메트릭 및 사용자 지정 쿼리 포함)을 위해 &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;를 사용하는 것이 좋습니다.</value>
+    <value>더 풍부한 모니터링 환경(라이브 메트릭 및 사용자 지정 쿼리 포함)을 위해 &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Function 앱용 Application Insights를 사용하도록 설정&lt;/a&gt;하는 것이 좋습니다.</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>이 값은 기본 웹 앱의 URL에 추가되며 슬롯의 공용 주소로 사용됩니다. 예를 들어 'contoso'라는 웹 앱과 'staging'이라는 슬롯이 있는 경우 새 슬롯은 'http://contoso-staging.azurewebsites.net'과 같은 URL을 갖게 됩니다.</value>
@@ -1802,6 +2105,9 @@
     <value>검색 함수</value>
   </data>
   <data name="new_" xml:space="preserve">
+    <value>새로 만들기</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
     <value>새로 만들기</value>
   </data>
   <data name="functionManage_deleteFunction" xml:space="preserve">
@@ -1878,5 +2184,326 @@
   </data>
   <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
     <value>콘텐츠 및 Visual Studio 프로젝트</value>
+  </data>
+  <data name="bindingInput_retrieve" xml:space="preserve">
+    <value>검색</value>
+  </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>프록시 삭제</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>새 프록시</value>
+  </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>재정의 없음</value>
+  </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>Express AAD 등록</value>
+  </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>만들기</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>함수를 만든 후에는 Event Grid 구독을 추가해야 합니다.</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>Event Grid 구독 URL</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>Event Grid 구독 URL</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Event Grid 구독 관리</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Event Grid 구독 추가</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>모든 위치</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>위치 {0}개</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>위치:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>위치별 그룹화</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>그룹화 안 함</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>리소스 그룹별 그룹화</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>구독별 그룹화</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>미국 중남부</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>북유럽</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>서유럽</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>동남아시아</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>대한민국 중부</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>대한민국 남부</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>미국 서부</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>미국 동부</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>일본 서부</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>일본 동부</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>동아시아</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>미국 동부 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>미국 중북부</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>미국 중부</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>브라질 남부</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>호주 동부</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>오스트레일리아 남동부</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>서인도</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>중앙 인도</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>남인도</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>캐나다 중부</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>캐나다 동부</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>미국 중서부</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>영국 서부</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>영국 남부</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>미국 서부 2</value>
+  </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>모든 리소스 그룹</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>리소스 그룹:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>{0}개 리소스 그룹</value>
+  </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>본문</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>상태 코드</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>상태 메시지</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>요청 재정의</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>응답 재정의</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>옵션</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>Azure Functions의 시험판 버전을 사용하고 있습니다. 사용해 주셔서 감사합니다!</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>숨기려면 클릭</value>
+  </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Logic Apps를 사용하면 여러 플랫폼에서 함수를 쉽게 활용할 수 있습니다.</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>논리 앱</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>연결된 Logic Apps</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Logic Apps로 오케스트레이션</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Logic Apps 만들기</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>표시할 Logic Apps 없음</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>논리 앱</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Logic Apps를 사용하면 프로세스 및 워크플로를 시각적으로 설계할 수 있을 뿐 아니라 SaaS 및 엔터프라이즈 앱과의 통합을 신속하게 구축할 수 있습니다.</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>확장 또는 축소</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>App Service 인증/권한 부여:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>지금 AAD 구성</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>지금 권한 추가</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>구성됨</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>ID 요구 사항(충족되지 않음)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>구성되어 있지 않음</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>필수 권한</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>템플릿에 다음 권한이 필요함:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>이 통합에는 함수 앱에 대한 AAD 구성이 필요합니다.</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>이 템플릿에는 함수 앱에 대한 AAD 구성이 필요합니다.</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>함수에 필요한 추가 권한을 구성해야 할 수 있습니다. 이 바인딩에 대한 설명서를 참조하세요.</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>App Service 인증/권한 부여 관리</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>인증 구성 필요</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>ID 요구 사항</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>관리</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>설치된 런타임 확장의 목록을 가져올 수 없습니다.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>런타임 확장 {{extensionId}}을(를) 설치할 수 없습니다.</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>런타임 확장 {{extensionId}}을(를) 제거할 수 없습니다.</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>런타임 확장을 설치하는 시간이 예상보다 길어지고 있습니다.</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>다른 버전의 확장 {{extensionId}}이(가) 이미 설치되어 있습니다.</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Application Insights 열기</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>기능에 대해 App Insights를 사용하도록 설정했습니다.</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>표시할 모니터링 데이터 없음</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>설치</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>확장을 설치했습니다.</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>확장이 설치되지 않았습니다.</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>이 통합에는 다음의 확장이 필요합니다.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>이 템플릿에는 다음의 확장이 필요합니다.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>템플릿 종속성을 설치하는 중입니다. 템플릿 종속성이 설치되면 함수를 만들 수 있습니다. 종속성 설치는 배경에서 이루어지며 최대 10분이 걸립니다. 그동안 포털을 계속 사용할 수 있습니다.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>런타임 확장을 설치할 수 없습니다. 설치 ID: {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>GB-초 단위의 값을 입력하세요.</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>연결</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>알림 허브</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>Java 함수는 컴퓨터에서 로컬로 빌드, 테스트 및 배포할 수 있습니다. 포털이 필요하지 않습니다!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Java를 사용하여 첫 번째 Azure Functions를 빌드하는 방법에 대한 문서를 시작하려면 아래를 클릭하세요.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>프록시를 사용하도록 설정했습니다. 다시 사용하지 않도록 설정하려면 모든 개별 프록시를 삭제하거나 사용하지 않도록 설정합니다.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Azure Functions 빠른 시작의 Java</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>이름:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>트리거, 언어 또는 설명으로 검색</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>값 숨기기</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights 계측 키가 앱 설정에 있지만 함수 앱의 구독에 App Insights가 없습니다. App Insights가 함수 앱과 동일한 구독에 있는지 확인하세요.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>행의 시작</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>행의 끝</value>
   </data>
 </root>

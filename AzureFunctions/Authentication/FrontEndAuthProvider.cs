@@ -1,4 +1,4 @@
-﻿using AzureFunctions.Common;
+using AzureFunctions.Common;
 using AzureFunctions.Contracts;
 using System;
 using System.IdentityModel.Tokens;
@@ -46,7 +46,7 @@ namespace AzureFunctions.Authentication
             else if (!string.IsNullOrWhiteSpace(principalName) ||
                      !string.IsNullOrWhiteSpace(displayName))
             {
-                principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(principalName ?? displayName));
+                principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.FrontEndAuthenticatedUser));
             }
             else
             {
@@ -54,6 +54,7 @@ namespace AzureFunctions.Authentication
                 principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.AnonymousUserName));
             }
 
+            // These are needed for [Authorize] decorator to work.
             context.User = principal;
             Thread.CurrentPrincipal = principal;
 

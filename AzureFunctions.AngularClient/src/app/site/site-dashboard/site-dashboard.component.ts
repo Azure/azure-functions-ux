@@ -1,4 +1,6 @@
 import { DeploymentCenterComponent } from '../deployment-center/deployment-center.component';
+import { Subscription } from 'rxjs/Subscription';
+import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { LogicAppsComponent } from './../../logic-apps/logic-apps.component';
 import { Dom } from './../../shared/Utilities/dom';
 import { LogService } from './../../shared/services/log.service';
@@ -58,6 +60,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
 
     private _tabsLoaded = false;
     private _ngUnsubscribe: Subject<void> = new Subject<void>();
+    private _openTabSubscription: Subscription;
 
     constructor(
         private _cacheService: CacheService,
@@ -69,24 +72,18 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         private _scenarioService: ScenarioService,
         private _logService: LogService) {
 
-        this._broadcastService.getEvents<string>(BroadcastEvent.OpenTab)
-        .takeUntil(this._ngUnsubscribe)
-        .subscribe(tabId =>{
-            this.openFeature(tabId);
-        });
-
         this._broadcastService.getEvents<DirtyStateEvent>(BroadcastEvent.DirtyStateChange)
-        .takeUntil(this._ngUnsubscribe)
-        .subscribe(event =>{
-            if (!event.dirty && !event.reason) {
-                this.tabInfos.forEach(t => (t.dirty = false));
-            } else {
-                const info = this.tabInfos.find(t => t.id === event.reason);
-                if (info) {
-                    info.dirty = event.dirty;
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(event => {
+                if (!event.dirty && !event.reason) {
+                    this.tabInfos.forEach(t => (t.dirty = false));
+                } else {
+                    const info = this.tabInfos.find(t => t.id === event.reason);
+                    if (info) {
+                        info.dirty = event.dirty;
+                    }
                 }
-            }
-        });
+            });
 
         if (this.tabInfos.length === 0) {
             // Setup initial tabs without inputs immediate so that they load right away
@@ -120,6 +117,17 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                 viewInfo.data.siteTabFullReadyTraceKey = this._aiService.startTrace();
 
                 this._globalStateService.setBusyState();
+
+                if (!this._openTabSubscription) {
+                    this._openTabSubscription = this._broadcastService.getEvents<string>(BroadcastEvent.OpenTab)
+                        .takeUntil(this._ngUnsubscribe)
+                        .subscribe(tabId => {
+                            if (tabId) {
+                                this.openFeature(tabId);
+                                this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, null);
+                            }
+                        });
+                }
 
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
@@ -185,7 +193,8 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit() {
-        this._broadcastService.getEvents<TreeViewInfo<SiteData>>(BroadcastEvent.AppDashboard)
+        this._broadcastService.getEvents<TreeViewInfo<SiteData>>(BroadcastEvent.TreeNavigation)
+            .filter(viewInfo => viewInfo.dashboardType === DashboardType.AppDashboard)
             .takeUntil(this._ngUnsubscribe)
             .subscribe(viewInfo => {
                 this.viewInfo = viewInfo;
@@ -296,7 +305,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
 
             case SiteTabIds.functionRuntime:
                 info.title = this._translateService.instant(PortalResources.tab_functionSettings);
-                info.iconUrl = 'image/Functions.svg';
+                info.iconUrl = 'image/functions.svg';
                 info.componentFactory = FunctionRuntimeComponent;
                 break;
             case SiteTabIds.continuousDeployment:

@@ -9,15 +9,18 @@ import { Subscription } from 'rxjs/Subscription';
 export class CustomFormGroup extends FormGroup {
 
   // Tells other ClickToEdit components when we're in "edit" mode for the form group.
-  public _msShowTextbox: Subject<boolean>;
+  public msShowTextbox: Subject<boolean>;
 
   // Tells other ClickToEdit components which control currently has focus
-  public _msFocusedControl: string;
+  public msFocusedControl: string;
 
   // Overrides the ClickToEdit default behavior to start in edit mode for new items
-  public _msStartInEditMode: boolean;
+  public msStartInEditMode: boolean;
 
-  public _msExistenceState: 'original' | 'new' | 'deleted' = 'original';
+  public msExistenceState: 'original' | 'new' | 'deleted' = 'original';
+
+  // Overrides the ClickToEdit default behavior to remain in edit mode
+  public msStayInEditMode: boolean;
 }
 
 export class CustomFormControl extends FormControl {
@@ -33,7 +36,10 @@ export class CustomFormControl extends FormControl {
 export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public showTextbox = false;
-  @Input() group: FormGroup;
+  public group: CustomFormGroup;
+  @Input('group') set origGroup(group: FormGroup) {
+    this.group = group as CustomFormGroup;
+  }
   @Input() name: string;
   @Input() placeholder: string;
   @Input() hiddenText: boolean;
@@ -41,6 +47,8 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   // This allows for a given control to affect the state of other controls in the group while not actually being "click-to-edit-able" itself.
   // (i.e. The control's own editable/non-editable state is not affected by the extended fields in the CustomFormGroup its associated with.)
   @Input() alwaysShow: boolean;
+
+  @ViewChild('container') container: ElementRef;
 
   @ViewChild('target') target: ElementRef;
 
@@ -52,7 +60,7 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _targetFocusState: 'focused' | 'blurring' | 'blurred';
   private _focusFunc = (e: FocusEvent) => { this._targetFocusListener(e); };
-  private _blurFunc =  (e: FocusEvent) => { this._targetBlurListener(e); };
+  private _blurFunc = (e: FocusEvent) => { this._targetBlurListener(e); };
 
   constructor() { }
 
@@ -62,20 +70,21 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.control = this.group.controls[this.name] as CustomFormControl;
 
     const group = this.group as CustomFormGroup;
-    if (!group._msShowTextbox) {
-      group._msShowTextbox = new Subject<boolean>();
+
+    if (!group.msShowTextbox) {
+      group.msShowTextbox = new Subject<boolean>();
     }
 
-    this._sub = group._msShowTextbox.subscribe(showTextbox => {
-      this.showTextbox = showTextbox || this.alwaysShow || (group._msStartInEditMode && group.pristine);
-      if (this.showTextbox && (this.group as CustomFormGroup)._msFocusedControl === this.name) {
+    this._sub = group.msShowTextbox.subscribe(showTextbox => {
+      this.showTextbox = showTextbox || this.alwaysShow || (group.msStartInEditMode && group.pristine);
+      if (this.showTextbox && (this.group as CustomFormGroup).msFocusedControl === this.name) {
         setTimeout(() => {
           this._focusChild();
         });
       }
     });
 
-    if (group._msStartInEditMode || this.alwaysShow) {
+    if (group.msStartInEditMode || this.alwaysShow) {
       this.showTextbox = true;
     }
   }
@@ -99,6 +108,14 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _focusChild() {
+    if (!this.target) {
+      return;
+    }
+
+    if ((this.target.nativeElement as HTMLElement).contains(document.activeElement)) {
+      return;
+    }
+
     if (this.textbox) {
       this.textbox.focus();
     } else if (this.dropdown) {
@@ -111,9 +128,14 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onMouseDown(event: MouseEvent) {
-    if (!this.showTextbox) {
+    if (!this.showTextbox && !!this.control && !this.control.disabled) {
       event.preventDefault();
+      event.stopPropagation();
       this._updateShowTextbox(true);
+
+      // Simulate 'mousedown', 'mouseup', click' event sequence on the outer-most element.
+      // We do this because the actual clicked element will be removed from the DOM before 'mouseup' and 'click' can occur.
+      this._simulateMouseEvents(this.container.nativeElement, ['mousedown', 'mouseup', 'click']);
     }
   }
 
@@ -145,16 +167,24 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected _updateShowTextbox(show: boolean) {
-    const group = this.group as CustomFormGroup;
+    // When an instance with alwaysShow === true gains focus:
+    //   1. Do not make the controls in the group become visible if they
+    //      are not currently visible.
+    //   2. If the conrols are already visible because the focus came from
+    //      another control in the group, make sure they stay visible.
 
-    if (show) {
-      group._msFocusedControl = this.name;
-    } else if (group._msFocusedControl === this.name) {
-      group._msFocusedControl = '';
+    const alwaysShowSuffix = '#ALWAYSSHOW';
+    const group = this.group as CustomFormGroup;
+    const name = this.name + (this.alwaysShow ? alwaysShowSuffix : '');
+
+    if (show) { //gained focus
+      group.msFocusedControl = name;
+    } else if (group.msFocusedControl === name) { //lost focus
+      group.msFocusedControl = '';
     }
 
-    if (!group._msFocusedControl || group._msFocusedControl === this.name) {
-      group._msShowTextbox.next(show);
+    if (!group.msFocusedControl || (group.msFocusedControl === name && !this.alwaysShow)) {
+      group.msShowTextbox.next(show);
     }
   }
 
@@ -173,6 +203,29 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
       this._onTargetFocus();
     }
     this._targetFocusState = 'focused';
+  }
+
+  private _simulateMouseEvents(target: HTMLElement, eventTypes: string[]) {
+    if (!eventTypes || eventTypes.length === 0) {
+      return;
+    }
+
+    let newEvent: MouseEvent;
+    if (typeof (Event) === 'function') {
+      // This isn't IE, so we can use MouseEvent()
+      newEvent = new MouseEvent(eventTypes[0], { bubbles: true, cancelable: true });
+    } else {
+      // This is IE, so we have to use document.createEvent() and .initEvent()
+      newEvent = document.createEvent('MouseEvents');
+      newEvent.initEvent(eventTypes[0], true, true);
+    }
+
+    target.dispatchEvent(newEvent);
+
+    setTimeout(() => {
+      eventTypes.splice(0, 1);
+      this._simulateMouseEvents(target, eventTypes);
+    });
   }
 
 }

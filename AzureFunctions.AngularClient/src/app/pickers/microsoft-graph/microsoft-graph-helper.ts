@@ -2,7 +2,7 @@
 import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Observable';
 import { BindingComponent } from '../../binding/binding.component';
-import { FunctionNewComponent } from '../../function-new/function-new.component';
+import { FunctionNewComponent } from '../../function/function-new/function-new.component';
 import { FunctionApp } from '../../shared/function-app';
 import { CacheService } from '../../shared/services/cache.service';
 import { AiService } from '../../shared/services/ai.service';
@@ -238,11 +238,11 @@ export class MicrosoftGraphHelper {
         }
         else if (method.toLowerCase() === Constants.httpMethods.PUT) {
             headers.append('Content-Type', 'application/json');
-            return this._cacheService.put(url, force, headers, jsonPayload);
+            return this._cacheService.put(url, headers, jsonPayload);
         }
         else if (method.toLowerCase() === Constants.httpMethods.PATCH) {
             headers.append('Content-Type', 'application/json; charset=utf-8');
-            return this._cacheService.patch(url, force, headers, jsonPayload);
+            return this._cacheService.patch(url, headers, jsonPayload);
         }
         return this._cacheService.get(url, force, headers);
     }

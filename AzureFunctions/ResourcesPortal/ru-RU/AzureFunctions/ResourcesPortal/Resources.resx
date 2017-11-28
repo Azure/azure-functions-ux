@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -129,6 +129,18 @@
   <data name="configure" xml:space="preserve">
     <value>Настроить</value>
   </data>
+  <data name="upgradeToEnable" xml:space="preserve">
+    <value>Чтобы включить поддержку, измените план</value>
+  </data>
+  <data name="selectAll" xml:space="preserve">
+    <value>Выделить все</value>
+  </data>
+  <data name="allItemsSelected" xml:space="preserve">
+    <value>Выбраны все элементы</value>
+  </data>
+  <data name="numItemsSelected" xml:space="preserve">
+    <value>Выбрано элементов: {0}</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Ошибка при создании функции: {{error}}</value>
   </data>
@@ -171,8 +183,20 @@
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Выберите шаблон ниже или</value>
   </data>
+  <data name="subNew_chooseTemplate" xml:space="preserve">
+    <value>Выберите ниже план для создания подписки</value>
+  </data>
+  <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
+    <value>Укажите понятное имя подписки</value>
+  </data>
+  <data name="subNew_friendlySubNameName" xml:space="preserve">
+    <value>Понятное имя подписки</value>
+  </data>
+  <data name="subNew_invitationCode" xml:space="preserve">
+    <value>Код приглашения</value>
+  </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Этот шаблон является экспериментальным и пока не поддерживается полностью. При возникновении проблем зарегистрируйте ошибку в нашем &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;репозитории GitHub.&lt;/a&gt;</value>
+    <value>Это экспериментальный язык, он пока еще не поддерживается полностью. При возникновении проблем зарегистрируйте ошибку в нашем &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;репозитории GitHub.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Имя функции</value>
@@ -322,17 +346,50 @@
   <data name="save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
+  <data name="saveOperationInProgressWarning" xml:space="preserve">
+    <value>Сейчас идет операция сохранения. Переход отсюда может привести к потере части изменений.</value>
+  </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ Добавить новый параметр</value>
   </data>
   <data name="addNewConnectionString" xml:space="preserve">
     <value>+ Добавить новую строку подключения</value>
   </data>
+  <data name="addNewDocument" xml:space="preserve">
+    <value>+ Добавить новый документ</value>
+  </data>
+  <data name="addNewHandlerMapping" xml:space="preserve">
+    <value>+ Добавить новое сопоставление обработчика</value>
+  </data>
+  <data name="addNewVirtualDirectory" xml:space="preserve">
+    <value>+ Добавить новое виртуальное приложение или каталог</value>
+  </data>
   <data name="enterName" xml:space="preserve">
     <value>Введите имя</value>
   </data>
   <data name="enterValue" xml:space="preserve">
     <value>Введите значение</value>
+  </data>
+  <data name="enterExtension" xml:space="preserve">
+    <value>Ввести расширение</value>
+  </data>
+  <data name="enterScriptProcessor" xml:space="preserve">
+    <value>Ввести обработчик сценария</value>
+  </data>
+  <data name="enterArguments" xml:space="preserve">
+    <value>Ввести аргументы</value>
+  </data>
+  <data name="enterVirtualPath" xml:space="preserve">
+    <value>Ввести виртуальный путь</value>
+  </data>
+  <data name="enterPhysicalPath" xml:space="preserve">
+    <value>Ввести физический путь</value>
+  </data>
+  <data name="isApplication" xml:space="preserve">
+    <value>Приложение</value>
+  </data>
+  <data name="isSlotSetting" xml:space="preserve">
+    <value>Параметр слота</value>
   </data>
   <data name="hiddenValueClickToShow" xml:space="preserve">
     <value>Скрытое значение. Щелкните, чтобы показать.</value>
@@ -349,8 +406,14 @@
   <data name="search" xml:space="preserve">
     <value>Поиск</value>
   </data>
+  <data name="scopeToItem" xml:space="preserve">
+    <value>Ограничить область этим элементом</value>
+  </data>
   <data name="searchFeatures" xml:space="preserve">
     <value>Функции поиска</value>
+  </data>
+  <data name="searchFunctionApps" xml:space="preserve">
+    <value>Поиск среди приложений-функций</value>
   </data>
   <data name="subscription" xml:space="preserve">
     <value>Идентификатор подписки</value>
@@ -424,6 +487,12 @@
   <data name="enabled" xml:space="preserve">
     <value>Включено</value>
   </data>
+  <data name="disable" xml:space="preserve">
+    <value>отключить</value>
+  </data>
+  <data name="enable" xml:space="preserve">
+    <value>включено</value>
+  </data>
   <data name="errorList_here" xml:space="preserve">
     <value>здесь</value>
   </data>
@@ -432,6 +501,9 @@
   </data>
   <data name="errorParsingConfig" xml:space="preserve">
     <value>Ошибка при анализе конфигурации: {{error}}</value>
+  </data>
+  <data name="failedToSwitchFunctionState" xml:space="preserve">
+    <value>Не удалось {{state}} функцию: {{functionName}}</value>
   </data>
   <data name="features" xml:space="preserve">
     <value>Функции</value>
@@ -462,6 +534,9 @@
   </data>
   <data name="functionIntegrate_standardEditor" xml:space="preserve">
     <value>Обычный редактор</value>
+  </data>
+  <data name="functionManage_delete" xml:space="preserve">
+    <value>Удалить функцию {{name}}</value>
   </data>
   <data name="functionManage_areYouSure" xml:space="preserve">
     <value>Вы действительно хотите удалить функцию {{name}}?</value>
@@ -880,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Версия среды выполнения</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Образ среды выполнения</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.net framework/server core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.net core/nano server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>пользовательский</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Ваше приложение-функция отключено, так как оно превысило заданную квоту. Изменить ее можно в представлении параметров приложения-функции на панели слева.</value>
   </data>
@@ -944,19 +1031,10 @@
     <value>Версия среды выполнения: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Прокси-серверы (предварительная версия)</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Версия среды выполнения прокси-сервера: {{extensionVersion}}. Доступна новая версия ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Версия среды выполнения прокси-сервера: последняя ({{latestExtensionVersion}})</value>
+    <value>Прокси-серверы</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Включить прокси-серверы для функций Azure (предварительная версия)</value>
-  </data>
-  <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>Прокси-серверы для функций Azure сейчас отключены. Чтобы включить их, перейдите на страницу</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
     <value>Изменения параметров прокси-сервера {{name}} будут утрачены. Вы действительно хотите продолжить?</value>
@@ -967,7 +1045,7 @@
   <data name="slots_warningOff" xml:space="preserve">
     <value>Слоты функций Azure (предварительная версия) сейчас отключены. Чтобы включить их, перейдите на страницу</value>
   </data>
-  <data name="discrard" xml:space="preserve">
+  <data name="discard" xml:space="preserve">
     <value>Отменить</value>
   </data>
   <data name="sidebar_Functions" xml:space="preserve">
@@ -983,7 +1061,7 @@
     <value>Войти по учетным данным Google</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>Вход с учетной записью Майкрософт</value>
+    <value>Вход с помощью учетной записи Майкрософт</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
     <value>URL-адрес сервера должен начинаться с префикса "http://" или "https://"</value>
@@ -1017,6 +1095,9 @@
   </data>
   <data name="sideNav_AllSubscriptions" xml:space="preserve">
     <value>Все подписки</value>
+  </data>
+  <data name="sideNav_Subscriptions" xml:space="preserve">
+    <value>Подписки</value>
   </data>
   <data name="sideNav_SubscriptionCount" xml:space="preserve">
     <value>Подписок: {0}</value>
@@ -1093,6 +1174,9 @@
   <data name="enabledFeatures_description" xml:space="preserve">
     <value>Здесь появятся быстрые ссылки на ваши функции после того, как вы настроите их на вкладке "Функции платформы" выше.</value>
   </data>
+  <data name="siteDashboard_confirmLoseChanges" xml:space="preserve">
+    <value>Несохраненные изменения в приложении "{0}" будут утеряны.  Вы действительно хотите продолжить?</value>
+  </data>
   <data name="siteDashboard_getAppError" xml:space="preserve">
     <value>Ошибка при получении сведений о приложении "{0}"</value>
   </data>
@@ -1159,6 +1243,12 @@
   <data name="featureNotSupportedConsumption" xml:space="preserve">
     <value>Эта функция не поддерживается для приложений, которые используют план потребления</value>
   </data>
+  <data name="featureNotSupportedForSlots" xml:space="preserve">
+    <value>Эта функция не поддерживается для слотов</value>
+  </data>
+  <data name="featureNotSupportedForLinuxApps" xml:space="preserve">
+    <value>Эта функция не поддерживается для приложений Linux</value>
+  </data>
   <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Для использования этой функции у вас должны быть разрешения на запись для текущего приложения</value>
   </data>
@@ -1189,17 +1279,203 @@
   <data name="feature_consoleInfo" xml:space="preserve">
     <value>Просматривайте файловую систему приложения из интерактивной веб-консоли.</value>
   </data>
+  <data name="feature_sshName" xml:space="preserve">
+    <value>SSH</value>
+  </data>
+  <data name="feature_sshInfo" xml:space="preserve">
+    <value>SSH предоставляет веб-консоль SSH для кода вашего приложения Linux</value>
+  </data>
   <data name="feature_extensionsName" xml:space="preserve">
     <value>Расширения</value>
   </data>
   <data name="feature_extensionsInfo" xml:space="preserve">
     <value>Расширения дополняют функции всего приложения.</value>
   </data>
+  <data name="emptyAppSettings" xml:space="preserve">
+    <value>(нет отображаемых параметров приложений)</value>
+  </data>
+  <data name="emptyConnectionStrings" xml:space="preserve">
+    <value>(нет отображаемых строк подключения)</value>
+  </data>
+  <data name="emptyDefaultDocuments" xml:space="preserve">
+    <value>(нет отображаемых документов по умолчанию)</value>
+  </data>
+  <data name="emptyHandlerMappings" xml:space="preserve">
+    <value>(нет отображаемых сопоставлений обработчиков)</value>
+  </data>
+  <data name="emptyVirtualDirectories" xml:space="preserve">
+    <value>(нет отображаемых виртуальных приложений или каталогов)</value>
+  </data>
+  <data name="feature_generalSettingsName" xml:space="preserve">
+    <value>Общие параметры</value>
+  </data>
+  <data name="feature_autoSwapSettingsName" xml:space="preserve">
+    <value>Автоматическое переключение</value>
+  </data>
+  <data name="feature_debuggingSettingsName" xml:space="preserve">
+    <value>Отладка</value>
+  </data>
+  <data name="feature_linuxRuntimeName" xml:space="preserve">
+    <value>Среда выполнения</value>
+  </data>
   <data name="feature_applicationSettingsName" xml:space="preserve">
     <value>Параметры приложения</value>
   </data>
   <data name="feature_applicationSettingsInfo" xml:space="preserve">
     <value>Управляйте параметрами приложения, строками подключения, параметрами среды выполнения и многим другим.</value>
+  </data>
+  <data name="feature_defaultDocumentsName" xml:space="preserve">
+    <value>Документы по умолчанию</value>
+  </data>
+  <data name="feature_handlerMappingsName" xml:space="preserve">
+    <value>Сопоставления обработчика</value>
+  </data>
+  <data name="feature_virtualDirectoriesName" xml:space="preserve">
+    <value>Виртуальные приложения и каталоги</value>
+  </data>
+  <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>Для изменения этих параметров вам требуются разрешения на запись в текущем приложении.</value>
+  </data>
+  <data name="configDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>Это приложение доступно только для чтения. В нем запрещено изменять параметры или извлекать защищенные данные. Снимите блокировку и повторите попытку.</value>
+  </data>
+  <data name="configViewReadOnlySettings" xml:space="preserve">
+    <value>Просмотреть параметры в режиме "только для чтения".</value>
+  </data>
+  <data name="configLoadFailure" xml:space="preserve">
+    <value>Не удалось загрузить параметры.</value>
+  </data>
+  <data name="loading" xml:space="preserve">
+    <value>Идет загрузка...</value>
+  </data>
+  <data name="configUpdating" xml:space="preserve">
+    <value>Параметры веб-приложения обновляются</value>
+  </data>
+  <data name="configUpdateSuccess" xml:space="preserve">
+    <value>Параметры веб-приложения успешно обновлены.</value>
+  </data>
+  <data name="configUpdateFailure" xml:space="preserve">
+    <value>Не удалось обновить параметры веб-приложения: </value>
+  </data>
+  <data name="configUpdateFailureInvalidInput" xml:space="preserve">
+    <value>{{configGroupName}} Ошибка сохранения: недопустимые входные данные.</value>
+  </data>
+  <data name="netFrameWorkVersionLabel" xml:space="preserve">
+    <value>Версия .NET Framework</value>
+  </data>
+  <data name="netFrameWorkVersionLabelHelp" xml:space="preserve">
+    <value>Версия для запуска веб-приложения, если используется .NET Framework</value>
+  </data>
+  <data name="phpVersionLabel" xml:space="preserve">
+    <value>Версия PHP</value>
+  </data>
+  <data name="phpVersionLabelHelp" xml:space="preserve">
+    <value>Версия для запуска веб-приложения, если используется PHP</value>
+  </data>
+  <data name="pythonVersionLabel" xml:space="preserve">
+    <value>Версия Python</value>
+  </data>
+  <data name="pythonVersionLabelHelp" xml:space="preserve">
+    <value>Версия для запуска веб-приложения, если используется Python</value>
+  </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>Служба приложений поддерживает установку более новых версий Python. Щелкните здесь, чтобы узнать подробности.</value>
+  </data>
+  <data name="javaVersionLabel" xml:space="preserve">
+    <value>Версия Java</value>
+  </data>
+  <data name="javaVersionLabelHelp" xml:space="preserve">
+    <value>Версия для запуска веб-приложения, если используется Java</value>
+  </data>
+  <data name="javaMinorVersionLabel" xml:space="preserve">
+    <value>Дополнительный номер версии Java</value>
+  </data>
+  <data name="javaMinorVersionLabelHelp" xml:space="preserve">
+    <value>Выберите необходимый дополнительный номер версии Java. Если выбрать "Самые новые", то приложение будет использовать JVM, недавно добавленную на портал.</value>
+  </data>
+  <data name="javaWebContainerLabel" xml:space="preserve">
+    <value>Веб-контейнер Java</value>
+  </data>
+  <data name="javaWebContainerLabelHelp" xml:space="preserve">
+    <value>Версия веб-контейнера, использующаяся для запуска веб-приложения с помощью Java</value>
+  </data>
+  <data name="use32BitWorkerProcessLabel" xml:space="preserve">
+    <value>Платформа</value>
+  </data>
+  <data name="use32BitWorkerProcessLabelHelp" xml:space="preserve">
+    <value>Архитектура платформы, на которой запущено приложение</value>
+  </data>
+  <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
+    <value>Для 64-разрядной конфигурации необходим план службы приложений "Базовый" или выше</value>
+  </data>
+  <data name="webSocketsEnabledLabel" xml:space="preserve">
+    <value>Веб-сокеты</value>
+  </data>
+  <data name="webSocketsEnabledLabelHelp" xml:space="preserve">
+    <value>Соединения WebSocket обеспечивают более гибкое подключение между веб-приложениями и современными браузерами. Ваше веб-приложение должно использовать эти возможности.</value>
+  </data>
+  <data name="alwaysOnLabel" xml:space="preserve">
+    <value>Всегда включено</value>
+  </data>
+  <data name="alwaysOnLabelHelp" xml:space="preserve">
+    <value>Указывает, что веб-приложение должно быть постоянно загружено. По умолчанию веб-приложения выгружаются после определенного времени простоя. Рекомендуется включить этот параметр, если в вашем веб-приложении запущены постоянные веб-задания</value>
+  </data>
+  <data name="alwaysOnUpsell" xml:space="preserve">
+    <value>Для AlwaysOn необходим план службы приложений "Базовый" или выше</value>
+  </data>
+  <data name="managedPipelineModeLabel" xml:space="preserve">
+    <value>Версия управляемого конвейера</value>
+  </data>
+  <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
+    <value>Назначения автоматического переключения нельзя настроить из рабочего слота</value>
+  </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Для автоматического переключения требуется план службы приложений категории "Стандартный" или выше.</value>
+  </data>
+  <data name="autoSwapEnabledLabel" xml:space="preserve">
+    <value>Автоматическое переключение</value>
+  </data>
+  <data name="autoSwapSlotNameLabel" xml:space="preserve">
+    <value>Слот автоматического переключения</value>
+  </data>
+  <data name="clientAffinityEnabledLabel" xml:space="preserve">
+    <value>Сходство для маршрутизации запросов приложений</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>Вы можете повысить производительность приложений без отслеживания состояния, отключив файлы cookie сходства. В приложениях с отслеживанием состояния файлы cookie сходства должны быть включены для повышения совместимости. Щелкните здесь, чтобы получить дополнительные сведения.</value>
+  </data>
+  <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
+    <value>Удаленная отладка</value>
+  </data>
+  <data name="remoteDebuggingVersionLabel" xml:space="preserve">
+    <value>Версия удаленной службы Visual Studio</value>
+  </data>
+  <data name="linuxFxVersionLabel" xml:space="preserve">
+    <value>Стек</value>
+  </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Веб-приложения на Linux поддерживают дополнительные возможности среды выполнения с использованием коллекции встроенных контейнеров. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Дополнительные сведения&lt;/a&gt;.</value>
+  </data>
+  <data name="appCommandLineLabel" xml:space="preserve">
+    <value>Загрузочный файл</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Дополнительные сведения&lt;/a&gt;.</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>Самые новые</value>
+  </data>
+  <data name="architecture32" xml:space="preserve">
+    <value>32-разрядный</value>
+  </data>
+  <data name="architecture64" xml:space="preserve">
+    <value>64-разрядный</value>
+  </data>
+  <data name="pipelineModeClassic" xml:space="preserve">
+    <value>Классический</value>
+  </data>
+  <data name="pipelineModeIntegrated" xml:space="preserve">
+    <value>Интегрированный</value>
   </data>
   <data name="feature_propertiesName" xml:space="preserve">
     <value>Свойства</value>
@@ -1220,7 +1496,7 @@
     <value>Просматривайте все параметры службы приложений.</value>
   </data>
   <data name="feature_functionSettingsInfo" xml:space="preserve">
-    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+    <value>Управление параметрами среды выполнения всех функций в вашем приложении.</value>
   </data>
   <data name="feature_generalSettings" xml:space="preserve">
     <value>Общие параметры</value>
@@ -1251,6 +1527,12 @@
   </data>
   <data name="feature_authInfo" xml:space="preserve">
     <value>Используйте проверку подлинности и авторизацию, чтобы защитить приложение и работать с данными каждого пользователя.</value>
+  </data>
+  <data name="feature_msiName" xml:space="preserve">
+    <value>Управляемое удостоверение службы</value>
+  </data>
+  <data name="feature_msiInfo" xml:space="preserve">
+    <value>Приложение может взаимодействовать с другими службами Azure, так как использует управляемое удостоверение Azure Active Directory.</value>
   </data>
   <data name="feature_pushNotificationsName" xml:space="preserve">
     <value>Push-уведомления</value>
@@ -1379,10 +1661,13 @@
     <value>Параметры</value>
   </data>
   <data name="tab_functionSettings" xml:space="preserve">
-    <value>Function settings</value>
+    <value>Параметры приложения-функции</value>
   </data>
   <data name="tab_configuration" xml:space="preserve">
     <value>Конфигурация</value>
+  </data>
+  <data name="tab_applicationSettings" xml:space="preserve">
+    <value>Параметры приложения</value>
   </data>
   <data name="try_appDisabled" xml:space="preserve">
     <value>Управление приложением-функцией недоступно в этой пробной версии.</value>
@@ -1574,7 +1859,7 @@
     <value>Ознакомьтесь с учебником по началу работы.</value>
   </data>
   <data name="swaggerDefinition_internal" xml:space="preserve">
-    <value>Функция</value>
+    <value>Функция (предварительная версия)</value>
   </data>
   <data name="swaggerDefinition_key" xml:space="preserve">
     <value>Ключ определения API</value>
@@ -1586,7 +1871,7 @@
     <value>Создать шаблон определения API</value>
   </data>
   <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
-    <value>Экспорт в Power Apps + Flow</value>
+    <value>Экспорт в PowerApps и Flow</value>
   </data>
   <data name="swaggerDefinition_prompt" xml:space="preserve">
     <value>Не удается сохранить определение API в неправильном формате.</value>
@@ -1613,7 +1898,7 @@
     <value>Использовать определение API</value>
   </data>
   <data name="tab_api_definition" xml:space="preserve">
-    <value>Определение API (предварительная версия)</value>
+    <value>Определение API</value>
   </data>
   <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
     <value>Не удалось создать или обновить ключ swaggerdocumentationkey для конечной точки Swagger. Проверьте журналы среды выполнения на предмет ошибок или повторите попытку позже.</value>
@@ -1705,6 +1990,12 @@
   <data name="readWriteSourceControlled" xml:space="preserve">
     <value>Приложение сейчас находится в режиме "чтение и запись", так как вы перевели его в режим правки, несмотря на включенную систему управления версиями. Любые вносимые изменения могут быть переопределены при следующем развертывании. Чтобы изменить режим правки, посетите </value>
   </data>
+  <data name="readOnlyGeneratedBy" xml:space="preserve">
+    <value>Ваше приложение сейчас находится в режиме "только для чтения", так как вы опубликовали созданный function.json. Изменения, вносимые в function.json, не будут учитываться средой выполнения Функций Azure. </value>
+  </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Приложение сейчас находится в режиме "чтение и запись", так как вы перевели его в режим правки, несмотря на наличие созданного файла function.json. Любые вносимые сейчас изменения могут быть переопределены при следующем развертывании. Чтобы изменить режим правки, посетите </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Копировать</value>
   </data>
@@ -1748,10 +2039,22 @@
     <value>Слоты (предварительная версия)</value>
   </data>
   <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
-    <value>Включить слоты развертывания (предварительная версия). Это однократное действие в приложении-функции, которое невозможно отменить. Оно сбросит все существующие секреты. После обновления секреты можно скопировать на </value>
+    <value>Включить слоты развертывания (предварительная версия).</value>
   </data>
-  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
-    <value>узле "Управление" для каждой функции.</value>
+  <data name="appFunctionSettings_warning_1" xml:space="preserve">
+    <value>Известные проблемы:</value>
+  </data>
+  <data name="appFunctionSettings_warning_2" xml:space="preserve">
+    <value>Когда включены Слоты (предварительная версия), интеграция Logic Apps с Функциями не работает.</value>
+  </data>
+  <data name="appFunctionSettings_warning_3" xml:space="preserve">
+    <value>Если вы решите использовать эту предварительную версию, имеющиеся секреты будут сброшены. Секреты можно найти в узле</value>
+  </data>
+  <data name="appFunctionSettings_warning_4" xml:space="preserve">
+    <value>"Управление"</value>
+  </data>
+  <data name="appFunctionSettings_warning_5" xml:space="preserve">
+    <value>для каждой функции.</value>
   </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Имя</value>
@@ -1790,7 +2093,7 @@
     <value>Слоты (предварительная версия)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>Дополнительные возможности мониторинга, включая метрики в реальном времени и пользовательские запросы, можно получить в &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt;.</value>
+    <value>Чтобы получить дополнительные возможности мониторинга, включая пользовательские запросы и метрики в реальном времени, &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;активируйте для своего приложения-функции службу Application Insights.&lt;/a&gt;</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>Это значение будет добавлено к URL-адресу вашего главного веб-приложения и будет общедоступным адресом слота. Например, если у вас есть веб-приложение "contoso" и слот "staging", то новый слот будет иметь URL-адрес вида "http://contoso-staging.azurewebsites.net".</value>
@@ -1802,6 +2105,9 @@
     <value>Поиск по функциям</value>
   </data>
   <data name="new_" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="createNew" xml:space="preserve">
     <value>Создать</value>
   </data>
   <data name="functionManage_deleteFunction" xml:space="preserve">
@@ -1878,5 +2184,326 @@
   </data>
   <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
     <value>Содержимое и проект Visual Studio</value>
+  </data>
+  <data name="bindingInput_retrieve" xml:space="preserve">
+    <value>Извлечь</value>
+  </data>
+  <data name="apiProxy_delete" xml:space="preserve">
+    <value>Удалить прокси</value>
+  </data>
+  <data name="apiProxy_new" xml:space="preserve">
+    <value>Создать прокси-сервер</value>
+  </data>
+  <data name="apiProxy_noOverride" xml:space="preserve">
+    <value>Нет переопределений</value>
+  </data>
+  <data name="expressAADRegistration" xml:space="preserve">
+    <value>Экспресс-регистрация в AAD</value>
+  </data>
+  <data name="eventGrid_create" xml:space="preserve">
+    <value>create</value>
+  </data>
+  <data name="eventGrid_createMessage" xml:space="preserve">
+    <value>После создания функции нужно добавить подписку сетки событий.</value>
+  </data>
+  <data name="eventGrid_help" xml:space="preserve">
+    <value>URL-адрес подписки сетки событий</value>
+  </data>
+  <data name="eventGrid_label" xml:space="preserve">
+    <value>URL-адрес подписки сетки событий</value>
+  </data>
+  <data name="eventGrid_manageSubscriptions" xml:space="preserve">
+    <value>Управление подписками сетки событий</value>
+  </data>
+  <data name="functionDev_addEventGrid" xml:space="preserve">
+    <value>Добавить подписку сетки событий</value>
+  </data>
+  <data name="allLocations" xml:space="preserve">
+    <value>Все расположения</value>
+  </data>
+  <data name="locationCount" xml:space="preserve">
+    <value>Расположений: {0}</value>
+  </data>
+  <data name="locationColon" xml:space="preserve">
+    <value>Расположение:</value>
+  </data>
+  <data name="grouping_location" xml:space="preserve">
+    <value>Группировать по местоположению</value>
+  </data>
+  <data name="grouping_none" xml:space="preserve">
+    <value>Без группирования</value>
+  </data>
+  <data name="grouping_resourceGroup" xml:space="preserve">
+    <value>Группировать по группе ресурсов</value>
+  </data>
+  <data name="grouping_subscription" xml:space="preserve">
+    <value>Группировать по подписке</value>
+  </data>
+  <data name="southcentralus" xml:space="preserve">
+    <value>Юг и центр США</value>
+  </data>
+  <data name="northeurope" xml:space="preserve">
+    <value>Северная Европа</value>
+  </data>
+  <data name="westeurope" xml:space="preserve">
+    <value>Западная Европа</value>
+  </data>
+  <data name="southeastasia" xml:space="preserve">
+    <value>Юго-Восточная Азия</value>
+  </data>
+  <data name="koreacentral" xml:space="preserve">
+    <value>Центральная Корея</value>
+  </data>
+  <data name="koreasouth" xml:space="preserve">
+    <value>Южная Корея</value>
+  </data>
+  <data name="westus" xml:space="preserve">
+    <value>Западная часть США</value>
+  </data>
+  <data name="eastus" xml:space="preserve">
+    <value>Восточная часть США</value>
+  </data>
+  <data name="japanwest" xml:space="preserve">
+    <value>Западная Япония</value>
+  </data>
+  <data name="japaneast" xml:space="preserve">
+    <value>Восточная Япония</value>
+  </data>
+  <data name="eastasia" xml:space="preserve">
+    <value>Восточная Азия</value>
+  </data>
+  <data name="eastus2" xml:space="preserve">
+    <value>Восточная часть США 2</value>
+  </data>
+  <data name="northcentralus" xml:space="preserve">
+    <value>Северо-центральный регион США</value>
+  </data>
+  <data name="centralus" xml:space="preserve">
+    <value>Центральная часть США</value>
+  </data>
+  <data name="brazilsouth" xml:space="preserve">
+    <value>Южная Бразилия</value>
+  </data>
+  <data name="australiaeast" xml:space="preserve">
+    <value>Восточная часть Австралии</value>
+  </data>
+  <data name="australiasoutheast" xml:space="preserve">
+    <value>Юго-Восточная Австралия</value>
+  </data>
+  <data name="westindia" xml:space="preserve">
+    <value>Западная Индия</value>
+  </data>
+  <data name="centralindia" xml:space="preserve">
+    <value>Центральная Индия</value>
+  </data>
+  <data name="southindia" xml:space="preserve">
+    <value>Южная Индия</value>
+  </data>
+  <data name="canadacentral" xml:space="preserve">
+    <value>Центральная Канада</value>
+  </data>
+  <data name="canadaeast" xml:space="preserve">
+    <value>Восточная Канада</value>
+  </data>
+  <data name="westcentralus" xml:space="preserve">
+    <value>Западно-Центральная часть США</value>
+  </data>
+  <data name="ukwest" xml:space="preserve">
+    <value>Западная часть Соединенного Королевства</value>
+  </data>
+  <data name="uksouth" xml:space="preserve">
+    <value>Южная часть Соединенного Королевства</value>
+  </data>
+  <data name="westus2" xml:space="preserve">
+    <value>Западная часть США 2</value>
+  </data>
+  <data name="allResourceGroups" xml:space="preserve">
+    <value>Все группы ресурсов</value>
+  </data>
+  <data name="resourceGroupColon" xml:space="preserve">
+    <value>Группа ресурсов:</value>
+  </data>
+  <data name="resourceGroupCount" xml:space="preserve">
+    <value>Групп ресурсов: {0}</value>
+  </data>
+  <data name="rrOverride_boby" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="rrOverride_code" xml:space="preserve">
+    <value>Код состояния</value>
+  </data>
+  <data name="rrOverride_message" xml:space="preserve">
+    <value>Сообщение о состоянии</value>
+  </data>
+  <data name="rrOverride_request" xml:space="preserve">
+    <value>Переопределение запроса</value>
+  </data>
+  <data name="rrOverride_response" xml:space="preserve">
+    <value>Переопределение ответа</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>Необязательно</value>
+  </data>
+  <data name="topBar_runtimeV2" xml:space="preserve">
+    <value>Вы используете предварительную версию функций Azure. Спасибо за участие!</value>
+  </data>
+  <data name="functionKeys_clickToHide" xml:space="preserve">
+    <value>Щелкните, чтобы скрыть</value>
+  </data>
+  <data name="feature_logicAppsInfo" xml:space="preserve">
+    <value>Приложения логики позволяют легко использовать функцию на нескольких платформах.</value>
+  </data>
+  <data name="tab_logicApps" xml:space="preserve">
+    <value>Logic Apps</value>
+  </data>
+  <data name="associatedLogicApps_title" xml:space="preserve">
+    <value>Связанные приложения логики</value>
+  </data>
+  <data name="orchestrateWithLogicApps_title" xml:space="preserve">
+    <value>Оркестрация с приложениями логики</value>
+  </data>
+  <data name="createLogicApps" xml:space="preserve">
+    <value>Создать приложения логики</value>
+  </data>
+  <data name="noLogicApps_title" xml:space="preserve">
+    <value>Нет приложений логики для отображения</value>
+  </data>
+  <data name="logicApps" xml:space="preserve">
+    <value>Приложения логики</value>
+  </data>
+  <data name="logicApp_description" xml:space="preserve">
+    <value>Приложения логики позволяют быстро наладить интеграцию с приложениями SaaS и корпоративными приложениями, а также наглядно проектировать процессы и рабочие процессы.</value>
+  </data>
+  <data name="expandCollapse" xml:space="preserve">
+    <value>Развернуть или свернуть</value>
+  </data>
+  <data name="aadreg_appService" xml:space="preserve">
+    <value>Проверка подлинности или авторизация службы приложений:</value>
+  </data>
+  <data name="aadreg_configureAADNow" xml:space="preserve">
+    <value>Настроить AAD сейчас</value>
+  </data>
+  <data name="aadreg_configureAADPermissionsNow" xml:space="preserve">
+    <value>Добавить разрешения сейчас</value>
+  </data>
+  <data name="aadreg_configured" xml:space="preserve">
+    <value>настроено</value>
+  </data>
+  <data name="aadreg_identityRequirements" xml:space="preserve">
+    <value>Требования к удостоверению (не выполнены)</value>
+  </data>
+  <data name="aadreg_notConfigured" xml:space="preserve">
+    <value>не настроено</value>
+  </data>
+  <data name="aadreg_requiredPerm" xml:space="preserve">
+    <value>Требуемые разрешения</value>
+  </data>
+  <data name="aadreg_templateNeeds" xml:space="preserve">
+    <value>Шаблону требуется следующее разрешение:</value>
+  </data>
+  <data name="aadreg_thisIntegration" xml:space="preserve">
+    <value>Этой интеграции требуется конфигурация AAD для приложения-функции.</value>
+  </data>
+  <data name="aadreg_thisTemplate" xml:space="preserve">
+    <value>Этому шаблону требуется конфигурация AAD для приложения-функции.</value>
+  </data>
+  <data name="aadreg_youMayNeed" xml:space="preserve">
+    <value>Возможно, вам нужно будет настроить для функции необходимые ей дополнительные разрешения. См. документацию для этой привязки.</value>
+  </data>
+  <data name="asdreg_manageAppService" xml:space="preserve">
+    <value>Управление проверкой подлинности или авторизацией службы приложений</value>
+  </data>
+  <data name="aadreg_authConfRequired" xml:space="preserve">
+    <value>Требуется настройка проверки подлинности</value>
+  </data>
+  <data name="aadreg_identityRequirementsInfo" xml:space="preserve">
+    <value>Требования к удостоверению</value>
+  </data>
+  <data name="aadreg_manage" xml:space="preserve">
+    <value>Управление</value>
+  </data>
+  <data name="failedToGetFunctionRuntimeExtensions" xml:space="preserve">
+    <value>Не удалось получить список установленных расширений среды выполнения</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>Не удалось установить расширение среды выполнения {{extensionId}}</value>
+  </data>
+  <data name="failedToUnInstallFunctionRuntimeExtension" xml:space="preserve">
+    <value>Не удалось удалить расширение среды выполнения {{extensionId}}</value>
+  </data>
+  <data name="timeoutInstallingFunctionRuntimeExtension" xml:space="preserve">
+    <value>Установка расширений среды выполнения занимает больше времени, чем ожидалось</value>
+  </data>
+  <data name="extensionAlreadyInstalledWithDifferentVersion" xml:space="preserve">
+    <value>Расширение {{extensionId}} с другой версией уже установлено</value>
+  </data>
+  <data name="monitoring_appInsightsOpen" xml:space="preserve">
+    <value>Открыть Application Insights</value>
+  </data>
+  <data name="monitoring_appInsightsSetUp" xml:space="preserve">
+    <value>Служба App Insights для вашей функции активна.</value>
+  </data>
+  <data name="monitoring_noMonitoring" xml:space="preserve">
+    <value>Нет данных мониторинга для отображения</value>
+  </data>
+  <data name="extension_install_button" xml:space="preserve">
+    <value>Установить</value>
+  </data>
+  <data name="extension_install_success" xml:space="preserve">
+    <value>Расширение установлено</value>
+  </data>
+  <data name="extension_install_warning" xml:space="preserve">
+    <value>Расширения не установлены</value>
+  </data>
+  <data name="extension_integrate_warning" xml:space="preserve">
+    <value>Для интеграции требуются следующие расширения.</value>
+  </data>
+  <data name="extension_template_warning" xml:space="preserve">
+    <value>Для шаблона требуются следующие расширения.</value>
+  </data>
+  <data name="installingExtension" xml:space="preserve">
+    <value>Установив зависимости шаблона, можно создать функцию. Установка происходит в фоновом режиме и может занять до 10 минут. В течение этого времени можно продолжать использовать портал.</value>
+  </data>
+  <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
+    <value>Установить расширение среды выполнения не удалось. Идентификатор установки: {{installationId}}</value>
+  </data>
+  <data name="functionAppSettings_quotaPlaceHolder" xml:space="preserve">
+    <value>Введите значение в ГБ/с</value>
+  </data>
+  <data name="notificationHubPicker_connection" xml:space="preserve">
+    <value>Подключение</value>
+  </data>
+  <data name="notificationHubPicker_notificationHub" xml:space="preserve">
+    <value>Концентратор уведомлений</value>
+  </data>
+  <data name="java_splash_line_1" xml:space="preserve">
+    <value>Сборку, тестирование и развертывание функций Java можно выполнять локально с вашего компьютера. Использовать портал не требуется!</value>
+  </data>
+  <data name="java_splash_line_2" xml:space="preserve">
+    <value>Щелкните ниже, чтобы приступить к работе с документацией по созданию первой функции Azure на основе Java.</value>
+  </data>
+  <data name="appFunctionSettings_proxyEnabled" xml:space="preserve">
+    <value>Прокси-серверы включены. Чтобы отключить их, удалите или отключите их все по отдельности.</value>
+  </data>
+  <data name="java_splash_button" xml:space="preserve">
+    <value>Краткое руководство по функциям Java в Azure</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Имя:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Поиск по триггеру, языку или описанию</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>Скрыть значение</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>Ключ инструментирования App Insights указан в параметрах приложения, но найти App Insights в подписке приложения-функции не удалось. Убедитесь, что App Insights находится в той же подписке, что и приложение-функция.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Начало строки</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>Конец строки</value>
   </data>
 </root>

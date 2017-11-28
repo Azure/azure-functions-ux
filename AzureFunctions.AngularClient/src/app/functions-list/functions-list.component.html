@@ -5,7 +5,7 @@
             [fnWriteAccess]="functionApp"></command>
 </command-bar>
 
-<app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
+<app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
 <div class="browse-container">
     <img src="image/function_f.svg" />
@@ -31,13 +31,23 @@
         <tr *ngFor="let item of table.items">
             <td><span class="link" (click)="clickRow(item)">{{item.functionName}}</span></td>
             <td>
-                <div [fnWriteAccess]="functionApp">
+                <div *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="functionApp">
                     <slide-toggle
-                    [on]="!item.functionInfo.config.disabled"
-                    [isCommand]="true"
-                    [name]="'status' | translate"
-                    [ariaLabelFormat]="'nameAndStateName'"
-                    (change)="enableChange(item, $event)"></slide-toggle>
+                        [on]="!item.functionInfo.config.disabled"
+                        [isCommand]="true"
+                        [name]="'status' | translate"
+                        [ariaLabelFormat]="'nameAndStateName'"
+                        (change)="enableChange(item, $event)">
+                    </slide-toggle>
+                </div>
+                <div *ngIf="runtimeVersion === 'V2'">
+                    <slide-toggle
+                        [on]="!item.functionInfo.config.disabled"
+                        [isCommand]="true"
+                        [name]="'status' | translate"
+                        [ariaLabelFormat]="'nameAndStateName'"
+                        (change)="enableChange(item, $event)">
+                    </slide-toggle>
                 </div>
             </td>
             <td class="icon-cell">

@@ -1,4 +1,4 @@
-<div class="sidenav" [class.sidenav-try]="tryFunctionApp">
+<div class="sidenav" [class.sidenav-try]="tryFunctionApp" [class.header-on-top-of-sidenav]="headerOnTopOfSideNav">
 
     <div id="sidenav-menu" *ngIf="!tryFunctionApp">
 
@@ -9,7 +9,23 @@
                     [warning]="true"
                     [ariaLabel]="'searchFunctionApps' | translate">
         </search-box>
-
+        <div check-scenario="ShowCreateRefreshSub" [cs-input]="{}" class="create-refresh-sub">
+             <span>{{'sideNav_Subscriptions' | translate}}</span>
+             <div class="float-right">
+                <i
+                    (click)="navidateToNewSub()"
+                    (keydown)="navidateToNewSub()"
+                    class="fa fa-plus link"
+                    [title]="'createNew' | translate">
+                </i>
+                <i 
+                    (click)="refreshSubs()"
+                    (keydown)="refreshSubs()"
+                    class="fa fa-refresh tree-node-refresh-icon link"
+                    [title]="'sideBar_refresh' | translate">
+                </i>
+            </div>
+        </div>
         <div id="sidenav-subs">
             <multi-drop-down
                 [inputOptions]="subscriptionOptions"

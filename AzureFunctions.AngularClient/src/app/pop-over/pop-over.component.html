@@ -2,8 +2,7 @@
     tabindex="-1">
     <span *ngIf="message"
         class="pop-over-common pop-over-links"
-        [class.pop-over]="position!=='bottom'"
-        [class.pop-over-bottom]="position==='bottom'"
+        [ngClass]="'pop-over-' + position"
         [class.pop-over-visible]="show"
         [innerHtml]="message" tabindex="-1"></span>
 

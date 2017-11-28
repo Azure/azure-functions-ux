@@ -34,7 +34,8 @@ export class FunctionMonitorComponent implements OnDestroy {
     public functionId: string;
     public currentFunction: FunctionInfo;
     public aiId: string = null;
-    public azureWebJobsDashboardMissed: boolean = true;
+    public azureWebJobsDashboardMissed = true;
+    public aiNotFound = false;
     private selectedFunctionStream: Subject<FunctionInfo>;
 
     constructor(
@@ -82,6 +83,10 @@ export class FunctionMonitorComponent implements OnDestroy {
             .switchMap(r => {
                 const appSettings = r.appSettings.json();
                 this.aiId = r.appInsights ? r.appInsights : '';
+
+                // In case App Insight is located in another subscription show warning
+                this.aiNotFound = !this.aiId && appSettings.properties[Constants.instrumentationKeySettingName];
+
                 if (!appSettings.properties[Constants.azureWebJobsDashboardSettingsName]) {
                     this.azureWebJobsDashboardMissed = true;
                     if (this.aiId) {
@@ -103,7 +108,7 @@ export class FunctionMonitorComponent implements OnDestroy {
                 this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
                 this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format('MMM Do')}`;
 
-                return this.currentFunction.functionApp.getFunctionHostStatus()
+                return this.currentFunction.functionApp.checkRuntimeStatus()
                     .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(this.currentFunction, host.id))
                     .flatMap(data => {
                         this.functionId = !!data ? data.functionId : '';

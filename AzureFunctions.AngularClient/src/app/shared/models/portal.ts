@@ -64,7 +64,8 @@ export class Verbs {
     public static logAction = 'log-action';
     public static logMessage = 'log-message';
     public static logTimerEvent = 'log-timer-event';
-    public static setDirtyState = 'set-dirtystate';
+    public static setDirtyState = 'set-dirtystate';     // Deprecated
+    public static updateDirtyState = 'update-dirtystate';
     public static setupOAuth = 'setup-oauth';
     public static pinPart = 'pin-part';
     public static setNotification = 'set-notification';
@@ -125,6 +126,11 @@ export interface NotificationInfo {
 
 export interface NotificationStartedInfo {
     id: string
+}
+
+export interface DirtyStateInfo{
+    dirty: boolean;
+    message?: string;
 }
 
 export enum PartSize {

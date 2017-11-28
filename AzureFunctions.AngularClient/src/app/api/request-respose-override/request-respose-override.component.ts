@@ -51,6 +51,10 @@ export class RequestResposeOverrideComponent {
 
     @Input() set proxy(value: any) {
 
+        if(!value){
+            return;
+        }
+
         this.initModel();
 
         if (value.requestOverrides) {

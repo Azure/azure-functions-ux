@@ -28,14 +28,13 @@ import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
-import { AiService } from '../shared/services/ai.service';
 import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
 import { BindingManager } from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
 import { ErrorIds } from '../shared/models/error-ids';
 import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
-
+import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 
 @Component({
     selector: 'function-dev',
@@ -105,7 +104,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _aiService: AiService,
         configService: ConfigService,
         cd: ChangeDetectorRef) {
 
@@ -138,17 +136,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 this.functionApp = fi.functionApp;
                 this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
                 this._globalStateService.setBusyState();
-                this.checkErrors(fi);
 
                 this.functionApp.getEventGridKey().subscribe(eventGridKey => {
-                    this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this.functionInfo.name}&code=${eventGridKey}`;;
+                    this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${fi.name}&code=${eventGridKey}`;;
                 });
 
                 return Observable.zip(
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
                     Observable.of(fi),
                     this.functionApp.getAuthSettings(),
-                    (s, f, e) => ({ secrets: s, functionInfo: f, authSettings: e }));
+                    this.functionApp.checkFunctionStatus(fi),
+                    (s, f, e, _) => ({ secrets: s, functionInfo: f, authSettings: e }));
             })
             .subscribe(res => {
                 this._isClientCertEnabled = res.authSettings.clientCertEnabled;
@@ -238,72 +236,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.onResize();
     }
 
-    public onResize() {
-
-        const functionNameHeight = 46;
-        const editorPadding = 25;
-
-        let functionContainerWidth;
-        let functionContainerHeight;
-        if (this.functionContainer) {
-            functionContainerWidth = window.innerWidth - this.functionContainer.nativeElement.getBoundingClientRect().left;
-            functionContainerHeight = window.innerHeight - this.functionContainer.nativeElement.getBoundingClientRect().top;
-        }
-        const rightContainerWidth = this.rightTab ? Math.floor((functionContainerWidth / 3)) : 50;
-        let bottomContainerHeight = this.bottomTab ? Math.floor((functionContainerHeight / 3)) : 50;
-
-        const editorContainerWidth = functionContainerWidth - rightContainerWidth - 50;
-        let editorContainerHeight = functionContainerHeight - bottomContainerHeight - functionNameHeight - editorPadding;
-
-        if (this.expandLogs) {
-            editorContainerHeight = 0;
-            // editorContainerWidth = 0;
-
-            bottomContainerHeight = functionContainerHeight - functionNameHeight;
-
-            this.editorContainer.nativeElement.style.visibility = 'hidden';
-            this.bottomContainer.nativeElement.style.marginTop = '0px';
-        } else {
-            this.editorContainer.nativeElement.style.visibility = 'visible';
-            this.bottomContainer.nativeElement.style.marginTop = '25px';
-        }
-
-
-        if (this.editorContainer) {
-            this.editorContainer.nativeElement.style.width = editorContainerWidth + 'px';
-            this.editorContainer.nativeElement.style.height = editorContainerHeight + 'px';
-        }
-
-        if (this.codeEditor) {
-            this.codeEditor.setLayout(
-                editorContainerWidth - 2,
-                editorContainerHeight - 2
-            );
-        }
-
-        if (this.rightContainer) {
-            this.rightContainer.nativeElement.style.width = rightContainerWidth + 'px';
-            this.rightContainer.nativeElement.style.height = functionContainerHeight + 'px';
-        }
-
-        if (this.bottomContainer) {
-            this.bottomContainer.nativeElement.style.height = bottomContainerHeight + 'px';
-            this.bottomContainer.nativeElement.style.width = (editorContainerWidth + editorPadding * 2) + 'px';
-        }
-
-        if (this.testDataEditor) {
-            const widthDataEditor = rightContainerWidth - 24;
-
-            setTimeout(() => {
-                if (this.testDataEditor) {
-                    this.testDataEditor.setLayout(
-                        this.rightTab ? widthDataEditor : 0,
-                        this.isHttpFunction ? 230 : functionContainerHeight / 2
-                        // functionContainaerHeight / 2
-                    );
-                }
-            }, 0);
-        }
+    onResize() {
+        MonacoHelper.onResizeFunction(
+            this.functionContainer,
+            this.editorContainer,
+            this.rightContainer,
+            this.bottomContainer,
+            this.rightTab,
+            this.bottomTab,
+            this.expandLogs,
+            this.isHttpFunction,
+            this.testDataEditor,
+            this.codeEditor);
     }
 
     clickRightTab(tab: string) {
@@ -478,15 +422,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.functionInfo.config = JSON.parse(this.updatedContent);
         }
 
-        let notificationId = null;
-        return this._portalService.startNotification(
-            this._translateService.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name),
-            this._translateService.instant(PortalResources.functionDev_saveFunctionNotifyTitle).format(this.functionInfo.name))
-            .first()
-            .switchMap(r => {
-                notificationId = r.id;
-                return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo);
-            })
+        return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo)
             .subscribe(r => {
                 if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
@@ -499,19 +435,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (syncTriggers) {
                     this.functionApp.fireSyncTrigger();
                 }
-                this._portalService.stopNotification(
-                    notificationId,
-                    true,
-                    this._translateService.instant(PortalResources.functionDev_saveFunctionSuccess).format(this.functionInfo.name));
                 this.content = this.updatedContent;
             },
             () => {
                 this._globalStateService.clearBusyState();
-                this._portalService.stopNotification(
-                    notificationId,
-                    false,
-                    this._translateService.instant(PortalResources.functionDev_saveFunctionFailure).format(this.functionInfo.name));
-
             });
     }
 
@@ -595,52 +522,12 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    checkErrors(functionInfo: FunctionInfo) {
-        this.functionApp.getFunctionErrors(functionInfo)
-            .subscribe(errors => {
-                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalFunctionErrorFromHost + functionInfo.name);
-                // Give clearing a chance to run
-                setTimeout(() => {
-                    if (errors) {
-                        errors.forEach(e => {
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant(PortalResources.functionDev_functionErrorMessage, { name: functionInfo.name, error: e }),
-                                details: this._translateService.instant(PortalResources.functionDev_functionErrorDetails, { error: e }),
-                                errorId: ErrorIds.generalFunctionErrorFromHost + functionInfo.name,
-                                errorType: ErrorType.FunctionError,
-                                resourceId: this.functionApp.site.id
-                            });
-                            this._aiService.trackEvent(ErrorIds.generalFunctionErrorFromHost, { error: e, functionName: functionInfo.name, functionConfig: JSON.stringify(functionInfo.config) });
-                        });
-                    } else {
-                        this.functionApp.getHostErrors()
-                            .subscribe(hostErrors => {
-                                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.generalHostErrorFromHost);
-                                // Give clearing a chance to run
-                                setTimeout(() => {
-                                    hostErrors.forEach(e => {
-                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                            message: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                                            details: this._translateService.instant(PortalResources.functionDev_hostErrorMessage, { error: e }),
-                                            errorId: ErrorIds.generalHostErrorFromHost,
-                                            errorType: ErrorType.RuntimeError,
-                                            resourceId: this.functionApp.site.id
-                                        });
-                                        this._aiService.trackEvent('/errors/host', { error: e, app: this._globalStateService.FunctionContainer.id });
-                                    });
-                                });
-                            });
-                    }
-                });
-            });
-    }
-
     get codeEditor(): MonacoEditorDirective {
-        return this.getMonacoDirective('code');
+        return MonacoHelper.getMonacoDirective('code', this.monacoEditors);
     }
 
     get testDataEditor(): MonacoEditorDirective {
-        return this.getMonacoDirective('test_data');
+        return MonacoHelper.getMonacoDirective('test_data', this.monacoEditors);
     }
 
     get runLogs(): LogStreamingComponent {
@@ -730,17 +617,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    private getMonacoDirective(id: string): MonacoEditorDirective {
-
-        if (!this.monacoEditors) {
-            return null;
-        }
-
-        return this.monacoEditors.toArray().find((e) => {
-            return e.elementRef.nativeElement.id === id;
-        });
-    }
-
     private runFunctionInternal() {
 
         if (this.scriptFile.isDirty) {
@@ -749,14 +625,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             const result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
                 this.functionApp.runFunction(this.functionInfo, this.getTestData());
 
-            this.running = result.subscribe(r => {
-                this.runResult = r;
-                this._globalStateService.clearBusyState();
-                delete this.running;
-                if (this.runResult.statusCode >= 400) {
-                    this.checkErrors(this.functionInfo);
-                }
-            }, () => this._globalStateService.clearBusyState());
+            this.running = result
+                .switchMap(r => {
+                    return r.statusCode >= 400
+                        ? this.functionApp.checkFunctionStatus(this.functionInfo).map(_ => r)
+                        : Observable.of(r);
+                })
+                .subscribe(r => {
+                    this.runResult = r;
+                    this._globalStateService.clearBusyState();
+                    delete this.running;
+
+                }, () => this._globalStateService.clearBusyState());
         }
     }
 

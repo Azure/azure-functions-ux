@@ -95,7 +95,7 @@
 .fxs-progress-dots > div:nth-child(4) {
     padding-top: 20px;
     width: 100%;
-    background-color: rgba($body-bg-color, 0.30);
+    background-color: inherit !important;
   }
 
 :host-context(#app-root[theme=dark]){

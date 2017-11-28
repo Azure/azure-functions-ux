@@ -1,3 +1,4 @@
+import { PortalService } from './../../../shared/services/portal.service';
 import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -12,7 +13,7 @@ import { AvailableStackNames, AvailableStack, Framework, MajorVersion, LinuxCons
 import { DropDownElement, DropDownGroupElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
-import { LogCategories } from 'app/shared/models/constants';
+import { Links, LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -23,6 +24,7 @@ import { AuthzService } from './../../../shared/services/authz.service';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 @Component({
   selector: 'general-settings',
@@ -45,12 +47,14 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   private _saveError: string;
 
   private _webConfigArm: ArmObj<SiteConfig>;
-  private _siteConfigArm: ArmObj<Site>;
+  public siteArm: ArmObj<Site>;
   public loadingFailureMessage: string;
   public loadingMessage: string;
 
   private _sku: string;
   private _kind: string;
+
+  public FwLinks = Links;
 
   public clientAffinityEnabledOptions: SelectOption<boolean>[];
   public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -105,6 +109,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     private _translateService: TranslateService,
     private _logService: LogService,
     private _authZService: AuthzService,
+    private _portalService: PortalService,
     broadcastService: BroadcastService
   ) {
     this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
@@ -121,7 +126,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       .switchMap(() => {
         this._busyManager.setBusy();
         this._saveError = null;
-        this._siteConfigArm = null;
+        this.siteArm = null;
         this._webConfigArm = null;
         this.group = null;
         this.versionOptionsMap = null;
@@ -162,7 +167,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       })
       .retry()
       .subscribe(r => {
-        this._siteConfigArm = r.siteConfigResponse.json();
+        this.siteArm = r.siteConfigResponse.json();
         this._webConfigArm = r.webConfigResponse.json();
         this._slotsConfigArm = r.slotsConfigResponse.json();
         const availableStacksArm = r.availableStacksResponse.json();
@@ -172,8 +177,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         if (!this._linuxFxVersionOptionsClean) {
           this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
         }
-        this._processSupportedControls(this._siteConfigArm, this._webConfigArm, this._slotsConfigArm);
-        this._setupForm(this._webConfigArm, this._siteConfigArm, this._slotsConfigArm);
+        this._processSupportedControls(this.siteArm, this._webConfigArm);
+        this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyManager.clearBusy();
@@ -185,7 +190,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       this._resourceIdStream.next(this.resourceId);
     }
     if (changes['mainForm'] && !changes['resourceId']) {
-      this._setupForm(this._webConfigArm, this._siteConfigArm, this._slotsConfigArm);
+      this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
     }
   }
 
@@ -195,6 +200,34 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       this._resourceIdSubscription = null;
     }
     this._busyManager.clearBusy();
+  }
+
+  scaleUp() {
+    this._busyManager.setBusy();
+
+    const inputs = {
+      aspResourceId: this.siteArm.properties.serverFarmId,
+      aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
+      && this.siteArm.properties.hostingEnvironmentProfile.id
+    };
+
+    const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
+      '',
+      inputs,
+      'site-manage',
+      null,
+      'WebsiteSpecPickerV3');
+
+    openScaleUpBlade
+      .first()
+      .subscribe(r => {
+        this._busyManager.clearBusy();
+        this._logService.debug(LogCategories.siteConfig, `Scale up ${r ? 'succeeded' : 'cancelled'}`);
+      },
+      e => {
+        this._busyManager.clearBusy();
+        this._logService.error(LogCategories.siteConfig, '/scale-up', `Scale up failed: ${e}`);
+      });
   }
 
   private _resetSlotsInfo() {
@@ -245,7 +278,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.linuxRuntimeSupported = false;
   }
 
-  private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>, slotsConfigArm: ArmArrayResult<Site>) {
+  private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>) {
     if (!!siteConfigArm) {
       let netFrameworkSupported = true;
       let phpSupported = true;
@@ -257,17 +290,13 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       let classicPipelineModeSupported = true;
       let remoteDebuggingSupported = true;
       let clientAffinitySupported = true;
-      let autoSwapSupported = false;
+      let autoSwapSupported = true;
       let linuxRuntimeSupported = false;
 
       this._sku = siteConfigArm.properties.sku;
       this._kind = siteConfigArm.kind;
 
-      if (slotsConfigArm && slotsConfigArm.value && slotsConfigArm.value.length > 0) {
-        autoSwapSupported = true;
-      }
-
-      if (this._kind.indexOf('linux') >= 0) {
+      if (ArmUtil.isLinuxApp(siteConfigArm)) {
         netFrameworkSupported = false;
         phpSupported = false;
         pythonSupported = false;
@@ -284,8 +313,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         autoSwapSupported = false;
       }
 
-      if (this._kind && this._kind.indexOf('functionapp') !== -1) {
-        phpSupported = false;
+      if (ArmUtil.isFunctionApp(siteConfigArm)) {
+        netFrameworkSupported = false;
         pythonSupported = false;
         javaSupported = false;
         classicPipelineModeSupported = false;
@@ -296,10 +325,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           clientAffinitySupported = false;
         }
       }
-      if (this._sku === 'Free' || this._sku === 'Shared') {
-        platform64BitSupported = false;
-        alwaysOnSupported = false;
-      }
+
+      // if (this._sku === 'Free' || this._sku === 'Shared') {
+      //   platform64BitSupported = false;
+      //   alwaysOnSupported = false;
+      // }
 
       this.netFrameworkSupported = netFrameworkSupported;
       this.phpSupported = phpSupported;
@@ -383,16 +413,16 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   private _setEnabledStackControls() {
-    this._setControlsEnabledState(['netFrameworkVersion'], !this._selectedJavaVersion);
+    this._setControlsEnabledState(['netFrameworkVersion'], !this._selectedJavaVersion && this.hasWritePermissions);
     if (this.phpSupported) {
-      this._setControlsEnabledState(['phpVersion'], !this._selectedJavaVersion);
+      this._setControlsEnabledState(['phpVersion'], !this._selectedJavaVersion && this.hasWritePermissions);
     }
     if (this.pythonSupported) {
-      this._setControlsEnabledState(['pythonVersion'], !this._selectedJavaVersion);
+      this._setControlsEnabledState(['pythonVersion'], !this._selectedJavaVersion && this.hasWritePermissions);
     }
     if (this.javaSupported) {
-      this._setControlsEnabledState(['javaVersion'], true);
-      this._setControlsEnabledState(['javaMinorVersion', 'javaWebContainer'], !!this._selectedJavaVersion);
+      this._setControlsEnabledState(['javaVersion'], true && this.hasWritePermissions);
+      this._setControlsEnabledState(['javaMinorVersion', 'javaWebContainer'], !!this._selectedJavaVersion && this.hasWritePermissions);
     }
   }
 
@@ -437,30 +467,30 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
   private _setupGeneralSettings(group: FormGroup, webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
     if (this.platform64BitSupported) {
-      group.addControl('use32BitWorkerProcess', this._fb.control(webConfigArm.properties.use32BitWorkerProcess));
+      group.addControl('use32BitWorkerProcess', this._fb.control({value:webConfigArm.properties.use32BitWorkerProcess, disabled: !this.hasWritePermissions}));
     }
     if (this.webSocketsSupported) {
-      group.addControl('webSocketsEnabled', this._fb.control(webConfigArm.properties.webSocketsEnabled));
+      group.addControl('webSocketsEnabled', this._fb.control({value:webConfigArm.properties.webSocketsEnabled, disabled: !this.hasWritePermissions}));
     }
     if (this.alwaysOnSupported) {
-      group.addControl('alwaysOn', this._fb.control(webConfigArm.properties.alwaysOn));
+      group.addControl('alwaysOn', this._fb.control({value:webConfigArm.properties.alwaysOn, disabled: !this.hasWritePermissions}));
     }
     if (this.classicPipelineModeSupported) {
-      group.addControl('managedPipelineMode', this._fb.control(webConfigArm.properties.managedPipelineMode));
+      group.addControl('managedPipelineMode', this._fb.control({value:webConfigArm.properties.managedPipelineMode, disabled: !this.hasWritePermissions}));
     }
     if (this.clientAffinitySupported) {
-      group.addControl('clientAffinityEnabled', this._fb.control(siteConfigArm.properties.clientAffinityEnabled));
+      group.addControl('clientAffinityEnabled', this._fb.control({value:siteConfigArm.properties.clientAffinityEnabled, disabled: !this.hasWritePermissions}));
     }
     if (this.remoteDebuggingSupported) {
-      group.addControl('remoteDebuggingEnabled', this._fb.control(webConfigArm.properties.remoteDebuggingEnabled));
-      group.addControl('remoteDebuggingVersion', this._fb.control(webConfigArm.properties.remoteDebuggingVersion));
-      setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], webConfigArm.properties.remoteDebuggingEnabled); }, 0);
+      group.addControl('remoteDebuggingEnabled', this._fb.control({value:webConfigArm.properties.remoteDebuggingEnabled, disabled: !this.hasWritePermissions}));
+      group.addControl('remoteDebuggingVersion', this._fb.control({value:webConfigArm.properties.remoteDebuggingVersion, disabled: !this.hasWritePermissions}));
+      setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], webConfigArm.properties.remoteDebuggingEnabled && this.hasWritePermissions); }, 0);
     }
   }
 
   public updateRemoteDebuggingVersionOptions(enabled: boolean) {
     if (!this._ignoreChildEvents) {
-      this._setControlsEnabledState(['remoteDebuggingVersion'], enabled);
+      this._setControlsEnabledState(['remoteDebuggingVersion'], enabled && this.hasWritePermissions);
     }
   }
 
@@ -473,16 +503,17 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   ) {
     if (this.autoSwapSupported) {
       if (this.isProductionSlot) {
-        group.addControl('autoSwapEnabled', this._fb.control(false));
-        group.addControl('autoSwapSlotName', this._fb.control(null));
+        group.addControl('autoSwapEnabled', this._fb.control({value:false, disabled: true}));
+        group.addControl('autoSwapSlotName', this._fb.control({value:null, disabled: true}));
         setTimeout(() => { this._setControlsEnabledState(['autoSwapEnabled', 'autoSwapSlotName'], false); }, 0);
-      }
-      else {
+      } else {
         const slotNames: string[] = ['production'];
-        slotsConfigArm.value
-          .map(s => s.name)
-          .filter(r => r !== siteConfigArm.name)
-          .forEach(n => slotNames.push(n.split("/").slice(-1)[0]))
+        if (slotsConfigArm && slotsConfigArm.value) {
+          slotsConfigArm.value
+            .map(s => s.name)
+            .filter(r => r !== siteConfigArm.name)
+            .forEach(n => slotNames.push(n.split("/").slice(-1)[0]))
+        }
 
         slotNames.forEach(name => {
           autoSwapSlotNameOptions.push({
@@ -492,16 +523,16 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           });
         })
 
-        group.addControl('autoSwapEnabled', this._fb.control(!!webConfigArm.properties.autoSwapSlotName));
-        group.addControl('autoSwapSlotName', this._fb.control(webConfigArm.properties.autoSwapSlotName));
-        setTimeout(() => { this._setControlsEnabledState(['autoSwapSlotName'], !!webConfigArm.properties.autoSwapSlotName); }, 0);
+        group.addControl('autoSwapEnabled', this._fb.control({value:!!webConfigArm.properties.autoSwapSlotName, disabled: !this.hasWritePermissions}));
+        group.addControl('autoSwapSlotName', this._fb.control({value:webConfigArm.properties.autoSwapSlotName, disabled: !this.hasWritePermissions}));
+        setTimeout(() => { this._setControlsEnabledState(['autoSwapSlotName'], !!webConfigArm.properties.autoSwapSlotName && this.hasWritePermissions); }, 0);
       }
     }
   }
 
   public updateAutoSwapSlotNameOptions(enabled: boolean) {
     if (!this._ignoreChildEvents) {
-      this._setControlsEnabledState(['autoSwapSlotName'], enabled);
+      this._setControlsEnabledState(['autoSwapSlotName'], enabled && this.hasWritePermissions);
       setTimeout(() => {
         this.group.controls['autoSwapSlotName'].markAsDirty();
       }, 0);
@@ -531,7 +562,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         });
       });
 
-      const netFrameworkVersionControl = this._fb.control(defaultValue);
+      const netFrameworkVersionControl = this._fb.control({value: defaultValue, disabled: !this.hasWritePermissions});
       group.addControl('netFrameworkVersion', netFrameworkVersionControl);
 
       versionOptionsMap["netFrameworkVersion"] = netFrameworkVersionOptions;
@@ -557,7 +588,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         });
       });
 
-      const phpVersionControl = this._fb.control(defaultValue);
+      const phpVersionControl = this._fb.control({value: defaultValue, disabled: !this.hasWritePermissions});
       group.addControl('phpVersion', phpVersionControl);
 
       versionOptionsMap["phpVersion"] = phpVersionOptions;
@@ -583,7 +614,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         });
       });
 
-      const pythonVersionControl = this._fb.control(defaultValue);
+      const pythonVersionControl = this._fb.control({value: defaultValue, disabled: !this.hasWritePermissions});
       group.addControl('pythonVersion', pythonVersionControl);
 
       versionOptionsMap["pythonVersion"] = pythonVersionOptions;
@@ -625,7 +656,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
           default: element.value === defaultJavaVersion || (!element.value && !defaultJavaVersion)
         });
       });
-      const javaVersionControl = this._fb.control(defaultJavaVersion);
+      const javaVersionControl = this._fb.control({value: defaultJavaVersion, disabled: !this.hasWritePermissions});
 
       // MinorVersion
       if (defaultJavaVersion) {
@@ -639,7 +670,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       } else {
         javaMinorVersionOptions = [];
       }
-      const javaMinorVersionControl = this._fb.control(defaultJavaMinorVersion);
+      const javaMinorVersionControl = this._fb.control({value: defaultJavaMinorVersion, disabled: !this.hasWritePermissions});
 
       // WebContainer
       if (defaultJavaVersion) {
@@ -661,7 +692,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
       } else {
         javaWebContainerOptions = [];
       }
-      const javaWebContainerControl = this._fb.control(defaultJavaWebContainer);
+      const javaWebContainerControl = this._fb.control({value: defaultJavaWebContainer, disabled: !this.hasWritePermissions});
 
 
       group.addControl('javaVersion', javaVersionControl);
@@ -719,7 +750,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
       // MinorVersion
       if (javaMinorVersionNeedsUpdate) {
-        const javaMinorVersionControl = this._fb.control(defaultJavaMinorVersion);
+        const javaMinorVersionControl = this._fb.control({value: defaultJavaMinorVersion, disabled: !this.hasWritePermissions});
 
         if (!!this.group.controls['javaMinorVersion']) {
           this.group.setControl('javaMinorVersion', javaMinorVersionControl);
@@ -733,7 +764,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
       // WebContainer
       if (javaWebContainerNeedsUpdate) {
-        const javaWebContainerControl = this._fb.control(defaultJavaWebContainer);
+        const javaWebContainerControl = this._fb.control({value: defaultJavaWebContainer, disabled: !this.hasWritePermissions});
 
         if (!!this.group.controls['javaWebContainer']) {
           this.group.setControl('javaWebContainer', javaWebContainerControl);
@@ -974,10 +1005,10 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         linuxFxVersionOptions.push(dropDownGroupElement);
       });
 
-      const linuxFxVersionControl = this._fb.control(defaultFxVersionValue);
+      const linuxFxVersionControl = this._fb.control({value: defaultFxVersionValue, disabled: !this.hasWritePermissions});
       group.addControl('linuxFxVersion', linuxFxVersionControl);
 
-      const appCommandLineControl = this._fb.control(appCommandLine);
+      const appCommandLineControl = this._fb.control({value: appCommandLine, disabled: !this.hasWritePermissions});
       group.addControl('appCommandLine', appCommandLineControl);
     }
   }
@@ -997,11 +1028,17 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
   }
 
   save(): Observable<SaveOrValidationResult> {
-    const generalSettingsControls = this.group.controls;
+    // Don't make unnecessary PATCH call if these settings haven't been changed
+    if (this.group.pristine) {
+      return Observable.of({
+        success: true,
+        error: null
+      });
+    } else if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
+      const generalSettingsControls = this.group.controls;
 
-    if (this.mainForm.contains("generalSettings") && this.mainForm.controls["generalSettings"].valid) {
       // level: site
-      const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this._siteConfigArm));
+      const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this.siteArm));
 
       if (this.clientAffinitySupported) {
         const clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
@@ -1066,7 +1103,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         (c, w) => ({ siteConfigResponse: c, webConfigResponse: w })
       )
         .map(r => {
-          this._siteConfigArm = r.siteConfigResponse.json();
+          this.siteArm = r.siteConfigResponse.json();
           this._webConfigArm = r.webConfigResponse.json();
           return {
             success: true,

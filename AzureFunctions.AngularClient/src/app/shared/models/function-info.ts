@@ -1,3 +1,4 @@
+import { FunctionAppContext } from './../services/functions-service';
 import { FunctionConfig } from '../models/function-config';
 import { FunctionApp } from '../function-app';
 
@@ -14,6 +15,7 @@ export interface FunctionInfo {
     test_data: string;
     config_href: string;
     functionApp: FunctionApp;
+    context: FunctionAppContext;
 }
 
 export class FunctionInfoHelper {

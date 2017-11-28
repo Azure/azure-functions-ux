@@ -2,12 +2,14 @@ import { AiService } from 'app/shared/services/ai.service';
 import { Injectable } from '@angular/core';
 import { Url } from 'app/shared/Utilities/url';
 
-enum LogLevel {
+export enum LogLevel {
     error,
     warning,
     debug,
     verbose
 }
+
+export type LogLevelString = 'error' | 'warning' | 'debug' | 'verbose';
 
 @Injectable()
 export class LogService {
@@ -36,7 +38,7 @@ export class LogService {
             throw Error('You must provide a category, id, and data');
         }
 
-        const errorId = `/errors${id}`;
+        const errorId = `/errors/${category}/${id}`;
 
         // Always log errors to App Insights
         this._aiService.trackEvent(errorId, data);
@@ -51,7 +53,7 @@ export class LogService {
             throw Error('You must provide a category, id, and data');
         }
 
-        const warningId = `/warnings${id}`;
+        const warningId = `/warnings/${category}/${id}`;
 
         // Always log warnings to App Insights
         this._aiService.trackEvent(warningId, data);
@@ -67,7 +69,7 @@ export class LogService {
         }
 
         if (this._shouldLog(category, LogLevel.debug)) {
-            console.log(`%c[${category}] - ${data}`, 'color: #0058ad');
+            console.log(`${this._getTime()} %c[${category}] - ${data}`, 'color: #0058ad');
         }
     }
 
@@ -77,7 +79,23 @@ export class LogService {
         }
 
         if (this._shouldLog(category, LogLevel.verbose)) {
-            console.log(`[${category}] - ${data}`);
+            console.log(`${this._getTime()} [${category}] - ${data}`);
+        }
+    }
+
+    public log(level: LogLevel, category: string, data: any, id?: string){
+        if(!id && (level === LogLevel.error || level === LogLevel.warning)){
+            throw Error('Error and Warning log levels require an id');
+        }
+
+        if(level === LogLevel.error){
+            this.error(category, id, data);
+        } else if(level === LogLevel.warning){
+            this.warn(category, id, data);
+        } else if(level === LogLevel.debug){
+            this.debug(category, data);
+        } else{
+            this.verbose(category, data);
         }
     }
 
@@ -94,5 +112,10 @@ export class LogService {
         }
 
         return false;
+    }
+
+    private _getTime(){
+        const now = new Date();
+        return now.toISOString();
     }
 }

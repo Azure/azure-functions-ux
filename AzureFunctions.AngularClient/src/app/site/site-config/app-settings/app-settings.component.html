@@ -1,17 +1,19 @@
 <div class="settings-group-wrapper">
 
   <h3>{{ 'feature_applicationSettingsName' | translate }}</h3>
+  <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
+  <info-box *ngIf="!groupArray && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
 
   <div class="settings-wrapper">
 
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
-    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #appSettingsTable>
+    <table-root tblClass="tbl fixed stretch" [name]="Resources.feature_applicationSettingsName | translate" [items]="groupArray?.controls" #appSettingsTable>
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
-      <tr *ngFor="let group of appSettingsTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+      <tr *ngFor="let group of appSettingsTable.items | excludeDeleted:true" table-row [group]="group">
 
-        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
           <click-to-edit [group]="group" name="name">
 
             <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
@@ -19,7 +21,7 @@
           </click-to-edit>
         </td>
 
-        <td class="two-thirds-col padded-col">
+        <td class="two-thirds-col padded-col" table-cell [editable]="true">
           <click-to-edit [group]="group" name="value">
 
             <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
@@ -27,7 +29,7 @@
           </click-to-edit>
         </td>
 
-        <td class="slot-setting-col padded-col">
+        <td class="slot-setting-col padded-col" table-cell [editable]="false">
           <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
 
             <label>
@@ -38,67 +40,53 @@
           </click-to-edit>
         </td>
 
-        <td class="action-col">
-          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
+        <td class="action-col" table-cell [editable]="false">
+          <span
+            [tabindex]="hasWritePermissions ? 0 : -1"
+            role="button"
+            class="fa fa-times delete"
+            [attr.aria-label]="Resources._delete | translate"
+            [attr.aria-disabled]="!hasWritePermissions"
+            (keypress)="hasWritePermissions && $event.keyCode === keyCodes.enter ? deleteItem(group) : null"
+            (click)="hasWritePermissions ? deleteItem(group) : null">
+          </span>
         </td>
 
       </tr>
 
       <!-- Placeholder/Message Row -->
       <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0)">
+      <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0)" table-row>
 
         <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="3">
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="3" table-cell [editable]="false">
           {{ (loadingFailureMessage || loadingMessage) }}
         </td>
 
         <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="3">
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="3" table-cell [editable]="false">
           {{ (showPermissionsMessage) ? permissionsMessage : '' }}
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3">
+        <td *ngIf="!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell [editable]="false">
           {{ ('emptyAppSettings' | translate) }}
         </td>
 
       </tr>
-
-    </tbl>
+    </table-root>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 
 
     <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
     <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
-    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" class="link add-setting" (click)="addItem()">
+    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" tabindex="0" role="button" class="link add-setting" (keypress)="$event.keyCode === keyCodes.enter ? addItem() : null" (click)="addItem()">
       {{ 'addNewSetting' | translate }}
     </div>
 
     <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
-    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" class="disabled-link add-setting">
+    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" tabindex="-1" role="button" class="disabled-link add-setting" aria-disabled="true">
       {{ 'addNewSetting' | translate }}
-    </div>
-    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-
-
-    <!-- ---------------------------------------------------------- SHIELD ---------------------------------------------------------- -->
-    <!-- If ARM call has not returned yet or ARM call failed, show shield -->
-    <!-- If ARM call did not return successfully, show approriate shield message based on permissions -->
-    <div *ngIf="!groupArray" class="shield">
-      <div *ngIf="hasWritePermissions && !!loadingFailureMessage" class="shield-message">
-        {{ loadingFailureMessage }}
-      </div>
-      <div *ngIf="!hasWritePermissions && showPermissionsMessage" class="shield-message">
-        {{ permissionsMessage }}
-      </div>
-    </div>
-
-    <!-- If ARM call returned successfully, show shield and shield message if necessary based on permissions -->
-    <div *ngIf="!!groupArray && !hasWritePermissions && showPermissionsMessage" class="shield">
-      <div class="shield-message">
-        {{ permissionsMessage }}
-      </div>
     </div>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 

@@ -1,42 +1,32 @@
-@import '../../sass/common/variables';
+@import '../../../sass/common/variables';
 
 h2{
     display: inline;
 }
 
-.newfunc-container{
+.newsub-container{
     padding: 20px;
 }
 
-.newfunc-container > div{
+.newsub-container > div{
     margin-bottom: 40px;
 }
 
-input{
+.textbox-sub {
     border: 2px solid $border-color;
     width: 300px;
-    padding-left: 5px;
-    margin-right: 10px;
-}
-
-input.input-error {
-    padding-right:25px;
-}
-
-.quickstart {
-    color: $primary-color;
-}
-
-.quickstart:hover {
-    cursor: pointer;
 }
 
 .choose {
     padding-bottom:10px;
 }
 
-.function-name-separator {
+.sub-name-separator {
     margin-bottom: 20px;
+}
+
+.create-sub-button {
+    margin-left: 0px;
 }
 
 .create-button-container {
@@ -48,6 +38,5 @@ input.input-error {
     span {
         align-self: flex-end;
         padding-bottom: 5px;
-        padding-left: 20px;
     }
 }

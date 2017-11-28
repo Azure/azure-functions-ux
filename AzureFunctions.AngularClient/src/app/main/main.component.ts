@@ -4,7 +4,7 @@ import { PortalService } from './../shared/services/portal.service';
 import { ArmTryService } from './../shared/services/arm-try.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FunctionApp } from './../shared/function-app';
-import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy, Injector } from '@angular/core';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { UserService } from '../shared/services/user.service';
@@ -40,6 +40,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     public inTab: boolean;
     public selectedFunction: FunctionInfo;
     public tryFunctionApp: FunctionApp;
+    public showTopBar: boolean;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
@@ -51,6 +52,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
         private _cacheService: CacheService,
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
+        private _injector: Injector,
         _ngHttp: Http,
         _translateService: TranslateService,
         _armService: ArmService,
@@ -84,6 +86,16 @@ export class MainComponent implements AfterViewInit, OnDestroy {
                 _configService,
                 _slotsService,
                 _aiService);
+        }
+
+        this._setTopBarVisibility();
+    }
+
+    private _setTopBarVisibility() {
+        if (this.inIFrame) {
+            this.showTopBar = false;
+        } else if (!this._globalStateService.showTryView) {
+            this.showTopBar = true;
         }
     }
 
@@ -127,27 +139,15 @@ export class MainComponent implements AfterViewInit, OnDestroy {
                 // get list of functions from function app listed in resourceID
                 const siteDescriptor: SiteDescriptor = new SiteDescriptor(info.resourceId);
 
-                this._cacheService.getArm(siteDescriptor.getResourceId())
+                this._cacheService.getArm(siteDescriptor.getTrimmedResourceId())
                     .mergeMap(response => {
                         const site = <ArmObj<Site>>response.json();
-                        const functionApp: FunctionApp = new FunctionApp(site,
-                            _ngHttp,
-                            _userService,
-                            _globalStateService,
-                            _translateService,
-                            _broadcastService,
-                            _armService,
-                            _cacheService,
-                            _languageService,
-                            _authZService,
-                            _aiService,
-                            _configService,
-                            _slotsService);
+                        const functionApp: FunctionApp = new FunctionApp(site, this._injector);
                         return functionApp.getFunctions();
                     })
                     .subscribe(functions => {
                         const fnDescriptor: FunctionDescriptor = new FunctionDescriptor(info.resourceId);
-                        const targetName: string = fnDescriptor.functionName;
+                        const targetName: string = fnDescriptor.name;
                         const selectedFunction = functions.find(f => f.name === targetName);
 
                         if (selectedFunction) {

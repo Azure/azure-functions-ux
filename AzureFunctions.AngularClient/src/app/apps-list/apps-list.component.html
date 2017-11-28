@@ -1,6 +1,6 @@
 <div class="browse-container">
 <img src="image/functions.svg" />
-<h2>{{ 'functionApps' | translate }}</h2><i *ngIf="appsNode?.isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+<h2>{{ 'functionApps' | translate }}</h2><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
 <div class="bars">
   <label>{{ 'locationColon' | translate }}</label>
@@ -24,8 +24,9 @@
   </multi-drop-down>
 
   <drop-down id="groupingDropDown"
+    size="large"
     [options]="groupOptions"
-    (value)=onGroupSelect($event)>
+    (value)="onGroupSelect($event)">
   </drop-down>
 </div>
 <tbl [items]="tableItems" #table="tbl" id="apps-list" [name]="'functionApps' | translate" groupColName="title">
@@ -56,13 +57,13 @@
     </ng-container>
   </tr>
 
-  <tr *ngIf="appsNode?.isLoading">
+  <tr *ngIf="isLoading">
     <td colspan="4">{{'functionMonitor_loading' | translate}}</td>
     <td colspan="4"></td>
   </tr>
 </tbl>
 
-<div *ngIf="!appsNode?.isLoading && initialized && table.items.length === 0" class="empty-browse">
+<div *ngIf="!isLoading && table.items.length === 0" class="empty-browse">
   <img src="image/emptybrowse-functions.svg" />
   <h4>{{'emptyBrowse_title' | translate}}</h4>
   <span>{{'emptyBrowse' | translate}}</span>
