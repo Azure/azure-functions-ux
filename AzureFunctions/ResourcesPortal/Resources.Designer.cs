@@ -3465,18 +3465,18 @@ namespace AzureFunctions.ResourcesPortal {
         /// <summary>
         ///   Looks up a localized string similar to &lt;/&gt; Get function URL.
         /// </summary>
-        internal static string functionDev_gerFunctionUrl {
+        internal static string functionDev_getFunctionUrl {
             get {
-                return ResourceManager.GetString("functionDev_gerFunctionUrl", resourceCulture);
+                return ResourceManager.GetString("functionDev_getFunctionUrl", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;/&gt; Get GitHub secret.
         /// </summary>
-        internal static string functionDev_gerGithubSecret {
+        internal static string functionDev_getGithubSecret {
             get {
-                return ResourceManager.GetString("functionDev_gerGithubSecret", resourceCulture);
+                return ResourceManager.GetString("functionDev_getGithubSecret", resourceCulture);
             }
         }
         
