@@ -4,6 +4,9 @@ import { SourceSettings } from 'app/site/deployment-center/deployment-center-set
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 
 @Component({
     selector: 'app-step-complete',
@@ -12,7 +15,15 @@ import { Observable } from 'rxjs/Observable';
 })
 export class StepCompleteComponent implements OnInit {
     resourceId: string;
-    constructor(public wizard: DeploymentCenterWizardService, cacheService: CacheService, private _armService: ArmService) {
+    private _busyManager: BusyStateScopeManager;
+    constructor(
+        public wizard: DeploymentCenterWizardService,
+        cacheService: CacheService,
+        private _armService: ArmService,
+        private _broadcastService: BroadcastService
+    ) {
+        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+
         this.wizard.resourceIdStream.subscribe(r => {
             this.resourceId = r;
         });
@@ -27,6 +38,7 @@ export class StepCompleteComponent implements OnInit {
     }
 
     Save() {
+        this._busyManager.setBusy();
         let payload = this.wizard.wizardForm.controls.sourceSettings.value;
         if (this.wizard.wizardForm.controls.sourceProvider.value === 'external') {
             payload.isManualIntegration = true;
@@ -39,7 +51,12 @@ export class StepCompleteComponent implements OnInit {
             t => ({
                 sc: t.json()
             })
-        ).subscribe(r => {});
+        ).do(r=> {
+            this._busyManager.clearBusy();  
+        }).subscribe(r => {
+            this._busyManager.clearBusy();
+            this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+        });
     }
     ngOnInit() {}
 }

@@ -18,6 +18,7 @@ import { AuthzService } from '../../shared/services/authz.service';
 import { AiService } from '../../shared/services/ai.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 
 @Component({
     selector: 'app-deployment-center',
@@ -82,7 +83,11 @@ export class DeploymentCenterComponent implements OnInit {
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                 this._busyManager.clearBusy();
             });
-    }
+            broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.ReloadDeploymentCenter).subscribe(r=> {
+                this._cacheService.clearArmIdCachePrefix(`${this.viewInfoInput.resourceId}/config/web`);
+                this.refreshedSCMType();
+            }); 
+        }
 
     refreshedSCMType() {
         this.viewInfoStream.next(this.viewInfoInput);

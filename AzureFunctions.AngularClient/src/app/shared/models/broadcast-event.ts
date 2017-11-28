@@ -30,6 +30,7 @@ export enum BroadcastEvent {
     ProxyDashboard,
     CreateSlotDashboard,
     SlotsDashboard,
+    ReloadDeploymentCenter
 }
 
 export interface DirtyStateEvent {
