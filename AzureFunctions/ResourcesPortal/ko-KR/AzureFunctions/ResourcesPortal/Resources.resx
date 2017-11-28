@@ -1081,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>확장</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; 함수 URL 가져오기</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; GitHub 암호 가져오기</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">

@@ -1081,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>[ocOfh][ÂÅExpand !!!]</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>[m6jL5][ÞÆ&lt;/&gt; Get function URL !!! !!! ]</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>[eN8G3][Øö&lt;/&gt; Get GitHub secret !!! !!! ]</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
