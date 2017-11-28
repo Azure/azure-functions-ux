@@ -63,6 +63,15 @@
     width: 100%;
 }
 
+.menu-items {
+    display: inline-flex;
+}
+
+.create-new {
+    margin-top: 4px;
+    font-size: 18px;
+}
+
 hr.tree-node-separator{
     width: 90%;
     margin: 0px 10px;

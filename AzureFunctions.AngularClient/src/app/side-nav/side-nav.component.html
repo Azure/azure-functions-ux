@@ -9,13 +9,13 @@
                     [warning]="true"
                     [ariaLabel]="'searchFunctionApps' | translate">
         </search-box>
-        <div check-scenario="ShowCreateRefreshSub" [cs-input]="{}" class="create-refresh-sub">
+        <div check-scenario="ShowCreateRefreshSub" [cs-input]="{}" class="create-refresh-sub clickable">
              <span>{{'sideNav_Subscriptions' | translate}}</span>
              <div class="float-right">
                 <i
                     (click)="navidateToNewSub()"
                     (keydown)="navidateToNewSub()"
-                    class="fa fa-plus link"
+                    class="fa fa-plus link create-new"
                     [title]="'createNew' | translate">
                 </i>
                 <i 
