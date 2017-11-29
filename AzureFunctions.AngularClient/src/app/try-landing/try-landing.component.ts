@@ -215,11 +215,13 @@ export class TryLandingComponent implements OnInit, OnDestroy {
                 hostNameSslStates: [
                     {
                         name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + '.scm.azurewebsites.net'),
-                        hostType: 1
+                        hostType: 1,
+                        sslState: 'Disabled'
                     },
                     {
                         name: (resource.csmId.substring(resource.csmId.lastIndexOf('/') + 1, resource.csmId.length) + '.azurewebsites.net'),
-                        hostType: 0
+                        hostType: 0,
+                        sslState: 'Disabled'
                     }],
                 sku: 'Free',
                 containerSize: 128,

@@ -2014,6 +2014,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="keysDialog_url" xml:space="preserve">
     <value>URL</value>
   </data>
+  <data name="keysDialog_domain" xml:space="preserve">
+    <value>Available Domains</value>
+  </data>
+  <data name="keysDialog_warning" xml:space="preserve">
+    <value>Warning: the selected domain doesn't have an associated TLS/SSL certificate.</value>
+  </data>
+  <data name="keysDialog_noHttp" xml:space="preserve">
+    <value>no http</value>
+  </data>
   <data name="downloadFunctionAppContent" xml:space="preserve">
     <value>Download app content</value>
   </data>
