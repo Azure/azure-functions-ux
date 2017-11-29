@@ -9,7 +9,13 @@
 
                 <div class="choose">
                     <h2>{{ 'functionNew_chooseTemplate' | translate }}</h2>
-                    <h2 class="quickstart link" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</h2>
+                    <h2 check-scenario="QuickStartLink"
+                        [cs-input]="{}"
+                        cs-enabledByDefault="true">{{ 'or' | translate }}</h2>                    
+                    <h2 check-scenario="QuickStartLink"
+                        [cs-input]="{}"
+                        cs-enabledByDefault="true"
+                        class="quickstart link" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</h2>
                 </div>
 
                 <div class="search-and-sort">

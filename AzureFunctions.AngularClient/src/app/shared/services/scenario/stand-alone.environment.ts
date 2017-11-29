@@ -98,6 +98,12 @@ export class StandaloneEnvironment extends Environment {
                 return { status: 'enabled' };
             }
         };
+        this.scenarioChecks[ScenarioIds.quickStartLink] = {
+            id: ScenarioIds.quickStartLink,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'disabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
