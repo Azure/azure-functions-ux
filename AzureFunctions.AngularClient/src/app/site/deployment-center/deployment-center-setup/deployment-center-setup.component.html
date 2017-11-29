@@ -1,8 +1,8 @@
-<wizard navBarLayout="large-filled-symbols" style="height: 100vh" #wizard>
-    <app-step-source-control wizardStep title="Source Control" navigationSymbol="1"></app-step-source-control>
-    <app-step-build-provider wizardStep title="Build Provider" *ngIf="showBuildStep" navigationSymbol="2"></app-step-build-provider>
-    <app-step-configure wizardStep title="Configure"  *ngIf="showConfigureStep" navigationSymbol="3"></app-step-configure>
-    <app-step-test wizardStep title="Test" *ngIf="showTestStep" navigationSymbol="4" ></app-step-test>
-    <app-step-deployment-slot wizardStep title="Deploy" *ngIf="showDeployStep" navigationSymbol="5"></app-step-deployment-slot>
-    <app-step-complete wizardCompletionStep title="Summary" navigationSymbol="6" ></app-step-complete>
+<wizard navBarLayout="large-filled-symbols" style="height: 100vh" #wizard StepNumber>
+    <app-step-source-control wizardStep title="Source Control"></app-step-source-control>
+    <app-step-build-provider wizardStep title="Build Provider" *ngIf="showBuildStep"></app-step-build-provider>
+    <app-step-configure wizardStep title="Configure" *ngIf="showConfigureStep"></app-step-configure>
+    <app-step-test wizardStep title="Test" *ngIf="showTestStep"></app-step-test>
+    <app-step-deployment-slot wizardStep title="Deploy" *ngIf="showDeployStep"></app-step-deployment-slot>
+    <app-step-complete wizardCompletionStep title="Summary"></app-step-complete>
 </wizard>
