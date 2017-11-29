@@ -186,7 +186,12 @@
 
     <ng-container *ngIf="autoSwapSupported">
       <div class="setting-wrapper" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="" cs-disabledClass="last">
-        <info-box [infoText]="('autoSwapNotSupportedFromProd' | translate)" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}"></info-box>
+        <info-box
+          *ngIf="isProductionSlot"
+          [infoText]="('autoSwapNotSupportedFromProd' | translate)"
+          check-scenario="EnableAutoSwap"
+          [cs-input]="{site: siteArm}">
+        </info-box>
         <label class="setting-label">{{ 'autoSwapEnabledLabel' | translate }}</label>
         <div class="setting-control-container">
           <radio-selector
