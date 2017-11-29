@@ -57,18 +57,19 @@ export class DeploymentCenterSetupComponent  {
     }
 
     get showBuildStep() {
-        const sourceControlProvider =
-            this._wizardService &&
-            this._wizardService.wizardForm &&
-            this._wizardService.wizardForm.controls['sourceProvider'] &&
-            this._wizardService.wizardForm.controls['sourceProvider'].value;
-        return (
-            sourceControlProvider !== 'onedrive' &&
-            sourceControlProvider !== 'dropbox' &&
-            sourceControlProvider !== 'bitbucket' &&
-            sourceControlProvider !== 'ftp' &&
-            sourceControlProvider !== 'webdeploy'
-        );
+        return false;
+        // const sourceControlProvider =
+        //     this._wizardService &&
+        //     this._wizardService.wizardForm &&
+        //     this._wizardService.wizardForm.controls['sourceProvider'] &&
+        //     this._wizardService.wizardForm.controls['sourceProvider'].value;
+        // return (
+        //     sourceControlProvider !== 'onedrive' &&
+        //     sourceControlProvider !== 'dropbox' &&
+        //     sourceControlProvider !== 'bitbucket' &&
+        //     sourceControlProvider !== 'ftp' &&
+        //     sourceControlProvider !== 'webdeploy'
+        // );
     }
 
     get showConfigureStep() {

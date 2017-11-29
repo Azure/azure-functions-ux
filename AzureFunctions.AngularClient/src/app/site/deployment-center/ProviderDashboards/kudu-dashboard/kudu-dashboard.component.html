@@ -80,11 +80,14 @@
       </div>
     </div>
 
-    <div class="list-collection-container">
+    <div class="browse-container">
       <tbl [items]="TableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="time">
         <tr>
           <th>
             {{'time' | translate}}
+          </th>
+          <th>
+            {{'active' | translate}}
           </th>
           <th>
             {{'status' | translate}}
@@ -106,6 +109,11 @@
             </div>
             <div *ngIf="item.type === 'group'">
               <b>{{item.time}}</b>
+            </div>
+          </td>
+          <td class="icon">
+            <div *ngIf="item.active">
+              <img src="image/success-blue.svg" (click)="details(item)" />
             </div>
           </td>
           <td>{{item.status}}</td>

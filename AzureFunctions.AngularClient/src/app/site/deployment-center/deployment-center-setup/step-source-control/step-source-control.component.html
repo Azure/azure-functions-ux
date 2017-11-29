@@ -8,9 +8,9 @@
       {{card.description}}
     </div>
     <div class="cardFooter" [style.background-color]="card.barColor">
-      <p *ngIf="card.authorizedStatus==='authorized'">Authenticated as: <br> {{card.authenticatedId}}</p>
-      <p *ngIf="card.authorizedStatus==='loadingAuth'"><i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</p>
-      <p *ngIf="card.authorizedStatus==='notAuthorized'">Not Authenticated</p>
+      <div *ngIf="card.authorizedStatus==='authorized'">Authenticated as: <br> {{card.authenticatedId}}</div>
+      <div *ngIf="card.authorizedStatus==='loadingAuth'"><i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</div>
+      <div *ngIf="card.authorizedStatus==='notAuthorized'">Not Authenticated</div>
     </div>
   </div>
 </div>

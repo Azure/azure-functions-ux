@@ -23,6 +23,7 @@ class KuduTableItem implements TableItem {
     public commit: string;
     public author: string;
     public deploymentObj: ArmObj<Deployment>;
+    public active?: boolean;
 }
 @Component({
     selector: 'app-kudu-dashboard',
@@ -138,7 +139,8 @@ export class KuduDashboardComponent implements OnChanges {
                 commit: commitId,
                 checkinMessage: item.message,
                 // TODO: Compute status and show appropriate message
-                status: 'Completed',
+                status: item.complete ? 'Complete' : item.progress,
+                active: item.active,
                 author: author,
                 deploymentObj: value
             };
