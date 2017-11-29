@@ -22,6 +22,7 @@ export class PortalResources {
     public static functionDev_status: string = "functionDev_status";
     public static functionDev_viewFiles: string = "functionDev_viewFiles";
     public static functionNew_chooseTemplate: string = "functionNew_chooseTemplate";
+    public static subNew_subAlreadyExist: string = "subNew_subAlreadyExist";
     public static subNew_chooseTemplate: string = "subNew_chooseTemplate";
     public static subNew_nameYourFriendlySubName: string = "subNew_nameYourFriendlySubName";
     public static subNew_friendlySubNameName: string = "subNew_friendlySubNameName";

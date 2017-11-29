@@ -27,7 +27,7 @@
             </div>
             <div>
                 <button class="custom-button create-sub-button"
-                        [disabled]="!areInputsValid"
+                        [disabled]="!isValid()"
                         (click)="onCreate()">{{ 'create' | translate }}</button>
             </div>
     </div>            

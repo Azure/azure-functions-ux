@@ -183,6 +183,9 @@
   <data name="functionNew_chooseTemplate" xml:space="preserve">
     <value>Choose a template below</value>
   </data>
+  <data name="subNew_subAlreadyExist" xml:space="preserve">
+    <value>Subscription with name '{0}' already exist</value>
+  </data>
   <data name="subNew_chooseTemplate" xml:space="preserve">
     <value>Choose a plan below to create new subscription</value>
   </data>
