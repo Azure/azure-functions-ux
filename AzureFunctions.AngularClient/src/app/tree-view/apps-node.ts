@@ -28,6 +28,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.AppsDashboard;
     public supportsRefresh = true;
+    public emptySubs = false;
 
     public resourceId = '/apps';
     public isExpanded = true;
@@ -57,12 +58,17 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         this._scenarioService = sideNav.injector.get(ScenarioService);
 
         this._userService.getStartupInfo().subscribe(info => {
-            if (this._scenarioService.checkScenario(ScenarioIds.createApp).status === 'enabled'
-                    && info.subscriptions
-                    && info.subscriptions.length > 0) {
-                this.newDashboardType = DashboardType.createApp;
+            if (this._scenarioService.checkScenario(ScenarioIds.createApp).status === 'enabled') {
+                if (info.subscriptions && info.subscriptions.length > 0) {
+                    this.newDashboardType = DashboardType.createApp;
+                    this.emptySubs = false;
+                } else {
+                    this.newDashboardType = null;
+                    this.emptySubs = true;
+                }
             } else {
                 this.newDashboardType = null;
+                this.emptySubs = false;
             }
         });
 

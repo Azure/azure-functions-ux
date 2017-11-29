@@ -46,7 +46,7 @@
           [title]="'createNew' | translate"
           [tabindex]="node.isFocused ? 0 : -1"></i>
 
-      <i *ngIf="node.supportsRefresh"
+      <i *ngIf="node.supportsRefresh && !node.emptySubs"
         (click)="node.refresh($event)"
         (keydown)="node.refresh($event)"
         class="fa fa-refresh tree-node-refresh-icon link"
