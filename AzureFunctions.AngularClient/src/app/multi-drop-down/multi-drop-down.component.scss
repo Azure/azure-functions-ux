@@ -4,72 +4,150 @@
     position : relative;
     cursor: pointer;
 
-    input{
+    *{
         cursor: pointer;
-    }
-
-    >input[type=text]{
-        width: 100%;
-        margin-right: 1px;  // Not sure why, but you need at least a 1px margin or the layout gets crazy
-        // cursor: pointer;
     }
 }
 
-.multi-select-content{
+[role=combobox]{
     border: $border;
+    outline: 1px transparent solid;
+    
+    &.focused{
+        border: 1px solid $primary-color;
+        outline: $border-focus;
+    }
+
+    >input[type=text][role=textbox]{
+        width: 100%;
+        border: none;
+        height: 27px;
+    }
+}
+
+ul[role=listbox]{
+    list-style: none;
     position: absolute;
     width: 100%;
+    top: 30px;
+    padding: 0px;
+    margin-bottom: 0px;
+    border: $border;
+    outline: 1px transparent solid;
     background-color: $body-bg-color;
     max-height: 300px;
     overflow-y: auto;
     z-index: 1000;
+    
+    &.focused{
+        border: 1px solid $primary-color;
+        outline: $border-focus;
+    }
 
-    ul{
-        list-style: none;
-        padding: 0px;
+    //https://bootsnipp.com/snippets/ZkMKE
+    li[role=option]{
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        
+        padding-left: 20px;
 
-        input{
-            vertical-align: middle;
-            margin: 0px 5px 2px 5px;
+        &.inline {
+            margin-top: 0;
         }
 
-        li{
-            overflow-x: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+        span{
+            display: inline-block;
+            position: relative;
+            height: 25px;
+            padding-top: 5px;
+            padding-left: 5px;
+
+            &::before{
+                content: "";
+                display: inline-block;
+                position: absolute;
+                width: 13px;
+                height: 13px;
+                top: 6px;
+                left: 0;
+                margin-left: -15px;
+                border: $border;
+                border-radius: 3px;
+                background-color: $body-bg-color;
+                -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+            }
+            &::after{
+                display: inline-block;
+                position: absolute;
+                width: 9px;
+                height: 9px;
+                top: 6px;
+                left: 0;
+                margin-left: -15px;
+                padding-left: 1px;
+                padding-top: 0px;
+                font-size: 11px;
+                color: $default-text-color;
+            }
         }
 
-        li:hover{
-            background-color: darken($border-color, 10%);
+        &[aria-selected="true"]{
+            span{
+                &::after {
+                    font-family: 'FontAwesome';
+                    content: "\f00c";
+                }
+            }
         }
 
-        li.focused{
+        &:hover{
+            background-color: $grey-color;
+        }
+
+        &.focused{
             outline: $border-focus;
         }
     }
 }
 
-:host-context(#app-root[theme=dark]) .multi-select-content{
+:host-context(#app-root[theme=dark]) ul[role=listbox]{
     background-color: $chrome-color-dark;
+
+    li[role=option] {
+
+        &:hover {
+            background-color: $grey-color-dark;
+        }
+
+        span::before {
+            background-color: $body-bg-color-dark;
+        }
+
+        span::after {
+            color: $default-text-color-dark;
+        }
+    }
 }
 
 .multi-select-arrow {
     display: block;
     font-size: 0;
-    height: 25px;
+    height: 27px;
     margin: 0;
     overflow: hidden;
     padding: 0;
     position: absolute;
     right: 0;
     top: 0;
-    width: 25px;
+    width: 27px;
     zoom: 1;
 }
 
 .multi-select-arrow:before {
-    border-color: #dedede;
-    border-style: solid;
+    border: $border;
     border-width: 0 2px 2px 0;
     box-sizing: border-box;
     content: "";
