@@ -26,7 +26,7 @@ import { BindingConfig, RuntimeExtension } from 'app/shared/models/binding';
 import { HostStatus } from 'app/shared/models/host-status';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
-import { Site } from 'app/shared/models/arm/site';
+import { Site, HostNameSslState } from 'app/shared/models/arm/site';
 import { AuthSettings } from 'app/shared/models/auth-settings';
 import { RunFunctionResult } from 'app/shared/models/run-function-result';
 import { PortalResources } from 'app/shared/models/portal-resources';
@@ -465,6 +465,18 @@ export class FunctionAppService {
                     return hostKeys;
                 })
         );
+    }
+
+    getDomains(context: FunctionAppContext): Observable<Array<HostNameSslState>> {
+        return this._cacheService.getArm(context.site.id, false, '2016-08-01')
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.hostNameSslStates);
+    }
+
+    getDefaultHostName(context: FunctionAppContext): Observable<string> {
+        return this._cacheService.getArm(context.site.id, false, '2016-08-01')
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.defaultHostName);
     }
 
     getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
