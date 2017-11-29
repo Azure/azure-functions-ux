@@ -47,7 +47,7 @@ export class BindingInputV2Component {
         private _globalStateService: GlobalStateService,
         private _cacheService: CacheService,
         private _scenarioService: ScenarioService) {
-        this.useCustomFunctionInputPicker =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';    
+        this.useCustomFunctionInputPicker =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
         this.showTryView = this._globalStateService.showTryView;
     }
 
