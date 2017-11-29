@@ -1081,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>展開</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; 取得函數 URL</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; 取得 GitHub 密碼</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">

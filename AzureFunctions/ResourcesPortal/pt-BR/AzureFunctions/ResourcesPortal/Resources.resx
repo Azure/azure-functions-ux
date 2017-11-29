@@ -1081,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Expandir</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Obter URL de função</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; Obter segredo do GitHub</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">

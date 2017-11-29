@@ -1,8 +1,16 @@
 <div class="settings-group-wrapper">
 
   <h3 class="first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
-  <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
-  <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
+  <info-box
+    *ngIf="!hasWritePermissions && showPermissionsMessage"
+    typeClass="warning"
+    [infoText]="permissionsMessage">
+  </info-box>
+  <info-box
+    *ngIf="!group && !!loadingFailureMessage"
+    typeClass="error"
+    [infoText]="loadingFailureMessage">
+  </info-box>
 
   <div class="settings-wrapper">
 
@@ -37,7 +45,10 @@
     </div>
 
     <div *ngIf="pythonSupported" class="setting-wrapper">
-      <info-box [infoText]="('pythonInfoText' | translate)" [infoLink]="FwLinks.pythonLearnMore"></info-box>
+      <info-box
+        [infoText]="('pythonInfoText' | translate)"
+        [infoLink]="FwLinks.pythonLearnMore">
+      </info-box>
       <label class="setting-label">{{ 'pythonVersionLabel' | translate }}
         <pop-over [message]="('pythonVersionLabelHelp' | translate)" position="right">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -173,7 +184,10 @@
     </div>
 
     <div *ngIf="clientAffinitySupported" class="setting-wrapper" [class.last]="!autoSwapSupported">
-      <info-box [infoText]="('clientAffinityInfoText' | translate)" [infoLink]="FwLinks.clientAffinityLearnMore"></info-box>
+      <info-box
+        [infoText]="('clientAffinityInfoText' | translate)"
+        [infoLink]="FwLinks.clientAffinityLearnMore">
+      </info-box>
       <label class="setting-label">{{ 'clientAffinityEnabledLabel' | translate }}</label>
       <div class="setting-control-container">
         <radio-selector
@@ -186,7 +200,12 @@
 
     <ng-container *ngIf="autoSwapSupported">
       <div class="setting-wrapper" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="" cs-disabledClass="last">
-        <info-box [infoText]="('autoSwapNotSupportedFromProd' | translate)" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}"></info-box>
+        <info-box
+          *ngIf="isProductionSlot"
+          [infoText]="('autoSwapNotSupportedFromProd' | translate)"
+          check-scenario="EnableAutoSwap"
+          [cs-input]="{site: siteArm}">
+        </info-box>
         <label class="setting-label">{{ 'autoSwapEnabledLabel' | translate }}</label>
         <div class="setting-control-container">
           <radio-selector
@@ -223,8 +242,16 @@
   
   <ng-container *ngIf="remoteDebuggingSupported">
     <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
-    <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
-    <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
+    <info-box
+      *ngIf="!hasWritePermissions && showPermissionsMessage"
+      typeClass="warning"
+      [infoText]="permissionsMessage">
+    </info-box>
+    <info-box
+      *ngIf="!group && !!loadingFailureMessage"
+      typeClass="error"
+      [infoText]="loadingFailureMessage">
+    </info-box>
 
     <div class="settings-wrapper">
 
@@ -256,8 +283,16 @@
 
   <ng-container *ngIf="linuxRuntimeSupported">
     <h3>{{ 'feature_linuxRuntimeName' | translate }}</h3>
-    <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
-    <info-box *ngIf="!group && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
+    <info-box
+      *ngIf="!hasWritePermissions && showPermissionsMessage"
+      typeClass="warning"
+      [infoText]="permissionsMessage">
+    </info-box>
+    <info-box
+      *ngIf="!group && !!loadingFailureMessage"
+      typeClass="error"
+      [infoText]="loadingFailureMessage">
+    </info-box>
 
     <div class="settings-wrapper">
 
