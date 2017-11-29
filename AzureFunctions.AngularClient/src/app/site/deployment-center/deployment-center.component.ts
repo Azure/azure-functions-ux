@@ -73,7 +73,7 @@ export class DeploymentCenterComponent implements OnInit {
             .do(null, error => {
                 this._siteConfigObject = null;
                 this._aiService.trackEvent('/errors/deployment-center', error);
-               this._busyManager.clearBusy();
+                this._busyManager.clearBusy();
             })
             .retry()
             .subscribe(r => {
@@ -83,14 +83,12 @@ export class DeploymentCenterComponent implements OnInit {
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                 this._busyManager.clearBusy();
             });
-            broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.ReloadDeploymentCenter).subscribe(r=> {
-                this._cacheService.clearArmIdCachePrefix(`${this.viewInfoInput.resourceId}/config/web`);
-                this.refreshedSCMType();
-            }); 
-        }
+        broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.ReloadDeploymentCenter).subscribe(this.refreshedSCMType.bind(this));
+    }
 
     refreshedSCMType() {
-        this.viewInfoStream.next(this.viewInfoInput);
+        this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
+        this.viewInfoStream.next({resourceId: this.resourceId} as any);
     }
 
     get DeploymentSetUpComplete() {

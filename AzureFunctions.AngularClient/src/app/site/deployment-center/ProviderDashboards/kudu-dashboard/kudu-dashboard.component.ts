@@ -8,11 +8,12 @@ import { PortalService } from '../../../../shared/services/portal.service';
 import { Observable, Subject } from 'rxjs/Rx';
 import { Deployment, DeploymentData } from '../../Models/deploymentData';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 class KuduTableItem implements TableItem {
     public type: 'row' | 'group';
     public time: string;
@@ -31,7 +32,6 @@ class KuduTableItem implements TableItem {
 export class KuduDashboardComponent implements OnChanges {
     @Input() resourceId: string;
     @ViewChild(TblComponent) appTable: TblComponent;
-    @Output() disconnected = new EventEmitter();
     private _tableItems: KuduTableItem[];
 
     public viewInfoStream: Subject<string>;
@@ -51,9 +51,9 @@ export class KuduDashboardComponent implements OnChanges {
         private _armService: ArmService,
         private _aiService: AiService,
         private _authZService: AuthzService,
-        broadcastService: BroadcastService
+        private _broadcastService: BroadcastService
     ) {
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
         this._tableItems = [];
         this.viewInfoStream = new Subject<string>();
         this._viewInfoSubscription = this.viewInfoStream
@@ -200,8 +200,10 @@ export class KuduDashboardComponent implements OnChanges {
     }
 
     disconnect() {
+        this._busyManager.setBusy()
         this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`).subscribe(r => {
-            this.disconnected.emit();
+           this._busyManager.clearBusy();
+            this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
         });
     }
     refresh() {

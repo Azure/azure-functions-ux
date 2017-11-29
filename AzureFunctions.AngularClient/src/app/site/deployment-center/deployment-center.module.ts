@@ -50,7 +50,6 @@ import { ConfigureBitbucketComponent } from './deployment-center-setup/step-conf
     ]
 })
 export class DeploymentCenterModule {
-    /* istanbul ignore next */
     static forRoot(): ModuleWithProviders {
         return { ngModule: DeploymentCenterModule, providers: [] };
     }
