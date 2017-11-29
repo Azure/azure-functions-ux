@@ -62,6 +62,7 @@ export class SideNavComponent implements AfterViewInit {
     public hasValue = false;
     public tryFunctionApp: FunctionApp;
     public headerOnTopOfSideNav =  false;
+    public noPaddingOnSideNav = false;
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
@@ -101,6 +102,7 @@ export class SideNavComponent implements AfterViewInit {
         private _scenarioService: ScenarioService) {
 
         this.headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
+        this.noPaddingOnSideNav =  this._scenarioService.checkScenario(ScenarioIds.noPaddingOnSideNav).status === 'enabled';
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;

@@ -33,6 +33,7 @@
 .float-right {
     float: right;
     font-size: 20px;
+    margin-right: 5px;
 }
 
 .tree-node-refresh-icon{
@@ -58,6 +59,10 @@
     >input[type=text]{
         width: 100%;
     }
+}
+
+#sidenav-menu.no-padding {
+    padding: 0px;
 }
 
 #sidenav-subs{

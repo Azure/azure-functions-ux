@@ -1,6 +1,6 @@
 <div class="sidenav" [class.sidenav-try]="tryFunctionApp" [class.header-on-top-of-sidenav]="headerOnTopOfSideNav">
 
-    <div id="sidenav-menu" *ngIf="!tryFunctionApp">
+    <div id="sidenav-menu" *ngIf="!tryFunctionApp" [class.no-padding]="noPaddingOnSideNav">
 
         <search-box (onInputChange)="search($event)"
                     (onClear)="clearSearch()"

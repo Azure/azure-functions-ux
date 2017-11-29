@@ -190,6 +190,7 @@ export class ScenarioIds {
     public static readonly standAloneUserMenu = 'StandAloneUserMenu';
     public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
     public static readonly quickStartLink = 'QuickStartLink';
+    public static readonly noPaddingOnSideNav = 'NoPaddingOnSideNav';
 }
 
 export class ServerFarmSku {
