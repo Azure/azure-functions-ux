@@ -30,11 +30,11 @@
   <div class="createapp-wrapper">      
     <label class="createapp-label">{{ 'runtimeImage' | translate }}</label>
     <div class="createapp-control-container">
-      <radio-selector
+      <drop-down
         [control]="group?.controls['runtimeImage']" 
         [options]="runtimeImageOptions"
         [highlightDirty]="true">
-      </radio-selector>
+      </drop-down>
     </div>
   </div>
  

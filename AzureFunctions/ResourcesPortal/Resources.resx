@@ -962,10 +962,10 @@
     <value>Runtime image</value>
   </data>
   <data name="runtimeImagev1" xml:space="preserve">
-    <value>v1(.net framework/server core)</value>
+    <value>Azure Function v1 (.NET Framework / Server Core)</value>
   </data>
   <data name="runtimeImagev2" xml:space="preserve">
-    <value>v2(.net core/nano server)</value>
+    <value>Azure Function v2 (.NET Standard / Nano Server)</value>
   </data>
   <data name="runtimeImageCustom" xml:space="preserve">
     <value>custom</value>
