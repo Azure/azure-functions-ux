@@ -84,13 +84,13 @@ export class StorageComponent implements OnInit {
 
     onSelect() {
         const storageConnectionStringFormat = 'DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}';
-        const explicitStorageConnectionStringFormat = 'DefaultEndpointsProtocol=https;BlobEndpoint={0};AccountName={1};AccountKey={2}';        
+        const explicitStorageConnectionStringFormat = 'DefaultEndpointsProtocol=https;BlobEndpoint={0};AccountName={1};AccountKey={2}';
         this.selectInProcess = true;
         let appSettingName: string;
         this._globalStateService.setBusyState();
         this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
             const appSettings: ArmObj<any> = r.json();
-            appSettingName = this.accountName + '.' + this.endpoint;
+            appSettingName = appSettings.properties['AzureWebJobsStorage'] ? this.accountName + '.' + this.endpoint : 'AzureWebJobsStorage';
             appSettings.properties[appSettingName] = this.option === this.optionTypes.azure ?
                 storageConnectionStringFormat.format(this.accountName, this.accountKey)
                 : explicitStorageConnectionStringFormat.format(this.endpoint, this.accountName, this.accountKey);
