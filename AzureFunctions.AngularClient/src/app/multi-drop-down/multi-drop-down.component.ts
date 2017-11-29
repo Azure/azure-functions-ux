@@ -1,34 +1,40 @@
 import { PortalResources } from './../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { KeyCodes } from './../shared/models/constants';
-import { Component, OnInit, ElementRef, Input, ViewChild } from '@angular/core';
+import { Guid } from './../shared/Utilities/Guid';
+import { Component, ElementRef, Input, Output, ViewChild } from '@angular/core';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { MultiDropDownElement } from './../shared/models/drop-down-element';
 
 @Component({
   selector: 'multi-drop-down',
   templateUrl: './multi-drop-down.component.html',
-  styleUrls: ['./multi-drop-down.component.scss'],
-  inputs: ['inputOptions'],
-  outputs: ['selectedValues'],
-  host: {
-    '(document:click)': 'onDocumentClick($event)',
-  }
+  styleUrls: ['./multi-drop-down.component.scss']
 })
-export class MultiDropDownComponent<T> implements OnInit {
+export class MultiDropDownComponent<T> {
 
+  @Input() ariaLabel: string = null;
   @Input() displayText = '';
   @Input() allItemsDisplay: string | null;
   @Input() numberItemsDisplay: string | null;
-  @ViewChild('itemListContainer') itemListContainer: ElementRef;
+  @Input() id: string;
+  @Output() public selectedValues = new ReplaySubject<T[]>(1);
+
+  @ViewChild('comboBox') comboBox: ElementRef;
+  @ViewChild('displayInput') displayInput: ElementRef;
+  @ViewChild('toggleArrow') toggleArrow: ElementRef;
+  @ViewChild('listBox') listBox: ElementRef;
+
   public opened = false;
   public options: MultiDropDownElement<T>[];
-  public selectedValues = new ReplaySubject<T[]>(1);
+  public hasFocus = false;
+  public focusedIndex = -1;
+
   private _selectAllOption: MultiDropDownElement<T>;
-  private _focusedIndex = -1;
   private _initialized = false;
 
-  constructor(private _eref: ElementRef, private _ts: TranslateService) {
+  constructor(private _ts: TranslateService) {
+    this.id = Guid.newGuid();
     this._selectAllOption = {
       displayLabel: _ts.instant(PortalResources.selectAll),
       value: null,
@@ -36,10 +42,7 @@ export class MultiDropDownComponent<T> implements OnInit {
     };
   }
 
-  ngOnInit() {
-  }
-
-  set inputOptions(inputOptions: MultiDropDownElement<T>[]) {
+  @Input() set inputOptions(inputOptions: MultiDropDownElement<T>[]) {
     const options: MultiDropDownElement<T>[] = [];
     let defaultSelected = false;
     inputOptions.forEach(option => {
@@ -60,136 +63,15 @@ export class MultiDropDownComponent<T> implements OnInit {
     this._notifyChangeSubscriptions();
   }
 
-  click() {
-    if (this.opened) {
-      this._notifyChangeSubscriptions();
-    }
-
-    this.opened = !this.opened;
-  }
-
-  // http://stackoverflow.com/questions/35712379/angular2-close-dropdown-on-click-outside-is-there-an-easiest-way
-  onDocumentClick(event) {
-
-    if (this.opened && !this._eref.nativeElement.contains(event.target)) {
-      this._notifyChangeSubscriptions();
-    }
-  }
-
-  onBlur() {
-    this._notifyChangeSubscriptions();
-  }
-
-  handleChecked(option: MultiDropDownElement<T>) {
-    if (option !== this._selectAllOption) {
-      this._selectAllOption.isSelected = false;
-      option.isSelected = !option.isSelected;
-    } else {
-      this._updateAllSelected(!option.isSelected);
-    }
-  }
-
-  onKeyPress(event: KeyboardEvent) {
-
-    if (event.keyCode === KeyCodes.arrowDown) {
-      this._moveFocusedItemDown();
-    } else if (event.keyCode === KeyCodes.arrowUp) {
-      this._moveFocusedItemUp();
-    } else if (event.keyCode === KeyCodes.enter || event.keyCode === KeyCodes.space) {
-      if (this._focusedIndex >= 0 && this._focusedIndex < this.options.length) {
-        const option = this.options[this._focusedIndex];
-        option.isSelected = !option.isSelected;
-
-        if (option === this._selectAllOption) {
-          if (option.isSelected) {
-            this.options.forEach(o => o.isSelected = true);
-          } else {
-            this.options.forEach(o => o.isSelected = false);
-          }
-        }
-      }
-    } else if (event.keyCode === KeyCodes.escape) {
-      this._notifyChangeSubscriptions();
-    } else if (event.keyCode === KeyCodes.tab) {
-      this._notifyChangeSubscriptions();
-    }
-
-    if (event.keyCode !== KeyCodes.tab) {
-
-      // Prevents the entire page from scrolling on up/down key press
-      event.preventDefault();
-    }
-
-  }
-
-  private _moveFocusedItemDown() {
-    if (!this.opened) {
-      this.opened = true;
-      return;
-    }
-
-    if (this._focusedIndex < this.options.length - 1) {
-      if (this._focusedIndex > -1) {
-        this.options[this._focusedIndex].isFocused = false;
-      }
-
-      this.options[++this._focusedIndex].isFocused = true;
-    }
-
-    this._scrollIntoView();
-  }
-
-  private _moveFocusedItemUp() {
-
-    if (this._focusedIndex > 0) {
-      this.options[this._focusedIndex].isFocused = false;
-      this.options[--this._focusedIndex].isFocused = true;
-    }
-
-    this._scrollIntoView();
-  }
-
-  private _getViewContainer(): HTMLDivElement {
-    return this.itemListContainer && <HTMLDivElement>this.itemListContainer.nativeElement;
-  }
-
-  private _scrollIntoView() {
-    const view = this._getViewContainer();
-    if (!view) {
-      return;
-    }
-
-    const firstItem = view.querySelector('li');
-    if (!firstItem) {
-      return null;
-    }
-
-    const viewBottom = view.scrollTop + view.clientHeight;
-    const itemHeight = firstItem.clientHeight;
-
-    // If view needs to scroll down
-    if ((this._focusedIndex + 1) * itemHeight > viewBottom) {
-
-      // If view is scrolled way out of view, then scroll so that selected is top
-      if (viewBottom + itemHeight < (this._focusedIndex + 1) * itemHeight) {
-        view.scrollTop = this._focusedIndex * itemHeight;
-      } else {
-        // If view is incremented out of view, then scroll by a single item
-        view.scrollTop += itemHeight;
-      }
-    } else if (this._focusedIndex * itemHeight <= view.scrollTop) {
-      // If view needs to scroll up
-
-      if (view.scrollTop - itemHeight > this._focusedIndex * itemHeight) {
-        view.scrollTop = this._focusedIndex * itemHeight;
-      } else {
-        view.scrollTop -= itemHeight;
-      }
-    }
+  private _updateAllSelected(allSelected: boolean) {
+    this.options.forEach(option => {
+      option.isSelected = allSelected;
+    });
   }
 
   private _notifyChangeSubscriptions() {
     this.opened = false;
+    this.focusedIndex = -1;
 
     let displayText = null;
     const selectedValues: T[] = [];
@@ -232,12 +114,6 @@ export class MultiDropDownComponent<T> implements OnInit {
     this._compareAndUpdateIfDifferent(selectedValues);
   }
 
-  private _updateAllSelected(allSelected: boolean) {
-    this.options.forEach(option => {
-      option.isSelected = allSelected;
-    });
-  }
-
   private _compareAndUpdateIfDifferent(newValues: T[]) {
     if (!this._initialized) {
       this.selectedValues.next(newValues);
@@ -259,5 +135,170 @@ export class MultiDropDownComponent<T> implements OnInit {
           }
         });
     }
+  }
+
+  public onKeyDown(event: KeyboardEvent) {
+    let preventDefault = false;
+
+    if (event.keyCode === KeyCodes.arrowDown) {
+      preventDefault = this._moveFocusedItemDown();
+    } else if (event.keyCode === KeyCodes.end) {
+      preventDefault = this._moveFocusedItemDown(true);
+    } else if (event.keyCode === KeyCodes.arrowUp) {
+      preventDefault = this._moveFocusedItemUp();
+    } else if (event.keyCode === KeyCodes.home) {
+      preventDefault = this._moveFocusedItemUp(true);
+    } else if (this.opened) {
+      if (event.keyCode === KeyCodes.enter) {
+        this._toggleItemSelect(this.focusedIndex);
+      } else if (event.keyCode === KeyCodes.space) {
+        this._toggleItemSelect(this.focusedIndex);
+        preventDefault = true;
+      } else if (event.keyCode === KeyCodes.escape) {
+        this._notifyChangeSubscriptions();
+      } else if (event.keyCode === KeyCodes.tab) {
+        this._notifyChangeSubscriptions();
+      }
+    }
+
+    if (preventDefault) {
+      // Prevents the entire page from scrolling on space/up/down/end/home/pageUp/pageDown key press
+      event.preventDefault();
+    }
+  }
+
+  public onMouseDown(event: MouseEvent) {
+    if (event.target !== this.displayInput.nativeElement) {
+      event.preventDefault();
+      this.displayInput.nativeElement.focus();
+    }
+  }
+
+  public onFocus() {
+    this.hasFocus = true;
+  }
+
+  public onBlur() {
+    this.hasFocus = false;
+    if (this.opened) {
+      this._notifyChangeSubscriptions();
+    }
+  }
+
+  public onComboBoxClick(event: MouseEvent) {
+    if (this.opened) {
+      this._notifyChangeSubscriptions();
+    } else {
+      this.opened = true;
+    }
+  }
+
+  public onOptionClick(optionIndex: number) {
+    this.focusedIndex = optionIndex;
+    this._toggleItemSelect(optionIndex);
+  }
+
+  private _toggleItemSelect(optionIndex: number) {
+    if (optionIndex >= 0 && optionIndex < this.options.length) {
+      const option = this.options[optionIndex];
+      option.isSelected = !option.isSelected;
+      if (option === this._selectAllOption) {
+        if (option.isSelected) {
+          this.options.forEach(o => o.isSelected = true);
+        } else {
+          this.options.forEach(o => o.isSelected = false);
+        }
+      } else {
+        if (option.isSelected) {
+          this._selectAllOption.isSelected = this.options.every(o => {
+            return o === this._selectAllOption || o.isSelected;
+          });
+        } else {
+          this._selectAllOption.isSelected = false;
+        }
+      }
+    }
+  }
+
+  private _moveFocusedItemDown(moveToEnd?: boolean): boolean {
+    let preventDefault = true;
+
+    if ((!this.opened && moveToEnd) || !this.options || this.options.length === 0) {
+      preventDefault = false;
+    } else if (!this.opened) {
+      this.opened = true;
+      this.focusedIndex = 0;
+    } else if (moveToEnd) {
+      this.focusedIndex = this.options.length - 1;
+    } else if (this.focusedIndex < this.options.length - 1) {
+      this.focusedIndex++;
+    } else {
+      preventDefault = false;
+    }
+
+    if (preventDefault) {
+      this._scrollIntoView();
+    }
+
+    return preventDefault;
+  }
+
+  private _moveFocusedItemUp(moveToTop?: boolean): boolean {
+    let preventDefault = true;
+
+    if (!this.opened || !this.options || this.options.length === 0) {
+      preventDefault = false;
+    } else if (moveToTop) {
+      this.focusedIndex = 0;
+    } else if (this.focusedIndex > 0) {
+      this.focusedIndex--;
+    } else {
+      preventDefault = false;
+    }
+
+    if (preventDefault) {
+      this._scrollIntoView();
+    }
+
+    return preventDefault;
+  }
+
+  private _scrollIntoView() {
+    const view = this._getViewContainer();
+    if (!view) {
+      return;
+    }
+
+    const firstItem = view.querySelector('li');
+    if (!firstItem) {
+      return null;
+    }
+
+    const viewBottom = view.scrollTop + view.clientHeight;
+    const itemHeight = firstItem.clientHeight;
+
+    // If view needs to scroll down
+    if ((this.focusedIndex + 1) * itemHeight > viewBottom) {
+
+      // If view is scrolled way out of view, then scroll so that selected is top
+      if (viewBottom + itemHeight < (this.focusedIndex + 1) * itemHeight) {
+        view.scrollTop = this.focusedIndex * itemHeight;
+      } else {
+        // If view is incremented out of view, then scroll by a single item
+        view.scrollTop += itemHeight;
+      }
+    } else if (this.focusedIndex * itemHeight <= view.scrollTop) {
+      // If view needs to scroll up
+
+      if (view.scrollTop - itemHeight > this.focusedIndex * itemHeight) {
+        view.scrollTop = this.focusedIndex * itemHeight;
+      } else {
+        view.scrollTop -= itemHeight;
+      }
+    }
+  }
+
+  private _getViewContainer(): HTMLDivElement {
+    return this.listBox && <HTMLDivElement>this.listBox.nativeElement;
   }
 }
