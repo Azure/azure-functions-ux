@@ -1,3 +1,79 @@
+<!--
+<div
+    *ngIf="_options"
+    class="drop-down-container"
+    (keydown)="onKeyDown($event)"
+    (mousedown)=onMouseDown($event)>
+
+    <div
+        role="combobox"
+        [class.focused]="hasFocus && focusedOptIndex === -1"
+        [attr.aria-label]="ariaLabel"
+        [attr.aria-expanded]="opened"
+        [attr.aria-owns]="!opened ? null : id + '-list'"
+        aria-haspopup="tree"
+        (click)="onComboBoxClick($event)"
+        #comboBox>
+
+        <input
+            type="text"
+            role="textbox"
+            aria-multiline="false"
+            [attr.aria-controls]="!opened ? null : id + '-list'"
+            [attr.aria-activedescendant]="(!opened || focusedOptIndex === -1) ? null : id + '-opt' + focusedOptIndex + '-grp' + focusedGrpIndex"
+            readonly
+            aria-readonly="true"
+            [value]="displayText"
+            (focus)="onFocus()"
+            (blur)="onBlur()"
+            #displayInput/>
+
+        <span
+            class="select-arrow"
+            role="presentation"
+            #toggleArrow>
+        </span>
+
+    </div>
+
+    <ul
+        role="tree"
+        class="select-content"
+        [class.hidden]="!opened"
+        [class.focused]="hasFocus && focusedOptIndex !== -1"
+        [id]="id + '-list'"
+        aria-multiselectable="false"
+        #listBox>
+
+        <ng-container *ngFor="let group of (optionsGrouped ? _options : []); let groupIndex=index">
+            <li>{{group.displayLabel}}</li>
+            <ul role="tree">
+                <li
+                    *ngFor="let option of group.dropDownElements; let optionIndex=index"
+                    role="treeitem"
+                    [id]="id + '-opt' + optionIndex + '-grp' + groupIndex"
+                    [attr.aria-selected]="option.isSelected"
+                    [class.focused]="groupIndex === focusedGrpIndex && optionIndex === focusedOptIndex"
+                    (click)="onOptionClick(optionIndex, groupIndex)">
+                    {{option.displayLabel}}
+                </li>
+            </ul>
+        </ng-container>
+
+        <li
+            *ngFor="let option of (!optionsGrouped ? _options : []); let optionIndex=index"
+            role="treeitem"
+            [id]="id + '-opt' + optionIndex + '-grp' + focusedGrpIndex"
+            [attr.aria-selected]="option.isSelected"
+            [class.focused]="optionIndex === focusedOptIndex"
+            (click)="onOptionClick(optionIndex)">
+            {{option.displayLabel}}
+        </li>
+
+    </ul>
+</div>
+-->
+
 <div
     *ngIf="_options"
     class="drop-down-container"
