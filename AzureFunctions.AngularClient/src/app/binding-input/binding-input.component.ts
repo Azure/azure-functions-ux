@@ -92,7 +92,7 @@ export class BindingInputComponent {
                 this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'NotificationHub';
                 break;
             case ResourceType.AppSetting:
-                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'AppSetting';
+                this.pickerName = 'AppSetting';
                 break;
             case ResourceType.DocumentDB:
                 this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'DocDbPickerBlade';
@@ -103,6 +103,9 @@ export class BindingInputComponent {
             case ResourceType.ApiHub:
                 bladeInput = input.metadata;
                 bladeInput.bladeName = 'CreateDataConnectionBlade';
+                break;
+            case ResourceType.Sql:
+                this.pickerName = this.useCustomFunctionInputPicker ? 'Sql' : 'AppSetting';
                 break;
             default:
                 this.pickerName = 'AppSetting';

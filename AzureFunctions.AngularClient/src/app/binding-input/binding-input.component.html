@@ -22,6 +22,12 @@
   (selectItem)="finishDialogPicker($event)">
 </storage>
 
+<sql *ngIf="pickerName === 'Sql'"
+  [functionApp]="functionApp"
+  (close)="closePicker($event)"
+  (selectItem)="finishDialogPicker($event)">
+</sql>
+
 <notification-hub *ngIf="pickerName === 'NotificationHub'"
              [functionApp]="functionApp"
              (close)="closePicker($event)"

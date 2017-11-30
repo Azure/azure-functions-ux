@@ -775,6 +775,14 @@ export class BindingV2Component {
                     }
                 }
                 break;
+            case ResourceType.Sql:
+                for (const key in this._appSettings) {
+                    const value = this._appSettings[key].toLowerCase();
+                    if (value.toLocaleLowerCase().indexOf('initial catalog=') > -1 && value.indexOf('password=') > -1) {
+                        result.push(key);
+                    }
+                }
+                break;
         }
         return result;
     }

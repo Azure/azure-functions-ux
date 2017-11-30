@@ -49,11 +49,21 @@ select {
         display: inline-block;
         height: 40px;
         width: 40px;
-        background-color: $custom-picker-imgae-bg-color;
         margin-right: 15px;
         float: left;
         padding: 5px;
     }
+}
+
+.sql-pciker-header {
+    background-color: $custom-sq-picker-header-bg-color;
+}
+.sql-picker-image {
+    background-color: $custom-sql-picker-imgae-bg-color;
+}
+
+.storage-picker-image {
+    background-color: $custom-picker-imgae-bg-color;    
 }
 
 .close-button {

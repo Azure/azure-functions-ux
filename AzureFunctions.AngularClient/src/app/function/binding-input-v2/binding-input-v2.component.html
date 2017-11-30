@@ -22,6 +22,11 @@
   (selectItem)="finishDialogPicker($event)">
 </storage>
 
+<sql *ngIf="pickerName === 'Sql'"
+  [functionApp]="functionApp"
+  (close)="closePicker($event)"
+  (selectItem)="finishDialogPicker($event)">
+</sql>
 
 <div>
   <div class="input-header">

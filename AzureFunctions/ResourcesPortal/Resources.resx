@@ -959,13 +959,13 @@
     <value>Runtime version</value>
   </data>
   <data name="runtimeImage" xml:space="preserve">
-    <value>Runtime image</value>
+    <value>Runtime version</value>
   </data>
   <data name="runtimeImagev1" xml:space="preserve">
-    <value>Azure Function v1 (.NET Framework / Server Core)</value>
+    <value>Azure Functions v1 (.NET Framework)</value>
   </data>
   <data name="runtimeImagev2" xml:space="preserve">
-    <value>Azure Function v2 (.NET Standard / Nano Server)</value>
+    <value>Azure Functions v2 (.NET Standard)</value>
   </data>
   <data name="runtimeImageCustom" xml:space="preserve">
     <value>custom</value>
@@ -2202,6 +2202,21 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="storage_endpoint_empty_text" xml:space="preserve">
     <value>Enter storage endpoints domain</value>
+  </data>
+  <data name="sql_add" xml:space="preserve">
+    <value>Add Sql connection string</value>
+  </data>
+  <data name="sql_endpoint" xml:space="preserve">
+    <value>SQL Server endpoint</value>
+  </data>
+  <data name="sql_database_name" xml:space="preserve">
+    <value>Database name</value>
+  </data>
+  <data name="sql_user_name" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="sql_password" xml:space="preserve">
+    <value>Password</value>
   </data>
   <data name="download" xml:space="preserve">
     <value>Download</value>
