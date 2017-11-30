@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -196,7 +196,7 @@
     <value>邀請代碼</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>此範本為實驗性質，且尚未具備完整支援。若您遇到問題，請於 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt; GitHub 存放庫&lt;/a&gt;提出 Bug。</value>
+    <value>這是實驗性語言，其尚未具備完整支援。若發生問題，請於 &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt; GitHub 存放庫&lt;/a&gt;提出 Bug。</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>函數名稱</value>
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Run-time 版本</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>執行階段映像</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.net framework/伺服器核心)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.net 核心/nano 伺服器)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>自訂</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>已停用您的函數應用程式，因為其已超過設定配額。您可於左側邊欄上的 [函數應用程式設定] 檢視加以變更。</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>執行階段版本: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxy (預覽)</value>
+    <value>Proxy</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>啟用 Azure Functions Proxy (預覽)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>展開</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; 取得函數 URL</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; 取得 GitHub 密碼</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1319,7 +1331,7 @@
     <value>處理常式對應</value>
   </data>
   <data name="feature_virtualDirectoriesName" xml:space="preserve">
-    <value>虛擬應用程式及目錄</value>
+    <value>虛擬應用程式和目錄</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>您必須對目前的應用程式具有寫入權限，才能編輯這些設定。</value>
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>使用 Python 時，用以執行您 Web 應用程式的版本</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service 支援安裝較新版的 Python。若要深入了解，請按一下這裡。</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java 版本</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>選取想要的 Java 次要版本。若是選取「最新的」，則可讓您的 App 使用最新加入入口網站的 JVM。</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Web 容器</value>
+    <value>JAVA Web 容器</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>使用 Java 時，用以執行您 Web 應用程式的 Web 容器版本</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>無法從生產位置設定自動交換目的地</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>自動交換需要標準或更高的 App Service 方案</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>自動交換</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR 同質性</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>您可透過關閉同質 Cookie，改進無狀態應用程式的效能。若為狀態完整的應用程式，應讓同質 Cookie 保持在開啟的狀態，以提升相容性。按一下即可深入了解。</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>遠端偵錯</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>堆疊</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Linux 上的 Web Apps 透過內建容器的集合提供執行階段選項。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;深入了解&lt;/a&gt;。</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>啟動檔案</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>提供要在容器啟動過程中執行的選擇性啟動命令。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;深入了解&lt;/a&gt;。</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>最新</value>
@@ -1966,6 +1993,9 @@
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>因為您已發行產生的 function.json，所以應用程式目前為唯讀模式。Functions 執行階段不會接受 Function.json 的變更。</value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>因為您已將編輯模式設為讀寫模式，所以即使具有產生的 function.json，您的應用程式目前仍為讀寫模式。你所做的任何變更可能會在下次部署時覆寫。若要變更編輯模式，請參閱 </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>複製</value>
   </data>
@@ -2258,7 +2288,7 @@
     <value>澳洲東部</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>澳洲東南部</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>印度西部</value>
@@ -2432,7 +2462,7 @@
     <value>此範本需要下列延伸模組。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>正在安裝必要的延伸模組。此作業最長需要 10 分鐘的時間。</value>
+    <value>正在安裝範本相依性，該動作完成後，你將可以建立函式。相依性安裝會在背景進行，而且最多可能會花費 10 分鐘。在這段時間內，您可以繼續使用入口網站。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>無法安裝執行階段延伸模組。安裝識別碼 {{installationId}}</value>
@@ -2457,5 +2487,23 @@
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Azure Functions 上的 Java 快速入門</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>名稱:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>依觸發程序、語言或描述來搜尋</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>隱藏值</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights 檢測金鑰在應用程式設定中有顯示，但在函數應用程式的訂用帳戶中找不到。請確認 App Insights 與函數應用程式位在相同訂用帳戶中。</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>列開頭</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>列結尾</value>
   </data>
 </root>

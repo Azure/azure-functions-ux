@@ -1,5 +1,5 @@
 <function-new-detail *ngIf="openFunctionNewDetail" 
-  [functionCardTemplate]="functionCardTemplate" 
+  [functionCard]="functionCard" 
   [functionLanguage]="functionLanguage" 
   [functionsInfo]="functionsInfo"
   [functionApp]="functionApp"
@@ -11,7 +11,7 @@
 
 <extension-install-detail *ngIf="openExtensionInstallDetail"
   [functionApp]="functionApp"
-  [functionCardTemplate]="functionCardTemplate"
+  [functionCard]="functionCard"
   [requiredExtensions]="currentTemplate.metadata.extensions"
   (closePanel) ="close()">
 </extension-install-detail>

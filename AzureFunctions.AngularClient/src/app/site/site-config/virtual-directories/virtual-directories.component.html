@@ -1,8 +1,16 @@
 <div class="settings-group-wrapper">
 
   <h3>{{ 'feature_virtualDirectoriesName' | translate }}</h3>
-  <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
-  <info-box *ngIf="!groupArray && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
+  <info-box
+    *ngIf="!hasWritePermissions && showPermissionsMessage"
+    typeClass="warning"
+    [infoText]="permissionsMessage">
+  </info-box>
+  <info-box
+    *ngIf="!groupArray && !!loadingFailureMessage"
+    typeClass="error"
+    [infoText]="loadingFailureMessage">
+  </info-box>
 
   <div class="settings-wrapper">
 
@@ -30,10 +38,14 @@
         </td>
 
         <td class="is-app-col padded-col" table-cell [editable]="false">
-          <label>
-            <input [formControl]="group.controls['isApplication']" type="checkbox">
-            {{ 'isApplication' | translate }}
-          </label>
+          <click-to-edit [group]="group" name="isApplication" alwaysShow="true">
+
+            <label>
+              <input [formControl]="group.controls['isApplication']" type="checkbox">
+              {{ 'isApplication' | translate }}
+            </label>
+            
+          </click-to-edit>
         </td>
 
         <td class="action-col" table-cell [editable]="false">

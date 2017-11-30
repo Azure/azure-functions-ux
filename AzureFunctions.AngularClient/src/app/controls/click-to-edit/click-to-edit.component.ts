@@ -167,15 +167,23 @@ export class ClickToEditComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected _updateShowTextbox(show: boolean) {
-    const group = this.group as CustomFormGroup;
+    // When an instance with alwaysShow === true gains focus:
+    //   1. Do not make the controls in the group become visible if they
+    //      are not currently visible.
+    //   2. If the conrols are already visible because the focus came from
+    //      another control in the group, make sure they stay visible.
 
-    if (show) {
-      group.msFocusedControl = this.name;
-    } else if (group.msFocusedControl === this.name) {
+    const alwaysShowSuffix = '#ALWAYSSHOW';
+    const group = this.group as CustomFormGroup;
+    const name = this.name + (this.alwaysShow ? alwaysShowSuffix : '');
+
+    if (show) { //gained focus
+      group.msFocusedControl = name;
+    } else if (group.msFocusedControl === name) { //lost focus
       group.msFocusedControl = '';
     }
 
-    if (!group.msFocusedControl || group.msFocusedControl === this.name) {
+    if (!group.msFocusedControl || (group.msFocusedControl === name && !this.alwaysShow)) {
       group.msShowTextbox.next(show);
     }
   }

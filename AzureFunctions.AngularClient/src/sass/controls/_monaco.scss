@@ -1,8 +1,13 @@
 .monaco {
-    border:1px solid #ccc;
+    border: 1px solid #ccc;
     box-sizing: border-box;
 }
 
-.view-line{
+.monaco-min-size {
+    min-height: 750px;
+    min-width: 622.5px;
+}
+
+.view-line {
     font-family: Consolas, "Courier New", monospace;
 }

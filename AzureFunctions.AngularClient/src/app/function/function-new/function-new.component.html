@@ -28,35 +28,39 @@
                         {{ 'templatePicker_language' | translate }}
                         <drop-down class="tpicker-dropdown" 
                                    [options]="languages" 
-                                   (value)="onLanguageChanged($event)">
+                                   (value)="onLanguageChanged($event)"
+                                   attr.aria-label="{{'templatePicker_language' | translate}}">
                         </drop-down>
             
                         {{ 'templatePicker_scenario' | translate }}
                         <drop-down class="tpicker-dropdown" 
                                    [options]="categories" 
-                                   (value)="onScenarioChanged($event)">
+                                   (value)="onScenarioChanged($event)"
+                                   attr.aria-label="{{'templatePicker_scenario' | translate}}">
                         </drop-down>
                 </div>
             
-                <div class="selectionContainer">
-                    <div *ngFor="let template of templates" 
-                         [ngClass]="showTryView && !template.enabledInTryMode ? 'cardDisabled' : 'cardContainer'" 
-                         (click)="onCardSelected(template, showTryView && !template.enabledInTryMode)">
+                <div class="selectionContainer" #container>
+                    <div *ngFor="let card of cards" 
+                         [ngClass]="showTryView && !card.enabledInTryMode ? 'cardDisabled' : 'cardContainer'" 
+                         (click)="onCardSelected(card, showTryView && !card.enabledInTryMode)"
+                         [tabindex]="card.focusable ? 0 : -1"
+                         (keydown)="onKeyPress($event, card, showTryView && !card.enabledInTryMode)">
 
-                        <div class="headerBox" [style.background-color]="template.barcolor">
-                            {{template.name}}
-                            <img [src]="template.icon" [style.background-color]="template.color"/>
+                        <div class="headerBox" [style.background-color]="card.barcolor">
+                            {{card.name}}
+                            <img [src]="card.icon" [style.background-color]="card.color"/>
                         </div>
                         <div class="sourceDescription">
-                            {{template.description}}
-                            <p *ngIf="showTryView && !template.enabledInTryMode">
+                            {{card.description}}
+                            <p *ngIf="showTryView && !card.enabledInTryMode">
                                 <br>
                                 {{ 'tryNow_FreeAccountToolTip' | translate }}
                             </p>
                         </div>
-                        <div class="cardFooter" [style.background-color]="template.barcolor">
-                            <div *ngFor="let language of template.languages"
-                                 (click)="onCardLanguageSelected(template, language, showTryView && !template.enabledInTryMode);$event.stopPropagation();">
+                        <div class="cardFooter" [style.background-color]="card.barcolor">
+                            <div *ngFor="let language of card.languages"
+                                 (click)="onCardLanguageSelected(card, language, showTryView && !card.enabledInTryMode);$event.stopPropagation();">
                                  {{language}}
                             </div>
                         </div>
@@ -80,7 +84,7 @@
                          [showBackdrop]="true">
         
         <sidebar-picker *ngIf="sidePanelOpened" 
-                        [functionCardTemplate]="createFunctionTemplate" 
+                        [functionCard]="createFunctionCard" 
                         [functionLanguage]="createFunctionLanguage" 
                         [functionsInfo]="functionsInfo"
                         [functionApp]="functionApp"

@@ -1,13 +1,15 @@
 <div #container class="click-to-edit-wrapper" (mousedown)="onMouseDown($event)">
-  <div *ngIf="!showTextbox && !hiddenText && !this?.group?.msStayInEditMode" class="read-only-text">
-    {{control.value || '&#8203;'}}
-  </div>
+  <ng-container *ngIf="group.valid && !showTextbox && !this?.group?.msStayInEditMode">
+    <div *ngIf="!hiddenText" class="read-only-text">
+      {{control.value || '&#8203;'}}
+    </div>
 
-  <div *ngIf="!showTextbox && hiddenText && !this?.group?.msStayInEditMode" class="read-only-text hidden-text">
-    {{ 'hiddenValueClickToShow' | translate }}
-  </div>
+    <div *ngIf="hiddenText" class="read-only-text hidden-text">
+      {{ 'hiddenValueClickToShow' | translate }}
+    </div>
+  </ng-container>
 
-  <div #target [class.hidden]="!showTextbox && !this?.group?.msStayInEditMode">
+  <div #target [class.hidden]="group.valid && !showTextbox && !this?.group?.msStayInEditMode">
     <ng-content></ng-content>
   </div>
 </div>

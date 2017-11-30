@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -196,7 +196,7 @@
     <value>Meghívókód</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Ez egy kísérleti sablon, amely még nem rendelkezik teljes körű támogatással. Ha problémákat tapasztal, jelentse a hibát a &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-adattárunkban&lt;/a&gt;.</value>
+    <value>Ez egy kísérleti nyelv, amely még nem rendelkezik teljes körű támogatással. Ha problémákat tapasztal, jelentse a hibát &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-adattárunknak.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Függvény neve</value>
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Futtatókörnyezet verziója</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Futásidejű lemezkép</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.net framework/server core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.net core/nano server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>egyéni</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>A függvényalkalmazás le van tiltva, mert túllépte a beállított kvótát. Ezt a bal oldali sávon, a függvényalkalmazás beállításainak nézetében módosíthatja.</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>Futtatókörneyzet verziója: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxyk (előzetes verzió)</value>
+    <value>Proxyk</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Azure Functions-proxyk engedélyezése (előzetes verzió)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Kibontás</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Függvény URL-címének beolvasása</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; GitHubos titkos kód beolvasása</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>A webalkalmazás üzemeltetéséhez használt verzió pythonos környezetekben</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>Az App Service a Python újabb verzióinak telepítését támogatja. További információért kattintson ide.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-verzió</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>Válassza ki a használni kívánt Java-alverziót. Ha a „Legújabb” lehetőséget választja, az alkalmazás mindig a portálhoz legutóbb hozzáadott JVM-et fogja használni.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Webes tároló</value>
+    <value>Webes Java-tároló</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>A webes tárolónak a webalkalmazás üzemeltetéséhez használt verziója javás környezetekben</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Az automatikus felcserélés célja nem konfigurálható éles környezetbeli tárolóhelyről</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Az automatikus felcseréléshez standard vagy annál magasabb szintű App Service-csomag szükséges</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Automatikus felcserélés</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR-affinitás</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>Az affinitási cookie-k kikapcsolásával növelheti az állapot nélküli alkalmazások teljesítményét. Az állapottartó alkalmazások esetében a fokozott kompatibilitás biztosításához be kell kapcsolni az affinitási cookie-kat. További tudnivalókért kattintson ide.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Távoli hibakeresés</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>Verem</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>A linuxos Web Apps beépített tárolók egy gyűjteményével biztosít futásidejű beállításokat. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;További információ&lt;/a&gt;.</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Indítási fájl</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Egy olyan nem kötelező indítási parancs megadása, melyet a tároló beállításának részeként fog futtatni a rendszer. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;További információ&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Legújabb</value>
@@ -1966,6 +1993,9 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Az alkalmazás jelenleg írásvédett üzemmódban van, mert generált function.json fájlt tett közzé. A function.json fájlban végrehajtott módosítások a Functions-futtatókörnyezetben nem lesznek figyelembe véve. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Az alkalmazás jelenleg olvasási\írási üzemmódban fut, mert erre állította be a szerkesztési üzemmódot, holott rendelkezik generált function.json fájllal. Az Ön által végrehajtott módosításokat felülírhatja a következő üzembe helyezéssel. A szerkesztési üzemmódot a következő helyen módosíthatja: </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Másolás</value>
   </data>
@@ -2258,7 +2288,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>Kelet-Ausztrália</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>Ausztrália délkeleti régiója</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>Nyugat-India</value>
@@ -2432,7 +2462,7 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
     <value>A sablonhoz a következő bővítmények szükségesek.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>A szükséges bővítmények telepítése folyamatban van. A művelet végrehajtása akár 10 percig is eltarthat.</value>
+    <value>Installing template dependencies, you will be able to create a function once this done. Dependency installation happens in the background and can take up to 10 minutes. You can continue to use the portal during this time.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nem sikerült telepíteni a(z) {{installationId}} telepítési azonosítójú futtatókörnyezeti bővítményt</value>
@@ -2457,5 +2487,23 @@ Máshol tárolt API-definíció használatához a „Külső URL-cím” érték
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Java az Azure Functions szolgáltatásban – első lépések</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Név:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Keresés eseményindító, nyelv vagy leírás alapján</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>érték elrejtése</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>Az App Insights-eszközkulcs az alkalmazásbeállítások között jelenik meg, de az App Insights nem található a függvényalkalmazás előfizetésében. Győződjön meg arról, hogy az App Insights és a függvényalkalmazás azonos előfizetésben található.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Sor eleje</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>Sor vége</value>
   </data>
 </root>

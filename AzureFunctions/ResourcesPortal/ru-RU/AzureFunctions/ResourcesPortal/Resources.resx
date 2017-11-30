@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -196,7 +196,7 @@
     <value>Код приглашения</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Этот шаблон является экспериментальным и пока не поддерживается полностью. При возникновении проблем зарегистрируйте ошибку в нашем &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;репозитории GitHub.&lt;/a&gt;</value>
+    <value>Это экспериментальный язык, он пока еще не поддерживается полностью. При возникновении проблем зарегистрируйте ошибку в нашем &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;репозитории GitHub.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Имя функции</value>
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Версия среды выполнения</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Образ среды выполнения</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.net framework/server core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.net core/nano server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>пользовательский</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Ваше приложение-функция отключено, так как оно превысило заданную квоту. Изменить ее можно в представлении параметров приложения-функции на панели слева.</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>Версия среды выполнения: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Прокси-серверы (предварительная версия)</value>
+    <value>Прокси-серверы</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Включить прокси-серверы для функций Azure (предварительная версия)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Развернуть</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Получить URL-адрес функции</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; Получить секрет GitHub</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>Версия для запуска веб-приложения, если используется Python</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>Служба приложений поддерживает установку более новых версий Python. Щелкните здесь, чтобы узнать подробности.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Версия Java</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>Выберите необходимый дополнительный номер версии Java. Если выбрать "Самые новые", то приложение будет использовать JVM, недавно добавленную на портал.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Веб-контейнер</value>
+    <value>Веб-контейнер Java</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>Версия веб-контейнера, использующаяся для запуска веб-приложения с помощью Java</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Назначения автоматического переключения нельзя настроить из рабочего слота</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Для автоматического переключения требуется план службы приложений категории "Стандартный" или выше.</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Автоматическое переключение</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>Сходство для маршрутизации запросов приложений</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>Вы можете повысить производительность приложений без отслеживания состояния, отключив файлы cookie сходства. В приложениях с отслеживанием состояния файлы cookie сходства должны быть включены для повышения совместимости. Щелкните здесь, чтобы получить дополнительные сведения.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Удаленная отладка</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>Стек</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Веб-приложения на Linux поддерживают дополнительные возможности среды выполнения с использованием коллекции встроенных контейнеров. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Дополнительные сведения&lt;/a&gt;.</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Загрузочный файл</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Вы можете ввести дополнительную команду, которая будет выполняться при запуске контейнеров. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Дополнительные сведения&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Самые новые</value>
@@ -1966,6 +1993,9 @@
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Ваше приложение сейчас находится в режиме "только для чтения", так как вы опубликовали созданный function.json. Изменения, вносимые в function.json, не будут учитываться средой выполнения Функций Azure. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Приложение сейчас находится в режиме "чтение и запись", так как вы перевели его в режим правки, несмотря на наличие созданного файла function.json. Любые вносимые сейчас изменения могут быть переопределены при следующем развертывании. Чтобы изменить режим правки, посетите </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Копировать</value>
   </data>
@@ -2258,7 +2288,7 @@
     <value>Восточная часть Австралии</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>Юго-Восточная Австралия</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>Западная Индия</value>
@@ -2432,7 +2462,7 @@
     <value>Для шаблона требуются следующие расширения.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Устанавливаются нужные расширения. Операция может занять до 10 минут.</value>
+    <value>Установив зависимости шаблона, можно создать функцию. Установка происходит в фоновом режиме и может занять до 10 минут. В течение этого времени можно продолжать использовать портал.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Установить расширение среды выполнения не удалось. Идентификатор установки: {{installationId}}</value>
@@ -2457,5 +2487,23 @@
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Краткое руководство по функциям Java в Azure</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Имя:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Поиск по триггеру, языку или описанию</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>Скрыть значение</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>Ключ инструментирования App Insights указан в параметрах приложения, но найти App Insights в подписке приложения-функции не удалось. Убедитесь, что App Insights находится в той же подписке, что и приложение-функция.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Начало строки</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>Конец строки</value>
   </data>
 </root>

@@ -9,8 +9,8 @@ import { FunctionsNode } from './../../tree-view/functions-node';
 import { AppNode } from './../../tree-view/app-node';
 import { FunctionApp } from './../../shared/function-app';
 import { FunctionInfo } from 'app/shared/models/function-info';
-import { Template } from './../../shared/models/template-picker';
 import { Component, OnInit, Input, Output, SimpleChanges } from '@angular/core';
+import { CreateCard } from 'app/function/function-new/function-new.component';
 
 @Component({
   selector: 'sidebar-picker',
@@ -19,7 +19,7 @@ import { Component, OnInit, Input, Output, SimpleChanges } from '@angular/core';
 })
 export class SidebarPickerComponent implements OnInit {
 
-  @Input() functionCardTemplate: Template;
+  @Input() functionCard: CreateCard;
   @Input() functionLanguage: string;
   @Input() functionsInfo: FunctionInfo[];
   @Input() functionApp: FunctionApp;
@@ -44,11 +44,11 @@ export class SidebarPickerComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['functionCardTemplate']) {
-      if (this.functionCardTemplate) {
+    if (changes['functionCard']) {
+      if (this.functionCard) {
         // if they did not select a language, pick the first language to test if extensions are installed
         if (!this.functionLanguage) {
-          this.functionLanguage = this.functionCardTemplate.languages[0];
+          this.functionLanguage = this.functionCard.languages[0];
           this.autoPickedLanguage = true;
         }
         this.pickUpTemplate()
@@ -63,7 +63,7 @@ export class SidebarPickerComponent implements OnInit {
     .switchMap(templates => {
       this.currentTemplate = templates.find((t) => {
         return t.metadata.language === this.functionLanguage &&
-          this.functionCardTemplate.ids.find((id) => {
+          this.functionCard.ids.find((id) => {
             return id = t.id;
           });
       });

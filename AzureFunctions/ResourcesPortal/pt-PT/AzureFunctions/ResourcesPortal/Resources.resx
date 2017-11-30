@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -130,7 +130,7 @@
     <value>Configurar</value>
   </data>
   <data name="upgradeToEnable" xml:space="preserve">
-    <value>Upgrade to enable</value>
+    <value>Atualizar para ativar</value>
   </data>
   <data name="selectAll" xml:space="preserve">
     <value>Seleccionar tudo</value>
@@ -184,19 +184,19 @@
     <value>Escolha um modelo abaixo ou</value>
   </data>
   <data name="subNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a plan below to create new subscription</value>
+    <value>Escolher um plano abaixo para criar uma nova subscrição</value>
   </data>
   <data name="subNew_nameYourFriendlySubName" xml:space="preserve">
-    <value>Provide a friendly subscription name</value>
+    <value>Fornecer um nome amigável de subscrição</value>
   </data>
   <data name="subNew_friendlySubNameName" xml:space="preserve">
-    <value>Friendly subscription name</value>
+    <value>Nome amigável de subscrição</value>
   </data>
   <data name="subNew_invitationCode" xml:space="preserve">
-    <value>Invitation code</value>
+    <value>Código de convite</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Este modelo é experimental e ainda não tem suporte completo. Se tiver problemas, arquive um erro no nosso &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repositório do GitHub.&lt;/a&gt;</value>
+    <value>Este idioma é experimental e ainda não tem suporte completo. Se tiver problemas, arquive um erro no nosso &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repositório do GitHub.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Nome da função</value>
@@ -347,7 +347,7 @@
     <value>Guardar</value>
   </data>
   <data name="saveOperationInProgressWarning" xml:space="preserve">
-    <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
+    <value>Existe uma operação de guardar atualmente em curso.  Ao sair daqui, poderá perder algumas alterações.</value>
   </data>
   <data name="addNewSetting" xml:space="preserve">
     <value>+ Adicionar nova definição</value>
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Versão de runtime</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Imagem de runtime</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.Net Framework/Server Core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.NET Core/Servidor Nano)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>personalizado</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>A sua Function App está desativada porque tem excedeu a quota do conjunto. Pode alterá-la a partir da vista de definições de aplicação de função na barra do lado esquerdo.</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>Versão de runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxies (pré-visualização)</value>
+    <value>Proxies</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Ativar Proxies das Funções do Azure (pré-visualização)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Expandir</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Obter URL de função</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; Obter segredo do GitHub</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1319,7 +1331,7 @@
     <value>Mapeamentos de processador</value>
   </data>
   <data name="feature_virtualDirectoriesName" xml:space="preserve">
-    <value>Aplicações virtuais e diretórios</value>
+    <value>Aplicações e diretórios e virtuais</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Tem de ter permissões de escrita na aplicação atual para editar estas definições.</value>
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>A versão utilizada para executar a aplicação Web se estiver a ser utilizada linguagem Python</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>O Serviço de Aplicações suporta a instalação de versões recentes do Python. Clique aqui para saber mais.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versão de Java</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>Selecione a versão secundária do Java que deseja. Se selecionar "Recentes", a sua aplicação continuará a utilizar as JVM adicionadas ao portal mais recentemente.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Contentor Web</value>
+    <value>Contentor Web Java</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>A versão do contentor Web utilizada para executar a aplicação Web se estiver a ser utilizada linguagem Java</value>
@@ -1391,7 +1406,7 @@
     <value>A arquitetura da plataforma em execução na sua aplicação Web</value>
   </data>
   <data name="use32BitWorkerProcessUpsell" xml:space="preserve">
-    <value>64-bit configuration requires a basic or higher App Service plan</value>
+    <value>A configuração de 64 bits requer um plano do Serviço de Aplicações básico ou superior</value>
   </data>
   <data name="webSocketsEnabledLabel" xml:space="preserve">
     <value>Sockets Web</value>
@@ -1406,13 +1421,16 @@
     <value>Indica que a sua aplicação Web precisa de estar carregada de forma contínua. Por predefinição, as aplicações Web são descarregadas após terem estado inativas. Recomenda-se a ativação desta opção quando tiver WebJobs contínuos em execução na aplicação Web.</value>
   </data>
   <data name="alwaysOnUpsell" xml:space="preserve">
-    <value>Always on requires a basic or higher App Service plan</value>
+    <value>Always On requer um plano do Serviço de Aplicações básico ou superior</value>
   </data>
   <data name="managedPipelineModeLabel" xml:space="preserve">
     <value>Versão de Pipeline Gerido</value>
   </data>
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Os destinos de troca automática não podem ser configurados a partir da ranhura de produção</value>
+  </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>A Troca Automática requer um plano do Serviço de Aplicações standard ou superior</value>
   </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Troca Automática</value>
@@ -1423,6 +1441,9 @@
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>Afinidade ARR</value>
   </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>Pode desativar o Cookie de Afinidade para melhorar o desempenho das suas aplicações sem estado. As aplicações com estado devem manter o Cookie de Afinidade ativado para garantir uma maior compatibilidade. Clique para obter mais informações.</value>
+  </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Depuração remota</value>
   </data>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>Pilha</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>As Aplicações Web no Linux fornecem opções de tempo de execução através de um conjunto de contentores incorporados. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Saiba mais&lt;/a&gt;.</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Ficheiro de Arranque</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Forneça um comando de arranque opcional que será executado como parte do arranque do contentor. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Saiba mais&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Recentes</value>
@@ -1966,6 +1993,9 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>De momento, a sua aplicação está em modo só de leitura porque publicou um function.json gerado. As alterações realizadas a function.json não serão respeitadas pelo runtime das Funções. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>A aplicação está atualmente no modo de leitura\escrita porque definiu o modo de edição para leitura\escrita mesmo tendo uma function.json gerada. Quaisquer alterações que efetue podem ser substituídas pela próxima implementação. Para alterar o modo de edição visite </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copiar</value>
   </data>
@@ -2258,7 +2288,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Leste da Austrália</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>Sudeste da Austrália</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>Índia Ocidental</value>
@@ -2321,28 +2351,28 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Clique para ocultar</value>
   </data>
   <data name="feature_logicAppsInfo" xml:space="preserve">
-    <value>Logic Apps allow you to easily utilize your function across multiple platforms</value>
+    <value>O Logic Apps permite-lhe utilizar facilmente a sua função em várias plataformas</value>
   </data>
   <data name="tab_logicApps" xml:space="preserve">
     <value>Logic Apps</value>
   </data>
   <data name="associatedLogicApps_title" xml:space="preserve">
-    <value>Associated Logic Apps</value>
+    <value>Logic Apps associado</value>
   </data>
   <data name="orchestrateWithLogicApps_title" xml:space="preserve">
-    <value>Orchestrate with Logic Apps</value>
+    <value>Orquestrar com o Logic Apps</value>
   </data>
   <data name="createLogicApps" xml:space="preserve">
-    <value>Create Logic Apps</value>
+    <value>Criar Logic Apps</value>
   </data>
   <data name="noLogicApps_title" xml:space="preserve">
-    <value>No Logic Apps to display</value>
+    <value>Não existem Logic Apps a apresentar</value>
   </data>
   <data name="logicApps" xml:space="preserve">
     <value>Logic Apps</value>
   </data>
   <data name="logicApp_description" xml:space="preserve">
-    <value>Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows.</value>
+    <value>O Logic Apps permite-lhe criar integrações rapidamente com aplicações Empresariais e SaaS, bem como processos de design visuais e fluxos de trabalho.</value>
   </data>
   <data name="expandCollapse" xml:space="preserve">
     <value>Expandir ou Fechar</value>
@@ -2432,7 +2462,7 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
     <value>Este modelo necessita as seguintes extensões.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>A instalar as extensões necessárias. Esta operação poderá demorar até 10 minutos.</value>
+    <value>Depois de instalar dependências de modelo, será possível criar uma função. A instalação de dependências acontece em segundo plano e pode demorar até 10 minutos. Pode continuar a utilizar o portal durante este período de tempo.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Não foi possível instalar a extensão do runtime. Instale o id {{installationId}}</value>
@@ -2457,5 +2487,23 @@ Defina para "URL Externo" para utilizar uma definição de API que está alojada
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Início rápido sobre Java nas Funções do Azure</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Nome:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Procurar por acionador, idioma ou descrição</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>ocultar valor</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>A chave de instrumentação do Application Insights é apresentada nas definições da aplicação mas o Application Insights não foi encontrado na subscrição da Aplicação de Função. Certifique-se que o Application Insights está localizado na mesma subscrição da Aplicação de Função.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Início da linha</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>Fim da linha</value>
   </data>
 </root>

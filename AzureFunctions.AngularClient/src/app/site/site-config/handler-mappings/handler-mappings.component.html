@@ -1,8 +1,16 @@
 <div class="settings-group-wrapper">
 
   <h3>{{ 'feature_handlerMappingsName' | translate }}</h3>
-  <info-box *ngIf="!hasWritePermissions && showPermissionsMessage" typeClass="warning" [infoText]="permissionsMessage"></info-box>
-  <info-box *ngIf="!groupArray && !!loadingFailureMessage" typeClass="error" [infoText]="loadingFailureMessage"></info-box>
+  <info-box
+    *ngIf="!hasWritePermissions && showPermissionsMessage"
+    typeClass="warning"
+    [infoText]="permissionsMessage">
+  </info-box>
+  <info-box
+    *ngIf="!groupArray && !!loadingFailureMessage"
+    typeClass="error"
+    [infoText]="loadingFailureMessage">
+  </info-box>
 
   <div class="settings-wrapper">
 

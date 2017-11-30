@@ -449,7 +449,7 @@ export class SideNavComponent implements AfterViewInit {
                 }
 
                 return {
-                    displayLabel: `${e.displayName}(${e.subscriptionId})`,
+                    displayLabel: e.displayName,
                     value: e,
                     isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
                 };

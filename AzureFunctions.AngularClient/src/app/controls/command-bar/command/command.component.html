@@ -1,4 +1,12 @@
-  <a class="list-item clickable command" [class.disabled-command]="disabled" (click)="onClick($event)" tabindex="0" (keydown)="onKeyPress($event)">
+  <a
+    role="button"
+    [attr.aria-label]="displayText"
+    class="list-item clickable command"
+    [class.disabled-command]="disabled"
+    [attr.aria-disabled]="disabled"
+    (click)="onClick($event)"
+    tabindex="0"
+    (keydown)="onKeyPress($event)">
       <span [load-image]="iconUrl" class="icon-small"></span>
       {{displayText}}
   </a>

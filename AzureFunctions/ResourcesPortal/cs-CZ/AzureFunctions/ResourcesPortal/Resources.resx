@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Verze modulu runtime</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Image modulu runtime</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1 (architektura .NET / jádro serveru)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2 (.Net Core / server Nano)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>vlastní</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Vaše aplikace Function App je zakázaná, protože překročila nastavenou kvótu. Pokud ji chcete změnit, dá se to provést v zobrazení nastavení aplikace Function App na levém bočním panelu.</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>Verze modulu runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxies (Preview)</value>
+    <value>Proxy servery</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Povolit Azure Functions Proxies (Preview)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Rozbalit</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Získat adresu URL funkce</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; Získat tajný kód GitHubu</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>Verze, která se používá ke spouštění vaší webové aplikace, pokud se používá Python</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service podporuje instalaci novějších verzí Pythonu. Další informace najdete, když kliknete sem.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Verze Javy</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>Vyberte požadovanou podverzi Javy. Pokud zvolíte Nejnovější, bude vaše aplikace vždycky používat systém JVM, který byl na portál přidaný jako nejnovější.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Webový kontejner</value>
+    <value>Webový kontejner Java</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>Verze webového kontejneru, která se používá ke spouštění vaší webové aplikace, pokud se používá Java</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Cíle automatického prohození se nedají konfigurovat z produkčního slotu.</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Automatické prohození vyžaduje plán služby App Service Standard nebo vyšší.</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Automatické prohození</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>Spřažení Směrování žádostí na aplikace</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>Výkon bezstavových aplikací můžete zlepšit vypnutím souboru cookie spřažení. U stavových aplikací by měl soubor cookie spřažení zůstat zapnutý, aby se tak zajistila vyšší kompatibilita. Kliknutím si zobrazíte další informace.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Vzdálené ladění</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>Zásobník</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Funkce Web Apps na Linuxu nabízí možnosti modulu runtime prostřednictvím kolekce integrovaných kontejnerů. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Další informace&lt;/a&gt;</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Spouštěcí soubor</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Zadejte nepovinný spouštěcí příkaz, který se spustí během spouštění kontejneru. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Další informace&lt;/a&gt;</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Od nejnovějších</value>
@@ -1966,6 +1993,9 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Vaše aplikace je v tuto chvíli v režimu jen pro čtení, protože jste publikovali vygenerovaný soubor function.json. Modul runtime Functions bude změny v souboru function.json ignorovat. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Vaše aplikace je aktuálně v režimu čtení\zápis, protože jste tak nastavili režim úprav, i když máte vygenerovaný soubor function.json. Případné změny, které provedete, se můžou přepsat při příštím nasazení. Pokud chcete režim úprav změnit, navštivte </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopírovat</value>
   </data>
@@ -2258,7 +2288,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Austrálie – východ</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>Austrálie – jihovýchod</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>Indie – západ</value>
@@ -2432,7 +2462,7 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
     <value>Tato šablona vyžaduje následující rozšíření.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Instalují se potřebná rozšíření. Tato operace může trvat až 10 minut.</value>
+    <value>Instalují se závislosti šablony. Až to bude hotové, budete moct vytvořit funkci. Instalace závislostí probíhá na pozadí a může trvat až 10 minut. Během instalace můžete na portálu dále pracovat.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Nepovedlo se nám nainstalovat rozšíření modulu runtime. ID instalace: {{installationId}}</value>
@@ -2457,5 +2487,23 @@ Pokud chcete použít definici rozhraní API, která se hostuje někde jinde, na
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Rychlý start s funkcemi Java v Azure</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Název:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Hledat podle triggeru, jazyka nebo popisu</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>skrýt hodnotu</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>V nastavení aplikace je instrumentační klíč služby App Insights, ale v předplatném aplikace Function App se služba App Insights nenašla. Ujistěte se prosím, že vaše služba App Insights je umístěná ve stejném předplatném jako aplikace Function App.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Začátek řádku</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>Konec řádku</value>
   </data>
 </root>

@@ -1,13 +1,28 @@
 @import '../../sass/common/variables';
 
 .drop-down-container {
-    border: 1px solid #dedede;
+    border: $border;
+    height: 25px;
+    outline: 1px transparent solid;
     padding-right: 30px;
     position: relative;
     vertical-align: middle;
 
+    &.focused{
+        border: 1px solid $primary-color;
+        outline: $border-focus;
+    }
+
     &.dirty{
         border: 1px solid $alt1-color;
+
+        &.focused{
+            outline: $border-focus-dirty;
+        }
+    }
+
+    &:not(.disabled) * {
+        cursor: pointer;
     }
 
     &.disabled{
@@ -27,8 +42,9 @@
     opacity: 0;
     padding: 0;
     position: absolute;
+    left: 2px;
     z-index: 10;
-    width: 100%;
+    width: calc(100% - 2px);
 }
 
 .drop-down-selected-value {
@@ -58,8 +74,7 @@
 }
 
 .drop-down-selected-arrow:before {
-    border-color: #dedede;
-    border-style: solid;
+    border: $border;
     border-width: 0 2px 2px 0;
     box-sizing: border-box;
     content: "";
@@ -78,7 +93,9 @@
     transform: rotate(45deg);
 }
 
-.small {
+.drop-down-container.small {
+    height: 23px;
+
     .drop-down-select {
         height: 23px;
     }
@@ -92,6 +109,29 @@
     .drop-down-selected-arrow {
         height: 21px;
         width: 21px;
+    }
+
+    select {
+        font-size: 12px;
+    }
+}
+
+.drop-down-container.large {
+    height: 29px;
+
+    .drop-down-select {
+        height: 29px;
+    }
+
+    .drop-down-selected-value {
+        height: 27px;
+        line-height: 27px;
+        font-size: 12px;
+    }
+
+    .drop-down-selected-arrow {
+        height: 27px;
+        width: 27px;
     }
 
     select {

@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -196,7 +196,7 @@
     <value>Codice di invito</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Questo modello è sperimentale e quindi il supporto completo non è ancora disponibile. Se si verificano problemi, pubblicare un bug nel &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repository di GitHub.&lt;/a&gt;</value>
+    <value>Questo linguaggio è sperimentale e quindi il supporto completo non è ancora disponibile. Se si verificano problemi, pubblicare un bug nel &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;repository di GitHub.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Nome funzione</value>
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Versione runtime</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Immagine run-time</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.NET Framework/Server Core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.NET Core/Nano Server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>personalizzato</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>L'app per le funzioni è disabilitata perché ha superato la quota impostata. È possibile modificare la quota nella visualizzazione delle impostazioni dell'app per le funzioni nella barra laterale sinistra.</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>Versione runtime: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxy (anteprima)</value>
+    <value>Proxy</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Abilita Proxy di Funzioni di Azure (anteprima)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Espandi</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Recupera URL della funzione</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; Recupera segreto GitHub</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1319,7 +1331,7 @@
     <value>Mapping del gestore</value>
   </data>
   <data name="feature_virtualDirectoriesName" xml:space="preserve">
-    <value>Directory e applicazioni virtuali</value>
+    <value>Applicazioni e directory virtuali</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Per modificare queste impostazioni, è necessario disporre delle autorizzazioni di scrittura per l'app corrente.</value>
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>Versione usata per eseguire l'app Web, se si usa Python</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>Il servizio app supporta l'installazione di versioni più recenti di Python. Per altre informazioni, fare clic qui.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Versione Java</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>Selezionare la versione secondaria Java desiderata. Se si seleziona "Più recente", l'app continuerà a usare la JVM aggiunta più di recente al portale.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Contenitore Web</value>
+    <value>Contenitore Web Java</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>Versione del contenitore Web usata per eseguire l'app Web, se si usa Java</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Non è possibile configurare le destinazioni di scambio automatico dallo slot di produzione</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>La modalità Scambio automatico richiede un piano di servizio app Standard o superiore</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Scambio automatico</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>Affinità ARR</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>È possibile migliorare le prestazioni delle applicazioni senza stato disattivando il cookie di affinità. Al contrario, le applicazioni con stato devono mantenere attivato il cookie di affinità per una maggiore compatibilità. Per altre informazioni, fare clic qui.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Debug remoto</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>Stack</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Le app Web in Linux offrono opzioni di runtime tramite una raccolta di contenitori predefiniti. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Altre informazioni&lt;/a&gt;.</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>File di avvio</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Specificare un comando di avvio facoltativo che verrà eseguito come parte dell'avvio del contenitore. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Altre informazioni&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Più recenti</value>
@@ -1966,6 +1993,9 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>L'app è attualmente in modalità di sola lettura perché è stato pubblicato un file function.json generato. Le modifiche apportate al file function.json non saranno considerate dal runtime di Funzioni di Azure. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>L'app è attualmente in modalità di lettura\scrittura perché la modalità di modifica è stata impostata su lettura\scrittura anche se è stato generato un file function.json. È possibile che le modifiche effettuate vengano sovrascritte alla distribuzione successiva. Per cambiare la modalità di modifica, vedere </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copia</value>
   </data>
@@ -2258,7 +2288,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Australia orientale</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>Australia sud-orientale</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>India occidentale</value>
@@ -2432,7 +2462,7 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
     <value>Questo modello richiede le estensioni seguenti.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installazione delle estensioni necessarie. L'operazione potrebbe richiedere fino a 10 minuti.</value>
+    <value>Installando le dipendenze del modello, al termine dell'operazione sarà possibile creare una funzione. L'installazione delle dipendenze viene eseguita in background e può impiegare fino a 10 minuti. Durante questo periodo sarà comunque possibile usare il portale.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Non è possibile installare l'estensione di runtime. ID installazione: {{installationId}}</value>
@@ -2457,5 +2487,23 @@ Impostare il valore su "URL esterno" per usare una definizione dell'API ospitata
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Guida introduttiva a Java in Funzioni di Azure</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Nome:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Cerca per trigger, linguaggio o descrizione</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>nascondi valore</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>La chiave di strumentazione di Application Insights è visualizzata nelle impostazioni dell'app ma non è stato possibile trovare Application Insights nella sottoscrizione dell'app per le funzioni. Assicurarsi che Application Insights risieda nella stessa sottoscrizione dell'app per le funzioni.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Inizio della riga</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>Fine della riga</value>
   </data>
 </root>
