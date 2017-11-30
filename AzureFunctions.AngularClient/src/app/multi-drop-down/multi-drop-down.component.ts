@@ -9,13 +9,11 @@ import { MultiDropDownElement } from './../shared/models/drop-down-element';
 @Component({
   selector: 'multi-drop-down',
   templateUrl: './multi-drop-down.component.html',
-  styleUrls: ['./multi-drop-down.component.scss'],
-  // host: {
-  //   '(document:mousedown)': 'onDocumentMouseDown($event)',
-  // }
+  styleUrls: ['./multi-drop-down.component.scss']
 })
 export class MultiDropDownComponent<T> {
 
+  @Input() ariaLabel: string = null;
   @Input() displayText = '';
   @Input() allItemsDisplay: string | null;
   @Input() numberItemsDisplay: string | null;
@@ -30,12 +28,12 @@ export class MultiDropDownComponent<T> {
   public opened = false;
   public options: MultiDropDownElement<T>[];
   public hasFocus = false;
+  public focusedIndex = -1;
 
-  private focusedIndex = -1;
   private _selectAllOption: MultiDropDownElement<T>;
   private _initialized = false;
 
-  constructor(/*private _eref: ElementRef,*/ private _ts: TranslateService) {
+  constructor(private _ts: TranslateService) {
     this.id = Guid.newGuid();
     this._selectAllOption = {
       displayLabel: _ts.instant(PortalResources.selectAll),
@@ -139,16 +137,6 @@ export class MultiDropDownComponent<T> {
     }
   }
 
-  // // http://stackoverflow.com/questions/35712379/angular2-close-dropdown-on-click-outside-is-there-an-easiest-way
-  // onDocumentMouseDown(event) {
-  //   if (this._eref.nativeElement.contains(event.target)) {
-  //     event.preventDefault();
-  //   }
-  //   else if (this.opened) {
-  //     this._notifyChangeSubscriptions();
-  //   }
-  // }
-
   public onKeyDown(event: KeyboardEvent) {
     let preventDefault = false;
 
@@ -220,8 +208,7 @@ export class MultiDropDownComponent<T> {
         } else {
           this.options.forEach(o => o.isSelected = false);
         }
-      }
-      else {
+      } else {
         if (option.isSelected) {
           this._selectAllOption.isSelected = this.options.every(o => {
             return o === this._selectAllOption || o.isSelected;
