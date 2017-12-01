@@ -7,13 +7,19 @@
             </div>
 
             <div class="modal-body">
-                <div>
+                <!-- when vsproj option is disabled we dont need to show radio options as there are only two options-->
+                <div check-scenario="DownloadWithVsProj" 
+                     [cs-input]="{}"
+                     cs-enabledByDefault="true">
                     <radio-selector [defaultValue]="currentDownloadOption"
                                     [options]="downloadOptions"
                                     (value)="currentDownloadOption = $event">
                     </radio-selector>
                 </div>
-                <div id="app-settings-checkbox">
+                <div check-scenario="DownloadWithAppSettings"
+                     [cs-input]="{}"
+                     cs-enabledByDefault="true"
+                     id="app-settings-checkbox">
                     <input type="checkbox" [(ngModel)]="includeAppSettings" />
                     <label>{{ 'downloadFunctionAppContent_includeAppSettings' | translate }}</label>
                     <pop-over [position]="'bottom'" [message]="'downloadFunctionAppContent_includeAppSettingsHelp' | translate">
