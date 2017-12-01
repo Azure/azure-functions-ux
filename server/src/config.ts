@@ -1,3 +1,4 @@
+type RuntimeVersion = '~1' | 'beta' | 'latest';
 interface StaticConfig {
     config: {
         env: {
@@ -7,6 +8,10 @@ interface StaticConfig {
         },
         isAzure: boolean;
         isOnPrem: boolean;
+        functionsVersionInfo: {
+            runtimeStable: Array<RuntimeVersion>;
+            runtimeDefault: RuntimeVersion
+        }
     }
 }
 
@@ -19,6 +24,10 @@ export const staticConfig: StaticConfig = {
         },
         // TODO: [ehamai] I wouldn't use "isAzure" or "isOnPrem" as properties. RuntimeType should contain all of those variations.
         isAzure: !!process.env.WEBSITE_SITE_NAME,
-        isOnPrem: false
+        isOnPrem: false,
+        functionsVersionInfo: {
+            runtimeStable: ['~1', 'beta', 'latest'],
+            runtimeDefault: '~1'
+        }
     }
 };
