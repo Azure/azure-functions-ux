@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { User } from '../shared/models/user';
-import { ConfigService } from './../shared/services/config.service';
 import { UserService } from '../shared/services/user.service';
-
 
 @Component({
     selector: 'top-bar-standalone-loginuser',
@@ -12,12 +10,11 @@ import { UserService } from '../shared/services/user.service';
 
 export class TopBarStandAloneLoginUserComponent {
     @Input() user: User;
-    public isStandalone: boolean;
+    public showUserMenu: boolean;
     constructor(
-        private _configService: ConfigService,
         private _userService: UserService
     ) {
-        this.isStandalone = this._configService.isStandalone();
+        this.showUserMenu = false;
     }
 
     logout() {
