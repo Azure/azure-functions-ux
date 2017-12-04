@@ -2,16 +2,15 @@
 
 .info-box{
     margin-bottom: 10px;
-    background-color: $info-box-color;
 
     .info-icon-container{
         display: table-cell;
         vertical-align: middle;
 
         .info-icon{
-            font-size: 30px;
+            height: 40px;
+            width: 40px;
             padding: 5px;
-            color: $primary-color;
         }
     }
 
@@ -31,6 +30,38 @@
     }
 }
 
-.info-box.clickable:hover{
-    background-color: $info-box-color-hover;
+.info-box.info{
+    background-color: $info-box-color;
+    
+    &.clickable:hover{
+        background-color: $info-box-color-hover;
+    }
+}
+
+.info-box.info /deep/ .msportalfx-svg-c15, .info-box.info /deep/ .msportalfx-svg-c16 {
+    fill: $primary-color;
+}
+
+.info-box.warning{
+    background-color: $warning-box-color;
+    
+    &.clickable:hover{
+        background-color: $warning-box-color-hover;
+    }
+}
+
+.info-box.warning /deep/ .msportalfx-svg-c10 {
+    fill: $warning-color;
+}
+
+.info-box.error{
+    background-color: $error-box-color;
+    
+    &.clickable:hover{
+        background-color: $error-box-color-hover;
+    }
+}
+
+.info-box.error /deep/ .msportalfx-svg-c22 {
+    fill: $error-color;
 }

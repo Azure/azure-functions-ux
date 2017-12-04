@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -196,7 +196,7 @@
     <value>Uitnodigingscode</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Deze sjabloon is experimenteel en wordt nog niet volledig ondersteund. Als u problemen tegenkomt, kunt u een fout rapporteren in de &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-opslagplaats.&lt;/a&gt;</value>
+    <value>Deze taal is experimenteel en wordt nog niet volledig ondersteund. Als u problemen tegenkomt, kunt u een fout rapporteren in de &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-opslagplaats.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Functienaam</value>
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime-versi</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Runtime-installatiekopie</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.net framework/server core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.net core/nano server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>aangepast</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>De functie-app is uitgeschakeld omdat het ingestelde quotum is overschreden. U kunt dit wijzigen in de instellingenweergave van de functie-app in de linkerzijbalk.</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>Runtime-versie: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxy's (preview)</value>
+    <value>Proxy's</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Azure Functions-proxy's inschakelen (preview)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Uitvouwen</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Functie-URL ophalen</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; GitHub-geheim ophalen</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>De versie die wordt gebruikt voor het uitvoeren van uw web-app als u Python gebruikt</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service ondersteunt de installatie van nieuwere versies van Python. Klik hier voor meer informatie.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-versie</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>Selecteer de gewenste Java Minor-versie. Als u Nieuwste selecteert, blijft uw app de meest recentelijk aan de portal toegevoegde JVM gebruiken.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Webcontainer</value>
+    <value>Java-webcontainer</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>De webcontainerversie die wordt gebruikt voor het uitvoeren van uw web-app als u Java gebruikt</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Doelen voor automatisch wisselen kunnen niet worden geconfigureerd uit productiesleuf</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>Voor Automatisch wisselen is een standard of hoger App Service-plan vereist</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Automatische wisselen</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR-affiniteit</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>U kunt de prestaties van uw stateless toepassingen verbeteren door de affiniteitscookie uit te schakelen. Bij stateful toepassingen moet de affiniteitscookie ingeschakeld blijven voor betere compatibiliteit. Klik hier voor meer informatie.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Foutopsporing op afstand</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>Stack</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Web-apps voor Linux bieden runtime-opties via een verzameling ingebouwde containers. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Meer informatie&lt;/a&gt;.</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Opstartbestand</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Geef een optionele opstartopdracht die wordt uitgevoerd als onderdeel van het opstarten van de container. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Meer informatie&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Nieuwste</value>
@@ -1966,6 +1993,9 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>De app is momenteel in de modus alleen-lezen omdat u hebt gegenereerde function.json hebt gepubliceerd. Wijzigingen in de function.json worden niet verwerkt in de Functions-runtime. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Uw app bevindt zich momenteel in de modus lezen\schrijven omdat u de bewerkingsmodus hebt ingesteld op lezen\schrijven ondanks dat function.json is gegenereerd. Wijzigingen die u hebt aangebracht kunnen worden overschreven bij de volgende implementatie. Voor het wijzigen van de bewerkingsmodus, gaat u naar </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopiëren</value>
   </data>
@@ -2258,7 +2288,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Australië - oost</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>Australië - zuidoost</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>West-India</value>
@@ -2432,7 +2462,7 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
     <value>Voor dit sjabloon zijn de volgende extensies vereist.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>De vereiste extensies worden geïnstalleerd. Het kan tot tien minuten duren voordat deze bewerking is voltooid.</value>
+    <value>Wanneer u sjabloonafhankelijkheden installeert, kunt u een functie maken wanneer dit voltooid is. Het installeren van afhankelijkheden wordt op de achtergrond uitgevoerd en kan tot tien minuten duren. U kunt tijdens deze bewerking de portal blijven gebruiken.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>De runtime-extensie kan niet worden geïnstalleerd. Installatie-id {{installationId}}
@@ -2458,5 +2488,23 @@ Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens ander
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Quick Start voor Java in Azure Functions</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Naam:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Zoeken op trigger, taal of beschrijving</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>waarde verbergen</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>De App Insights-instrumentatiesleutel wordt weergegeven in de app-instellingen maar App Insights is niet gevonden in het abonnement van de functie-app. Controleer of App Insights zich bevindt in hetzelfde abonnement als de functie-app.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Begin van rij</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>Einde van rij</value>
   </data>
 </root>

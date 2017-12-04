@@ -1,4 +1,4 @@
-<div class="full-view" #container>
+<div class="full-view" (window:resize)="onResize()" #container>
     <div class="top-row">
         <h2>function.json</h2>
         <h2 *ngIf="isDirty" class="dev-block-header">
@@ -9,8 +9,8 @@
             <div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('standard')"><i class="fa fa-edit"></i> {{ 'functionIntegrate_standardEditor' | translate }}</div>
         </div>
     </div>
-    <div class="gutter-container full-view" #editorContainer>
-        <div monacoEditor class="monaco full-view"
+    <div class="full-view" #editorContainer>
+        <div id="function" monacoEditor class="monaco monaco-min-size full-view"
                 (onSave)="saveConfig()"
                 (onContentChanged)="contentChanged($event)"
                 [content]="configContent"

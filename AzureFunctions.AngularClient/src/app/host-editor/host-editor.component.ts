@@ -2,7 +2,7 @@ import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../shared/function-app';
 import { ErrorIds } from './../shared/models/error-ids';
-import { Component, OnDestroy, Output, EventEmitter, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, Input, QueryList } from '@angular/core';
 import { PortalService } from '../shared/services/portal.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
@@ -11,6 +11,8 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { Subject } from 'rxjs/Subject';
+import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
+import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 
 @Component({
     selector: 'host-editor',
@@ -20,6 +22,7 @@ import { Subject } from 'rxjs/Subject';
 export class HostEditorComponent implements OnDestroy {
     @ViewChild('container') container: ElementRef;
     @ViewChild('editorContainer') editorContainer: ElementRef;
+    @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
     @Output() changeEditor = new EventEmitter<string>();
 
     public configContent: string;
@@ -53,11 +56,11 @@ export class HostEditorComponent implements OnDestroy {
                 this.clearDirty();
                 this._globalStateService.clearBusyState();
             });
+            this.onResize();
     }
 
     ngOnInit() {
-        const functionContainerHeight = window.innerHeight - this.container.nativeElement.getBoundingClientRect().top;
-        this.editorContainer.nativeElement.style.height = (functionContainerHeight - 75) + 'px';
+        this.onResize();
     }
 
     @Input() set functionAppInput(value: FunctionApp) {
@@ -118,6 +121,13 @@ export class HostEditorComponent implements OnDestroy {
             this._broadcastService.clearDirtyState('function');
             this._portalService.setDirtyState(false);
         }
+    }
 
+    onResize() {
+        MonacoHelper.onResize(this.container, this.editorContainer, this.hostEditor);
+    }
+
+    private get hostEditor(): MonacoEditorDirective {
+        return MonacoHelper.getMonacoDirective('host', this.monacoEditors);
     }
 }

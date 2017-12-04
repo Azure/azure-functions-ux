@@ -43,6 +43,7 @@ import { Site } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
+import { FunctionsVersionInfoHelper } from './models/functions-version-info';
 import * as jsonschema from 'jsonschema';
 import { reachableInternalLoadBalancerApp } from '../shared/Utilities/internal-load-balancer';
 
@@ -233,29 +234,43 @@ export class FunctionApp {
             ? this.initKeysAndWarmupMainSite()
             : Observable.of(null);
 
-        return preRequisite.concatMap(() => this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
-            .catch(() => this._http.get(this.urlTemplates.functionsUrl, { headers: this.getScmSiteHeaders() }))
-            .retryWhen(this.retryAntares)
-            .map((r: Response) => {
-                try {
-                    fcs = r.json() as FunctionInfo[];
-                    return fcs;
-                } catch (e) {
-                    // We have seen this happen when kudu was returning JSON that contained
-                    // comments because Json.NET is okay with comments in the JSON file.
-                    // We can't parse that JSON in browser, so this is just to handle the error correctly.
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: this._translateService.instant(PortalResources.error_parsingFunctionListReturenedFromKudu),
-                        errorId: ErrorIds.deserializingKudusFunctionList,
-                        errorType: ErrorType.Fatal,
-                        resourceId: this.site.id
+        return Observable.zip(
+            preRequisite.concatMap(() => this._cacheService.get(this.urlTemplates.functionsUrl, false, this.getScmSiteHeaders())
+                .catch(() => this._http.get(this.urlTemplates.functionsUrl, { headers: this.getScmSiteHeaders() }))
+                .retryWhen(this.retryAntares)
+                .map((r: Response) => {
+                    try {
+                        fcs = r.json() as FunctionInfo[];
+                        return fcs;
+                    } catch (e) {
+                        // We have seen this happen when kudu was returning JSON that contained
+                        // comments because Json.NET is okay with comments in the JSON file.
+                        // We can't parse that JSON in browser, so this is just to handle the error correctly.
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: this._translateService.instant(PortalResources.error_parsingFunctionListReturenedFromKudu),
+                            errorId: ErrorIds.deserializingKudusFunctionList,
+                            errorType: ErrorType.Fatal,
+                            resourceId: this.site.id
+                        });
+                        this.trackEvent(ErrorIds.deserializingKudusFunctionList, {
+                            error: e,
+                            content: r.text(),
+                        });
+                        return <FunctionInfo[]>[];
+                    }
+                })),
+            this._cacheService.postArm(`${this.site.id}/config/appsettings/list`),
+            (functions, appSettings) => ({ functions: functions, appSettings: appSettings.json() }))
+            .map(result => {
+                // For runtime 2.0 we use settings for disabling functions
+                const appSettings = result.appSettings as ArmObj<any>;
+                if (FunctionsVersionInfoHelper.getFuntionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
+                    result.functions.forEach(f => {
+                        const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
+                        f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
                     });
-                    this.trackEvent(ErrorIds.deserializingKudusFunctionList, {
-                        error: e,
-                        content: r.text(),
-                    });
-                    return <FunctionInfo[]>[];
                 }
+                return result.functions;
             })
             .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
             (error: FunctionsResponse) => {
@@ -271,8 +286,7 @@ export class FunctionApp {
                         status: error.status.toString()
                     });
                 }
-            }));
-
+            });
     }
 
     getApiProxies() {
@@ -640,8 +654,16 @@ export class FunctionApp {
 
     @ClearCache('clearAllCachedData')
     deleteFunction(functionInfo: FunctionInfo) {
-        return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
-            .map(r => r.statusText)
+        return Observable.zip(
+            this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() }),
+            this.getRuntimeGeneration()
+                .switchMap((runtimeVersion: string) => {
+                    return (runtimeVersion === 'V2') ?
+                        this.updateDisabledAppSettings([functionInfo])
+                        : Observable.of(null);
+                }),
+            (r) => ({ error: r.statusText })
+        )
             .do(_ => {
                 this._cacheService.clearCachePrefix(this.urlTemplates.functionsUrl);
                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name);
@@ -1834,6 +1856,36 @@ export class FunctionApp {
                         authSettings.properties[key] = value;
                     });
                     return this._cacheService.putArm(authSettings.id, this._armService.websiteApiVersion, authSettings);
+                });
+        } else {
+            return Observable.of(null);
+        }
+    }
+
+    getRuntimeGeneration(): Observable<string> {
+        return this.getExtensionVersion().map(v => {
+            return FunctionsVersionInfoHelper.getFuntionGeneration(v);
+        });
+    }
+
+    updateDisabledAppSettings(infos: FunctionInfo[]): Observable<any> {
+        if (infos.length > 0) {
+            return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true)
+                .flatMap(r => {
+                    const appSettings: ArmObj<any> = r.json();
+                    let needToUpdate = false;
+                    infos.forEach(info => {
+                        const appSettingName = `AzureWebJobs.${info.name}.Disabled`;
+                        if (info.config.disabled) {
+                            appSettings.properties[appSettingName] = 'true';
+                            needToUpdate = true;
+                        } else if (appSettings.properties[appSettingName]) {
+                            delete appSettings.properties[appSettingName];
+                            needToUpdate = true;
+                        }
+                    });
+
+                    return needToUpdate ? this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings) : Observable.of(null);
                 });
         } else {
             return Observable.of(null);

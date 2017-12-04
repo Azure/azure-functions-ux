@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -196,7 +196,7 @@
     <value>招待コード</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>このテンプレートは試験段階であり、まだ完全にはサポートされていません。問題が発生した場合には、&lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub リポジトリ&lt;/a&gt;でバグを報告してください。</value>
+    <value>この言語は試験段階であり、まだ完全にはサポートされていません。問題が発生した場合には、&lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub リポジトリ&lt;/a&gt;でバグをご報告ください。</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>関数名</value>
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>ランタイム バージョン</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>ランタイム イメージ</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.Net Framework/Server Core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.Net Core/Nano Server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Function App は設定されたクォータを超過しているため、無効になっています。クォータは、左側のサイド バーの Function App の設定ビューから変更できます。</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>ランタイム バージョン: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>プロキシ (プレビュー)</value>
+    <value>プロキシ</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Azure Functions プロキシの有効化 (プレビュー)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>展開</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; 関数の URL の取得</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; GitHub シークレットの取得</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>Python を使用している場合に、Web アプリを実行するために使用されるバージョン</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service は、新しいバージョンの Python のインストールをサポートしています。詳しくは、ここをクリックしてください。</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java バージョン</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>希望する Java マイナー バージョンを選択してください。"最新" を選択すると、ポータルに追加された日時が最も新しい JVM が常にアプリで使用されます。</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Web コンテナー</value>
+    <value>Java Web コンテナー</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>Java を使用している場合に、Web アプリを実行するために使用される Web コンテナー バージョン</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>自動スワップの送信先を実稼働スロットから構成することはできません</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>自動スワップには、Standard 以上の App Service プランが必要です。</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>自動スワップ</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR アフィニティ</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>アフィニティ Cookie を無効にすると、ステートレス アプリケーションのパフォーマンスを向上させることができます。ステートフル アプリケーションの場合、互換性向上のため アフィニティ Cookie を有効にしたままにする必要があります。詳細については、ここをクリックしてください。</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>リモート デバッグ</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>スタック</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Web Apps on Linux では、組み込みコンテナーのコレクションで実行時のオプションが提供されます。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;詳細情報&lt;/a&gt;。</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>スタートアップ ファイル</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>コンテナーのスタートアップの一環として実行される、オプションのスタートアップ コマンドを提供します。&lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;詳細情報&lt;/a&gt;。</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>新しい順</value>
@@ -1966,6 +1993,9 @@
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>生成された function.json を公開しているため、アプリは現在読み取り専用モードになっています。function.json に加えられた変更は、Functions ランタイムでは受け入れられません。</value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>function.json が生成されたにもかかわらず編集モードが [読み取り\書き込み] に設定されたため、アプリが現在 [読み取り\書き込み] モードになっています。今回の変更はいずれも、次回のデプロイで上書きされる可能性があります。編集モードを変更するには、</value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>コピー</value>
   </data>
@@ -2258,7 +2288,7 @@
     <value>オーストラリア東部</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>オーストラリア南東部</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>西インド</value>
@@ -2432,7 +2462,7 @@
     <value>このテンプレートには次の拡張機能が必要です。</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>必要な拡張機能をインストールします。この操作には最大 10 分かかる場合があります。</value>
+    <value>テンプレート依存関係をインストールするとき、インストール完了後に関数を作成できます。依存関係のインストールはバックグラウンドで発生し、最大 10 分かかる可能性があります。この間、ポータルは引き続き使用できます。</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>ランタイム拡張機能をインストールできません。インストール ID: {{installationId}}</value>
@@ -2457,5 +2487,23 @@
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Azure Functions 上の Java のクイック スタート</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>名前:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>トリガー、言語、説明で検索する</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>値を非表示にする</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights インストルメンテーション キーはアプリ設定に表示されていますが、App Insights は Function App のサブスクリプションで見つかりません。App Insights が Function App と同じサブスクリプションに位置していることをご確認ください。</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>行の先頭</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>行の最後</value>
   </data>
 </root>

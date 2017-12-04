@@ -1,5 +1,4 @@
-import { FunctionsVersionInfo } from './../../common/models/functions-version-info';
-
+type RuntimeVersion = '~1' | 'beta' | 'latest';
 interface StaticConfig {
     config: {
         env: {
@@ -7,9 +6,12 @@ interface StaticConfig {
             azureResourceManagerEndpoint: string;
             hostName: string | undefined;
         },
-        functionsVersionInfo: FunctionsVersionInfo,
         isAzure: boolean;
         isOnPrem: boolean;
+        functionsVersionInfo: {
+            runtimeStable: Array<RuntimeVersion>;
+            runtimeDefault: RuntimeVersion
+        }
     }
 }
 
@@ -20,12 +22,12 @@ export const staticConfig: StaticConfig = {
             azureResourceManagerEndpoint: 'https://management.azure.com',
             hostName: process.env.WEBSITE_HOSTNAME,
         },
-        functionsVersionInfo: {
-            runtimeStable: ['~1', '~2', 'latest'],
-            runtimeDefault: '~1'
-        },
         // TODO: [ehamai] I wouldn't use "isAzure" or "isOnPrem" as properties. RuntimeType should contain all of those variations.
         isAzure: !!process.env.WEBSITE_SITE_NAME,
-        isOnPrem: false
+        isOnPrem: false,
+        functionsVersionInfo: {
+            runtimeStable: ['~1', 'beta', 'latest'],
+            runtimeDefault: '~1'
+        }
     }
 };

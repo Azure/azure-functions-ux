@@ -119,10 +119,14 @@ export class Order {
         'HttpTrigger-',
         'TimerTrigger-',
         'QueueTrigger-',
-        'BlobTrigger-',
-        'EventHubTrigger-',
         'ServiceBusQueueTrigger-',
         'ServiceBusTopicTrigger-',
+        'BlobTrigger-',
+        'EventHubTrigger-',
+        'CosmosDBTrigger-',
+        'IoTHubTrigger-',
+        'IoTHubServiceBusQueueTrigger-',
+        'IoTHubServiceBusTopicTrigger-',
         'GenericWebHook-',
         'GitHubCommenter-',
         'GitHubWebHook-',
@@ -181,6 +185,9 @@ export class ScenarioIds {
     public static readonly createApp = 'createApp';
     public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
     public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';
+    public static readonly topBarWarning = 'TopBarWarning';
+    public static readonly userMenu = 'UserMenu';
+    public static readonly standAloneUserMenu = 'StandAloneUserMenu';
 }
 
 export class ServerFarmSku {
@@ -222,6 +229,8 @@ export class LogCategories {
     public static readonly subsCriptions = 'SubsCriptions';
     public static readonly functionAppSettings = 'FunctionAppSettings';
     public static readonly swaggerDefinition = 'SwaggerDefinition';
+    public static readonly binding = 'Binding';
+    public static readonly functionNew = 'FunctionNew';
 }
 
 export class KeyCodes {
@@ -230,11 +239,14 @@ export class KeyCodes {
     public static readonly shiftLeft = 16;
     public static readonly space = 32;
     public static readonly escape = 27;
+    public static readonly end = 35;
+    public static readonly home = 36;
     public static readonly arrowLeft = 37;
     public static readonly arrowUp = 38;
     public static readonly arrowRight = 39;
     public static readonly arrowDown = 40;
     public static readonly delete = 46;
+    public static readonly f2 = 113;
 }
 
 export class ExtensionInstallStatus {

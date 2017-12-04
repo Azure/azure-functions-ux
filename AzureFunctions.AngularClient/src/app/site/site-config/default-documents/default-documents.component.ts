@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SiteConfig } from './../../../shared/models/arm/site-config'
 import { SaveOrValidationResult } from './../site-config.component';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -49,6 +49,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
 
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
+
+  public keyCodes: KeyCodes = KeyCodes;
 
   @Input() mainForm: FormGroup;
 
@@ -168,26 +170,26 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
           webConfigArm.properties.defaultDocuments.forEach(document => {
             let group = this._fb.group({
               name: [
-                document,
+                { value: document, disabled: !this.hasWritePermissions },
                 Validators.compose([
                   this._requiredValidator.validate.bind(this._requiredValidator),
                   this._uniqueDocumentValidator.validate.bind(this._uniqueDocumentValidator)])]
             }) as CustomFormGroup;
 
-            group._msExistenceState = 'original';
+            group.msExistenceState = 'original';
             this.groupArray.push(group);
           })
         }
+
+        this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
       }
 
       if (this.mainForm.contains("defaultDocs")) {
         this.mainForm.setControl("defaultDocs", this.groupArray);
-      }
-      else {
+      } else {
         this.mainForm.addControl("defaultDocs", this.groupArray);
       }
-    }
-    else {
+    } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
@@ -205,7 +207,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
     // Purge any added entries that were never modified
     for (let i = groups.length - 1; i >= 0; i--) {
       let group = groups[i] as CustomFormGroup;
-      if (group._msStartInEditMode && group.pristine) {
+      if (group.msStartInEditMode && group.pristine) {
         groups.splice(i, 1);
         if (group === this.newItem) {
           this.newItem = null;
@@ -213,6 +215,15 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
       }
     }
 
+    this._validateAllControls(groups as CustomFormGroup[]);
+
+    return {
+      success: this.groupArray.valid,
+      error: this.groupArray.valid ? null : this._validationFailureMessage()
+    };
+  }
+
+  private _validateAllControls(groups: CustomFormGroup[]) {
     groups.forEach(group => {
       let controls = (<FormGroup>group).controls;
       for (let controlName in controls) {
@@ -221,11 +232,6 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
         control.updateValueAndValidity();
       }
     });
-
-    return {
-      success: this.groupArray.valid,
-      error: this.groupArray.valid ? null : this._validationFailureMessage()
-    };
   }
 
   save(): Observable<SaveOrValidationResult> {
@@ -235,8 +241,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
         success: true,
         error: null
       });
-    }
-    else if (this.mainForm.contains("defaultDocs") && this.mainForm.controls["defaultDocs"].valid) {
+    } else if (this.mainForm.contains("defaultDocs") && this.mainForm.controls["defaultDocs"].valid) {
       let defaultDocGroups = this.groupArray.controls;
 
       let webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
@@ -244,7 +249,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
 
       webConfigArm.properties.defaultDocuments = [];
       defaultDocGroups.forEach(group => {
-        if ((group as CustomFormGroup)._msExistenceState !== 'deleted') {
+        if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
           webConfigArm.properties.defaultDocuments.push((group as FormGroup).controls["name"].value);
         }
       })
@@ -264,8 +269,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
             error: error._body
           });
         });
-    }
-    else {
+    } else {
       let failureMessage = this._validationFailureMessage();
       this._saveError = failureMessage;
       return Observable.of({
@@ -284,10 +288,9 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
     let groups = this.groupArray;
     let index = groups.controls.indexOf(group);
     if (index >= 0) {
-      if ((group as CustomFormGroup)._msExistenceState === 'original') {
+      if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
-      }
-      else {
+      } else {
         this._deleteAddedItem(groups, group, index);
       }
     }
@@ -298,8 +301,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
     // This keeps the overall state of this.groupArray and this.mainForm dirty.
     group.markAsDirty();
 
-    // Set the group._msExistenceState to 'deleted' so we know to ignore it when validating and saving.
-    (group as CustomFormGroup)._msExistenceState = 'deleted';
+    // Set the group.msExistenceState to 'deleted' so we know to ignore it when validating and saving.
+    (group as CustomFormGroup).msExistenceState = 'deleted';
 
     // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
     for (let key in group.controls) {
@@ -349,8 +352,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
       value: [null]
     }) as CustomFormGroup;
 
-    this.newItem._msExistenceState = 'new';
-    this.newItem._msStartInEditMode = true;
+    this.newItem.msExistenceState = 'new';
+    this.newItem.msStartInEditMode = true;
     groups.push(this.newItem);
   }
 }

@@ -1,4 +1,4 @@
-﻿import { FunctionsVersionInfo } from '../../../../../common/models/functions-version-info';
+﻿import { FunctionsVersionInfo } from './../models/functions-version-info';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';

@@ -6,6 +6,7 @@ import { TryNowBusyStateComponent } from './../try-now-busy-state/try-now-busy-s
 import { TooltipDirective } from './../tooltip-content/tooltip.directive';
 import { TooltipContentComponent } from './../tooltip-content/tooltip-content.component';
 import { TryNowComponent } from './../try-now/try-now.component';
+import { TopBarStandAloneLoginUserComponent } from './../top-bar-standalone-loginuser/top-bar-standalone-loginuser.component';
 import { GlobalErrorHandler } from './GlobalErrorHandler';
 import { GlobalStateService } from './services/global-state.service';
 import { BackgroundTasksService } from './services/background-tasks.service';
@@ -52,6 +53,10 @@ import { Url } from 'app/shared/Utilities/url';
 import { EmptyDashboardComponent } from 'app/main/empty-dashboard.component';
 import { InfoBoxComponent } from './../controls/info-box/info-box.component';
 import { LogMessageDirective } from 'app/shared/directives/log-message.directive';
+import { TableCellComponent } from './../controls/table-cell/table-cell.component';
+import { TableRowComponent } from './../controls/table-row/table-row.component';
+import { TableRootComponent } from './../controls/table-root/table-root.component';
+import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filter.pipe';
 
 export function ArmServiceFactory(
     http: Http,
@@ -73,6 +78,7 @@ export function AiServiceFactory() {
     declarations: [
         TopBarComponent,
         TryNowComponent,
+        TopBarStandAloneLoginUserComponent,
         TryNowBusyStateComponent,
         BusyStateComponent,
         MultiDropDownComponent,
@@ -96,7 +102,11 @@ export function AiServiceFactory() {
         SlideToggleComponent,
         LoadImageDirective,
         EmptyDashboardComponent,
-        InfoBoxComponent
+        InfoBoxComponent,
+        TableCellComponent,
+        TableRowComponent,
+        TableRootComponent,
+        DeletedItemsFilter
     ],
     exports: [
         CommonModule,
@@ -105,6 +115,7 @@ export function AiServiceFactory() {
         MultiDropDownComponent,
         TopBarComponent,
         TryNowComponent,
+        TopBarStandAloneLoginUserComponent,
         TryNowBusyStateComponent,
         BusyStateComponent,
         DropDownComponent,
@@ -127,7 +138,11 @@ export function AiServiceFactory() {
         SlideToggleComponent,
         LoadImageDirective,
         EmptyDashboardComponent,
-        InfoBoxComponent
+        InfoBoxComponent,
+        TableCellComponent,
+        TableRowComponent,
+        TableRootComponent,
+        DeletedItemsFilter
     ],
     imports: [
         FormsModule,

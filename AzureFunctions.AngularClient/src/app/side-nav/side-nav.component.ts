@@ -407,6 +407,7 @@ export class SideNavComponent implements AfterViewInit {
     // set the value to the same value twice, no change notification will happen.
     private _updateSubDisplayText(displayText: string) {
         setTimeout(() => {
+            this.subscriptionsDisplayText = '';
             this.subscriptionsDisplayText = displayText;
         });
     }
@@ -446,7 +447,7 @@ export class SideNavComponent implements AfterViewInit {
                 }
 
                 return {
-                    displayLabel: `${e.displayName}(${e.subscriptionId})`,
+                    displayLabel: e.displayName,
                     value: e,
                     isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
                 };

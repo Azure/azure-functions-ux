@@ -28,7 +28,7 @@ import { BroadcastService } from '../shared/services/broadcast.service';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { Response } from '@angular/http';
-import { FunctionsVersionInfoHelper } from '../../../../common/models/functions-version-info';
+import { FunctionsVersionInfoHelper } from '../shared/models/functions-version-info';
 
 @Component({
     selector: 'function-edit',

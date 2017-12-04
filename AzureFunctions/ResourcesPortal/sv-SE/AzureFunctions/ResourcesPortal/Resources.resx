@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -196,7 +196,7 @@
     <value>Inbjudningskod</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>Det här är en experimentell mall som ännu inte stöds fullt ut. Om du får problem kan du rapportera programfelet till vår &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-lagringsplats.&lt;/a&gt;</value>
+    <value>Det här språket är experimentellt och stöds ännu inte fullt ut. Om du får problem kan du rapportera felet på vår &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-lagringsplats.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Funktionsnamn</value>
@@ -955,6 +955,18 @@
   <data name="runtimeVersion" xml:space="preserve">
     <value>Körningsversion</value>
   </data>
+  <data name="runtimeImage" xml:space="preserve">
+    <value>Körmiljöavbildning</value>
+  </data>
+  <data name="runtimeImagev1" xml:space="preserve">
+    <value>v1(.net framework/server core)</value>
+  </data>
+  <data name="runtimeImagev2" xml:space="preserve">
+    <value>v2(.net core/nano server)</value>
+  </data>
+  <data name="runtimeImageCustom" xml:space="preserve">
+    <value>anpassad</value>
+  </data>
   <data name="error_FunctionExceededQuota" xml:space="preserve">
     <value>Funktionsappen har inaktiverats eftersom den överskred den angivna kvoten. Det kan du ändra i funktionsappens inställningsvy i vänster sidopanel.</value>
   </data>
@@ -1019,7 +1031,7 @@
     <value>Körningsversion: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>Proxyservrar (förhandsgranskning)</value>
+    <value>Proxyservrar</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
     <value>Aktivera Azure Functions-proxyservrar (förhandsgranskning)</value>
@@ -1069,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Expandera</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Hämta funktionswebbadress</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; Hämta GitHub-hemlighet</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1319,7 +1331,7 @@
     <value>Hanterarmappningar</value>
   </data>
   <data name="feature_virtualDirectoriesName" xml:space="preserve">
-    <value>Virtuella installationer och kataloger</value>
+    <value>Virtuella program och kataloger</value>
   </data>
   <data name="configRequiresWritePermissionOnApp" xml:space="preserve">
     <value>Du måste ha skrivbehörighet för den aktuella appen för att redigera de här inställningarna.</value>
@@ -1366,6 +1378,9 @@
   <data name="pythonVersionLabelHelp" xml:space="preserve">
     <value>Den version som används för att köra ditt webbprogram om det använder Python</value>
   </data>
+  <data name="pythonInfoText" xml:space="preserve">
+    <value>App Service har funktioner för att installera senare versioner av Python. Klicka här för mer information.</value>
+  </data>
   <data name="javaVersionLabel" xml:space="preserve">
     <value>Java-version</value>
   </data>
@@ -1379,7 +1394,7 @@
     <value>Välj önskad Java minor-version. Om du väljer Nyaste kommer din app att använda den JVM som senast lades till på portalen.</value>
   </data>
   <data name="javaWebContainerLabel" xml:space="preserve">
-    <value>Webbehållare</value>
+    <value>Java-webbehållare</value>
   </data>
   <data name="javaWebContainerLabelHelp" xml:space="preserve">
     <value>Den webbehållarversion som används för att köra ditt webbprogram om det använder Java</value>
@@ -1414,6 +1429,9 @@
   <data name="autoSwapNotSupportedFromProd" xml:space="preserve">
     <value>Autoväxlingsmålen kan inte konfigureras från produktionsplatsen</value>
   </data>
+  <data name="autoSwapUpsell" xml:space="preserve">
+    <value>För autoväxling krävs en App Service-plan som är standard eller högre</value>
+  </data>
   <data name="autoSwapEnabledLabel" xml:space="preserve">
     <value>Autoväxling</value>
   </data>
@@ -1422,6 +1440,9 @@
   </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR-tillhörighet</value>
+  </data>
+  <data name="clientAffinityInfoText" xml:space="preserve">
+    <value>Du kan förbättra prestandan för dina statuslösa program genom att stänga av tillhörighetscookien. Fullständiga tillståndsprogram bör ha tillhörighetscookien aktiverad för ökad kompatibilitet. Klicka om du vill läsa mer.</value>
   </data>
   <data name="remoteDebuggingEnabledLabel" xml:space="preserve">
     <value>Fjärrfelsökning</value>
@@ -1432,8 +1453,14 @@
   <data name="linuxFxVersionLabel" xml:space="preserve">
     <value>Stack</value>
   </data>
+  <data name="linuxFxVersionLabelHelp" xml:space="preserve">
+    <value>Web Apps på Linux ger körningsalternativ genom en samling med inbyggda behållare. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Läs mer&lt;/a&gt;.</value>
+  </data>
   <data name="appCommandLineLabel" xml:space="preserve">
     <value>Startfil</value>
+  </data>
+  <data name="appCommandLineLabelHelp" xml:space="preserve">
+    <value>Ange ett valfritt startkommando som ska köras som en del av behållarstarten. &lt;a href="https://go.microsoft.com/fwlink/?linkid=861969"&gt;Läs mer&lt;/a&gt;.</value>
   </data>
   <data name="newest" xml:space="preserve">
     <value>Nyast</value>
@@ -1966,6 +1993,9 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Appen är nu i skrivskyddat läge eftersom du har publicerat en genererad function.json. Ändringar i function.json kommer inte att hanteras av Functions-körningen. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Appen är för närvarande i läs\skrivläge eftersom redigeringsläget har angetts till läs\skriv trots att en function.json har genererats. Eventuella ändringar som du gör kanske skrivs över vid nästa distribution. Om du vill ändra redigeringsläget går du till </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Kopiera</value>
   </data>
@@ -2258,7 +2288,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Östra Australien</value>
   </data>
   <data name="australiasoutheast" xml:space="preserve">
-    <value>Australia Southeast</value>
+    <value>Sydöstra Australien</value>
   </data>
   <data name="westindia" xml:space="preserve">
     <value>Indien, västra</value>
@@ -2432,7 +2462,7 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
     <value>Den här mallen kräver följande tillägg.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installerar tillägg som krävs. Det kan ta upp till 10 minuter för den här åtgärden.</value>
+    <value>Mallberoenden installeras. Du kan skapa en funktion så fort det här är klart. Installationen av beroenden sker i bakgrunden och kan ta upp till 10 minuter. Du kan fortsätta använda portalen under tiden.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>Vi kunde inte installera runtime-tillägget. Installations-ID {{installationId}}</value>
@@ -2457,5 +2487,23 @@ Ställ in på extern URL för att använda en API-definition som finns på någo
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Snabbstart för Java på Azure Functions</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Namn:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Sök efter utlösare, språk eller beskrivning</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>dölj värde</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights-instrumentationsnyckeln finns i appinställningarna men App Insights finns inte i funktionsappens prenumeration. Kontrollera att App Insights finns i samma prenumeration som funktionsappen.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Början av rad</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>Slut på raden</value>
   </data>
 </root>

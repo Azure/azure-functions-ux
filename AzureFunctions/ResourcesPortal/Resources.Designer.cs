@@ -3465,18 +3465,18 @@ namespace AzureFunctions.ResourcesPortal {
         /// <summary>
         ///   Looks up a localized string similar to &lt;/&gt; Get function URL.
         /// </summary>
-        internal static string functionDev_gerFunctionUrl {
+        internal static string functionDev_getFunctionUrl {
             get {
-                return ResourceManager.GetString("functionDev_gerFunctionUrl", resourceCulture);
+                return ResourceManager.GetString("functionDev_getFunctionUrl", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;/&gt; Get GitHub secret.
         /// </summary>
-        internal static string functionDev_gerGithubSecret {
+        internal static string functionDev_getGithubSecret {
             get {
-                return ResourceManager.GetString("functionDev_gerGithubSecret", resourceCulture);
+                return ResourceManager.GetString("functionDev_getGithubSecret", resourceCulture);
             }
         }
         
@@ -4854,6 +4854,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string monitoring_appInsights {
             get {
                 return ResourceManager.GetString("monitoring_appInsights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to App Insights instrumentation key is presented in app settings but App Insights is not found in Function App&apos;s subscription. Please make sure your App Insights is localted in the same subscription as Function App..
+        /// </summary>
+        internal static string monitoring_appInsightsIsNotFound {
+            get {
+                return ResourceManager.GetString("monitoring_appInsightsIsNotFound", resourceCulture);
             }
         }
         
@@ -7152,6 +7161,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string westus2 {
             get {
                 return ResourceManager.GetString("westus2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start of row.
+        /// </summary>
+        internal static string table_startOfRow {
+            get {
+                return ResourceManager.GetString("table_startOfRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End of row
+        /// </summary>
+        internal static string table_endOfRow {
+            get {
+                return ResourceManager.GetString("table_endOfRow", resourceCulture);
             }
         }
     }

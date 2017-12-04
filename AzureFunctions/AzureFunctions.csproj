@@ -244,9 +244,6 @@
     <Compile Include="Authentication\AADOAuth2AccessToken.cs" />
     <Compile Include="Authentication\AzureFunctionsIdentity.cs" />
     <Compile Include="Authentication\AzureFunctionsPrincipal.cs" />
-    <Compile Include="Authentication\NativeMethods.cs" />
-    <Compile Include="Authentication\NetworkHelper.cs" />
-    <Compile Include="Authentication\StandaloneAuthProvider.cs" />
     <Compile Include="Authentication\ClaimTypes.cs" />
     <Compile Include="Authentication\FrontEndAuthProvider.cs" />
     <Compile Include="Authentication\IAuthProvider.cs" />

@@ -1,6 +1,5 @@
 // This file is auto generated
-    export class PortalResources
-{
+export class PortalResources {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
@@ -322,8 +321,8 @@
     public static functionKeys_revoke: string = "functionKeys_revoke";
     public static logStreaming_compress: string = "logStreaming_compress";
     public static logStreaming_expand: string = "logStreaming_expand";
-    public static functionDev_gerFunctionUrl: string = "functionDev_gerFunctionUrl";
-    public static functionDev_gerGithubSecret: string = "functionDev_gerGithubSecret";
+    public static functionDev_getFunctionUrl: string = "functionDev_getFunctionUrl";
+    public static functionDev_getGithubSecret: string = "functionDev_getGithubSecret";
     public static httpRun_headers: string = "httpRun_headers";
     public static httpRun_noHeaders: string = "httpRun_noHeaders";
     public static sideNav_AllSubscriptions: string = "sideNav_AllSubscriptions";
@@ -625,6 +624,7 @@
     public static readOnly: string = "readOnly";
     public static readWriteSourceControlled: string = "readWriteSourceControlled";
     public static readOnlyGeneratedBy: string = "readOnlyGeneratedBy";
+    public static readWriteGeneratedBy: string = "readWriteGeneratedBy";
     public static copypre_copy: string = "copypre_copy";
     public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
     public static keysDialog_key: string = "keysDialog_key";
@@ -789,4 +789,10 @@
     public static java_splash_line_2: string = "java_splash_line_2";
     public static appFunctionSettings_proxyEnabled: string = "appFunctionSettings_proxyEnabled";
     public static java_splash_button: string = "java_splash_button";
+    public static nameColon: string = "nameColon";
+    public static createFunction_search: string = "createFunction_search";
+    public static bindingInput_hide: string = "bindingInput_hide";
+    public static monitoring_appInsightsIsNotFound: string = "monitoring_appInsightsIsNotFound";
+    public static table_startOfRow: string = "table_startOfRow";
+    public static table_endOfRow: string = "table_endOfRow";
 }

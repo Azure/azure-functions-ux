@@ -1,17 +1,27 @@
 <div class="settings-group-wrapper">
 
   <h3>{{ 'feature_defaultDocumentsName' | translate }}</h3>
+  <info-box
+    *ngIf="!hasWritePermissions && showPermissionsMessage"
+    typeClass="warning"
+    [infoText]="permissionsMessage">
+  </info-box>
+  <info-box
+    *ngIf="!groupArray && !!loadingFailureMessage"
+    typeClass="error"
+    [infoText]="loadingFailureMessage">
+  </info-box>
 
   <div class="settings-wrapper">
 
     <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
-    <tbl tblClass="tbl fixed stretch" [items]="groupArray?.controls" #defaultDocumentsTable>
+    <table-root tblClass="tbl fixed stretch" [name]="Resources.feature_defaultDocumentsName | translate" [items]="groupArray?.controls" #defaultDocumentsTable>
 
       <!-- Data/Content Rows -->
       <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each default document returned (if any) -->
-      <tr *ngFor="let group of defaultDocumentsTable.items" [class.hidden]="group._msExistenceState === 'deleted'">
+      <tr *ngFor="let group of defaultDocumentsTable.items | excludeDeleted:true" table-row [group]="group">
 
-        <td class="single-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty">
+        <td class="single-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
           <click-to-edit [group]="group" name="name">
 
             <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
@@ -19,62 +29,54 @@
           </click-to-edit>
         </td>
 
-        <td class="action-col">
-          <span class="fa fa-times delete" (click)="deleteItem(group)"></span>
+        <td class="action-col" table-cell [editable]="false">
+          <span
+            [tabindex]="hasWritePermissions ? 0 : -1"
+            role="button"
+            class="fa fa-times delete"
+            [attr.aria-label]="Resources._delete | translate"
+            [attr.aria-disabled]="!hasWritePermissions"
+            (keypress)="hasWritePermissions && $event.keyCode === keyCodes.enter ? deleteItem(group) : null"
+            (click)="hasWritePermissions ? deleteItem(group) : null">
+          </span>
         </td>
 
       </tr>
 
       <!-- Placeholder/Message Row -->
       <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && defaultDocumentsTable.items.length - originalItemsDeleted === 0)">
+      <tr *ngIf="!groupArray || (!!groupArray && defaultDocumentsTable.items.length - originalItemsDeleted === 0)" table-row>
 
         <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="2">
+        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="2" table-cell [editable]="false">
           {{ (loadingFailureMessage || loadingMessage) }}
         </td>
 
         <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="2">
+        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="2" table-cell [editable]="false">
           {{ showPermissionsMessage ? permissionsMessage : '' }}
         </td>
 
         <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && defaultDocumentsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="2">
+        <td *ngIf="!!groupArray && defaultDocumentsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="2" table-cell [editable]="false">
           {{ ('emptyDefaultDocuments' | translate) }}
         </td>
 
       </tr>
 
-    </tbl>
+    </table-root>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 
 
     <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
     <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
-    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" class="link add-setting" (click)="addItem()">
+    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" tabindex="0" role="button" class="link add-setting" (keypress)="$event.keyCode === keyCodes.enter ? addItem() : null" (click)="addItem()">
       {{ 'addNewDocument' | translate }}
     </div>
 
     <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
-    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" class="disabled-link add-setting">
+    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" tabindex="-1" role="button" class="disabled-link add-setting" aria-disabled="true">
       {{ 'addNewDocument' | translate }}
-    </div>
-    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-
-
-    <!-- ---------------------------------------------------------- SHIELD ---------------------------------------------------------- -->
-    <div *ngIf="!groupArray || !hasWritePermissions" class="shield">
-      <div *ngIf="!groupArray && !!loadingFailureMessage && (hasWritePermissions || !showPermissionsMessage)" class="shield-message">
-        {{ loadingFailureMessage }}
-      </div>
-    </div>
-
-    <div *ngIf="!hasWritePermissions" class="shield transparent">
-      <div *ngIf="showPermissionsMessage" class="shield-message">
-        <p>{{ permissionsMessage }}</p>
-        <button class="transparent" (click)="showPermissionsMessage=false">{{ showReadOnlySettingsMessage }}</button>
-      </div>
     </div>
     <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 

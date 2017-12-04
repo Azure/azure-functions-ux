@@ -1,12 +1,13 @@
 <div
     class="info-box"
+    [ngClass]="typeClass"
     [class.clickable]="!!infoLink"
     (click)="onClick($event)"
     [tabIndex]="!!infoLink ? 0 : -1"
     (keydown)="onKeyPress($event)">
 
     <div class="info-icon-container">
-        <div class="glyphicon glyphicon-info-sign info-icon"></div>
+        <div [load-image]="iconPath" class="info-icon"></div>
     </div>
     <div class="info-text-container">
         <div>{{ infoText }}</div>

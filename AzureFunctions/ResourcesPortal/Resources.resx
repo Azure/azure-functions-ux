@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -196,7 +196,7 @@
     <value>Invitation code</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
-    <value>This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
+    <value>This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
   </data>
   <data name="functionNew_functionName" xml:space="preserve">
     <value>Function name</value>
@@ -959,10 +959,10 @@
     <value>Runtime image</value>
   </data>
   <data name="runtimeImagev1" xml:space="preserve">
-    <value>V1</value>
+    <value>v1(.net framework/server core)</value>
   </data>
   <data name="runtimeImagev2" xml:space="preserve">
-    <value>V2</value>
+    <value>v2(.net core/nano server)</value>
   </data>
   <data name="runtimeImageCustom" xml:space="preserve">
     <value>custom</value>
@@ -1081,10 +1081,10 @@
   <data name="logStreaming_expand" xml:space="preserve">
     <value>Expand</value>
   </data>
-  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+  <data name="functionDev_getFunctionUrl" xml:space="preserve">
     <value>&lt;/&gt; Get function URL</value>
   </data>
-  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+  <data name="functionDev_getGithubSecret" xml:space="preserve">
     <value>&lt;/&gt; Get GitHub secret</value>
   </data>
   <data name="httpRun_headers" xml:space="preserve">
@@ -1993,6 +1993,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="readOnlyGeneratedBy" xml:space="preserve">
     <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
+  <data name="readWriteGeneratedBy" xml:space="preserve">
+    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having a generated function.json. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+  </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -2459,7 +2462,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>This template requires the following extensions.</value>
   </data>
   <data name="installingExtension" xml:space="preserve">
-    <value>Installing required extensions. It may take upto 10 minutes for this operation.</value>
+    <value>Installing template dependencies, you will be able to create a function once this done. Dependency installation happens in the background and can take up to 10 minutes. You can continue to use the portal during this time.</value>
   </data>
   <data name="failedToInstallFunctionRuntimeExtensionForId" xml:space="preserve">
     <value>We are not able to install runtime extension. Install id {{installationId}}</value>
@@ -2484,5 +2487,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="java_splash_button" xml:space="preserve">
     <value>Java on Azure Functions Quickstart</value>
+  </data>
+  <data name="nameColon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="createFunction_search" xml:space="preserve">
+    <value>Search by trigger, language, or description</value>
+  </data>
+  <data name="bindingInput_hide" xml:space="preserve">
+    <value>hide value</value>
+  </data>
+  <data name="monitoring_appInsightsIsNotFound" xml:space="preserve">
+    <value>App Insights instrumentation key is presented in app settings but App Insights is not found in Function App's subscription. Please make sure your App Insights is localted in the same subscription as Function App.</value>
+  </data>
+  <data name="table_startOfRow" xml:space="preserve">
+    <value>Start of row</value>
+  </data>
+  <data name="table_endOfRow" xml:space="preserve">
+    <value>End of row</value>
   </data>
 </root>

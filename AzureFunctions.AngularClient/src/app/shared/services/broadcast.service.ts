@@ -56,6 +56,7 @@ export class BroadcastService {
         this._streamMap[BroadcastEvent.OpenTab] = new ReplaySubject(1);
         this._streamMap[BroadcastEvent.DirtyStateChange] = new ReplaySubject(1);
         this._streamMap[BroadcastEvent.UpdateAppsList] = new ReplaySubject(1);
+        this._streamMap[BroadcastEvent.IntegrateChanged] = new Subject();
     }
 
     // DEPRECATED - Use broadcastEvent

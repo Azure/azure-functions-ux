@@ -8,3 +8,19 @@
         border-left: $border;
     }
 }
+
+.sidebar-new-function {
+    width: 30vw;
+    background-color: $body-bg-color;
+    z-index: 11 !important;
+}
+
+.ng-sidebar__backdrop {
+    z-index: 10 !important;
+}
+
+#app-root[theme=dark]{
+    .sidebar-new-function {
+        background-color: $body-bg-color-dark;
+    }
+}

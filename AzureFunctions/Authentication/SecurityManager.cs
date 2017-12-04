@@ -11,29 +11,19 @@ namespace AzureFunctions.Authentication
         private static readonly ISettings _settings;
         private static readonly IAuthProvider _frontEndAuthProvider;
         private static readonly IAuthProvider _localhostAuthProvider;
-        private static readonly IAuthProvider _standaloneAuthProvider;
 
         static SecurityManager()
         {
             _settings = new Settings();
             _frontEndAuthProvider = new FrontEndAuthProvider(_settings);
             _localhostAuthProvider = new LocalhostAuthProvider(_settings);
-            _standaloneAuthProvider = new StandaloneAuthProvider(_settings);
         }
 
         private static IAuthProvider GetAuthProvider(HttpContextBase context)
         {
-            if (_settings.RuntimeType == RuntimeType.Standalone)
-            {
-                return _standaloneAuthProvider;
-            }
-
-            if (context.Request.Url.IsLoopback || _settings.RuntimeType == RuntimeType.OnPrem)
-            {
-                return _localhostAuthProvider;
-            }
-               
-            return _frontEndAuthProvider;
+            return context.Request.Url.IsLoopback || _settings.RuntimeType == RuntimeType.OnPrem
+                ? _localhostAuthProvider
+                : _frontEndAuthProvider;
         }
 
         public static bool TryAuthenticateRequest(HttpContextBase context)
