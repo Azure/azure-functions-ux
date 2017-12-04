@@ -16,6 +16,11 @@
              (selectItem)="finishDialogPicker($event)">
 </app-setting>
 
+<tooltip-content #freeAccountTooltip>
+  <p>
+    {{ 'tryNow_FreeAccountToolTip' | translate }}
+  </p>
+</tooltip-content>
 
 <div>
   <div class="input-header">
@@ -34,6 +39,13 @@
          (click)="openPicker(input)"
          tabindex="0"
          (keydown)="onNewKeyPress($event, input)"> 
+         {{ 'bindingInput_new' | translate }}
+      </i>
+      <i *ngIf="!input.inProcess && showTryView" 
+         class="link-position"
+         disabled [class.select]="input.errorText" 
+         [tooltip]="freeAccountTooltip"
+         tooltipPlacement="bottom">
          {{ 'bindingInput_new' | translate }}
       </i>
       <i
@@ -121,18 +133,6 @@
       <span class="fa fa-exclamation input-warning-adjust"></span>
       <div class="input-show-warning" tabindex="0">{{input.errorText}}</div>
     </ng-container>
-
-    <span *ngIf="!input.inProcess && showTryView" 
-          disabled [class.select]="input.errorText" 
-          [tooltip]="freeAccountTooltip"
-          tooltipPlacement="bottom">
-      {{ 'bindingInput_new' | translate }}
-    </span>
-    <tooltip-content #freeAccountTooltip>
-      <p>
-        {{ 'tryNow_FreeAccountToolTip' | translate }}
-      </p>
-    </tooltip-content>
   </div>
 
   <div *ngIf="input?.type === 'boolean'" class="checkbox">
