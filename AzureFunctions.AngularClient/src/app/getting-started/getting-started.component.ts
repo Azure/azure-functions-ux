@@ -222,14 +222,12 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
                     let environment = '';
                     if (window.location.host.indexOf('staging') !== -1) {
                         // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.
-                        environment = '?feature.fastmanifest=false&appsvc.env=stage';
-                        // environment = '?websitesextension_functionsstaged=true';
+                        environment = '?feature.fastmanifest=false&websitesextension_functionsstaged=true';
 
                     } else if (window.location.host.indexOf('next') !== -1) {
 
                         // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.
-                        environment = '?feature.canmodifystamps=true&BizTalkExtension=canary&WebsitesExtension=canary&feature.fastmanifest=false&appsvc.env=next';
-                        // environment = '?websitesextension_functionsnext=true';
+                        environment = '?feature.canmodifystamps=true&BizTalkExtension=canary&WebsitesExtension=canary&feature.fastmanifest=false&websitesextension_functionsnext=true';
                     }
 
                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${environment}#resource${armId}`);
