@@ -188,6 +188,11 @@ export class ScenarioIds {
     public static readonly topBarWarning = 'TopBarWarning';
     public static readonly userMenu = 'UserMenu';
     public static readonly standAloneUserMenu = 'StandAloneUserMenu';
+    public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
+    public static readonly quickStartLink = 'QuickStartLink';
+    public static readonly noPaddingOnSideNav = 'NoPaddingOnSideNav';
+    public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
+    public static readonly downloadWithVsProj = 'DownloadWithVsProj';
 }
 
 export class ServerFarmSku {

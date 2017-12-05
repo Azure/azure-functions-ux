@@ -1,3 +1,5 @@
+@import '../../sass/common/variables';
+
 .line {
     display: flex;
     flex-direction: row;
@@ -32,4 +34,42 @@ select {
 
 .button-spin {
     margin-top: 20px;
+}
+
+.headerBox{
+    width: 100%;
+    height: 40px;
+    text-align: left;
+    color: $heading-text-color;
+    background-color: $custom-picker-header-bg-color; 
+    font-size: 14px;
+    line-height: 37px;
+    margin-bottom: 20px;
+    img {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        margin-right: 15px;
+        float: left;
+        padding: 5px;
+    }
+}
+
+.sql-pciker-header {
+    background-color: $custom-sq-picker-header-bg-color;
+}
+.sql-picker-image {
+    background-color: $custom-sql-picker-imgae-bg-color;
+}
+
+.storage-picker-image {
+    background-color: $custom-picker-imgae-bg-color;    
+}
+
+.close-button {
+    padding: 10px;
+}
+
+.disabled{
+    color: $disabled-color;
 }

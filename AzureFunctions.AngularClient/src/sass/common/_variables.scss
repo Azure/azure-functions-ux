@@ -30,6 +30,8 @@ $border-selection-color: #419BF3;
 $border-focus-color: #00bcf2;
 $border-focus: $border-focus-color dashed 1px;
 
+$usermenu-text-color: $heading-text-color;
+$usermenu-border-color: #b3b3b3;
 $border-focus-dirty-color: #7846ff;
 $border-focus-dirty: $border-focus-dirty-color dashed 1px;
 
@@ -52,6 +54,8 @@ $border: 1px $border-color solid;
 // Background colors:
 $success-color: #5db300;
 $success-color-faded: rgba($success-color, 0.18);
+
+$usermenu-back-color:$body-bg-color;
 
 $error-color: #e81123;
 $error-color-faded: rgba($error-color, 0.18);
@@ -92,3 +96,10 @@ $card-color-dark: #333333;
 $text-box-warning-text: #8a6d3b;
 $text-box-warning-background: #fcf8e3;
 $text-box-warning-border: #faebcc;
+
+$custom-picker-imgae-bg-color: rgb(30, 88, 144);
+$custom-picker-header-bg-color: rgb(218, 230, 239);
+
+$custom-sql-picker-imgae-bg-color: $heading-text-color;
+$custom-sq-picker-header-bg-color: rgb(217, 217, 217);
+

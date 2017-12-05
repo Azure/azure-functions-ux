@@ -28,6 +28,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.AppsDashboard;
     public supportsRefresh = true;
+    public emptySubs = false;
 
     public resourceId = '/apps';
     public isExpanded = true;
@@ -39,6 +40,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     private _broadcastService: BroadcastService;
     private _userService: UserService;
     private _scenarioService: ScenarioService;
+    private _subInitialized: boolean;
 
 
     constructor(
@@ -50,17 +52,24 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         super(sideNav, null, rootNode, '/apps/new/app');
 
+        this._subInitialized = false;
         this.newDashboardType =  null;
         this._userService = sideNav.injector.get(UserService);
         this._scenarioService = sideNav.injector.get(ScenarioService);
 
         this._userService.getStartupInfo().subscribe(info => {
-            if (this._scenarioService.checkScenario(ScenarioIds.createApp).status === 'enabled'
-                    && info.subscriptions
-                    && info.subscriptions.length > 0) {
-                this.newDashboardType = DashboardType.createApp;
+            if (this._scenarioService.checkScenario(ScenarioIds.createApp).status === 'enabled') {
+                if (info.subscriptions && info.subscriptions.length > 0) {
+                    this.newDashboardType = DashboardType.createApp;
+                    this.nodeClass += ' create-app';
+                    this.emptySubs = false;
+                } else {
+                    this.newDashboardType = null;
+                    this.emptySubs = true;
+                }
             } else {
                 this.newDashboardType = null;
+                this.emptySubs = false;
             }
         });
 
@@ -80,6 +89,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         this._subscriptionsStream
             .subscribe(subs => {
                 this._subscriptions = subs;
+                this._subInitialized = true;
 
                 if (!this._initialized()) {
                     return;
@@ -205,7 +215,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     }
 
     private _initialized(){
-        return this._subscriptions && this._subscriptions.length > 0 && this._searchTerm !== undefined;
+        return this._subInitialized && this._searchTerm !== undefined;
     }
 
     private _doSearch(

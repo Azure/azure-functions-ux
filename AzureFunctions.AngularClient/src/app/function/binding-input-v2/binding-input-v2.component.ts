@@ -15,6 +15,8 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { FunctionApp } from '../../shared/function-app';
 import { CacheService } from './../../shared/services/cache.service';
+import { ScenarioService } from '../../shared/services/scenario/scenario.service';
+import { ScenarioIds } from '../../shared/models/constants';
 
 @Component({
     selector: 'binding-input-v2',
@@ -35,6 +37,7 @@ export class BindingInputV2Component {
     public showAppSettingValue = false;
     private _input: BindingInputBase<any>;
     private showTryView: boolean;
+    private useCustomFunctionInputPicker: boolean;
     @Input() public functionApp: FunctionApp;
 
     constructor(
@@ -43,7 +46,9 @@ export class BindingInputV2Component {
         private _userService: UserService,
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
-        private _cacheService: CacheService) {
+        private _cacheService: CacheService,
+        private _scenarioService: ScenarioService) {
+        this.useCustomFunctionInputPicker =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
         this.showTryView = this._globalStateService.showTryView;
     }
 
@@ -82,27 +87,32 @@ export class BindingInputV2Component {
         let bladeInput = null;
         switch (input.resource) {
             case ResourceType.Storage:
-                this.pickerName = 'StorageAccountPickerBlade';
+                this.pickerName = this.useCustomFunctionInputPicker ? 'Storage' : 'StorageAccountPickerBlade';
                 break;
             case ResourceType.EventHub:
-                this.pickerName = 'EventHub';
+                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'EventHub';
                 break;
             case ResourceType.ServiceBus:
-                this.pickerName = 'ServiceBus';
+                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'ServiceBus';
                 break;
             case ResourceType.AppSetting:
                 this.pickerName = 'AppSetting';
                 break;
             case ResourceType.DocumentDB:
-                this.pickerName = 'DocDbPickerBlade';
+                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'DocDbPickerBlade';
                 break;
             case ResourceType.ServiceBus:
-                this.pickerName = 'NotificationHubPickerBlade';
+                this.pickerName = this.useCustomFunctionInputPicker ? 'AppSetting' : 'NotificationHubPickerBlade';
                 break;
             case ResourceType.ApiHub:
                 bladeInput = input.metadata;
                 bladeInput.bladeName = 'CreateDataConnectionBlade';
                 break;
+            case ResourceType.Sql:
+                this.pickerName = this.useCustomFunctionInputPicker ? 'Sql' : 'AppSetting';
+                break;
+            default:
+                this.pickerName = 'AppSetting';
         }
 
         // for tests
@@ -277,6 +287,8 @@ export class BindingInputV2Component {
         }
         picker.inProcess = false;
         this._globalStateService.clearBusyState();
+        this.pickerInputs = picker.items
+        .map(p => ({ displayLabel: p, value: p}));
     }
 
     setBottomDescription(id: string) {
