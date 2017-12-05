@@ -6,7 +6,7 @@ import {Location} from '@angular/common';
 import { LogService } from './../../shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
-import { FormControl, FormBuilder, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormControl, FormBuilder} from '@angular/forms';
 import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 import { UserService } from '../../shared/services/user.service';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
@@ -99,11 +99,5 @@ export class CreateSubscriptionComponent implements OnInit {
   isValid(): boolean {
     return this.friendlySubName.value && this.friendlySubName.valid;
   }
-
-  validateSubName(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} => {
-      return Promise.resolve({ friendlySubName: 'Check sub' });
-    };
-  };
 }
 

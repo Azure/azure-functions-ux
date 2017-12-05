@@ -9,7 +9,6 @@ import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 
-
 class OptionTypes {
     azure = 'Azure';
     other = 'Other';

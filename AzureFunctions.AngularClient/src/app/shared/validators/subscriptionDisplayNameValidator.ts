@@ -4,8 +4,6 @@ import { Validator } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from './../../shared/services/user.service';
 import { Subscription } from './../../shared/models/subscription';
-
-
 import { PortalResources } from './../models/portal-resources';
 import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 

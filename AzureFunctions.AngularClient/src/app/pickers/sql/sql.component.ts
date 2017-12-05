@@ -35,7 +35,6 @@ export class SqlComponent implements OnInit {
     ngOnInit() {
     }
 
-
     @Input() set functionApp(functionApp: FunctionApp) {
         this._functionApp = functionApp;
     }

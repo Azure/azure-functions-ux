@@ -27,7 +27,10 @@
                                 <radio-selector [options]="options" [defaultValue]="optionTypes.azure" (value)="optionsChange.next($event)"></radio-selector>
                         </div>        
                         <div [class.disabled] = "option ===  optionTypes.azure">
-                            <input [disabled] = "option ===  optionTypes.azure" type="text" placeholder="{{'storage_endpoint_empty_text' | translate}}" [(ngModel)]="endpoint" />
+                            <input [disabled] = "option ===  optionTypes.azure"
+                                   type="text"
+                                   placeholder="{{'storage_endpoint_empty_text' | translate}}"
+                                   [(ngModel)]="endpoint" />
                         </div>
                     </div>
                 </div>
