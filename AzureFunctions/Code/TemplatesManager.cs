@@ -66,7 +66,12 @@ namespace AzureFunctions.Code
 
                     foreach (var d in runtimeDirs)
                     {
-                        templateDirs.AddRange(Directory.GetDirectories(Path.Combine(d, "Templates")));
+                        string templatesDirectory = Path.Combine(d, "Templates");
+                        if (Directory.Exists(templatesDirectory))
+                        {
+                            templateDirs.AddRange(Directory.GetDirectories(templatesDirectory));
+                        }
+
                     }
 
                     IEnumerable<FunctionTemplate> templates = templateDirs.Select(GetFunctionTemplate).ToList();
@@ -128,9 +133,9 @@ namespace AzureFunctions.Code
             {
                 try
                 {
-                    return _templates.Any(t => t.Runtime == runtime)
-                        ? _templates.Where(t => t.Runtime == runtime)
-                        : _templates.Where(t => t.Runtime == "default");
+                    return _templates.Any(t => t.Runtime.ToLowerInvariant() == runtime.ToLowerInvariant())
+                        ? _templates.Where(t => t.Runtime.ToLowerInvariant() == runtime.ToLowerInvariant())
+                        : _templates.Where(t => t.Runtime.ToLowerInvariant() == "default");
                 }
                 finally
                 {
