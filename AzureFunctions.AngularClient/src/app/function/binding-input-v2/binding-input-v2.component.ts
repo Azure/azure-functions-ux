@@ -271,6 +271,8 @@ export class BindingInputV2Component {
             this.input.value = appSettingName;
             if (!existedAppSetting) {
                 picker.items.splice(0, 0, this.input.value);
+                this.pickerInputs = picker.items
+                    .map(p => ({ displayLabel: p, value: p}));
             }
             this.inputChanged(name);
             this.setClass(appSettingName);
