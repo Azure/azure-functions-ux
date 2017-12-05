@@ -43,6 +43,10 @@
     &.collection-node{
         padding-right: 22px;
     }
+
+    &.create-app  .menu-items{
+        display: inline-flex;        
+    }
 }
 
 .tree-node-menu{
@@ -63,13 +67,11 @@
     width: 100%;
 }
 
-.menu-items {
-    display: inline-flex;
-}
 
 .create-new {
     margin-top: 4px;
     font-size: 18px;
+    margin-right: 4px;
 }
 
 hr.tree-node-separator{

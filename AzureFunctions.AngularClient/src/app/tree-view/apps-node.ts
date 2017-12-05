@@ -61,6 +61,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
             if (this._scenarioService.checkScenario(ScenarioIds.createApp).status === 'enabled') {
                 if (info.subscriptions && info.subscriptions.length > 0) {
                     this.newDashboardType = DashboardType.createApp;
+                    this.nodeClass += ' create-app';
                     this.emptySubs = false;
                 } else {
                     this.newDashboardType = null;
