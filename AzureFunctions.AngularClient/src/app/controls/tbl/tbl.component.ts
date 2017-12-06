@@ -54,7 +54,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   ngOnInit() {
   }
 
-  ngAfterContentChecked(){
+  ngAfterContentChecked() {
     this.headers.forEach(h => h.table = this);
   }
 
@@ -98,7 +98,14 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
 
       if (rowIndex >= 0 && cellIndex >= 0) {
         this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
-        this._setFocusOnCell(rows, rowIndex, cellIndex);
+        if (e.target === cell || document.activeElement === cell) {
+          this._setFocusOnCell(rows, rowIndex, cellIndex);
+        }
+        else if (cell.contains(document.activeElement)) {
+          Dom.setFocusable(document.activeElement as HTMLElement);
+          this._focusedRowIndex = rowIndex;
+          this._focusedCellIndex = cellIndex;
+        }
       }
     }
   }
