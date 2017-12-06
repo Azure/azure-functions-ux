@@ -19,7 +19,7 @@ export interface TableItem {
     #tbl
     [class]='tblClass'
     (click)='onClick($event)'
-    (keydown)="onKeyPress($event)"
+    (keydown)="onKeyDown($event)"
     role="grid"
     [attr.aria-label]="name">
       <ng-content></ng-content>
@@ -103,10 +103,10 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     }
   }
 
-  // Gets called for any keypresses that occur whenever the focus is currently
+  // Gets called for any keydown events that occur whenever the focus is currently
   // on the table.  Most of the handling here should be for keyboard navigation
   // like up/down/left/right and enter keys.
-  onKeyPress(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent) {
     if (event.keyCode === KeyCodes.arrowRight) {
 
       const rows = this._getRows();
@@ -137,15 +137,20 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
 
     } else if (event.keyCode === KeyCodes.enter) {
 
-      // On "enter", we'll "click" on the current cell
-      const rows = this._getRows();
-      const curCell = this._getCurrentCellOrReset(rows);
-      if (curCell) {
-        curCell.click();
-
-        setTimeout(() => {
-          this._setFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
-        }, 0);
+      // If focus is currently on a cell (NOT on a control inside a cell), hitting enter
+      // will result in a "click" on the first tab-able element in the cell (or on the cell itself
+      // if the cell contains no tab-able elements).
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'TD' || target.tagName === 'TH') {
+        const rows = this._getRows();
+        const curCell = this._getCurrentCellOrReset(rows);
+        if (curCell) {
+          if (curCell !== document.activeElement) {
+            Dom.setFocus(curCell);
+          }
+          curCell.click();
+          event.preventDefault();
+        }
       }
 
     } else if (event.keyCode === KeyCodes.escape) {
