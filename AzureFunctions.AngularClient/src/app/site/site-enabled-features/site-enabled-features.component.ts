@@ -160,7 +160,7 @@ export class SiteEnabledFeaturesComponent {
 
     private _getAppInsights(hasSiteActionPermission: boolean, hasReadLock: boolean) {
 
-        if (!hasSiteActionPermission || hasReadLock) {
+        if (!hasSiteActionPermission || hasReadLock || (window && window.appsvc && window.appsvc.env && window.appsvc.env.runtimeType === "OnPrem")) {
             return Observable.of([]);
         }
 

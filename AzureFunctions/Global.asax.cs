@@ -79,7 +79,8 @@ namespace AzureFunctions
                 context.Response.End();
                 return;
             }
-            else if (context.Request.Url.AbsolutePath.Equals("/api/ping", StringComparison.OrdinalIgnoreCase))
+
+            if (context.Request.Url.AbsolutePath.Equals("/api/ping", StringComparison.OrdinalIgnoreCase))
             {
                 context.Response.Write("success");
                 context.Response.StatusCode = 200;
@@ -111,7 +112,10 @@ namespace AzureFunctions
                     context.Response.Headers["LoginUrl"] = SecurityManager.GetLoginUrl(context);
                     context.Response.StatusCode = 403; // Forbidden
                 }
-                else if (!isFile && !context.Request.RawUrl.StartsWith("/api/"))
+                // For OnPrem, the Functions portal will always be hosted as part of the Azure portal.
+                // So we don't need to proactively redirect unauthenticated requests to the signin page.
+                // Worry about authentication only when an unauthenticated call is made to a protected API.
+                else if (settings.RuntimeType != RuntimeType.OnPrem && !context.Request.RawUrl.StartsWith("/api/"))
                 {
                     context.Response.RedirectLocation = Environment.GetEnvironmentVariable("ACOM_MARKETING_PAGE") ?? $"{context.Request.Url.GetLeftPart(UriPartial.Authority)}/signin";
                     context.Response.StatusCode = 302;

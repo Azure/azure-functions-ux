@@ -11,7 +11,6 @@ namespace AzureFunctions.Authentication
     [DataContract]
     public class OpenIdConfiguration
     {
-        private const string OpenIdConfigurationUrl = "https://login.windows.net/common/.well-known/openid-configuration";
         private static readonly DataContractJsonSerializer _serializer = new DataContractJsonSerializer(typeof(OpenIdConfiguration));
         private static OpenIdConfiguration _current = null;
         private static TimeSpan _downloadInterval = TimeSpan.FromHours(6);
@@ -75,8 +74,10 @@ namespace AzureFunctions.Authentication
                 // no cache or _downloadInterval has passed since _lastAttemptTime
                 if (_current == null || _lastAttemptTime.Add(_downloadInterval) < DateTime.UtcNow)
                 {
+                    string openIdConfigurationUrl = SecuritySettings.OpenIdConfigurationUrl;
+
                     // Only attempt to download if settings exist.
-                    if (!String.IsNullOrEmpty(OpenIdConfigurationUrl))
+                    if (!String.IsNullOrEmpty(openIdConfigurationUrl))
                     {
                         // set _lastAttemptTime so there is only one download at most.
                         // this is loosly caching (prefer stale over throwing exception).  
@@ -85,7 +86,7 @@ namespace AzureFunctions.Authentication
 
                         try
                         {
-                            OpenIdConfiguration current = Download(OpenIdConfigurationUrl);
+                            OpenIdConfiguration current = Download(openIdConfigurationUrl);
                             OpenIdIssuerKeys keys = (current != null) ? current.IssuerKeys : null;
                             if (keys != null && keys.Keys != null && keys.Keys.Length > 0)
                             {
@@ -122,21 +123,13 @@ namespace AzureFunctions.Authentication
 
         public string GetAuthorizationEndpoint(string tenantId)
         {
-            if (!AuthorizationEndpoint.Contains("/common/"))
-            {
-                throw new InvalidOperationException("Invalid authorization_endpoint: " + AuthorizationEndpoint);
-            }
-
+            // ADFS URLs may not contain /common/. Replace /common/ with tenantID only if /common/ is present.
             return String.IsNullOrEmpty(tenantId) ? AuthorizationEndpoint : AuthorizationEndpoint.Replace("/common/", String.Format("/{0}/", tenantId));
         }
 
         public string GetTokenEndpoint(string tenantId)
         {
-            if (!TokenEndpoint.Contains("/common/"))
-            {
-                throw new InvalidOperationException("Invalid token_endpoint: " + TokenEndpoint);
-            }
-
+            // ADFS URLs may not contain /common/. Replace /common/ with tenantID only if /common/ is present.
             return String.IsNullOrEmpty(tenantId) ? TokenEndpoint : TokenEndpoint.Replace("/common/", String.Format("/{0}/", tenantId));
         }
     }
