@@ -9,6 +9,7 @@ import { AzureEnvironment } from './azure.environment';
 import { ScenarioCheckResult, ScenarioResult } from './scenario.models';
 import { ScenarioCheckInput } from './scenario.models';
 import { StandaloneEnvironment } from './stand-alone.environment';
+import { OnPremEnvironment } from './onprem.environment';
 import { Environment } from './scenario.models';
 import { Injectable } from '@angular/core';
 import { LogCategories } from 'app/shared/models/constants';
@@ -19,6 +20,7 @@ export class ScenarioService {
 
     private _environments: Environment[] = [
         new StandaloneEnvironment(),
+        new OnPremEnvironment(),
         new SiteSlotEnvironment(this._translateService),
         new DynamicSiteEnvironment(this._translateService),
         new LinuxSiteEnvironment(this._translateService),
