@@ -7,24 +7,20 @@ import * as logger from 'morgan';
 import * as passport from 'passport';
 import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
+import * as http from 'http';
 
 import './polyfills';
 import { getTenants, switchTenant, getToken } from './actions/user-account';
 import { getConfig } from './actions/ux-config';
-import { proxy } from './actions/proxy'
-import {
-    getBindingConfig,
-    getResources,
-    getRuntimeVersion,
-    getRoutingVersion,
-    getTemplates
-} from './actions/metadata';
+import { proxy } from './actions/proxy';
+import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, getTemplates } from './actions/metadata';
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
 import { staticConfig } from './config';
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')))
+app
+    .use(express.static(path.join(__dirname, 'public')))
     .use(logger('dev'))
     .set('view engine', 'pug')
     .set('views', 'src/views')
@@ -39,7 +35,7 @@ setupAuthentication(app);
 
 const renderIndex = (_: express.Request, res: express.Response) => {
     res.render('index', staticConfig);
-}
+};
 app.get('/', maybeAuthenticate, renderIndex);
 
 app.get('/api/ping', (_, res) => {
@@ -70,8 +66,34 @@ app.post('/api/passthrough', maybeAuthenticate, proxy);
 // render index and let angular handle the path.
 app.get('*', renderIndex);
 
-var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
-var certificate = fs.readFileSync('selfcert.pem', 'utf8');
-const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app);
 
-httpsServer.listen(44300);
+if (process.env.FUNCTIONS_SLOT_NAME) {
+    function normalizePort(val: any) {
+        var port = parseInt(val, 10);
+
+        if (isNaN(port)) {
+            // named pipe
+            return val;
+        }
+
+        if (port >= 0) {
+            // port number
+            return port;
+        }
+
+        return false;
+    }
+
+    var port = normalizePort(process.env.PORT || '3000');
+    app.set('port', port);
+    var server = http.createServer(app as any);
+    server.listen(port);
+} else {
+    //This is for localhost development
+    var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
+    var certificate = fs.readFileSync('selfcert.pem', 'utf8');
+
+    const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
+
+    httpsServer.listen(44300);
+}
