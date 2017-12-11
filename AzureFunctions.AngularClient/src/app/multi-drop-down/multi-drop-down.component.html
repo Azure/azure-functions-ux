@@ -1,11 +1,58 @@
-<div class="multi-select-container">
-  <input type="text" [value]="displayText" readonly (click)="click()" (keydown)="onKeyPress($event)" />
-  <span class="multi-select-arrow" (click)="click()"></span>
-  <div class="multi-select-content" *ngIf="opened" #itemListContainer>
-    <ul>
-      <li *ngFor="let option of options" (click)="handleChecked(option)" [class.focused]="option.isFocused">
-        <input type="checkbox" [checked]="option.isSelected"/>{{option.displayLabel}}
-      </li>
-    </ul>
+<div
+  class="multi-select-container"
+  (keydown)="onKeyDown($event)"
+  (mousedown)=onMouseDown($event)>
+
+  <div
+    role="combobox"
+    [class.focused]="hasFocus && focusedIndex === -1"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-expanded]="opened"
+    [attr.aria-owns]="!opened ? null : id + '-list'"
+    aria-haspopup="listbox"
+    (click)="onComboBoxClick($event)"
+    #comboBox>
+
+    <input
+      type="text"
+      role="textbox"
+      aria-multiline="false"
+      [attr.aria-controls]="!opened ? null : id + '-list'"
+      [attr.aria-activedescendant]="(!opened || focusedIndex === -1) ? null : id + '-opt' + focusedIndex"
+      readonly
+      aria-readonly="true"
+      [value]="displayText"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      #displayInput/>
+    
+    <span
+      class="multi-select-arrow"
+      role="presentation"
+      #toggleArrow>
+    </span>
+
   </div>
+
+  <ul
+    role="listbox"
+    class="multi-select-content"
+    [class.hidden]="!opened"
+    [class.focused]="hasFocus && focusedIndex !== -1"
+    [id]="id + '-list'"
+    aria-multiselectable="true"
+    #listBox>
+
+    <li
+      *ngFor="let option of options; let optionIndex=index"
+      role="option"
+      [id]="id + '-opt' + optionIndex"
+      [attr.aria-selected]="option.isSelected"
+      [class.focused]="optionIndex === focusedIndex"
+      (click)="onOptionClick(optionIndex)">
+      <span>{{option.displayLabel}}</span>
+    </li>
+
+  </ul>
+
 </div>

@@ -181,7 +181,10 @@
     <value>View files</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Choose a template below or</value>
+    <value>Choose a template below</value>
+  </data>
+  <data name="subNew_subAlreadyExist" xml:space="preserve">
+    <value>Subscription with name '{0}' already exist</value>
   </data>
   <data name="subNew_chooseTemplate" xml:space="preserve">
     <value>Choose a plan below to create new subscription</value>
@@ -956,13 +959,13 @@
     <value>Runtime version</value>
   </data>
   <data name="runtimeImage" xml:space="preserve">
-    <value>Runtime image</value>
+    <value>Runtime version</value>
   </data>
   <data name="runtimeImagev1" xml:space="preserve">
-    <value>v1(.net framework/server core)</value>
+    <value>Azure Functions v1 (.NET Framework)</value>
   </data>
   <data name="runtimeImagev2" xml:space="preserve">
-    <value>v2(.net core/nano server)</value>
+    <value>Azure Functions v2 (.NET Standard)</value>
   </data>
   <data name="runtimeImageCustom" xml:space="preserve">
     <value>custom</value>
@@ -1062,6 +1065,9 @@
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
     <value>Sign in with Microsoft</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Sign out</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
     <value>Backend URL must start with 'http://' or 'https://'</value>
@@ -2169,6 +2175,48 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="appSettingPicker_add" xml:space="preserve">
     <value>Add app setting</value>
+  </data>
+  <data name="storage_add" xml:space="preserve">
+    <value>Add storage account connection string</value>
+  </data>
+  <data name="storage_accountName" xml:space="preserve">
+    <value>Account name</value>
+  </data>
+  <data name="storage_accountKey" xml:space="preserve">
+    <value>Account key</value>
+  </data>
+  <data name="storage_appSettingName" xml:space="preserve">
+    <value>storage account connection string name</value>
+  </data>
+  <data name="storage_appSettingName_empty_text" xml:space="preserve">
+    <value>Enter a name for storage account connection string</value>
+  </data>
+  <data name="storage_endpoint" xml:space="preserve">
+    <value>Storage endpoints domain</value>
+  </data>
+  <data name="storage_endpoint_azure" xml:space="preserve">
+    <value>Microsoft Azure</value>
+  </data>
+  <data name="storage_endpoint_other" xml:space="preserve">
+    <value>Other(specify bellow)</value>
+  </data>
+  <data name="storage_endpoint_empty_text" xml:space="preserve">
+    <value>Enter storage endpoints domain</value>
+  </data>
+  <data name="sql_add" xml:space="preserve">
+    <value>Add Sql connection string</value>
+  </data>
+  <data name="sql_endpoint" xml:space="preserve">
+    <value>SQL Server endpoint</value>
+  </data>
+  <data name="sql_database_name" xml:space="preserve">
+    <value>Database name</value>
+  </data>
+  <data name="sql_user_name" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="sql_password" xml:space="preserve">
+    <value>Password</value>
   </data>
   <data name="download" xml:space="preserve">
     <value>Download</value>

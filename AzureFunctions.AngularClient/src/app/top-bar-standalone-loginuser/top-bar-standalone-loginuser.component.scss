@@ -1,7 +1,6 @@
 @import '../../sass/common/variables';
 
 .top-bar-loginuser-tools-standalone {
-    padding: 7px 10px;     
     float: right;
     position: relative;
     top: 50%;
@@ -9,7 +8,7 @@
 }
 
 .top-bar-loginuser-tool-standalone:hover {
-    background-color: darken($primary-color, 10%);
+    background-color: darken($primary-color, 5%);
 }
 
 .top-bar-loginuser-tools-standalone span{
@@ -19,3 +18,68 @@
 .top-bar-loginuser-tools-standalone span:last-of-type{
     margin-left: 2px;
 }
+
+.top-bar-usermenu {
+    width: 200px;
+    background-color: $usermenu-back-color;
+    color: $usermenu-text-color;
+    border-color: $usermenu-border-color;
+    box-shadow: 0 10px 20px -5px rgba(58,58,58,.25);
+    right: 5px;
+    top: $top-bar-height;
+    position: absolute;
+    max-height: 505px;
+    overflow: auto;
+}
+
+.top-bar-usermenu ul {
+    padding: 0;
+}
+
+.usermenu-option {
+    list-style: none outside none;
+    margin: 0;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.option-logout {
+    height: 30px;
+    padding-left: 10px;
+}
+
+.option-logout:hover {
+    background-color: darken($usermenu-back-color, 5%);;
+}
+
+.line-separator {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top-width: 1px;
+}
+
+.signed-in-user {
+    float: right
+}
+
+.profile-image {
+    width: 40px;
+    height: 30px;
+    margin-top: 2px;
+    float: right;
+}
+
+.user-name {
+    float: left;
+    text-align: right;
+}
+
+.logout-image {
+    margin-top: 3px;
+    height: 13px;
+    width: 13px;
+    float: right;
+    margin-right: 15px
+}
+

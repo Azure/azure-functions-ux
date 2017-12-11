@@ -14,7 +14,6 @@ import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { SiteNameValidator } from './../../shared/validators/siteNameValidator';
 import { DropDownElement } from './../../shared/models/drop-down-element';
-import { SelectOption } from './../../shared/models/select-option';
 import { AppsNode } from './../../tree-view/apps-node';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { TreeViewInfo } from './../../tree-view/models/tree-view-info';
@@ -35,7 +34,7 @@ export class CreateAppComponent implements OnInit, OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo<any>>;
   public FwdLinks = Links;
   public subscriptionOptions: DropDownElement<string>[] = [];
-  public runtimeImageOptions: SelectOption<string>[] = [];
+  public runtimeImageOptions: DropDownElement<string>[] = [];
 
   private _viewInfo: TreeViewInfo<any>;
   private _subscriptionId: string;
@@ -93,7 +92,8 @@ export class CreateAppComponent implements OnInit, OnDestroy {
     });
     this.runtimeImageOptions.push({
       displayLabel : this._translateService.instant(PortalResources.runtimeImagev2),
-      value: RuntimeImage.v2
+      value: RuntimeImage.v2,
+      default: true
     });
     /* RDBug 10690532:[Functions] Add/Enable custom runtime Image switch for create app page
     this.runtimeImageOptions.push({

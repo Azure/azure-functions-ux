@@ -128,6 +128,7 @@ export enum DirectionType {
 
 export enum ResourceType {
     Storage = <any>"Storage",
+    Sql = <any>"Sql",
     EventHub = <any>"EventHub",
     ServiceBus = <any>"ServiceBus",
     DocumentDB = <any>"DocumentDB",

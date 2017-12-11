@@ -23,6 +23,7 @@
     public static functionDev_status: string = "functionDev_status";
     public static functionDev_viewFiles: string = "functionDev_viewFiles";
     public static functionNew_chooseTemplate: string = "functionNew_chooseTemplate";
+    public static subNew_subAlreadyExist: string = "subNew_subAlreadyExist";
     public static subNew_chooseTemplate: string = "subNew_chooseTemplate";
     public static subNew_nameYourFriendlySubName: string = "subNew_nameYourFriendlySubName";
     public static subNew_friendlySubNameName: string = "subNew_friendlySubNameName";
@@ -242,6 +243,8 @@
     public static fileExplorer_edit: string = "fileExplorer_edit";
     public static fileExplorer_upload: string = "fileExplorer_upload";
     public static storageLockNote: string = "storageLockNote";
+    public static storage_endpoint_azure: string = "storage_endpoint_azure";
+    public static storage_endpoint_other: string = "storage_endpoint_other";
     public static fileExplorer_fileAlreadyExists: string = "fileExplorer_fileAlreadyExists";
     public static functionNew_functionExsists: string = "functionNew_functionExsists";
     public static binding_storageAccountKey: string = "binding_storageAccountKey";

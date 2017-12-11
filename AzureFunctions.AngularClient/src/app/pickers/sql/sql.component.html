@@ -1,0 +1,51 @@
+
+<div class="modal fade in" style="display: block">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="headerBox sql-pciker-header"> 
+                    <button type="button" class="close close-button" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
+                    <label>{{'sql_add' | translate}}</label>
+                    <img class="sql-picker-image" src="image/other.svg" />
+            </div>            
+            <div class="modal-body" style="display: flex;flex-direction:column;">
+                <div>
+                    <div class="input-container">
+                        <label>{{'sql_endpoint' | translate}}</label>
+                        <div>
+                            <input type="text" [(ngModel)]="endpoint" />
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label>{{'sql_database_name' | translate}}</label>
+                        <div>
+                            <input type="text" [(ngModel)]="databaseName" />
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <label>{{'sql_user_name' | translate}}</label>
+                        <div>
+                                <input type="text" [(ngModel)]="userName" />
+                            </div>
+                        </div>
+                    <div class="input-container">
+                        <label>{{'sql_password' | translate}}</label>
+                        <div>
+                            <input type="password" [(ngModel)]="password" />
+                        </div>
+                    </div>
+                </div>
+                <div class="button-conainer">
+                    <button *ngIf="!selectInProcess"
+                            (click)="onSelect()"
+                            [disabled]="!valid()"
+                            class="custom-button">
+                        {{ 'create' | translate }}
+                    </button>
+                    <i *ngIf="selectInProcess" class="fa fa-refresh fa-spin fa-fw margin-bottom button-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-backdrop fade in"></div>

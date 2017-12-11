@@ -1,7 +1,24 @@
-<div class="top-bar-loginuser-tools-standalone">
+<div class="top-bar-loginuser-tools-standalone clickable"
+            (click)="showUserMenu = !showUserMenu">
     <div *ngIf="user"
-            class="top-bar-loginuser-tool-standalone clickable">
-            <span>{{user.upn}}</span>
-            <img src="image/Logins/user.svg" />
+            class="top-bar-loginuser-tool-standalone"
+            [class.top-bar-tool-selected]="showUserMenu">
+            <div class="signed-in-user">
+                <div class="user-name">
+                    <div>{{dispalyName()}}</div>                                
+                    <div>{{userId()}}</div>
+                </div>                          
+                <img src="image/Logins/user.svg" class="profile-image" />
+            </div>
+            <div *ngIf="showUserMenu" class="top-bar-usermenu">
+                <ul class="usermenu-option">
+                    <div class="line-separator">      
+                        <li class="option-logout clickable" (click)="logout()">
+                            <span>{{ 'Logout' | translate }}</span>
+                            <img src="image/logout.svg" class="logout-image" />
+                        </li>
+                    </div>
+                </ul>
+            </div>     
     </div>
 </div>

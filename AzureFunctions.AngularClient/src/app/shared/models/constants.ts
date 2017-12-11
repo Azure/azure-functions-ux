@@ -14,7 +14,7 @@ export class HttpMethods {
 
 export class Constants {
     public static serviceHost =
-    window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone"
+        window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone" || window.appsvc.env.runtimeType === "OnPrem"
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
@@ -189,6 +189,11 @@ export class ScenarioIds {
     public static readonly topBarWarning = 'TopBarWarning';
     public static readonly userMenu = 'UserMenu';
     public static readonly standAloneUserMenu = 'StandAloneUserMenu';
+    public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
+    public static readonly quickStartLink = 'QuickStartLink';
+    public static readonly noPaddingOnSideNav = 'NoPaddingOnSideNav';
+    public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
+    public static readonly downloadWithVsProj = 'DownloadWithVsProj';
 }
 
 export class ServerFarmSku {

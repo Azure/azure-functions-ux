@@ -91,6 +91,42 @@ export class StandaloneEnvironment extends Environment {
                 return { status: 'enabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.standAloneUserMenu] = {
+            id: ScenarioIds.useCustomFunctionInputPicker,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'enabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.quickStartLink] = {
+            id: ScenarioIds.quickStartLink,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'disabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.noPaddingOnSideNav] = {
+            id: ScenarioIds.noPaddingOnSideNav,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'enabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.downloadWithAppSettings] = {
+            id: ScenarioIds.downloadWithAppSettings,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'disabled' };
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.downloadWithVsProj] = {
+            id: ScenarioIds.downloadWithVsProj,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -33,7 +33,7 @@
   <!-- Optional menu icons that show up on right side of each node -->
   <span class="tree-node-menu">
 
-    <span *ngIf="node.showMenu || node.inSelectedTree">
+    <span *ngIf="node.showMenu || node.inSelectedTree" class="menu-items">
 
       <i *ngIf="node.disabled"
         class="fa fa-info-circle tree-node-menu-item"
@@ -42,11 +42,11 @@
       <i *ngIf="!!node.newDashboardType"
           (click)="node.openCreateNew($event)"
           (keydown)="node.openCreateNew($event)"
-          class="fa fa-plus link"
+          class="fa fa-plus link create-new"
           [title]="'createNew' | translate"
           [tabindex]="node.isFocused ? 0 : -1"></i>
 
-      <i *ngIf="node.supportsRefresh"
+      <i *ngIf="node.supportsRefresh && !node.emptySubs"
         (click)="node.refresh($event)"
         (keydown)="node.refresh($event)"
         class="fa fa-refresh tree-node-refresh-icon link"

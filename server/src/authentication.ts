@@ -47,16 +47,12 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     res.redirect('/.login');
 }
 
-export function maybeAuthenticate(
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    if (1 === 1) return next();
-    res.redirect('/.login');
+export function maybeAuthenticate(_: Request, __: Response, next: NextFunction) {
+    return next();
+    // if (req.isAuthenticated()) {
+    //     return next();
+    // }
+    // res.redirect('/.login');
 }
 
 function authStrategy() {

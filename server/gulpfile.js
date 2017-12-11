@@ -10,9 +10,10 @@ const merge = require('gulp-merge-json');
 const del = require('del');
 const download = require('gulp-download');
 const decompress = require('gulp-decompress');
+
 /********
-*   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
-*/
+ *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
+ */
 gulp.task('build-all', function(cb) {
     runSequence(
         'resources-clean',
@@ -30,19 +31,15 @@ gulp.task('build-all', function(cb) {
 });
 
 gulp.task('build-test', function(cb) {
-    runSequence(
-        'resources-convert',
-        'resources-build',
-        'resources-combine',
-        'build-templates',
-        'build-bindings',
-        cb
-    );
+    runSequence('resources-convert', 'resources-build', 'resources-combine', 'build-templates', 'build-bindings', cb);
 });
 
+gulp.task('build-production', function(cb) {
+    runSequence('build-all', 'bundle-views', 'bundle-json', 'bundle-config', cb);
+});
 /********
-*   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
-*/
+ *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
+ */
 gulp.task('resources-clean', function() {
     return del([
         'template-downloads',
@@ -55,8 +52,29 @@ gulp.task('resources-clean', function() {
 });
 
 /********
-*   This will make the portal-resources.ts file
-*/
+ *   Bundle Up production server views
+ */
+gulp.task('bundle-views', function() {
+    return gulp.src(['src/**/*.pug', 'src/**/*.css']).pipe(gulp.dest('build/src'));
+});
+
+/********
+ *   Bundle Up production server resources
+ */
+gulp.task('bundle-json', function() {
+    return gulp.src(['src/**/*.json']).pipe(gulp.dest('build'));
+});
+
+/********
+ *   Bundle Up config
+ */
+gulp.task('bundle-config', function() {
+    return gulp.src(['web.config', 'iisnode.yml', 'package.json']).pipe(gulp.dest('build'));
+});
+
+/********
+ *   This will make the portal-resources.ts file
+ */
 gulp.task('resx-to-typescript-models', function() {
     const resources = require('../server/src/actions/resources/Resources.json').en;
     let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources\r\n{\r\n';
@@ -64,14 +82,16 @@ gulp.task('resx-to-typescript-models', function() {
         typescriptFileContent += `    public static ${stringName}: string = "${stringName}";\r\n`;
     });
     typescriptFileContent += `}`;
-    let writePath = path.normalize(path.join(__dirname,'..', 'AzureFunctions.AngularClient','src', 'app', 'shared', 'models', 'portal-resources.ts'));
+    let writePath = path.normalize(
+        path.join(__dirname, '..', 'AzureFunctions.AngularClient', 'src', 'app', 'shared', 'models', 'portal-resources.ts')
+    );
     fs.writeFileSync(writePath, new Buffer(typescriptFileContent));
 });
 
 /********
-*   This task takes the Resource Resx files from both templates folder and Portal Resources Folder and converts them to json, it drops them into a intermediate 'convert' folder.
-*   Also it will change the file name format to Resources.<language code>.json
-*/
+ *   This task takes the Resource Resx files from both templates folder and Portal Resources Folder and converts them to json, it drops them into a intermediate 'convert' folder.
+ *   Also it will change the file name format to Resources.<language code>.json
+ */
 gulp.task('resources-convert', function() {
     const portalResourceStream = gulp
         .src(['../AzureFunctions/ResourcesPortal/**/Resources.resx'])
@@ -109,8 +129,8 @@ gulp.task('resources-convert', function() {
 });
 
 /********
-*   This is the task takes the output of the  convert task and formats the json to be in the format that gets sent back to the client by the API, it's easier to do this here than at the end
-*/
+ *   This is the task takes the output of the  convert task and formats the json to be in the format that gets sent back to the client by the API, it's easier to do this here than at the end
+ */
 gulp.task('resources-build', function() {
     const streams = [];
     streams.push(
@@ -186,7 +206,7 @@ gulp.task('resources-build', function() {
 /*************
  * Resources Combining
  * https://stackoverflow.com/questions/46605923/gulp-merge-json-files-from-different-folders-while-keeping-folder-structure
- * 
+ *
  * This tasks goes through each template version folder and combines it with the corresponding portal resource file(matched by name) and deposits it into the /src/actions/resources folder for the API to consume.
  * It also builds a version which contains no version, mostly for development purposes
  * The end file name format is Resources.<language code>.<template version>.json for the template includes, for the default no template it'll be Resources.<language code>.json, also the english version will have no language code, it'll just be default

@@ -16,6 +16,22 @@
              (selectItem)="finishDialogPicker($event)">
 </app-setting>
 
+<storage *ngIf="pickerName === 'Storage'"
+  [functionApp]="functionApp"
+  (close)="closePicker($event)"
+  (selectItem)="finishDialogPicker($event)">
+</storage>
+
+<sql *ngIf="pickerName === 'Sql'"
+  [functionApp]="functionApp"
+  (close)="closePicker($event)"
+  (selectItem)="finishDialogPicker($event)">
+</sql>
+<tooltip-content #freeAccountTooltip>
+  <p>
+    {{ 'tryNow_FreeAccountToolTip' | translate }}
+  </p>
+</tooltip-content>
 
 <div>
   <div class="input-header">
@@ -34,6 +50,13 @@
          (click)="openPicker(input)"
          tabindex="0"
          (keydown)="onNewKeyPress($event, input)"> 
+         {{ 'bindingInput_new' | translate }}
+      </i>
+      <i *ngIf="!input.inProcess && showTryView" 
+         class="link-position"
+         disabled [class.select]="input.errorText" 
+         [tooltip]="freeAccountTooltip"
+         tooltipPlacement="bottom">
          {{ 'bindingInput_new' | translate }}
       </i>
       <i
@@ -81,12 +104,12 @@
 
     <ng-container *ngIf="!!input.errorText && !input.isValid && !input.okEmpty">
       <span class="fa fa-exclamation input-error-adjust"></span>
-      <div class="input-show-error" tabindex="0">{{input.errorText}}</div>
+      <div class="input-show-error" tabindex="0" [innerHTML]="input.errorText"></div>
     </ng-container>
 
     <ng-container *ngIf="!!input.errorText && input.isValid">
       <span class="fa fa-exclamation input-warning-adjust"></span>
-      <div class="input-show-warning" tabindex="0">{{input.errorText}}</div>
+      <div class="input-show-warning" tabindex="0" [innerHTML]="input.errorText"></div>
     </ng-container>
 
     <div *ngIf="description && !input.errorText">
@@ -114,25 +137,13 @@
 
     <ng-container *ngIf="!!input.errorText && !input.isValid && !input.okEmpty">
       <span class="fa fa-exclamation input-error-adjust"></span>
-      <div class="input-show-error" tabindex="0">{{input.errorText}}</div>
+      <div class="input-show-error" tabindex="0" [innerHTML]="input.errorText"></div>
     </ng-container>
 
     <ng-container *ngIf="!!input.errorText && input.isValid">
       <span class="fa fa-exclamation input-warning-adjust"></span>
-      <div class="input-show-warning" tabindex="0">{{input.errorText}}</div>
+      <div class="input-show-warning" tabindex="0" [innerHTML]="input.errorText"></div>
     </ng-container>
-
-    <span *ngIf="!input.inProcess && showTryView" 
-          disabled [class.select]="input.errorText" 
-          [tooltip]="freeAccountTooltip"
-          tooltipPlacement="bottom">
-      {{ 'bindingInput_new' | translate }}
-    </span>
-    <tooltip-content #freeAccountTooltip>
-      <p>
-        {{ 'tryNow_FreeAccountToolTip' | translate }}
-      </p>
-    </tooltip-content>
   </div>
 
   <div *ngIf="input?.type === 'boolean'" class="checkbox">

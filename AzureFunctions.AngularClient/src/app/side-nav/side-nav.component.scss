@@ -24,16 +24,22 @@
     margin-top: 1px;
     margin-bottom: 1px;
 }
+.create-new {
+    margin-top: 3px;
+    font-size: 18px;
+    float: left
+}
 
 .float-right {
     float: right;
-    font-size: 20px
+    font-size: 20px;
+    margin-right: 5px;
 }
 
 .tree-node-refresh-icon{
     font-size: 14px;
     vertical-align: text-top;
-    margin-top: 5px;
+    margin-top: 4px;
     margin-left: 5px;
 }
 
@@ -53,6 +59,10 @@
     >input[type=text]{
         width: 100%;
     }
+}
+
+#sidenav-menu.no-padding {
+    padding: 0px;
 }
 
 #sidenav-subs{

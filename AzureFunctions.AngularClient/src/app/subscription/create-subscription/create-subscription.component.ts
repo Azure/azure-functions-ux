@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Injector} from '@angular/core';
 import { Guid } from './../../shared/Utilities/Guid';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { CacheService } from './../../shared/services/cache.service';
@@ -6,11 +6,12 @@ import {Location} from '@angular/common';
 import { LogService } from './../../shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
-import { FormControl, FormBuilder } from '@angular/forms';
+import { FormControl, FormBuilder} from '@angular/forms';
 import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.component';
 import { UserService } from '../../shared/services/user.service';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { TranslateService } from '@ngx-translate/core';
+import { SubscriptionDisplayNameValidator } from './../../shared/validators/subscriptionDisplayNameValidator';
 
 @Component({
   selector: 'create-subscription',
@@ -31,11 +32,13 @@ export class CreateSubscriptionComponent implements OnInit {
     private _logService: LogService,
     private  _userService: UserService,
     private _localStorageService: LocalStorageService,
+    private _injector: Injector,
     translateService: TranslateService,
     fb: FormBuilder
   ) {
     const required = new RequiredValidator(translateService);
-    this.friendlySubName = fb.control('', required.validate.bind(required));
+    const subValid = new SubscriptionDisplayNameValidator(this._injector);
+    this.friendlySubName = fb.control('', subValid.validate.bind(subValid));
     this.invitationCode = fb.control('', required.validate.bind(required));
   }
   ngOnInit() {
@@ -83,7 +86,6 @@ export class CreateSubscriptionComponent implements OnInit {
   }
 
   invitationCodeChanged() {
-    this.validate();
   }
 
   planNameChanged(planName: string) {
@@ -94,9 +96,8 @@ export class CreateSubscriptionComponent implements OnInit {
     this.invitationCodeRequired = invitationCodeRequired;
   }
 
-  validate() {
-    // BUGBUG : RDBug 10600949:[Functions]Add validation for invitation code when creating subscription
-    this.areInputsValid = true;
+  isValid(): boolean {
+    return this.friendlySubName.value && this.friendlySubName.valid;
   }
 }
 

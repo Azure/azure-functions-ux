@@ -65,7 +65,7 @@ namespace AzureFunctions.Authentication
                 return false;
             }
 
-            string tenantId;
+            string tenantId = null;
             if (SwitchTenants(context, out tenantId))
             {
                 RemoveSessionCookie(context);
@@ -83,14 +83,16 @@ namespace AzureFunctions.Authentication
             {
                 principal = AuthenticateIdToken(context, id_token);
                 var tenantIdClaim = principal.Claims.FirstOrDefault(c => c.Type == TenantIdClaimType);
-                if (tenantIdClaim == null)
+
+                // ADFS tokens will not have a tenantID claim in it.
+                if (tenantIdClaim != null)
                 {
-                    throw new InvalidOperationException("Missing tenantid claim");
+                    tenantId = tenantIdClaim.Value;
                 }
 
                 var base_uri = request.Url.GetLeftPart(UriPartial.Authority);
                 var redirect_uri = base_uri + "/manage";
-                var token = AADOAuth2AccessToken.GetAccessTokenByCode(tenantIdClaim.Value, code, redirect_uri);
+                var token = AADOAuth2AccessToken.GetAccessTokenByCode(tenantId, code, redirect_uri);
                 WriteOAuthTokenCookie(context, token);
                 response.Redirect(base_uri + state, endResponse: true);
                 return true;
