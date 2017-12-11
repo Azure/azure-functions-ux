@@ -89,9 +89,10 @@ if (process.env.FUNCTIONS_SLOT_NAME) {
     var server = http.createServer(app as any);
     server.listen(port);
 } else {
+    //This is for localhost development
     var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
     var certificate = fs.readFileSync('selfcert.pem', 'utf8');
-    
+
     const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
 
     httpsServer.listen(44300);
