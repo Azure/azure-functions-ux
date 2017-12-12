@@ -243,8 +243,6 @@
     public static fileExplorer_edit: string = "fileExplorer_edit";
     public static fileExplorer_upload: string = "fileExplorer_upload";
     public static storageLockNote: string = "storageLockNote";
-    public static storage_endpoint_azure: string = "storage_endpoint_azure";
-    public static storage_endpoint_other: string = "storage_endpoint_other";
     public static fileExplorer_fileAlreadyExists: string = "fileExplorer_fileAlreadyExists";
     public static functionNew_functionExsists: string = "functionNew_functionExsists";
     public static binding_storageAccountKey: string = "binding_storageAccountKey";
@@ -319,6 +317,7 @@
     public static intro_signInWithGitHub: string = "intro_signInWithGitHub";
     public static intro_signInWithGoogle: string = "intro_signInWithGoogle";
     public static intro_signInWithMicrosoft: string = "intro_signInWithMicrosoft";
+    public static Logout: string = "Logout";
     public static apiProxy_backanrUrlStart: string = "apiProxy_backanrUrlStart";
     public static functionKeys_copy: string = "functionKeys_copy";
     public static functionKeys_renew: string = "functionKeys_renew";
@@ -687,6 +686,20 @@
     public static bindingInput_appSettingNotFound: string = "bindingInput_appSettingNotFound";
     public static bindingInput_show: string = "bindingInput_show";
     public static appSettingPicker_add: string = "appSettingPicker_add";
+    public static storage_add: string = "storage_add";
+    public static storage_accountName: string = "storage_accountName";
+    public static storage_accountKey: string = "storage_accountKey";
+    public static storage_appSettingName: string = "storage_appSettingName";
+    public static storage_appSettingName_empty_text: string = "storage_appSettingName_empty_text";
+    public static storage_endpoint: string = "storage_endpoint";
+    public static storage_endpoint_azure: string = "storage_endpoint_azure";
+    public static storage_endpoint_other: string = "storage_endpoint_other";
+    public static storage_endpoint_empty_text: string = "storage_endpoint_empty_text";
+    public static sql_add: string = "sql_add";
+    public static sql_endpoint: string = "sql_endpoint";
+    public static sql_database_name: string = "sql_database_name";
+    public static sql_user_name: string = "sql_user_name";
+    public static sql_password: string = "sql_password";
     public static download: string = "download";
     public static downloadFunctionAppContent_includeAppSettings: string = "downloadFunctionAppContent_includeAppSettings";
     public static downloadFunctionAppContent_includeAppSettingsHelp: string = "downloadFunctionAppContent_includeAppSettingsHelp";

@@ -10,7 +10,7 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <textbox [control]="this._wizard?.wizardForm?.controls?.sourceSettings?.controls?.repoUrl" [placeholder]="'enter repo'"></textbox>
+        <textbox [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [placeholder]="'enter repo'"></textbox>
       </div>
     </div>
 
@@ -21,7 +21,7 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <textbox [control]="this._wizard?.wizardForm?.controls?.sourceSettings?.controls?.branch" [placeholder]="'enter branch'"></textbox>
+        <textbox [control]="this.wizard?.sourceSettings?.controls?.branch" [placeholder]="'enter branch'"></textbox>
       </div>
     </div>
 

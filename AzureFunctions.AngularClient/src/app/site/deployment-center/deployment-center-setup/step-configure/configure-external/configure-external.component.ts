@@ -20,14 +20,13 @@ export class ConfigureExternalComponent {
     ];
     public repoMode = 'Git';
     constructor(
-        private _wizard: DeploymentCenterWizardService
+        public wizard: DeploymentCenterWizardService
     ) {
     }
 
-
     repoTypeChanged(evt) { 
       this.repoMode = evt;
-      this._wizard.wizardForm.controls.sourceSettings.value.isMercurial = evt === 'Mercurial';
+      this.wizard.wizardForm.controls.sourceSettings.value.isMercurial = evt === 'Mercurial';
       console.log(evt);
     }
 }

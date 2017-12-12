@@ -18,19 +18,18 @@ export class ConfigureDropboxComponent {
     public folderList: DropDownElement<string>[];
 
     constructor(
-        private _wizard: DeploymentCenterWizardService,
+        public wizard: DeploymentCenterWizardService,
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
         _aiService: AiService
     ) {
-        this._wizard.resourceIdStream.subscribe(r => {
+        this.wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });
         this.fillDropboxFolders();
     }
 
-    
     public fillDropboxFolders() {
         this.folderList = [];
         return this._cacheService
@@ -63,7 +62,7 @@ export class ConfigureDropboxComponent {
                 });
                 
                 this.folderList = options;
-                this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://www.dropbox.com/home/Apps/Azure/${siteName}`;
+                this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://www.dropbox.com/home/Apps/Azure/${siteName}`;
             });
     }
 }

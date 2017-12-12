@@ -19,14 +19,14 @@ export class ConfigureOnedriveComponent {
     public folderList: DropDownElement<string>[];
 
     constructor(
-        private _wizard: DeploymentCenterWizardService,
+        public wizard: DeploymentCenterWizardService,
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
         _aiService: AiService
     ) {
-        this._wizard.wizardForm.controls.sourceSettings.value.isManualIntegration = false;
-        this._wizard.resourceIdStream.subscribe(r => {
+        this.wizard.wizardForm.controls.sourceSettings.value.isManualIntegration = false;
+        this.wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });
         this.fillOnedriveFolders();
@@ -60,7 +60,7 @@ export class ConfigureOnedriveComponent {
                 });
                 
                 this.folderList = options;
-                this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://api.onedrive.com/v1.0/drive/special/approot:/${siteName}`;
+                this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://api.onedrive.com/v1.0/drive/special/approot:/${siteName}`;
             });
     }
 }

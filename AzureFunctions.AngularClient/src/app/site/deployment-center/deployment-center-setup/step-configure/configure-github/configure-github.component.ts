@@ -16,7 +16,6 @@ import { Guid } from 'app/shared/Utilities/Guid';
     styleUrls: ['./configure-github.component.scss', '../step-configure.component.scss']
 })
 export class ConfigureGithubComponent {
-    private _resourceId: string;
     public OrgList: DropDownElement<string>[];
     public RepoList: DropDownElement<string>[];
     private repoUrlToNameMap: { [key: string]: string } = {};
@@ -25,7 +24,7 @@ export class ConfigureGithubComponent {
     private reposStream = new ReplaySubject<string>();
     private orgStream = new ReplaySubject<string>();
     constructor(
-        private _wizard: DeploymentCenterWizardService,
+        public wizard: DeploymentCenterWizardService,
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
@@ -39,9 +38,7 @@ export class ConfigureGithubComponent {
         });
 
         this.fetchOrgs();
-        this._wizard.resourceIdStream.subscribe(r => {
-            this._resourceId = r;
-        });
+        
     }
 
     fetchOrgs() {
@@ -161,7 +158,7 @@ export class ConfigureGithubComponent {
     }
 
     RepoChanged(repo: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://github.com/${this.repoUrlToNameMap[repo]}`;
+        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://github.com/${this.repoUrlToNameMap[repo]}`;
         this.reposStream.next(repo);
     }
 
@@ -170,6 +167,6 @@ export class ConfigureGithubComponent {
     }
 
     BranchChanged(branch:string){
-        this._wizard.wizardForm.controls.sourceSettings.value.branch = branch;
+        this.wizard.wizardForm.controls.sourceSettings.value.branch = branch;
     }
 }

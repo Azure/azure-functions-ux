@@ -9,7 +9,7 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!RepoList ? RepoList : []" [highlightDirty]="true"
+        <drop-down [options]="!!RepoList ? RepoList : []" [highlightDirty]="true"
           (value)="RepoChanged($event)">
         </drop-down>
       </div>
@@ -22,7 +22,7 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!BranchList ? BranchList : []"
+        <drop-down [options]="!!BranchList ? BranchList : []"
           [highlightDirty]="true">
         </drop-down>
       </div>

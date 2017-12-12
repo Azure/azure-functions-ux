@@ -23,7 +23,7 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="this._wizard?.wizardForm?.controls?.sourceSettings?.controls?.repoUrl" [options]="!!RepoList ? RepoList : []"
+        <drop-down [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [options]="!!RepoList ? RepoList : []"
           [highlightDirty]="false" (value)="RepoChanged($event)">
         </drop-down>
       </div>
@@ -36,7 +36,7 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="this._wizard?.wizardForm?.controls?.sourceSettings?.controls?.branch" [options]="!!BranchList ? BranchList : []"
+        <drop-down [control]="this.wizard?.sourceSettings?.controls?.branch" [options]="!!BranchList ? BranchList : []"
           [highlightDirty]="false">
         </drop-down>
       </div>
