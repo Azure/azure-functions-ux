@@ -22,6 +22,8 @@ const app = express();
 
 app
     .use(express.static(path.join(__dirname, 'public')))
+    .use(express.static(path.join(__dirname, 'ng-full')))
+    .use(express.static(path.join(__dirname, 'ng-min')))
     .use(logger('dev'))
     .set('view engine', 'pug')
     .set('views', 'src/views')
