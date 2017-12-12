@@ -2,7 +2,7 @@ import { Component, Input, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { FunctionApp } from '../../shared/function-app';
-import { SiteDescriptor } from './../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { ArmObj, ArmArrayResult } from './../../shared/models/arm/arm-obj';
 import { ArmService } from '../../shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
@@ -41,7 +41,7 @@ export class ServiceBusComponent {
     @Output() selectItem = new Subject<string>();
 
     private _functionApp: FunctionApp;
-    private _descriptor: SiteDescriptor;
+    private _descriptor: ArmSiteDescriptor;
     private _subscription: Subscription;
 
     constructor(
@@ -72,7 +72,7 @@ export class ServiceBusComponent {
 
     @Input() set functionApp(functionApp: FunctionApp) {
         this._functionApp = functionApp;
-        this._descriptor = new SiteDescriptor(functionApp.site.id);
+        this._descriptor = new ArmSiteDescriptor(functionApp.site.id);
 
         const id = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.ServiceBus/namespaces`;
 

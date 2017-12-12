@@ -1,3 +1,4 @@
+import { ArmEmbeddedService } from './services/arm-embedded.service';
 import { FunctionsService } from './services/functions-service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
 import { LoadImageDirective } from './../controls/load-image/load-image.directive';
@@ -62,11 +63,14 @@ export function ArmServiceFactory(
     http: Http,
     userService: UserService,
     aiService: AiService) {
-    const service = Url.getParameterByName(null, 'trial') === 'true' ?
-        new ArmTryService(http, userService, aiService) :
-        new ArmService(http, userService, aiService);
 
-    return service;
+    if (Url.getParameterByName(null, 'trial') === 'true') {
+        return new ArmTryService(http, userService, aiService);
+    } else if (Url.getParameterByName(null, 'appsvc.embedded') === 'functions') {
+        return new ArmEmbeddedService(http, userService, aiService);
+    } else {
+        return new ArmService(http, userService, aiService);
+    }
 }
 
 export function AiServiceFactory() {

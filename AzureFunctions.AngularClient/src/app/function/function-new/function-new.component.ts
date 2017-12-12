@@ -1,10 +1,10 @@
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { Dom } from './../../shared/Utilities/dom';
 import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
 import { DropDownElement } from './../../shared/models/drop-down-element';
 import { FunctionsService, FunctionAppContext } from './../../shared/services/functions-service';
-import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { Component, ElementRef, Inject, Injector, OnDestroy, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
@@ -142,7 +142,7 @@ export class FunctionNewComponent implements OnDestroy {
                 this.functionsNode = <FunctionsNode>viewInfo.node;
                 this.appNode = <AppNode>viewInfo.node.parent;
 
-                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+                const descriptor = new ArmSiteDescriptor(viewInfo.resourceId);
                 return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
             })
             .switchMap(context => {

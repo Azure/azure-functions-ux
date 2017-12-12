@@ -1,16 +1,14 @@
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Subject } from 'rxjs/Subject';
 import { FunctionsService } from './../shared/services/functions-service';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../shared/services/log.service';
-import { CacheService } from './../shared/services/cache.service';
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
 import { SiteTabIds, ScenarioIds } from './../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from './../shared/models/portal-resources';
 import { ArmObj } from './../shared/models/arm/arm-obj';
-import { SiteDescriptor } from './../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { AppsNode } from './apps-node';
 import { TreeNode, Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
@@ -47,9 +45,7 @@ export class AppNode extends TreeNode
 
     private _functionsService: FunctionsService;
     private _scenarioService: ScenarioService;
-    private _cacheService: CacheService;
     private _logService: LogService;
-    private _broadcastService: BroadcastService;
 
     constructor(sideBar: SideNavComponent,
         private _siteArmCacheObj: ArmObj<Site>,
@@ -60,9 +56,7 @@ export class AppNode extends TreeNode
 
         this._functionsService = this.sideNav.injector.get(FunctionsService);
         this._scenarioService = this.sideNav.injector.get(ScenarioService);
-        this._cacheService = this.sideNav.injector.get(CacheService);
         this._logService = this.sideNav.injector.get(LogService);
-        this._broadcastService = this.sideNav.injector.get(BroadcastService);
 
         this.disabled = !!disabled;
         if (disabled) {
@@ -72,7 +66,7 @@ export class AppNode extends TreeNode
         this.title = _siteArmCacheObj.name;
         this.location = _siteArmCacheObj.location;
 
-        const descriptor = new SiteDescriptor(_siteArmCacheObj.id);
+        const descriptor = new ArmSiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
         this.nodeClass += ' app-node';

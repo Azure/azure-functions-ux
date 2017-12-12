@@ -1,4 +1,6 @@
 import { HostStatus } from './../models/host-status';
+import { ArmService } from './arm.service';
+import { PortalService } from './portal.service';
 import { TryFunctionsService } from './try-functions.service';
 import { ApiProxy } from './../models/api-proxy';
 import { AuthSettings } from './../models/auth-settings';
@@ -23,7 +25,7 @@ import { Site } from './../models/arm/site';
 import { ArmObj } from './../models/arm/arm-obj';
 import { FunctionInfo } from './../models/function-info';
 import { CacheService } from 'app/shared/services/cache.service';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { UrlTemplates } from 'app/shared/url-templates';
 import { Http, Headers, Response } from '@angular/http';
 import { ErrorIds } from '../models/error-ids';
@@ -57,9 +59,19 @@ export class FunctionsService {
         private _aiService: AiService,
         private _translateService: TranslateService,
         private _siteService: SiteService,
-        private _tryFunctionsService: TryFunctionsService) {
+        private _tryFunctionsService: TryFunctionsService,
+        private _portalService: PortalService,
+        private _armService: ArmService,
+        private _injector: Injector) {
 
-        this._http = new NoCorsHttpService(this._cacheService, this._ngHttp, this._broadcastService, this._aiService, this._translateService, () => this._getPortalHeaders());
+        this._http = new NoCorsHttpService(
+            this._cacheService,
+            this._ngHttp,
+            this._broadcastService,
+            this._aiService,
+            this._translateService,
+            this._armService,
+            () => this._getPortalHeaders());
 
         this._userService.getStartupInfo()
             .subscribe(info => {
@@ -73,14 +85,14 @@ export class FunctionsService {
         return this._cacheService.getArm(siteResourceId)
             .switchMap(r => {
                 const site: ArmObj<Site> = r.json();
-                const scmUrl = this.getScmUrl(site);
-                const mainSiteUrl = this.getMainUrl(site);
+
+                const urlTemplate = new UrlTemplates(site, this._injector);
 
                 context = {
                     site: site,
-                    scmUrl: scmUrl,
-                    mainSiteUrl: mainSiteUrl,
-                    urlTemplates: new UrlTemplates(scmUrl, mainSiteUrl, ArmUtil.isLinuxApp(site))
+                    scmUrl: urlTemplate.scmSiteUrl,
+                    mainSiteUrl: urlTemplate.runtimeSiteUrl,
+                    urlTemplates: new UrlTemplates(site, this._injector)
                 };
 
                 return this._initKeysAndWarmupMainSite(context);
@@ -95,14 +107,6 @@ export class FunctionsService {
             });
     }
 
-    private _initKeysAndWarmupMainSite(context: FunctionAppContext) {
-        this._http.post(context.urlTemplates.pingUrl, '')
-            .retryWhen(this.retryAntares)
-            .subscribe(() => { });
-
-        return this._getHostSecretsFromScm(context);
-    }
-
     getFunctions(context: FunctionAppContext) {
         let fcs: FunctionInfo[];
 
@@ -112,8 +116,20 @@ export class FunctionsService {
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
                 try {
-                    fcs = r.json() as FunctionInfo[];
-                    fcs.forEach(fc => fc.context = context);
+                    const collection = r.json();
+
+                    fcs = collection.map(item => {
+                        let fc: FunctionInfo;
+                        if (item.properties) {
+                            fc = item.properties.function;
+                        } else {
+                            fc = item;
+                        }
+
+                        fc.context = context;
+                        return fc;
+                    });
+
                     return fcs;
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
@@ -381,6 +397,18 @@ export class FunctionsService {
         return ArmUtil.isLinuxApp(context.site)
             ? this._http.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, { headers: this._getPortalHeaders() })
             : this._http.get(context.urlTemplates.scmTokenUrl, { headers: this._getScmSiteHeaders(context) });
+    }
+
+    private _initKeysAndWarmupMainSite(context: FunctionAppContext) {
+        if (this._portalService.isEmbeddedFunctions) {
+            return Observable.of(null);
+        }
+
+        this._http.post(context.urlTemplates.pingUrl, '')
+            .retryWhen(this.retryAntares)
+            .subscribe(() => { });
+
+        return this._getHostSecretsFromScm(context);
     }
 
     private _getHostSecretsFromScm(context: FunctionAppContext) {

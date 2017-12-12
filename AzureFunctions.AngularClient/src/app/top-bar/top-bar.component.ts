@@ -5,7 +5,7 @@ import { User } from '../shared/models/user';
 import { TenantInfo } from '../shared/models/tenant-info';
 import { Constants } from '../shared/models/constants';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { SiteDescriptor, Descriptor, FunctionDescriptor } from '../shared/resourceDescriptors';
+import { ArmSiteDescriptor, ArmFunctionDescriptor } from '../shared/resourceDescriptors';
 
 @Component({
     selector: 'top-bar',
@@ -45,9 +45,9 @@ export class TopBarComponent implements OnInit {
                 .first()
                 .subscribe(info => {
                     this.resourceId = info.resourceId;
-                    const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.resourceId);
+                    const descriptor = new ArmSiteDescriptor(this.resourceId);
                     this.appName = descriptor.site;
-                    const fnDescriptor = new FunctionDescriptor(this.resourceId);
+                    const fnDescriptor = new ArmFunctionDescriptor(this.resourceId);
                     this.fnName = fnDescriptor.name;
                 });
         }

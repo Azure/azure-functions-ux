@@ -6,7 +6,7 @@ import { CacheService } from './cache.service';
 import { ArmObj } from '../models/arm/arm-obj';
 import { Site } from '../models/arm/site';
 import { Constants } from '../../shared/models/constants';
-import { SiteDescriptor } from './../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 
 @Injectable()
 export class SiteService {
@@ -16,7 +16,7 @@ export class SiteService {
     ) { }
 
     isAppInsightsEnabled(siteId: string) {
-        const descriptor = new SiteDescriptor(siteId);
+        const descriptor = new ArmSiteDescriptor(siteId);
         return Observable.zip(
             this._cacheService.postArm(`${siteId}/config/appsettings/list`),
             this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, this._armService.appInsightsApiVersion),

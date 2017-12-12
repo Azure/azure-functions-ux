@@ -34,7 +34,7 @@ import { Url } from './../../shared/Utilities/url';
 
 import { CacheService } from '../../shared/services/cache.service';
 import { AuthzService } from '../../shared/services/authz.service';
-import { SiteDescriptor } from '../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Site } from '../../shared/models/arm/site';
 import { SiteService } from '../../shared/services/slots.service';
 
@@ -125,7 +125,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 const site: ArmObj<Site> = r.json();
                 this.site = site;
 
-                const descriptor = new SiteDescriptor(site.id);
+                const descriptor = new ArmSiteDescriptor(site.id);
 
                 this.subscriptionId = descriptor.subscription;
 

@@ -1,4 +1,4 @@
-import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { FunctionsService, FunctionAppContext } from './../../shared/services/functions-service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
@@ -80,7 +80,7 @@ export class ApiNewComponent implements OnDestroy {
                 this._proxiesNode = <ProxiesNode>viewInfo.node;
                 this.appNode = (<AppNode>this._proxiesNode.parent);
 
-                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+                const descriptor = new ArmSiteDescriptor(viewInfo.resourceId);
 
                 return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
             })

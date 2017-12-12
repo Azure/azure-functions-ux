@@ -13,7 +13,7 @@ import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
-import { SiteDescriptor, FunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor, ArmFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { Http } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';;
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -137,7 +137,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
             .takeUntil(this._ngUnsubscribe)
             .subscribe(info => {
                 // get list of functions from function app listed in resourceID
-                const siteDescriptor: SiteDescriptor = new SiteDescriptor(info.resourceId);
+                const siteDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(info.resourceId);
 
                 this._cacheService.getArm(siteDescriptor.getTrimmedResourceId())
                     .mergeMap(response => {
@@ -146,7 +146,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
                         return functionApp.getFunctions();
                     })
                     .subscribe(functions => {
-                        const fnDescriptor: FunctionDescriptor = new FunctionDescriptor(info.resourceId);
+                        const fnDescriptor: ArmFunctionDescriptor = new ArmFunctionDescriptor(info.resourceId);
                         const targetName: string = fnDescriptor.name;
                         const selectedFunction = functions.find(f => f.name === targetName);
 

@@ -164,6 +164,7 @@ export class ScenarioIds {
     public static readonly addSiteQuotas = 'ShowSiteQuotas';
     public static readonly addConsole = 'AddConsole';
     public static readonly addSsh = 'AddSsh';
+    public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';
@@ -177,11 +178,11 @@ export class ScenarioIds {
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
+    public static readonly showSideNavMenu = 'ShowSideNavMenu';
     public static readonly enablePlatform64 = 'EnablePlatform64';
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
-
     public static readonly createApp = 'createApp';
     public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
     public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';

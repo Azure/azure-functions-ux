@@ -11,22 +11,26 @@ import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
 import { BroadcastEvent } from '../models/broadcast-event'
 import { AiService } from './ai.service';
-import { LocalStorageService } from './local-storage.service';
 import { Guid } from '../Utilities/Guid';
-import { TabCommunicationVerbs } from '../models/constants';
-import { TabMessage } from 'app/shared/models/localStorage/local-storage';
-import { Logger } from 'app/shared/Utilities/logger';
 
 @Injectable()
 export class PortalService {
-    public tabId: string | null;
-    public iFrameId: string | null;
-
     public sessionId = '';
     public resourceId: string;
+    public isEmbeddedFunctions = Url.getParameterByName(window.location.href, 'appsvc.embedded') === 'functions';
 
     private portalSignature = 'FxAppBlade';
     private portalSignatureFrameBlade = 'FxFrameBlade';
+    private embeddedSignature = 'FunctionsEmbedded';
+
+    private acceptedSignatures = [this.portalSignature, this.portalSignatureFrameBlade, this.embeddedSignature];
+    private acceptedOrigins = [
+        'https://ms.portal.azure.com',
+        'https://rc.portal.azure.com',
+        'https://portal.azure.com',
+        'https://powerapps.cloudapp.net'
+    ];
+
     private startupInfo: StartupInfo | null;
     private startupInfoObservable: ReplaySubject<StartupInfo>;
     private getAppSettingCallback: (appSettingName: string) => void;
@@ -35,18 +39,21 @@ export class PortalService {
 
     private operationStream = new Subject<DataMessage<any>>();
 
-    constructor(private _broadcastService: BroadcastService,
-        private _aiService: AiService,
-        private _storageService: LocalStorageService) {
+    public static inIFrame(): boolean {
+        return window.parent !== window && window.location.pathname !== '/context.html';
+    }
+
+    public static inTab(): boolean {
+        return (Url.getParameterByName(null, 'tabbed') === 'true');
+    }
+
+    constructor(private _broadcastService: BroadcastService, private _aiService: AiService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
 
         if (PortalService.inIFrame()) {
             this.initializeIframe();
-        }
-        else if (PortalService.inTab()) {
-            this.initializeTab();
         }
     }
 
@@ -55,11 +62,6 @@ export class PortalService {
     }
 
     private initializeIframe(): void {
-
-        this.iFrameId = Guid.newShortGuid();
-
-        // listener for localstorage events from any child tabs of the window
-        this._storageService.addEventListener(this.recieveStorageMessage, this);
 
         const shellUrl = decodeURI(window.location.href);
         this.shellSrc = Url.getParameterByName(shellUrl, 'trustedAuthority');
@@ -79,103 +81,6 @@ export class PortalService {
                 this.logMessage(LogEntryLevel.Error, error.details);
             }
         });
-    }
-
-    private initializeTab(): void {
-
-        // listener to localStorage
-        this._storageService.addEventListener(this.recieveStorageMessage, this);
-
-        if (PortalService.inTab()) {
-            // create own id and set
-            this.tabId = Guid.newTinyGuid();
-            // send id back to parent
-            this._sendTabMessage<null>(this.tabId, TabCommunicationVerbs.getStartInfo, null, null);
-        }
-    }
-
-    private recieveStorageMessage(item: StorageEvent) {
-
-        let msg: TabMessage<any>;
-
-        try {
-            msg = JSON.parse(item.newValue);
-
-            if (!msg) {
-                return;
-            }
-
-            Logger.debug(item);
-        } catch (e) {
-            Logger.debug(e);
-            return;
-        }
-
-        if (PortalService.inIFrame()) {
-            // if parent recieved new id call
-            const key: string = item.key.split(':')[0];
-            if (key === TabCommunicationVerbs.getStartInfo) {
-                const id: string = msg.id;
-
-                // assign self an id to be shared with child
-                if (this.iFrameId === null) {
-                    this.iFrameId = Guid.newTinyGuid();
-                }
-                // send over startupinfo
-                this.sendTabStartupInfo(id);
-            }
-
-            else if (msg.verb === TabCommunicationVerbs.updatedFile) {
-                // check if file is open, if yes then update
-            }
-        }
-
-        else if (PortalService.inTab()) {
-            // if the startup message is meant for the child tab
-            if (msg.dest_id === this.tabId && msg.verb === TabCommunicationVerbs.sentStartInfo) {
-                // get new startup info and update
-                msg.data.resourceId = Url.getParameterByName(null, 'rid');
-                this.startupInfoObservable.next(msg.data);
-            }
-
-            else if (msg.verb === TabCommunicationVerbs.updatedFile) {
-                // check if file is open, if yes then update
-            }
-
-            else if (msg.verb === TabCommunicationVerbs.newToken) {
-                // TODO: handle recieved new token
-            }
-        }
-    }
-
-    private sendTabStartupInfo(id) {
-        this.getStartupInfo()
-            .take(1)
-            .subscribe(info => {
-                const startup: StartupInfo = Object.assign({}, info, { resourceId: '' });
-                this._sendTabMessage<StartupInfo>(this.iFrameId, TabCommunicationVerbs.sentStartInfo, startup, id);
-            });
-    }
-
-    private _sendTabMessage<T>(source: string, verb: string, data: T, dest?: string | null) {
-        // return the ready message with guid
-        const tabMessage: TabMessage<T> = {
-            source_id: source,
-            id: source,
-            dest_id: dest,
-            verb: verb,
-            data: data
-        };
-
-        let id = `${verb}:${source}`;
-        if (dest) {
-            id += `:${dest}`;
-        }
-
-        // send and then remove
-        // include the id in the key so that douplicate messages from different windows can not remove another
-        this._storageService.setItem(verb, tabMessage);
-        this._storageService.removeItem(verb);
     }
 
     sendTimerEvent(evt: TimerEvent) {
@@ -334,8 +239,11 @@ export class PortalService {
     }
 
     private iframeReceivedMsg(event: Event): void {
-
-        if (!event || !event.data || (event.data.signature !== this.portalSignature && event.data.signature !== this.portalSignatureFrameBlade)) {
+        if (!event || !event.data) {
+            return;
+        } else if (!this.acceptedOrigins.find(o => event.origin.toLowerCase() === o.toLowerCase())) {
+            return;
+        } else if (!this.acceptedSignatures.find(s => event.data.signature !== s)) {
             return;
         }
 
@@ -398,19 +306,5 @@ export class PortalService {
                 data: data
             }, this.shellSrc);
         }
-    }
-
-    public static inIFrame(): boolean {
-        return window.parent !== window && window.location.pathname !== '/context.html';
-    }
-
-    // checks for url query
-    public static inTab(): boolean {
-        return (Url.getParameterByName(null, 'tabbed') === 'true');
-    }
-
-    // what feature is being looked at currently
-    public static feature(): string {
-        return (Url.getParameterByName(null, 'feature'));
     }
 }

@@ -6,7 +6,7 @@ import { TreeUpdateEvent } from './../shared/models/broadcast-event';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { FunctionDescriptor } from './../shared/resourceDescriptors';
+import { ArmFunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
@@ -27,7 +27,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
             || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
 
-            const descriptor = new FunctionDescriptor(currentNode.resourceId);
+            const descriptor = new ArmFunctionDescriptor(currentNode.resourceId);
 
             canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
                 PortalResources.sideBar_changeMade,

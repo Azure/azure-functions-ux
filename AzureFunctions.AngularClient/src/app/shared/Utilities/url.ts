@@ -47,4 +47,18 @@ export class Url {
 
         return this._queryStrings;
     }
+
+    // https://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+    public static getPath(url: string){
+        const l = document.createElement('a');
+        l.href = url;
+        return l.pathname;
+    }
+
+    public static getHostName(url: string){
+        const l = document.createElement('a');
+        l.href = url;
+        return l.hostname;
+    }
+
 }

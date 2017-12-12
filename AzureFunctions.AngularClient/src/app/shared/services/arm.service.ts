@@ -30,7 +30,8 @@ export class ArmService {
         _userService: UserService,
         protected _aiService: AiService) {
 
-        this.armUrl = ArmServiceHelper.armEndpoint;
+        // this.armUrl = ArmServiceHelper.armEndpoint;
+        this.armUrl = 'https://blueridge-tip1-rp-westus.azurewebsites.net';
 
         _userService.getStartupInfo()
             .subscribe(info => {

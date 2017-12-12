@@ -26,7 +26,7 @@ import { AppNode } from './../../tree-view/app-node';
 import { CacheService } from '../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
-import { SiteDescriptor } from '../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
 import { PartSize } from '../../shared/models/portal';
@@ -131,7 +131,7 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
             .do(null, e => {
-                const descriptor = new SiteDescriptor(this.viewInfo.resourceId);
+                const descriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
                 let message = this._translateService
                     .instant(PortalResources.siteDashboard_getAppError)
                     .format(descriptor.site);

@@ -21,7 +21,7 @@ import { CustomFormControl } from './../../../controls/click-to-edit/click-to-ed
 import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
-import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
@@ -236,7 +236,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     this.isProductionSlot = true;
 
     if (this.resourceId) {
-      const siteDescriptor = new SiteDescriptor(this.resourceId);
+      const siteDescriptor = new ArmSiteDescriptor(this.resourceId);
       this._slotsConfigArmPath = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
       this.isProductionSlot = !siteDescriptor.slot;
     }

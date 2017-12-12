@@ -1,4 +1,4 @@
-import { FunctionDescriptor } from './../shared/resourceDescriptors';
+import { ArmFunctionDescriptor } from './../shared/resourceDescriptors';
 import { FunctionAppContext } from './../shared/services/functions-service';
 import { ApiProxy } from './../shared/models/api-proxy';
 import { PortalResources } from './../shared/models/portal-resources';
@@ -55,7 +55,7 @@ export class ProxiesNode extends BaseFunctionsProxiesNode{
 
     public removeChild(resourceId: string, callRemoveOnChild?: boolean) {
 
-        const descriptor = new FunctionDescriptor(resourceId);
+        const descriptor = new ArmFunctionDescriptor(resourceId);
         resourceId = descriptor.getTrimmedResourceId();
 
         const removeIndex = this.children.findIndex(c => c.resourceId.toLowerCase() === resourceId.toLowerCase());

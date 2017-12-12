@@ -1,3 +1,4 @@
+import { PortalService } from './shared/services/portal.service';
 import { ConfigService } from 'app/shared/services/config.service';
 import { Url } from './shared/Utilities/url';
 import { BackgroundTasksService } from './shared/services/background-tasks.service';
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     constructor(
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
+        private _portalService: PortalService,
         // Although we are not using BackgroundTasksService, we need to reference it here.
         // Otherwise, Angular won't new it up, and it's needed for local development
         // for retrieving and updating the token.
@@ -28,6 +30,10 @@ export class AppComponent implements OnInit, AfterViewInit {
         route: ActivatedRoute,
         configService: ConfigService
     ) {
+        this._userService.getStartupInfo().subscribe(info => {
+            this.theme = info.theme;
+        });
+
         const devGuide = Url.getParameterByName(null, 'appsvc.devguide');
 
         // TODO: for now we don't honor any deep links.  We'll need to make a bunch of updates to our
@@ -44,16 +50,16 @@ export class AppComponent implements OnInit, AfterViewInit {
             !this._userService.deeplinkAllowed
         ) {
             this._router.navigate(['/landing'], { queryParams: Url.getQueryStringObj() });
+        } else if (this._portalService.isEmbeddedFunctions) {
+            // this._router.navigate(['/resources/functions'], { queryParams: Url.getQueryStringObj() });
+            return;
         } else if (!this._userService.deeplinkAllowed) {
             this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
         }
 
-        this._userService.getStartupInfo().subscribe(info => {
-            this.theme = info.theme;
-        });
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     ngAfterViewInit() {
         this._globalStateService.GlobalBusyStateComponent = this.busyStateComponent;

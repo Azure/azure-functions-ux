@@ -1,3 +1,4 @@
+import { ArmFunctionDescriptor, FunctionDescriptor, ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { TreeUpdateEvent } from './../shared/models/broadcast-event';
 import { GlobalStateService } from './../shared/services/global-state.service';
 import { ConfigService } from './../shared/services/config.service';
@@ -12,8 +13,6 @@ import { Observable } from 'rxjs/Observable';
 import { LogCategories, NotificationIds, Constants, SiteTabIds } from './../shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { FunctionsService, FunctionAppContext } from './../shared/services/functions-service';
-import { FunctionDescriptor } from 'app/shared/resourceDescriptors';
-import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
@@ -77,6 +76,8 @@ export class FunctionEditComponent implements OnDestroy {
         this.MonitorTab = _translateService.instant('tabNames_monitor');
         this.ManageTab = _translateService.instant('tabNames_manage');
 
+        let functionDescriptor: FunctionDescriptor;
+
         this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
             .takeUntil(this._ngUnsubscribe)
             .filter(info => {
@@ -107,12 +108,14 @@ export class FunctionEditComponent implements OnDestroy {
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this.viewInfo = viewInfo;
-                const siteDescriptor = new SiteDescriptor(viewInfo.resourceId);
-                return this._functionsService.getAppContext(siteDescriptor.getTrimmedResourceId());
+                // const siteDescriptor = new SiteDescriptor(viewInfo.resourceId);
+                const descriptor = ArmSiteDescriptor.getSiteDescriptor(viewInfo.resourceId);
+                return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
             })
             .switchMap(context => {
                 this.context = context;
-                const functionDescriptor = new FunctionDescriptor(this.viewInfo.resourceId);
+                functionDescriptor = ArmFunctionDescriptor.getFunctionDescriptor(this.viewInfo.resourceId);
+                // const functionDescriptor = new ArmFunctionDescriptor(this.viewInfo.resourceId);
                 return this._functionsService.getFunction(context, functionDescriptor.name);
             })
             .switchMap(functionInfo => {
@@ -135,12 +138,14 @@ export class FunctionEditComponent implements OnDestroy {
                 this._globalStateService.clearBusyState();
                 this._setupPollingTasks();
 
-                const segments = this.viewInfo.resourceId.split('/');
+                // const segments = this.viewInfo.resourceId.split('/');
                 // support for both site & slots
-                if (segments.length === 13 && segments[11] === 'functions' || segments.length === 11 && segments[9] === 'functions') {
+                const parts = functionDescriptor.parts;
+                if(parts.length === 12 && parts[10] === 'functions'
+                    || parts.length === 10 && parts[8] === 'functions'){
                     this.tabId = 'develop';
                 } else {
-                    this.tabId = segments[segments.length - 1];
+                    this.tabId = parts[parts.length - 1];
                 }
             });
     }
@@ -163,6 +168,11 @@ export class FunctionEditComponent implements OnDestroy {
     }
 
     private _setupPollingTasks() {
+        // TODO: ellhamai - should probably enable polling at some point.
+        if (this._portalService.isEmbeddedFunctions) {
+            return;
+        }
+
         if (this._pollingTask) {
             this._pollingTask.unsubscribe();
         }

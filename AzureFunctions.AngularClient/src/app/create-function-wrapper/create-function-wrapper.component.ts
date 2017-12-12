@@ -9,7 +9,7 @@ import { Subject } from 'rxjs/Subject';
 import { FunctionInfo } from './../shared/models/function-info';
 import { AiService } from './../shared/services/ai.service';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 @Component({
   selector: 'create-function-wrapper',
@@ -45,7 +45,7 @@ export class CreateFunctionWrapperComponent implements OnInit, OnDestroy {
         // Set default for autodetect to CreateFunction while we load function list
         this.dashboardType = DashboardType[DashboardType.CreateFunctionDashboard];
 
-        const siteDescriptor = new SiteDescriptor(this.viewInfo.resourceId);
+        const siteDescriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
         return this._functionsService.getAppContext(siteDescriptor.getTrimmedResourceId());
       })
       .switchMap(context => {

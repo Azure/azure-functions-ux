@@ -1,11 +1,52 @@
-export class UrlTemplates {
+import { ArmEmbeddedService } from './services/arm-embedded.service';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { ConfigService } from 'app/shared/services/config.service';
+import { PortalService } from './services/portal.service';
+import { Injector } from '@angular/core';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { Site } from 'app/shared/models/arm/site';
 
-    constructor(private scmUrl: string,
-        private mainSiteUrl: string,
-        private useNewUrls: boolean) {
+export class UrlTemplates {
+    private configService: ConfigService;
+    private portalService: PortalService;
+    private scmUrl: string;
+    private mainSiteUrl: string;
+    private useNewUrls: boolean;
+    private isEmbeddedFunctions: boolean;
+
+    constructor(private site: ArmObj<Site>, injector: Injector) {
+
+        this.portalService = injector.get(PortalService);
+        this.configService = injector.get(ConfigService);
+
+        this.isEmbeddedFunctions = this.portalService.isEmbeddedFunctions;
+        this.scmUrl = this.isEmbeddedFunctions ? null : this._getScmUrl(site);
+        this.mainSiteUrl = this.isEmbeddedFunctions ? null : this._getMainUrl(site);
+
+        this.useNewUrls = ArmUtil.isLinuxApp(this.site);
+    }
+
+    private _getScmUrl(site: ArmObj<Site>) {
+        if (this.configService.isStandalone()) {
+            return this._getMainUrl(site);
+        } else {
+            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+        }
+    }
+
+    private _getMainUrl(site: ArmObj<Site>) {
+        if (this.configService.isStandalone()) {
+            return `https://${site.properties.defaultHostName}/functions/${site.name}`;
+        } else {
+            return `https://${site.properties.defaultHostName}`;
+        }
     }
 
     get functionsUrl(): string {
+        if (this.isEmbeddedFunctions) {
+            return `${ArmEmbeddedService.url}${this.site.id}/functions`;
+        }
+
         return this.useNewUrls
             ? `${this.mainSiteUrl}/admin/functions`
             : `${this.scmUrl}/api/functions`;

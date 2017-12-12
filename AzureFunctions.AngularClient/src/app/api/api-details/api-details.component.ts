@@ -21,7 +21,7 @@ import { ProxyNode } from '../../tree-view/proxy-node';
 import { FunctionApp } from '../../shared/function-app';
 import { AiService } from '../../shared/services/ai.service';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
-import { SiteDescriptor } from '../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 
 @Component({
     selector: 'api-details',
@@ -68,7 +68,7 @@ export class ApiDetailsComponent implements OnDestroy {
                 this.proxiesNode = (<ProxiesNode>this.selectedNode.parent);
                 this.apiProxyEdit = this.selectedNode.proxy;
 
-                const siteDescriptor = new SiteDescriptor(viewInfo.resourceId);
+                const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
                 return this._functionsService.getAppContext(siteDescriptor.getTrimmedResourceId());
             })
             .switchMap(context => {

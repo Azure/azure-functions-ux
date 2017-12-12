@@ -1,3 +1,4 @@
+// import { ArmService } from './../shared/services/arm.service';
 import { FileUtilities } from './../shared/Utilities/file';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
@@ -104,6 +105,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
+        // private _armService: ArmService,
         configService: ConfigService,
         cd: ChangeDetectorRef) {
 
@@ -134,12 +136,16 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         this.functionSelectStream
             .switchMap(fi => {
                 this.functionApp = fi.functionApp;
-                this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
                 this._globalStateService.setBusyState();
 
-                this.functionApp.getEventGridKey().subscribe(eventGridKey => {
-                    this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${fi.name}&code=${eventGridKey}`;;
-                });
+                // TODO: ellhamai - probably need to reenable this
+                if (!this._portalService.isEmbeddedFunctions) {
+                    this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
+
+                    this.functionApp.getEventGridKey().subscribe(eventGridKey => {
+                        this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${fi.name}&code=${eventGridKey}`;;
+                    });
+                }
 
                 return Observable.zip(
                     fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
@@ -163,17 +169,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 }
 
                 this._globalStateService.clearBusyState();
-                this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
-                let href = res.functionInfo.script_href;
 
+                let script_href = res.functionInfo.script_href;
+                this.fileName = script_href.substring(script_href.lastIndexOf('/') + 1);
+                
                 if (FileUtilities.isBinary(this.fileName)) {
                     this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf('/') + 1);
-                    href = res.functionInfo.config_href;
+                    script_href = res.functionInfo.config_href;
                 }
 
                 this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
                     ? this.scriptFile
-                    : { name: this.fileName, href: href, mime: 'file' };
+                    : { name: this.fileName, href: script_href, mime: 'file' };
                 this.selectedFileStream.next(this.scriptFile);
                 this.functionInfo = res.functionInfo;
                 this.setInvokeUrlVisibility();
@@ -199,7 +206,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     delete this.authLevel;
                 }
-                this.updateKeys();
+
+                if(!this._portalService.isEmbeddedFunctions){
+                    this.updateKeys();
+                }
 
                 this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
                 this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);

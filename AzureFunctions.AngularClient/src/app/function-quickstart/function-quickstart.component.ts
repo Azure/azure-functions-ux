@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { FunctionAppContext, FunctionsService } from './../shared/services/functions-service';
 import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
-import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
@@ -63,7 +63,7 @@ export class FunctionQuickstartComponent implements OnDestroy {
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
                 this.functionsNode = <FunctionsNode>viewInfo.node;
-                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+                const descriptor = new ArmSiteDescriptor(viewInfo.resourceId);
                 return Observable.zip(
                     this._cacheService.getArm(descriptor.getTrimmedResourceId()),
                     this._functionsService.getAppContext(descriptor.getTrimmedResourceId()),
