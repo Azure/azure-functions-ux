@@ -20,12 +20,15 @@ pre {
 }
 
 .delete-app {
-    padding-left: 50px;
+    margin-left: 50px;
+    padding: 0 2px 0 0;
     display: flex;
+    border: none;
+    background: transparent;
 }
 
 .icon-small{
-    margin-right: 5px;
+    margin-right: 2px;
 }
 
 #submit-delete {
