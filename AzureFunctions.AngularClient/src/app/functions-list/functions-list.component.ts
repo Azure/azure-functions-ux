@@ -1,3 +1,5 @@
+import { FunctionInfo } from 'app/shared/models/function-info';
+import { CreateCard } from 'app/function/function-new/function-new.component';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { FunctionsService, FunctionAppContext } from './../shared/services/functions-service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
@@ -30,6 +32,11 @@ export class FunctionsListComponent implements OnDestroy {
     public appNode: AppNode;
     public runtimeVersion: string;
     public context: FunctionAppContext;
+    public sidePanelOpened = false;
+    public createCards: CreateCard[] = [];
+    public createFunctionCard: CreateCard = null;
+    public createFunctionLanguage: string = null;
+    public functionsInfo: FunctionInfo[];
 
     private _functionsNode: FunctionsNode;
     private _ngUnsubscribe = new Subject<void>();
@@ -51,7 +58,7 @@ export class FunctionsListComponent implements OnDestroy {
                 this.isLoading = true;
                 this._functionsNode = (<FunctionsNode>viewInfo.node);
                 this.appNode = (<AppNode>viewInfo.node.parent);
-                const descriptor = new ArmSiteDescriptor(viewInfo.resourceId);
+                const descriptor = ArmSiteDescriptor.getSiteDescriptor(viewInfo.resourceId);
                 return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
             })
             .switchMap(context => {
@@ -63,15 +70,72 @@ export class FunctionsListComponent implements OnDestroy {
 
                 this.functionApp = new FunctionApp(context.site, this._injector);
                 return Observable.zip(
-                    this._functionsNode.loadChildren(), 
+                    this._functionsNode.loadChildren(),
                     this.functionApp.getRuntimeGeneration(),
-                    (a, b) => ({runtimeVersion : b }));
+                    this._buildCreateCardTemplate(this.functionApp),
+                    this.functionApp.getFunctions(),
+                    (a, b, c, fcs) => ({runtimeVersion : b, cards: c, fcs: fcs }));
             })
             .subscribe((r) => {
                 this.runtimeVersion = r.runtimeVersion;
                 this.isLoading = false;
                 this.functions = (<FunctionNode[]>this._functionsNode.children);
+                this.functionsInfo = r.fcs;
             });
+    }
+
+    private _buildCreateCardTemplate(functionApp: FunctionApp) {
+        return functionApp.getTemplates()
+            .switchMap(templates => {
+                return Observable.of(templates);
+            })
+            .do(templates => {
+
+                templates.forEach((template) => {
+
+                        const templateIndex = this.createCards.findIndex(finalTemplate => {
+                            return finalTemplate.name === template.metadata.name;
+                        });
+
+                        // if the card doesn't exist, create it based off the template, else add information to the preexisting card
+                        if (templateIndex === -1) {
+                            this.createCards.push({
+                                name: `${template.metadata.name}`,
+                                value: template.id,
+                                description: template.metadata.description,
+                                enabledInTryMode: template.metadata.enabledInTryMode,
+                                AADPermissions: template.metadata.AADPermissions,
+                                languages: [`${template.metadata.language}`],
+                                categories: template.metadata.category,
+                                ids: [`${template.id}`],
+                                icon: 'image/other.svg',
+                                color: '#000000',
+                                barcolor: '#D9D9D9',
+                                focusable: false
+                            });
+                        } else {
+                            this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
+                            this.createCards[templateIndex].categories = this.createCards[templateIndex].categories.concat(template.metadata.category);
+                            this.createCards[templateIndex].ids.push(`${template.id}`);
+                        }
+                });
+
+                // unique categories
+                this.createCards.forEach((template, index) => {
+                    const categoriesDict: {[key: string]: string; } = {};
+                    template.categories.forEach(category => {
+                        categoriesDict[category] = category;
+                    });
+                    this.createCards[index].categories = [];
+                    for (const category in categoriesDict) {
+                        if (categoriesDict.hasOwnProperty(category)) {
+                            this.createCards[index].categories.push(category);
+                        }
+                    }
+                });
+
+                this.createFunctionCard = this.createCards[0];
+        });
     }
 
     ngOnDestroy(): void {
@@ -155,6 +219,14 @@ export class FunctionsListComponent implements OnDestroy {
     }
 
     onNewFunctionClick() {
-        this._functionsNode.openCreateDashboard(DashboardType.CreateFunctionDashboard);
+        if (this._portalService.isEmbeddedFunctions) {
+            this.sidePanelOpened = true;
+        } else {
+            this._functionsNode.openCreateDashboard(DashboardType.CreateFunctionDashboard);
+        }
+    }
+
+    closeSidePanel() {
+        this.sidePanelOpened = false;
     }
 }

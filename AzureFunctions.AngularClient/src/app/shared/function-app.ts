@@ -118,6 +118,115 @@ export class FunctionApp {
         500: 'Server Error'
     };
 
+    private testJsonTemplates = `[
+        {
+            "id": "SyncTrigger-CSharp",
+            "runtime": "1",
+            "files": {
+                "readme.md": "# HttpTrigger -on",
+                "run.csx": "using System.Net",
+                "sample.dat": "{}"
+            },
+            "function": {
+                "disabled": false,    
+                "bindings": [
+                    {
+                        "name": "entity",
+                        "message": "create",
+                        "type": "synctrigger",
+                        "direction": "in"
+                    }
+                ]
+            },
+            "metadata": {
+                "defaultFunctionName": "SyncTriggerCSharp",
+                "description": "$SyncTrigger_description",
+                "name": "Sync trigger",
+                "language": "C#",
+                "trigger": "SyncTrigger",
+                "category": [
+                    "$temp_category_core"
+                ],
+                "categoryStyle": "http",
+                "enabledInTryMode": true,
+                "userPrompt": [
+                    "message"
+                ]
+            }
+        },
+        {
+            "id": "SyncTrigger-JavaScript",
+            "runtime": "1",
+            "files": {
+                "index.js": "module.exports",
+                "sample.dat": "{}"
+            },
+            "function": {
+                "disabled": false,    
+                "bindings": [
+                    {
+                        "name": "entity",
+                        "message": "create",
+                        "type": "synctrigger",
+                        "direction": "in"
+                    }
+                ]
+            },
+            "metadata": {
+                "defaultFunctionName": "SyncTriggerJS",
+                "description": "$SyncTrigger_description",
+                "name": "Sync trigger",
+                "language": "JavaScript",
+                "trigger": "SyncTrigger",
+                "category": [
+                    "$temp_category_core"
+                ],
+                "categoryStyle": "http",
+                "enabledInTryMode": true,
+                "userPrompt": [
+                    "message"
+                ]
+            }
+        }
+    ]`;
+
+    private testJsonBindings = `{
+        "bindings": [
+            {
+                "type": "syncTrigger",
+                "displayName": "Sync",
+                "direction": "trigger",
+                "settings": [
+                    {
+                        "name": "message",
+                        "value": "enum",
+                        "enum": [
+                          {
+                            "value": "create",
+                            "display": "create"
+                          },
+                          {
+                            "value": "destroy",
+                            "display": "destroy"
+                          },
+                          {
+                            "value": "update",
+                            "display": "update"
+                          },
+                          {
+                            "value": "retrieve",
+                            "display": "retrieve"
+                          }
+                        ],
+                        "label": "Event",
+                        "help": "Event help"
+                    }
+                ]
+    
+            }
+        ]
+    }`;
+
     public tryFunctionsScmCreds: string;
     private _http: NoCorsHttpService;
 
@@ -455,6 +564,11 @@ export class FunctionApp {
 
     // This function is special cased in the Cache() decorator by name to allow for dev scenarios.
     getTemplates() {
+        if (this._portalService.isEmbeddedFunctions) {
+            const devTemplate: FunctionTemplate[] = JSON.parse(this.testJsonTemplates);
+            return Observable.of(<any>devTemplate);
+        }
+
         try {
             if (localStorage.getItem('dev-templates')) {
                 const devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
@@ -903,6 +1017,11 @@ export class FunctionApp {
     }
 
     getBindingConfig(): Observable<BindingConfig> {
+        if (this._portalService.isEmbeddedFunctions) {
+            const devBindings: BindingConfig = JSON.parse(this.testJsonBindings);
+            return Observable.of(devBindings);
+        }
+
         try {
             if (localStorage.getItem('dev-bindings')) {
                 const devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
