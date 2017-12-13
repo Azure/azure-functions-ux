@@ -1,3 +1,4 @@
+import { RightTabsComponent } from './../controls/right-tabs/right-tabs.component';
 import { ArmEmbeddedService } from './services/arm-embedded.service';
 import { FunctionsService } from './services/functions-service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
@@ -110,7 +111,8 @@ export function AiServiceFactory() {
         TableCellComponent,
         TableRowComponent,
         TableRootComponent,
-        DeletedItemsFilter
+        DeletedItemsFilter,
+        RightTabsComponent
     ],
     exports: [
         CommonModule,
@@ -146,7 +148,8 @@ export function AiServiceFactory() {
         TableCellComponent,
         TableRowComponent,
         TableRootComponent,
-        DeletedItemsFilter
+        DeletedItemsFilter,
+        RightTabsComponent
     ],
     imports: [
         FormsModule,

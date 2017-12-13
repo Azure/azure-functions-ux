@@ -1,0 +1,58 @@
+
+@import '../../../../sass/common/variables';
+
+#embedded-function-editor-wrapper{
+    background-color: $body-bg-color;
+    height: calc(100% - 6px);
+    padding-left: 10px;
+}
+
+header{
+    margin-top: 5px;
+
+    h2{
+        display: inline-block;
+        margin-left: 10px;
+        // margin-top: 10px;
+    }
+}
+
+#left-content{
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 65px);
+    height: calc(100% - 40px);
+}
+
+#right-content{
+    display: inline-block;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    height: calc(100% - 6px);
+}
+
+#code-container{
+    height: calc(100% - 30px);
+    margin-top: 10px;
+
+    .monaco{
+        height: 100%;
+    }
+}
+
+
+
+// #code-container{
+//     width: calc(100% - 63px);
+//     height: calc(100% - 44px);
+//     margin-top: 7px;
+//     display: inline-block;
+// }
+
+// #right-tabs{
+//     display: inline-block;
+//     vertical-align: top;
+//     position: absolute;
+//     right: -10px;
+// }

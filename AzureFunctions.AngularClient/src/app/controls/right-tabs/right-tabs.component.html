@@ -1,0 +1,12 @@
+<nav id="right-tabs" [class.expanded]="expanded">
+    <div id="expand-icon" *ngIf="!expanded">
+        <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-left"></i></a>
+    </div>
+    <div class="tab-text" [class.collapsed]="!expanded" (click)="toggleExpanded()">
+        <h4 class="clickable">Test</h4>
+    </div>
+    <div id="collapse-icon" *ngIf="expanded" (click)="toggleExpanded()">
+        <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-right"></i></a>
+    </div>
+</nav>
+

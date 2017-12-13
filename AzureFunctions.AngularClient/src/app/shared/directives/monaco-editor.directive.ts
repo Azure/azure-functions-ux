@@ -140,7 +140,8 @@ export class MonacoEditorDirective {
 
 
     private init() {
-        this._globalStateService.setBusyState();
+        // TODO: ellhamai - Not sure why but this doesn't turn off right away even after clearing
+        // this._globalStateService.setBusyState();
 
         let onGotAmdLoader = () => {
             (<any>window).require.config({ paths: { 'vs': 'assets/monaco/min/vs' } });

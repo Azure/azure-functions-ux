@@ -1,3 +1,4 @@
+import { EmbeddedFunctionEditorComponent } from './function/embedded/embedded-function-editor/embedded-function-editor.component';
 import { SidebarModule } from 'ng-sidebar';
 import { AadRegistrationComponent } from './aad-registration/aad-registration.component';
 import { RunHttpComponent } from './run-http/run-http.component';
@@ -56,7 +57,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
     },
     {
         path: ':functionName',
-        component: FunctionEditComponent,
+        // component: FunctionEditComponent,
+        component: EmbeddedFunctionEditorComponent
     },
     {
         path: ':functionName/integrate',
@@ -87,6 +89,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         FunctionsListComponent,
         FunctionEditComponent,
         FunctionDevComponent,
+        EmbeddedFunctionEditorComponent,
         LogStreamingComponent,
         FileExplorerComponent,
         FunctionIntegrateComponent,

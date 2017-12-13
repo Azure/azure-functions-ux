@@ -1,0 +1,26 @@
+<div id="embedded-function-editor-wrapper">
+  <div id="left-content">
+    <header>
+      <h2>run.csx</h2>
+      <button class="custom-button">Save</button>
+    </header>
+
+    <section id="code-container" #codeContainer (window:resize)="onResize()">
+
+      <div id="code" monacoEditor class="monaco"
+              content="hello world"
+              [functionAppInput]="functionApp">
+      </div>
+
+    </section>
+
+  </div> <!-- /left-content -->
+
+  <aside id="right-content">
+
+    <right-tabs></right-tabs>
+  </aside>
+  
+</div>
+
+    
