@@ -13,6 +13,10 @@ export class FunctionsVersionInfoHelper {
     }
 
     public static getFuntionGeneration(runtimeVersion: string) {
+        if (!runtimeVersion) {
+            return 'V1';
+        }
+
         return (runtimeVersion.startsWith('~2')
             || runtimeVersion.startsWith('2')
             || runtimeVersion.startsWith('beta')) ? 'V2' : 'V1';
