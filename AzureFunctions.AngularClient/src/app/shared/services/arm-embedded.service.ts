@@ -123,6 +123,12 @@ export class ArmEmbeddedService extends ArmService {
         if (urlNoQuery.toLowerCase() === NoCorsHttpService.passThroughUrl.toLowerCase() && body && body.body) {
             const pathParts = body.url.split('/').filter(part => !!part);
             body = JSON.parse(JSON.stringify(body));
+            try {
+                if (typeof body.body === 'string') {
+                    body.body = JSON.parse(body.body);
+                }
+            } catch (e) {
+            }
 
             if (pathParts[pathParts.length - 2].toLowerCase() === 'files') {
                 body.body = {
@@ -141,6 +147,13 @@ export class ArmEmbeddedService extends ArmService {
         } else if (urlNoQuery.toLowerCase() !== NoCorsHttpService.passThroughUrl.toLowerCase() && body) {
             const pathParts = id.split('/').filter(part => !!part);
             body = JSON.parse(JSON.stringify(body));
+            try {
+                if (typeof body === 'string') {
+                    body = JSON.parse(body);
+                }
+            } catch (e) {
+            }
+
             if (pathParts[pathParts.length - 2].toLowerCase() === 'files') {
                 body = {
                     properties: {

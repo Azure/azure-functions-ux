@@ -59,6 +59,10 @@ export class UrlTemplates {
     }
 
     getFunctionUrl(functionName: string): string {
+        if (this.isEmbeddedFunctions) {
+            return `${ArmEmbeddedService.url}${this.site.id}/functions/${functionName}`;
+        }
+
         return this.useNewUrls
             ? `${this.mainSiteUrl}/admin/functions/${functionName}`
             : `${this.scmUrl}/api/functions/${functionName}`;
