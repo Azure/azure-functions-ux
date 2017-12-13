@@ -343,7 +343,10 @@ export class FunctionApp {
         const uri = this.urlTemplates.proxiesJsonUrl;
         this._cacheService.clearCachePrefix(uri);
 
-        return this._http.put(uri, jsonString, { headers: headers });
+        return this._http.put(uri, jsonString, { headers: headers })
+            .map(() => {
+                this.fireSyncTrigger();
+            });
     }
 
     /**
