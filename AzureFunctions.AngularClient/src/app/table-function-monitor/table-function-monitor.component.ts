@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, Output, OnChanges, ViewChild } from '@angular/core';
 import { FunctionMonitorService } from '../shared/services/function-monitor.service';
 import { FunctionInvocations } from '../shared/models/function-monitor';
 import { FunctionInfo } from '../shared/models/function-info';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     selector: 'table-function-monitor',
@@ -17,9 +18,10 @@ export class TableFunctionMonitorComponent implements OnChanges {
     @Input() data: any[];
     @Input() details: any;
     @Input() invocation: any;
-    @Input() pulseUrl: string;
+    @Input() isAppInsightsConnected: boolean;
     @Input() selectedFuncId: string;
     @Input() selectedFunction: FunctionInfo;
+    @Output() openAppInsights = new Subject();
 
     public outputLog: string;
     public selectedRowId: string;
@@ -73,5 +75,9 @@ export class TableFunctionMonitorComponent implements OnChanges {
         if (this.busyState) {
             this.busyState.clearBusyState();
         }
+    }
+
+    liveStreamCliked() {
+        this.openAppInsights.next();
     }
 }
