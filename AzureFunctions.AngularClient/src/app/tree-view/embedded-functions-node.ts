@@ -1,3 +1,5 @@
+import { CacheService } from './../shared/services/cache.service';
+import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionNode } from './function-node';
 import { CdsEntityDescriptor } from './../shared/resourceDescriptors';
 import { FunctionsService } from './../shared/services/functions-service';
@@ -10,6 +12,7 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection {
 
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.FunctionsDashboard;
+    private _cacheService: CacheService;
     private _functionsService: FunctionsService;
 
     constructor(
@@ -20,6 +23,8 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection {
             parentResourceId + '/functions',
             rootNode,
             null);
+
+        this._cacheService = sideNav.injector.get(CacheService);
 
         this.iconClass = 'tree-node-collection-icon';
         this.iconUrl = 'image/BulletList.svg';
@@ -69,5 +74,13 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection {
                 // TODO: logging
                 this.isLoading = false;
             });
+    }
+
+    public addChild(functionInfo: FunctionInfo) {
+        this._cacheService.clearCachePrefix(functionInfo.context.urlTemplates.functionsUrl);
+
+        const newNode = new FunctionNode(this.sideNav, functionInfo, this);
+        this._addChildAlphabetically(newNode);
+        newNode.select();
     }
 }

@@ -1,4 +1,5 @@
-﻿import { PortalService } from './services/portal.service';
+﻿import { ArmEmbeddedService } from './services/arm-embedded.service';
+import { PortalService } from './services/portal.service';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { Injector } from '@angular/core';
@@ -118,17 +119,17 @@ export class FunctionApp {
         500: 'Server Error'
     };
 
-    private testJsonTemplates = `[
+    private testJsonTemplates = JSON.stringify([
         {
             "id": "SyncTrigger-CSharp",
             "runtime": "1",
             "files": {
                 "readme.md": "# HttpTrigger -on",
-                "run.csx": "using System.Net",
+                "run.csx": "#r \"..\\bin\\Microsoft.Xrm.Sdk.dll\"\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\"name\"] = entity.Attributes[\"name\"].ToString().ToUpper();\n\treturn entity;\n}",
                 "sample.dat": "{}"
             },
             "function": {
-                "disabled": false,    
+                "disabled": false,
                 "bindings": [
                     {
                         "name": "entity",
@@ -162,7 +163,7 @@ export class FunctionApp {
                 "sample.dat": "{}"
             },
             "function": {
-                "disabled": false,    
+                "disabled": false,
                 "bindings": [
                     {
                         "name": "entity",
@@ -188,9 +189,9 @@ export class FunctionApp {
                 ]
             }
         }
-    ]`;
+    ]);
 
-    private testJsonBindings = `{
+    private testJsonBindings = JSON.stringify({
         "bindings": [
             {
                 "type": "syncTrigger",
@@ -222,10 +223,10 @@ export class FunctionApp {
                         "help": "Event help"
                     }
                 ]
-    
+
             }
         ]
-    }`;
+    });
 
     public tryFunctionsScmCreds: string;
     private _http: NoCorsHttpService;
@@ -902,6 +903,9 @@ export class FunctionApp {
     }
 
     getScmUrl() {
+        if (this._portalService.isEmbeddedFunctions){
+            return `${ArmEmbeddedService.url}${this.site.id}`;
+        }
         return this.urlTemplates.scmSiteUrl;
     }
 
