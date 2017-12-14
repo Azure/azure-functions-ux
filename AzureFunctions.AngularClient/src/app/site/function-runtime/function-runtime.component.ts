@@ -65,6 +65,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
   public functionEditModeValueStream: Subject<boolean>;
   public isLinuxApp: boolean;
   public isStopped: boolean;
+  public hasFunctions: boolean;
 
   private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
   private _viewInfo: TreeViewInfo<SiteData>;
@@ -96,6 +97,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
 
     this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
+    let appContext;
     this._viewInfoStream
       .takeUntil(this._ngUnsubscribe)
       .switchMap(viewInfo => {
@@ -108,6 +110,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
       })
       .switchMap(context => {
         this.site = context.site;
+        appContext = context;
 
         if (this.functionApp) {
           this.functionApp.dispose();
@@ -124,8 +127,10 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return Observable.zip(
           this._cacheService.postArm(`${this._viewInfo.resourceId}/config/appsettings/list`, true),
           this._slotsService.getSlotsList(this._viewInfo.resourceId),
-          (a: Response, slots: ArmObj<Site>[]) => ({ appSettingsResponse: a, slotsList: slots }))
+          this._functionsService.getFunctions(appContext),
+          (a: Response, slots: ArmObj<Site>[], functions: any[]) => ({ appSettingsResponse: a, slotsList: slots , functionsList: functions}))
           .mergeMap(result => {
+            this.hasFunctions = result.functionsList.length > 0;
             return Observable.zip(this.functionApp.getFunctionAppEditMode(), this.functionApp.checkRuntimeStatus(),
               (editMode: FunctionAppEditMode, hostStatus: HostStatus) => ({ editMode: editMode, hostStatus: hostStatus }))
               .map(r => ({
