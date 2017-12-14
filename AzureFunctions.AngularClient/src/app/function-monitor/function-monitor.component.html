@@ -14,7 +14,7 @@
         {{ 'monitoring_appInsightsSetUp' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;<a tabindex="0" (click)="openAppInsightsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
     </div>
 
-    <div *ngIf="!azureWebJobsDashboardMissed">
+    <div *ngIf="!azureWebJobsDashboardMissed || globalStateService.showTryView">
         <div id="function-aggregates">
             <aggregate-block [title]="successAggregateHeading" [value]="successAggregate" style="float:left; width: 45%; margin-right:2%">Loading...</aggregate-block>
             <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
