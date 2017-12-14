@@ -32,13 +32,13 @@ $expanded-width: 460px;
     }
 }
 
-#expand-icon{
+#right-tabs-expand-icon{
     display: inline-block;
     margin-left: 10px;
     margin-top: 10px;
 }
 
-#collapse-icon{
+#right-tabs-collapse-icon{
     display: inline-block;
     position: absolute;
     right: 20px;
@@ -53,14 +53,14 @@ section{
     border-top: $border;
 
     .monaco-container{
-        height: 300px;
+        height: 275px;
         // width: 100%;
     }
 }
 
 #test-tab-output{
     pre{
-        height: 300px;
+        height: 275px;
     }
 }
 

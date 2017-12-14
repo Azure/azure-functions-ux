@@ -14,6 +14,9 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
 
   private _rightBarExpandedWidth = 460;
   private _rightBarClosedWidth = 44;
+  private _bottomBarClosedHeight = 39;
+  private _bottomBarExpandedHeight = 300;
+
 
   constructor() { }
 
@@ -31,16 +34,31 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     const width = this.codeContainer.nativeElement.clientWidth;
     const height = this.codeContainer.nativeElement.clientHeight;
 
-    this.codeEditor.setLayout(width - 4, height - 4);
+    this.codeEditor.setLayout(width - 50, height - 50);
   }
 
   handleRightBarExpansion(isExpanded: boolean) {
 
     const parentElement = this.codeContainer.nativeElement.parentElement;
     if (isExpanded) {
-      parentElement.style.width = `calc(100% - ${this._rightBarExpandedWidth + 13}px)`;
-    } else{
-      parentElement.style.width = `calc(100% - ${this._rightBarClosedWidth + 13}px)`;
+      parentElement.style.width = `calc(100% - ${this._rightBarExpandedWidth + 1}px)`;
+    } else {
+      parentElement.style.width = `calc(100% - ${this._rightBarClosedWidth + 1}px)`;
+    }
+
+    setTimeout(() => {
+      this.onResize();
+    });
+
+  }
+
+  handleBottomBarExpansion(isExpanded: boolean) {
+
+    const parentElement = this.codeContainer.nativeElement.parentElement;
+    if (isExpanded) {
+      parentElement.style.height = `calc(100% - ${this._bottomBarExpandedHeight + 1}px)`;
+    } else {
+      parentElement.style.height = `calc(100% - ${this._bottomBarClosedHeight + 1}px)`;
     }
 
     setTimeout(() => {

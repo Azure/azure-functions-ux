@@ -12,13 +12,19 @@
 
     </section>
 
+    <footer>
+        <bottom-tabs (onExpanded)="handleBottomBarExpansion($event)"></bottom-tabs>
+    </footer>
+        
   </div> <!-- /left-content -->
 
   <aside id="right-content">
 
     <right-tabs (onExpanded)="handleRightBarExpansion($event)"></right-tabs>
   </aside>
+  <div style="clear: both;"></div>
   
+
 </div>
 
     

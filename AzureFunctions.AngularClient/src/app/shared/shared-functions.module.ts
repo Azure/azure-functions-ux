@@ -1,3 +1,4 @@
+import { BottomTabsComponent } from './../controls/bottom-tabs/bottom-tabs.component';
 import { RightTabsComponent } from 'app/controls/right-tabs/right-tabs.component';
 import { SharedModule } from './shared.module';
 import { MonacoEditorDirective } from './directives/monaco-editor.directive';
@@ -15,7 +16,8 @@ import { TranslateModule } from '@ngx-translate/core';
         EditModeWarningComponent,
         FnWriteAccessDirective,
         MonacoEditorDirective,
-        RightTabsComponent
+        RightTabsComponent,
+        BottomTabsComponent
         
     ],
     exports: [
@@ -24,7 +26,8 @@ import { TranslateModule } from '@ngx-translate/core';
         EditModeWarningComponent,
         FnWriteAccessDirective,
         MonacoEditorDirective,
-        RightTabsComponent
+        RightTabsComponent,
+        BottomTabsComponent
     ],
     imports: [
         TranslateModule.forChild(),
