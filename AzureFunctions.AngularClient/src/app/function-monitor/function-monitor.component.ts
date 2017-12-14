@@ -38,8 +38,8 @@ export class FunctionMonitorComponent implements OnDestroy {
     private selectedFunctionStream: Subject<FunctionInfo>;
 
     constructor(
+        public globalStateService: GlobalStateService,
         private _functionMonitorService: FunctionMonitorService,
-        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _slotsService: SiteService,
         private _portalService: PortalService,
@@ -73,7 +73,7 @@ export class FunctionMonitorComponent implements OnDestroy {
         this.selectedFunctionStream
             .switchMap(fi => {
                 this.currentFunction = fi;
-                this._globalStateService.setBusyState();
+                this.globalStateService.setBusyState();
                 return Observable.zip(
                     this._cacheService.postArm(`${this.currentFunction.functionApp.site.id}/config/appsettings/list`, true),
                     this._slotsService.isAppInsightsEnabled(this.currentFunction.functionApp.site.id),
@@ -118,15 +118,15 @@ export class FunctionMonitorComponent implements OnDestroy {
             })
             .do(null, (e) => {
                 this._logService.error(LogCategories.FunctionMonitor, '/function-monitor/selected-function-stream', e);
-                this._globalStateService.clearBusyState();
+                this.globalStateService.clearBusyState();
             })
             .retry()
             .subscribe(result => {
-                this._globalStateService.clearBusyState();
+                this.globalStateService.clearBusyState();
                 if (result) {
                     this.rows = result;
                 }
-            }, null, () => this._globalStateService.clearBusyState());
+            }, null, () => this.globalStateService.clearBusyState());
     }
 
     @Input() set selectedFunction(value: FunctionInfo) {
