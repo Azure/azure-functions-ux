@@ -1,17 +1,19 @@
 @import '../../../sass/common/mixins';
 @import '../../../sass/common/variables';
 
+$expanded-width: 460px;
+
 .collapsed{
     @include rotate(90deg);
 }
 
-#right-tabs{
+#right-tabs-wrapper{
     height: 100%;
     border-left: $border;
     background-color: $body-bg-color;
 
-    &.expanded{
-        width: 460px;
+    nav.expanded{
+        width: $expanded-width;
     }
 }
 
@@ -41,4 +43,41 @@
     position: absolute;
     right: 20px;
     top: 10px;
+}
+
+section{
+    padding: 10px;
+}
+
+#test-tab-request-body{
+    border-top: $border;
+
+    .monaco-container{
+        height: 300px;
+        // width: 100%;
+    }
+}
+
+#test-tab-output{
+    pre{
+        height: 300px;
+    }
+}
+
+footer{
+    position: absolute;
+    bottom: 0px;
+    border-top: $border;
+    width: $expanded-width;
+    height: 47px;
+
+    button{
+        position: absolute;
+        right: 8px;
+        bottom: 10px;
+
+        span{
+            margin-left: 5px;
+        }
+    }
 }

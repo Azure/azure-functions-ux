@@ -4,7 +4,12 @@
 #embedded-function-editor-wrapper{
     background-color: $body-bg-color;
     height: calc(100% - 6px);
+    width: 100%;
     padding-left: 10px;
+    
+    // display: grid;
+    // grid-template-columns: auto 44px;
+    // grid-gap: 10px;
 }
 
 header{
@@ -18,17 +23,20 @@ header{
 }
 
 #left-content{
+
     display: inline-block;
     vertical-align: top;
-    width: calc(100% - 65px);
+    width: calc(100% - 56px);
     height: calc(100% - 40px);
+
 }
 
 #right-content{
-    display: inline-block;
+    // display: inline-block;
     height: 100%;
-    position: absolute;
-    right: 0px;
+    float: right;
+    // position: absolute;
+    // right: 0px;
     height: calc(100% - 6px);
 }
 

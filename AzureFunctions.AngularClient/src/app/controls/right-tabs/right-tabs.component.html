@@ -1,4 +1,5 @@
-<nav id="right-tabs" [class.expanded]="expanded">
+<div id="right-tabs-wrapper">
+<nav [class.expanded]="expanded">
     <div id="expand-icon" *ngIf="!expanded">
         <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-left"></i></a>
     </div>
@@ -8,5 +9,31 @@
     <div id="collapse-icon" *ngIf="expanded" (click)="toggleExpanded()">
         <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-right"></i></a>
     </div>
+
 </nav>
 
+<section id="test-tab-request-body" [class.hidden]="!expanded">
+    <label>Request body</label>
+    
+    <div class="monaco-container" id="request-editor-container" #requestEditorContainer>
+            
+        <div id="request-editor"
+            monacoEditor
+            class="monaco"
+            content="hello world"
+            [functionAppInput]="functionApp">
+        </div>
+            
+    </div>
+</section>
+
+<section id="test-tab-output" [class.hidden]="!expanded">
+        <label>Output</label>
+        
+        <pre>Output text</pre>
+</section>
+
+<footer [class.hidden]="!expanded">
+    <button class="custom-button-invert"><i class="fa fa-play"></i><span>Run</span></button>
+</footer>
+</div>

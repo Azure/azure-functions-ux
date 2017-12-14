@@ -1,6 +1,5 @@
 import { MonacoEditorDirective } from './../../../shared/directives/monaco-editor.directive';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FunctionApp } from 'app/shared/function-app';
 import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -12,7 +11,9 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
 
   @ViewChild('codeContainer') codeContainer: ElementRef;
   @ViewChild(MonacoEditorDirective) codeEditor: MonacoEditorDirective;
-  functionApp: FunctionApp = null;  // Only here because monaco directive requires it
+
+  private _rightBarExpandedWidth = 460;
+  private _rightBarClosedWidth = 44;
 
   constructor() { }
 
@@ -20,16 +21,31 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     // this.onResize();
   }
 
-  ngAfterContentInit(){
-    setTimeout(() =>{
+  ngAfterContentInit() {
+    setTimeout(() => {
       this.onResize();
     });
   }
 
-  onResize(){
+  onResize() {
     const width = this.codeContainer.nativeElement.clientWidth;
     const height = this.codeContainer.nativeElement.clientHeight;
+
     this.codeEditor.setLayout(width - 4, height - 4);
-    // this.codeEditor.setLayout(100, 100);
+  }
+
+  handleRightBarExpansion(isExpanded: boolean) {
+
+    const parentElement = this.codeContainer.nativeElement.parentElement;
+    if (isExpanded) {
+      parentElement.style.width = `calc(100% - ${this._rightBarExpandedWidth + 13}px)`;
+    } else{
+      parentElement.style.width = `calc(100% - ${this._rightBarClosedWidth + 13}px)`;
+    }
+
+    setTimeout(() => {
+      this.onResize();
+    });
+
   }
 }
