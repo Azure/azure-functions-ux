@@ -24,7 +24,6 @@ declare const moment: any;
     styleUrls: ['./function-monitor.component.scss']
 })
 export class FunctionMonitorComponent implements OnDestroy {
-    public pulseUrl: string;
     public rows: FunctionInvocations[]; // the data for the InvocationsLog table
     public successAggregateHeading: string;
     public errorsAggregateHeading: string;
@@ -90,7 +89,7 @@ export class FunctionMonitorComponent implements OnDestroy {
                 if (!appSettings.properties[Constants.azureWebJobsDashboardSettingsName]) {
                     this.azureWebJobsDashboardMissed = true;
                     if (this.aiId) {
-                        this.openAppInsigthsBlade();
+                        this.openAppInsightsBlade();
                     }
                     return Observable.of(null);
                 } else {
@@ -101,8 +100,6 @@ export class FunctionMonitorComponent implements OnDestroy {
                 this.rows = [];
 
                 this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.functionMonitor_loading);
-                const site = this.currentFunction.functionApp.getSiteName();
-                this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.currentFunction.name}`;
 
                 const firstOfMonth = moment().startOf('month');
                 this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
@@ -144,7 +141,7 @@ export class FunctionMonitorComponent implements OnDestroy {
         }
     }
 
-    openAppInsigthsBlade() {
+    openAppInsightsBlade() {
         this._portalService.openBlade(
             {
                 detailBlade: 'AspNetOverview',
