@@ -18,10 +18,13 @@ export class ArmEmbeddedService extends ArmService {
 
     public websiteApiVersion = null;  // Force us to not use default API versions
 
+    private _whitelistedAPIMUrls: string[] = [
+        'https://blueridge.azure-api.net'
+    ];
+
     private _whitelistedRPPrefixUrls: string[] = [
         ArmEmbeddedService.url,
-        NoCorsHttpService.passThroughUrl,
-        'https://blueridge.azure-api.net'
+        NoCorsHttpService.passThroughUrl
     ];
 
     constructor(http: Http,
@@ -101,6 +104,10 @@ export class ArmEmbeddedService extends ArmService {
 
                     return r;
                 });
+        }
+
+        if(this._whitelistedAPIMUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))){
+            return super.send(method, url, body, etag, headers);
         }
 
         this._aiService.trackEvent('/arm-embedded/arm-send-failure', {

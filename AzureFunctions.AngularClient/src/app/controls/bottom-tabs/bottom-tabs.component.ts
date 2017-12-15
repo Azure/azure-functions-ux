@@ -1,16 +1,18 @@
+import { BroadcastService } from './../../shared/services/broadcast.service';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from './../../shared/services/cache.service';
 import { Subject } from 'rxjs/Subject';
 import { FunctionApp } from 'app/shared/function-app';
-import { Component, Output, OnInit, Input } from '@angular/core';
+import { Component, Output, OnInit, Input, OnDestroy } from '@angular/core';
 import { ArmService } from 'app/shared/services/arm.service';
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 
 @Component({
   selector: 'bottom-tabs',
   templateUrl: './bottom-tabs.component.html',
   styleUrls: ['./bottom-tabs.component.scss']
 })
-export class BottomTabsComponent implements OnInit {
+export class BottomTabsComponent implements OnInit, OnDestroy {
   @Input() resourceId: string;
   @Output() onExpanded = new Subject<boolean>();
 
@@ -20,15 +22,27 @@ export class BottomTabsComponent implements OnInit {
   public isPolling = false;
 
   private _stopPolling = new Subject();
+  private _ngUnsubscribe = new Subject();
+  private _totalPollingDuration = 300000;
+  private _pollingInterval = 5000;
 
   constructor(
     private _cacheService: CacheService,
-    private _armService: ArmService
+    private _armService: ArmService,
+    private _broadcastService: BroadcastService
   ) {
-
+    this._broadcastService.getEvents(BroadcastEvent.StartPollingFunctionLogs)
+      .takeUntil(this._ngUnsubscribe)
+      .subscribe(_ => {
+        this.startLogs();
+      });
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this._ngUnsubscribe.next();
   }
 
   toggleExpanded() {
@@ -42,19 +56,25 @@ export class BottomTabsComponent implements OnInit {
       return;
     }
 
+    if(!this.expanded){
+      this.toggleExpanded();
+    }
+
     this.isPolling = true;
 
+    // TODO: need to be polling on `${this.mainSiteUrl}/admin/host/status` to keep logging
+
     Observable.of(null)
-      .delay(30000)
+      .delay(this._totalPollingDuration)
       .takeUntil(this._stopPolling)
       .subscribe(_ => {
         this.stopLogs();
       });
 
-    Observable.timer(0, 5000)
+    Observable.timer(0, this._pollingInterval)
       .takeUntil(this._stopPolling)
       .switchMap(t => {
-        return this._cacheService.getArm(`${this.resourceId}/logs`, true)
+        return this._cacheService.getArm(`${this.resourceId}/logs`, true);
       })
       .switchMap(r => {
         const files: any[] = r.json();
@@ -86,6 +106,7 @@ export class BottomTabsComponent implements OnInit {
   }
 
   stopLogs() {
+    this.logContent += 'Logging paused';
     this._stopPolling.next();
     this.isPolling = false;
   }

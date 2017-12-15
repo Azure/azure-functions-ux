@@ -1,3 +1,4 @@
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { FunctionInfo } from './../../shared/models/function-info';
 import { CacheService } from './../../shared/services/cache.service';
@@ -48,7 +49,14 @@ export class RightTabsComponent implements OnInit, AfterContentInit, OnChanges {
       .subscribe(r => {
         this._busyManager.clearBusy();
         this._functionInfo = r.json();
-        this.initialEditorContent = this._functionInfo.test_data;
+
+        try {
+          const content = JSON.parse(this._functionInfo.test_data);
+          this.initialEditorContent = content.body ? JSON.stringify(content.body, null, '    ') : '';
+        } catch (e) {
+          this.initialEditorContent = '';
+        }
+
         this._updatedEditorContent = this.initialEditorContent;
       });
   }
@@ -84,6 +92,8 @@ export class RightTabsComponent implements OnInit, AfterContentInit, OnChanges {
   }
 
   runTest() {
+    this._broadcastService.broadcastEvent(BroadcastEvent.StartPollingFunctionLogs);
+
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');

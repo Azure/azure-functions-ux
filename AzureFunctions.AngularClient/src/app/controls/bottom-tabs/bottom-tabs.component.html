@@ -16,7 +16,7 @@
                     <i class="fa fa-pause"></i><span>Pause</span>
                 </a>
     
-                <a tabindex="0"><i class="fa fa-book" (click)="clearLogs()"></i><span>Clear</span></a>
+                <a tabindex="0" (click)="clearLogs()" [class.disabled-link]="isPolling"><i class="fa fa-book"></i><span>Clear</span></a>
                 <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-down"></i></a>
             </span>
         </div>

@@ -156,6 +156,7 @@ export class CacheService {
 
                         return Observable.of(item.isRawResponse ? item.value : this._clone(item.value));
                     } else {
+                        delete this._cache[key];
                         return Observable.throw(error);
                     }
                 });

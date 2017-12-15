@@ -61,6 +61,12 @@ section{
 #test-tab-output{
     pre{
         height: 275px;
+        width: 438px;  // Necessary to properly wrap text
+        white-space: pre-wrap;       /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
     }
 }
 
