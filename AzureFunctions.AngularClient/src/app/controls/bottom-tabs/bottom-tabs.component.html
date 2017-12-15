@@ -9,8 +9,14 @@
             </span>
 
             <span id="bottom-tabs-actions-expanded" *ngIf="expanded">
-                <a tabindex="0"><i class="fa fa-play"></i><span>Start</span></a>
-                <a tabindex="0"><i class="fa fa-book"></i><span>Clear</span></a>
+                <a tabindex="0" (click)="startLogs()" *ngIf="!isPolling">
+                    <i class="fa fa-play"></i><span>Start</span>
+                </a>
+                <a tabindex="0" (click)="stopLogs()" *ngIf="isPolling">
+                    <i class="fa fa-pause"></i><span>Pause</span>
+                </a>
+    
+                <a tabindex="0"><i class="fa fa-book" (click)="clearLogs()"></i><span>Clear</span></a>
                 <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-down"></i></a>
             </span>
         </div>
@@ -18,7 +24,7 @@
 
     <div id="bottom-tabs-content" *ngIf="expanded">
         <pre>
-            Hello world!
+{{logContent}}
         </pre>
 
     </div>

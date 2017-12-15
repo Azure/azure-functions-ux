@@ -12,7 +12,7 @@
 
 </nav>
 
-<section id="test-tab-request-body" [class.hidden]="!expanded">
+<section id="test-tab-request-body" *ngIf="expanded">
     <label>Request body</label>
     
     <div class="monaco-container" id="request-editor-container" #requestEditorContainer>
@@ -20,20 +20,23 @@
         <div id="request-editor"
             monacoEditor
             class="monaco"
-            content="hello world"
+            [content]="initialEditorContent"
+            (onContentChanged)="editorContentChanged($event)"
             [functionAppInput]="functionApp">
         </div>
             
     </div>
 </section>
 
-<section id="test-tab-output" [class.hidden]="!expanded">
+<section id="test-tab-output" *ngIf="expanded">
         <label>Output</label>
         
-        <pre>Output text</pre>
+        <pre>{{responseOutputText}}</pre>
 </section>
 
-<footer [class.hidden]="!expanded">
-    <button class="custom-button-invert"><i class="fa fa-play"></i><span>Run</span></button>
+<footer *ngIf="expanded">
+    <button class="custom-button-invert" (click)="runTest()">
+        <i class="fa fa-play"></i><span>Run</span>
+    </button>
 </footer>
 </div>

@@ -54,6 +54,10 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         this.iconClass = 'tree-node-svg-icon';
         this.iconUrl = 'image/function_f.svg';
         this.supportsTab = (Url.getParameterByName(null, 'appsvc.feature') === 'tabbed');
+
+        if(this.sideNav.portalService.isEmbeddedFunctions){
+            this.showExpandIcon = false;
+        }
     }
 
     // This will be called on every change detection run. So I'm making sure to always
@@ -92,13 +96,15 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     }
 
     public loadChildren() {
-        this.children = [
-            new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
-            new FunctionManageNode(this.sideNav, this.functionInfo, this),
-        ];
-
-        if (!this.sideNav.configService.isStandalone()) {
-            this.children.push(new FunctionMonitorNode(this.sideNav, this.functionInfo, this));
+        if(!this.sideNav.portalService.isEmbeddedFunctions){
+            this.children = [
+                new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
+                new FunctionManageNode(this.sideNav, this.functionInfo, this),
+            ];
+    
+            if (!this.sideNav.configService.isStandalone()) {
+                this.children.push(new FunctionMonitorNode(this.sideNav, this.functionInfo, this));
+            }
         }
 
         return Observable.of(null);

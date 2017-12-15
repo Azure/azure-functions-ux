@@ -1,30 +1,37 @@
 <div id="embedded-function-editor-wrapper">
+
+  <!-- Be careful if you change the layout hierarchy between left-content and code-container.
+       We manipulate left-content in JavaScript based on resize events from window,
+       right tabs, and bottom tabs components-->
   <div id="left-content">
     <header>
       <h2>run.csx</h2>
-      <button class="custom-button">Save</button>
+      <button class="custom-button" (click)="saveEditorContent()">Save</button>
     </header>
 
     <section id="code-container" #codeContainer (window:resize)="onResize()">
 
-      <div id="code" monacoEditor class="monaco" content="hello world">
+      <div id="code"
+        monacoEditor
+        class="monaco"
+        [content]="initialEditorContent"
+        [fileName]="fileName"
+        (onContentChanged)="editorContentChanged($event)">
       </div>
 
     </section>
 
     <footer>
-        <bottom-tabs (onExpanded)="handleBottomBarExpansion($event)"></bottom-tabs>
+        <bottom-tabs (onExpanded)="handleBottomBarExpansion($event)" [resourceId]="resourceId"></bottom-tabs>
     </footer>
         
   </div> <!-- /left-content -->
 
   <aside id="right-content">
 
-    <right-tabs (onExpanded)="handleRightBarExpansion($event)"></right-tabs>
+    <right-tabs (onExpanded)="handleRightBarExpansion($event)" [resourceId]="resourceId"></right-tabs>
   </aside>
   <div style="clear: both;"></div>
-  
+
 
 </div>
-
-    

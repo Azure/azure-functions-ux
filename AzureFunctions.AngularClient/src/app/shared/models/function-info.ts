@@ -16,6 +16,7 @@ export interface FunctionInfo {
     config_href: string;
     functionApp: FunctionApp;
     context: FunctionAppContext;
+    trigger_url?: string;         // Only used for embedded scenario's.  Doing a POST will trigger function
 }
 
 export class FunctionInfoHelper {

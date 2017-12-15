@@ -53,8 +53,12 @@ const routing: ModuleWithProviders = RouterModule.forChild([
                 path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/sites/:site/slots/:slot/proxies',
                 loadChildren: 'app/proxies.module#ProxiesModule'
             },
+            // {
+            //     path: 'providers/microsoft.blueridge/environments/:environmentId/scopes/:scope/entities/:entityId/functions',
+            //     loadChildren: 'app/functions.module#FunctionsModule'
+            // },
             {
-                path: 'providers/microsoft.blueridge/environments/:environmentId/scopes/:scope/entities/:entityId/functions',
+                path: 'providers/microsoft.blueridge',
                 loadChildren: 'app/functions.module#FunctionsModule'
             },
             {
