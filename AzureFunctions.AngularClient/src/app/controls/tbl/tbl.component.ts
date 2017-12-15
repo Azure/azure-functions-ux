@@ -2,11 +2,7 @@ import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
 import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, ContentChildren, QueryList } from '@angular/core';
-import {
-  Component,
-  OnInit,
-  AfterContentChecked
-} from "@angular/core";
+import { Component, OnInit, AfterContentChecked } from "@angular/core";
 
 export interface TableItem {
   type: 'row' | 'group';
@@ -64,21 +60,28 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       this.items = items.currentValue;
       this._origItems = items.currentValue;
 
-      // Whenever we update the table, we'll set the first cell to be the only tab-able cell.
-      const rows = this._getRows();
-      if (rows.length > 0) {
-        const cells = this._getCells(rows[0]);
+      // Whenever we update the table, we'll reset the roving tabindex
+      setTimeout(() => {
+        this._resetRovingTabindex();
+      });
+    }
+  }
 
-        if (cells.length > 0) {
+  private _resetRovingTabindex() {
+    this._focusedRowIndex = -1;
+    this._focusedCellIndex = -1;
 
-          const cell = Dom.getTabbableControl(cells[0]);
-          cell.tabIndex = 0;
-          this._focusedRowIndex = 0;
-          this._focusedCellIndex = 0;
-
-        }
+    // Set the first cell to be the only tab-able cell.
+    this._removeAllFromTaborder();
+    const rows = this._getRows();
+    if (rows.length > 0) {
+      const cells = this._getCells(rows[0]);
+      if (cells.length > 0) {
+        const cell = Dom.getTabbableControl(cells[0]);
+        cell.tabIndex = 0;
+        this._focusedRowIndex = 0;
+        this._focusedCellIndex = 0;
       }
-
     }
   }
 
@@ -240,6 +243,20 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     Dom.scrollIntoView(elem, window.document.body);
   }
 
+  private _removeAllFromTaborder() {
+    const cells = (<HTMLTableElement>this.table.nativeElement).querySelectorAll('td, th');
+    for (let i = 0; i < cells.length; i++) {
+      const element = <HTMLElement>cells[i];
+      Dom.clearFocus(element);
+    }
+
+    const controls = Dom.getTabbableControls(<HTMLTableElement>this.table.nativeElement);
+    for (let i = 0; i < controls.length; i++) {
+      const element = <HTMLElement>controls[i];
+      Dom.clearFocus(element);
+    }
+  }
+
   private _getRows() {
     return (<HTMLTableElement>this.table.nativeElement).querySelectorAll('tr');
   }
@@ -264,6 +281,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       const srcCells = this._getCells(srcRow);
 
       if (cellIndex >= 0 && cellIndex < srcCells.length) {
+        Dom.clearFocus(srcCells[cellIndex]);
         const control = Dom.getTabbableControl(srcCells[cellIndex]);
         Dom.clearFocus(control);
       }
@@ -340,6 +358,8 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     if (!this.groupColName) {
       throw Error('No group name was specified for this table component');
     }
+
+    this._resetRovingTabindex();
 
     this.groupedBy = name;
 
