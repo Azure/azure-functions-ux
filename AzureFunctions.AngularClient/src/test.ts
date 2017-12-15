@@ -9,6 +9,7 @@ import 'zone.js/dist/fake-async-test';
 import './polyfills/window';
 import './polyfills/string';
 import './polyfills/object';
+import './polyfills/forms';
 
 import { getTestBed } from '@angular/core/testing';
 import {

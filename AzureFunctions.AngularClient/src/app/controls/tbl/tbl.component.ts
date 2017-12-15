@@ -1,7 +1,8 @@
 import { Dom } from './../../shared/Utilities/dom';
 import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
-import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, ContentChildren, QueryList } from '@angular/core';
+import { Input, OnChanges, SimpleChanges, ElementRef, ViewChild, ContentChildren, QueryList, EventEmitter, Output } from '@angular/core';
+import { DoCheck, IterableDiffer, IterableDiffers } from '@angular/core';
 import { Component, OnInit, AfterContentChecked } from "@angular/core";
 
 export interface TableItem {
@@ -22,15 +23,21 @@ export interface TableItem {
   </table>`,
   exportAs: 'tbl'
 })
-export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
+export class TblComponent implements OnInit, OnChanges, AfterContentChecked, DoCheck {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
-  @Input() items: TableItem[];
+  @Input() items: Array<TableItem>;
 
   // groupColName will be what col items are sorted by within individual groups
   // if no grouping is done in the table it is null
   @Input() groupColName: string | null;
+
+  @Input() itemsAddedAction: null | 'apply' | 'fixup' = null;
+  @Input() itemsRemovedAction: null | 'apply' | 'fixup' = null;
+
   @ContentChildren(TblThComponent) headers: QueryList<TblThComponent>;
+
+  @Output() contentReset: EventEmitter<void>;
 
   @ViewChild('tbl') table: ElementRef;
 
@@ -40,30 +47,133 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   // groupedBy is the name of the tbl-th component which is currently being used to group elements
   public groupedBy = 'none';
 
-  private _origItems: any[];
+  private _origItems: Array<TableItem>;
+  private _skipItemsDoCheck: boolean = false;
+  private _differ: IterableDiffer<TableItem> | null = null;
+
   private _focusedRowIndex = -1;
   private _focusedCellIndex = -1;
 
-  constructor() {
+  constructor(private _differs: IterableDiffers) {
+    this.contentReset = new EventEmitter<void>();
   }
 
   ngOnInit() {
   }
 
   ngAfterContentChecked() {
-    this.headers.forEach(h => h.table = this);
+    this.headers.forEach(h => h.setTable(this));
   }
 
-  ngOnChanges(changes: { [key: string]: SimpleChange }) {
-    const items = changes['items'];
-    if (items) {
-      this.items = items.currentValue;
-      this._origItems = items.currentValue;
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('items' in changes) {
+      this._skipItemsDoCheck = true;
+
+      const value = changes['items'].currentValue;
+
+      this._setupItemsDiffer(value);
+
+      this._handleItemsReassign(value);
 
       // Whenever we update the table, we'll reset the roving tabindex
       setTimeout(() => {
         this._resetRovingTabindex();
       });
+    }
+  }
+
+  ngDoCheck(): void {
+    if (this._differ) {
+      const changes = this._differ.diff(this._origItems);
+
+      if (this._skipItemsDoCheck) {
+        this._skipItemsDoCheck = false;
+        return;
+      }
+
+      if (changes) {
+        let removedItems: Array<TableItem> = [];
+        changes.forEachRemovedItem(i => removedItems.push(i.item));
+        if (removedItems.length) {
+          this._handleItemsRemoved(removedItems);
+        }
+
+        let addedItems: Array<TableItem> = [];
+        changes.forEachAddedItem(i => addedItems.push(i.item));
+        if (addedItems.length) {
+          this._handleItemsAdded(addedItems);
+        }
+
+        // Whenever we update the table, we'll reset the roving tabindex
+        setTimeout(() => {
+          this._resetRovingTabindex();
+        });
+      }
+    }
+  }
+
+  private _setupItemsDiffer(items: Array<TableItem>) {
+    // React on ngForOf changes only once all inputs have been initialized
+    if (!this._differ && items) {
+      try {
+        this._differ = this._differs.find(items).create();
+      } catch (e) {
+        throw new Error(
+          `Cannot find a differ supporting object '${items}'. The 'items' input only supports binding to Iterables such as Arrays.`);
+      }
+    }
+  }
+
+  private _handleItemsReassign(value: Array<TableItem>) {
+    this.items = value;
+    this._origItems = value;
+
+    // Whenever we update the table, we'll set the first cell to be the only tab-able cell.
+    const rows = this._getRows();
+    if (rows.length > 0) {
+      const cells = this._getCells(rows[0]);
+
+      if (cells.length > 0) {
+
+        const cell = Dom.getTabbableControl(cells[0]);
+        cell.tabIndex = 0;
+        this._focusedRowIndex = 0;
+        this._focusedCellIndex = 0;
+
+      }
+    }
+
+    if (this.groupedBy !== 'none') {
+      this.groupItems(this.groupedBy);
+    }
+    this.contentReset.emit();
+  }
+
+  private _handleItemsRemoved(removedItems: TableItem[]) {
+    // The last time items binding was re-assigned, _origItems was assigned a reference to it, so _origItems reflects all changes
+    this.items = this._origItems;
+
+    // Whenever we update the table, we'll set the first cell to be the only tab-able cell.
+    const rows = this._getRows();
+    if (rows.length > 0) {
+      const cells = this._getCells(rows[0]);
+      if (cells.length > 0) {
+        const cell = Dom.getTabbableControl(cells[0]);
+        cell.tabIndex = 0;
+        this._focusedRowIndex = 0;
+        this._focusedCellIndex = 0;
+      }
+    }
+
+    if (this.groupedBy !== 'none') {
+      this.groupItems(this.groupedBy);
+    }
+    this.contentReset.emit();
+  }
+
+  private _handleItemsAdded(addedItems: TableItem[]) {
+    if (this.items !== this._origItems) {
+      addedItems.forEach(item => this.items.push(item));
     }
   }
 
@@ -397,7 +507,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
 
       // push group items onto newItems
       uniqueGroups.forEach(groupName => {
-        const newGroup = <TableItem>{ type: 'group' };
+        const newGroup: TableItem = { type: 'group' };
         newGroup[this.groupColName] = groupName;
         newItems.push(newGroup);
       });

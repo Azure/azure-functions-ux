@@ -70,4 +70,4 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 import './polyfills/window';
 import './polyfills/string';
 import './polyfills/object';
-
+import './polyfills/forms';

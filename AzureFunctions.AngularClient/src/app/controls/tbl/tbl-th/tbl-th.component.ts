@@ -1,5 +1,6 @@
 import { TblComponent, TableItem } from './../tbl.component';
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, OnDestroy } from '@angular/core';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'tbl-th',
@@ -11,11 +12,13 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
           [class.fa-chevron-down]="table.sortedColName !== name || (table.sortedColName === name && !table.sortAscending)"></i>
     </div>`
 })
-export class TblThComponent implements OnInit {
+export class TblThComponent implements OnInit, OnDestroy {
 
   @Input() name: string;
 
   public table: TblComponent;
+
+  private _tableResetSub: RxSubscription;
 
   constructor(
     private _el: ElementRef) {
@@ -34,6 +37,10 @@ export class TblThComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this._clearTableResetSub();
+  }
+
   onClick() {
     // Wait one cycle to allow tabindex on focused element to get set to -1
     setTimeout(() => {
@@ -41,7 +48,43 @@ export class TblThComponent implements OnInit {
     });
   }
 
-  sort() {
+  private _setupTableResetSub() {
+    // Re-sort the table if necessary whenever its data is reloaded
+    this._tableResetSub = this.table.contentReset.subscribe(() => {
+      this.sort(true);
+    });
+  }
+
+  private _clearTableResetSub() {
+    if (this._tableResetSub) {
+      this._tableResetSub.unsubscribe();
+      this._tableResetSub = null;
+    }
+  }
+
+  public setTable(table: TblComponent) {
+    if (this.table === table) {
+      return;
+    } else {
+      this._clearTableResetSub();
+
+      if (table) {
+        this.table = table;
+        this._setupTableResetSub();
+      }
+    }
+  }
+
+  // When isReSort is true, it means that the table data has been reloaded (so it is no longer sorted).
+  // If this is the column by which the table was sorted by prior to the reaload, we should perform a
+  // sort and honor the current value of sortAscending
+  sort(isReSort?: boolean) {
+
+    if (isReSort && this.table.sortedColName !== this.name) {
+      // The table was not sorted by this column prior to reload, so don't sort by this column.
+      return;
+    }
+
     const table = this.table;
 
     // Make a copy so that we don't sort the original list
@@ -50,7 +93,8 @@ export class TblThComponent implements OnInit {
     }
 
     if (table.sortedColName && table.sortedColName === this.name) {
-      table.sortAscending = !table.sortAscending;
+      // If this is a re-sort, we don't toggle the order
+      table.sortAscending = isReSort ? table.sortAscending : !table.sortAscending;
     } else {
       table.sortedColName = this.name;
       table.sortAscending = true;
