@@ -123,11 +123,12 @@ export class FunctionRuntimeComponent implements OnDestroy {
         return this.functionApp.initKeysAndWarmupMainSite();
       })
       .switchMap(() => {
+        const getFunctions = this.isStopped ? Observable.of([]) : this._functionsService.getFunctions(appContext);
 
         return Observable.zip(
           this._cacheService.postArm(`${this._viewInfo.resourceId}/config/appsettings/list`, true),
           this._slotsService.getSlotsList(this._viewInfo.resourceId),
-          this._functionsService.getFunctions(appContext),
+          getFunctions,
           (a: Response, slots: ArmObj<Site>[], functions: any[]) => ({ appSettingsResponse: a, slotsList: slots , functionsList: functions}))
           .mergeMap(result => {
             this.hasFunctions = result.functionsList.length > 0;
