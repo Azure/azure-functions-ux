@@ -57,6 +57,8 @@ import { TableCellComponent } from './../controls/table-cell/table-cell.componen
 import { TableRowComponent } from './../controls/table-row/table-row.component';
 import { TableRootComponent } from './../controls/table-root/table-root.component';
 import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filter.pipe';
+import { ActivateWithKeysDirective } from './../controls/activate-with-keys/activate-with-keys.directive';
+
 
 export function ArmServiceFactory(
     http: Http,
@@ -106,7 +108,8 @@ export function AiServiceFactory() {
         TableCellComponent,
         TableRowComponent,
         TableRootComponent,
-        DeletedItemsFilter
+        DeletedItemsFilter,
+        ActivateWithKeysDirective
     ],
     exports: [
         CommonModule,
@@ -142,7 +145,8 @@ export function AiServiceFactory() {
         TableCellComponent,
         TableRowComponent,
         TableRootComponent,
-        DeletedItemsFilter
+        DeletedItemsFilter,
+        ActivateWithKeysDirective
     ],
     imports: [
         FormsModule,
