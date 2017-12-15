@@ -50,14 +50,15 @@
                     </slide-toggle>
                 </div>
             </td>
-            <td class="icon-cell">
+            <td>
                 <div [fnWriteAccess]="functionApp">
-                    <span role="button"
-                        class="icon-small"
-                        load-image="image/delete.svg"
-                        [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
-                        (click)="clickDelete(item)">
-                    </span>
+                    <button class="icon-small" (click)="clickDelete(item)">
+                        <span
+                            role="presentation"
+                            [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
+                            load-image="image/delete.svg">
+                        </span>
+                    </button>
                 </div>
             </td>
         </tr>
