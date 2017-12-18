@@ -1,3 +1,4 @@
+import { TabComponent } from './../controls/tabs/tab/tab.component';
 import { ArmEmbeddedService } from './services/arm-embedded.service';
 import { FunctionsService } from './services/functions-service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
@@ -110,7 +111,8 @@ export function AiServiceFactory() {
         TableCellComponent,
         TableRowComponent,
         TableRootComponent,
-        DeletedItemsFilter
+        DeletedItemsFilter,
+        TabComponent,
     ],
     exports: [
         CommonModule,
@@ -146,7 +148,8 @@ export function AiServiceFactory() {
         TableCellComponent,
         TableRowComponent,
         TableRootComponent,
-        DeletedItemsFilter
+        DeletedItemsFilter,
+        TabComponent
     ],
     imports: [
         FormsModule,

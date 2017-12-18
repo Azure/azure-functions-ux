@@ -1,3 +1,4 @@
+import { BottomTabComponent } from './../controls/bottom-tabs/bottom-tab.component';
 import { BottomTabsComponent } from './../controls/bottom-tabs/bottom-tabs.component';
 import { RightTabsComponent } from 'app/controls/right-tabs/right-tabs.component';
 import { SharedModule } from './shared.module';
@@ -17,8 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
         FnWriteAccessDirective,
         MonacoEditorDirective,
         RightTabsComponent,
-        BottomTabsComponent
-        
+        BottomTabsComponent,
+        BottomTabComponent
     ],
     exports: [
         FunctionKeysComponent,
@@ -27,7 +28,8 @@ import { TranslateModule } from '@ngx-translate/core';
         FnWriteAccessDirective,
         MonacoEditorDirective,
         RightTabsComponent,
-        BottomTabsComponent
+        BottomTabsComponent,
+        BottomTabComponent
     ],
     imports: [
         TranslateModule.forChild(),

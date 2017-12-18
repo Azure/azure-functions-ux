@@ -22,14 +22,28 @@
     </section>
 
     <footer>
-        <bottom-tabs (onExpanded)="handleBottomBarExpansion($event)" [resourceId]="resourceId"></bottom-tabs>
+      <bottom-tabs (onExpanded)="handleBottomBarExpansion($event)">
+        <embedded-function-logs-tab
+          title="Logs"
+          id="FunctionsLogTab"
+          [resourceId]="resourceId"></embedded-function-logs-tab>
+
+      </bottom-tabs>
     </footer>
         
   </div> <!-- /left-content -->
 
   <aside id="right-content">
 
-    <right-tabs (onExpanded)="handleRightBarExpansion($event)" [resourceId]="resourceId"></right-tabs>
+    <right-tabs (onExpanded)="handleRightBarExpansion($event)">
+
+      <tab title="Test" id="FunctionTestTab">
+          <embedded-function-test-tab
+            *ngIf="rightBarExpanded"
+            [resourceId]="resourceId"></embedded-function-test-tab>
+      </tab>
+
+    </right-tabs>
   </aside>
   <div style="clear: both;"></div>
 

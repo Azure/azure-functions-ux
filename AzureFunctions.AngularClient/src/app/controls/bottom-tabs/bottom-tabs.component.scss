@@ -26,17 +26,19 @@ nav{
 }
 
 #bottom-tabs-actions-expanded{
-    span{
-        margin-left: 5px;
+    a{
         margin-right: 10px;
+    }
+
+    .command-icon{
+        height: 10px;
+        width: 10px;
+        margin: -2px;
+        display: inline-block;
     }
 }
 
 #bottom-tabs-content{
     height: 271px;
     padding: 0px 10px 10px 10px;
-
-    pre{
-        height: 100%;
-    }
 }

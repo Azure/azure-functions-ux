@@ -9,23 +9,16 @@
             </span>
 
             <span id="bottom-tabs-actions-expanded" *ngIf="expanded">
-                <a tabindex="0" (click)="startLogs()" *ngIf="!isPolling">
-                    <i class="fa fa-play"></i><span>Start</span>
+                <a *ngFor="let command of activeTab?.commands" tabindex="0" (click)="command.click()">
+                    <span [load-image]="command.iconUrl" class="command-icon"></span>
+                    <span>{{command.text}}</span>
                 </a>
-                <a tabindex="0" (click)="stopLogs()" *ngIf="isPolling">
-                    <i class="fa fa-pause"></i><span>Pause</span>
-                </a>
-    
-                <a tabindex="0" (click)="clearLogs()" [class.disabled-link]="isPolling"><i class="fa fa-book"></i><span>Clear</span></a>
                 <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-down"></i></a>
             </span>
         </div>
     </nav>
 
     <div id="bottom-tabs-content" *ngIf="expanded">
-        <pre>
-{{logContent}}
-        </pre>
-
+        <ng-content></ng-content>
     </div>
 </div>

@@ -1,3 +1,5 @@
+import { EmbeddedFunctionLogsTabComponent } from './function/embedded/embedded-function-logs-tab/embedded-function-logs-tab.component';
+import { EmbeddedFunctionTestTabComponent } from './function/embedded/embedded-function-test-tab/embedded-function-test-tab.component';
 import { EmbeddedFunctionEditorComponent } from './function/embedded/embedded-function-editor/embedded-function-editor.component';
 import { SidebarModule } from 'ng-sidebar';
 import { AadRegistrationComponent } from './aad-registration/aad-registration.component';
@@ -93,6 +95,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         FunctionEditComponent,
         FunctionDevComponent,
         EmbeddedFunctionEditorComponent,
+        EmbeddedFunctionTestTabComponent,
+        EmbeddedFunctionLogsTabComponent,
         LogStreamingComponent,
         FileExplorerComponent,
         FunctionIntegrateComponent,

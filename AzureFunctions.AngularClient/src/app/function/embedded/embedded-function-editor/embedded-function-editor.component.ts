@@ -23,6 +23,8 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   public resourceId: string;
   public initialEditorContent = '';
   public fileName = '';
+  public rightBarExpanded = false;
+  public bottomBarExpanded = false;
   private _updatedEditorContent = '';
 
   private _functionInfo: FunctionInfo;
@@ -89,6 +91,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   }
 
   handleRightBarExpansion(isExpanded: boolean) {
+    this.rightBarExpanded = isExpanded;
 
     const parentElement = this.codeContainer.nativeElement.parentElement;
     if (isExpanded) {
@@ -103,6 +106,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   }
 
   handleBottomBarExpansion(isExpanded: boolean) {
+    this.bottomBarExpanded = isExpanded;
 
     const parentElement = this.codeContainer.nativeElement.parentElement;
     if (isExpanded) {
