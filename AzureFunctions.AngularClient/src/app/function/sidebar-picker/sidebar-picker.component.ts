@@ -60,16 +60,16 @@ export class SidebarPickerComponent implements OnInit {
 
   pickUpTemplate() {
     return this.functionApp.getTemplates()
-    .switchMap(templates => {
+    .concatMap(templates => {
       this.currentTemplate = templates.find((t) => {
         return t.metadata.language === this.functionLanguage &&
           this.functionCard.ids.find((id) => {
-            return id = t.id;
+            return id === t.id;
           });
       });
       return Observable.of(this.currentTemplate);
     })
-    .switchMap(currentTemplate => {
+    .concatMap(currentTemplate => {
       const runtimeExtensions = this.currentTemplate.metadata.extensions;
       if (runtimeExtensions && runtimeExtensions.length > 0) {
         return this._getRequiredExtensions(runtimeExtensions);
@@ -104,7 +104,7 @@ export class SidebarPickerComponent implements OnInit {
         }
 
         templateExtensions.forEach(requiredExtension => {
-          const ext = r.extensions.first(installedExtention => {
+          const ext = r.extensions.find(installedExtention => {
             return installedExtention.id === requiredExtension.id
                   && installedExtention.version === requiredExtension.version;
           });
