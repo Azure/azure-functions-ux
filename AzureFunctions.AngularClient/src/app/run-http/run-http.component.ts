@@ -105,7 +105,7 @@ export class RunHttpComponent {
 
         this.paramsOptions = {
             items: this.model.queryStringParams,
-            nameValidators: [Validators.required, Validators.pattern(Regex.header)]
+            nameValidators: [Validators.required, Validators.pattern(Regex.queryParam)]
         };
 
     }
