@@ -1,41 +1,25 @@
-<div id="embedded-function-editor-wrapper">
+<div id="embedded-function-editor-wrapper"
+  [class.right-tabs-expanded]="rightBarExpanded"
+  [class.bottom-tabs-expanded]="bottomBarExpanded">
 
-  <!-- Be careful if you change the layout hierarchy between left-content and code-container.
-       We manipulate left-content in JavaScript based on resize events from window,
-       right tabs, and bottom tabs components-->
-  <div id="left-content">
-    <header>
-      <h2>run.csx</h2>
-      <button class="custom-button" (click)="saveEditorContent()">Save</button>
-    </header>
+  <section class="editor-section">
+    <command-bar>
+        <h2>run.csx</h2>
+        <command displayText="Save"
+        iconUrl="image/save.svg"
+        (click)="saveEditorContent()"></command>
+    </command-bar>
 
-    <section id="code-container" #codeContainer (window:resize)="onResize()">
-
-      <div id="code"
-        monacoEditor
-        class="monaco"
+    <div class="text-editor-container">
+      <text-editor
         [content]="initialEditorContent"
-        [fileName]="fileName"
-        (onContentChanged)="editorContentChanged($event)">
-      </div>
+        (onContentChanged)="editorContentChanged($event)"
+        [fileName]="fileName"></text-editor>
+    </div>
+  </section>
 
-    </section>
-
-    <footer>
-      <bottom-tabs (onExpanded)="handleBottomBarExpansion($event)">
-        <embedded-function-logs-tab
-          title="Logs"
-          id="FunctionsLogTab"
-          [resourceId]="resourceId"></embedded-function-logs-tab>
-
-      </bottom-tabs>
-    </footer>
-        
-  </div> <!-- /left-content -->
-
-  <aside id="right-content">
-
-    <right-tabs (onExpanded)="handleRightBarExpansion($event)">
+  <aside class="right-tabs-bar" >
+    <right-tabs>
 
       <tab title="Test" id="FunctionTestTab">
           <embedded-function-test-tab
@@ -44,8 +28,17 @@
       </tab>
 
     </right-tabs>
+
   </aside>
-  <div style="clear: both;"></div>
 
+  <footer class="bottom-tabs-bar">
+    <bottom-tabs (onExpanded)="toggleBottomBarExpanded()">
+        <embedded-function-logs-tab
+          *ngIf="bottomBarExpanded"
+          title="Logs"
+          id="FunctionsLogTab"
+          [resourceId]="resourceId"></embedded-function-logs-tab>
 
+      </bottom-tabs>
+  </footer>
 </div>

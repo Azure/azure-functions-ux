@@ -1,7 +1,10 @@
+import { BroadcastEvent } from './../../shared/models/broadcast-event';
+import { BottomTabEvent } from './bottom-tab-event';
 import { Subject } from 'rxjs/Subject';
 import { Component, Output, OnInit, Input, OnDestroy, ContentChild } from '@angular/core';
 import { BottomTabComponent } from 'app/controls/bottom-tabs/bottom-tab.component';
 import { EmbeddedFunctionLogsTabComponent } from 'app/function/embedded/embedded-function-logs-tab/embedded-function-logs-tab.component';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 
 export interface BottomTabCommand {
   iconUrl: string;
@@ -30,10 +33,18 @@ export class BottomTabsComponent implements OnInit, OnDestroy {
   @ContentChild(EmbeddedFunctionLogsTabComponent) logsTab: EmbeddedFunctionLogsTabComponent;
 
   public activeTab: BottomTabComponent;
-
   public expanded = false;
 
-  constructor() { }
+  private _ngUnsubscribe = new Subject();
+
+  constructor(private _broadcastService: BroadcastService) {
+    this._broadcastService.getEvents<BottomTabEvent<boolean>>(BroadcastEvent.BottomTabsEvent)
+      .takeUntil(this._ngUnsubscribe)
+      .filter(e => e.type === 'isExpanded')
+      .subscribe(e => {
+        this.toggleExpanded();
+      });
+  }
 
   ngOnInit() {
   }
@@ -46,6 +57,9 @@ export class BottomTabsComponent implements OnInit, OnDestroy {
     this.expanded = !this.expanded;
     this.onExpanded.next(this.expanded);
 
-    this.activeTab = this.expanded ? this.logsTab : null; // For now we only have one tab so just hardcoding
+    setTimeout(() =>{
+      this.activeTab = this.expanded ? this.logsTab : null; // For now we only have one tab so just hardcoding
+    });
+
   }
 }

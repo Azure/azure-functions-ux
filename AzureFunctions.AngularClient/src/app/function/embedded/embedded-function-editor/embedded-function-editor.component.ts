@@ -1,3 +1,5 @@
+import { RightTabEvent } from './../../../controls/right-tabs/right-tab-event';
+import { TextEditorComponent } from './../../../controls/text-editor/text-editor.component';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { FunctionInfo } from './../../../shared/models/function-info';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -6,8 +8,7 @@ import { Subject } from 'rxjs/Subject';
 import { BroadcastEvent } from './../../../shared/models/broadcast-event';
 import { TreeViewInfo } from './../../../tree-view/models/tree-view-info';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { MonacoEditorDirective } from './../../../shared/directives/monaco-editor.directive';
-import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -17,8 +18,7 @@ import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
 })
 export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit, OnDestroy {
 
-  @ViewChild('codeContainer') codeContainer: ElementRef;
-  @ViewChild(MonacoEditorDirective) codeEditor: MonacoEditorDirective;
+  @ViewChild(TextEditorComponent) codeEditor: TextEditorComponent;
 
   public resourceId: string;
   public initialEditorContent = '';
@@ -30,11 +30,6 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   private _functionInfo: FunctionInfo;
   private _ngUnsubscribe: Subject<void> = new Subject<void>();
   private _busyManager: BusyStateScopeManager;
-  
-  private _rightBarExpandedWidth = 460;
-  private _rightBarClosedWidth = 44;
-  private _bottomBarClosedHeight = 39;
-  private _bottomBarExpandedHeight = 300;
 
   constructor(
     private _broadcastService: BroadcastService,
@@ -48,14 +43,14 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
       .switchMap(info => {
         this._busyManager.setBusy();
         this.resourceId = info.resourceId;
-        return this._cacheService.getArm(info.resourceId);
+        return this._cacheService.getArm(info.resourceId, true);
       })
       .switchMap(r => {
         this._functionInfo = r.json();
 
         const scriptHrefParts = this._functionInfo.script_href.split('/');
         this.fileName = scriptHrefParts[scriptHrefParts.length - 1];
-        return this._cacheService.getArm(this._functionInfo.script_href);
+        return this._cacheService.getArm(this._functionInfo.script_href, true);
       })
       .do(null, err => {
         // TODO: ellhamai - log error
@@ -67,6 +62,13 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
         this.initialEditorContent = r.text();
         this._updatedEditorContent = this.initialEditorContent;
       });
+
+    this._broadcastService.getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
+      .filter(e => e.type === 'isExpanded')
+      .takeUntil(this._ngUnsubscribe)
+      .subscribe(e => {
+        this.toggleRightBarExpanded();
+      });
   }
 
   ngOnInit() {
@@ -74,49 +76,27 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   }
 
   ngAfterContentInit() {
-    setTimeout(() => {
-      this.onResize();
-    });
   }
 
   ngOnDestroy() {
     this._ngUnsubscribe.next();
   }
 
-  onResize() {
-    const width = this.codeContainer.nativeElement.clientWidth;
-    const height = this.codeContainer.nativeElement.clientHeight;
-
-    this.codeEditor.setLayout(width - 50, height - 50);
-  }
-
-  handleRightBarExpansion(isExpanded: boolean) {
-    this.rightBarExpanded = isExpanded;
-
-    const parentElement = this.codeContainer.nativeElement.parentElement;
-    if (isExpanded) {
-      parentElement.style.width = `calc(100% - ${this._rightBarExpandedWidth + 1}px)`;
-    } else {
-      parentElement.style.width = `calc(100% - ${this._rightBarClosedWidth + 1}px)`;
-    }
+  toggleRightBarExpanded() {
+    this.rightBarExpanded = !this.rightBarExpanded;
 
     setTimeout(() => {
-      this.onResize();
+      this.codeEditor.resize();
     });
   }
 
-  handleBottomBarExpansion(isExpanded: boolean) {
-    this.bottomBarExpanded = isExpanded;
+  toggleBottomBarExpanded() {
+    this.bottomBarExpanded = !this.bottomBarExpanded;
 
-    const parentElement = this.codeContainer.nativeElement.parentElement;
-    if (isExpanded) {
-      parentElement.style.height = `calc(100% - ${this._bottomBarExpandedHeight + 1}px)`;
-    } else {
-      parentElement.style.height = `calc(100% - ${this._bottomBarClosedHeight + 1}px)`;
-    }
+    console.log('editor bottom bar expanded - ' + this.bottomBarExpanded);
 
     setTimeout(() => {
-      this.onResize();
+      this.codeEditor.resize();
     });
   }
 

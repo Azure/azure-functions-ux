@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { CacheService } from './../../../shared/services/cache.service';
 import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, AfterContentInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
+import { FunctionEditorEvent } from 'app/function/embedded/function-editor-event';
 
 @Component({
   selector: 'embedded-function-logs-tab',
@@ -34,6 +35,7 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
 
   constructor(private _cacheService: CacheService, private _armService: ArmService, private _broadcastService: BroadcastService) {
     super();
+
     this._resourceIdStream
       .takeUntil(this._ngUnsubscribe)
       .distinctUntilChanged()
@@ -41,12 +43,12 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
         this._startLogs();
       });
 
-    this._broadcastService
-      .getEvents(BroadcastEvent.StartPollingFunctionLogs)
+    this._broadcastService.getEvents<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent)
+      .filter(e => e.type === 'runTest')
       .takeUntil(this._ngUnsubscribe)
       .subscribe(r => {
         this._startLogs();
-      })
+      });
   }
 
   ngOnInit() {
@@ -71,9 +73,6 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
       return;
     }
 
-    // if (!this.expanded) {
-    //   this.toggleExpanded();
-    // }
     this.commands[0].click = () => this._stopLogs();
     this.commands[0].iconUrl = 'image/pause.svg';
     this.commands[0].text = 'Pause';

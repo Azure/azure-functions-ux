@@ -1,16 +1,10 @@
 <section id="test-tab-request-body">
     <label>Request body</label>
-    
-    <div class="monaco-container" id="request-editor-container" #requestEditorContainer>
-            
-        <div id="request-editor"
-            monacoEditor
-            class="monaco"
+
+    <div class="request-editor-container">
+        <text-editor
             [content]="initialEditorContent"
-            (onContentChanged)="editorContentChanged($event)"
-            [functionAppInput]="functionApp">
-        </div>
-            
+            (onContentChanged)="editorContentChanged($event)"></text-editor>
     </div>
 </section>
 

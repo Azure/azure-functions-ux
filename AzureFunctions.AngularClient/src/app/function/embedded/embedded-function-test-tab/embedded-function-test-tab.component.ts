@@ -1,12 +1,15 @@
+import { BottomTabEvent } from './../../../controls/bottom-tabs/bottom-tab-event';
+import { FunctionEditorEvent } from './../function-editor-event';
+import { RightTabEvent } from './../../../controls/right-tabs/right-tab-event';
+import { TextEditorComponent } from 'app/controls/text-editor/text-editor.component';
 import { CacheService } from './../../../shared/services/cache.service';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { TabComponent } from './../../../controls/tabs/tab/tab.component';
-import { MonacoEditorDirective } from './../../../shared/directives/monaco-editor.directive';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
 import { FunctionApp } from 'app/shared/function-app';
-import { Component, OnInit, ViewChild, ElementRef, AfterContentInit, Output, Input, OnChanges, SimpleChange, ContentChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, Input, OnChanges, SimpleChange, ContentChildren, QueryList, OnDestroy } from '@angular/core';
 import { Headers } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 
@@ -15,11 +18,13 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
   templateUrl: './embedded-function-test-tab.component.html',
   styleUrls: ['./embedded-function-test-tab.component.scss']
 })
-export class EmbeddedFunctionTestTabComponent implements OnInit, AfterContentInit, OnChanges {
+export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDestroy {
   @Input() resourceId: string;
   @Output() onExpanded = new Subject<boolean>();
-  @ViewChild('requestEditorContainer') requestEditorContainer: ElementRef;
-  @ViewChild(MonacoEditorDirective) requestEditor: MonacoEditorDirective;
+  @ViewChild(TextEditorComponent) textEditor: TextEditorComponent;
+
+  // @ViewChild('requestEditorContainer') requestEditorContainer: ElementRef;
+  // @ViewChild(MonacoEditorDirective) requestEditor: MonacoEditorDirective;
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
   public functionApp: FunctionApp = null;
@@ -32,16 +37,18 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, AfterContentIni
   private _resourceIdStream = new Subject<string>();
   private _functionInfo: FunctionInfo;
   private _busyManager: BusyStateScopeManager;
+  private _ngUnsubscribe = new Subject();
 
   constructor(private _cacheService: CacheService, private _broadcastService: BroadcastService) {
 
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
     this._resourceIdStream
+      .takeUntil(this._ngUnsubscribe)
       .distinctUntilChanged()
       .switchMap(resourceId => {
         this._busyManager.setBusy();
-        return this._cacheService.getArm(resourceId);
+        return this._cacheService.getArm(resourceId, true);
       })
       .do(null, err => {
         // TODO: ellhamai - handle error
@@ -61,22 +68,24 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, AfterContentIni
 
         this._updatedEditorContent = this.initialEditorContent;
       });
+
+    this._broadcastService.getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
+      .filter(e => e.type === 'isExpanded')
+      .takeUntil(this._ngUnsubscribe)
+      .subscribe(e => {
+        this._resizeEditor();
+      });
   }
 
   ngOnInit() {
   }
 
-  // toggleExpanded() {
-  //   this.expanded = !this.expanded;
-  //   this.onExpanded.next(this.expanded);
+  ngOnDestroy() {
+    this._ngUnsubscribe.next();
+  }
 
-  //   if (this.expanded) {
-  //     this.onResize();
-  //   }
-  // }
-
-  ngAfterContentInit() {
-    this.onResize();
+  private _resizeEditor() {
+    this.textEditor.resize();
   }
 
   ngOnChanges(changes: { [key: string]: SimpleChange }) {
@@ -85,16 +94,18 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, AfterContentIni
     }
   }
 
-  onResize() {
-    setTimeout(() => {
-      const width = this.requestEditorContainer.nativeElement.clientWidth;
-      const height = this.requestEditorContainer.nativeElement.clientHeight;
-      this.requestEditor.setLayout(width - 4, height - 4);
-    }, 1000);
-  }
-
   runTest() {
-    this._broadcastService.broadcastEvent(BroadcastEvent.StartPollingFunctionLogs);
+    this._broadcastService.broadcastEvent<BottomTabEvent<boolean>>(BroadcastEvent.BottomTabsEvent, {
+      type: 'isExpanded',
+      value: true
+    });
+
+    setTimeout(() => {
+      this._broadcastService.broadcastEvent<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent, {
+        type: 'runTest',
+        value: null
+      });
+    });
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

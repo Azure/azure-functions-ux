@@ -9,17 +9,18 @@ section{
 
 #test-tab-request-body{
     border-top: $border;
+    height: 275px;
 
-    .monaco-container{
-        height: 275px;
-        // width: 100%;
+    .request-editor-container{
+        height: calc(100% - 15px);
+        border: $border;
     }
+
 }
 
 #test-tab-output{
     pre{
         height: 275px;
-        width: 437px;  // Necessary to properly wrap text
         white-space: pre-wrap;       /* Since CSS 2.1 */
         white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
         white-space: -pre-wrap;      /* Opera 4-6 */

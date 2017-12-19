@@ -1,6 +1,8 @@
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { RightTabEvent } from './right-tab-event';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { TabComponent } from './../tabs/tab/tab.component';
-import { Subject } from 'rxjs/Subject';
-import { Component, OnInit, AfterContentInit, Output, ContentChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterContentInit, ContentChildren, QueryList } from '@angular/core';
 
 @Component({
   selector: 'right-tabs',
@@ -9,11 +11,10 @@ import { Component, OnInit, AfterContentInit, Output, ContentChildren, QueryList
 })
 export class RightTabsComponent implements OnInit, AfterContentInit {
 
-  @Output() onExpanded = new Subject<boolean>();
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
   public expanded = false;
 
-  constructor() {
+  constructor(private _broadcastService: BroadcastService) {
 
   }
 
@@ -27,10 +28,12 @@ export class RightTabsComponent implements OnInit, AfterContentInit {
     }
 
     this.expanded = !this.expanded;
-    this.onExpanded.next(this.expanded);
+    this._broadcastService.broadcastEvent<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent, {
+      type: 'isExpanded',
+      value: this.expanded
+    });
   }
 
   ngAfterContentInit() {
-    // this.onResize();
   }
 }

@@ -9,6 +9,7 @@ import { PairListComponent } from './../controls/pair-list/pair-list.component';
 import { FunctionKeysComponent } from './../function-keys/function-keys.component';
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { TextEditorComponent } from 'app/controls/text-editor/text-editor.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { TranslateModule } from '@ngx-translate/core';
         MonacoEditorDirective,
         RightTabsComponent,
         BottomTabsComponent,
-        BottomTabComponent
+        BottomTabComponent,
+        TextEditorComponent
     ],
     exports: [
         FunctionKeysComponent,
@@ -29,7 +31,8 @@ import { TranslateModule } from '@ngx-translate/core';
         MonacoEditorDirective,
         RightTabsComponent,
         BottomTabsComponent,
-        BottomTabComponent
+        BottomTabComponent,
+        TextEditorComponent
     ],
     imports: [
         TranslateModule.forChild(),
