@@ -398,7 +398,7 @@ export class FunctionRuntimeComponent implements OnDestroy {
         this._cacheService.clearArmIdCachePrefix(this.site.id);
         this._appNode.clearNotification(NotificationIds.newRuntimeVersion);
 
-        this._languageService.getResources(version, false);
+        this._languageService.getResources(version);
       });
   }
 
