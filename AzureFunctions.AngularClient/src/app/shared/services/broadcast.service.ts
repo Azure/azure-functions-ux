@@ -23,7 +23,6 @@ export class BroadcastService {
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
-    private functionNewEvent: EventEmitter<any>;
     private integrateChangedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private errorEvent: EventEmitter<ErrorEvent>;
@@ -44,7 +43,6 @@ export class BroadcastService {
         this.integrateChangedEvent = new EventEmitter<void>();
         this.errorEvent = new EventEmitter<ErrorEvent>();
         this.trialExpired = new EventEmitter<void>();
-        this.functionNewEvent = new EventEmitter<any>();
         this.resetKeySelection = new EventEmitter<FunctionInfo>();
         this.clearErrorEvent = new EventEmitter<string>();
 
@@ -57,6 +55,9 @@ export class BroadcastService {
         this._streamMap[BroadcastEvent.DirtyStateChange] = new ReplaySubject(1);
         this._streamMap[BroadcastEvent.UpdateAppsList] = new ReplaySubject(1);
         this._streamMap[BroadcastEvent.IntegrateChanged] = new Subject();
+        this._streamMap[BroadcastEvent.FunctionEditorEvent] = new Subject();
+        this._streamMap[BroadcastEvent.RightTabsEvent] = new Subject();
+        this._streamMap[BroadcastEvent.BottomTabsEvent] = new Subject();
     }
 
     // DEPRECATED - Use broadcastEvent

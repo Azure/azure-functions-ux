@@ -1,0 +1,21 @@
+<section id="test-tab-request-body">
+    <label>Request body</label>
+
+    <div class="request-editor-container">
+        <text-editor
+            [content]="initialEditorContent"
+            (onContentChanged)="editorContentChanged($event)"></text-editor>
+    </div>
+</section>
+
+<section id="test-tab-output">
+  <label>Output</label>
+  
+  <pre>{{responseOutputText}}</pre>
+</section>
+
+<footer>
+    <button class="custom-button-invert" (click)="runTest()">
+        <i class="fa fa-play"></i><span>Run</span>
+    </button>
+</footer>

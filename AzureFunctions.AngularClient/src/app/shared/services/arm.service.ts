@@ -38,9 +38,11 @@ export class ArmService {
                 this._token = info.token;
                 this._sessionId = info.sessionId;
             });
-
     }
 
+    getHeaders(etag?: string){
+        return ArmServiceHelper.getHeaders(this._token, this._sessionId, etag);
+    }
 
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers, invokeApi?: boolean) {
 
@@ -84,5 +86,28 @@ export class ArmService {
         const content = !!body ? JSON.stringify(body) : null;
         const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
         return this._http.post(url, content, { headers: ArmServiceHelper.getHeaders(this._token, this._sessionId) });
+    }
+
+    getArmUrl(resourceId: string, apiVersion?: string) {
+        const url = `${this.armUrl}${resourceId}`;
+        if(apiVersion){
+            return this._updateQueryString(
+                url,
+                'api-version',
+                apiVersion ? apiVersion : this.websiteApiVersion);
+        } else{
+            return url;
+        }
+    }
+
+    // http://stackoverflow.com/questions/5999118/add-or-update-query-string-parameter
+    private _updateQueryString(uri, key, value) {
+        const re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
+        const separator = uri.indexOf('?') !== -1 ? '&' : '?';
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + '=' + value + '$2');
+        } else {
+            return uri + separator + key + '=' + value;
+        }
     }
 }

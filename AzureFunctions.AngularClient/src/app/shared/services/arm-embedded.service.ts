@@ -16,6 +16,12 @@ import { ArmService } from './arm.service';
 export class ArmEmbeddedService extends ArmService {
     public static url = 'https://blueridge-tip1-rp-westus.azurewebsites.net';
 
+    public websiteApiVersion = null;  // Force us to not use default API versions
+
+    private _whitelistedAPIMUrls: string[] = [
+        'https://blueridge.azure-api.net'
+    ];
+
     private _whitelistedRPPrefixUrls: string[] = [
         ArmEmbeddedService.url,
         NoCorsHttpService.passThroughUrl
@@ -100,11 +106,15 @@ export class ArmEmbeddedService extends ArmService {
                 });
         }
 
-        this._aiService.trackEvent('/try/arm-send-failure', {
+        if(this._whitelistedAPIMUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))){
+            return super.send(method, url, body, etag, headers);
+        }
+
+        this._aiService.trackEvent('/arm-embedded/arm-send-failure', {
             uri: url
         });
 
-        throw new Error('[ArmTryService] - send: ' + url);
+        throw new Error('[ArmEmbeddedService] URL rule not defined - send: ' + url);
     }
 
     private _getActualUrlNoQuery(urlNoQuery: string, body?: any) {
@@ -120,7 +130,11 @@ export class ArmEmbeddedService extends ArmService {
     // TODO: ellhamai - need to cleanup this function and add support for setting file content API content-type header.
     private _wrapPayloadIfNecessary(id: string, body: any, urlNoQuery: string) {
 
-        if (urlNoQuery.toLowerCase() === NoCorsHttpService.passThroughUrl.toLowerCase() && body && body.body) {
+        if (urlNoQuery.toLowerCase() === NoCorsHttpService.passThroughUrl.toLowerCase()
+            && body
+            && body.body
+            && !body.body.properties) {
+
             const pathParts = body.url.split('/').filter(part => !!part);
             body = JSON.parse(JSON.stringify(body));
             try {
@@ -144,7 +158,10 @@ export class ArmEmbeddedService extends ArmService {
 
             }
 
-        } else if (urlNoQuery.toLowerCase() !== NoCorsHttpService.passThroughUrl.toLowerCase() && body) {
+        } else if (urlNoQuery.toLowerCase() !== NoCorsHttpService.passThroughUrl.toLowerCase()
+            && body
+            && !body.properties) {
+
             const pathParts = id.split('/').filter(part => !!part);
             body = JSON.parse(JSON.stringify(body));
             try {

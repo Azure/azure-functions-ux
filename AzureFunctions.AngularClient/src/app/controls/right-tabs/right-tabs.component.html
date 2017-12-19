@@ -1,0 +1,25 @@
+<div id="right-tabs-wrapper">
+<nav [class.expanded]="expanded">
+    <div id="right-tabs-expand-icon" *ngIf="!expanded">
+        <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-left"></i></a>
+    </div>
+    <div *ngFor="let tab of tabs"
+        class="tab-text"
+        [class.collapsed]="!expanded">
+
+        <h4 class="clickable" (click)="!expanded && toggleExpanded()">{{tab.title}}</h4>
+
+    </div>
+    <!-- <div class="tab-text" [class.collapsed]="!expanded" (click)="toggleExpanded()">
+        <h4 class="clickable">Test</h4>
+    </div> -->
+    <div id="right-tabs-collapse-icon" *ngIf="expanded" (click)="toggleExpanded()">
+        <a tabindex="0" (click)="toggleExpanded()"><i class="fa fa-chevron-right"></i></a>
+    </div>
+
+</nav>
+
+<section>
+    <ng-content></ng-content>
+</section>
+</div>

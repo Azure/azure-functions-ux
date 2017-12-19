@@ -1,0 +1,44 @@
+@import '../../../sass/common/variables';
+
+nav{
+    position: relative;
+}
+
+.tab-text{
+    border-top: none;
+    border-bottom: 4px solid $border-color;
+    display: inline-block;
+    padding: 5px 10px;
+    margin-left: 10px;
+
+    &.collapsed{
+        border-top: 4px solid $border-color;
+        border-bottom: none;
+        display: block;
+        margin-left: 0px;
+    }
+}
+
+#bottom-tabs-actions{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+#bottom-tabs-actions-expanded{
+    a{
+        margin-right: 10px;
+    }
+
+    .command-icon{
+        height: 10px;
+        width: 10px;
+        margin: -2px;
+        display: inline-block;
+    }
+}
+
+#bottom-tabs-content{
+    height: 262px;
+    padding: 0px 10px 10px 10px;
+}

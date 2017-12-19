@@ -5,6 +5,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import { GlobalStateService } from '../services/global-state.service';
 import { FunctionApp } from '../function-app';
+import { PortalService } from 'app/shared/services/portal.service';
 
 declare var monaco;
 
@@ -30,7 +31,8 @@ export class MonacoEditorDirective {
     constructor(
         public elementRef: ElementRef,
         private _globalStateService: GlobalStateService,
-        private _userService: UserService) {
+        private _userService: UserService,
+        private _portalService: PortalService) {
 
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
@@ -49,6 +51,11 @@ export class MonacoEditorDirective {
                 this._functionApp = functionApp;
                 this.init();
             });
+
+        // Ideally Monaco editor shouldn't know anything that's specific to functions 
+        if (this._portalService.isEmbeddedFunctions) {
+            this.init();
+        }
     }
 
     @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp) {
@@ -140,7 +147,8 @@ export class MonacoEditorDirective {
 
 
     private init() {
-        this._globalStateService.setBusyState();
+        // TODO: ellhamai - Not sure why but this doesn't turn off right away even after clearing
+        // this._globalStateService.setBusyState();
 
         let onGotAmdLoader = () => {
             (<any>window).require.config({ paths: { 'vs': 'assets/monaco/min/vs' } });

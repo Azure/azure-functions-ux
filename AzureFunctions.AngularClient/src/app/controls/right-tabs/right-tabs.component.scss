@@ -1,0 +1,89 @@
+@import '../../../sass/common/mixins';
+@import '../../../sass/common/variables';
+
+$expanded-width: 460px;
+
+.collapsed{
+    @include rotate(90deg);
+}
+
+#right-tabs-wrapper{
+    height: 100%;
+    border-left: $border;
+    background-color: $body-bg-color;
+
+    nav.expanded{
+        width: $expanded-width;
+    }
+}
+
+.tab-text{
+    border-top: none;
+    border-bottom: 4px solid $border-color;
+    display: inline-block;
+    padding: 5px 10px;
+    margin-left: 10px;
+
+    &.collapsed{
+        border-top: 4px solid $border-color;
+        border-bottom: none;
+        display: block;
+        margin-left: 0px;
+    }
+}
+
+#right-tabs-expand-icon{
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#right-tabs-collapse-icon{
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+
+// section{
+//     padding: 10px;
+// }
+
+// #test-tab-request-body{
+//     border-top: $border;
+
+//     .monaco-container{
+//         height: 275px;
+//         // width: 100%;
+//     }
+// }
+
+// #test-tab-output{
+//     pre{
+//         height: 275px;
+//         width: 438px;  // Necessary to properly wrap text
+//         white-space: pre-wrap;       /* Since CSS 2.1 */
+//         white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+//         white-space: -pre-wrap;      /* Opera 4-6 */
+//         white-space: -o-pre-wrap;    /* Opera 7 */
+//         word-wrap: break-word;       /* Internet Explorer 5.5+ */
+//     }
+// }
+
+// footer{
+//     position: absolute;
+//     bottom: 0px;
+//     border-top: $border;
+//     width: $expanded-width;
+//     height: 47px;
+
+//     button{
+//         position: absolute;
+//         right: 8px;
+//         bottom: 10px;
+
+//         span{
+//             margin-left: 5px;
+//         }
+//     }
+// }
