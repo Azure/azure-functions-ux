@@ -24,7 +24,7 @@ import { AppNode } from './../../tree-view/app-node';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { ArmService } from '../../shared/services/arm.service';
 import { BroadcastService } from '../../shared/services/broadcast.service';
-import { BroadcastEvent } from '../../shared/models/broadcast-event'
+import { BroadcastEvent } from '../../shared/models/broadcast-event';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
@@ -36,6 +36,7 @@ import { HostStatus } from './../../shared/models/host-status';
 import { FunctionsVersionInfoHelper } from './../../shared/models/functions-version-info';
 import { AccessibilityHelper } from './../../shared/Utilities/accessibility-helper';
 import { ArmUtil } from './../../shared/Utilities/arm-utils';
+import { LanguageService } from '../../shared/services/language.service';
 
 @Component({
   selector: 'function-runtime',
@@ -93,7 +94,8 @@ export class FunctionRuntimeComponent implements OnDestroy {
     private _configService: ConfigService,
     private _functionsService: FunctionsService,
     private _injector: Injector,
-    private _logService: LogService) {
+    private _logService: LogService,
+    private _languageService: LanguageService) {
 
     this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
@@ -389,13 +391,14 @@ export class FunctionRuntimeComponent implements OnDestroy {
         console.error(e);
       })
       .subscribe((hostStatus: HostStatus) => {
-
         this.exactExtensionVersion = hostStatus ? hostStatus.version : '';
         this.extensionVersion = version;
         this.setNeedUpdateExtensionVersion();
         this._busyManager.clearBusy();
         this._cacheService.clearArmIdCachePrefix(this.site.id);
         this._appNode.clearNotification(NotificationIds.newRuntimeVersion);
+
+        this._languageService.getResources(version, false);
       });
   }
 
