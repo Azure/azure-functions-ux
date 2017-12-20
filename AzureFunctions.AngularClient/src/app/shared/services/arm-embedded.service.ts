@@ -19,7 +19,8 @@ export class ArmEmbeddedService extends ArmService {
     public websiteApiVersion = null;  // Force us to not use default API versions
 
     private _whitelistedAPIMUrls: string[] = [
-        'https://blueridge.azure-api.net'
+        'https://blueridge.azure-api.net',
+        'https://tip1.api.cds.microsoft.com'
     ];
 
     private _whitelistedRPPrefixUrls: string[] = [

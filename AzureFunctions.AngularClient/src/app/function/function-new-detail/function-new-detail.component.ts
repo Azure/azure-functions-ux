@@ -57,6 +57,8 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
   clickSave = false;
   currentBinding: UIFunctionBinding = null;
   modelDocumentation: string;
+  entityOptions: DropDownElement<string>[] = [];
+  functionEntity: string;
 
   private _exclutionFileList = [
     'test.json',
@@ -80,6 +82,11 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
     if (changes['functionCard']) {
       if (this.functionCard) {
         this.updateLanguageOptions();
+        if (this._portalService.isEmbeddedFunctions) {
+          this.getEntityOptions()
+          .subscribe(() => {
+          });
+        }
       }
     }
   }
@@ -108,6 +115,26 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
       .subscribe(() => {
       });
     }
+  }
+
+  getEntityOptions() {
+    return this.functionApp.getEntities()
+    .do(r => {
+      const entities = r.value.map(e => e.name);
+      this.entityOptions = [];
+      entities.forEach(entity => {
+        const dropDownElement: any = {
+          displayLabel: entity,
+          value: entity
+        };
+        this.entityOptions.push(dropDownElement);
+      });
+    });
+  }
+
+  onEntityChanged(entity: string) {
+    this.functionEntity = entity;
+    this.validate();
   }
 
   onTemplatePickUpComplete() {
@@ -215,6 +242,9 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
           this.areInputsValid = false;
         }
       }
+      if (this._portalService.isEmbeddedFunctions && !this.functionEntity) {
+        this.areInputsValid = false;
+      }
 
       this._bindingComponents.forEach((b) => {
         this.areInputsValid = b.areInputsValid && this.areInputsValid;
@@ -264,12 +294,16 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
     });
 
     this._globalStateService.setBusyState();
-    this.functionApp.createFunctionV2(this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+    this.functionApp.createFunctionV2(this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config), this.functionEntity.toLowerCase())
       .subscribe(newFunctionInfo => {
         this._portalService.logAction('new-function', 'success', { template: this.currentTemplate.id, name: this.functionName });
         this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
 
-        this._cacheService.clearCachePrefix(this.functionApp.getScmUrl());
+        if (this._portalService.isEmbeddedFunctions) {
+          this._cacheService.clearCachePrefix(this.functionApp.getEmbeddedSiteUrl());
+        } else {
+          this._cacheService.clearCachePrefix(this.functionApp.getScmUrl());
+        }
         newFunctionInfo.context = this.context;
 
         // If someone refreshed the app, it would created a new set of child nodes under the app node.

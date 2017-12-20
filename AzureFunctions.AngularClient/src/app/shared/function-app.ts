@@ -203,20 +203,20 @@ export class FunctionApp {
                         "value": "enum",
                         "enum": [
                           {
-                            "value": "create",
-                            "display": "create"
+                            "value": "Create",
+                            "display": "Create"
                           },
                           {
-                            "value": "destroy",
-                            "display": "destroy"
+                            "value": "Destroy",
+                            "display": "Destroy"
                           },
                           {
-                            "value": "update",
-                            "display": "update"
+                            "value": "Update",
+                            "display": "Update"
                           },
                           {
-                            "value": "retrieve",
-                            "display": "retrieve"
+                            "value": "Retrieve",
+                            "display": "Retrieve"
                           }
                         ],
                         "label": "Event",
@@ -636,14 +636,21 @@ export class FunctionApp {
             .map(r => <{ [key: string]: string }>r.json());
     }
 
+    getEntities() {
+        const url = this.urlTemplates.getEntitiesUrl();
+        return this._http.get(url, {headers: this.getScmSiteHeaders() })
+            .retryWhen(this.retryAntares)
+            .map(r => r.json());
+    }
+
     @ClearCache('getFunctions')
-    createFunctionV2(functionName: string, files: any, config: any) {
+    createFunctionV2(functionName: string, files: any, config: any, entity?: string) {
         const filesCopy = Object.assign({}, files);
         const sampleData = filesCopy['sample.dat'];
         delete filesCopy['sample.dat'];
 
         const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
-        const url = this.urlTemplates.getFunctionUrl(functionName);
+        const url = this.urlTemplates.getFunctionUrl(functionName, entity);
 
         return this._http.put(url, content, { headers: this.getScmSiteHeaders() })
             .map(r => <FunctionInfo>r.json())
@@ -903,10 +910,11 @@ export class FunctionApp {
     }
 
     getScmUrl() {
-        if (this._portalService.isEmbeddedFunctions){
-            return `${ArmEmbeddedService.url}${this.site.id}`;
-        }
         return this.urlTemplates.scmSiteUrl;
+    }
+
+    getEmbeddedSiteUrl() {
+        return `${ArmEmbeddedService.url}${this.site.id}`;
     }
 
     getSiteName() {

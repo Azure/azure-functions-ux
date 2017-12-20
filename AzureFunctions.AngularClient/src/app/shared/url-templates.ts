@@ -58,8 +58,12 @@ export class UrlTemplates {
             : `${this.scmUrl}/api/vfs/site/wwwroot/proxies.json`;
     }
 
-    getFunctionUrl(functionName: string): string {
+    getFunctionUrl(functionName: string, functionEntity?: string): string {
         if (this.isEmbeddedFunctions) {
+            if (!!functionEntity) {
+                const smallerSiteId = this.site.id.split('/').filter(part => !!part).slice(0, 6).join('/');
+                return `${ArmEmbeddedService.url}/${smallerSiteId}/entities/${functionEntity}/functions/${functionName}`;
+            }
             return `${ArmEmbeddedService.url}${this.site.id}/functions/${functionName}`;
         }
 
@@ -74,6 +78,10 @@ export class UrlTemplates {
 
     getRunFunctionUrl(functionName: string): string {
         return `${this.mainSiteUrl}/admin/functions/${functionName.toLocaleLowerCase()}`;
+    }
+
+    getEntitiesUrl(): string {
+        return `https://tip1.api.cds.microsoft.com/providers/Microsoft.CommonDataModel/environments/0fb7e803-94aa-4e69-9694-d3b3cea74523/namespaces/5d5374aa-0df3-421c-9656-5244ac88593c/entities?api-version=2016-11-01-alpha&$expand=namespace&headeronly=true`;
     }
 
     get pingUrl(): string {
