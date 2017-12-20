@@ -1,7 +1,7 @@
   <a
     role="button"
     [attr.aria-label]="displayText"
-    class="list-item clickable command"
+    [class]="cssClass"
     [class.disabled-command]="disabled"
     [attr.aria-disabled]="disabled"
     (click)="onClick($event)"

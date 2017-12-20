@@ -12,6 +12,7 @@ export class CommandComponent implements OnInit {
   @Input() displayText: string;
   @Input() iconUrl: string;
   @Input() disabled = false;
+  @Input() cssClass = 'list-item clickable command';
   @Output() click = new Subject<any>();
 
   constructor() { }

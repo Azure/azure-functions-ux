@@ -4,10 +4,11 @@
 
   <section class="editor-section">
     <command-bar>
-        <h2>run.csx</h2>
+        <h2>{{fileName}}</h2>
         <command displayText="Save"
         iconUrl="image/save.svg"
-        (click)="saveEditorContent()"></command>
+        (click)="saveEditorContent()"
+        cssClass="list-item clickable command left-edge"></command>
     </command-bar>
 
     <div class="text-editor-container">

@@ -74,6 +74,10 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         component: FunctionEditComponent
     },
     {
+        path: 'environments/:environmentId/scopes/:scope/entities/:entityId/functions',
+        component: FunctionsListComponent
+    },
+    {
         path: 'environments/:environmentId/scopes/:scope/entities/:entityId/functions/:functionName',
         component: EmbeddedFunctionEditorComponent
     }
