@@ -74,13 +74,17 @@ export class FunctionsListComponent implements OnDestroy {
                     this.functionApp.getRuntimeGeneration(),
                     this._buildCreateCardTemplate(this.functionApp),
                     this.functionApp.getFunctions(),
-                    (a, b, c, fcs) => ({runtimeVersion : b, cards: c, fcs: fcs }));
+                    this._functionsService.getFunctions(context),
+                    (a, b, c, fcs, fs) => ({runtimeVersion : b, cards: c, fcs: fcs, fs: fs }));
             })
             .subscribe((r) => {
                 this.runtimeVersion = r.runtimeVersion;
                 this.isLoading = false;
                 this.functions = (<FunctionNode[]>this._functionsNode.children);
                 this.functionsInfo = r.fcs;
+                if (this._portalService.isEmbeddedFunctions) {
+                    this.functionsInfo = r.fs;
+                }
             });
     }
 

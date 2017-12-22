@@ -116,17 +116,29 @@ export class FunctionsService {
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
                 try {
-                    const collection = r.json();
+                    const collection = r.json().value;
 
                     fcs = collection.map(item => {
                         let fc: FunctionInfo;
+
                         if (item.properties) {
-                            fc = item.properties.function;
+
+                            if (this._portalService.isEmbeddedFunctions) {
+                                fc = item.properties;
+
+                                const currResourceId = '/' + item.id.split('/').filter(part => !!part).slice(0, 8).join('/');
+                                this.getAppContext(currResourceId)
+                                    .subscribe(appContext => fc.context = appContext);
+                            } else {
+                                fc = item.properties.function;
+                                fc.context = context;
+                            }
+
                         } else {
                             fc = item;
+                            fc.context = context;
                         }
 
-                        fc.context = context;
                         return fc;
                     });
 

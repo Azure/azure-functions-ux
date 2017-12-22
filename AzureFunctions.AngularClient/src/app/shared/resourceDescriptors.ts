@@ -69,22 +69,20 @@ export class ArmResourceDescriptor extends Descriptor {
 export class CdsEntityDescriptor extends Descriptor {
     public environment: string;
     public scope: string;
-    public entity: string;
 
     constructor(resourceId: string) {
         super(resourceId);
 
-        if (this.parts.length < 8) {
-            throw Error(`resourceId length is too short: ${resourceId}`);
+        if (this.parts.length < 6) {
+            throw Error(`resourceId length is too short for CDS: ${resourceId}`);
         }
 
         this.environment = this.parts[3];
         this.scope = this.parts[5];
-        this.entity = this.parts[7];
     }
 
     getTrimmedResourceId() {
-        return `/providers/Microsoft.Blueridge/environments/${this.environment}/scopes/${this.scope}/entities/${this.entity}`;
+        return `/providers/Microsoft.Blueridge/environments/${this.environment}/scopes/${this.scope}`;
     }
 }
 
@@ -121,10 +119,10 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
             maxIndex = 9;
         } else if (parts.length >= 8 && parts[6].toLowerCase() === 'sites') {
             maxIndex = 7;
-        } else if (parts.length >= 8 && parts[6].toLowerCase() === 'entities') {
+        } else if (parts.length >= 6 && parts[4].toLowerCase() === 'scopes') {
             return new CdsEntityDescriptor(resourceId);
         } else {
-            throw Error('Not enough segments in site or slot id');
+            throw Error(`Not enough segments in site or slot or scope id`);
         }
 
         for (let i = 0; i <= maxIndex; i++) {

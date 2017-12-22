@@ -44,6 +44,10 @@ export class ArmEmbeddedService extends ArmService {
             return Observable.of(this._getFakeSiteObj(path, pathParts[7]));
         }
 
+        if (pathParts.length === 6 && pathParts[4] === 'scopes') {
+            return Observable.of(this._getFakeSiteObj(path, 'fakeEnvironmentApp'));
+        }
+
         if (urlNoQuery.endsWith('/config/authsettings/list')) {
             return Observable.of(this._getFakeResponse({
                 id: Url.getPath(urlNoQuery),
@@ -53,7 +57,7 @@ export class ArmEmbeddedService extends ArmService {
                     clientId: null,
                 }
             }));
-        } else if(urlNoQuery.endsWith('/appsettings/list')){
+        } else if (urlNoQuery.endsWith('/appsettings/list')) {
             return Observable.of(this._getFakeResponse({
                 properties: {
                     FUNCTIONS_EXTENSION_VERSION: '~1',
@@ -62,6 +66,14 @@ export class ArmEmbeddedService extends ArmService {
             }));
         } else if (urlNoQuery.endsWith('.svg')) {
             return super.send(method, url, body, etag, headers);
+
+        } else if (pathParts.length === 5 && pathParts[4] === 'functions') {
+            // Get a list of all functions in the environment
+            return super.send(method, url, body, etag, headers);
+        } else if (urlNoQuery.endsWith('/config/web')) {
+            // TODO: filter out these requests
+        } else if (urlNoQuery.endsWith('slots')) {
+            // TODO: filter out these requests
         }
 
         if (this._whitelistedRPPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))) {

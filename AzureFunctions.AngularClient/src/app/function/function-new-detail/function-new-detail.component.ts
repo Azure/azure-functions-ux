@@ -1,7 +1,7 @@
 import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
-import { FunctionAppContext } from './../../shared/services/functions-service';
+import { FunctionAppContext, FunctionsService } from './../../shared/services/functions-service';
 import { CacheService } from './../../shared/services/cache.service';
 import { AppNode } from './../../tree-view/app-node';
 import { FunctionsNode } from './../../tree-view/functions-node';
@@ -72,7 +72,8 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
     private _portalService: PortalService,
     private _aiService: AiService,
     private _cacheService: CacheService,
-    private _logService: LogService) {
+    private _logService: LogService,
+    private _functionsService: FunctionsService) {
   }
 
   ngOnInit() {
@@ -301,10 +302,15 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
 
         if (this._portalService.isEmbeddedFunctions) {
           this._cacheService.clearCachePrefix(this.functionApp.getEmbeddedSiteUrl());
+
+          const currResourceId = '/' + newFunctionInfo.script_href.split('/').filter(part => !!part).slice(0, 8).join('/');
+          this._functionsService.getAppContext(currResourceId)
+              .subscribe(appContext => newFunctionInfo.context = appContext);
+
         } else {
           this._cacheService.clearCachePrefix(this.functionApp.getScmUrl());
+          newFunctionInfo.context = this.context;
         }
-        newFunctionInfo.context = this.context;
 
         // If someone refreshed the app, it would created a new set of child nodes under the app node.
         this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);

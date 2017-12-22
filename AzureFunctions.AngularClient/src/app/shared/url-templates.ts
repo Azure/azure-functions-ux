@@ -44,6 +44,14 @@ export class UrlTemplates {
 
     get functionsUrl(): string {
         if (this.isEmbeddedFunctions) {
+            const parts = this.site.id.split('/').filter(part => !!part);
+
+            if (parts.length === 6) {
+                // url to get all functions for the environment: removes "/scopes/cds"
+                const smallerSiteId = this.site.id.split('/').filter(part => !!part).slice(0, 4).join('/');
+                return `${ArmEmbeddedService.url}/${smallerSiteId}/functions`;
+            }
+            // url to get all functions for the entity
             return `${ArmEmbeddedService.url}${this.site.id}/functions`;
         }
 
