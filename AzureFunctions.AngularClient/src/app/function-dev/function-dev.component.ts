@@ -35,6 +35,7 @@ import { ErrorIds } from '../shared/models/error-ids';
 import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
+import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 
 @Component({
     selector: 'function-dev',
@@ -597,6 +598,25 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                     }
                 }
             }, 'function-dev');
+        }
+    }
+
+    public keyDown(event: KeyboardEvent, key: string, param: any) {
+        if (AccessibilityHelper.isEnterOrSpace(event)) {
+            switch(key) {
+                case 'clickRightTab':
+                    this.clickRightTab(param);
+                    break;
+                case 'setShowFunctionInvokeUrlModal':
+                    this.setShowFunctionInvokeUrlModal(param);
+                    break;
+                case 'setShowFunctionKeyModal':
+                    this.setShowFunctionKeyModal(param);
+                    break;
+                case 'onEventGridSubscribe':
+                    this.onEventGridSubscribe();
+                    break;
+            }
         }
     }
 

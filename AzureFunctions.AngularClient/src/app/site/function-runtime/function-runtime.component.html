@@ -84,7 +84,7 @@
                 </button>
             </div>
             <div *ngIf="hasFunctions" class="alert alert-warning">
-                <div class="alert-icon" load-image="image/warning.svg"></div>
+                <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
                 <div class="alert-message">
                     <span class="title-label">{{ 'appFunctionSettings_warning_6' | translate }}</span><br/>
                     <span>{{ 'appFunctionSettings_warning_7' | translate }}</span><br/>
@@ -141,7 +141,7 @@
         <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
         <p>{{ 'appFunctionSettings_slotsDesc' | translate }}</p>
         <div class="alert alert-warning">
-            <div class="alert-icon" load-image="image/warning.svg"></div>
+            <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
             <div class="alert-message">
                 <span class="title-label">{{ 'appFunctionSettings_warning_1' | translate }}</span><br/>
                 <span>{{ 'appFunctionSettings_warning_2' | translate }}</span><br/>

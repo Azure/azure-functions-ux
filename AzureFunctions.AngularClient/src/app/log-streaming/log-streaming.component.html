@@ -2,19 +2,23 @@
     <div *ngIf="!isHttpLogs" class="log-toolbar">
         <h3 class="tab-label-selected">{{ 'logStreaming_logs' | translate }}</h3>
         <span class="log-empty-space" (click)="close()"></span>
-        <span class="link action" *ngIf="stopped" (click)="startLogs()">
+        <span class="link action" *ngIf="stopped" (click)="startLogs()"
+            (keydown)="keyDown($event, 'startLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_start' | translate }}">
             <i class="fa fa-play"></i>
-            <span>{{ 'logStreaming_start' | translate }}</span>
+            {{ 'logStreaming_start' | translate }}
         </span>
-        <span class="link action" *ngIf="!stopped" (click)="stopLogs()">
+        <span class="link action" *ngIf="!stopped" (click)="stopLogs()"
+            (keydown)="keyDown($event, 'stopLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_pause' | translate }}">
             <i class="fa fa-pause"></i>
             {{ 'logStreaming_pause' | translate }}
         </span>
-        <span class="link action" (click)="clearLogs()">
+        <span class="link action" (click)="clearLogs()"
+            (keydown)="keyDown($event, 'clearLogs')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_clear' | translate }}">
             <i class="fa fa-book"></i>
             {{ 'logStreaming_clear' | translate }}
         </span>
-        <span (click)="copyLogs($event)" class="link action">
+        <span (click)="copyLogs($event)" class="link action"
+            (keydown)="keyDown($event, 'copyLogs')" role="button" attr.aria-label="{{ 'logStreaming_copyLogs' | translate }}">
             <pop-over message="{{ 'logStreaming_copied' | translate }}" hideAfter="300">
                 <span class="link">
                     <i class="fa fa-clone"></i>
@@ -22,24 +26,27 @@
                 </span>
             </pop-over>
         </span>
-        <span *ngIf="!isExpanded" class="link action" (click)="expand()">
+        <span *ngIf="!isExpanded" class="link action" (click)="expand()"
+            (keydown)="keyDown($event, 'expand')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_expand' | translate }}">
             <i class="fa fa-expand"></i>
             {{ 'logStreaming_expand' | translate }}
         </span>
         
-        <span *ngIf="isExpanded" class="link action" (click)="compress()">
+        <span *ngIf="isExpanded" class="link action" (click)="compress()"
+            (keydown)="keyDown($event, 'compress')" tabindex="0" role="button" attr.aria-label="{{ 'logStreaming_compress' | translate }}">
             <i class="fa fa-compress"></i>
             {{ 'logStreaming_compress' | translate }}
         </span>
-        <h3 style="padding-right: 10px;" class="tab-label" (click)="close()">
+        <h3 style="padding-right: 10px;" class="tab-label" (click)="close()"
+            (keydown)="keyDown($event, 'close')" tabindex="0" role="button" attr.aria-label="{{ 'close' | translate }}">
             <i class="fa fa-chevron-down"></i>
         </h3>
     </div>
-    <pre id="log-stream" class="log-stream" tabindex="1" 
+    <pre id="log-stream" class="log-stream" tabindex="0" 
          (keydown)="handleKeyPress($event)" 
          [class.height-fixed]="isHttpLogs"
          [class.http-logs]="isHttpLogs"
-         [class.bottom-logs]="!isHttpLogs">{{log}}</pre>         
+         [class.bottom-logs]="!isHttpLogs">{{log}}</pre>
     <div class="run-orange" *ngIf="timerInterval > 1000" style="margin-top: 13px">
         {{ 'logStreaming_tooManyLogs' | translate:{seconds: timerInterval/1000} }}
     </div>
