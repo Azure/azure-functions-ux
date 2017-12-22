@@ -2560,4 +2560,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_warning_7" xml:space="preserve">
     <value>Upgrating the runtime version is also coupled with upgrades to languages and binding dependecies that may introduce breaking changes. Please create a blank function app to upgrade major versions of the runtime.</value>
   </data>
+  <data name="warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
 </root>

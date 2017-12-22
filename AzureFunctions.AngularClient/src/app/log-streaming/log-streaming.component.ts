@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { FunctionInfo } from '../shared/models/function-info';
 import { UserService } from '../shared/services/user.service';
 import { UtilitiesService } from '../shared/services/utilities.service';
+import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 
 @Component({
     selector: 'log-streaming',
@@ -91,6 +92,33 @@ export class LogStreamingComponent implements OnDestroy, OnChanges {
         this.expandClicked.emit(false);
     }
 
+    keyDown(KeyboardEvent: any, command: string) {
+        if (AccessibilityHelper.isEnterOrSpace(event)) {
+            switch (command) {
+                case 'startLogs':
+                    this.startLogs();
+                    break;
+                case 'stopLogs':
+                    this.stopLogs();
+                    break;
+                case 'clearLogs':
+                    this.clearLogs();
+                    break;
+                case 'copyLogs':
+                    this.copyLogs();
+                    break;
+                case 'expand':
+                    this.expand();
+                    break;
+                case 'compress':
+                    this.compress();
+                    break;
+                case 'close':
+                    this.close();
+                    break;
+            }
+        }
+    }
 
     private initLogs(createEmpty: boolean = true, log?: string) {
         const maxCharactersInLog = 500000;

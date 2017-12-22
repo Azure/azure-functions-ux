@@ -92,18 +92,21 @@
               <div style="flex-grow:1"></div>
 
 
-              <div *ngIf="showFunctionInvokeUrl" class="link get-url" (click)="setShowFunctionInvokeUrlModal(true)">
-                <span>{{ 'functionDev_getFunctionUrl' | translate }}</span>
-              </div>
+              <a *ngIf="showFunctionInvokeUrl" class="link get-url" (click)="setShowFunctionInvokeUrlModal(true)"
+                tabindex="0" (keydown)="keyDown($event, 'setShowFunctionInvokeUrlModal', true)">
+                {{ 'functionDev_getFunctionUrl' | translate }}
+              </a>
 
-              <div *ngIf="showFunctionKey" class="link get-url" (click)="setShowFunctionKeyModal(true)">
-                <span>{{ 'functionDev_getGithubSecret' | translate }}</span>
-              </div>
+              <a *ngIf="showFunctionKey" class="link get-url" (click)="setShowFunctionKeyModal(true)"
+                tabindex="0" (keydown)="keyDown($event, 'setShowFunctionKeyModal', true)">
+                {{ 'functionDev_getGithubSecret' | translate }}
+              </a>
 
 
-              <div *ngIf="isEventGridFunction" [class.disabled-link]="!eventGridSubscribeUrl" class="link get-url" (click)="onEventGridSubscribe()">
-                <span>{{ 'functionDev_addEventGrid' | translate }}</span>
-              </div>
+              <a *ngIf="isEventGridFunction" [class.disabled-link]="!eventGridSubscribeUrl" class="link get-url" (click)="onEventGridSubscribe()"
+                tabindex="0" (keydown)="keyDown($event, 'onEventGridSubscribe')">
+                {{ 'functionDev_addEventGrid' | translate }}
+              </a>
             </div>
 
 
@@ -123,9 +126,9 @@
           <div class="dev-flex-column">
 
             <div *ngIf="!bottomTab" class="bottom-bar-closed" (click)="clickRightTab('logs')">
-              <h4 class="tab-label-disabled">{{ 'logStreaming_logs' | translate }}</h4>
+              <h4 class="tab-label-disabled" tabindex="0" (keydown)="keyDown($event, 'clickRightTab', 'logs')">{{ 'logStreaming_logs' | translate }}</h4>
               <span style="flex-grow: 1;"></span>
-              <h4 style="padding-right: 10px;" class="tab-label"><i class="fa fa-chevron-up"></i></h4>
+              <h4 style="padding-right: 10px;" tabindex="0" class="tab-label" (keydown)="keyDown($event, 'clickRightTab', 'logs')"><i class="fa fa-chevron-up"></i></h4>
             </div>
 
             <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
@@ -147,9 +150,18 @@
 
             <div class="right-container-rotated">
               <!--<span class="link bubble-label" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</span>-->
-              <h4 class="tab-label-rotate-right" (click)="clickRightTab('files')"><i class="fa fa-chevron-down"></i>&nbsp;</h4>
-              <h4 class="tab-label-rotate" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</h4>
-              <h4 *ngIf="!isStandalone" class="tab-label-rotate" (click)="clickRightTab('run')">{{ 'test' | translate }}</h4>
+              <h4 class="tab-label-rotate-right" (click)="clickRightTab('files')"
+                tabindex="0" (keydown)="keyDown($event, 'clickRightTab', 'files')" role="button" attr.aria-label="{{ 'open' | translate }}">
+                  <i class="fa fa-chevron-down"></i>&nbsp;
+              </h4>
+              <h4 class="tab-label-rotate" (click)="clickRightTab('files')"
+                tabindex="0" (keydown)="keyDown($event, 'clickRightTab', 'files')" role="button" attr.aria-label="{{ 'functionDev_viewFiles' | translate }}">
+                  {{ 'functionDev_viewFiles' | translate }}
+              </h4>
+              <h4 *ngIf="!isStandalone" class="tab-label-rotate" (click)="clickRightTab('run')"
+                tabindex="0" (keydown)="keyDown($event, 'clickRightTab', 'run')" role="button" attr.aria-label="{{ 'test' | translate }}">
+                  {{ 'test' | translate }}
+                </h4>
             </div>
           </div>
 
@@ -158,10 +170,19 @@
 
             <div *ngIf="rightTab">
               <div class="rigth-container-bar">
-                <h4 [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')">{{ 'functionDev_viewFiles' | translate }}</h4>
-                <h4 *ngIf="!isStandalone" [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')">{{ 'test' | translate }}</h4>
+                <h4 [class.tab-label-selected]="rightTab==='files'" [class.tab-label]="rightTab!=='files'" (click)="clickRightTab('files')"
+                  tabindex="0" (keydown)="keyDown($event, 'clickRightTab', 'files')" role="button" attr.aria-label="{{ 'functionDev_viewFiles' | translate }}">
+                  {{ 'functionDev_viewFiles' | translate }}
+                </h4>
+                <h4 *ngIf="!isStandalone" [class.tab-label-selected]="rightTab==='run'" [class.tab-label]="rightTab!=='run'" (click)="clickRightTab('run')"
+                  tabindex="0" (keydown)="keyDown($event, 'clickRightTab', 'run')" role="button" attr.aria-label="{{ 'test' | translate }}">
+                  {{ 'test' | translate }}
+                </h4>
                 <span style="flex-grow: 1;"></span>
-                <h4 style="padding-right: 10px;" class="tab-label" (click)="clickRightTab(rightTab)"><i class="fa fa-chevron-right"></i></h4>
+                <h4 style="padding-right: 10px;" class="tab-label" (click)="clickRightTab(rightTab)"
+                  tabindex="0" (keydown)="keyDown($event, 'clickRightTab', rightTab)" role="button" attr.aria-label="{{ 'close' | translate }}">
+                  <i class="fa fa-chevron-right"></i>
+                </h4>
               </div>
             </div>
 
