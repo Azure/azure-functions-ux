@@ -116,7 +116,7 @@ export class FunctionsService {
             .retryWhen(this.retryAntares)
             .map((r: Response) => {
                 try {
-                    const collection = r.json().value;
+                    const collection = r.json().value ? r.json().value : r.json();
 
                     fcs = collection.map(item => {
                         let fc: FunctionInfo;

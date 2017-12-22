@@ -134,8 +134,22 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
   }
 
   onEntityChanged(entity: string) {
-    this.functionEntity = entity;
-    this.validate();
+    this.areInputsValid = false;
+    this.functionEntity = entity.toLowerCase();
+    const entityContextId = `${this.context.site.id}/entities/${this.functionEntity}`;
+
+    this._functionsService.getAppContext(entityContextId)
+      .subscribe(appContext => {
+        const entityContext = appContext;
+        this._functionsService.getFunctions(entityContext)
+          .subscribe(functionInfo => {
+            this.functionsInfo = functionInfo;
+            if (this.functionLanguage) {
+              this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+              this.validate();
+            }
+          });
+      });
   }
 
   onTemplatePickUpComplete() {
@@ -171,8 +185,6 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
           }
         }
 
-        this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
-
         this._globalStateService.clearBusyState();
         this.bc.setDefaultValues(this.currentTemplate.function.bindings, this._globalStateService.DefaultStorageAccount);
 
@@ -189,7 +201,11 @@ export class FunctionNewDetailComponent implements OnInit, OnChanges {
 
         this.model.setBindings();
         this.currentBinding = this.model.trigger;
-        this.validate();
+
+        if (!this._portalService.isEmbeddedFunctions || (this._portalService.isEmbeddedFunctions && this.functionEntity)) {
+          this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+          this.validate();
+        }
 
         if (this.action) {
 

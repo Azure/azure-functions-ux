@@ -21,6 +21,17 @@
                [setDefault]="false" 
                attr.aria-label="{{'templatePicker_language' | translate}}"></drop-down>
 
+    <ng-container *ngIf="this._portalService.isEmbeddedFunctions">
+        <div class="input-header">
+            <label class="control-label">Entity:</label>
+        </div>
+        <drop-down [options]="entityOptions" 
+                    (value)="onEntityChanged($event)" 
+                    [setDefault]="false" 
+                    attr.aria-label="entity">
+        </drop-down>
+    </ng-container>
+
     <div class="input-header">
         <label class="control-label">{{ 'nameColon' | translate }}</label>
     </div>
@@ -32,17 +43,6 @@
     <ng-container *ngIf="!!functionNameError">
         <span class="fa fa-exclamation input-error-adjust"></span>
         <div class="input-show-error">{{functionNameError}}</div>
-    </ng-container>
-
-    <ng-container *ngIf="this._portalService.isEmbeddedFunctions">
-        <div class="input-header">
-            <label class="control-label">Entity:</label>
-        </div>
-        <drop-down [options]="entityOptions" 
-                   (value)="onEntityChanged($event)" 
-                   [setDefault]="false" 
-                   attr.aria-label="entity">
-        </drop-down>
     </ng-container>
 
     <binding-v2 *ngIf="model.trigger"
