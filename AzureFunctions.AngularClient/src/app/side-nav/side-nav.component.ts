@@ -416,10 +416,6 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     private _updateSubscriptions(info: StartupInfo) {
-        // Need to set an initial value to force the tree to render with an initial list first.
-        // Otherwise the tree won't load in batches of objects for long lists until the entire
-        // observable sequence has completed.
-
         const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
         const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
         let descriptor: SiteDescriptor | null;
