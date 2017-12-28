@@ -7,7 +7,10 @@
     <h2>{{ 'intro_chooseScenario' | translate }}</h2>
     <div id="quickstart-templates">
         <div class="quickstart-template"
+             #http
              (click)="onFunctionClicked('HttpTrigger')"
+             (keydown)="onFunctionKey($event, 'HttpTrigger')"
+             [tabIndex]="selectedFunction === 'HttpTrigger' ? 0 : -1"
              [class.quickstart-template-selected]="selectedFunction === 'HttpTrigger'">
 
             <div class="quickstart-template-icon">
@@ -17,8 +20,11 @@
         </div>
 
         <div class="quickstart-template"
-            (click)="onFunctionClicked('TimerTrigger')"
-            [class.quickstart-template-selected]="selectedFunction === 'TimerTrigger'">
+             #timer
+             (click)="onFunctionClicked('TimerTrigger')"
+             (keydown)="onFunctionKey($event, 'TimerTrigger')"
+             [tabIndex]="selectedFunction === 'TimerTrigger' ? 0 : -1"
+             [class.quickstart-template-selected]="selectedFunction === 'TimerTrigger'">
 
             <div class="quickstart-template-icon">
                 <div load-image="image/clock.svg" class="icon-template"></div>
@@ -28,8 +34,11 @@
         </div>
 
         <div class="quickstart-template"
-            (click)="onFunctionClicked('QueueTrigger')"
-            [class.quickstart-template-selected]="selectedFunction === 'QueueTrigger'">
+             #queue
+             (click)="onFunctionClicked('QueueTrigger')"
+             (keydown)="onFunctionKey($event, 'QueueTrigger')"
+             [tabIndex]="selectedFunction === 'QueueTrigger' ? 0 : -1"
+             [class.quickstart-template-selected]="selectedFunction === 'QueueTrigger'">
 
             <div class="quickstart-template-icon">
                 <div load-image="image/databaseMini3.svg" class="icon-template"></div>

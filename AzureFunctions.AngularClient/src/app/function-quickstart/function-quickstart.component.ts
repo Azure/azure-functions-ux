@@ -1,3 +1,4 @@
+import { Dom } from './../shared/Utilities/dom';
 import { KeyCodes } from './../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { FunctionAppContext, FunctionsService } from './../shared/services/functions-service';
@@ -5,7 +6,7 @@ import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 import { CacheService } from 'app/shared/services/cache.service';
-import { Component, Input, OnDestroy, Injector } from '@angular/core';
+import { Component, Input, OnDestroy, Injector, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -47,6 +48,10 @@ export class FunctionQuickstartComponent implements OnDestroy {
     public functionApp: FunctionApp;
     private functionsNode: FunctionsNode;
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
+
+    @ViewChild('http') httpTemplate: ElementRef;
+    @ViewChild('timer') timerTemplate: ElementRef;
+    @ViewChild('queue') queueTemplate: ElementRef;
 
     constructor(private _broadcastService: BroadcastService,
         private _portalService: PortalService,
@@ -112,6 +117,54 @@ export class FunctionQuickstartComponent implements OnDestroy {
         if (!this._broadcastService.getDirtyState('function_disabled')) {
             this.selectedFunction = selectedFunction;
         }
+    }
+
+
+    onFunctionKey(event: KeyboardEvent, currentFunction: string) {
+        if (event.keyCode === KeyCodes.arrowRight) {
+            switch (currentFunction) {
+                case 'HttpTrigger':
+                {
+                    Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
+                    this.onFunctionClicked('TimerTrigger');
+                    break;
+                }
+                case 'TimerTrigger' :
+                {
+                    Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
+                    this.onFunctionClicked('QueueTrigger');
+                    break;
+                }
+                case 'QueueTrigger' :
+                {
+                    Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
+                    this.onFunctionClicked('HttpTrigger');
+                    break;
+                }
+            }
+        } else if (event.keyCode === KeyCodes.arrowLeft) {
+            switch (currentFunction) {
+                case 'HttpTrigger':
+                {
+                    Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
+                    this.onFunctionClicked('QueueTrigger');
+                    break;
+                }
+                case 'TimerTrigger' :
+                {
+                    Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
+                    this.onFunctionClicked('HttpTrigger');
+                    break;
+                }
+                case 'QueueTrigger' :
+                {
+                    Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
+                    this.onFunctionClicked('TimerTrigger');
+                    break;
+                }
+            }
+        }
+
     }
 
     onLanguageClicked(selectedLanguage: string) {
@@ -211,4 +264,5 @@ export class FunctionQuickstartComponent implements OnDestroy {
             }
         }
     }
+
 }
