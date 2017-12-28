@@ -64,6 +64,10 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     // return the same exact object every time.
     public get title(): string {
 
+        if (this.sideNav.portalService.isEmbeddedFunctions) {
+            return this.functionInfo.name;
+        }
+
         const disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
 
         return this.functionInfo.config.disabled
