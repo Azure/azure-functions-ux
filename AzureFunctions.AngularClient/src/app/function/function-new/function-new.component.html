@@ -15,7 +15,13 @@
                     <h2 check-scenario="QuickStartLink"
                         [cs-input]="{}"
                         cs-enabledByDefault="true"
-                        class="quickstart link" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</h2>
+                        class="quickstart link" 
+                        tabIndex="0"
+                        role="link"
+                        (keydown)="onKeyPressQuick($event)"
+                        (click)="quickstart()">
+                        {{ 'functionNew_chooseTemplateQuickstart' | translate }}
+                    </h2>
                 </div>
 
                 <div class="search-and-sort">

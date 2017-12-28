@@ -1,3 +1,4 @@
+import { KeyCodes } from './../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { FunctionAppContext, FunctionsService } from './../shared/services/functions-service';
 import { Site } from './../shared/models/arm/site';
@@ -192,5 +193,22 @@ export class FunctionQuickstartComponent implements OnDestroy {
             }
         },
             'intro');
+    }
+
+    onKeyDown(event: KeyboardEvent, command: string) {
+        if (event.keyCode === KeyCodes.enter) {
+            switch (command) {
+                case 'scratch':
+                {
+                    this.createFromScratch();
+                    break;
+                }
+                case 'SC' :
+                {
+                    this.startFromSC();
+                    break;
+                }
+            }
+        }
     }
 }

@@ -52,7 +52,11 @@
 
     <div id="quickstart-lang-custom">
         {{ 'intro_ifYou' | translate }}
-        <span class="link" (click)='createFromScratch()'>
+        <span class="link" 
+              role="link" 
+              tabindex="0"
+              (click)='createFromScratch()'
+              (keydown)="onKeyDown($event, 'scratch')">
             {{ 'intro_createYourOwn' | translate }}.
         </span>
     </div>
@@ -77,10 +81,22 @@
 
     <h1>{{ 'intro_getStartedOn' | translate }}</h1>
     <div>
-        <span class="link" (click)='createFromScratch()'>{{ 'intro_customFunction' | translate }}</span>
+        <span class="link" 
+              role="link" 
+              tabindex="0"
+              (click)='createFromScratch()'
+              (keydown)="onKeyDown($event, 'scratch')">
+            {{ 'intro_customFunction' | translate }}
+        </span>
     </div>
     <div>
-        <span class="link" (click)='startFromSC()'>{{ 'intro_startSC' | translate }}</span>
+        <span class="link" 
+              role="link"
+              tabIndex="0"
+              (click)='startFromSC()'
+              (keydown)="onKeyDown($event, 'SC')">
+            {{ 'intro_startSC' | translate }}
+        </span>
     </div>
 </div>  <!-- /intro-footer -->
 </div> <!-- /intro-container -->
