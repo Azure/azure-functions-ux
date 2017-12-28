@@ -277,6 +277,12 @@ export class SiteDashboardComponent implements OnDestroy, OnInit {
         });
     }
 
+    keypress(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.pinPart();
+        }
+    }
+
     private _getTabInfo(tabId: string, active: boolean, input: { viewInfoInput: TreeViewInfo<SiteData> }): TabInfo {
         const info = {
             title: '',
