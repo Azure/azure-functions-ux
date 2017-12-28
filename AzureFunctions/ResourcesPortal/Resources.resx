@@ -1189,6 +1189,9 @@
   <data name="siteDashboard_appNotFound" xml:space="preserve">
     <value>The app '{0}' could not be found</value>
   </data>
+  <data name="siteDashboard_pinApp" xml:space="preserve">
+    <value>Pin app to dashboard</value>
+  </data>
   <data name="siteSummary_stopConfirmation" xml:space="preserve">
     <value>Are you sure you would like to stop '{0}'</value>
   </data>
