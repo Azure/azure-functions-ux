@@ -50,7 +50,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         super(sideNav, null, rootNode, '/apps/new/app');
 
-        this.newDashboardType =  null;
+        this.newDashboardType = null;
         this._userService = sideNav.injector.get(UserService);
         this._scenarioService = sideNav.injector.get(ScenarioService);
 
@@ -162,7 +162,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                         // recreated.  In that case, we'll just refocus on the root node.  It's probably
                         // not ideal but simple for us to do.
                         this.treeView.setFocus(this);
-                    } else{
+                    } else {
                         this.supportsRefresh = true;
                     }
 
@@ -207,7 +207,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         return Observable.of(null);
     }
 
-    private _initialized(){
+    private _initialized() {
         return this._subscriptions && this._subscriptions.length > 0 && this._searchTerm !== undefined;
     }
 

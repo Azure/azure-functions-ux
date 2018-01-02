@@ -1,5 +1,5 @@
 import { LogService } from './../shared/services/log.service';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { Dom } from './../shared/Utilities/dom';
@@ -61,7 +61,7 @@ export class SideNavComponent implements AfterViewInit {
     public searchTerm = '';
     public hasValue = false;
     public tryFunctionApp: FunctionApp;
-    public headerOnTopOfSideNav =  false;
+    public headerOnTopOfSideNav = false;
     public noPaddingOnSideNav = false;
 
     public selectedNode: TreeNode;
@@ -101,8 +101,8 @@ export class SideNavComponent implements AfterViewInit {
         public route: ActivatedRoute,
         private _scenarioService: ScenarioService) {
 
-        this.headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
-        this.noPaddingOnSideNav =  this._scenarioService.checkScenario(ScenarioIds.noPaddingOnSideNav).status === 'enabled';
+        this.headerOnTopOfSideNav = this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
+        this.noPaddingOnSideNav = this._scenarioService.checkScenario(ScenarioIds.noPaddingOnSideNav).status === 'enabled';
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
@@ -155,7 +155,8 @@ export class SideNavComponent implements AfterViewInit {
                 } else {
                     this._searchTermStream.next('');
                 }
-            } else {
+            } else if (!this.searchTerm) {
+                // Ensure that we don't override existing search term if we get a startupInfo update
                 this._searchTermStream.next('');
             }
         });
@@ -279,21 +280,21 @@ export class SideNavComponent implements AfterViewInit {
 
     navidateToNewSub() {
         const navId = 'subs/new/subscription';
-        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });        
+        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
     }
 
     refreshSubs() {
         this.cacheService.getArm('/subscriptions', true).subscribe(r => {
             this.userService.getStartupInfo()
-            .first()
-            .subscribe((info) => {
-                const subs: Subscription[] = r.json().value;
-                if (!SubUtil.subsChanged(info.subscriptions, subs)) {
-                    return;
-                }
-                info.subscriptions = subs;
-                this.userService.updateStartupInfo(info);
-            });
+                .first()
+                .subscribe((info) => {
+                    const subs: Subscription[] = r.json().value;
+                    if (!SubUtil.subsChanged(info.subscriptions, subs)) {
+                        return;
+                    }
+                    info.subscriptions = subs;
+                    this.userService.updateStartupInfo(info);
+                });
         });
     }
 
@@ -415,11 +416,6 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     private _updateSubscriptions(info: StartupInfo) {
-        // Need to set an initial value to force the tree to render with an initial list first.
-        // Otherwise the tree won't load in batches of objects for long lists until the entire
-        // observable sequence has completed.
-        this._subscriptionsStream.next([]);
-
         const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
         const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
         let descriptor: SiteDescriptor | null;
