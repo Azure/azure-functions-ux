@@ -198,7 +198,13 @@ export class FunctionEditComponent implements OnDestroy {
                         message: this._translateService.instant(PortalResources.topBar_alwaysOn),
                         iconClass: 'fa fa-exclamation-triangle warning',
                         learnMoreLink: 'https://go.microsoft.com/fwlink/?linkid=830855',
-                        clickCallback: null
+                        clickCallback: () =>{
+                            this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+                                operation: 'navigate',
+                                resourceId: this.context.site.id,
+                                data: SiteTabIds.applicationSettings
+                            });
+                        }
                     });
                 }
             }
