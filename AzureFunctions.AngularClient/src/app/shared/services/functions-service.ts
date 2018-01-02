@@ -125,9 +125,10 @@ export class FunctionsService {
                         errorType: ErrorType.Fatal,
                         resourceId: context.site.id
                     });
+
                     this._trackEvent(context, ErrorIds.deserializingKudusFunctionList, {
                         error: e,
-                        content: r.text(),
+                        content: r.text ? r.text() : 'No response text',
                     });
                     return <FunctionInfo[]>[];
                 }
@@ -155,7 +156,7 @@ export class FunctionsService {
                             resourceId: context.site.id
                         });
                         this._trackEvent(context, ErrorIds.unableToRetrieveFunctionsList, {
-                            content: error.text(),
+                            content: error.text ? error.text() : 'No error text',
                             status: error.status.toString()
                         });
                     }

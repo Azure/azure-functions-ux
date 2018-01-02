@@ -24,7 +24,6 @@ declare const moment: any;
     styleUrls: ['./function-monitor.component.scss']
 })
 export class FunctionMonitorComponent implements OnDestroy {
-    public pulseUrl: string;
     public rows: FunctionInvocations[]; // the data for the InvocationsLog table
     public successAggregateHeading: string;
     public errorsAggregateHeading: string;
@@ -39,8 +38,8 @@ export class FunctionMonitorComponent implements OnDestroy {
     private selectedFunctionStream: Subject<FunctionInfo>;
 
     constructor(
+        public globalStateService: GlobalStateService,
         private _functionMonitorService: FunctionMonitorService,
-        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _slotsService: SiteService,
         private _portalService: PortalService,
@@ -74,7 +73,7 @@ export class FunctionMonitorComponent implements OnDestroy {
         this.selectedFunctionStream
             .switchMap(fi => {
                 this.currentFunction = fi;
-                this._globalStateService.setBusyState();
+                this.globalStateService.setBusyState();
                 return Observable.zip(
                     this._cacheService.postArm(`${this.currentFunction.functionApp.site.id}/config/appsettings/list`, true),
                     this._slotsService.isAppInsightsEnabled(this.currentFunction.functionApp.site.id),
@@ -90,7 +89,7 @@ export class FunctionMonitorComponent implements OnDestroy {
                 if (!appSettings.properties[Constants.azureWebJobsDashboardSettingsName]) {
                     this.azureWebJobsDashboardMissed = true;
                     if (this.aiId) {
-                        this.openAppInsigthsBlade();
+                        this.openAppInsightsBlade();
                     }
                     return Observable.of(null);
                 } else {
@@ -101,8 +100,6 @@ export class FunctionMonitorComponent implements OnDestroy {
                 this.rows = [];
 
                 this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.functionMonitor_loading);
-                const site = this.currentFunction.functionApp.getSiteName();
-                this.pulseUrl = `https://support-bay.scm.azurewebsites.net/Support.functionsmetrics/#/${site}/${this.currentFunction.name}`;
 
                 const firstOfMonth = moment().startOf('month');
                 this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
@@ -121,15 +118,15 @@ export class FunctionMonitorComponent implements OnDestroy {
             })
             .do(null, (e) => {
                 this._logService.error(LogCategories.FunctionMonitor, '/function-monitor/selected-function-stream', e);
-                this._globalStateService.clearBusyState();
+                this.globalStateService.clearBusyState();
             })
             .retry()
             .subscribe(result => {
-                this._globalStateService.clearBusyState();
+                this.globalStateService.clearBusyState();
                 if (result) {
                     this.rows = result;
                 }
-            }, null, () => this._globalStateService.clearBusyState());
+            }, null, () => this.globalStateService.clearBusyState());
     }
 
     @Input() set selectedFunction(value: FunctionInfo) {
@@ -144,7 +141,7 @@ export class FunctionMonitorComponent implements OnDestroy {
         }
     }
 
-    openAppInsigthsBlade() {
+    openAppInsightsBlade() {
         this._portalService.openBlade(
             {
                 detailBlade: 'AspNetOverview',

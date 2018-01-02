@@ -1045,11 +1045,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled;
       }
 
-      // BUGBUG: Workaround.  Eventually the back-end should allow us to send same identity value from GET
-      if (siteConfigArm.identity) {
-        delete siteConfigArm.identity;
-      }
-
       // level: site/config/web
       const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
       webConfigArm.properties = {};

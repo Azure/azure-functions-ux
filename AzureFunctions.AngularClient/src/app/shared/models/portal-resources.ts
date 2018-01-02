@@ -358,6 +358,7 @@
     public static siteDashboard_confirmLoseChanges: string = "siteDashboard_confirmLoseChanges";
     public static siteDashboard_getAppError: string = "siteDashboard_getAppError";
     public static siteDashboard_appNotFound: string = "siteDashboard_appNotFound";
+    public static siteDashboard_pinApp: string = "siteDashboard_pinApp";
     public static siteSummary_stopConfirmation: string = "siteSummary_stopConfirmation";
     public static siteSummary_stopNotifyTitle: string = "siteSummary_stopNotifyTitle";
     public static siteSummary_startNotifyTitle: string = "siteSummary_startNotifyTitle";
@@ -818,4 +819,6 @@
     public static monitoring_appInsightsIsNotFound: string = "monitoring_appInsightsIsNotFound";
     public static table_startOfRow: string = "table_startOfRow";
     public static table_endOfRow: string = "table_endOfRow";
+    public static appFunctionSettings_warning_6: string = "appFunctionSettings_warning_6";
+    public static appFunctionSettings_warning_7: string = "appFunctionSettings_warning_7";
 }

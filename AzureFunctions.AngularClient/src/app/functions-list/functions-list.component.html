@@ -29,7 +29,7 @@
         </tr>
 
         <tr *ngFor="let item of table.items">
-            <td><span class="link" (click)="clickRow(item)">{{item.functionName}}</span></td>
+            <td><a class="link" (click)="clickRow(item)" [activate-with-keys]>{{item.functionName}}</a></td>
             <td>
                 <div *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="functionApp">
                     <slide-toggle
@@ -50,14 +50,15 @@
                     </slide-toggle>
                 </div>
             </td>
-            <td class="icon-cell">
+            <td>
                 <div [fnWriteAccess]="functionApp">
-                    <span role="button"
-                        class="icon-small"
-                        load-image="image/delete.svg"
-                        [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
-                        (click)="clickDelete(item)">
-                    </span>
+                    <button class="icon-small" (click)="clickDelete(item)">
+                        <span
+                            role="presentation"
+                            [attr.aria-label]="'functionManage_delete' | translate:{name: item.functionName}"
+                            load-image="image/delete.svg">
+                        </span>
+                    </button>
                 </div>
             </td>
         </tr>
