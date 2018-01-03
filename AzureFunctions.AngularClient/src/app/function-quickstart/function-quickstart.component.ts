@@ -144,67 +144,20 @@ export class FunctionQuickstartComponent implements OnDestroy {
             case 'HttpTrigger':
             {
                 Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
-                this.onFunctionClicked('HttpTrigger');
                 break;
             }
             case 'TimerTrigger' :
             {
                 Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
-                this.onFunctionClicked('TimerTrigger');
                 break;
             }
             case 'QueueTrigger' :
             {
                 Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
-                this.onFunctionClicked('QueueTrigger');
                 break;
             }
         }
-
-        // if (event.keyCode === KeyCodes.arrowRight) {
-        //     switch (currentFunction) {
-        //         case 'HttpTrigger':
-        //         {
-        //             Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
-        //             this.onFunctionClicked('TimerTrigger');
-        //             break;
-        //         }
-        //         case 'TimerTrigger' :
-        //         {
-        //             Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
-        //             this.onFunctionClicked('QueueTrigger');
-        //             break;
-        //         }
-        //         case 'QueueTrigger' :
-        //         {
-        //             Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
-        //             this.onFunctionClicked('HttpTrigger');
-        //             break;
-        //         }
-        //     }
-        // } else if (event.keyCode === KeyCodes.arrowLeft) {
-        //     switch (currentFunction) {
-        //         case 'HttpTrigger':
-        //         {
-        //             Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
-        //             this.onFunctionClicked('QueueTrigger');
-        //             break;
-        //         }
-        //         case 'TimerTrigger' :
-        //         {
-        //             Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
-        //             this.onFunctionClicked('HttpTrigger');
-        //             break;
-        //         }
-        //         case 'QueueTrigger' :
-        //         {
-        //             Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
-        //             this.onFunctionClicked('TimerTrigger');
-        //             break;
-        //         }
-        //     }
-        // }
-
+        this.onFunctionClicked(nextFunction);
     }
 
     onLanguageClicked(selectedLanguage: string) {
