@@ -18,7 +18,7 @@ import { LogStreamingComponent } from '../log-streaming/log-streaming.component'
 import { FunctionSecrets } from '../shared/models/function-secrets';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { FunctionApp } from '../shared/function-app'
+import { FunctionApp } from '../shared/function-app';
 import { PortalService } from '../shared/services/portal.service';
 import { BindingType } from '../shared/models/binding';
 import { RunFunctionResult } from '../shared/models/run-function-result';
@@ -36,6 +36,7 @@ import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
+import { HostNameSslState } from '../shared/models/arm/site';
 
 @Component({
     selector: 'function-dev',
@@ -87,17 +88,30 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public functionApp: FunctionApp;
     public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
+    public selectedKey: string;
     public masterKey: string;
     public isStandalone: boolean;
     public inTab: boolean;
     public disabled: Observable<boolean>;
     public eventGridSubscribeUrl: string;
 
+    public selectedFileStream: Subject<VfsObject>;
+    public functionKey: string;
+
+    public domainsNoSSL: Array<HostNameSslState>;
+    public domainsWithSSL: Array<HostNameSslState>;
+
+    public selectedDomain: HostNameSslState;
+    public isHttps: boolean;
+    public showDomains: boolean;
+    public displayDomain: string;
+    public displayPath: string;
+    public loading: string;
+
+    private defaultDomain: HostNameSslState;
     private updatedContent: string;
     private updatedTestContent: string;
     private functionSelectStream: Subject<FunctionInfo>;
-    public selectedFileStream: Subject<VfsObject>;
-    public functionKey: string;
 
     private _isClientCertEnabled = false;
     private _disableTestDataAfterViewInit = false;
@@ -108,7 +122,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         configService: ConfigService,
         cd: ChangeDetectorRef) {
 
-        this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
+        this.loading = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
         this.inTab = PortalService.inTab();
 
@@ -200,7 +214,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 } else {
                     delete this.authLevel;
                 }
-                this.updateKeys();
+                this.updateKeysAndDomains();
 
                 this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
                 this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
@@ -329,7 +343,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 });
         }
     }
-    private setFunctionInvokeUrl(key?: string) {
+    private setFunctionInvokeUrl(key?: string, domain?: HostNameSslState) {
         if (this.isHttpFunction) {
 
             // No webhook https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]
@@ -385,10 +399,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 path = path.replace(re, '/');
                 path = path.replace('/?', '?') + queryParams;
 
-                this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
+                this.displayDomain = 'https://' + domain.name;
+                this.displayPath = path;
+
                 this.runValid = true;
-
-
             });
         } else {
             this.runValid = true;
@@ -552,7 +566,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     onRunValid(runValid: any) {
-        this.runValid = runValid && this.functionInvokeUrl !== this._translateService.instant(PortalResources.functionDev_loading);
+        this.runValid = runValid && this.displayDomain !== '' && this.displayPath !== '';
     }
 
     setShowFunctionInvokeUrlModal(value: boolean) {
@@ -560,8 +574,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (allKeys.length > 0) {
             this.onChangeKey(allKeys[0].value);
         }
+        if (this.defaultDomain) {
+            this.onChangeDomain(this.defaultDomain.name);
+        }
         this.showFunctionInvokeUrlModal = value;
-
     }
 
     setShowFunctionKeyModal(value: boolean) {
@@ -582,8 +598,15 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     onChangeKey(key: string) {
-        this.setFunctionInvokeUrl(key);
+        this.selectedKey = key;
+        this.setFunctionInvokeUrl(this.selectedKey, this.selectedDomain);
         this.setFunctionKey(this.functionInfo);
+    }
+
+    onChangeDomain(domain: string) {
+        this.selectedDomain = this.domainsNoSSL.concat(this.domainsWithSSL).concat(this.defaultDomain).find(d => d.name === domain);
+        this.isHttps = this.selectedDomain.sslState === 'Enabled' || this.defaultDomain.name === this.selectedDomain.name;
+        this.setFunctionInvokeUrl(this.selectedKey, this.selectedDomain);
     }
 
     onEventGridSubscribe() {
@@ -642,7 +665,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.scriptFile.isDirty) {
             this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
-            const result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
+            const result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.displayDomain + this.displayPath, this.runHttp.model) :
                 this.functionApp.runFunction(this.functionInfo, this.getTestData());
 
             this.running = result
@@ -660,15 +683,28 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    private updateKeys() {
+    private updateKeysAndDomains() {
         if (this.functionApp && this.functionInfo) {
             Observable.zip(
                 this.functionApp.getFunctionKeys(this.functionInfo),
                 this.functionApp.getFunctionHostKeys(),
-                (k1, k2) => ({ functionKeys: k1, hostKeys: k2 }))
+                this.functionApp.getDomains(),
+                this.functionApp.getDefaultHostName(),
+                (k1, k2, d, dhn) => ({ functionKeys: k1, hostKeys: k2, domains: d, defaultHostName: dhn }))
                 .subscribe((r: any) => {
                     this.functionKeys = r.functionKeys || [];
                     this.hostKeys = r.hostKeys || [];
+                    this.defaultDomain = r.domains.find(domain => domain.name === r.defaultHostName);
+                    this.selectedDomain = this.defaultDomain;
+                    this.domainsNoSSL = r.domains
+                                         .filter(domain => domain.sslState === 'Disabled')
+                                         .filter(domain => domain.hostType === 'Standard')
+                                         .filter(domain => domain.name !== this.defaultDomain.name) || [];
+                    this.domainsWithSSL = r.domains
+                                           .filter(domain => domain.sslState === 'Enabled')
+                                           .filter(domain => domain.hostType === 'Standard')
+                                           .filter(domain => domain.name !== this.defaultDomain.name) || [];
+                    this.showDomains = this.domainsNoSSL.length + this.domainsWithSSL.length >= 1;
 
                     if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
                         const masterKey = r.hostKeys.keys.find((k) => k.name === '_master');
@@ -680,8 +716,10 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                         if (allKeys.length > 0) {
                             this.onChangeKey(allKeys[0].value);
                         }
+                        if (this.defaultDomain) {
+                            this.onChangeDomain(this.defaultDomain.name);
+                        }
                     }
-
                 });
         }
     }

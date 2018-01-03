@@ -39,7 +39,7 @@ import { HttpRunModel } from './models/http-run';
 import { FunctionKeys, FunctionKey } from './models/function-key';
 import { CacheService } from './services/cache.service';
 import { ArmObj } from './models/arm/arm-obj';
-import { Site } from './models/arm/site';
+import { Site, HostNameSslState } from './models/arm/site';
 import { AuthSettings } from './models/auth-settings';
 import { FunctionAppEditMode } from './models/function-app-edit-mode';
 import { HostStatus } from './models/host-status';
@@ -224,7 +224,6 @@ export class FunctionApp {
             return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         }
     }
-
 
     getFunctions() {
         let fcs: FunctionInfo[];
@@ -845,6 +844,18 @@ export class FunctionApp {
                 this.masterKey = h;
                 this.isMultiKeySupported = false;
             });
+    }
+
+    getDomains(): Observable<Array<HostNameSslState>> {
+        return this._cacheService.getArm(this.site.id, false, '2016-08-01')
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.hostNameSslStates);
+    }
+
+    getDefaultHostName(): Observable<string> {
+        return this._cacheService.getArm(this.site.id, false, '2016-08-01')
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.defaultHostName);
     }
 
     getFunctionHostKeys(handleUnauthorized?: boolean): Observable<FunctionKeys> {
