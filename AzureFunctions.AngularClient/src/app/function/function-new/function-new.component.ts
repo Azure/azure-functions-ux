@@ -674,6 +674,12 @@ export class FunctionNewComponent implements OnDestroy {
         this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
     }
 
+    onKeyPressQuick(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.quickstart();
+        }
+    }
+
     ngOnDestroy() {
         this._ngUnsubscribe.next();
     }

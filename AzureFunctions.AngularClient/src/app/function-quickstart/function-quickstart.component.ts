@@ -1,10 +1,12 @@
+import { Dom } from './../shared/Utilities/dom';
+import { KeyCodes } from './../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { FunctionAppContext, FunctionsService } from './../shared/services/functions-service';
 import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 import { CacheService } from 'app/shared/services/cache.service';
-import { Component, Input, OnDestroy, Injector } from '@angular/core';
+import { Component, Input, OnDestroy, Injector, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -27,12 +29,16 @@ import { FunctionApp } from '../shared/function-app';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 
+
+type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
+
 @Component({
     selector: 'function-quickstart',
     templateUrl: './function-quickstart.component.html',
     styleUrls: ['./function-quickstart.component.scss'],
     inputs: ['viewInfoInput']
 })
+
 export class FunctionQuickstartComponent implements OnDestroy {
     @Input() functionsInfo: FunctionInfo[];
     private context: FunctionAppContext;
@@ -42,10 +48,15 @@ export class FunctionQuickstartComponent implements OnDestroy {
     bc: BindingManager = new BindingManager();
     showJavaSplashPage = false;
     setShowJavaSplashPage = new Subject<boolean>();
+    templateTypeOptions: TemplateType[] = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
 
     public functionApp: FunctionApp;
     private functionsNode: FunctionsNode;
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
+
+    @ViewChild('http') httpTemplate: ElementRef;
+    @ViewChild('timer') timerTemplate: ElementRef;
+    @ViewChild('queue') queueTemplate: ElementRef;
 
     constructor(private _broadcastService: BroadcastService,
         private _portalService: PortalService,
@@ -111,6 +122,42 @@ export class FunctionQuickstartComponent implements OnDestroy {
         if (!this._broadcastService.getDirtyState('function_disabled')) {
             this.selectedFunction = selectedFunction;
         }
+    }
+
+
+    onFunctionKey(event: KeyboardEvent, currentFunction: TemplateType) {
+        const currentIndex = this.templateTypeOptions.indexOf(currentFunction);
+        let nextIndex: number;
+
+        if (event.keyCode === KeyCodes.arrowRight) {
+            nextIndex = currentIndex + 1;
+            nextIndex = nextIndex > this.templateTypeOptions.length - 1 ? 0 : nextIndex;
+        } else if (event.keyCode === KeyCodes.arrowLeft) {
+            nextIndex = currentIndex - 1;
+            nextIndex = nextIndex < 0 ? this.templateTypeOptions.length - 1 : nextIndex;
+        } else {
+            return;
+        }
+
+        const nextFunction = this.templateTypeOptions[nextIndex];
+        switch (nextFunction) {
+            case 'HttpTrigger':
+            {
+                Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
+                break;
+            }
+            case 'TimerTrigger' :
+            {
+                Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
+                break;
+            }
+            case 'QueueTrigger' :
+            {
+                Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
+                break;
+            }
+        }
+        this.onFunctionClicked(nextFunction);
     }
 
     onLanguageClicked(selectedLanguage: string) {
@@ -193,4 +240,22 @@ export class FunctionQuickstartComponent implements OnDestroy {
         },
             'intro');
     }
+
+    onKeyDown(event: KeyboardEvent, command: string) {
+        if (event.keyCode === KeyCodes.enter) {
+            switch (command) {
+                case 'scratch':
+                {
+                    this.createFromScratch();
+                    break;
+                }
+                case 'SC' :
+                {
+                    this.startFromSC();
+                    break;
+                }
+            }
+        }
+    }
+
 }
