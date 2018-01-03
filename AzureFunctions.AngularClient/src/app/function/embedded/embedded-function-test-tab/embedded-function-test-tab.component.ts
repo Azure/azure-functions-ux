@@ -115,7 +115,15 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
     headers.append('Ocp-Apim-Trace', 'true');
 
     this._busyManager.setBusy();
+
+    // TODO: Switchover whenever we can confirm that APIM works with new templates
+    // const content = {
+    //   body: this._updatedEditorContent,
+    //   url: this._functionInfo.trigger_url
+    // };
+
     this._cacheService.post(this._functionInfo.trigger_url, true, headers, this._updatedEditorContent)
+    // this._cacheService.post('/api/triggerFunctionAPIM', true, null, content)   
       .subscribe(r => {
         this._busyManager.clearBusy();
         this.responseOutputText = r.text();

@@ -16,6 +16,7 @@ import { proxy } from './actions/proxy';
 import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, getTemplates } from './actions/metadata';
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
 import { staticConfig } from './config';
+import { triggerFunctionAPIM } from './actions/apim';
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
 app.get('/api/config', maybeAuthenticate, getConfig);
 app.post('/api/proxy', maybeAuthenticate, proxy);
 app.post('/api/passthrough', maybeAuthenticate, proxy);
+app.post('/api/triggerFunctionAPIM', maybeAuthenticate, triggerFunctionAPIM);
 
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.
