@@ -1,6 +1,6 @@
 @import '../../../sass/common/variables';
 
-nav{
+#bottom-tabs-wrapper{
     position: relative;
 }
 
@@ -41,4 +41,7 @@ nav{
 #bottom-tabs-content{
     height: 262px;
     padding: 0px 10px 10px 10px;
+    position: absolute;
+    left: 0px;
+    right: 0px;
 }
