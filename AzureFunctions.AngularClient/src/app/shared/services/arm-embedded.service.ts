@@ -89,8 +89,15 @@ export class ArmEmbeddedService extends ArmService {
                     // similar as possible to Azure scenario's.  Not everything will be a one-to-one mapping between the two scenario's 
                     // but should have similar structure.
                     urlNoQuery = this._getActualUrlNoQuery(urlNoQuery, body);
-                    const response = r.json();
-                    if (response.value) {
+                    let response: any = null;
+                    try {
+                        response = r.json();
+                    } catch (e) {
+                    }
+
+                    if (!response) {
+                        return this._getFakeResponse(null, r.text());
+                    } else if (response.value) {
 
                         if (urlNoQuery.endsWith('/functions')) {
                             return this._getFakeFunctionsResponse(urlNoQuery, response);
@@ -120,7 +127,7 @@ export class ArmEmbeddedService extends ArmService {
                 });
         }
 
-        if(this._whitelistedAPIMUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))){
+        if (this._whitelistedAPIMUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))) {
             return super.send(method, url, body, etag, headers);
         }
 

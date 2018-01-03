@@ -540,7 +540,7 @@ export class SiteSummaryComponent implements OnDestroy {
         appsNode.select(true);
 
         this._busyManager.setBusy();
-        this._cacheService.deleteArm(this.site.id, true)
+        this._cacheService.deleteArm(this.site.id)
             .subscribe(r => {
                 this._busyManager.clearBusy();
                 appsNode.refresh();

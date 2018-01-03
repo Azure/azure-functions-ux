@@ -1,3 +1,4 @@
+import { EmbeddedFunctionsNode } from './embedded-functions-node';
 import { GlobalStateService } from './../shared/services/global-state.service';
 import { Subject } from 'rxjs/Subject';
 import { FunctionsNode } from './functions-node';
@@ -55,7 +56,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         this.iconUrl = 'image/function_f.svg';
         this.supportsTab = (Url.getParameterByName(null, 'appsvc.feature') === 'tabbed');
 
-        if(this.sideNav.portalService.isEmbeddedFunctions){
+        if (this.sideNav.portalService.isEmbeddedFunctions) {
             this.showExpandIcon = false;
         }
     }
@@ -84,12 +85,25 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             .takeUntil(this._ngUnsubscribe)
             .subscribe(event => {
 
-                if (event.operation === 'navigate'
-                    && event.resourceId.toLowerCase() === this.parent.parent.resourceId.toLowerCase()) {
-                    this.parent.parent.select(event.data);
-                    this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, event.data);
+                if (event.operation === 'navigate') {
+                    if (this.parent
+                        && this.parent.parent
+                        && this.parent.parent.resourceId
+                        && event.resourceId.toLowerCase() === this.parent.parent.resourceId.toLowerCase()) {
+
+                        this.parent.parent.select(event.data);
+                        this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, event.data);
+                    }
+                } else if (event.operation === 'remove') {
+                    setTimeout(() => {
+                        (this.parent as EmbeddedFunctionsNode).removeChild(this);
+                    });
+
+                    this.parent.select();
                 }
             });
+
+
         return Observable.of({});
     }
 
@@ -100,12 +114,12 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     }
 
     public loadChildren() {
-        if(!this.sideNav.portalService.isEmbeddedFunctions){
+        if (!this.sideNav.portalService.isEmbeddedFunctions) {
             this.children = [
                 new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
                 new FunctionManageNode(this.sideNav, this.functionInfo, this),
             ];
-    
+
             if (!this.sideNav.configService.isStandalone()) {
                 this.children.push(new FunctionMonitorNode(this.sideNav, this.functionInfo, this));
             }

@@ -6,9 +6,13 @@
     <command-bar>
         <h2>{{fileName}}</h2>
         <command displayText="Save"
-        iconUrl="image/save.svg"
-        (click)="saveEditorContent()"
-        cssClass="list-item clickable command left-edge"></command>
+          iconUrl="image/save.svg"
+          (click)="saveEditorContent()"
+          cssClass="list-item clickable command left-edge"></command>
+        <command displayText="Delete"
+          iconUrl="image/delete.svg"
+          (click)="deleteFunction()"
+          cssClass="list-item clickable command"></command>
     </command-bar>
 
     <div class="text-editor-container">

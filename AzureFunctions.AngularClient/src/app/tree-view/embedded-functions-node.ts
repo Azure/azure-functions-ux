@@ -6,9 +6,9 @@ import { FunctionsService } from './../shared/services/functions-service';
 import { SideNavComponent } from './../side-nav/side-nav.component';
 import { PortalResources } from './../shared/models/portal-resources';
 import { DashboardType } from './models/dashboard-type';
-import { Collection, TreeNode } from './tree-node';
+import { Collection, TreeNode, MutableCollection } from './tree-node';
 
-export class EmbeddedFunctionsNode extends TreeNode implements Collection {
+export class EmbeddedFunctionsNode extends TreeNode implements Collection, MutableCollection {
 
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.FunctionsDashboard;
@@ -32,28 +32,6 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection {
         this.showExpandIcon = false;
 
         this._functionsService = this.sideNav.injector.get(FunctionsService);
-
-        // this.isLoading = true;
-        // const descriptor = new CdsEntityDescriptor(this.resourceId);
-        // this._functionsService.getAppContext(descriptor.getTrimmedResourceId())
-        //     .switchMap(context => {
-        //         return this._functionsService.getFunctions(context);
-        //     })
-        //     .do(fcs => {
-        //         // fcs.forEach(f => console.log(f.name));
-        //         this.children = fcs.map(fc => {
-        //             return new FunctionNode(this.sideNav, fc, this);
-        //         });
-
-        //         this.isLoading = false;
-        //     }, err => {
-        //         // TODO: logging
-        //         this.isLoading = false;
-        //     })
-        //     .subscribe(r => {
-
-        //     });
-
     }
 
     public loadChildren() {
@@ -64,14 +42,13 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection {
                 return this._functionsService.getFunctions(context);
             })
             .do(fcs => {
-                // fcs.forEach(f => console.log(f.name));
                 this.children = fcs.map(fc => {
                     return new FunctionNode(this.sideNav, fc, this);
                 });
 
                 this.isLoading = false;
             }, err => {
-                // TODO: logging
+                // TODO: ellhamai - logging
                 this.isLoading = false;
             });
     }
@@ -82,5 +59,13 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection {
         const newNode = new FunctionNode(this.sideNav, functionInfo, this);
         this._addChildAlphabetically(newNode);
         newNode.select();
+    }
+
+    public removeChild(child: TreeNode) {
+        const removeIndex = this.children.findIndex((childNode: TreeNode) => {
+            return childNode.resourceId === child.resourceId;
+        });
+
+        this._removeHelper(removeIndex, false);
     }
 }

@@ -1,3 +1,5 @@
+import { PortalResources } from './../../../shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
 import { RightTabEvent } from './../../../controls/right-tabs/right-tab-event';
 import { TextEditorComponent } from './../../../controls/text-editor/text-editor.component';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -5,7 +7,7 @@ import { FunctionInfo } from './../../../shared/models/function-info';
 import { CacheService } from './../../../shared/services/cache.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Subject } from 'rxjs/Subject';
-import { BroadcastEvent } from './../../../shared/models/broadcast-event';
+import { BroadcastEvent, TreeUpdateEvent } from './../../../shared/models/broadcast-event';
 import { TreeViewInfo } from './../../../tree-view/models/tree-view-info';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
@@ -33,7 +35,8 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
 
   constructor(
     private _broadcastService: BroadcastService,
-    private _cacheService: CacheService) {
+    private _cacheService: CacheService,
+    private _translateService: TranslateService) {
 
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
@@ -115,5 +118,23 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
 
   editorContentChanged(content: string) {
     this._updatedEditorContent = content;
+  }
+
+  deleteFunction() {
+    const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this._functionInfo.name }));
+    if (result) {
+      this._busyManager.setBusy();
+      this._cacheService.deleteArm(this.resourceId)
+        .subscribe(r => {
+          this._busyManager.clearBusy();
+          this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+            resourceId: this.resourceId,
+            operation: 'remove'
+          });
+        }, err => {
+          this._busyManager.clearBusy();
+          // TODO: ellhamai - handle error
+        });
+    }
   }
 }
