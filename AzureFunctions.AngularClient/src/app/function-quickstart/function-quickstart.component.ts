@@ -29,12 +29,16 @@ import { FunctionApp } from '../shared/function-app';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 
+
+type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
+
 @Component({
     selector: 'function-quickstart',
     templateUrl: './function-quickstart.component.html',
     styleUrls: ['./function-quickstart.component.scss'],
     inputs: ['viewInfoInput']
 })
+
 export class FunctionQuickstartComponent implements OnDestroy {
     @Input() functionsInfo: FunctionInfo[];
     private context: FunctionAppContext;
@@ -44,6 +48,7 @@ export class FunctionQuickstartComponent implements OnDestroy {
     bc: BindingManager = new BindingManager();
     showJavaSplashPage = false;
     setShowJavaSplashPage = new Subject<boolean>();
+    templateTypeOptions: TemplateType[] = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
 
     public functionApp: FunctionApp;
     private functionsNode: FunctionsNode;
@@ -120,50 +125,85 @@ export class FunctionQuickstartComponent implements OnDestroy {
     }
 
 
-    onFunctionKey(event: KeyboardEvent, currentFunction: string) {
+    onFunctionKey(event: KeyboardEvent, currentFunction: TemplateType) {
+        const currentIndex = this.templateTypeOptions.indexOf(currentFunction);
+        let nextIndex: number;
+
         if (event.keyCode === KeyCodes.arrowRight) {
-            switch (currentFunction) {
-                case 'HttpTrigger':
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
-                    this.onFunctionClicked('TimerTrigger');
-                    break;
-                }
-                case 'TimerTrigger' :
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
-                    this.onFunctionClicked('QueueTrigger');
-                    break;
-                }
-                case 'QueueTrigger' :
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
-                    this.onFunctionClicked('HttpTrigger');
-                    break;
-                }
-            }
+            nextIndex = currentIndex + 1;
+            nextIndex = nextIndex > this.templateTypeOptions.length - 1 ? 0 : nextIndex;
         } else if (event.keyCode === KeyCodes.arrowLeft) {
-            switch (currentFunction) {
-                case 'HttpTrigger':
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
-                    this.onFunctionClicked('QueueTrigger');
-                    break;
-                }
-                case 'TimerTrigger' :
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
-                    this.onFunctionClicked('HttpTrigger');
-                    break;
-                }
-                case 'QueueTrigger' :
-                {
-                    Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
-                    this.onFunctionClicked('TimerTrigger');
-                    break;
-                }
+            nextIndex = currentIndex - 1;
+            nextIndex = nextIndex < 0 ? this.templateTypeOptions.length - 1 : nextIndex;
+        } else {
+            return;
+        }
+
+        const nextFunction = this.templateTypeOptions[nextIndex];
+        switch (nextFunction) {
+            case 'HttpTrigger':
+            {
+                Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
+                this.onFunctionClicked('HttpTrigger');
+                break;
+            }
+            case 'TimerTrigger' :
+            {
+                Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
+                this.onFunctionClicked('TimerTrigger');
+                break;
+            }
+            case 'QueueTrigger' :
+            {
+                Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
+                this.onFunctionClicked('QueueTrigger');
+                break;
             }
         }
+
+        // if (event.keyCode === KeyCodes.arrowRight) {
+        //     switch (currentFunction) {
+        //         case 'HttpTrigger':
+        //         {
+        //             Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
+        //             this.onFunctionClicked('TimerTrigger');
+        //             break;
+        //         }
+        //         case 'TimerTrigger' :
+        //         {
+        //             Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
+        //             this.onFunctionClicked('QueueTrigger');
+        //             break;
+        //         }
+        //         case 'QueueTrigger' :
+        //         {
+        //             Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
+        //             this.onFunctionClicked('HttpTrigger');
+        //             break;
+        //         }
+        //     }
+        // } else if (event.keyCode === KeyCodes.arrowLeft) {
+        //     switch (currentFunction) {
+        //         case 'HttpTrigger':
+        //         {
+        //             Dom.setFocus(Dom.getTabbableControl(this.queueTemplate.nativeElement));
+        //             this.onFunctionClicked('QueueTrigger');
+        //             break;
+        //         }
+        //         case 'TimerTrigger' :
+        //         {
+        //             Dom.setFocus(Dom.getTabbableControl(this.httpTemplate.nativeElement));
+        //             this.onFunctionClicked('HttpTrigger');
+        //             break;
+        //         }
+        //         case 'QueueTrigger' :
+        //         {
+        //             Dom.setFocus(Dom.getTabbableControl(this.timerTemplate.nativeElement));
+        //             this.onFunctionClicked('TimerTrigger');
+        //             break;
+        //         }
+        //     }
+        // }
 
     }
 
