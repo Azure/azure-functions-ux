@@ -14,9 +14,10 @@ import { staticConfig } from '../config';
 //     }
 // });
 export async function getBitbucketTokens(req: any): Promise<any> {
-    
-    try{
-        const r = await axios.get( `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/Bitbucket?api-version=2016-03-01`,
+    try {
+        const r = await axios.get(
+            `${staticConfig.config.env
+                .azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/Bitbucket?api-version=2016-03-01`,
             {
                 headers: {
                     Authorization: req.headers.authorization
@@ -25,29 +26,25 @@ export async function getBitbucketTokens(req: any): Promise<any> {
         );
         const body = r.data;
         if (req && req.session && body && body.properties && body.properties.token) {
-            return {authenticated: true, token: body.properties.token};
+            return { authenticated: true, token: body.properties.token };
+        } else {
+            return { authenticated: false };
         }
-        else{
-            return {authenticated: false};
-        }
-
-    }
-    catch(_)
-    {
-        return {authenticated: false};
+    } catch (_) {
+        return { authenticated: false };
     }
 }
 export function setupBitbucketAuthentication(app: Application) {
     app.post('/api/bitbucket/passthrough', async (req, res) => {
         const tokenData = await getBitbucketTokens(req);
-        if(!tokenData.authenticated){
+        if (!tokenData.authenticated) {
             res.sendStatus(401);
         }
         const response = await axios.get(req.body.url, {
-                headers: {
-                    Authorization: `Bearer ${tokenData.token}`
-                }
-            });
+            headers: {
+                Authorization: `Bearer ${tokenData.token}`
+            }
+        });
         res.json(response.data);
     });
 

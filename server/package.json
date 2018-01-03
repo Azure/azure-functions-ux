@@ -24,7 +24,8 @@
         "passport-github2": "^0.1.10",
         "client-oauth2": "^4.1.0",
         "request": "^2.81.0",
-        "@types/request": "^2.0.2"
+        "dotenv": "^4.0.0",
+        "compression": "^1.7.1"
     },
     "devDependencies": {
         "@types/async": "^2.0.40",
@@ -53,6 +54,8 @@
         "nodemon": "^1.11.0",
         "run-sequence": "^2.2.0",
         "ts-node": "^3.1.0",
-        "typescript": "^2.4.1"
+        "typescript": "^2.4.1",
+        "@types/request": "^2.0.2",
+        "@types/compression": "^0.0.35"
     }
 }

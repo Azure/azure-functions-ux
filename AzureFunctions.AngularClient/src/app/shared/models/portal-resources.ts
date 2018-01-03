@@ -821,4 +821,5 @@
     public static table_endOfRow: string = "table_endOfRow";
     public static appFunctionSettings_warning_6: string = "appFunctionSettings_warning_6";
     public static appFunctionSettings_warning_7: string = "appFunctionSettings_warning_7";
+    public static warning: string = "warning";
 }

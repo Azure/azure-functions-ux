@@ -8,6 +8,8 @@ import * as passport from 'passport';
 import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
+import * as configLoader from './keyvaultConfig';
+import * as compression from 'compression';
 
 import './polyfills';
 import { getTenants, switchTenant, getToken } from './actions/user-account';
@@ -18,14 +20,15 @@ import { setupAuthentication, authenticate, maybeAuthenticate } from './authenti
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
 
+const configLoadPromise = configLoader.config();
 const app = express();
-
 app
+    .use(compression())
     .use(express.static(path.join(__dirname, 'public')))
     .use(logger('dev'))
     .set('view engine', 'pug')
     .set('views', 'src/views')
-    .use(session({ secret: 'keyboard cat' }))
+    .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
     .use(bodyParser.json())
     .use(cookieParser())
     .use(bodyParser.urlencoded({ extended: true }))
@@ -45,7 +48,7 @@ app.get('/api/ping', (_, res) => {
 });
 
 app.get('/api/health', (_, res) => {
-    res.send('healthy');
+    res.send(process.env.GITHUB_CLIENT_ID); //'healthy');
 });
 
 app.get('/api/switchtenants/:tenantId', authenticate, switchTenant);
@@ -67,35 +70,35 @@ app.post('/api/passthrough', maybeAuthenticate, proxy);
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.
 app.get('*', renderIndex);
+configLoadPromise.then(() => {
+    if (process.env.FUNCTIONS_SLOT_NAME) {
+        function normalizePort(val: any) {
+            var port = parseInt(val, 10);
 
+            if (isNaN(port)) {
+                // named pipe
+                return val;
+            }
 
-if (process.env.FUNCTIONS_SLOT_NAME) {
-    function normalizePort(val: any) {
-        var port = parseInt(val, 10);
+            if (port >= 0) {
+                // port number
+                return port;
+            }
 
-        if (isNaN(port)) {
-            // named pipe
-            return val;
+            return false;
         }
 
-        if (port >= 0) {
-            // port number
-            return port;
-        }
+        var port = normalizePort(process.env.PORT || '3000');
+        app.set('port', port);
+        var server = http.createServer(app as any);
+        server.listen(port);
+    } else {
+        //This is for localhost development
+        var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
+        var certificate = fs.readFileSync('selfcert.pem', 'utf8');
 
-        return false;
+        const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
+
+        httpsServer.listen(44300);
     }
-
-    var port = normalizePort(process.env.PORT || '3000');
-    app.set('port', port);
-    var server = http.createServer(app as any);
-    server.listen(port);
-} else {
-    //This is for localhost development
-    var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
-    var certificate = fs.readFileSync('selfcert.pem', 'utf8');
-
-    const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
-
-    httpsServer.listen(44300);
-}
+});
