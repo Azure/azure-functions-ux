@@ -69,7 +69,7 @@ gulp.task('bundle-json', function() {
  *   Bundle Up config
  */
 gulp.task('bundle-config', function() {
-    return gulp.src(['web.config', 'iisnode.yml', 'package.json']).pipe(gulp.dest('build'));
+    return gulp.src(['web.config', 'iisnode.yml', 'package.json', '.env']).pipe(gulp.dest('build'));
 });
 
 /********
@@ -356,12 +356,7 @@ gulp.task('unzip-templates', function() {
 
     let streams = [];
     versions.forEach(version => {
-        streams.push(
-            gulp
-                .src(`template-downloads/${version}/*`)
-                .pipe(decompress())
-                .pipe(gulp.dest(`Templates/${version}`))
-        );
+        streams.push(gulp.src(`template-downloads/${version}/*`).pipe(decompress()).pipe(gulp.dest(`Templates/${version}`)));
     });
     return gulpMerge(streams);
 });
