@@ -1,3 +1,5 @@
+import { TreeUpdateEvent } from './../shared/models/broadcast-event';
+import { CacheService } from 'app/shared/services/cache.service';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { CreateCard } from 'app/function/function-new/function-new.component';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -46,6 +48,7 @@ export class FunctionsListComponent implements OnDestroy {
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService,
         private _functionsService: FunctionsService,
+        private _cacheService: CacheService,
         private _injector: Injector) {
 
             console.log("FUNCTIONSLISTCOMPONENT!");
@@ -182,6 +185,10 @@ export class FunctionsListComponent implements OnDestroy {
     }
 
     clickDelete(item: FunctionNode) {
+        if (this._portalService.isEmbeddedFunctions) {
+            this.embeddedDelete(item);
+            return;
+        }
         const functionInfo = item.functionInfo;
         const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: functionInfo.name }));
         if (result) {
@@ -209,6 +216,24 @@ export class FunctionsListComponent implements OnDestroy {
 
                     this._globalStateService.clearBusyState();
                 });
+        }
+    }
+
+    embeddedDelete(item: FunctionNode) {
+        const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: item.functionInfo.name }));
+        if (result) {
+          this._globalStateService.setBusyState();
+          this._cacheService.deleteArm(item.resourceId)
+            .subscribe(r => {
+                this._globalStateService.clearBusyState();
+                this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+                resourceId: item.resourceId,
+                operation: 'remove'
+              });
+            }, err => {
+                this._globalStateService.clearBusyState();
+              // TODO: ellhamai - handle error
+            });
         }
     }
 

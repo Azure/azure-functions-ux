@@ -125,6 +125,7 @@ export class FunctionsService {
 
                             if (this._portalService.isEmbeddedFunctions) {
                                 fc = item.properties;
+                                fc.entity = item.id.split('/').filter(part => !!part).slice(7, 8).join();
 
                                 const currResourceId = '/' + item.id.split('/').filter(part => !!part).slice(0, 8).join('/');
                                 this.getAppContext(currResourceId)

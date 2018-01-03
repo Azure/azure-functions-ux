@@ -1,3 +1,6 @@
+import { Subject } from 'rxjs/Subject';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { TreeUpdateEvent, BroadcastEvent } from './../shared/models/broadcast-event';
 import { CacheService } from './../shared/services/cache.service';
 import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionNode } from './function-node';
@@ -7,6 +10,7 @@ import { SideNavComponent } from './../side-nav/side-nav.component';
 import { PortalResources } from './../shared/models/portal-resources';
 import { DashboardType } from './models/dashboard-type';
 import { Collection, TreeNode, MutableCollection } from './tree-node';
+import { Observable } from 'rxjs/Observable';
 
 export class EmbeddedFunctionsNode extends TreeNode implements Collection, MutableCollection {
 
@@ -14,6 +18,8 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
     public dashboardType = DashboardType.FunctionsDashboard;
     private _cacheService: CacheService;
     private _functionsService: FunctionsService;
+    private _broadcastService: BroadcastService;
+    private _ngUnsubscribe = new Subject();
 
     constructor(
         sideNav: SideNavComponent,
@@ -32,6 +38,7 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
         this.showExpandIcon = false;
 
         this._functionsService = this.sideNav.injector.get(FunctionsService);
+        this._broadcastService = sideNav.injector.get(BroadcastService);
     }
 
     public loadChildren() {
@@ -67,5 +74,25 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
         });
 
         this._removeHelper(removeIndex, false);
+    }
+
+    public handleSelection(): Observable<any> {
+        this._broadcastService.getEvents<TreeUpdateEvent>(BroadcastEvent.TreeUpdate)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(event => {
+
+                if (event.operation === 'remove') {
+                    const removeIndex = this.children.findIndex((childNode: TreeNode) => {
+                        return childNode.resourceId === event.resourceId;
+                    });
+                    this._removeHelper(removeIndex, false);
+                }
+            });
+
+        return Observable.of({});
+    }
+
+    public handleDeselection(newSelectedNode?: TreeNode) {
+        this._ngUnsubscribe.next();
     }
 }
