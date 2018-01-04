@@ -48,12 +48,12 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
 }
 
 export function maybeAuthenticate(req: Request, res: Response, next: NextFunction) {
-    // return next();  // Uncomment this for Ibiza scenario's until we figure out how to handle auth properly
+    return next(); // Uncomment this for Ibiza scenario's until we figure out how to handle auth properly
 
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/.login');
+    //if (req.isAuthenticated()) {
+    //   return next();
+    //}
+    //res.redirect('/.login');
 }
 
 function authStrategy() {
@@ -64,13 +64,7 @@ function authStrategy() {
         resource: constants.authentication.resource
     };
 
-    const userReducer = (
-        _: string,
-        __: string,
-        params: Token,
-        ___: any,
-        done: any
-    ) => {
+    const userReducer = (_: string, __: string, params: Token, ___: any, done: any) => {
         const user = jwt.decode(params.id_token) as User;
         user.token = params;
         done(null, user);
