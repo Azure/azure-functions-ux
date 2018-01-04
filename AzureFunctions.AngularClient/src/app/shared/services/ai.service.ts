@@ -190,7 +190,7 @@ export class AiService implements IAppInsights {
      */
     trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, _?: SeverityLevel) {
         console.error(exception);
-        if (appInsights && appInsights.trackException) {
+        if (typeof appInsights !== 'undefined' && appInsights.trackException) {
             return appInsights.trackException(exception, handledAt, properties, measurements);
         }
     }
