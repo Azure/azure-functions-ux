@@ -23,9 +23,17 @@ import { setupDeploymentCenter } from './deployment-center/deployment-center';
 
 const app = express();
 //Load config before anything else
-configLoader.config().then(() => {
-    setupDeploymentCenter(app);
-});
+configLoader
+    .config({
+        aadAccessToken:
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ing0Nzh4eU9wbHNNMUg3TlhrN1N4MTd4MXVwYyIsImtpZCI6Ing0Nzh4eU9wbHNNMUg3TlhrN1N4MTd4MXVwYyJ9.eyJhdWQiOiJodHRwczovL3ZhdWx0LmF6dXJlLm5ldCIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny8iLCJpYXQiOjE1MTUxMDUwNDEsIm5iZiI6MTUxNTEwNTA0MSwiZXhwIjoxNTE1MTA4OTQxLCJhaW8iOiJZMk5nWU5oZWFmRlQxY2o3S3NzV3NUdDg1ZFhyQVE9PSIsImFwcGlkIjoiMzdjYWQ4ZTItMGY3Ni00NmI0LWE5NmYtZTI4OTJhOWY3MGI0IiwiYXBwaWRhY3IiOiIyIiwiZV9leHAiOjI2MjgwMCwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3LyIsIm9pZCI6IjczMjQzMThlLTJhMDctNGE0My04OTRiLWRjMTE4ZDY3NzA1NyIsInN1YiI6IjczMjQzMThlLTJhMDctNGE0My04OTRiLWRjMTE4ZDY3NzA1NyIsInRpZCI6IjcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0NyIsInV0aSI6IjhzdURPSk9oQUV5Wkw4RzJpbWdNQUEiLCJ2ZXIiOiIxLjAifQ.tWdFUWZVrUkPAoMj3fCPq9GKtNbRhdK1xVwm9DeofLkD7LLkwILksox7E8e5QdkgZr8-iK51dzY60sA4hd6_xL_fZTiRZLk8PR8HrUDpz-CO1FhSmSUK6uKxHW-kAWhwZpfhHFO_rijFa0BitQw0j7dwumrttXLmsjXN0AYPERehR8fvGIXcoCQ8XgfAbVFJvCygJv-jB-LQOtzvrDYr7g7EGrgIIe1ZSzqaBxJY6vNFCei52_V-VB8irIuBCBxg5derlTmzIyDBv8bJfzeZuEaUai9UXYNbH5EW2t7j0Iv_egHfkJNQC7ZuBr0bFMTdpFYf_LmaJrqCFzYwgOW6hw'
+    })
+    .then(() => {
+        setupDeploymentCenter(app);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 app
     .use(compression())

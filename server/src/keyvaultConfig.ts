@@ -50,7 +50,8 @@ export async function config(props: any = {}) {
                 });
                 envWithKeyvault[key] = secretResponse.data.value;
             } catch (err) {
-                throw err;
+                console.log(uri);
+                console.log(err);
             }
         });
         await Promise.all(fetches);
