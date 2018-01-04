@@ -5,13 +5,18 @@ const dotenvConfig = require('dotenv').config();
 async function getAADTokenFromMSI(endpoint: string, secret: string, resource: string) {
     const apiVersion = '2017-09-01';
 
-    let response = await axios.get(`${endpoint}/?resource=${resource}&api-version=${apiVersion}`, {
-        headers: {
-            Secret: secret
-        }
-    });
-
-    return response.data.access_token;
+    try {
+        let response = await axios.get(`${endpoint}/?resource=${resource}&api-version=${apiVersion}`, {
+            headers: {
+                Secret: secret
+            }
+        });
+        console.log(response.data);
+        return response.data.access_token;
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
 }
 
 export async function config(props: any = {}) {
@@ -22,19 +27,17 @@ export async function config(props: any = {}) {
         // no token - get one using Managed Service Identity inside process.env
         const resource = 'https://vault.azure.net';
         if (process.env.MSI_ENDPOINT && process.env.MSI_SECRET) {
-            aadToken = getAADTokenFromMSI(process.env.MSI_ENDPOINT as string, process.env.MSI_SECRET as string, resource);
+            aadToken = await getAADTokenFromMSI(process.env.MSI_ENDPOINT as string, process.env.MSI_SECRET as string, resource);
         } else {
             aadToken = null;
         }
-    } else if (typeof aadAccessToken === 'function') {
-        aadToken = aadAccessToken();
     } else if (typeof aadAccessToken === 'string') {
         aadToken = aadAccessToken;
     }
 
     const dotenvParsed = dotenvConfig.parsed || {};
     const envWithKeyvault = Object.assign({}, dotenvParsed);
-    const token = await Promise.resolve(aadToken);
+    const token = aadToken;
 
     if (token) {
         const fetches = Object.keys(dotenvParsed).filter(key => dotenvParsed[key].match(/^kv:/)).map(async key => {
