@@ -21,86 +21,87 @@ import { setupAuthentication, authenticate, maybeAuthenticate } from './authenti
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
 
+const app = express();
 //Load config before anything else
 configLoader.config().then(() => {
-    const app = express();
-    app
-        .use(compression())
-        .use(express.static(path.join(__dirname, 'public')))
-        .use(logger('dev'))
-        .set('view engine', 'pug')
-        .set('views', 'src/views')
-        .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
-        .use(bodyParser.json())
-        .use(cookieParser())
-        .use(bodyParser.urlencoded({ extended: true }))
-        .use(passport.initialize())
-        .use(passport.session());
-
-    setupAuthentication(app);
     setupDeploymentCenter(app);
+});
 
-    const renderIndex = (_: express.Request, res: express.Response) => {
-        res.render('index', staticConfig);
-    };
-    app.get('/', maybeAuthenticate, renderIndex);
+app
+    .use(compression())
+    .use(express.static(path.join(__dirname, 'public')))
+    .use(logger('dev'))
+    .set('view engine', 'pug')
+    .set('views', 'src/views')
+    .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
+    .use(bodyParser.json())
+    .use(cookieParser())
+    .use(bodyParser.urlencoded({ extended: true }))
+    .use(passport.initialize())
+    .use(passport.session());
 
-    app.get('/api/ping', (_, res) => {
-        res.send('success');
-    });
+setupAuthentication(app);
 
-    app.get('/api/health', (_, res) => {
-        res.send(process.env.GITHUB_CLIENT_ID); //'healthy');
-    });
+const renderIndex = (_: express.Request, res: express.Response) => {
+    res.render('index', staticConfig);
+};
+app.get('/', maybeAuthenticate, renderIndex);
 
-    app.get('/api/switchtenants/:tenantId', authenticate, switchTenant);
+app.get('/api/ping', (_, res) => {
+    res.send('success');
+});
 
-    app.get('/api/templates', maybeAuthenticate, getTemplates);
-    app.get('/api/bindingconfig', maybeAuthenticate, getBindingConfig);
+app.get('/api/health', (_, res) => {
+    res.send(process.env.GITHUB_CLIENT_ID); //'healthy');
+});
 
-    app.get('/api/tenants', authenticate, getTenants);
-    app.post('/api/tenants/switch/:tenantId', authenticate, switchTenant);
-    app.get('/api/token', authenticate, getToken);
+app.get('/api/switchtenants/:tenantId', authenticate, switchTenant);
 
-    app.get('/api/resources', maybeAuthenticate, getResources);
-    app.get('/api/latestruntime', maybeAuthenticate, getRuntimeVersion);
-    app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
-    app.get('/api/config', maybeAuthenticate, getConfig);
-    app.post('/api/proxy', maybeAuthenticate, proxy);
-    app.post('/api/passthrough', maybeAuthenticate, proxy);
+app.get('/api/templates', maybeAuthenticate, getTemplates);
+app.get('/api/bindingconfig', maybeAuthenticate, getBindingConfig);
 
-    // if are here, that means we didn't match any of the routes above including those for static content.
-    // render index and let angular handle the path.
-    app.get('*', renderIndex);
+app.get('/api/tenants', authenticate, getTenants);
+app.post('/api/tenants/switch/:tenantId', authenticate, switchTenant);
+app.get('/api/token', authenticate, getToken);
 
-    if (process.env.FUNCTIONS_SLOT_NAME) {
-        function normalizePort(val: any) {
-            var port = parseInt(val, 10);
+app.get('/api/resources', maybeAuthenticate, getResources);
+app.get('/api/latestruntime', maybeAuthenticate, getRuntimeVersion);
+app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
+app.get('/api/config', maybeAuthenticate, getConfig);
+app.post('/api/proxy', maybeAuthenticate, proxy);
+app.post('/api/passthrough', maybeAuthenticate, proxy);
 
-            if (isNaN(port)) {
-                // named pipe
-                return val;
-            }
+// if are here, that means we didn't match any of the routes above including those for static content.
+// render index and let angular handle the path.
+app.get('*', renderIndex);
 
-            if (port >= 0) {
-                // port number
-                return port;
-            }
+if (process.env.FUNCTIONS_SLOT_NAME) {
+    function normalizePort(val: any) {
+        var port = parseInt(val, 10);
 
-            return false;
+        if (isNaN(port)) {
+            // named pipe
+            return val;
         }
 
-        var port = normalizePort(process.env.PORT || '3000');
-        app.set('port', port);
-        var server = http.createServer(app as any);
-        server.listen(port);
-    } else {
-        //This is for localhost development
-        var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
-        var certificate = fs.readFileSync('selfcert.pem', 'utf8');
+        if (port >= 0) {
+            // port number
+            return port;
+        }
 
-        const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
-
-        httpsServer.listen(44300);
+        return false;
     }
-});
+
+    var port = normalizePort(process.env.PORT || '3000');
+    app.set('port', port);
+    var server = http.createServer(app as any);
+    server.listen(port);
+} else {
+    //This is for localhost development
+    var privateKey = fs.readFileSync('selfcertkey.pem', 'utf8');
+    var certificate = fs.readFileSync('selfcert.pem', 'utf8');
+
+    const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app as any);
+
+    httpsServer.listen(44300);
+}
