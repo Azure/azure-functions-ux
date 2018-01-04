@@ -8,6 +8,7 @@ import { CacheService } from './../../../shared/services/cache.service';
 import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, AfterContentInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { FunctionEditorEvent } from 'app/function/embedded/function-editor-event';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'embedded-function-logs-tab',
@@ -30,6 +31,7 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
   private _ngUnsubscribe = new Subject();
   private _totalPollingDuration = 300000;
   private _pollingInterval = 5000;
+  private _timerSub: Subscription;
 
   private _resourceIdStream = new Subject<string>();
 
@@ -39,8 +41,10 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
     this._resourceIdStream
       .takeUntil(this._ngUnsubscribe)
       .distinctUntilChanged()
-      .subscribe(r => {
+      .subscribe(resourceId => {
         this._startLogs();
+
+        this._setupPingsToStatus(resourceId);
       });
 
     this._broadcastService.getEvents<FunctionEditorEvent<void>>(BroadcastEvent.FunctionEditorEvent)
@@ -67,6 +71,28 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
     }
   }
 
+  // The purpose of this is two-fold:
+  // 1. This will get runtime status at the app-level
+  // 2. This will also keep the logs API alive so that we can view logs
+  private _setupPingsToStatus(resourceId: string) {
+    if (this._timerSub) {
+      this._timerSub.unsubscribe();
+    }
+
+    this._timerSub = Observable.timer(0, 45000)
+      .takeUntil(this._ngUnsubscribe)
+      .switchMap(_ => {
+        const statusId = resourceId.split('/').splice(0, 9).join('/') + '/status';
+        return this._cacheService.getArm(statusId, true);
+      })
+      .do(null, err => {
+        // TODO: ellhamai -should handle error
+      })
+      .retry()
+      .subscribe(r => {
+      });
+  }
+
   private _startLogs() {
 
     if (this.isPolling) {
@@ -78,8 +104,6 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
     this.commands[0].text = 'Pause';
 
     this.isPolling = true;
-
-    // TODO: need to be polling on `${this.mainSiteUrl}/admin/host/status` to keep logging
 
     Observable.of(null)
       .delay(this._totalPollingDuration)

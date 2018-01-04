@@ -23,8 +23,6 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
   @Output() onExpanded = new Subject<boolean>();
   @ViewChild(TextEditorComponent) textEditor: TextEditorComponent;
 
-  // @ViewChild('requestEditorContainer') requestEditorContainer: ElementRef;
-  // @ViewChild(MonacoEditorDirective) requestEditor: MonacoEditorDirective;
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
   public functionApp: FunctionApp = null;
@@ -117,13 +115,13 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
     this._busyManager.setBusy();
 
     // TODO: Switchover whenever we can confirm that APIM works with new templates
-    // const content = {
-    //   body: this._updatedEditorContent,
-    //   url: this._functionInfo.trigger_url
-    // };
+    const content = {
+      body: this._updatedEditorContent,
+      url: this._functionInfo.trigger_url
+    };
 
-    this._cacheService.post(this._functionInfo.trigger_url, true, headers, this._updatedEditorContent)
-    // this._cacheService.post('/api/triggerFunctionAPIM', true, null, content)   
+    // this._cacheService.post(this._functionInfo.trigger_url, true, headers, this._updatedEditorContent)
+    this._cacheService.post('/api/triggerFunctionAPIM', true, null, content)
       .subscribe(r => {
         this._busyManager.clearBusy();
         this.responseOutputText = r.text();

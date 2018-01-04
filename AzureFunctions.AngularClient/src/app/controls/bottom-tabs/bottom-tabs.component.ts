@@ -42,7 +42,7 @@ export class BottomTabsComponent implements OnInit, OnDestroy {
       .takeUntil(this._ngUnsubscribe)
       .filter(e => e.type === 'isExpanded')
       .subscribe(e => {
-        this.toggleExpanded();
+        this.setTabState(e.value);
       });
   }
 
@@ -53,13 +53,15 @@ export class BottomTabsComponent implements OnInit, OnDestroy {
   }
 
   toggleExpanded() {
+    this.setTabState(!this.expanded);
+  }
 
-    this.expanded = !this.expanded;
+  setTabState(expanded: boolean) {
+    this.expanded = expanded;
     this.onExpanded.next(this.expanded);
 
-    setTimeout(() =>{
+    setTimeout(() => {
       this.activeTab = this.expanded ? this.logsTab : null; // For now we only have one tab so just hardcoding
     });
-
   }
 }

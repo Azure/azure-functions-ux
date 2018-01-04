@@ -37,7 +37,7 @@
   </aside>
 
   <footer class="bottom-tabs-bar">
-    <bottom-tabs (onExpanded)="toggleBottomBarExpanded()">
+    <bottom-tabs (onExpanded)="setBottomBarState($event)">
         <embedded-function-logs-tab
           *ngIf="bottomBarExpanded"
           title="Logs"

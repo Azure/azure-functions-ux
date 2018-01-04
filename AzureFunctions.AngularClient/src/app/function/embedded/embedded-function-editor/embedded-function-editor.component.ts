@@ -93,8 +93,8 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     });
   }
 
-  toggleBottomBarExpanded() {
-    this.bottomBarExpanded = !this.bottomBarExpanded;
+  setBottomBarState(expanded: boolean) {
+    this.bottomBarExpanded = expanded;
 
     console.log('editor bottom bar expanded - ' + this.bottomBarExpanded);
 

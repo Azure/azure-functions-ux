@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { Request, Response } from 'express';
-import * as safeJson from 'circular-json';
 import { IncomingMessageHeaders } from 'http';
 
 interface TriggerRequest{
@@ -28,7 +27,11 @@ export function triggerFunctionAPIM(req: Request, res: Response){
         .then(r => res.send(r.data))
         .catch(e =>{
             if (e.response && e.response.status) {
-                res.status(e.response.status).send(safeJson.stringify(e.message));
+                let message = e.message;
+                if(e.response.data){
+                    message = e.response.data;
+                }
+                res.status(e.response.status).send(message);
             } else if (e.request) {
                 res.status(400).send({
                     reason: 'TriggerError',
