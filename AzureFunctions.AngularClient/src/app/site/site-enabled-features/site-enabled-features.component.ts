@@ -1,4 +1,4 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, Input } from '@angular/core';
 import { Dom } from './../../shared/Utilities/dom';
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
 import { SiteTabIds, KeyCodes } from './../../shared/models/constants';
@@ -17,7 +17,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteService } from './../../shared/services/slots.service';
 import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
@@ -28,12 +27,12 @@ import { Site } from '../../shared/models/arm/site';
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem } from '../../shared/models/localStorage/enabled-features';
+import { FunctionAppService } from '../../shared/services/function-app.service';
 
 @Component({
     selector: 'site-enabled-features',
     templateUrl: './site-enabled-features.component.html',
-    styleUrls: ['./site-enabled-features.component.scss'],
-    inputs: ['siteInput'],
+    styleUrls: ['./site-enabled-features.component.scss']
 })
 
 // First load list of enabled features from localStorage
@@ -60,7 +59,7 @@ export class SiteEnabledFeaturesComponent {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
         private _siteDashboard: SiteDashboardComponent,
-        private _slotsService: SiteService) {
+        private _functionAppService: FunctionAppService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -142,6 +141,7 @@ export class SiteEnabledFeaturesComponent {
     }
 
 
+    @Input()
     set siteInput(site: ArmObj<Site>) {
         if (!site) {
             return;
@@ -164,7 +164,7 @@ export class SiteEnabledFeaturesComponent {
             return Observable.of([]);
         }
 
-        return this._slotsService.isAppInsightsEnabled(this._site.id).flatMap((aiId) => {
+        return this._functionAppService.isAppInsightsEnabled(this._site.id).flatMap((aiId) => {
             const items = [];
             if (aiId) {
                 items.push(this._getEnabledFeatureItem(Feature.AppInsight, aiId));
@@ -274,7 +274,7 @@ export class SiteEnabledFeaturesComponent {
                             BuyDomainSelected: false
                         }
                     }
-                };;
+                };
 
             case Feature.SSLBinding:
                 return <EnabledFeatureItem>{

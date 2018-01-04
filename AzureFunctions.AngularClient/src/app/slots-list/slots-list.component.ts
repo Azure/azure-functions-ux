@@ -1,15 +1,13 @@
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Component, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { SlotsNode } from '../tree-view/slots-node';
 import { SlotNode } from '../tree-view/app-node';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
-import { ErrorType, ErrorEvent } from '../shared/models/error-event';
-import { ErrorIds } from '../shared/models/error-ids';
+import { errorIds } from '../shared/models/error-ids';
+import { NavigableComponent } from '../shared/components/navigable-component';
+import { Subscription } from 'rxjs/Subscription';
 
 
 interface SlotItem {
@@ -24,21 +22,20 @@ interface SlotItem {
     templateUrl: './slots-list.component.html',
     styleUrls: ['./slots-list.component.scss']
 })
-export class SlotsListComponent implements OnDestroy {
+export class SlotsListComponent extends NavigableComponent {
     public slots: SlotItem[] = [];
     public isLoading: boolean;
 
     private _slotsNode: SlotsNode;
-    private _ngUnsubscribe = new Subject();
-
     constructor(
-        private _broadcastService: BroadcastService,
-        private _translateService: TranslateService
-    ) {
+        broadcastService: BroadcastService,
+        private _translateService: TranslateService) {
+        super('slots-list', broadcastService, DashboardType.SlotsDashboard);
+    }
 
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
-            .filter(info => info.dashboardType === DashboardType.SlotsDashboard)
-            .takeUntil(this._ngUnsubscribe)
+    setupNavigation(): Subscription {
+        return this.navigationEvents
+            .takeUntil(this.ngUnsubscribe)
             .switchMap(viewInfo => {
                 this.isLoading = true;
                 this._slotsNode = (<SlotsNode>viewInfo.node);
@@ -46,10 +43,9 @@ export class SlotsListComponent implements OnDestroy {
             })
             .do(null, e => {
                 this.isLoading = false;
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                this.showComponentError({
                     message: this._translateService.instant(PortalResources.error_unableToLoadSlotsList),
-                    errorType: ErrorType.RuntimeError,
-                    errorId: ErrorIds.unableToPopulateSlotsList,
+                    errorId: errorIds.unableToPopulateSlotsList,
                     resourceId: 'none'
                 });
             })
@@ -66,10 +62,6 @@ export class SlotsListComponent implements OnDestroy {
                         };
                     });
             });
-    }
-
-    ngOnDestroy() {
-        this._ngUnsubscribe.next();
     }
 
     clickRow(item: SlotItem) {

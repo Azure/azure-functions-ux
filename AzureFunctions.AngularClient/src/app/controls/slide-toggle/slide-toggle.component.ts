@@ -9,7 +9,6 @@ type Role = undefined | 'switch' | 'button';
 
 type LabelFormt = undefined | 'name' | 'stateName' | 'nameAndStateName' | 'mergedStateNames';
 
-
 @Component({
     selector: 'slide-toggle',
     templateUrl: './slide-toggle.component.html',

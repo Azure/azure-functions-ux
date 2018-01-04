@@ -1,11 +1,11 @@
 <ng-sidebar-container class="sidebar-container" [animate]="true">
-    
+
     <div ng-sidebar-content>
         <div class="newfunc-container" >
 
             <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
-            <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
+            <div *ngIf="functionsInfo" [fnWriteAccess]="context">
 
                 <div class="choose">
                     <h2>{{ 'functionNew_chooseTemplate' | translate }}</h2>
@@ -25,30 +25,30 @@
                 </div>
 
                 <div class="search-and-sort">
-                        <search-box class="search-box-container" 
-                                    (onInputChange)="onSearchChanged($event)" 
-                                    (onClear)="onSearchCleared()" 
+                        <search-box class="search-box-container"
+                                    (onInputChange)="onSearchChanged($event)"
+                                    (onClear)="onSearchCleared()"
                                     [placeholder]="'createFunction_search' | translate">
                         </search-box>
-            
+
                         {{ 'templatePicker_language' | translate }}
-                        <drop-down class="tpicker-dropdown" 
-                                   [options]="languages" 
+                        <drop-down class="tpicker-dropdown"
+                                   [options]="languages"
                                    (value)="onLanguageChanged($event)"
                                    attr.aria-label="{{'templatePicker_language' | translate}}">
                         </drop-down>
-            
+
                         {{ 'templatePicker_scenario' | translate }}
-                        <drop-down class="tpicker-dropdown" 
-                                   [options]="categories" 
+                        <drop-down class="tpicker-dropdown"
+                                   [options]="categories"
                                    (value)="onScenarioChanged($event)"
                                    attr.aria-label="{{'templatePicker_scenario' | translate}}">
                         </drop-down>
                 </div>
-            
+
                 <div class="selectionContainer" #container>
-                    <div *ngFor="let card of cards" 
-                         [ngClass]="showTryView && !card.enabledInTryMode ? 'cardDisabled' : 'cardContainer'" 
+                    <div *ngFor="let card of cards"
+                         [ngClass]="showTryView && !card.enabledInTryMode ? 'cardDisabled' : 'cardContainer'"
                          (click)="onCardSelected(card, showTryView && !card.enabledInTryMode)"
                          [tabindex]="card.focusable ? 0 : -1"
                          (keydown)="onKeyPress($event, card, showTryView && !card.enabledInTryMode)">
@@ -70,33 +70,32 @@
                                  {{language}}
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <ng-sidebar #sidebar [(opened)]="sidePanelOpened" 
-                         [mode]="'over'" 
-                         [position]="'right'" 
-                         [closeOnClickOutside]="false" 
+    <ng-sidebar #sidebar [(opened)]="sidePanelOpened"
+                         [mode]="'over'"
+                         [position]="'right'"
+                         [closeOnClickOutside]="false"
                          [trapFocus]="false"
-                         [autoFocus]="true" 
-                         [sidebarClass]="'sidebar-new-function'" 
-                         [ariaLabel]="'Create Function'" 
-                         [animate]="true" 
-                         [closeOnClickBackdrop]="false" 
+                         [autoFocus]="true"
+                         [sidebarClass]="'sidebar-new-function'"
+                         [ariaLabel]="'Create Function'"
+                         [animate]="true"
+                         [closeOnClickBackdrop]="false"
                          [showBackdrop]="true">
-        
-        <sidebar-picker *ngIf="sidePanelOpened" 
-                        [functionCard]="createFunctionCard" 
-                        [functionLanguage]="createFunctionLanguage" 
+
+        <sidebar-picker *ngIf="sidePanelOpened"
+                        [functionCard]="createFunctionCard"
+                        [functionLanguage]="createFunctionLanguage"
                         [functionsInfo]="functionsInfo"
-                        [functionApp]="functionApp"
                         [appNode]="appNode"
                         [functionsNode]="functionsNode"
-                        [context]="context"
+                        [viewInfo]="viewInfo"
                         (closePanel) ="closeSidePanel()">
         </sidebar-picker>
     </ng-sidebar>

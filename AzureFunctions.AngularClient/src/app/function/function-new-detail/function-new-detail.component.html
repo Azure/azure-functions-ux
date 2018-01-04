@@ -6,9 +6,9 @@
     <h2>{{'sideBar_newFunction' | translate }}</h2>
 
     <div class="create-button-container" *ngIf="currentTemplate && currentTemplate.metadata.AADPermissions">
-        <aad-registration 
-            [functionApp]="functionApp" 
-            [AADPermissions]="currentTemplate.metadata.AADPermissions" 
+        <aad-registration
+            [viewInfo]="viewInfo"
+            [AADPermissions]="currentTemplate.metadata.AADPermissions"
             (configured)="aadRegistrationConfigured($event)">
         </aad-registration>
     </div>
@@ -16,15 +16,15 @@
     <div class="input-header">
         <label class="control-label">{{ 'templatePicker_language' | translate }}</label>
     </div>
-    <drop-down [options]="languageOptions" 
-               (value)="onLanguageChanged($event)" 
-               [setDefault]="false" 
+    <drop-down [options]="languageOptions"
+               (value)="onLanguageChanged($event)"
+               [setDefault]="false"
                attr.aria-label="{{'templatePicker_language' | translate}}"></drop-down>
 
     <div class="input-header">
         <label class="control-label">{{ 'nameColon' | translate }}</label>
     </div>
-    <input type="text" 
+    <input type="text"
            class="full-width"
            [(ngModel)]="functionName"
            (ngModelChange)="functionNameChanged()"
@@ -36,7 +36,7 @@
 
     <binding-v2 *ngIf="model.trigger"
              (validChange)="onValidChanged($event)"
-             [functionAppInput]="functionApp"
+             [viewInfo]="viewInfo"
              [binding]="model.trigger"
              [canDelete]="false"
              [canCancel]="false"
@@ -47,7 +47,7 @@
 
     <binding-v2 *ngFor="let binding of model.inputs"
              (validChange)="onValidChanged($event)"
-             [functionAppInput]="functionApp"
+             [viewInfo]="viewInfo"
              [binding]="binding"
              [canSave]="false"
              [canDelete]="false"
@@ -58,7 +58,7 @@
 
     <binding-v2 *ngFor="let binding of model.outputs"
              (validChange)="onValidChanged($event)"
-             [functionAppInput]="functionApp"
+             [viewInfo]="viewInfo"
              [binding]="binding"
              [canSave]="false"
              [canDelete]="false"
@@ -67,12 +67,14 @@
              (remove)="onRemoveBinding($event)"
              (update)="onUpdateBinding($event)"></binding-v2>
 
+    <!-- TODO: [agruning] fix type -->
     <div *ngIf="model.trigger && model.trigger.type === 'eventGridTrigger'" class="alert-notice" role="alert">
         {{ 'eventGrid_createMessage' | translate }}
     </div>
 
     <div *ngIf="templateWarning" class="alert-notice" role="alert" tabindex="0">
             <div [innerHTML]="templateWarning"></div>
+            <!-- TODO: [agruning] onAuth() is not a method. -->
             <div *ngIf="addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
     </div>
 

@@ -34,7 +34,7 @@
 
       <div class="modal-body">
         <div>
-          <copy-pre [content]="functionKey || secrets?.key || functionApp?.HostSecrets"></copy-pre>
+          <copy-pre [content]="functionKey"></copy-pre>
         </div>
       </div>
     </div>
@@ -59,9 +59,9 @@
             <div style="display:flex;align-items: center;">
               <h2>{{fileName}}</h2>
               <span>
-                                <button [fnWriteAccess]="functionApp" class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">{{ 'save' | translate }}</button>
+                                <button [fnWriteAccess]="context" class="custom-button" [class.dirty]="scriptFile.isDirty" (click)="saveScript()">{{ 'save' | translate }}</button>
                             </span>
-              <span *ngIf="!isStandalone">
+                            <span *ngIf="!isStandalone">
                                 <button *ngIf="scriptFile.isDirty"
                                         class="custom-button-invert"
                                         [disabled]="!runValid"
@@ -81,7 +81,7 @@
                                 </button>
 
                             </span>
-              <span>
+                            <span>
                                 <button *ngIf="running"
                                         class="custom-button cancel-button"
                                         (click)="cancelCurrentRun()">
@@ -114,8 +114,7 @@
             <div #editorContainer class="dev-full">
 
               <div monacoEditor id="code" class="monaco dev-full" style="margin-top: 7px" (onRun)="runFunction()" (onSave)="saveScript()"
-                (onContentChanged)="contentChanged($event)" [content]="content" [fileName]="fileName" [disabled]="disabled | async"
-                [functionAppInput]="functionApp">
+                (onContentChanged)="contentChanged($event)" [content]="content" [fileName]="fileName" [disabled]="disabled | async">
               </div>
 
             </div>
@@ -132,7 +131,7 @@
             </div>
 
             <div #bottomContainer [hidden]="!bottomTab" *ngIf="functionInfo">
-              <log-streaming [functionInfo]="functionInfo" (closeClicked)="clickRightTab('logs')" (expandClicked)="expandLogsClicked($event)">
+              <log-streaming [viewInfo]="viewInfo" (closeClicked)="clickRightTab('logs')" (expandClicked)="expandLogsClicked($event)">
               </log-streaming>
             </div>
           </div>
@@ -187,7 +186,7 @@
             </div>
 
             <div *ngIf="rightTab==='files' && functionInfo" class="dev-border files-container">
-              <file-explorer [functionInfo]="functionInfo" [selectedFile]="scriptFile" (selectedFileChange)="selectedFileStream.next($event)"
+              <file-explorer [viewInfo]="viewInfo" [selectedFile]="scriptFile" (selectedFileChange)="selectedFileStream.next($event)"
                 (closeClicked)="clickRightTab('files')">
               </file-explorer>
             </div>
@@ -204,7 +203,7 @@
                 <div>
                   <div class="text-label control-label">{{ 'functionDev_requestBody' | translate }}</div>
                   <div id="test_data" monacoEditor class="monaco" (onSave)="saveTestData()" (onContentChanged)="testContentChanged($event)"
-                    [content]="testContent" fileName="sample.dat" [functionAppInput]="functionApp">
+                    [content]="testContent" fileName="sample.dat">
                   </div>
                 </div>
 

@@ -188,11 +188,11 @@ export class AiService implements IAppInsights {
      * @param   measurements    map[string, number] - metrics associated with this event, displayed in Metrics Explorer on the portal. Defaults to empty.
      * @param   severityLevel   AI.SeverityLevel - severity level
      */
-    @AiDefined()
     trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, _?: SeverityLevel) {
         console.error(exception);
-
-        return appInsights.trackException(exception, handledAt, properties, measurements);
+        if (appInsights && appInsights.trackException) {
+            return appInsights.trackException(exception, handledAt, properties, measurements);
+        }
     }
 
     /**

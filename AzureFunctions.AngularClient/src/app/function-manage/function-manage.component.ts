@@ -1,8 +1,9 @@
+import { FunctionAppContext } from './../shared/function-app-context';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { TreeUpdateEvent } from './../shared/models/broadcast-event';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { ConfigService } from './../shared/services/config.service';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
@@ -15,32 +16,36 @@ import { SelectOption } from '../shared/models/select-option';
 import { PortalService } from '../shared/services/portal.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
-import { FunctionApp } from '../shared/function-app';
 import { BindingManager } from '../shared/models/binding-manager';
-import { ErrorIds } from './../shared/models/error-ids';
-import { ErrorType, ErrorEvent } from 'app/shared/models/error-event';
+import { errorIds } from './../shared/models/error-ids';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { NavigableComponent } from '../shared/components/navigable-component';
+import { DashboardType } from '../tree-view/models/dashboard-type';
 
 @Component({
     selector: 'function-manage',
     templateUrl: './function-manage.component.html',
     styleUrls: ['./function-manage.component.css']
 })
-export class FunctionManageComponent {
+export class FunctionManageComponent extends NavigableComponent {
     public functionStatusOptions: SelectOption<boolean>[];
     public functionInfo: FunctionInfo;
-    public functionApp: FunctionApp;
     public isStandalone: boolean;
     public isHttpFunction = false;
     public runtimeVersion: string;
-
-    private functionStream: Subject<FunctionApp>;
-    private functionStateValueChange: Subject<boolean>;
+    public functionStateValueChange: Subject<boolean>;
+    public context: FunctionAppContext;
 
     constructor(private _portalService: PortalService,
+        private _functionAppService: FunctionAppService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        private _broadcastService: BroadcastService,
+        broadcastService: BroadcastService,
         configService: ConfigService) {
+
+        super('function-manage', broadcastService, DashboardType.FunctionManageDashboard);
 
         this.isStandalone = configService.isStandalone();
 
@@ -57,55 +62,56 @@ export class FunctionManageComponent {
         this.functionStateValueChange
             .switchMap(state => {
                 this.functionInfo.config.disabled = state;
-                this._globalStateService.setBusyState();
                 this.functionInfo.config.disabled
                     ? this._portalService.logAction('function-manage', 'disable')
                     : this._portalService.logAction('function-manage', 'enable');
-                return (this.runtimeVersion === 'V2') ? this.functionApp.updateDisabledAppSettings([this.functionInfo])
-                    : this.functionApp.updateFunction(this.functionInfo);
+                return (this.runtimeVersion === 'V2')
+                    ? this._functionAppService.updateDisabledAppSettings(this.context, [this.functionInfo])
+                    : this._functionAppService.updateFunction(this.context, this.functionInfo);
             })
             .do(null, (e) => {
                 this.functionInfo.config.disabled = !this.functionInfo.config.disabled;
                 this._globalStateService.clearBusyState();
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: this._translateService.instant(PortalResources.failedToSwitchFunctionState, 
+                this.showComponentError({
+                    message: this._translateService.instant(PortalResources.failedToSwitchFunctionState,
                         { state: !this.functionInfo.config.disabled, functionName: this.functionInfo.name }),
-                    errorId: ErrorIds.failedToSwitchEnabledFunction,
-                    errorType: ErrorType.UserError,
-                    resourceId: this.functionApp.site.id
+                    errorId: errorIds.failedToSwitchEnabledFunction,
+                    resourceId: this.context.site.id
                 });
                 console.error(e);
             })
             .retry()
+            .takeUntil(this.ngUnsubscribe)
             .subscribe(() => {
                 this._globalStateService.clearBusyState();
                 this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-                    resourceId: `${this.functionApp.site.id}/functions/${this.functionInfo.name}`,
+                    resourceId: `${this.context.site.id}/functions/${this.functionInfo.name}`,
                     operation: 'update',
                     data: this.functionInfo.config.disabled
                 });
-            });
-
-        this.functionStream = new Subject<FunctionApp>(); 
-        this.functionStream
-            .switchMap(functionApp => {
-                // Getting function runtime version
-                return functionApp.getRuntimeGeneration();
-            })
-            .do(null, (e) => {
-                console.error(e);
-            })
-            .subscribe(runtimeVersion => {
-                this.runtimeVersion = runtimeVersion;
-            });
+            }, null, () => this._globalStateService.clearBusyState());
     }
 
-    @Input() set selectedFunction(functionInfo: FunctionInfo) {
-        this.functionInfo = functionInfo;
-        this.functionApp = this.functionInfo.functionApp;
-        this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
-
-        this.functionStream.next(this.functionApp);
+    setupNavigation(): Subscription {
+        return this.navigationEvents
+            .do(() => this._globalStateService.setBusyState())
+            .switchMap(view => Observable.zip(
+                this._functionAppService.getAppContext(view.siteDescriptor.getTrimmedResourceId()),
+                Observable.of(view)
+            ))
+            .switchMap(tuple => Observable.zip(
+                this._functionAppService.getRuntimeGeneration(tuple[0]),
+                this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
+                Observable.of(tuple[0]),
+                Observable.of(tuple[1])
+            ))
+            .do(() => this._globalStateService.clearBusyState())
+            .subscribe(tuple => {
+                this.context = tuple[2];
+                this.functionInfo = tuple[1].result;
+                this.runtimeVersion = tuple[0];
+                this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
+            });
     }
 
     deleteFunction() {
@@ -114,11 +120,10 @@ export class FunctionManageComponent {
             this._globalStateService.setBusyState();
             this._portalService.logAction('function-manage', 'delete');
             // Clone node for removing as it can be change during http call
-            this.functionApp.deleteFunction(this.functionInfo)
+            this._functionAppService.deleteFunction(this.context, this.functionInfo)
                 .subscribe(() => {
-
                     this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-                        resourceId: `${this.functionInfo.context.site.id}/functions/${this.functionInfo.name}`,
+                        resourceId: `${this.context.site.id}/functions/${this.functionInfo.name}`,
                         operation: 'remove'
                     });
                     // this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.functionInfo);

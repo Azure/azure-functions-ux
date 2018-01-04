@@ -22,7 +22,7 @@ export class AzureTryEnvironment extends Environment {
         return Url.getParameterByName(null, 'trial') === 'true';
     }
 
-    private _filterAppNodeChildren(input: ScenarioCheckInput){
+    private _filterAppNodeChildren(input: ScenarioCheckInput) {
         const data = input.appNodeChildren.find(c => c.dashboardType === DashboardType.FunctionsDashboard);
         return <ScenarioResult>{
             status: 'enabled',

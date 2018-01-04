@@ -1,13 +1,15 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { FunctionApp } from '../../shared/function-app';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { Subject } from 'rxjs/Subject';
 import { ArmService } from '../../shared/services/arm.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
+import { FunctionAppContextComponent } from '../../shared/components/function-app-context-component';
+import { FunctionAppService } from '../../shared/services/function-app.service';
+import { BroadcastService } from '../../shared/services/broadcast.service';
 
 class OptionTypes {
     azure = 'Azure';
@@ -19,14 +21,12 @@ class OptionTypes {
     templateUrl: './storage.component.html',
     styleUrls: ['./../picker.scss']
 })
-export class StorageComponent implements OnInit {
-
+export class StorageComponent extends FunctionAppContextComponent {
     public accountName: string;
     public accountKey: string;
     public endpoint: string;
     public selectInProcess = false;
     public canSelect = false;
-    public optionsChange: Subject<string>;
     public optionTypes: OptionTypes = new OptionTypes();
     public options: SelectOption<string>[];
     public option: string;
@@ -34,45 +34,37 @@ export class StorageComponent implements OnInit {
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
-    private _functionApp: FunctionApp;
-
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
-            this.options = [
-                {
-                    displayLabel: this._translateService.instant(PortalResources.storage_endpoint_azure),
-                    value: this.optionTypes.azure,
-                },
-                {
-                    displayLabel: this._translateService.instant(PortalResources.storage_endpoint_other),
-                    value: this.optionTypes.other
-                }
-            ];
+        private _translateService: TranslateService,
+        functionAppService: FunctionAppService,
+        broadcastService: BroadcastService) {
+        super('storage', functionAppService, broadcastService);
+        this.options = [
+            {
+                displayLabel: this._translateService.instant(PortalResources.storage_endpoint_azure),
+                value: this.optionTypes.azure,
+            },
+            {
+                displayLabel: this._translateService.instant(PortalResources.storage_endpoint_other),
+                value: this.optionTypes.other
+            }
+        ];
 
-            const azureStorageEndpoint = 'core.windows.net';
-            this.option = this.optionTypes.azure;
-            this.endpoint = azureStorageEndpoint;
-
-            this.optionsChange = new Subject<string>();
-            this.optionsChange.subscribe((option) => {
-                if (option === this.optionTypes.azure) {
-                    this.endpoint = azureStorageEndpoint;
-                } else {
-                    this.endpoint = '';
-                }
-                this.option = option;
-            });
-        }
-
-    ngOnInit() {
+        const azureStorageEndpoint = 'core.windows.net';
+        this.option = this.optionTypes.azure;
+        this.endpoint = azureStorageEndpoint;
     }
 
-
-    @Input() set functionApp(functionApp: FunctionApp) {
-        this._functionApp = functionApp;
+    onOptionsChange(option) {
+        if (option === this.optionTypes.azure) {
+            this.endpoint = this.endpoint;
+        } else {
+            this.endpoint = '';
+        }
+        this.option = option;
     }
 
     onClose() {
@@ -87,14 +79,15 @@ export class StorageComponent implements OnInit {
         this.selectInProcess = true;
         let appSettingName: string;
         this._globalStateService.setBusyState();
-        this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-            const appSettings: ArmObj<any> = r.json();
-            appSettingName = appSettings.properties['AzureWebJobsStorage'] ? this.accountName + '.' + this.endpoint : 'AzureWebJobsStorage';
-            appSettings.properties[appSettingName] = this.option === this.optionTypes.azure ?
-                storageConnectionStringFormat.format(this.accountName, this.accountKey)
-                : explicitStorageConnectionStringFormat.format(this.endpoint, this.accountName, this.accountKey);
-            return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
-        })
+        this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true)
+            .flatMap(r => {
+                const appSettings: ArmObj<any> = r.json();
+                appSettingName = appSettings.properties['AzureWebJobsStorage'] ? this.accountName + '.' + this.endpoint : 'AzureWebJobsStorage';
+                appSettings.properties[appSettingName] = this.option === this.optionTypes.azure ?
+                    storageConnectionStringFormat.format(this.accountName, this.accountKey)
+                    : explicitStorageConnectionStringFormat.format(this.endpoint, this.accountName, this.accountKey);
+                return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            })
             .do(null, e => {
                 this._globalStateService.clearBusyState();
                 this.selectInProcess = false;

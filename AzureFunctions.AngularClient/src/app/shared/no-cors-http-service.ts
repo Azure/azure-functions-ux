@@ -6,8 +6,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/mergeMap';
 
 import { AiService } from './services/ai.service';
-import { ErrorEvent, ErrorType } from './models/error-event';
-import { ErrorIds } from './models/error-ids';
+import { ErrorEvent } from './models/error-event';
+import { errorIds } from './models/error-ids';
 import { PortalResources } from './models/portal-resources';
 import { BroadcastService } from './services/broadcast.service';
 import { FunctionsResponse } from './models/functions-response';
@@ -113,8 +113,7 @@ export class NoCorsHttpService {
                     if (!error.isHandled) {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: this._translateService.instant(PortalResources.error_appOffline),
-                            errorId: ErrorIds.applicationOffline,
-                            errorType: ErrorType.Fatal,
+                            errorId: errorIds.applicationOffline,
                             resourceId: url
                         });
                         error.isHandled = true;
@@ -152,7 +151,7 @@ export class NoCorsHttpService {
 
                                 if (content && content.reason && content.reason === 'PassThrough') {
                                     // this means there was a /passthrough specific error, so log it and throw the original error.
-                                    this._aiService.trackEvent(ErrorIds.passThroughApiError, content);
+                                    this._aiService.trackEvent(errorIds.passThroughApiError, content);
                                     throw error;
                                 }
                             } else if (e.status === 403 && e.text().indexOf('This web app is stopped')) {

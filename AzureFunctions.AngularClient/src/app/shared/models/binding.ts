@@ -1,49 +1,49 @@
 ﻿import { AADPermissions } from './microsoft-graph';
 
 export class BindingType {
-    static timerTrigger = "timerTrigger";
-    static eventHubTrigger = "eventHubTrigger";
-    static eventHub = "eventHub";
-    static queue = "queue";
-    static queueTrigger = "queueTrigger";
-    static sqlQueueTrigger = "sqlQueueTrigger";
-    static blob = "blob";
-    static blobTrigger = "blobTrigger";
-    static apiHubFile = "apiHubFile";
-    static apiHubFileTrigger = "apiHubFileTrigger";
-    static apiHubTable = "apiHubTable";
-    static httpTrigger = "httpTrigger";
-    static http = "http";
-    static table = "table";
-    static serviceBus = "serviceBus";
-    static bot = "bot";
-    static serviceBusTrigger = "serviceBusTrigger";
-    static manualTrigger = "manualTrigger";
-    static documentDB = "documentDB";
-    static mobileTable = "mobileTable";
-    static notificationHub = "notificationHub";
-    static sendGrid = "sendGrid";
-    static twilioSms = "twilioSms";
-    static aadtoken = "aadToken";
-    static excel = "excel";
-    static token = "token";
-    static outlook = "outlook";
-    static onedrive = "onedrive";
-    static graphWebhookSubscription = "graphWebhookSubscription";
-    static graphWebhookTrigger = "graphWebhookTrigger";
-    static GraphWebhookCreator = "GraphWebhookCreator";
-    static eventGridTrigger = "eventGridTrigger";
-    static cosmosDBTrigger = "cosmosDBTrigger";
-    static activityTrigger = "activityTrigger";
-    static orchestrationTrigger = "orchestrationTrigger";
-    static orchestrationClient = "orchestrationClient";
+    static timerTrigger = 'timerTrigger';
+    static eventHubTrigger = 'eventHubTrigger';
+    static eventHub = 'eventHub';
+    static queue = 'queue';
+    static queueTrigger = 'queueTrigger';
+    static sqlQueueTrigger = 'sqlQueueTrigger';
+    static blob = 'blob';
+    static blobTrigger = 'blobTrigger';
+    static apiHubFile = 'apiHubFile';
+    static apiHubFileTrigger = 'apiHubFileTrigger';
+    static apiHubTable = 'apiHubTable';
+    static httpTrigger = 'httpTrigger';
+    static http = 'http';
+    static table = 'table';
+    static serviceBus = 'serviceBus';
+    static bot = 'bot';
+    static serviceBusTrigger = 'serviceBusTrigger';
+    static manualTrigger = 'manualTrigger';
+    static documentDB = 'documentDB';
+    static mobileTable = 'mobileTable';
+    static notificationHub = 'notificationHub';
+    static sendGrid = 'sendGrid';
+    static twilioSms = 'twilioSms';
+    static aadtoken = 'aadToken';
+    static excel = 'excel';
+    static token = 'token';
+    static outlook = 'outlook';
+    static onedrive = 'onedrive';
+    static graphWebhookSubscription = 'graphWebhookSubscription';
+    static graphWebhookTrigger = 'graphWebhookTrigger';
+    static GraphWebhookCreator = 'GraphWebhookCreator';
+    static eventGridTrigger = 'eventGridTrigger';
+    static cosmosDBTrigger = 'cosmosDBTrigger';
+    static activityTrigger = 'activityTrigger';
+    static orchestrationTrigger = 'orchestrationTrigger';
+    static orchestrationClient = 'orchestrationClient';
 }
 
 export interface BindingConfig {
-    $schema: string,
-    contentVersion: string,
-    variables: any,
-    bindings: Binding[]
+    $schema: string;
+    contentVersion: string;
+    variables: any;
+    bindings: Binding[];
 }
 
 export interface Binding {
@@ -82,7 +82,7 @@ export interface Setting {
 }
 
 export interface Rule {
-    type: string,
+    type: string;
     values: RuleValue[];
     label: string;
     help: string;
@@ -120,34 +120,34 @@ export interface EnumOption {
 }
 
 export enum DirectionType {
-    trigger = <any>"trigger",
-    in = <any>"in",
-    out = <any>"out",
-    inout = <any>"inout"
+    trigger = <any>'trigger',
+    in = <any>'in',
+    out = <any>'out',
+    inout = <any>'inout'
 }
 
 export enum ResourceType {
-    Storage = <any>"Storage",
-    Sql = <any>"Sql",
-    EventHub = <any>"EventHub",
-    ServiceBus = <any>"ServiceBus",
-    DocumentDB = <any>"DocumentDB",
-    ApiHub = <any>"ApiHub",
-    AppSetting = <any>"AppSetting",
+    Storage = <any>'Storage',
+    Sql = <any>'Sql',
+    EventHub = <any>'EventHub',
+    ServiceBus = <any>'ServiceBus',
+    DocumentDB = <any>'DocumentDB',
+    ApiHub = <any>'ApiHub',
+    AppSetting = <any>'AppSetting',
     MSGraph = <any>'MSGraph',
     NotificationHub = <any>'NotificationHub'
 }
 
-export class SettingType {
-    public static string = "string";
-    public static boolean = "boolean";
-    public static label = "label";
-    public static enum = "enum";
-    public static int = "int";
-    public static picker = "picker";
-    public static checkBoxList = "checkBoxList";
-    public static appSetting = "appSetting";
-    public static eventGrid = "eventGrid";
+export enum SettingType {
+    string = 'string',
+    boolean = 'boolean',
+    label = 'label',
+    enum = 'enum',
+    int = 'int',
+    picker = 'picker',
+    checkBoxList = 'checkBoxList',
+    appSetting = 'appSetting',
+    eventGrid = 'eventGrid'
 }
 
 export interface UIFunctionConfig {

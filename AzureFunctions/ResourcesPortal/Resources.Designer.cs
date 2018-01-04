@@ -19,7 +19,7 @@ namespace AzureFunctions.ResourcesPortal {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -1861,7 +1861,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The function runtime is unable to start. Please check the runtime logs for any errors or try again later..
+        ///   Looks up a localized string similar to The function runtime is unable to start..
         /// </summary>
         internal static string error_functionRuntimeIsUnableToStart {
             get {
@@ -5754,6 +5754,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string siteDashboard_getAppError {
             get {
                 return ResourceManager.GetString("siteDashboard_getAppError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin app to dashboard.
+        /// </summary>
+        internal static string siteDashboard_pinApp {
+            get {
+                return ResourceManager.GetString("siteDashboard_pinApp", resourceCulture);
             }
         }
         

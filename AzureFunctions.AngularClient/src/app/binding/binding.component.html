@@ -3,6 +3,7 @@
     <ng-container *ngFor="let w of model.warnings">
         <div *ngIf="w.visible" [class.alert-info]="w.type === 'Info'" [class.alert-warning]="w.type === 'Warning'" class="alert alert-dismissible" role="alert">
             {{ w.text }}
+            <!-- TODO: [alrod] addLinkToAuth is not a property of Warning -->
             <div *ngIf="w.addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
         </div>
     </ng-container>
@@ -13,22 +14,22 @@
             <h3 class="binding-title pull-left">
                 {{model.label}}
             </h3>
-            <span [fnWriteAccess]="functionApp" *ngIf="canDelete && !bindingValue.newBinding" class="link" (click)="removeClicked()">
+            <span [fnWriteAccess]="context" *ngIf="canDelete && !bindingValue.newBinding" class="link" (click)="removeClicked()">
                 <i class="fa fa-remove"></i> {{ 'binding_delete' | translate }}
             </span>
             <div class="clearfix"></div>
         </div>
-    
+
     <div *ngIf="bindingValue.extension" >
-        <extension-install 
-            [integrateText]="true" 
-            [functionApp]="functionApp"
+        <extension-install
+            [integrateText]="true"
+            [viewInfo]="viewInfo"
             [requiredExtensions]="[bindingValue.extension]">
         </extension-install>
     </div>
 
         <div *ngIf="bindingValue.AADPermissions" >
-            <aad-registration [functionApp]="functionApp" [bindingInput]="bindingValue.name" [AADPermissions]="bindingValue.AADPermissions"></aad-registration>
+            <aad-registration [viewInfo]="viewInfo" [bindingInput]="bindingValue.name" [AADPermissions]="bindingValue.AADPermissions"></aad-registration>
         </div>
 
         <div class="panel-body">
@@ -38,7 +39,7 @@
                         <binding-input
                             *ngFor="let input of model.leftInputs"
                             (validChange)="onValidChanged($event)"
-                            [functionApp]="functionApp"
+                            [viewInfo]="viewInfo"
                             [input]="input"
                             [binding]="bindingValue"></binding-input>
                     </form>
@@ -48,7 +49,7 @@
                         <binding-input
                             *ngFor="let input of model.rightInputs"
                             (validChange)="onValidChanged($event)"
-                            [functionApp]="functionApp"
+                            [viewInfo]="viewInfo"
                             [input]="input"
                             [binding]="bindingValue"></binding-input>
                     </form>
@@ -56,7 +57,7 @@
             </div>
 
             <div>
-                <button *ngIf="canSave && isDirty" (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">{{ 'save' | translate }}</button>                
+                <button *ngIf="canSave && isDirty" (click)="saveClicked()" class="custom-button" [disabled]="!areInputsValid">{{ 'save' | translate }}</button>
                 <button *ngIf="canCancel && isDirty" (click)="cancelClicked()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
             </div>
 

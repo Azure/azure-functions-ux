@@ -1,9 +1,9 @@
+import { ScenarioIds } from './../../models/constants';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { PortalResources } from './../../models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 import { ScenarioCheckInput } from './scenario.models';
-import { ScenarioIds } from './../../models/constants';
 import { Environment, ScenarioResult } from 'app/shared/services/scenario/scenario.models';
 
 export class SiteSlotEnvironment extends Environment {

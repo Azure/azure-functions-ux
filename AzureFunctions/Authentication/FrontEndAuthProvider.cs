@@ -26,7 +26,7 @@ namespace AzureFunctions.Authentication
             var request = context.Request;
             var displayName = request.Headers[Constants.FrontEndDisplayNameHeader];
             var principalName = request.Headers[Constants.FrontEndPrincipalNameHeader];
-            var portalToken = request.Headers[Constants.PortalTokenHeader];
+            var portalToken = request.Headers[Constants.PortalTokenHeader] ?? request.Headers[Constants.Authorization];
 
             if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
             {
@@ -40,7 +40,7 @@ namespace AzureFunctions.Authentication
                 }
                 else
                 {
-                    principal = ParsePortalToken(portalToken);
+                    principal = ParsePortalToken(portalToken.Split(new[] { ' ' }).Last());
                 }
             }
             else if (!string.IsNullOrWhiteSpace(principalName) ||
