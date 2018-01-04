@@ -201,7 +201,7 @@ export class CacheService {
 
     private tryPassThroughController(error: Response, method: string, url: string, body: any, options: RequestOptionsArgs): Observable<any> {
         if (error.status === 0 && error.type === ResponseType.Error) {
-            return this._armService.send('GET', '/api/ping')
+            return this._armService.send('GET', '/api/ping', null, null, new Headers())
                 .catch(_ => {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                         message: this._translateService.instant(PortalResources.error_appOffline),
@@ -228,7 +228,7 @@ export class CacheService {
                         const endTime = performance.now();
                         this._aiService.trackDependency(Guid.newGuid(), passThroughBody.method, passThroughBody.url, passThroughBody.url, endTime - startTime, success, status);
                     };
-                    return this._armService.send('POST', '/api/passthrough', passThroughBody, null, null, false)
+                    return this._armService.send('POST', '/api/passthrough', passThroughBody, null, new Headers(), false)
                         .do(r => logDependency(true, r.status), e => logDependency(false, e.status))
                         .catch((e: Response) => {
                             if (e.status === 400) {
