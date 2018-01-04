@@ -3,14 +3,7 @@ import * as ClientOAuth2 from 'client-oauth2';
 import axios from 'axios';
 import { staticConfig } from '../config';
 
-const githubAuth = new ClientOAuth2({
-    clientId: '2b8d950411b4d99e4699',
-    clientSecret: '13b3e46940497a8d90119e1b5fb90e7b85d35905',
-    accessTokenUri: 'https://github.com/login/oauth/access_token',
-    authorizationUri: 'https://github.com/login/oauth/authorize',
-    redirectUri: 'https://localhost:44300/auth/github/callback',
-    scopes: ['admin:repo_hook', 'repo']
-});
+let githubAuth: any = null;
 
 export async function getGithubTokens(req: any): Promise<any> {
     if (req && req.session && req.session['githubAccess']) {
@@ -37,12 +30,20 @@ export async function getGithubTokens(req: any): Promise<any> {
 }
 
 export function setupGithubAuthentication(app: Application) {
+    githubAuth = new ClientOAuth2({
+        clientId: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        accessTokenUri: 'https://github.com/login/oauth/access_token',
+        authorizationUri: 'https://github.com/login/oauth/authorize',
+        redirectUri: process.env.GITHUB_REDIRECT_URL,
+        scopes: ['admin:repo_hook', 'repo']
+    });
     app.post('/api/github/passthrough', async (req, res) => {
         const tokenData = await getGithubTokens(req);
         if (!tokenData.authenticated) {
             res.sendStatus(401);
         }
-        
+
         const response = await axios.get(req.body.url, {
             headers: {
                 Authorization: `Bearer ${tokenData.token}`
@@ -57,9 +58,9 @@ export function setupGithubAuthentication(app: Application) {
         res.redirect(uri);
     });
     app.get('/auth/github/callback', (req, res) => {
-        githubAuth.code.getToken(req.originalUrl).then(user => {
+        githubAuth.code.getToken(req.originalUrl).then((user: any) => {
             console.log(user);
-            user.refresh().then(updatedUser => {
+            user.refresh().then((updatedUser: any) => {
                 console.log(updatedUser !== user); //=> true
                 console.log(updatedUser.accessToken);
             });

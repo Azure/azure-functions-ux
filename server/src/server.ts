@@ -1,3 +1,4 @@
+import * as configLoader from './keyvaultConfig';
 import * as https from 'https';
 import * as fs from 'fs';
 import * as bodyParser from 'body-parser';
@@ -8,7 +9,7 @@ import * as passport from 'passport';
 import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
-import * as configLoader from './keyvaultConfig';
+
 import * as compression from 'compression';
 
 import './polyfills';
@@ -20,57 +21,58 @@ import { setupAuthentication, authenticate, maybeAuthenticate } from './authenti
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
 
-const configLoadPromise = configLoader.config();
-const app = express();
-app
-    .use(compression())
-    .use(express.static(path.join(__dirname, 'public')))
-    .use(logger('dev'))
-    .set('view engine', 'pug')
-    .set('views', 'src/views')
-    .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
-    .use(bodyParser.json())
-    .use(cookieParser())
-    .use(bodyParser.urlencoded({ extended: true }))
-    .use(passport.initialize())
-    .use(passport.session());
+//Load config before anything else
+configLoader.config().then(() => {
+    const app = express();
+    app
+        .use(compression())
+        .use(express.static(path.join(__dirname, 'public')))
+        .use(logger('dev'))
+        .set('view engine', 'pug')
+        .set('views', 'src/views')
+        .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
+        .use(bodyParser.json())
+        .use(cookieParser())
+        .use(bodyParser.urlencoded({ extended: true }))
+        .use(passport.initialize())
+        .use(passport.session());
 
-setupAuthentication(app);
-setupDeploymentCenter(app);
+    setupAuthentication(app);
+    setupDeploymentCenter(app);
 
-const renderIndex = (_: express.Request, res: express.Response) => {
-    res.render('index', staticConfig);
-};
-app.get('/', maybeAuthenticate, renderIndex);
+    const renderIndex = (_: express.Request, res: express.Response) => {
+        res.render('index', staticConfig);
+    };
+    app.get('/', maybeAuthenticate, renderIndex);
 
-app.get('/api/ping', (_, res) => {
-    res.send('success');
-});
+    app.get('/api/ping', (_, res) => {
+        res.send('success');
+    });
 
-app.get('/api/health', (_, res) => {
-    res.send(process.env.GITHUB_CLIENT_ID); //'healthy');
-});
+    app.get('/api/health', (_, res) => {
+        res.send(process.env.GITHUB_CLIENT_ID); //'healthy');
+    });
 
-app.get('/api/switchtenants/:tenantId', authenticate, switchTenant);
+    app.get('/api/switchtenants/:tenantId', authenticate, switchTenant);
 
-app.get('/api/templates', maybeAuthenticate, getTemplates);
-app.get('/api/bindingconfig', maybeAuthenticate, getBindingConfig);
+    app.get('/api/templates', maybeAuthenticate, getTemplates);
+    app.get('/api/bindingconfig', maybeAuthenticate, getBindingConfig);
 
-app.get('/api/tenants', authenticate, getTenants);
-app.post('/api/tenants/switch/:tenantId', authenticate, switchTenant);
-app.get('/api/token', authenticate, getToken);
+    app.get('/api/tenants', authenticate, getTenants);
+    app.post('/api/tenants/switch/:tenantId', authenticate, switchTenant);
+    app.get('/api/token', authenticate, getToken);
 
-app.get('/api/resources', maybeAuthenticate, getResources);
-app.get('/api/latestruntime', maybeAuthenticate, getRuntimeVersion);
-app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
-app.get('/api/config', maybeAuthenticate, getConfig);
-app.post('/api/proxy', maybeAuthenticate, proxy);
-app.post('/api/passthrough', maybeAuthenticate, proxy);
+    app.get('/api/resources', maybeAuthenticate, getResources);
+    app.get('/api/latestruntime', maybeAuthenticate, getRuntimeVersion);
+    app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
+    app.get('/api/config', maybeAuthenticate, getConfig);
+    app.post('/api/proxy', maybeAuthenticate, proxy);
+    app.post('/api/passthrough', maybeAuthenticate, proxy);
 
-// if are here, that means we didn't match any of the routes above including those for static content.
-// render index and let angular handle the path.
-app.get('*', renderIndex);
-configLoadPromise.then(() => {
+    // if are here, that means we didn't match any of the routes above including those for static content.
+    // render index and let angular handle the path.
+    app.get('*', renderIndex);
+
     if (process.env.FUNCTIONS_SLOT_NAME) {
         function normalizePort(val: any) {
             var port = parseInt(val, 10);
