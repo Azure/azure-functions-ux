@@ -47,7 +47,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     res.redirect('/.login');
 }
 
-export function maybeAuthenticate(req: Request, res: Response, next: NextFunction) {
+export function maybeAuthenticate(_: Request, __: Response, next: NextFunction) {
     return next(); // Uncomment this for Ibiza scenario's until we figure out how to handle auth properly
 
     //if (req.isAuthenticated()) {
