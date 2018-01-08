@@ -133,7 +133,7 @@ export class StandaloneEnvironment extends Environment {
         return window.appsvc.env.runtimeType === 'Standalone';
     }
 
-    private _filterAppNodeChildren(input: ScenarioCheckInput){
+    private _filterAppNodeChildren(input: ScenarioCheckInput) {
         const data = input.appNodeChildren.find(c => c.dashboardType === DashboardType.FunctionsDashboard);
         return <ScenarioResult>{
             status: 'enabled',

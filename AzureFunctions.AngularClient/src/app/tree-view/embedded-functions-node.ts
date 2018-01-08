@@ -1,3 +1,5 @@
+import { FunctionAppContext } from './../shared/function-app-context';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subject } from 'rxjs/Subject';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { TreeUpdateEvent, BroadcastEvent } from './../shared/models/broadcast-event';
@@ -5,7 +7,6 @@ import { CacheService } from './../shared/services/cache.service';
 import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionNode } from './function-node';
 import { CdsEntityDescriptor } from './../shared/resourceDescriptors';
-import { FunctionsService } from './../shared/services/functions-service';
 import { SideNavComponent } from './../side-nav/side-nav.component';
 import { PortalResources } from './../shared/models/portal-resources';
 import { DashboardType } from './models/dashboard-type';
@@ -17,7 +18,7 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.FunctionsDashboard;
     private _cacheService: CacheService;
-    private _functionsService: FunctionsService;
+    private _functionsService: FunctionAppService;
     private _broadcastService: BroadcastService;
     private _ngUnsubscribe = new Subject();
 
@@ -37,20 +38,23 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
         this.nodeClass += ' collection-node';
         this.showExpandIcon = false;
 
-        this._functionsService = this.sideNav.injector.get(FunctionsService);
+        this._functionsService = this.sideNav.injector.get(FunctionAppService);
         this._broadcastService = sideNav.injector.get(BroadcastService);
     }
 
     public loadChildren() {
         this.isLoading = true;
         const descriptor = new CdsEntityDescriptor(this.resourceId);
+        let context: FunctionAppContext;
         return this._functionsService.getAppContext(descriptor.getTrimmedResourceId())
             .switchMap(context => {
+                context = context;
                 return this._functionsService.getFunctions(context);
             })
-            .do(fcs => {
+            .do(r => {
+                const fcs = r.result;
                 this.children = fcs.map(fc => {
-                    return new FunctionNode(this.sideNav, fc, this);
+                    return new FunctionNode(this.sideNav, context, fc, this);
                 });
 
                 this.isLoading = false;
@@ -63,7 +67,7 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
     public addChild(functionInfo: FunctionInfo) {
         this._cacheService.clearCachePrefix(functionInfo.context.urlTemplates.functionsUrl);
 
-        const newNode = new FunctionNode(this.sideNav, functionInfo, this);
+        const newNode = new FunctionNode(this.sideNav, functionInfo.context, functionInfo, this);
         this._addChildAlphabetically(newNode);
         newNode.select();
     }

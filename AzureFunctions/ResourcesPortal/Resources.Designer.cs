@@ -19,7 +19,7 @@ namespace AzureFunctions.ResourcesPortal {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -610,6 +610,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot Upgrade with Existing Functions.
+        /// </summary>
+        internal static string appFunctionSettings_warning_6 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_warning_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrating the runtime version is also coupled with upgrades to languages and binding dependecies that may introduce breaking changes. Please create a blank function app to upgrade major versions of the runtime..
+        /// </summary>
+        internal static string appFunctionSettings_warning_7 {
+            get {
+                return ResourceManager.GetString("appFunctionSettings_warning_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to App executions.
         /// </summary>
         internal static string appMonitoring_appExecutions {
@@ -1123,6 +1141,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to hide value.
+        /// </summary>
+        internal static string bindingInput_hide {
+            get {
+                return ResourceManager.GetString("bindingInput_hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to new.
         /// </summary>
         internal static string bindingInput_new {
@@ -1461,6 +1488,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string createApp_fail {
             get {
                 return ResourceManager.GetString("createApp_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search by trigger, language, or description.
+        /// </summary>
+        internal static string createFunction_search {
+            get {
+                return ResourceManager.GetString("createFunction_search", resourceCulture);
             }
         }
         
@@ -1825,7 +1861,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The function runtime is unable to start. Please check the runtime logs for any errors or try again later..
+        ///   Looks up a localized string similar to The function runtime is unable to start..
         /// </summary>
         internal static string error_functionRuntimeIsUnableToStart {
             get {
@@ -3913,7 +3949,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose a template below or.
+        ///   Looks up a localized string similar to Choose a template below.
         /// </summary>
         internal static string functionNew_chooseTemplate {
             get {
@@ -3931,7 +3967,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This template is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href=&quot;https://github.com/Azure/azure-webjobs-sdk-templates/issues&quot; target=&quot;_blank&quot;&gt;GitHub repository.&lt;/a&gt;.
+        ///   Looks up a localized string similar to This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href=&quot;https://github.com/Azure/azure-webjobs-sdk-templates/issues&quot; target=&quot;_blank&quot;&gt;GitHub repository.&lt;/a&gt;.
         /// </summary>
         internal static string functionNew_experimentalTemplate {
             get {
@@ -4318,7 +4354,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Installing required extensions. It may take upto 10 minutes for this operation..
+        ///   Looks up a localized string similar to Installing template dependencies, you will be able to create a function once this done. Dependency installation happens in the background and can take up to 10 minutes. You can continue to use the portal during this time..
         /// </summary>
         internal static string installingExtension {
             get {
@@ -4759,6 +4795,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sign out.
+        /// </summary>
+        internal static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         internal static string logStreaming_clear {
@@ -4890,6 +4935,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string monitoring_noMonitoring {
             get {
                 return ResourceManager.GetString("monitoring_noMonitoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name:.
+        /// </summary>
+        internal static string nameColon {
+            get {
+                return ResourceManager.GetString("nameColon", resourceCulture);
             }
         }
         
@@ -5254,6 +5308,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your app is currently in read\write mode because you&apos;ve set the edit mode to read\write despite having a generated function.json. Any changes you make may get overwritten with your next deployment. To change edit mode visit .
+        /// </summary>
+        internal static string readWriteGeneratedBy {
+            get {
+                return ResourceManager.GetString("readWriteGeneratedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read\write mode because you&apos;ve set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit .
         /// </summary>
         internal static string readWriteSourceControlled {
@@ -5398,7 +5461,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Runtime image.
+        ///   Looks up a localized string similar to Runtime version.
         /// </summary>
         internal static string runtimeImage {
             get {
@@ -5416,7 +5479,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to V1.
+        ///   Looks up a localized string similar to Azure Functions v1 (.NET Framework).
         /// </summary>
         internal static string runtimeImagev1 {
             get {
@@ -5425,7 +5488,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to V2.
+        ///   Looks up a localized string similar to Azure Functions v2 (.NET Standard).
         /// </summary>
         internal static string runtimeImagev2 {
             get {
@@ -5691,6 +5754,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string siteDashboard_getAppError {
             get {
                 return ResourceManager.GetString("siteDashboard_getAppError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin app to dashboard.
+        /// </summary>
+        internal static string siteDashboard_pinApp {
+            get {
+                return ResourceManager.GetString("siteDashboard_pinApp", resourceCulture);
             }
         }
         
@@ -6028,6 +6100,51 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Sql connection string.
+        /// </summary>
+        internal static string sql_add {
+            get {
+                return ResourceManager.GetString("sql_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database name.
+        /// </summary>
+        internal static string sql_database_name {
+            get {
+                return ResourceManager.GetString("sql_database_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SQL Server endpoint.
+        /// </summary>
+        internal static string sql_endpoint {
+            get {
+                return ResourceManager.GetString("sql_endpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string sql_password {
+            get {
+                return ResourceManager.GetString("sql_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        internal static string sql_user_name {
+            get {
+                return ResourceManager.GetString("sql_user_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         internal static string start {
@@ -6051,6 +6168,87 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string stop {
             get {
                 return ResourceManager.GetString("stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account key.
+        /// </summary>
+        internal static string storage_accountKey {
+            get {
+                return ResourceManager.GetString("storage_accountKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account name.
+        /// </summary>
+        internal static string storage_accountName {
+            get {
+                return ResourceManager.GetString("storage_accountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add storage account connection string.
+        /// </summary>
+        internal static string storage_add {
+            get {
+                return ResourceManager.GetString("storage_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to storage account connection string name.
+        /// </summary>
+        internal static string storage_appSettingName {
+            get {
+                return ResourceManager.GetString("storage_appSettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a name for storage account connection string.
+        /// </summary>
+        internal static string storage_appSettingName_empty_text {
+            get {
+                return ResourceManager.GetString("storage_appSettingName_empty_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage endpoints domain.
+        /// </summary>
+        internal static string storage_endpoint {
+            get {
+                return ResourceManager.GetString("storage_endpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft Azure.
+        /// </summary>
+        internal static string storage_endpoint_azure {
+            get {
+                return ResourceManager.GetString("storage_endpoint_azure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter storage endpoints domain.
+        /// </summary>
+        internal static string storage_endpoint_empty_text {
+            get {
+                return ResourceManager.GetString("storage_endpoint_empty_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other(specify bellow).
+        /// </summary>
+        internal static string storage_endpoint_other {
+            get {
+                return ResourceManager.GetString("storage_endpoint_other", resourceCulture);
             }
         }
         
@@ -6096,6 +6294,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string subNew_nameYourFriendlySubName {
             get {
                 return ResourceManager.GetString("subNew_nameYourFriendlySubName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subscription with name &apos;{0}&apos; already exist.
+        /// </summary>
+        internal static string subNew_subAlreadyExist {
+            get {
+                return ResourceManager.GetString("subNew_subAlreadyExist", resourceCulture);
             }
         }
         
@@ -6459,6 +6666,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string tab_settings {
             get {
                 return ResourceManager.GetString("tab_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End of row.
+        /// </summary>
+        internal static string table_endOfRow {
+            get {
+                return ResourceManager.GetString("table_endOfRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start of row.
+        /// </summary>
+        internal static string table_startOfRow {
+            get {
+                return ResourceManager.GetString("table_startOfRow", resourceCulture);
             }
         }
         
@@ -7102,6 +7327,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string warning {
+            get {
+                return ResourceManager.GetString("warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Web sockets.
         /// </summary>
         internal static string webSocketsEnabledLabel {
@@ -7161,24 +7395,6 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string westus2 {
             get {
                 return ResourceManager.GetString("westus2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Start of row.
-        /// </summary>
-        internal static string table_startOfRow {
-            get {
-                return ResourceManager.GetString("table_startOfRow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to End of row
-        /// </summary>
-        internal static string table_endOfRow {
-            get {
-                return ResourceManager.GetString("table_endOfRow", resourceCulture);
             }
         }
     }

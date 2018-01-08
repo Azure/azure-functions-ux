@@ -4,7 +4,7 @@
             <command displayText="{{ 'newFunction' | translate }}" 
                     iconUrl="image/add.svg" 
                     (click)="onNewFunctionClick()" 
-                    [fnWriteAccess]="functionApp"></command>
+                    [fnWriteAccess]="context"></command>
         </command-bar>
 
         <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
@@ -92,9 +92,8 @@
 
         <function-new-detail *ngIf="sidePanelOpened" 
                 [functionCard]="createFunctionCard" 
-                [functionLanguage]="createFunctionLanguage"                 
+                [functionLanguage]="createFunctionLanguage"
                 [functionsInfo]="functionsInfo"
-                [functionApp]="functionApp"
                 [appNode]="appNode"
                 [functionsNode]="_functionsNode"
                 [context]="context"

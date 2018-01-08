@@ -1,6 +1,6 @@
 import { TabComponent } from './../controls/tabs/tab/tab.component';
 import { ArmEmbeddedService } from './services/arm-embedded.service';
-import { FunctionsService } from './services/functions-service';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
 import { LoadImageDirective } from './../controls/load-image/load-image.directive';
 import { SlideToggleComponent } from './../controls/slide-toggle/slide-toggle.component';
@@ -15,7 +15,7 @@ import { BackgroundTasksService } from './services/background-tasks.service';
 import { UtilitiesService } from './services/utilities.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthzService } from './services/authz.service';
-import { SiteService } from './services/slots.service';
+import { SlotsService } from './services/slots.service';
 import { ScenarioService } from './services/scenario/scenario.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from './services/log.service';
@@ -59,6 +59,7 @@ import { TableCellComponent } from './../controls/table-cell/table-cell.componen
 import { TableRowComponent } from './../controls/table-row/table-row.component';
 import { TableRootComponent } from './../controls/table-root/table-root.component';
 import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filter.pipe';
+import { ActivateWithKeysDirective } from './../controls/activate-with-keys/activate-with-keys.directive';
 
 export function ArmServiceFactory(
     http: Http,
@@ -113,6 +114,7 @@ export function AiServiceFactory() {
         TableRootComponent,
         DeletedItemsFilter,
         TabComponent,
+        ActivateWithKeysDirective
     ],
     exports: [
         CommonModule,
@@ -149,7 +151,8 @@ export function AiServiceFactory() {
         TableRowComponent,
         TableRootComponent,
         DeletedItemsFilter,
-        TabComponent
+        TabComponent,
+        ActivateWithKeysDirective
     ],
     imports: [
         FormsModule,
@@ -165,7 +168,7 @@ export class SharedModule {
             providers: [
                 ConfigService,
                 TryFunctionsService,
-                FunctionsService,
+                FunctionAppService,
                 UserService,
                 LanguageService,
                 PortalService,
@@ -181,7 +184,7 @@ export class SharedModule {
                 },
                 CacheService,
                 ScenarioService,
-                SiteService,
+                SlotsService,
                 AuthzService,
                 LocalStorageService,
                 UtilitiesService,

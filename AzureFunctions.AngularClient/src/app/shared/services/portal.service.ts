@@ -9,7 +9,7 @@ import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo,
 import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
-import { BroadcastEvent } from '../models/broadcast-event'
+import { BroadcastEvent } from '../models/broadcast-event';
 import { AiService } from './ai.service';
 import { Guid } from '../Utilities/Guid';
 
@@ -77,8 +77,8 @@ export class PortalService {
         this.postMessage(Verbs.getStartupInfo, JSON.stringify(getStartupInfoObj));
 
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
-            if (error.details) {
-                this.logMessage(LogEntryLevel.Error, error.details);
+            if (error.message) {
+                this.logMessage(LogEntryLevel.Error, error.message);
             }
         });
     }

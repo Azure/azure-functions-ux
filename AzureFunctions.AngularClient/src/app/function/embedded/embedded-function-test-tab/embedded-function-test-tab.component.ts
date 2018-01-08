@@ -8,7 +8,6 @@ import { FunctionInfo } from 'app/shared/models/function-info';
 import { TabComponent } from './../../../controls/tabs/tab/tab.component';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
-import { FunctionApp } from 'app/shared/function-app';
 import { Component, OnInit, ViewChild, Output, Input, OnChanges, SimpleChange, ContentChildren, QueryList, OnDestroy } from '@angular/core';
 import { Headers } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -25,7 +24,6 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
 
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
-  public functionApp: FunctionApp = null;
   public expanded = false;
 
   public responseOutputText = '';

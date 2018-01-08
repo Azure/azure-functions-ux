@@ -147,7 +147,6 @@ namespace AzureFunctions.Controllers
                 : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, runtimeTokenOrError);
         }
 
-        [Authorize]
         [HttpPost]
         public Task<HttpResponseMessage> PassThrough(RequestObject clientRequest)
         {

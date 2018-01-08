@@ -21,7 +21,7 @@ export class TableRowComponent implements AfterContentInit, OnDestroy {
     private _targetFocusState: 'focused' | 'blurring' | 'blurred' = 'blurred';
     private _focusTrackingListenersAdded = false;
 
-    public active: boolean = false;
+    public active = false;
     public index: number;
 
     @ContentChildren(forwardRef(() => TableCellComponent)) cells: QueryList<TableCellComponent>;
@@ -151,7 +151,7 @@ export class TableRowComponent implements AfterContentInit, OnDestroy {
         let preventDefault = true;
 
         if (event.keyCode === KeyCodes.tab) {
-            let source = event.target as HTMLElement;
+            const source = event.target as HTMLElement;
             if (source.classList.contains('boundary-left') && event.shiftKey) {
                 this.setFocusOnCell(-1);
             } else if (source.classList.contains('boundary-right') && !event.shiftKey) {

@@ -61,7 +61,7 @@ export class ArmEmbeddedService extends ArmService {
         } else if (urlNoQuery.endsWith('/appsettings/list')) {
             return Observable.of(this._getFakeResponse({
                 properties: {
-                    FUNCTIONS_EXTENSION_VERSION: '~1',
+                    FUNCTIONS_EXTENSION_VERSION: 'beta',
                     FUNCTION_APP_EDIT_MODE: 'readwrite'
                 }
             }));

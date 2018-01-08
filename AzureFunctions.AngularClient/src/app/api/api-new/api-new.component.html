@@ -13,7 +13,7 @@
                 </label>
       </div>
 
-      <input [fnWriteAccess]="functionApp" type="text" class="long" [formControl]="complexForm.controls['name']" placeholder="{{ 'apiProxy_name' | translate }}"
+      <input [fnWriteAccess]="context" type="text" class="long" [formControl]="complexForm.controls['name']" placeholder="{{ 'apiProxy_name' | translate }}"
         [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
 
       <pop-over *ngIf="!complexForm.controls['name'].valid" [message]="complexForm.controls['name'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_errorExists' | translate)"
@@ -29,7 +29,7 @@
                     </label>
         </div>
 
-        <input [fnWriteAccess]="functionApp" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
+        <input [fnWriteAccess]="context" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
           placeholder="{{ 'apiProxy_routeTemplate' | translate }}" [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
 
 
@@ -43,7 +43,7 @@
                 </label>
 
         <div>
-          <select [fnWriteAccess]="functionApp" name="methodSelectionType" [formControl]="complexForm.controls['methodSelectionType']">
+          <select [fnWriteAccess]="context" name="methodSelectionType" [formControl]="complexForm.controls['methodSelectionType']">
                         <option value="All">{{ 'apiProxy_allMethods' | translate }}</option>
                         <option value="Selected">{{ 'apiProxy_seectedMethods' | translate }}</option>
                     </select>
@@ -85,7 +85,7 @@
                 </label>
       </div>
 
-      <input [fnWriteAccess]="functionApp" type="text" name="backendUri" class="long" [formControl]="complexForm.controls['backendUri']"
+      <input [fnWriteAccess]="context" type="text" name="backendUri" class="long" [formControl]="complexForm.controls['backendUri']"
         placeholder="{{ 'optional' | translate }}" [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
 
       <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)"
@@ -96,7 +96,7 @@
           (valueChanges)="rrOverriedValueChanges($event)">
       </request-respose-override>
       <div>
-          <button [fnWriteAccess]="functionApp" type="submit" [disabled]="!complexForm.valid || !rrOverrideValid" [disabled]="!complexForm.valid" class="custom-button">{{ 'create' | translate }}</button>
+          <button [fnWriteAccess]="context" type="submit" [disabled]="!complexForm.valid || !rrOverrideValid" [disabled]="!complexForm.valid" class="custom-button">{{ 'create' | translate }}</button>
       </div>
   </form>
 </div>

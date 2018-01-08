@@ -1,34 +1,35 @@
+import { Injector } from '@angular/core';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { FunctionAppContext } from 'app/shared/function-app-context';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Router } from '@angular/router';
-import { Component, ViewChild, OnInit, OnDestroy, Injector } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
-import { ArmTryService } from './../shared/services/arm-try.service';
-import { ArmService } from './../shared/services/arm.service';
-import { FunctionApp } from './../shared/function-app';
 import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
-import { ErrorIds } from './../shared/models/error-ids';
+import { errorIds } from './../shared/models/error-ids';
 import { TryFunctionsService } from '../shared/services/try-functions.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { UserService } from '../shared/services/user.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { FunctionTemplate } from '../shared/models/function-template';
 import { FunctionInfo } from '../shared/models/function-info';
 import { BindingManager } from '../shared/models/binding-manager';
-import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { UIResource } from '../shared/models/ui-resource';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
-import { Url } from "app/shared/Utilities/url";
+import { Url } from 'app/shared/Utilities/url';
+import { ErrorableComponent } from '../shared/components/errorable-component';
 
 @Component({
     selector: 'try-landing',
     templateUrl: './try-landing.component.html',
     styleUrls: ['./try-landing.component.scss']
 })
-export class TryLandingComponent implements OnInit, OnDestroy {
+export class TryLandingComponent extends ErrorableComponent implements OnInit, OnDestroy {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public functionsInfo: FunctionInfo[] = new Array();
     bc: BindingManager = new BindingManager();
@@ -36,19 +37,21 @@ export class TryLandingComponent implements OnInit, OnDestroy {
     selectedFunction: string;
     selectedLanguage: string;
 
-    private _functionApp: FunctionApp;
     private _ngUnsubscribe = new Subject();
+    private context: FunctionAppContext;
 
     constructor(
+        broadcastService: BroadcastService,
         private _tryFunctionsService: TryFunctionsService,
-        private _broadcastService: BroadcastService,
+        private _functionAppService: FunctionAppService,
         private _globalStateService: GlobalStateService,
         private _userService: UserService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _armService: ArmService,
         private _router: Router,
         private _injector: Injector) {
+
+            super('try-landing', broadcastService);
     }
 
     ngOnInit() {
@@ -141,8 +144,7 @@ export class TryLandingComponent implements OnInit, OnDestroy {
             if (provider === '') {
                 // clicked on "Create this Function" button
                 this.loginOptions = true;
-            }
-            else
+            } else
                 if (selectedTemplate) {
                     try {
                         const functionName = BindingManager.getFunctionName(selectedTemplate.metadata.defaultFunctionName, this.functionsInfo);
@@ -173,11 +175,10 @@ export class TryLandingComponent implements OnInit, OnDestroy {
                                         }
                                         );
                                 } else {
-                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    this.showComponentError({
                                         message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                                         details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(error)}`,
-                                        errorId: ErrorIds.tryAppServiceError,
-                                        errorType: ErrorType.Warning,
+                                        errorId: errorIds.tryAppServiceError,
                                         resourceId: 'try-app'
                                     });
                                     this.clearBusyState();
@@ -186,11 +187,10 @@ export class TryLandingComponent implements OnInit, OnDestroy {
                                 this.clearBusyState();
                             });
                     } catch (e) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        this.showComponentError({
                             message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
                             details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
-                            errorId: ErrorIds.tryAppServiceError,
-                            errorType: ErrorType.Warning,
+                            errorId: errorIds.tryAppServiceError,
                             resourceId: 'try-app'
                         });
                         throw e;
@@ -231,32 +231,30 @@ export class TryLandingComponent implements OnInit, OnDestroy {
         };
 
         this._tryFunctionsService.functionContainer = tryfunctionContainer;
-        this._functionApp = new FunctionApp(tryfunctionContainer, this._injector);
-
-        (<ArmTryService>this._armService).tryFunctionApp = this._functionApp;
+        this.context = ArmUtil.mapArmSiteToContext(tryfunctionContainer, this._injector);
 
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();
 
-        this._functionApp.createFunctionV2(functionName, selectedTemplate.files, selectedTemplate.function)
+        this._functionAppService.createFunctionV2(this.context, functionName, selectedTemplate.files, selectedTemplate.function)
             .subscribe(res => {
                 this.clearBusyState();
-                this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'success', first: 'true' });
-                this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
-                const navId = this._functionApp.site.id.slice(1, this._functionApp.site.id.length).toLowerCase().replace('/providers/microsoft.web', '');
-                this._router.navigate([`/resources/${navId}}/functions/${res.name}`], { queryParams: Url.getQueryStringObj() });
+                if (res.isSuccessful) {
+                    this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'success', first: 'true' });
+                    this._broadcastService.broadcast(BroadcastEvent.FunctionAdded, res);
+                    const navId = this.context.site.id.slice(1, this.context.site.id.length).toLowerCase().replace('/providers/microsoft.web', '');
+                    this._router.navigate([`/resources/${navId}}/functions/${res.result.name}`], { queryParams: Url.getQueryStringObj() });
+                } else {
+                    this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'failed', first: 'true' });
+                    this.showComponentError({
+                        message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
+                        details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(res.error)}`,
+                        errorId: errorIds.tryAppServiceError,
+                        resourceId: 'try-app'
+                    });
+                }
             },
-            e => {
-                this.clearBusyState();
-                this._aiService.trackEvent('new-function', { template: selectedTemplate.id, result: 'failed', first: 'true' });
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                    message: `${this._translateService.instant(PortalResources.tryLanding_functionError)}`,
-                    details: `${this._translateService.instant(PortalResources.tryLanding_functionErrorDetails)}: ${JSON.stringify(e)}`,
-                    errorId: ErrorIds.tryAppServiceError,
-                    errorType: ErrorType.Warning,
-                    resourceId: 'try-app'
-                });
-            });
+            e => this.clearBusyState());
     }
 
     setBusyState() {

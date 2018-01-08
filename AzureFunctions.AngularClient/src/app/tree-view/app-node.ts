@@ -1,10 +1,9 @@
+import { ScenarioIds, LogCategories, SiteTabIds } from './../shared/models/constants';
+import { FunctionAppService } from './../shared/services/function-app.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Subject } from 'rxjs/Subject';
-import { FunctionsService } from './../shared/services/functions-service';
-import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
-import { SiteTabIds, ScenarioIds } from './../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from './../shared/models/portal-resources';
 import { ArmObj } from './../shared/models/arm/arm-obj';
@@ -43,9 +42,9 @@ export class AppNode extends TreeNode
 
     private _ngUnsubscribe = new Subject();
 
-    private _functionsService: FunctionsService;
     private _scenarioService: ScenarioService;
     private _logService: LogService;
+    private _functionAppService: FunctionAppService;
 
     constructor(sideBar: SideNavComponent,
         private _siteArmCacheObj: ArmObj<Site>,
@@ -54,7 +53,7 @@ export class AppNode extends TreeNode
         disabled?: boolean) {
         super(sideBar, _siteArmCacheObj.id, parentNode);
 
-        this._functionsService = this.sideNav.injector.get(FunctionsService);
+        this._functionAppService = this.sideNav.injector.get(FunctionAppService);
         this._scenarioService = this.sideNav.injector.get(ScenarioService);
         this._logService = this.sideNav.injector.get(LogService);
 
@@ -86,7 +85,7 @@ export class AppNode extends TreeNode
         this.supportsRefresh = false;
         this.isLoading = true;
 
-        return this._functionsService.getAppContext(this.resourceId)
+        return this._functionAppService.getAppContext(this.resourceId)
             .do(context => {
                 this.isLoading = false;
                 this.supportsRefresh = true;
@@ -146,7 +145,7 @@ export class AppNode extends TreeNode
 
         return this.loadChildren()
             .do(context => {
-                this._functionsService.fireSyncTrigger(context);
+                this._functionAppService.fireSyncTrigger(context);
                 if (this.children && this.children.length === 1 && !this.children[0].isExpanded) {
                     this.children[0].toggle(null);
                 }

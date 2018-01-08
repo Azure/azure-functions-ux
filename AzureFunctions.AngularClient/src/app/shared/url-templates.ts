@@ -20,25 +20,25 @@ export class UrlTemplates {
         this.configService = injector.get(ConfigService);
 
         this.isEmbeddedFunctions = this.portalService.isEmbeddedFunctions;
-        this.scmUrl = this.isEmbeddedFunctions ? null : this._getScmUrl(site);
-        this.mainSiteUrl = this.isEmbeddedFunctions ? null : this._getMainUrl(site);
+        this.scmUrl = this.isEmbeddedFunctions ? null : this.getScmUrl();
+        this.mainSiteUrl = this.isEmbeddedFunctions ? null : this.getMainUrl();
 
         this.useNewUrls = ArmUtil.isLinuxApp(this.site);
     }
 
-    private _getScmUrl(site: ArmObj<Site>) {
+    public getScmUrl() {
         if (this.configService.isStandalone()) {
-            return this._getMainUrl(site);
+            return this.getMainUrl();
         } else {
-            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+            return `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         }
     }
 
-    private _getMainUrl(site: ArmObj<Site>) {
+    public getMainUrl() {
         if (this.configService.isStandalone()) {
-            return `https://${site.properties.defaultHostName}/functions/${site.name}`;
+            return `https://${this.site.properties.defaultHostName}/functions/${this.site.name}`;
         } else {
-            return `https://${site.properties.defaultHostName}`;
+            return `https://${this.site.properties.defaultHostName}`;
         }
     }
 
@@ -86,10 +86,6 @@ export class UrlTemplates {
 
     getRunFunctionUrl(functionName: string): string {
         return `${this.mainSiteUrl}/admin/functions/${functionName.toLocaleLowerCase()}`;
-    }
-
-    getEntitiesUrl(): string {
-        return `https://tip1.api.cds.microsoft.com/providers/Microsoft.CommonDataModel/environments/0fb7e803-94aa-4e69-9694-d3b3cea74523/namespaces/5d5374aa-0df3-421c-9656-5244ac88593c/entities?api-version=2016-11-01-alpha&$expand=namespace&headeronly=true`;
     }
 
     get pingUrl(): string {
@@ -176,5 +172,13 @@ export class UrlTemplates {
 
     get runtimeSiteUrl(): string {
         return this.mainSiteUrl;
+    }
+
+    get getGeneratedSwaggerDataUrl(): string {
+        return `${this.mainSiteUrl}/admin/host/swagger/default`;
+    }
+
+    get getSwaggerDocumentUrl() {
+        return `${this.mainSiteUrl}/admin/host/swagger`;
     }
 }

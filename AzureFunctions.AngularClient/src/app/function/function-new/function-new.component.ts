@@ -1,12 +1,9 @@
-import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
+import { LogCategories, Order, Regex, KeyCodes } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
-import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
 import { DropDownElement } from './../../shared/models/drop-down-element';
-import { FunctionsService, FunctionAppContext } from './../../shared/services/functions-service';
-import { Component, ElementRef, Inject, Injector, OnDestroy, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Component, ElementRef, Inject, OnDestroy, ViewChild } from '@angular/core';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/switchMap';
@@ -18,13 +15,13 @@ import { BroadcastService } from '../../shared/services/broadcast.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { LogService } from 'app/shared/services/log.service';
-import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { FunctionsNode } from '../../tree-view/functions-node';
-import { FunctionApp } from '../../shared/function-app';
 import { AppNode } from '../../tree-view/app-node';
 import { DashboardType } from '../../tree-view/models/dashboard-type';
-import { Order, Regex } from '../../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
+import { Subscription } from 'rxjs/Subscription';
 
 interface CategoryOrder {
     name: string;
@@ -44,13 +41,9 @@ export interface CreateCard extends Template {
 @Component({
     selector: 'function-new',
     templateUrl: './function-new.component.html',
-    styleUrls: ['./function-new.component.scss'],
-    outputs: ['functionAdded'],
-    inputs: ['viewInfoInput']
+    styleUrls: ['./function-new.component.scss']
 })
-export class FunctionNewComponent implements OnDestroy {
-    public context: FunctionAppContext;
-    public functionApp: FunctionApp;
+export class FunctionNewComponent extends FunctionAppContextComponent implements OnDestroy {
     public functionsInfo: FunctionInfo[];
     public functionName: string;
     public functionNameError = '';
@@ -59,7 +52,6 @@ export class FunctionNewComponent implements OnDestroy {
     public selectedTemplateId: string;
     public action: Action;
     public disabled: boolean;
-    public viewInfo: TreeViewInfo<any>;
     public appNode: AppNode;
     public languages: DropDownElement<string>[] = [];
     public categories: DropDownElement<string>[] = [];
@@ -85,40 +77,38 @@ export class FunctionNewComponent implements OnDestroy {
         'webhook': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/webhook.svg' }
     };
 
-    private _viewInfoStream = new Subject<TreeViewInfo<any>>();
-    private functionsNode: FunctionsNode;
+    public functionsNode: FunctionsNode;
     private category = '';
     private language = '';
     private search = '';
-    private _ngUnsubscribe = new Subject();
     private defaultIndex = 500;
     private _focusedCardIndex = -1;
 
     private _orderedCategoties: CategoryOrder[] =
-    [{
-        name: this._translateService.instant('temp_category_core'),
-        index: 0
-    },
-    {
-        name: this._translateService.instant('temp_category_api'),
-        index: 1,
-    },
-    {
-        name: this._translateService.instant('temp_category_dataProcessing'),
-        index: 2,
-    },
-    {
-        name: this._translateService.instant('temp_category_samples'),
-        index: 3,
-    },
-    {
-        name: this._translateService.instant('temp_category_experimental'),
-        index: 4,
-    },
-    {
-        name: this._translateService.instant('temp_category_all'),
-        index: 1000,
-    }];
+        [{
+            name: this._translateService.instant('temp_category_core'),
+            index: 0
+        },
+        {
+            name: this._translateService.instant('temp_category_api'),
+            index: 1,
+        },
+        {
+            name: this._translateService.instant('temp_category_dataProcessing'),
+            index: 2,
+        },
+        {
+            name: this._translateService.instant('temp_category_samples'),
+            index: 3,
+        },
+        {
+            name: this._translateService.instant('temp_category_experimental'),
+            index: 4,
+        },
+        {
+            name: this._translateService.instant('temp_category_all'),
+            index: 1000,
+        }];
 
     @ViewChild('container') createCardContainer: ElementRef;
 
@@ -128,31 +118,20 @@ export class FunctionNewComponent implements OnDestroy {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _logService: LogService,
-        private _functionsService: FunctionsService,
-        private _injector: Injector) {
+        private _functionAppService: FunctionAppService) {
+        super('function-new', _functionAppService, _broadcastService, () => _globalStateService.setBusyState());
 
         this.disabled = !!_broadcastService.getDirtyState('function_disabled');
         this.showTryView = this._globalStateService.showTryView;
+    }
 
-        this._viewInfoStream
-            .takeUntil(this._ngUnsubscribe)
+    setup(): Subscription {
+        return this.viewInfoEvents
+            .takeUntil(this.ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._globalStateService.setBusyState();
-                this.viewInfo = viewInfo;
                 this.functionsNode = <FunctionsNode>viewInfo.node;
                 this.appNode = <AppNode>viewInfo.node.parent;
-
-                const descriptor = new ArmSiteDescriptor(viewInfo.resourceId);
-                return this._functionsService.getAppContext(descriptor.getTrimmedResourceId());
-            })
-            .switchMap(context => {
-                this.context = context;
-
-                if (this.functionApp) {
-                    this.functionApp.dispose();
-                }
-
-                this.functionApp = new FunctionApp(context.site, this._injector);
 
                 if (this.functionsNode.action) {
                     this.action = Object.create(this.functionsNode.action);
@@ -160,46 +139,46 @@ export class FunctionNewComponent implements OnDestroy {
                 }
 
                 return Observable.zip(
-                    this._buildCreateCardTemplates(this.functionApp),
-                    this.functionApp.getFunctions(),
-                    (c, fcs) => ({ cards: c, fcs: fcs}));
+                    this._buildCreateCardTemplates(),
+                    this._functionAppService.getFunctions(this.context));
             })
             .do(null, e => {
                 this._logService.error(LogCategories.functionNew, '/load-functions-cards-failure', e);
             })
-            .retry()
-            .subscribe(r => {
+            .subscribe(tuple => {
                 this._globalStateService.clearBusyState();
-                this.functionsInfo = r.fcs;
+                this.functionsInfo = tuple[1].result;
 
                 if (this.action && this.functionsInfo && !this.selectedTemplate) {
                     this.selectedTemplateId = this.action.templateId;
                 }
             });
-
-
     }
 
-    private _buildCreateCardTemplates(functionApp: FunctionApp) {
-        return functionApp.getTemplates()
-            .switchMap(templates => {
-                return Observable.zip(
-                    functionApp.getBindingConfig(),
-                    Observable.of(templates),
-                    (c, t) => ({ config: c, templates: t }));
-            })
-            .do(r => {
-                this.bindings = r.config.bindings;
+    private _buildCreateCardTemplates() {
+        return Observable.zip(
+            this._functionAppService.getTemplates(this.context),
+            this._functionAppService.getBindingConfig(this.context))
+            .do(tuple => {
+                if (!tuple[0].isSuccessful || !tuple[1].isSuccessful) {
+                    return;
+                }
+
+                this.bindings = tuple[1].result.bindings;
                 this.cards = [];
                 this.createCards = [];
 
                 this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
-                this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all),
-                                    value: this._translateService.instant('temp_category_all'), default: true }];
-                this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all),
-                                     value: this._translateService.instant('temp_category_all') }];
+                this.languages = [{
+                    displayLabel: this._translateService.instant(PortalResources.all),
+                    value: this._translateService.instant('temp_category_all'), default: true
+                }];
+                this.categories = [{
+                    displayLabel: this._translateService.instant(PortalResources.all),
+                    value: this._translateService.instant('temp_category_all')
+                }];
 
-                r.templates.forEach((template) => {
+                tuple[0].result.forEach((template) => {
 
                     if (template.metadata.visible === false) {
                         return;
@@ -273,7 +252,7 @@ export class FunctionNewComponent implements OnDestroy {
 
                 // unique categories
                 this.createCards.forEach((template, index) => {
-                    const categoriesDict: {[key: string]: string; } = {};
+                    const categoriesDict: { [key: string]: string; } = {};
                     template.categories.forEach(category => {
                         categoriesDict[category] = category;
                     });
@@ -310,7 +289,7 @@ export class FunctionNewComponent implements OnDestroy {
                 });
 
                 this.language = this._translateService.instant('temp_category_all');
-                this.category === this._translateService.instant('temp_category_all');
+                this.category = this._translateService.instant('temp_category_all');
             });
     }
 
@@ -660,21 +639,19 @@ export class FunctionNewComponent implements OnDestroy {
 
     private _scrollIntoView(elem: HTMLElement) {
         Dom.scrollIntoView(elem, window.document.body);
-      }
+    }
 
     closeSidePanel() {
         this.sidePanelOpened = false;
-    }
-
-    set viewInfoInput(viewInfoInput: TreeViewInfo<any>) {
-        this._viewInfoStream.next(viewInfoInput);
     }
 
     quickstart() {
         this.functionsNode.openCreateDashboard(DashboardType.CreateFunctionQuickstartDashboard);
     }
 
-    ngOnDestroy() {
-        this._ngUnsubscribe.next();
+    onKeyPressQuick(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.quickstart();
+        }
     }
 }

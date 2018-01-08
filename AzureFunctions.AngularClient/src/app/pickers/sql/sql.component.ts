@@ -1,17 +1,19 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { FunctionApp } from '../../shared/function-app';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { Subject } from 'rxjs/Subject';
 import { ArmService } from '../../shared/services/arm.service';
+import { FunctionAppContextComponent } from '../../shared/components/function-app-context-component';
+import { FunctionAppService } from '../../shared/services/function-app.service';
+import { BroadcastService } from '../../shared/services/broadcast.service';
 
 @Component({
     selector: 'sql',
     templateUrl: './sql.component.html',
     styleUrls: ['./../picker.scss']
 })
-export class SqlComponent implements OnInit {
+export class SqlComponent extends FunctionAppContextComponent {
 
     public endpoint: string;
     public databaseName: string;
@@ -23,20 +25,13 @@ export class SqlComponent implements OnInit {
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
-    private _functionApp: FunctionApp;
-
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
-        private _globalStateService: GlobalStateService) {
-
-        }
-
-    ngOnInit() {
-    }
-
-    @Input() set functionApp(functionApp: FunctionApp) {
-        this._functionApp = functionApp;
+        private _globalStateService: GlobalStateService,
+        functionAppService: FunctionAppService,
+        broadcastService: BroadcastService) {
+        super('sql', functionAppService, broadcastService);
     }
 
     onClose() {
@@ -50,12 +45,13 @@ export class SqlComponent implements OnInit {
         this.selectInProcess = true;
         let appSettingName: string;
         this._globalStateService.setBusyState();
-        this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
-            const appSettings: ArmObj<any> = r.json();
-            appSettingName =  this.databaseName + '.' + this.endpoint ;
-            appSettings.properties[appSettingName] = connectionStringFormat.format(this.endpoint, this.databaseName, this.userName, this.password);
-            return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
-        })
+        this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true)
+            .flatMap(r => {
+                const appSettings: ArmObj<any> = r.json();
+                appSettingName = this.databaseName + '.' + this.endpoint;
+                appSettings.properties[appSettingName] = connectionStringFormat.format(this.endpoint, this.databaseName, this.userName, this.password);
+                return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
+            })
             .do(null, e => {
                 this._globalStateService.clearBusyState();
                 this.selectInProcess = false;

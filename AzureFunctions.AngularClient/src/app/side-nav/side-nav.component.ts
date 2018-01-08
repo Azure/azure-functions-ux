@@ -1,5 +1,8 @@
+import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { EmbeddedFunctionsNode } from './../tree-view/embedded-functions-node';
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FunctionAppContext } from 'app/shared/function-app-context';
 import { LogService } from './../shared/services/log.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
@@ -14,12 +17,10 @@ import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../shared/services/config.service';
-import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
 import { LocalStorageKeys, Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
-import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { TreeNode } from '../tree-view/tree-node';
@@ -36,7 +37,7 @@ import { DropDownElement } from '../shared/models/drop-down-element';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
-import { SiteService } from './../shared/services/slots.service';
+import { SlotsService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
 import { StartupInfo } from 'app/shared/models/portal';
 
@@ -61,23 +62,25 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
 
     public searchTerm = '';
     public hasValue = false;
-    public tryFunctionApp: FunctionApp;
-    public headerOnTopOfSideNav =  false;
+    public headerOnTopOfSideNav = false;
     public noPaddingOnSideNav = false;
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
+
+    public tryFunctionApp = null;
 
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new ReplaySubject<string>(1);
     private _ngUnsubscribe = new Subject();
 
     private _initialized = false;
+    private _tryFunctionAppContext: FunctionAppContext;
 
-    private _tryFunctionAppStream = new Subject<FunctionApp>();
-    @Input() set tryFunctionAppInput(functionApp: FunctionApp) {
-        if (functionApp) {
-            this._tryFunctionAppStream.next(functionApp);
+    private _tryFunctionAppContextStream = new Subject<FunctionAppContext>();
+    @Input() set tryFunctionAppContextInput(functionAppContext: FunctionAppContext) {
+        if (functionAppContext) {
+            this._tryFunctionAppContextStream.next(functionAppContext);
         }
     }
 
@@ -97,63 +100,74 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         public portalService: PortalService,
         public languageService: LanguageService,
         public authZService: AuthzService,
-        public slotsService: SiteService,
+        public slotsService: SlotsService,
         public logService: LogService,
         public router: Router,
         public route: ActivatedRoute,
-        private _scenarioService: ScenarioService,
-        // private _functionsService: FunctionsService
-    ) {
-        this.headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
-        this.noPaddingOnSideNav =  this._scenarioService.checkScenario(ScenarioIds.noPaddingOnSideNav).status === 'enabled';
-        userService.getStartupInfo()
-            .takeUntil(this._ngUnsubscribe)
-            .subscribe(info => {
+        private _functionAppService: FunctionAppService,
+        private _scenarioService: ScenarioService) {
 
-                // This is a workaround for the fact that Ibiza sends us an updated info whenever
-                // child blades close.  If we get a new info object, then we'll rebuild the tree.
-                // The true fix would be to make sure that we never set the resourceId of the hosting
-                // blade, but that's a pretty large change and this should be sufficient for now.
-                if (!this._initialized && !this.globalStateService.showTryView) {
-                    this._initializeTree(info);
-                }
+        this.headerOnTopOfSideNav = this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
+        this.noPaddingOnSideNav = this._scenarioService.checkScenario(ScenarioIds.noPaddingOnSideNav).status === 'enabled';
+        userService.getStartupInfo().subscribe(info => {
 
+            const sitenameIncoming = !!info.resourceId ? new ArmSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
+            const initialSiteName = !!this.initialResourceId ? new ArmSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
+            if (sitenameIncoming !== initialSiteName) {
+                this.portalService.sendTimerEvent({
+                    timerId: 'TreeViewLoad',
+                    timerAction: 'start'
+                });
+            }
+
+            // This is a workaround for the fact that Ibiza sends us an updated info whenever
+            // child blades close.  If we get a new info object, then we'll rebuild the tree.
+            // The true fix would be to make sure that we never set the resourceId of the hosting
+            // blade, but that's a pretty large change and this should be sufficient for now.
+            if (!this._initialized && !this.globalStateService.showTryView) {
+                this._initializeTree(info);
+            } else if (!this.searchTerm) {
+                // Ensure that we don't override existing search term if we get a startupInfo update
+                this._searchTermStream.next('');
+            }
+
+            if (this._scenarioService.checkScenario(ScenarioIds.addTopLevelAppsNode).status !== 'disabled') {
+                this._updateSubscriptions(info);
                 this.initialResourceId = info.resourceId;
-
-                // For now, search updates only apply at the apps level
-                if (this.initialResourceId && this.rootNode.children[0].dashboardType === DashboardType.AppsDashboard) {
-                    const descriptor = <ArmSiteDescriptor>ArmSiteDescriptor.getSiteDescriptor(this.initialResourceId);
+                if (this.initialResourceId) {
+                    const descriptor = new ArmSiteDescriptor(this.initialResourceId);
                     if (descriptor.site) {
                         this._searchTermStream.next(`"${descriptor.site}"`);
                         this.hasValue = true;
                     } else {
                         this._searchTermStream.next('');
                     }
-                } else {
+                } else if (!this.searchTerm) {
+                    // Ensure that we don't override existing search term if we get a startupInfo update
                     this._searchTermStream.next('');
                 }
-            });
+            }
+        });
 
-        this._tryFunctionAppStream
-            .takeUntil(this._ngUnsubscribe)
-            .mergeMap(tryFunctionApp => {
-                this.tryFunctionApp = tryFunctionApp;
-                return tryFunctionApp.getFunctions();
+        this._tryFunctionAppContextStream
+            .mergeMap(tryFunctionAppContext => {
+                this._tryFunctionAppContext = tryFunctionAppContext;
+                return this._functionAppService.getFunctions(this._tryFunctionAppContext);
             })
             .subscribe(functions => {
                 this.globalStateService.clearBusyState();
 
-                if (functions && functions.length > 0) {
-                    this.initialResourceId = `${this.tryFunctionApp.site.id}/functions/${functions[0].name}`;
+                if (functions.isSuccessful && functions.result.length > 0) {
+                    this.initialResourceId = `${this._tryFunctionAppContext.site.id}/functions/${functions[0].name}`;
                 } else {
-                    this.initialResourceId = this.tryFunctionApp.site.id;
+                    this.initialResourceId = this._tryFunctionAppContext.site.id;
                 }
 
                 this.rootNode = new TreeNode(this, null, null);
 
                 const appNode = new AppNode(
                     this,
-                    this.tryFunctionApp.site,
+                    this._tryFunctionAppContext.site,
                     this.rootNode,
                     [],
                     false);
@@ -177,14 +191,6 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         this.rootNode = new TreeNode(this, null, null);
 
         if (this._scenarioService.checkScenario(ScenarioIds.addTopLevelAppsNode).status !== 'disabled') {
-            const sitenameIncoming = !!info.resourceId ? new ArmSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
-            const initialSiteName = !!this.initialResourceId ? new ArmSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
-            if (sitenameIncoming !== initialSiteName) {
-                this.portalService.sendTimerEvent({
-                    timerId: 'TreeViewLoad',
-                    timerAction: 'start'
-                });
-            }
 
             const appsNode = new AppsNode(
                 this,
@@ -203,19 +209,21 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                 appsNode.select();
             }, 10);
 
-            this._searchTermStream
-                .subscribe(term => {
-                    this.searchTerm = term;
-                });
+            this.initialResourceId = info.resourceId;
 
-            if (this.subscriptionOptions.length === 0) {
-                this._updateSubscriptions(info);
+            // For now, search updates only apply at the apps level
+            if (this.initialResourceId && this.rootNode.children[0].dashboardType === DashboardType.AppsDashboard) {
+                const descriptor = <ArmSiteDescriptor>ArmSiteDescriptor.getSiteDescriptor(this.initialResourceId);
+                if (descriptor.site) {
+                    this._searchTermStream.next(`"${descriptor.site}"`);
+                    this.hasValue = true;
+                } else {
+                    this._searchTermStream.next('');
+                }
+            } else {
+                this._searchTermStream.next('');
             }
         } else {
-            // const functionsNode = new FunctionsNode(this, null, this.rootNode);
-            // this.rootNode.children = [functionsNode];
-            // this.rootNode.isExpanded = true;
-
             const resourceIdMatch = /\/resources([a-z0-9\-\/]+)/gi.exec(this.router.url);
 
             if (resourceIdMatch && resourceIdMatch.length > 1) {
@@ -228,11 +236,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
             } else {
                 // log error
             }
-
         }
-
-
-
     }
 
     private _getViewContainer(): HTMLDivElement {
@@ -369,7 +373,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
             title = this.translateService.instant(PortalResources.functionApps);
             subtitle = '';
         } else {
-            subtitle = this.translateService.instant(PortalResources.functionApps);;
+            subtitle = this.translateService.instant(PortalResources.functionApps);
         }
 
         this.portalService.updateBladeInfo(title, subtitle);
@@ -393,7 +397,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
             const startPos = event.target.selectionStart;
             const endPos = event.target.selectionEnd;
 
-            // TODO: ellhamai - this is a hack and it's not perfect.  Basically everytime we update
+            // TODO: [ehamai] - this is a hack and it's not perfect.  Basically everytime we update
             // the searchTerm, we end up resetting the cursor.  It's better than before, but
             // it's still not great because if the user types really fast, the cursor still moves.
             this._searchTermStream.next(event.target.value);
@@ -440,8 +444,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
             this._updateSubDisplayText(this.allSubscriptions);
         } else if (subscriptions.length > 1) {
             this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_SubscriptionCount).format(subscriptions.length));
-        }
-        else {
+        } else {
             this._updateSubDisplayText(`${subscriptions[0].displayName}`);
         }
     }
@@ -457,11 +460,6 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     }
 
     private _updateSubscriptions(info: StartupInfo) {
-        // Need to set an initial value to force the tree to render with an initial list first.
-        // Otherwise the tree won't load in batches of objects for long lists until the entire
-        // observable sequence has completed.
-        this._subscriptionsStream.next([]);
-
         const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
         const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
         let descriptor: ArmSiteDescriptor | null;
@@ -472,8 +470,8 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
 
         let count = 0;
 
-        this.subscriptionOptions =
-            info.subscriptions.map(e => {
+        this.subscriptionOptions = info.subscriptions
+            .map(e => {
                 let subSelected: boolean;
 
                 if (descriptor) {
@@ -496,6 +494,6 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                     isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
                 };
             })
-                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
     }
 }

@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { ErrorIds } from './../shared/models/error-ids';
+import { errorIds } from './../shared/models/error-ids';
 import { PortalResources } from './../shared/models/portal-resources';
-import { Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
+import { LogCategories, ScenarioIds, Arm } from './../shared/models/constants';
 import { Subscription } from './../shared/models/subscription';
 import { ArmObj, ArmArrayResult } from './../shared/models/arm/arm-obj';
 import { TreeNode, MutableCollection, Disposable, Refreshable } from './tree-node';
@@ -11,7 +11,7 @@ import { DashboardType } from './models/dashboard-type';
 import { Site } from '../shared/models/arm/site';
 import { AppNode } from './app-node';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { ErrorEvent, ErrorType } from '../shared/models/error-event';
+import { ErrorEvent } from '../shared/models/error-event';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { UserService } from '../shared/services/user.service';
 import { ScenarioService } from '../shared/services/scenario/scenario.service';
@@ -23,12 +23,10 @@ interface SearchInfo {
     subscriptions: Subscription[];
 }
 
-
 export class AppsNode extends TreeNode implements MutableCollection, Disposable, Refreshable {
     public title = this.sideNav.translateService.instant(PortalResources.functionApps);
     public dashboardType = DashboardType.AppsDashboard;
     public supportsRefresh = true;
-    public emptySubs = false;
 
     public resourceId = '/apps';
     public isExpanded = true;
@@ -40,7 +38,6 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
     private _broadcastService: BroadcastService;
     private _userService: UserService;
     private _scenarioService: ScenarioService;
-    private _subInitialized: boolean;
 
 
     constructor(
@@ -52,8 +49,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
 
         super(sideNav, null, rootNode, '/apps/new/app');
 
-        this._subInitialized = false;
-        this.newDashboardType =  null;
+        this.newDashboardType = null;
         this._userService = sideNav.injector.get(UserService);
         this._scenarioService = sideNav.injector.get(ScenarioService);
 
@@ -62,14 +58,11 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 if (info.subscriptions && info.subscriptions.length > 0) {
                     this.newDashboardType = DashboardType.createApp;
                     this.nodeClass += ' create-app';
-                    this.emptySubs = false;
                 } else {
                     this.newDashboardType = null;
-                    this.emptySubs = true;
                 }
             } else {
                 this.newDashboardType = null;
-                this.emptySubs = false;
             }
         });
 
@@ -83,13 +76,12 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         this._broadcastService.getEvents<AppNode[]>(BroadcastEvent.UpdateAppsList)
             .subscribe(children => {
                 this.children = children ? children : [];
-            })
+            });
 
         // Always listening for subscription changes
         this._subscriptionsStream
             .subscribe(subs => {
                 this._subscriptions = subs;
-                this._subInitialized = true;
 
                 if (!this._initialized()) {
                     return;
@@ -169,7 +161,7 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                         // recreated.  In that case, we'll just refocus on the root node.  It's probably
                         // not ideal but simple for us to do.
                         this.treeView.setFocus(this);
-                    } else{
+                    } else {
                         this.supportsRefresh = true;
                     }
 
@@ -209,13 +201,13 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
         this._searchInfo.next({
             searchTerm: this._searchTerm,
             subscriptions: this._subscriptions
-        })
+        });
 
         return Observable.of(null);
     }
 
-    private _initialized(){
-        return this._subInitialized && this._searchTerm !== undefined;
+    private _initialized() {
+        return this._subscriptions && this._subscriptions.length > 0 && this._searchTerm !== undefined;
     }
 
     private _doSearch(
@@ -253,10 +245,10 @@ export class AppsNode extends TreeNode implements MutableCollection, Disposable,
                 this.sideNav.broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: err.message,
                     details: err.code,
-                    errorId: ErrorIds.failedToQueryArmResource,
-                    errorType: ErrorType.ApiError,
+                    errorId: errorIds.failedToQueryArmResource,
                     resourceId: 'none'
                 });
+
                 return Observable.of(null);
             })
             .switchMap(r => {

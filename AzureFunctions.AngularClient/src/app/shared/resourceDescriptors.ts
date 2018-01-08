@@ -158,7 +158,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
         // resource id without slot information
         let resource = this.getSiteOnlyResourceId();
         // add slots if available
-        if (this.slot) {
+        if (this.slot && this.slot !== 'new') {
             resource = `${resource}/slots/${this.slot}`;
         }
         return resource;
