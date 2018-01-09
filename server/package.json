@@ -25,7 +25,8 @@
         "client-oauth2": "^4.1.0",
         "request": "^2.81.0",
         "dotenv": "^4.0.0",
-        "compression": "^1.7.1"
+        "compression": "^1.7.1",
+        "domurl": "^2.1.7"
     },
     "devDependencies": {
         "@types/async": "^2.0.40",

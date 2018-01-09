@@ -1,10 +1,6 @@
 import { Application } from 'express';
-import * as ClientOAuth2 from 'client-oauth2';
 import axios from 'axios';
 import { staticConfig } from '../config';
-
-let githubAuth: any = null;
-
 export async function getGithubTokens(req: any): Promise<any> {
     if (req && req.session && req.session['githubAccess']) {
         return { authenticated: true };
@@ -29,15 +25,16 @@ export async function getGithubTokens(req: any): Promise<any> {
     }
 }
 
+function getParameterByName(name: string, url: string) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 export function setupGithubAuthentication(app: Application) {
-    githubAuth = new ClientOAuth2({
-        clientId: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        accessTokenUri: 'https://github.com/login/oauth/access_token',
-        authorizationUri: 'https://github.com/login/oauth/authorize',
-        redirectUri: process.env.GITHUB_REDIRECT_URL,
-        scopes: ['admin:repo_hook', 'repo']
-    });
     app.post('/api/github/passthrough', async (req, res) => {
         const tokenData = await getGithubTokens(req);
         if (!tokenData.authenticated) {
@@ -54,27 +51,42 @@ export function setupGithubAuthentication(app: Application) {
     });
 
     app.get('/api/auth/github', (_, res) => {
-        var uri = githubAuth.code.getUri();
-        res.redirect(uri);
+        res.redirect(
+            `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env
+                .GITHUB_REDIRECT_URL}&scope=admin:repo_hook+repo&response_type=code&state=`
+        );
     });
-    app.get('/auth/github/callback', (req, res) => {
-        githubAuth.code.getToken(req.originalUrl).then((user: any) => {
-            console.log(user);
-            user.refresh().then((updatedUser: any) => {
-                console.log(updatedUser !== user); //=> true
-                console.log(updatedUser.accessToken);
-            });
 
-            user.sign({
-                method: 'get',
-                url: 'https://localhost:44300'
-            });
-            if (req.session) {
-                req.session['githubToken'] = user.accessToken;
-            }
-            res.send(`<script>
-                        window.close(); 
-                    </script>`);
+    app.get('/auth/github/callback', (_, res) => {
+        res.sendStatus(200);
+    });
+
+    app.post('/auth/github/storeToken', async (req, res) => {
+        console.log(req.body.redirUrl);
+        const code = getParameterByName('code', req.body.redirUrl);
+        const r = await axios.post(`https://github.com/login/oauth/access_token`, {
+            client_id: process.env.GITHUB_CLIENT_ID,
+            client_secret: process.env.GITHUB_CLIENT_SECRET,
+            code: code
         });
+        const token = getParameterByName('access_token', '?' + r.data);
+        console.log(token);
+        const c = await axios.put(
+            `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/GitHub?api-version=2016-03-01`,
+            {
+                name: 'GitHub',
+                properties: {
+                    name: 'GitHub',
+                    token: token
+                }
+            },
+            {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            }
+        );
+
+        res.send(c.data);
     });
 }

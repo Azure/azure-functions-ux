@@ -2,17 +2,8 @@ import { Application } from 'express';
 //import * as ClientOAuth2 from 'client-oauth2';
 import axios from 'axios';
 import { staticConfig } from '../config';
-// const bitbucketAuth = new ClientOAuth2({
-//     clientId: 'D5LaGjFUAhCZRmY8yC',
-//     clientSecret: '8U8s4VVeUBmYtsPUNpc8DVjAH5G38cyT',
-//     accessTokenUri: 'https://bitbucket.org/site/oauth2/access_token',
-//     authorizationUri: 'https://bitbucket.org/site/oauth2/authorize',
-//     redirectUri: 'https://localhost:44300/auth/bitbucket/callback',
-//     scopes: ['account', 'repository', 'webhook'],
-//     headers: {
-//         Referer: 'https://localhost:44300/'
-//     }
-// });
+
+const bitbucketAuth: any = null;
 export async function getBitbucketTokens(req: any): Promise<any> {
     try {
         const r = await axios.get(
@@ -35,6 +26,17 @@ export async function getBitbucketTokens(req: any): Promise<any> {
     }
 }
 export function setupBitbucketAuthentication(app: Application) {
+    // bitbucketAuth = new ClientOAuth2({
+    //     clientId: process.env.BITBUCKET_CLIENT_ID,
+    //     clientSecret: process.env.BITBUCKET_CLIENT_SECRET,
+    //     accessTokenUri: 'https://bitbucket.org/site/oauth2/access_token',
+    //     authorizationUri: 'https://bitbucket.org/site/oauth2/authorize',
+    //     redirectUri: process.env.BITBUCKET_REDIRECT_URL,
+    //     scopes: ['account', 'repository', 'webhook'],
+    //     headers: {
+    //         Referer: process.env.BITBUCKET_REDIRECT_URL as string
+    //     }
+    // });
     app.post('/api/bitbucket/passthrough', async (req, res) => {
         const tokenData = await getBitbucketTokens(req);
         if (!tokenData.authenticated) {
@@ -48,43 +50,30 @@ export function setupBitbucketAuthentication(app: Application) {
         res.json(response.data);
     });
 
-    // app.get('/api/auth/bitbucket', (_, res) => {
-    //     var uri = bitbucketAuth.code.getUri();
-    //     res.redirect(uri);
-    // });
+    app.get('/api/auth/bitbucket', (_, res) => {
+        var uri = bitbucketAuth.code.getUri();
+        res.redirect(uri);
+    });
 
-    // app.post('/api/auth/bitbucket/refresh', (req, res) => {
-    //     const auth = 'Basic ' + new Buffer('D5LaGjFUAhCZRmY8yC' + ':' + '8U8s4VVeUBmYtsPUNpc8DVjAH5G38cyT').toString('base64');
-
-    //     request.post(
+    // app.post('/api/auth/bitbucket/refresh', async (req, res) => {
+    //     const auth = 'Basic ' + new Buffer(process.env.BITBUCKET_CLIENT_ID + ':' + process.env.BITBUCKET_CLIENT_SECRET).toString('base64');
+    //     const response = await axios.post(
+    //         'https://bitbucket.org/site/oauth2/access_token',
     //         {
-    //             url: 'https://bitbucket.org/site/oauth2/access_token',
-    //             form: {
-    //                 grant_type: 'refresh_token',
-    //                 refresh_token: req.body.refresh_token
-    //             },
+    //             grant_type: 'refresh_token',
+    //             refresh_token: req.body.refresh_token
+    //         },
+    //         {
     //             headers: {
     //                 Authorization: auth
     //             }
-    //         },
-    //         (_, __, body) => {
-    //             res.send(JSON.parse(body).access_token);
     //         }
     //     );
+    //     res.send(response.data.access_token);
     // });
 
-    // app.get('/api/auth/bitbucketToken', (req, res) => {
-    //     if (req.session && req.session['bitbucketToken']) {
-    //         res.send({
-    //             accessToken: req.session['bitbucketToken'],
-    //             refreshToken: req.session['bitbucketRefresh']
-    //         });
-    //     } else {
-    //         res.send('error');
-    //     }
-    // });
     // app.get('/auth/bitbucket/callback', (req, res) => {
-    //     bitbucketAuth.code.getToken(req.originalUrl).then(user => {
+    //     bitbucketAuth.code.getToken(req.originalUrl).then((user => {
     //         console.log(user);
     //         user.refresh().then(updatedUser => {
     //             console.log(updatedUser !== user); //=> true
@@ -103,7 +92,7 @@ export function setupBitbucketAuthentication(app: Application) {
     //                     window.close();
     //                 </script>`);
     //     });
-    // });
+    //});
 
-    app.get;
+    // app.get;
 }

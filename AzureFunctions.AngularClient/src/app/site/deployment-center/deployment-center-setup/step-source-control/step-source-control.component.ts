@@ -89,7 +89,7 @@ export class StepSourceControlComponent {
             barColor: '#f0757a',
             description: 'Deploy from a local Git repo.',
             authorizedStatus: 'none'
-        },
+        }
         // {
         //     id: 'webdeploy',
         //     name: 'Web Deploy',
@@ -112,11 +112,10 @@ export class StepSourceControlComponent {
 
     public selectedProvider: ProviderCard = null;
     githubUsername: string;
-
     constructor(
         private _wizardService: DeploymentCenterWizardService,
         _portalService: PortalService,
-        _cacheService: CacheService,
+        private _cacheService: CacheService,
         _armService: ArmService,
         _aiService: AiService
     ) {
@@ -126,7 +125,7 @@ export class StepSourceControlComponent {
                 this.providerCards[1].authorizedStatus = 'loadingAuth';
                 this.providerCards[4].authorizedStatus = 'loadingAuth';
                 this.providerCards[5].authorizedStatus = 'loadingAuth';
-                return _cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
+                return this._cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
             })
             .switchMap(dep => {
                 const r = dep.json();
@@ -173,7 +172,25 @@ export class StepSourceControlComponent {
         this._wizardService.wizardForm.controls['sourceProvider'].setValue(card.id, { onlySelf: true });
     }
 
-    public authorize(card: ProviderCard) {
-        console.log(`authorize: ${card.name}`);
+    public authorize() {
+        var win = window.open('https://localhost:44300/api/auth/github', 'windowname1', 'width=800, height=600');
+        const __this = this;
+        var pollTimer = window.setInterval(function() {
+            try {
+                if (win.document.URL.indexOf('/auth/github/callback') != -1) {
+                    window.clearInterval(pollTimer);
+
+                    __this._cacheService
+                        .post('https://localhost:44300/auth/github/storeToken', true, null, {
+                            redirUrl: win.document.URL
+                        })
+                        .subscribe(() => {
+                            win.close();
+                        });
+                }
+            } catch (e) {}
+        }, 100);
+        //this._cacheService.get('https://localhost:44300/api/auth/github', true, null);
+        //window.open('https://localhost:44300/api/auth/github?user=' + this.aadToken, '_blank', 'width=500,height=500');
     }
 }

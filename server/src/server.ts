@@ -23,7 +23,7 @@ import { setupDeploymentCenter } from './deployment-center/deployment-center';
 
 const app = express();
 //Load config before anything else
-
+configLoader.config();
 app
     .use(compression())
     .use(express.static(path.join(__dirname, 'public')))
@@ -36,14 +36,7 @@ app
     .use(bodyParser.urlencoded({ extended: true }))
     .use(passport.initialize())
     .use(passport.session());
-configLoader
-    .config()
-    .then(() => {
-        setupDeploymentCenter(app);
-    })
-    .catch(err => {
-        console.log(err);
-    });
+
 setupAuthentication(app);
 
 const renderIndex = (_: express.Request, res: express.Response) => {
@@ -75,10 +68,10 @@ app.get('/api/config', maybeAuthenticate, getConfig);
 app.post('/api/proxy', maybeAuthenticate, proxy);
 app.post('/api/passthrough', maybeAuthenticate, proxy);
 
+setupDeploymentCenter(app);
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.
 app.get('*', renderIndex);
-
 if (process.env.FUNCTIONS_SLOT_NAME) {
     function normalizePort(val: any) {
         var port = parseInt(val, 10);

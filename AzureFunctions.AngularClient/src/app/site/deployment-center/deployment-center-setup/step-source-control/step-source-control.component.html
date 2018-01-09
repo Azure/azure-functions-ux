@@ -1,15 +1,17 @@
 <div class="selectionContainer">
   <div class="cardContainer" *ngFor="let card of providerCards" (click)="selectProvider(card)">
     <div class="headerBox" [style.background-color]="card.barColor">
-      <img [src]="card.icon" [style.background-color]="card.color" [style.color]="white" style="padding: 5px"/> {{card.name}} <img *ngIf="selectedProvider && selectedProvider.name === card.name"
-        style="float:right" src="image/success-blue.svg">
+      <img [src]="card.icon" [style.background-color]="card.color" [style.color]="white" style="padding: 5px" /> {{card.name}}
+      <img *ngIf="selectedProvider && selectedProvider.name === card.name" style="float:right" src="image/success-blue.svg">
     </div>
     <div class="sourceDescription">
       {{card.description}}
     </div>
     <div class="cardFooter" [style.background-color]="card.barColor">
-      <div *ngIf="card.authorizedStatus==='authorized'">Authenticated as: <br> {{card.authenticatedId}}</div>
-      <div *ngIf="card.authorizedStatus==='loadingAuth'"><i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</div>
+      <div *ngIf="card.authorizedStatus==='authorized'">Authenticated as:
+        <br> {{card.authenticatedId}}</div>
+      <div *ngIf="card.authorizedStatus==='loadingAuth'">
+        <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</div>
       <div *ngIf="card.authorizedStatus==='notAuthorized'">Not Authenticated</div>
     </div>
   </div>
@@ -18,7 +20,7 @@
   <button type="button" *ngIf="selectedProvider && (selectedProvider.authorizedStatus === 'authorized' || selectedProvider.authorizedStatus === 'none')"
     class="custom-button" style="margin-top:12px" nextStep>Continue</button>
   <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'notAuthorized'" class="custom-button"
-    style="margin-top:12px">Authenticate</button>
+    (click)="authorize()" style="margin-top:12px">Authenticate</button>
   <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'authorized'" class="custom-button"
-    style="margin-top:12px">Change Authentication</button>
+    (click)="authorize()" style="margin-top:12px">Change Authentication</button>
 </div>
