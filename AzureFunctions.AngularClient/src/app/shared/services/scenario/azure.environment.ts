@@ -56,6 +56,13 @@ export class AzureEnvironment extends Environment {
                 return this._enableIfStandardOrHigher(input);
             }
         };
+
+        this.scenarioChecks[ScenarioIds.showSideNavMenu] = {
+            id: ScenarioIds.showSideNavMenu,
+            runCheck: () => {
+                return { status: 'enabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

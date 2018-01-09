@@ -126,9 +126,6 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
             // blade, but that's a pretty large change and this should be sufficient for now.
             if (!this._initialized && !this.globalStateService.showTryView) {
                 this._initializeTree(info);
-            } else if (!this.searchTerm) {
-                // Ensure that we don't override existing search term if we get a startupInfo update
-                this._searchTermStream.next('');
             }
 
             if (this._scenarioService.checkScenario(ScenarioIds.addTopLevelAppsNode).status !== 'disabled') {
@@ -209,20 +206,11 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                 appsNode.select();
             }, 10);
 
-            this.initialResourceId = info.resourceId;
+            this._searchTermStream
+            .subscribe(term => {
+                this.searchTerm = term;
+            });
 
-            // For now, search updates only apply at the apps level
-            if (this.initialResourceId && this.rootNode.children[0].dashboardType === DashboardType.AppsDashboard) {
-                const descriptor = <ArmSiteDescriptor>ArmSiteDescriptor.getSiteDescriptor(this.initialResourceId);
-                if (descriptor.site) {
-                    this._searchTermStream.next(`"${descriptor.site}"`);
-                    this.hasValue = true;
-                } else {
-                    this._searchTermStream.next('');
-                }
-            } else {
-                this._searchTermStream.next('');
-            }
         } else {
             const resourceIdMatch = /\/resources([a-z0-9\-\/]+)/gi.exec(this.router.url);
 
@@ -233,6 +221,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                 this.rootNode.children = [functionsNode];
                 this.rootNode.isExpanded = true;
                 functionsNode.toggle(null);
+                functionsNode.select();
             } else {
                 // log error
             }
