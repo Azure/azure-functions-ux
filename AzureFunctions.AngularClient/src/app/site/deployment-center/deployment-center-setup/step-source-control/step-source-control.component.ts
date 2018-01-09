@@ -173,7 +173,7 @@ export class StepSourceControlComponent {
     }
 
     public authorize() {
-        var win = window.open('https://localhost:44300/api/auth/github', 'windowname1', 'width=800, height=600');
+        var win = window.open('https://functions-release.azure.com/api/auth/github', 'windowname1', 'width=800, height=600');
         const __this = this;
         var pollTimer = window.setInterval(function() {
             try {
@@ -181,7 +181,7 @@ export class StepSourceControlComponent {
                     window.clearInterval(pollTimer);
 
                     __this._cacheService
-                        .post('https://localhost:44300/auth/github/storeToken', true, null, {
+                        .post('https://functions-release.azure.com/auth/github/storeToken', true, null, {
                             redirUrl: win.document.URL
                         })
                         .subscribe(() => {
