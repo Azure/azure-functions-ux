@@ -84,6 +84,10 @@ export class FunctionNewDetailComponent implements OnChanges {
         if (changes['functionCard']) {
             if (this.functionCard) {
                 this.updateLanguageOptions();
+
+                if (this._portalService.isEmbeddedFunctions) {
+                    this.getEntityOptions();
+                }
             }
         }
     }
@@ -115,38 +119,43 @@ export class FunctionNewDetailComponent implements OnChanges {
     }
 
     getEntityOptions() {
-        return this._getEntities()
-        .do(r => {
-          const entities = r.value.map(e => e.name);
-          this.entityOptions = [];
-          entities.forEach(entity => {
-            const dropDownElement: any = {
-              displayLabel: entity,
-              value: entity
-            };
-            this.entityOptions.push(dropDownElement);
-          });
-        });
-      }
-    
-      onEntityChanged(entity: string) {
+        this._getEntities()
+            .subscribe(r => {
+                const entities = r.value.map(e => e.name);
+                this.entityOptions = [];
+                entities.forEach(entity => {
+                    const dropDownElement: any = {
+                        displayLabel: entity,
+                        value: entity
+                    };
+                    this.entityOptions.push(dropDownElement);
+                });
+            });
+    }
+
+    onEntityChanged(entity: string) {
         this.areInputsValid = false;
         this.functionEntity = entity.toLowerCase();
-        const entityContextId = `${this.context.site.id}/entities/${this.functionEntity}`;
-    
-        this._functionAppService.getAppContext(entityContextId)
-          .subscribe(appContext => {
-            const entityContext = appContext;
-            this._functionAppService.getFunctions(entityContext)
-              .subscribe(functionInfo => {
-                this.functionsInfo = functionInfo.result;
-                if (this.functionLanguage) {
-                  this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                  this.validate();
-                }
-              });
-          });
-      }
+        // const entityContextId = `${this.context.site.id}/entities/${this.functionEntity}`;
+
+        if (this.functionLanguage) {
+            this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+            this.validate();
+        }
+
+        // this._functionAppService.getAppContext(entityContextId)
+        //     .subscribe(appContext => {
+        //         const entityContext = appContext;
+        //         this._functionAppService.getFunctions(entityContext)
+        //             .subscribe(functionInfo => {
+        //                 this.functionsInfo = functionInfo.result;
+        //                 if (this.functionLanguage) {
+        //                     this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+        //                     this.validate();
+        //                 }
+        //             });
+        //     });
+    }
 
     onTemplatePickUpComplete() {
         this._globalStateService.setBusyState();
@@ -356,16 +365,16 @@ export class FunctionNewDetailComponent implements OnChanges {
             return;
         }
 
-    this.clickSave = true;
-}
-
-onKeyPress(event: KeyboardEvent) {
-    if (event.keyCode === KeyCodes.escape) {
-        this.close();
+        this.clickSave = true;
     }
-}
 
-close() {
-    this.closePanel.next();
-}
+    onKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.escape) {
+            this.close();
+        }
+    }
+
+    close() {
+        this.closePanel.next();
+    }
 }

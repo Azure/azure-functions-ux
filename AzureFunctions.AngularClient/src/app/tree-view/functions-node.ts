@@ -33,17 +33,11 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
         sideNav: SideNavComponent,
         context: FunctionAppContext,
         parentNode: TreeNode) {
-            super(sideNav,
-                '/functions',
-                context,
-                parentNode,
-                '/functions/new/function');
-    
-            // super(sideNav,
-        //     context.site.id + '/functions',
-        //     context,
-        //     parentNode,
-        //     context.site.id + '/functions/new/function');
+        super(sideNav,
+            context.site.id + '/functions',
+            context,
+            parentNode,
+            context.site.id + '/functions/new/function');
 
         this._cacheService = sideNav.injector.get(CacheService);
 

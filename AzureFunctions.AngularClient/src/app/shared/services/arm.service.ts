@@ -1,3 +1,5 @@
+import { ArmEmbeddedService } from './arm-embedded.service';
+import { PortalService } from './portal.service';
 import { ArmServiceHelper } from './arm.service-helper';
 import { Injectable } from '@angular/core';
 import { Http, Headers, Request } from '@angular/http';
@@ -28,10 +30,10 @@ export class ArmService {
 
     constructor(private _http: Http,
         _userService: UserService,
+        _portalService: PortalService,
         protected _aiService: AiService) {
 
-        // this.armUrl = ArmServiceHelper.armEndpoint;
-        this.armUrl = 'https://blueridge-tip1-rp-westus.azurewebsites.net';
+        this.armUrl = _portalService.isEmbeddedFunctions ? ArmEmbeddedService.url : ArmServiceHelper.armEndpoint;
 
         _userService.getStartupInfo()
             .subscribe(info => {

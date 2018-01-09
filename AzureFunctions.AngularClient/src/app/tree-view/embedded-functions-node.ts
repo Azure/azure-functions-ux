@@ -1,12 +1,12 @@
-import { FunctionAppContext } from './../shared/function-app-context';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { ArmArrayResult } from './../shared/models/arm/arm-obj';
+// import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subject } from 'rxjs/Subject';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { TreeUpdateEvent, BroadcastEvent } from './../shared/models/broadcast-event';
 import { CacheService } from './../shared/services/cache.service';
 import { FunctionInfo } from './../shared/models/function-info';
 import { FunctionNode } from './function-node';
-import { CdsEntityDescriptor } from './../shared/resourceDescriptors';
 import { SideNavComponent } from './../side-nav/side-nav.component';
 import { PortalResources } from './../shared/models/portal-resources';
 import { DashboardType } from './models/dashboard-type';
@@ -18,7 +18,7 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.FunctionsDashboard;
     private _cacheService: CacheService;
-    private _functionsService: FunctionAppService;
+    // private _functionsService: FunctionAppService;
     private _broadcastService: BroadcastService;
     private _ngUnsubscribe = new Subject();
 
@@ -38,30 +38,40 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
         this.nodeClass += ' collection-node';
         this.showExpandIcon = false;
 
-        this._functionsService = this.sideNav.injector.get(FunctionAppService);
+        // this._functionsService = this.sideNav.injector.get(FunctionAppService);
         this._broadcastService = sideNav.injector.get(BroadcastService);
     }
 
     public loadChildren() {
         this.isLoading = true;
-        const descriptor = new CdsEntityDescriptor(this.resourceId);
-        let context: FunctionAppContext;
-        return this._functionsService.getAppContext(descriptor.getTrimmedResourceId())
-            .switchMap(context => {
-                context = context;
-                return this._functionsService.getFunctions(context);
-            })
-            .do(r => {
-                const fcs = r.result;
-                this.children = fcs.map(fc => {
-                    return new FunctionNode(this.sideNav, context, fc, this);
-                });
 
-                this.isLoading = false;
-            }, err => {
-                // TODO: ellhamai - logging
-                this.isLoading = false;
+        const functionsId = this.resourceId.split('/').slice(0, 5).join('/') + '/functions';
+        return this._cacheService.getArm(functionsId)
+        .do(r => {
+            const fcs: ArmArrayResult<FunctionInfo> = r.json();
+            this.children = fcs.value.map(fc => {
+                const parts = fc.id.split('/');
+                const entityId = parts.slice(0, 9).join('/');
+                const name = parts[8];
+                const site: any = {
+                    id: entityId,
+                    name: name,
+                    kind: 'functionapp',
+                    type: '',
+                    properties: {
+                    }
+                };
+
+                fc.properties.entity = parts[8];
+                fc.properties.context = ArmUtil.mapArmSiteToContext(site, this.sideNav.injector);
+                return new FunctionNode(this.sideNav, fc.properties.context, fc.properties, this);
             });
+
+            this.isLoading = false;
+        }, err => {
+            // TODO: ellhamai - logging
+            this.isLoading = false;
+        });
     }
 
     public addChild(functionInfo: FunctionInfo) {

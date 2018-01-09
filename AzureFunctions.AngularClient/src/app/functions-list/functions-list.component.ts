@@ -1,9 +1,9 @@
+import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { FunctionAppContext } from './../shared/function-app-context';
 import { TreeUpdateEvent, BroadcastEvent } from './../shared/models/broadcast-event';
 import { CacheService } from 'app/shared/services/cache.service';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { CreateCard } from 'app/function/function-new/function-new.component';
-import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { errorIds } from './../shared/models/error-ids';
 import { BroadcastService } from './../shared/services/broadcast.service';
@@ -56,7 +56,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
                 this.isLoading = true;
                 this._functionsNode = (<FunctionsNode>viewInfo.node);
                 this.appNode = (<AppNode>viewInfo.node.parent);
-                const descriptor = new ArmSiteDescriptor(viewInfo.resourceId);
+                const descriptor = ArmSiteDescriptor.getSiteDescriptor(viewInfo.resourceId);
                 return this._functionAppService.getAppContext(descriptor.getTrimmedResourceId());
             })
             .switchMap(context => {
@@ -64,12 +64,15 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
                 return Observable.zip(
                     this._functionsNode.loadChildren(),
                     this._functionAppService.getRuntimeGeneration(this.context),
-                    this._buildCreateCardTemplate(context));
+                    this._portalService.isEmbeddedFunctions ? this._buildCreateCardTemplate(context) : Observable.of(null));
             })
             .subscribe(tuple => {
                 this.runtimeVersion = tuple[1];
                 this.isLoading = false;
                 this.functions = (<FunctionNode[]>this._functionsNode.children);
+                this.functionsInfo = this._functionsNode.children.map((child: FunctionNode) =>{
+                    return child.functionInfo;
+                })
             });
     }
 

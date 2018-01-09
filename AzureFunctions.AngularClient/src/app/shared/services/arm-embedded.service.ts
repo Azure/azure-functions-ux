@@ -1,5 +1,4 @@
-import { FunctionInfo } from './../models/function-info';
-import { ArmArrayResult } from './../models/arm/arm-obj';
+import { PortalService } from 'app/shared/services/portal.service';
 import { NoCorsHttpService } from './../no-cors-http-service';
 import { Url } from './../Utilities/url';
 // import { Regex } from './../models/constants';
@@ -20,8 +19,7 @@ export class ArmEmbeddedService extends ArmService {
 
     private _whitelistedAPIMUrls: string[] = [
         'https://blueridge.azure-api.net',
-        'https://tip1.api.cds.microsoft.com',
-        '/api/triggerFunctionAPIM'
+        'https://tip1.api.cds.microsoft.com'
     ];
 
     private _whitelistedRPPrefixUrls: string[] = [
@@ -29,11 +27,16 @@ export class ArmEmbeddedService extends ArmService {
         NoCorsHttpService.passThroughUrl
     ];
 
+    private _whitelistedPathPrefix: string[] = [
+        '/api/'
+    ];
+
     constructor(http: Http,
         userService: UserService,
-        aiService: AiService) {
+        aiService: AiService,
+        portalService: PortalService) {
 
-        super(http, userService, aiService);
+        super(http, userService, portalService, aiService);
     }
 
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers): Observable<Response> {
@@ -99,9 +102,9 @@ export class ArmEmbeddedService extends ArmService {
                         return this._getFakeResponse(null, r.text());
                     } else if (response.value) {
 
-                        if (urlNoQuery.endsWith('/functions')) {
-                            return this._getFakeFunctionsResponse(urlNoQuery, response);
-                        }
+                        // if (urlNoQuery.endsWith('/functions')) {
+                        //     return this._getFakeFunctionsResponse(urlNoQuery, response);
+                        // }
 
                         const values = response.value.map(v => {
                             const payload = v.properties;
@@ -128,6 +131,10 @@ export class ArmEmbeddedService extends ArmService {
         }
 
         if (this._whitelistedAPIMUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))) {
+            return super.send(method, url, body, etag, headers);
+        }
+
+        if(this._whitelistedPathPrefix.find(u => path.startsWith(u.toLowerCase()))){
             return super.send(method, url, body, etag, headers);
         }
 
@@ -220,23 +227,37 @@ export class ArmEmbeddedService extends ArmService {
         });
     }
 
-    private _getFakeFunctionsResponse(urlNoQuery: string, functionObjs: ArmArrayResult<FunctionInfo>) {
-        const hostName = Url.getHostName(urlNoQuery);
+    // private _getFakeFunctionsResponse(urlNoQuery: string, functionObjs: ArmArrayResult<FunctionInfo>) {
+    //     const hostName = Url.getHostName(urlNoQuery);
 
-        const fcs = functionObjs.value.map(functionObj => {
-            const f = functionObj.properties;
+    //     const fcs = functionObjs.value.map(functionObj => {
+    //         const f = functionObj.properties;
 
-            f.script_root_path_href = `https://${hostName}${functionObj.id}`;
-            f.script_href = `https://${hostName}${f.script_href}`;
-            f.config_href = `${f.script_root_path_href}function.json`;
-            f.secrets_file_href = null;
-            f.href = `${urlNoQuery}/${f.name}`;
+    //         f.script_root_path_href = `https://${hostName}${functionObj.id}`;
+    //         f.script_href = `https://${hostName}${f.script_href}`;
+    //         f.config_href = `${f.script_root_path_href}function.json`;
+    //         f.secrets_file_href = null;
+    //         f.href = `${urlNoQuery}/${f.name}`;
 
-            return f;
-        });
+    //         const parts = functionObj.id.split('/');
+    //         const entityId = parts.slice(0, 9).join('/');
+    //         const name = parts[8];
+    //         const site: any = {
+    //             id: entityId,
+    //             name: name,
+    //             kind: 'functionapp',
+    //             type: '',
+    //             properties: {
+    //             }
+    //         };
 
-        return this._getFakeResponse(fcs);
-    }
+    //         f.context = ArmUtil.mapArmSiteToContext(site, this._injector);
+
+    //         return f;
+    //     });
+
+    //     return this._getFakeResponse(fcs);
+    // }
 
     private _getFakeResponse(jsonObj: any, text?: string): any {
         return {

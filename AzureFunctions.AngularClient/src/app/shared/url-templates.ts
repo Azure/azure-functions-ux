@@ -29,6 +29,8 @@ export class UrlTemplates {
     public getScmUrl() {
         if (this.configService.isStandalone()) {
             return this.getMainUrl();
+        } else if (this.isEmbeddedFunctions) {
+            return null;
         } else {
             return `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         }
@@ -37,6 +39,8 @@ export class UrlTemplates {
     public getMainUrl() {
         if (this.configService.isStandalone()) {
             return `https://${this.site.properties.defaultHostName}/functions/${this.site.name}`;
+        } else if (this.isEmbeddedFunctions) {
+            return null;
         } else {
             return `https://${this.site.properties.defaultHostName}`;
         }

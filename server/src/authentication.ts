@@ -42,9 +42,10 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
 export function maybeAuthenticate(req: Request, res: Response, next: NextFunction) {
     // return next();  // Uncomment this for Ibiza scenario's until we figure out how to handle auth properly
 
-    if (req.isAuthenticated()) {
+    if(req.isAuthenticated() || req.path.toLowerCase().startsWith('/api/')){
         return next();
     }
+
     res.redirect('/.login');
 }
 
