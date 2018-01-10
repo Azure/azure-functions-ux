@@ -1,4 +1,4 @@
-import { LogCategories } from './../../../shared/models/constants';
+import { Links, LogCategories } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
 import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
@@ -54,6 +54,8 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     public loadingMessage: string;
 
     private _sku: string;
+
+    public FwLinks = Links;
 
     public clientAffinityEnabledOptions: SelectOption<boolean>[];
     public use32BitWorkerProcessOptions: SelectOption<boolean>[];
