@@ -5,7 +5,7 @@ import { TreeViewInfo } from 'app/tree-view/models/tree-view-info';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-result';
 import { FunctionInfo } from 'app/shared/models/function-info';
-import { ArmSiteDescriptor, ArmFunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor, ArmFunctionDescriptor, CdsEntityDescriptor } from 'app/shared/resourceDescriptors';
 import { Subject } from 'rxjs/Subject';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -18,7 +18,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
     public context: FunctionAppContext;
 
     protected viewInfoEvents: Observable<TreeViewInfo<any> & {
-        siteDescriptor: ArmSiteDescriptor | null;
+        siteDescriptor: ArmSiteDescriptor | CdsEntityDescriptor | null;
         functionDescriptor: ArmFunctionDescriptor | null;
         context: FunctionAppContext | null;
         functionInfo: FunctionAppHttpResult<FunctionInfo> | null;
@@ -43,10 +43,11 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
             .takeUntil(this.ngUnsubscribe)
             .filter(view => !!view)
             .map(view => {
-                let siteDescriptor: ArmSiteDescriptor | null;
+                let siteDescriptor: ArmSiteDescriptor | CdsEntityDescriptor | null;
                 let functionDescriptor: ArmFunctionDescriptor | null;
                 try {
-                    siteDescriptor = new ArmSiteDescriptor(view.resourceId);
+                    siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(view.resourceId);
+                    // siteDescriptor = new ArmSiteDescriptor(view.resourceId);
                 } catch {
                     siteDescriptor = null;
                 }

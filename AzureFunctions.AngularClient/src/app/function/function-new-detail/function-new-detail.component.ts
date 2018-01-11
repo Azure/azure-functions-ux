@@ -63,6 +63,7 @@ export class FunctionNewDetailComponent implements OnChanges {
     modelDocumentation: string;
     entityOptions: DropDownElement<string>[] = [];      // Used for embedded scenario's
     functionEntity: string;                             // Used for embedded scenario's
+    entityContext: FunctionAppContext;
 
     private _exclutionFileList = [
         'test.json',
@@ -136,25 +137,27 @@ export class FunctionNewDetailComponent implements OnChanges {
     onEntityChanged(entity: string) {
         this.areInputsValid = false;
         this.functionEntity = entity.toLowerCase();
-        // const entityContextId = `${this.context.site.id}/entities/${this.functionEntity}`;
 
-        if (this.functionLanguage) {
-            this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
-            this.validate();
+        if (this._portalService.isEmbeddedFunctions) {
+            const entityContextId = `${this.context.site.id}/entities/${this.functionEntity}`;
+            this._functionAppService.getAppContext(entityContextId)
+                .subscribe(appContext => {
+                    this.entityContext = appContext;
+                    this._functionAppService.getFunctions(this.entityContext)
+                        .subscribe(functionInfo => {
+                            this.functionsInfo = functionInfo.result;
+                            if (this.functionLanguage) {
+                                this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                                this.validate();
+                            }
+                        });
+                });
+        } else {
+            if (this.functionLanguage) {
+                this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                this.validate();
+            }
         }
-
-        // this._functionAppService.getAppContext(entityContextId)
-        //     .subscribe(appContext => {
-        //         const entityContext = appContext;
-        //         this._functionAppService.getFunctions(entityContext)
-        //             .subscribe(functionInfo => {
-        //                 this.functionsInfo = functionInfo.result;
-        //                 if (this.functionLanguage) {
-        //                     this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
-        //                     this.validate();
-        //                 }
-        //             });
-        //     });
     }
 
     onTemplatePickUpComplete() {
@@ -322,7 +325,8 @@ export class FunctionNewDetailComponent implements OnChanges {
         });
 
         this._globalStateService.setBusyState();
-        this._functionAppService.createFunctionV2(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+        const createContext = this._portalService.isEmbeddedFunctions ? this.entityContext : this.context;
+        this._functionAppService.createFunctionV2(createContext, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
             .subscribe(newFunctionInfo => {
                 if (newFunctionInfo.isSuccessful) {
                     this._portalService.logAction('new-function', 'success', { template: this.currentTemplate.id, name: this.functionName });

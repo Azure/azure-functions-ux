@@ -110,7 +110,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
 
     private _websiteId: WebsiteId;
 
-    public static getSiteDescriptor(resourceId: string): Descriptor {
+    public static getSiteDescriptor(resourceId: string): ArmSiteDescriptor | CdsEntityDescriptor {
         let parts = resourceId.split('/').filter(part => !!part);
         let siteId = '';
         let maxIndex: number;

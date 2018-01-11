@@ -550,7 +550,6 @@ export class BindingV2Component extends FunctionAppContextComponent {
                     this.model.saveOriginInputs();
                     this.hasInputsToShow = this.model.leftInputs.length !== 0;
                     this.hasInputsToShowEvent.next(this.hasInputsToShow);
-                    this.model.documentation = marked(bindingSchema.documentation);
                     this.setStorageInformation(selectedStorage);
                 }
             });

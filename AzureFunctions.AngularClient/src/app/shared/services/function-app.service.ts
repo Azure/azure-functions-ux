@@ -124,22 +124,22 @@ export class FunctionAppService {
                         "name": "message",
                         "value": "enum",
                         "enum": [
-                          {
-                            "value": "Create",
-                            "display": "Create"
-                          },
-                          {
-                            "value": "Destroy",
-                            "display": "Destroy"
-                          },
-                          {
-                            "value": "Update",
-                            "display": "Update"
-                          },
-                          {
-                            "value": "Retrieve",
-                            "display": "Retrieve"
-                          }
+                            {
+                                "value": "Create",
+                                "display": "Create"
+                            },
+                            {
+                                "value": "Destroy",
+                                "display": "Destroy"
+                            },
+                            {
+                                "value": "Update",
+                                "display": "Update"
+                            },
+                            {
+                                "value": "Retrieve",
+                                "display": "Retrieve"
+                            }
                         ],
                         "label": "Event",
                         "help": "Event help"
@@ -200,7 +200,11 @@ export class FunctionAppService {
                 if (FunctionsVersionInfoHelper.getFunctionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
                     result.functions.forEach(f => {
                         const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
-                        f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
+                        
+                        // Config doesn't exist for embedded
+                        if (f.config) {
+                            f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
+                        }
                     });
                 }
                 return result.functions;
@@ -530,7 +534,7 @@ export class FunctionAppService {
                 result: devBindings,
                 error: null
             });
-            
+
             // return Observable.of({ devBindings);
         }
 

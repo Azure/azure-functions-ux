@@ -1,3 +1,4 @@
+import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { Component, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
@@ -77,7 +78,7 @@ export class NotificationHubComponent extends FunctionAppContextComponent {
     setup(): Subscription {
         return this.viewInfoEvents
             .switchMap(view => {
-                const id = `/subscriptions/${view.siteDescriptor.subscription}/providers/Microsoft.NotificationHubs/namespaces`;
+                const id = `/subscriptions/${(<ArmSiteDescriptor>view.siteDescriptor).subscription}/providers/Microsoft.NotificationHubs/namespaces`;
                 return this._cacheService.getArm(id, true, this._armService.notificationHubApiVersion);
             })
             .subscribe(r => {
