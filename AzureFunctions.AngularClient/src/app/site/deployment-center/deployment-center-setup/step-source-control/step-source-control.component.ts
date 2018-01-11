@@ -173,15 +173,16 @@ export class StepSourceControlComponent {
     }
 
     public authorize() {
-        var win = window.open('https://localhost:44300/api/auth/github', 'windowname1', 'width=800, height=600');
-        const __this = this;
-        var pollTimer = window.setInterval(function() {
+        let provider = this.selectedProvider.id;
+        var win = window.open(`${Constants.serviceHost}api/auth/${provider}`, 'windowname1', 'width=800, height=600');
+
+        var pollTimer = window.setInterval(() => {
             try {
-                if (win.document.URL.indexOf('/auth/github/callback') != -1) {
+                if (win.document.URL.indexOf(`/auth/${provider}/callback`) != -1) {
                     window.clearInterval(pollTimer);
 
-                    __this._cacheService
-                        .post('https://localhost:44300/auth/github/storeToken', true, null, {
+                    this._cacheService
+                        .post(`${Constants.serviceHost}auth/${provider}/storeToken`, true, null, {
                             redirUrl: win.document.URL
                         })
                         .subscribe(() => {
@@ -190,7 +191,5 @@ export class StepSourceControlComponent {
                 }
             } catch (e) {}
         }, 100);
-        //this._cacheService.get('https://localhost:44300/api/auth/github', true, null);
-        //window.open('https://localhost:44300/api/auth/github?user=' + this.aadToken, '_blank', 'width=500,height=500');
     }
 }

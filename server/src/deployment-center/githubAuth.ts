@@ -2,9 +2,6 @@ import { Application } from 'express';
 import axios from 'axios';
 import { staticConfig } from '../config';
 export async function getGithubTokens(req: any): Promise<any> {
-    if (req && req.session && req.session['githubAccess']) {
-        return { authenticated: true };
-    }
     try {
         const r = await axios.get(
             `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/GitHub?api-version=2016-03-01`,
@@ -62,7 +59,6 @@ export function setupGithubAuthentication(app: Application) {
     });
 
     app.post('/auth/github/storeToken', async (req, res) => {
-        console.log(req.body.redirUrl);
         const code = getParameterByName('code', req.body.redirUrl);
         const r = await axios.post(`https://github.com/login/oauth/access_token`, {
             client_id: process.env.GITHUB_CLIENT_ID,
@@ -70,10 +66,6 @@ export function setupGithubAuthentication(app: Application) {
             code: code
         });
         const token = getParameterByName('access_token', '?' + r.data);
-        console.log(token);
-        if (req && req.session) {
-            req.session['githubAccess'] = token;
-        }
         const c = await axios.put(
             `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/GitHub?api-version=2016-03-01`,
             {
