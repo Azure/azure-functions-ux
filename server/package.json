@@ -26,7 +26,9 @@
         "request": "^2.81.0",
         "dotenv": "^4.0.0",
         "compression": "^1.7.1",
-        "domurl": "^2.1.7"
+        "domurl": "^2.1.7",
+        "helmet": "^3.9.0",
+        "cookie-session": "^2.0.0-beta.3"
     },
     "devDependencies": {
         "@types/async": "^2.0.40",
@@ -42,6 +44,8 @@
         "@types/pug": "^2.0.4",
         "@types/uuid": "^3.4.0",
         "@types/passport-github2": "^1.1.0",
+        "@types/helmet": "^0.0.37",
+        "@types/cookie-session": "^2.0.34",
         "concurrently": "^3.5.0",
         "del": "^3.0.0",
         "gulp": "^3.9.1",

@@ -6,7 +6,6 @@ import * as express from 'express';
 import * as path from 'path';
 import * as logger from 'morgan';
 import * as passport from 'passport';
-import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 
@@ -20,17 +19,27 @@ import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, g
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
-
+import * as helmet from 'helmet';
+const cookieSession = require('cookie-session');
 const app = express();
 //Load config before anything else
 configLoader.config();
 app
+    .use(
+        //This will give us session cookies that expire immediately once the iframe/tab/window is closed
+        //IF the window is left open then it will expire after 1 hour of non use
+        cookieSession({
+            name: 'session',
+            keys: ['keyboard cat'],
+            maxAge: 60 * 60 * 1000 // 1 hour
+        })
+    )
     .use(compression())
     .use(express.static(path.join(__dirname, 'public')))
     .use(logger('dev'))
+    .use(helmet())
     .set('view engine', 'pug')
     .set('views', 'src/views')
-    .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
     .use(bodyParser.json())
     .use(cookieParser())
     .use(bodyParser.urlencoded({ extended: true }))
