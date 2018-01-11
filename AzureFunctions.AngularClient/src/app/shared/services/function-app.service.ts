@@ -33,6 +33,7 @@ import { ConfigService } from 'app/shared/services/config.service';
 import { errorIds } from 'app/shared/models/error-ids';
 import { SiteDescriptor } from '../resourceDescriptors';
 import { LogService } from './log.service';
+import { Host } from 'app/shared/models/host';
 
 
 type Result<T> = Observable<FunctionAppHttpResult<T>>;
@@ -377,7 +378,7 @@ export class FunctionAppService {
         }
     }
 
-    getHostJson(context: FunctionAppContext): Result<any> {
+    getHostJson(context: FunctionAppContext): Result<Host> {
         return this.getClient(context).execute(context, t =>
             this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json()));
     }
