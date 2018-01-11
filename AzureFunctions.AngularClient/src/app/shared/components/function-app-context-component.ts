@@ -47,7 +47,6 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
                 let functionDescriptor: ArmFunctionDescriptor | null;
                 try {
                     siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(view.resourceId);
-                    // siteDescriptor = new ArmSiteDescriptor(view.resourceId);
                 } catch {
                     siteDescriptor = null;
                 }

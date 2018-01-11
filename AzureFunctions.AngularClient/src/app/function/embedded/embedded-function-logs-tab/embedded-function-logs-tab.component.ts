@@ -3,7 +3,6 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BottomTabComponent } from './../../../controls/bottom-tabs/bottom-tab.component';
 import { ArmService } from './../../../shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
-// import { BottomTab } from './../../../controls/bottom-tabs/bottom-tabs.component';
 import { CacheService } from './../../../shared/services/cache.service';
 import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, AfterContentInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
@@ -20,7 +19,7 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
 
   public commands = [{
     iconUrl: 'image/start.svg',
-    text: 'Pause',
+    text: `{{ 'logStreaming_pause' | translate }}`,
     click: () => this._startLogs()
   }];
 

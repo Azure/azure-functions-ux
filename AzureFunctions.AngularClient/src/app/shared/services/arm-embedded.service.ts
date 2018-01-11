@@ -1,15 +1,12 @@
 import { PortalService } from 'app/shared/services/portal.service';
 import { NoCorsHttpService } from './../no-cors-http-service';
 import { Url } from './../Utilities/url';
-// import { Regex } from './../models/constants';
 import { Observable } from 'rxjs/Observable';
 import { AiService } from './ai.service';
 import { UserService } from './user.service';
 import { Http, Headers, Response } from '@angular/http';
-
 import { Injectable } from '@angular/core';
 import { ArmService } from './arm.service';
-// import { Constants } from 'app/shared/models/constants';
 
 @Injectable()
 export class ArmEmbeddedService extends ArmService {
@@ -100,17 +97,13 @@ export class ArmEmbeddedService extends ArmService {
 
                     if (!response) {
                         return this._getFakeResponse(null, r.text());
-                    } else if (response.value) {
 
-                        // if (urlNoQuery.endsWith('/functions')) {
-                        //     return this._getFakeFunctionsResponse(urlNoQuery, response);
-                        // }
+                    } else if (response.value) {
 
                         const values = response.value.map(v => {
                             const payload = v.properties;
                             return payload;
                         });
-
 
                         return this._getFakeResponse(values);
 
@@ -226,38 +219,6 @@ export class ArmEmbeddedService extends ArmService {
             }
         });
     }
-
-    // private _getFakeFunctionsResponse(urlNoQuery: string, functionObjs: ArmArrayResult<FunctionInfo>) {
-    //     const hostName = Url.getHostName(urlNoQuery);
-
-    //     const fcs = functionObjs.value.map(functionObj => {
-    //         const f = functionObj.properties;
-
-    //         f.script_root_path_href = `https://${hostName}${functionObj.id}`;
-    //         f.script_href = `https://${hostName}${f.script_href}`;
-    //         f.config_href = `${f.script_root_path_href}function.json`;
-    //         f.secrets_file_href = null;
-    //         f.href = `${urlNoQuery}/${f.name}`;
-
-    //         const parts = functionObj.id.split('/');
-    //         const entityId = parts.slice(0, 9).join('/');
-    //         const name = parts[8];
-    //         const site: any = {
-    //             id: entityId,
-    //             name: name,
-    //             kind: 'functionapp',
-    //             type: '',
-    //             properties: {
-    //             }
-    //         };
-
-    //         f.context = ArmUtil.mapArmSiteToContext(site, this._injector);
-
-    //         return f;
-    //     });
-
-    //     return this._getFakeResponse(fcs);
-    // }
 
     private _getFakeResponse(jsonObj: any, text?: string): any {
         return {

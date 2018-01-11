@@ -12,12 +12,10 @@
                     [warning]="true"
                     [ariaLabel]="'searchFunctionApps' | translate">
         </search-box>
-        <div check-scenario="ShowCreateRefreshSub" [cs-input]="{}" class="create-refresh-sub clickable"
-            (mouseenter)="createRefresHovered = true"
-            (mouseleave)="createRefresHovered = false">
+        <div check-scenario="ShowCreateRefreshSub" [cs-input]="{}" class="create-refresh-sub clickable">
              <span>{{'sideNav_Subscriptions' | translate}}</span>
              <div class="float-right">
-                <i *ngIf="!subscriptionOptions || subscriptionOptions.length === 0 || createRefresHovered"
+                <i *ngIf="!subscriptionOptions || subscriptionOptions.length === 0"
                     (click)="navidateToNewSub()"
                     (keydown)="navidateToNewSub()"
                     class="fa fa-plus link create-new"

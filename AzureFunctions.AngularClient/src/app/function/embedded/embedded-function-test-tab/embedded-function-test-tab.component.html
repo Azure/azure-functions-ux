@@ -1,5 +1,5 @@
 <section id="test-tab-request-body">
-    <label>Request body</label>
+    <label>{{ 'functionDev_requestBody' | translate }}</label>
 
     <div class="request-editor-container">
         <text-editor
@@ -9,13 +9,13 @@
 </section>
 
 <section id="test-tab-output">
-  <label>Output</label>
+  <label>{{ 'functionDev_Output' | translate }}</label>
   
   <pre>{{responseOutputText}}</pre>
 </section>
 
 <footer>
     <button class="custom-button-invert" (click)="runTest()">
-        <i class="fa fa-play"></i><span>Run</span>
+        <i class="fa fa-play"></i><span>{{ 'run' | translate }}</span>
     </button>
 </footer>

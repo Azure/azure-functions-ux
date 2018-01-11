@@ -32,10 +32,11 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
     public runtimeVersion: string;
     public context: FunctionAppContext;
     public sidePanelOpened = false;
-    public createCards: CreateCard[] = [];
-    public createFunctionCard: CreateCard = null;
-    public createFunctionLanguage: string = null;
-    
+    public createCards: CreateCard[] = [];          // Used for embedded scenarios
+    public createFunctionCard: CreateCard = null;   // Used for embedded scenarios
+    public createFunctionLanguage: string = null;   // Used for embedded scenarios
+    public isEmbedded: boolean;                     // Used for embedded scenarios
+
     // TODO: ellhamai - need to set this or have child component set this
     public functionsInfo: FunctionInfo[] = null;
 
@@ -48,6 +49,8 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
         private _functionAppService: FunctionAppService,
         private _cacheService: CacheService) {
         super('functions-list', broadcastService, DashboardType.FunctionsDashboard);
+
+        this.isEmbedded  = this._portalService.isEmbeddedFunctions;
     }
 
     setupNavigation(): Subscription {

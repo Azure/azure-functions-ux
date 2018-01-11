@@ -118,7 +118,6 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
       url: this._functionInfo.trigger_url
     };
 
-    // this._cacheService.post(this._functionInfo.trigger_url, true, headers, this._updatedEditorContent)
     this._cacheService.post('/api/triggerFunctionAPIM', true, null, content)
       .subscribe(r => {
         this._busyManager.clearBusy();

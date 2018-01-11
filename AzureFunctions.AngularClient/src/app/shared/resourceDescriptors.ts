@@ -13,24 +13,6 @@ export enum ResourceType {
 export abstract class Descriptor {
     public parts: string[];
 
-    // static getDescriptor(resourceId: string) {
-    //     const parts = resourceId.split('/').filter(part => !!part);
-
-    //     if (parts.length >= 7 && parts[6].toLowerCase() === 'sites') {
-    //         return new ArmSiteDescriptor(resourceId);
-    //     } else if (parts.length >= 7 && parts[6].toLowerCase() === 'entities') {
-
-    //         if (parts.length === 10 && parts[8].toLowerCase() === 'functions') {
-    //             return new CdsFunctionDescriptor(resourceId);
-    //         } else {
-    //             return new CdsEntityDescriptor(resourceId);
-    //         }
-
-    //     } else {
-    //         return new ArmResourceDescriptor(resourceId);
-    //     }
-    // }
-
     constructor(public resourceId: string) {
         this.parts = resourceId.split('/').filter(part => !!part);
     }
@@ -111,7 +93,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
     private _websiteId: WebsiteId;
 
     public static getSiteDescriptor(resourceId: string): ArmSiteDescriptor | CdsEntityDescriptor {
-        let parts = resourceId.split('/').filter(part => !!part);
+        const parts = resourceId.split('/').filter(part => !!part);
         let siteId = '';
         let maxIndex: number;
 
@@ -166,7 +148,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
 
     getWebsiteId(): WebsiteId {
         if (!this._websiteId) {
-            let name = !this.slot ? this.site : `${this.site}(${this.slot})`;
+            const name = !this.slot ? this.site : `${this.site}(${this.slot})`;
             this._websiteId = {
                 Name: name,
                 SubscriptionId: this.subscription,

@@ -5,11 +5,11 @@
   <section class="editor-section">
     <command-bar>
         <h2>{{fileName}}</h2>
-        <command displayText="Save"
+        <command displayText="{{ 'save' | translate }}"
           iconUrl="image/save.svg"
           (click)="saveEditorContent()"
           cssClass="list-item clickable command left-edge"></command>
-        <command displayText="Delete"
+        <command displayText="{{ '_delete' | translate }}"
           iconUrl="image/delete.svg"
           (click)="deleteFunction()"
           cssClass="list-item clickable command"></command>
@@ -26,7 +26,7 @@
   <aside class="right-tabs-bar" >
     <right-tabs>
 
-      <tab title="Test" id="FunctionTestTab">
+      <tab title="{{ 'test' | translate }}" id="FunctionTestTab">
           <embedded-function-test-tab
             *ngIf="rightBarExpanded"
             [resourceId]="resourceId"></embedded-function-test-tab>

@@ -2566,4 +2566,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="warning" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="entityColon" xml:space="preserve">
+    <value>Entity:</value>
+  </data>
 </root>

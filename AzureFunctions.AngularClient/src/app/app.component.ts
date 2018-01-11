@@ -51,7 +51,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         ) {
             this._router.navigate(['/landing'], { queryParams: Url.getQueryStringObj() });
         } else if (this._portalService.isEmbeddedFunctions) {
-            // this._router.navigate(['/resources/functions'], { queryParams: Url.getQueryStringObj() });
             return;
         } else if (!this._userService.deeplinkAllowed) {
             this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });

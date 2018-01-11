@@ -40,20 +40,6 @@ export class TextEditorComponent implements AfterContentInit {
                     that._editor.dispose();
                 }
 
-                // const projectJson = 'project.json';
-                // const functionJson = 'function.json';
-                // const hostJson = 'host.json';
-                // let fileName = that._fileName || '';
-                // fileName = fileName.toLocaleLowerCase();
-                // if (fileName === projectJson || fileName === functionJson || fileName === hostJson) {
-                //     that.setMonacoSchema(fileName, that._functionApp);
-                // } else {
-                //     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-                //         validate: true,
-                //         schemas: []
-                //     });
-                // }
-
                 // compiler options
                 monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
                     target: monaco.languages.typescript.ScriptTarget.ES2015,

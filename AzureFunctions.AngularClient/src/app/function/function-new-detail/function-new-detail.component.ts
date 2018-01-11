@@ -60,10 +60,10 @@ export class FunctionNewDetailComponent implements OnChanges {
     updateBindingsCount = 0;
     clickSave = false;
     currentBinding: UIFunctionBinding = null;
-    modelDocumentation: string;
-    entityOptions: DropDownElement<string>[] = [];      // Used for embedded scenario's
-    functionEntity: string;                             // Used for embedded scenario's
-    entityContext: FunctionAppContext;
+    entityOptions: DropDownElement<string>[] = [];      // Used for embedded scenarios
+    functionEntity: string;                             // Used for embedded scenarios
+    entityContext: FunctionAppContext;                  // Used for embedded scenarios
+    isEmbedded: boolean;                                // Used for embedded scenarios
 
     private _exclutionFileList = [
         'test.json',
@@ -79,6 +79,8 @@ export class FunctionNewDetailComponent implements OnChanges {
         private _cacheService: CacheService,
         private _functionAppService: FunctionAppService,
         private _logService: LogService) {
+
+        this.isEmbedded = this._portalService.isEmbeddedFunctions;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -334,18 +336,11 @@ export class FunctionNewDetailComponent implements OnChanges {
 
                     if (this._portalService.isEmbeddedFunctions) {
                         this._cacheService.clearCachePrefix(`${ArmEmbeddedService.url}${this.context.site.id}`);
-
-                        const currResourceId = '/' + newFunctionInfo.result.script_href.split('/').filter(part => !!part).slice(0, 8).join('/');
-
-                        // TODO: ellhamai - should probably fix this so that you're not calling an observable
-                        // to set the context on the function object.
-                        this._functionAppService.getAppContext(currResourceId)
-                            .subscribe(appContext => newFunctionInfo.result.context = appContext);
-
                     } else {
                         this._cacheService.clearCachePrefix(this.context.urlTemplates.scmSiteUrl);
-                        newFunctionInfo.result.context = this.context;
                     }
+
+                    newFunctionInfo.result.context = createContext;
 
                     // If someone refreshed the app, it would created a new set of child nodes under the app node.
                     this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);

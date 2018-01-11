@@ -24,10 +24,10 @@
                     <th>
                         <tbl-th name="functionInfo.name">{{ '_name' | translate }}</tbl-th>
                     </th>
-                    <th *ngIf="this._portalService.isEmbeddedFunctions">
+                    <th *ngIf="isEmbedded">
                         <tbl-th name="functionInfo.entity">{{ 'entity' | translate }}</tbl-th>
                     </th>
-                    <th *ngIf="!this._portalService.isEmbeddedFunctions">
+                    <th *ngIf="!isEmbedded">
                         <tbl-th name="functionInfo.config.disabled">{{ 'status' | translate }}</tbl-th>
                     </th>
                     <th class="icon"></th>
@@ -35,10 +35,10 @@
 
                 <tr *ngFor="let item of table.items">
                     <td><span class="link" (click)="clickRow(item)">{{item.functionName}}</span></td>
-                    <td *ngIf="this._portalService.isEmbeddedFunctions">
+                    <td *ngIf="isEmbedded">
                         <span>{{item.functionInfo.entity}}</span>
                     </td>
-                    <td *ngIf="!this._portalService.isEmbeddedFunctions">
+                    <td *ngIf="!isEmbedded">
                         <div *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="functionApp">
                             <slide-toggle
                                 [on]="!item.functionInfo.config.disabled"

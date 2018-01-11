@@ -18,7 +18,6 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
     public title = this.sideNav.translateService.instant(PortalResources.functions);
     public dashboardType = DashboardType.FunctionsDashboard;
     private _cacheService: CacheService;
-    // private _functionsService: FunctionAppService;
     private _broadcastService: BroadcastService;
     private _ngUnsubscribe = new Subject();
 
@@ -38,7 +37,6 @@ export class EmbeddedFunctionsNode extends TreeNode implements Collection, Mutab
         this.nodeClass += ' collection-node';
         this.showExpandIcon = false;
 
-        // this._functionsService = this.sideNav.injector.get(FunctionAppService);
         this._broadcastService = sideNav.injector.get(BroadcastService);
     }
 
