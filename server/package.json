@@ -21,14 +21,8 @@
         "passport-azure-ad-oauth2": "^0.0.4",
         "pug": "^2.0.0-rc.2",
         "uuid": "^3.1.0",
-        "passport-github2": "^0.1.10",
-        "client-oauth2": "^4.1.0",
-        "request": "^2.81.0",
         "dotenv": "^4.0.0",
-        "compression": "^1.7.1",
-        "domurl": "^2.1.7",
-        "helmet": "^3.9.0",
-        "cookie-session": "^2.0.0-beta.3"
+        "compression": "^1.7.1"
     },
     "devDependencies": {
         "@types/async": "^2.0.40",
@@ -43,9 +37,6 @@
         "@types/passport": "^0.3.3",
         "@types/pug": "^2.0.4",
         "@types/uuid": "^3.4.0",
-        "@types/passport-github2": "^1.1.0",
-        "@types/helmet": "^0.0.37",
-        "@types/cookie-session": "^2.0.34",
         "concurrently": "^3.5.0",
         "del": "^3.0.0",
         "gulp": "^3.9.1",
@@ -60,7 +51,5 @@
         "run-sequence": "^2.2.0",
         "ts-node": "^3.1.0",
         "typescript": "^2.4.1",
-        "@types/request": "^2.0.2",
-        "@types/compression": "^0.0.35"
     }
 }

@@ -71,6 +71,9 @@ export function setupGithubAuthentication(app: Application) {
         });
         const token = getParameterByName('access_token', '?' + r.data);
         console.log(token);
+        if (req && req.session) {
+            req.session['githubAccess'] = token;
+        }
         const c = await axios.put(
             `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/GitHub?api-version=2016-03-01`,
             {

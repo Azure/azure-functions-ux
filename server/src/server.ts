@@ -8,7 +8,7 @@ import * as logger from 'morgan';
 import * as passport from 'passport';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
-
+import * as session from 'express-session';
 import * as compression from 'compression';
 
 import './polyfills';
@@ -19,33 +19,22 @@ import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, g
 import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
-import * as helmet from 'helmet';
-const cookieSession = require('cookie-session');
+
 const app = express();
 //Load config before anything else
 configLoader.config();
 app
-    .use(
-        //This will give us session cookies that expire immediately once the iframe/tab/window is closed
-        //IF the window is left open then it will expire after 1 hour of non use
-        cookieSession({
-            name: 'session',
-            keys: ['keyboard cat'],
-            maxAge: 60 * 60 * 1000 // 1 hour
-        })
-    )
     .use(compression())
     .use(express.static(path.join(__dirname, 'public')))
-    .use(logger('dev'))
-    .use(helmet())
+    .use(logger('combined'))
     .set('view engine', 'pug')
     .set('views', 'src/views')
     .use(bodyParser.json())
-    .use(cookieParser())
-    .use(bodyParser.urlencoded({ extended: true }))
-    .use(passport.initialize())
-    .use(passport.session());
+    .use(bodyParser.urlencoded({ extended: true }));
 
+if (!(process.env.NODE_ENV === 'production')) {
+    app.use(session({ secret: 'keyboard cat' })).use(cookieParser()).use(passport.initialize()).use(passport.session());
+}
 setupAuthentication(app);
 
 const renderIndex = (_: express.Request, res: express.Response) => {
