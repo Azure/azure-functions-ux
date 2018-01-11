@@ -500,7 +500,7 @@ export class FunctionAppService {
         }
     }
 
-    getHostJson(context: FunctionAppContext): Result<any> {
+    getHostJson(context: FunctionAppContext): Result<Host> {
         return this.getClient(context).execute(context, t =>
             this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json()));
     }

@@ -21,7 +21,6 @@ export class TopBarComponent implements OnInit {
     public inIFrame: boolean;
     public inTab: boolean;
     public isStandalone: boolean;
-    // public needUpdateExtensionVersion;
 
     public visible = false;
 
@@ -29,13 +28,10 @@ export class TopBarComponent implements OnInit {
     public appName: string;
     public fnName: string;
 
-    // @Output() private functionAppSettingsClicked: EventEmitter<any>;
-
     constructor(private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _configService: ConfigService
     ) {
-        // this.functionAppSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
         this.inTab = this._userService.inTab;
         this.isStandalone = this._configService.isStandalone();
@@ -51,8 +47,6 @@ export class TopBarComponent implements OnInit {
                     this.fnName = fnDescriptor.name;
                 });
         }
-
-
 
         this._setVisible();
 

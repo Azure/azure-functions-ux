@@ -26,8 +26,11 @@
                      [cs-input]="{}"
                      cs-enabledByDefault="true"
                      id="app-settings-checkbox">
-                    <input type="checkbox" [(ngModel)]="includeAppSettings" />
-                    <label>{{ 'downloadFunctionAppContent_includeAppSettings' | translate }}</label>
+                    <input
+                        type="checkbox" 
+                        aria-labelledby="includeAppSettingsLabel"
+                        [(ngModel)]="includeAppSettings"/>
+                    <label id="includeAppSettingsLabel">{{ 'downloadFunctionAppContent_includeAppSettings' | translate }}</label>
                     <pop-over [position]="'bottom'" [message]="'downloadFunctionAppContent_includeAppSettingsHelp' | translate">
                         <span class="glyphicon glyphicon-info-sign button-title"></span>
                     </pop-over>

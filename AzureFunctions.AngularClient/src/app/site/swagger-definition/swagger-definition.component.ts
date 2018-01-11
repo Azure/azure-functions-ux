@@ -25,6 +25,8 @@ import { CacheService } from '../../shared/services/cache.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
+import { FunctionAppHttpResult } from '../../shared/models/function-app-http-result';
+import { Host } from '../../shared/models/host';
 
 @Component({
     selector: 'swaggerdefinition',
@@ -42,6 +44,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     public valueChange: Subject<boolean>;
     public swaggerKey: string;
     public swaggerURL: string;
+    public generation: string;
 
     private swaggerEditor: SwaggerEditor;
     private swaggerDocument: any;
@@ -86,11 +89,15 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
 
     setup(): Subscription {
         return this.viewInfoEvents
-            .switchMap(viewInfo => this._functionAppService.getHostJson(this.context))
-            .switchMap(jsonObj => {
+            .switchMap(viewInfo => {
+                return Observable.zip(this._functionAppService.getHostJson(this.context), this._functionAppService.getRuntimeGeneration(this.context),
+                    (a: FunctionAppHttpResult<Host>, b: string) => ({host: a, gen: b}));
+            })
+            .switchMap(result => {
+                this.generation = result.gen;
                 this.swaggerEnabled = false;
-                if (jsonObj && jsonObj.result.swagger && typeof (jsonObj.result.swagger.enabled) === 'boolean') {
-                    this.swaggerEnabled = jsonObj.result.swagger.enabled;
+                if (result.host && result.host.result.swagger && typeof (result.host.result.swagger.enabled) === 'boolean') {
+                    this.swaggerEnabled = result.host.result.swagger.enabled;
                 }
 
                 if (this.swaggerEnabled) {

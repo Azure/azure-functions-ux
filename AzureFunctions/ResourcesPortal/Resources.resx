@@ -2572,4 +2572,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="entityColon" xml:space="preserve">
     <value>Entity:</value>
   </data>
+  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
+    <value>Function API definition (Swagger) feature is not supported for beta runtime currently.</value>
+  </data>
 </root>
