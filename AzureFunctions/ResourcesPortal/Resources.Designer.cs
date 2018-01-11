@@ -6471,6 +6471,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Function API definition (Swagger) feature is not supported for beta runtime currently..
+        /// </summary>
+        internal static string swaggerDefinition_notSupportedForBeta {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_notSupportedForBeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to #Click &quot;Generate API definition template&quot; to get started.
         /// </summary>
         internal static string swaggerDefinition_placeHolder {
