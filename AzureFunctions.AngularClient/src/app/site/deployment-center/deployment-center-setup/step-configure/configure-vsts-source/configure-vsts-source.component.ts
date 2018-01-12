@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import { Subject } from 'rxjs/Subject';
 import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/VSORepo';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 export const PythonFramework = {
     Bottle: 'Bottle',
     Django: 'Django',
@@ -45,7 +46,7 @@ export class VSTSRepository {
     templateUrl: './configure-vsts-source.component.html',
     styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss']
 })
-export class ConfigureVstsSourceComponent {
+export class ConfigureVstsSourceComponent implements OnDestroy {
     WebApplicationFrameworks: DropDownElement<string>[] = [
         {
             displayLabel: 'ASP.NET',
@@ -232,5 +233,9 @@ export class ConfigureVstsSourceComponent {
 
     get showWorkingDirectory() {
         return true;
+    }
+
+    ngOnDestroy(): void {
+        this._ngUnsubscribe.next();
     }
 }
