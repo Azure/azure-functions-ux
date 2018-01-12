@@ -825,4 +825,3 @@ export class PortalResources
     public static entityColon: string = "entityColon";
     public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
 }
-
