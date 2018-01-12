@@ -1,5 +1,6 @@
 // This file is auto generated
-    export class PortalResources
+
+export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
@@ -824,3 +825,4 @@
     public static entityColon: string = "entityColon";
     public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
 }
+
