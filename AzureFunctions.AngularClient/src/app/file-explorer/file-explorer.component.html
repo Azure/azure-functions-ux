@@ -1,17 +1,17 @@
 <div class="dev-full dev-flex-column">
     <busy-state></busy-state>
     <div class="top-toolbar">
-        <h4 [fnWriteAccess]="functionApp" class="tab-label" (click)="addnewInput($event, focusable)">
+        <h4 [fnWriteAccess]="context" class="tab-label" (click)="addnewInput($event, focusable)">
             <i class="fa fa-plus"></i>
             {{ 'fileExplorer_add' | translate }}
         </h4>
-        <h4 [fnWriteAccess]="functionApp" class="tab-label" (click)="inputElement.click()">
+        <h4 [fnWriteAccess]="context" class="tab-label" (click)="inputElement.click()">
             <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple #inputElement />
             <i class="fa fa-long-arrow-up"></i>
             {{ 'fileExplorer_upload' | translate }}
         </h4>
 
-        <h4 [fnWriteAccess]="functionApp"
+        <h4 [fnWriteAccess]="context"
             [class.disabled]="selectedFile?.href.toLocaleLowerCase() === functionInfo?.config_href.toLocaleLowerCase()"
             class="tab-label"
             (click)="deleteCurrentFile()">
@@ -39,7 +39,7 @@
             {{file.name}}
         </div>
 
-        <div [class.hidden]="!creatingNewFile && !renamingFile" class="shifted">
+        <div [class.hidden]="!creatingNewFile" class="shifted">
         <i class="fa fa-file-o"></i>
         <input type="text"
                [(ngModel)]="newFileName"

@@ -1,6 +1,5 @@
 import { BusyStateScopeManager } from './../busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
-import { FunctionApp } from './../shared/function-app';
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { UserService } from '../shared/services/user.service';
@@ -20,16 +19,13 @@ export class IbizaFeatureComponent implements AfterViewInit, OnDestroy {
     public inIFrame: boolean;
     public inTab: boolean;
     public selectedFunction: FunctionInfo;
-    public tryFunctionApp: FunctionApp;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
 
     private _ngUnsubscribe = new Subject();
     private _busyManager: BusyStateScopeManager;
 
-    constructor(
-        private _userService: UserService
-    ) {
+    constructor(private _userService: UserService) {
     }
 
     ngAfterViewInit() {

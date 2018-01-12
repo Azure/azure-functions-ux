@@ -1,7 +1,7 @@
+import { FunctionAppContext } from './../shared/function-app-context';
 import { Site } from './../shared/models/arm/site';
 import { ArmObj } from './../shared/models/arm/arm-obj';
 import { BroadcastService } from './../shared/services/broadcast.service';
-import { FunctionAppContext, FunctionsService } from './../shared/services/functions-service';
 import { LogCategories } from './../shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
@@ -10,6 +10,7 @@ import { AuthzService } from './../shared/services/authz.service';
 import { Observable } from 'rxjs/Observable';
 import { SideNavComponent } from './../side-nav/side-nav.component';
 import { TreeNode } from './tree-node';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
 
 interface ErrorTitles {
     noAccessTitle: string;
@@ -26,7 +27,7 @@ interface WorkingTitles {
 export abstract class BaseFunctionsProxiesNode extends TreeNode {
 
     protected _logService: LogService;
-    protected _functionsService: FunctionsService;
+    protected _functionAppService: FunctionAppService;
     protected _broadcastService: BroadcastService;
 
     constructor(
@@ -38,7 +39,7 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
         super(sideNav, resourceId, parentNode, createResourceId);
 
         this._logService = sideNav.injector.get(LogService);
-        this._functionsService = sideNav.injector.get(FunctionsService);
+        this._functionAppService = sideNav.injector.get(FunctionAppService);
         this._broadcastService = sideNav.injector.get(BroadcastService);
     }
 
@@ -57,8 +58,8 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                     return Observable.zip(
                         this.sideNav.authZService.hasPermission(this._context.site.id, [AuthzService.writeScope]),
                         this.sideNav.authZService.hasReadOnlyLock(this._context.site.id),
-                        this._functionsService.reachableInternalLoadBalancerApp(this._context, this.sideNav.cacheService),
-                        this._functionsService.getFunctionAppEditMode(this._context).map(EditModeHelper.isReadOnly),
+                        this._functionAppService.reachableInternalLoadBalancerApp(this._context),
+                        this._functionAppService.getFunctionAppEditMode(this._context).map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false),
                         (p, l, r, isReadOnly) => ({ hasWritePermission: p, hasReadOnlyLock: l, reachable: r, isReadOnly: isReadOnly }))
                         .switchMap(r => {
                             if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && !r.isReadOnly) {
@@ -66,7 +67,7 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                             } else if (r.hasWritePermission && !r.hasReadOnlyLock && r.reachable && r.isReadOnly) {
                                 return this._updateTreeForStartedSite(workingTitles.readOnly.title, workingTitles.readOnly.newDashboard);
                             } else if (!r.hasWritePermission) {
-                                this.disabledReason = this.sideNav.translateService.instant('You do not have write permissions to this app.')
+                                this.disabledReason = this.sideNav.translateService.instant('You do not have write permissions to this app.');
                                 return this._updateTreeForNonUsableState(errorTitles.noAccessTitle);
                             } else if (!r.reachable) {
                                 this.disabledReason = this.sideNav.translateService.instant(
@@ -84,7 +85,7 @@ export abstract class BaseFunctionsProxiesNode extends TreeNode {
                             this.isLoading = false;
                         });
                 } else {
-                    this.disabledReason = this.sideNav.translateService.instant('All functions are stopped. Start your app to view your functions.')
+                    this.disabledReason = this.sideNav.translateService.instant('All functions are stopped. Start your app to view your functions.');
                     return this._updateTreeForNonUsableState(this.sideNav.translateService.instant(errorTitles.stoppedTitle));
                 }
             });

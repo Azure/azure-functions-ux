@@ -846,4 +846,5 @@
     public static loadTest: string = "loadTest";
     public static slot: string = "slot";
     public static production: string = "production";
+    public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
 }

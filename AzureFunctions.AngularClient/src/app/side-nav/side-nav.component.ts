@@ -1,5 +1,7 @@
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FunctionAppContext } from 'app/shared/function-app-context';
 import { LogService } from './../shared/services/log.service';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { StoredSubscriptions } from './../shared/models/localStorage/local-storage';
 import { Dom } from './../shared/Utilities/dom';
@@ -12,7 +14,6 @@ import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../shared/services/config.service';
-import { FunctionApp } from './../shared/function-app';
 import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
@@ -34,7 +35,7 @@ import { DropDownElement } from '../shared/models/drop-down-element';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
-import { SiteService } from './../shared/services/slots.service';
+import { SlotsService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
 import { ScenarioService } from '../shared/services/scenario/scenario.service';
 import { StartupInfo } from '../shared/models/portal';
@@ -60,22 +61,24 @@ export class SideNavComponent implements AfterViewInit {
 
     public searchTerm = '';
     public hasValue = false;
-    public tryFunctionApp: FunctionApp;
-    public headerOnTopOfSideNav =  false;
+    public headerOnTopOfSideNav = false;
     public noPaddingOnSideNav = false;
 
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
 
+    public tryFunctionApp = null;
+
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new ReplaySubject<string>(1);
 
     private _initialized = false;
+    private _tryFunctionAppContext: FunctionAppContext;
 
-    private _tryFunctionAppStream = new Subject<FunctionApp>();
-    @Input() set tryFunctionAppInput(functionApp: FunctionApp) {
-        if (functionApp) {
-            this._tryFunctionAppStream.next(functionApp);
+    private _tryFunctionAppContextStream = new Subject<FunctionAppContext>();
+    @Input() set tryFunctionAppContextInput(functionAppContext: FunctionAppContext) {
+        if (functionAppContext) {
+            this._tryFunctionAppContextStream.next(functionAppContext);
         }
     }
 
@@ -95,14 +98,15 @@ export class SideNavComponent implements AfterViewInit {
         public portalService: PortalService,
         public languageService: LanguageService,
         public authZService: AuthzService,
-        public slotsService: SiteService,
+        public slotsService: SlotsService,
         public logService: LogService,
         public router: Router,
         public route: ActivatedRoute,
+        private _functionAppService: FunctionAppService,
         private _scenarioService: ScenarioService) {
 
-        this.headerOnTopOfSideNav =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
-        this.noPaddingOnSideNav =  this._scenarioService.checkScenario(ScenarioIds.noPaddingOnSideNav).status === 'enabled';
+        this.headerOnTopOfSideNav = this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
+        this.noPaddingOnSideNav = this._scenarioService.checkScenario(ScenarioIds.noPaddingOnSideNav).status === 'enabled';
         userService.getStartupInfo().subscribe(info => {
 
             const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
@@ -155,30 +159,31 @@ export class SideNavComponent implements AfterViewInit {
                 } else {
                     this._searchTermStream.next('');
                 }
-            } else {
+            } else if (!this.searchTerm) {
+                // Ensure that we don't override existing search term if we get a startupInfo update
                 this._searchTermStream.next('');
             }
         });
 
-        this._tryFunctionAppStream
-            .mergeMap(tryFunctionApp => {
-                this.tryFunctionApp = tryFunctionApp;
-                return tryFunctionApp.getFunctions();
+        this._tryFunctionAppContextStream
+            .mergeMap(tryFunctionAppContext => {
+                this._tryFunctionAppContext = tryFunctionAppContext;
+                return this._functionAppService.getFunctions(this._tryFunctionAppContext);
             })
             .subscribe(functions => {
                 this.globalStateService.clearBusyState();
 
-                if (functions && functions.length > 0) {
-                    this.initialResourceId = `${this.tryFunctionApp.site.id}/functions/${functions[0].name}`;
+                if (functions.isSuccessful && functions.result.length > 0) {
+                    this.initialResourceId = `${this._tryFunctionAppContext.site.id}/functions/${functions[0].name}`;
                 } else {
-                    this.initialResourceId = this.tryFunctionApp.site.id;
+                    this.initialResourceId = this._tryFunctionAppContext.site.id;
                 }
 
                 this.rootNode = new TreeNode(this, null, null);
 
                 const appNode = new AppNode(
                     this,
-                    this.tryFunctionApp.site,
+                    this._tryFunctionAppContext.site,
                     this.rootNode,
                     [],
                     false);
@@ -279,21 +284,21 @@ export class SideNavComponent implements AfterViewInit {
 
     navidateToNewSub() {
         const navId = 'subs/new/subscription';
-        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });        
+        this.router.navigate([navId], { relativeTo: this.route, queryParams: Url.getQueryStringObj() });
     }
 
     refreshSubs() {
         this.cacheService.getArm('/subscriptions', true).subscribe(r => {
             this.userService.getStartupInfo()
-            .first()
-            .subscribe((info) => {
-                const subs: Subscription[] = r.json().value;
-                if (!SubUtil.subsChanged(info.subscriptions, subs)) {
-                    return;
-                }
-                info.subscriptions = subs;
-                this.userService.updateStartupInfo(info);
-            });
+                .first()
+                .subscribe((info) => {
+                    const subs: Subscription[] = r.json().value;
+                    if (!SubUtil.subsChanged(info.subscriptions, subs)) {
+                        return;
+                    }
+                    info.subscriptions = subs;
+                    this.userService.updateStartupInfo(info);
+                });
         });
     }
 
@@ -327,7 +332,7 @@ export class SideNavComponent implements AfterViewInit {
             title = this.translateService.instant(PortalResources.functionApps);
             subtitle = '';
         } else {
-            subtitle = this.translateService.instant(PortalResources.functionApps);;
+            subtitle = this.translateService.instant(PortalResources.functionApps);
         }
 
         this.portalService.updateBladeInfo(title, subtitle);
@@ -351,7 +356,7 @@ export class SideNavComponent implements AfterViewInit {
             const startPos = event.target.selectionStart;
             const endPos = event.target.selectionEnd;
 
-            // TODO: ellhamai - this is a hack and it's not perfect.  Basically everytime we update
+            // TODO: [ehamai] - this is a hack and it's not perfect.  Basically everytime we update
             // the searchTerm, we end up resetting the cursor.  It's better than before, but
             // it's still not great because if the user types really fast, the cursor still moves.
             this._searchTermStream.next(event.target.value);
@@ -398,8 +403,7 @@ export class SideNavComponent implements AfterViewInit {
             this._updateSubDisplayText(this.allSubscriptions);
         } else if (subscriptions.length > 1) {
             this._updateSubDisplayText(this.translateService.instant(PortalResources.sideNav_SubscriptionCount).format(subscriptions.length));
-        }
-        else {
+        } else {
             this._updateSubDisplayText(`${subscriptions[0].displayName}`);
         }
     }
@@ -415,11 +419,6 @@ export class SideNavComponent implements AfterViewInit {
     }
 
     private _updateSubscriptions(info: StartupInfo) {
-        // Need to set an initial value to force the tree to render with an initial list first.
-        // Otherwise the tree won't load in batches of objects for long lists until the entire
-        // observable sequence has completed.
-        this._subscriptionsStream.next([]);
-
         const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
         const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
         let descriptor: SiteDescriptor | null;
@@ -430,8 +429,8 @@ export class SideNavComponent implements AfterViewInit {
 
         let count = 0;
 
-        this.subscriptionOptions =
-            info.subscriptions.map(e => {
+        this.subscriptionOptions = info.subscriptions
+            .map(e => {
                 let subSelected: boolean;
 
                 if (descriptor) {
@@ -454,6 +453,6 @@ export class SideNavComponent implements AfterViewInit {
                     isSelected: subSelected && count <= Arm.MaxSubscriptionBatchSize
                 };
             })
-                .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
+            .sort((a, b) => a.displayLabel.localeCompare(b.displayLabel));
     }
 }

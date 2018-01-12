@@ -1,5 +1,5 @@
+import { FunctionAppContext } from './../shared/function-app-context';
 import { FunctionDescriptor } from './../shared/resourceDescriptors';
-import { FunctionAppContext } from './../shared/services/functions-service';
 import { ApiProxy } from './../shared/models/api-proxy';
 import { PortalResources } from './../shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
@@ -9,7 +9,7 @@ import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { ProxyNode } from './proxy-node';
 
-export class ProxiesNode extends BaseFunctionsProxiesNode{
+export class ProxiesNode extends BaseFunctionsProxiesNode {
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
     public dashboardType = DashboardType.ProxiesDashboard;
     public newDashboardType = DashboardType.CreateProxyDashboard;
@@ -83,12 +83,14 @@ export class ProxiesNode extends BaseFunctionsProxiesNode{
         }
 
         if (!this.children || this.children.length === 0) {
-            return this._functionsService.getApiProxies(this._context)
+            return this._functionAppService.getApiProxies(this._context)
                 .map(proxies => {
                     const fcNodes = <ProxyNode[]>[];
-                    proxies.forEach(proxy => {
-                        fcNodes.push(new ProxyNode(this.sideNav, proxy, this._context.site, this));
-                    });
+                    if (proxies.isSuccessful) {
+                        proxies.result.forEach(proxy => {
+                            fcNodes.push(new ProxyNode(this.sideNav, proxy, this._context.site, this));
+                        });
+                    }
 
                     this.children = fcNodes;
 

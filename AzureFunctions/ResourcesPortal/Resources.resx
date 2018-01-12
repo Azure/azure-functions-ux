@@ -13,19 +13,7 @@
     Example:
     
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
                 
     There are any number of "resheader" rows that contain simple 
     name/value pairs.
@@ -59,7 +47,10 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root" 
+    xmlns="" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -1820,7 +1811,7 @@
     <value>We are not able to update function {{functionName}}. Please try again later.</value>
   </data>
   <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
-    <value>The function runtime is unable to start. Please check the runtime logs for any errors or try again later.</value>
+    <value>The function runtime is unable to start.</value>
   </data>
   <data name="error_unableToCreateFunctionKey" xml:space="preserve">
     <value>We are not able to create or update the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
@@ -2410,7 +2401,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="activity" xml:space="preserve">
     <value>Activity</value>
   </data>
-   <data name="active" xml:space="preserve">
+  <data name="active" xml:space="preserve">
     <value>Active</value>
   </data>
   <data name="time" xml:space="preserve">
@@ -2617,13 +2608,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="back" xml:space="preserve">
     <value>Back</value>
   </data>
-   <data name="continue" xml:space="preserve">
+  <data name="continue" xml:space="preserve">
     <value>Continue</value>
   </data>
-   <data name="finish" xml:space="preserve">
+  <data name="finish" xml:space="preserve">
     <value>Finish</value>
   </data>
-   <data name="code" xml:space="preserve">
+  <data name="code" xml:space="preserve">
     <value>Code</value>
   </data>
   <data name="repository" xml:space="preserve">
@@ -2656,7 +2647,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="account" xml:space="preserve">
     <value>Account</value>
   </data>
-   <data name="loadTest" xml:space="preserve">
+  <data name="loadTest" xml:space="preserve">
     <value>Load Test</value>
   </data>
   <data name="slot" xml:space="preserve">
@@ -2664,5 +2655,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="production" xml:space="preserve">
     <value>Production</value>
+  </data>
+  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
+    <value>Function API definition (Swagger) feature is not supported for beta runtime currently.</value>
   </data>
 </root>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Response } from '@angular/http';
+import { Headers, Response, RequestOptionsArgs, ResponseType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -10,6 +10,14 @@ import 'rxjs/add/observable/throw';
 import { ArmService } from './arm.service';
 import { ClearCache } from '../decorators/cache.decorator';
 import { Url } from './../../shared/Utilities/url';
+import { AiService } from './ai.service';
+import { BroadcastService } from './broadcast.service';
+import { PortalResources } from '../models/portal-resources';
+import { BroadcastEvent } from '../models/broadcast-event';
+import { errorIds } from './../models/error-ids';
+import { ErrorEvent } from './../models/error-event';
+import { TranslateService } from '@ngx-translate/core';
+import { Guid } from '../Utilities/Guid';
 
 export interface CacheItem {
     id: string;
@@ -31,7 +39,10 @@ export class CacheService {
     private _cleanUpMS = 3 * this._expireMS;
     public cleanUpEnabled = true;
 
-    constructor(private _armService: ArmService) {
+    constructor(private _armService: ArmService,
+        private _aiService: AiService,
+        private _broadcastService: BroadcastService,
+        private _translateService: TranslateService) {
         this._cache = new Cache();
 
         setTimeout(this._cleanUp.bind(this), this._cleanUpMS);
@@ -144,7 +155,6 @@ export class CacheService {
                 .map(response => {
                     return this._mapAndCacheResponse(method, response, key);
                 })
-                .share()
                 .catch(error => {
                     if (error.status === 304) {
                         this._cache[key] = this.createCacheItem(
@@ -158,7 +168,12 @@ export class CacheService {
                     } else {
                         return Observable.throw(error);
                     }
-                });
+                })
+                .catch(e => this.tryPassThroughController(e, method, url, content, { headers: headers })
+                    .map(response => {
+                        return this._mapAndCacheResponse(method, response, key);
+                    }))
+                .share();
 
             this._cache[key] = this.createCacheItem(
                 key,
@@ -182,6 +197,60 @@ export class CacheService {
         }
 
         return response;
+    }
+
+    private tryPassThroughController(error: Response, method: string, url: string, body: any, options: RequestOptionsArgs): Observable<any> {
+        if (error.status === 0 && error.type === ResponseType.Error) {
+            return this._armService.send('GET', '/api/ping', null, null, new Headers())
+                .catch(_ => {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_appOffline),
+                        errorId: errorIds.applicationOffline,
+                        resourceId: url
+                    });
+                    return Observable.throw(error);
+                })
+                .mergeMap(_ => {
+                    const headers = {};
+                    if (options && options.headers) {
+                        options.headers.forEach((v, n) => {
+                            headers[n] = v.join(',');
+                        });
+                    }
+                    const passThroughBody = {
+                        method: method,
+                        url: url,
+                        body: body,
+                        headers: headers
+                    };
+                    const startTime = performance.now();
+                    const logDependency = (success: boolean, status: number) => {
+                        const endTime = performance.now();
+                        this._aiService.trackDependency(Guid.newGuid(), passThroughBody.method, passThroughBody.url, passThroughBody.url, endTime - startTime, success, status);
+                    };
+                    return this._armService.send('POST', '/api/passthrough', passThroughBody, null, new Headers(), false)
+                        .do(r => logDependency(true, r.status), e => logDependency(false, e.status))
+                        .catch((e: Response) => {
+                            if (e.status === 400) {
+                                let content: { reason: string, exception: any } = null;
+                                try {
+                                    content = e.json();
+                                } catch (e) {
+                                    content = null;
+                                }
+
+                                if (content && content.reason && content.reason === 'PassThrough') {
+                                    // this means there was a /passthrough specific error, so log it and throw the original error.
+                                    this._aiService.trackEvent(errorIds.passThroughApiError, content);
+                                    return Observable.throw(error);
+                                }
+                            }
+                            return Observable.throw(e);
+                        });
+                });
+        } else {
+            return Observable.throw(error);
+        }
     }
 
     private _clone(obj: any) {

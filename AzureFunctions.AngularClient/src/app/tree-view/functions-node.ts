@@ -1,9 +1,9 @@
+import { FunctionAppContext } from './../shared/function-app-context';
 import { Subject } from 'rxjs/Subject';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { TreeUpdateEvent } from './../shared/models/broadcast-event';
 import { CacheService } from 'app/shared/services/cache.service';
 import { FunctionDescriptor } from 'app/shared/resourceDescriptors';
-import { FunctionAppContext } from './../shared/services/functions-service';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -45,8 +45,8 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
         this.iconUrl = 'image/BulletList.svg';
         this.nodeClass += ' collection-node';
 
-        this._functionsService.getFunctionAppEditMode(context)
-            .map(EditModeHelper.isReadOnly)
+        this._functionAppService.getFunctionAppEditMode(context)
+            .map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false)
             .subscribe(isReadOnly => {
                 if (isReadOnly) {
                     this.title = `${this.sideNav.translateService.instant(PortalResources.functions)} (${this.sideNav.translateService.instant(PortalResources.appFunctionSettings_readOnlyMode)})`;
@@ -95,9 +95,9 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
     }
 
     public addChild(functionInfo: FunctionInfo) {
-        this._cacheService.clearCachePrefix(functionInfo.context.urlTemplates.functionsUrl);
+        this._cacheService.clearCachePrefix(this._context.urlTemplates.functionsUrl);
 
-        const newNode = new FunctionNode(this.sideNav, functionInfo, this);
+        const newNode = new FunctionNode(this.sideNav, this._context, functionInfo, this);
         this._addChildAlphabetically(newNode);
         newNode.select();
     }
@@ -147,13 +147,14 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
         }
 
         if (!this.children || this.children.length === 0) {
-            return this._functionsService.getFunctions(this._context)
+            return this._functionAppService.getFunctions(this._context)
                 .map(fcs => {
                     const fcNodes = <FunctionNode[]>[];
-                    fcs.forEach(fc => {
-                        fcNodes.push(new FunctionNode(this.sideNav, fc, this));
-                    });
-
+                    if (fcs.isSuccessful) {
+                        fcs.result.forEach(fc => {
+                            fcNodes.push(new FunctionNode(this.sideNav, this._context, fc, this));
+                        });
+                    }
                     this.children = fcNodes;
 
                     return null;

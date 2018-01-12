@@ -1,35 +1,35 @@
 ﻿<event-hub *ngIf="pickerName === 'EventHub'"
-           [functionApp]="functionApp"
+           [viewInfo]="viewInfo"
            (close)="closePicker($event)"
            (selectItem)="finishDialogPicker($event)">
 </event-hub>
 
 <service-bus *ngIf="pickerName === 'ServiceBus'"
-             [functionApp]="functionApp"
+             [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">
 </service-bus>
 
 <app-setting *ngIf="pickerName === 'AppSetting' && input.id !== 'PrincipalId'"
-             [functionApp]="functionApp"
+             [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">
 </app-setting>
 
 <storage *ngIf="pickerName === 'Storage'"
-  [functionApp]="functionApp"
+  [viewInfo]="viewInfo"
   (close)="closePicker($event)"
   (selectItem)="finishDialogPicker($event)">
 </storage>
 
 <sql *ngIf="pickerName === 'Sql'"
-  [functionApp]="functionApp"
+  [viewInfo]="viewInfo"
   (close)="closePicker($event)"
   (selectItem)="finishDialogPicker($event)">
 </sql>
 
 <notification-hub *ngIf="pickerName === 'NotificationHub'"
-             [functionApp]="functionApp"
+             [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">
 </notification-hub>
@@ -63,7 +63,7 @@
     </span>
   </div>
   <div *ngIf="input?.type === 'string' || input?.type === 'int'" [ngClass]="input?.class">
-    <input [fnWriteAccess]="functionApp"
+    <input [fnWriteAccess]="context"
            *ngIf="input.type === 'string'" id="{{input.id}}"
            (ngModelChange)="inputChanged($event)"
            [(ngModel)]="input.value"
@@ -72,7 +72,7 @@
            [ngClass]="{'input-error':!!input.errorText}"
            [disabled]="input.isDisabled || !!functionReturnValue">
 
-    <input [fnWriteAccess]="functionApp"
+    <input [fnWriteAccess]="context"
            *ngIf="input.type === 'int'" id="{{input.id}}"
            (ngModelChange)="inputChanged($event)"
            [(ngModel)]="input.value"
@@ -87,7 +87,7 @@
     <div *ngIf="description && !input.errorText">{{description}}</div>
 
     <div *ngIf="binding.direction.toString() === 'out' && input.id === 'name'">
-      <input [fnWriteAccess]="functionApp" id="{{input.id}}" (ngModelChange)="functionReturnValueChanged($event)" [(ngModel)]="functionReturnValue" type="checkbox" style="margin-left:0px;">
+      <input [fnWriteAccess]="context" id="{{input.id}}" (ngModelChange)="functionReturnValueChanged($event)" [(ngModel)]="functionReturnValue" type="checkbox" style="margin-left:0px;">
       <label [attr.for]="input.id" class="control-label">
         {{'binding_useFunctionReturnValue' | translate }}
       </label>
@@ -103,6 +103,7 @@
     [class.input-error]="!!input.errorText"
     [disabled]="input.isDisabled"
     [class.hide-arrow]="!!input.errorText">
+    <!-- TODO: [alrod] input doesn't have items -->
       <option *ngFor="let item of input.items" [value]="item">{{item}}</option>
     </select>
     <pop-over *ngIf="!!input.errorText" [message]="input.errorText" [isInputWarning]="true" [isInputError]="!input.isValid">
@@ -120,23 +121,25 @@
 
   <div *ngIf="input?.type === 'boolean'" class="checkbox">
     <!-- TODO: move this to css -->
-    <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [fnWriteAccess]="functionApp">
+    <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [fnWriteAccess]="context">
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 
   <div *ngIf="input?.type === 'label'">
-    <input [fnWriteAccess]="functionApp" id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
+    <!-- TODO: [alrod] text is not a valid propertyon input  -->
+    <input [fnWriteAccess]="context" id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 
   <div *ngIf="input?.type === 'enum'" id="enum-list">
-    <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="functionApp"></drop-down>
+    <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="context"></drop-down>
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 
   <div *ngIf="input?.type === 'checkBoxList'" class="methods-list">
+    <!-- TODO: [alrod] enum is not a valid propertyon input  -->
     <div *ngFor="let item of input.enum">
-      <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" [fnWriteAccess]="functionApp"> {{ item.display }}
+      <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" [fnWriteAccess]="context"> {{ item.display }}
     </div>
   </div>
 

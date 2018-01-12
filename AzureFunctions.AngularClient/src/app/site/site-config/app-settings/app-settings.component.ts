@@ -1,3 +1,4 @@
+import { LogCategories } from './../../../shared/models/constants';
 import { Response } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
@@ -9,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SaveOrValidationResult } from './../site-config.component';
-import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -51,8 +51,6 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
-
-  public keyCodes: KeyCodes = KeyCodes;
 
   @Input() mainForm: FormGroup;
 
@@ -145,9 +143,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _resetPermissionsAndLoadingState() {
     this.hasWritePermissions = true;
-    this.permissionsMessage = "";
+    this.permissionsMessage = '';
     this.showPermissionsMessage = false;
-    this.loadingFailureMessage = "";
+    this.loadingFailureMessage = '';
     this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
@@ -157,7 +155,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     } else if (readOnlyLock) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configDisabledReadOnlyLockOnApp);
     } else {
-      this.permissionsMessage = "";
+      this.permissionsMessage = '';
     }
 
     this.hasWritePermissions = writePermission && !readOnlyLock;
@@ -173,13 +171,13 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
         this._requiredValidator = new RequiredValidator(this._translateService);
         this._uniqueAppSettingValidator = new UniqueValidator(
-          "name",
+          'name',
           this.groupArray,
           this._translateService.instant(PortalResources.validation_duplicateError));
 
         const stickyAppSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
 
-        for (let name in appSettingsArm.properties) {
+        for (const name in appSettingsArm.properties) {
 
           if (appSettingsArm.properties.hasOwnProperty(name)) {
             const group = this._fb.group({
@@ -200,17 +198,17 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
       }
 
-      if (this.mainForm.contains("appSettings")) {
-        this.mainForm.setControl("appSettings", this.groupArray);
+      if (this.mainForm.contains('appSettings')) {
+        this.mainForm.setControl('appSettings', this.groupArray);
       } else {
-        this.mainForm.addControl("appSettings", this.groupArray);
+        this.mainForm.addControl('appSettings', this.groupArray);
       }
     } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
-      if (this.mainForm.contains("appSettings")) {
-        this.mainForm.removeControl("appSettings");
+      if (this.mainForm.contains('appSettings')) {
+        this.mainForm.removeControl('appSettings');
       }
     }
 
@@ -218,11 +216,11 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
   validate(): SaveOrValidationResult {
-    let groups = this.groupArray.controls;
+    const groups = this.groupArray.controls;
 
     // Purge any added entries that were never modified
     for (let i = groups.length - 1; i >= 0; i--) {
-      let group = groups[i] as CustomFormGroup;
+      const group = groups[i] as CustomFormGroup;
       if (group.msStartInEditMode && group.pristine) {
         groups.splice(i, 1);
         if (group === this.newItem) {
@@ -241,9 +239,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _validateAllControls(groups: CustomFormGroup[]) {
     groups.forEach(group => {
-      let controls = (<FormGroup>group).controls;
-      for (let controlName in controls) {
-        let control = <CustomFormControl>controls[controlName];
+      const controls = (<FormGroup>group).controls;
+      for (const controlName in controls) {
+        const control = <CustomFormControl>controls[controlName];
         control._msRunValidation = true;
         control.updateValueAndValidity();
       }
@@ -255,24 +253,24 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     if (this.groupArray.pristine) {
       return null;
     } else {
-      let configObjects: ArmObjMap = {
+      const configObjects: ArmObjMap = {
         objects: {}
       };
 
-      let appSettingGroups = this.groupArray.controls;
+      const appSettingGroups = this.groupArray.controls;
 
-      if (this.mainForm.contains("appSettings") && this.mainForm.controls["appSettings"].valid) {
-        let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
+      if (this.mainForm.contains('appSettings') && this.mainForm.controls['appSettings'].valid) {
+        const appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
         appSettingsArm.properties = {};
 
         this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-        let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+        const slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
         slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
-        let appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
+        const appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
 
         for (let i = 0; i < appSettingGroups.length; i++) {
           if ((appSettingGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
-            let name = appSettingGroups[i].value.name;
+            const name = appSettingGroups[i].value.name;
 
             appSettingsArm.properties[name] = appSettingGroups[i].value.value;
 
@@ -281,7 +279,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
                 appSettingNames.push(name);
               }
             } else {
-              let index = appSettingNames.indexOf(name);
+              const index = appSettingNames.indexOf(name);
               if (index !== -1) {
                 appSettingNames.splice(index, 1);
               }
@@ -289,8 +287,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           }
         }
 
-        configObjects["slotConfigNames"] = slotConfigNamesArm;
-        configObjects["appSettings"] = appSettingsArm;
+        configObjects['slotConfigNames'] = slotConfigNamesArm;
+        configObjects['appSettings'] = appSettingsArm;
       } else {
         configObjects.error = this._validationFailureMessage();
       }
@@ -339,8 +337,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
   deleteItem(group: FormGroup) {
-    let groups = this.groupArray;
-    let index = groups.controls.indexOf(group);
+    const groups = this.groupArray;
+    const index = groups.controls.indexOf(group);
     if (index >= 0) {
       if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
@@ -359,7 +357,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     (group as CustomFormGroup).msExistenceState = 'deleted';
 
     // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
-    for (let key in group.controls) {
+    for (const key in group.controls) {
       const control = group.controls[key];
       control.clearAsyncValidators();
       control.clearValidators();
@@ -382,7 +380,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     // If all the remaining controls in groups are pristine, mark groups as pristine.
     if (!group.pristine) {
       let pristine = true;
-      for (let control of groups.controls) {
+      for (const control of groups.controls) {
         pristine = pristine && control.pristine;
       }
 
@@ -395,7 +393,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
   addItem() {
-    let groups = this.groupArray;
+    const groups = this.groupArray;
 
     this.newItem = this._fb.group({
       name: [

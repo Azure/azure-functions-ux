@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { FunctionInfo } from '../models/function-info';
 import { TutorialEvent } from '../models/tutorial';
 import { ErrorEvent } from '../models/error-event';
+import { FunctionAppHttpError } from '../models/function-app-http-result';
 
 interface EventInfo<T> {
     eventType: BroadcastEvent;
@@ -23,10 +24,9 @@ export class BroadcastService {
     private functionAddedEvent: EventEmitter<FunctionInfo>;
     private functionSelectedEvent: EventEmitter<FunctionInfo>;
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
-    private functionNewEvent: EventEmitter<any>;
     private integrateChangedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
-    private errorEvent: EventEmitter<ErrorEvent>;
+    private errorEvent: EventEmitter<ErrorEvent | FunctionAppHttpError>;
     private trialExpired: EventEmitter<void>;
     private resetKeySelection: EventEmitter<FunctionInfo>;
     private clearErrorEvent: EventEmitter<string>;
@@ -42,12 +42,11 @@ export class BroadcastService {
         this.functionUpdatedEvent = new EventEmitter<FunctionInfo>();
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
         this.integrateChangedEvent = new EventEmitter<void>();
-        this.errorEvent = new EventEmitter<ErrorEvent>();
         this.trialExpired = new EventEmitter<void>();
-        this.functionNewEvent = new EventEmitter<any>();
         this.resetKeySelection = new EventEmitter<FunctionInfo>();
         this.clearErrorEvent = new EventEmitter<string>();
 
+        this.errorEvent = new EventEmitter<ErrorEvent>();
         // Busy state events have separate categories for each event, so I set a high
         // upper limit so that we don't lose events.
         this._streamMap[BroadcastEvent.UpdateBusyState] = new ReplaySubject(128);

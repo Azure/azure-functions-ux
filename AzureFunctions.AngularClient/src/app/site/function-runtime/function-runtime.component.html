@@ -4,7 +4,7 @@
       {{ 'appFunctionSettings_proxyEnabled' | translate }}
     </div>
 
-    <div *ngIf="site?.properties?.sku === 'Dynamic'" class="setting-wrapper">
+    <div *ngIf="context?.site.properties?.sku === 'Dynamic'" class="setting-wrapper">
         <label id="dailyUsageQuotaLabel" class="title-label">{{ 'functionAppSettings_dailyUsageQuota' | translate }}
             <pop-over [message]="( 'functionAppSettings_dailyUsageQuotaHelp' | translate )" [position]="'bottom'">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -167,10 +167,8 @@
     <function-keys
         *ngIf="!isStopped"
         [autoSelect]="true"
-        [functionApp]="functionApp"></function-keys>
+        [adminKeys]="true"
+        [viewInfo]="viewInfo"></function-keys>
 
-  <div *ngIf="!!functionApp">
-    <host-editor class="features-wrapper" [functionAppInput]="functionApp" ></host-editor>
-  </div>
-
+    <host-editor *ngIf="context" class="features-wrapper" [functionAppInput]="context" ></host-editor>
 </div>

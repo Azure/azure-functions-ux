@@ -6,7 +6,7 @@ export class BindingInputBase<T>
     id: string;
     label: string;
     required: boolean;
-    type: SettingType;
+    type: 'string' | 'boolean' | 'label' | 'enum' | 'int' | 'picker' | 'checkBoxList' | 'appSetting' | 'eventGrid';
     help: string;
 
     errorClass: string;

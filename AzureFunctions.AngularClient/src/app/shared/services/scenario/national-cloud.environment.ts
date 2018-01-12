@@ -1,14 +1,14 @@
+import { NationalCloudArmUris, ScenarioIds } from './../../models/constants';
 import { AzureEnvironment } from './azure.environment';
 import { ScenarioCheckInput } from './scenario.models';
-import { ScenarioIds, NationalCloudArmUris } from './../../models/constants';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
     name = 'NationalCloud';
 
     public static isNationalCloud() {
         return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.mooncake.toLowerCase()
-        || window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.fairfax.toLowerCase()
-        || window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.blackforest.toLowerCase();
+            || window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.fairfax.toLowerCase()
+            || window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.blackforest.toLowerCase();
     }
 
     constructor() {

@@ -1,6 +1,4 @@
-import { FunctionAppContext } from './../services/functions-service';
 import { FunctionConfig } from '../models/function-config';
-import { FunctionApp } from '../function-app';
 
 export interface FunctionInfo {
     name: string;
@@ -14,8 +12,6 @@ export interface FunctionInfo {
     isDeleted: boolean;
     test_data: string;
     config_href: string;
-    functionApp: FunctionApp;
-    context: FunctionAppContext;
 }
 
 export class FunctionInfoHelper {
@@ -30,34 +26,27 @@ export class FunctionInfoHelper {
                 break;
             case 'bat':
                 lang = 'Batch';
-                // bat
                 break;
             case 'csx':
                 lang = 'CSharp';
-                // csharp
                 break;
             case 'fsx':
                 lang = 'FSharp';
-                // fsharp
                 break;
             case 'js':
                 lang = 'JavaScript';
-                // javascript
                 break;
             case 'php':
                 lang = 'Php';
                 break;
             case 'ps1':
                 lang = 'Powershell';
-                // powershell
                 break;
             case 'py':
                 lang = 'Python';
-                // python
                 break;
             case 'ts':
                 lang = 'TypeScript';
-                // typescript
                 break;
         }
         return lang;

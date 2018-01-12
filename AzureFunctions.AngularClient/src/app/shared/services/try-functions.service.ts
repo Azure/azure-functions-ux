@@ -11,12 +11,13 @@ import { FunctionsResponse } from './../models/functions-response';
 import { FunctionTemplate } from '../models/function-template';
 import { DesignerSchema } from '../models/designer-schema';
 import { UserService } from './user.service';
-import { FunctionContainer } from '../models/function-container';
 import { Constants } from '../models/constants';
 import { Cache } from '../decorators/cache.decorator';
 import { GlobalStateService } from './global-state.service';
 import { UIResource, ITryAppServiceTemplate } from '../models/ui-resource';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { Site } from '../models/arm/site';
+import { ArmObj } from '../models/arm/arm-obj';
 
 @Injectable()
 export class TryFunctionsService {
@@ -30,7 +31,7 @@ export class TryFunctionsService {
     public isMultiKeySupported = true;
 
     private tryAppServiceUrl = 'https://tryappservice.azure.com';
-    public functionContainer: FunctionContainer;
+    public functionContainer: ArmObj<Site>;
 
     constructor(private _http: Http,
         private _userService: UserService,

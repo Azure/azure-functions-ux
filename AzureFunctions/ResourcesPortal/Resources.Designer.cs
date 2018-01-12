@@ -19,7 +19,7 @@ namespace AzureFunctions.ResourcesPortal {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -1861,7 +1861,7 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The function runtime is unable to start. Please check the runtime logs for any errors or try again later..
+        ///   Looks up a localized string similar to The function runtime is unable to start..
         /// </summary>
         internal static string error_functionRuntimeIsUnableToStart {
             get {
@@ -5758,6 +5758,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pin app to dashboard.
+        /// </summary>
+        internal static string siteDashboard_pinApp {
+            get {
+                return ResourceManager.GetString("siteDashboard_pinApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete &apos;{0}&apos;.
         /// </summary>
         internal static string siteSummary_deleteConfirmation {
@@ -6458,6 +6467,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string swaggerDefinition_loadGeneratedDefinition {
             get {
                 return ResourceManager.GetString("swaggerDefinition_loadGeneratedDefinition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function API definition (Swagger) feature is not supported for beta runtime currently..
+        /// </summary>
+        internal static string swaggerDefinition_notSupportedForBeta {
+            get {
+                return ResourceManager.GetString("swaggerDefinition_notSupportedForBeta", resourceCulture);
             }
         }
         

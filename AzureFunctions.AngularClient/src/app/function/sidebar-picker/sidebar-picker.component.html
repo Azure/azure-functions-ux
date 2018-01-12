@@ -1,8 +1,8 @@
-<function-new-detail *ngIf="openFunctionNewDetail" 
-  [functionCard]="functionCard" 
-  [functionLanguage]="functionLanguage" 
+<function-new-detail *ngIf="openFunctionNewDetail"
+  [functionCard]="_functionCard"
+  [functionLanguage]="functionLanguage"
   [functionsInfo]="functionsInfo"
-  [functionApp]="functionApp"
+  [viewInfo]="viewInfo"
   [appNode]="appNode"
   [functionsNode]="functionsNode"
   [context]="context"
@@ -10,8 +10,8 @@
 </function-new-detail>
 
 <extension-install-detail *ngIf="openExtensionInstallDetail"
-  [functionApp]="functionApp"
-  [functionCard]="functionCard"
+  [viewInfo]="viewInfo"
+  [functionCard]="_functionCard"
   [requiredExtensions]="currentTemplate.metadata.extensions"
   (closePanel) ="close()">
 </extension-install-detail>
