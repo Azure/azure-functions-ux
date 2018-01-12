@@ -1,3 +1,4 @@
+import { FunctionAppContext } from './../function-app-context';
 import { FunctionConfig } from '../models/function-config';
 
 export interface FunctionInfo {
@@ -12,6 +13,9 @@ export interface FunctionInfo {
     isDeleted: boolean;
     test_data: string;
     config_href: string;
+    context: FunctionAppContext;
+    trigger_url?: string;         // Only used for embedded scenario's.  Doing a POST will trigger function
+    entity?: string;              // Only used for embedded scenario's
 }
 
 export class FunctionInfoHelper {

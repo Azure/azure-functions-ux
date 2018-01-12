@@ -21,6 +21,17 @@
                [setDefault]="false"
                attr.aria-label="{{'templatePicker_language' | translate}}"></drop-down>
 
+    <ng-container *ngIf="isEmbedded">
+        <div class="input-header">
+            <label class="control-label">{{ 'entityColon' | translate }}</label>
+        </div>
+        <drop-down [options]="entityOptions" 
+                    (value)="onEntityChanged($event)" 
+                    [setDefault]="false" 
+                    attr.aria-label="entity">
+        </drop-down>
+    </ng-container>
+
     <div class="input-header">
         <label class="control-label">{{ 'nameColon' | translate }}</label>
     </div>

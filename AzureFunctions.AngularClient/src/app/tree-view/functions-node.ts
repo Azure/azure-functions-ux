@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { TreeUpdateEvent } from './../shared/models/broadcast-event';
 import { CacheService } from 'app/shared/services/cache.service';
-import { FunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -104,7 +104,7 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
 
     public removeChild(resourceId: string, callRemoveOnChild?: boolean) {
 
-        const descriptor = new FunctionDescriptor(resourceId);
+        const descriptor = new ArmFunctionDescriptor(resourceId);
         resourceId = descriptor.getTrimmedResourceId();
 
         const removeIndex = this.children.findIndex(c => c.resourceId.toLowerCase() === resourceId.toLowerCase());
@@ -112,7 +112,7 @@ export class FunctionsNode extends BaseFunctionsProxiesNode implements MutableCo
     }
 
     public updateChild(resourceId: string, disabled: boolean) {
-        const descriptor = new FunctionDescriptor(resourceId);
+        const descriptor = new ArmFunctionDescriptor(resourceId);
         resourceId = descriptor.getTrimmedResourceId();
 
         const child = <FunctionNode>this.children.find(c => c.resourceId.toLowerCase() === resourceId.toLowerCase());

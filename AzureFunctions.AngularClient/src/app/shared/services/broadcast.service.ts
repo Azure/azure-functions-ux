@@ -57,6 +57,9 @@ export class BroadcastService {
         this._streamMap[BroadcastEvent.UpdateAppsList] = new ReplaySubject(1);
         this._streamMap[BroadcastEvent.IntegrateChanged] = new Subject();
         this._streamMap[BroadcastEvent.ReloadDeploymentCenter] = new Subject();
+        this._streamMap[BroadcastEvent.FunctionEditorEvent] = new Subject();
+        this._streamMap[BroadcastEvent.RightTabsEvent] = new Subject();
+        this._streamMap[BroadcastEvent.BottomTabsEvent] = new Subject();
     }
 
     // DEPRECATED - Use broadcastEvent

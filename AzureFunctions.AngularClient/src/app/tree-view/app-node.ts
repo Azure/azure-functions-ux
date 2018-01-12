@@ -7,7 +7,7 @@ import { ScenarioService } from './../shared/services/scenario/scenario.service'
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from './../shared/models/portal-resources';
 import { ArmObj } from './../shared/models/arm/arm-obj';
-import { SiteDescriptor } from './../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { AppsNode } from './apps-node';
 import { TreeNode, Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
@@ -65,7 +65,7 @@ export class AppNode extends TreeNode
         this.title = _siteArmCacheObj.name;
         this.location = _siteArmCacheObj.location;
 
-        const descriptor = new SiteDescriptor(_siteArmCacheObj.id);
+        const descriptor = new ArmSiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
         this.nodeClass += ' app-node';

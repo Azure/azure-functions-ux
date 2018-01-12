@@ -19,7 +19,7 @@ import { AppNode } from '../../tree-view/app-node';
 import { ProxyNode } from '../../tree-view/proxy-node';
 import { AiService } from '../../shared/services/ai.service';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
-import { SiteDescriptor } from '../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Subscription } from 'rxjs/Subscription';
 import { NavigableComponent } from '../../shared/components/navigable-component';
 
@@ -65,7 +65,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
                 this.proxiesNode = (<ProxiesNode>this.selectedNode.parent);
                 this.apiProxyEdit = this.selectedNode.proxy;
 
-                const siteDescriptor = new SiteDescriptor(viewInfo.resourceId);
+                const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
                 return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId())
                     .concatMap(context => {
                         this.context = context;

@@ -14,6 +14,14 @@ namespace AzureFunctions.Authentication
     public class FrontEndAuthProvider : IAuthProvider
     {
         private readonly ISettings _settings;
+        private readonly string[] _noAuthReferrers = new string[] 
+        {
+            Constants.PortalReferrer,
+            Constants.PortalDeReferrer,
+            Constants.PortalCnReferrer,
+            Constants.PortalUsReferrer,
+            Constants.PowerAppsReferrerSuffix,
+        };
 
         public FrontEndAuthProvider(ISettings settings)
         {
@@ -30,7 +38,8 @@ namespace AzureFunctions.Authentication
 
             if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
             {
-                if (request.UrlReferrer?.Host.EndsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
+                if(request.UrlReferrer != null
+                    && this._noAuthReferrers.FirstOrDefault(r => request.UrlReferrer.Host.EndsWith(r, StringComparison.OrdinalIgnoreCase)) != null)
                 {
                     principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
                 }

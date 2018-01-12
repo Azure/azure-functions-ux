@@ -1,0 +1,46 @@
+@import '../../../sass/common/mixins';
+@import '../../../sass/common/variables';
+
+$expanded-width: 460px;
+
+.collapsed{
+    @include rotate(90deg);
+}
+
+#right-tabs-wrapper{
+    height: 100%;
+    border-left: $border;
+    background-color: $body-bg-color;
+
+    nav.expanded{
+        width: $expanded-width;
+    }
+}
+
+.tab-text{
+    border-top: none;
+    border-bottom: 4px solid $border-color;
+    display: inline-block;
+    padding: 5px 10px;
+    margin-left: 10px;
+
+    &.collapsed{
+        border-top: 4px solid $border-color;
+        border-bottom: none;
+        display: block;
+        margin-left: 0px;
+    }
+}
+
+#right-tabs-expand-icon{
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#right-tabs-collapse-icon{
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}

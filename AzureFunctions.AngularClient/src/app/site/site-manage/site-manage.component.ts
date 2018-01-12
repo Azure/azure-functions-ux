@@ -28,7 +28,7 @@ import { AuthzService } from '../../shared/services/authz.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { Site } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
-import { SiteDescriptor } from '../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { FunctionAppContextComponent } from '../../shared/components/function-app-context-component';
 import { FunctionAppService } from '../../shared/services/function-app.service';
 
@@ -45,7 +45,7 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
     public searchTerm = '';
 
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
-    private _descriptor: SiteDescriptor;
+    private _descriptor: ArmSiteDescriptor;
 
     private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
     private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
@@ -85,7 +85,7 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 const site: ArmObj<Site> = r.json();
 
                 this._portalService.closeBlades();
-                this._descriptor = new SiteDescriptor(site.id);
+                this._descriptor = new ArmSiteDescriptor(site.id);
                 this._disposeGroups();
 
                 this._initCol1Groups(site);

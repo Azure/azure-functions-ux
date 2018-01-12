@@ -9,7 +9,7 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { UserService } from '../shared/services/user.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
-import { SiteDescriptor, FunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor, ArmFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { Http } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -127,12 +127,12 @@ export class MainComponent implements AfterViewInit, OnDestroy {
             .takeUntil(this._ngUnsubscribe)
             .subscribe(info => {
                 // get list of functions from function app listed in resourceID
-                const siteDescriptor: SiteDescriptor = new SiteDescriptor(info.resourceId);
+                const siteDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(info.resourceId);
 
                 this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId())
                     .mergeMap(context => this._functionAppService.getFunctions(context))
                     .subscribe(functions => {
-                        const fnDescriptor: FunctionDescriptor = new FunctionDescriptor(info.resourceId);
+                        const fnDescriptor: ArmFunctionDescriptor = new ArmFunctionDescriptor(info.resourceId);
                         const targetName: string = fnDescriptor.name;
                         // TODO: [ahmels] HANDLE RESULT. Talk to ehamai to understand the scenario.
                         const selectedFunction = functions.result.find(f => f.name === targetName);

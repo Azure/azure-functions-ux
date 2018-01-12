@@ -1,3 +1,4 @@
+import { ArmService } from './services/arm.service';
 import { CacheService } from './services/cache.service';
 import { Http, RequestOptionsArgs, Response, ResponseType, Headers } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,12 +16,15 @@ import { BroadcastEvent } from './models/broadcast-event';
 import { Guid } from 'app/shared/Utilities/Guid';
 
 export class NoCorsHttpService {
+    static readonly passThroughUrl = '/api/passthrough';
+
     constructor(
         private _cacheService: CacheService,
         private _http: Http,
         private _broadcastService: BroadcastService,
         private _aiService: AiService,
         private _translateService: TranslateService,
+        private _armService: ArmService,
         private portalHeadersCallback: () => Headers) { }
 
     request(url: string, options: RequestOptionsArgs, force?: boolean): Observable<Response> {
@@ -138,7 +142,7 @@ export class NoCorsHttpService {
                         const endTime = performance.now();
                         this._aiService.trackDependency(Guid.newGuid(), passThroughBody.method, passThroughBody.url, passThroughBody.url, endTime - startTime, success, status);
                     };
-                    return this._http.post('/api/passthrough', passThroughBody, { headers: this.portalHeadersCallback() })
+                    return this._armService.send('POST', NoCorsHttpService.passThroughUrl, passThroughBody, null, this.portalHeadersCallback())
                         .do(r => logDependency(true, r.status), e => logDependency(false, e.status))
                         .catch((e: FunctionsResponse) => {
                             if (e.status === 400) {

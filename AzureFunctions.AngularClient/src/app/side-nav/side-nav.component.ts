@@ -1,3 +1,6 @@
+import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
+import { EmbeddedFunctionsNode } from './../tree-view/embedded-functions-node';
+import { ScenarioService } from './../shared/services/scenario/scenario.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { LogService } from './../shared/services/log.service';
@@ -7,7 +10,7 @@ import { StoredSubscriptions } from './../shared/models/localStorage/local-stora
 import { Dom } from './../shared/Utilities/dom';
 import { SubUtil } from './../shared/Utilities/sub-util';
 import { SearchBoxComponent } from './../search-box/search-box.component';
-import { Component, ViewChild, AfterViewInit, Input, Injector } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input, Injector, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -18,7 +21,6 @@ import { PortalResources } from './../shared/models/portal-resources';
 import { AuthzService } from './../shared/services/authz.service';
 import { LanguageService } from './../shared/services/language.service';
 import { LocalStorageKeys, Arm, LogCategories, ScenarioIds } from './../shared/models/constants';
-import { SiteDescriptor, Descriptor } from './../shared/resourceDescriptors';
 import { PortalService } from './../shared/services/portal.service';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { TreeNode } from '../tree-view/tree-node';
@@ -37,15 +39,14 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { Subscription } from '../shared/models/subscription';
 import { SlotsService } from './../shared/services/slots.service';
 import { Url } from 'app/shared/Utilities/url';
-import { ScenarioService } from '../shared/services/scenario/scenario.service';
-import { StartupInfo } from '../shared/models/portal';
+import { StartupInfo } from 'app/shared/models/portal';
 
 @Component({
     selector: 'side-nav',
     templateUrl: './side-nav.component.html',
     styleUrls: ['./side-nav.component.scss']
 })
-export class SideNavComponent implements AfterViewInit {
+export class SideNavComponent implements AfterViewInit, OnDestroy {
     @ViewChild('treeViewContainer') treeViewContainer;
     @ViewChild(SearchBoxComponent) searchBox: SearchBoxComponent;
 
@@ -71,6 +72,7 @@ export class SideNavComponent implements AfterViewInit {
 
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new ReplaySubject<string>(1);
+    private _ngUnsubscribe = new Subject();
 
     private _initialized = false;
     private _tryFunctionAppContext: FunctionAppContext;
@@ -87,7 +89,7 @@ export class SideNavComponent implements AfterViewInit {
         public configService: ConfigService,
         public armService: ArmService,
         public cacheService: CacheService,
-        public functionsService: TryFunctionsService,
+        public tryFunctionsService: TryFunctionsService,
         public http: Http,
         public globalStateService: GlobalStateService,
         public broadcastService: BroadcastService,
@@ -109,8 +111,8 @@ export class SideNavComponent implements AfterViewInit {
         this.noPaddingOnSideNav = this._scenarioService.checkScenario(ScenarioIds.noPaddingOnSideNav).status === 'enabled';
         userService.getStartupInfo().subscribe(info => {
 
-            const sitenameIncoming = !!info.resourceId ? SiteDescriptor.getSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
-            const initialSiteName = !!this.initialResourceId ? SiteDescriptor.getSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
+            const sitenameIncoming = !!info.resourceId ? new ArmSiteDescriptor(info.resourceId).site.toLocaleLowerCase() : null;
+            const initialSiteName = !!this.initialResourceId ? new ArmSiteDescriptor(this.initialResourceId).site.toLocaleLowerCase() : null;
             if (sitenameIncoming !== initialSiteName) {
                 this.portalService.sendTimerEvent({
                     timerId: 'TreeViewLoad',
@@ -123,45 +125,24 @@ export class SideNavComponent implements AfterViewInit {
             // The true fix would be to make sure that we never set the resourceId of the hosting
             // blade, but that's a pretty large change and this should be sufficient for now.
             if (!this._initialized && !this.globalStateService.showTryView) {
-
-                this._initialized = true;
-                this.rootNode = new TreeNode(this, null, null);
-
-                const appsNode = new AppsNode(
-                    this,
-                    this.rootNode,
-                    this._subscriptionsStream,
-                    this._searchTermStream,
-                    this.resourceId);
-
-                this.rootNode.children = [appsNode];
-                this.rootNode.isExpanded = true;
-
-                appsNode.parent = this.rootNode;
-
-                // Need to allow the appsNode to wire up its subscriptions
-                setTimeout(() => {
-                    appsNode.select();
-                }, 10);
-
-                this._searchTermStream
-                    .subscribe(term => {
-                        this.searchTerm = term;
-                    });
+                this._initializeTree(info);
             }
-            this._updateSubscriptions(info);
-            this.initialResourceId = info.resourceId;
-            if (this.initialResourceId) {
-                const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.initialResourceId);
-                if (descriptor.site) {
-                    this._searchTermStream.next(`"${descriptor.site}"`);
-                    this.hasValue = true;
-                } else {
+
+            if (this._scenarioService.checkScenario(ScenarioIds.addTopLevelAppsNode).status !== 'disabled') {
+                this._updateSubscriptions(info);
+                this.initialResourceId = info.resourceId;
+                if (this.initialResourceId) {
+                    const descriptor = new ArmSiteDescriptor(this.initialResourceId);
+                    if (descriptor.site) {
+                        this._searchTermStream.next(`"${descriptor.site}"`);
+                        this.hasValue = true;
+                    } else {
+                        this._searchTermStream.next('');
+                    }
+                } else if (!this.searchTerm) {
+                    // Ensure that we don't override existing search term if we get a startupInfo update
                     this._searchTermStream.next('');
                 }
-            } else if (!this.searchTerm) {
-                // Ensure that we don't override existing search term if we get a startupInfo update
-                this._searchTermStream.next('');
             }
         });
 
@@ -202,6 +183,51 @@ export class SideNavComponent implements AfterViewInit {
         }
     }
 
+    private _initializeTree(info: StartupInfo) {
+        this._initialized = true;
+        this.rootNode = new TreeNode(this, null, null);
+
+        if (this._scenarioService.checkScenario(ScenarioIds.addTopLevelAppsNode).status !== 'disabled') {
+
+            const appsNode = new AppsNode(
+                this,
+                this.rootNode,
+                this._subscriptionsStream,
+                this._searchTermStream,
+                this.resourceId);
+
+            this.rootNode.children = [appsNode];
+            this.rootNode.isExpanded = true;
+
+            appsNode.parent = this.rootNode;
+
+            // Need to allow the appsNode to wire up its subscriptions
+            setTimeout(() => {
+                appsNode.select();
+            }, 10);
+
+            this._searchTermStream
+            .subscribe(term => {
+                this.searchTerm = term;
+            });
+
+        } else {
+            const resourceIdMatch = /\/resources([a-z0-9\-\/]+)/gi.exec(this.router.url);
+
+            if (resourceIdMatch && resourceIdMatch.length > 1) {
+                const smallerMatch = resourceIdMatch[1].split('/').filter(part => !!part).slice(0, 4).join('/');
+                const smallerId = `/providers/Microsoft.BlueRidge/${smallerMatch}`;
+                const functionsNode = new EmbeddedFunctionsNode(this, this.rootNode, smallerId);
+                this.rootNode.children = [functionsNode];
+                this.rootNode.isExpanded = true;
+                functionsNode.toggle(null);
+                functionsNode.select();
+            } else {
+                // log error
+            }
+        }
+    }
+
     private _getViewContainer(): HTMLDivElement {
         const treeViewContainer = this.treeViewContainer && <HTMLDivElement>this.treeViewContainer.nativeElement;
 
@@ -210,6 +236,10 @@ export class SideNavComponent implements AfterViewInit {
         }
 
         return <HTMLDivElement>treeViewContainer.querySelector('.top-level-children');
+    }
+
+    ngOnDestroy() {
+        this._ngUnsubscribe.next();
     }
 
     public scrollIntoView() {
@@ -421,10 +451,10 @@ export class SideNavComponent implements AfterViewInit {
     private _updateSubscriptions(info: StartupInfo) {
         const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
         const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
-        let descriptor: SiteDescriptor | null;
+        let descriptor: ArmSiteDescriptor | null;
 
         if (info.resourceId) {
-            descriptor = new SiteDescriptor(info.resourceId);
+            descriptor = new ArmSiteDescriptor(info.resourceId);
         }
 
         let count = 0;

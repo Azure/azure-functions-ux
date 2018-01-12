@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
-import { SiteDescriptor } from './../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
 import { AuthSettings } from './../../shared/models/arm/auth-settings';
 import { PortalService } from './../../shared/services/portal.service';
@@ -45,7 +45,7 @@ export class SiteEnabledFeaturesComponent {
 
     private _site: ArmObj<Site>;
     private _siteSubject = new Subject<ArmObj<Site>>();
-    private _descriptor: SiteDescriptor;
+    private _descriptor: ArmSiteDescriptor;
     private _focusedFeatureIndex = -1;
 
     @ViewChild('enabledFeatures') featureList: ElementRef;
@@ -68,7 +68,7 @@ export class SiteEnabledFeaturesComponent {
                 this.featureItems = [];
                 this.isLoading = true;
 
-                this._descriptor = new SiteDescriptor(site.id);
+                this._descriptor = new ArmSiteDescriptor(site.id);
 
                 return Observable.zip(
                     this._authZService.hasPermission(site.id, [AuthzService.writeScope]),

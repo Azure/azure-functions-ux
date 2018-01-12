@@ -49,22 +49,22 @@ export class CacheService {
     }
 
     getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<Response> {
-        const url = this._getArmUrl(resourceId, apiVersion);
+        const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
         return this.send(url, 'GET', force, null, null, invokeApi);
     }
 
-    deleteArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean): Observable<Response> {
-        const url = this._getArmUrl(resourceId, apiVersion);
-        return this.send(url, 'DELETE', force, null, null, invokeApi);
+    deleteArm(resourceId: string, apiVersion?: string, invokeApi?: boolean): Observable<Response> {
+        const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
+        return this.send(url, 'DELETE', true, null, null, invokeApi);
     }
 
     postArm(resourceId: string, force?: boolean, apiVersion?: string): Observable<Response> {
-        const url = this._getArmUrl(resourceId, apiVersion);
+        const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
         return this.send(url, 'POST', force);
     }
 
     putArm(resourceId: string, apiVersion?: string, content?: any) {
-        const url: string = this._getArmUrl(resourceId, apiVersion);
+        const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
         return this._armService.send('PUT', url, content);
     }
 
@@ -166,6 +166,7 @@ export class CacheService {
 
                         return Observable.of(item.isRawResponse ? item.value : this._clone(item.value));
                     } else {
+                        delete this._cache[key];
                         return Observable.throw(error);
                     }
                 })

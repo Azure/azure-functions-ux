@@ -1,3 +1,4 @@
+import { ArmEmbeddedService } from './../../shared/services/arm-embedded.service';
 import { KeyCodes, LogCategories } from './../../shared/models/constants';
 import { TreeViewInfo } from 'app/tree-view/models/tree-view-info';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
@@ -31,6 +32,8 @@ import { CreateCard } from 'app/function/function-new/function-new.component';
 })
 export class FunctionNewDetailComponent implements OnChanges {
 
+    // TODO: ellhamai - figure out where to put this
+    private _cdsEntitiesUrl = 'https://tip1.api.cds.microsoft.com/providers/Microsoft.CommonDataModel/environments/0fb7e803-94aa-4e69-9694-d3b3cea74523/namespaces/5d5374aa-0df3-421c-9656-5244ac88593c/entities?api-version=2016-11-01-alpha&$expand=namespace&headeronly=true';
     private _bindingComponents: BindingComponent[] = [];
 
     @Input() functionCard: CreateCard;
@@ -57,7 +60,10 @@ export class FunctionNewDetailComponent implements OnChanges {
     updateBindingsCount = 0;
     clickSave = false;
     currentBinding: UIFunctionBinding = null;
-    modelDocumentation: string;
+    entityOptions: DropDownElement<string>[] = [];      // Used for embedded scenarios
+    functionEntity: string;                             // Used for embedded scenarios
+    entityContext: FunctionAppContext;                  // Used for embedded scenarios
+    isEmbedded: boolean;                                // Used for embedded scenarios
 
     private _exclutionFileList = [
         'test.json',
@@ -73,12 +79,18 @@ export class FunctionNewDetailComponent implements OnChanges {
         private _cacheService: CacheService,
         private _functionAppService: FunctionAppService,
         private _logService: LogService) {
+
+        this.isEmbedded = this._portalService.isEmbeddedFunctions;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['functionCard']) {
             if (this.functionCard) {
                 this.updateLanguageOptions();
+
+                if (this._portalService.isEmbeddedFunctions) {
+                    this.getEntityOptions();
+                }
             }
         }
     }
@@ -106,6 +118,49 @@ export class FunctionNewDetailComponent implements OnChanges {
             this.onTemplatePickUpComplete()
                 .subscribe(() => {
                 });
+        }
+    }
+
+    getEntityOptions() {
+        this._getEntities()
+            .subscribe(r => {
+                const entities = r.value.map(e => e.name);
+                this.entityOptions = [];
+                entities.forEach(entity => {
+                    const dropDownElement: any = {
+                        displayLabel: entity,
+                        value: entity
+                    };
+                    this.entityOptions.push(dropDownElement);
+                });
+            });
+    }
+
+    onEntityChanged(entity: string) {
+        this.areInputsValid = false;
+        this.functionEntity = entity.toLowerCase();
+
+        if (this._portalService.isEmbeddedFunctions) {
+            const entityContextId = `${this.context.site.id}/entities/${this.functionEntity}`;
+            this._functionAppService.getAppContext(entityContextId)
+                .switchMap(appContext => {
+                    this.entityContext = appContext;
+                    return this._functionAppService.getFunctions(this.entityContext);
+                })
+                .subscribe(r => {
+                    if (r.isSuccessful) {
+                        this.functionsInfo = r.result;
+                        if (this.functionLanguage) {
+                            this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                            this.validate();
+                        }
+                    }
+                });
+        } else {
+            if (this.functionLanguage) {
+                this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                this.validate();
+            }
         }
     }
 
@@ -156,7 +211,11 @@ export class FunctionNewDetailComponent implements OnChanges {
 
                     this.model.setBindings();
                     this.currentBinding = this.model.trigger;
-                    this.validate();
+
+                    if (!this._portalService.isEmbeddedFunctions || (this._portalService.isEmbeddedFunctions && this.functionEntity)) {
+                        this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                        this.validate();
+                    }
 
                     if (this.action) {
 
@@ -212,6 +271,10 @@ export class FunctionNewDetailComponent implements OnChanges {
                 }
             }
 
+            if (this._portalService.isEmbeddedFunctions && !this.functionEntity) {
+                this.areInputsValid = false;
+            }
+
             this._bindingComponents.forEach((b) => {
                 this.areInputsValid = b.areInputsValid && this.areInputsValid;
             });
@@ -248,6 +311,12 @@ export class FunctionNewDetailComponent implements OnChanges {
         }
     }
 
+    private _getEntities() {
+        const url = this._cdsEntitiesUrl;
+        return this._cacheService.get(url)
+            .map(r => r.json());
+    }
+
     private _createFunction() {
         this._portalService.logAction('new-function', 'creating', { template: this.currentTemplate.id, name: this.functionName });
 
@@ -260,13 +329,20 @@ export class FunctionNewDetailComponent implements OnChanges {
         });
 
         this._globalStateService.setBusyState();
-        this._functionAppService.createFunctionV2(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
+        const createContext = this._portalService.isEmbeddedFunctions ? this.entityContext : this.context;
+        this._functionAppService.createFunctionV2(createContext, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
             .subscribe(newFunctionInfo => {
                 if (newFunctionInfo.isSuccessful) {
                     this._portalService.logAction('new-function', 'success', { template: this.currentTemplate.id, name: this.functionName });
                     this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
 
-                    this._cacheService.clearCachePrefix(this.context.scmUrl);
+                    if (this._portalService.isEmbeddedFunctions) {
+                        this._cacheService.clearCachePrefix(`${ArmEmbeddedService.url}${this.context.site.id}`);
+                    } else {
+                        this._cacheService.clearCachePrefix(this.context.urlTemplates.scmSiteUrl);
+                    }
+
+                    newFunctionInfo.result.context = createContext;
 
                     // If someone refreshed the app, it would created a new set of child nodes under the app node.
                     this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);

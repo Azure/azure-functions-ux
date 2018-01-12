@@ -19,6 +19,7 @@ import { setupAuthentication, authenticate, maybeAuthenticate } from './authenti
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
 const cookieSession = require('cookie-session');
+import { triggerFunctionAPIM } from './actions/apim';
 
 const app = express();
 //Load config before anything else
@@ -72,6 +73,7 @@ app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
 app.get('/api/config', maybeAuthenticate, getConfig);
 app.post('/api/proxy', maybeAuthenticate, proxy);
 app.post('/api/passthrough', maybeAuthenticate, proxy);
+app.post('/api/triggerFunctionAPIM', maybeAuthenticate, triggerFunctionAPIM);
 
 setupDeploymentCenter(app);
 // if are here, that means we didn't match any of the routes above including those for static content.

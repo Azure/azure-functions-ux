@@ -16,6 +16,14 @@ export class AzureTryEnvironment extends Environment {
                 return this._filterAppNodeChildren(input);
             }
         };
+
+        this.scenarioChecks[ScenarioIds.showSideNavMenu] = {
+            id: ScenarioIds.showSideNavMenu,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
