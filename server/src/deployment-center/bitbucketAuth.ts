@@ -1,31 +1,15 @@
 import { Application } from 'express';
 import axios from 'axios';
-import { staticConfig } from '../config';
+import { oAuthHelper } from './OAuthHelper';
 
+const oauthHelper: oAuthHelper = new oAuthHelper('bitbucket');
 export async function getBitbucketTokens(req: any): Promise<any> {
-	try {
-		const r = await axios.get(
-			`${staticConfig.config.env
-				.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/Bitbucket?api-version=2016-03-01`,
-			{
-				headers: {
-					Authorization: req.headers.authorization
-				}
-			}
-		);
-		const body = r.data;
-		if (req && req.session && body && body.properties && body.properties.token) {
-			return { authenticated: true, token: body.properties.token };
-		} else {
-			return { authenticated: false };
-		}
-	} catch (_) {
-		return { authenticated: false };
-	}
+	return await oauthHelper.getToken(req.headers.authorization);
 }
 export function setupBitbucketAuthentication(app: Application) {
 	app.post('/api/bitbucket/passthrough', async (req, res) => {
 		const tokenData = await getBitbucketTokens(req);
+
 		if (!tokenData.authenticated) {
 			res.sendStatus(401);
 		}
@@ -37,16 +21,7 @@ export function setupBitbucketAuthentication(app: Application) {
 		res.json(response.data);
 	});
 
-	function getParameterByName(name: string, url: string) {
-		name = name.replace(/[\[\]]/g, '\\$&');
-		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	}
-
-	app.get('/api/auth/bitbucket', (_, res) => {
+	app.get('/auth/bitbucket/authorize', (_, res) => {
 		res.redirect(
 			`https://bitbucket.org/site/oauth2/authorize?client_id=${process.env.BITBUCKET_CLIENT_ID}&redirect_uri=${process.env
 				.BITBUCKET_REDIRECT_URL}&scope=account+repository+webhook&response_type=code&state=`
@@ -58,11 +33,8 @@ export function setupBitbucketAuthentication(app: Application) {
 	});
 
 	app.post('/auth/bitbucket/storeToken', async (req, res) => {
-		const code = getParameterByName('code', req.body.redirUrl);
-		let token = {
-			access_token: '',
-			refresh_token: ''
-		};
+		const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
+
 		try {
 			const r = await axios.post(
 				`https://bitbucket.org/site/oauth2/access_token`,
@@ -78,29 +50,8 @@ export function setupBitbucketAuthentication(app: Application) {
 					}
 				}
 			);
-			token = { access_token: r.data.access_token, refresh_token: r.data.refresh_token };
-		} catch (err) {
-			res.sendStatus(400);
-		}
-		try {
-			const c = await axios.put(
-				`${staticConfig.config.env
-					.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/Bitbucket?api-version=2016-03-01`,
-				{
-					name: 'Bitbucket',
-					properties: {
-						name: 'Bitbucket',
-						token: token.access_token,
-						refresh_token: token.refresh_token
-					}
-				},
-				{
-					headers: {
-						Authorization: req.headers.authorization
-					}
-				}
-			);
-
+			const token = { access_token: r.data.access_token, refresh_token: r.data.refresh_token };
+			oauthHelper.putTokenInArm(token.access_token, req.headers.authorization as string, token.refresh_token);
 			res.sendStatus(200);
 		} catch (err) {
 			res.sendStatus(400);
