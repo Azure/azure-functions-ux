@@ -39,6 +39,7 @@
 		"@types/passport": "^0.3.3",
 		"@types/pug": "^2.0.4",
 		"@types/uuid": "^3.4.0",
+		"@types/compression" : "^0.0.35",
 		"concurrently": "^3.5.0",
 		"del": "^3.0.0",
 		"gulp": "^3.9.1",
