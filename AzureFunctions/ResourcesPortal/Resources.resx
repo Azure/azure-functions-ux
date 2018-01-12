@@ -2395,12 +2395,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="optional" xml:space="preserve">
     <value>Optional</value>
   </data>
-
+  <data name="gitCloneUri" xml:space="preserve">
+    <value>Git Clone Uri</value>
+  </data>
+  <data name="rollbackEnabled" xml:space="preserve">
+    <value>Rollback Enabled</value>
+  </data>
+  <data name="scmType" xml:space="preserve">
+    <value>Source Control Type</value>
+  </data>
   <data name="redeploy" xml:space="preserve">
     <value>Redeploy</value>
   </data>
-  <data name="time" xml:space="preserve">
+  <data name="activity" xml:space="preserve">
     <value>Activity</value>
+  </data>
+   <data name="active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="time" xml:space="preserve">
+    <value>Time</value>
   </data>
   <data name="log" xml:space="preserve">
     <value>Log</value>
@@ -2587,5 +2601,68 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="warning" xml:space="preserve">
     <value>Warning</value>
+  </data>
+  <data name="authorizedAs" xml:space="preserve">
+    <value>Authorized as:</value>
+  </data>
+  <data name="continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="authorize" xml:space="preserve">
+    <value>Authorize</value>
+  </data>
+  <data name="changeAuthorization" xml:space="preserve">
+    <value>Authorize</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+   <data name="continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+   <data name="finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+   <data name="code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="repository" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="branch" xml:space="preserve">
+    <value>Branch</value>
+  </data>
+  <data name="folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="repoType" xml:space="preserve">
+    <value>Repository Type</value>
+  </data>
+  <data name="organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="vstsAccount" xml:space="preserve">
+    <value>Visual Studio Team Service Account</value>
+  </data>
+  <data name="project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+   <data name="loadTest" xml:space="preserve">
+    <value>Load Test</value>
+  </data>
+  <data name="slot" xml:space="preserve">
+    <value>Slot</value>
+  </data>
+  <data name="production" xml:space="preserve">
+    <value>Production</value>
   </data>
 </root>

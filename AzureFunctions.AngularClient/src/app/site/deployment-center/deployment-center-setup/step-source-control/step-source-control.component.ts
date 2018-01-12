@@ -5,9 +5,8 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { AiService } from 'app/shared/services/ai.service';
-//import { Observable } from 'rxjs/Observable';
 import { Constants } from 'app/shared/models/constants';
-import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 export interface ProviderCard {
 	id: sourceControlProvider;
@@ -110,16 +109,76 @@ export class StepSourceControlComponent {
 		// }
 	];
 
+	githubUserSubject = new Subject<boolean>();
+	onedriveUserSubject = new Subject<boolean>();
+	dropboxUserSubject = new Subject<boolean>();
+	bitbucketUserSubject = new Subject<boolean>();
+
 	public selectedProvider: ProviderCard = null;
-	githubUsername: string;
+
+	private _ngUnsubscribe = new Subject();
+
 	constructor(
 		private _wizardService: DeploymentCenterWizardService,
-		_portalService: PortalService,
 		private _cacheService: CacheService,
+		_portalService: PortalService,
 		_armService: ArmService,
 		_aiService: AiService
 	) {
+		this.githubUserSubject
+			.takeUntil(this._ngUnsubscribe)
+			.filter(r => r)
+			.switchMap(() =>
+				_cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
+					url: 'https://api.github.com/user'
+				})
+			)
+			.subscribe(r => {
+				this.providerCards[1].authenticatedId = r.json().login;
+				this.providerCards[1].authorizedStatus = 'authorized';
+			});
+
+		this.bitbucketUserSubject
+			.takeUntil(this._ngUnsubscribe)
+			.filter(r => r)
+			.switchMap(() =>
+				_cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
+					url: 'https://api.bitbucket.org/2.0/user'
+				})
+			)
+			.subscribe(r => {
+				this.providerCards[4].authenticatedId = r.json().display_name;
+				this.providerCards[4].authorizedStatus = 'authorized';
+			});
+
+		this.onedriveUserSubject
+			.takeUntil(this._ngUnsubscribe)
+			.filter(r => r)
+			.switchMap(() =>
+				_cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
+					url: 'https://api.onedrive.com/v1.0/drive'
+				})
+			)
+			.subscribe(r => {
+				this.providerCards[0].authenticatedId = r.json().owner.user.displayName;
+				this.providerCards[0].authorizedStatus = 'authorized';
+			});
+
+		this.dropboxUserSubject
+			.takeUntil(this._ngUnsubscribe)
+			.filter(r => r)
+			.switchMap(() =>
+				_cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
+					url: 'https://api.dropboxapi.com/2/users/get_current_account'
+				})
+			)
+			.subscribe(r => {
+				this.providerCards[5].authenticatedId = r.json().name.display_name;
+				this.providerCards[5].authorizedStatus = 'authorized';
+			});
+
 		this._wizardService.resourceIdStream
+			.takeUntil(this._ngUnsubscribe)
 			.switchMap(r => {
 				this.providerCards[0].authorizedStatus = 'loadingAuth';
 				this.providerCards[1].authorizedStatus = 'loadingAuth';
@@ -127,43 +186,32 @@ export class StepSourceControlComponent {
 				this.providerCards[5].authorizedStatus = 'loadingAuth';
 				return this._cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
 			})
-			.switchMap(dep => {
+			.subscribe(dep => {
 				const r = dep.json();
 
-				return Observable.zip(
-					_cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
-						url: 'https://api.github.com/user'
-					}),
-					_cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
-						url: 'https://api.onedrive.com/v1.0/drive'
-					}),
-					_cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
-						url: 'https://api.bitbucket.org/2.0/user'
-					}),
-					_cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
-						url: 'https://api.dropboxapi.com/2/users/get_current_account'
-					}),
-					(github, onedrive, bitbucket, dropbox) => ({
-						github: github.json(),
-						onedrive: onedrive.json(),
-						bitbucket: bitbucket.json(),
-						dropbox: dropbox.json(),
-						onedriveAuth: r.onedrive,
-						githubAuth: r.github,
-						bitbucketAuth: r.bitbucket,
-						DropboxAuth: r.dropbox
-					})
-				);
-			})
-			.subscribe(r => {
-				this.providerCards[1].authenticatedId = r.github.login;
-				this.providerCards[0].authenticatedId = r.onedrive.owner.user.displayName;
-				this.providerCards[4].authenticatedId = r.bitbucket.display_name;
-				this.providerCards[5].authenticatedId = r.dropbox.name.display_name;
-				this.providerCards[0].authorizedStatus = r.onedrive ? 'authorized' : 'notAuthorized';
-				this.providerCards[1].authorizedStatus = r.github ? 'authorized' : 'notAuthorized';
-				this.providerCards[4].authorizedStatus = r.bitbucket ? 'authorized' : 'notAuthorized';
-				this.providerCards[5].authorizedStatus = r.dropbox ? 'authorized' : 'notAuthorized';
+				if (r.onedrive) {
+					this.onedriveUserSubject.next(r.onedrive);
+				} else {
+					this.providerCards[0].authorizedStatus = 'notAuthorized';
+				}
+
+				if (r.dropbox) {
+					this.dropboxUserSubject.next(r.dropbox);
+				} else {
+					this.providerCards[5].authorizedStatus = 'notAuthorized';
+				}
+
+				if (r.github) {
+					this.githubUserSubject.next(r.github);
+				} else {
+					this.providerCards[1].authorizedStatus = 'notAuthorized';
+				}
+
+				if (r.bitbucket) {
+					this.bitbucketUserSubject.next(r.bitbucket);
+				} else {
+					this.providerCards[4].authorizedStatus = 'notAuthorized';
+				}
 			});
 	}
 
@@ -178,7 +226,7 @@ export class StepSourceControlComponent {
 
 		var pollTimer = window.setInterval(() => {
 			try {
-				if (win.document.URL.indexOf(`/auth/${provider}/callback`) != -1) {
+				if (win.document.URL.indexOf(`/callback`) != -1) {
 					window.clearInterval(pollTimer);
 
 					this._cacheService

@@ -10,14 +10,14 @@
       <div class="essentials-col">
         <!-- TODO: Replace ALL Hardcoded strings, these are currently Temporary -->
         <div>
-          <label id="siteStatusLabel">Source</label>
+          <label id="siteStatusLabel">{{'source' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{SourceLocation}}
           </div>
         </div>
 
         <div>
-          <label id="siteStatusLabel">Build</label>
+          <label id="siteStatusLabel">{{'build' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             Kudu
           </div>
@@ -28,14 +28,14 @@
       <div class="essentials-col" *ngIf="Branch">
 
         <div>
-          <label id="siteStatusLabel">Repo</label>
+          <label id="siteStatusLabel">{{'repository' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{Repo}}
           </div>
         </div>
 
         <div>
-          <label id="siteStatusLabel">Branch</label>
+          <label id="siteStatusLabel">{{'branch' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{Branch}}
           </div>
@@ -46,7 +46,7 @@
       <div class="essentials-col" *ngIf="SourceLocation === 'Local Git'">
 
         <div>
-          <label id="siteStatusLabel">Git Clone Uri</label>
+          <label id="siteStatusLabel">{{'gitCloneUri' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{GitCloneUri}}
           </div>
@@ -56,14 +56,14 @@
       <div class="essentials-col" *ngIf="FolderPath">
 
         <div>
-          <label id="siteStatusLabel">Folder</label>
+          <label id="siteStatusLabel">{{'folder' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{FolderPath}}
           </div>
         </div>
 
         <div>
-          <label id="siteStatusLabel">Rollback Enabled</label>
+          <label id="siteStatusLabel">{{'rollbackEnabled' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{RollbackEnabled}}
           </div>
@@ -72,7 +72,7 @@
 
       <div class="essentials-col" *ngIf="Branch">
         <div>
-          <label id="siteStatusLabel">Source Control Type</label>
+          <label id="siteStatusLabel">{{'scmType' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
             {{ScmType}}
           </div>

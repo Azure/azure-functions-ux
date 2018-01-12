@@ -1,10 +1,8 @@
 import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { CacheService } from '../../shared/services/cache.service';
-import { SiteData, TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/map';
@@ -19,85 +17,93 @@ import { AiService } from '../../shared/services/ai.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
-    selector: 'app-deployment-center',
-    templateUrl: './deployment-center.component.html',
-    styleUrls: ['./deployment-center.component.scss']
+	selector: 'app-deployment-center',
+	templateUrl: './deployment-center.component.html',
+	styleUrls: ['./deployment-center.component.scss']
 })
-export class DeploymentCenterComponent implements OnInit {
-    public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
-    private _viewInfoSubscription: RxSubscription;
-    @Input()
-    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
-        this.viewInfoStream.next(viewInfo);
-    }
+export class DeploymentCenterComponent implements OnInit, OnDestroy {
+	public resourceIdStream: Subject<string>;
+	private _resourceId: string;
+	@Input()
+	set resourceId(resourceId: string) {
+		this._resourceId = resourceId;
+		this.resourceIdStream.next(resourceId);
+	}
 
-    private _writePermission = true;
-    private _readOnlyLock = false;
-    public hasWritePermissions = true;
+	get resourceId() {
+		return this._resourceId;
+	}
 
-    private _siteConfigObject: ArmObj<SiteConfig>;
-    private _busyManager: BusyStateScopeManager;
+	public hasWritePermissions = true;
 
-    public resourceId: string;
+	private _ngUnsubscribe = new Subject();
+	private _siteConfigObject: ArmObj<SiteConfig>;
+	private _busyManager: BusyStateScopeManager;
 
-    public showFTPDashboard = false;
-    public showWebDeployDashboard = false;
+	public showFTPDashboard = false;
+	public showWebDeployDashboard = false;
 
-    constructor(
-        private _aiService: AiService,
-        private _authZService: AuthzService,
-        private _cacheService: CacheService,
-        broadcastService: BroadcastService
-    ) {
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+	constructor(
+		private _aiService: AiService,
+		private _authZService: AuthzService,
+		private _cacheService: CacheService,
+		broadcastService: BroadcastService
+	) {
+		this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
-        this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
-        this._viewInfoSubscription = this.viewInfoStream
-            .switchMap(viewInfo => {
-                this._busyManager.setBusy();
-                this.resourceId = viewInfo.resourceId;
-                this._siteConfigObject = null;
-                return Observable.zip(
-                    this._cacheService.getArm(`${viewInfo.resourceId}/config/web`),
-                    this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(viewInfo.resourceId),
-                    (sc, wp, rl) => ({
-                        siteConfig: sc.json(),
-                        writePermission: wp,
-                        readOnlyLock: rl
-                    })
-                );
-            })
-            .do(null, error => {
-                this._siteConfigObject = null;
-                this._aiService.trackEvent('/errors/deployment-center', error);
-                this._busyManager.clearBusy();
-            })
-            .retry()
-            .subscribe(r => {
-                this._siteConfigObject = r.siteConfig;
-                this._writePermission = r.writePermission;
-                this._readOnlyLock = r.readOnlyLock;
-                this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
-                this._busyManager.clearBusy();
-            });
-        broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.ReloadDeploymentCenter).subscribe(this.refreshedSCMType.bind(this));
-    }
+		this.resourceIdStream = new Subject<string>();
+		this.resourceIdStream
+			.takeUntil(this._ngUnsubscribe)
+			.distinctUntilChanged()
+			.switchMap(resourceId => {
+				this._busyManager.setBusy();
+				this.resourceId = resourceId;
+				this._siteConfigObject = null;
+				return Observable.zip(
+					this._cacheService.getArm(`${resourceId}/config/web`),
+					this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
+					this._authZService.hasReadOnlyLock(resourceId),
+					(sc, wp, rl) => ({
+						siteConfig: sc.json(),
+						writePermission: wp,
+						readOnlyLock: rl
+					})
+				);
+			})
+			.subscribe(
+				r => {
+					this._siteConfigObject = r.siteConfig;
+					this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+					this._busyManager.clearBusy();
+				},
+				error => {
+					this._siteConfigObject = null;
+					this._aiService.trackEvent('/errors/deployment-center', error);
+					this._busyManager.clearBusy();
+				}
+			);
+		broadcastService.getEvents<string>(BroadcastEvent.ReloadDeploymentCenter).subscribe(this.refreshedSCMType.bind(this));
+	}
 
-    refreshedSCMType() {
-        this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
-        this.viewInfoStream.next({resourceId: this.resourceId} as any);
-    }
+	refreshedSCMType() {
+		this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
+		this.resourceIdStream.next(this.resourceId);
+	}
 
-    get DeploymentSetUpComplete() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None';
-    }
+	get DeploymentSetUpComplete() {
+		return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None';
+	}
 
-    get ScmType() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType;
-    }
+	get ScmType() {
+		return this._siteConfigObject && this._siteConfigObject.properties.scmType;
+	}
 
-    ngOnInit() {}
+	ngOnDestroy() {
+		this._ngUnsubscribe.next();
+	}
+
+	ngOnInit() {}
 }

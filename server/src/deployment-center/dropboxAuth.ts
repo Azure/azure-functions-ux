@@ -35,7 +35,7 @@ export function setupDropboxAuthentication(app: Application) {
 
 		res.redirect(
 			`https://dropbox.com/oauth2/authorize?client_id=${process.env.DROPBOX_CLIENT_ID}&redirect_uri=${process.env
-				.DROPBOX_REDIRECT_URL}&response_type=code&state=${oauthHelper.hashStateGuid(stateKey)}`
+				.DROPBOX_REDIRECT_URL}&response_type=code&state=${oauthHelper.hashStateGuid(stateKey).substr(0, 10)}`
 		);
 	});
 
@@ -51,7 +51,7 @@ export function setupDropboxAuthentication(app: Application) {
 			!req ||
 			!req.session ||
 			!req.session['dropbox_state_key'] ||
-			oauthHelper.hashStateGuid(req.session['dropbox_state_key']) !== state
+			oauthHelper.hashStateGuid(req.session['dropbox_state_key']).substr(0, 10) !== state
 		) {
 			res.sendStatus(403);
 			return;
@@ -59,14 +59,10 @@ export function setupDropboxAuthentication(app: Application) {
 		try {
 			const r = await axios.post(
 				`https://api.dropbox.com/oauth2/token`,
-				`code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}`,
+				`code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${process.env
+					.DROPBOX_CLIENT_ID}&client_secret=${process.env.DROPBOX_CLIENT_SECRET}`,
 				{
-					auth: {
-						username: process.env.DROPBOX_CLIENT_ID as string,
-						password: process.env.DROPBOX_CLIENT_SECRET as string
-					},
 					headers: {
-						Referer: process.env.DROPBOX_REDIRECT_URL,
 						'Content-type': 'application/x-www-form-urlencoded'
 					}
 				}
@@ -75,6 +71,7 @@ export function setupDropboxAuthentication(app: Application) {
 			oauthHelper.putTokenInArm(token, req.headers.authorization as string);
 			res.sendStatus(200);
 		} catch (err) {
+			console.log(err);
 			res.sendStatus(400);
 		}
 	});

@@ -759,7 +759,12 @@
     public static rrOverride_request: string = "rrOverride_request";
     public static rrOverride_response: string = "rrOverride_response";
     public static optional: string = "optional";
+    public static gitCloneUri: string = "gitCloneUri";
+    public static rollbackEnabled: string = "rollbackEnabled";
+    public static scmType: string = "scmType";
     public static redeploy: string = "redeploy";
+    public static activity: string = "activity";
+    public static active: string = "active";
     public static time: string = "time";
     public static log: string = "log";
     public static showLogs: string = "showLogs";
@@ -822,4 +827,23 @@
     public static appFunctionSettings_warning_6: string = "appFunctionSettings_warning_6";
     public static appFunctionSettings_warning_7: string = "appFunctionSettings_warning_7";
     public static warning: string = "warning";
+    public static authorizedAs: string = "authorizedAs";
+    public static continue: string = "continue";
+    public static authorize: string = "authorize";
+    public static changeAuthorization: string = "changeAuthorization";
+    public static back: string = "back";
+    public static finish: string = "finish";
+    public static code: string = "code";
+    public static repository: string = "repository";
+    public static branch: string = "branch";
+    public static folder: string = "folder";
+    public static repoType: string = "repoType";
+    public static organization: string = "organization";
+    public static vstsAccount: string = "vstsAccount";
+    public static project: string = "project";
+    public static build: string = "build";
+    public static account: string = "account";
+    public static loadTest: string = "loadTest";
+    public static slot: string = "slot";
+    public static production: string = "production";
 }

@@ -9,14 +9,14 @@
   <div class="essentials-col">
     <!-- TODO: Replace ALL Hardcoded strings, these are currently Temporary -->
     <div>
-      <label id="siteStatusLabel">Build Provider</label>
+      <label id="siteStatusLabel">{{'build' | translate}}</label>
       <!-- No Click Action -->
       <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
         VSTS
       </div>
     </div>
     <div>
-      <label id="siteStatusLabel">Source</label>
+      <label id="siteStatusLabel">{{'source' | translate}}</label>
       <!-- No Click Action -->
       <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
         {{SourceText}}
@@ -27,7 +27,7 @@
 
   <div class="essentials-col">
     <div>
-      <label id="siteStatusLabel">Account</label>
+      <label id="siteStatusLabel">{{'account' | translate}}</label>
       <div>
         <a (click)="accountOnClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
               {{AccountText}}
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div>
-      <label id="siteStatusLabel">Project</label>
+      <label id="siteStatusLabel">{{'project' | translate}}</label>
       <!-- No Click Action -->
       <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
         {{ProjectName}}
@@ -45,7 +45,7 @@
 
   <div class="essentials-col">
     <div>
-      <label id="siteStatusLabel">Repository</label>
+      <label id="siteStatusLabel">{{'repository' | translate}}</label>
       <div>
         <a (click)="repositoryOnClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
                 {{RepositoryText}}
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div>
-      <label id="siteStatusLabel">Branch</label>
+      <label id="siteStatusLabel">{{'branch' | translate}}</label>
       <!-- No Click Action -->
       <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
         {{BranchText}}
@@ -62,7 +62,7 @@
   </div>
   <div class="essentials-col">
     <div>
-      <label id="siteStatusLabel">Load Test</label>
+      <label id="siteStatusLabel">{{'loadTest' | translate}}</label>
       <!-- No Click Action -->
       <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
         {{LoadTestText}}
@@ -70,7 +70,7 @@
     </div>
 
     <div>
-      <label id="siteStatusLabel">Slot</label>
+      <label id="siteStatusLabel">{{'slot' | translate}}</label>
       <div *ngIf="!SlotName" tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
         Production
       </div>
