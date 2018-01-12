@@ -1,0 +1,11 @@
+@import '../../../../../../sass/main';
+
+.newOrExistingSelection{
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: $value-text-color;
+
+    input{
+        margin: 0px 10px;
+    }
+}

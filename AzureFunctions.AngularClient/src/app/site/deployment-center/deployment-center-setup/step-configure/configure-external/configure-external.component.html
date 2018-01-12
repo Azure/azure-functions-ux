@@ -1,0 +1,40 @@
+<div class="settings-group-wrapper">
+
+  <h3 class="first-config-heading">{{'code' | translate}}</h3>
+
+  <div class="settings-wrapper">
+    <div class="setting-wrapper">
+      <div class="setting-label">{{'repository' | translate}}
+        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </div>
+      <div class="setting-control-container">
+        <textbox [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [placeholder]="'enter repo'"></textbox>
+      </div>
+    </div>
+
+    <div class="setting-wrapper">
+      <div class="setting-label">{{'branch' | translate}}
+        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </div>
+      <div class="setting-control-container">
+        <textbox [control]="this.wizard?.sourceSettings?.controls?.branch" [placeholder]="'enter branch'"></textbox>
+      </div>
+    </div>
+
+    <div class="setting-wrapper">
+      <div class="setting-label">{{'repoType' | translate}}
+        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </div>
+      <div class="setting-control-container">
+        <radio-selector [defaultValue]="repoMode" [options]="RepoTypeOptions" (value)="repoTypeChanged($event)"></radio-selector>
+      </div>
+    </div>
+
+  </div>
+</div>

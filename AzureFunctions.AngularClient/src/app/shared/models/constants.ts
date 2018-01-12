@@ -1,5 +1,4 @@
-﻿
-export class HttpMethods {
+﻿export class HttpMethods {
     public static GET = 'get';
     public static POST = 'post';
     public static DELETE = 'delete';
@@ -11,10 +10,11 @@ export class HttpMethods {
 }
 
 export class Constants {
-    public static serviceHost =
-        window.location.hostname === 'localhost' || window.appsvc.env.runtimeType === 'Standalone' || window.appsvc.env.runtimeType === 'OnPrem'
-            ? `https://${window.location.hostname}:${window.location.port}/`
-            : `https://${window.location.hostname}/`;
+    public static serviceHost = window.location.hostname === 'localhost' ||
+    window.appsvc.env.runtimeType === 'Standalone' ||
+    window.appsvc.env.runtimeType === 'OnPrem'
+        ? `https://${window.location.hostname}:${window.location.port}/`
+        : `https://${window.location.hostname}/`;
 
     public static nodeVersion = '6.5.0';
     public static latest = 'latest';
@@ -66,6 +66,7 @@ export class SiteTabIds {
     public static readonly apiDefinition = 'apiDefinition';
     public static readonly config = 'config';
     public static readonly applicationSettings = 'appSettings';
+    public static readonly continuousDeployment = 'continuousDeployment';
     public static readonly logicApps = 'logicApps';
 }
 
@@ -113,40 +114,39 @@ export class LocalStorageKeys {
 }
 
 export class Order {
-    public static templateOrder: string[] =
-        [
-            'HttpTrigger-',
-            'TimerTrigger-',
-            'QueueTrigger-',
-            'ServiceBusQueueTrigger-',
-            'ServiceBusTopicTrigger-',
-            'BlobTrigger-',
-            'EventHubTrigger-',
-            'CosmosDBTrigger-',
-            'IoTHubTrigger-',
-            'IoTHubServiceBusQueueTrigger-',
-            'IoTHubServiceBusTopicTrigger-',
-            'GenericWebHook-',
-            'GitHubCommenter-',
-            'GitHubWebHook-',
-            'HttpGET(CRUD)-',
-            'HttpPOST(CRUD)-',
-            'HttpPUT(CRUD)-',
-            'HttpTriggerWithParameters-',
-            'ScheduledMail-',
-            'SendGrid-',
-            'FaceLocator-',
-            'ImageResizer-',
-            'SasToken-',
-            'ManualTrigger-',
-            'CDS-',
-            'AppInsightsHttpAvailability-',
-            'AppInsightsRealtimePowerBI-',
-            'AppInsightsScheduledAnalytics-',
-            'AppInsightsScheduledDigest-',
-            'ExternalFileTrigger-',
-            'ExternalTable-'
-        ];
+    public static templateOrder: string[] = [
+        'HttpTrigger-',
+        'TimerTrigger-',
+        'QueueTrigger-',
+        'ServiceBusQueueTrigger-',
+        'ServiceBusTopicTrigger-',
+        'BlobTrigger-',
+        'EventHubTrigger-',
+        'CosmosDBTrigger-',
+        'IoTHubTrigger-',
+        'IoTHubServiceBusQueueTrigger-',
+        'IoTHubServiceBusTopicTrigger-',
+        'GenericWebHook-',
+        'GitHubCommenter-',
+        'GitHubWebHook-',
+        'HttpGET(CRUD)-',
+        'HttpPOST(CRUD)-',
+        'HttpPUT(CRUD)-',
+        'HttpTriggerWithParameters-',
+        'ScheduledMail-',
+        'SendGrid-',
+        'FaceLocator-',
+        'ImageResizer-',
+        'SasToken-',
+        'ManualTrigger-',
+        'CDS-',
+        'AppInsightsHttpAvailability-',
+        'AppInsightsRealtimePowerBI-',
+        'AppInsightsScheduledAnalytics-',
+        'AppInsightsScheduledDigest-',
+        'ExternalFileTrigger-',
+        'ExternalTable-'
+    ];
 }
 
 // NOTE: If you change any string values here, make sure you search for references to the values

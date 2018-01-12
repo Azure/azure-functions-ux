@@ -26,7 +26,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   @Input() name: string | null;
   @Input() tblClass = 'tbl';
   @Input() items: TableItem[];
-
   // groupColName will be what col items are sorted by within individual groups
   // if no grouping is done in the table it is null
   @Input() groupColName: string | null;
@@ -353,7 +352,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     return this._origItems;
   }
 
-  groupItems(name: string) {
+  groupItems(name: string, sortDir: 'asc' | 'desc' = 'asc') {
 
     if (!this.groupColName) {
       throw Error('No group name was specified for this table component');
@@ -381,7 +380,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
 
           return bCol.localeCompare(aCol);
         });
-
+      
       // determine uniqueGroup values
       const uniqueDictGroups = {};
       newItems.forEach(item => {
@@ -405,7 +404,8 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       // reverse newItems to be all groups, sorted, followed by all rows, sorted then push onto items in correct order
       this.items = [];
       newItems.reverse();
-      uniqueGroups.sort().forEach(group => {
+      const sortMult = sortDir === 'asc' ? 1 : -1;
+      uniqueGroups.sort((a, b) => a.localeCompare(b) * sortMult).forEach(group => {
         newItems.forEach(item => {
           if (item.type === 'group' && item[this.groupColName] === group) {
             this.items.push(item);

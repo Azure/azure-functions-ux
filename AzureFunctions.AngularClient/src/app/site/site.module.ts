@@ -15,6 +15,7 @@ import { SiteDashboardComponent } from './site-dashboard/site-dashboard.componen
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { DeploymentCenterModule } from 'app/site/deployment-center/deployment-center.module';
 import { HostEditorComponent } from './../host-editor/host-editor.component';
 import { SiteConfigModule } from 'app/site/site-config/site-config.module';
 
@@ -36,6 +37,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SharedModule,
         SharedFunctionsModule,
         SiteConfigModule,
+        DeploymentCenterModule,
         routing
     ],
     declarations: [

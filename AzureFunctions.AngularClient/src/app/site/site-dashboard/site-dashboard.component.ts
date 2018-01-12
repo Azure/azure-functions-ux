@@ -31,6 +31,7 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
 import { PartSize } from '../../shared/models/portal';
 import { NavigableComponent } from '../../shared/components/navigable-component';
+import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment-center.component';
 
 @Component({
     selector: 'site-dashboard',
@@ -38,7 +39,6 @@ import { NavigableComponent } from '../../shared/components/navigable-component'
     styleUrls: ['./site-dashboard.component.scss']
 })
 export class SiteDashboardComponent extends NavigableComponent implements OnDestroy {
-
     // We keep a static copy of all the tabs that are open becuase we want to reopen them
     // if a user changes apps or navigates away and comes back.  But we also create an instance
     // copy because the template can't reference static properties
@@ -67,10 +67,12 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         private _translateService: TranslateService,
         private _scenarioService: ScenarioService,
         private _logService: LogService,
-        broadcastService: BroadcastService) {
+        broadcastService: BroadcastService
+    ) {
         super('site-dashboard', broadcastService, DashboardType.AppDashboard);
 
-        this._broadcastService.getEvents<DirtyStateEvent>(BroadcastEvent.DirtyStateChange)
+        this._broadcastService
+            .getEvents<DirtyStateEvent>(BroadcastEvent.DirtyStateChange)
             .takeUntil(this._ngUnsubscribe)
             .subscribe(event => {
                 if (!event.dirty && !event.reason) {
@@ -107,9 +109,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         return this.navigationEvents
             .switchMap(viewInfo => {
                 if (this._globalStateService.showTryView) {
-                    this._globalStateService.setDisabledMessage(
-                        this._translateService.instant(PortalResources.try_appDisabled)
-                    );
+                    this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
                 }
 
                 viewInfo.data.siteTabRevealedTraceKey = this._aiService.startTrace();
@@ -118,7 +118,8 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 this._globalStateService.setBusyState();
 
                 if (!this._openTabSubscription) {
-                    this._openTabSubscription = this._broadcastService.getEvents<string>(BroadcastEvent.OpenTab)
+                    this._openTabSubscription = this._broadcastService
+                        .getEvents<string>(BroadcastEvent.OpenTab)
                         .takeUntil(this._ngUnsubscribe)
                         .subscribe(tabId => {
                             if (tabId) {
@@ -132,13 +133,9 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             })
             .do(null, e => {
                 const descriptor = new SiteDescriptor(this.viewInfo.resourceId);
-                let message = this._translateService
-                    .instant(PortalResources.siteDashboard_getAppError)
-                    .format(descriptor.site);
+                let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
                 if (e && e.status === 404) {
-                    message = this._translateService
-                        .instant(PortalResources.siteDashboard_appNotFound)
-                        .format(descriptor.site);
+                    message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
                 }
 
                 this._logService.error(LogCategories.siteDashboard, '/site-dashboard', e);
@@ -156,10 +153,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                     const info = this.tabInfos[i];
 
                     if (info.active) {
-                        this._logService.debug(
-                            LogCategories.siteDashboard,
-                            `Updating inputs for active tab '${info.id}'`
-                        );
+                        this._logService.debug(LogCategories.siteDashboard, `Updating inputs for active tab '${info.id}'`);
 
                         // We're not recreating the active tab so that it doesn't flash in the UI
                         this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo };
@@ -171,10 +165,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                         this.tabInfos[i] = this._getTabInfo(info.id, false /* active */, {
                             viewInfoInput: this.viewInfo
                         });
-                        this._logService.debug(
-                            LogCategories.siteDashboard,
-                            `Creating new component for inactive tab '${info.id}'`
-                        );
+                        this._logService.debug(LogCategories.siteDashboard, `Creating new component for inactive tab '${info.id}'`);
                     }
                 }
 
@@ -205,7 +196,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         this._logService.verbose(LogCategories.siteDashboard, `Select Tab - ${info.id}`);
 
         this._aiService.trackEvent('/sites/open-tab', { name: info.id });
-        this.tabInfos.forEach(t => t.active = t.id === info.id);
+        this.tabInfos.forEach(t => (t.active = t.id === info.id));
 
         this.viewInfo.data.siteTabRevealedTraceKey = this._aiService.startTrace();
         this.viewInfo.data.siteTabFullReadyTraceKey = this._aiService.startTrace();
@@ -280,7 +271,9 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             iconUrl: null,
             dirty: false,
             componentFactory: null,
-            componentInput: input ? Object.assign({}, input, { viewInfo: input.viewInfoInput, viewInfoComponent_viewInfo: input.viewInfoInput }) : {}
+            componentInput: input
+                ? Object.assign({}, input, { viewInfo: input.viewInfoInput, viewInfoComponent_viewInfo: input.viewInfoInput })
+                : {}
         };
 
         switch (tabId) {
@@ -326,6 +319,14 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 info.iconUrl = 'image/logicapp.svg';
                 info.componentFactory = LogicAppsComponent;
                 info.closeable = true;
+                break;
+            case SiteTabIds.continuousDeployment:
+                info.title = 'Deployment Center';
+                info.iconUrl = 'image/deployment-source.svg';
+                info.componentFactory = DeploymentCenterComponent;
+                info.componentInput = {
+                    resourceId: input.viewInfoInput.resourceId
+                };
                 break;
         }
 
