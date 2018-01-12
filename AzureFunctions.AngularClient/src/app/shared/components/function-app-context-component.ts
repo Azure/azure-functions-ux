@@ -5,7 +5,7 @@ import { TreeViewInfo } from 'app/tree-view/models/tree-view-info';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-result';
 import { FunctionInfo } from 'app/shared/models/function-info';
-import { SiteDescriptor, FunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor, ArmFunctionDescriptor, CdsEntityDescriptor } from 'app/shared/resourceDescriptors';
 import { Subject } from 'rxjs/Subject';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -18,8 +18,8 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
     public context: FunctionAppContext;
 
     protected viewInfoEvents: Observable<TreeViewInfo<any> & {
-        siteDescriptor: SiteDescriptor | null;
-        functionDescriptor: FunctionDescriptor | null;
+        siteDescriptor: ArmSiteDescriptor | CdsEntityDescriptor | null;
+        functionDescriptor: ArmFunctionDescriptor | null;
         context: FunctionAppContext | null;
         functionInfo: FunctionAppHttpResult<FunctionInfo> | null;
     }>;
@@ -43,15 +43,15 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
             .takeUntil(this.ngUnsubscribe)
             .filter(view => !!view)
             .map(view => {
-                let siteDescriptor: SiteDescriptor | null;
-                let functionDescriptor: FunctionDescriptor | null;
+                let siteDescriptor: ArmSiteDescriptor | CdsEntityDescriptor | null;
+                let functionDescriptor: ArmFunctionDescriptor | null;
                 try {
-                    siteDescriptor = new SiteDescriptor(view.resourceId);
+                    siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(view.resourceId);
                 } catch {
                     siteDescriptor = null;
                 }
                 try {
-                    functionDescriptor = new FunctionDescriptor(view.resourceId);
+                    functionDescriptor = new ArmFunctionDescriptor(view.resourceId);
                 } catch {
                     functionDescriptor = null;
                 }

@@ -318,8 +318,17 @@
   <data name="logStreaming_copyLogs" xml:space="preserve">
     <value>Copy logs</value>
   </data>
+  <data name="logStreaming_noLogs" xml:space="preserve">
+    <value>No logs to display</value>
+  </data>
+  <data name="logStreaming_failedToDownload" xml:space="preserve">
+    <value>Failed to download log content - '{0}'</value>
+  </data>
   <data name="logStreaming_pause" xml:space="preserve">
     <value>Pause</value>
+  </data>
+  <data name="logStreaming_paused" xml:space="preserve">
+    <value>Logging paused</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
     <value>Start</value>
@@ -1790,7 +1799,7 @@
     <value>We are not able to delete the file {{fileName}}. Please try again later.</value>
   </data>
   <data name="error_unableToDeleteFunction" xml:space="preserve">
-    <value>We are not able to delete function {{functionName}}. Please try again later.</value>
+    <value>We are not able to delete function '{0}'. Please try again later.</value>
   </data>
   <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
     <value>We are not able to get the content for {{fileName}}. Please try again later.</value>
@@ -1808,7 +1817,10 @@
     <value>We are not able to retrieve directory content for your function. Please try again later.</value>
   </data>
   <data name="error_unableToRetrieveFunction" xml:space="preserve">
-    <value>We are unable to get function {{functionName}}. Please try again later.</value>
+    <value>We are unable to get the content for function '{0}'. Please try again later.</value>
+  </data>
+  <data name="error_unableToSaveFunction" xml:space="preserve">
+    <value>We are unable to save the content for function '{0}'.</value>
   </data>
   <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
     <value>We are unable to retrieve the runtime config. Please try again later.</value>
@@ -2565,6 +2577,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="warning" xml:space="preserve">
     <value>Warning</value>
+  </data>
+  <data name="entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="entityColon" xml:space="preserve">
+    <value>Entity:</value>
   </data>
   <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
     <value>Function API definition (Swagger) feature is not supported for beta runtime currently.</value>

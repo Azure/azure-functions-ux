@@ -1,3 +1,4 @@
+import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { Component, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
@@ -75,7 +76,7 @@ export class ServiceBusComponent extends FunctionAppContextComponent {
     setup(): Subscription {
         return this.viewInfoEvents
             .subscribe(view => {
-                const id = `/subscriptions/${view.siteDescriptor.subscription}/providers/Microsoft.ServiceBus/namespaces`;
+                const id = `/subscriptions/${(<ArmSiteDescriptor>view.siteDescriptor).subscription}/providers/Microsoft.ServiceBus/namespaces`;
                 this._cacheService.getArm(id, true).subscribe(r => {
                     this.namespaces = r.json();
                     if (this.namespaces.value.length > 0) {

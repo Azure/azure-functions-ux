@@ -1,3 +1,4 @@
+import { Injector } from '@angular/core';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
@@ -47,8 +48,10 @@ export class TryLandingComponent extends ErrorableComponent implements OnInit, O
         private _userService: UserService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _router: Router) {
-        super('try-landing', broadcastService);
+        private _router: Router,
+        private _injector: Injector) {
+
+            super('try-landing', broadcastService);
     }
 
     ngOnInit() {
@@ -228,7 +231,7 @@ export class TryLandingComponent extends ErrorableComponent implements OnInit, O
         };
 
         this._tryFunctionsService.functionContainer = tryfunctionContainer;
-        this.context = ArmUtil.mapArmSiteToContext(tryfunctionContainer, false);
+        this.context = ArmUtil.mapArmSiteToContext(tryfunctionContainer, this._injector);
 
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();

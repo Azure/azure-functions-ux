@@ -1,3 +1,4 @@
+import { PortalService } from './portal.service';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
@@ -21,9 +22,10 @@ export class ArmTryService extends ArmService {
 
     constructor(http: Http,
         userService: UserService,
+        portalService: PortalService,
         aiService: AiService) {
 
-        super(http, userService, aiService);
+        super(http, userService, portalService, aiService);
     }
 
     public set tryFunctionAppContext(value: FunctionAppContext) {

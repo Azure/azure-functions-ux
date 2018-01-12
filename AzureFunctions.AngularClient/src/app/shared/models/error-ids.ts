@@ -59,4 +59,7 @@ export namespace errorIds {
     export const timeoutInstallingFunctionRuntimeExtension = '/errors/timeoutInstallingFunctionRuntimeExtension';
     export const extensionAlreadyInstalledWithDifferentVersion = '/errors/extensionAlreadyInstalledWithDifferentVersion';
     export const proxyJsonNotFound = '/errors/proxyJsonNotFound';
+    export const embeddedEditorLoadError = '/errors/embedded/editor-load';
+    export const embeddedEditorSaveError = '/errors/embedded/editor-save';
+    export const embeddedEditorDeleteError = '/errors/embedded/editor-delete';
 }

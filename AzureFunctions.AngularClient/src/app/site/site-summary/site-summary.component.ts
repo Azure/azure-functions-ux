@@ -33,7 +33,7 @@ import { Url } from './../../shared/Utilities/url';
 
 import { CacheService } from '../../shared/services/cache.service';
 import { AuthzService } from '../../shared/services/authz.service';
-import { SiteDescriptor } from '../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Site } from '../../shared/models/arm/site';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
@@ -115,12 +115,12 @@ export class SiteSummaryComponent implements OnDestroy {
                     timerId: 'TreeViewLoad',
                     timerAction: 'stop'
                 });
-                const siteDescriptor = new SiteDescriptor(viewInfo.resourceId);
+                const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
                 return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId());
             })
             .switchMap(context => {
                 this.context = context;
-                const descriptor = new SiteDescriptor(context.site.id);
+                const descriptor = new ArmSiteDescriptor(context.site.id);
                 this.subscriptionId = descriptor.subscription;
 
                 if (this.showTryView) {
@@ -533,7 +533,7 @@ export class SiteSummaryComponent implements OnDestroy {
         appsNode.select(true);
 
         this._busyManager.setBusy();
-        this._cacheService.deleteArm(this.context.site.id, true)
+        this._cacheService.deleteArm(this.context.site.id)
             .subscribe(r => {
                 this._busyManager.clearBusy();
                 appsNode.refresh();

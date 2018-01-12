@@ -8,7 +8,7 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/filter';
 import { DashboardType } from '../../tree-view/models/dashboard-type';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
-import { SiteDescriptor, FunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor, ArmFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { Subscription } from 'rxjs/Subscription';
 import { ErrorableComponent } from './errorable-component';
 
@@ -21,7 +21,7 @@ type FilterType = DashboardType | DashboardType[] | ((view: TreeViewInfo<TreeNod
 
 export abstract class NavigableComponent extends ErrorableComponent implements OnDestroy {
     public viewInfo: TreeViewInfo<SiteData>;
-    protected navigationEvents: Observable<TreeViewInfo<SiteData> & { siteDescriptor: SiteDescriptor; functionDescriptor: FunctionDescriptor }>;
+    protected navigationEvents: Observable<TreeViewInfo<SiteData> & { siteDescriptor: ArmSiteDescriptor; functionDescriptor: ArmFunctionDescriptor }>;
     protected ngUnsubscribe: Observable<void>;
     private navigationSubscription: Subscription;
     private timeout: number;
@@ -44,15 +44,15 @@ export abstract class NavigableComponent extends ErrorableComponent implements O
                 }
             })
             .map(view => {
-                let siteDescriptor: SiteDescriptor | null;
-                let functionDescriptor: FunctionDescriptor | null;
+                let siteDescriptor: ArmSiteDescriptor | null;
+                let functionDescriptor: ArmFunctionDescriptor | null;
                 try {
-                    siteDescriptor = new SiteDescriptor(view.resourceId);
+                    siteDescriptor = new ArmSiteDescriptor(view.resourceId);
                 } catch {
                     siteDescriptor = null;
                 }
                 try {
-                    functionDescriptor = new FunctionDescriptor(view.resourceId);
+                    functionDescriptor = new ArmFunctionDescriptor(view.resourceId);
                 } catch {
                     functionDescriptor = null;
                 }

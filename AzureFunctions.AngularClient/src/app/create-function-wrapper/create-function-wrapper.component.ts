@@ -6,7 +6,7 @@ import { ConfigService } from './../shared/services/config.service';
 import { Observable } from 'rxjs/Observable';
 import { AiService } from './../shared/services/ai.service';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
-import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { Subscription } from 'rxjs/Subscription';
 import { NavigableComponent } from '../shared/components/navigable-component';
 
@@ -39,7 +39,7 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
                     || info.dashboardType === DashboardType.CreateFunctionQuickstartDashboard) {
                     return Observable.of(DashboardType[info.dashboardType]);
                 } else {
-                    const siteDescriptor = new SiteDescriptor(this.viewInfo.resourceId);
+                    const siteDescriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
                     return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId())
                         .concatMap(context => this._functionAppService.getFunctions(context))
                         .map(r => {

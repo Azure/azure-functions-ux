@@ -1,9 +1,11 @@
+import { Host } from './../models/host';
+import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { HttpMethods, HttpConstants } from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
 import { FunctionAppContext } from './../function-app-context';
 import { CacheService } from 'app/shared/services/cache.service';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Headers, Response, ResponseType } from '@angular/http';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { FunctionAppHttpResult } from './../models/function-app-http-result';
@@ -29,11 +31,9 @@ import { RunFunctionResult } from 'app/shared/models/run-function-result';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { ConditionalHttpClient } from 'app/shared/conditional-http-client';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfigService } from 'app/shared/services/config.service';
 import { errorIds } from 'app/shared/models/error-ids';
-import { SiteDescriptor } from '../resourceDescriptors';
 import { LogService } from './log.service';
-import { Host } from 'app/shared/models/host';
+import { PortalService } from 'app/shared/services/portal.service';
 
 
 type Result<T> = Observable<FunctionAppHttpResult<T>>;
@@ -42,10 +42,120 @@ export class FunctionAppService {
     runtime: ConditionalHttpClient;
     private readonly azure: ConditionalHttpClient;
 
+    private testJsonTemplates = JSON.stringify([
+        {
+            "id": "SyncTrigger-CSharp",
+            "runtime": "1",
+            "files": {
+                "readme.md": "# HttpTrigger -on",
+                "run.csx": "#r \"..\\bin\\Microsoft.Xrm.Sdk.dll\"\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\"name\"] = entity.Attributes[\"name\"].ToString().ToUpper();\n\treturn entity;\n}",
+                "sample.dat": "{}"
+            },
+            "function": {
+                "disabled": false,
+                "bindings": [
+                    {
+                        "name": "entity",
+                        "message": "create",
+                        "type": "synctrigger",
+                        "direction": "in"
+                    }
+                ]
+            },
+            "metadata": {
+                "defaultFunctionName": "SyncTriggerCSharp",
+                "description": "$SyncTrigger_description",
+                "name": "Sync trigger",
+                "language": "C#",
+                "trigger": "SyncTrigger",
+                "category": [
+                    "$temp_category_core"
+                ],
+                "categoryStyle": "http",
+                "enabledInTryMode": true,
+                "userPrompt": [
+                    "message"
+                ]
+            }
+        },
+        {
+            "id": "SyncTrigger-JavaScript",
+            "runtime": "1",
+            "files": {
+                "index.js": "module.exports",
+                "sample.dat": "{}"
+            },
+            "function": {
+                "disabled": false,
+                "bindings": [
+                    {
+                        "name": "entity",
+                        "message": "create",
+                        "type": "synctrigger",
+                        "direction": "in"
+                    }
+                ]
+            },
+            "metadata": {
+                "defaultFunctionName": "SyncTriggerJS",
+                "description": "$SyncTrigger_description",
+                "name": "Sync trigger",
+                "language": "JavaScript",
+                "trigger": "SyncTrigger",
+                "category": [
+                    "$temp_category_core"
+                ],
+                "categoryStyle": "http",
+                "enabledInTryMode": true,
+                "userPrompt": [
+                    "message"
+                ]
+            }
+        }
+    ]);
+
+    private testJsonBindings = JSON.stringify({
+        "bindings": [
+            {
+                "type": "syncTrigger",
+                "displayName": "Sync",
+                "direction": "trigger",
+                "settings": [
+                    {
+                        "name": "message",
+                        "value": "enum",
+                        "enum": [
+                            {
+                                "value": "Create",
+                                "display": "Create"
+                            },
+                            {
+                                "value": "Destroy",
+                                "display": "Destroy"
+                            },
+                            {
+                                "value": "Update",
+                                "display": "Update"
+                            },
+                            {
+                                "value": "Retrieve",
+                                "display": "Retrieve"
+                            }
+                        ],
+                        "label": "Event",
+                        "help": "Event help"
+                    }
+                ]
+
+            }
+        ]
+    });
+
     constructor(private _cacheService: CacheService,
         private _translateService: TranslateService,
-        private _configService: ConfigService,
         private _userService: UserService,
+        private _injector: Injector,
+        private _portalService: PortalService,
         logService: LogService) {
 
         this.runtime = new ConditionalHttpClient(_cacheService, logService, context => this.getRuntimeToken(context), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
@@ -91,7 +201,11 @@ export class FunctionAppService {
                 if (FunctionsVersionInfoHelper.getFunctionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
                     result.functions.forEach(f => {
                         const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
-                        f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
+                        
+                        // Config doesn't exist for embedded
+                        if (f.config) {
+                            f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
+                        }
                     });
                 }
                 return result.functions;
@@ -161,6 +275,15 @@ export class FunctionAppService {
     }
 
     getTemplates(context: FunctionAppContext): Result<FunctionTemplate[]> {
+        if (this._portalService.isEmbeddedFunctions) {
+            const devTemplate: FunctionTemplate[] = JSON.parse(this.testJsonTemplates);
+            return Observable.of({
+                isSuccessful: true,
+                result: devTemplate,
+                error: null
+            });
+        }
+
         // this is for dev scenario for loading custom templates
         try {
             if (localStorage.getItem('dev-templates')) {
@@ -405,6 +528,17 @@ export class FunctionAppService {
     }
 
     getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
+        if (this._portalService.isEmbeddedFunctions) {
+            const devBindings: BindingConfig = JSON.parse(this.testJsonBindings);
+            return Observable.of({
+                isSuccessful: true,
+                result: devBindings,
+                error: null
+            });
+
+            // return Observable.of({ devBindings);
+        }
+
         try {
             if (localStorage.getItem('dev-bindings')) {
                 const devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
@@ -861,11 +995,11 @@ export class FunctionAppService {
 
     getAppContext(resourceId: string): Observable<FunctionAppContext> {
         return this._cacheService.getArm(resourceId)
-            .map(r => ArmUtil.mapArmSiteToContext(r.json(), this._configService.isStandalone()));
+            .map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector));
     }
 
     isAppInsightsEnabled(siteId: string) {
-        const descriptor = new SiteDescriptor(siteId);
+        const descriptor = new ArmSiteDescriptor(siteId);
         return Observable.zip(
             this._cacheService.postArm(`${siteId}/config/appsettings/list`),
             this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),

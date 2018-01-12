@@ -20,7 +20,7 @@ import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to
 import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
-import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
@@ -89,7 +89,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
                 this.originalItemsDeleted = 0;
                 this._resetPermissionsAndLoadingState();
                 this._slotConfigNamesArmPath =
-                    `${SiteDescriptor.getSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
+                    `${new ArmSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
                 return Observable.zip(
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(this.resourceId),

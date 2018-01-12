@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs/Subscription';
 import { FunctionAppService } from './../../shared/services/function-app.service';
 import { FunctionAppContext } from './../../shared/function-app-context';
-import { SiteDescriptor } from 'app/shared/resourceDescriptors';
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -76,7 +76,7 @@ export class ApiNewComponent extends NavigableComponent {
                 this._proxiesNode = <ProxiesNode>viewInfo.node;
                 this.appNode = (<AppNode>this._proxiesNode.parent);
 
-                const descriptor = new SiteDescriptor(viewInfo.resourceId);
+                const descriptor = new ArmSiteDescriptor(viewInfo.resourceId);
 
                 return this._functionAppService.getAppContext(descriptor.getTrimmedResourceId())
                     .concatMap(context => {

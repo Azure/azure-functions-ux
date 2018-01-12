@@ -1,9 +1,9 @@
+import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { LogCategories } from './../shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { ArmService } from 'app/shared/services/arm.service';
-import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { BusyStateScopeManager } from './../busy-state/busy-state-scope-manager';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { DropDownElement } from './../shared/models/drop-down-element';
@@ -89,7 +89,7 @@ export class LogicAppsComponent extends FunctionAppContextComponent {
                 this.initialized = false;
 
                 this._resourceId = viewInfo.resourceId;
-                this.subId = SiteDescriptor.getSiteDescriptor(this._resourceId).getWebsiteId().SubscriptionId;
+                this.subId = new ArmSiteDescriptor(this._resourceId).getWebsiteId().SubscriptionId;
                 // Have to remove leading '/' for filter to function and ending '/' for unique function apps
                 const logicAppResId = this._resourceId.substr(1) + '/';
 

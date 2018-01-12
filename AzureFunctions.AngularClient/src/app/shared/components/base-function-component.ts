@@ -1,8 +1,9 @@
+import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Observable } from 'rxjs/Observable';
 import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
-import { SiteDescriptor, FunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { FunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
@@ -10,7 +11,7 @@ import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-resul
 import { NavigableComponent } from './navigable-component';
 
 type FunctionChangedEventsType = Observable<TreeViewInfo<SiteData> & {
-    siteDescriptor: SiteDescriptor;
+    siteDescriptor: ArmSiteDescriptor;
     functionDescriptor: FunctionDescriptor;
     context: FunctionAppContext;
     functionInfo: FunctionAppHttpResult<FunctionInfo>;

@@ -14,7 +14,7 @@
         class="drop-down-select"
         [disabled]="disabled">
 
-        <option *ngIf="!_options || _options.length === 0" selected disabled hidden style='display: none' value=''></option>
+        <option selected disabled hidden style='display: none' value=''></option>
 
         <optgroup *ngFor="let group of (optionsGrouped ? _options : [])" [label]="group.displayLabel">
             <option *ngFor="let option of group.dropDownElements" [value]="option.id">{{option.displayLabel}}</option>
@@ -37,7 +37,7 @@
         [formControl]="control"
         #selectInput>
 
-        <option *ngIf="!_options || _options.length === 0" selected disabled hidden style='display: none' value=''></option>
+        <option selected disabled hidden style='display: none' value=''></option>
 
         <optgroup *ngFor="let group of (optionsGrouped ? _options : [])" [label]="group.displayLabel">
             <option *ngFor="let option of group.dropDownElements" [value]="option.value">{{option.displayLabel}}</option>

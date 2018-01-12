@@ -1,7 +1,7 @@
 import { Component, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { SiteDescriptor } from './../../shared/resourceDescriptors';
+import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { ArmObj, ArmArrayResult } from './../../shared/models/arm/arm-obj';
 import { ArmService } from '../../shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
@@ -98,7 +98,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
     setup(): Subscription {
         return this.viewInfoEvents
             .switchMap(view => {
-                const descriptor = new SiteDescriptor(view.context.site.id);
+                const descriptor = new ArmSiteDescriptor(view.context.site.id);
                 const id = `/subscriptions/${descriptor.subscription}/providers/Microsoft.EventHub/namespaces`;
                 const devicesId = `/subscriptions/${descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
                 return Observable.zip(

@@ -1,3 +1,7 @@
+import { PortalService } from 'app/shared/services/portal.service';
+import { Injector } from '@angular/core';
+import { TabComponent } from './../controls/tabs/tab/tab.component';
+import { ArmEmbeddedService } from './services/arm-embedded.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
 import { LoadImageDirective } from './../controls/load-image/load-image.directive';
@@ -19,7 +23,6 @@ import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from './services/log.service';
 import { FunctionMonitorService } from './services/function-monitor.service';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { PortalService } from './services/portal.service';
 import { LanguageService } from './services/language.service';
 import { TryFunctionsService } from './services/try-functions.service';
 import { ConfigService } from 'app/shared/services/config.service';
@@ -59,16 +62,20 @@ import { TableRootComponent } from './../controls/table-root/table-root.componen
 import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filter.pipe';
 import { ActivateWithKeysDirective } from './../controls/activate-with-keys/activate-with-keys.directive';
 
-
 export function ArmServiceFactory(
     http: Http,
     userService: UserService,
-    aiService: AiService) {
-    const service = Url.getParameterByName(null, 'trial') === 'true' ?
-        new ArmTryService(http, userService, aiService) :
-        new ArmService(http, userService, aiService);
+    portalService: PortalService,
+    aiService: AiService,
+    injector: Injector) {
 
-    return service;
+    if (Url.getParameterByName(null, 'trial') === 'true') {
+        return new ArmTryService(http, userService, portalService, aiService);
+    } else if (Url.getParameterByName(null, 'appsvc.embedded') === 'functions') {
+        return new ArmEmbeddedService(http, userService, aiService, portalService);
+    } else {
+        return new ArmService(http, userService, portalService, aiService);
+    }
 }
 
 export function AiServiceFactory() {
@@ -109,6 +116,7 @@ export function AiServiceFactory() {
         TableRowComponent,
         TableRootComponent,
         DeletedItemsFilter,
+        TabComponent,
         ActivateWithKeysDirective
     ],
     exports: [
@@ -146,6 +154,7 @@ export function AiServiceFactory() {
         TableRowComponent,
         TableRootComponent,
         DeletedItemsFilter,
+        TabComponent,
         ActivateWithKeysDirective
     ],
     imports: [
@@ -173,7 +182,9 @@ export class SharedModule {
                     provide: ArmService, useFactory: ArmServiceFactory, deps: [
                         Http,
                         UserService,
-                        AiService
+                        PortalService,
+                        AiService,
+                        Injector
                     ]
                 },
                 CacheService,
