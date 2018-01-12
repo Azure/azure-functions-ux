@@ -8,7 +8,7 @@ import { ArmService } from './../../../shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from './../../../shared/services/cache.service';
 import { Subject } from 'rxjs/Subject';
-import { Component, OnInit, AfterContentInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { FunctionEditorEvent } from 'app/function/embedded/function-editor-event';
 import { Subscription } from 'rxjs/Subscription';
 import { LogCategories } from 'app/shared/models/constants';
@@ -18,7 +18,7 @@ import { LogCategories } from 'app/shared/models/constants';
   templateUrl: './embedded-function-logs-tab.component.html',
   styleUrls: ['./embedded-function-logs-tab.component.scss']
 })
-export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent implements OnInit, AfterContentInit, OnChanges, OnDestroy {
+export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent implements OnChanges, OnDestroy {
   @Input() resourceId: string;
 
   public commands = [{
@@ -61,12 +61,6 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
       .subscribe(r => {
         this._startLogs();
       });
-  }
-
-  ngOnInit() {
-  }
-
-  ngAfterContentInit() {
   }
 
   ngOnDestroy() {

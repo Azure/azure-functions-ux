@@ -1,6 +1,5 @@
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { ArmArrayResult } from './../shared/models/arm/arm-obj';
-// import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subject } from 'rxjs/Subject';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { TreeUpdateEvent, BroadcastEvent } from './../shared/models/broadcast-event';

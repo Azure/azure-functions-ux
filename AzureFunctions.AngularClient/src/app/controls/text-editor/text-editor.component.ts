@@ -63,25 +63,7 @@ export class TextEditorComponent implements AfterContentInit {
                     }
                 });
 
-                // // TODO: test with MAC
-                // that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
-                //     that.onSave.emit(that._editor.getValue());
-                // });
-
-                // that._editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
-                //     that.onRun.emit();
-                // });
-
-                // that._globalStateService.clearBusyState();
-
-                // TODO: that._editor.addcommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_T, () => {
-                // open existing function in new tab
-                // if dirty ask to save? or save for them?
-                // change view to to open in new tab
-                // });
-
                 that.resize();
-
             });
         };
 

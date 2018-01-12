@@ -1,7 +1,7 @@
 import { BroadcastEvent } from './../../shared/models/broadcast-event';
 import { BottomTabEvent } from './bottom-tab-event';
 import { Subject } from 'rxjs/Subject';
-import { Component, Output, OnInit, Input, OnDestroy, ContentChild } from '@angular/core';
+import { Component, Output, Input, OnDestroy, ContentChild } from '@angular/core';
 import { BottomTabComponent } from 'app/controls/bottom-tabs/bottom-tab.component';
 import { EmbeddedFunctionLogsTabComponent } from 'app/function/embedded/embedded-function-logs-tab/embedded-function-logs-tab.component';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
@@ -21,7 +21,7 @@ export interface BottomTab {
   templateUrl: './bottom-tabs.component.html',
   styleUrls: ['./bottom-tabs.component.scss']
 })
-export class BottomTabsComponent implements OnInit, OnDestroy {
+export class BottomTabsComponent implements OnDestroy {
   @Input() resourceId: string;
   @Output() onExpanded = new Subject<boolean>();
 
@@ -46,10 +46,8 @@ export class BottomTabsComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {
-  }
-
   ngOnDestroy() {
+    this._ngUnsubscribe.next();
   }
 
   toggleExpanded() {

@@ -822,4 +822,5 @@
     public static warning: string = "warning";
     public static entity: string = "entity";
     public static entityColon: string = "entityColon";
+    public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
 }

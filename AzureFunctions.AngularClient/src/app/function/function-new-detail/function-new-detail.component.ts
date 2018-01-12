@@ -143,16 +143,18 @@ export class FunctionNewDetailComponent implements OnChanges {
         if (this._portalService.isEmbeddedFunctions) {
             const entityContextId = `${this.context.site.id}/entities/${this.functionEntity}`;
             this._functionAppService.getAppContext(entityContextId)
-                .subscribe(appContext => {
+                .switchMap(appContext => {
                     this.entityContext = appContext;
-                    this._functionAppService.getFunctions(this.entityContext)
-                        .subscribe(functionInfo => {
-                            this.functionsInfo = functionInfo.result;
-                            if (this.functionLanguage) {
-                                this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
-                                this.validate();
-                            }
-                        });
+                    return this._functionAppService.getFunctions(this.entityContext);
+                })
+                .subscribe(r => {
+                    if (r.isSuccessful) {
+                        this.functionsInfo = r.result;
+                        if (this.functionLanguage) {
+                            this.functionName = BindingManager.getFunctionName(this.currentTemplate.metadata.defaultFunctionName, this.functionsInfo);
+                            this.validate();
+                        }
+                    }
                 });
         } else {
             if (this.functionLanguage) {
