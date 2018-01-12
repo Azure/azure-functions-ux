@@ -92,7 +92,7 @@ export class DeploymentDetailComponent implements OnChanges {
 
     redeploy() {
         this._cacheService.putArm(this.deploymentObject.id).subscribe(r => {
-            console.log('done');
+            //TODO: Implement redeploy
         });
     }
 
