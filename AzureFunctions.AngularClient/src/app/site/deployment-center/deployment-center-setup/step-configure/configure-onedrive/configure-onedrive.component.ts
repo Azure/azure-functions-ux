@@ -6,6 +6,8 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { Constants } from 'app/shared/models/constants';
+import { Subject } from 'rxjs/Subject';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 //import { MovingDirection } from 'app/controls/form-wizard/util/moving-direction.enum';
 //import { SourceSettings } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
 
@@ -14,9 +16,11 @@ import { Constants } from 'app/shared/models/constants';
     templateUrl: './configure-onedrive.component.html',
     styleUrls: ['./configure-onedrive.component.scss', '../step-configure.component.scss']
 })
-export class ConfigureOnedriveComponent {
+export class ConfigureOnedriveComponent implements OnDestroy {
     private _resourceId: string;
     public folderList: DropDownElement<string>[];
+    private _ngUnsubscribe = new Subject();
+    private _onedriveCallSubject = new Subject();
 
     constructor(
         public wizard: DeploymentCenterWizardService,
@@ -29,15 +33,13 @@ export class ConfigureOnedriveComponent {
         this.wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
         });
-        this.fillOnedriveFolders();
-    }
-
-    public fillOnedriveFolders() {
-        this.folderList = [];
-        return this._cacheService
-            .post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
-                url: 'https://api.onedrive.com/v1.0/drive/special/approot/children'
-            })
+        this._onedriveCallSubject
+            .takeUntil(this._ngUnsubscribe)
+            .switchMap(() =>
+                this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
+                    url: 'https://api.onedrive.com/v1.0/drive/special/approot/children'
+                })
+            )
             .subscribe(r => {
                 const rawFolders = r.json();
                 let options: DropDownElement<string>[] = [];
@@ -58,9 +60,19 @@ export class ConfigureOnedriveComponent {
                         });
                     }
                 });
-                
+
                 this.folderList = options;
                 this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://api.onedrive.com/v1.0/drive/special/approot:/${siteName}`;
             });
+        this.fillOnedriveFolders();
+    }
+
+    public fillOnedriveFolders() {
+        this.folderList = [];
+        this._onedriveCallSubject.next();
+    }
+
+    ngOnDestroy(): void {
+        this._ngUnsubscribe.next();
     }
 }
