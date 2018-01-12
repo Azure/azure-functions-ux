@@ -8,7 +8,7 @@ import { PortalService } from '../../../../shared/services/portal.service';
 import { TblComponent } from '../../../../controls/tbl/tbl.component';
 import { ActivityDetailsLog, KuduLogMessage, UrlInfo, VSOBuildDefinition } from '../../Models/VSOBuildModels';
 import { VSTSLogMessageType } from '../../Models/DeploymentEnums';
-import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Deployment, DeploymentData } from '../../Models/deploymentData';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
@@ -23,19 +23,18 @@ class VSODeploymentObject extends DeploymentData {
     templateUrl: './vso-dashboard.component.html',
     styleUrls: ['./vso-dashboard.component.scss']
 })
-export class VsoDashboardComponent implements OnChanges {
+export class VsoDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
     @ViewChild('table') appTable: TblComponent;
     private _tableItems: ActivityDetailsLog[];
     public activeDeployment: ActivityDetailsLog;
 
     public viewInfoStream: Subject<string>;
-    _viewInfoSubscription: RxSubscription;
     _writePermission = true;
     _readOnlyLock = false;
     public hasWritePermissions = true;
     public deploymentObject: VSODeploymentObject;
-
+    private _ngUnsubscribe = new Subject();
     constructor(
         private _portalService: PortalService,
         private _cacheService: CacheService,
@@ -43,9 +42,9 @@ export class VsoDashboardComponent implements OnChanges {
         private _authZService: AuthzService,
         private _translateService: TranslateService
     ) {
-
         this.viewInfoStream = new Subject<string>();
-        this._viewInfoSubscription = this.viewInfoStream
+        this.viewInfoStream
+            .takeUntil(this._ngUnsubscribe)
             .distinctUntilChanged()
             .switchMap(resourceId => {
                 return Observable.zip(
@@ -196,7 +195,7 @@ export class VsoDashboardComponent implements OnChanges {
             icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
 
             // grouping is done by date therefore time information is excluded
-            date: t.format('M/D/YY'),
+            date: t.format('YY/M/D'),
 
             time: t.format('h:mm:ss A'),
             message: this._getMessage(messageJSON, item.status, logType, targetApp),
@@ -210,36 +209,46 @@ export class VsoDashboardComponent implements OnChanges {
         switch (logType) {
             case VSTSLogMessageType.Deployment:
                 return status === 4
-                    ? '{0} to {1}'.format('Deployed Successfully to', targetApp)
-                    : '{0} to {1}'.format('Failed to deploy to', targetApp);
+                    ? this._translateService.instant('deployedSuccessfullyTo').format(targetApp)
+                    : this._translateService.instant('deployedSuccessfullyTo').format(targetApp);
             case VSTSLogMessageType.SlotSwap:
                 return status === 4
-                    ? '{0} {1} with {2}'.format('Swapped slot', messageJSON.sourceSlot, messageJSON.targetSlot)
-                    : '{0} {1} with {2}'.format('Failed to swap slot', messageJSON.sourceSlot, messageJSON.targetSlot);
+                    ? this._translateService.instant('swappedSlotSuccess').format(messageJSON.sourceSlot, messageJSON.targetSlot)
+                    : this._translateService.instant('swappedSlotFail').format(messageJSON.sourceSlot, messageJSON.targetSlot);
             case VSTSLogMessageType.CDDeploymentConfiguration:
-                return status === 4 ? 'Successfully setup Continuous Delivery and triggered build' : 'Failed to setup Continuous Delivery';
+                return status === 4
+                    ? this._translateService.instant('setupCDSuccessAndTriggerBuild')
+                    : this._translateService.instant('setupCDFail');
             case VSTSLogMessageType.LocalGitCdConfiguration:
-                return 'Successfully setup Continuous Delivery for the repository';
+                return this._translateService.instant('setupCDSuccess');
             case VSTSLogMessageType.CDAccountCreated:
                 return status === 4
-                    ? 'Created new Visual Studio Team Services account'
-                    : 'Failed to create Visual Studio Team Services account';
+                    ? this._translateService.instant('createVSTSAccountSuccess')
+                    : this._translateService.instant('createVSTSAccountFail');
             case VSTSLogMessageType.CDSlotCreation:
-                return status === 4 ? 'Created new slot' : 'Failed to create a slot';
+                return status === 4
+                    ? this._translateService.instant('createdNewSlotSuccess')
+                    : this._translateService.instant('createdNewSlotFail');
             case VSTSLogMessageType.CDTestWebAppCreation:
                 return status === 4
-                    ? 'Created new Web Application for test environment'
-                    : 'Failed to create new Web Application for test environment';
+                    ? this._translateService.instant('createTestWebAppSuccess')
+                    : this._translateService.instant('createTestWebAppFail');
             case VSTSLogMessageType.CDDisconnect:
-                return 'Successfully disconnected Continuous Delivery for {0}'.format(targetApp);
+                return this._translateService.instant('disconnectCICDVSOSuccess').format(targetApp);
             case VSTSLogMessageType.StartAzureAppService:
-                return status === 4 ? '{0} got started'.format(targetApp) : 'Failed to start {0}'.format(targetApp);
+                return status === 4
+                    ? this._translateService.instant('appServiceStartSuccess').format(targetApp)
+                    : this._translateService.instant('appServiceStartFail').format(targetApp);
             case VSTSLogMessageType.StopAzureAppService:
-                return status === 4 ? '{0} got stopped'.format(targetApp) : 'Failed to stop {0}'.format(targetApp);
+                return status === 4
+                    ? this._translateService.instant('appServiceStopSuccess').format(targetApp)
+                    : this._translateService.instant('appServiceStopFail').format(targetApp);
             case VSTSLogMessageType.RestartAzureAppService:
-                return status === 4 ? '{0} got restarted'.format(targetApp) : 'Failed to restart {0}'.format(targetApp);
+                return status === 4
+                    ? this._translateService.instant('appServiceRestartSuccess').format(targetApp)
+                    : this._translateService.instant('appServiceRestartFail').format(targetApp);
             case VSTSLogMessageType.Sync:
-                return 'Successfully triggered Continuous Delivery with latest source code from repository';
+                return this._translateService.instant('vsoSync');
             default:
                 return '';
         }
@@ -326,43 +335,43 @@ export class VsoDashboardComponent implements OnChanges {
         }
         if (messageJSON.VSTSRM_BuildDefinitionWebAccessUrl) {
             urlInfo.push({
-                urlText: 'Build Definition',
+                urlText: this._translateService.instant('buildDefinition'),
                 url: messageJSON.VSTSRM_BuildDefinitionWebAccessUrl
             });
         }
         if (messageJSON.VSTSRM_ConfiguredCDEndPoint) {
             urlInfo.push({
-                urlText: 'Release Definition',
+                urlText: this._translateService.instant('releaseDefinition'),
                 url: messageJSON.VSTSRM_ConfiguredCDEndPoint
             });
         }
         if (messageJSON.VSTSRM_BuildWebAccessUrl) {
             urlInfo.push({
-                urlText: 'Build triggered',
+                urlText: this._translateService.instant('buildTriggered'),
                 url: messageJSON.VSTSRM_BuildWebAccessUrl
             });
         }
         if (messageJSON.AppUrl) {
             urlInfo.push({
-                urlText: 'Web App',
+                urlText: this._translateService.instant('webApp'),
                 url: messageJSON.AppUrl
             });
         }
         if (messageJSON.SlotUrl) {
             urlInfo.push({
-                urlText: 'Slot',
+                urlText: this._translateService.instant('slot'),
                 url: messageJSON.SlotUrl
             });
         }
         if (messageJSON.VSTSRM_AccountUrl) {
             urlInfo.push({
-                urlText: 'VSTS Account',
+                urlText: this._translateService.instant('vsoAccount'),
                 url: messageJSON.VSTSRM_AccountUrl
             });
         }
         if (messageJSON.VSTSRM_RepoUrl) {
             urlInfo.push({
-                urlText: 'View Instructions',
+                urlText: this._translateService.instant('viewInstructions'),
                 url: messageJSON.VSTSRM_RepoUrl
             });
         }
@@ -374,14 +383,14 @@ export class VsoDashboardComponent implements OnChanges {
         "Updating Deployment History For Deployment [collectionUrl][teamProject]/_build?buildId=[buildId]&_a=summary"
             OR
         "Updating Deployment History For Deployment [collectionUrl][teamProject]/_apps/hub/ms.vss-releaseManagement-web.hub-explorer?releaseId=[releaseId]&_a=release-summary"
-    */
+        */
         const t = moment(date);
         return {
             id: item.id,
             icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
             type: 'row',
             // grouping is done by date therefore time information is excluded
-            date: t.format('M/D/YY'),
+            date: t.format('YY/M/D'),
 
             time: t.format('h:mm:ss A'),
             message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
@@ -395,14 +404,20 @@ export class VsoDashboardComponent implements OnChanges {
         if (messageString.search('buildId') !== -1) {
             urlInfo.push({
                 urlIcon: 'build.svg',
-                urlText: `Build: ${messageString.substring(messageString.search('=') + 1, messageString.search('&'))}`,
+                urlText: `${this._translateService.instant('buildUrl')} ${messageString.substring(
+                    messageString.search('=') + 1,
+                    messageString.search('&')
+                )}`,
                 url: messageString.substr(messageString.search('https'))
             });
         }
         if (messageString.search('releaseId') !== -1) {
             urlInfo.push({
                 urlIcon: 'release.svg',
-                urlText: `Release: ${messageString.substring(messageString.search('=') + 1, messageString.search('&'))}`,
+                urlText: `${this._translateService.instant('releaseUrl')} ${messageString.substring(
+                    messageString.search('=') + 1,
+                    messageString.search('&')
+                )}`,
                 url: messageString.substr(messageString.search('https'))
             });
         }
@@ -441,21 +456,21 @@ export class VsoDashboardComponent implements OnChanges {
 
     get SourceText() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-            return 'Loading..';
+            return this._translateService.instant('loading');
         }
         return this.deploymentObject.VSOData.repository.type;
     }
 
     get ProjectName() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-            return 'Loading..';
+            return this._translateService.instant('loading');
         }
         return this.deploymentObject.VSOData.project.name;
     }
 
     get RepositoryText() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-            return 'Loading..';
+            return this._translateService.instant('loading');
         }
         return this.deploymentObject.VSOData.repository.url;
     }
@@ -470,7 +485,7 @@ export class VsoDashboardComponent implements OnChanges {
 
     get LoadTestText() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-            return 'Loading..';
+            return this._translateService.instant('loading');
         }
         const testSiteName = this.deploymentObject.siteMetadata.properties['VSTSRM_TestAppName'];
 
@@ -478,14 +493,14 @@ export class VsoDashboardComponent implements OnChanges {
     }
     get BranchText() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-            return 'Loading..';
+            return this._translateService.instant('loading');
         }
         return this.deploymentObject.VSOData.repository.defaultBranch.replace('refs/heads/', '');
     }
 
     get SlotName() {
         if (!this.deploymentObject || !this.deploymentObject.VSOData) {
-            return 'Loading..';
+            return this._translateService.instant('loading');
         }
         const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
         return !!slotName ? slotName : null;
@@ -505,5 +520,9 @@ export class VsoDashboardComponent implements OnChanges {
             },
             'deployment-center'
         );
+    }
+
+    ngOnDestroy(): void {
+        this._ngUnsubscribe.next();
     }
 }
