@@ -39,7 +39,7 @@ namespace AzureFunctions.Authentication
             if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
             {
                 if(request.UrlReferrer != null
-                    && this._noAuthReferrers.First(r => request.UrlReferrer.Host.EndsWith(r, StringComparison.OrdinalIgnoreCase)) != null)
+                    && this._noAuthReferrers.FirstOrDefault(r => request.UrlReferrer.Host.EndsWith(r, StringComparison.OrdinalIgnoreCase)) != null)
                 {
                     principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
                 }
