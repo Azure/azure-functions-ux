@@ -1,3 +1,6 @@
+import { PortalResources } from 'app/shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
+import { LogService } from 'app/shared/services/log.service';
 import { BroadcastEvent } from './../../../shared/models/broadcast-event';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BottomTabComponent } from './../../../controls/bottom-tabs/bottom-tab.component';
@@ -8,6 +11,7 @@ import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, AfterContentInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
 import { FunctionEditorEvent } from 'app/function/embedded/function-editor-event';
 import { Subscription } from 'rxjs/Subscription';
+import { LogCategories } from 'app/shared/models/constants';
 
 @Component({
   selector: 'embedded-function-logs-tab',
@@ -34,7 +38,12 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
 
   private _resourceIdStream = new Subject<string>();
 
-  constructor(private _cacheService: CacheService, private _armService: ArmService, private _broadcastService: BroadcastService) {
+  constructor(
+    private _cacheService: CacheService,
+    private _armService: ArmService,
+    private _broadcastService: BroadcastService,
+    private _logService: LogService,
+    private _translateService: TranslateService) {
     super();
 
     this._resourceIdStream
@@ -84,11 +93,9 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
         const statusId = resourceId.split('/').splice(0, 9).join('/') + '/status';
         return this._cacheService.getArm(statusId, true);
       })
-      .do(null, err => {
-        // TODO: ellhamai -should handle error
-      })
-      .retry()
       .subscribe(r => {
+      }, err => {
+        this._logService.error(LogCategories.FunctionEdit, '/embedded/editor-status', 'Ping to function status failed');
       });
   }
 
@@ -100,7 +107,7 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
 
     this.commands[0].click = () => this._stopLogs();
     this.commands[0].iconUrl = 'image/pause.svg';
-    this.commands[0].text = 'Pause';
+    this.commands[0].text = this._translateService.instant(PortalResources.logStreaming_pause);
 
     this.isPolling = true;
 
@@ -138,21 +145,19 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
         if (r) {
           this.logContent = r.text();
         } else {
-          this.logContent = `No logs to display`;
+          this.logContent = this._translateService.instant(PortalResources.logStreaming_noLogs);
         }
-
       }, err => {
-        // TODO: how to handle error?
-        this.logContent = `Failed to download log content - ${err.text()}`;
+        this.logContent = this._translateService.instant(PortalResources.logStreaming_failedToDownload).format(err.text());
       });
   }
 
   private _stopLogs() {
     this.commands[0].click = () => this._startLogs();
     this.commands[0].iconUrl = 'image/start.svg';
-    this.commands[0].text = 'Start';
+    this.commands[0].text = this._translateService.instant(PortalResources.logStreaming_start);
 
-    this.logContent += 'Logging paused';
+    this.logContent += '\n' + this._translateService.instant(PortalResources.logStreaming_paused);
     this._stopPolling.next();
     this.isPolling = false;
   }

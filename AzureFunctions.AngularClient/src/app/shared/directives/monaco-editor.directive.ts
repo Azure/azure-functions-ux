@@ -1,6 +1,7 @@
 import { UserService } from './../services/user.service';
 import { Directive, EventEmitter, ElementRef, Input, Output, HostBinding } from '@angular/core';
 import 'rxjs/add/operator/distinctUntilChanged';
+
 import { GlobalStateService } from '../services/global-state.service';
 import { CacheService } from 'app/shared/services/cache.service';
 
@@ -26,8 +27,8 @@ export class MonacoEditorDirective {
     constructor(
         public elementRef: ElementRef,
         private _globalStateService: GlobalStateService,
-        private _userService: UserService,
-        private _cacheService: CacheService) {
+        private _cacheService: CacheService,
+        private _userService: UserService) {
 
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
@@ -127,8 +128,7 @@ export class MonacoEditorDirective {
 
 
     private init() {
-        // TODO: ellhamai - Not sure why but this doesn't turn off right away even after clearing
-        // this._globalStateService.setBusyState();
+        this._globalStateService.setBusyState();
 
         let onGotAmdLoader = () => {
             (<any>window).require.config({ paths: { 'vs': 'assets/monaco/min/vs' } });

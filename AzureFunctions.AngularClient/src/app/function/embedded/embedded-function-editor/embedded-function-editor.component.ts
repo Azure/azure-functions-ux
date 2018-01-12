@@ -1,3 +1,8 @@
+import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { errorIds } from 'app/shared/models/error-ids';
+import { ErrorEvent } from 'app/shared/models/error-event';
+import { FunctionAppHttpResult } from './../../../shared/models/function-app-http-result';
+import { Observable } from 'rxjs/Observable';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { RightTabEvent } from './../../../controls/right-tabs/right-tab-event';
@@ -27,6 +32,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   public fileName = '';
   public rightBarExpanded = false;
   public bottomBarExpanded = false;
+
   private _updatedEditorContent = '';
 
   private _functionInfo: FunctionInfo;
@@ -41,29 +47,28 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
     this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+      .distinctUntilChanged()
       .filter(info => info.dashboardType === DashboardType.FunctionDashboard)
       .takeUntil(this._ngUnsubscribe)
       .switchMap(info => {
-        this._busyManager.setBusy();
-        this.resourceId = info.resourceId;
-        return this._cacheService.getArm(info.resourceId, true);
-      })
-      .switchMap(r => {
-        this._functionInfo = r.json();
-
-        const scriptHrefParts = this._functionInfo.script_href.split('/');
-        this.fileName = scriptHrefParts[scriptHrefParts.length - 1];
-        return this._cacheService.getArm(this._functionInfo.script_href, true);
-      })
-      .do(null, err => {
-        // TODO: ellhamai - log error
-        this._busyManager.clearBusy();
+        return this._getScriptContent(info.resourceId);
       })
       .retry()
       .subscribe(r => {
+
         this._busyManager.clearBusy();
-        this.initialEditorContent = r.text();
-        this._updatedEditorContent = this.initialEditorContent;
+
+        if (r.isSuccessful) {
+          this.initialEditorContent = r.result;
+          this._updatedEditorContent = this.initialEditorContent;
+        } else {
+
+          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: r.error.message,
+            errorId: r.error.errorId,
+            resourceId: this.resourceId,
+          });
+        }
       });
 
     this._broadcastService.getEvents<RightTabEvent<boolean>>(BroadcastEvent.RightTabsEvent)
@@ -71,6 +76,37 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
       .takeUntil(this._ngUnsubscribe)
       .subscribe(e => {
         this.toggleRightBarExpanded();
+      });
+  }
+
+  private _getScriptContent(resourceId: string): Observable<FunctionAppHttpResult<string>> {
+    this._busyManager.setBusy();
+    this.resourceId = resourceId;
+
+    return this._cacheService.getArm(resourceId, true)
+      .switchMap(r => {
+        this._functionInfo = r.json();
+
+        const scriptHrefParts = this._functionInfo.script_href.split('/');
+        this.fileName = scriptHrefParts[scriptHrefParts.length - 1];
+        return this._cacheService.getArm(this._functionInfo.script_href, true);
+      })
+      .map(r => {
+        return <FunctionAppHttpResult<string>>{
+          isSuccessful: true,
+          error: null,
+          result: r.text()
+        };
+      })
+      .catch(e => {
+        const descriptor = new CdsFunctionDescriptor(this.resourceId);
+        return Observable.of(<FunctionAppHttpResult<string>>{
+          isSuccessful: false,
+          error: {
+            errorId: errorIds.embeddedEditorLoadError,
+            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction).format(descriptor.name)
+          }
+        });
       });
   }
 
@@ -111,7 +147,11 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
         this._updatedEditorContent = this.initialEditorContent;
       }, err => {
         this._busyManager.clearBusy();
-        // TODO: ellhamai - handle error
+        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+          message: this._translateService.instant(PortalResources.error_unableToSaveFunction).format(this._functionInfo.name),
+          errorId: errorIds.embeddedEditorSaveError,
+          resourceId: this.resourceId,
+        });
       });
   }
 
@@ -132,7 +172,11 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
           });
         }, err => {
           this._busyManager.clearBusy();
-          // TODO: ellhamai - handle error
+          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: this._translateService.instant(PortalResources.error_unableToDeleteFunction).format(this._functionInfo.name),
+            errorId: errorIds.embeddedEditorDeleteError,
+            resourceId: this.resourceId,
+          });
         });
     }
   }

@@ -68,7 +68,10 @@
     public static logStreaming_clear: string = "logStreaming_clear";
     public static logStreaming_copied: string = "logStreaming_copied";
     public static logStreaming_copyLogs: string = "logStreaming_copyLogs";
+    public static logStreaming_noLogs: string = "logStreaming_noLogs";
+    public static logStreaming_failedToDownload: string = "logStreaming_failedToDownload";
     public static logStreaming_pause: string = "logStreaming_pause";
+    public static logStreaming_paused: string = "logStreaming_paused";
     public static logStreaming_start: string = "logStreaming_start";
     public static logStreaming_tooManyLogs: string = "logStreaming_tooManyLogs";
     public static _name: string = "_name";
@@ -565,6 +568,7 @@
     public static error_unableToSaveFileContentThroughKudu: string = "error_unableToSaveFileContentThroughKudu";
     public static error_unableToRetrieveDirectoryContent: string = "error_unableToRetrieveDirectoryContent";
     public static error_unableToRetrieveFunction: string = "error_unableToRetrieveFunction";
+    public static error_unableToSaveFunction: string = "error_unableToSaveFunction";
     public static error_unableToRetrieveRuntimeConfig: string = "error_unableToRetrieveRuntimeConfig";
     public static error_unableToRetrieveRuntimeKey: string = "error_unableToRetrieveRuntimeKey";
     public static error_unableToUpdateFunction: string = "error_unableToUpdateFunction";

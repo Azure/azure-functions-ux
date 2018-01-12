@@ -1,3 +1,10 @@
+import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { PortalResources } from 'app/shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
+import { ErrorEvent } from 'app/shared/models/error-event';
+import { errorIds } from 'app/shared/models/error-ids';
+import { Observable } from 'rxjs/Observable';
+import { FunctionAppHttpResult } from './../../../shared/models/function-app-http-result';
 import { BottomTabEvent } from './../../../controls/bottom-tabs/bottom-tab-event';
 import { FunctionEditorEvent } from './../function-editor-event';
 import { RightTabEvent } from './../../../controls/right-tabs/right-tab-event';
@@ -35,7 +42,10 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
   private _busyManager: BusyStateScopeManager;
   private _ngUnsubscribe = new Subject();
 
-  constructor(private _cacheService: CacheService, private _broadcastService: BroadcastService) {
+  constructor(
+    private _cacheService: CacheService,
+    private _broadcastService: BroadcastService,
+    private _translateService: TranslateService) {
 
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
@@ -44,16 +54,23 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
       .distinctUntilChanged()
       .switchMap(resourceId => {
         this._busyManager.setBusy();
-        return this._cacheService.getArm(resourceId, true);
-      })
-      .do(null, err => {
-        // TODO: ellhamai - handle error
-        this._busyManager.clearBusy();
+        return this._getFunction(resourceId);
       })
       .retry()
       .subscribe(r => {
         this._busyManager.clearBusy();
-        this._functionInfo = r.json();
+
+        if (!r.isSuccessful) {
+          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+            message: r.error.message,
+            errorId: r.error.errorId,
+            resourceId: this.resourceId,
+          });
+
+          return;
+        }
+
+        this._functionInfo = r.result;
 
         try {
           const content = JSON.parse(this._functionInfo.test_data);
@@ -70,6 +87,27 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
       .takeUntil(this._ngUnsubscribe)
       .subscribe(e => {
         this._resizeEditor();
+      });
+  }
+
+  private _getFunction(resourceId: string) {
+    return this._cacheService.getArm(resourceId, true)
+      .map(r => {
+        return <FunctionAppHttpResult<FunctionInfo>>{
+          isSuccessful: true,
+          error: null,
+          result: r.json()
+        };
+      })
+      .catch(e => {
+        const descriptor = new CdsFunctionDescriptor(resourceId);
+        return Observable.of(<FunctionAppHttpResult<FunctionInfo>>{
+          isSuccessful: false,
+          error: {
+            errorId: errorIds.embeddedEditorLoadError,
+            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunction).format(descriptor.name)
+          }
+        });
       });
   }
 
@@ -112,7 +150,6 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
 
     this._busyManager.setBusy();
 
-    // TODO: Switchover whenever we can confirm that APIM works with new templates
     const content = {
       body: this._updatedEditorContent,
       url: this._functionInfo.trigger_url
@@ -124,7 +161,7 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
         this.responseOutputText = r.text();
       }, err => {
         this._busyManager.clearBusy();
-        // TODO: ellhamai - not sure if handling error properly
+
         try {
           this.responseOutputText = `Failed to execute - ${err.text()}`;
         } catch (e) {

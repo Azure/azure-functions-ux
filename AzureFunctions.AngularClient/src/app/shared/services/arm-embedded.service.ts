@@ -148,7 +148,6 @@ export class ArmEmbeddedService extends ArmService {
         return urlNoQuery;
     }
 
-    // TODO: ellhamai - need to cleanup this function and add support for setting file content API content-type header.
     private _wrapPayloadIfNecessary(id: string, body: any, urlNoQuery: string) {
 
         if (urlNoQuery.toLowerCase() === NoCorsHttpService.passThroughUrl.toLowerCase()

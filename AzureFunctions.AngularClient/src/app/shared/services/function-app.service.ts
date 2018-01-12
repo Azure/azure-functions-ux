@@ -1,3 +1,4 @@
+import { Host } from './../models/host';
 import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { HttpMethods, HttpConstants } from './../models/constants';
 import { UserService } from './user.service';

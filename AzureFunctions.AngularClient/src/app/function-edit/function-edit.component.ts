@@ -140,11 +140,6 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
     }
 
     private _setupPollingTasks() {
-        // TODO: ellhamai - should probably enable polling at some point.
-        if (this._portalService.isEmbeddedFunctions) {
-            return;
-        }
-
         if (this._pollingTask) {
             this._pollingTask.unsubscribe();
         }
