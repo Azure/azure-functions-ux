@@ -11,7 +11,6 @@ import { VSTSLogMessageType } from '../../Models/DeploymentEnums';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Deployment, DeploymentData } from '../../Models/deploymentData';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
 class VSODeploymentObject extends DeploymentData {
