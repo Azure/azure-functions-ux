@@ -47,7 +47,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
 
     @ViewChild('siteTabs') groupElements: ElementRef;
 
-    public dynamicTabIds: (string | null)[] = [null, null];
+    public dynamicTabIds: (string | null) [] = [null, null];
     public site: ArmObj<Site>;
     public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
     public Resources = PortalResources;
@@ -162,7 +162,9 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                         );
 
                         // We're not recreating the active tab so that it doesn't flash in the UI
-                        this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo };
+                        // All Tabs have `viewInfoInput`
+                        // Tabs that inherit from FunctionAppContextComponent like FunctionRuntimeComponent have viewInfoComponent_viewInfo
+                        this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo, viewInfoComponent_viewInfo: this.viewInfo };
                     } else {
                         // Just to be extra safe, we create new component instances for tabs that
                         // aren't visible to be sure that we can't accidentally load them with the wrong
