@@ -185,7 +185,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
                 if (r.keys.value) {
 
                     // find service policy
-                    const serviceKey: IOTKey = r.keys.value.find(item => (item.keyName === 'iothubowner'));
+                    const serviceKey: IOTKey = r.keys.value.find(item => (item.rights.toLowerCase().indexOf('registry') > -1));
                     if (serviceKey) {
                         this.IOTEndpoints = [
                             {
