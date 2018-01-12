@@ -1,6 +1,5 @@
 // This file is auto generated
-
-export class PortalResources
+    export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
@@ -851,6 +850,8 @@ export class PortalResources
     public static loadTest: string = "loadTest";
     public static slot: string = "slot";
     public static production: string = "production";
+    public static entity: string = "entity";
+    public static entityColon: string = "entityColon";
     public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
     public static deployedSuccessfullyTo: string = "deployedSuccessfullyTo";
     public static deployedFailedTo: string = "deployedFailedTo";
@@ -881,7 +882,4 @@ export class PortalResources
     public static viewInstructions: string = "viewInstructions";
     public static buildUrl: string = "buildUrl";
     public static releaseUrl: string = "releaseUrl";
-    public static entity: string = "entity";
-    public static entityColon: string = "entityColon";
-    public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
 }
