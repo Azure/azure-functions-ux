@@ -39,7 +39,7 @@ import { PortalService } from 'app/shared/services/portal.service';
 type Result<T> = Observable<FunctionAppHttpResult<T>>;
 @Injectable()
 export class FunctionAppService {
-    runtime: ConditionalHttpClient;
+    private readonly runtime: ConditionalHttpClient;
     private readonly azure: ConditionalHttpClient;
 
     private testJsonTemplates = JSON.stringify([
@@ -366,7 +366,7 @@ export class FunctionAppService {
 
             if (matchesPathParams) {
                 matchesPathParams.forEach((m) => {
-                    const name = m.split(':')[0].replace('{', '').replace('}', '');
+                    const name = m.split(':') [0].replace('{', '').replace('}', '');
                     processedParams.push(name);
                     const param = model.queryStringParams.find((p) => {
                         return p.name === name;
@@ -766,13 +766,6 @@ export class FunctionAppService {
         // | Yes  | false         | undefined       | ReadOnlySlots                 |
         // |______|_______________|_________________|_______________________________|
 
-        if (1 < 2) {
-            return Observable.of({
-                isSuccessful: true,
-                result: FunctionAppEditMode.ReadWrite,
-                error: null
-            });
-        }
         return this.azure.executeWithConditions([], context,
             Observable.zip(
                 this.isSourceControlEnabled(context),
