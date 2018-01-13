@@ -7,7 +7,7 @@ import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Observable, Subject } from 'rxjs/Rx';
 import { Deployment, DeploymentData } from '../../Models/deploymentData';
-import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
@@ -30,7 +30,7 @@ class KuduTableItem implements TableItem {
     templateUrl: './kudu-dashboard.component.html',
     styleUrls: ['./kudu-dashboard.component.scss']
 })
-export class KuduDashboardComponent implements OnChanges {
+export class KuduDashboardComponent implements OnChanges, OnDestroy {
     @Input() resourceId: string;
     @ViewChild(TblComponent) appTable: TblComponent;
     private _tableItems: KuduTableItem[];
@@ -44,8 +44,9 @@ export class KuduDashboardComponent implements OnChanges {
 
     public RightPaneItem: ArmObj<Deployment>;
     private _busyManager: BusyStateScopeManager;
-    private _forceLoad = false;
     public sidePanelOpened = false;
+    private _ngUnsubscribe = new Subject();
+    private _refreshPoller = -1;
     constructor(
         _portalService: PortalService,
         private _cacheService: CacheService,
@@ -57,17 +58,18 @@ export class KuduDashboardComponent implements OnChanges {
         this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
         this._tableItems = [];
         this.viewInfoStream = new Subject<string>();
+        this._busyManager.setBusy();
         this._viewInfoSubscription = this.viewInfoStream
+            .takeUntil(this._ngUnsubscribe)
             .switchMap(resourceId => {
-                this._busyManager.setBusy();
                 return Observable.zip(
-                    this._cacheService.getArm(resourceId, this._forceLoad),
-                    this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad),
+                    this._cacheService.getArm(resourceId, false),
+                    this._cacheService.getArm(`${resourceId}/config/web`, false),
                     this._cacheService.postArm(`${resourceId}/config/metadata/list`),
-                    this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`, this._forceLoad),
-                    this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, this._forceLoad),
-                    this._cacheService.getArm(`${resourceId}/deployments`, this._forceLoad),
-                    this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, this._forceLoad),
+                    this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`, false),
+                    this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, false),
+                    this._cacheService.getArm(`${resourceId}/deployments`, true),
+                    this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, false),
                     this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(resourceId),
                     (
@@ -93,49 +95,53 @@ export class KuduDashboardComponent implements OnChanges {
                     })
                 );
             })
-            .do(null, error => {
-                this._busyManager.clearBusy();
-                this._forceLoad = false;
-                this.deploymentObject = null;
-                this._aiService.trackEvent('/errors/deployment-center', error);
-            })
-            .retry()
-            .subscribe(r => {
-                this._busyManager.clearBusy();
-                this._forceLoad = false;
-                this.deploymentObject = {
-                    site: r.site,
-                    siteConfig: r.siteConfig,
-                    siteMetadata: r.metadata,
-                    sourceControls: r.sourceControl,
-                    publishingCredentials: r.pubCreds,
-                    deployments: r.deployments,
-                    publishingUser: r.publishingUser
-                };
-                this._populateTable();
-                setTimeout(() => {
-                    this.appTable.groupItems('date', 'desc');
-                }, 0);
-                this._writePermission = r.writePermission;
-                this._readOnlyLock = r.readOnlyLock;
-                this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
-            });
+            .subscribe(
+                r => {
+                    this._busyManager.clearBusy();
+                    this.deploymentObject = {
+                        site: r.site,
+                        siteConfig: r.siteConfig,
+                        siteMetadata: r.metadata,
+                        sourceControls: r.sourceControl,
+                        publishingCredentials: r.pubCreds,
+                        deployments: r.deployments,
+                        publishingUser: r.publishingUser
+                    };
+                    this._populateTable();
+                    setTimeout(() => {
+                        this.appTable.groupItems('date', 'desc');
+                    }, 0);
+                    this._writePermission = r.writePermission;
+                    this._readOnlyLock = r.readOnlyLock;
+                    this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+                },
+                err => {
+                    this._busyManager.clearBusy();
+                    this.deploymentObject = null;
+                    this._aiService.trackEvent('/errors/deployment-center', err);
+                }
+            );
+
+        //refresh automatically every 5 seconds
+        this._refreshPoller = window.setInterval(() => {
+            this.viewInfoStream.next(this.resourceId);
+        }, 5000);
     }
 
     private _populateTable() {
-        this._tableItems = [];
+        let tableItems = [];
         const deployments = this.deploymentObject.deployments.value;
         deployments.forEach(value => {
             const item = value.properties;
-            const date: Date = new Date(item.end_time);
+            const date: Date = new Date(item.received_time);
             const t = moment(date);
 
             const commitId = item.id.substr(0, 7);
             const author = item.author;
             const row: KuduTableItem = {
                 type: 'row',
-                time: t.format('h:mm:ss A'),
-                date: t.format('M/D/YY'),
+                time: t.format('hh:mm:ss A'),
+                date: t.format('YYYY/MM/DD'),
                 commit: commitId,
                 checkinMessage: item.message,
                 // TODO: Compute status and show appropriate message
@@ -144,8 +150,14 @@ export class KuduDashboardComponent implements OnChanges {
                 author: author,
                 deploymentObj: value
             };
-            this._tableItems.push(row);
+            tableItems.push(row);
         });
+        if (JSON.stringify(tableItems) !== JSON.stringify(this._tableItems)) {
+            this._tableItems = tableItems;
+            setTimeout(() => {
+                this.appTable.groupItems('date', 'desc');
+            }, 0);
+        }
     }
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
@@ -191,25 +203,26 @@ export class KuduDashboardComponent implements OnChanges {
     }
 
     SyncScm() {
-        this._cacheService
-            .postArm(`${this.resourceId}/sync`, true)
-            .do(r => {
-            })
-            .retry()
-            .subscribe(r => {
-                this._forceLoad = true;
-            });
+        this._busyManager.setBusy();
+        this._cacheService.postArm(`${this.resourceId}/sync`, true).subscribe(
+            r => {
+                this.viewInfoStream.next(this.resourceId);
+            },
+            err => {
+                this._busyManager.clearBusy();
+            }
+        );
     }
 
     disconnect() {
-        this._busyManager.setBusy()
-        this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`).subscribe(r => {
-           this._busyManager.clearBusy();
+        this._busyManager.setBusy();
+        this._armService.delete(`${this.deploymentObject.site.id}/sourcecontrols/web`).delay(2000).subscribe(r => {
+            this._busyManager.clearBusy();
             this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
         });
     }
     refresh() {
-        this._forceLoad = true;
+        this._busyManager.setBusy();
         this.viewInfoStream.next(this.resourceId);
     }
 
@@ -240,5 +253,10 @@ export class KuduDashboardComponent implements OnChanges {
             default:
                 return '';
         }
+    }
+
+    ngOnDestroy(): void {
+        this._ngUnsubscribe.next();
+        window.clearInterval(this._refreshPoller);
     }
 }

@@ -194,9 +194,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
 
             // grouping is done by date therefore time information is excluded
-            date: t.format('YY/M/D'),
+            date: t.format('YYYY/MM/DD'),
 
-            time: t.format('h:mm:ss A'),
+            time: t.format('hh:mm:ss A'),
             message: this._getMessage(messageJSON, item.status, logType, targetApp),
             urlInfo: this._getUrlInfoFromJSONMessage(messageJSON)
         };
@@ -389,9 +389,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
             type: 'row',
             // grouping is done by date therefore time information is excluded
-            date: t.format('YY/M/D'),
+            date: t.format('YYYY/MM/DD'),
 
-            time: t.format('h:mm:ss A'),
+            time: t.format('hh:mm:ss A'),
             message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
 
             urlInfo: this._getUrlInfoFromStringMessage(messageString)

@@ -137,9 +137,9 @@
       </tbl>
     </div>
   </div>
- <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'"  [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
+  <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
     [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true" [showBackdrop]="true">
-    <app-deployment-detail [deploymentObject]="RightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail> 
+    <app-deployment-detail [deploymentObject]="RightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
 
   </ng-sidebar>
 </ng-sidebar-container>

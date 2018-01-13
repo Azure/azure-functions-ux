@@ -133,9 +133,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             })
             .do(null, e => {
                 const descriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
-                let message = this._translateService
-                    .instant(PortalResources.siteDashboard_getAppError)
-                    .format(descriptor.site);
+                let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
                 if (e && e.status === 404) {
                     message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
                 }
@@ -326,9 +324,6 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 info.title = 'Deployment Center';
                 info.iconUrl = 'image/deployment-source.svg';
                 info.componentFactory = DeploymentCenterComponent;
-                info.componentInput = {
-                    resourceId: input.viewInfoInput.resourceId
-                };
                 break;
         }
 

@@ -361,7 +361,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     this._resetRovingTabindex();
 
     this.groupedBy = name;
-
+    const sortMult = sortDir === 'asc' ? 1 : -1;
     if (name === 'none') {
       this.items = this.items.filter(item => item.type !== 'group');
     } else {
@@ -378,7 +378,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
           aCol = typeof aCol === 'string' ? aCol : aCol.toString();
           bCol = typeof bCol === 'string' ? bCol : bCol.toString();
 
-          return bCol.localeCompare(aCol);
+          return bCol.localeCompare(aCol) * sortMult;
         });
       
       // determine uniqueGroup values
@@ -404,7 +404,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       // reverse newItems to be all groups, sorted, followed by all rows, sorted then push onto items in correct order
       this.items = [];
       newItems.reverse();
-      const sortMult = sortDir === 'asc' ? 1 : -1;
+      
       uniqueGroups.sort((a, b) => a.localeCompare(b) * sortMult).forEach(group => {
         newItems.forEach(item => {
           if (item.type === 'group' && item[this.groupColName] === group) {
