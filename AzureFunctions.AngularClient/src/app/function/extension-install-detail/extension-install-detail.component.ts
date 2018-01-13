@@ -1,4 +1,4 @@
-import { ExtensionInstallStatus, KeyCodes } from './../../shared/models/constants';
+import { KeyCodes } from './../../shared/models/constants';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BaseExtensionInstallComponent } from 'app/extension-install/base-extension-install-component';
 import { Subject } from 'rxjs/Subject';
@@ -10,6 +10,8 @@ import { CreateCard } from 'app/function/function-new/function-new.component';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
+import { Subscription } from 'rxjs/Subscription';
+import { ExtensionInstallStatus } from '../../shared/models/extension-install-status';
 
 @Component({
     selector: 'extension-install-detail',
@@ -18,11 +20,12 @@ import { AiService } from '../../shared/services/ai.service';
 })
 export class ExtensionInstallDetailComponent extends BaseExtensionInstallComponent {
     @Input() functionCard: CreateCard;
+    @Input() requiredExtensions: RuntimeExtension[];
     @Output() installed: BehaviorSubject<boolean> = new BehaviorSubject(false);
     @Output() closePanel = new Subject();
 
     loading = false;
-    installJobs: any[] = [];
+    installJobs: ExtensionInstallStatus[] = [];
     extensions: RuntimeExtension[];
     installing = false;
     installationSucceeded = false;
@@ -35,33 +38,34 @@ export class ExtensionInstallDetailComponent extends BaseExtensionInstallCompone
         super('extension-install-details', _functionAppService, broadcastService, aiService, translateService);
     }
 
-    @Input()
-    set requiredExtensions(runtimeExtensions: RuntimeExtension[]) {
-        if (runtimeExtensions && runtimeExtensions.length > 0) {
-            this.loading = true;
-            this.GetRequiredExtensions(runtimeExtensions)
-                .subscribe(extensions => {
-                    this.loading = false;
-                    this.extensions = extensions;
-                    this.installed.next(this.extensions.length === 0);
-                });
-        } else {
-            this.installed.next(true);
-            this.extensions = [];
-        }
+    setup(): Subscription {
+        return this.viewInfoEvents
+            .takeUntil(this.ngUnsubscribe)
+            .switchMap(() => {
+                this.loading = true;
+                if (this.requiredExtensions && this.requiredExtensions.length > 0) {
+                    return this.GetRequiredExtensions(this.requiredExtensions);
+                } else {
+                    return Observable.of([]);
+                }
+            })
+            .subscribe(extensions => {
+                this.loading = false;
+                this.extensions = extensions;
+                this.installed.next(this.extensions.length === 0);
+            });
     }
 
     installRequiredExtensions() {
         this.installing = true;
         if (this.extensions.length > 0) {
-            const extensionCalls: Observable<any>[] = [];
-            this.extensions.forEach(extension => {
-                extensionCalls.push(this._functionAppService.installExtension(this.context, extension));
+            const extensionCalls = this.extensions.map(extension => {
+                return this._functionAppService.installExtension(this.context, extension);
             });
 
             // Check install status
             Observable.zip(...extensionCalls).subscribe((r) => {
-                this.installJobs = r;
+                this.installJobs = r.filter(i => i.isSuccessful).map(i => i.result);
                 this.installing = false;
                 this.pollInstallationStatus(0);
             });
@@ -85,13 +89,17 @@ export class ExtensionInstallDetailComponent extends BaseExtensionInstallCompone
 
             if (this.installJobs.length > 0) {
                 this.installing = true;
-                const status: Observable<any>[] = [];
-                this.installJobs.forEach(job => {
-                    // if resulted in error not added to status
-                    if (job && job.id) {
-                        status.push(this._functionAppService.getExtensionInstallStatus(this.context, job.id));
-                    }
-                });
+                const status = this.installJobs
+                    .filter(job => job && job.id)
+                    .map(job => {
+                        return this._functionAppService.getExtensionInstallStatus(this.context, job.id)
+                            .map(r => {
+                                return {
+                                    installStatusResult: r,
+                                    job: job
+                                };
+                            });
+                    });
 
                 // No installation to keep track of
                 // All extension installations resulted in error like 500
@@ -101,18 +109,20 @@ export class ExtensionInstallDetailComponent extends BaseExtensionInstallCompone
                 }
 
                 Observable.zip(...status).subscribe(r => {
-                    const job: any[] = [];
+                    const job: ExtensionInstallStatus[] = [];
                     r.forEach(jobStatus => {
                         // if failed then show error, remove from status tracking queue
-                        if (jobStatus.status === ExtensionInstallStatus.Failed) {
-                            this.showInstallFailed(this.context, jobStatus.id);
+                        if (jobStatus.installStatusResult.isSuccessful && jobStatus.installStatusResult.result.status === 'Failed') {
+                            this.showInstallFailed(this.context, jobStatus.installStatusResult.result.id);
                         }
-
                         // error status also show up here, error is different from failed
-                        if (jobStatus.status !== ExtensionInstallStatus.Succeeded && jobStatus.status !== ExtensionInstallStatus.Failed) {
-                            job.push(jobStatus);
+                        else if (jobStatus.installStatusResult.isSuccessful &&
+                            jobStatus.installStatusResult.result.status !== 'Succeeded' &&
+                            jobStatus.installStatusResult.result.status !== 'Failed') {
+                            job.push(jobStatus.installStatusResult.result);
+                        } else if (!jobStatus.installStatusResult.isSuccessful) {
+                            job.push(jobStatus.job);
                         }
-
                     });
                     this.installJobs = job;
                     this.pollInstallationStatus(timeOut + 1);
