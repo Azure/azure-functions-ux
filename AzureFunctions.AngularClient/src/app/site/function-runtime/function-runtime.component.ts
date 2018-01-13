@@ -217,7 +217,6 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
     setup(): Subscription {
         return this.viewInfoEvents
             .switchMap(viewInfo => {
-                this._busyManager.setBusy();
                 this._appNode = (<AppNode>viewInfo.node);
                 this.isStopped = this.context.site.properties.state.toLocaleLowerCase() !== 'Running'.toLocaleLowerCase();
                 this.isLinuxApp = ArmUtil.isLinuxApp(this.context.site);
