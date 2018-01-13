@@ -38,14 +38,14 @@ export class DeploymentDetailComponent implements OnChanges {
     @Input() deploymentObject: ArmObj<Deployment>;
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Output() closePanel = new EventEmitter();
-    public viewInfoStream: Subject<ArmObj<Deployment>>;
-
+    public viewInfoStream= new Subject<ArmObj<Deployment>>();
+    private _deploymentLogFetcher = new Subject<DeploymentDetailTableItem>();
     _viewInfoSubscription: RxSubscription;
-    _busyStateScopeManager: BusyStateScopeManager;
 
     private _tableItems: DeploymentDetailTableItem[];
-
-    public logsToShow;
+    private _ngUnsubscribe = new Subject();
+    public logsToShow = null;
+    private _chosenItem: DeploymentDetailTableItem = null;
     constructor(
         private _cacheService: CacheService,
         private _aiService: AiService,
@@ -53,12 +53,20 @@ export class DeploymentDetailComponent implements OnChanges {
         broadcastService: BroadcastService
     ) {
         this._tableItems = [];
-        this.viewInfoStream = new Subject<ArmObj<Deployment>>();
-        this._viewInfoSubscription = this.viewInfoStream
-            .distinctUntilChanged()
+        this.logsToShow = null;
+        this._deploymentLogFetcher
+            .takeUntil(this._ngUnsubscribe)
+            .switchMap(item =>  this._cacheService.getArm(item.id))
+            .subscribe(r => {
+                const obs: ArmObj<any>[] = r.json().value;
+                const message = obs.map(x => x.properties.message as string).join('\n');
+                this.logsToShow = message;
+            })
+        this.viewInfoStream
+            .takeUntil(this._ngUnsubscribe)
             .switchMap(deploymentObject => {
                 this.busyState.setBusyState();
-                this.logsToShow = null;
+                
                 const deploymentId = deploymentObject.id;
                 return this._cacheService.getArm(`${deploymentId}/log`);
             })
@@ -91,9 +99,8 @@ export class DeploymentDetailComponent implements OnChanges {
     }
 
     redeploy() {
-        this._cacheService.putArm(this.deploymentObject.id).take(1).subscribe(r => {
-            
-        });
+        //TODO Add are you sure dialog?
+        this._cacheService.putArm(this.deploymentObject.id).take(1).subscribe(r => {});
         this.close();
     }
 
@@ -103,11 +110,7 @@ export class DeploymentDetailComponent implements OnChanges {
 
     showLogs(item: DeploymentDetailTableItem) {
         this.logsToShow = this._translateService.instant(PortalResources.resourceSelect);
-        this._cacheService.getArm(item.id).subscribe(r => {
-            const obs: ArmObj<any>[] = r.json().value;
-            const message = obs.map(x => x.properties.message as string).join('\n');
-            this.logsToShow = message;
-        });
+       this._deploymentLogFetcher.next(item);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

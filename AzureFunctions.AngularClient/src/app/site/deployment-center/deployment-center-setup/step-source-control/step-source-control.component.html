@@ -12,15 +12,15 @@
         <br> {{card.authenticatedId}}</div>
       <div *ngIf="card.authorizedStatus==='loadingAuth'">
         <i class="fa fa-refresh fa-spin fa-fw"></i> {{ 'loading' | translate }}</div>
-      <div *ngIf="card.authorizedStatus==='notAuthorized'">{{'notAuthorized' || translate}}</div>
+      <div *ngIf="card.authorizedStatus==='notAuthorized'">{{ 'notAuthorized' | translate}}</div>
     </div>
   </div>
 </div>
 <div class="footer">
   <button type="button" *ngIf="selectedProvider && (selectedProvider.authorizedStatus === 'authorized' || selectedProvider.authorizedStatus === 'none')"
-    class="custom-button" style="margin-top:12px" nextStep>{{'continue' || translate}}</button>
+    class="custom-button" style="margin-top:12px" nextStep>{{ 'continue' | translate}}</button>
   <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'notAuthorized'" class="custom-button"
-    (click)="authorize()" style="margin-top:12px">{{'authorize' || translate}}</button>
+    (click)="authorize()" style="margin-top:12px">{{'authorize' | translate}}</button>
   <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'authorized'" class="custom-button"
-    (click)="authorize()" style="margin-top:12px">{{'changeAuthorization' || translate}}</button>
+    (click)="authorize()" style="margin-top:12px">{{'changeAuthorization' | translate}}</button>
 </div>
