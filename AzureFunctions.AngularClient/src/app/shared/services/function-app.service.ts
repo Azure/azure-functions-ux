@@ -640,6 +640,7 @@ export class FunctionAppService {
         keyName: string,
         keyValue: string,
         functionInfo?: FunctionInfo): Result<FunctionKey> {
+        this.clearKeysCache(context, functionInfo);
 
         const url = functionInfo
             ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, keyName)
@@ -650,15 +651,21 @@ export class FunctionAppService {
                 name: keyName,
                 value: keyValue
             })
-            : '';
-        return this.runtime.execute(context, t =>
-            this._cacheService.put(url, this.jsonHeaders(t), body).map(r => r.json() as FunctionKey));
+            : null;
+
+        return this.runtime.execute(context, t => {
+            const req = body
+                ? this._cacheService.put(url, this.jsonHeaders(t), body)
+                : this._cacheService.post(url, true, this.jsonHeaders(t));
+            return req.map(r => r.json() as FunctionKey);
+        });
     }
 
     deleteKey(
         context: FunctionAppContext,
         key: FunctionKey,
         functionInfo?: FunctionInfo): Result<void> {
+        this.clearKeysCache(context, functionInfo);
 
         const url = functionInfo
             ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
@@ -668,11 +675,22 @@ export class FunctionAppService {
     }
 
     renewKey(context: FunctionAppContext, key: FunctionKey, functionInfo?: FunctionInfo): Result<FunctionKey> {
+        this.clearKeysCache(context, functionInfo);
+
         const url = functionInfo
             ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
             : context.urlTemplates.getAdminKeyUrl(key.name);
 
         return this.runtime.execute(context, t => this._cacheService.post(url, true, this.jsonHeaders(t)));
+    }
+
+    private clearKeysCache(context: FunctionAppContext, functionInfo?: FunctionInfo) {
+        if (functionInfo) {
+            this._cacheService.clearCachePrefix(context.urlTemplates.getFunctionKeysUrl(functionInfo.name));
+        } else {
+            this._cacheService.clearCachePrefix(context.urlTemplates.adminKeysUrl);
+            this._cacheService.clearCachePrefix(context.urlTemplates.systemKeysUrl);
+        }
     }
 
     fireSyncTrigger(context: FunctionAppContext): void {
