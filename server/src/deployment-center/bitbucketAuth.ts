@@ -21,10 +21,14 @@ export function setupBitbucketAuthentication(app: Application) {
         res.json(response.data);
     });
 
-    app.get('/auth/bitbucket/authorize', (_, res) => {
+    app.get('/auth/bitbucket/authorize', (req, res) => {
+        let stateKey = '';
+        if (req && req.session) {
+            stateKey = req.session['bitbucket_state_key'] = oauthHelper.newGuid();
+        }
         res.redirect(
             `https://bitbucket.org/site/oauth2/authorize?client_id=${process.env.BITBUCKET_CLIENT_ID}&redirect_uri=${process.env
-                .BITBUCKET_REDIRECT_URL}&scope=account+repository+webhook&response_type=code&state=`
+                .BITBUCKET_REDIRECT_URL}&scope=account+repository+webhook&response_type=code&state=${oauthHelper.hashStateGuid(stateKey).substr(0, 10)}`
         );
     });
 
@@ -34,7 +38,17 @@ export function setupBitbucketAuthentication(app: Application) {
 
     app.post('/auth/bitbucket/storeToken', async (req, res) => {
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
+        const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
 
+        if (
+            !req ||
+            !req.session ||
+            !req.session['dropbox_state_key'] ||
+            oauthHelper.hashStateGuid(req.session['bitbucket_state_key']).substr(0, 10) !== state
+        ) {
+            res.sendStatus(403);
+            return;
+        }
         try {
             const r = await axios.post(
                 `https://bitbucket.org/site/oauth2/access_token`,

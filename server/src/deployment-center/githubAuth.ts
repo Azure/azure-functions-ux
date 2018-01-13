@@ -25,7 +25,7 @@ export function setupGithubAuthentication(app: Application) {
     app.get('/auth/github/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['dropbox_state_key'] = oauthHelper.newGuid();
+            stateKey = req.session['github_state_key'] = oauthHelper.newGuid();
         }
         res.redirect(
             `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env
@@ -43,8 +43,8 @@ export function setupGithubAuthentication(app: Application) {
         if (
             !req ||
             !req.session ||
-            !req.session['dropbox_state_key'] ||
-            oauthHelper.hashStateGuid(req.session['dropbox_state_key']) !== state
+            !req.session['github_state_key'] ||
+            oauthHelper.hashStateGuid(req.session['github_state_key']) !== state
         ) {
             res.sendStatus(403);
             return;
