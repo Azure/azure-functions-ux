@@ -14,7 +14,6 @@ import { Constants } from 'app/shared/models/constants';
     styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss']
 })
 export class ConfigureBitbucketComponent {
-    private _resourceId: string;
     public RepoList: DropDownElement<string>[];
     public BranchList: DropDownElement<string>[];
 
@@ -31,10 +30,6 @@ export class ConfigureBitbucketComponent {
             this.fetchBranches(r);
         });
         this.fetchRepos();
-        this._wizard.resourceIdStream.subscribe(r => {
-            this._resourceId = r;
-        });
-
     }
 
     fetchRepos() {

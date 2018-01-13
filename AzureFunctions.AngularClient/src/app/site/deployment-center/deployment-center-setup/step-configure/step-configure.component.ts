@@ -11,24 +11,27 @@ import { AiService } from 'app/shared/services/ai.service';
     styleUrls: ['./step-configure.component.scss']
 })
 export class StepConfigureComponent {
-    private _resourceId: string;
     constructor(
         private _wizard: DeploymentCenterWizardService,
         _portalService: PortalService,
         _cacheService: CacheService,
         _armService: ArmService,
         _aiService: AiService
-    ) {
-        this._wizard.resourceIdStream.subscribe(r => {
-            this._resourceId = r;
-        });
-    }
+    ) {}
 
     get sourceProvider() {
-        return this._wizard.wizardForm && this._wizard.wizardForm.controls.sourceProvider && this._wizard.wizardForm.controls.sourceProvider.value;
+        return (
+            this._wizard.wizardForm &&
+            this._wizard.wizardForm.controls.sourceProvider &&
+            this._wizard.wizardForm.controls.sourceProvider.value
+        );
     }
 
     get buildProvider() {
-        return this._wizard.wizardForm && this._wizard.wizardForm.controls.buildProvider && this._wizard.wizardForm.controls.buildProvider.value;
+        return (
+            this._wizard.wizardForm &&
+            this._wizard.wizardForm.controls.buildProvider &&
+            this._wizard.wizardForm.controls.buildProvider.value
+        );
     }
 }
