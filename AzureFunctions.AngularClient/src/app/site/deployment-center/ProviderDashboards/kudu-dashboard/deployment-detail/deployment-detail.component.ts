@@ -3,7 +3,6 @@ import { PortalResources } from '../../../../../shared/models/portal-resources';
 import { TableItem } from '../../../../../controls/tbl/tbl.component';
 import { AiService } from '../../../../../shared/services/ai.service';
 import { CacheService } from '../../../../../shared/services/cache.service';
-import { BusyStateScopeManager } from '../../../../../busy-state/busy-state-scope-manager';
 import { BusyStateComponent } from '../../../../../busy-state/busy-state.component';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Rx';
@@ -45,7 +44,6 @@ export class DeploymentDetailComponent implements OnChanges {
     private _tableItems: DeploymentDetailTableItem[];
     private _ngUnsubscribe = new Subject();
     public logsToShow = null;
-    private _chosenItem: DeploymentDetailTableItem = null;
     constructor(
         private _cacheService: CacheService,
         private _aiService: AiService,
