@@ -1,4 +1,4 @@
-import { ExtensionInstallStatus } from './../shared/models/constants';
+import { ExtensionInstallStatusConstants } from './../shared/models/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { BroadcastService } from './../shared/services/broadcast.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
@@ -100,13 +100,13 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
                     const job: any[] = [];
                     r.forEach(jobStatus => {
                         // if failed then show error, remove from status tracking queue
-                        if (jobStatus.status === ExtensionInstallStatus.Failed) {
+                        if (jobStatus.status === ExtensionInstallStatusConstants.Failed) {
                             this.showInstallFailed(this.context, jobStatus.id);
                         }
 
                         // error status also show up here, error is different from failed
-                        if (jobStatus.status !== ExtensionInstallStatus.Succeeded &&
-                            jobStatus.status !== ExtensionInstallStatus.Failed) {
+                        if (jobStatus.status !== ExtensionInstallStatusConstants.Succeeded &&
+                            jobStatus.status !== ExtensionInstallStatusConstants.Failed) {
                             job.push(jobStatus);
                         }
 

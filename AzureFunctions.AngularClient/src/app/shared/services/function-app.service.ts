@@ -34,7 +34,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { errorIds } from 'app/shared/models/error-ids';
 import { LogService } from './log.service';
 import { PortalService } from 'app/shared/services/portal.service';
-
+import { ExtensionInstallStatus } from '../models/extension-install-status';
 
 type Result<T> = Observable<FunctionAppHttpResult<T>>;
 @Injectable()
@@ -201,7 +201,7 @@ export class FunctionAppService {
                 if (FunctionsVersionInfoHelper.getFunctionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
                     result.functions.forEach(f => {
                         const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
-                        
+
                         // Config doesn't exist for embedded
                         if (f.config) {
                             f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
@@ -816,7 +816,7 @@ export class FunctionAppService {
                     } else if (sourceControlled) {
                         return FunctionAppEditMode.ReadOnlySourceControlled;
                     } else {
-                        return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
+                        return result.hasSlots.result ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
                     }
                 })
                 .catch(() => Observable.of(FunctionAppEditMode.ReadWrite)));
@@ -935,16 +935,16 @@ export class FunctionAppService {
     // TOOD: [soninaren] Capture 409
     // TODO: [soninaren] returns error object when resulted in error
     // TODO: [soninaren] error.id is not defined
-    installExtension(context: FunctionAppContext, extension: RuntimeExtension): Result<FunctionKeys> {
+    installExtension(context: FunctionAppContext, extension: RuntimeExtension): Result<ExtensionInstallStatus> {
         return this.runtime.execute(context, t =>
             this._cacheService.post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), extension)
-                .map(r => r.json() as FunctionKeys));
+                .map(r => r.json() as ExtensionInstallStatus));
     }
 
-    getExtensionInstallStatus(context: FunctionAppContext, jobId: string): Result<FunctionKeys> {
+    getExtensionInstallStatus(context: FunctionAppContext, jobId: string): Result<ExtensionInstallStatus> {
         return this.runtime.execute(context, t =>
             this._cacheService.get(context.urlTemplates.getRuntimeHostExtensionsJobStatusUrl(jobId), true, this.headers(t))
-                .map(r => r.json() as FunctionKeys)
+                .map(r => r.json() as ExtensionInstallStatus)
         );
     }
 
