@@ -4,5 +4,5 @@
     <app-step-configure wizardStep title="Configure" *ngIf="showConfigureStep"></app-step-configure>
     <app-step-test wizardStep title="Test" *ngIf="showTestStep"></app-step-test>
     <app-step-deployment-slot wizardStep title="Deploy" *ngIf="showDeployStep"></app-step-deployment-slot>
-    <app-step-complete wizardCompletionStep title="Summary"></app-step-complete>
+    <app-step-complete wizardCompletionStep enableBackLinks title="Summary"></app-step-complete>
 </wizard>

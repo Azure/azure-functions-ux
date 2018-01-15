@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
-import { SourceSettings } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
@@ -16,6 +15,7 @@ import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 export class StepCompleteComponent implements OnInit {
     resourceId: string;
     private _busyManager: BusyStateScopeManager;
+
     constructor(
         public wizard: DeploymentCenterWizardService,
         cacheService: CacheService,
@@ -29,14 +29,9 @@ export class StepCompleteComponent implements OnInit {
         });
     }
 
-    get repo() {
-        const buildSettings = this.wizard.wizardForm['sourceSettings'].value as SourceSettings;
-        if (buildSettings) {
-            return buildSettings.repoUrl;
-        }
-        return 'no onedrive';
+    get summaryItems() {
+        return this.wizard.summaryItems;
     }
-
     Save() {
         this._busyManager.setBusy();
         let payload = this.wizard.wizardForm.controls.sourceSettings.value;
@@ -51,12 +46,14 @@ export class StepCompleteComponent implements OnInit {
             t => ({
                 sc: t.json()
             })
-        ).do(r=> {
-            this._busyManager.clearBusy();  
-        }).subscribe(r => {
-            this._busyManager.clearBusy();
-            this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
-        });
+        )
+            .do(r => {
+                this._busyManager.clearBusy();
+            })
+            .subscribe(r => {
+                this._busyManager.clearBusy();
+                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+            });
     }
     ngOnInit() {}
 }
