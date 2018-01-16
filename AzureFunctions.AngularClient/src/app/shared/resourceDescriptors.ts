@@ -177,6 +177,58 @@ export class ArmFunctionDescriptor extends ArmSiteDescriptor implements Function
             return new ArmFunctionDescriptor(resourceId);
         }
     }
+}
+
+export enum ConfigType {
+    none,
+    site,
+    web,
+    appSettings,
+    connectionStrings,
+    slotConfigNames
+}
+
+export class SiteConfigDescriptor extends SiteDescriptor {
+    public configType = ConfigType.none;
+    public supprtsPatch: boolean = false;
+    public canMerge: boolean = false;
+
+    constructor(resourceConfigId: string) {
+        super(resourceConfigId);
+
+        const resourceIdLength = !!this.slot ? 10 : 8;
+
+        if (this.parts.length === resourceIdLength) {
+            this.configType = ConfigType.site;
+        }
+        else {
+            const configPath = resourceConfigId.substring(this.getTrimmedResourceId().length);
+            switch (configPath) {
+                case '/config/web':
+                    this.configType = ConfigType.web;
+                    this.supprtsPatch = true;
+                    this.canMerge = true;
+                    break;
+                case '/config/appSettings':
+                    this.configType = ConfigType.appSettings;
+                    break;
+                case '/config/connectionstrings':
+                    this.configType = ConfigType.connectionStrings;
+                    break;
+                case '/config/slotConfigNames':
+                    this.configType = ConfigType.slotConfigNames;
+                    this.canMerge = true;
+                    break;
+                default:
+                    throw `Config path '${configPath}' not recognized`
+            }
+        }
+    }
+}
+
+export class FunctionDescriptor extends SiteDescriptor {
+    public name;
+    private _isProxy: boolean;
 
     constructor(resourceId: string) {
         super(resourceId);
