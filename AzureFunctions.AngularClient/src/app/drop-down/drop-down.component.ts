@@ -125,8 +125,11 @@ export class DropDownComponent<T> implements OnInit, OnChanges {
             } else {
                 this.onSelectValue(selectedOptionValue);
             }
+        } else {
+            if (this.selectedElement) {
+                delete this.selectedElement;
+            }
         }
-
     }
 
     @Input() set resetOnChange(_) {
