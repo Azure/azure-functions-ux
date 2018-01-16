@@ -108,20 +108,22 @@ export class ExtensionInstallDetailComponent extends BaseExtensionInstallCompone
                     return;
                 }
 
-                Observable.zip(...status).subscribe(r => {
+                Observable.zip(...status).subscribe(responses => {
                     const job: ExtensionInstallStatus[] = [];
-                    r.forEach(jobStatus => {
+                    responses.forEach(r => {
+                        const jobInstallationStatusResult = r.installStatusResult;
+                        const jobObject = r.job;
                         // if failed then show error, remove from status tracking queue
-                        if (jobStatus.installStatusResult.isSuccessful && jobStatus.installStatusResult.result.status === 'Failed') {
-                            this.showInstallFailed(this.context, jobStatus.installStatusResult.result.id);
+                        if (jobInstallationStatusResult.isSuccessful && jobInstallationStatusResult.result.status === 'Failed') {
+                            this.showInstallFailed(this.context, jobInstallationStatusResult.result.id);
                         }
                         // error status also show up here, error is different from failed
-                        else if (jobStatus.installStatusResult.isSuccessful &&
-                            jobStatus.installStatusResult.result.status !== 'Succeeded' &&
-                            jobStatus.installStatusResult.result.status !== 'Failed') {
-                            job.push(jobStatus.installStatusResult.result);
-                        } else if (!jobStatus.installStatusResult.isSuccessful) {
-                            job.push(jobStatus.job);
+                        else if (jobInstallationStatusResult.isSuccessful &&
+                            jobInstallationStatusResult.result.status !== 'Succeeded' &&
+                            jobInstallationStatusResult.result.status !== 'Failed') {
+                            job.push(jobInstallationStatusResult.result);
+                        } else if (!jobInstallationStatusResult.isSuccessful) {
+                            job.push(jobObject);
                         }
                     });
                     this.installJobs = job;
