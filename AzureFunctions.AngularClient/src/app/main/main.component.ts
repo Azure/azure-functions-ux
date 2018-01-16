@@ -97,7 +97,9 @@ export class MainComponent implements AfterViewInit, OnDestroy {
         this._userService.getStartupInfo()
             .first()
             .subscribe(info => {
-                this.ready = true;
+                setTimeout(() => {
+                    this.ready = true;
+                }, 10);
 
                 this._portalService.sendTimerEvent({
                     timerId: 'PortalReady',
