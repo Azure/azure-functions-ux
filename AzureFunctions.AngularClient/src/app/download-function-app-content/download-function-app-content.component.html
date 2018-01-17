@@ -17,7 +17,8 @@
                 <div check-scenario="DownloadWithVsProj" 
                      [cs-input]="{}"
                      cs-enabledByDefault="true">
-                    <radio-selector [defaultValue]="currentDownloadOption"
+                    <radio-selector [focusOnLoad]="true"
+                                    [defaultValue]="currentDownloadOption"
                                     [options]="downloadOptions"
                                     (value)="currentDownloadOption = $event">
                     </radio-selector>
