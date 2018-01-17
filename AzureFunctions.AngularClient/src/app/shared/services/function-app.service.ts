@@ -34,12 +34,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { errorIds } from 'app/shared/models/error-ids';
 import { LogService } from './log.service';
 import { PortalService } from 'app/shared/services/portal.service';
-
+import { ExtensionInstallStatus } from '../models/extension-install-status';
 
 type Result<T> = Observable<FunctionAppHttpResult<T>>;
 @Injectable()
 export class FunctionAppService {
-    runtime: ConditionalHttpClient;
+    private readonly runtime: ConditionalHttpClient;
     private readonly azure: ConditionalHttpClient;
 
     private testJsonTemplates = JSON.stringify([
@@ -201,7 +201,7 @@ export class FunctionAppService {
                 if (FunctionsVersionInfoHelper.getFunctionGeneration(appSettings.properties[Constants.runtimeVersionAppSettingName]) === 'V2') {
                     result.functions.forEach(f => {
                         const disabledSetting = appSettings.properties[`AzureWebJobs.${f.name}.Disabled`];
-                        
+
                         // Config doesn't exist for embedded
                         if (f.config) {
                             f.config.disabled = (disabledSetting && disabledSetting.toLocaleLowerCase() === 'true');
@@ -366,7 +366,7 @@ export class FunctionAppService {
 
             if (matchesPathParams) {
                 matchesPathParams.forEach((m) => {
-                    const name = m.split(':')[0].replace('{', '').replace('}', '');
+                    const name = m.split(':') [0].replace('{', '').replace('}', '');
                     processedParams.push(name);
                     const param = model.queryStringParams.find((p) => {
                         return p.name === name;
@@ -640,6 +640,7 @@ export class FunctionAppService {
         keyName: string,
         keyValue: string,
         functionInfo?: FunctionInfo): Result<FunctionKey> {
+        this.clearKeysCache(context, functionInfo);
 
         const url = functionInfo
             ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, keyName)
@@ -650,15 +651,21 @@ export class FunctionAppService {
                 name: keyName,
                 value: keyValue
             })
-            : '';
-        return this.runtime.execute(context, t =>
-            this._cacheService.put(url, this.jsonHeaders(t), body).map(r => r.json() as FunctionKey));
+            : null;
+
+        return this.runtime.execute(context, t => {
+            const req = body
+                ? this._cacheService.put(url, this.jsonHeaders(t), body)
+                : this._cacheService.post(url, true, this.jsonHeaders(t));
+            return req.map(r => r.json() as FunctionKey);
+        });
     }
 
     deleteKey(
         context: FunctionAppContext,
         key: FunctionKey,
         functionInfo?: FunctionInfo): Result<void> {
+        this.clearKeysCache(context, functionInfo);
 
         const url = functionInfo
             ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
@@ -668,11 +675,22 @@ export class FunctionAppService {
     }
 
     renewKey(context: FunctionAppContext, key: FunctionKey, functionInfo?: FunctionInfo): Result<FunctionKey> {
+        this.clearKeysCache(context, functionInfo);
+
         const url = functionInfo
             ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
             : context.urlTemplates.getAdminKeyUrl(key.name);
 
         return this.runtime.execute(context, t => this._cacheService.post(url, true, this.jsonHeaders(t)));
+    }
+
+    private clearKeysCache(context: FunctionAppContext, functionInfo?: FunctionInfo) {
+        if (functionInfo) {
+            this._cacheService.clearCachePrefix(context.urlTemplates.getFunctionKeysUrl(functionInfo.name));
+        } else {
+            this._cacheService.clearCachePrefix(context.urlTemplates.adminKeysUrl);
+            this._cacheService.clearCachePrefix(context.urlTemplates.systemKeysUrl);
+        }
     }
 
     fireSyncTrigger(context: FunctionAppContext): void {
@@ -766,13 +784,6 @@ export class FunctionAppService {
         // | Yes  | false         | undefined       | ReadOnlySlots                 |
         // |______|_______________|_________________|_______________________________|
 
-        if (1 < 2) {
-            return Observable.of({
-                isSuccessful: true,
-                result: FunctionAppEditMode.ReadWrite,
-                error: null
-            });
-        }
         return this.azure.executeWithConditions([], context,
             Observable.zip(
                 this.isSourceControlEnabled(context),
@@ -805,7 +816,7 @@ export class FunctionAppService {
                     } else if (sourceControlled) {
                         return FunctionAppEditMode.ReadOnlySourceControlled;
                     } else {
-                        return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
+                        return result.hasSlots.result ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
                     }
                 })
                 .catch(() => Observable.of(FunctionAppEditMode.ReadWrite)));
@@ -924,16 +935,16 @@ export class FunctionAppService {
     // TOOD: [soninaren] Capture 409
     // TODO: [soninaren] returns error object when resulted in error
     // TODO: [soninaren] error.id is not defined
-    installExtension(context: FunctionAppContext, extension: RuntimeExtension): Result<FunctionKeys> {
+    installExtension(context: FunctionAppContext, extension: RuntimeExtension): Result<ExtensionInstallStatus> {
         return this.runtime.execute(context, t =>
             this._cacheService.post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), extension)
-                .map(r => r.json() as FunctionKeys));
+                .map(r => r.json() as ExtensionInstallStatus));
     }
 
-    getExtensionInstallStatus(context: FunctionAppContext, jobId: string): Result<FunctionKeys> {
+    getExtensionInstallStatus(context: FunctionAppContext, jobId: string): Result<ExtensionInstallStatus> {
         return this.runtime.execute(context, t =>
             this._cacheService.get(context.urlTemplates.getRuntimeHostExtensionsJobStatusUrl(jobId), true, this.headers(t))
-                .map(r => r.json() as FunctionKeys)
+                .map(r => r.json() as ExtensionInstallStatus)
         );
     }
 
@@ -1023,6 +1034,14 @@ export class FunctionAppService {
             });
     }
 
+    // these 2 functions are only for try app service scenarios.
+    // It's a hack to not have to change a lot of code since soon try will fork this anyway.
+    // DO NOT use this for anything new.
+    _tryFunctionsBasicAuthToken: string;
+    setTryFunctionsToken(token: string) {
+        this._tryFunctionsBasicAuthToken = token;
+    }
+
 
     private localize(objectToLocalize: any): any {
         if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {
@@ -1054,15 +1073,21 @@ export class FunctionAppService {
     private jsonHeaders(authTokenOrHeader: string | [string, string], ...additionalHeaders: [string, string][]): Headers {
         const headers: Array<[string, string] | string> = additionalHeaders.slice();
         headers.unshift(['Content-Type', 'application/json']);
-        headers.unshift(authTokenOrHeader);
+        if (authTokenOrHeader) {
+            headers.unshift(authTokenOrHeader);
+        }
         return this.headers.apply(this, headers);
     }
 
     private headers(authTokenOrHeader: string | [string, string], ...additionalHeaders: [string, string][]): Headers {
         const headers = new Headers();
-        if (typeof authTokenOrHeader === 'string') {
+        if (typeof authTokenOrHeader === 'string' && authTokenOrHeader.length > 0) {
             headers.set('Authorization', `Bearer ${authTokenOrHeader}`);
-        } else {
+        } else if (this._tryFunctionsBasicAuthToken) {
+            headers.set('Authorization', `Basic ${this._tryFunctionsBasicAuthToken}`);
+        }
+
+        if (Array.isArray(authTokenOrHeader)) {
             headers.set(authTokenOrHeader[0], authTokenOrHeader[1]);
         }
 

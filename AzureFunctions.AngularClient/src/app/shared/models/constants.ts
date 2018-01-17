@@ -254,7 +254,7 @@ export class KeyCodes {
     public static readonly f2 = 113;
 }
 
-export class ExtensionInstallStatus {
+export class ExtensionInstallStatusConstants {
     public static readonly Started = 'Started';
     public static readonly Succeeded = 'Succeeded';
     public static readonly Failed = 'Failed';

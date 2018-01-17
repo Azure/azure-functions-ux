@@ -48,7 +48,7 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
         private _translateService: TranslateService,
         private _utilities: UtilitiesService,
         private _functionAppService: FunctionAppService) {
-        super('function-keys', _functionAppService, broadcastService, () => this.setBusyState());
+        super('function-keys', _functionAppService, broadcastService);
 
         this.validKey = false;
         this.keys = [];
@@ -81,7 +81,6 @@ export class FunctionKeysComponent extends FunctionAppContextComponent {
                     });
                 }
             })
-            .do(() => this.clearBusyState())
             .subscribe(keysResult => {
                 this.resetState();
                 if (keysResult.isSuccessful) {
