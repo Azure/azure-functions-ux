@@ -1067,7 +1067,7 @@ export class FunctionAppService {
     private portalHeaders(authToken: string, ...aditionalHeaders: [string, string][]): Headers {
         const headers = aditionalHeaders.slice();
         headers.unshift(['portal-token', authToken]);
-        return this.jsonHeaders.bind(this).apply(this, headers);
+        return this.jsonHeaders.apply(this, headers);
     }
 
     private jsonHeaders(authTokenOrHeader: string | [string, string], ...additionalHeaders: [string, string][]): Headers {
@@ -1076,7 +1076,7 @@ export class FunctionAppService {
         if (authTokenOrHeader) {
             headers.unshift(authTokenOrHeader);
         }
-        return this.headers.bind(this).apply(this, headers);
+        return this.headers.apply(this, headers);
     }
 
     private headers(authTokenOrHeader: string | [string, string], ...additionalHeaders: [string, string][]): Headers {
