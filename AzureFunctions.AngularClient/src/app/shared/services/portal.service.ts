@@ -28,6 +28,9 @@ export class PortalService {
         'https://ms.portal.azure.com',
         'https://rc.portal.azure.com',
         'https://portal.azure.com',
+        'https://portal.microsoftazure.de',
+        'https://portal.azure.cn',
+        'https://portal.azure.us',
         'https://powerapps.cloudapp.net'
     ];
 
