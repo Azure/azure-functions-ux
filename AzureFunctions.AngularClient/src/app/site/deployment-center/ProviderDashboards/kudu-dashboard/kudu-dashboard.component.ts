@@ -46,7 +46,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     private _busyManager: BusyStateScopeManager;
     public sidePanelOpened = false;
     private _ngUnsubscribe = new Subject();
-    private _refreshPoller = -1;
     constructor(
         _portalService: PortalService,
         private _cacheService: CacheService,
@@ -123,9 +122,11 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             );
 
         //refresh automatically every 5 seconds
-        this._refreshPoller = window.setInterval(() => {
-            this.viewInfoStream.next(this.resourceId);
-        }, 5000);
+        Observable
+            .timer(5000, 5000)
+            .takeUntil(this._ngUnsubscribe).subscribe(() => {
+                this.viewInfoStream.next(this.resourceId);
+            });
     }
 
     private _populateTable() {
@@ -257,6 +258,5 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
 
     ngOnDestroy(): void {
         this._ngUnsubscribe.next();
-        window.clearInterval(this._refreshPoller);
     }
 }

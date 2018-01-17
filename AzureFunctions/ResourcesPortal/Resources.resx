@@ -2767,4 +2767,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="releaseUrl" xml:space="preserve">
     <value>Release: {0}</value>
   </data>
+  <data name="deploymentCenter" xml:space="preserve">
+    <value>Deployment Center</value>
+  </data>
+  <data name="sourceControl" xml:space="preserve">
+    <value>Source Control</value>
+  </data>
+  <data name="buildProvider" xml:space="preserve">
+    <value>Build Provider</value>
+  </data>
+  <data name="configure" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="deploy" xml:space="preserve">
+    <value>Deploy</value>
+  </data>
+  <data name="summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
 </root>

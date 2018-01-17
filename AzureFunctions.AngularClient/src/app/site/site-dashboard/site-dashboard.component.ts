@@ -321,7 +321,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 info.closeable = true;
                 break;
             case SiteTabIds.continuousDeployment:
-                info.title = 'Deployment Center';
+                info.title = this._translateService.instant(PortalResources.deploymentCenter);
                 info.iconUrl = 'image/deployment-source.svg';
                 info.componentFactory = DeploymentCenterComponent;
                 break;

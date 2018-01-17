@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
@@ -8,8 +8,6 @@ import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { Constants } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
-//import { MovingDirection } from 'app/controls/form-wizard/util/moving-direction.enum';
-//import { SourceSettings } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
 
 @Component({
     selector: 'app-configure-onedrive',
@@ -23,14 +21,14 @@ export class ConfigureOnedriveComponent implements OnDestroy {
     private _onedriveCallSubject = new Subject();
 
     constructor(
-        public wizard: DeploymentCenterWizardService,
+        public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
         _aiService: AiService
     ) {
         this.wizard.wizardForm.controls.sourceSettings.value.isManualIntegration = false;
-        this.wizard.resourceIdStream.subscribe(r => {
+        this.wizard.resourceIdStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
             this._resourceId = r;
         });
         this._onedriveCallSubject

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
@@ -26,7 +26,7 @@ export class StepCompleteComponent implements OnInit {
         publishingUserName: string;
     }>;
     constructor(
-        public wizard: DeploymentCenterWizardService,
+        public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _broadcastService: BroadcastService
@@ -96,5 +96,5 @@ export class StepCompleteComponent implements OnInit {
                 this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
             });
     }
-    ngOnInit() {}
+    ngOnInit() { }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
@@ -12,7 +12,7 @@ import { AiService } from 'app/shared/services/ai.service';
 })
 export class StepConfigureComponent {
     constructor(
-        private _wizard: DeploymentCenterWizardService,
+        private _wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
         _cacheService: CacheService,
         _armService: ArmService,

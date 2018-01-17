@@ -27,7 +27,7 @@ import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
 })
 export class DeploymentCenterComponent implements OnInit, OnDestroy {
     public resourceIdStream: Subject<string>;
-    private _resourceId: string;
+    public resourceId: string;
     public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     public viewInfo: TreeViewInfo<SiteData>;
     @Input()
@@ -36,9 +36,6 @@ export class DeploymentCenterComponent implements OnInit, OnDestroy {
         this.viewInfoStream.next(viewInfo);
     }
 
-    get resourceId() {
-        return this._resourceId;
-    }
     public hasWritePermissions = true;
 
     private _ngUnsubscribe = new Subject();
@@ -60,12 +57,12 @@ export class DeploymentCenterComponent implements OnInit, OnDestroy {
             .takeUntil(this._ngUnsubscribe)
             .switchMap(viewInfo => {
                 this._busyManager.setBusy();
-                this._resourceId = viewInfo.resourceId;
+                this.resourceId = viewInfo.resourceId;
                 this._siteConfigObject = null;
                 return Observable.zip(
-                    this._cacheService.getArm(`${this._resourceId}/config/web`),
-                    this._authZService.hasPermission(this._resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this._resourceId),
+                    this._cacheService.getArm(`${this.resourceId}/config/web`),
+                    this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
+                    this._authZService.hasReadOnlyLock(this.resourceId),
                     (sc, wp, rl) => ({
                         siteConfig: sc.json(),
                         writePermission: wp,
@@ -85,19 +82,19 @@ export class DeploymentCenterComponent implements OnInit, OnDestroy {
                     this._busyManager.clearBusy();
                 }
             );
-        broadcastService.getEvents<string>(BroadcastEvent.ReloadDeploymentCenter).subscribe(this.refreshedSCMType.bind(this));
+        broadcastService.getEvents<string>(BroadcastEvent.ReloadDeploymentCenter).takeUntil(this._ngUnsubscribe).subscribe(this.refreshedSCMType.bind(this));
     }
 
     refreshedSCMType() {
-        this._cacheService.clearArmIdCachePrefix(`${this._resourceId}/config/web`);
+        this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
         this.viewInfoStream.next(this.viewInfo);
     }
 
-    get DeploymentSetUpComplete() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None';
+    get kuduDeploymentSetup() {
+        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM';
     }
 
-    get ScmType() {
+    get scmType() {
         return this._siteConfigObject && this._siteConfigObject.properties.scmType;
     }
 

@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
-import { PortalService } from 'app/shared/services/portal.service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
-import { ArmService } from 'app/shared/services/arm.service';
-import { AiService } from 'app/shared/services/ai.service';
 import { Headers } from '@angular/http';
 import { UserService } from 'app/shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
@@ -77,17 +74,14 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     private token: string;
     private _ngUnsubscribe = new Subject();
 
-    private vstsRepositories: VSORepo[];
+    private _vstsRepositories: VSORepo[];
 
     //Subscriptions
     private _memberIdSubscription = new Subject();
     private _branchSubscription = new Subject<string>();
     constructor(
-        private _wizard: DeploymentCenterWizardService,
-        _portalService: PortalService,
+        private _wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
-        _armService: ArmService,
-        _aiService: AiService,
         private _userService: UserService
     ) {
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
@@ -109,7 +103,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .takeUntil(this._ngUnsubscribe)
             .switchMap(() => this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me'))
             .map(r => r.json())
-            .switchMap(r => this.FetchAccounts(r.id))
+            .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
                 let projectCalls: Observable<VSORepo[]>[] = [];
                 r.forEach(account => {
@@ -126,10 +120,10 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                 return forkJoin(projectCalls);
             })
             .subscribe(r => {
-                this.vstsRepositories = [];
+                this._vstsRepositories = [];
                 r.forEach(repoList => {
                     repoList.forEach(repo => {
-                        this.vstsRepositories.push({
+                        this._vstsRepositories.push({
                             name: repo.name,
                             remoteUrl: repo.remoteUrl,
                             account: repo.remoteUrl.split('.')[0].replace('https://', ''),
@@ -139,7 +133,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     });
                 });
                 this.AccountList = _.uniqBy(
-                    this.vstsRepositories.map(repo => {
+                    this._vstsRepositories.map(repo => {
                         return {
                             displayLabel: repo.account,
                             value: repo.account
@@ -152,7 +146,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this._branchSubscription
             .takeUntil(this._ngUnsubscribe)
             .switchMap(repoUri => {
-                const repoObj = _.first(this.vstsRepositories.filter(x => x.remoteUrl === repoUri));
+                const repoObj = _.first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri));
                 const repoId = repoObj.id;
                 const account = repoObj.account;
                 return this._cacheService.get(
@@ -173,7 +167,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             });
     }
 
-    private FetchAccounts(memberId: string): Observable<VSOAccount[]> {
+    private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
         const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
         return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
             const accounts = r.json().value as VSOAccount[];
@@ -185,9 +179,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         });
     }
 
-    AccountChanged(accountName: string) {
+    accountChanged(accountName: string) {
         this.ProjectList = _.uniqBy(
-            this.vstsRepositories.filter(r => r.account === accountName).map(repo => {
+            this._vstsRepositories.filter(r => r.account === accountName).map(repo => {
                 return {
                     displayLabel: repo.project.name,
                     value: repo.project.name
@@ -197,9 +191,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         );
     }
 
-    ProjectChanged(projectName: string) {
+    projectChanged(projectName: string) {
         this.RepositoryList = _.uniqBy(
-            this.vstsRepositories.filter(r => r.project.name === projectName).map(repo => {
+            this._vstsRepositories.filter(r => r.project.name === projectName).map(repo => {
                 return {
                     displayLabel: repo.name,
                     value: repo.remoteUrl
@@ -209,12 +203,12 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         );
     }
 
-    RepoChanged(repoUri: string) {
+    repoChanged(repoUri: string) {
         this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = repoUri;
         this._branchSubscription.next(repoUri);
     }
 
-    BranchChanged(branch: string) {
+    branchChanged(branch: string) {
         this._wizard.wizardForm.controls.sourceSettings.value.branch = branch;
     }
 

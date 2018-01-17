@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
@@ -18,7 +18,7 @@ export class ConfigureDropboxComponent {
     public folderList: DropDownElement<string>[];
 
     constructor(
-        public wizard: DeploymentCenterWizardService,
+        public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
@@ -60,7 +60,7 @@ export class ConfigureDropboxComponent {
                         });
                     }
                 });
-                
+
                 this.folderList = options;
                 this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://www.dropbox.com/home/Apps/Azure/${siteName}`;
             });

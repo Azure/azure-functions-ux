@@ -882,4 +882,5 @@
     public static viewInstructions: string = "viewInstructions";
     public static buildUrl: string = "buildUrl";
     public static releaseUrl: string = "releaseUrl";
+    public static deploymentCenter: string = "deploymentCenter";
 }
