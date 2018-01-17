@@ -219,7 +219,7 @@ export class FunctionAppService {
                 .catch(err => err.status === 404
                     ? Observable.throw(errorIds.proxyJsonNotFound)
                     : Observable.throw(err)),
-            this._cacheService.get('assets/schemas/proxies.json', false),
+            this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(t)),
             (p, s) => ({ proxies: p, schema: s.json() })
         ).map(r => {
             const proxies = r.proxies.json();
