@@ -23,6 +23,8 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
 import { Url } from 'app/shared/Utilities/url';
 import { ErrorableComponent } from '../shared/components/errorable-component';
+import { ArmTryService } from '../shared/services/arm-try.service';
+import { ArmService } from '../shared/services/arm.service';
 
 @Component({
     selector: 'try-landing',
@@ -39,9 +41,11 @@ export class TryLandingComponent extends ErrorableComponent implements OnInit, O
 
     private _ngUnsubscribe = new Subject();
     private context: FunctionAppContext;
+    private _armTryService: ArmTryService;
 
     constructor(
         broadcastService: BroadcastService,
+        _armService: ArmService,
         private _tryFunctionsService: TryFunctionsService,
         private _functionAppService: FunctionAppService,
         private _globalStateService: GlobalStateService,
@@ -51,7 +55,8 @@ export class TryLandingComponent extends ErrorableComponent implements OnInit, O
         private _router: Router,
         private _injector: Injector) {
 
-            super('try-landing', broadcastService);
+        super('try-landing', broadcastService);
+        this._armTryService = _armService as ArmTryService;
     }
 
     ngOnInit() {
@@ -232,6 +237,9 @@ export class TryLandingComponent extends ErrorableComponent implements OnInit, O
 
         this._tryFunctionsService.functionContainer = tryfunctionContainer;
         this.context = ArmUtil.mapArmSiteToContext(tryfunctionContainer, this._injector);
+        this._armTryService.tryFunctionAppContext = this.context;
+        this._tryFunctionsService.functionAppContext = this.context;
+        this._functionAppService.setTryFunctionsToken(encryptedCreds);
 
         this._userService.setTryUserName(resource.userName);
         this.setBusyState();

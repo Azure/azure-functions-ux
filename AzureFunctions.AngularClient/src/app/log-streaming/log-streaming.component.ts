@@ -8,7 +8,6 @@ import { UtilitiesService } from '../shared/services/utilities.service';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { GlobalStateService } from 'app/shared/services/global-state.service';
 
 @Component({
     selector: 'log-streaming',
@@ -36,7 +35,6 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         @Inject(ElementRef) private _elementRef: ElementRef,
         private _userService: UserService,
         private _functionAppService: FunctionAppService,
-        private _globalStateService: GlobalStateService,
         private _utilities: UtilitiesService,
         broadcastService: BroadcastService) {
         super('log-streaming', _functionAppService, broadcastService);
@@ -161,9 +159,9 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
             const url = `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
 
             this.xhReq.open('GET', url, true);
-            if (this._globalStateService.showTryView) {
+            if (this._functionAppService._tryFunctionsBasicAuthToken) {
                 // TODO: [ahmels] Fix token
-                this.xhReq.setRequestHeader('Authorization', `Basic ${this._globalStateService.showTryView}`);
+                this.xhReq.setRequestHeader('Authorization', `Basic ${this._functionAppService._tryFunctionsBasicAuthToken}`);
             } else {
                 this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
             }

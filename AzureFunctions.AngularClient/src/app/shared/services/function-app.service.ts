@@ -1034,6 +1034,14 @@ export class FunctionAppService {
             });
     }
 
+    // these 2 functions are only for try app service scenarios.
+    // It's a hack to not have to change a lot of code since soon try will fork this anyway.
+    // DO NOT use this for anything new.
+    _tryFunctionsBasicAuthToken: string;
+    setTryFunctionsToken(token: string) {
+        this._tryFunctionsBasicAuthToken = token;
+    }
+
 
     private localize(objectToLocalize: any): any {
         if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {
@@ -1065,15 +1073,21 @@ export class FunctionAppService {
     private jsonHeaders(authTokenOrHeader: string | [string, string], ...additionalHeaders: [string, string][]): Headers {
         const headers: Array<[string, string] | string> = additionalHeaders.slice();
         headers.unshift(['Content-Type', 'application/json']);
-        headers.unshift(authTokenOrHeader);
+        if (authTokenOrHeader) {
+            headers.unshift(authTokenOrHeader);
+        }
         return this.headers.apply(this, headers);
     }
 
     private headers(authTokenOrHeader: string | [string, string], ...additionalHeaders: [string, string][]): Headers {
         const headers = new Headers();
-        if (typeof authTokenOrHeader === 'string') {
+        if (typeof authTokenOrHeader === 'string' && authTokenOrHeader.length > 0) {
             headers.set('Authorization', `Bearer ${authTokenOrHeader}`);
-        } else {
+        } else if (this._tryFunctionsBasicAuthToken) {
+            headers.set('Authorization', `Basic ${this._tryFunctionsBasicAuthToken}`);
+        }
+
+        if (Array.isArray(authTokenOrHeader)) {
             headers.set(authTokenOrHeader[0], authTokenOrHeader[1]);
         }
 
