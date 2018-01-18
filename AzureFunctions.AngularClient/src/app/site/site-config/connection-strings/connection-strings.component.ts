@@ -1,5 +1,4 @@
 import { LogCategories } from './../../../shared/models/constants';
-import { Response } from '@angular/http';
 import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,13 +10,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
-import { SaveOrValidationResult } from './../site-config.component';
+import { ArmSavePayloads, /*ArmResultObj,*/ ArmSaveResults, SaveOrValidationResult } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
+import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -41,7 +40,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
     private _busyManager: BusyStateScopeManager;
 
-    private _saveError: string;
+    private _saveFailed: boolean;
+    private _connectionStringsSubmitted: boolean;
+    private _slotConfigNamesSubmitted: boolean;
 
     private _requiredValidator: RequiredValidator;
     private _uniqueCsValidator: UniqueValidator;
@@ -81,7 +82,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
             .distinctUntilChanged()
             .switchMap(() => {
                 this._busyManager.setBusy();
-                this._saveError = null;
+                this._saveFailed = false;
+                this._connectionStringsSubmitted = false;
+                this._slotConfigNamesSubmitted = false;
                 this._connectionStringsArm = null;
                 this._slotConfigNamesArm = null;
                 this.groupArray = null;
@@ -100,7 +103,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
                 return Observable.zip(
                     Observable.of(this.hasWritePermissions),
                     this.hasWritePermissions ?
-                        this._cacheService.postArm(`${this.resourceId}/config/connectionstrings/list`, true) : Observable.of(null),
+                        this._cacheService.postArm(`${this.resourceId}/config/connectionStrings/list`, true) : Observable.of(null),
                     this.hasWritePermissions ?
                         this._cacheService.getArm(this._slotConfigNamesArmPath, true) : Observable.of(null),
                     (h, c, s) => ({ hasWritePermissions: h, connectionStringsResponse: c, slotConfigNamesResponse: s }));
@@ -165,7 +168,7 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
 
     private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
         if (!!connectionStringsArm && !!slotConfigNamesArm) {
-            if (!this._saveError || !this.groupArray) {
+            if (!this._saveFailed || !this.groupArray) {
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
@@ -222,7 +225,9 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
             }
         }
 
-        this._saveError = null;
+        this._saveFailed = null;
+        this._connectionStringsSubmitted = false;
+        this._slotConfigNamesSubmitted = false;
     }
 
     validate(): SaveOrValidationResult {
@@ -258,92 +263,121 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         });
     }
 
-    getConfigForSave(): ArmObjMap {
-        // Prevent unnecessary PUT call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return null;
-        } else {
-            const configObjects: ArmObjMap = {
-                objects: {}
-            };
+    getSavePayload(payloads: ArmSavePayloads) {
+        this._connectionStringsSubmitted = false;
+        this._slotConfigNamesSubmitted = false;
 
-            const connectionStringGroups = this.groupArray.controls;
+        if (!this.groupArray.pristine) {
+            const config = this._getConfigFromForms();
 
-            if (this.mainForm.contains('connectionStrings') && this.mainForm.controls['connectionStrings'].valid) {
-                const connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
-                connectionStringsArm.properties = {};
-
-                this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-                const slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-                slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
-                const connectionStringNames = slotConfigNamesArm.properties.connectionStringNames as string[];
-
-                for (let i = 0; i < connectionStringGroups.length; i++) {
-                    if ((connectionStringGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
-                        const connectionStringControl = connectionStringGroups[i];
-                        const connectionString = {
-                            value: connectionStringControl.value.value,
-                            type: ConnectionStringType[connectionStringControl.value.type]
-                        };
-
-                        const name = connectionStringGroups[i].value.name;
-
-                        connectionStringsArm.properties[name] = connectionString;
-
-                        if (connectionStringGroups[i].value.isSlotSetting) {
-                            if (connectionStringNames.indexOf(name) === -1) {
-                                connectionStringNames.push(name);
-                            }
-                        } else {
-                            const index = connectionStringNames.indexOf(name);
-                            if (index !== -1) {
-                                connectionStringNames.splice(index, 1);
-                            }
-                        }
-                    }
+            if (config.connectionStringsArm) {
+                if (payloads.connectionStrings) {
+                    // This should never be set by any other component.
+                    // TODO: throw exception?
                 }
-
-                configObjects['slotConfigNames'] = slotConfigNamesArm;
-                configObjects['connectionStrings'] = connectionStringsArm;
-            } else {
-                configObjects.error = this._validationFailureMessage();
+                payloads.connectionStrings = config.connectionStringsArm;
+                this._connectionStringsSubmitted = true;
             }
 
-            return configObjects;
+            if (config.slotConfigNamesArm) {
+                if (!payloads.slotConfigNames) {
+                    payloads.slotConfigNames = config.slotConfigNamesArm;
+                } else {
+                    payloads.slotConfigNames.properties.connectionStringNames = config.slotConfigNamesArm.properties.connectionStringNames;
+                }
+                this._slotConfigNamesSubmitted = true;
+            }
         }
     }
 
-    save(
-        connectionStringsArm: ArmObj<any>,
-        slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
+    private _getConfigFromForms(): { connectionStringsArm: ArmObj<ConnectionStrings>, slotConfigNamesArm: ArmObj<SlotConfigNames> } {
+        this._connectionStringsArm.id = `${this.resourceId}/config/connectionStrings`;
+        const connectionStringsArm: ArmObj<ConnectionStrings> = JSON.parse(JSON.stringify(this._connectionStringsArm));
+        connectionStringsArm.properties = {};
 
-        // Don't make unnecessary PUT call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else {
-            return Observable.zip(
-                this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
-                Observable.of(slotConfigNamesResponse),
-                (c, s) => ({ connectionStringsResponse: c, slotConfigNamesResponse: s })
-            )
-                .map(r => {
-                    this._connectionStringsArm = r.connectionStringsResponse.json();
-                    this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
-                });
+        this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
+        const slotConfigNamesArm: ArmObj<SlotConfigNames> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+        slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
+
+        const connectionStrings: ConnectionStrings = connectionStringsArm.properties;
+        const connectionStringNames: string[] = slotConfigNamesArm.properties.connectionStringNames;
+
+        let connectionStringsPristine = true;
+        let connectionStringNamesPristine = true;
+
+        this.groupArray.controls.forEach(group => {
+            if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+                const controls = (group as CustomFormGroup).controls;
+
+                const name = controls['name'].value;
+
+                connectionStrings[name] = {
+                    value: controls['value'].value,
+                    type: controls['type'].value
+                };
+
+                if (connectionStringsPristine && !group.pristine) {
+                    connectionStringsPristine = controls['name'].pristine && controls['value'].pristine && controls['type'].pristine;
+                }
+
+                if (group.value.isSlotSetting) {
+                    if (connectionStringNames.indexOf(name) === -1) {
+                        connectionStringNames.push(name);
+                        connectionStringNamesPristine = false;
+                    }
+                } else {
+                    const index = connectionStringNames.indexOf(name);
+                    if (index !== -1) {
+                        connectionStringNames.splice(index, 1);
+                        connectionStringNamesPristine = false;
+                    }
+                }
+            }
+            else {
+                connectionStringsPristine = false;
+                if (group.value.isSlotSetting) {
+                    connectionStringNamesPristine = false;
+                }
+            }
+        });
+
+        return {
+            connectionStringsArm: connectionStringsPristine ? null : connectionStringsArm,
+            slotConfigNamesArm: connectionStringNamesPristine ? null : slotConfigNamesArm
+        };
+    }
+
+    processSaveResult(resluts: ArmSaveResults) {
+        if (this._connectionStringsSubmitted) {
+            this._connectionStringsSubmitted = false;
+
+            if (!resluts || !resluts.connectionStrings) {
+                //TODO
+                this._saveFailed = true;
+                throw 'no result';
+            }
+
+            if (resluts.connectionStrings.success && resluts.connectionStrings.result) {
+                this._connectionStringsArm = resluts.connectionStrings.result;
+            } else {
+                this._saveFailed = true;
+            }
+        }
+
+        if (this._slotConfigNamesSubmitted) {
+            this._slotConfigNamesSubmitted = false;
+
+            if (!resluts || !resluts.slotConfigNames) {
+                //TODO
+                this._saveFailed = true;
+                throw 'no result';
+            }
+
+            if (resluts.slotConfigNames.success && resluts.slotConfigNames.result) {
+                this._slotConfigNamesArm = resluts.slotConfigNames.result;
+            } else {
+                this._saveFailed = true;
+            }
         }
     }
 

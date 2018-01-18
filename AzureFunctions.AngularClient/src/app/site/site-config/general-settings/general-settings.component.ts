@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-import { SaveOrValidationResult } from '../site-config.component';
+import { ArmSavePayloads, /*ArmResultObj,*/ ArmSaveResults, SaveOrValidationResult } from './../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { AvailableStackNames, AvailableStack, Framework, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
@@ -46,7 +46,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     private _busyManager: BusyStateScopeManager;
 
-    private _saveError: string;
+    private _saveFailed: boolean;
+    private _siteConfigSubmitted: boolean;
+    private _webConfigSubmitted: boolean;
 
     private _webConfigArm: ArmObj<SiteConfig>;
     public siteArm: ArmObj<Site>;
@@ -126,7 +128,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             .distinctUntilChanged()
             .switchMap(() => {
                 this._busyManager.setBusy();
-                this._saveError = null;
+                this._saveFailed = false;
+                this._siteConfigSubmitted = false;
+                this._webConfigSubmitted = false;
                 this.siteArm = null;
                 this._webConfigArm = null;
                 this.group = null;
@@ -209,7 +213,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         const inputs = {
             aspResourceId: this.siteArm.properties.serverFarmId,
             aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
-                && this.siteArm.properties.hostingEnvironmentProfile.id
+            && this.siteArm.properties.hostingEnvironmentProfile.id
         };
 
         const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
@@ -351,7 +355,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
             this._ignoreChildEvents = true;
 
-            if (!this._saveError || !this.group) {
+            if (!this._saveFailed || !this.group) {
                 const group = this._fb.group({});
                 const versionOptionsMap: { [key: string]: DropDownElement<string>[] } = {};
                 const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
@@ -395,7 +399,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
         }
 
-        this._saveError = null;
+        this._saveFailed = false;
+        this._siteConfigSubmitted = false;
+        this._webConfigSubmitted = false;
     }
 
     private _setControlsEnabledState(names: string[], enabled: boolean) {
@@ -1027,28 +1033,77 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         };
     }
 
-    save(): Observable<SaveOrValidationResult> {
-        // Don't make unnecessary PATCH call if these settings haven't been changed
-        if (this.group.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else if (this.mainForm.contains('generalSettings') && this.mainForm.controls['generalSettings'].valid) {
-            const generalSettingsControls = this.group.controls;
+    getSavePayload(payloads: ArmSavePayloads) {
+        this._siteConfigSubmitted = false;
+        this._webConfigSubmitted = false;
 
-            // level: site
-            const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this.siteArm));
+        if (!this.group.pristine) {
+            const config = this._getConfigFromForms();
 
-            if (this.clientAffinitySupported) {
-                const clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
-                siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled;
+            if (config.siteConfigArm) {
+                if (!payloads.siteConfig) {
+                    payloads.siteConfig = config.siteConfigArm;
+                } else {
+                    payloads.siteConfig.properties.clientAffinityEnabled = config.siteConfigArm.properties.clientAffinityEnabled;
+                }
+                this._siteConfigSubmitted = true;
             }
 
-            // level: site/config/web
-            const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
-            webConfigArm.properties = {};
+            if (config.webConfigArm) {
+                if (!payloads.webConfig) {
+                    payloads.webConfig = config.webConfigArm;
+                } else {
+                    // -- non-stack settings --
+                    payloads.webConfig.properties.use32BitWorkerProcess = config.webConfigArm.properties.use32BitWorkerProcess;
+                    payloads.webConfig.properties.webSocketsEnabled = config.webConfigArm.properties.webSocketsEnabled;
+                    payloads.webConfig.properties.alwaysOn = config.webConfigArm.properties.alwaysOn;
+                    payloads.webConfig.properties.managedPipelineMode = config.webConfigArm.properties.managedPipelineMode;
+                    payloads.webConfig.properties.remoteDebuggingEnabled = config.webConfigArm.properties.remoteDebuggingEnabled;
+                    payloads.webConfig.properties.remoteDebuggingVersion = config.webConfigArm.properties.remoteDebuggingVersion;
+                    payloads.webConfig.properties.autoSwapSlotName = config.webConfigArm.properties.autoSwapSlotName;
 
+                    // -- stacks settings --
+                    payloads.webConfig.properties.netFrameworkVersion = config.webConfigArm.properties.netFrameworkVersion;
+                    payloads.webConfig.properties.phpVersion = config.webConfigArm.properties.phpVersion;
+                    payloads.webConfig.properties.pythonVersion = config.webConfigArm.properties.pythonVersion;
+                    payloads.webConfig.properties.javaVersion = config.webConfigArm.properties.javaVersion;
+                    payloads.webConfig.properties.javaContainer = config.webConfigArm.properties.javaContainer;
+                    payloads.webConfig.properties.javaContainerVersion = config.webConfigArm.properties.javaContainerVersion;
+                    payloads.webConfig.properties.linuxFxVersion = config.webConfigArm.properties.linuxFxVersion;
+                    payloads.webConfig.properties.appCommandLine = config.webConfigArm.properties.appCommandLine;
+                }
+                this._webConfigSubmitted = true;
+            }
+        }
+    }
+
+    private _getConfigFromForms(): { siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig> } {
+        const generalSettingsControls = this.group.controls;
+
+        let siteConfigPristine = true;
+        let webConfigPristine = true;
+
+        for (let name in generalSettingsControls) {
+            if (generalSettingsControls[name].dirty) {
+                if (name === 'clientAffinityEnabled') {
+                    siteConfigPristine = false;
+                } else {
+                    webConfigPristine = false;
+                }
+            }
+        }
+
+        this.siteArm.id = this.resourceId;
+        const siteConfigArm: ArmObj<Site> = siteConfigPristine ? null : JSON.parse(JSON.stringify(this.siteArm));
+        if (siteConfigArm) {
+            if (this.clientAffinitySupported) {
+                siteConfigArm.properties.clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);;
+            }
+        }
+
+        this._webConfigArm.id = `${this.resourceId}/config/web`;
+        const webConfigArm: ArmObj<SiteConfig> = webConfigPristine ? null : JSON.parse(JSON.stringify(this._webConfigArm));
+        if (webConfigArm) {
             // -- non-stack settings --
             if (this.platform64BitSupported) {
                 webConfigArm.properties.use32BitWorkerProcess = <boolean>(generalSettingsControls['use32BitWorkerProcess'].value);
@@ -1091,34 +1146,45 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
                 webConfigArm.properties.linuxFxVersion = <string>(generalSettingsControls['linuxFxVersion'].value);
                 webConfigArm.properties.appCommandLine = <string>(generalSettingsControls['appCommandLine'].value);
             }
+        }
 
-            return Observable.zip(
-                this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm),
-                this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm),
-                (c, w) => ({ siteConfigResponse: c, webConfigResponse: w })
-            )
-                .map(r => {
-                    this.siteArm = r.siteConfigResponse.json();
-                    this._webConfigArm = r.webConfigResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
-                });
-        } else {
-            const failureMessage = this._validationFailureMessage();
-            this._saveError = failureMessage;
-            return Observable.of({
-                success: false,
-                error: failureMessage
-            });
+        return {
+            siteConfigArm: siteConfigArm,
+            webConfigArm: webConfigArm
+        };
+    }
+
+    processSaveResult(resluts: ArmSaveResults) {
+        if (this._siteConfigSubmitted) {
+            this._siteConfigSubmitted = false;
+
+            if (!resluts || !resluts.siteConfig) {
+                //TODO
+                this._saveFailed = true;
+                throw 'no result';
+            }
+
+            if (resluts.siteConfig.success && resluts.siteConfig.result) {
+                this.siteArm = resluts.siteConfig.result;
+            } else {
+                this._saveFailed = true;
+            }
+        }
+
+        if (this._webConfigSubmitted) {
+            this._webConfigSubmitted = false;
+
+            if (!resluts || !resluts.webConfig) {
+                //TODO
+                this._saveFailed = true;
+                throw 'no result';
+            }
+
+            if (resluts.webConfig.success && resluts.webConfig.result) {
+                this._webConfigArm = resluts.webConfig.result;
+            } else {
+                this._saveFailed = true;
+            }
         }
     }
 

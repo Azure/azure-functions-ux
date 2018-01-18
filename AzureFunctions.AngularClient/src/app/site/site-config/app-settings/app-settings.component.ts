@@ -1,5 +1,4 @@
 import { LogCategories } from './../../../shared/models/constants';
-import { Response } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,12 +8,13 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
-import { SaveOrValidationResult } from './../site-config.component';
+import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
+import { ArmSavePayloads, /*ArmResultObj,*/ ArmSaveResults, SaveOrValidationResult } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
+import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -38,12 +38,14 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _busyManager: BusyStateScopeManager;
 
-  private _saveError: string;
+  private _saveFailed: boolean;
+  private _appSettingsSubmitted: boolean;
+  private _slotConfigNamesSubmitted: boolean;
 
   private _requiredValidator: RequiredValidator;
   private _uniqueAppSettingValidator: UniqueValidator;
 
-  private _appSettingsArm: ArmObj<any>;
+  private _appSettingsArm: ArmObj<ApplicationSettings>;
   private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
 
   public loadingFailureMessage: string;
@@ -77,7 +79,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .distinctUntilChanged()
       .switchMap(() => {
         this._busyManager.setBusy();
-        this._saveError = null;
+        this._saveFailed = false;
+        this._appSettingsSubmitted = false;
+        this._slotConfigNamesSubmitted = false;
         this._appSettingsArm = null;
         this._slotConfigNamesArm = null;
         this.groupArray = null;
@@ -162,9 +166,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
 
-  private _setupForm(appSettingsArm: ArmObj<any>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
+  private _setupForm(appSettingsArm: ArmObj<ApplicationSettings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
     if (!!appSettingsArm && !!slotConfigNamesArm) {
-      if (!this._saveError || !this.groupArray) {
+      if (!this._saveFailed || !this.groupArray) {
         this.newItem = null;
         this.originalItemsDeleted = 0;
         this.groupArray = this._fb.array([]);
@@ -212,7 +216,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       }
     }
 
-    this._saveError = null;
+    this._saveFailed = false;
+    this._appSettingsSubmitted = false;
+    this._slotConfigNamesSubmitted = false;
   }
 
   validate(): SaveOrValidationResult {
@@ -248,86 +254,115 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     });
   }
 
-  getConfigForSave(): ArmObjMap {
-    // Prevent unnecessary PUT call if these settings haven't been changed
-    if (this.groupArray.pristine) {
-      return null;
-    } else {
-      const configObjects: ArmObjMap = {
-        objects: {}
-      };
+  getSavePayload(payloads: ArmSavePayloads) {
+    this._appSettingsSubmitted = false;
+    this._slotConfigNamesSubmitted = false;
 
-      const appSettingGroups = this.groupArray.controls;
+    if (!this.groupArray.pristine) {
+      const config = this._getConfigFromForms();
 
-      if (this.mainForm.contains('appSettings') && this.mainForm.controls['appSettings'].valid) {
-        const appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
-        appSettingsArm.properties = {};
-
-        this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-        const slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-        slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
-        const appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
-
-        for (let i = 0; i < appSettingGroups.length; i++) {
-          if ((appSettingGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
-            const name = appSettingGroups[i].value.name;
-
-            appSettingsArm.properties[name] = appSettingGroups[i].value.value;
-
-            if (appSettingGroups[i].value.isSlotSetting) {
-              if (appSettingNames.indexOf(name) === -1) {
-                appSettingNames.push(name);
-              }
-            } else {
-              const index = appSettingNames.indexOf(name);
-              if (index !== -1) {
-                appSettingNames.splice(index, 1);
-              }
-            }
-          }
+      if (config.appSettingsArm) {
+        if (payloads.applicationSettings) {
+          // This should never be set by any other component.
+          // TODO: throw exception?
         }
-
-        configObjects['slotConfigNames'] = slotConfigNamesArm;
-        configObjects['appSettings'] = appSettingsArm;
-      } else {
-        configObjects.error = this._validationFailureMessage();
+        payloads.applicationSettings = config.appSettingsArm;
+        this._appSettingsSubmitted = true;
       }
 
-      return configObjects;
+      if (config.slotConfigNamesArm) {
+        if (!payloads.slotConfigNames) {
+          payloads.slotConfigNames = config.slotConfigNamesArm;
+        } else {
+          payloads.slotConfigNames.properties.appSettingNames = config.slotConfigNamesArm.properties.appSettingNames;
+        }
+        this._slotConfigNamesSubmitted = true;
+      }
     }
   }
 
-  save(
-    appSettingsArm: ArmObj<any>,
-    slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
+  private _getConfigFromForms(): { appSettingsArm: ArmObj<ApplicationSettings>, slotConfigNamesArm: ArmObj<SlotConfigNames> } {
+    this._appSettingsArm.id = `${this.resourceId}/config/appSettings`;
+    const appSettingsArm: ArmObj<ApplicationSettings> = JSON.parse(JSON.stringify(this._appSettingsArm));
+    appSettingsArm.properties = {};
 
-    // Don't make unnecessary PUT call if these settings haven't been changed
-    if (this.groupArray.pristine) {
-      return Observable.of({
-        success: true,
-        error: null
-      });
-    } else {
-      return Observable.zip(
-        this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
-        Observable.of(slotConfigNamesResponse),
-        (a, s) => ({ appSettingsResponse: a, slotConfigNamesResponse: s })
-      )
-        .map(r => {
-          this._appSettingsArm = r.appSettingsResponse.json();
-          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
-          return {
-            success: true,
-            error: null
-          };
-        })
-        .catch(error => {
-          this._saveError = error._body;
-          return Observable.of({
-            success: false,
-            error: error._body
-          });
-        });
+    this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
+    const slotConfigNamesArm: ArmObj<SlotConfigNames> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+    slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
+
+    const appSettings: ApplicationSettings = appSettingsArm.properties;
+    const appSettingNames: string[] = slotConfigNamesArm.properties.appSettingNames;
+
+    let appSettingsPristine = true;
+    let appSettingNamesPristine = true;
+
+    this.groupArray.controls.forEach(group => {
+      if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+        const controls = (group as CustomFormGroup).controls;
+
+        const name = controls['name'].value;
+
+        appSettings[name] = controls['value'].value;
+
+        if (appSettingsPristine && !group.pristine) {
+          appSettingsPristine = controls['name'].pristine && controls['value'].pristine;
+        }
+
+        if (group.value.isSlotSetting) {
+          if (appSettingNames.indexOf(name) === -1) {
+            appSettingNames.push(name);
+            appSettingNamesPristine = false;
+          }
+        } else {
+          const index = appSettingNames.indexOf(name);
+          if (index !== -1) {
+            appSettingNames.splice(index, 1);
+            appSettingNamesPristine = false;
+          }
+        }
+      }
+      else {
+        appSettingsPristine = false;
+      }
+    });
+
+    return {
+      appSettingsArm: appSettingsPristine ? null : appSettingsArm,
+      slotConfigNamesArm: appSettingNamesPristine ? null : slotConfigNamesArm
+    };
+  }
+
+  processSaveResult(resluts: ArmSaveResults) {
+    if (this._appSettingsSubmitted) {
+      this._appSettingsSubmitted = false;
+
+      if (!resluts || !resluts.applicationSettings) {
+        //TODO
+        this._saveFailed = true;
+        throw 'no result';
+      }
+
+      if (resluts.applicationSettings.success && resluts.applicationSettings.result) {
+        this._appSettingsArm = resluts.applicationSettings.result;
+      } else {
+        this._saveFailed = true;
+      }
+    }
+
+    if (this._slotConfigNamesSubmitted) {
+      this._slotConfigNamesSubmitted = false;
+
+      if (!resluts || !resluts.slotConfigNames) {
+        //TODO
+        this._saveFailed = true;
+        throw 'no result';
+      }
+
+      if (resluts.slotConfigNames.success && resluts.slotConfigNames.result) {
+        this._slotConfigNamesArm = resluts.slotConfigNames.result;
+      } else {
+        this._saveFailed = true;
+      }
     }
   }
 

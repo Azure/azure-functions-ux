@@ -177,6 +177,38 @@ export class ArmFunctionDescriptor extends ArmSiteDescriptor implements Function
             return new ArmFunctionDescriptor(resourceId);
         }
     }
+
+    constructor(resourceId: string) {
+        super(resourceId);
+
+        if (!this.slot) {
+            if (this.parts.length < 10) {
+                throw Error('Not a site function/proxy id');
+            }
+
+            if (this.parts[8].toLowerCase() !== 'functions' && this.parts[8].toLowerCase() !== 'proxies') {
+                throw Error('Not a site function/proxy id');
+            }
+
+            this._isProxy = this.parts[8].toLowerCase() === 'proxies';
+            this.name = this.parts[9];
+        } else {
+            if (this.parts.length < 12) {
+                throw Error('Not a slot function/proxy id');
+            }
+
+            if (this.parts[10].toLowerCase() !== 'functions' && this.parts[10].toLowerCase() !== 'proxies') {
+                throw Error('Not a slot function/proxy id');
+            }
+
+            this._isProxy = this.parts[10].toLowerCase() === 'proxies';
+            this.name = this.parts[11];
+        }
+    }
+
+    getTrimmedResourceId() {
+        return `${super.getTrimmedResourceId()}/${this._isProxy ? 'proxies' : 'functions'}/${this.name}`;
+    }
 }
 
 export enum ConfigType {
@@ -188,7 +220,7 @@ export enum ConfigType {
     slotConfigNames
 }
 
-export class SiteConfigDescriptor extends SiteDescriptor {
+export class SiteConfigDescriptor extends ArmSiteDescriptor {
     public configType = ConfigType.none;
     public supprtsPatch: boolean = false;
     public canMerge: boolean = false;
@@ -223,42 +255,5 @@ export class SiteConfigDescriptor extends SiteDescriptor {
                     throw `Config path '${configPath}' not recognized`
             }
         }
-    }
-}
-
-export class FunctionDescriptor extends SiteDescriptor {
-    public name;
-    private _isProxy: boolean;
-
-    constructor(resourceId: string) {
-        super(resourceId);
-
-        if (!this.slot) {
-            if (this.parts.length < 10) {
-                throw Error('Not a site function/proxy id');
-            }
-
-            if (this.parts[8].toLowerCase() !== 'functions' && this.parts[8].toLowerCase() !== 'proxies') {
-                throw Error('Not a site function/proxy id');
-            }
-
-            this._isProxy = this.parts[8].toLowerCase() === 'proxies';
-            this.name = this.parts[9];
-        } else {
-            if (this.parts.length < 12) {
-                throw Error('Not a slot function/proxy id');
-            }
-
-            if (this.parts[10].toLowerCase() !== 'functions' && this.parts[10].toLowerCase() !== 'proxies') {
-                throw Error('Not a slot function/proxy id');
-            }
-
-            this._isProxy = this.parts[10].toLowerCase() === 'proxies';
-            this.name = this.parts[11];
-        }
-    }
-
-    getTrimmedResourceId() {
-        return `${super.getTrimmedResourceId()}/${this._isProxy ? 'proxies' : 'functions'}/${this.name}`;
     }
 }

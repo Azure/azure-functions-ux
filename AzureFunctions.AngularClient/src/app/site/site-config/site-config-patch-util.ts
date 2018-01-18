@@ -1,9 +1,11 @@
-import { ArmObj, ArmPatchObj } from 'app/shared/models/arm/arm-obj';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
 import { SiteConfigDescriptor, ConfigType } from 'app/shared/resourceDescriptors';
 import { CacheService } from 'app/shared/services/cache.service';
+
+export type ArmPatchObj<T> = { full: ArmObj<T>, patchedProperties: ArmObj<any> }
 
 export interface SaveInfo<T> {
     patches: ArmPatchObj<T>[],
@@ -76,8 +78,7 @@ export class SiteConfigPatchUtil {
                             this._merge(cumulativeProperties, patch.patchedProperties, true);
                         })
 
-                        const finalConfigArm: ArmObj<any> = this._simpleDeepCopy(patches[0]);
-                        delete (finalConfigArm as ArmPatchObj<any>).patchedProperties;
+                        const finalConfigArm: ArmObj<any> = this._simpleDeepCopy(patches[0].full);
 
                         if (descriptor.supprtsPatch) {
                             finalConfigArm.properties = cumulativeProperties;

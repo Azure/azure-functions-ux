@@ -8,11 +8,6 @@ export interface ArmObj<T> {
     identity?: Identity;
 }
 
-export interface ArmObjMap {
-    objects: { [key: string]: ArmObj<any> },
-    error?: string
-}
-
 export interface ArmArrayResult<T> {
     value : ArmObj<T>[];
     nextLink : string;

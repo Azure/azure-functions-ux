@@ -7,8 +7,9 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+import { HandlerMapping } from './../../../shared/models/arm/handler-mapping';
 import { SiteConfig } from './../../../shared/models/arm/site-config';
-import { SaveOrValidationResult } from './../site-config.component';
+import { ArmSavePayloads, /*ArmResultObj,*/ ArmSaveResults, SaveOrValidationResult } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -36,7 +37,8 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
 
     private _busyManager: BusyStateScopeManager;
 
-    private _saveError: string;
+    private _saveFailed: boolean;
+    private _webConfigSubmitted: boolean;
 
     private _requiredValidator: RequiredValidator;
 
@@ -72,7 +74,8 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
             .distinctUntilChanged()
             .switchMap(() => {
                 this._busyManager.setBusy();
-                this._saveError = null;
+                this._saveFailed = false;
+                this._webConfigSubmitted = false;
                 this._webConfigArm = null;
                 this.groupArray = null;
                 this.newItem = null;
@@ -149,7 +152,7 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
 
     private _setupForm(webConfigArm: ArmObj<SiteConfig>) {
         if (!!webConfigArm) {
-            if (!this._saveError || !this.groupArray) {
+            if (!this._saveFailed || !this.groupArray) {
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
@@ -186,7 +189,8 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
             }
         }
 
-        this._saveError = null;
+        this._saveFailed = false;
+        this._webConfigSubmitted = false;
     }
 
     validate(): SaveOrValidationResult {
@@ -222,53 +226,51 @@ export class HandlerMappingsComponent implements OnChanges, OnDestroy {
         });
     }
 
-    save(): Observable<SaveOrValidationResult> {
-        // Don't make unnecessary PATCH call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else if (this.mainForm.contains('handlerMappings') && this.mainForm.controls['handlerMappings'].valid) {
-            const handlerMappingGroups = this.groupArray.controls;
+    getSavePayload(payloads: ArmSavePayloads) {
+        this._webConfigSubmitted = false;
 
-            const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
-            webConfigArm.properties = {};
+        if (!this.groupArray.pristine) {
+            if (!payloads.webConfig) {
+                this._webConfigArm.id = `${this.resourceId}/config/web`;
+                payloads.webConfig = JSON.parse(JSON.stringify(this._webConfigArm));
+            }
+            payloads.webConfig.properties.handlerMappings = this._getHandlerMappingsFromForms();
+            this._webConfigSubmitted = true;
+        }
+    }
 
-            webConfigArm.properties.handlerMappings = [];
-            handlerMappingGroups.forEach(group => {
-                if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
-                    const formGroup: FormGroup = group as FormGroup;
-                    webConfigArm.properties.handlerMappings.push({
-                        extension: formGroup.controls['extension'].value,
-                        scriptProcessor: formGroup.controls['scriptProcessor'].value,
-                        arguments: formGroup.controls['arguments'].value,
-                    });
-                }
-            });
+    private _getHandlerMappingsFromForms(): HandlerMapping[] {
+        const handlerMappings: HandlerMapping[] = [];
 
-            return this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm)
-                .map(webConfigResponse => {
-                    this._webConfigArm = webConfigResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
+        this.groupArray.controls.forEach(group => {
+            if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+                const formGroup: FormGroup = group as FormGroup;
+                handlerMappings.push({
+                    extension: formGroup.controls['extension'].value,
+                    scriptProcessor: formGroup.controls['scriptProcessor'].value,
+                    arguments: formGroup.controls['arguments'].value,
                 });
-        } else {
-            const failureMessage = this._validationFailureMessage();
-            this._saveError = failureMessage;
-            return Observable.of({
-                success: false,
-                error: failureMessage
-            });
+            }
+        });
+
+        return handlerMappings;
+    }
+
+    processSaveResult(resluts: ArmSaveResults) {
+        if (this._webConfigSubmitted) {
+            this._webConfigSubmitted = false;
+
+            if (!resluts || !resluts.webConfig) {
+                //TODO
+                this._saveFailed = true;
+                throw 'no result';
+            }
+
+            if (resluts.webConfig.success && resluts.webConfig.result) {
+                this._webConfigArm = resluts.webConfig.result;
+            } else {
+                this._saveFailed = true;
+            }
         }
     }
 
