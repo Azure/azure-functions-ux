@@ -7291,6 +7291,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This field can only contain letters, numbers (0-9), periods ("."), and underscores ("_").
+        /// </summary>
+        internal static string validation_linuxAppSettingNameError {
+            get {
+                return ResourceManager.GetString("validation_linuxAppSettingNameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This field is required.
         /// </summary>
         internal static string validation_requiredError {
