@@ -1987,6 +1987,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>Duplicate values are not allowed</value>
   </data>
+  <data name="validation_linuxAppSettingNameError" xml:space="preserve">
+    <value>This field can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
+  </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>This field is required</value>
   </data>
