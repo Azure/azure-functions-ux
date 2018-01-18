@@ -48,7 +48,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewIn
     }
 
     ngAfterViewInit() {
-        if (this.focusOnLoad){
+        if (this.focusOnLoad) {
             this.radioGroup.nativeElement.focus();
         }
     }
