@@ -91,7 +91,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         return this.viewInfoEvents
             .switchMap(viewInfo => {
                 return Observable.zip(this._functionAppService.getHostJson(this.context), this._functionAppService.getRuntimeGeneration(this.context),
-                    (a: FunctionAppHttpResult<Host>, b: string) => ({host: a, gen: b}));
+                    (a: FunctionAppHttpResult<Host>, b: string) => ({ host: a, gen: b }));
             })
             .switchMap(result => {
                 this.generation = result.gen;
@@ -267,10 +267,10 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
             if (((!swaggerDocument || swaggerDocument === this._translateService.instant(PortalResources.swaggerDefinition_placeHolder))
                 && !error)
                 || confirm(this._translateService.instant(PortalResources.swaggerDefinition_confirmOverwrite))) {
-                this._functionAppService.getGeneratedSwaggerData(this.context)
-                    .subscribe((swaggerDoc: any) => {
-                        this.swaggerDocument = swaggerDoc;
-                        this.assignDocumentToEditor(swaggerDoc);
+                this._functionAppService.getGeneratedSwaggerData(this.context, this.swaggerKey)
+                    .subscribe((swaggerDoc) => {
+                        this.swaggerDocument = swaggerDoc.result;
+                        this.assignDocumentToEditor(swaggerDoc.result);
                     });
             }
         });
@@ -302,7 +302,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
                 this._cacheService.clearCachePrefix(this.swaggerURL);
                 this._functionAppService.addOrUpdateSwaggerDocument(this.context, this.swaggerURL, swaggerDocument)
                     .subscribe(updatedDocument => {
-                        this.swaggerDocument = updatedDocument;
+                        this.swaggerDocument = updatedDocument.result;
                         this._busyManager.clearBusy();
                     }, () => {
                         this._busyManager.clearBusy();
@@ -331,10 +331,10 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
 
     public resetEditor(): void {
         this._busyManager.setBusy();
-        this._functionAppService.getSwaggerDocument(this.context)
-            .subscribe((swaggerDoc: any) => {
-                this.swaggerDocument = swaggerDoc;
-                this.assignDocumentToEditor(swaggerDoc);
+        this._functionAppService.getSwaggerDocument(this.context, this.swaggerKey)
+            .subscribe(swaggerDoc => {
+                this.swaggerDocument = swaggerDoc.result;
+                this.assignDocumentToEditor(swaggerDoc.result);
                 this._busyManager.clearBusy();
             }, () => {
                 this._busyManager.clearBusy();
@@ -435,16 +435,17 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
             });
     }
 
-    private loadLatestSwaggerDocumentInEditor(key) {
+    private loadLatestSwaggerDocumentInEditor(key: string) {
         this.swaggerURL = this.getUpdatedSwaggerURL(key);
-        return this._functionAppService.getSwaggerDocument(key)
+        return this._functionAppService.getSwaggerDocument(this.context, key)
             .retry(1)
-            .catch(() => {
-                // get document fails
-                return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
-            }).mergeMap(swaggerDoc => {
-                this.swaggerDocument = swaggerDoc;
-                this.assignDocumentToEditor(swaggerDoc);
+            .mergeMap(swaggerDoc => {
+                const document = swaggerDoc.isSuccessful
+                    ? swaggerDoc.result
+                    : this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
+
+                this.swaggerDocument = document;
+                this.assignDocumentToEditor(document);
                 if (this.swaggerKey) {
                     return this.addorUpdateApiDefinitionURL(this.swaggerURL);
                 }
