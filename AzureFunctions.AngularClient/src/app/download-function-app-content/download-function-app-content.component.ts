@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectOption } from './../shared/models/select-option';
 import { Subject } from 'rxjs/Subject';
 import { Component, Input, Output } from '@angular/core';
+import { KeyCodes } from 'app/shared/models/constants';
 
 type DownloadOption = 'siteContent' | 'vsProject';
 
@@ -40,5 +41,11 @@ export class DownloadFunctionAppContentComponent {
 
   closeModal() {
     this.close.next();
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.escape) {
+      this.closeModal();
+    }
   }
 }

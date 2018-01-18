@@ -1,12 +1,11 @@
-<div class="modal fade in" style="display: block">
+<div class="modal fade in" style="display: block" (keydown)="onKeyDown($event)">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>{{'downloadFunctionAppContent' | translate}}</h3>
-                <button 
-                    type="button" 
-                    class="close" 
-                    (click)="closeModal()" 
+                <button type="button"
+                    class="close"
+                    (click)="closeModal()"
                     [attr.aria-label]="'close' | translate">
                     &times;
                 </button>
@@ -28,16 +27,20 @@
                      cs-enabledByDefault="true"
                      id="app-settings-checkbox">
                     <input
-                        type="checkbox" 
+                        type="checkbox"
                         aria-labelledby="includeAppSettingsLabel"
                         [(ngModel)]="includeAppSettings"/>
-                    <label id="includeAppSettingsLabel">{{ 'downloadFunctionAppContent_includeAppSettings' | translate }}</label>
-                    <pop-over [position]="'bottom'" [message]="'downloadFunctionAppContent_includeAppSettingsHelp' | translate">
+                    <label id="includeAppSettingsLabel">
+                        {{ 'downloadFunctionAppContent_includeAppSettings' | translate }}
+                    </label>
+                    <pop-over [position]="'bottom'"
+                        [message]="'downloadFunctionAppContent_includeAppSettingsHelp' | translate">
                         <span class="glyphicon glyphicon-info-sign button-title"></span>
                     </pop-over>
                 </div>
                 <div id="download-button-container">
-                    <button class="custom-button" (click)="downloadFunctionAppContent()">
+                    <button class="custom-button"
+                            (click)="downloadFunctionAppContent()">
                         {{ 'download' | translate }}
                     </button>
                 </div>
