@@ -219,7 +219,7 @@ export class FunctionAppService {
                 .catch(err => err.status === 404
                     ? Observable.throw(errorIds.proxyJsonNotFound)
                     : Observable.throw(err)),
-            this._cacheService.get('assets/schemas/proxies.json', false),
+            this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(t)),
             (p, s) => ({ proxies: p, schema: s.json() })
         ).map(r => {
             const proxies = r.proxies.json();
@@ -896,18 +896,18 @@ export class FunctionAppService {
             .map(r => <RunFunctionResult>({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 
-    getGeneratedSwaggerData(context: FunctionAppContext): Result<any> {
+    getGeneratedSwaggerData(context: FunctionAppContext, key: string): Result<any> {
         const url: string = context.urlTemplates.getGeneratedSwaggerDataUrl;
-        return this.runtime.execute(context, t => this._cacheService.get(url, false, this.headers(t)).map(r => r.json()));
+        return this.runtime.execute(context, t => this._cacheService.get(`${url}?code=${key}`, false, this.headers(t)).map(r => r.json()));
     }
 
-    getSwaggerDocument(context: FunctionAppContext): Result<any> {
+    getSwaggerDocument(context: FunctionAppContext, key: string): Result<any> {
         const url: string = context.urlTemplates.getSwaggerDocumentUrl;
-        return this.runtime.execute(context, t => this._cacheService.get(url, false, this.headers(t)).map(r => r.json()));
+        return this.runtime.execute(context, t => this._cacheService.get(`${url}?code=${key}`, false, this.headers(t)).map(r => r.json()));
     }
 
     addOrUpdateSwaggerDocument(context: FunctionAppContext, swaggerUrl: string, content: string): Result<any> {
-        return this.runtime.execute(context, this._cacheService.post(swaggerUrl, false, null, content).map(r => r.json()));
+        return this.runtime.execute(context, this._cacheService.post(swaggerUrl, false, this.jsonHeaders(null), content).map(r => r.json()));
     }
 
     deleteSwaggerDocument(context: FunctionAppContext, swaggerUrl: string) {

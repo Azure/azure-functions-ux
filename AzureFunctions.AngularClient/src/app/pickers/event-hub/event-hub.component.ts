@@ -97,6 +97,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
 
     setup(): Subscription {
         return this.viewInfoEvents
+            .do(() => this._globalStateService.clearBusyState())
             .switchMap(view => {
                 const descriptor = new ArmSiteDescriptor(view.context.site.id);
                 const id = `/subscriptions/${descriptor.subscription}/providers/Microsoft.EventHub/namespaces`;
