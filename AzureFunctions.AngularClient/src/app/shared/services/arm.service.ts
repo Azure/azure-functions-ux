@@ -30,7 +30,7 @@ export class ArmService {
 
     constructor(private _http: Http,
         _userService: UserService,
-        _portalService: PortalService,
+        private _portalService: PortalService,
         protected _aiService: AiService) {
 
         this.armUrl = _portalService.isEmbeddedFunctions ? ArmEmbeddedService.url : ArmServiceHelper.armEndpoint;
@@ -42,13 +42,13 @@ export class ArmService {
             });
     }
 
-    getHeaders(etag?: string){
+    getHeaders(etag?: string) {
         return ArmServiceHelper.getHeaders(this._token, this._sessionId, etag);
     }
 
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers, invokeApi?: boolean) {
 
-        headers = headers ? headers : ArmServiceHelper.getHeaders(this._token, this._sessionId, etag);
+        headers = (headers && !this._portalService.isEmbeddedFunctions) ? headers : this.getHeaders(etag);
 
         if (invokeApi) {
             let pathAndQuery = url.slice(this.armUrl.length);
@@ -71,23 +71,23 @@ export class ArmService {
 
     get(resourceId: string, apiVersion?: string) {
         const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
-        return this._http.get(url, { headers: ArmServiceHelper.getHeaders(this._token, this._sessionId) });
+        return this._http.get(url, { headers: this.getHeaders() });
     }
 
     delete(resourceId: string, apiVersion?: string) {
         const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
-        return this._http.delete(url, { headers: ArmServiceHelper.getHeaders(this._token, this._sessionId) });
+        return this._http.delete(url, { headers: this.getHeaders() });
     }
 
     put(resourceId: string, body: any, apiVersion?: string) {
         const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
-        return this._http.put(url, JSON.stringify(body), { headers: ArmServiceHelper.getHeaders(this._token, this._sessionId) });
+        return this._http.put(url, JSON.stringify(body), { headers: this.getHeaders() });
     }
 
     post(resourceId: string, body: any, apiVersion?: string) {
         const content = !!body ? JSON.stringify(body) : null;
         const url = `${this.armUrl}${resourceId}?api-version=${apiVersion ? apiVersion : this.websiteApiVersion}`;
-        return this._http.post(url, content, { headers: ArmServiceHelper.getHeaders(this._token, this._sessionId) });
+        return this._http.post(url, content, { headers: this.getHeaders() });
     }
 
     getArmUrl(resourceId: string, apiVersion?: string) {

@@ -24,6 +24,13 @@ export interface StartupInfo {
     resourceId: string;
     graphToken: string;
     theme: string;
+    crmInfo?: CrmInfo;
+}
+
+export interface CrmInfo {
+    crmTokenHeaderName: string;
+    crmInstanceHeaderName: string;
+    crmSolutionIdHeaderName: string;
 }
 
 export interface DataMessage<T>{

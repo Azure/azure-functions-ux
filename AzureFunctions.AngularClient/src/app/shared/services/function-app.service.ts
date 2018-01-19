@@ -35,121 +35,14 @@ import { errorIds } from 'app/shared/models/error-ids';
 import { LogService } from './log.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { ExtensionInstallStatus } from '../models/extension-install-status';
+import { Templates } from './../../function/embedded/temp-templates';
 
 type Result<T> = Observable<FunctionAppHttpResult<T>>;
 @Injectable()
 export class FunctionAppService {
     private readonly runtime: ConditionalHttpClient;
     private readonly azure: ConditionalHttpClient;
-
-    private testJsonTemplates = JSON.stringify([
-        {
-            "id": "SyncTrigger-CSharp",
-            "runtime": "1",
-            "files": {
-                "readme.md": "# HttpTrigger -on",
-                "run.csx": "#r \"..\\bin\\Microsoft.Xrm.Sdk.dll\"\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\"name\"] = entity.Attributes[\"name\"].ToString().ToUpper();\n\treturn entity;\n}",
-                "sample.dat": "{}"
-            },
-            "function": {
-                "disabled": false,
-                "bindings": [
-                    {
-                        "name": "entity",
-                        "message": "create",
-                        "type": "synctrigger",
-                        "direction": "in"
-                    }
-                ]
-            },
-            "metadata": {
-                "defaultFunctionName": "SyncTriggerCSharp",
-                "description": "$SyncTrigger_description",
-                "name": "Sync trigger",
-                "language": "C#",
-                "trigger": "SyncTrigger",
-                "category": [
-                    "$temp_category_core"
-                ],
-                "categoryStyle": "http",
-                "enabledInTryMode": true,
-                "userPrompt": [
-                    "message"
-                ]
-            }
-        },
-        {
-            "id": "SyncTrigger-JavaScript",
-            "runtime": "1",
-            "files": {
-                "index.js": "module.exports",
-                "sample.dat": "{}"
-            },
-            "function": {
-                "disabled": false,
-                "bindings": [
-                    {
-                        "name": "entity",
-                        "message": "create",
-                        "type": "synctrigger",
-                        "direction": "in"
-                    }
-                ]
-            },
-            "metadata": {
-                "defaultFunctionName": "SyncTriggerJS",
-                "description": "$SyncTrigger_description",
-                "name": "Sync trigger",
-                "language": "JavaScript",
-                "trigger": "SyncTrigger",
-                "category": [
-                    "$temp_category_core"
-                ],
-                "categoryStyle": "http",
-                "enabledInTryMode": true,
-                "userPrompt": [
-                    "message"
-                ]
-            }
-        }
-    ]);
-
-    private testJsonBindings = JSON.stringify({
-        "bindings": [
-            {
-                "type": "syncTrigger",
-                "displayName": "Sync",
-                "direction": "trigger",
-                "settings": [
-                    {
-                        "name": "message",
-                        "value": "enum",
-                        "enum": [
-                            {
-                                "value": "Create",
-                                "display": "Create"
-                            },
-                            {
-                                "value": "Destroy",
-                                "display": "Destroy"
-                            },
-                            {
-                                "value": "Update",
-                                "display": "Update"
-                            },
-                            {
-                                "value": "Retrieve",
-                                "display": "Retrieve"
-                            }
-                        ],
-                        "label": "Event",
-                        "help": "Event help"
-                    }
-                ]
-
-            }
-        ]
-    });
+    private readonly _embeddedTemplates: Templates;
 
     constructor(private _cacheService: CacheService,
         private _translateService: TranslateService,
@@ -160,6 +53,7 @@ export class FunctionAppService {
 
         this.runtime = new ConditionalHttpClient(_cacheService, logService, context => this.getRuntimeToken(context), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
         this.azure = new ConditionalHttpClient(_cacheService, logService, _ => _userService.getStartupInfo().map(i => i.token), 'NotOverQuota', 'ReachableLoadballancer');
+        this._embeddedTemplates = new Templates();
     }
 
     private getRuntimeToken(context: FunctionAppContext): Observable<string> {
@@ -276,7 +170,7 @@ export class FunctionAppService {
 
     getTemplates(context: FunctionAppContext): Result<FunctionTemplate[]> {
         if (this._portalService.isEmbeddedFunctions) {
-            const devTemplate: FunctionTemplate[] = JSON.parse(this.testJsonTemplates);
+            const devTemplate: FunctionTemplate[] = JSON.parse(this._embeddedTemplates.templatesJson);
             return Observable.of({
                 isSuccessful: true,
                 result: devTemplate,
@@ -529,7 +423,7 @@ export class FunctionAppService {
 
     getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
         if (this._portalService.isEmbeddedFunctions) {
-            const devBindings: BindingConfig = JSON.parse(this.testJsonBindings);
+            const devBindings: BindingConfig = JSON.parse(this._embeddedTemplates.bindingsJson);
             return Observable.of({
                 isSuccessful: true,
                 result: devBindings,
