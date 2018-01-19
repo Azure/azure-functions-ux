@@ -1,3 +1,4 @@
+import { ArmService } from 'app/shared/services/arm.service';
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
 import { ErrorEvent } from 'app/shared/models/error-event';
@@ -17,6 +18,7 @@ import { TreeViewInfo } from './../../../tree-view/models/tree-view-info';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
   selector: 'embedded-function-editor',
@@ -42,7 +44,9 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   constructor(
     private _broadcastService: BroadcastService,
     private _cacheService: CacheService,
-    private _translateService: TranslateService) {
+    private _translateService: TranslateService,
+    private _armService: ArmService,
+    private _userService: UserService) {
 
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
@@ -163,21 +167,30 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this._functionInfo.name }));
     if (result) {
       this._busyManager.setBusy();
-      this._cacheService.deleteArm(this.resourceId)
-        .subscribe(r => {
-          this._busyManager.clearBusy();
-          this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-            resourceId: this.resourceId,
-            operation: 'remove'
+      const headers = this._armService.getHeaders();
+      this._userService.getStartupInfo()
+          .first()
+          .switchMap(info => {
+              headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
+              headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);
+              headers.append('x-cds-crm-solutionid', info.crmInfo.crmSolutionIdHeaderName);
+
+              return this._cacheService.deleteArm(this.resourceId);
+          })
+          .subscribe(r => {
+            this._busyManager.clearBusy();
+            this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+              resourceId: this.resourceId,
+              operation: 'remove'
+            });
+          }, err => {
+            this._busyManager.clearBusy();
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+              message: this._translateService.instant(PortalResources.error_unableToDeleteFunction).format(this._functionInfo.name),
+              errorId: errorIds.embeddedEditorDeleteError,
+              resourceId: this.resourceId,
+            });
           });
-        }, err => {
-          this._busyManager.clearBusy();
-          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-            message: this._translateService.instant(PortalResources.error_unableToDeleteFunction).format(this._functionInfo.name),
-            errorId: errorIds.embeddedEditorDeleteError,
-            resourceId: this.resourceId,
-          });
-        });
     }
   }
 }
