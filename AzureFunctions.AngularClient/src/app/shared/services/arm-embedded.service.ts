@@ -11,7 +11,7 @@ import { CrmInfo } from 'app/shared/models/portal';
 
 @Injectable()
 export class ArmEmbeddedService extends ArmService {
-    public static url = 'https://blueridge-tip1-rp-westus.azurewebsites.net';
+    public static url = 'http://tip1.admin.blueridge.ms/';
 
     public websiteApiVersion = null;  // Force us to not use default API versions
 
