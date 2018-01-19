@@ -1,7 +1,7 @@
 // This is a temporary file until we move this to the template gallery
 
-export class Templates{
-    public static readonly templatesJson = JSON.stringify([
+export class Templates {
+    public readonly templatesJson = JSON.stringify([
         {
             'id': 'SyncTrigger-CSharp',
             'runtime': '1',
@@ -41,7 +41,7 @@ export class Templates{
             'id': 'SyncTrigger-JavaScript',
             'runtime': '1',
             'files': {
-                'index.js': 'module.exports',
+                'index.js': 'module.exports = function (context req) {\n\tcontext.log(\'Created entity!\');\n\tvar entity = context.bindings.entity;\n\tentity.Attributes.name=entity.Attributes.name.toUpperCase();\n\tcontext.done(null, entity);\n};',
                 'sample.dat': '{}'
             },
             'function': {
@@ -73,7 +73,7 @@ export class Templates{
         }
     ]);
 
-    public static readonly bindingsJson = JSON.stringify({
+    public readonly bindingsJson = JSON.stringify({
         'bindings': [
             {
                 'type': 'syncTrigger',

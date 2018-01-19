@@ -124,7 +124,7 @@ export class FunctionNewDetailComponent implements OnChanges {
     getEntityOptions() {
         this._getEntities()
             .subscribe(r => {
-                const entities = r.value.map(e => e.name);
+                const entities = (r.value.map(e => e.name)).sort();
                 this.entityOptions = [];
                 entities.forEach(entity => {
                     const dropDownElement: any = {
