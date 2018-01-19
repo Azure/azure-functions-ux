@@ -1,6 +1,6 @@
+import { LogCategories } from './../../shared/models/constants';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Component, Input, Output, ElementRef, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -14,21 +14,22 @@ import { BindingInputList } from '../../shared/models/binding-input-list';
 import { PortalService } from '../../shared/services/portal.service';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { Validator } from '../../shared/models/binding';
-import { FunctionApp } from '../../shared/function-app';
 import { CacheService } from '../../shared/services/cache.service';
 import { AuthSettings } from '../../shared/models/auth-settings';
 import { FunctionInfo } from '../../shared/models/function-info';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
+import { Subscription } from 'rxjs/Subscription';
+import { FunctionAppContext } from 'app/shared/function-app-context';
 
 declare var marked: any;
 
 @Component({
     selector: 'binding-v2',
     templateUrl: './binding-v2.component.html',
-    styleUrls: ['./binding-v2.component.scss'],
-    inputs: ['functionAppInput', 'binding', 'clickSave']
+    styleUrls: ['./binding-v2.component.scss']
 })
-
-export class BindingV2Component {
+export class BindingV2Component extends FunctionAppContextComponent {
     @Input() canDelete = true;
     @Input() canSave = true;
     @Input() canCancel = true;
@@ -52,7 +53,6 @@ export class BindingV2Component {
     public hasInputsToShow = false;
     public isDirty = false;
     public isDocShown = false;
-    public functionApp: FunctionApp;
 
     // While there are no uses for this in the code, it's used in
     // a template for the bindings that comes from the templates repo.
@@ -65,42 +65,21 @@ export class BindingV2Component {
     //        }]
     public authSettings: AuthSettings;
 
-    private _functionAppStream = new Subject<any>();
-    private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
     private _appSettings: { [key: string]: string };
     private _functionInfo: FunctionInfo;
-    private _ngUnsubscribe = new Subject();
 
     constructor( @Inject(ElementRef) elementRef: ElementRef,
-        private _broadcastService: BroadcastService,
+        broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
         private _translateService: TranslateService,
         private _aiService: AiService,
+        private _functionAppService: FunctionAppService,
         private _logService: LogService) {
-        const renderer = new marked.Renderer();
+        super('binding-v2', _functionAppService, broadcastService);
 
-        this._functionAppStream
-            .takeUntil(this._ngUnsubscribe)
-            .distinctUntilChanged()
-            .switchMap(functionApp => {
-                this.functionApp = functionApp;
-                return Observable.zip(
-                    this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`),
-                    this.functionApp.getAuthSettings(),
-                    (a, e) => ({ appSettings: a.json(), authSettings: e }));
-            })
-            .do(null, e => {
-                this._logService.error(LogCategories.binding, '/binding-components-load-error', e);
-            })
-            .retry()
-            .subscribe(res => {
-                this._appSettings = res.appSettings.properties;
-                this.authSettings = res.authSettings;
-                this.filterWarnings();
-                this._updateBinding();
-            });
+        const renderer = new marked.Renderer();
 
         renderer.link = function (href, title, text) {
             return '<a target="_blank" href="' + href + (title ? '" title="' + title : '') + '">' + text + '</a>';
@@ -117,47 +96,60 @@ export class BindingV2Component {
             smartypants: false
         });
 
-        this._elementRef = elementRef;
-        this._broadcastService.getEvents<any>(BroadcastEvent.IntegrateChanged)
-        .takeUntil(this._ngUnsubscribe)
-        .subscribe(r => {
-            this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
-            if (this.isDirty === undefined) {
-                this.isDirty = false;
-            }
+        this._broadcastService.getEvents<FunctionAppContext>(BroadcastEvent.IntegrateChanged)
+            .takeUntil(this.ngUnsubscribe)
+            .subscribe(context => {
+                if (context && this.context && context.site.id === this.context.site.id) {
+                    this.isDirty = this.model.isDirty() || (this.bindingValue && this.bindingValue.newBinding);
+                    if (this.isDirty === undefined) {
+                        this.isDirty = false;
+                    }
 
-            // consolidate dirty state updates from broadcast and portal services: https://github.com/Azure/azure-functions-ux/issues/2015
-            if (this.canDelete) {
-                if (this.isDirty) {
-                    this._broadcastService.setDirtyState('function_integrate');
-                    this._portalService.updateDirtyState(true);
-                } else {
-                    this._broadcastService.clearDirtyState('function_integrate', true);
-                    this._portalService.updateDirtyState(false);
+                    // consolidate dirty state updates from broadcast and portal services: https://github.com/Azure/azure-functions-ux/issues/2015
+                    if (this.canDelete) {
+                        if (this.isDirty) {
+                            this._broadcastService.setDirtyState('function_integrate');
+                            this._portalService.updateDirtyState(true);
+                        } else {
+                            this._broadcastService.clearDirtyState('function_integrate', true);
+                            this._portalService.updateDirtyState(false);
+                        }
+                    }
                 }
-            }
-        });
+            });
     }
 
-    ngOnDestroy() {
-        this._ngUnsubscribe.next();
+    setup(): Subscription {
+        return this.viewInfoEvents
+            .switchMap(view => {
+                this._functionInfo = view.functionInfo.result;
+                return Observable.zip(
+                    this._functionAppService.getFunctionAppAzureAppSettings(view.context),
+                    this._functionAppService.getAuthSettings(view.context),
+                    Observable.of(view)
+                );
+            })
+            .do(null, e => {
+                this._logService.error(LogCategories.binding, '/binding-components-load-error', e);
+            })
+            .subscribe(tuple => {
+                if (tuple[0].isSuccessful && tuple[1].isSuccessful) {
+                    this._appSettings = tuple[0].result.properties;
+                    this.authSettings = tuple[1].result;
+                    this.filterWarnings();
+                    this._updateBinding();
+                }
+            });
     }
 
-    set functionAppInput(functionInput: any) {
-        if (functionInput.functionApp) {
-            this._functionAppStream.next(functionInput.functionApp)
-            this._functionInfo = functionInput;
-        } else {
-            this._functionAppStream.next(functionInput);
-        }
-    }
-
+    @Input()
     set clickSave(value: boolean) {
         if (value) {
             this.saveClicked();
         }
     }
 
+    @Input()
     set binding(value: UIFunctionBinding) {
         this.bindingValue = value;
         this._updateBinding();
@@ -345,215 +337,222 @@ export class BindingV2Component {
 
         this.isDirty = false;
         const that = this;
-        this.functionApp.getBindingConfig().subscribe((bindings) => {
-            this.setDirtyIfNewBinding();
-            // Convert settings to input conotrls
-            let order = 0;
-            const bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
-            this.model.inputs = [];
-
-            if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
-                this.newFunction = true;
-            }
-
-            this.model.actions = [];
-            this.model.warnings = [];
-            if (!this.newFunction && bindingSchema) {
-                if (bindingSchema.actions) {
-                    this.model.actions = bindingSchema.actions;
-                }
-                this.model.warnings = bindingSchema.warnings;
-                this.filterWarnings();
-            }
-
-            this.setLabel();
-            if (bindingSchema) {
-                let selectedStorage = '';
-                bindingSchema.settings.forEach((setting) => {
-                    const functionSettingV = this.bindingValue.settings.find((s) => {
-                        return s.name === setting.name;
+        this._functionAppService.getBindingConfig(this.context)
+            .subscribe((bindingsResult) => {
+                if (!bindingsResult.isSuccessful) {
+                    this.showComponentError({
+                        message: bindingsResult.error.message,
+                        errorId: bindingsResult.error.errorId,
+                        resourceId: this.context.site.id
                     });
+                    return;
+                }
 
-                    const settingValue = (functionSettingV) ? functionSettingV.value : setting.defaultValue;
+                const bindings = bindingsResult.result;
+                this.setDirtyIfNewBinding();
+                // Convert settings to input conotrls
+                const bindingSchema: Binding = this._bindingManager.getBindingSchema(this.bindingValue.type, this.bindingValue.direction, bindings.bindings);
+                this.model.inputs = [];
 
-                    const isHidden = this.isHidden(setting.name);
-                    if (isHidden) {
-                        return;
+                if (that.bindingValue.hiddenList && that.bindingValue.hiddenList.length >= 0) {
+                    this.newFunction = true;
+                }
+
+                this.model.actions = [];
+                this.model.warnings = [];
+                if (!this.newFunction && bindingSchema) {
+                    if (bindingSchema.actions) {
+                        this.model.actions = bindingSchema.actions;
                     }
+                    this.model.warnings = bindingSchema.warnings;
+                    this.filterWarnings();
+                }
 
-                    if (setting.validators) {
-                        setting.validators.forEach((v: Validator) => {
-                            v.errorText = this.replaceVariables(v.errorText, bindings.variables);
+                this.setLabel();
+                if (bindingSchema) {
+                    let selectedStorage = '';
+                    bindingSchema.settings.forEach((setting) => {
+                        const functionSettingV = this.bindingValue.settings.find((s) => {
+                            return s.name === setting.name;
                         });
-                    }
 
-                    switch (setting.value) {
-                        case SettingType.int:
-                            const intInput = new TextboxIntInput();
-                            intInput.id = setting.name;
-                            intInput.isHidden = setting.isHidden || isHidden;
-                            intInput.label = this.replaceVariables(setting.label, bindings.variables);
-                            intInput.required = setting.required;
-                            intInput.value = settingValue;
-                            intInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                            intInput.validators = setting.validators;
-                            intInput.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || intInput.label;
-                            this.model.inputs.push(intInput);
-                            break;
-                        case SettingType.string:
-                            if (setting.value === SettingType.string && setting.resource) {
-                                const input = new PickerInput();
-                                input.resource = setting.resource;
-                                input.items = this._getResourceAppSettings(setting.resource);
-                                input.id = setting.name;
-                                input.isHidden = setting.isHidden || isHidden;;
-                                input.label = this.replaceVariables(setting.label, bindings.variables);
-                                input.required = setting.required;
-                                input.value = settingValue;
-                                if (input.resource === ResourceType.Storage) {
-                                    selectedStorage = settingValue ? settingValue : input.items[0];
-                                }
-                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                                input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
-                                input.metadata = setting.metadata;
-                                this.model.inputs.push(input);
-                            } else {
-                                const input = new TextboxInput();
-                                input.id = setting.name;
-                                input.isHidden = setting.isHidden || isHidden;;
-                                input.label = this.replaceVariables(setting.label, bindings.variables);
-                                input.required = setting.required;
-                                input.value = settingValue;
-                                input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                                input.validators = setting.validators;
-                                input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
-                                this.model.inputs.push(input);
+                        const settingValue = (functionSettingV) ? functionSettingV.value : setting.defaultValue;
 
-                                if (setting.name === 'name') {
-                                    input.changeValue = (newValue) => {
-                                        this.allBindings.forEach((b) => {
-                                            if (b !== this.bindingValue) {
-                                                const name = b.settings.find((s) => s.name === 'name');
-
-                                                if (name) {
-                                                    if (name.value.toString().toLowerCase() === newValue) {
-                                                        setTimeout(() => {
-                                                            input.class = input.errorClass;
-                                                            input.isValid = false;
-                                                            input.errorText = this._translateService.instant(PortalResources.errorUniqueParameterName);
-                                                            this.areInputsValid = false;
-                                                        }, 0);
-                                                    }
-                                                }
-                                            }
-                                        });
-                                    };
-                                }
-                            }
-                            break;
-                        case SettingType.enum:
-                            const ddInput = new SelectInput();
-                            ddInput.id = setting.name;
-                            ddInput.isHidden = setting.isHidden || isHidden;;
-                            ddInput.label = setting.label;
-                            ddInput.enum = setting.enum;
-                            ddInput.value = settingValue || setting.enum[0].value;
-                            ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                            this.model.inputs.push(ddInput);
-                            break;
-                        case SettingType.checkBoxList:
-                            const cblInput = new CheckBoxListInput();
-                            cblInput.id = setting.name;
-                            cblInput.isHidden = setting.isHidden || isHidden;;
-                            cblInput.label = setting.label;
-                            cblInput.enum = setting.enum;
-                            cblInput.value = settingValue;
-                            cblInput.toInternalValue();
-                            cblInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                            this.model.inputs.push(cblInput);
-                            break;
-                        case SettingType.boolean:
-                            const chInput = new CheckboxInput();
-                            chInput.id = setting.name;
-                            chInput.isHidden = setting.isHidden || isHidden;;
-                            chInput.type = setting.value;
-                            chInput.label = this.replaceVariables(setting.label, bindings.variables);
-                            chInput.required = false;
-                            chInput.value = settingValue;
-                            chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
-                            this.model.inputs.push(chInput);
-                            break;
-                    }
-                    order++;
-
-                });
-
-                if (bindingSchema.type === BindingType.eventGridTrigger && !this.newFunction) {
-                    const input = new EventGridInput();
-                    input.label = this._translateService.instant(PortalResources.eventGrid_label);
-                    input.help = this._translateService.instant(PortalResources.eventGrid_help);
-                    input.bladeLabel = this._functionInfo.name;
-                    this.functionApp.getEventGridKey().subscribe(eventGridKey => {
-                        input.value = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this._functionInfo.name}&code=${eventGridKey}`;
-                    });
-                    this.model.inputs.push(input);
-                }
-
-                if (bindingSchema.rules) {
-                    bindingSchema.rules.forEach((rule) => {
-                        const isHidden = this.isHidden(rule.name);
+                        const isHidden = this.isHidden(setting.name);
                         if (isHidden) {
                             return;
                         }
 
-                        if (rule.type === 'exclusivity') {
-                            const ddInput = this._handleExclusivityRule(rule, isHidden);
-                            this.model.inputs.splice(0, 0, ddInput);
-                        } else if (rule.type === 'exclusivitySave') {
-                            const ddInput = this._handleExclusivityRule(rule, isHidden);
-                            // Want to save value of input used to hide/show other settings
-                            ddInput.explicitSave = true;
-                            this.model.inputs.splice(0, 0, ddInput);
-                        } else if (rule.type === 'NAND') {
-                            this._handleNANDRule(rule);
-                        } else if (rule.type === 'changeOptionsDisplayed') {
-                            const ddInput = this._handleChangeOptionsDisplayedRule(rule, isHidden);
+                        if (setting.validators) {
+                            setting.validators.forEach((v: Validator) => {
+                                v.errorText = this.replaceVariables(v.errorText, bindings.variables);
+                            });
+                        }
 
-                            // Want to save value of input used to hide/show other settings
-                            ddInput.explicitSave = true;
-                            this.model.inputs.splice(0, 0, ddInput);
+                        switch (setting.value) {
+                            case SettingType.int:
+                                const intInput = new TextboxIntInput();
+                                intInput.id = setting.name;
+                                intInput.isHidden = setting.isHidden || isHidden;
+                                intInput.label = this.replaceVariables(setting.label, bindings.variables);
+                                intInput.required = setting.required;
+                                intInput.value = settingValue;
+                                intInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                intInput.validators = setting.validators;
+                                intInput.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || intInput.label;
+                                this.model.inputs.push(intInput);
+                                break;
+                            case SettingType.string:
+                                if (setting.value === SettingType.string && setting.resource) {
+                                    const input = new PickerInput();
+                                    input.resource = setting.resource;
+                                    input.items = this._getResourceAppSettings(setting.resource);
+                                    input.id = setting.name;
+                                    input.isHidden = setting.isHidden || isHidden;;
+                                    input.label = this.replaceVariables(setting.label, bindings.variables);
+                                    input.required = setting.required;
+                                    input.value = settingValue;
+                                    if (input.resource === ResourceType.Storage) {
+                                        selectedStorage = settingValue ? settingValue : input.items[0];
+                                    }
+                                    input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                    input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
+                                    input.metadata = setting.metadata;
+                                    this.model.inputs.push(input);
+                                } else {
+                                    const input = new TextboxInput();
+                                    input.id = setting.name;
+                                    input.isHidden = setting.isHidden || isHidden;;
+                                    input.label = this.replaceVariables(setting.label, bindings.variables);
+                                    input.required = setting.required;
+                                    input.value = settingValue;
+                                    input.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                    input.validators = setting.validators;
+                                    input.placeholder = this.replaceVariables(setting.placeholder, bindings.variables) || input.label;
+                                    this.model.inputs.push(input);
+
+                                    if (setting.name === 'name') {
+                                        input.changeValue = (newValue) => {
+                                            this.allBindings.forEach((b) => {
+                                                if (b !== this.bindingValue) {
+                                                    const name = b.settings.find((s) => s.name === 'name');
+
+                                                    if (name) {
+                                                        if (name.value.toString().toLowerCase() === newValue) {
+                                                            setTimeout(() => {
+                                                                input.class = input.errorClass;
+                                                                input.isValid = false;
+                                                                input.errorText = this._translateService.instant(PortalResources.errorUniqueParameterName);
+                                                                this.areInputsValid = false;
+                                                            }, 0);
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        };
+                                    }
+                                }
+                                break;
+                            case SettingType.enum:
+                                const ddInput = new SelectInput();
+                                ddInput.id = setting.name;
+                                ddInput.isHidden = setting.isHidden || isHidden;;
+                                ddInput.label = setting.label;
+                                ddInput.enum = setting.enum;
+                                ddInput.value = settingValue || setting.enum[0].value;
+                                ddInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                this.model.inputs.push(ddInput);
+                                break;
+                            case SettingType.checkBoxList:
+                                const cblInput = new CheckBoxListInput();
+                                cblInput.id = setting.name;
+                                cblInput.isHidden = setting.isHidden || isHidden;;
+                                cblInput.label = setting.label;
+                                cblInput.enum = setting.enum;
+                                cblInput.value = settingValue;
+                                cblInput.toInternalValue();
+                                cblInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                this.model.inputs.push(cblInput);
+                                break;
+                            case SettingType.boolean:
+                                const chInput = new CheckboxInput();
+                                chInput.id = setting.name;
+                                chInput.isHidden = setting.isHidden || isHidden;
+                                chInput.type = setting.value;
+                                chInput.label = this.replaceVariables(setting.label, bindings.variables);
+                                chInput.required = false;
+                                chInput.value = settingValue;
+                                chInput.help = this.replaceVariables(setting.help, bindings.variables) || this.replaceVariables(setting.label, bindings.variables);
+                                this.model.inputs.push(chInput);
+                                break;
                         }
                     });
-                }
 
-                // if no parameter name input add it
-                const nameInput = this.model.inputs.find((input) => {
-                    return input.id === 'name';
-                });
-                if (!nameInput) {
-                    const inputTb = new TextboxInput();
-                    inputTb.id = 'name';
-                    inputTb.label = this._translateService.instant(PortalResources.binding_parameterName);
-                    inputTb.isHidden = this.newFunction;
-                    inputTb.required = true;
-                    inputTb.value = this.bindingValue.name;
-                    inputTb.help = this._translateService.instant(PortalResources.binding_parameterName);
-                    inputTb.validators = [
-                        {
-                            expression: '^[a-zA-Z_$][a-zA-Z_$0-9]*$',
-                            errorText: this._translateService.instant(PortalResources.notValidValue)
-                        }
-                    ];
-                    this.model.inputs.splice(0, 0, inputTb);
-                }
+                    if (bindingSchema.type === BindingType.eventGridTrigger && !this.newFunction) {
+                        const input = new EventGridInput();
+                        input.label = this._translateService.instant(PortalResources.eventGrid_label);
+                        input.help = this._translateService.instant(PortalResources.eventGrid_help);
+                        input.bladeLabel = this._functionInfo.name;
+                        this._functionAppService.getEventGridKey(this.context).subscribe(eventGridKey => {
+                            input.value = `${this.context.mainSiteUrl.toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this._functionInfo.name}&code=${eventGridKey}`;
+                        });
+                        this.model.inputs.push(input);
+                    }
 
-                this.model.saveOriginInputs();
-                this.hasInputsToShow = this.model.leftInputs.length !== 0;
-                this.hasInputsToShowEvent.next(this.hasInputsToShow);
-                this.model.documentation = marked(bindingSchema.documentation);
-                this.setStorageInformation(selectedStorage);
-            }
-        });
+                    if (bindingSchema.rules) {
+                        bindingSchema.rules.forEach((rule) => {
+                            const isHidden = this.isHidden(rule.name);
+                            if (isHidden) {
+                                return;
+                            }
+
+                            if (rule.type === 'exclusivity') {
+                                const ddInput = this._handleExclusivityRule(rule, isHidden);
+                                this.model.inputs.splice(0, 0, ddInput);
+                            } else if (rule.type === 'exclusivitySave') {
+                                const ddInput = this._handleExclusivityRule(rule, isHidden);
+                                // Want to save value of input used to hide/show other settings
+                                ddInput.explicitSave = true;
+                                this.model.inputs.splice(0, 0, ddInput);
+                            } else if (rule.type === 'NAND') {
+                                this._handleNANDRule(rule);
+                            } else if (rule.type === 'changeOptionsDisplayed') {
+                                const ddInput = this._handleChangeOptionsDisplayedRule(rule, isHidden);
+
+                                // Want to save value of input used to hide/show other settings
+                                ddInput.explicitSave = true;
+                                this.model.inputs.splice(0, 0, ddInput);
+                            }
+                        });
+                    }
+
+                    // if no parameter name input add it
+                    const nameInput = this.model.inputs.find((input) => {
+                        return input.id === 'name';
+                    });
+                    if (!nameInput) {
+                        const inputTb = new TextboxInput();
+                        inputTb.id = 'name';
+                        inputTb.label = this._translateService.instant(PortalResources.binding_parameterName);
+                        inputTb.isHidden = this.newFunction;
+                        inputTb.required = true;
+                        inputTb.value = this.bindingValue.name;
+                        inputTb.help = this._translateService.instant(PortalResources.binding_parameterName);
+                        inputTb.validators = [
+                            {
+                                expression: '^[a-zA-Z_$][a-zA-Z_$0-9]*$',
+                                errorText: this._translateService.instant(PortalResources.notValidValue)
+                            }
+                        ];
+                        this.model.inputs.splice(0, 0, inputTb);
+                    }
+
+                    this.model.saveOriginInputs();
+                    this.hasInputsToShow = this.model.leftInputs.length !== 0;
+                    this.hasInputsToShowEvent.next(this.hasInputsToShow);
+                    this.setStorageInformation(selectedStorage);
+                }
+            });
     }
 
     removeClicked() {
@@ -621,7 +620,7 @@ export class BindingV2Component {
         this.setLabel();
         this.model.saveOriginInputs();
         // if we create new storage account we need to update appSettings to get new storage information
-        this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true).subscribe(r => {
+        this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true).subscribe(r => {
             this._appSettings = r.json().properties;
             this.setStorageInformation(selectedStorage);
         });
@@ -663,7 +662,7 @@ export class BindingV2Component {
     onAuth() {
         this._portalService.openBlade({
             detailBlade: 'AppAuth',
-            detailBladeInputs: { resourceUri: this.functionApp.site.id }
+            detailBladeInputs: { resourceUri: this.context.site.id }
         },
             'binding'
         );

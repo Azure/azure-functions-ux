@@ -1,4 +1,4 @@
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories } from './../shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { BusyStateEvent } from './../shared/models/broadcast-event';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';

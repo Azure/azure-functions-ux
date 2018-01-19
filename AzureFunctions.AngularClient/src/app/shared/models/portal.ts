@@ -2,6 +2,7 @@
 
 export interface Event {
     data: Data;
+    origin: string;
 }
 
 export interface Data {

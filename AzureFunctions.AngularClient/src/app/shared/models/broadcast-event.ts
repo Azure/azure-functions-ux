@@ -16,7 +16,10 @@ export enum BroadcastEvent {
     ClearError,
     OpenTab,
     DirtyStateChange,
-    UpdateAppsList
+    UpdateAppsList,
+    FunctionEditorEvent,
+    RightTabsEvent,
+    BottomTabsEvent
 }
 
 export interface DirtyStateEvent {

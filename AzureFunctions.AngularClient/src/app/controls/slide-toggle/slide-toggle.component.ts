@@ -1,4 +1,4 @@
-import { Dom } from './../../shared/Utilities/dom';
+import { Guid } from './../../shared/Utilities/Guid';
 import { KeyCodes } from './../../shared/models/constants';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { Component, OnChanges, SimpleChanges, Input, Output, ViewChild, ElementRef } from '@angular/core';
@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 type Role = undefined | 'switch' | 'button';
 
 type LabelFormt = undefined | 'name' | 'stateName' | 'nameAndStateName' | 'mergedStateNames';
-
 
 @Component({
     selector: 'slide-toggle',
@@ -65,11 +64,15 @@ export class SlideToggleComponent implements OnChanges {
     public ariaPressed: boolean = null;
     public displayLabel: string;
 
+    @Input() id: string;
+
     private _initialized: boolean = false;
 
     @ViewChild('toggleContainer') toggleContainer: ElementRef;
 
-    constructor(private _translateService: TranslateService) { }
+    constructor(private _translateService: TranslateService) {
+        this.id = Guid.newGuid();
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         // These properties will only be set once, in the first execution of ngOnChanges().
@@ -77,10 +80,8 @@ export class SlideToggleComponent implements OnChanges {
         this.displayLabelFormat = this.displayLabelFormat || 'stateName';
         this.ariaLabelFormat = this.ariaLabelFormat || 'name';
 
-        if (!this.disabled) {
-            if (!this._initialized || !!changes['on']) {
-                this._updateLabelAndAriaAttributes();
-            }
+        if (!this._initialized || !!changes['on']) {
+            this._updateLabelAndAriaAttributes();
         }
 
         this._initialized = true;
@@ -188,68 +189,8 @@ export class SlideToggleComponent implements OnChanges {
         return stateNames;
     }
 
-    // We want the control to appear to be a single element, so we redirect focus/events to the #toggleContainer element
-    // If a mouse event occurs on inner element of component, we stop the original event. We then simuulate the behavior on #toggleContainer.
-
-    onMousedown(event: MouseEvent) {
-        if (event.target !== this.toggleContainer.nativeElement) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            event.stopPropagation();
-
-            // simulate mousedown
-            let newEvent: MouseEvent;
-            if (typeof (Event) === 'function') {
-                // This isn't IE, so we can use MouseEvent()
-                newEvent = new MouseEvent(event.type, { bubbles: event.bubbles, cancelable: event.cancelable });
-            } else {
-                // This is IE, so we have to use document.createEvent() and .initEvent()
-                newEvent = document.createEvent('MouseEvents');
-                newEvent.initEvent(event.type, event.bubbles, event.cancelable);
-            }
-            (<HTMLElement>this.toggleContainer.nativeElement).dispatchEvent(newEvent);
-
-            // move focus
-            setTimeout(() => {
-                if (!newEvent || !newEvent.defaultPrevented) {
-                    Dom.setFocus(<HTMLElement>this.toggleContainer.nativeElement);
-                }
-            }, 0);
-        }
-    }
-
-    onMouseup(event: MouseEvent) {
-        if (event.target !== this.toggleContainer.nativeElement) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            event.stopPropagation();
-
-            // simulate mouseup
-            let newEvent: MouseEvent;
-            if (typeof (Event) === 'function') {
-                // This isn't IE, so we can use MouseEvent()
-                newEvent = new MouseEvent(event.type, { bubbles: event.bubbles, cancelable: event.cancelable });
-            } else {
-                // This is IE, so we have to use document.createEvent() and .initEvent()
-                newEvent = document.createEvent('MouseEvents');
-                newEvent.initEvent(event.type, event.bubbles, event.cancelable);
-            }
-            (<HTMLElement>this.toggleContainer.nativeElement).dispatchEvent(newEvent);
-        }
-    }
-
     onClick(event: MouseEvent) {
-        if (event.target !== this.toggleContainer.nativeElement) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            event.stopPropagation();
-
-            // trigger click action
-            (<HTMLElement>this.toggleContainer.nativeElement).click();
-        }
-        else {
-            this._toggle();
-        }
+        this._toggle();
     }
 
     onKeyPress(event: KeyboardEvent) {

@@ -2,18 +2,17 @@
     <div class="top-row">
         <span class="text-level1-heading">host.json</span>
         <div *ngIf="isDirty" class="dev-block-header">
-            <button [fnWriteAccess]="functionApp" (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
+            <button [fnWriteAccess]="context" (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
             <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
         </div>
     </div>
     <div class="full-view" #editorContainer>
-        <div id="host" monacoEditor class="monaco monaco-min-size full-view" 
+        <div id="host" monacoEditor class="monaco monaco-min-size full-view"
                 (onSave)="saveConfig()"
                 (onContentChanged)="contentChanged($event)"
                 [content]="configContent"
                 fileName="host.json"
-                [disabled]="disabled | async"
-                [functionAppInput]="functionApp">
+                [disabled]="disabled | async">
         </div>
     </div>
 </div>

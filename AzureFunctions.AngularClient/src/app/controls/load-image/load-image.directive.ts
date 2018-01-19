@@ -1,5 +1,5 @@
+import { LogCategories } from './../../shared/models/constants';
 import { Guid } from './../../shared/Utilities/Guid';
-import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
 import { CacheService } from './../../shared/services/cache.service';
 import { Input, ElementRef, Directive, OnChanges } from '@angular/core';

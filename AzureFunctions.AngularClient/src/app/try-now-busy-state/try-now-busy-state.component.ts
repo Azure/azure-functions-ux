@@ -6,15 +6,15 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./try-now-busy-state.component.css']
 })
 export class TryNowBusyStateComponent implements OnInit {
-    private inputBoltClass: string;
-    private inputStoreClass: string;
-    private leftBracketClass: string;
-    private rightBracketClass: string;
-    private outerFlashClass: string;
-    private innerFlashClass: string;
-    private inputArrowClass: string;
-    private outputArrowClass: string;
-    private outputStoreClass: string;
+    public inputBoltClass: string;
+    public inputStoreClass: string;
+    public leftBracketClass: string;
+    public rightBracketClass: string;
+    public outerFlashClass: string;
+    public innerFlashClass: string;
+    public inputArrowClass: string;
+    public outputArrowClass: string;
+    public outputStoreClass: string;
     private frame: number;
     public isIE: boolean;
 

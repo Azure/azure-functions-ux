@@ -2,7 +2,7 @@
     <div class="top-row">
         <h2>function.json</h2>
         <h2 *ngIf="isDirty" class="dev-block-header">
-            <button [fnWriteAccess]="functionApp" (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
+            <button [fnWriteAccess]="context" (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
             <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
         </h2>
         <div class="toggle">
@@ -15,8 +15,7 @@
                 (onContentChanged)="contentChanged($event)"
                 [content]="configContent"
                 fileName="function.json"
-                [disabled]="disabled | async"
-                [functionAppInput]="functionApp">
+                [disabled]="disabled | async">
         </div>
     </div>
 </div>

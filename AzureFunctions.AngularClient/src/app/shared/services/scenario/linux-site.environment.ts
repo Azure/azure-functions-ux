@@ -1,7 +1,7 @@
+import { ScenarioIds } from './../../models/constants';
 import { PortalResources } from './../../models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
-import { ScenarioIds } from './../../models/constants';
 import { Environment } from './scenario.models';
 
 export class LinuxSiteEnvironment extends Environment {

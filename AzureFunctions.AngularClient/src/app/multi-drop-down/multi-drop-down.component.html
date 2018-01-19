@@ -8,7 +8,7 @@
     [class.focused]="hasFocus && focusedIndex === -1"
     [attr.aria-label]="ariaLabel"
     [attr.aria-expanded]="opened"
-    [attr.aria-owns]="!opened ? null : id + '-list'"
+    [attr.aria-owns]="id"
     aria-haspopup="listbox"
     (click)="onComboBoxClick($event)"
     #comboBox>
@@ -17,7 +17,7 @@
       type="text"
       role="textbox"
       aria-multiline="false"
-      [attr.aria-controls]="!opened ? null : id + '-list'"
+      [attr.aria-controls]="id"
       [attr.aria-activedescendant]="(!opened || focusedIndex === -1) ? null : id + '-opt' + focusedIndex"
       readonly
       aria-readonly="true"

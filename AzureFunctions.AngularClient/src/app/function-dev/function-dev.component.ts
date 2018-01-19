@@ -1,7 +1,9 @@
+import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
+import { FunctionAppService } from './../shared/services/function-app.service';
 import { FileUtilities } from './../shared/Utilities/file';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
-import { Component, QueryList, OnChanges, Input, SimpleChange, ViewChild, ViewChildren, OnDestroy, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren, OnDestroy, ElementRef, ChangeDetectorRef, AfterViewInit, AfterContentInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -13,35 +15,32 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { VfsObject } from '../shared/models/vfs-object';
-// import {FunctionDesignerComponent} from '../function-designer/function-designer.component';
 import { LogStreamingComponent } from '../log-streaming/log-streaming.component';
-import { FunctionSecrets } from '../shared/models/function-secrets';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { FunctionApp } from '../shared/function-app'
 import { PortalService } from '../shared/services/portal.service';
 import { BindingType } from '../shared/models/binding';
 import { RunFunctionResult } from '../shared/models/run-function-result';
 import { FileExplorerComponent } from '../file-explorer/file-explorer.component';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
-import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
 import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
 import { BindingManager } from '../shared/models/binding-manager';
 import { RunHttpComponent } from '../run-http/run-http.component';
-import { ErrorIds } from '../shared/models/error-ids';
+import { errorIds } from '../shared/models/error-ids';
 import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
+import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 
 @Component({
     selector: 'function-dev',
     templateUrl: './function-dev.component.html',
     styleUrls: ['./function-dev.component.scss']
 })
-export class FunctionDevComponent implements OnChanges, OnDestroy {
+export class FunctionDevComponent extends FunctionAppContextComponent implements AfterViewInit, AfterContentInit, OnDestroy {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
     @ViewChild(RunHttpComponent) runHttp: RunHttpComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
@@ -53,7 +52,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     @ViewChild('rightContainer') rightContainer: ElementRef;
     @ViewChild('bottomContainer') bottomContainer: ElementRef;
 
-    @Input() selectedFunction: FunctionInfo;
     public functionInfo: FunctionInfo;
     public functionUpdate: Subscription;
     public scriptFile: VfsObject;
@@ -66,7 +64,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public configContent: string;
     public webHookType: string;
     public authLevel: string;
-    public secrets: FunctionSecrets;
     public isHttpFunction: boolean;
     public isEventGridFunction: boolean;
 
@@ -83,7 +80,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public static bottomTab: string;
     public functionInvokeUrl: string;
     public expandLogs = false;
-    public functionApp: FunctionApp;
     public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
     public masterKey: string;
@@ -91,21 +87,21 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     public inTab: boolean;
     public disabled: Observable<boolean>;
     public eventGridSubscribeUrl: string;
-
-    private updatedContent: string;
-    private updatedTestContent: string;
-    private functionSelectStream: Subject<FunctionInfo>;
     public selectedFileStream: Subject<VfsObject>;
     public functionKey: string;
 
-    private _isClientCertEnabled = false;
+    private updatedContent: string;
+    private updatedTestContent: string;
     private _disableTestDataAfterViewInit = false;
-    constructor(private _broadcastService: BroadcastService,
+
+    constructor(broadcastService: BroadcastService,
+        configService: ConfigService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        configService: ConfigService,
-        cd: ChangeDetectorRef) {
+        private _functionAppService: FunctionAppService,
+        private cd: ChangeDetectorRef) {
+        super('function-dev', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
 
         this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
@@ -117,118 +113,143 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 if (this.fileExplorer) {
                     this.fileExplorer.setBusyState();
                 }
-                return Observable.zip(this.selectedFunction.functionApp.getFileContent(file), Observable.of(file), (c, f) => ({ content: c, file: f }));
+                return Observable.zip(
+                    this._functionAppService.getFileContent(this.context, file),
+                    Observable.of(file));
             })
-            .subscribe((res: { content: string, file: VfsObject }) => {
-                this.content = res.content;
-                this.updatedContent = res.content;
-                res.file.isDirty = false;
-                this.scriptFile = res.file;
-                this.fileName = res.file.name;
+            .subscribe(tuple => {
+                if (tuple[0].isSuccessful) {
+                    this.content = tuple[0].result;
+                    this.updatedContent = tuple[0].result;
+                    tuple[1].isDirty = false;
+                    this.scriptFile = tuple[1];
+                    this.fileName = tuple[1].name;
+                } else {
+                    this.content = '';
+                    this.updatedContent = '';
+                    tuple[1].isDirty = false;
+                    this.scriptFile = null;
+                    this.fileName = '';
+                }
+
                 if (this.fileExplorer) {
                     this.fileExplorer.clearBusyState();
                 }
+
             }, () => this._globalStateService.clearBusyState());
 
-        this.functionSelectStream = new Subject<FunctionInfo>();
-        this.functionSelectStream
-            .switchMap(fi => {
-                this.functionApp = fi.functionApp;
-                this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
-                this._globalStateService.setBusyState();
-
-                this.functionApp.getEventGridKey().subscribe(eventGridKey => {
-                    this.eventGridSubscribeUrl = `${this.functionApp.getMainSiteUrl().toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${fi.name}&code=${eventGridKey}`;;
-                });
-
-                return Observable.zip(
-                    fi.clientOnly || this.functionApp.isMultiKeySupported ? Observable.of({}) : this.functionApp.getSecrets(fi),
-                    Observable.of(fi),
-                    this.functionApp.getAuthSettings(),
-                    this.functionApp.checkFunctionStatus(fi),
-                    (s, f, e, _) => ({ secrets: s, functionInfo: f, authSettings: e }));
-            })
-            .subscribe(res => {
-                this._isClientCertEnabled = res.authSettings.clientCertEnabled;
-                this.content = '';
-                this.testContent = res.functionInfo.test_data;
-                try {
-                    const httpModel = JSON.parse(res.functionInfo.test_data);
-                    // Check if it's valid model
-                    if (Array.isArray(httpModel.headers)) {
-                        this.testContent = httpModel.body;
-                    }
-                } catch (e) {
-                    // it's not run http model
-                }
-
-                this._globalStateService.clearBusyState();
-                this.fileName = res.functionInfo.script_href.substring(res.functionInfo.script_href.lastIndexOf('/') + 1);
-                let href = res.functionInfo.script_href;
-
-                if (FileUtilities.isBinary(this.fileName)) {
-                    this.fileName = res.functionInfo.config_href.substring(res.functionInfo.config_href.lastIndexOf('/') + 1);
-                    href = res.functionInfo.config_href;
-                }
-
-                this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === res.functionInfo.href
-                    ? this.scriptFile
-                    : { name: this.fileName, href: href, mime: 'file' };
-                this.selectedFileStream.next(this.scriptFile);
-                this.functionInfo = res.functionInfo;
-                this.setInvokeUrlVisibility();
-
-                this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
-
-                let inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
-                    ? this.functionInfo.config.bindings.find(e => !!e.webHookType)
-                    : null);
-                if (inputBinding) {
-                    this.webHookType = inputBinding.webHookType;
-                } else {
-                    delete this.webHookType;
-                }
-
-                this.showFunctionKey = this.webHookType === 'github';
-
-                inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
-                    ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
-                    : null);
-                if (inputBinding) {
-                    this.authLevel = inputBinding.authLevel;
-                } else {
-                    delete this.authLevel;
-                }
-                this.updateKeys();
-
-                this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
-                this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
-
-                setTimeout(() => {
-                    this.onResize();
-                    // Remove "code" param fix
-                    this.saveTestData();
-                }, 0);
-
-                if (!this.functionApp.isMultiKeySupported) {
-                    this.setFunctionInvokeUrl();
-                    this.setFunctionKey(this.functionInfo);
-                } else if (this._isClientCertEnabled) {
-                    this.setFunctionInvokeUrl();
-                }
-
-                // This subscribe method changes a lot of UI elements. Normally that's fine if the data leading
-                // to the subscribe isn't ready and need to be fetched from the server.
-                // if the data is cached on the client, this causes few rapid changes in the DOM and we need to inform the change detector of these changes.
-                // Otherwise we'll get ExpressionChangedAfterItHasBeenCheckedError
-                cd.detectChanges();
-
-            });
-
-        this.functionUpdate = _broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
+        this.functionUpdate = broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
         });
+    }
+
+    setup(): Subscription {
+        return this.viewInfoEvents
+            .switchMap(functionView => {
+                delete this.updatedTestContent;
+                delete this.runResult;
+                this.disabled = this._functionAppService.getFunctionAppEditMode(functionView.context)
+                    .map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false);
+
+                return Observable.zip(
+                    Observable.of(functionView),
+                    this._functionAppService.getEventGridKey(functionView.context),
+                    this._functionAppService.getFunctionHostStatus(functionView.context),
+                    this._functionAppService.getFunctionKeys(functionView.context, functionView.functionInfo.result));
+            })
+            .do(() => this._globalStateService.clearBusyState())
+            .subscribe(tuple => {
+                if (tuple[2].isSuccessful) {
+                    const status = tuple[2].result;
+                    if (status.state !== 'Running' && status.state !== 'Default') {
+                        status.errors = status.errors || [];
+                        this.showComponentError({
+                            message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart)
+                                + '\n'
+                                + status.errors.reduce((a, b) => `${a}\n${b}`, '\n'),
+                            errorId: errorIds.functionRuntimeIsUnableToStart,
+                            resourceId: this.context.site.id
+                        });
+                    }
+                } else {
+                    this.showComponentError({
+                        message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
+                        errorId: errorIds.functionRuntimeIsUnableToStart,
+                        resourceId: this.context.site.id
+                    });
+                }
+                if (tuple[0].functionInfo.isSuccessful) {
+                    const functionInfo = tuple[0].functionInfo.result;
+                    this.content = '';
+                    this.eventGridSubscribeUrl =
+                        `${this.context.mainSiteUrl.toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${functionInfo.name}&code=${tuple[1].result}`;
+                    this.testContent = functionInfo.test_data;
+                    try {
+                        const httpModel = JSON.parse(this.testContent);
+                        // Check if it's valid model
+                        if (Array.isArray(httpModel.headers)) {
+                            this.testContent = httpModel.body;
+                        }
+                    } catch (e) {
+                        // it's not run http model
+                    }
+
+                    this.fileName = functionInfo.script_href.substring(functionInfo.script_href.lastIndexOf('/') + 1);
+                    let href = functionInfo.script_href;
+
+                    if (FileUtilities.isBinary(this.fileName)) {
+                        this.fileName = functionInfo.config_href.substring(functionInfo.config_href.lastIndexOf('/') + 1);
+                        href = functionInfo.config_href;
+                    }
+
+                    this.scriptFile = this.scriptFile && this.functionInfo && this.functionInfo.href === functionInfo.href
+                        ? this.scriptFile
+                        : { name: this.fileName, href: href, mime: 'file' };
+                    this.selectedFileStream.next(this.scriptFile);
+                    this.functionInfo = functionInfo;
+                    this.setInvokeUrlVisibility();
+
+                    this.configContent = JSON.stringify(this.functionInfo.config, undefined, 2);
+
+                    let inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
+                        ? this.functionInfo.config.bindings.find(e => !!e.webHookType)
+                        : null);
+                    if (inputBinding) {
+                        this.webHookType = inputBinding.webHookType;
+                    } else {
+                        delete this.webHookType;
+                    }
+
+                    this.showFunctionKey = this.webHookType === 'github';
+
+                    inputBinding = (this.functionInfo.config && this.functionInfo.config.bindings
+                        ? this.functionInfo.config.bindings.find(e => !!e.authLevel)
+                        : null);
+                    if (inputBinding) {
+                        this.authLevel = inputBinding.authLevel;
+                    } else {
+                        delete this.authLevel;
+                    }
+                    this.updateKeys();
+
+                    this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
+                    this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
+
+                    setTimeout(() => {
+                        this.onResize();
+                        // Remove "code" param fix
+                        this.saveTestData();
+                    }, 0);
+
+                    // This subscribe method changes a lot of UI elements. Normally that's fine if the data leading
+                    // to the subscribe isn't ready and need to be fetched from the server.
+                    // if the data is cached on the client, this causes few rapid changes in the DOM and we need to inform the change detector of these changes.
+                    // Otherwise we'll get ExpressionChangedAfterItHasBeenCheckedError
+                    this.cd.detectChanges();
+                    this.setFunctionInvokeUrl();
+                }
+            });
     }
 
     expandLogsClicked(isExpand: boolean) {
@@ -275,7 +296,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     ngOnDestroy() {
         this.functionUpdate.unsubscribe();
         this.selectedFileStream.unsubscribe();
-        this.functionSelectStream.unsubscribe();
         if (this.logStreamings) {
             this.logStreamings.toArray().forEach((ls) => {
                 ls.ngOnDestroy();
@@ -307,27 +327,17 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
-    ngOnChanges(changes: { [key: string]: SimpleChange }) {
-        if (changes['selectedFunction']) {
-            delete this.updatedTestContent;
-            delete this.runResult;
-            const selectedFunction = changes['selectedFunction'].currentValue;
-            if (selectedFunction) {
-                this.functionSelectStream.next(changes['selectedFunction'].currentValue);
-            }
-        }
-    }
-
     private setFunctionKey(functionInfo) {
         if (functionInfo) {
-            this.functionApp.getFunctionKeys(functionInfo)
+            this._functionAppService.getFunctionKeys(this.context, functionInfo)
                 .subscribe(keys => {
-                    if (keys && keys.keys && keys.keys.length > 0) {
-                        this.functionKey = keys.keys.find(k => k.name === 'default').value || keys.keys[0].value;
+                    if (keys.isSuccessful && keys.result.keys && keys.result.keys.length > 0) {
+                        this.functionKey = keys.result.keys.find(k => k.name === 'default').value || keys.result.keys[0].value;
                     }
                 });
         }
     }
+
     private setFunctionInvokeUrl(key?: string) {
         if (this.isHttpFunction) {
 
@@ -339,10 +349,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             let queryParams = '';
             if (key) {
                 code = key;
-            } else if (this.isHttpFunction && this.secrets && this.secrets.key) {
-                code = this.secrets.key;
-            } else if (this.isHttpFunction && this.functionApp.HostSecrets && !this._isClientCertEnabled) {
-                code = this.functionApp.HostSecrets;
             }
 
             if (this.webHookType && key) {
@@ -366,29 +372,36 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
                 queryParams = queryParams ? `${queryParams}&clientId=${clientId}` : `?clientId=${clientId}`;
             }
 
-            this.functionApp.getHostJson().subscribe((jsonObj) => {
-                let result = (jsonObj && jsonObj.http && jsonObj.http.routePrefix !== undefined && jsonObj.http.routePrefix !== null) ? jsonObj.http.routePrefix : 'api';
-                const httpTrigger = this.functionInfo.config.bindings.find((b) => {
-                    return b.type === BindingType.httpTrigger.toString();
+            this._functionAppService.getHostJson(this.context)
+                .subscribe((jsonObj) => {
+                    let result = (
+                        jsonObj.isSuccessful &&
+                        jsonObj.result.http &&
+                        jsonObj.result.http.routePrefix !== undefined &&
+                        jsonObj.result.http.routePrefix !== null
+                    )
+                        ? jsonObj.result.http.routePrefix
+                        : 'api';
+
+                    const httpTrigger = this.functionInfo.config.bindings.find((b) => {
+                        return b.type === BindingType.httpTrigger.toString();
+                    });
+                    if (httpTrigger && httpTrigger.route) {
+                        result = result + '/' + httpTrigger.route;
+                    } else {
+                        result = result + '/' + this.functionInfo.name;
+                    }
+
+                    // Remove doubled slashes
+                    let path = '/' + result;
+                    const find = '//';
+                    const re = new RegExp(find, 'g');
+                    path = path.replace(re, '/');
+                    path = path.replace('/?', '?') + queryParams;
+
+                    this.functionInvokeUrl = this.context.mainSiteUrl + path;
+                    this.runValid = true;
                 });
-                if (httpTrigger && httpTrigger.route) {
-                    result = result + '/' + httpTrigger.route;
-                } else {
-                    result = result + '/' + this.functionInfo.name;
-                }
-
-                // Remove doubled slashes
-                let path = '/' + result;
-                const find = '//';
-                const re = new RegExp(find, 'g');
-                path = path.replace(re, '/');
-                path = path.replace('/?', '?') + queryParams;
-
-                this.functionInvokeUrl = this.functionApp.getMainSiteUrl() + path;
-                this.runValid = true;
-
-
-            });
         } else {
             this.runValid = true;
         }
@@ -403,14 +416,13 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
             try {
                 JSON.parse(this.updatedContent);
-                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, errorIds.errorParsingConfig);
                 syncTriggers = true;
             } catch (e) {
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                this.showComponentError({
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
-                    errorId: ErrorIds.errorParsingConfig,
-                    errorType: ErrorType.UserError,
-                    resourceId: this.functionApp.site.id
+                    errorId: errorIds.errorParsingConfig,
+                    resourceId: this.context.site.id
                 });
                 return null;
             }
@@ -422,19 +434,22 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
             this.functionInfo.config = JSON.parse(this.updatedContent);
         }
 
-        return this.functionApp.saveFile(this.scriptFile, this.updatedContent, this.functionInfo)
+        return this._functionAppService.saveFile(this.context, this.scriptFile, this.updatedContent, this.functionInfo)
             .subscribe(r => {
                 if (!dontClearBusy) {
                     this._globalStateService.clearBusyState();
                 }
-                if (typeof r !== 'string' && r.isDirty) {
-                    r.isDirty = false;
+
+                if (r.isSuccessful && typeof r.result !== 'string' && r.result.isDirty) {
+                    r.result.isDirty = false;
                     this._broadcastService.clearDirtyState('function');
                     this._portalService.setDirtyState(false);
                 }
+
                 if (syncTriggers) {
-                    this.functionApp.fireSyncTrigger();
+                    this._functionAppService.fireSyncTrigger(this.context);
                 }
+
                 this.content = this.updatedContent;
             },
             () => {
@@ -443,8 +458,6 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     contentChanged(content: string) {
-
-
         if (!this.scriptFile.isDirty) {
             this.scriptFile.isDirty = true;
             this._broadcastService.setDirtyState('function');
@@ -461,7 +474,7 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         const test_data = this.getTestData();
         if (this.functionInfo.test_data !== test_data) {
             this.functionInfo.test_data = test_data;
-            this.functionApp.updateFunction(this.functionInfo)
+            this._functionAppService.updateFunction(this.context, this.functionInfo)
                 .subscribe(r => {
                     Object.assign(this.functionInfo, r);
                     if (this.updatedTestContent) {
@@ -600,6 +613,25 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         }
     }
 
+    public keyDown(event: KeyboardEvent, key: string, param: any) {
+        if (AccessibilityHelper.isEnterOrSpace(event)) {
+            switch (key) {
+                case 'clickRightTab':
+                    this.clickRightTab(param);
+                    break;
+                case 'setShowFunctionInvokeUrlModal':
+                    this.setShowFunctionInvokeUrlModal(param);
+                    break;
+                case 'setShowFunctionKeyModal':
+                    this.setShowFunctionKeyModal(param);
+                    break;
+                case 'onEventGridSubscribe':
+                    this.onEventGridSubscribe();
+                    break;
+            }
+        }
+    }
+
     private getTestData(): string {
         if (this.runHttp) {
             this.runHttp.model.body = this.updatedTestContent !== undefined ? this.updatedTestContent : this.runHttp.model.body;
@@ -622,17 +654,18 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
         if (this.scriptFile.isDirty) {
             this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
-            const result = (this.runHttp) ? this.functionApp.runHttpFunction(this.functionInfo, this.functionInvokeUrl, this.runHttp.model) :
-                this.functionApp.runFunction(this.functionInfo, this.getTestData());
+            const result = (this.runHttp)
+                ? this._functionAppService.runHttpFunction(this.context, this.functionInfo, this.functionInvokeUrl, this.runHttp.model)
+                : this._functionAppService.runFunction(this.context, this.functionInfo, this.getTestData());
 
             this.running = result
                 .switchMap(r => {
-                    return r.statusCode >= 400
-                        ? this.functionApp.checkFunctionStatus(this.functionInfo).map(_ => r)
+                    return r.result.statusCode >= 400
+                        ? this._functionAppService.getFunctionErrors(this.context, this.functionInfo).map(_ => r)
                         : Observable.of(r);
                 })
                 .subscribe(r => {
-                    this.runResult = r;
+                    this.runResult = r.result;
                     this._globalStateService.clearBusyState();
                     delete this.running;
 
@@ -641,28 +674,25 @@ export class FunctionDevComponent implements OnChanges, OnDestroy {
     }
 
     private updateKeys() {
-        if (this.functionApp && this.functionInfo) {
-            Observable.zip(
-                this.functionApp.getFunctionKeys(this.functionInfo),
-                this.functionApp.getFunctionHostKeys(),
-                (k1, k2) => ({ functionKeys: k1, hostKeys: k2 }))
-                .subscribe((r: any) => {
-                    this.functionKeys = r.functionKeys || [];
-                    this.hostKeys = r.hostKeys || [];
+        Observable.zip(
+            this._functionAppService.getFunctionKeys(this.context, this.functionInfo),
+            this._functionAppService.getHostKeys(this.context)
+        )
+            .subscribe(tuple => {
+                this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [], links: [] };
+                this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { keys: [], links: [] };
 
-                    if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
-                        const masterKey = r.hostKeys.keys.find((k) => k.name === '_master');
-                        if (masterKey) {
-                            this.onChangeKey(masterKey.value);
-                        }
-                    } else {
-                        const allKeys = r.functionKeys.keys.concat(this.hostKeys.keys);
-                        if (allKeys.length > 0) {
-                            this.onChangeKey(allKeys[0].value);
-                        }
+                if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
+                    const masterKey = this.hostKeys.keys.find((k) => k.name === '_master');
+                    if (masterKey) {
+                        this.onChangeKey(masterKey.value);
                     }
-
-                });
-        }
+                } else {
+                    const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
+                    if (allKeys.length > 0) {
+                        this.onChangeKey(allKeys[0].value);
+                    }
+                }
+            });
     }
 }

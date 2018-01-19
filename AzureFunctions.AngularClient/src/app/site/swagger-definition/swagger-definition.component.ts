@@ -1,7 +1,4 @@
-import { Injector } from '@angular/core';
-import { LogCategories } from 'app/shared/models/constants';
-import { LogService } from './../../shared/services/log.service';
-import { FunctionsService } from './../../shared/services/functions-service';
+import { KeyCodes, Constants } from './../../shared/models/constants';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -21,125 +18,49 @@ import { SwaggerEditor } from '../swagger-frame/swaggerEditor';
 import { AiService } from '../../shared/services/ai.service';
 import { SelectOption } from '../../shared/models/select-option';
 import { PortalService } from '../../shared/services/portal.service';
-import { Constants } from '../../shared/models/constants';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { BroadcastService } from '../../shared/services/broadcast.service';
-import { BroadcastEvent } from '../../shared/models/broadcast-event';
-import { ErrorIds } from '../../shared/models/error-ids';
-import { ErrorEvent, ErrorType } from '../../shared/models/error-event';
-import { FunctionApp } from '../../shared/function-app';
+import { errorIds } from '../../shared/models/error-ids';
 import { CacheService } from '../../shared/services/cache.service';
-import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
-import { AppNode } from './../../tree-view/app-node';
-import { ArmObj } from './../../shared/models/arm/arm-obj';
-import { Site } from './../../shared/models/arm/site';
-import { KeyCodes } from '../../shared/models/constants';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
+import { Subscription } from 'rxjs/Subscription';
+import { FunctionAppHttpResult } from '../../shared/models/function-app-http-result';
+import { Host } from '../../shared/models/host';
 
 @Component({
     selector: 'swaggerdefinition',
     templateUrl: './swagger-definition.component.html',
-    styleUrls: ['./swagger-definition.component.scss'],
-    inputs: ['viewInfoInput']
+    styleUrls: ['./swagger-definition.component.scss']
 })
-export class SwaggerDefinitionComponent implements OnDestroy {
+export class SwaggerDefinitionComponent extends FunctionAppContextComponent implements OnDestroy {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     public isFullscreen: boolean;
     public keyVisible: boolean;
     public documentationVisible: boolean;
     public swaggerEnabled: boolean;
 
-    public site: ArmObj<Site>;
-    public functionApp: FunctionApp;
-
     public swaggerStatusOptions: SelectOption<boolean>[];
     public valueChange: Subject<boolean>;
     public swaggerKey: string;
     public swaggerURL: string;
+    public generation: string;
 
     private swaggerEditor: SwaggerEditor;
     private swaggerDocument: any;
 
-    private _viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     private _ngUnsubscribe = new Subject();
-    private _viewInfo: TreeViewInfo<SiteData>;
-    private _appNode: AppNode;
     private _busyManager: BusyStateScopeManager;
 
     constructor(private _aiService: AiService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
-        private _broadcastService: BroadcastService,
+        broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        private _functionsService: FunctionsService,
-        private _logService: LogService,
-        private _injector: Injector
-    ) {
-        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
-        this._viewInfoStream
-            .takeUntil(this._ngUnsubscribe)
-            .switchMap(viewInfo => {
-                this._viewInfo = viewInfo;
-                this._busyManager.setBusy();
+        private _functionAppService: FunctionAppService) {
+        super('swagger-definition', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
-                this._appNode = (<AppNode>viewInfo.node);
-
-                return this._functionsService.getAppContext(this._viewInfo.resourceId);
-            })
-            .switchMap(context => {
-                this.site = context.site;
-
-                if (this.functionApp) {
-                    this.functionApp.dispose();
-                }
-
-                this.functionApp = new FunctionApp(context.site, this._injector);
-                return this.functionApp.getHostJson();
-            })
-            .do(null, e => {
-                this._logService.error(LogCategories.swaggerDefinition, '/load-failure', e);
-                this.swaggerEnabled = false;
-                this._busyManager.clearBusy();
-            })
-            .retry()
-            .mergeMap(jsonObj => {
-                this.swaggerEnabled = false;
-                if (jsonObj && jsonObj.swagger && typeof (jsonObj.swagger.enabled) === 'boolean') {
-                    this.swaggerEnabled = jsonObj.swagger.enabled;
-                }
-
-                if (this.swaggerEnabled) {
-                    return this.restoreSwaggerSecrets();
-                } else {
-                    this.swaggerEnabled = false;
-                    return Observable.of('');
-                }
-            }).do(null, () => {
-                this.swaggerEnabled = false;
-                return Observable.of('');
-            })
-            .mergeMap(key => {
-                // global busy state
-                this._busyManager.clearBusy()
-                this._aiService.stopTrace('/timings/site/tab/api-definition/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
-
-                // busy state for Editor Section
-                this.setBusyState();
-
-                if (!key) {
-                    const placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
-                    this.assignDocumentToEditor(placeHolderText);
-                    return Observable.of(false);
-                } else {
-                    return this.loadLatestSwaggerDocumentInEditor(key);
-                }
-            }).do(null, () => {
-                this.swaggerEnabled = false;
-                return Observable.of(this.swaggerEnabled);
-            }).subscribe(() => {
-                this.clearBusyState();
-                this._aiService.stopTrace('/timings/site/tab/api-definition/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
-            });
-
+        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
         this.swaggerStatusOptions = [
             {
                 displayLabel: this._translateService.instant(PortalResources.swaggerDefinition_internal),
@@ -166,6 +87,56 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             });
     }
 
+    setup(): Subscription {
+        return this.viewInfoEvents
+            .switchMap(viewInfo => {
+                return Observable.zip(this._functionAppService.getHostJson(this.context), this._functionAppService.getRuntimeGeneration(this.context),
+                    (a: FunctionAppHttpResult<Host>, b: string) => ({ host: a, gen: b }));
+            })
+            .switchMap(result => {
+                this.generation = result.gen;
+                this.swaggerEnabled = false;
+                if (result.host && result.host.result.swagger && typeof (result.host.result.swagger.enabled) === 'boolean') {
+                    this.swaggerEnabled = result.host.result.swagger.enabled;
+                }
+
+                if (this.swaggerEnabled) {
+                    return this.restoreSwaggerSecrets();
+                } else {
+                    this.swaggerEnabled = false;
+                    return Observable.of('');
+                }
+            })
+            .do(null, () => {
+                this.swaggerEnabled = false;
+                return Observable.of('');
+            })
+            .mergeMap(key => {
+                // global busy state
+                this._busyManager.clearBusy();
+                this._aiService.stopTrace('/timings/site/tab/api-definition/revealed', this.viewInfo.data.siteTabRevealedTraceKey);
+
+                // busy state for Editor Section
+                this.setBusyState();
+
+                if (!key) {
+                    const placeHolderText = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
+                    this.assignDocumentToEditor(placeHolderText);
+                    return Observable.of(false);
+                } else {
+                    return this.loadLatestSwaggerDocumentInEditor(key);
+                }
+            })
+            .do(null, () => {
+                this.swaggerEnabled = false;
+                return Observable.of(this.swaggerEnabled);
+            })
+            .subscribe(() => {
+                this.clearBusyState();
+                this._aiService.stopTrace('/timings/site/tab/api-definition/full-ready', this.viewInfo.data.siteTabFullReadyTraceKey);
+            });
+    }
+
     setBusyState() {
         if (this.busyState) {
             this.busyState.setBusyState();
@@ -178,22 +149,15 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         }
     }
 
-    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
-        this._viewInfoStream.next(viewInfo);
-    }
-
     ngOnDestroy() {
         this._ngUnsubscribe.next();
         this._busyManager.clearBusy();
-        if(this.functionApp){
-            this.functionApp.dispose();
-        }
     }
 
     openBlade(name: string) {
         this._portalService.openBlade({
             detailBlade: name,
-            detailBladeInputs: { resourceUri: this.functionApp.site.id }
+            detailBladeInputs: { resourceUri: this.context.site.id }
         }, name);
     }
 
@@ -230,20 +194,28 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     private setSwaggerEndpointState(swaggerEnabled: boolean) {
-        return this.functionApp.getHostJson()
-            .mergeMap(jsonObj => {
-                jsonObj.swagger = { enabled: swaggerEnabled };
-                const jsonString = JSON.stringify(jsonObj);
-                return this.functionApp.saveHostJson(jsonString);
-            }).catch(() => {
-                this._busyManager.clearBusy();
-                return Observable.of(null);
-            }).mergeMap(config => {
-                if (config == null) {
+        return this._functionAppService.getHostJson(this.context)
+            .concatMap(jsonObj => {
+                if (jsonObj.isSuccessful) {
+                    jsonObj.result.swagger = { enabled: swaggerEnabled };
+                    const jsonString = JSON.stringify(jsonObj.result);
+                    return this._functionAppService.saveHostJson(this.context, jsonString);
+                } else {
+                    return Observable.of({
+                        isSuccessful: false,
+                        error: {
+                            errorId: ''
+                        },
+                        result: null
+                    });
+                }
+            })
+            .concatMap(config => {
+                if (!config.isSuccessful) {
                     this.swaggerEnabled = !swaggerEnabled;
                     return Observable.of('');
                 }
-                this.swaggerEnabled = config.swagger.enabled;
+                this.swaggerEnabled = config.result.swagger.enabled;
                 if (!this.swaggerEnabled) {
                     this._aiService.trackEvent(`/actions/swagger_definition/disable_swagger_endpoint`);
                     return Observable.of('');
@@ -295,10 +267,10 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             if (((!swaggerDocument || swaggerDocument === this._translateService.instant(PortalResources.swaggerDefinition_placeHolder))
                 && !error)
                 || confirm(this._translateService.instant(PortalResources.swaggerDefinition_confirmOverwrite))) {
-                this.functionApp.getGeneratedSwaggerData(this.swaggerKey)
-                    .subscribe((swaggerDoc: any) => {
-                        this.swaggerDocument = swaggerDoc;
-                        this.assignDocumentToEditor(swaggerDoc);
+                this._functionAppService.getGeneratedSwaggerData(this.context, this.swaggerKey)
+                    .subscribe((swaggerDoc) => {
+                        this.swaggerDocument = swaggerDoc.result;
+                        this.assignDocumentToEditor(swaggerDoc.result);
                     });
             }
         });
@@ -316,21 +288,21 @@ export class SwaggerDefinitionComponent implements OnDestroy {
         this._busyManager.setBusy();
         this.swaggerEditor.getDocument((swaggerDocument, error) => {
             if (error) {
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                this.showComponentError({
                     message: this._translateService.instant(PortalResources.swaggerDefinition_prompt),
-                    errorId: ErrorIds.malformedAPIDefinition,
-                    errorType: ErrorType.UserError,
-                    resourceId: this.functionApp.site.id
+                    errorId: errorIds.malformedAPIDefinition,
+                    resourceId: this.context.site.id
                 });
+
                 this._busyManager.clearBusy();
                 return;
             }
 
             if (swaggerDocument) {
                 this._cacheService.clearCachePrefix(this.swaggerURL);
-                this.functionApp.addOrUpdateSwaggerDocument(this.swaggerURL, swaggerDocument).
-                    subscribe(updatedDocument => {
-                        this.swaggerDocument = updatedDocument;
+                this._functionAppService.addOrUpdateSwaggerDocument(this.context, this.swaggerURL, swaggerDocument)
+                    .subscribe(updatedDocument => {
+                        this.swaggerDocument = updatedDocument.result;
                         this._busyManager.clearBusy();
                     }, () => {
                         this._busyManager.clearBusy();
@@ -341,8 +313,8 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             if (!swaggerDocument && !error) {
                 const confirmDelete = confirm(this._translateService.instant(PortalResources.swaggerDefinition_delete));
                 if (confirmDelete) {
-                    this.functionApp.deleteSwaggerDocument(this.swaggerURL).
-                        subscribe(() => {
+                    this._functionAppService.deleteSwaggerDocument(this.context, this.swaggerURL)
+                        .subscribe(() => {
                             this.swaggerDocument = this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
                             this._busyManager.clearBusy();
                         }, () => {
@@ -359,10 +331,10 @@ export class SwaggerDefinitionComponent implements OnDestroy {
 
     public resetEditor(): void {
         this._busyManager.setBusy();
-        this.functionApp.getSwaggerDocument(this.swaggerKey)
-            .subscribe((swaggerDoc: any) => {
-                this.swaggerDocument = swaggerDoc;
-                this.assignDocumentToEditor(swaggerDoc);
+        this._functionAppService.getSwaggerDocument(this.context, this.swaggerKey)
+            .subscribe(swaggerDoc => {
+                this.swaggerDocument = swaggerDoc.result;
+                this.assignDocumentToEditor(swaggerDoc.result);
                 this._busyManager.clearBusy();
             }, () => {
                 this._busyManager.clearBusy();
@@ -385,7 +357,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     private addorUpdateApiDefinitionURL(url: string) {
-        return this._cacheService.getArm(`${this.functionApp.site.id}/config/web`, true)
+        return this._cacheService.getArm(`${this.context.site.id}/config/web`, true)
             .map(r => r.json())
             .mergeMap(config => {
                 let configChange = false;
@@ -415,7 +387,7 @@ export class SwaggerDefinitionComponent implements OnDestroy {
                 }
 
                 if (configChange) {
-                    return this._cacheService.putArm(`${this.functionApp.site.id}/config/web`, null, JSON.stringify(config)).map(r => r.json());
+                    return this._cacheService.putArm(`${this.context.site.id}/config/web`, null, JSON.stringify(config)).map(r => r.json());
                 }
 
                 return Observable.of(true);
@@ -423,10 +395,10 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     private getSwaggerSecret() {
-        return this.functionApp.getSystemKey()
+        return this._functionAppService.getSystemKey(this.context)
             .map(keys => {
                 let swaggerKey: string = null;
-                keys.keys.forEach(key => {
+                keys.result.keys.forEach(key => {
                     if (key.name === Constants.swaggerSecretName) {
                         swaggerKey = key.value;
                     }
@@ -436,12 +408,12 @@ export class SwaggerDefinitionComponent implements OnDestroy {
     }
 
     private getUpdatedSwaggerURL(key: string) {
-        return this.functionApp.getMainSiteUrl() + '/admin/host/swagger?code=' + key;
+        return this.context.mainSiteUrl + '/admin/host/swagger?code=' + key;
     }
 
     private createSwaggerSecret() {
-        return this.functionApp.createSystemKey(Constants.swaggerSecretName)
-            .map(key => { return key.value; });
+        return this._functionAppService.createSystemKey(this.context, Constants.swaggerSecretName)
+            .map(key => { return key.result.value; });
     }
 
     private restoreSwaggerSecrets() {
@@ -463,16 +435,17 @@ export class SwaggerDefinitionComponent implements OnDestroy {
             });
     }
 
-    private loadLatestSwaggerDocumentInEditor(key) {
+    private loadLatestSwaggerDocumentInEditor(key: string) {
         this.swaggerURL = this.getUpdatedSwaggerURL(key);
-        return this.functionApp.getSwaggerDocument(key)
+        return this._functionAppService.getSwaggerDocument(this.context, key)
             .retry(1)
-            .catch(() => {
-                // get document fails
-                return Observable.of(this._translateService.instant(PortalResources.swaggerDefinition_placeHolder));
-            }).mergeMap(swaggerDoc => {
-                this.swaggerDocument = swaggerDoc;
-                this.assignDocumentToEditor(swaggerDoc);
+            .mergeMap(swaggerDoc => {
+                const document = swaggerDoc.isSuccessful
+                    ? swaggerDoc.result
+                    : this._translateService.instant(PortalResources.swaggerDefinition_placeHolder);
+
+                this.swaggerDocument = document;
+                this.assignDocumentToEditor(document);
                 if (this.swaggerKey) {
                     return this.addorUpdateApiDefinitionURL(this.swaggerURL);
                 }

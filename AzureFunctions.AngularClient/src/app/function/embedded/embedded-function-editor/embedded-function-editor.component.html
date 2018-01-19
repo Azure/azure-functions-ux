@@ -1,0 +1,49 @@
+<div id="embedded-function-editor-wrapper"
+  [class.right-tabs-expanded]="rightBarExpanded"
+  [class.bottom-tabs-expanded]="bottomBarExpanded">
+
+  <section class="editor-section">
+    <command-bar>
+        <h2>{{fileName}}</h2>
+        <command displayText="{{ 'save' | translate }}"
+          iconUrl="image/save.svg"
+          (click)="saveEditorContent()"
+          cssClass="list-item clickable command left-edge"></command>
+        <command displayText="{{ '_delete' | translate }}"
+          iconUrl="image/delete.svg"
+          (click)="deleteFunction()"
+          cssClass="list-item clickable command"></command>
+    </command-bar>
+
+    <div class="text-editor-container">
+      <text-editor
+        [content]="initialEditorContent"
+        (onContentChanged)="editorContentChanged($event)"
+        [fileName]="fileName"></text-editor>
+    </div>
+  </section>
+
+  <aside class="right-tabs-bar" >
+    <right-tabs>
+
+      <tab title="{{ 'test' | translate }}" id="FunctionTestTab">
+          <embedded-function-test-tab
+            *ngIf="rightBarExpanded"
+            [resourceId]="resourceId"></embedded-function-test-tab>
+      </tab>
+
+    </right-tabs>
+
+  </aside>
+
+  <footer class="bottom-tabs-bar">
+    <bottom-tabs (onExpanded)="setBottomBarState($event)">
+        <embedded-function-logs-tab
+          *ngIf="bottomBarExpanded"
+          title="Logs"
+          id="FunctionsLogTab"
+          [resourceId]="resourceId"></embedded-function-logs-tab>
+
+      </bottom-tabs>
+  </footer>
+</div>

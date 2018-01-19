@@ -20,8 +20,8 @@
             <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
             <div style="clear: both"></div>
         </div>
-        <table-function-monitor 
-            [selectedFunction]="currentFunction"
+        <table-function-monitor
+            [viewInfo]="viewInfo"
             [columns]="columns"
             [data]="rows"
             [isAppInsightsConnected]="!!aiId"
@@ -31,9 +31,9 @@
     </div>
 
     <div *ngIf="azureWebJobsDashboardMissed && aiId === ''" class="ai-icon">
-        <div>    
+        <div>
             <img src="image/appInsights.svg"/>
-            <h3>{{ 'monitoring_noMonitoring' | translate }}</h3> 
+            <h3>{{ 'monitoring_noMonitoring' | translate }}</h3>
             <div [innerHTML]="'monitoring_appInsights' | translate"></div>
         </div>
     </div>

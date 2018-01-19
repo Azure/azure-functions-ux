@@ -11,12 +11,14 @@ import { FunctionsResponse } from './../models/functions-response';
 import { FunctionTemplate } from '../models/function-template';
 import { DesignerSchema } from '../models/designer-schema';
 import { UserService } from './user.service';
-import { FunctionContainer } from '../models/function-container';
 import { Constants } from '../models/constants';
 import { Cache } from '../decorators/cache.decorator';
 import { GlobalStateService } from './global-state.service';
 import { UIResource, ITryAppServiceTemplate } from '../models/ui-resource';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { Site } from '../models/arm/site';
+import { ArmObj } from '../models/arm/arm-obj';
+import { FunctionAppContext } from 'app/shared/function-app-context';
 
 @Injectable()
 export class TryFunctionsService {
@@ -30,7 +32,8 @@ export class TryFunctionsService {
     public isMultiKeySupported = true;
 
     private tryAppServiceUrl = 'https://tryappservice.azure.com';
-    public functionContainer: FunctionContainer;
+    public functionContainer: ArmObj<Site>;
+    public functionAppContext: FunctionAppContext;
 
     constructor(private _http: Http,
         private _userService: UserService,
@@ -43,8 +46,8 @@ export class TryFunctionsService {
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
             const templateId = Cookie.get('templateId');
-            this.selectedFunction = templateId.split('-')[0].trim();
-            this.selectedLanguage = templateId.split('-')[1].trim();
+            this.selectedFunction = templateId.split('-') [0].trim();
+            this.selectedLanguage = templateId.split('-') [1].trim();
             this.selectedProvider = Cookie.get('provider');
             this.selectedFunctionName = Cookie.get('functionName');
         }
