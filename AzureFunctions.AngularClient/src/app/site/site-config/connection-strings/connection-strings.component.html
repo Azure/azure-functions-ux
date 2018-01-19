@@ -55,8 +55,8 @@
             class="fa fa-times delete"
             [attr.aria-label]="Resources._delete | translate"
             [attr.aria-disabled]="!hasWritePermissions"
-            (keypress)="hasWritePermissions && $event.keyCode === keyCodes.enter ? deleteItem(group) : null"
-            (click)="hasWritePermissions ? deleteItem(group) : null">
+            (click)="hasWritePermissions ? deleteItem(group) : null"
+            [activate-with-keys]>
           </span>
         </td>
 
@@ -89,7 +89,7 @@
 
     <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
     <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
-    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" tabindex="0" role="button" class="link add-setting" (keypress)="$event.keyCode === keyCodes.enter ? addItem() : null" (click)="addItem()">
+    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" tabindex="0" role="button" class="link add-setting" (click)="addItem()" [activate-with-keys]>
       {{ 'addNewConnectionString' | translate }}
     </div>
 

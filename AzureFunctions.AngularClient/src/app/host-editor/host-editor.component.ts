@@ -1,25 +1,26 @@
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
-import { FunctionApp } from './../shared/function-app';
-import { ErrorIds } from './../shared/models/error-ids';
-import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, Input, QueryList } from '@angular/core';
+import { errorIds } from './../shared/models/error-ids';
+import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, Input, QueryList, OnInit } from '@angular/core';
 import { PortalService } from '../shared/services/portal.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { Subject } from 'rxjs/Subject';
 import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
+import { FunctionAppContext } from 'app/shared/function-app-context';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { ErrorableComponent } from '../shared/components/errorable-component';
 
 @Component({
     selector: 'host-editor',
     templateUrl: './host-editor.component.html',
     styleUrls: ['./host-editor.component.scss']
 })
-export class HostEditorComponent implements OnDestroy {
+export class HostEditorComponent extends ErrorableComponent implements OnInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
     @ViewChild('editorContainer') editorContainer: ElementRef;
     @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
@@ -27,44 +28,51 @@ export class HostEditorComponent implements OnDestroy {
 
     public configContent: string;
     public isDirty: boolean;
-    private _originalContent: string;
-    private _currentConent: string;
     public disabled: Observable<boolean>;
-    public functionApp: FunctionApp;
-    private functionAppInputStream: Subject<FunctionApp>;
+    public context: FunctionAppContext;
+
+    private functionAppContextStream: Subject<FunctionAppContext>;
+    private _originalContent: string;
+    private _currentContent: string;
 
     constructor(
         private _portalService: PortalService,
-        private _broadcastService: BroadcastService,
+        broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
+        private _functionAppService: FunctionAppService,
         private _translateService: TranslateService) {
+        super('host-editor', broadcastService);
         this.isDirty = false;
 
-        this.functionAppInputStream = new Subject<FunctionApp>();
-        this.functionAppInputStream
-            .do( fa => {
-                this.functionApp = fa;
-                this.disabled = Observable.of(true);
-                this._globalStateService.setBusyState();
+        this.functionAppContextStream = new Subject<FunctionAppContext>();
+        this.functionAppContextStream
+            .do(() => this._globalStateService.setBusyState())
+            .switchMap(context => {
+                this.context = context;
+                return this._functionAppService.getHostJson(context);
             })
-            .switchMap(() => this.functionApp.getHostJson())
             .subscribe(hostJson => {
-                this._originalContent = JSON.stringify(hostJson, undefined, 2);
-                this._currentConent = this._originalContent;
-                this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
+                const hostJsonResult = hostJson;
+                if (hostJsonResult.isSuccessful) {
+                    this._originalContent = JSON.stringify(hostJson.result, undefined, 2);
+                    this._currentContent = this._originalContent;
+                    this.disabled = this._functionAppService.getFunctionAppEditMode(this.context).map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : true);
+                } else {
+                    this.disabled = Observable.of(true);
+                }
                 this.cancelConfig();
                 this.clearDirty();
                 this._globalStateService.clearBusyState();
             });
-            this.onResize();
+        this.onResize();
     }
 
     ngOnInit() {
         this.onResize();
     }
 
-    @Input() set functionAppInput(value: FunctionApp) {
-        this.functionAppInputStream.next(value);
+    @Input() set functionAppInput(value: FunctionAppContext) {
+        this.functionAppContextStream.next(value);
     }
 
     contentChanged(content: string) {
@@ -74,7 +82,7 @@ export class HostEditorComponent implements OnDestroy {
             this._portalService.setDirtyState(true);
         }
 
-        this._currentConent = content;
+        this._currentContent = content;
     }
 
     cancelConfig() {
@@ -88,22 +96,21 @@ export class HostEditorComponent implements OnDestroy {
     saveConfig() {
         if (this.isDirty) {
             try {
-                this.configContent = this._currentConent;
+                this.configContent = this._currentContent;
                 this._globalStateService.setBusyState();
-                this.functionApp.saveHostJson(JSON.parse(this.configContent))
+                this._functionAppService.saveHostJson(this.context, JSON.parse(this.configContent))
                     .subscribe(() => {
                         this._originalContent = this.configContent;
                         this.clearDirty();
                         this._globalStateService.clearBusyState();
                     });
 
-                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, errorIds.errorParsingConfig);
             } catch (e) {
-                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                this.showComponentError({
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
-                    errorId: ErrorIds.errorParsingConfig,
-                    errorType: ErrorType.UserError,
-                    resourceId: this.functionApp.site.id
+                    errorId: errorIds.errorParsingConfig,
+                    resourceId: this.context.site.id
                 });
                 this._globalStateService.clearBusyState();
             }

@@ -33,7 +33,6 @@ export class TableRootComponent implements OnChanges, AfterContentInit {
     @Input() name: string | null;
     @Input() tblClass = 'tbl';
     @Input() items: TableItem[];
-    private _origItems: any[];
 
     @ViewChild('table') tableRef: ElementRef;
     @ViewChild('xfrBefore') xfrBeforeRef: ElementRef;
@@ -70,7 +69,6 @@ export class TableRootComponent implements OnChanges, AfterContentInit {
     ngOnChanges(changes: SimpleChanges) {
         if (changes['items']) {
             this.items = changes['items'].currentValue;
-            this._origItems = changes['items'].currentValue;
 
             // Whenever we update the table, we'll reset edit mode and set the first cell as active
             this.setEditMode(false);

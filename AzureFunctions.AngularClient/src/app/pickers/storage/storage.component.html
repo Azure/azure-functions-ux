@@ -1,12 +1,11 @@
-
 <div class="modal fade in" style="display: block">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="headerBox"> 
+            <div class="headerBox">
                     <button type="button" class="close close-button" data-dismiss="modal" aria-hidden="true" (click)="onClose()">&times;</button>
                     <label>{{'storage_add' | translate}}</label>
                     <img class="storage-picker-image" src="image/blob.svg" />
-            </div>            
+            </div>
             <div class="modal-body" style="display: flex;flex-direction:column;">
                 <div>
                     <div class="input-container">
@@ -24,8 +23,8 @@
                     <div class="input-container">
                         <label>{{'storage_endpoint' | translate}}</label>
                         <div style="margin-bottom: 10px;">
-                                <radio-selector [options]="options" [defaultValue]="optionTypes.azure" (value)="optionsChange.next($event)"></radio-selector>
-                        </div>        
+                                <radio-selector [options]="options" [defaultValue]="optionTypes.azure" (value)="onOptionsChange($event)"></radio-selector>
+                        </div>
                         <div [class.disabled] = "option ===  optionTypes.azure">
                             <input [disabled] = "option ===  optionTypes.azure"
                                    type="text"

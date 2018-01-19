@@ -1,3 +1,6 @@
+import { EmbeddedFunctionsEnvironment } from './embedded-functions.environment';
+import { PortalService } from './../portal.service';
+import { LogCategories } from './../../models/constants';
 import { AzureTryEnvironment } from './azure-try.environment';
 import { TranslateService } from '@ngx-translate/core';
 import { LogService } from './../log.service';
@@ -12,7 +15,6 @@ import { StandaloneEnvironment } from './stand-alone.environment';
 import { OnPremEnvironment } from './onprem.environment';
 import { Environment } from './scenario.models';
 import { Injectable } from '@angular/core';
-import { LogCategories } from 'app/shared/models/constants';
 import { LinuxSiteEnvironment } from 'app/shared/services/scenario/linux-site.environment';
 
 @Injectable()
@@ -24,10 +26,14 @@ export class ScenarioService {
         new SiteSlotEnvironment(this._translateService),
         new DynamicSiteEnvironment(this._translateService),
         new LinuxSiteEnvironment(this._translateService),
-        new AzureTryEnvironment()
+        new AzureTryEnvironment(),
+        new EmbeddedFunctionsEnvironment(this._portalService)
     ];
 
-    constructor(private _logService: LogService, private _translateService: TranslateService) {
+    constructor(
+        private _logService: LogService,
+        private _translateService: TranslateService,
+        private _portalService: PortalService) {
 
         // National cloud environments inherit from AzureEnvironment so we ensure there
         // aren't duplicates to reduce the chance of conflicts in behavior.
@@ -47,7 +53,7 @@ export class ScenarioService {
     //    this is a synchronous function.
     public checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult {
         const results = this._environments
-            .filter(env => env.isCurrentEnvironment(input) && env.scenarioChecks[id]) // TODO: add in env.scenarioChecks[id] here
+            .filter(env => env.isCurrentEnvironment(input) && env.scenarioChecks[id]) // TODO: [ehamai] add in env.scenarioChecks[id] here
             .map(env => {
 
                 const check = env.scenarioChecks[id];

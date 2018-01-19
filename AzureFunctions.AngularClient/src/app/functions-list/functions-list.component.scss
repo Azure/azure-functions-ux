@@ -22,23 +22,27 @@ h2{
     margin-bottom: 15px;
 }
 
-td.icon-cell{
-    &:hover{
-        background-color: $item-selected-color;
+.icon-small {
+    height: 18px;
+    width: 18px;
+
+    border: none;
+    background: transparent;
+    padding: 0;
+    display: block;
+    margin: auto;
+
+    &:hover>* {
+        filter: brightness(150%);
+        -webkit-filter: brightness(150%);
     }
 }
 
-.icon-small{
-    height: 18px;
-    width: 18px;
-    vertical-align: middle;
-    margin-left: 7px;
-}
-
-:host-context(#app-root[theme=dark]){
-    td.icon-cell{
-        &:hover{
-            background-color: $item-selected-color-dark;
+:host-context(#app-root[theme=dark]) {
+    .icon-small {
+        &:hover>* {
+            filter: brightness(50%);
+            -webkit-filter: brightness(50%);
         }
     }
 }

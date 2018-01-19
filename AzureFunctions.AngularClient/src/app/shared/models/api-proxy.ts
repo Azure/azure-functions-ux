@@ -1,6 +1,5 @@
 ﻿import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './portal-resources';
-import { FunctionApp } from '../function-app';
 
 export class ApiProxy {
     name: string;
@@ -8,8 +7,6 @@ export class ApiProxy {
     backendUri: string;
     requestOverrides?: any;
     responseOverrides?: any;
-
-    functionApp: FunctionApp;
 
     public static fromJson(obj: any): ApiProxy[] {
         const result: ApiProxy[] = [];

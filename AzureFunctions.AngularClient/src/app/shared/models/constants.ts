@@ -1,22 +1,20 @@
 ﻿
 export class HttpMethods {
-    public GET = "get";
-    public POST = "post";
-    public DELETE = "delete";
-    public HEAD = "head";
-    public PATCH = "patch";
-    public PUT = "put";
-    public OPTIONS = "options";
-    public TRACE = "trace";
-
-    constructor() { }
+    public static GET = 'get';
+    public static POST = 'post';
+    public static DELETE = 'delete';
+    public static HEAD = 'head';
+    public static PATCH = 'patch';
+    public static PUT = 'put';
+    public static OPTIONS = 'options';
+    public static TRACE = 'trace';
 }
 
 export class Constants {
     public static serviceHost =
-        window.location.hostname === "localhost" || window.appsvc.env.runtimeType === "Standalone" || window.appsvc.env.runtimeType === "OnPrem"
-        ? `https://${window.location.hostname}:${window.location.port}/`
-        : `https://${window.location.hostname}/`;
+        window.location.hostname === 'localhost' || window.appsvc.env.runtimeType === 'Standalone' || window.appsvc.env.runtimeType === 'OnPrem'
+            ? `https://${window.location.hostname}:${window.location.port}/`
+            : `https://${window.location.hostname}/`;
 
     public static nodeVersion = '6.5.0';
     public static latest = 'latest';
@@ -27,9 +25,9 @@ export class Constants {
     public static routingExtensionVersionAppSettingName = 'ROUTING_EXTENSION_VERSION';
     public static functionAppEditModeSettingName = 'FUNCTION_APP_EDIT_MODE';
     public static instrumentationKeySettingName = 'APPINSIGHTS_INSTRUMENTATIONKEY';
-    public static slotsSecretStorageSettingsName = "AzureWebJobsSecretStorageType";
-    public static slotsSecretStorageSettingsValue = "Blob";
-    public static contentShareConfigSettingsName = "WEBSITE_CONTENTSHARE";
+    public static slotsSecretStorageSettingsName = 'AzureWebJobsSecretStorageType';
+    public static slotsSecretStorageSettingsValue = 'Blob';
+    public static contentShareConfigSettingsName = 'WEBSITE_CONTENTSHARE';
     public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
 
     public static httpMethods = new HttpMethods();
@@ -47,28 +45,28 @@ export class Constants {
     public static defaultBYOBLocation = '/data/byob_graphmap';
     public static MSGraphResource = 'https://graph.microsoft.com';
     public static latestMSGraphVersion = '1.0';
-    public static WebhookHandlerFunctionName = "RefreshO365Subscriptions";
-    public static WebhookHandlerFunctionId = "TimerTrigger-CSharpWebhookHandler";
-    public static WebhookFunctionName = "MSGraphWebhook";
+    public static WebhookHandlerFunctionName = 'RefreshO365Subscriptions';
+    public static WebhookHandlerFunctionId = 'TimerTrigger-CSharpWebhookHandler';
+    public static WebhookFunctionName = 'MSGraphWebhook';
 }
 
 export class TabCommunicationVerbs {
-    public static getStartInfo = "get-startup-info";
-    public static sentStartInfo = "startup-info";
-    public static updatedFile = "updated-file-notice"
-    public static newToken = "new-token";
-    public static parentClosed = "parent-window-closed";
+    public static getStartInfo = 'get-startup-info';
+    public static sentStartInfo = 'startup-info';
+    public static updatedFile = 'updated-file-notice';
+    public static newToken = 'new-token';
+    public static parentClosed = 'parent-window-closed';
 }
 
 export class SiteTabIds {
-    public static readonly overview = "overview";
-    public static readonly monitor = "monitor";
-    public static readonly features = "platformFeatures";
-    public static readonly functionRuntime = "functionRuntimeSettings";
-    public static readonly apiDefinition = "apiDefinition";
-    public static readonly config = "config";
-    public static readonly applicationSettings = "appSettings";
-    public static readonly logicApps = "logicApps";
+    public static readonly overview = 'overview';
+    public static readonly monitor = 'monitor';
+    public static readonly features = 'platformFeatures';
+    public static readonly functionRuntime = 'functionRuntimeSettings';
+    public static readonly apiDefinition = 'apiDefinition';
+    public static readonly config = 'config';
+    public static readonly applicationSettings = 'appSettings';
+    public static readonly logicApps = 'logicApps';
 }
 
 export class Arm {
@@ -92,20 +90,21 @@ export class NotificationIds {
 }
 
 export class Validations {
-    public static websiteNameMinLength: number = 2;
-    public static websiteNameMaxLength: number = 60;
+    public static websiteNameMinLength = 2;
+    public static websiteNameMaxLength = 60;
 }
 
 export class Regex {
-    public static readonly invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/;//matches any character(i.e. german, chinese, english) or -
+    public static readonly invalidEntityName: RegExp = /[^\u00BF-\u1FFF\u2C00-\uD7FF\a-zA-Z0-9-]/; // matches any character(i.e. german, chinese, english) or -
     public static readonly header: RegExp = /^[a-zA-Z0-9\-_]+$/;
+    public static queryParam: RegExp = /^[a-zA-Z0-9\-_*]+$/;
     public static readonly functionName: RegExp = /^[a-zA-Z][a-zA-Z0-9_\-]{0,127}$/;
 }
 
 export class Links {
-    public static standaloneCreateLearnMore = "https://go.microsoft.com/fwlink/?linkid=848756";
-    public static pythonLearnMore = "https://go.microsoft.com/fwlink/?linkid=852196";
-    public static clientAffinityLearnMore = "https://go.microsoft.com/fwlink/?linkid=798249";
+    public static standaloneCreateLearnMore = 'https://go.microsoft.com/fwlink/?linkid=848756';
+    public static pythonLearnMore = 'https://go.microsoft.com/fwlink/?linkid=852196';
+    public static clientAffinityLearnMore = 'https://go.microsoft.com/fwlink/?linkid=798249';
 }
 
 export class LocalStorageKeys {
@@ -115,39 +114,39 @@ export class LocalStorageKeys {
 
 export class Order {
     public static templateOrder: string[] =
-    [
-        'HttpTrigger-',
-        'TimerTrigger-',
-        'QueueTrigger-',
-        'ServiceBusQueueTrigger-',
-        'ServiceBusTopicTrigger-',
-        'BlobTrigger-',
-        'EventHubTrigger-',
-        'CosmosDBTrigger-',
-        'IoTHubTrigger-',
-        'IoTHubServiceBusQueueTrigger-',
-        'IoTHubServiceBusTopicTrigger-',
-        'GenericWebHook-',
-        'GitHubCommenter-',
-        'GitHubWebHook-',
-        'HttpGET(CRUD)-',
-        'HttpPOST(CRUD)-',
-        'HttpPUT(CRUD)-',
-        'HttpTriggerWithParameters-',
-        'ScheduledMail-',
-        'SendGrid-',
-        'FaceLocator-',
-        'ImageResizer-',
-        'SasToken-',
-        'ManualTrigger-',
-        'CDS-',
-        'AppInsightsHttpAvailability-',
-        'AppInsightsRealtimePowerBI-',
-        'AppInsightsScheduledAnalytics-',
-        'AppInsightsScheduledDigest-',
-        'ExternalFileTrigger-',
-        'ExternalTable-'
-    ]
+        [
+            'HttpTrigger-',
+            'TimerTrigger-',
+            'QueueTrigger-',
+            'ServiceBusQueueTrigger-',
+            'ServiceBusTopicTrigger-',
+            'BlobTrigger-',
+            'EventHubTrigger-',
+            'CosmosDBTrigger-',
+            'IoTHubTrigger-',
+            'IoTHubServiceBusQueueTrigger-',
+            'IoTHubServiceBusTopicTrigger-',
+            'GenericWebHook-',
+            'GitHubCommenter-',
+            'GitHubWebHook-',
+            'HttpGET(CRUD)-',
+            'HttpPOST(CRUD)-',
+            'HttpPUT(CRUD)-',
+            'HttpTriggerWithParameters-',
+            'ScheduledMail-',
+            'SendGrid-',
+            'FaceLocator-',
+            'ImageResizer-',
+            'SasToken-',
+            'ManualTrigger-',
+            'CDS-',
+            'AppInsightsHttpAvailability-',
+            'AppInsightsRealtimePowerBI-',
+            'AppInsightsScheduledAnalytics-',
+            'AppInsightsScheduledDigest-',
+            'ExternalFileTrigger-',
+            'ExternalTable-'
+        ];
 }
 
 // NOTE: If you change any string values here, make sure you search for references to the values
@@ -164,6 +163,7 @@ export class ScenarioIds {
     public static readonly addSiteQuotas = 'ShowSiteQuotas';
     public static readonly addConsole = 'AddConsole';
     public static readonly addSsh = 'AddSsh';
+    public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';
@@ -177,11 +177,11 @@ export class ScenarioIds {
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
+    public static readonly showSideNavMenu = 'ShowSideNavMenu';
     public static readonly enablePlatform64 = 'EnablePlatform64';
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
-
     public static readonly createApp = 'createApp';
     public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
     public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';
@@ -254,7 +254,7 @@ export class KeyCodes {
     public static readonly f2 = 113;
 }
 
-export class ExtensionInstallStatus {
+export class ExtensionInstallStatusConstants {
     public static readonly Started = 'Started';
     public static readonly Succeeded = 'Succeeded';
     public static readonly Failed = 'Failed';
@@ -266,7 +266,63 @@ export class DomEvents {
 }
 
 export class RuntimeImage {
-    public static readonly v1 = "v1";
-    public static readonly v2 = "v2";
-    public static readonly custom = "custom";
+    public static readonly v1 = 'v1';
+    public static readonly v2 = 'v2';
+    public static readonly custom = 'custom';
+}
+
+export class HttpConstants {
+    public static readonly statusCodeMap = {
+        0: 'Unknown HTTP Error',
+        100: 'Continue',
+        101: 'Switching Protocols',
+        102: 'Processing',
+        200: 'OK',
+        201: 'Created',
+        202: 'Accepted',
+        203: 'Non-Authoritative Information',
+        204: 'No Content',
+        205: 'Reset Content',
+        206: 'Partial Content',
+        300: 'Multiple Choices',
+        301: 'Moved Permanently',
+        302: 'Found',
+        303: 'See Other',
+        304: 'Not Modified',
+        305: 'Use Proxy',
+        306: '(Unused)',
+        307: 'Temporary Redirect',
+        400: 'Bad Request',
+        401: 'Unauthorized',
+        402: 'Payment Required',
+        403: 'Forbidden',
+        404: 'Not Found',
+        405: 'Method Not Allowed',
+        406: 'Not Acceptable',
+        407: 'Proxy Authentication Required',
+        408: 'Request Timeout',
+        409: 'Conflict',
+        410: 'Gone',
+        411: 'Length Required',
+        412: 'Precondition Failed',
+        413: 'Request Entity Too Large',
+        414: 'Request-URI Too Long',
+        415: 'Unsupported Media Type',
+        416: 'Requested Range Not Satisfiable',
+        417: 'Expectation Failed',
+        500: 'Internal Server Error',
+        501: 'Not Implemented',
+        502: 'Bad Gateway',
+        503: 'Service Unavailable',
+        504: 'Gateway Timeout',
+        505: 'HTTP Version Not Supported'
+    };
+
+    public static readonly genericStatusCodeMap = {
+        100: 'Informational',
+        200: 'Success',
+        300: 'Redirection',
+        400: 'Client Error',
+        500: 'Server Error'
+    };
 }

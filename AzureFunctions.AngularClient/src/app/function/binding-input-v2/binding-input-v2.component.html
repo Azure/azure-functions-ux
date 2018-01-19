@@ -1,29 +1,29 @@
 <event-hub *ngIf="pickerName === 'EventHub'"
-           [functionApp]="functionApp"
+           [viewInfo]="viewInfo"
            (close)="closePicker($event)"
            (selectItem)="finishDialogPicker($event)">
 </event-hub>
 
 <service-bus *ngIf="pickerName === 'ServiceBus'"
-             [functionApp]="functionApp"
+             [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">
 </service-bus>
 
 <app-setting *ngIf="pickerName === 'AppSetting' && input.id !== 'PrincipalId'"
-             [functionApp]="functionApp"
+             [viewInfo]="viewInfo"
              (close)="closePicker($event)"
              (selectItem)="finishDialogPicker($event)">
 </app-setting>
 
 <storage *ngIf="pickerName === 'Storage'"
-  [functionApp]="functionApp"
+  [viewInfo]="viewInfo"
   (close)="closePicker($event)"
   (selectItem)="finishDialogPicker($event)">
 </storage>
 
 <sql *ngIf="pickerName === 'Sql'"
-  [functionApp]="functionApp"
+  [viewInfo]="viewInfo"
   (close)="closePicker($event)"
   (selectItem)="finishDialogPicker($event)">
 </sql>
@@ -37,24 +37,24 @@
   <div class="input-header">
     <label [attr.for]="input?.id" class="control-label">
       {{input?.label}}
-        <span class="glyphicon glyphicon-info-sign" 
-              (click)="input.showHelp = !input.showHelp" 
+        <span class="glyphicon glyphicon-info-sign"
+              (click)="input.showHelp = !input.showHelp"
               tabindex="0"
               (keydown)="onInfoKeyPress($event, input)">
         </span>
     </label>
     <ng-container *ngIf="input?.type === 'picker'">
-      <i *ngIf="!input.inProcess && !showTryView" 
-         class="link" 
-         [class.select]="input.errorText" 
+      <i *ngIf="!input.inProcess && !showTryView"
+         class="link"
+         [class.select]="input.errorText"
          (click)="openPicker(input)"
          tabindex="0"
-         (keydown)="onNewKeyPress($event, input)"> 
+         (keydown)="onNewKeyPress($event, input)">
          {{ 'bindingInput_new' | translate }}
       </i>
-      <i *ngIf="!input.inProcess && showTryView" 
+      <i *ngIf="!input.inProcess && showTryView"
          class="link-position"
-         disabled [class.select]="input.errorText" 
+         disabled [class.select]="input.errorText"
          [tooltip]="freeAccountTooltip"
          tooltipPlacement="bottom">
          {{ 'bindingInput_new' | translate }}
@@ -74,15 +74,15 @@
     <span *ngIf="appSettingValue" class="text-label" style="word-wrap: break-word;">{{appSettingValue}}</span>
     <i *ngIf="!appSettingValue" class="fa fa-refresh fa-spin fa-fw margin-bottom"></i>
   </div>
-  <div *ngIf="input.showHelp" 
-       class="input-show-help" 
+  <div *ngIf="input.showHelp"
+       class="input-show-help"
        tabindex="0"
        (keydown)="onInfoKeyPress($event, input)">
     {{input?.help}}
   </div>
-  <div *ngIf="input?.type === 'string' || input?.type === 'int'" 
+  <div *ngIf="input?.type === 'string' || input?.type === 'int'"
        [ngClass]="input?.class">
-    <input [fnWriteAccess]="functionApp"
+    <input [fnWriteAccess]="context"
            style="width: 100%"
            *ngIf="input.type === 'string'" id="{{input.id}}"
            (ngModelChange)="inputChanged($event)"
@@ -92,7 +92,7 @@
            [ngClass]="{'input-error':!!input.errorText}"
            [disabled]="input.isDisabled || !!functionReturnValue">
 
-    <input [fnWriteAccess]="functionApp"
+    <input [fnWriteAccess]="context"
            style="width: 100%"
            *ngIf="input.type === 'int'" id="{{input.id}}"
            (ngModelChange)="inputChanged($event)"
@@ -116,12 +116,12 @@
       {{description}}
     </div>
     <div *ngIf="binding.direction.toString() === 'out' && input.id === 'name'">
-      <input [fnWriteAccess]="functionApp"
+      <input [fnWriteAccess]="context"
              style="width: 100%"
-             id="{{input.id}}" 
-             (ngModelChange)="functionReturnValueChanged($event)" 
-             [(ngModel)]="functionReturnValue" 
-             type="checkbox" 
+             id="{{input.id}}"
+             (ngModelChange)="functionReturnValueChanged($event)"
+             [(ngModel)]="functionReturnValue"
+             type="checkbox"
              style="margin-left:0px;">
       <label [attr.for]="input.id" class="control-label">
         {{'binding_useFunctionReturnValue' | translate }}
@@ -130,8 +130,8 @@
   </div>
 
   <div *ngIf="input?.type === 'picker'" [ngClass]="input?.class">
-    <drop-down [options]="pickerInputs" 
-               (value)="onDropDownInputChanged($event)" 
+    <drop-down [options]="pickerInputs"
+               (value)="onDropDownInputChanged($event)"
                [disabled]="input.isDisabled"
                attr.aria-label="{{input.label}}"></drop-down>
 
@@ -147,23 +147,23 @@
   </div>
 
   <div *ngIf="input?.type === 'boolean'" class="checkbox">
-    <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [fnWriteAccess]="functionApp">
+    <input id="{{input.id}}" (ngModelChange)="inputChanged($event)" [(ngModel)]="input.value" type="checkbox" style="margin-left:0px" [fnWriteAccess]="context">
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 
   <div *ngIf="input?.type === 'label'">
-    <input [fnWriteAccess]="functionApp" id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
+    <input [fnWriteAccess]="context" id="{{input.id}}" [(ngModel)]="input.value" type="text" placeholder="{{input.text}}" disabled>
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 
   <div *ngIf="input?.type === 'enum'" id="enum-list">
-    <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="functionApp" attr.aria-label="{{input.label}}"></drop-down>
+    <drop-down [options]="enumInputs" (value)="onDropDownInputChanged($event)" [fnWriteAccess]="context" attr.aria-label="{{input.label}}"></drop-down>
     <div *ngIf="!!input.errorText" class="error-output">{{input.errorText}}</div>
   </div>
 
   <div *ngIf="input?.type === 'checkBoxList'" class="methods-list">
     <div *ngFor="let item of input.enum">
-      <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" [fnWriteAccess]="functionApp"> {{ item.display }}
+      <input [(ngModel)]="input.value[item.value]" (ngModelChange)="inputChanged($event)" type="checkbox" [fnWriteAccess]="context"> {{ item.display }}
     </div>
   </div>
 

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UIResource } from '../shared/models/ui-resource';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { TryFunctionsService } from '../shared/services/try-functions.service';
@@ -15,7 +14,6 @@ import { AiService } from '../shared/services/ai.service';
     styleUrls: ['./try-now.component.scss']
 })
 export class TryNowComponent implements OnInit {
-    private uiResource: UIResource;
     private endTime: Date;
 
     public freeTrialUri: string;
@@ -27,7 +25,7 @@ export class TryNowComponent implements OnInit {
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService) {
-        // TODO: Add cookie referer details like in try
+        // TODO: [fashaikh] Add cookie referer details like in try
         this.freeTrialUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/free`;
         this.discoverMoreUri = `${window.location.protocol}//azure.microsoft.com/${window.navigator.language}/services/functions/`;
 
@@ -56,7 +54,6 @@ export class TryNowComponent implements OnInit {
 
         this._functionsService.getTrialResource()
             .subscribe((resource) => {
-                this.uiResource = resource;
                 this.endTime = new Date();
                 this.endTime.setSeconds(this.endTime.getSeconds() + resource.timeLeft);
                 callBack();

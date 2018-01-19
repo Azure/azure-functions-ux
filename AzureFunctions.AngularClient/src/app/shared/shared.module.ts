@@ -1,4 +1,8 @@
-import { FunctionsService } from './services/functions-service';
+import { PortalService } from 'app/shared/services/portal.service';
+import { Injector } from '@angular/core';
+import { TabComponent } from './../controls/tabs/tab/tab.component';
+import { ArmEmbeddedService } from './services/arm-embedded.service';
+import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { IsDirtyDirective } from './directives/is-dirty.directive';
 import { LoadImageDirective } from './../controls/load-image/load-image.directive';
 import { SlideToggleComponent } from './../controls/slide-toggle/slide-toggle.component';
@@ -13,13 +17,12 @@ import { BackgroundTasksService } from './services/background-tasks.service';
 import { UtilitiesService } from './services/utilities.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { AuthzService } from './services/authz.service';
-import { SiteService } from './services/slots.service';
+import { SlotsService } from './services/slots.service';
 import { ScenarioService } from './services/scenario/scenario.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from './services/log.service';
 import { FunctionMonitorService } from './services/function-monitor.service';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { PortalService } from './services/portal.service';
 import { LanguageService } from './services/language.service';
 import { TryFunctionsService } from './services/try-functions.service';
 import { ConfigService } from 'app/shared/services/config.service';
@@ -57,16 +60,22 @@ import { TableCellComponent } from './../controls/table-cell/table-cell.componen
 import { TableRowComponent } from './../controls/table-row/table-row.component';
 import { TableRootComponent } from './../controls/table-root/table-root.component';
 import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filter.pipe';
+import { ActivateWithKeysDirective } from './../controls/activate-with-keys/activate-with-keys.directive';
 
 export function ArmServiceFactory(
     http: Http,
     userService: UserService,
-    aiService: AiService) {
-    const service = Url.getParameterByName(null, 'trial') === 'true' ?
-        new ArmTryService(http, userService, aiService) :
-        new ArmService(http, userService, aiService);
+    portalService: PortalService,
+    aiService: AiService,
+    injector: Injector) {
 
-    return service;
+    if (Url.getParameterByName(null, 'trial') === 'true') {
+        return new ArmTryService(http, userService, portalService, aiService);
+    } else if (Url.getParameterByName(null, 'appsvc.embedded') === 'functions') {
+        return new ArmEmbeddedService(http, userService, aiService, portalService);
+    } else {
+        return new ArmService(http, userService, portalService, aiService);
+    }
 }
 
 export function AiServiceFactory() {
@@ -106,7 +115,9 @@ export function AiServiceFactory() {
         TableCellComponent,
         TableRowComponent,
         TableRootComponent,
-        DeletedItemsFilter
+        DeletedItemsFilter,
+        TabComponent,
+        ActivateWithKeysDirective
     ],
     exports: [
         CommonModule,
@@ -142,7 +153,9 @@ export function AiServiceFactory() {
         TableCellComponent,
         TableRowComponent,
         TableRootComponent,
-        DeletedItemsFilter
+        DeletedItemsFilter,
+        TabComponent,
+        ActivateWithKeysDirective
     ],
     imports: [
         FormsModule,
@@ -158,7 +171,7 @@ export class SharedModule {
             providers: [
                 ConfigService,
                 TryFunctionsService,
-                FunctionsService,
+                FunctionAppService,
                 UserService,
                 LanguageService,
                 PortalService,
@@ -169,12 +182,14 @@ export class SharedModule {
                     provide: ArmService, useFactory: ArmServiceFactory, deps: [
                         Http,
                         UserService,
-                        AiService
+                        PortalService,
+                        AiService,
+                        Injector
                     ]
                 },
                 CacheService,
                 ScenarioService,
-                SiteService,
+                SlotsService,
                 AuthzService,
                 LocalStorageService,
                 UtilitiesService,

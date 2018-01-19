@@ -1,6 +1,6 @@
+import { ScenarioIds, ServerFarmSku } from './../../models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
-import { ScenarioIds, ServerFarmSku } from './../../models/constants';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
 
 export class AzureEnvironment extends Environment {
@@ -54,6 +54,13 @@ export class AzureEnvironment extends Environment {
             id: ScenarioIds.enableAutoSwap,
             runCheck: (input: ScenarioCheckInput) => {
                 return this._enableIfStandardOrHigher(input);
+            }
+        };
+
+        this.scenarioChecks[ScenarioIds.showSideNavMenu] = {
+            id: ScenarioIds.showSideNavMenu,
+            runCheck: () => {
+                return { status: 'enabled' };
             }
         };
     }

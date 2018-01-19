@@ -27,6 +27,7 @@ export interface FunctionTemplateMetadata {
     warning: Warning;
     AADPermissions?: AADPermissions[];
     extensions: RuntimeExtension[];
+    categoryStyle: string;
 }
 
 export interface Warning {

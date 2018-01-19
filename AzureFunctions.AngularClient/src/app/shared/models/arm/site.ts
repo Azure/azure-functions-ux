@@ -3,10 +3,10 @@ import { HostingEnvironmentProfile } from './hosting-environment';
 export interface Site {
     state: string;
     hostNames: string[];
-    hostNameSslStates: [{
+    hostNameSslStates: Array<{
         name: string;
         hostType: number;
-    }];
+    }>;
     sku: string;
     targetSwapSlot?: string;
     containerSize: number;

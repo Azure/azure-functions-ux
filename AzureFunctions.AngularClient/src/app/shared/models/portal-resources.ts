@@ -1,5 +1,7 @@
 // This file is auto generated
-export class PortalResources {
+
+export class PortalResources
+{
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
@@ -67,7 +69,10 @@ export class PortalResources {
     public static logStreaming_clear: string = "logStreaming_clear";
     public static logStreaming_copied: string = "logStreaming_copied";
     public static logStreaming_copyLogs: string = "logStreaming_copyLogs";
+    public static logStreaming_noLogs: string = "logStreaming_noLogs";
+    public static logStreaming_failedToDownload: string = "logStreaming_failedToDownload";
     public static logStreaming_pause: string = "logStreaming_pause";
+    public static logStreaming_paused: string = "logStreaming_paused";
     public static logStreaming_start: string = "logStreaming_start";
     public static logStreaming_tooManyLogs: string = "logStreaming_tooManyLogs";
     public static _name: string = "_name";
@@ -242,8 +247,6 @@ export class PortalResources {
     public static fileExplorer_edit: string = "fileExplorer_edit";
     public static fileExplorer_upload: string = "fileExplorer_upload";
     public static storageLockNote: string = "storageLockNote";
-    public static storage_endpoint_azure: string = "storage_endpoint_azure";
-    public static storage_endpoint_other: string = "storage_endpoint_other";
     public static fileExplorer_fileAlreadyExists: string = "fileExplorer_fileAlreadyExists";
     public static functionNew_functionExsists: string = "functionNew_functionExsists";
     public static binding_storageAccountKey: string = "binding_storageAccountKey";
@@ -318,6 +321,7 @@ export class PortalResources {
     public static intro_signInWithGitHub: string = "intro_signInWithGitHub";
     public static intro_signInWithGoogle: string = "intro_signInWithGoogle";
     public static intro_signInWithMicrosoft: string = "intro_signInWithMicrosoft";
+    public static Logout: string = "Logout";
     public static apiProxy_backanrUrlStart: string = "apiProxy_backanrUrlStart";
     public static functionKeys_copy: string = "functionKeys_copy";
     public static functionKeys_renew: string = "functionKeys_renew";
@@ -358,6 +362,7 @@ export class PortalResources {
     public static siteDashboard_confirmLoseChanges: string = "siteDashboard_confirmLoseChanges";
     public static siteDashboard_getAppError: string = "siteDashboard_getAppError";
     public static siteDashboard_appNotFound: string = "siteDashboard_appNotFound";
+    public static siteDashboard_pinApp: string = "siteDashboard_pinApp";
     public static siteSummary_stopConfirmation: string = "siteSummary_stopConfirmation";
     public static siteSummary_stopNotifyTitle: string = "siteSummary_stopNotifyTitle";
     public static siteSummary_startNotifyTitle: string = "siteSummary_startNotifyTitle";
@@ -564,6 +569,7 @@ export class PortalResources {
     public static error_unableToSaveFileContentThroughKudu: string = "error_unableToSaveFileContentThroughKudu";
     public static error_unableToRetrieveDirectoryContent: string = "error_unableToRetrieveDirectoryContent";
     public static error_unableToRetrieveFunction: string = "error_unableToRetrieveFunction";
+    public static error_unableToSaveFunction: string = "error_unableToSaveFunction";
     public static error_unableToRetrieveRuntimeConfig: string = "error_unableToRetrieveRuntimeConfig";
     public static error_unableToRetrieveRuntimeKey: string = "error_unableToRetrieveRuntimeKey";
     public static error_unableToUpdateFunction: string = "error_unableToUpdateFunction";
@@ -618,6 +624,7 @@ export class PortalResources {
     public static appFunctionSettings_readOnlyMode: string = "appFunctionSettings_readOnlyMode";
     public static appFunctionSettings_readWriteMode: string = "appFunctionSettings_readWriteMode";
     public static validation_duplicateError: string = "validation_duplicateError";
+    public static validation_linuxAppSettingNameError: string = "validation_linuxAppSettingNameError";
     public static validation_requiredError: string = "validation_requiredError";
     public static validation_siteNameMinChars: string = "validation_siteNameMinChars";
     public static validation_siteNameMaxChars: string = "validation_siteNameMaxChars";
@@ -686,6 +693,20 @@ export class PortalResources {
     public static bindingInput_appSettingNotFound: string = "bindingInput_appSettingNotFound";
     public static bindingInput_show: string = "bindingInput_show";
     public static appSettingPicker_add: string = "appSettingPicker_add";
+    public static storage_add: string = "storage_add";
+    public static storage_accountName: string = "storage_accountName";
+    public static storage_accountKey: string = "storage_accountKey";
+    public static storage_appSettingName: string = "storage_appSettingName";
+    public static storage_appSettingName_empty_text: string = "storage_appSettingName_empty_text";
+    public static storage_endpoint: string = "storage_endpoint";
+    public static storage_endpoint_azure: string = "storage_endpoint_azure";
+    public static storage_endpoint_other: string = "storage_endpoint_other";
+    public static storage_endpoint_empty_text: string = "storage_endpoint_empty_text";
+    public static sql_add: string = "sql_add";
+    public static sql_endpoint: string = "sql_endpoint";
+    public static sql_database_name: string = "sql_database_name";
+    public static sql_user_name: string = "sql_user_name";
+    public static sql_password: string = "sql_password";
     public static download: string = "download";
     public static downloadFunctionAppContent_includeAppSettings: string = "downloadFunctionAppContent_includeAppSettings";
     public static downloadFunctionAppContent_includeAppSettingsHelp: string = "downloadFunctionAppContent_includeAppSettingsHelp";
@@ -798,4 +819,10 @@ export class PortalResources {
     public static monitoring_appInsightsIsNotFound: string = "monitoring_appInsightsIsNotFound";
     public static table_startOfRow: string = "table_startOfRow";
     public static table_endOfRow: string = "table_endOfRow";
+    public static appFunctionSettings_warning_6: string = "appFunctionSettings_warning_6";
+    public static appFunctionSettings_warning_7: string = "appFunctionSettings_warning_7";
+    public static warning: string = "warning";
+    public static entity: string = "entity";
+    public static entityColon: string = "entityColon";
+    public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
 }
