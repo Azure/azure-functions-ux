@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-import { SaveOrValidationResult } from '../site-config.component';
+import { ArmSaveConfigs, ArmSaveResults } from './../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { AvailableStackNames, AvailableStack, Framework, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
@@ -46,7 +46,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     private _busyManager: BusyStateScopeManager;
 
-    private _saveError: string;
+    private _saveFailed: boolean;
+    private _siteConfigSubmitted: boolean;
+    private _webConfigSubmitted: boolean;
 
     private _webConfigArm: ArmObj<SiteConfig>;
     public siteArm: ArmObj<Site>;
@@ -126,7 +128,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             .distinctUntilChanged()
             .switchMap(() => {
                 this._busyManager.setBusy();
-                this._saveError = null;
+                this._saveFailed = false;
+                this._siteConfigSubmitted = false;
+                this._webConfigSubmitted = false;
                 this.siteArm = null;
                 this._webConfigArm = null;
                 this.group = null;
@@ -209,7 +213,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         const inputs = {
             aspResourceId: this.siteArm.properties.serverFarmId,
             aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
-                && this.siteArm.properties.hostingEnvironmentProfile.id
+            && this.siteArm.properties.hostingEnvironmentProfile.id
         };
 
         const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
@@ -351,7 +355,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
             this._ignoreChildEvents = true;
 
-            if (!this._saveError || !this.group) {
+            if (!this._saveFailed || !this.group) {
                 const group = this._fb.group({});
                 const versionOptionsMap: { [key: string]: DropDownElement<string>[] } = {};
                 const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
@@ -395,7 +399,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
         }
 
-        this._saveError = null;
+        this._saveFailed = false;
+        this._siteConfigSubmitted = false;
+        this._webConfigSubmitted = false;
     }
 
     private _setControlsEnabledState(names: string[], enabled: boolean) {
@@ -1013,41 +1019,70 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         }
     }
 
-    validate(): SaveOrValidationResult {
+    validate() {
         let controls = this.group.controls;
         for (const controlName in controls) {
             const control = <CustomFormControl>controls[controlName];
             control._msRunValidation = true;
             control.updateValueAndValidity();
         }
-
-        return {
-            success: this.group.valid,
-            error: this.group.valid ? null : this._validationFailureMessage()
-        };
     }
 
-    save(): Observable<SaveOrValidationResult> {
-        // Don't make unnecessary PATCH call if these settings haven't been changed
-        if (this.group.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else if (this.mainForm.contains('generalSettings') && this.mainForm.controls['generalSettings'].valid) {
-            const generalSettingsControls = this.group.controls;
+    getSaveConfigs(saveConfigs: ArmSaveConfigs) {
+        this._siteConfigSubmitted = false;
+        this._webConfigSubmitted = false;
 
-            // level: site
-            const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this.siteArm));
+        if (!this.group.pristine) {
+            const configs = this._getConfigsFromForms(saveConfigs);
 
-            if (this.clientAffinitySupported) {
-                const clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
-                siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled;
+            if (configs.siteConfig) {
+                saveConfigs.siteConfig = configs.siteConfig;
+                this._siteConfigSubmitted = true;
             }
 
-            // level: site/config/web
-            const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
-            webConfigArm.properties = {};
+            if (configs.webConfig) {
+                saveConfigs.webConfig = configs.webConfig;
+                this._webConfigSubmitted = true;
+            }
+        }
+    }
+
+    private _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
+        const generalSettingsControls = this.group.controls;
+
+        let siteConfigPristine = true;
+        let webConfigPristine = true;
+
+        for (let name in generalSettingsControls) {
+            if (generalSettingsControls[name].dirty) {
+                if (name === 'clientAffinityEnabled') {
+                    siteConfigPristine = false;
+                } else {
+                    webConfigPristine = false;
+                }
+            }
+        }
+
+        let siteConfigArm: ArmObj<Site> = null;
+
+        if (!siteConfigPristine) {
+            siteConfigArm = (saveConfigs && saveConfigs.siteConfig) ?
+                JSON.parse(JSON.stringify(saveConfigs.siteConfig)) :
+                JSON.parse(JSON.stringify(this.siteArm));
+            siteConfigArm.id = this.resourceId;
+
+            if (this.clientAffinitySupported) {
+                siteConfigArm.properties.clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);;
+            }
+        }
+
+        let webConfigArm: ArmObj<SiteConfig> = null;
+
+        if (!webConfigPristine) {
+            webConfigArm = (saveConfigs && saveConfigs.webConfig) ?
+                JSON.parse(JSON.stringify(saveConfigs.webConfig)) :
+                JSON.parse(JSON.stringify(this._webConfigArm));
+            webConfigArm.id = `${this.resourceId}/config/web`;
 
             // -- non-stack settings --
             if (this.platform64BitSupported) {
@@ -1091,39 +1126,29 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
                 webConfigArm.properties.linuxFxVersion = <string>(generalSettingsControls['linuxFxVersion'].value);
                 webConfigArm.properties.appCommandLine = <string>(generalSettingsControls['appCommandLine'].value);
             }
-
-            return Observable.zip(
-                this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm),
-                this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm),
-                (c, w) => ({ siteConfigResponse: c, webConfigResponse: w })
-            )
-                .map(r => {
-                    this.siteArm = r.siteConfigResponse.json();
-                    this._webConfigArm = r.webConfigResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
-                });
-        } else {
-            const failureMessage = this._validationFailureMessage();
-            this._saveError = failureMessage;
-            return Observable.of({
-                success: false,
-                error: failureMessage
-            });
         }
+
+        return {
+            siteConfig: siteConfigArm,
+            webConfig: webConfigArm
+        };
     }
 
-    private _validationFailureMessage(): string {
-        const configGroupName = this._translateService.instant(PortalResources.feature_generalSettingsName);
-        return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+    processSaveResults(results: ArmSaveResults) {
+        if (results && results.siteConfig && results.siteConfig.success && results.siteConfig.result) {
+            this.siteArm = results.siteConfig.result;
+        } else if (this._siteConfigSubmitted) {
+            this._siteConfigSubmitted = false;
+            this._saveFailed = true;
+            //TODO: [andimarc] throw exception if (!result || !result.siteConfig)?
+        }
+
+        if (results && results.webConfig && results.webConfig.success && results.webConfig.result) {
+            this._webConfigArm = results.webConfig.result;
+        } else if (this._webConfigSubmitted) {
+            this._webConfigSubmitted = false;
+            this._saveFailed = true;
+            //TODO: [andimarc] throw exception if (!result || !result.webConfig)?
+        }
     }
 }

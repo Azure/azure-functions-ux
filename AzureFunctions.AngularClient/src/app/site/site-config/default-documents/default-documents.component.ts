@@ -8,7 +8,7 @@ import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SiteConfig } from './../../../shared/models/arm/site-config'
-import { SaveOrValidationResult } from './../site-config.component';
+import { ArmSaveConfigs, ArmSaveResults } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -37,7 +37,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
 
     private _busyManager: BusyStateScopeManager;
 
-    private _saveError: string;
+    private _saveFailed: boolean;
+    private _webConfigSubmitted: boolean;
 
     private _requiredValidator: RequiredValidator;
     private _uniqueDocumentValidator: UniqueValidator;
@@ -74,7 +75,8 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
             .distinctUntilChanged()
             .switchMap(() => {
                 this._busyManager.setBusy();
-                this._saveError = null;
+                this._saveFailed = false;
+                this._webConfigSubmitted = false;
                 this._webConfigArm = null;
                 this.groupArray = null;
                 this.newItem = null;
@@ -151,7 +153,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
 
     private _setupForm(webConfigArm: ArmObj<SiteConfig>) {
         if (!!webConfigArm) {
-            if (!this._saveError || !this.groupArray) {
+            if (!this._saveFailed || !this.groupArray) {
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
@@ -194,10 +196,11 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
             }
         }
 
-        this._saveError = null;
+        this._saveFailed = false;
+        this._webConfigSubmitted = false;
     }
 
-    validate(): SaveOrValidationResult {
+    validate() {
         const groups = this.groupArray.controls;
 
         // Purge any added entries that were never modified
@@ -212,11 +215,6 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
         }
 
         this._validateAllControls(groups as CustomFormGroup[]);
-
-        return {
-            success: this.groupArray.valid,
-            error: this.groupArray.valid ? null : this._validationFailureMessage()
-        };
     }
 
     private _validateAllControls(groups: CustomFormGroup[]) {
@@ -230,54 +228,47 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
         });
     }
 
-    save(): Observable<SaveOrValidationResult> {
-        // Don't make unnecessary PATCH call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else if (this.mainForm.contains('defaultDocs') && this.mainForm.controls['defaultDocs'].valid) {
-            const defaultDocGroups = this.groupArray.controls;
+    getSaveConfigs(saveConfigs: ArmSaveConfigs) {
+        this._webConfigSubmitted = false;
 
-            const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
-            webConfigArm.properties = {};
+        if (!this.groupArray.pristine) {
+            const configs = this._getConfigsFromForms(saveConfigs);
 
-            webConfigArm.properties.defaultDocuments = [];
-            defaultDocGroups.forEach(group => {
-                if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
-                    webConfigArm.properties.defaultDocuments.push((group as FormGroup).controls['name'].value);
-                }
-            });
-
-            return this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm)
-                .map(webConfigResponse => {
-                    this._webConfigArm = webConfigResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
-                });
-        } else {
-            const failureMessage = this._validationFailureMessage();
-            this._saveError = failureMessage;
-            return Observable.of({
-                success: false,
-                error: failureMessage
-            });
+            if (configs.webConfig) {
+                saveConfigs.webConfig = configs.webConfig;
+                this._webConfigSubmitted = true;
+            }
         }
     }
 
-    private _validationFailureMessage(): string {
-        const configGroupName = this._translateService.instant(PortalResources.feature_defaultDocumentsName);
-        return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+    private _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
+        const webConfigArm: ArmObj<SiteConfig> = (saveConfigs && saveConfigs.webConfig) ?
+            JSON.parse(JSON.stringify(saveConfigs.webConfig)) :
+            JSON.parse(JSON.stringify(this._webConfigArm));
+        webConfigArm.id = `${this.resourceId}/config/web`;
+        webConfigArm.properties.defaultDocuments = [];
+
+        const defaultDocuments: string[] = webConfigArm.properties.defaultDocuments;
+
+        this.groupArray.controls.forEach(group => {
+            if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+                defaultDocuments.push((group as FormGroup).controls['name'].value);
+            }
+        });
+
+        return {
+            webConfig: webConfigArm
+        };
+    }
+
+    processSaveResults(results: ArmSaveResults) {
+        if (results && results.webConfig && results.webConfig.success && results.webConfig.result) {
+            this._webConfigArm = results.webConfig.result;
+        } else if (this._webConfigSubmitted) {
+            this._webConfigSubmitted = false;
+            this._saveFailed = true;
+            //TODO: [andimarc] throw exception if (!result || !result.webConfig)?
+        }
     }
 
     deleteItem(group: FormGroup) {
