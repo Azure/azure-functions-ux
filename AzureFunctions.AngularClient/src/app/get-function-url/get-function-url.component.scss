@@ -1,0 +1,10 @@
+@import '../../sass/common/variables';
+
+.keys-dialog-body {
+    display: flex;
+}
+
+.keys-dialog-body-invokeUrl {
+    flex-grow:1;
+    width: 0px; /*IE 11 fix*/
+}

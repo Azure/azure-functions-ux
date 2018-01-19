@@ -89,6 +89,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     public eventGridSubscribeUrl: string;
     public selectedFileStream: Subject<VfsObject>;
     public functionKey: string;
+    public setKey: Subject<string> = new Subject<string>();
 
     private updatedContent: string;
     private updatedTestContent: string;
@@ -141,6 +142,10 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         this.functionUpdate = broadcastService.subscribe(BroadcastEvent.FunctionUpdated, (newFunctionInfo: FunctionInfo) => {
             this.functionInfo.config = newFunctionInfo.config;
             this.setInvokeUrlVisibility();
+        });
+
+        this.setKey.subscribe(key => {
+            this.onChangeKey(key);
         });
     }
 

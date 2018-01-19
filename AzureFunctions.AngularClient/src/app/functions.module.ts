@@ -28,6 +28,7 @@ import { FunctionIntegrateComponent } from './function-integrate/function-integr
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { LogStreamingComponent } from './log-streaming/log-streaming.component';
 import { FunctionDevComponent } from './function-dev/function-dev.component';
+import { GetFunctionUrlComponent } from './get-function-url/get-function-url.component'
 import { FunctionEditComponent } from './function-edit/function-edit.component';
 import { FunctionsListComponent } from './functions-list/functions-list.component';
 import { PopoverModule } from 'ng2-popover';
@@ -134,7 +135,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         BindingInputV2Component,
         JavaSplashPageComponent,
         SidebarPickerComponent,
-        ExtensionInstallDetailComponent
+        ExtensionInstallDetailComponent,
+        GetFunctionUrlComponent
     ],
     providers: []
 })
