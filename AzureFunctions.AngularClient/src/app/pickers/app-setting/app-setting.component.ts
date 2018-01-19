@@ -1,19 +1,17 @@
-import { Component, Output } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
+import { FunctionApp } from '../../shared/function-app';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { Subject } from 'rxjs/Subject';
 import { ArmService } from '../../shared/services/arm.service';
-import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { BroadcastService } from '../../shared/services/broadcast.service';
 
 @Component({
     selector: 'app-setting',
     templateUrl: './app-setting.component.html',
     styleUrls: ['./../picker.scss']
 })
-export class AppSettingComponent extends FunctionAppContextComponent {
+export class AppSettingComponent implements OnInit {
 
     public appSettingName: string;
     public appSettingValue: string;
@@ -22,13 +20,19 @@ export class AppSettingComponent extends FunctionAppContextComponent {
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
+    private _functionApp: FunctionApp;
+
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
-        private _globalStateService: GlobalStateService,
-        functionAppService: FunctionAppService,
-        broadcastService: BroadcastService) {
-        super('app-setting', functionAppService, broadcastService);
+        private _globalStateService: GlobalStateService) { }
+
+    ngOnInit() {
+    }
+
+
+    @Input() set functionApp(functionApp: FunctionApp) {
+        this._functionApp = functionApp;
     }
 
     onClose() {
@@ -40,7 +44,7 @@ export class AppSettingComponent extends FunctionAppContextComponent {
     onSelect() {
         this.selectInProcess = true;
         this._globalStateService.setBusyState();
-        this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true).flatMap(r => {
+        this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
             const appSettings: ArmObj<any> = r.json();
             appSettings.properties[this.appSettingName] = this.appSettingValue;
             return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);

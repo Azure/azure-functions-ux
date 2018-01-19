@@ -1,8 +1,8 @@
-import { LogCategories } from './../shared/models/constants';
-import { Constants } from 'app/shared/models/constants';
+import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../shared/services/log.service';
-import { Component } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 
 import { FunctionInfo } from '../shared/models/function-info';
@@ -11,13 +11,10 @@ import { FunctionInvocations } from '../shared/models/function-monitor';
 
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
+import { SiteService } from './../shared/services/slots.service';
 import { PortalService } from './../shared/services/portal.service';
 import { CacheService } from './../shared/services/cache.service';
-import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Subscription } from 'rxjs/Subscription';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { BaseFunctionComponent } from '../shared/components/base-function-component';
+import { Constants } from './../shared/models/constants';
 
 declare const moment: any;
 
@@ -26,8 +23,7 @@ declare const moment: any;
     templateUrl: './function-monitor.component.html',
     styleUrls: ['./function-monitor.component.scss']
 })
-export class FunctionMonitorComponent extends BaseFunctionComponent {
-    public pulseUrl: string;
+export class FunctionMonitorComponent implements OnDestroy {
     public rows: FunctionInvocations[]; // the data for the InvocationsLog table
     public successAggregateHeading: string;
     public errorsAggregateHeading: string;
@@ -39,18 +35,17 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
     public aiId: string = null;
     public azureWebJobsDashboardMissed = true;
     public aiNotFound = false;
+    private selectedFunctionStream: Subject<FunctionInfo>;
 
     constructor(
         public globalStateService: GlobalStateService,
         private _functionMonitorService: FunctionMonitorService,
         private _translateService: TranslateService,
+        private _slotsService: SiteService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
-        broadcastService: BroadcastService,
-        private _functionAppService: FunctionAppService,
         private _logService: LogService
     ) {
-        super('function-monitor', broadcastService, _functionAppService, () => globalStateService.setBusyState(), DashboardType.FunctionMonitorDashboard);
         this.columns = [
             {
                 display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn), // The display text
@@ -73,20 +68,20 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
                 formatTo: 'number'
             }
         ];
-    }
 
-    setupNavigation(): Subscription {
-        return this.functionChangedEvents
+        this.selectedFunctionStream = new Subject();
+        this.selectedFunctionStream
             .switchMap(fi => {
-                this.currentFunction = fi.functionInfo.result;
+                this.currentFunction = fi;
                 this.globalStateService.setBusyState();
                 return Observable.zip(
-                    this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
-                    this._functionAppService.isAppInsightsEnabled(this.context.site.id));
+                    this._cacheService.postArm(`${this.currentFunction.functionApp.site.id}/config/appsettings/list`, true),
+                    this._slotsService.isAppInsightsEnabled(this.currentFunction.functionApp.site.id),
+                    (as, ai) => ({ appSettings: as, appInsights: ai }));
             })
             .switchMap(r => {
-                const appSettings = r[0].json();
-                this.aiId = r[1] || '';
+                const appSettings = r.appSettings.json();
+                this.aiId = r.appInsights ? r.appInsights : '';
 
                 // In case App Insight is located in another subscription show warning
                 this.aiNotFound = !this.aiId && appSettings.properties[Constants.instrumentationKeySettingName];
@@ -94,7 +89,7 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
                 if (!appSettings.properties[Constants.azureWebJobsDashboardSettingsName]) {
                     this.azureWebJobsDashboardMissed = true;
                     if (this.aiId) {
-                        this.openAppInsigthsBlade();
+                        this.openAppInsightsBlade();
                     }
                     return Observable.of(null);
                 } else {
@@ -110,14 +105,14 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
                 this.successAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
                 this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format('MMM Do')}`;
 
-                return this._functionAppService.getFunctionHostStatus(this.context)
-                    .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(this.context, this.currentFunction, host.isSuccessful ? host.result.id : ''))
+                return this.currentFunction.functionApp.checkRuntimeStatus()
+                    .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(this.currentFunction, host.id))
                     .flatMap(data => {
                         this.functionId = !!data ? data.functionId : '';
                         this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
                         this.errorsAggregate = !!data ? data.failedCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
                         return !!data
-                            ? this._functionMonitorService.getInvocationsDataForSelectedFunction(this.context, this.functionId)
+                            ? this._functionMonitorService.getInvocationsDataForSelectedFunction(this.currentFunction.functionApp, this.functionId)
                             : Observable.of([]);
                     });
             })
@@ -125,6 +120,7 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
                 this._logService.error(LogCategories.FunctionMonitor, '/function-monitor/selected-function-stream', e);
                 this.globalStateService.clearBusyState();
             })
+            .retry()
             .subscribe(result => {
                 this.globalStateService.clearBusyState();
                 if (result) {
@@ -133,7 +129,19 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
             }, null, () => this.globalStateService.clearBusyState());
     }
 
-    openAppInsigthsBlade() {
+    @Input() set selectedFunction(value: FunctionInfo) {
+        this.selectedFunctionStream.next(value);
+    }
+
+    ngOnDestroy() {
+        if (this.selectedFunctionStream) {
+            this.selectedFunctionStream.complete();
+            this.selectedFunctionStream.unsubscribe();
+            this.selectedFunctionStream = null;
+        }
+    }
+
+    openAppInsightsBlade() {
         this._portalService.openBlade(
             {
                 detailBlade: 'AspNetOverview',

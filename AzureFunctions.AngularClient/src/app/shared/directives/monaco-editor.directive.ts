@@ -1,9 +1,10 @@
 import { UserService } from './../services/user.service';
 import { Directive, EventEmitter, ElementRef, Input, Output, HostBinding } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { GlobalStateService } from '../services/global-state.service';
-import { CacheService } from 'app/shared/services/cache.service';
+import { FunctionApp } from '../function-app';
 
 declare var monaco;
 
@@ -22,12 +23,13 @@ export class MonacoEditorDirective {
     private _editor: any;
     private _silent: boolean = false;
     private _fileName: string;
+    private _functionAppStream: Subject<FunctionApp>;
+    private _functionApp: FunctionApp;
     private _theme: string;
 
     constructor(
         public elementRef: ElementRef,
         private _globalStateService: GlobalStateService,
-        private _cacheService: CacheService,
         private _userService: UserService) {
 
         this.onContentChanged = new EventEmitter<string>();
@@ -40,7 +42,17 @@ export class MonacoEditorDirective {
                 this._theme = info.theme;
             });
 
-        this.init();
+        this._functionAppStream = new Subject<FunctionApp>();
+        this._functionAppStream
+            .distinctUntilChanged()
+            .subscribe(functionApp => {
+                this._functionApp = functionApp;
+                this.init();
+            });
+    }
+
+    @Input('functionAppInput') set functionAppInput(functionApp: FunctionApp) {
+        this._functionAppStream.next(functionApp);
     }
 
     @Input('content') set content(str: string) {
@@ -144,7 +156,7 @@ export class MonacoEditorDirective {
                 let fileName = that._fileName || '';
                 fileName = fileName.toLocaleLowerCase();
                 if (fileName === projectJson || fileName === functionJson || fileName === hostJson) {
-                    that.setMonacoSchema(fileName);
+                    that.setMonacoSchema(fileName, that._functionApp);
                 } else {
                     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
                         validate: true,
@@ -204,8 +216,8 @@ export class MonacoEditorDirective {
         }
     }
 
-    setMonacoSchema(schemaName: string) {
-        this._cacheService.get('assets/schemas/' + schemaName)
+    setMonacoSchema(schemaName: string, functionApp: FunctionApp) {
+        functionApp.getJson('assets/schemas/' + schemaName)
             .subscribe((schema) => {
                 schema.additionalProperties = false;
                 monaco.languages.json.jsonDefaults.setDiagnosticsOptions({

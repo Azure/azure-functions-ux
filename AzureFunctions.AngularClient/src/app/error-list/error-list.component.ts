@@ -5,7 +5,7 @@ import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalService } from '../shared/services/portal.service';
 import { ErrorItem } from '../shared/models/error-item';
-import { ErrorEvent } from '../shared/models/error-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 
 @Component({
     selector: 'error-list',
@@ -26,17 +26,21 @@ export class ErrorListComponent {
                     message: error.message,
                     dateTime: new Date().toISOString(),
                     date: new Date(),
+                    errorType: error.errorType,
                     errorIds: [error.errorId],
-                    dismissable: true
+                    dismissable: error.errorType !== ErrorType.Fatal
                 };
                 const existingError = this.errorList.find(e => e.message === errorItem.message);
                 if (existingError && !existingError.errorIds.find(e => e === error.errorId)) {
                     existingError.errorIds.push(error.errorId);
                 } else if (!existingError) {
                     this.errorList.push(errorItem);
+                    if (this.errorList.find(e => e.errorType === ErrorType.Fatal)) {
+                        this.errorList = this.errorList.filter(e => e.errorType === ErrorType.Fatal);
+                    }
                     if (this.errorList.find(e => e === errorItem)) {
                         this._aiService.trackEvent('/errors/portal/visibleError', {
-                            error: error.message,
+                            error: error.details,
                             message: error.message,
                             errorId: error.errorId,
                             displayedGeneric: false.toString(),
@@ -47,7 +51,7 @@ export class ErrorListComponent {
             } else {
                 if (error) {
                     this._aiService.trackEvent('/errors/portal/unknown', {
-                        error: error.message,
+                        error: error.details,
                         appName: error.resourceId,
                         displayedGeneric: true.toString()
                     });

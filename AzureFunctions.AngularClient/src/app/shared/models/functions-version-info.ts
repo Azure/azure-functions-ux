@@ -12,7 +12,7 @@ export class FunctionsVersionInfoHelper {
         return !match;
     }
 
-    public static getFunctionGeneration(runtimeVersion: string) {
+    public static getFuntionGeneration(runtimeVersion: string) {
         if (!runtimeVersion) {
             return 'V1';
         }

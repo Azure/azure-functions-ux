@@ -21,14 +21,9 @@ namespace AzureFunctions.Common
         public const string FrontEndPrincipalNameHeader = "X-MS-CLIENT-PRINCIPAL-NAME";
         public const string AnonymousUserName = "Anonymous";
         public const string PortalReferrer = "portal.azure.com";
-        public const string PortalDeReferrer = "portal.microsoftazure.de";
-        public const string PortalCnReferrer = "portal.azure.cn";
-        public const string PortalUsReferrer = "portal.azure.us";
-        public const string PowerAppsReferrerSuffix = "powerapps.com";
         public const string PortalAnonymousUser = "Portal/1.0.0";
         public const string FrontEndAuthenticatedUser = "FrontEndAuthenticatedUser";
         public const string CurrentLatestRuntimeVersion = "~1";
-        public const string Authorization = "Authorization";
 
         private static object _lock = new object();
         private static string _currentCommitId;

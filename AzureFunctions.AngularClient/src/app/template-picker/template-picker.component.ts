@@ -1,21 +1,17 @@
-﻿import { Order } from './../shared/models/constants';
-import { Component, Output, Input, EventEmitter } from '@angular/core';
+﻿import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { TemplatePickerType, Template } from '../shared/models/template-picker';
 import { DirectionType, Binding } from '../shared/models/binding';
 import { BindingManager } from '../shared/models/binding-manager';
+import { FunctionApp } from '../shared/function-app';
 import { TemplateFilterItem } from '../shared/models/template';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { DropDownElement } from '../shared/models/drop-down-element';
 import { PortalResources } from '../shared/models/portal-resources';
-import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { Subscription } from 'rxjs/Subscription';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Observable } from 'rxjs/Observable';
+import { Order } from '../shared/models/constants';
 
 interface CategoryOrder {
     name: string;
@@ -25,12 +21,14 @@ interface CategoryOrder {
 @Component({
     selector: 'template-picker',
     templateUrl: './template-picker.component.html',
+    inputs: ['functionAppInput', 'type', 'template'],
     styleUrls: ['./template-picker.component.scss']
 })
 
-export class TemplatePickerComponent extends FunctionAppContextComponent {
+export class TemplatePickerComponent {
     public languages: DropDownElement<string>[] = [];
     public categories: DropDownElement<string>[] = [];
+    private showTryView: boolean;
     title: string;
     selectedTemplate: string;
     templates: Template[] = [];
@@ -42,14 +40,9 @@ export class TemplatePickerComponent extends FunctionAppContextComponent {
     private _language = '';
     private _type: TemplatePickerType;
     private _orderedCategoties: CategoryOrder[] = [];
-    private _typeSubject: ReplaySubject<TemplatePickerType>;
+    private _functionAppStream = new Subject<FunctionApp>();
+    private _functionApp: FunctionApp;
 
-    @Input()
-    set type(type: TemplatePickerType) {
-        this._typeSubject.next(type);
-    }
-
-    @Input()
     set template(value: string) {
         if (value) {
             this.onTemplateClicked(value, false);
@@ -62,12 +55,15 @@ export class TemplatePickerComponent extends FunctionAppContextComponent {
 
     constructor(
         private _globalStateService: GlobalStateService,
-        private _functionAppService: FunctionAppService,
-        private _translateService: TranslateService,
-        broadcastService: BroadcastService) {
-        super('template-picker', _functionAppService, broadcastService, () => _globalStateService.setBusyState(), () => _globalStateService.clearBusyState());
-        this._typeSubject = new ReplaySubject(1);
+        private _translateService: TranslateService) {
 
+        this._functionAppStream
+            .distinctUntilChanged()
+            .subscribe(functionApp => {
+                this._functionApp = functionApp;
+            });
+
+        this.showTryView = this._globalStateService.showTryView;
         this._language = this._translateService.instant('temp_category_all');
 
         this._orderedCategoties = [
@@ -99,151 +95,150 @@ export class TemplatePickerComponent extends FunctionAppContextComponent {
         ];
     }
 
-    setup(): Subscription {
-        return this.viewInfoEvents
-            .combineLatest(this._typeSubject, (_, b) => b)
-            .switchMap(pickerType => Observable.zip(
-                this._functionAppService.getTemplates(this.context),
-                this._functionAppService.getBindingConfig(this.context),
-                Observable.of(pickerType)
-            ))
-            .subscribe(tuple => {
-                const type = tuple[2];
-                this.isTemplate = (type === TemplatePickerType.template);
-                this._type = type;
-                this._globalStateService.setBusyState();
+    set functionAppInput(functionApp: FunctionApp) {
+        this._functionAppStream.next(functionApp);
+    }
+
+    set type(type: TemplatePickerType) {
+        this.isTemplate = (type === TemplatePickerType.template);
+        this._type = type;
+        this._globalStateService.setBusyState();
+        this._functionApp.getTemplates().subscribe((templates) => {
+            this._functionApp.getBindingConfig().subscribe((config) => {
                 this._globalStateService.clearBusyState();
-                if (tuple[0].isSuccessful && tuple[1].isSuccessful) {
-                    const config = tuple[1].result;
-                    const templates = tuple[0].result;
-                    this.bindings = config.bindings;
-                    this.templates = [];
-                    switch (type) {
-                        case TemplatePickerType.in:
-                            this.title = this._translateService.instant(PortalResources.templatePicker_chooseInput);
-                            this.templates = this.getBindingTemplates(DirectionType.in);
-                            break;
-                        case TemplatePickerType.out:
-                            this.title = this._translateService.instant(PortalResources.templatePicker_chooseOutput);
-                            this.templates = this.getBindingTemplates(DirectionType.out);
-                            break;
-                        case TemplatePickerType.trigger:
-                            this.title = this._translateService.instant(PortalResources.templatePicker_chooseTrigger);
-                            this.templates = this.getBindingTemplates(DirectionType.trigger);
-                            break;
-                        case TemplatePickerType.template:
-                            this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
+                this.bindings = config.bindings;
+                this.templates = [];
+                switch (type) {
+                    case TemplatePickerType.in:
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseInput);
+                        this.templates = this.getBindingTemplates(DirectionType.in);
+                        break;
+                    case TemplatePickerType.out:
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseOutput);
+                        this.templates = this.getBindingTemplates(DirectionType.out);
+                        break;
+                    case TemplatePickerType.trigger:
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTrigger);
+                        this.templates = this.getBindingTemplates(DirectionType.trigger);
+                        break;
+                    case TemplatePickerType.template:
+                        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
 
-                            let initLanguages = false, initCategories = false;
-                            if (this.languages.length === 0) {
-                                this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all'), default: true }];
-                                initLanguages = true;
+                        let initLanguages = false, initCategories = false;
+                        if (this.languages.length === 0) {
+                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all'), default: true }];
+                            initLanguages = true;
+                        }
+
+
+                        if (this.categories.length === 0) {
+                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all') }];
+                            initCategories = true;
+                        }
+
+                        templates.forEach((template) => {
+
+                            if (template.metadata.visible === false) {
+                                return;
                             }
 
-                            if (this.categories.length === 0) {
-                                this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all') }];
-                                initCategories = true;
+                            if (!this.getFilterMatch(template.metadata.filters)) {
+                                return;
                             }
 
-                            templates.forEach((template) => {
-                                if (template.metadata.visible === false) {
-                                    return;
-                                }
-
-                                if (!this.getFilterMatch(template.metadata.filters)) {
-                                    return;
-                                }
-
-                                if (initLanguages) {
-                                    const lang = this.languages.find((l) => {
-                                        return l.value === template.metadata.language;
-                                    });
-                                    if (!lang) {
-                                        this.languages.push({
-                                            displayLabel: template.metadata.language,
-                                            value: template.metadata.language
-                                        });
-                                    }
-                                }
-
-                                if (initCategories) {
-                                    template.metadata.category.forEach((c) => {
-                                        if ((this._language === this._translateService.instant('temp_category_all') || (template.metadata.language === this._language))) {
-
-                                            const index = this.categories.findIndex((category) => {
-                                                return category.value === c;
-                                            });
-
-                                            if (index === -1) {
-                                                const dropDownElement: any = {
-                                                    displayLabel: c,
-                                                    value: c
-                                                };
-
-                                                if (this.category === c) {
-                                                    dropDownElement.default = true;
-                                                } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
-                                                    dropDownElement.default = true;
-                                                }
-
-                                                this.categories.push(dropDownElement);
-                                            }
-                                        }
-                                    });
-                                }
-
-                                const matchIndex = template.metadata.category.findIndex((c) => {
-                                    return c === this.category || this.category === this._translateService.instant('temp_category_all');
+                            if (initLanguages) {
+                                const lang = this.languages.find((l) => {
+                                    return l.value === template.metadata.language;
                                 });
+                                if (!lang) {
+                                    this.languages.push({
+                                        displayLabel: template.metadata.language,
+                                        value: template.metadata.language
+                                    });
+                                }
+                            }
 
-                                if (matchIndex !== -1) {
+                            if (initCategories) {
+                                template.metadata.category.forEach((c) => {
                                     if ((this._language === this._translateService.instant('temp_category_all') || (template.metadata.language === this._language))) {
-                                        const keys = template.metadata.category.slice(0) || [this._translateService.instant('temp_category_experimental')];
-                                        keys.push(
-                                            template.metadata.language
-                                        );
 
-                                        this.templates.push({
-                                            name: `${template.metadata.name} - ${template.metadata.language}`,
-                                            value: template.id,
-                                            keys: keys,
-                                            description: template.metadata.description,
-                                            enabledInTryMode: template.metadata.enabledInTryMode,
-                                            AADPermissions: template.metadata.AADPermissions
+                                        const index = this.categories.findIndex((category) => {
+                                            return category.value === c;
                                         });
+
+                                        if (index === -1) {
+                                            const dropDownElement: any = {
+                                                displayLabel: c,
+                                                value: c
+                                            };
+
+                                            if (this.category === c) {
+                                                dropDownElement.default = true;
+                                            } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
+                                                dropDownElement.default = true;
+                                            }
+
+                                            this.categories.push(dropDownElement);
+                                        }
                                     }
-                                }
+                                });
+                            }
+
+                            const matchIndex = template.metadata.category.findIndex((c) => {
+                                return c === this.category || this.category === this._translateService.instant('temp_category_all');
                             });
 
-                            this.categories.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
-                                const ca = this._orderedCategoties.find(c => { return c.name === a.displayLabel; });
-                                const cb = this._orderedCategoties.find(c => { return c.name === b.displayLabel; });
-                                return ((ca ? ca.index : 500) > (cb ? cb.index : 500)) ? 1 : -1;
-                            });
+                            if (matchIndex !== -1) {
+                                if ((this._language === this._translateService.instant('temp_category_all') || (template.metadata.language === this._language))) {
+                                    const keys = template.metadata.category.slice(0) || [this._translateService.instant('temp_category_experimental')];
+                                    keys.push(
+                                        template.metadata.language
+                                    );
 
-                            this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
-                                return a.displayLabel > b.displayLabel ? 1 : -1;
-                            });
+                                    this.templates.push({
+                                        name: `${template.metadata.name} - ${template.metadata.language}`,
+                                        value: template.id,
+                                        keys: keys,
+                                        description: template.metadata.description,
+                                        enabledInTryMode: template.metadata.enabledInTryMode,
+                                        AADPermissions: template.metadata.AADPermissions
+                                    });
+                                }
+                            }
+                        });
 
-                            this.templates.sort((a: Template, b: Template) => {
-                                let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
-                                let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
-                                if (ia === -1) {
-                                    ia = Number.MAX_VALUE;
-                                }
-                                if (ib === -1) {
-                                    ib = Number.MAX_VALUE;
-                                }
-                                if (ia === ib) {
-                                    // If templates are not in ordered list apply alphabetical order
-                                    return a.name > b.name ? 1 : -1;
-                                } else {
-                                    return ia > ib ? 1 : -1;
-                                }
-                            });
-                    }
+                        this.categories.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+                            const ca = this._orderedCategoties.find(c => { return c.name === a.displayLabel; });
+                            const cb = this._orderedCategoties.find(c => { return c.name === b.displayLabel; });
+                            return ((ca ? ca.index : 500) > (cb ? cb.index : 500)) ? 1 : -1;
+                        });
+
+                        this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+                            return a.displayLabel > b.displayLabel ? 1 : -1;
+                        });
+
+                        this.templates.sort((a: Template, b: Template) => {
+                            let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
+                            let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
+                            if (ia === -1) {
+                                ia = Number.MAX_VALUE;
+                            }
+                            if (ib === -1) {
+                                ib = Number.MAX_VALUE;
+                            }
+                            if (ia === ib) {
+                                // If templates are not in ordered list apply alphabetical order
+                                return a.name > b.name ? 1 : -1;
+                            } else {
+                                return ia > ib ? 1 : -1;
+                            }
+                        });
                 }
             });
+        });
+    }
+
+    ngOnInit() {
     }
 
     onSelectClicked() {

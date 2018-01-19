@@ -14,6 +14,8 @@ export class InfoBoxComponent {
     public typeClass = 'info';
     public iconPath = 'image/info.svg';
 
+    constructor() { }
+
     @Input('typeClass') set type(value: 'info' | 'warning' | 'error') {
         switch (value) {
             case 'info':
@@ -42,4 +44,5 @@ export class InfoBoxComponent {
             window.open(this.infoLink, '_blank');
         }
     }
+
 }

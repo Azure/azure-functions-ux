@@ -1,6 +1,6 @@
 <div class="newproxy-container">
 
-  <div class="header" *ngIf="apiProxyEdit">
+  <div class="header">
     <div>
       <h2>{{apiProxyEdit.name}}&nbsp;</h2>
       <span class="link" (click)="deleteProxyClicked()">
@@ -36,7 +36,7 @@
                 </label>
         </div>
 
-        <input [fnWriteAccess]="context" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
+        <input [fnWriteAccess]="functionApp" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
           placeholder="{{ 'apiProxy_routeTemplate' | translate }}" [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
 
 
@@ -50,7 +50,7 @@
             </label>
 
         <div>
-          <select [fnWriteAccess]="context" name="methodSelectionType" [formControl]="complexForm.controls['methodSelectionType']">
+          <select [fnWriteAccess]="functionApp" name="methodSelectionType" [formControl]="complexForm.controls['methodSelectionType']">
                     <option value="All">{{ 'apiProxy_allMethods' | translate }}</option>
                     <option value="Selected">{{ 'apiProxy_seectedMethods' | translate }}</option>
                 </select>
@@ -92,7 +92,7 @@
             </label>
       </div>
 
-      <input [fnWriteAccess]="context" type="text" name="backendUri" style="width: 720px" [formControl]="complexForm.controls['backendUri']"
+      <input [fnWriteAccess]="functionApp" type="text" name="backendUri" style="width: 720px" [formControl]="complexForm.controls['backendUri']"
         placeholder="{{ 'optional' | translate }}" [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
 
       <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)"
@@ -101,8 +101,7 @@
 
     </div>
 
-    <request-respose-override
-        *ngIf="apiProxyEdit"
+    <request-respose-override 
         (valueChanges)="rrOverriedValueChanges($event)"
         [proxy]="apiProxyEdit">
     </request-respose-override>

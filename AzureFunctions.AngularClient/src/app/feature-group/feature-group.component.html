@@ -11,8 +11,7 @@
              class="feature-group-item-content">
              <span [load-image]="feature.iconUrl" class="icon-small"></span>
 
-            <span [class.feature-group-result-title]="searchTerm && feature.highlight"
-                  role="link">
+            <span [class.feature-group-result-title]="searchTerm && feature.highlight">
                 <a *ngIf="feature.enabled" 
                     [tabIndex]="feature.nameFocusable ? 0 : -1" 
                     (focus)="nameFocus(feature)"

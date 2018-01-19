@@ -1,7 +1,4 @@
-﻿import { FunctionAppContext } from './../shared/function-app-context';
-import { FunctionAppService } from './../shared/services/function-app.service';
-import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+﻿import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PopoverContent } from 'ng2-popover';
 import { BindingInputBase } from '../shared/models/binding-input';
@@ -14,16 +11,17 @@ import { SettingType, ResourceType, UIFunctionBinding } from '../shared/models/b
 import { DropDownElement } from '../shared/models/drop-down-element';
 import { PortalResources } from '../shared/models/portal-resources';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { CacheService } from './../shared/services/cache.service';
-import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
-import { ScenarioIds } from 'app/shared/models/constants';
+import { FunctionApp } from '../shared/function-app';
+import { CacheService } from '../shared/services/cache.service';
+import { ScenarioService } from '../shared/services/scenario/scenario.service';
+import { ScenarioIds } from '../shared/models/constants';
 
 @Component({
     selector: 'binding-input',
     templateUrl: './binding-input.component.html',
     styleUrls: ['./binding-input.component.css'],
 })
-export class BindingInputComponent extends FunctionAppContextComponent {
+export class BindingInputComponent {
     @Input() binding: UIFunctionBinding;
     @Output() validChange = new EventEmitter<BindingInputBase<any>>(false);
     @ViewChild('pickerPopover') pickerPopover: PopoverContent;
@@ -33,28 +31,24 @@ export class BindingInputComponent extends FunctionAppContextComponent {
     public functionReturnValue: boolean;
     public pickerName: string;
     public appSettingValue: string;
-    public showTryView: boolean;
-
-
     private _input: BindingInputBase<any>;
-    private useCustomFunctionInputPicker: boolean;
+    private showTryView: boolean;
+    private useCustomFunctionInputPicker: boolean;    
+    @Input() public functionApp: FunctionApp;
 
     constructor(
-        broadcastService: BroadcastService,
         private _portalService: PortalService,
+        private _broadcastService: BroadcastService,
         private _userService: UserService,
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
         private _cacheService: CacheService,
-        private _scenarioService: ScenarioService,
-        functionAppService: FunctionAppService) {
-        super('binding-input', functionAppService, broadcastService, () => _globalStateService.setBusyState(), () => _globalStateService.clearBusyState());
-        this.useCustomFunctionInputPicker = this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';
-        this.showTryView = _globalStateService.showTryView;
+        private _scenarioService: ScenarioService) {
+        this.useCustomFunctionInputPicker =  this._scenarioService.checkScenario(ScenarioIds.headerOnTopOfSideNav).status === 'enabled';            
+        this.showTryView = this._globalStateService.showTryView;
     }
 
-    @Input('input')
-    set input(input: BindingInputBase<any>) {
+    @Input('input') set input(input: BindingInputBase<any>) {
         if (input.type === SettingType.picker) {
             const picker = <PickerInput>input;
             if (!input.value && picker.items) {
@@ -141,7 +135,7 @@ export class BindingInputComponent extends FunctionAppContextComponent {
 
             if (bladeInput) {
                 this._portalService.openCollectorBladeWithInputs(
-                    this.context.site.id,
+                    this.functionApp.site.id,
                     bladeInput,
                     'binding-input',
                     (appSettingName: string) => {
@@ -149,7 +143,7 @@ export class BindingInputComponent extends FunctionAppContextComponent {
                     });
             } else {
                 this._portalService.openCollectorBlade(
-                    this.context.site.id,
+                    this.functionApp.site.id,
                     this.pickerName,
                     'binding-input',
                     (appSettingName: string) => {
@@ -166,11 +160,11 @@ export class BindingInputComponent extends FunctionAppContextComponent {
         }
 
         this.setClass(value);
-        this._broadcastService.broadcast<FunctionAppContext>(BroadcastEvent.IntegrateChanged, this.context);
+        this._broadcastService.broadcast(BroadcastEvent.IntegrateChanged);
     }
 
     onAppSettingValueShown() {
-        return this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true)
+        return this._cacheService.postArm(`${this.functionApp.site.id}/config/appsettings/list`, true)
             .do(null, () => {
                 this.appSettingValue = this._translateService.instant(PortalResources.bindingInput_appSettingNotFound);
             })

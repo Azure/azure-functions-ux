@@ -15,7 +15,7 @@ import { SiteManageComponent } from './../site-manage/site-manage.component';
 import { TabInfo } from './site-tab/tab-info';
 import { SiteSummaryComponent } from './../site-summary/site-summary.component';
 import { SiteData } from './../../tree-view/models/tree-view-info';
-import { Component, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { PortalService } from './../../shared/services/portal.service';
@@ -26,18 +26,17 @@ import { AppNode } from './../../tree-view/app-node';
 import { CacheService } from '../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
-import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
+import { SiteDescriptor } from '../../shared/resourceDescriptors';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
 import { PartSize } from '../../shared/models/portal';
-import { NavigableComponent } from '../../shared/components/navigable-component';
 
 @Component({
     selector: 'site-dashboard',
     templateUrl: './site-dashboard.component.html',
     styleUrls: ['./site-dashboard.component.scss']
 })
-export class SiteDashboardComponent extends NavigableComponent implements OnDestroy {
+export class SiteDashboardComponent implements OnDestroy, OnInit {
 
     // We keep a static copy of all the tabs that are open becuase we want to reopen them
     // if a user changes apps or navigates away and comes back.  But we also create an instance
@@ -45,17 +44,20 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
     private static _tabInfos: TabInfo[] = [];
     public tabInfos: TabInfo[] = SiteDashboardComponent._tabInfos;
 
+    viewInfo: TreeViewInfo<SiteData>;
     @ViewChild('siteTabs') groupElements: ElementRef;
 
-    public dynamicTabIds: (string | null) [] = [null, null];
+    public dynamicTabIds: (string | null)[] = [null, null];
     public site: ArmObj<Site>;
     public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
+    public TabIds = SiteTabIds;
     public Resources = PortalResources;
 
     private _currentTabId: string;
     private _prevTabId: string;
     private _currentTabIndex: number;
 
+    private _tabsLoaded = false;
     private _ngUnsubscribe: Subject<void> = new Subject<void>();
     private _openTabSubscription: Subscription;
 
@@ -65,10 +67,9 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         private _aiService: AiService,
         private _portalService: PortalService,
         private _translateService: TranslateService,
+        private _broadcastService: BroadcastService,
         private _scenarioService: ScenarioService,
-        private _logService: LogService,
-        broadcastService: BroadcastService) {
-        super('site-dashboard', broadcastService, DashboardType.AppDashboard);
+        private _logService: LogService) {
 
         this._broadcastService.getEvents<DirtyStateEvent>(BroadcastEvent.DirtyStateChange)
             .takeUntil(this._ngUnsubscribe)
@@ -101,10 +102,9 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             this._currentTabId = activeTab.id;
             this._currentTabIndex = this.tabInfos.findIndex(info => info.active);
         }
-    }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
+        this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
+        this.viewInfoStream
             .switchMap(viewInfo => {
                 if (this._globalStateService.showTryView) {
                     this._globalStateService.setDisabledMessage(
@@ -131,7 +131,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
             .do(null, e => {
-                const descriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
+                const descriptor = new SiteDescriptor(this.viewInfo.resourceId);
                 let message = this._translateService
                     .instant(PortalResources.siteDashboard_getAppError)
                     .format(descriptor.site);
@@ -162,9 +162,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                         );
 
                         // We're not recreating the active tab so that it doesn't flash in the UI
-                        // All Tabs have `viewInfoInput`
-                        // Tabs that inherit from FunctionAppContextComponent like FunctionRuntimeComponent have viewInfoComponent_viewInfo
-                        this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo, viewInfoComponent_viewInfo: this.viewInfo };
+                        this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo };
                     } else {
                         // Just to be extra safe, we create new component instances for tabs that
                         // aren't visible to be sure that we can't accidentally load them with the wrong
@@ -193,7 +191,18 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             });
     }
 
+    ngOnInit() {
+        this._broadcastService.getEvents<TreeViewInfo<SiteData>>(BroadcastEvent.TreeNavigation)
+            .filter(viewInfo => viewInfo.dashboardType === DashboardType.AppDashboard)
+            .takeUntil(this._ngUnsubscribe)
+            .subscribe(viewInfo => {
+                this.viewInfo = viewInfo;
+                this.viewInfoStream.next(viewInfo);
+            });
+    }
+
     ngOnDestroy() {
+
         // Save current set of tabs
         SiteDashboardComponent._tabInfos = this.tabInfos;
         this._ngUnsubscribe.next();
@@ -213,6 +222,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         this.viewInfo.data.siteTabFullReadyTraceKey = this._aiService.startTrace();
 
         this._prevTabId = this._currentTabId;
+        this._tabsLoaded = true;
         this._currentTabId = info.id;
         this._currentTabIndex = this.tabInfos.findIndex(i => i.id === info.id);
     }
@@ -267,12 +277,6 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         });
     }
 
-    keypress(event: KeyboardEvent) {
-        if (event.keyCode === KeyCodes.enter) {
-            this.pinPart();
-        }
-    }
-
     private _getTabInfo(tabId: string, active: boolean, input: { viewInfoInput: TreeViewInfo<SiteData> }): TabInfo {
         const info = {
             title: '',
@@ -282,7 +286,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             iconUrl: null,
             dirty: false,
             componentFactory: null,
-            componentInput: input ? Object.assign({}, input, { viewInfo: input.viewInfoInput, viewInfoComponent_viewInfo: input.viewInfoInput }) : {}
+            componentInput: input ? input : {}
         };
 
         switch (tabId) {

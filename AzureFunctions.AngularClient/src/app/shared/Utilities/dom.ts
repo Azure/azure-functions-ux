@@ -16,12 +16,8 @@ export class Dom {
     // This isn't comprehensive but is good enough for our current scenarios.  To get more context, checkout these links:
     // https://stackoverflow.com/questions/7208161/focus-next-element-in-tab-index
     // https://stackoverflow.com/questions/7668525/is-there-a-jquery-selector-to-get-all-elements-that-can-get-focus
-    public static getTabbableControls(element: HTMLElement): NodeList {
-        return element.querySelectorAll('input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), object:not([disabled]), a:not([disabled]), area:not([disabled]), .link, div.sortable, [tabindex="0"]');
-    }
-
     public static getTabbableControl(element: HTMLElement, excludedClassList?: string[]): HTMLElement {
-        const controls = this.getTabbableControls(element);
+        const controls = element.querySelectorAll('input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), object:not([disabled]), a:not([disabled]), area:not([disabled]), .link, div.sortable, [tabindex="0"]');
 
         if (controls.length !== 0) {
             if (!excludedClassList || excludedClassList.length === 0) {

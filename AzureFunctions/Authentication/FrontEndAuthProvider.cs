@@ -14,14 +14,6 @@ namespace AzureFunctions.Authentication
     public class FrontEndAuthProvider : IAuthProvider
     {
         private readonly ISettings _settings;
-        private readonly string[] _noAuthReferrers = new string[] 
-        {
-            Constants.PortalReferrer,
-            Constants.PortalDeReferrer,
-            Constants.PortalCnReferrer,
-            Constants.PortalUsReferrer,
-            Constants.PowerAppsReferrerSuffix,
-        };
 
         public FrontEndAuthProvider(ISettings settings)
         {
@@ -34,22 +26,21 @@ namespace AzureFunctions.Authentication
             var request = context.Request;
             var displayName = request.Headers[Constants.FrontEndDisplayNameHeader];
             var principalName = request.Headers[Constants.FrontEndPrincipalNameHeader];
-            var portalToken = request.Headers[Constants.PortalTokenHeader] ?? request.Headers[Constants.Authorization];
+            var portalToken = request.Headers[Constants.PortalTokenHeader];
 
-            if(request.UrlReferrer != null
-                && this._noAuthReferrers.Any(r => request.UrlReferrer.Host.EndsWith(r, StringComparison.OrdinalIgnoreCase)))
+            if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
             {
-                principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
-            }
-            else if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
-            {
-                if (string.IsNullOrEmpty(portalToken))
+                if (request.UrlReferrer?.Host.EndsWith(Constants.PortalReferrer, StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
+                }
+                else if (string.IsNullOrEmpty(portalToken))
                 {
                     principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.AnonymousUserName));
                 }
                 else
                 {
-                    principal = ParsePortalToken(portalToken.Split(new[] { ' ' }).Last());
+                    principal = ParsePortalToken(portalToken);
                 }
             }
             else if (!string.IsNullOrWhiteSpace(principalName) ||

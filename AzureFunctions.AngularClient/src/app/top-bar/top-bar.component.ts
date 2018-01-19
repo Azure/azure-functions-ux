@@ -5,7 +5,7 @@ import { User } from '../shared/models/user';
 import { TenantInfo } from '../shared/models/tenant-info';
 import { Constants } from '../shared/models/constants';
 import { GlobalStateService } from '../shared/services/global-state.service';
-import { ArmSiteDescriptor, ArmFunctionDescriptor } from '../shared/resourceDescriptors';
+import { SiteDescriptor, Descriptor, FunctionDescriptor } from '../shared/resourceDescriptors';
 
 @Component({
     selector: 'top-bar',
@@ -21,6 +21,7 @@ export class TopBarComponent implements OnInit {
     public inIFrame: boolean;
     public inTab: boolean;
     public isStandalone: boolean;
+    // public needUpdateExtensionVersion;
 
     public visible = false;
 
@@ -28,10 +29,13 @@ export class TopBarComponent implements OnInit {
     public appName: string;
     public fnName: string;
 
+    // @Output() private functionAppSettingsClicked: EventEmitter<any>;
+
     constructor(private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _configService: ConfigService
     ) {
+        // this.functionAppSettingsClicked = new EventEmitter<any>();
         this.inIFrame = this._userService.inIFrame;
         this.inTab = this._userService.inTab;
         this.isStandalone = this._configService.isStandalone();
@@ -41,12 +45,14 @@ export class TopBarComponent implements OnInit {
                 .first()
                 .subscribe(info => {
                     this.resourceId = info.resourceId;
-                    const descriptor = new ArmSiteDescriptor(this.resourceId);
+                    const descriptor = <SiteDescriptor>Descriptor.getDescriptor(this.resourceId);
                     this.appName = descriptor.site;
-                    const fnDescriptor = new ArmFunctionDescriptor(this.resourceId);
+                    const fnDescriptor = new FunctionDescriptor(this.resourceId);
                     this.fnName = fnDescriptor.name;
                 });
         }
+
+
 
         this._setVisible();
 

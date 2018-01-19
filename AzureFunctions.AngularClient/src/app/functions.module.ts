@@ -1,6 +1,3 @@
-import { EmbeddedFunctionLogsTabComponent } from './function/embedded/embedded-function-logs-tab/embedded-function-logs-tab.component';
-import { EmbeddedFunctionTestTabComponent } from './function/embedded/embedded-function-test-tab/embedded-function-test-tab.component';
-import { EmbeddedFunctionEditorComponent } from './function/embedded/embedded-function-editor/embedded-function-editor.component';
 import { SidebarModule } from 'ng-sidebar';
 import { AadRegistrationComponent } from './aad-registration/aad-registration.component';
 import { RunHttpComponent } from './run-http/run-http.component';
@@ -72,14 +69,6 @@ const routing: ModuleWithProviders = RouterModule.forChild([
     {
         path: ':functionName/monitor',
         component: FunctionEditComponent
-    },
-    {
-        path: 'environments/:environmentId/scopes/:scope/functions',
-        component: FunctionsListComponent
-    },
-    {
-        path: 'environments/:environmentId/scopes/:scope/entities/:entityId/functions/:functionName',
-        component: EmbeddedFunctionEditorComponent
     }
 
 ]);
@@ -98,9 +87,6 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         FunctionsListComponent,
         FunctionEditComponent,
         FunctionDevComponent,
-        EmbeddedFunctionEditorComponent,
-        EmbeddedFunctionTestTabComponent,
-        EmbeddedFunctionLogsTabComponent,
         LogStreamingComponent,
         FileExplorerComponent,
         FunctionIntegrateComponent,

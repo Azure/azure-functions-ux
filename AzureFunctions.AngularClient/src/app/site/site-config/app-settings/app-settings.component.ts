@@ -1,16 +1,15 @@
-import { LogCategories } from './../../../shared/models/constants';
 import { Response } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Site } from './../../../shared/models/arm/site';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SaveOrValidationResult } from './../site-config.component';
+import { LogCategories, KeyCodes } from 'app/shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
@@ -18,11 +17,9 @@ import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to
 import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
-import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
+import { SiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
-import { LinuxAppSettingNameValidator } from 'app/shared/validators/linuxAppSettingNameValidator';
-import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 @Component({
   selector: 'app-settings',
@@ -43,11 +40,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _saveError: string;
 
-  private _validatorFns: ValidatorFn[];
   private _requiredValidator: RequiredValidator;
   private _uniqueAppSettingValidator: UniqueValidator;
-  private _linuxAppSettingNameValidator: LinuxAppSettingNameValidator;
-  private _isLinux: boolean;
 
   private _appSettingsArm: ArmObj<any>;
   private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
@@ -57,6 +51,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
+
+  public keyCodes: KeyCodes = KeyCodes;
 
   @Input() mainForm: FormGroup;
 
@@ -91,7 +87,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this.originalItemsDeleted = 0;
         this._resetPermissionsAndLoadingState();
         this._slotConfigNamesArmPath =
-          `${new ArmSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
+          `${SiteDescriptor.getSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
         return Observable.zip(
           this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
           this._authZService.hasReadOnlyLock(this.resourceId),
@@ -102,12 +98,11 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._setPermissions(p.writePermission, p.readOnlyLock);
         return Observable.zip(
           Observable.of(this.hasWritePermissions),
-          this._cacheService.getArm(this.resourceId),
           this.hasWritePermissions ?
             this._cacheService.postArm(`${this.resourceId}/config/appSettings/list`, true) : Observable.of(null),
           this.hasWritePermissions ?
             this._cacheService.getArm(this._slotConfigNamesArmPath, true) : Observable.of(null),
-          (h, s, a, scn) => ({ hasWritePermissions: h, siteConfigResponse: s, appSettingsResponse: a, slotConfigNamesResponse: scn })
+          (h, a, s) => ({ hasWritePermissions: h, appSettingsResponse: a, slotConfigNamesResponse: s })
         );
       })
       .do(null, error => {
@@ -121,8 +116,6 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .retry()
       .subscribe(r => {
         if (r.hasWritePermissions) {
-          const siteConfigArm: ArmObj<Site> = r.siteConfigResponse.json();
-          this._isLinux = ArmUtil.isLinuxApp(siteConfigArm);
           this._appSettingsArm = r.appSettingsResponse.json();
           this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
           this._setupForm(this._appSettingsArm, this._slotConfigNamesArm);
@@ -152,9 +145,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _resetPermissionsAndLoadingState() {
     this.hasWritePermissions = true;
-    this.permissionsMessage = '';
+    this.permissionsMessage = "";
     this.showPermissionsMessage = false;
-    this.loadingFailureMessage = '';
+    this.loadingFailureMessage = "";
     this.loadingMessage = this._translateService.instant(PortalResources.loading);
   }
 
@@ -164,7 +157,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     } else if (readOnlyLock) {
       this.permissionsMessage = this._translateService.instant(PortalResources.configDisabledReadOnlyLockOnApp);
     } else {
-      this.permissionsMessage = '';
+      this.permissionsMessage = "";
     }
 
     this.hasWritePermissions = writePermission && !readOnlyLock;
@@ -180,31 +173,21 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
         this._requiredValidator = new RequiredValidator(this._translateService);
         this._uniqueAppSettingValidator = new UniqueValidator(
-          'name',
+          "name",
           this.groupArray,
           this._translateService.instant(PortalResources.validation_duplicateError));
 
-        this._validatorFns = [
-          this._requiredValidator.validate.bind(this._requiredValidator),
-          this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)
-        ];
-
-        if (this._isLinux) {
-          this._linuxAppSettingNameValidator = new LinuxAppSettingNameValidator(this._translateService);
-          this._validatorFns.push(
-            this._linuxAppSettingNameValidator.validate.bind(this._linuxAppSettingNameValidator)
-          );
-        }
-
         const stickyAppSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
 
-        for (const name in appSettingsArm.properties) {
+        for (let name in appSettingsArm.properties) {
 
           if (appSettingsArm.properties.hasOwnProperty(name)) {
             const group = this._fb.group({
               name: [
                 { value: name, disabled: !this.hasWritePermissions },
-                Validators.compose(this._validatorFns)],
+                Validators.compose([
+                  this._requiredValidator.validate.bind(this._requiredValidator),
+                  this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
               value: [{ value: appSettingsArm.properties[name], disabled: !this.hasWritePermissions }],
               isSlotSetting: [{ value: stickyAppSettingNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions }]
             }) as CustomFormGroup;
@@ -217,17 +200,17 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
       }
 
-      if (this.mainForm.contains('appSettings')) {
-        this.mainForm.setControl('appSettings', this.groupArray);
+      if (this.mainForm.contains("appSettings")) {
+        this.mainForm.setControl("appSettings", this.groupArray);
       } else {
-        this.mainForm.addControl('appSettings', this.groupArray);
+        this.mainForm.addControl("appSettings", this.groupArray);
       }
     } else {
       this.newItem = null;
       this.originalItemsDeleted = 0;
       this.groupArray = null;
-      if (this.mainForm.contains('appSettings')) {
-        this.mainForm.removeControl('appSettings');
+      if (this.mainForm.contains("appSettings")) {
+        this.mainForm.removeControl("appSettings");
       }
     }
 
@@ -235,11 +218,11 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
   validate(): SaveOrValidationResult {
-    const groups = this.groupArray.controls;
+    let groups = this.groupArray.controls;
 
     // Purge any added entries that were never modified
     for (let i = groups.length - 1; i >= 0; i--) {
-      const group = groups[i] as CustomFormGroup;
+      let group = groups[i] as CustomFormGroup;
       if (group.msStartInEditMode && group.pristine) {
         groups.splice(i, 1);
         if (group === this.newItem) {
@@ -258,9 +241,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _validateAllControls(groups: CustomFormGroup[]) {
     groups.forEach(group => {
-      const controls = (<FormGroup>group).controls;
-      for (const controlName in controls) {
-        const control = <CustomFormControl>controls[controlName];
+      let controls = (<FormGroup>group).controls;
+      for (let controlName in controls) {
+        let control = <CustomFormControl>controls[controlName];
         control._msRunValidation = true;
         control.updateValueAndValidity();
       }
@@ -272,24 +255,24 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     if (this.groupArray.pristine) {
       return null;
     } else {
-      const configObjects: ArmObjMap = {
+      let configObjects: ArmObjMap = {
         objects: {}
       };
 
-      const appSettingGroups = this.groupArray.controls;
+      let appSettingGroups = this.groupArray.controls;
 
-      if (this.mainForm.contains('appSettings') && this.mainForm.controls['appSettings'].valid) {
-        const appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
+      if (this.mainForm.contains("appSettings") && this.mainForm.controls["appSettings"].valid) {
+        let appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
         appSettingsArm.properties = {};
 
         this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-        const slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+        let slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
         slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
-        const appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
+        let appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
 
         for (let i = 0; i < appSettingGroups.length; i++) {
           if ((appSettingGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
-            const name = appSettingGroups[i].value.name;
+            let name = appSettingGroups[i].value.name;
 
             appSettingsArm.properties[name] = appSettingGroups[i].value.value;
 
@@ -298,7 +281,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
                 appSettingNames.push(name);
               }
             } else {
-              const index = appSettingNames.indexOf(name);
+              let index = appSettingNames.indexOf(name);
               if (index !== -1) {
                 appSettingNames.splice(index, 1);
               }
@@ -306,8 +289,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           }
         }
 
-        configObjects['slotConfigNames'] = slotConfigNamesArm;
-        configObjects['appSettings'] = appSettingsArm;
+        configObjects["slotConfigNames"] = slotConfigNamesArm;
+        configObjects["appSettings"] = appSettingsArm;
       } else {
         configObjects.error = this._validationFailureMessage();
       }
@@ -356,8 +339,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
   deleteItem(group: FormGroup) {
-    const groups = this.groupArray;
-    const index = groups.controls.indexOf(group);
+    let groups = this.groupArray;
+    let index = groups.controls.indexOf(group);
     if (index >= 0) {
       if ((group as CustomFormGroup).msExistenceState === 'original') {
         this._deleteOriginalItem(groups, group);
@@ -376,7 +359,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     (group as CustomFormGroup).msExistenceState = 'deleted';
 
     // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
-    for (const key in group.controls) {
+    for (let key in group.controls) {
       const control = group.controls[key];
       control.clearAsyncValidators();
       control.clearValidators();
@@ -399,7 +382,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     // If all the remaining controls in groups are pristine, mark groups as pristine.
     if (!group.pristine) {
       let pristine = true;
-      for (const control of groups.controls) {
+      for (let control of groups.controls) {
         pristine = pristine && control.pristine;
       }
 
@@ -412,12 +395,14 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
   addItem() {
-    const groups = this.groupArray;
+    let groups = this.groupArray;
 
     this.newItem = this._fb.group({
       name: [
         null,
-        Validators.compose(this._validatorFns)],
+        Validators.compose([
+          this._requiredValidator.validate.bind(this._requiredValidator),
+          this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
       value: [null],
       isSlotSetting: [false]
     }) as CustomFormGroup;

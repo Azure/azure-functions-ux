@@ -43,7 +43,7 @@
                     {{model.trigger.title}}
                 </span>
                 <span *ngIf="!model.trigger"
-                    [fnWriteAccess]="context"
+                    [fnWriteAccess]="functionApp"
                     class="list-group-item list-item"
                     [class.selected]="currentBindingId === 'trigger'"
                     (click)="newBinding('trigger')">
@@ -62,7 +62,7 @@
                     {{input.title}}
                 </span>
             </div>
-            <span [fnWriteAccess]="context"
+            <span [fnWriteAccess]="functionApp"
                 [class.selected]="currentBindingId === 'input'"
                 class="list-group-item list-item"
                 (click)="newBinding('in')">
@@ -80,7 +80,7 @@
                     {{input.title}}
                 </span>
             </div>
-            <span [fnWriteAccess]="context"
+            <span [fnWriteAccess]="functionApp"
                 [class.selected]="currentBindingId === 'output'"
                 class="list-group-item list-item"
                 (click)="newBinding('out')">
@@ -97,7 +97,7 @@
 <div>
     <binding
         *ngIf="currentBinding"
-        [viewInfo]="viewInfo"
+        [functionAppInput]="functionInfo"
         [allBindings]="model.config.bindings"
         [binding]="currentBinding"
         (remove)="onRemoveBinding($event)"
@@ -108,7 +108,7 @@
 
 <template-picker
     *ngIf="pickerType!==4"
-    [viewInfo]="viewInfo"
+    [functionAppInput]="functionInfo.functionApp"
     [type]="pickerType"
     [showFooter]="true"
     (complete)="onBindingCreateComplete(behavior, $event)"

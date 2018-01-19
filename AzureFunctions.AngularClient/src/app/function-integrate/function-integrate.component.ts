@@ -1,27 +1,26 @@
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
-import { errorIds } from './../shared/models/error-ids';
-import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, QueryList, OnInit } from '@angular/core';
+import { FunctionApp } from './../shared/function-app';
+import { ErrorIds } from './../shared/models/error-ids';
+import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { FunctionInfo } from '../shared/models/function-info';
 import { PortalService } from '../shared/services/portal.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Subscription } from 'rxjs/Subscription';
-import { BaseFunctionComponent } from '../shared/components/base-function-component';
 
 @Component({
     selector: 'function-integrate',
     templateUrl: './function-integrate.component.html',
     styleUrls: ['./function-integrate.component.scss'],
+    inputs: ['selectedFunction']
 })
-export class FunctionIntegrateComponent extends BaseFunctionComponent implements OnInit, OnDestroy {
+export class FunctionIntegrateComponent implements OnDestroy {
     @ViewChild('container') container: ElementRef;
     @ViewChild('editorContainer') editorContainer: ElementRef;
     @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
@@ -30,49 +29,33 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
     public _selectedFunction: FunctionInfo;
     public configContent: string;
     public isDirty: boolean;
-    public disabled: Observable<boolean>;
-
     private _originalContent: string;
-    private _currentContent: string;
+    private _currentConent: string;
+    public functionApp: FunctionApp;
+    public disabled: Observable<boolean>;
 
     constructor(
         private _portalService: PortalService,
-        broadcastService: BroadcastService,
+        private _broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
-        private _functionAppService: FunctionAppService,
         private _translateService: TranslateService) {
-
-        super('function-integrate', broadcastService, _functionAppService, () => _globalStateService.setBusyState(), DashboardType.FunctionIntegrateDashboard);
-
         this.isDirty = false;
         this.onResize();
     }
 
 
-    setupNavigation(): Subscription {
-        return this.functionChangedEvents
-            .do(() => this._globalStateService.clearBusyState())
-            .subscribe(view => {
-                this.disabled = this._functionAppService.getFunctionAppEditMode(view.context).map(r => {
-                    if (r.isSuccessful) {
-                        return EditModeHelper.isReadOnly(r.result);
-                    } else {
-                        throw r.error;
-                    }
-                });
-
-                if (view.functionInfo.isSuccessful) {
-                    this._selectedFunction = view.functionInfo.result;
-                    this._originalContent = JSON.stringify(this._selectedFunction.config, undefined, 2);
-                    this._currentContent = this._originalContent;
-                    this.cancelConfig();
-                    this.isDirty = false;
-                }
-            });
-    }
-
     ngOnInit() {
         this.onResize();
+    }
+
+    set selectedFunction(value: FunctionInfo) {
+        this.functionApp = value.functionApp;
+        this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
+        this._selectedFunction = value;
+        this._originalContent = JSON.stringify(value.config, undefined, 2);
+        this._currentConent = this._originalContent;
+        this.cancelConfig();
+        this.isDirty = false;
     }
 
     contentChanged(content: string) {
@@ -82,7 +65,7 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
             this._portalService.setDirtyState(true);
         }
 
-        this._currentContent = content;
+        this._currentConent = content;
     }
 
     cancelConfig() {
@@ -96,22 +79,23 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
     saveConfig() {
         if (this.isDirty) {
             try {
-                this.configContent = this._currentContent;
+                this.configContent = this._currentConent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
                 this._globalStateService.setBusyState();
-                this._functionAppService.updateFunction(this.context, this._selectedFunction)
+                this._selectedFunction.functionApp.updateFunction(this._selectedFunction)
                     .subscribe(() => {
                         this._originalContent = this.configContent;
                         this.clearDirty();
                         this._globalStateService.clearBusyState();
                         this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
                     });
-                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, errorIds.errorParsingConfig);
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
             } catch (e) {
-                this.showComponentError({
+                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
-                    errorId: errorIds.errorParsingConfig,
-                    resourceId: this.context.site.id
+                    errorId: ErrorIds.errorParsingConfig,
+                    errorType: ErrorType.UserError,
+                    resourceId: this.functionApp.site.id
                 });
             }
         }
@@ -120,7 +104,6 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
     ngOnDestroy() {
         this._broadcastService.clearDirtyState('function');
         this._portalService.setDirtyState(false);
-        super.ngOnDestroy();
     }
 
     onEditorChange(editorType: string) {

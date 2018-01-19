@@ -1,20 +1,24 @@
-import { FunctionAppService } from './../shared/services/function-app.service';
 import { BusyStateScopeManager } from './../busy-state/busy-state-scope-manager';
 import { Subject } from 'rxjs/Subject';
 import { PortalService } from './../shared/services/portal.service';
+import { ArmTryService } from './../shared/services/arm-try.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { FunctionApp } from './../shared/function-app';
+import { Component, ViewChild, AfterViewInit, OnDestroy, Injector } from '@angular/core';
 import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { UserService } from '../shared/services/user.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
-import { ArmSiteDescriptor, ArmFunctionDescriptor } from 'app/shared/resourceDescriptors';
+import { CacheService } from 'app/shared/services/cache.service';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
+import { Site } from 'app/shared/models/arm/site';
+import { SiteDescriptor, FunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { Http } from '@angular/http';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';;
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { LanguageService } from 'app/shared/services/language.service';
-import { SlotsService } from 'app/shared/services/slots.service';
+import { SiteService } from 'app/shared/services/slots.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { ConfigService } from 'app/shared/services/config.service';
 import { AuthzService } from 'app/shared/services/authz.service';
@@ -35,6 +39,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
     public inIFrame: boolean;
     public inTab: boolean;
     public selectedFunction: FunctionInfo;
+    public tryFunctionApp: FunctionApp;
     public showTopBar: boolean;
 
     @ViewChild(BusyStateComponent) busyStateComponent: BusyStateComponent;
@@ -44,16 +49,17 @@ export class MainComponent implements AfterViewInit, OnDestroy {
 
     constructor(private _userService: UserService,
         private _globalStateService: GlobalStateService,
+        private _cacheService: CacheService,
         private _portalService: PortalService,
         private _broadcastService: BroadcastService,
-        private _functionAppService: FunctionAppService,
+        private _injector: Injector,
         _ngHttp: Http,
         _translateService: TranslateService,
         _armService: ArmService,
         _languageService: LanguageService,
         _authZService: AuthzService,
         _configService: ConfigService,
-        _slotsService: SlotsService,
+        _slotsService: SiteService,
         _aiService: AiService,
         route: ActivatedRoute,
         router: Router) {
@@ -65,9 +71,12 @@ export class MainComponent implements AfterViewInit, OnDestroy {
         this.inIFrame = _userService.inIFrame;
         this.inTab = _userService.inTab; // are we in a tab
 
+        this.tryFunctionApp = (<ArmTryService>_armService).tryFunctionApp;
+
         if (this.inTab) {
             this.initializeChildWindow(_userService,
                 _globalStateService,
+                _cacheService,
                 _ngHttp,
                 _translateService,
                 _broadcastService,
@@ -113,6 +122,7 @@ export class MainComponent implements AfterViewInit, OnDestroy {
 
     private initializeChildWindow(_userService: UserService,
         _globalStateService: GlobalStateService,
+        _cacheService: CacheService,
         _ngHttp: Http,
         _translateService: TranslateService,
         _broadcastService: BroadcastService,
@@ -120,22 +130,25 @@ export class MainComponent implements AfterViewInit, OnDestroy {
         _languageService: LanguageService,
         _authZService: AuthzService,
         _configService: ConfigService,
-        _slotsService: SlotsService,
+        _slotsService: SiteService,
         _aiService: AiService) {
 
         this._userService.getStartupInfo()
             .takeUntil(this._ngUnsubscribe)
             .subscribe(info => {
                 // get list of functions from function app listed in resourceID
-                const siteDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(info.resourceId);
+                const siteDescriptor: SiteDescriptor = new SiteDescriptor(info.resourceId);
 
-                this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId())
-                    .mergeMap(context => this._functionAppService.getFunctions(context))
+                this._cacheService.getArm(siteDescriptor.getTrimmedResourceId())
+                    .mergeMap(response => {
+                        const site = <ArmObj<Site>>response.json();
+                        const functionApp: FunctionApp = new FunctionApp(site, this._injector);
+                        return functionApp.getFunctions();
+                    })
                     .subscribe(functions => {
-                        const fnDescriptor: ArmFunctionDescriptor = new ArmFunctionDescriptor(info.resourceId);
+                        const fnDescriptor: FunctionDescriptor = new FunctionDescriptor(info.resourceId);
                         const targetName: string = fnDescriptor.name;
-                        // TODO: [ahmels] HANDLE RESULT. Talk to ehamai to understand the scenario.
-                        const selectedFunction = functions.result.find(f => f.name === targetName);
+                        const selectedFunction = functions.find(f => f.name === targetName);
 
                         if (selectedFunction) {
                             this.selectedFunction = selectedFunction;

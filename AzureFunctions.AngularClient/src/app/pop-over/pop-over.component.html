@@ -1,39 +1,15 @@
-<span
-    #container
-    [class]="popOverClass"
-    [ngClass]="{'pop-over-input-error': isInputError, 'pop-over-input-warning': isInputWarning}"
+<span [class]="popOverClass" [ngClass]="{'pop-over-input-error': isInputError, 'pop-over-input-warning': isInputWarning}"
     tabindex="-1">
-
-    <span
-        #content
-        *ngIf="message && (position === 'left' || position === 'top')"
+    <span *ngIf="message"
         class="pop-over-common pop-over-links"
         [ngClass]="'pop-over-' + position"
         [class.pop-over-visible]="show"
-        [innerHtml]="message"
-        tabindex="-1">
-    </span>
+        [innerHtml]="message" tabindex="-1"></span>
 
-    <button
-        #button
-        id="buttonInfoButton"
-        class="pop-over-button"
-        attr.aria-label="{{message}}"
-        (keydown)="onKeyPress($event)"
-        (click)="popUpContent()">
+<button id="buttonInfoButton" class="pop-over-button" attr.aria-label="{{message}}" (keydown)="onKeyPress($event)" (blur)="onBlur($event)"
+    (click)="popUpContent()" tabindex="0">
         <ng-content></ng-content>
         <span *ngIf="isInputError" class="fa fa-exclamation input-error"></span>
         <span *ngIf="isInputWarning && !isInputError" class="fa fa-exclamation input-warning"></span>
     </button>
-
-    <span
-        #content
-        *ngIf="message && (position === 'right' || position === 'bottom')"
-        class="pop-over-common pop-over-links"
-        [ngClass]="'pop-over-' + position"
-        [class.pop-over-visible]="show"
-        [innerHtml]="message"
-        tabindex="-1">
-    </span>
-
 </span>

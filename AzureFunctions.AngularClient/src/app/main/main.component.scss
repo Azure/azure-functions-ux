@@ -8,16 +8,9 @@
     #dashboard {
         height: 100%;
         padding-left: $sidenav-width;
-        background-color: $body-bg-color;
     }
 }
 
 .content-standalone{
     height: calc(100% - #{$top-bar-height});
-}
-
-:host-context(#app-root[theme=dark]){
-    #dashboard{
-        background-color: $body-bg-color-dark;
-    }
 }

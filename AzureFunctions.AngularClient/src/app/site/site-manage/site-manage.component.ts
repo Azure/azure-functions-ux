@@ -1,8 +1,8 @@
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { BroadcastService } from './../../shared/services/broadcast.service';
-import { Subscription } from 'rxjs/Subscription';
-import { ScenarioIds, SiteTabIds } from './../../shared/models/constants';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
+import { SiteTabIds, ScenarioIds } from './../../shared/models/constants';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -21,9 +21,7 @@ import { AuthzService } from '../../shared/services/authz.service';
 import { PortalService } from '../../shared/services/portal.service';
 import { Site } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
-import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
-import { FunctionAppContextComponent } from '../../shared/components/function-app-context-component';
-import { FunctionAppService } from '../../shared/services/function-app.service';
+import { SiteDescriptor } from '../../shared/resourceDescriptors';
 
 @Component({
     selector: 'site-manage',
@@ -31,18 +29,23 @@ import { FunctionAppService } from '../../shared/services/function-app.service';
     styleUrls: ['./site-manage.component.scss'],
 })
 
-export class SiteManageComponent extends FunctionAppContextComponent implements OnDestroy {
+export class SiteManageComponent implements OnDestroy {
     public groups1: FeatureGroup[];
     public groups2: FeatureGroup[];
     public groups3: FeatureGroup[];
 
     public searchTerm = '';
+    public TabIds = SiteTabIds;
+
+    public viewInfo: TreeViewInfo<SiteData>;
 
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
-    private _descriptor: ArmSiteDescriptor;
+    private _descriptor: SiteDescriptor;
 
     private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
     private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
+
+    private _selectedFeatureSubscription: RxSubscription;
 
     private _busyManager: BusyStateScopeManager;
 
@@ -56,19 +59,15 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
         private _aiService: AiService,
         private _cacheService: CacheService,
         private _translateService: TranslateService,
-        private _scenarioService: ScenarioService,
-        broadcastService: BroadcastService,
-        functionAppService: FunctionAppService) {
-        super('site-manage', functionAppService, broadcastService);
+        private _broadcastService: BroadcastService,
+        private _scenarioService: ScenarioService) {
 
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
-    }
-
-    setup(): Subscription {
-        return this.viewInfoEvents
+        this._viewInfoStream
             .switchMap(viewInfo => {
                 this._busyManager.setBusy();
+                this.viewInfo = viewInfo;
                 return this._cacheService.getArm(viewInfo.resourceId);
             })
             .switchMap(r => {
@@ -78,7 +77,7 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 const site: ArmObj<Site> = r.json();
 
                 this._portalService.closeBlades();
-                this._descriptor = new ArmSiteDescriptor(site.id);
+                this._descriptor = new SiteDescriptor(site.id);
                 this._disposeGroups();
 
                 this._initCol1Groups(site);
@@ -123,7 +122,10 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
         this._busyManager.clearBusy();
         this._portalService.closeBlades();
         this._disposeGroups();
-        super.ngOnDestroy();
+        if (this._selectedFeatureSubscription) {
+            this._selectedFeatureSubscription.unsubscribe();
+            this._selectedFeatureSubscription = null;
+        }
     }
 
     private _disposeGroups() {
@@ -153,11 +155,11 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
     }
 
     //Bug 10307095:[RTM] [BugBash] Use Environment Switcher to properly enable and disable feature in OnPrem
-    private _isOnprem(): boolean {
+    private _isOnprem() : boolean {
         return window.appsvc.env.runtimeType === "OnPrem";
     }
 
-    private _initCol1Groups(site: ArmObj<Site>) {
+    private _initCol1Groups(site : ArmObj<Site>){
         let codeDeployFeatures = [
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_deploymentSourceName),
@@ -299,9 +301,9 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 this._translateService.instant(PortalResources.feature_allSettingsInfo),
                 'image/webapp.svg',
                 {
-                    detailBlade: this._isOnprem() ? "WebsiteBlade" : "AppsOverviewBlade",
-                    detailBladeInputs: {
-                        id: site.id
+                    detailBlade : this._isOnprem() ? "WebsiteBlade" : "AppsOverviewBlade",
+                    detailBladeInputs : {
+                        id : site.id
                     }
                 },
                 this._portalService)
@@ -310,7 +312,7 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
         // Instead of setting null in Features array, We are removing it here to minimize merge conflict
         // PLease remove it after merge from dev and fix properly with environmentswicther
         if (this._isOnprem()) {
-            developmentToolFeatures.splice(3, 1); //removing ResourceExplorer
+            developmentToolFeatures.splice(3,1); //removing ResourceExplorer
         }
 
         this.groups1 = [
@@ -459,9 +461,9 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
         // Instead of setting null in Features array, We are removing it here to minimize merge conflict
         // PLease remove it after merge from dev and fix properly with environmentswicther
         if (this._isOnprem()) {
-            networkFeatures.splice(0, 1); // Networking
-            networkFeatures.splice(3, 1); // push notification
-            monitoringFeatures.splice(3, 1); // Security scanning
+            networkFeatures.splice(0,1); // Networking
+            networkFeatures.splice(3,1); // push notification
+            monitoringFeatures.splice(3,1); // Security scanning
         }
 
         this.groups2 = [
@@ -607,7 +609,7 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 },
                 this._portalService),
 
-            // new NotImplementedFeature('Clone app', 'clone app', 'Info'),  // TODO: [ehamai] - Need to implent
+            // new NotImplementedFeature('Clone app', 'clone app', 'Info'),  // TODO: ellhamai - Need to implent
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_automationScriptName),
@@ -629,7 +631,7 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 },
                 this._portalService),
 
-            // new NotImplementedFeature(  // TODO: [ehamai] - Need to implement
+            // new NotImplementedFeature(  // TODO: ellhamai - Need to implement
             //     'New support request',
             //     'support request',
             //     'Info'),
@@ -638,7 +640,7 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
         // Instead of setting null in Features array, We are removing it here to minimize merge conflict
         // PLease remove it after merge from dev and fix properly with environmentswicther
         if (this._isOnprem()) {
-            resourceManagementFeatures.splice(4, 1); //Automation script
+            resourceManagementFeatures.splice(4,1); //Automation script
         }
         this.groups3 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),

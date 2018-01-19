@@ -1,35 +1,30 @@
-import { ExtensionInstallStatusConstants } from './../shared/models/constants';
-import { TranslateService } from '@ngx-translate/core';
-import { BroadcastService } from './../shared/services/broadcast.service';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Component, Input, Output } from '@angular/core';
 import { RuntimeExtension } from '../shared/models/binding';
+import { FunctionApp } from '../shared/function-app';
 import { Observable } from 'rxjs/Observable';
+import { ExtensionInstallStatus } from '../shared/models/constants';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { BaseExtensionInstallComponent } from 'app/extension-install/base-extension-install-component';
-import { AiService } from '../shared/services/ai.service';
 
 @Component({
     selector: 'extension-install',
     templateUrl: './extension-install.component.html',
     styleUrls: ['./extension-install.component.scss']
 })
-export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
+
+export class ExtensionInstallComponent {
     @Input() integrateText;
     @Input() loading = false;
     @Input() installing = false;
     @Output() installed: BehaviorSubject<boolean> = new BehaviorSubject(false);
     packages: RuntimeExtension[];
     installationSucceeded = false;
+    private _functionApp: FunctionApp;
     extensions: RuntimeExtension[];
     public installJobs: any[] = [];
-
-    constructor(
-        broadcastService: BroadcastService,
-        translateService: TranslateService,
-        aiService: AiService,
-        private _functionAppService: FunctionAppService) {
-        super('extension-install', _functionAppService, broadcastService, aiService, translateService);
+    @Input() set functionApp(functionApp: FunctionApp) {
+        if (functionApp) {
+            this._functionApp = functionApp;
+        }
     }
 
     @Input() set requiredExtensions(runtimeExtensions: RuntimeExtension[]) {
@@ -52,7 +47,7 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
         if (this.extensions.length > 0) {
             const extensionCalls: Observable<any>[] = [];
             this.extensions.forEach(extension => {
-                extensionCalls.push(this._functionAppService.installExtension(this.context, extension));
+                extensionCalls.push(this._functionApp.installExtension(extension));
             });
 
             // Check install status
@@ -72,7 +67,7 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
             if (timeOut > 600) {
                 this.GetRequiredExtensions(this.extensions).subscribe((r) => {
                     this.extensions = r;
-                    this.showTimeoutError(this.context);
+                    this._functionApp.showTimeoutError();
                     this.installing = false;
                     this.installed.next(this.extensions.length === 0);
                 });
@@ -85,11 +80,11 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
                 this.installJobs.forEach(job => {
                     // if resulted in error not added to status
                     if (job && job.id) {
-                        status.push(this._functionAppService.getExtensionInstallStatus(this.context, job.id));
+                        status.push(this._functionApp.getExtensionInstallStatus(job.id));
                     }
                 });
 
-                // No installation to keep track of
+                // No installation to keep track of 
                 // All extension installations resulted in error like 500
                 if (status.length === 0) {
                     this.installing = false;
@@ -100,13 +95,12 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
                     const job: any[] = [];
                     r.forEach(jobStatus => {
                         // if failed then show error, remove from status tracking queue
-                        if (jobStatus.status === ExtensionInstallStatusConstants.Failed) {
-                            this.showInstallFailed(this.context, jobStatus.id);
+                        if (jobStatus.status === ExtensionInstallStatus.Failed) {
+                            this._functionApp.showInstallFailed(jobStatus.id);
                         }
 
                         // error status also show up here, error is different from failed
-                        if (jobStatus.status !== ExtensionInstallStatusConstants.Succeeded &&
-                            jobStatus.status !== ExtensionInstallStatusConstants.Failed) {
+                        if (jobStatus.status !== ExtensionInstallStatus.Succeeded && jobStatus.status !== ExtensionInstallStatus.Failed) {
                             job.push(jobStatus);
                         }
 
@@ -137,27 +131,26 @@ export class ExtensionInstallComponent extends BaseExtensionInstallComponent {
 
     GetRequiredExtensions(templateExtensions: RuntimeExtension[]) {
         const extensions: RuntimeExtension[] = [];
-        return this._functionAppService.getHostExtensions(this.context)
-            .map(r => {
-                // no extensions installed, all template extensions are required
-                if (!r.isSuccessful || !r.result.extensions) {
-                    return templateExtensions;
-                }
+        return this._functionApp.getHostExtensions().map(r => {
+            // no extensions installed, all template extensions are required
+            if (!r.extensions) {
+                return templateExtensions;
+            }
 
-                templateExtensions.forEach(requiredExtension => {
-                    let isInstalled = false;
-                    r.result.extensions.forEach(installedExtension => {
-                        isInstalled = isInstalled
-                            || (installedExtension.id
-                                && requiredExtension.id === installedExtension.id
-                                && requiredExtension.version === installedExtension.version);
-                    });
-
-                    if (!isInstalled) {
-                        extensions.push(requiredExtension);
-                    }
+            templateExtensions.forEach(requiredExtension => {
+                let isInstalled = false;
+                r.extensions.forEach(installedExtension => {
+                    isInstalled = isInstalled
+                        || (installedExtension.id
+                            && requiredExtension.id === installedExtension.id
+                            && requiredExtension.version === installedExtension.version);
                 });
-                return extensions;
+
+                if (!isInstalled) {
+                    extensions.push(requiredExtension);
+                }
             });
+            return extensions;
+        });
     }
 }

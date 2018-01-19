@@ -1,4 +1,5 @@
 import { FunctionInfo } from './../shared/models/function-info';
+import { FunctionApp } from './../shared/function-app';
 import { Subject } from 'rxjs/Subject';
 import { AppModule } from './../app.module';
 import { AiService } from './../shared/services/ai.service';

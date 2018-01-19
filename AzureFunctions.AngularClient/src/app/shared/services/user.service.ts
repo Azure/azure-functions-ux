@@ -192,9 +192,8 @@ export class UserService {
             const key = `/string-resources/${input.runtime}`;
             storageItem = <ResourceStringsStorageItem>this._localStorageService.getItem(key)
 
-            const lang = input.lang ? input.lang : 'en';
             const getResources = this._http.get(
-                `${Constants.serviceHost}api/resources?name=${lang}&runtime=${input.runtime}`,
+                `${Constants.serviceHost}api/resources?name=${input.lang}&runtime=${input.runtime}`,
                 { headers: LanguageServiceHelper.getApiControllerHeaders() })
                 .retryWhen(LanguageServiceHelper.retry)
                 .do(r => {

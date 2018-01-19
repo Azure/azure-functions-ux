@@ -44,13 +44,13 @@
 
     <tr *ngFor="let item of table.items">
       <ng-container *ngIf="item.type === 'row' && table.groupedBy === 'none'">
-        <td><a class="link" (click)="clickRow(item)" [activate-with-keys]>{{item.title}}</a></td>
+        <td><a (click)="clickRow(item)">{{item.title}}</a></td>
         <td>{{item.resourceGroup}}</td>
         <td>{{item.location}}</td>
       </ng-container>
 
       <ng-container *ngIf="item.type === 'row' && table.groupedBy !== 'none'">
-        <td class='tabbed'><a class="link" (click)="clickRow(item)" [activate-with-keys]>{{item.title}}</a></td>
+        <td class='tabbed'><a (click)="clickRow(item)">{{item.title}}</a></td>
         <td>{{item.resourceGroup}}</td>
         <td>{{item.location}}</td>
       </ng-container>

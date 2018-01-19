@@ -147,31 +147,11 @@ namespace AzureFunctions.Controllers
                 : Request.CreateErrorResponse(HttpStatusCode.InternalServerError, runtimeTokenOrError);
         }
 
+        [Authorize]
         [HttpPost]
         public Task<HttpResponseMessage> PassThrough(RequestObject clientRequest)
         {
             return _passThroughRequestManager.HandleRequest(clientRequest);
-        }
-
-        [HttpPost]
-        public async Task<HttpResponseMessage> TriggerFunctionAPIM(TriggerFunctionModel request)
-        {
-            var apimKey = Environment.GetEnvironmentVariable("APIMSubscriptionKey");
-            if(String.IsNullOrEmpty(apimKey))
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "No APIMSubscriptionKey set");
-            }
-
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "");
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Trace", "true");
-
-                var content = new StringContent(request.body, Encoding.UTF8, "application/json");
-                return await client.PostAsync(request.url, content);
-            }
         }
 
         private JObject ConvertResxToJObject(List<string> resxFiles)

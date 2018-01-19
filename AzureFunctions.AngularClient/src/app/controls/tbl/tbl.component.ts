@@ -1,8 +1,12 @@
-import { KeyCodes } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
+import { KeyCodes } from './../../shared/models/constants';
 import { TblThComponent } from './tbl-th/tbl-th.component';
 import { Input, OnChanges, SimpleChange, ElementRef, ViewChild, ContentChildren, QueryList } from '@angular/core';
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterContentChecked
+} from "@angular/core";
 
 export interface TableItem {
   type: 'row' | 'group';
@@ -15,7 +19,7 @@ export interface TableItem {
     #tbl
     [class]='tblClass'
     (click)='onClick($event)'
-    (keydown)="onKeyDown($event)"
+    (keydown)="onKeyPress($event)"
     role="grid"
     [attr.aria-label]="name">
       <ng-content></ng-content>
@@ -50,7 +54,7 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
   ngOnInit() {
   }
 
-  ngAfterContentChecked() {
+  ngAfterContentChecked(){
     this.headers.forEach(h => h.table = this);
   }
 
@@ -60,28 +64,21 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       this.items = items.currentValue;
       this._origItems = items.currentValue;
 
-      // Whenever we update the table, we'll reset the roving tabindex
-      setTimeout(() => {
-        this._resetRovingTabindex();
-      });
-    }
-  }
+      // Whenever we update the table, we'll set the first cell to be the only tab-able cell.
+      const rows = this._getRows();
+      if (rows.length > 0) {
+        const cells = this._getCells(rows[0]);
 
-  private _resetRovingTabindex() {
-    this._focusedRowIndex = -1;
-    this._focusedCellIndex = -1;
+        if (cells.length > 0) {
 
-    // Set the first cell to be the only tab-able cell.
-    this._removeAllFromTaborder();
-    const rows = this._getRows();
-    if (rows.length > 0) {
-      const cells = this._getCells(rows[0]);
-      if (cells.length > 0) {
-        const cell = Dom.getTabbableControl(cells[0]);
-        cell.tabIndex = 0;
-        this._focusedRowIndex = 0;
-        this._focusedCellIndex = 0;
+          const cell = Dom.getTabbableControl(cells[0]);
+          cell.tabIndex = 0;
+          this._focusedRowIndex = 0;
+          this._focusedCellIndex = 0;
+
+        }
       }
+
     }
   }
 
@@ -101,22 +98,15 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
 
       if (rowIndex >= 0 && cellIndex >= 0) {
         this._clearFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
-        if (e.target === cell || document.activeElement === cell) {
-          this._setFocusOnCell(rows, rowIndex, cellIndex);
-        }
-        else if (cell.contains(document.activeElement)) {
-          Dom.setFocusable(document.activeElement as HTMLElement);
-          this._focusedRowIndex = rowIndex;
-          this._focusedCellIndex = cellIndex;
-        }
+        this._setFocusOnCell(rows, rowIndex, cellIndex);
       }
     }
   }
 
-  // Gets called for any keydown events that occur whenever the focus is currently
+  // Gets called for any keypresses that occur whenever the focus is currently
   // on the table.  Most of the handling here should be for keyboard navigation
   // like up/down/left/right and enter keys.
-  onKeyDown(event: KeyboardEvent) {
+  onKeyPress(event: KeyboardEvent) {
     if (event.keyCode === KeyCodes.arrowRight) {
 
       const rows = this._getRows();
@@ -147,20 +137,15 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
 
     } else if (event.keyCode === KeyCodes.enter) {
 
-      // If focus is currently on a cell (NOT on a control inside a cell), hitting enter
-      // will result in a "click" on the first tab-able element in the cell (or on the cell itself
-      // if the cell contains no tab-able elements).
-      const target = event.target as HTMLElement;
-      if (target.tagName === 'TD' || target.tagName === 'TH') {
-        const rows = this._getRows();
-        const curCell = this._getCurrentCellOrReset(rows);
-        if (curCell) {
-          if (curCell !== document.activeElement) {
-            Dom.setFocus(curCell);
-          }
-          curCell.click();
-          event.preventDefault();
-        }
+      // On "enter", we'll "click" on the current cell
+      const rows = this._getRows();
+      const curCell = this._getCurrentCellOrReset(rows);
+      if (curCell) {
+        curCell.click();
+
+        setTimeout(() => {
+          this._setFocusOnCell(rows, this._focusedRowIndex, this._focusedCellIndex);
+        }, 0);
       }
 
     } else if (event.keyCode === KeyCodes.escape) {
@@ -243,20 +228,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     Dom.scrollIntoView(elem, window.document.body);
   }
 
-  private _removeAllFromTaborder() {
-    const cells = (<HTMLTableElement>this.table.nativeElement).querySelectorAll('td, th');
-    for (let i = 0; i < cells.length; i++) {
-      const element = <HTMLElement>cells[i];
-      Dom.clearFocus(element);
-    }
-
-    const controls = Dom.getTabbableControls(<HTMLTableElement>this.table.nativeElement);
-    for (let i = 0; i < controls.length; i++) {
-      const element = <HTMLElement>controls[i];
-      Dom.clearFocus(element);
-    }
-  }
-
   private _getRows() {
     return (<HTMLTableElement>this.table.nativeElement).querySelectorAll('tr');
   }
@@ -281,7 +252,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
       const srcCells = this._getCells(srcRow);
 
       if (cellIndex >= 0 && cellIndex < srcCells.length) {
-        Dom.clearFocus(srcCells[cellIndex]);
         const control = Dom.getTabbableControl(srcCells[cellIndex]);
         Dom.clearFocus(control);
       }
@@ -358,8 +328,6 @@ export class TblComponent implements OnInit, OnChanges, AfterContentChecked {
     if (!this.groupColName) {
       throw Error('No group name was specified for this table component');
     }
-
-    this._resetRovingTabindex();
 
     this.groupedBy = name;
 

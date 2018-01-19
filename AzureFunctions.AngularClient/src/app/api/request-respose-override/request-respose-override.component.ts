@@ -1,9 +1,9 @@
-import { HttpMethods } from './../../shared/models/constants';
 import { Component, Input, Output } from '@angular/core';
 import { PairListOptions, Pair } from '../../controls/pair-list/pair-list.component';
-import { Validators, FormGroup } from '@angular/forms';
+import { Validators, FormGroup} from '@angular/forms';
+import { Constants, Regex } from '../../shared/models/constants';
 import { Subject } from 'rxjs/Subject';
-import { Regex } from 'app/shared/models/constants';
+import { FunctionApp} from '../../shared/function-app';
 
 export interface RequestResponseOverrriedModel {
     method: string;
@@ -16,25 +16,26 @@ export interface RequestResponseOverrriedModel {
 }
 
 @Component({
-    selector: 'request-respose-override',
-    templateUrl: './request-respose-override.component.html',
-    styleUrls: ['./request-respose-override.component.scss', '../../binding-input/binding-input.component.css']
+  selector: 'request-respose-override',
+  templateUrl: './request-respose-override.component.html',
+  styleUrls: ['./request-respose-override.component.scss', '../../binding-input/binding-input.component.css']
 })
 export class RequestResposeOverrideComponent {
     headerOptions: PairListOptions;
     paramsOptions: PairListOptions;
     responseHeaderOptions: PairListOptions;
     availableMethods: string[] = [
-        HttpMethods.POST,
-        HttpMethods.GET,
-        HttpMethods.DELETE,
-        HttpMethods.HEAD,
-        HttpMethods.PATCH,
-        HttpMethods.PUT,
-        HttpMethods.OPTIONS,
-        HttpMethods.TRACE
+        Constants.httpMethods.POST,
+        Constants.httpMethods.GET,
+        Constants.httpMethods.DELETE,
+        Constants.httpMethods.HEAD,
+        Constants.httpMethods.PATCH,
+        Constants.httpMethods.PUT,
+        Constants.httpMethods.OPTIONS,
+        Constants.httpMethods.TRACE
     ];
     model: RequestResponseOverrriedModel;
+    @Input() functionApp: FunctionApp;
     @Output() valueChanges = new Subject<any>();
     showResponse = false;
     showRequest = false
@@ -50,7 +51,7 @@ export class RequestResposeOverrideComponent {
 
     @Input() set proxy(value: any) {
 
-        if (!value) {
+        if(!value){
             return;
         }
 

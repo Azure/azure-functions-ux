@@ -1,20 +1,16 @@
-import { BroadcastService } from './../shared/services/broadcast.service';
-import { Component, OnDestroy, Input, Inject, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnChanges, Input, Inject, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { FunctionInfo } from '../shared/models/function-info';
 import { UserService } from '../shared/services/user.service';
 import { UtilitiesService } from '../shared/services/utilities.service';
-import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
-import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
 
 @Component({
     selector: 'log-streaming',
     templateUrl: './log-streaming.component.html',
     styleUrls: ['./log-streaming.component.scss', '../function-dev/function-dev.component.scss']
 })
-export class LogStreamingComponent extends FunctionAppContextComponent implements OnDestroy {
+export class LogStreamingComponent implements OnDestroy, OnChanges {
     public log: string;
     public stopped: boolean;
     public timerInterval = 1000;
@@ -26,7 +22,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     private token: string;
     private tokenSubscription: Subscription;
     private skipLength = 0;
-    private functionInfo: FunctionInfo;
+    @Input() functionInfo: FunctionInfo;
     @Input() isHttpLogs: boolean;
     @Output() closeClicked = new EventEmitter<any>();
     @Output() expandClicked = new EventEmitter<boolean>();
@@ -34,22 +30,15 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     constructor(
         @Inject(ElementRef) private _elementRef: ElementRef,
         private _userService: UserService,
-        private _functionAppService: FunctionAppService,
-        private _utilities: UtilitiesService,
-        broadcastService: BroadcastService) {
-        super('log-streaming', _functionAppService, broadcastService);
+        private _utilities: UtilitiesService) {
         this.tokenSubscription = this._userService.getStartupInfo().subscribe(s => this.token = s.token);
         this.log = '';
         this.timeouts = [];
     }
 
-    setup(): Subscription {
-        return this.viewInfoEvents
-            .subscribe(view => {
-                this.functionInfo = view.functionInfo.result;
-                this.initLogs(this.isHttpLogs);
-                this.startLogs();
-            });
+    ngOnChanges() {
+        this.initLogs(this.isHttpLogs);
+        this.startLogs();
     }
 
     ngOnDestroy() {
@@ -62,7 +51,6 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
             this.tokenSubscription.unsubscribe();
             delete this.tokenSubscription;
         }
-        super.ngOnDestroy();
     }
 
     startLogs() {
@@ -83,7 +71,7 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
     }
 
     handleKeyPress(e: KeyboardEvent) {
-        if ((e.which === 65 || e.keyCode === 65) && (e.ctrlKey || e.metaKey)) {
+        if ((e.which === 65 || e.keyCode == 65) && (e.ctrlKey || e.metaKey)) {
             e.preventDefault();
             this._utilities.highlightText(this._elementRef.nativeElement.querySelector('pre'));
         }
@@ -103,33 +91,6 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         this.expandClicked.emit(false);
     }
 
-    keyDown(KeyboardEvent: any, command: string) {
-        if (AccessibilityHelper.isEnterOrSpace(event)) {
-            switch (command) {
-                case 'startLogs':
-                    this.startLogs();
-                    break;
-                case 'stopLogs':
-                    this.stopLogs();
-                    break;
-                case 'clearLogs':
-                    this.clearLogs();
-                    break;
-                case 'copyLogs':
-                    this.copyLogs();
-                    break;
-                case 'expand':
-                    this.expand();
-                    break;
-                case 'compress':
-                    this.compress();
-                    break;
-                case 'close':
-                    this.close();
-                    break;
-            }
-        }
-    }
 
     private initLogs(createEmpty: boolean = true, log?: string) {
         const maxCharactersInLog = 500000;
@@ -153,22 +114,21 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
                 }
             }
 
-            const scmUrl = this.context.scmUrl;
+            const scmUrl = this.functionInfo.functionApp.getScmUrl();
 
             this.xhReq = new XMLHttpRequest();
             const url = `${scmUrl}/api/logstream/application/functions/function/${this.functionInfo.name}`;
 
             this.xhReq.open('GET', url, true);
-            if (this._functionAppService._tryFunctionsBasicAuthToken) {
-                // TODO: [ahmels] Fix token
-                this.xhReq.setRequestHeader('Authorization', `Basic ${this._functionAppService._tryFunctionsBasicAuthToken}`);
+            if (this.functionInfo.functionApp.tryFunctionsScmCreds) {
+                this.xhReq.setRequestHeader('Authorization', `Basic ${this.functionInfo.functionApp.tryFunctionsScmCreds}`);
             } else {
                 this.xhReq.setRequestHeader('Authorization', `Bearer ${this.token}`);
             }
             this.xhReq.setRequestHeader('FunctionsPortal', '1');
             this.xhReq.send(null);
             if (!createEmpty) {
-                this._functionAppService.getOldLogs(this.context, this.functionInfo, 10000).subscribe(r => oldLogs = r.result);
+                this.functionInfo.functionApp.getOldLogs(this.functionInfo, 10000).subscribe(r => oldLogs = r);
             }
 
             const callBack = () => {

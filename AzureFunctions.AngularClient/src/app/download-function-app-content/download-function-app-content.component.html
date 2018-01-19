@@ -3,13 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>{{'downloadFunctionAppContent' | translate}}</h3>
-                <button 
-                    type="button" 
-                    class="close" 
-                    (click)="closeModal()" 
-                    [attr.aria-label]="'close' | translate">
-                    &times;
-                </button>
+                <button type="button" class="close" (click)="closeModal()">&times;</button>
             </div>
 
             <div class="modal-body">
@@ -17,8 +11,7 @@
                 <div check-scenario="DownloadWithVsProj" 
                      [cs-input]="{}"
                      cs-enabledByDefault="true">
-                    <radio-selector [focusOnLoad]="true"
-                                    [defaultValue]="currentDownloadOption"
+                    <radio-selector [defaultValue]="currentDownloadOption"
                                     [options]="downloadOptions"
                                     (value)="currentDownloadOption = $event">
                     </radio-selector>
@@ -27,11 +20,8 @@
                      [cs-input]="{}"
                      cs-enabledByDefault="true"
                      id="app-settings-checkbox">
-                    <input
-                        type="checkbox" 
-                        aria-labelledby="includeAppSettingsLabel"
-                        [(ngModel)]="includeAppSettings"/>
-                    <label id="includeAppSettingsLabel">{{ 'downloadFunctionAppContent_includeAppSettings' | translate }}</label>
+                    <input type="checkbox" [(ngModel)]="includeAppSettings" />
+                    <label>{{ 'downloadFunctionAppContent_includeAppSettings' | translate }}</label>
                     <pop-over [position]="'bottom'" [message]="'downloadFunctionAppContent_includeAppSettingsHelp' | translate">
                         <span class="glyphicon glyphicon-info-sign button-title"></span>
                     </pop-over>

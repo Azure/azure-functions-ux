@@ -4,7 +4,7 @@
       {{ 'appFunctionSettings_proxyEnabled' | translate }}
     </div>
 
-    <div *ngIf="context?.site.properties?.sku === 'Dynamic'" class="setting-wrapper">
+    <div *ngIf="site?.properties?.sku === 'Dynamic'" class="setting-wrapper">
         <label id="dailyUsageQuotaLabel" class="title-label">{{ 'functionAppSettings_dailyUsageQuota' | translate }}
             <pop-over [message]="( 'functionAppSettings_dailyUsageQuotaHelp' | translate )" [position]="'bottom'">
                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -84,7 +84,7 @@
                 </button>
             </div>
             <div *ngIf="hasFunctions" class="alert alert-warning">
-                <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+                <div class="alert-icon" load-image="image/warning.svg"></div>
                 <div class="alert-message">
                     <span class="title-label">{{ 'appFunctionSettings_warning_6' | translate }}</span><br/>
                     <span>{{ 'appFunctionSettings_warning_7' | translate }}</span><br/>
@@ -141,7 +141,7 @@
         <label id="slotEnableLabel" class="title-label">{{ 'appFunctionSettings_slotsOptinSettings' | translate}}</label>
         <p>{{ 'appFunctionSettings_slotsDesc' | translate }}</p>
         <div class="alert alert-warning">
-            <img class="alert-icon" src="image/warning.svg" alt="{{ 'warning' | translate}}"/>
+            <div class="alert-icon" load-image="image/warning.svg"></div>
             <div class="alert-message">
                 <span class="title-label">{{ 'appFunctionSettings_warning_1' | translate }}</span><br/>
                 <span>{{ 'appFunctionSettings_warning_2' | translate }}</span><br/>
@@ -167,8 +167,10 @@
     <function-keys
         *ngIf="!isStopped"
         [autoSelect]="true"
-        [adminKeys]="true"
-        [viewInfo]="viewInfo"></function-keys>
+        [functionApp]="functionApp"></function-keys>
 
-    <host-editor *ngIf="context" class="features-wrapper" [functionAppInput]="context" ></host-editor>
+  <div *ngIf="!!functionApp">
+    <host-editor class="features-wrapper" [functionAppInput]="functionApp" ></host-editor>
+  </div>
+
 </div>

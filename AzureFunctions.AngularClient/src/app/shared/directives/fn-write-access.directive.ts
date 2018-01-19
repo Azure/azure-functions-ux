@@ -1,38 +1,32 @@
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { FunctionAppContext } from './../function-app-context';
+import { Observable } from 'rxjs/Observable';
 import { EditModeHelper } from './../Utilities/edit-mode.helper';
-import { Directive, Input, ElementRef, OnDestroy } from '@angular/core';
+import { Directive, Input, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/switchMap';
 
+import { FunctionApp } from './../function-app';
 
 @Directive({
     selector: '[fnWriteAccess]',
 })
-export class FnWriteAccessDirective implements OnDestroy {
+export class FnWriteAccessDirective {
 
-    functionAppContextStream: Subject<FunctionAppContext>;
+    functionAppStream: Subject<FunctionApp>;
 
-    @Input('fnWriteAccess')
-    set functionAppContext(value) {
-        if (this.functionAppContextStream && !this.functionAppContextStream.closed) {
-            this.functionAppContextStream.next(value);
-        }
+    @Input('fnWriteAccess') set functionApp(value) {
+        this.functionAppStream.next(value);
     }
 
-    ngOnDestroy(): void {
-        this.functionAppContextStream.complete();
-        delete this.functionAppContextStream;
-    }
+    constructor(private elementRef: ElementRef) {
+        this.functionAppStream = new Subject<FunctionApp>();
 
-    constructor(private elementRef: ElementRef, functionAppService: FunctionAppService) {
-        this.functionAppContextStream = new Subject<FunctionAppContext>();
-
-        this.functionAppContextStream
-            .filter(c => !!c)
-            .switchMap(c => functionAppService.getFunctionAppEditMode(c))
-            .map(result => result.isSuccessful ? EditModeHelper.isReadOnly(result.result) : false)
+        this.functionAppStream
+            .debounceTime(100)
+            .switchMap(fa => {
+                return fa ? fa.getFunctionAppEditMode() : Observable.of(null);
+            })
+            .map(EditModeHelper.isReadOnly)
             .subscribe(isReadOnly => {
                 if (isReadOnly) {
                     this.elementRef.nativeElement.style.pointerEvents = 'none';

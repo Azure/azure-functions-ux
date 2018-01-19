@@ -253,10 +253,9 @@ namespace AzureFunctions
 
             config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
 
-            config.Routes.MapHttpRoute("passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "PassThrough", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+            config.Routes.MapHttpRoute("passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "PassThrough", authrnticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
 
             config.Routes.MapHttpRoute("get-runtime-token", "api/runtimeToken/{*armId}", new { controller = "AzureFunctions", action = "GetRuntimeToken", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
-            config.Routes.MapHttpRoute("trigger-function-apim", "api/triggerFunctionAPIM", new { controller = "AzureFunctions", action = "TriggerFunctionAPIM", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
         }
     }
 }

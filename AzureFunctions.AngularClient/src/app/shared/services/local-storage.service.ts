@@ -1,15 +1,15 @@
 import { LocalStorageKeys } from './../models/constants';
 import { Injectable } from '@angular/core';
 import { StorageItem, StoredSubscriptions } from '../models/localStorage/local-storage';
-import { AiService } from 'app/shared/services/ai.service';
+import { AiService } from "app/shared/services/ai.service";
 
 @Injectable()
 export class LocalStorageService {
-    private _apiVersion = '2017-07-01';
-    private _apiVersionKey = 'appsvc-api-version';
+    private _apiVersion = "2017-07-01";
+    private _apiVersionKey = "appsvc-api-version";
 
     constructor(private _aiService: AiService) {
-        const apiVersion = localStorage.getItem(this._apiVersionKey);
+        let apiVersion = localStorage.getItem(this._apiVersionKey);
         if (!apiVersion || apiVersion !== this._apiVersion) {
             this._resetStorage();
         }
@@ -25,7 +25,7 @@ export class LocalStorageService {
     addtoSavedSubsKey(sub: string) {
         let savedSubs = <StoredSubscriptions>this.getItem(LocalStorageKeys.savedSubsKey);
         if (!savedSubs) {
-            savedSubs = <StoredSubscriptions>{
+            savedSubs =  <StoredSubscriptions>{
                 id: LocalStorageKeys.savedSubsKey,
                 subscriptions: []
             };
@@ -37,7 +37,8 @@ export class LocalStorageService {
     setItem(key: string, item: StorageItem) {
         try {
             localStorage.setItem(key, JSON.stringify(item));
-        } catch (e) {
+        }
+        catch (e) {
             this._aiService.trackEvent(
                 '/storage-service/error', {
                     error: `Clearing local storage with ${localStorage.length} items.  ${e}`
@@ -47,7 +48,8 @@ export class LocalStorageService {
 
             try {
                 localStorage.setItem(key, JSON.stringify(item));
-            } catch (e2) {
+            }
+            catch (e2) {
                 this._aiService.trackEvent(
                     '/storage-service/error', {
                         error: `Failed to save to local storage on 2nd attempt. ${e2}`
@@ -59,7 +61,8 @@ export class LocalStorageService {
     removeItem(key: string) {
         try {
             localStorage.removeItem(key);
-        } catch (e) {
+        }
+        catch (e) {
             this._aiService.trackEvent(
                 '/storage-service/error', {
                     error: `Failed to remove from local storage.  ${e}`
@@ -69,8 +72,9 @@ export class LocalStorageService {
 
     public addEventListener(handler: (StorageEvent) => void, caller: any) {
         try {
-            window.addEventListener('storage', handler.bind(caller));
-        } catch (e) {
+            window.addEventListener("storage", handler.bind(caller));
+        }
+        catch (e) {
             this._aiService.trackEvent(
                 '/storage-service/error', {
                     error: `Failed to add local storage event listener. ${e}`

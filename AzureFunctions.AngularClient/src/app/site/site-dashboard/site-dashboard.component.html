@@ -1,5 +1,13 @@
 <div id="site-dashboard-container">
 
+    <img check-scenario="ShowSitePin"
+         [cs-input]="{}"
+         cs-enabledByDefault="true"
+         id="site-dashboard-pin"
+         class="link"
+         src="image/pin.svg"
+         (click)="pinPart()" />
+
     <nav id="site-tabs" role="tablist" #siteTabs>
         <div *ngFor="let info of tabInfos"
             class="site-tab-label"
@@ -9,10 +17,8 @@
             [tabindex]="info.active ? 0 : -1"
             (keydown)="onKeyPress($event, info)"
             role="tab"
-            [id]="'site-tab-' + info.id"
-            [attr.aria-controls]="'site-tab-content-' + info.id"
-            [attr.aria-selected]="info.active"
-            [attr.aria-label]="info.title">
+            aria-controls="site-tab-content"
+            [attr.aria-selected]="info.active ? 0 : -1">
 
             <span *ngIf="info.iconUrl" [load-image]="info.iconUrl" class="icon-small"></span>
             <h4>
@@ -26,19 +32,7 @@
         </div>
     </nav>
 
-    <img check-scenario="ShowSitePin"
-         [cs-input]="{}"
-         cs-enabledByDefault="true"
-         id="site-dashboard-pin"
-         class="link"
-         src="image/pin.svg"
-         (click)="pinPart()"
-         (keypress)="keypress($event)"
-         role="button"
-         tabindex="0"
-         [attr.aria-label]="'siteDashboard_pinApp' | translate"/>
-
-    <section id="site-tab-content">
+    <section id="site-tab-content" role="tabpanel">
 
         <site-tab *ngFor="let info of tabInfos"
             [title]="info.title"

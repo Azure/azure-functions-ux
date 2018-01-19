@@ -1,7 +1,8 @@
-import { Component, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { CacheService } from './../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
-import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
+import { FunctionApp } from '../../shared/function-app';
+import { SiteDescriptor } from './../../shared/resourceDescriptors';
 import { ArmObj, ArmArrayResult } from './../../shared/models/arm/arm-obj';
 import { ArmService } from '../../shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
@@ -9,10 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../../shared/models/select-option';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { Subscription } from 'rxjs/Subscription';
-import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { BroadcastService } from '../../shared/services/broadcast.service';
+import { Subscription } from "rxjs/Subscription";
 
 class OptionTypes {
     eventHub = 'EventHub';
@@ -39,7 +37,7 @@ interface IOTEndpoint {
     styleUrls: ['./../picker.scss']
 })
 
-export class EventHubComponent extends FunctionAppContextComponent {
+export class EventHubComponent {
     public namespaces: ArmArrayResult<any>;
     public eventHubs: ArmArrayResult<any>;
     public namespacePolices: ArmArrayResult<any>;
@@ -63,14 +61,14 @@ export class EventHubComponent extends FunctionAppContextComponent {
     @Output() close = new Subject<void>();
     @Output() selectItem = new Subject<string>();
 
+    private _functionApp: FunctionApp;
+    private _descriptor: SiteDescriptor;
+
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService,
-        functionAppService: FunctionAppService,
-        broadcastService: BroadcastService) {
-        super('event-hub', functionAppService, broadcastService, () => _globalStateService.setBusyState());
+        private _translateService: TranslateService) {
 
         this.options = [
             {
@@ -95,35 +93,30 @@ export class EventHubComponent extends FunctionAppContextComponent {
         });
     }
 
-    setup(): Subscription {
-        return this.viewInfoEvents
-            .do(() => this._globalStateService.clearBusyState())
-            .switchMap(view => {
-                const descriptor = new ArmSiteDescriptor(view.context.site.id);
-                const id = `/subscriptions/${descriptor.subscription}/providers/Microsoft.EventHub/namespaces`;
-                const devicesId = `/subscriptions/${descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
-                return Observable.zip(
-                    this._cacheService.getArm(id, true).catch(() => Observable.of(null)),
-                    this._cacheService.getArm(devicesId, true, '2017-01-19').catch(() => Observable.of(null))
-                );
-            })
-            .subscribe(tuple => {
-                if (tuple[0]) {
-                    this.namespaces = tuple[0].json();
-                    if (this.namespaces.value.length > 0) {
-                        this.selectedNamespace = this.namespaces.value[0].id;
-                        this.onChangeNamespace(this.selectedNamespace);
-                    }
-                }
+    @Input() set functionApp(functionApp: FunctionApp) {
+        this._functionApp = functionApp;
+        this._descriptor = new SiteDescriptor(functionApp.site.id);
 
-                if (tuple[1]) {
-                    this.IOTHubs = tuple[1].json();
-                    if (this.IOTHubs.value.length > 0) {
-                        this.selectedIOTHub = this.IOTHubs.value[0].id;
-                        this.onIOTHubChange(this.selectedIOTHub);
-                    }
-                };
-            });
+        const id = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.EventHub/namespaces`;
+
+        this._cacheService.getArm(id, true).subscribe(r => {
+            this.namespaces = r.json();
+            if (this.namespaces.value.length > 0) {
+                this.selectedNamespace = this.namespaces.value[0].id;
+                this.onChangeNamespace(this.selectedNamespace);
+            }
+        });
+
+        const devicesId = `/subscriptions/${this._descriptor.subscription}/providers/Microsoft.Devices/IotHubs`;
+
+        this._cacheService.getArm(devicesId, true, '2017-01-19').subscribe(r => {
+            this.IOTHubs = r.json();
+            if (this.IOTHubs.value.length > 0) {
+                this.selectedIOTHub = this.IOTHubs.value[0].id;
+                this.onIOTHubChange(this.selectedIOTHub);
+            }
+        });
+
     }
 
     onChangeNamespace(value: string) {
@@ -133,9 +126,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
         Observable.zip(
             this._cacheService.getArm(value + '/eventHubs', true),
             this._cacheService.getArm(value + '/AuthorizationRules', true),
-            (hubs, namespacePolices) => ({ hubs: hubs.json(), namespacePolices: namespacePolices.json() })
-        )
-            .subscribe(r => {
+            (hubs, namespacePolices) => ({ hubs: hubs.json(), namespacePolices: namespacePolices.json() })).subscribe(r => {
                 this.eventHubs = r.hubs;
                 if (this.eventHubs.value.length > 0) {
                     this.selectedEventHub = this.eventHubs.value[0].id;
@@ -149,8 +140,10 @@ export class EventHubComponent extends FunctionAppContextComponent {
 
                     this.selectedPolicy = r.namespacePolices.value[0].id;
                     this.polices = this.namespacePolices;
+
                 }
                 this.setSelect();
+
             });
     }
 
@@ -186,7 +179,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
                 if (r.keys.value) {
 
                     // find service policy
-                    const serviceKey: IOTKey = r.keys.value.find(item => (item.rights.toLowerCase().indexOf('registry') > -1));
+                    const serviceKey: IOTKey = r.keys.value.find(item => (item.keyName === 'iothubowner'));
                     if (serviceKey) {
                         this.IOTEndpoints = [
                             {
@@ -223,7 +216,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
                 let appSettingName: string;
                 return Observable.zip(
                     this._cacheService.postArm(this.selectedPolicy + '/listkeys', true, '2015-08-01'),
-                    this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
+                    this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true),
                     (p, a) => ({ keys: p, appSettings: a }))
                     .flatMap(r => {
                         const namespace = this.namespaces.value.find(p => p.id === this.selectedNamespace);
@@ -273,7 +266,7 @@ export class EventHubComponent extends FunctionAppContextComponent {
             if (appSettingName && appSettingValue) {
                 this.selectInProcess = true;
                 this._globalStateService.setBusyState();
-                this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true).flatMap(r => {
+                this._cacheService.postArm(`${this._functionApp.site.id}/config/appsettings/list`, true).flatMap(r => {
                     const appSettings: ArmObj<any> = r.json();
                     appSettings.properties[appSettingName] = appSettingValue;
                     return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
@@ -315,4 +308,5 @@ export class EventHubComponent extends FunctionAppContextComponent {
     private getIOTConnstionString(endpoint: string, path: string, key: string) {
         return `Endpoint=${endpoint};SharedAccessKeyName=iothubowner;SharedAccessKey=${key};EntityPath=${path}`;
     }
+
 }

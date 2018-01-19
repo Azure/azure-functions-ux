@@ -1,5 +1,5 @@
 import { FileUtilities } from './../shared/Utilities/file';
-import { Component, Input, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnChanges, SimpleChange, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FileUploader } from 'ng2-file-upload';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,11 +11,7 @@ import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { AiService } from '../shared/services/ai.service';
-import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
-import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-result';
+import { FunctionApp } from '../shared/function-app';
 
 
 @Component({
@@ -23,12 +19,13 @@ import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-resul
     templateUrl: './file-explorer.component.html',
     styleUrls: ['./file-explorer.component.scss', '../function-dev/function-dev.component.scss']
 })
-export class FileExplorerComponent extends FunctionAppContextComponent {
+export class FileExplorerComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Input() selectedFile: VfsObject;
-    functionInfo: FunctionInfo;
-    @Output() selectedFileChange: Subject<VfsObject>;
-    @Output() closeClicked = new Subject<any>();
+    @Input() functionInfo: FunctionInfo;
+    @Output() selectedFunctionChange: EventEmitter<FunctionInfo>;
+    @Output() selectedFileChange: EventEmitter<VfsObject>;
+    @Output() closeClicked = new EventEmitter<any>();
     @ViewChild('container') container: ElementRef;
 
     folders: VfsObject[];
@@ -37,19 +34,28 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
     currentVfsObject: VfsObject;
     history: VfsObject[];
     creatingNewFile: boolean;
+    renamingFile: boolean;
     newFileName: string;
 
     public uploader: FileUploader;
+    public functionApp: FunctionApp;
 
     constructor(
-        broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
+        private _broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        private _functionAppService: FunctionAppService,
         private _aiService: AiService) {
-        super('file-explorer', _functionAppService, broadcastService, () => this.setBusyState());
-
-        this.selectedFileChange = new Subject<VfsObject>();
+        this.selectedFileChange = new EventEmitter<VfsObject>();
+        this.selectedFunctionChange = new EventEmitter<FunctionInfo>();
+        this.selectedFunctionChange
+            .switchMap(e => {
+                this.functionApp = e.functionApp;
+                return this.functionApp.getVfsObjects(e)
+            })
+            .subscribe(r => {
+                this.folders = this.getFolders(r);
+                this.files = this.getFiles(r);
+            });
 
         this.history = [];
         // Kudu doesn't handle multipleparts upload correctly.
@@ -72,6 +78,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
 
         this.uploader.onCompleteAll = () => {
             this.uploader.clearQueue();
+            this.functionApp.ClearAllFunctionCache(this.functionInfo);
             this.refresh();
             this._aiService.trackEvent('/actions/file_explorer/upload_file');
         };
@@ -82,36 +89,17 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
 
     }
 
-    setup(): Subscription {
-        return this.viewInfoEvents
-            .switchMap(e => {
-                this.resetState();
-                if (e.functionInfo.isSuccessful) {
-                    this.functionInfo = e.functionInfo.result;
-                    this.currentTitle = this.functionInfo.name;
-                    return this._functionAppService.getVfsObjects(this.context, e.functionInfo.result);
-                } else {
-                    return Observable.of({
-                        isSuccessful: false,
-                        result: null,
-                        error: {
-                            errorId: ''
-                        }
-                    });
-                }
-            })
-            .do(() => this.clearBusyState())
-            .subscribe(r => {
-                if (r.isSuccessful) {
-                    this.folders = this.getFolders(r.result);
-                    this.files = this.getFiles(r.result);
-                }
-            });
+    ngOnChanges(changes: { [key: string]: SimpleChange }) {
+        if (changes['functionInfo']) {
+            this.currentTitle = this.functionInfo.name;
+            this.resetState();
+            this.selectedFunctionChange.emit(this.functionInfo);
+        }
     }
-
 
     resetState() {
         this.creatingNewFile = false;
+        this.renamingFile = false;
         delete this.newFileName;
     }
 
@@ -149,10 +137,10 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
                 this.currentVfsObject = vfsObject;
             }
 
-            this._functionAppService.getVfsObjects(this.context, typeof vfsObject === 'string' ? vfsObject : vfsObject.href)
+            this.functionInfo.functionApp.getVfsObjects(typeof vfsObject === 'string' ? vfsObject : vfsObject.href)
                 .subscribe(r => {
-                    this.folders = this.getFolders(r.result);
-                    this.files = this.getFiles(r.result);
+                    this.folders = this.getFolders(r);
+                    this.files = this.getFiles(r);
                     this.currentTitle = name || '..';
                     this.clearBusyState();
                 }, () => this.clearBusyState());
@@ -160,7 +148,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
         }
 
         if (typeof vfsObject !== 'string') {
-            this.selectedFileChange.next(vfsObject);
+            this.selectedFileChange.emit(vfsObject);
         }
     }
 
@@ -182,7 +170,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
         setTimeout(() => element.focus(), 50);
     }
 
-    addFile(content?: string): Observable<FunctionAppHttpResult<VfsObject | string>> {
+    addFile(content?: string): Observable<VfsObject | string> {
         if (this.newFileName && this.files.find(f => f.name.toLocaleLowerCase() === this.newFileName.toLocaleLowerCase())) {
             const error = {
                 message: this._translateService.instant(PortalResources.fileExplorer_fileAlreadyExists, { fileName: this.newFileName })
@@ -195,23 +183,23 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
             ? `${this.trim(this.currentVfsObject.href)}/${this.newFileName}`
             : `${this.trim(this.functionInfo.script_root_path_href)}/${this.newFileName}`;
         this.setBusyState();
-        const saveFileObservable = this._functionAppService.saveFile(this.context, href, content || '', this.functionInfo);
+        const saveFileObservable = this.functionApp.saveFile(href, content || '', this.functionInfo);
         saveFileObservable
             .subscribe(r => {
                 if (this.newFileName.indexOf('\\') !== -1 || this.newFileName.indexOf('/') !== -1) {
+                    this.functionApp.ClearAllFunctionCache(this.functionInfo);
                     this.refresh();
                     this._aiService.trackEvent('/actions/file_explorer/create_directory');
                 } else {
                     const o = typeof r === 'string'
-                        ? { name: this.newFileName, href: href, mime: 'file', mtime: Date.now.toString() }
-                        : r.result;
-                    if (typeof o !== 'string') {
-                        this.files.push(o);
-                        this.selectVfsObject(o, true);
-                        this._aiService.trackEvent('/actions/file_explorer/create_file');
-                    }
+                        ? { name: this.newFileName, href: href, mime: 'file' }
+                        : r;
+                    this.files.push(o);
+                    this.selectVfsObject(o, true);
+                    this._aiService.trackEvent('/actions/file_explorer/create_file');
                 }
                 this.creatingNewFile = false;
+                this.renamingFile = false;
                 delete this.newFileName;
             }, e => {
                 if (e) {
@@ -227,12 +215,32 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
         return saveFileObservable;
     }
 
+    renameFile() {
+        this.setBusyState();
+        this.functionApp.getFileContent(this.selectedFile)
+            .subscribe(content => {
+                const bypassConfirm = true;
+                this.addFile(content)
+                    .subscribe(() => this.deleteCurrentFile(bypassConfirm), () => this.clearBusyState());
+            }, () => this.clearBusyState());
+        this._aiService.trackEvent('/actions/file_explorer/rename_file');
+    }
+
     handleKeyUp(event: KeyboardEvent) {
         if (event.keyCode === 13) {
             // Enter
             if (this.creatingNewFile && this.newFileName) {
                 this.addFile();
+            } else if (this.renamingFile) {
+                // TODO: handle filename in an input validator.
+                if (this.newFileName && this.newFileName.toLocaleLowerCase() !== this.selectedFile.name.toLocaleLowerCase()) {
+                    this.renameFile();
+                } else {
+                    this.files.push(this.selectedFile);
+                    this.renamingFile = false;
+                }
             }
+
         } else if (event.keyCode === 27) {
             this.escape();
         }
@@ -254,12 +262,11 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
         }
 
         this.setBusyState();
-        this._functionAppService.deleteFile(this.context, this.selectedFile, this.functionInfo)
-            .subscribe(deleted => {
+        this.functionApp.deleteFile(this.selectedFile, this.functionInfo)
+            .subscribe((deleted: VfsObject) => {
+                this.functionApp.ClearAllFunctionCache(this.functionInfo);
                 this.clearBusyState();
-                const result = deleted.isSuccessful ? deleted.result : '';
-                const href = typeof result === 'string' ? result : result.href;
-                const fileIndex = this.files.map(e => e.href).indexOf(href);
+                const fileIndex = this.files.map(e => e.href).indexOf(deleted.href);
                 if (fileIndex === -1 || this.files.length === 1) {
                     this.refresh();
                 } else {
@@ -276,12 +283,25 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
         this._aiService.trackEvent('/actions/file_explorer/delete_file');
     }
 
+    renameCurrentFile(_: Event, element: any) {
+        if (this.selectedFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase() || !this.switchFiles()) {
+            return;
+        }
+        this.newFileName = this.selectedFile.name;
+        this.renamingFile = true;
+        const fileIndex = this.files.map(e => e.href).indexOf(this.selectedFile.href);
+        if (fileIndex !== -1) {
+            this.files.splice(fileIndex, 1);
+        }
+        setTimeout(() => element.focus(), 50);
+    }
+
     getFileTitle(file: VfsObject) {
         return (file.isBinary) ? this._translateService.instant(PortalResources.fileExplorer_editingBinary) : file.name;
     }
 
     close() {
-        this.closeClicked.next(null);
+        this.closeClicked.emit(null);
     }
 
     onBlur() {
@@ -292,6 +312,10 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
         // ESC
         delete this.newFileName;
         this.creatingNewFile = false;
+        if (this.renamingFile) {
+            this.files.push(this.selectedFile);
+            this.renamingFile = false;
+        }
     }
 
     private getFiles(arr: VfsObject[]) {

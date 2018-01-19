@@ -1,5 +1,5 @@
-import { DomEvents, KeyCodes } from './../shared/models/constants';
 import { AiService } from 'app/shared/services/ai.service';
+import { DomEvents, KeyCodes } from './../shared/models/constants';
 import { TreeViewComponent } from './tree-view.component';
 import { Observable } from 'rxjs/Observable';
 import { Disposable } from './tree-node';
@@ -67,7 +67,7 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
         public sideNav: SideNavComponent,
         public resourceId: string,
         public parent: TreeNode,
-        public createResourceId?: string) {
+        public createResourceId?: string ) {
         this.disabledReason = this.sideNav.translateService.instant('You either do not have access to this app or there are orphaned slots associated with it');
         this._aiService = sideNav.injector.get(AiService);
     }
@@ -114,12 +114,11 @@ export class TreeNode implements Disposable, Removable, CanBlockNavChange, Custo
             .do(null, e => {
                 this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh');
             })
-            .subscribe(s => {
-                console.log(s);
+            .subscribe(() => {
                 this.sideNav.updateView(
                     this.sideNav.selectedNode,
                     this.sideNav.selectedDashboardType,
-                    this.sideNav.selectedNode.resourceId,
+                    this.resourceId,
                     true)
                     .do(null, e => {
                         this.sideNav.aiService.trackException(e, '/errors/tree-node/refresh/update-view');

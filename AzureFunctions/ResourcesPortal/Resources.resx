@@ -318,17 +318,8 @@
   <data name="logStreaming_copyLogs" xml:space="preserve">
     <value>Copy logs</value>
   </data>
-  <data name="logStreaming_noLogs" xml:space="preserve">
-    <value>No logs to display</value>
-  </data>
-  <data name="logStreaming_failedToDownload" xml:space="preserve">
-    <value>Failed to download log content - '{0}'</value>
-  </data>
   <data name="logStreaming_pause" xml:space="preserve">
     <value>Pause</value>
-  </data>
-  <data name="logStreaming_paused" xml:space="preserve">
-    <value>Logging paused</value>
   </data>
   <data name="logStreaming_start" xml:space="preserve">
     <value>Start</value>
@@ -1198,9 +1189,6 @@
   <data name="siteDashboard_appNotFound" xml:space="preserve">
     <value>The app '{0}' could not be found</value>
   </data>
-  <data name="siteDashboard_pinApp" xml:space="preserve">
-    <value>Pin app to dashboard</value>
-  </data>
   <data name="siteSummary_stopConfirmation" xml:space="preserve">
     <value>Are you sure you would like to stop '{0}'</value>
   </data>
@@ -1799,7 +1787,7 @@
     <value>We are not able to delete the file {{fileName}}. Please try again later.</value>
   </data>
   <data name="error_unableToDeleteFunction" xml:space="preserve">
-    <value>We are not able to delete function '{0}'. Please try again later.</value>
+    <value>We are not able to delete function {{functionName}}. Please try again later.</value>
   </data>
   <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
     <value>We are not able to get the content for {{fileName}}. Please try again later.</value>
@@ -1817,10 +1805,7 @@
     <value>We are not able to retrieve directory content for your function. Please try again later.</value>
   </data>
   <data name="error_unableToRetrieveFunction" xml:space="preserve">
-    <value>We are unable to get the content for function '{0}'. Please try again later.</value>
-  </data>
-  <data name="error_unableToSaveFunction" xml:space="preserve">
-    <value>We are unable to save the content for function '{0}'.</value>
+    <value>We are unable to get function {{functionName}}. Please try again later.</value>
   </data>
   <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
     <value>We are unable to retrieve the runtime config. Please try again later.</value>
@@ -1832,7 +1817,7 @@
     <value>We are not able to update function {{functionName}}. Please try again later.</value>
   </data>
   <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
-    <value>The function runtime is unable to start.</value>
+    <value>The function runtime is unable to start. Please check the runtime logs for any errors or try again later.</value>
   </data>
   <data name="error_unableToCreateFunctionKey" xml:space="preserve">
     <value>We are not able to create or update the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors.</value>
@@ -1986,9 +1971,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>Duplicate values are not allowed</value>
-  </data>
-  <data name="validation_linuxAppSettingNameError" xml:space="preserve">
-    <value>This field can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>This field is required</value>
@@ -2577,17 +2559,5 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="appFunctionSettings_warning_7" xml:space="preserve">
     <value>Upgrating the runtime version is also coupled with upgrades to languages and binding dependecies that may introduce breaking changes. Please create a blank function app to upgrade major versions of the runtime.</value>
-  </data>
-  <data name="warning" xml:space="preserve">
-    <value>Warning</value>
-  </data>
-  <data name="entity" xml:space="preserve">
-    <value>Entity</value>
-  </data>
-  <data name="entityColon" xml:space="preserve">
-    <value>Entity:</value>
-  </data>
-  <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
-    <value>Function API definition (Swagger) feature is not supported for beta runtime currently.</value>
   </data>
 </root>

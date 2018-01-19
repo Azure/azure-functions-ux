@@ -1,31 +1,32 @@
-import { Component, ElementRef, Inject, Output, EventEmitter } from '@angular/core';
+import { FunctionApp } from './../shared/function-app';
+import { Component, ElementRef, Inject, Input, Output, EventEmitter } from '@angular/core';
 import { BindingList } from '../shared/models/binding-list';
 import { UIFunctionBinding, DirectionType, Action } from '../shared/models/binding';
 import { BindingManager } from '../shared/models/binding-manager';
 import { FunctionInfo, FunctionInfoHelper } from '../shared/models/function-info';
 import { TemplatePickerType } from '../shared/models/template-picker';
 import { BroadcastService } from '../shared/services/broadcast.service';
-import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
 import { PortalService } from '../shared/services/portal.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
+import { ErrorEvent, ErrorType } from '../shared/models/error-event';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
-import { errorIds } from '../shared/models/error-ids';
+import { ErrorIds } from '../shared/models/error-ids';
 import { FunctionsNode } from '../tree-view/functions-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import { BaseFunctionComponent } from '../shared/components/base-function-component';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
 
 @Component({
     selector: 'function-integrate-v2',
     templateUrl: './function-integrate-v2.component.html',
     styleUrls: ['./function-integrate-v2.component.scss'],
+    inputs: ['selectedFunction'],
 })
-export class FunctionIntegrateV2Component extends BaseFunctionComponent {
+export class FunctionIntegrateV2Component {
     @Output() save = new EventEmitter<FunctionInfo>();
     @Output() changeEditor = new EventEmitter<string>();
+    @Input() public viewInfo: TreeViewInfo<any>;
 
     public model: BindingList = new BindingList();
     public pickerType: TemplatePickerType = TemplatePickerType.none;
@@ -33,63 +34,52 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
     public currentBinding: UIFunctionBinding = null;
     public currentBindingId = '';
     public functionInfo: FunctionInfo;
+    public functionApp: FunctionApp;
 
+    private _elementRef: ElementRef;
     private _bindingManager: BindingManager = new BindingManager();
+
+    set selectedFunction(fi: FunctionInfo) {
+        this.pickerType = TemplatePickerType.none;
+
+        this.currentBinding = null;
+        this.currentBindingId = '';
+        this.functionInfo = fi;
+        this.functionApp = fi.functionApp;
+
+        try {
+            this._bindingManager.validateConfig(this.functionInfo.config, this._translateService);
+        } catch (e) {
+            this.onEditorChange('advanced');
+            return;
+        }
+
+        this._globalStateService.setBusyState();
+
+        fi.functionApp.getBindingConfig().subscribe((bindings) => {
+            fi.functionApp.getTemplates().subscribe(() => {
+                this.model.config = this._bindingManager.functionConfigToUI(fi.config, bindings.bindings);
+                if (this.model.config.bindings.length > 0) {
+                    this.currentBinding = this.model.config.bindings[0];
+                    this.currentBindingId = this.currentBinding.id;
+                }
+
+                this.model.setBindings();
+                this._globalStateService.clearBusyState();
+            }, () => {
+                this._globalStateService.clearBusyState();
+            });
+        });
+    }
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
-        broadcastService: BroadcastService,
+        private _broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
-        private _functionAppService: FunctionAppService,
         private _translateService: TranslateService) {
-        super('function-integrate-v2', broadcastService, _functionAppService, () => _globalStateService.setBusyState(), DashboardType.FunctionIntegrateDashboard);
+        this._elementRef = elementRef;
     }
-
-    setupNavigation(): Subscription {
-        return this.functionChangedEvents
-            .switchMap(view => {
-                if (view.functionInfo.isSuccessful) {
-                    try {
-                        this._bindingManager.validateConfig(view.functionInfo.result.config, this._translateService);
-                        return Observable.zip(
-                            this._functionAppService.getBindingConfig(view.context),
-                            this._functionAppService.getTemplates(view.context),
-                            Observable.of(view));
-                    } catch (e) {
-                        this.onEditorChange('advanced');
-                        return Observable.of([]);
-                    }
-                } else {
-                    return Observable.zip(
-                        this._functionAppService.getBindingConfig(view.context),
-                        this._functionAppService.getTemplates(view.context),
-                        Observable.of(view));
-                }
-            })
-            .do(() => this._globalStateService.clearBusyState())
-            .subscribe(tuple => {
-                this.pickerType = TemplatePickerType.none;
-
-                this.currentBinding = null;
-                this.currentBindingId = '';
-
-                if (tuple && tuple.length > 0) {
-                    const bindings = tuple[0];
-                    const viewInfo = tuple[2];
-                    if (viewInfo.functionInfo.isSuccessful && bindings.isSuccessful) {
-                        this.functionInfo = viewInfo.functionInfo.result;
-                        this.model.config = this._bindingManager.functionConfigToUI(this.functionInfo.config, bindings.result.bindings);
-                        if (this.model.config.bindings.length > 0) {
-                            this.currentBinding = this.model.config.bindings[0];
-                            this.currentBindingId = this.currentBinding.id;
-                        }
-                        this.model.setBindings();
-                    }
-                }
-            }, null, () => this._globalStateService.clearBusyState());
-    }
-
 
     newBinding(type: 'trigger' | 'in' | 'out' | 'inout') {
         if (!this.checkDirty()) {
@@ -112,23 +102,23 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
 
         this.behavior = <any>type;
         this.currentBinding = null;
+
     }
 
     onBindingCreateComplete(behavior: DirectionType, templateName: string) {
-        this._functionAppService.getBindingConfig(this.context)
-            .subscribe((bindings) => {
-                if (bindings.isSuccessful) {
-                    this._broadcastService.setDirtyState('function_integrate');
-                    this._portalService.setDirtyState(true);
+        this.functionInfo.functionApp.getBindingConfig().subscribe((bindings) => {
+            this._broadcastService.setDirtyState('function_integrate');
+            this._portalService.setDirtyState(true);
 
-                    this.currentBinding = this._bindingManager.getDefaultBinding(BindingManager.getBindingType(templateName), behavior, bindings.result.bindings, this._globalStateService.DefaultStorageAccount);
-                    this.currentBinding.newBinding = true;
 
-                    this.currentBindingId = this.currentBinding.id;
-                    this.model.setBindings();
-                    this.pickerType = TemplatePickerType.none;
-                }
-            });
+            this.currentBinding = this._bindingManager.getDefaultBinding(BindingManager.getBindingType(templateName), behavior, bindings.bindings, this._globalStateService.DefaultStorageAccount);
+            this.currentBinding.newBinding = true;
+
+            this.currentBindingId = this.currentBinding.id;
+            this.model.setBindings();
+            this.pickerType = TemplatePickerType.none;
+
+        });
     }
 
     onBindingCreateCancel() {
@@ -147,21 +137,20 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
         if (!this.checkDirty()) {
             return;
         }
-        this._functionAppService.getTemplates(this.context)
-            .subscribe((templates: any) => {
+        this.functionApp.getTemplates().subscribe((templates: any) => {
 
-                let templateId = action.template + '-' + FunctionInfoHelper.getLanguage(this.functionInfo);
-                let template = templates.find(t => t.id === templateId);
-                // C# is default language. Set C# if can not found original language
-                if (!template) {
-                    templateId = action.template + '-CSharp';
-                    template = templates.find(t => t.id === templateId);
-                }
-                if (template) {
-                    action.templateId = templateId;
-                    (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.CreateFunctionDashboard, action);
-                }
-            });
+            let templateId = action.template + '-' + FunctionInfoHelper.getLanguage(this.functionInfo);
+            let template = templates.find(t => t.id === templateId);
+            // C# is default language. Set C# if can not found original language
+            if (!template) {
+                templateId = action.template + '-CSharp';
+                template = templates.find(t => t.id === templateId);
+            }
+            if (template) {
+                action.templateId = templateId;
+                (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.CreateFunctionDashboard, action);
+            }
+        });
 
     }
 
@@ -171,12 +160,13 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
 
         try {
             this.updateFunction();
-            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, errorIds.errorParsingConfig);
+            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
         } catch (e) {
-            this.showComponentError({
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                 message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
-                errorId: errorIds.errorParsingConfig,
-                resourceId: this.context.site.id
+                errorId: ErrorIds.errorParsingConfig,
+                errorType: ErrorType.UserError,
+                resourceId: this.functionApp.site.id
             });
             this.onRemoveBinding(binding);
         }
@@ -218,11 +208,10 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
         delete functionInfoCopy.test_data;
 
         this._globalStateService.setBusyState();
-        this._functionAppService.updateFunction(this.context, functionInfoCopy)
-            .subscribe(() => {
-                this._globalStateService.clearBusyState();
-                this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this.functionInfo);
-            });
+        this.functionInfo.functionApp.updateFunction(functionInfoCopy).subscribe(() => {
+            this._globalStateService.clearBusyState();
+            this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this.functionInfo);
+        });
     }
 
     private checkDirty(): boolean {

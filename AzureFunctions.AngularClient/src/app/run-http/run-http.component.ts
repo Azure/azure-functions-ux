@@ -1,33 +1,34 @@
-import { HttpMethods } from './../shared/models/constants';
-import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { HttpRunModel, Param } from '../shared/models/http-run';
-import { BindingType } from '../shared/models/binding'
-import { FunctionInfo } from '../shared/models/function-info';
-import { Regex } from '../shared/models/constants';
-import { URLSearchParams } from '@angular/http';
-import { PairListOptions } from '../controls/pair-list/pair-list.component';
-import { Validators, FormGroup } from '@angular/forms';
+import {Component, Output, EventEmitter} from '@angular/core';
+import {HttpRunModel, Param} from '../shared/models/http-run';
+import {BindingType} from '../shared/models/binding'
+import {FunctionInfo} from '../shared/models/function-info';
+import {Constants, Regex} from '../shared/models/constants';
+import {URLSearchParams} from '@angular/http';
+import {PairListOptions } from '../controls/pair-list/pair-list.component';
+import {Validators, FormGroup} from '@angular/forms';
 
 
 @Component({
-    selector: 'run-http',
-    templateUrl: './run-http.component.html',
-    styleUrls: ['./run-http.component.scss', '../function-dev/function-dev.component.scss']
+  selector: 'run-http',
+  templateUrl: './run-http.component.html',
+  styleUrls: ['./run-http.component.scss', '../function-dev/function-dev.component.scss'],
+  inputs: ['functionInfo', 'functionInvokeUrl']
 })
 export class RunHttpComponent {
     @Output() validChange = new EventEmitter<boolean>();
     @Output() disableTestData = new EventEmitter<boolean>();
-
     model: HttpRunModel = new HttpRunModel();
     valid: boolean;
     availableMethods: string[] = [];
     headerOptions: PairListOptions;
     paramsOptions: PairListOptions;
-
     private _headersValid: boolean;
     private _paramsValid: boolean;
 
-    @Input()
+
+    constructor() {
+    }
+
     set functionInfo(value: FunctionInfo) {
         this.model = undefined;
         if (value.test_data) {
@@ -53,31 +54,28 @@ export class RunHttpComponent {
             });
         } else {
             this.availableMethods = [
-                HttpMethods.POST,
-                HttpMethods.GET,
-                HttpMethods.DELETE,
-                HttpMethods.HEAD,
-                HttpMethods.PATCH,
-                HttpMethods.PUT,
-                HttpMethods.OPTIONS,
-                HttpMethods.TRACE
+                Constants.httpMethods.POST,
+                Constants.httpMethods.GET,
+                Constants.httpMethods.DELETE,
+                Constants.httpMethods.HEAD,
+                Constants.httpMethods.PATCH,
+                Constants.httpMethods.PUT,
+                Constants.httpMethods.OPTIONS,
+                Constants.httpMethods.TRACE
             ];
         }
 
         if (this.model === undefined) {
             this.model = new HttpRunModel();
-            this.model.method = HttpMethods.POST;
+            this.model.method = Constants.httpMethods.POST;
             this.model.body = value.test_data;
         }
         if (!this.model.method && this.availableMethods.length > 0) {
             this.model.method = this.availableMethods[0];
         }
 
-        // make sure to call this when FunctionInfo changes because that could also change the default method.
-        this.onChangeMethod(this.model.method);
     }
 
-    @Input()
     set functionInvokeUrl(value: string) {
         if (value) {
             // Store "code" aithentication parameter
@@ -96,7 +94,7 @@ export class RunHttpComponent {
                 });
 
                 if (!findResult) {
-                    this.model.queryStringParams.splice(0, 0, p);
+                    this.model.queryStringParams.splice(0,0, p);
                 }
             });
         }
@@ -107,10 +105,11 @@ export class RunHttpComponent {
 
         this.paramsOptions = {
             items: this.model.queryStringParams,
-            nameValidators: [Validators.required, Validators.pattern(Regex.queryParam)]
+            nameValidators: [Validators.required, Validators.pattern(Regex.header)]
         };
 
     }
+
 
     onChangeMethod(method: string) {
         const methodLowCase = method.toLowerCase();
@@ -138,6 +137,7 @@ export class RunHttpComponent {
 
         const result = [];
         let urlCopy = url;
+
 
         // Remove path params
         const regExp = /\{([^}]+)\}/g;

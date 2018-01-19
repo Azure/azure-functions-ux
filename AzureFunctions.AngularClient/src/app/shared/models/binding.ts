@@ -1,7 +1,6 @@
 ﻿import { AADPermissions } from './microsoft-graph';
 
 export class BindingType {
-    static syncTrigger = 'syncTrigger';
     static timerTrigger = "timerTrigger";
     static eventHubTrigger = "eventHubTrigger";
     static eventHub = "eventHub";
@@ -41,10 +40,10 @@ export class BindingType {
 }
 
 export interface BindingConfig {
-    $schema: string;
-    contentVersion: string;
-    variables: any;
-    bindings: Binding[];
+    $schema: string,
+    contentVersion: string,
+    variables: any,
+    bindings: Binding[]
 }
 
 export interface Binding {
@@ -83,7 +82,7 @@ export interface Setting {
 }
 
 export interface Rule {
-    type: string;
+    type: string,
     values: RuleValue[];
     label: string;
     help: string;
@@ -121,34 +120,34 @@ export interface EnumOption {
 }
 
 export enum DirectionType {
-    trigger = <any>'trigger',
-    in = <any>'in',
-    out = <any>'out',
-    inout = <any>'inout'
+    trigger = <any>"trigger",
+    in = <any>"in",
+    out = <any>"out",
+    inout = <any>"inout"
 }
 
 export enum ResourceType {
-    Storage = <any>'Storage',
-    Sql = <any>'Sql',
-    EventHub = <any>'EventHub',
-    ServiceBus = <any>'ServiceBus',
-    DocumentDB = <any>'DocumentDB',
-    ApiHub = <any>'ApiHub',
-    AppSetting = <any>'AppSetting',
+    Storage = <any>"Storage",
+    Sql = <any>"Sql",
+    EventHub = <any>"EventHub",
+    ServiceBus = <any>"ServiceBus",
+    DocumentDB = <any>"DocumentDB",
+    ApiHub = <any>"ApiHub",
+    AppSetting = <any>"AppSetting",
     MSGraph = <any>'MSGraph',
     NotificationHub = <any>'NotificationHub'
 }
 
-export enum SettingType {
-    string = 'string',
-    boolean = 'boolean',
-    label = 'label',
-    enum = 'enum',
-    int = 'int',
-    picker = 'picker',
-    checkBoxList = 'checkBoxList',
-    appSetting = 'appSetting',
-    eventGrid = 'eventGrid'
+export class SettingType {
+    public static string = "string";
+    public static boolean = "boolean";
+    public static label = "label";
+    public static enum = "enum";
+    public static int = "int";
+    public static picker = "picker";
+    public static checkBoxList = "checkBoxList";
+    public static appSetting = "appSetting";
+    public static eventGrid = "eventGrid";
 }
 
 export interface UIFunctionConfig {

@@ -1,5 +1,3 @@
-import { EmbeddedFunctionsNode } from './embedded-functions-node';
-import { FunctionAppContext } from 'app/shared/function-app-context';
 import { GlobalStateService } from './../shared/services/global-state.service';
 import { Subject } from 'rxjs/Subject';
 import { FunctionsNode } from './functions-node';
@@ -8,7 +6,7 @@ import { TreeUpdateEvent } from './../shared/models/broadcast-event';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { ArmFunctionDescriptor } from './../shared/resourceDescriptors';
+import { FunctionDescriptor } from './../shared/resourceDescriptors';
 import { TreeNode, Removable, CanBlockNavChange, Disposable, CustomSelection } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
@@ -29,7 +27,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             || currentNode.sideNav.broadcastService.getDirtyState('function_integrate')
             || currentNode.sideNav.broadcastService.getDirtyState('api-proxy')) {
 
-            const descriptor = new ArmFunctionDescriptor(currentNode.resourceId);
+            const descriptor = new FunctionDescriptor(currentNode.resourceId);
 
             canSwitchFunction = confirm(currentNode.sideNav.translateService.instant(
                 PortalResources.sideBar_changeMade,
@@ -43,12 +41,11 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
 
     constructor(
         sideNav: SideNavComponent,
-        private context: FunctionAppContext,
         public functionInfo: FunctionInfo,
         parentNode: TreeNode) {
 
         super(sideNav,
-            context.site.id + '/functions/' + functionInfo.name,
+            functionInfo.context.site.id + '/functions/' + functionInfo.name,
             parentNode);
 
         this._broadcastService = sideNav.injector.get(BroadcastService);
@@ -57,19 +54,11 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
         this.iconClass = 'tree-node-svg-icon';
         this.iconUrl = 'image/function_f.svg';
         this.supportsTab = (Url.getParameterByName(null, 'appsvc.feature') === 'tabbed');
-
-        if (this.sideNav.portalService.isEmbeddedFunctions) {
-            this.showExpandIcon = false;
-        }
     }
 
     // This will be called on every change detection run. So I'm making sure to always
     // return the same exact object every time.
     public get title(): string {
-
-        if (this.sideNav.portalService.isEmbeddedFunctions) {
-            return this.functionInfo.name;
-        }
 
         const disabledStr = this.sideNav.translateService.instant(PortalResources.disabled).toLocaleLowerCase();
 
@@ -87,25 +76,12 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             .takeUntil(this._ngUnsubscribe)
             .subscribe(event => {
 
-                if (event.operation === 'navigate') {
-                    if (this.parent
-                        && this.parent.parent
-                        && this.parent.parent.resourceId
-                        && event.resourceId.toLowerCase() === this.parent.parent.resourceId.toLowerCase()) {
-
-                        this.parent.parent.select(event.data);
-                        this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, event.data);
-                    }
-                } else if (event.operation === 'remove') {
-                    setTimeout(() => {
-                        (this.parent as EmbeddedFunctionsNode).removeChild(this);
-                    });
-
-                    this.parent.select();
+                if (event.operation === 'navigate'
+                    && event.resourceId.toLowerCase() === this.parent.parent.resourceId.toLowerCase()) {
+                    this.parent.parent.select(event.data);
+                    this._broadcastService.broadcastEvent<string>(BroadcastEvent.OpenTab, event.data);
                 }
             });
-
-
         return Observable.of({});
     }
 
@@ -116,15 +92,13 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     }
 
     public loadChildren() {
-        if (!this.sideNav.portalService.isEmbeddedFunctions) {
-            this.children = [
-                new FunctionIntegrateNode(this.sideNav, this.context, this.functionInfo, this),
-                new FunctionManageNode(this.sideNav, this.context, this.functionInfo, this),
-            ];
+        this.children = [
+            new FunctionIntegrateNode(this.sideNav, this.functionInfo, this),
+            new FunctionManageNode(this.sideNav, this.functionInfo, this),
+        ];
 
-            if (!this.sideNav.configService.isStandalone()) {
-                this.children.push(new FunctionMonitorNode(this.sideNav, this.context, this.functionInfo, this));
-            }
+        if (!this.sideNav.configService.isStandalone()) {
+            this.children.push(new FunctionMonitorNode(this.sideNav, this.functionInfo, this));
         }
 
         return Observable.of(null);
@@ -195,13 +169,12 @@ export class FunctionIntegrateNode extends FunctionEditBaseNode {
 
     constructor(
         sideNav: SideNavComponent,
-        context: FunctionAppContext,
         functionInfo: FunctionInfo,
         parentNode: TreeNode) {
 
         super(sideNav,
             functionInfo,
-            context.site.id + '/functions/' + functionInfo.name + '/integrate',
+            functionInfo.context.site.id + '/functions/' + functionInfo.name + '/integrate',
             parentNode);
 
         this.iconClass = 'fa fa-flash tree-node-function-edit-icon link';
@@ -214,13 +187,12 @@ export class FunctionManageNode extends FunctionEditBaseNode implements Removabl
 
     constructor(
         sideNav: SideNavComponent,
-        context: FunctionAppContext,
         functionInfo: FunctionInfo,
         parentNode: TreeNode) {
 
         super(sideNav,
             functionInfo,
-            context.site.id + '/functions/' + functionInfo.name + '/manage',
+            functionInfo.context.site.id + '/functions/' + functionInfo.name + '/manage',
             parentNode);
 
         this.iconClass = 'fa fa-cog tree-node-function-edit-icon link';
@@ -233,13 +205,12 @@ export class FunctionMonitorNode extends FunctionEditBaseNode {
 
     constructor(
         sideNav: SideNavComponent,
-        context: FunctionAppContext,
         functionInfo: FunctionInfo,
         parentNode: TreeNode) {
 
         super(sideNav,
             functionInfo,
-            context.site.id + '/functions/' + functionInfo.name + '/monitor',
+            functionInfo.context.site.id + '/functions/' + functionInfo.name + '/monitor',
             parentNode);
 
         this.iconClass = 'fa fa-search tree-node-function-edit-icon link';

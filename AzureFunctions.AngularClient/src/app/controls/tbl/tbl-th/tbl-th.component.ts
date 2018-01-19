@@ -4,11 +4,11 @@ import { Component, OnInit, Input, ElementRef } from '@angular/core';
 @Component({
   selector: 'tbl-th',
   template: `
-    <div class="sortable" (click)="onClick()" [activate-with-keys]>
+    <div class="sortable" (click)="sort()">
       <ng-content class="sortable"></ng-content>
       <i class="fa chevron"
-          [class.fa-chevron-up]="table?.sortedColName === name && table?.sortAscending"
-          [class.fa-chevron-down]="table?.sortedColName !== name || (table?.sortedColName === name && !table?.sortAscending)"></i>
+          [class.fa-chevron-up]="table.sortedColName === name && table.sortAscending"
+          [class.fa-chevron-down]="table.sortedColName !== name || (table.sortedColName === name && !table.sortAscending)"></i>
     </div>`
 })
 export class TblThComponent implements OnInit {
@@ -32,13 +32,6 @@ export class TblThComponent implements OnInit {
 
       element.parentElement.parentElement.classList.add('header-row');
     }
-  }
-
-  onClick() {
-    // Wait one cycle to allow tabindex on focused element to get set to -1
-    setTimeout(() => {
-      this.sort();
-    });
   }
 
   sort() {

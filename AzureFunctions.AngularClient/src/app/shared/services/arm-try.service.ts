@@ -1,11 +1,10 @@
-import { PortalService } from './portal.service';
-import { FunctionAppContext } from 'app/shared/function-app-context';
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
+import { FunctionApp } from './../function-app';
 import { Constants } from './../models/constants';
 import { ArmService } from './arm.service';
 import { AiService } from './ai.service';
@@ -14,7 +13,8 @@ import { UserService } from './user.service';
 @Injectable()
 export class ArmTryService extends ArmService {
 
-    private _tryFunctionAppContext: FunctionAppContext;
+    private _tryFunctionApp: FunctionApp;
+
     private _whiteListedPrefixUrls: string[] = [
         `${Constants.serviceHost}api`,
         'assets/schemas'
@@ -22,16 +22,19 @@ export class ArmTryService extends ArmService {
 
     constructor(http: Http,
         userService: UserService,
-        portalService: PortalService,
         aiService: AiService) {
 
-        super(http, userService, portalService, aiService);
+        super(http, userService, aiService);
     }
 
-    public set tryFunctionAppContext(value: FunctionAppContext) {
-        this._tryFunctionAppContext = value;
-        this._whiteListedPrefixUrls.push(`${value.scmUrl}/api`);
-        this._whiteListedPrefixUrls.push(`${value.mainSiteUrl}`);
+    public set tryFunctionApp(tryFunctionApp: FunctionApp) {
+        this._tryFunctionApp = tryFunctionApp;
+        this._whiteListedPrefixUrls.push(`${tryFunctionApp.getScmUrl()}/api`);
+        this._whiteListedPrefixUrls.push(`${tryFunctionApp.getMainSiteUrl()}`);
+    }
+
+    public get tryFunctionApp() {
+        return this._tryFunctionApp;
     }
 
     get(resourceId: string, _?: string): Observable<Response> {
@@ -68,12 +71,12 @@ export class ArmTryService extends ArmService {
     }
 
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers): Observable<Response> {
-        const urlNoQuery = url.toLowerCase().split('?') [0];
+        const urlNoQuery = url.toLowerCase().split('?')[0];
 
         if (this._whiteListedPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()) || urlNoQuery.endsWith('.svg'))) {
             return super.send(method, url, body, etag, headers);
-        } else if (urlNoQuery.endsWith(this._tryFunctionAppContext.site.id.toLowerCase())) {
-            return Observable.of(this._getFakeResponse(this._tryFunctionAppContext.site));
+        } else if (urlNoQuery.endsWith(this.tryFunctionApp.site.id.toLowerCase())) {
+            return Observable.of(this._getFakeResponse(this.tryFunctionApp.site));
         } else if (urlNoQuery.endsWith('/providers/microsoft.authorization/permissions')) {
             return Observable.of(this._getFakeResponse({
                 'value': [{
@@ -86,23 +89,20 @@ export class ArmTryService extends ArmService {
             return Observable.of(this._getFakeResponse({ 'value': [] }));
         } else if (urlNoQuery.endsWith('/config/web')) {
             return Observable.of(<any>this._getFakeResponse({
-                id: this._tryFunctionAppContext.site.id,
+                id: this._tryFunctionApp.site.id,
                 properties: {
                     scmType: 'None'
                 }
             }));
         } else if (urlNoQuery.endsWith('/appsettings/list')) {
-            return Observable.of(this._getFakeResponse({ properties: {} }));
-            // return this._tryFunctionAppContext.getFunctionContainerAppSettings()
-            //     .map(r => {
-            //         return this._getFakeResponse({
-            //             properties: r
-            //         });
-            //     });
+            return this.tryFunctionApp.getFunctionContainerAppSettings()
+                .map(r => {
+                    return this._getFakeResponse({
+                        properties: r
+                    });
+                });
         } else if (urlNoQuery.endsWith('/slots')) {
             return Observable.of(this._getFakeResponse({ value: [] }));
-        } else if (urlNoQuery.endsWith('authsettings/list')) {
-            return Observable.of(this._getFakeResponse({ properties: {} }));
         }
 
         this._aiService.trackEvent('/try/arm-send-failure', {

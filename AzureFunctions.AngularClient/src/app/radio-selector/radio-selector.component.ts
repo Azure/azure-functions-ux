@@ -1,8 +1,8 @@
-import { KeyCodes } from './../shared/models/constants';
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../shared/models/select-option';
+import { KeyCodes } from '../shared/models/constants';
 import { Guid } from '../shared/Utilities/Guid';
 
 @Component({
@@ -10,9 +10,8 @@ import { Guid } from '../shared/Utilities/Guid';
     templateUrl: './radio-selector.component.html',
     styleUrls: ['./radio-selector.component.scss'],
 })
-export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewInit {
-    @ViewChild('radioGroup') radioGroup: ElementRef;
-    selectedValue: T = null
+export class RadioSelectorComponent<T> implements OnInit, OnChanges {
+    selectedValue: T = null;
     @Input() control: FormControl;
     @Input() group: FormGroup;
     @Input() name: string;
@@ -20,7 +19,6 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewIn
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
     @Input() defaultValue: T;
-    @Input() focusOnLoad: boolean;
     @Input() id: string;
     @Output() value: Subject<T>;
 
@@ -47,19 +45,13 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewIn
         }
     }
 
-    ngAfterViewInit() {
-        if (this.focusOnLoad){
-            this.radioGroup.nativeElement.focus();
-        }
-    }
-
     ngOnInit() {
         this._initialized = true;
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        // If control and defaultValue are modified at the same time, the value of defaultValue will be used.
-        // If only one input is modifed, the value of that input will be used.
+        //If control and defaultValue are modified at the same time, the value of defaultValue will be used.
+        //If only one input is modifed, the value of that input will be used.
 
         let value = null;
         let valueChanged = false;
@@ -124,10 +116,12 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewIn
         if (activeOptionIndex !== null && activeOptionIndex >= 0) {
             if (direction === 'forward') {
                 newIndex = activeOptionIndex === this.options.length - 1 ? 0 : activeOptionIndex + 1;
-            } else {
+            }
+            else {
                 newIndex = activeOptionIndex === 0 ? this.options.length - 1 : activeOptionIndex - 1;
             }
-        } else {
+        }
+        else {
             newIndex = direction === 'forward' ? 0 : this.options.length - 1;
         }
 
@@ -139,7 +133,8 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewIn
             if (event.keyCode === KeyCodes.arrowLeft || event.keyCode === KeyCodes.arrowUp) {
                 this._selectAdjacent('reverse');
                 event.preventDefault();
-            } else if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowDown) {
+            }
+            else if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowDown) {
                 this._selectAdjacent('forward');
                 event.preventDefault();
             }

@@ -1,13 +1,16 @@
-import { ScenarioIds, LogCategories, SiteTabIds } from './../shared/models/constants';
-import { FunctionAppService } from './../shared/services/function-app.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
+import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Subject } from 'rxjs/Subject';
+import { FunctionsService } from './../shared/services/functions-service';
+import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from './../shared/services/log.service';
+import { CacheService } from './../shared/services/cache.service';
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
+import { SiteTabIds, ScenarioIds } from './../shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from './../shared/models/portal-resources';
 import { ArmObj } from './../shared/models/arm/arm-obj';
-import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
+import { SiteDescriptor } from './../shared/resourceDescriptors';
 import { AppsNode } from './apps-node';
 import { TreeNode, Disposable, Removable, CustomSelection, Collection, Refreshable, CanBlockNavChange } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
@@ -42,9 +45,11 @@ export class AppNode extends TreeNode
 
     private _ngUnsubscribe = new Subject();
 
+    private _functionsService: FunctionsService;
     private _scenarioService: ScenarioService;
+    private _cacheService: CacheService;
     private _logService: LogService;
-    private _functionAppService: FunctionAppService;
+    private _broadcastService: BroadcastService;
 
     constructor(sideBar: SideNavComponent,
         private _siteArmCacheObj: ArmObj<Site>,
@@ -53,9 +58,11 @@ export class AppNode extends TreeNode
         disabled?: boolean) {
         super(sideBar, _siteArmCacheObj.id, parentNode);
 
-        this._functionAppService = this.sideNav.injector.get(FunctionAppService);
+        this._functionsService = this.sideNav.injector.get(FunctionsService);
         this._scenarioService = this.sideNav.injector.get(ScenarioService);
+        this._cacheService = this.sideNav.injector.get(CacheService);
         this._logService = this.sideNav.injector.get(LogService);
+        this._broadcastService = this.sideNav.injector.get(BroadcastService);
 
         this.disabled = !!disabled;
         if (disabled) {
@@ -65,7 +72,7 @@ export class AppNode extends TreeNode
         this.title = _siteArmCacheObj.name;
         this.location = _siteArmCacheObj.location;
 
-        const descriptor = new ArmSiteDescriptor(_siteArmCacheObj.id);
+        const descriptor = new SiteDescriptor(_siteArmCacheObj.id);
         this.resourceGroup = descriptor.resourceGroup;
 
         this.nodeClass += ' app-node';
@@ -85,7 +92,7 @@ export class AppNode extends TreeNode
         this.supportsRefresh = false;
         this.isLoading = true;
 
-        return this._functionAppService.getAppContext(this.resourceId)
+        return this._functionsService.getAppContext(this.resourceId)
             .do(context => {
                 this.isLoading = false;
                 this.supportsRefresh = true;
@@ -145,7 +152,7 @@ export class AppNode extends TreeNode
 
         return this.loadChildren()
             .do(context => {
-                this._functionAppService.fireSyncTrigger(context);
+                this._functionsService.fireSyncTrigger(context);
                 if (this.children && this.children.length === 1 && !this.children[0].isExpanded) {
                     this.children[0].toggle(null);
                 }
