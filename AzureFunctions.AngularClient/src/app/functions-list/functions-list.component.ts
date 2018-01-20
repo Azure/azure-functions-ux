@@ -217,7 +217,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
 
                     return this._cacheService.deleteArm(item.resourceId);
                 })
-                .subscribe(info => {
+                .subscribe(r => {
                     this._globalStateService.clearBusyState();
                     this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
                         resourceId: item.resourceId,

@@ -1,3 +1,4 @@
+import { ArmService } from './../../shared/services/arm.service';
 import { ArmEmbeddedService } from './../../shared/services/arm-embedded.service';
 import { KeyCodes, LogCategories } from './../../shared/models/constants';
 import { TreeViewInfo } from 'app/tree-view/models/tree-view-info';
@@ -24,6 +25,7 @@ import { UIFunctionBinding } from '../../shared/models/binding';
 import { PortalService } from '../../shared/services/portal.service';
 import { Observable } from 'rxjs/Observable';
 import { CreateCard } from 'app/function/function-new/function-new.component';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
     selector: 'function-new-detail',
@@ -78,7 +80,9 @@ export class FunctionNewDetailComponent implements OnChanges {
         private _aiService: AiService,
         private _cacheService: CacheService,
         private _functionAppService: FunctionAppService,
-        private _logService: LogService) {
+        private _logService: LogService,
+        private _armService: ArmService,
+        private _userService: UserService) {
 
         this.isEmbedded = this._portalService.isEmbeddedFunctions;
     }
@@ -89,7 +93,7 @@ export class FunctionNewDetailComponent implements OnChanges {
                 this.updateLanguageOptions();
 
                 if (this._portalService.isEmbeddedFunctions) {
-                    this.getEntityOptions();
+                    this._getEntities();
                 }
             }
         }
@@ -119,21 +123,6 @@ export class FunctionNewDetailComponent implements OnChanges {
                 .subscribe(() => {
                 });
         }
-    }
-
-    getEntityOptions() {
-        this._getEntities()
-            .subscribe(r => {
-                const entities = (r.value.map(e => e.name)).sort();
-                this.entityOptions = [];
-                entities.forEach(entity => {
-                    const dropDownElement: any = {
-                        displayLabel: entity,
-                        value: entity
-                    };
-                    this.entityOptions.push(dropDownElement);
-                });
-            });
     }
 
     onEntityChanged(entity: string) {
@@ -313,8 +302,27 @@ export class FunctionNewDetailComponent implements OnChanges {
 
     private _getEntities() {
         const url = this._cdsEntitiesUrl;
-        return this._cacheService.get(url)
-            .map(r => r.json());
+        const headers = this._armService.getHeaders();
+        this._userService.getStartupInfo()
+            .first()
+            .switchMap(info => {
+                headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
+                headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);
+                headers.append('x-cds-crm-solutionid', info.crmInfo.crmSolutionIdHeaderName);
+
+                return this._cacheService.get(url, null, headers).map(r => r.json());
+            })
+            .subscribe(r => {
+                const entities = (r.value.map(e => e.name)).sort();
+                this.entityOptions = [];
+                entities.forEach(entity => {
+                    const dropDownElement: any = {
+                        displayLabel: entity,
+                        value: entity
+                    };
+                    this.entityOptions.push(dropDownElement);
+                });
+            });
     }
 
     private _createFunction() {

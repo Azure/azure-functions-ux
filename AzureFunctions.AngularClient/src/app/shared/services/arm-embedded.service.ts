@@ -7,7 +7,6 @@ import { UserService } from './user.service';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { ArmService } from './arm.service';
-// import { CrmInfo } from 'app/shared/models/portal';
 
 @Injectable()
 export class ArmEmbeddedService extends ArmService {

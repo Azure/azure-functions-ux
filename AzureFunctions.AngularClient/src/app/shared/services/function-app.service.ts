@@ -247,7 +247,6 @@ export class FunctionAppService {
         return this.getClient(context).executeWithConditions([], context, t => {
             const headers = this.jsonHeaders(t);
             if (this._portalService.isEmbeddedFunctions) {
-
                 headers.append('x-cds-crm-user-token', this.startupInfo.crmInfo.crmTokenHeaderName);
                 headers.append('x-cds-crm-org', this.startupInfo.crmInfo.crmInstanceHeaderName);
                 headers.append('x-cds-crm-solutionid', this.startupInfo.crmInfo.crmSolutionIdHeaderName);
