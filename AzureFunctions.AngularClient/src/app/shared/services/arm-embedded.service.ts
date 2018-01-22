@@ -7,7 +7,6 @@ import { UserService } from './user.service';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { ArmService } from './arm.service';
-import { CrmInfo } from 'app/shared/models/portal';
 
 @Injectable()
 export class ArmEmbeddedService extends ArmService {
@@ -29,27 +28,12 @@ export class ArmEmbeddedService extends ArmService {
         '/api/'
     ];
 
-    private _crmHeaders: CrmInfo;
-
     constructor(http: Http,
         userService: UserService,
         aiService: AiService,
         portalService: PortalService) {
 
         super(http, userService, portalService, aiService);
-
-        userService.getStartupInfo().subscribe(info => {
-            this._crmHeaders = info.crmInfo;
-        });
-
-    }
-
-    getHeaders(etag?: string) {
-        const headers = super.getHeaders();
-        headers.append('x-cds-crm-user-token', this._crmHeaders.crmTokenHeaderName);
-        headers.append('x-cds-crm-org', this._crmHeaders.crmInstanceHeaderName);
-        headers.append('x-cds-crm-solutionid', this._crmHeaders.crmSolutionIdHeaderName);
-        return headers;
     }
 
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers): Observable<Response> {

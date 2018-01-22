@@ -1,3 +1,4 @@
+import { StartupInfo } from './../models/portal';
 import { Host } from './../models/host';
 import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { HttpMethods, HttpConstants } from './../models/constants';
@@ -44,12 +45,19 @@ export class FunctionAppService {
     private readonly azure: ConditionalHttpClient;
     private readonly _embeddedTemplates: Templates;
 
+    private startupInfo: StartupInfo;
+
     constructor(private _cacheService: CacheService,
         private _translateService: TranslateService,
         private _userService: UserService,
         private _injector: Injector,
         private _portalService: PortalService,
         logService: LogService) {
+
+        this._userService.getStartupInfo()
+            .subscribe(info => {
+                this.startupInfo = info;
+            });
 
         this.runtime = new ConditionalHttpClient(_cacheService, logService, context => this.getRuntimeToken(context), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
         this.azure = new ConditionalHttpClient(_cacheService, logService, _ => _userService.getStartupInfo().map(i => i.token), 'NotOverQuota', 'ReachableLoadballancer');
@@ -236,8 +244,15 @@ export class FunctionAppService {
         const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
         const url = context.urlTemplates.getFunctionUrl(functionName);
 
-        return this.getClient(context).executeWithConditions([], context, t =>
-            this._cacheService.put(url, this.jsonHeaders(t), content).map(r => r.json() as FunctionInfo));
+        return this.getClient(context).executeWithConditions([], context, t => {
+            const headers = this.jsonHeaders(t);
+            if (this._portalService.isEmbeddedFunctions) {
+                headers.append('x-cds-crm-user-token', this.startupInfo.crmInfo.crmTokenHeaderName);
+                headers.append('x-cds-crm-org', this.startupInfo.crmInfo.crmInstanceHeaderName);
+                headers.append('x-cds-crm-solutionid', this.startupInfo.crmInfo.crmSolutionIdHeaderName);
+            }
+            return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo);
+        });
     }
 
     statusCodeToText(code: number) {
@@ -260,7 +275,7 @@ export class FunctionAppService {
 
             if (matchesPathParams) {
                 matchesPathParams.forEach((m) => {
-                    const name = m.split(':') [0].replace('{', '').replace('}', '');
+                    const name = m.split(':')[0].replace('{', '').replace('}', '');
                     processedParams.push(name);
                     const param = model.queryStringParams.find((p) => {
                         return p.name === name;

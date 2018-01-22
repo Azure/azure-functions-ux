@@ -1,3 +1,4 @@
+import { ArmService } from './../shared/services/arm.service';
 import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { FunctionAppContext } from './../shared/function-app-context';
 import { TreeUpdateEvent, BroadcastEvent } from './../shared/models/broadcast-event';
@@ -19,6 +20,7 @@ import { Observable } from 'rxjs/Observable';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subscription } from 'rxjs/Subscription';
 import { NavigableComponent } from '../shared/components/navigable-component';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
     selector: 'functions-list',
@@ -47,10 +49,12 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
         private _translateService: TranslateService,
         broadcastService: BroadcastService,
         private _functionAppService: FunctionAppService,
-        private _cacheService: CacheService) {
+        private _cacheService: CacheService,
+        private _armService: ArmService,
+        private _userService: UserService) {
         super('functions-list', broadcastService, DashboardType.FunctionsDashboard);
 
-        this.isEmbedded  = this._portalService.isEmbeddedFunctions;
+        this.isEmbedded = this._portalService.isEmbeddedFunctions;
     }
 
     setupNavigation(): Subscription {
@@ -73,9 +77,9 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
                 this.runtimeVersion = tuple[1];
                 this.isLoading = false;
                 this.functions = (<FunctionNode[]>this._functionsNode.children);
-                this.functionsInfo = this._functionsNode.children.map((child: FunctionNode) =>{
+                this.functionsInfo = this._functionsNode.children.map((child: FunctionNode) => {
                     return child.functionInfo;
-                })
+                });
             });
     }
 
@@ -85,36 +89,36 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
 
                 templates.result.forEach((template) => {
 
-                        const templateIndex = this.createCards.findIndex(finalTemplate => {
-                            return finalTemplate.name === template.metadata.name;
-                        });
+                    const templateIndex = this.createCards.findIndex(finalTemplate => {
+                        return finalTemplate.name === template.metadata.name;
+                    });
 
-                        // if the card doesn't exist, create it based off the template, else add information to the preexisting card
-                        if (templateIndex === -1) {
-                            this.createCards.push({
-                                name: `${template.metadata.name}`,
-                                value: template.id,
-                                description: template.metadata.description,
-                                enabledInTryMode: template.metadata.enabledInTryMode,
-                                AADPermissions: template.metadata.AADPermissions,
-                                languages: [`${template.metadata.language}`],
-                                categories: template.metadata.category,
-                                ids: [`${template.id}`],
-                                icon: 'image/other.svg',
-                                color: '#000000',
-                                barcolor: '#D9D9D9',
-                                focusable: false
-                            });
-                        } else {
-                            this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
-                            this.createCards[templateIndex].categories = this.createCards[templateIndex].categories.concat(template.metadata.category);
-                            this.createCards[templateIndex].ids.push(`${template.id}`);
-                        }
+                    // if the card doesn't exist, create it based off the template, else add information to the preexisting card
+                    if (templateIndex === -1) {
+                        this.createCards.push({
+                            name: `${template.metadata.name}`,
+                            value: template.id,
+                            description: template.metadata.description,
+                            enabledInTryMode: template.metadata.enabledInTryMode,
+                            AADPermissions: template.metadata.AADPermissions,
+                            languages: [`${template.metadata.language}`],
+                            categories: template.metadata.category,
+                            ids: [`${template.id}`],
+                            icon: 'image/other.svg',
+                            color: '#000000',
+                            barcolor: '#D9D9D9',
+                            focusable: false
+                        });
+                    } else {
+                        this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
+                        this.createCards[templateIndex].categories = this.createCards[templateIndex].categories.concat(template.metadata.category);
+                        this.createCards[templateIndex].ids.push(`${template.id}`);
+                    }
                 });
 
                 // unique categories
                 this.createCards.forEach((template, index) => {
-                    const categoriesDict: {[key: string]: string; } = {};
+                    const categoriesDict: { [key: string]: string; } = {};
                     template.categories.forEach(category => {
                         categoriesDict[category] = category;
                     });
@@ -127,7 +131,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
                 });
 
                 this.createFunctionCard = this.createCards[0];
-        });
+            });
     }
 
     clickRow(item: FunctionNode) {
@@ -201,18 +205,30 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
     embeddedDelete(item: FunctionNode) {
         const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: item.functionInfo.name }));
         if (result) {
-          this._globalStateService.setBusyState();
-          this._cacheService.deleteArm(item.resourceId)
-            .subscribe(r => {
-                this._globalStateService.clearBusyState();
-                this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-                resourceId: item.resourceId,
-                operation: 'remove'
-              });
-            }, err => {
-                this._globalStateService.clearBusyState();
-              // TODO: ellhamai - handle error
-            });
+            this._globalStateService.setBusyState();
+
+            const headers = this._armService.getHeaders();
+            this._userService.getStartupInfo()
+                .first()
+                .switchMap(info => {
+                    headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
+                    headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);
+                    headers.append('x-cds-crm-solutionid', info.crmInfo.crmSolutionIdHeaderName);
+
+              const url = this._armService.getArmUrl(item.resourceId, this._armService.websiteApiVersion);
+              return this._cacheService.delete(url, headers);
+                })
+                .subscribe(r => {
+                    this._globalStateService.clearBusyState();
+                    this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+                        resourceId: item.resourceId,
+                        operation: 'remove'
+                    });
+
+                }, err => {
+                    this._globalStateService.clearBusyState();
+                    // TODO: ellhamai - handle error
+                });
         }
     }
 

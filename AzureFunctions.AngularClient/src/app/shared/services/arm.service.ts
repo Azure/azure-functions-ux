@@ -30,7 +30,7 @@ export class ArmService {
 
     constructor(private _http: Http,
         _userService: UserService,
-        private _portalService: PortalService,
+        _portalService: PortalService,
         protected _aiService: AiService) {
 
         this.armUrl = _portalService.isEmbeddedFunctions ? ArmEmbeddedService.url : ArmServiceHelper.armEndpoint;
@@ -48,7 +48,7 @@ export class ArmService {
 
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers, invokeApi?: boolean) {
 
-        headers = (headers && !this._portalService.isEmbeddedFunctions) ? headers : this.getHeaders(etag);
+        headers = headers ? headers : this.getHeaders(etag);
 
         if (invokeApi) {
             let pathAndQuery = url.slice(this.armUrl.length);
