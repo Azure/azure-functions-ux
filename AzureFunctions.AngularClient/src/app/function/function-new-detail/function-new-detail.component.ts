@@ -1,4 +1,3 @@
-import { ArmService } from './../../shared/services/arm.service';
 import { ArmEmbeddedService } from './../../shared/services/arm-embedded.service';
 import { KeyCodes, LogCategories } from './../../shared/models/constants';
 import { TreeViewInfo } from 'app/tree-view/models/tree-view-info';
@@ -25,7 +24,7 @@ import { UIFunctionBinding } from '../../shared/models/binding';
 import { PortalService } from '../../shared/services/portal.service';
 import { Observable } from 'rxjs/Observable';
 import { CreateCard } from 'app/function/function-new/function-new.component';
-import { UserService } from 'app/shared/services/user.service';
+import { EmbeddedService } from 'app/shared/services/embedded.service';
 
 @Component({
     selector: 'function-new-detail',
@@ -34,8 +33,6 @@ import { UserService } from 'app/shared/services/user.service';
 })
 export class FunctionNewDetailComponent implements OnChanges {
 
-    // TODO: ellhamai - figure out where to put this
-    private _cdsEntitiesUrl = 'https://tip1.api.cds.microsoft.com/providers/Microsoft.CommonDataModel/environments/0fb7e803-94aa-4e69-9694-d3b3cea74523/namespaces/5d5374aa-0df3-421c-9656-5244ac88593c/entities?api-version=2016-11-01-alpha&$expand=namespace&headeronly=true';
     private _bindingComponents: BindingComponent[] = [];
 
     @Input() functionCard: CreateCard;
@@ -81,8 +78,7 @@ export class FunctionNewDetailComponent implements OnChanges {
         private _cacheService: CacheService,
         private _functionAppService: FunctionAppService,
         private _logService: LogService,
-        private _armService: ArmService,
-        private _userService: UserService) {
+        private _embeddedService: EmbeddedService) {
 
         this.isEmbedded = this._portalService.isEmbeddedFunctions;
     }
@@ -93,7 +89,7 @@ export class FunctionNewDetailComponent implements OnChanges {
                 this.updateLanguageOptions();
 
                 if (this._portalService.isEmbeddedFunctions) {
-                    this._getEntities();
+                    this.getEntityOptions();
                 }
             }
         }
@@ -123,6 +119,23 @@ export class FunctionNewDetailComponent implements OnChanges {
                 .subscribe(() => {
                 });
         }
+    }
+
+    getEntityOptions() {
+        this._embeddedService.getEntities()
+            .subscribe(r => {
+                if (r.isSuccessful) {
+                    const entities = (r.result.value.map(e => e.name)).sort();
+                    this.entityOptions = [];
+                    entities.forEach(entity => {
+                        const dropDownElement: any = {
+                            displayLabel: entity,
+                            value: entity
+                        };
+                        this.entityOptions.push(dropDownElement);
+                    });
+                }
+            });
     }
 
     onEntityChanged(entity: string) {
@@ -298,31 +311,6 @@ export class FunctionNewDetailComponent implements OnChanges {
             // Last binding update
             this._createFunction();
         }
-    }
-
-    private _getEntities() {
-        const url = this._cdsEntitiesUrl;
-        const headers = this._armService.getHeaders();
-        this._userService.getStartupInfo()
-            .first()
-            .switchMap(info => {
-                headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
-                headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);
-                headers.append('x-cds-crm-solutionid', info.crmInfo.crmSolutionIdHeaderName);
-
-                return this._cacheService.get(url, null, headers).map(r => r.json());
-            })
-            .subscribe(r => {
-                const entities = (r.value.map(e => e.name)).sort();
-                this.entityOptions = [];
-                entities.forEach(entity => {
-                    const dropDownElement: any = {
-                        displayLabel: entity,
-                        value: entity
-                    };
-                    this.entityOptions.push(dropDownElement);
-                });
-            });
     }
 
     private _createFunction() {

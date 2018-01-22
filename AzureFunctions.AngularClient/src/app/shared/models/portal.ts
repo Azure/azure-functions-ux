@@ -31,6 +31,8 @@ export interface CrmInfo {
     crmTokenHeaderName: string;
     crmInstanceHeaderName: string;
     crmSolutionIdHeaderName: string;
+    environmentId: string;
+    namespaceId: string;
 }
 
 export interface DataMessage<T>{
