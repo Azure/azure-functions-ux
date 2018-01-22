@@ -1,3 +1,4 @@
+import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
 import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { HttpMethods, HttpConstants } from './../models/constants';
@@ -156,6 +157,7 @@ export class FunctionAppService {
         private _userService: UserService,
         private _injector: Injector,
         private _portalService: PortalService,
+        private _globalStateService: GlobalStateService,
         logService: LogService) {
 
         this.runtime = new ConditionalHttpClient(_cacheService, logService, context => this.getRuntimeToken(context), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
@@ -301,10 +303,15 @@ export class FunctionAppService {
         return this.azure.executeWithConditions([], context, t =>
             this.getExtensionVersionFromAppSettings(context)
                 .mergeMap(extensionVersion => {
+                    const headers = this.portalHeaders(t);
+                    if (this._globalStateService.showTryView) {
+                        headers.delete('Authorization');
+                    }
+
                     return this._cacheService.get(
                         Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
                         true,
-                        this.portalHeaders(t));
+                        headers);
                 })
                 .map(r => {
                     const object = r.json();
@@ -567,8 +574,18 @@ export class FunctionAppService {
         }
 
         return this.azure.execute(context, t => this.getExtensionVersionFromAppSettings(context)
-            .concatMap(extensionVersion =>
-                this._cacheService.get(`${Constants.serviceHost}api/bindingconfig?runtime=${extensionVersion}`, false, this.portalHeaders(t)))
+            .concatMap(extensionVersion => {
+                if (!extensionVersion) {
+                    extensionVersion = 'latest';
+                }
+
+                const headers = this.portalHeaders(t);
+                if(this._globalStateService.showTryView){
+                    headers.delete('Authorization');
+                }
+
+                return this._cacheService.get(`${Constants.serviceHost}api/bindingconfig?runtime=${extensionVersion}`, false, headers)
+            })
             .map(r => {
                 const object = r.json();
                 this.localize(object);
