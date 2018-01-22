@@ -1,4 +1,5 @@
 import { StartupInfo } from './../models/portal';
+import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
 import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { HttpMethods, HttpConstants } from './../models/constants';
@@ -52,6 +53,7 @@ export class FunctionAppService {
         private _userService: UserService,
         private _injector: Injector,
         private _portalService: PortalService,
+        private _globalStateService: GlobalStateService,
         logService: LogService) {
 
         this._userService.getStartupInfo()
@@ -203,10 +205,15 @@ export class FunctionAppService {
         return this.azure.executeWithConditions([], context, t =>
             this.getExtensionVersionFromAppSettings(context)
                 .mergeMap(extensionVersion => {
+                    const headers = this.portalHeaders(t);
+                    if (this._globalStateService.showTryView) {
+                        headers.delete('Authorization');
+                    }
+
                     return this._cacheService.get(
                         Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
                         true,
-                        this.portalHeaders(t));
+                        headers);
                 })
                 .map(r => {
                     const object = r.json();
@@ -432,8 +439,21 @@ export class FunctionAppService {
 
     getHostKeys(context: FunctionAppContext): Result<FunctionKeys> {
         return this.runtime.execute(context, t =>
-            this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t))
-                .map(r => r.json()));
+            Observable.zip(
+                this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t)),
+                this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t))
+            )
+                .map(r => {
+                    const hostKeys = r[0].json();
+                    hostKeys.keys = hostKeys.keys ? hostKeys.keys : [];
+                    const masterKey = r[1].json();
+                    if (masterKey) {
+                        hostKeys.keys.splice(0, 0, masterKey);
+                    }
+
+                    return hostKeys;
+                })
+        );
     }
 
     getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
@@ -463,8 +483,18 @@ export class FunctionAppService {
         }
 
         return this.azure.execute(context, t => this.getExtensionVersionFromAppSettings(context)
-            .concatMap(extensionVersion =>
-                this._cacheService.get(`${Constants.serviceHost}api/bindingconfig?runtime=${extensionVersion}`, false, this.portalHeaders(t)))
+            .concatMap(extensionVersion => {
+                if (!extensionVersion) {
+                    extensionVersion = 'latest';
+                }
+
+                const headers = this.portalHeaders(t);
+                if(this._globalStateService.showTryView){
+                    headers.delete('Authorization');
+                }
+
+                return this._cacheService.get(`${Constants.serviceHost}api/bindingconfig?runtime=${extensionVersion}`, false, headers)
+            })
             .map(r => {
                 const object = r.json();
                 this.localize(object);
