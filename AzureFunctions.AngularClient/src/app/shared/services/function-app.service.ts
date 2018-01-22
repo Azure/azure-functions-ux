@@ -366,7 +366,7 @@ export class FunctionAppService {
 
             if (matchesPathParams) {
                 matchesPathParams.forEach((m) => {
-                    const name = m.split(':') [0].replace('{', '').replace('}', '');
+                    const name = m.split(':')[0].replace('{', '').replace('}', '');
                     processedParams.push(name);
                     const param = model.queryStringParams.find((p) => {
                         return p.name === name;
@@ -523,8 +523,21 @@ export class FunctionAppService {
 
     getHostKeys(context: FunctionAppContext): Result<FunctionKeys> {
         return this.runtime.execute(context, t =>
-            this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t))
-                .map(r => r.json()));
+            Observable.zip(
+                this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t)),
+                this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t))
+            )
+                .map(r => {
+                    const hostKeys = r[0].json();
+                    hostKeys.keys = hostKeys.keys ? hostKeys.keys : [];
+                    const masterKey = r[1].json();
+                    if (masterKey) {
+                        hostKeys.keys.splice(0, 0, masterKey);
+                    }
+
+                    return hostKeys;
+                })
+        );
     }
 
     getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
