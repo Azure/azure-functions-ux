@@ -175,7 +175,8 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
               headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);
               headers.append('x-cds-crm-solutionid', info.crmInfo.crmSolutionIdHeaderName);
 
-              return this._cacheService.deleteArm(this.resourceId);
+              const url = this._armService.getArmUrl(this.resourceId, this._armService.websiteApiVersion);
+              return this._cacheService.delete(url, headers);
           })
           .subscribe(r => {
             this._busyManager.clearBusy();
