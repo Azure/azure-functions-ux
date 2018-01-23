@@ -95,14 +95,10 @@ export class Templates {
                             {
                                 'value': 'Update',
                                 'display': 'Update'
-                            },
-                            {
-                                'value': 'Retrieve',
-                                'display': 'Retrieve'
                             }
                         ],
                         'label': 'Event',
-                        'help': 'Event help'
+                        'help': 'CDS event on which the function will trigger'
                     }
                 ]
 
