@@ -8,8 +8,8 @@
      (click)="node.select()"
      role="treeitem"
      [attr.aria-expanded]="node.showExpandIcon && node.isExpanded ? true : node.showExpandIcon ? false : null"
-     (mouseenter)="node.showMenu = true"
-     (mouseleave)="node.showMenu = false"
+     (mouseenter)="showMenu(true)"
+     (mouseleave)="showMenu(false)"
      (keydown)="onKeyPress($event)">
 
   <!-- Expand node icon -->
@@ -44,26 +44,24 @@
           (keydown)="node.openCreateNew($event)"
           class="fa fa-plus link create-new"
           [title]="'createNew' | translate"
-          [tabindex]="node.isFocused ? 0 : -1"></i>
+          [tabindex]="node.isFocused ? 0 : -1"
+          role="button"></i>
 
       <i *ngIf="node.supportsRefresh && !node.emptySubs"
         (click)="node.refresh($event)"
         (keydown)="node.refresh($event)"
         class="fa fa-refresh tree-node-refresh-icon link"
         [title]="'sideBar_refresh' | translate"
-        [tabindex]="node.isFocused ? 0 : -1"></i>
+        [tabindex]="node.isFocused ? 0 : -1"
+        role="button"></i>
 
       <i *ngIf="node.supportsScope && !showTryView"
          class="fa fa-angle-double-right tree-node-scope-icon link"
          (click)="node.scopeToNode($event)"
          (keydown)="node.scopeToNode($event)"
          [title]="'scopeToItem' | translate"
-         [tabindex]="node.isFocused ? 0 : -1"></i>
-
-      <i *ngIf="node.supportsTab"
-        class="fa fa-external-link link"
-        (click)="openNewTab()"
-        title="Open in new tab"></i>
+         [tabindex]="node.isFocused ? 0 : -1"
+         role="button"></i>
     </span>
   </span>
 </div>

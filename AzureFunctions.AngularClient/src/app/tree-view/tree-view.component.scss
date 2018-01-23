@@ -45,7 +45,7 @@
     }
 
     &.create-app  .menu-items{
-        display: inline-flex;        
+        display: inline-flex;
     }
 }
 
@@ -67,11 +67,11 @@
     width: 100%;
 }
 
-
 .create-new {
-    margin-top: 4px;
+    margin-top: 5px;
     font-size: 18px;
     margin-right: 4px;
+    vertical-align: text-top;
 }
 
 hr.tree-node-separator{
