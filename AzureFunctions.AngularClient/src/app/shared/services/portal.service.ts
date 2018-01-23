@@ -32,7 +32,8 @@ export class PortalService {
         'https://portal.microsoftazure.de',
         'https://portal.azure.cn',
         'https://portal.azure.us',
-        'https://powerapps.cloudapp.net'
+        'https://powerapps.cloudapp.net',
+        'https://tip1.web.powerapps.com'
     ];
 
     private startupInfo: StartupInfo | null;
