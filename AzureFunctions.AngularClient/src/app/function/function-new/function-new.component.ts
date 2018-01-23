@@ -36,8 +36,8 @@ export interface CreateCard extends Template {
     icon: string;
     barcolor: string;
     focusable: boolean;
-    allLanguages: string[];
-    supportedLanguages: string[];
+    allLanguages?: string[];
+    supportedLanguages?: string[];
 }
 
 @Component({
@@ -231,11 +231,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                         return finalTemplate.name === template.metadata.name;
                     });
 
-                    // if the card doesn't exist, create it based off the template, else add information to the preexisting card
-                    const isExperimental = this.allExperimentalLanguages.find((l) => {
-                        return l === template.metadata.language;
-                    });
+                    const isExperimental = this._languageIsExperimental(template.metadata.language);
 
+                    // if the card doesn't exist, create it based off the template, else add information to the preexisting card
                     if (templateIndex === -1) {
                         this.createCards.push({
                             name: `${template.metadata.name}`,
@@ -285,9 +283,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
                 // sort out supported languages and set those as default language options in drop-down
                 this.languages.forEach(language => {
-                    const isExperimental = this.allExperimentalLanguages.find((l) => {
-                        return l === language.value;
-                    });
+                    const isExperimental = this._languageIsExperimental(language.value);
                     if (!isExperimental) {
                         this.supportedLanguages.push({
                             displayLabel: language.displayLabel,
@@ -296,12 +292,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     }
                 });
 
-                this.allLanguages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
-                    return a.displayLabel > b.displayLabel ? 1 : -1;
-                });
-                this.supportedLanguages = this.supportedLanguages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
-                    return a.displayLabel > b.displayLabel ? 1 : -1;
-                });
+                this.allLanguages = this._languageSort(this.languages);
+                this.supportedLanguages = this._languageSort(this.supportedLanguages);
                 this.languages = this.supportedLanguages;
 
                 // order preference defined in constants.ts
@@ -333,6 +325,18 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
             card.languages = this.showExperimentalLanguages ? card.allLanguages : card.supportedLanguages;
         });
         this.languages = this.showExperimentalLanguages ? this.allLanguages : this.supportedLanguages;
+    }
+
+    private _languageIsExperimental(language: string): boolean {
+        return !!(this.allExperimentalLanguages.find((l) => {
+            return l === language;
+        }));
+    }
+
+    private _languageSort(languages: DropDownElement<string>[]): DropDownElement<string>[] {
+        return languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+            return a.displayLabel > b.displayLabel ? 1 : -1;
+        });
     }
 
     onLanguageChanged(language: string) {
