@@ -7,7 +7,7 @@ export class Templates {
             'runtime': '1',
             'files': {
                 'readme.md': '# HttpTrigger -on',
-                'run.csx': '#r \'..\\bin\\Microsoft.Xrm.Sdk.dll\'\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\'name\'] = entity.Attributes[\'name\'].ToString().ToUpper();\n\treturn entity;\n}',
+                'run.csx': '#r \"..\\bin\\Microsoft.Xrm.Sdk.dll\"\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\"name\"] = entity.Attributes[\"name\"].ToString().ToUpper();\n\treturn entity;\n}',
                 'sample.dat': '{}'
             },
             'function': {
