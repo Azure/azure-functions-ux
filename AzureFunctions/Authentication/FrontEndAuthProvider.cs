@@ -36,14 +36,14 @@ namespace AzureFunctions.Authentication
             var principalName = request.Headers[Constants.FrontEndPrincipalNameHeader];
             var portalToken = request.Headers[Constants.PortalTokenHeader] ?? request.Headers[Constants.Authorization];
 
-            if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
+            if(request.UrlReferrer != null
+                && this._noAuthReferrers.Any(r => request.UrlReferrer.Host.EndsWith(r, StringComparison.OrdinalIgnoreCase)))
             {
-                if(request.UrlReferrer != null
-                    && this._noAuthReferrers.FirstOrDefault(r => request.UrlReferrer.Host.EndsWith(r, StringComparison.OrdinalIgnoreCase)) != null)
-                {
-                    principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
-                }
-                else if (string.IsNullOrEmpty(portalToken))
+                principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.PortalAnonymousUser));
+            }
+            else if (string.Equals(principalName, Constants.AnonymousUserName, StringComparison.OrdinalIgnoreCase))
+            {
+                if (string.IsNullOrEmpty(portalToken))
                 {
                     principal = new AzureFunctionsPrincipal(new AzureFunctionsIdentity(Constants.AnonymousUserName));
                 }

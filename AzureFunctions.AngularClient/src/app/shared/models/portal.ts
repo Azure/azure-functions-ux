@@ -25,6 +25,7 @@ export interface StartupInfo {
     graphToken: string;
     theme: string;
     crmInfo?: CrmInfo;
+    armEndpoint?: string;
 }
 
 export interface CrmInfo {
