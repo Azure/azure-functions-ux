@@ -25,15 +25,13 @@ export interface StartupInfo {
     graphToken: string;
     theme: string;
     crmInfo?: CrmInfo;
-    armEndpoint: string;
+    armEndpoint?: string;
 }
 
 export interface CrmInfo {
     crmTokenHeaderName: string;
     crmInstanceHeaderName: string;
     crmSolutionIdHeaderName: string;
-    environmentId: string;
-    namespaceId: string;
 }
 
 export interface DataMessage<T>{

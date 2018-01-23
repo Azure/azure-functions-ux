@@ -49,8 +49,7 @@ export class UserService {
             acceptLanguage: null,
             effectiveLocale: null,
             resourceId: null,
-            theme: null,
-            armEndpoint: null
+            theme: null
         };
 
         if (this.inIFrame || this.inTab) {
