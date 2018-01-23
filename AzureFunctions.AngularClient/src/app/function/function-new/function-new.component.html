@@ -44,6 +44,16 @@
                                    (value)="onScenarioChanged($event)"
                                    attr.aria-label="{{'templatePicker_scenario' | translate}}">
                         </drop-down>
+                        
+                        {{ 'experimentalLanguageSupport' | translate }}
+                        <slide-toggle class="language-toggle"
+                                      [on]="showExperimentalLanguages"
+                                      [isCommand]="true"
+                                      [name]="'experimentalLanguageSupport' | translate"
+                                      [ariaLabelFormat]="'nameAndStateName'"
+                                      (change)="switchExperimentalLanguagesOption()">
+                        </slide-toggle>
+
                 </div>
 
                 <div class="selectionContainer" #container>
