@@ -1,4 +1,3 @@
-import { ArmService } from 'app/shared/services/arm.service';
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
 import { ErrorEvent } from 'app/shared/models/error-event';
@@ -18,7 +17,7 @@ import { TreeViewInfo } from './../../../tree-view/models/tree-view-info';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { UserService } from 'app/shared/services/user.service';
+import { EmbeddedService } from 'app/shared/services/embedded.service';
 
 @Component({
   selector: 'embedded-function-editor',
@@ -45,8 +44,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     private _broadcastService: BroadcastService,
     private _cacheService: CacheService,
     private _translateService: TranslateService,
-    private _armService: ArmService,
-    private _userService: UserService) {
+    private _embeddedService: EmbeddedService) {
 
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
@@ -167,31 +165,23 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this._functionInfo.name }));
     if (result) {
       this._busyManager.setBusy();
-      const headers = this._armService.getHeaders();
-      this._userService.getStartupInfo()
-          .first()
-          .switchMap(info => {
-              headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
-              headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);
-              headers.append('x-cds-crm-solutionid', info.crmInfo.crmSolutionIdHeaderName);
-
-              const url = this._armService.getArmUrl(this.resourceId, this._armService.websiteApiVersion);
-              return this._cacheService.delete(url, headers);
-          })
-          .subscribe(r => {
-            this._busyManager.clearBusy();
-            this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-              resourceId: this.resourceId,
-              operation: 'remove'
-            });
-          }, err => {
-            this._busyManager.clearBusy();
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-              message: this._translateService.instant(PortalResources.error_unableToDeleteFunction).format(this._functionInfo.name),
-              errorId: errorIds.embeddedEditorDeleteError,
-              resourceId: this.resourceId,
-            });
-          });
+      this._embeddedService.deleteFunction(this.resourceId)
+      .subscribe(r => {
+          if (r.isSuccessful) {
+              this._busyManager.clearBusy();
+              this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+                  resourceId: this.resourceId,
+                  operation: 'remove'
+              });
+          } else {
+              this._busyManager.clearBusy();
+              this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                  message: r.error.message,
+                  errorId: r.error.errorId,
+                  resourceId: this.resourceId,
+                });
+          }
+      });
     }
   }
 }

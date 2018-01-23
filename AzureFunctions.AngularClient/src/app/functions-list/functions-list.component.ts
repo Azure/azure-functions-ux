@@ -1,8 +1,6 @@
-import { ArmService } from './../shared/services/arm.service';
 import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { FunctionAppContext } from './../shared/function-app-context';
 import { TreeUpdateEvent, BroadcastEvent } from './../shared/models/broadcast-event';
-import { CacheService } from 'app/shared/services/cache.service';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { CreateCard } from 'app/function/function-new/function-new.component';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
@@ -20,7 +18,8 @@ import { Observable } from 'rxjs/Observable';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subscription } from 'rxjs/Subscription';
 import { NavigableComponent } from '../shared/components/navigable-component';
-import { UserService } from 'app/shared/services/user.service';
+import { EmbeddedService } from 'app/shared/services/embedded.service';
+import { ErrorEvent } from 'app/shared/models/error-event';
 
 @Component({
     selector: 'functions-list',
@@ -49,9 +48,8 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
         private _translateService: TranslateService,
         broadcastService: BroadcastService,
         private _functionAppService: FunctionAppService,
-        private _cacheService: CacheService,
-        private _armService: ArmService,
-        private _userService: UserService) {
+        private _embeddedService: EmbeddedService) {
+
         super('functions-list', broadcastService, DashboardType.FunctionsDashboard);
 
         this.isEmbedded = this._portalService.isEmbeddedFunctions;
@@ -206,28 +204,22 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
         const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: item.functionInfo.name }));
         if (result) {
             this._globalStateService.setBusyState();
-
-            const headers = this._armService.getHeaders();
-            this._userService.getStartupInfo()
-                .first()
-                .switchMap(info => {
-                    headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
-                    headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);
-                    headers.append('x-cds-crm-solutionid', info.crmInfo.crmSolutionIdHeaderName);
-
-              const url = this._armService.getArmUrl(item.resourceId, this._armService.websiteApiVersion);
-              return this._cacheService.delete(url, headers);
-                })
+            this._embeddedService.deleteFunction(item.resourceId)
                 .subscribe(r => {
-                    this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-                        resourceId: item.resourceId,
-                        operation: 'remove'
-                    });
-
-                }, err => {
-                    this._globalStateService.clearBusyState();
-                    // TODO: ellhamai - handle error
+                    if (r.isSuccessful) {
+                        this._globalStateService.clearBusyState();
+                        this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+                            resourceId: item.resourceId,
+                            operation: 'remove'
+                        });
+                    } else {
+                        this._globalStateService.clearBusyState();
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: r.error.message,
+                            errorId: r.error.errorId,
+                            resourceId: item.resourceId,
+                          });
+                    }
                 });
         }
     }
