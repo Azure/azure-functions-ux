@@ -1,4 +1,3 @@
-import { ArmEmbeddedService } from './../../shared/services/arm-embedded.service';
 import { KeyCodes, LogCategories } from './../../shared/models/constants';
 import { TreeViewInfo } from 'app/tree-view/models/tree-view-info';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
@@ -333,7 +332,7 @@ export class FunctionNewDetailComponent implements OnChanges {
                     this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
 
                     if (this._portalService.isEmbeddedFunctions) {
-                        this._cacheService.clearCachePrefix(`${ArmEmbeddedService.url}${this.context.site.id}`);
+                        this._cacheService.clearCachePrefix(this.context.urlTemplates.functionsUrl);
                     } else {
                         this._cacheService.clearCachePrefix(this.context.urlTemplates.scmSiteUrl);
                     }
