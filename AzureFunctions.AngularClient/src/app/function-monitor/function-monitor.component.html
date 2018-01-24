@@ -4,7 +4,7 @@
         {{ 'monitoring_appInsightsIsNotFound' | translate}}
     </div>
 
-    <div *ngIf="!azureWebJobsDashboardMissed && aiId === ''" class="alert alert-warning alert-dismissible" role="alert">
+    <div *ngIf="aiEnabled && !azureWebJobsDashboardMissed && aiId === ''" class="alert alert-warning alert-dismissible" role="alert">
         <img src="image/appInsights.svg"/>
         <span [innerHTML]="'monitoring_appInsights' | translate"></span>
     </div>

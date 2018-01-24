@@ -1,4 +1,5 @@
-import { LogCategories } from './../shared/models/constants';
+import { ScenarioService } from './../shared/services/scenario/scenario.service';
+import { LogCategories, ScenarioIds } from './../shared/models/constants';
 import { Constants } from 'app/shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { Component } from '@angular/core';
@@ -39,6 +40,7 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
     public aiId: string = null;
     public azureWebJobsDashboardMissed = true;
     public aiNotFound = false;
+    public aiEnabled = false;
 
     constructor(
         public globalStateService: GlobalStateService,
@@ -48,7 +50,8 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
         private _cacheService: CacheService,
         broadcastService: BroadcastService,
         private _functionAppService: FunctionAppService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _scenarioService: ScenarioService
     ) {
         super('function-monitor', broadcastService, _functionAppService, () => globalStateService.setBusyState(), DashboardType.FunctionMonitorDashboard);
         this.columns = [
@@ -80,9 +83,12 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
             .switchMap(fi => {
                 this.currentFunction = fi.functionInfo.result;
                 this.globalStateService.setBusyState();
+
+                this.aiEnabled = this._scenarioService.checkScenario(ScenarioIds.enableAppInsights).status !== 'disabled';
+
                 return Observable.zip(
                     this._cacheService.postArm(`${this.context.site.id}/config/appsettings/list`, true),
-                    this._functionAppService.isAppInsightsEnabled(this.context.site.id));
+                    this.aiEnabled ? this._functionAppService.isAppInsightsEnabled(this.context.site.id) : Observable.of(null));
             })
             .switchMap(r => {
                 const appSettings = r[0].json();
