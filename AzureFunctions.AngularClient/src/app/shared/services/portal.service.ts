@@ -1,4 +1,5 @@
-﻿import { Jwt } from './../Utilities/jwt';
+﻿import { ArmServiceHelper } from './arm.service-helper';
+import { Jwt } from './../Utilities/jwt';
 import { Observable } from 'rxjs/Observable';
 import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
@@ -31,7 +32,8 @@ export class PortalService {
         'https://portal.microsoftazure.de',
         'https://portal.azure.cn',
         'https://portal.azure.us',
-        'https://powerapps.cloudapp.net'
+        'https://powerapps.cloudapp.net',
+        'https://tip1.web.powerapps.com'
     ];
 
     private startupInfo: StartupInfo | null;
@@ -259,6 +261,10 @@ export class PortalService {
             this.startupInfo = <StartupInfo>data;
             this.sessionId = this.startupInfo.sessionId;
             this._aiService.setSessionId(this.sessionId);
+
+            // Prefer whatever Ibiza sends us if hosted in iframe.  This is mainly for national clouds
+            ArmServiceHelper.armEndpoint = this.startupInfo.armEndpoint ? this.startupInfo.armEndpoint : ArmServiceHelper.armEndpoint;
+            window.appsvc.env.azureResourceManagerEndpoint = ArmServiceHelper.armEndpoint;
 
             this.startupInfoObservable.next(this.startupInfo);
             this.logTokenExpiration(this.startupInfo.token, '/portal-service/token-new-startupInfo');

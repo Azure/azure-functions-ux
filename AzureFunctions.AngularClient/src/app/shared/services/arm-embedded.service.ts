@@ -72,9 +72,9 @@ export class ArmEmbeddedService extends ArmService {
             // Get a list of all functions in the environment
             return super.send(method, url, body, etag, headers);
         } else if (urlNoQuery.endsWith('/config/web')) {
-            // TODO: filter out these requests
+            return Observable.of(null);
         } else if (urlNoQuery.endsWith('slots')) {
-            // TODO: filter out these requests
+            return Observable.of(null);
         }
 
         if (this._whitelistedRPPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()))) {

@@ -138,7 +138,8 @@ export class UserService {
                         effectiveLocale: this._startupInfo.effectiveLocale,
                         resourceId: this._startupInfo.resourceId,
                         stringResources: r.resources,
-                        theme: this._startupInfo.theme
+                        theme: this._startupInfo.theme,
+                        armEndpoint: this._startupInfo.armEndpoint
                     };
 
                     this.updateStartupInfo(info);

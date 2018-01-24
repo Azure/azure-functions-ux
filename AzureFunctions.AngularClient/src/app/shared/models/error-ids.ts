@@ -62,4 +62,5 @@ export namespace errorIds {
     export const embeddedEditorLoadError = '/errors/embedded/editor-load';
     export const embeddedEditorSaveError = '/errors/embedded/editor-save';
     export const embeddedEditorDeleteError = '/errors/embedded/editor-delete';
+    export const embeddedGetEntities = '/errors/embedded/get-entities';
 }

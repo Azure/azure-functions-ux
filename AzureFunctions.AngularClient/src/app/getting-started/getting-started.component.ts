@@ -221,13 +221,9 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
                     const portalHostName = 'https://portal.azure.com';
                     let environment = '';
                     if (window.location.host.indexOf('staging') !== -1) {
-                        // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.
-                        environment = '?feature.fastmanifest=false&websitesextension_functionsstaged=true';
-
+                        environment = '?websitesextension_ext=appsvc.env=stage';
                     } else if (window.location.host.indexOf('next') !== -1) {
-
-                        // Temporarily redirecting FunctionsNext to use the Canary Ibiza environment.
-                        environment = '?feature.canmodifystamps=true&BizTalkExtension=canary&WebsitesExtension=canary&feature.fastmanifest=false&websitesextension_functionsnext=true';
+                        environment = '?websitesextension_ext=appsvc.env=next';
                     }
 
                     window.location.replace(`${portalHostName}/${currentTenant.DomainName}${environment}#resource${armId}`);

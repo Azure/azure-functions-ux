@@ -1,3 +1,5 @@
+import { StartupInfo } from './../models/portal';
+import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
 import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { HttpMethods, HttpConstants } from './../models/constants';
@@ -35,131 +37,33 @@ import { errorIds } from 'app/shared/models/error-ids';
 import { LogService } from './log.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { ExtensionInstallStatus } from '../models/extension-install-status';
+import { Templates } from './../../function/embedded/temp-templates';
 
 type Result<T> = Observable<FunctionAppHttpResult<T>>;
 @Injectable()
 export class FunctionAppService {
     private readonly runtime: ConditionalHttpClient;
     private readonly azure: ConditionalHttpClient;
+    private readonly _embeddedTemplates: Templates;
 
-    private testJsonTemplates = JSON.stringify([
-        {
-            "id": "SyncTrigger-CSharp",
-            "runtime": "1",
-            "files": {
-                "readme.md": "# HttpTrigger -on",
-                "run.csx": "#r \"..\\bin\\Microsoft.Xrm.Sdk.dll\"\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\"name\"] = entity.Attributes[\"name\"].ToString().ToUpper();\n\treturn entity;\n}",
-                "sample.dat": "{}"
-            },
-            "function": {
-                "disabled": false,
-                "bindings": [
-                    {
-                        "name": "entity",
-                        "message": "create",
-                        "type": "synctrigger",
-                        "direction": "in"
-                    }
-                ]
-            },
-            "metadata": {
-                "defaultFunctionName": "SyncTriggerCSharp",
-                "description": "$SyncTrigger_description",
-                "name": "Sync trigger",
-                "language": "C#",
-                "trigger": "SyncTrigger",
-                "category": [
-                    "$temp_category_core"
-                ],
-                "categoryStyle": "http",
-                "enabledInTryMode": true,
-                "userPrompt": [
-                    "message"
-                ]
-            }
-        },
-        {
-            "id": "SyncTrigger-JavaScript",
-            "runtime": "1",
-            "files": {
-                "index.js": "module.exports",
-                "sample.dat": "{}"
-            },
-            "function": {
-                "disabled": false,
-                "bindings": [
-                    {
-                        "name": "entity",
-                        "message": "create",
-                        "type": "synctrigger",
-                        "direction": "in"
-                    }
-                ]
-            },
-            "metadata": {
-                "defaultFunctionName": "SyncTriggerJS",
-                "description": "$SyncTrigger_description",
-                "name": "Sync trigger",
-                "language": "JavaScript",
-                "trigger": "SyncTrigger",
-                "category": [
-                    "$temp_category_core"
-                ],
-                "categoryStyle": "http",
-                "enabledInTryMode": true,
-                "userPrompt": [
-                    "message"
-                ]
-            }
-        }
-    ]);
-
-    private testJsonBindings = JSON.stringify({
-        "bindings": [
-            {
-                "type": "syncTrigger",
-                "displayName": "Sync",
-                "direction": "trigger",
-                "settings": [
-                    {
-                        "name": "message",
-                        "value": "enum",
-                        "enum": [
-                            {
-                                "value": "Create",
-                                "display": "Create"
-                            },
-                            {
-                                "value": "Destroy",
-                                "display": "Destroy"
-                            },
-                            {
-                                "value": "Update",
-                                "display": "Update"
-                            },
-                            {
-                                "value": "Retrieve",
-                                "display": "Retrieve"
-                            }
-                        ],
-                        "label": "Event",
-                        "help": "Event help"
-                    }
-                ]
-
-            }
-        ]
-    });
+    private startupInfo: StartupInfo;
 
     constructor(private _cacheService: CacheService,
         private _translateService: TranslateService,
         private _userService: UserService,
         private _injector: Injector,
         private _portalService: PortalService,
+        private _globalStateService: GlobalStateService,
         logService: LogService) {
+
+        this._userService.getStartupInfo()
+            .subscribe(info => {
+                this.startupInfo = info;
+            });
 
         this.runtime = new ConditionalHttpClient(_cacheService, logService, context => this.getRuntimeToken(context), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
         this.azure = new ConditionalHttpClient(_cacheService, logService, _ => _userService.getStartupInfo().map(i => i.token), 'NotOverQuota', 'ReachableLoadballancer');
+        this._embeddedTemplates = new Templates();
     }
 
     private getRuntimeToken(context: FunctionAppContext): Observable<string> {
@@ -219,7 +123,7 @@ export class FunctionAppService {
                 .catch(err => err.status === 404
                     ? Observable.throw(errorIds.proxyJsonNotFound)
                     : Observable.throw(err)),
-            this._cacheService.get('assets/schemas/proxies.json', false),
+            this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(t)),
             (p, s) => ({ proxies: p, schema: s.json() })
         ).map(r => {
             const proxies = r.proxies.json();
@@ -276,7 +180,7 @@ export class FunctionAppService {
 
     getTemplates(context: FunctionAppContext): Result<FunctionTemplate[]> {
         if (this._portalService.isEmbeddedFunctions) {
-            const devTemplate: FunctionTemplate[] = JSON.parse(this.testJsonTemplates);
+            const devTemplate: FunctionTemplate[] = JSON.parse(this._embeddedTemplates.templatesJson);
             return Observable.of({
                 isSuccessful: true,
                 result: devTemplate,
@@ -301,10 +205,15 @@ export class FunctionAppService {
         return this.azure.executeWithConditions([], context, t =>
             this.getExtensionVersionFromAppSettings(context)
                 .mergeMap(extensionVersion => {
+                    const headers = this.portalHeaders(t);
+                    if (this._globalStateService.showTryView) {
+                        headers.delete('Authorization');
+                    }
+
                     return this._cacheService.get(
                         Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
                         true,
-                        this.portalHeaders(t));
+                        headers);
                 })
                 .map(r => {
                     const object = r.json();
@@ -342,8 +251,15 @@ export class FunctionAppService {
         const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
         const url = context.urlTemplates.getFunctionUrl(functionName);
 
-        return this.getClient(context).executeWithConditions([], context, t =>
-            this._cacheService.put(url, this.jsonHeaders(t), content).map(r => r.json() as FunctionInfo));
+        return this.getClient(context).executeWithConditions([], context, t => {
+            const headers = this.jsonHeaders(t);
+            if (this._portalService.isEmbeddedFunctions) {
+                headers.append('x-cds-crm-user-token', this.startupInfo.crmInfo.crmTokenHeaderName);
+                headers.append('x-cds-crm-org', this.startupInfo.crmInfo.crmInstanceHeaderName);
+                headers.append('x-cds-crm-solutionid', this.startupInfo.crmInfo.crmSolutionIdHeaderName);
+            }
+            return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo);
+        });
     }
 
     statusCodeToText(code: number) {
@@ -366,7 +282,7 @@ export class FunctionAppService {
 
             if (matchesPathParams) {
                 matchesPathParams.forEach((m) => {
-                    const name = m.split(':') [0].replace('{', '').replace('}', '');
+                    const name = m.split(':')[0].replace('{', '').replace('}', '');
                     processedParams.push(name);
                     const param = model.queryStringParams.find((p) => {
                         return p.name === name;
@@ -523,13 +439,26 @@ export class FunctionAppService {
 
     getHostKeys(context: FunctionAppContext): Result<FunctionKeys> {
         return this.runtime.execute(context, t =>
-            this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t))
-                .map(r => r.json()));
+            Observable.zip(
+                this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t)),
+                this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t))
+            )
+                .map(r => {
+                    const hostKeys = r[0].json();
+                    hostKeys.keys = hostKeys.keys ? hostKeys.keys : [];
+                    const masterKey = r[1].json();
+                    if (masterKey) {
+                        hostKeys.keys.splice(0, 0, masterKey);
+                    }
+
+                    return hostKeys;
+                })
+        );
     }
 
     getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
         if (this._portalService.isEmbeddedFunctions) {
-            const devBindings: BindingConfig = JSON.parse(this.testJsonBindings);
+            const devBindings: BindingConfig = JSON.parse(this._embeddedTemplates.bindingsJson);
             return Observable.of({
                 isSuccessful: true,
                 result: devBindings,
@@ -554,8 +483,18 @@ export class FunctionAppService {
         }
 
         return this.azure.execute(context, t => this.getExtensionVersionFromAppSettings(context)
-            .concatMap(extensionVersion =>
-                this._cacheService.get(`${Constants.serviceHost}api/bindingconfig?runtime=${extensionVersion}`, false, this.portalHeaders(t)))
+            .concatMap(extensionVersion => {
+                if (!extensionVersion) {
+                    extensionVersion = 'latest';
+                }
+
+                const headers = this.portalHeaders(t);
+                if(this._globalStateService.showTryView){
+                    headers.delete('Authorization');
+                }
+
+                return this._cacheService.get(`${Constants.serviceHost}api/bindingconfig?runtime=${extensionVersion}`, false, headers)
+            })
             .map(r => {
                 const object = r.json();
                 this.localize(object);
@@ -896,18 +835,18 @@ export class FunctionAppService {
             .map(r => <RunFunctionResult>({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 
-    getGeneratedSwaggerData(context: FunctionAppContext): Result<any> {
+    getGeneratedSwaggerData(context: FunctionAppContext, key: string): Result<any> {
         const url: string = context.urlTemplates.getGeneratedSwaggerDataUrl;
-        return this.runtime.execute(context, t => this._cacheService.get(url, false, this.headers(t)).map(r => r.json()));
+        return this.runtime.execute(context, t => this._cacheService.get(`${url}?code=${key}`, false, this.headers(t)).map(r => r.json()));
     }
 
-    getSwaggerDocument(context: FunctionAppContext): Result<any> {
+    getSwaggerDocument(context: FunctionAppContext, key: string): Result<any> {
         const url: string = context.urlTemplates.getSwaggerDocumentUrl;
-        return this.runtime.execute(context, t => this._cacheService.get(url, false, this.headers(t)).map(r => r.json()));
+        return this.runtime.execute(context, t => this._cacheService.get(`${url}?code=${key}`, false, this.headers(t)).map(r => r.json()));
     }
 
     addOrUpdateSwaggerDocument(context: FunctionAppContext, swaggerUrl: string, content: string): Result<any> {
-        return this.runtime.execute(context, this._cacheService.post(swaggerUrl, false, null, content).map(r => r.json()));
+        return this.runtime.execute(context, this._cacheService.post(swaggerUrl, false, this.jsonHeaders(null), content).map(r => r.json()));
     }
 
     deleteSwaggerDocument(context: FunctionAppContext, swaggerUrl: string) {

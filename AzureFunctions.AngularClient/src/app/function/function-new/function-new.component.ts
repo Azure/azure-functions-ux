@@ -36,6 +36,8 @@ export interface CreateCard extends Template {
     icon: string;
     barcolor: string;
     focusable: boolean;
+    allLanguages?: string[];
+    supportedLanguages?: string[];
 }
 
 @Component({
@@ -63,6 +65,11 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public createCards: CreateCard[] = [];
     public createFunctionCard: CreateCard;
     public createFunctionLanguage: string = null;
+    public showExperimentalLanguages = false;
+    public allLanguages: DropDownElement<string>[] = [];
+    public supportedLanguages: DropDownElement<string>[] = [];
+
+    public readonly allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript' ];
 
     public createCardStyles = {
         'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
@@ -86,28 +93,28 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
     private _orderedCategoties: CategoryOrder[] =
         [{
-            name: this._translateService.instant('temp_category_core'),
+            name: this._translateService.instant('temp_category_all'),
             index: 0
         },
         {
+            name: this._translateService.instant('temp_category_core'),
+            index: 1
+        },
+        {
             name: this._translateService.instant('temp_category_api'),
-            index: 1,
+            index: 2
         },
         {
             name: this._translateService.instant('temp_category_dataProcessing'),
-            index: 2,
+            index: 3
         },
         {
             name: this._translateService.instant('temp_category_samples'),
-            index: 3,
+            index: 4
         },
         {
             name: this._translateService.instant('temp_category_experimental'),
-            index: 4,
-        },
-        {
-            name: this._translateService.instant('temp_category_all'),
-            index: 1000,
+            index: 5,
         }];
 
     @ViewChild('container') createCardContainer: ElementRef;
@@ -204,7 +211,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                             });
 
                             if (index === -1) {
-                                const dropDownElement: any = {
+                                const dropDownElement: DropDownElement<string> = {
                                     displayLabel: c,
                                     value: c
                                 };
@@ -224,6 +231,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                         return finalTemplate.name === template.metadata.name;
                     });
 
+                    const isExperimental = this._languageIsExperimental(template.metadata.language);
+
                     // if the card doesn't exist, create it based off the template, else add information to the preexisting card
                     if (templateIndex === -1) {
                         this.createCards.push({
@@ -232,7 +241,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                             description: template.metadata.description,
                             enabledInTryMode: template.metadata.enabledInTryMode,
                             AADPermissions: template.metadata.AADPermissions,
-                            languages: [`${template.metadata.language}`],
+                            languages: isExperimental ? [] : [`${template.metadata.language}`],
+                            supportedLanguages: isExperimental ? [] : [`${template.metadata.language}`],
+                            allLanguages: [`${template.metadata.language}`],
                             categories: template.metadata.category,
                             ids: [`${template.id}`],
                             icon: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
@@ -244,7 +255,11 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                             focusable: false
                         });
                     } else {
-                        this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
+                        if (!isExperimental) {
+                            this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
+                            this.createCards[templateIndex].supportedLanguages.push(`${template.metadata.language}`);
+                        }
+                        this.createCards[templateIndex].allLanguages.push(`${template.metadata.language}`);
                         this.createCards[templateIndex].categories = this.createCards[templateIndex].categories.concat(template.metadata.category);
                         this.createCards[templateIndex].ids.push(`${template.id}`);
                     }
@@ -266,9 +281,20 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
                 this._sortCategories();
 
-                this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
-                    return a.displayLabel > b.displayLabel ? 1 : -1;
+                // sort out supported languages and set those as default language options in drop-down
+                this.languages.forEach(language => {
+                    const isExperimental = this._languageIsExperimental(language.value);
+                    if (!isExperimental) {
+                        this.supportedLanguages.push({
+                            displayLabel: language.displayLabel,
+                            value: language.value
+                        });
+                    }
                 });
+
+                this.allLanguages = this._languageSort(this.languages);
+                this.supportedLanguages = this._languageSort(this.supportedLanguages);
+                this.languages = this.supportedLanguages;
 
                 // order preference defined in constants.ts
                 this.createCards.sort((a: Template, b: Template) => {
@@ -293,6 +319,26 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
             });
     }
 
+    switchExperimentalLanguagesOption() {
+        this.showExperimentalLanguages = !this.showExperimentalLanguages;
+        this.createCards.forEach(card => {
+            card.languages = this.showExperimentalLanguages ? card.allLanguages : card.supportedLanguages;
+        });
+        this.languages = this.showExperimentalLanguages ? this.allLanguages : this.supportedLanguages;
+    }
+
+    private _languageIsExperimental(language: string): boolean {
+        return !!(this.allExperimentalLanguages.find((l) => {
+            return l === language;
+        }));
+    }
+
+    private _languageSort(languages: DropDownElement<string>[]): DropDownElement<string>[] {
+        return languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+            return a.displayLabel > b.displayLabel ? 1 : -1;
+        });
+    }
+
     onLanguageChanged(language: string) {
         this.language = language;
         this.categories = [];
@@ -312,7 +358,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
             });
 
             if (index === -1) {
-                const dropDownElement: any = {
+                const dropDownElement: DropDownElement<string> = {
                     displayLabel: c,
                     value: c
                 };
@@ -323,11 +369,18 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     dropDownElement.default = true;
                 }
 
-                this.categories.push(dropDownElement);
+                // only display the experimental category if experimental languages are shown
+                if (c === this._translateService.instant('temp_category_experimental')) {
+                    if (this.showExperimentalLanguages) {
+                        this.categories.push(dropDownElement);
+                    }
+                } else {
+                    this.categories.push(dropDownElement);
+                }
             }
         }));
 
-        const dropDownElement: any = {
+        const dropDownElement: DropDownElement<string> = {
             displayLabel: this._translateService.instant('temp_category_all'),
             value: this._translateService.instant('temp_category_all')
         };

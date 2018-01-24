@@ -164,6 +164,7 @@ export class ScenarioIds {
     public static readonly addConsole = 'AddConsole';
     public static readonly addSsh = 'AddSsh';
     public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
+    public static readonly enableAppInsights = 'EnableAppInsights';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';

@@ -1978,6 +1978,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>Duplicate values are not allowed</value>
   </data>
+  <data name="validation_linuxAppSettingNameError" xml:space="preserve">
+    <value>This field can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
+  </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>This field is required</value>
   </data>
@@ -2600,7 +2603,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Cannot Upgrade with Existing Functions</value>
   </data>
   <data name="appFunctionSettings_warning_7" xml:space="preserve">
-    <value>Upgrating the runtime version is also coupled with upgrades to languages and binding dependecies that may introduce breaking changes. Please create a blank function app to upgrade major versions of the runtime.</value>
+    <value>Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app.</value>
   </data>
   <data name="warning" xml:space="preserve">
     <value>Warning</value>
@@ -2784,5 +2787,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="summary" xml:space="preserve">
     <value>Summary</value>
+  </data>
+  <data name="experimentalLanguageSupport" xml:space="preserve">
+    <value>Experimental Language Support:</value>
   </data>
 </root>

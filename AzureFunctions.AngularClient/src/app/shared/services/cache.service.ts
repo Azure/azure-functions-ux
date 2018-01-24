@@ -218,6 +218,9 @@ export class CacheService {
                             headers[n] = v.join(',');
                         });
                     }
+                    if (typeof body !== 'string') {
+                        body = JSON.stringify(body);
+                    }
                     const passThroughBody = {
                         method: method,
                         url: url,
