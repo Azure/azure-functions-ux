@@ -825,4 +825,8 @@
     public static entityColon: string = "entityColon";
     public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
     public static experimentalLanguageSupport: string = "experimentalLanguageSupport";
+    public static temp_category_durableFunctions: string = "temp_category_durableFunctions";
+    public static DurableFunctionsActivity_description: string = "DurableFunctionsActivity_description";
+    public static DurableFunctionsOrchestrator_description: string = "DurableFunctionsOrchestrator_description";
+    public static DurableFunctionsHttpStart_description: string = "DurableFunctionsHttpStart_description";
 }
