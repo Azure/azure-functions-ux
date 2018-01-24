@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { summaryItem } from 'app/site/deployment-center/Models/SummaryItem';
 import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
 
-export class DeploymentCenterWizardService {
+export class DeploymentCenterStateManager {
     public resourceIdStream = new ReplaySubject<string>(1);
     public wizardForm: FormGroup = new FormGroup({});
 

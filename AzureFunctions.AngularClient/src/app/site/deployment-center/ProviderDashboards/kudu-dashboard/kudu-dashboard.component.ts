@@ -123,6 +123,11 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                     this._logService.error(LogCategories.cicd, '/deployment-center-initial-load', err);
                 }
             );
+
+        //refresh automatically every 5 seconds
+        Observable.timer(5000, 5000).takeUntil(this._ngUnsubscribe).subscribe(() => {
+            this.viewInfoStream.next(this.resourceId);
+        });
     }
 
     private _populateTable() {

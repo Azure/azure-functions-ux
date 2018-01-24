@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 import { ArmService } from 'app/shared/services/arm.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
@@ -120,7 +120,7 @@ export class StepSourceControlComponent {
     private _ngUnsubscribe = new Subject();
 
     constructor(
-        private _wizardService: DeploymentCenterWizardService,
+        private _wizardService: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _logService: LogService,
         _portalService: PortalService,

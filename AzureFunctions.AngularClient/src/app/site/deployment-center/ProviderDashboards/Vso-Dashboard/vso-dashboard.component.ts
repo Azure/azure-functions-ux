@@ -30,8 +30,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     public activeDeployment: ActivityDetailsLog;
 
     public viewInfoStream: Subject<string>;
-    _writePermission = true;
-    _readOnlyLock = false;
     public hasWritePermissions = true;
     public deploymentObject: VSODeploymentObject;
     private _ngUnsubscribe = new Subject();
@@ -88,8 +86,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 setTimeout(() => {
                     this.appTable.groupItems('date', 'desc');
                 }, 0);
-                this._writePermission = r.writePermission;
-                this._readOnlyLock = r.readOnlyLock;
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
 
                 const vstsMetaData: any = this.deploymentObject.siteMetadata.properties;

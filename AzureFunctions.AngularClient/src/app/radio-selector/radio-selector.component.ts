@@ -1,5 +1,5 @@
 import { KeyCodes } from './../shared/models/constants';
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { SelectOption } from '../shared/models/select-option';
@@ -10,8 +10,9 @@ import { Guid } from '../shared/Utilities/Guid';
     templateUrl: './radio-selector.component.html',
     styleUrls: ['./radio-selector.component.scss'],
 })
-export class RadioSelectorComponent<T> implements OnInit, OnChanges {
-    selectedValue: T = null;
+export class RadioSelectorComponent<T> implements OnInit, OnChanges, AfterViewInit {
+    @ViewChild('radioGroup') radioGroup: ElementRef;
+    selectedValue: T = null
     @Input() control: FormControl;
     @Input() group: FormGroup;
     @Input() name: string;
@@ -19,6 +20,7 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
     @Input() disabled: boolean;
     @Input() highlightDirty: boolean;
     @Input() defaultValue: T;
+    @Input() focusOnLoad: boolean;
     @Input() id: string;
     @Output() value: Subject<T>;
 
@@ -42,6 +44,12 @@ export class RadioSelectorComponent<T> implements OnInit, OnChanges {
             }
 
             this.control.setValue(value);
+        }
+    }
+
+    ngAfterViewInit() {
+        if (this.focusOnLoad) {
+            this.radioGroup.nativeElement.focus();
         }
     }
 

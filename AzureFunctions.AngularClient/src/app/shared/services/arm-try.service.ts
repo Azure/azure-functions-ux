@@ -68,7 +68,7 @@ export class ArmTryService extends ArmService {
     }
 
     send(method: string, url: string, body?: any, etag?: string, headers?: Headers): Observable<Response> {
-        const urlNoQuery = url.toLowerCase().split('?')[0];
+        const urlNoQuery = url.toLowerCase().split('?') [0];
 
         if (this._whiteListedPrefixUrls.find(u => urlNoQuery.startsWith(u.toLowerCase()) || urlNoQuery.endsWith('.svg'))) {
             return super.send(method, url, body, etag, headers);
@@ -101,6 +101,8 @@ export class ArmTryService extends ArmService {
             //     });
         } else if (urlNoQuery.endsWith('/slots')) {
             return Observable.of(this._getFakeResponse({ value: [] }));
+        } else if (urlNoQuery.endsWith('authsettings/list')) {
+            return Observable.of(this._getFakeResponse({ properties: {} }));
         }
 
         this._aiService.trackEvent('/try/arm-send-failure', {

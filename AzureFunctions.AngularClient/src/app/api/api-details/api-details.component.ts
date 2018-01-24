@@ -160,7 +160,9 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
         this.initComplexFrom();
         this.initEdit();
         this._broadcastService.clearDirtyState('api-proxy', true);
-        this.rrComponent.discard();
+        if (this.rrComponent) {
+            this.rrComponent.discard();
+        }
     }
 
     submitForm() {
@@ -208,7 +210,9 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
                 })
                 .subscribe(() => {
                     this._globalStateService.clearBusyState();
-                    this.rrComponent.saveModel();
+                    if (this.rrComponent) {
+                        this.rrComponent.saveModel();
+                    }
                     this.onReset();
                 });
         }
@@ -253,11 +257,15 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
     }
 
     rrOverriedValueChanges(value: any) {
-        this._rrOverrideValue = value;
-        this.rrOverrideValid = this.rrComponent.valid;
-        if (this.rrComponent.dirty) {
-            this._broadcastService.setDirtyState('api-proxy');
-            this.complexForm.markAsDirty();
-        }
+        setTimeout(() => {
+            if (this.rrComponent) {
+                this._rrOverrideValue = value;
+                this.rrOverrideValid = this.rrComponent.valid;
+                if (this.rrComponent.dirty) {
+                    this._broadcastService.setDirtyState('api-proxy');
+                    this.complexForm.markAsDirty();
+                }
+            }
+        });
     }
 }

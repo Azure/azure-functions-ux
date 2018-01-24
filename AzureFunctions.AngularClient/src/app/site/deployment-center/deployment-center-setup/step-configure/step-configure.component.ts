@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 
 @Component({
     selector: 'app-step-configure',
@@ -7,7 +7,7 @@ import { DeploymentCenterWizardService } from 'app/site/deployment-center/deploy
     styleUrls: ['./step-configure.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepConfigureComponent {
-    constructor(private _wizard: DeploymentCenterWizardService) {}
+    constructor(private _wizard: DeploymentCenterStateManager) {}
 
     get sourceProvider() {
         return (

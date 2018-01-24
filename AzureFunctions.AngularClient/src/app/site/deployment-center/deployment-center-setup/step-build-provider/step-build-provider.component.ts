@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProviderCard } from 'app/site/deployment-center/deployment-center-setup/step-source-control/step-source-control.component';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 
 @Component({
     selector: 'app-step-build-provider',
@@ -31,7 +31,7 @@ export class StepBuildProviderComponent {
 
     public selectedProvider: ProviderCard = null;
     
-    constructor(public wizard: DeploymentCenterWizardService) {}
+    constructor(public wizard: DeploymentCenterStateManager) {}
 
     chooseBuildProvider(card : ProviderCard){
         this.wizard.wizardForm.controls['buildProvider'].setValue(card.id, { onlySelf: true });

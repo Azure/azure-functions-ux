@@ -2,12 +2,13 @@ import { LogCategories } from './../../../shared/models/constants';
 import { Response } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
+import { Site } from './../../../shared/models/arm/site';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SaveOrValidationResult } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
@@ -20,6 +21,8 @@ import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { LinuxAppSettingNameValidator } from 'app/shared/validators/linuxAppSettingNameValidator';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 @Component({
   selector: 'app-settings',
@@ -40,8 +43,11 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _saveError: string;
 
+  private _validatorFns: ValidatorFn[];
   private _requiredValidator: RequiredValidator;
   private _uniqueAppSettingValidator: UniqueValidator;
+  private _linuxAppSettingNameValidator: LinuxAppSettingNameValidator;
+  private _isLinux: boolean;
 
   private _appSettingsArm: ArmObj<any>;
   private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
@@ -96,11 +102,12 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._setPermissions(p.writePermission, p.readOnlyLock);
         return Observable.zip(
           Observable.of(this.hasWritePermissions),
+          this._cacheService.getArm(this.resourceId),
           this.hasWritePermissions ?
             this._cacheService.postArm(`${this.resourceId}/config/appSettings/list`, true) : Observable.of(null),
           this.hasWritePermissions ?
             this._cacheService.getArm(this._slotConfigNamesArmPath, true) : Observable.of(null),
-          (h, a, s) => ({ hasWritePermissions: h, appSettingsResponse: a, slotConfigNamesResponse: s })
+          (h, s, a, scn) => ({ hasWritePermissions: h, siteConfigResponse: s, appSettingsResponse: a, slotConfigNamesResponse: scn })
         );
       })
       .do(null, error => {
@@ -114,6 +121,8 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .retry()
       .subscribe(r => {
         if (r.hasWritePermissions) {
+          const siteConfigArm: ArmObj<Site> = r.siteConfigResponse.json();
+          this._isLinux = ArmUtil.isLinuxApp(siteConfigArm);
           this._appSettingsArm = r.appSettingsResponse.json();
           this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
           this._setupForm(this._appSettingsArm, this._slotConfigNamesArm);
@@ -175,6 +184,18 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           this.groupArray,
           this._translateService.instant(PortalResources.validation_duplicateError));
 
+        this._validatorFns = [
+          this._requiredValidator.validate.bind(this._requiredValidator),
+          this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)
+        ];
+
+        if (this._isLinux) {
+          this._linuxAppSettingNameValidator = new LinuxAppSettingNameValidator(this._translateService);
+          this._validatorFns.push(
+            this._linuxAppSettingNameValidator.validate.bind(this._linuxAppSettingNameValidator)
+          );
+        }
+
         const stickyAppSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
 
         for (const name in appSettingsArm.properties) {
@@ -183,9 +204,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
             const group = this._fb.group({
               name: [
                 { value: name, disabled: !this.hasWritePermissions },
-                Validators.compose([
-                  this._requiredValidator.validate.bind(this._requiredValidator),
-                  this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
+                Validators.compose(this._validatorFns)],
               value: [{ value: appSettingsArm.properties[name], disabled: !this.hasWritePermissions }],
               isSlotSetting: [{ value: stickyAppSettingNames.indexOf(name) !== -1, disabled: !this.hasWritePermissions }]
             }) as CustomFormGroup;
@@ -398,9 +417,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     this.newItem = this._fb.group({
       name: [
         null,
-        Validators.compose([
-          this._requiredValidator.validate.bind(this._requiredValidator),
-          this._uniqueAppSettingValidator.validate.bind(this._uniqueAppSettingValidator)])],
+        Validators.compose(this._validatorFns)],
       value: [null],
       isSlotSetting: [false]
     }) as CustomFormGroup;

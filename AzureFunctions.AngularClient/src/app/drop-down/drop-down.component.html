@@ -14,13 +14,25 @@
         class="drop-down-select"
         [disabled]="disabled">
 
-        <option selected disabled hidden style='display: none' value=''></option>
+        <option *ngIf="!selectedElement" selected disabled hidden style='display: none' value=''></option>
 
-        <optgroup *ngFor="let group of (optionsGrouped ? _options : [])" [label]="group.displayLabel">
-            <option *ngFor="let option of group.dropDownElements" [value]="option.id">{{option.displayLabel}}</option>
+        <optgroup
+            *ngFor="let group of (optionsGrouped ? _options : [])"
+            [label]="group.displayLabel">
+            <option
+                *ngFor="let option of group.dropDownElements"
+                [value]="option.id"
+                [selected]="selectedElement === option">
+                {{option.displayLabel}}
+            </option>
         </optgroup>
 
-        <option *ngFor="let option of (!optionsGrouped ? _options : [])" [value]="option.id">{{option.displayLabel}}</option>
+        <option
+            *ngFor="let option of (!optionsGrouped ? _options : [])"
+            [value]="option.id"
+            [selected]="selectedElement === option">
+            {{option.displayLabel}}
+        </option>
 
     </select>
 
@@ -37,13 +49,25 @@
         [formControl]="control"
         #selectInput>
 
-        <option selected disabled hidden style='display: none' value=''></option>
+        <option *ngIf="!selectedElement" selected disabled hidden style='display: none' value=''></option>
 
-        <optgroup *ngFor="let group of (optionsGrouped ? _options : [])" [label]="group.displayLabel">
-            <option *ngFor="let option of group.dropDownElements" [value]="option.value">{{option.displayLabel}}</option>
+        <optgroup
+            *ngFor="let group of (optionsGrouped ? _options : [])"
+            [label]="group.displayLabel">
+            <option
+                *ngFor="let option of group.dropDownElements"
+                [value]="option.value"
+                [selected]="selectedElement === option">
+                {{option.displayLabel}}
+            </option>
         </optgroup>
 
-        <option *ngFor="let option of (!optionsGrouped ? _options : [])" [value]="option.value">{{option.displayLabel}}</option>
+        <option
+            *ngFor="let option of (!optionsGrouped ? _options : [])"
+            [value]="option.value"
+            [selected]="selectedElement === option">
+            {{option.displayLabel}}
+        </option>
 
     </select>
 

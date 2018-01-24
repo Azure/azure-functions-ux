@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SelectOption } from 'app/shared/models/select-option';
-import { DeploymentCenterWizardService } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-wizard-service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
 
 @Component({
     selector: 'app-configure-external',
@@ -20,7 +20,7 @@ export class ConfigureExternalComponent {
     ];
     public repoMode = 'Git';
     constructor(
-        public wizard: DeploymentCenterWizardService
+        public wizard: DeploymentCenterStateManager
     ) {
     }
 

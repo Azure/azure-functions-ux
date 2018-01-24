@@ -96,11 +96,11 @@ export class DeploymentCenterComponent implements OnDestroy {
         this.viewInfoStream.next(this.viewInfo);
     }
 
-    get DeploymentSetUpComplete() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None';
+    get kuduDeploymentSetup() {
+        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM';
     }
 
-    get ScmType() {
+    get scmType() {
         return this._siteConfigObject && this._siteConfigObject.properties.scmType;
     }
 

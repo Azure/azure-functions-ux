@@ -9,7 +9,6 @@ import { Subject } from 'rxjs/Rx';
 import { Deployment } from '../../../Models/deploymentData';
 import { ArmArrayResult, ArmObj } from '../../../../../shared/models/arm/arm-obj';
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 
@@ -39,7 +38,6 @@ export class DeploymentDetailComponent implements OnChanges {
     @Output() closePanel = new EventEmitter();
     public viewInfoStream= new Subject<ArmObj<Deployment>>();
     private _deploymentLogFetcher = new Subject<DeploymentDetailTableItem>();
-    _viewInfoSubscription: RxSubscription;
 
     private _tableItems: DeploymentDetailTableItem[];
     private _ngUnsubscribe = new Subject();
@@ -59,12 +57,12 @@ export class DeploymentDetailComponent implements OnChanges {
                 const obs: ArmObj<any>[] = r.json().value;
                 const message = obs.map(x => x.properties.message as string).join('\n');
                 this.logsToShow = message;
-            })
+            });
+
         this.viewInfoStream
             .takeUntil(this._ngUnsubscribe)
             .switchMap(deploymentObject => {
                 this.busyState.setBusyState();
-                
                 const deploymentId = deploymentObject.id;
                 return this._cacheService.getArm(`${deploymentId}/log`);
             })
@@ -98,7 +96,7 @@ export class DeploymentDetailComponent implements OnChanges {
 
     redeploy() {
         //TODO Add are you sure dialog?
-        this._cacheService.putArm(this.deploymentObject.id).take(1).subscribe(r => {});
+        this._cacheService.putArm(this.deploymentObject.id).subscribe(r => {});
         this.close();
     }
 

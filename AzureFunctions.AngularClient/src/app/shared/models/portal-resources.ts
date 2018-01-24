@@ -623,6 +623,7 @@
     public static appFunctionSettings_readOnlyMode: string = "appFunctionSettings_readOnlyMode";
     public static appFunctionSettings_readWriteMode: string = "appFunctionSettings_readWriteMode";
     public static validation_duplicateError: string = "validation_duplicateError";
+    public static validation_linuxAppSettingNameError: string = "validation_linuxAppSettingNameError";
     public static validation_requiredError: string = "validation_requiredError";
     public static validation_siteNameMinChars: string = "validation_siteNameMinChars";
     public static validation_siteNameMaxChars: string = "validation_siteNameMaxChars";
@@ -882,4 +883,10 @@
     public static viewInstructions: string = "viewInstructions";
     public static buildUrl: string = "buildUrl";
     public static releaseUrl: string = "releaseUrl";
+    public static deploymentCenter: string = "deploymentCenter";
+    public static sourceControl: string = "sourceControl";
+    public static buildProvider: string = "buildProvider";
+    public static deploy: string = "deploy";
+    public static summary: string = "summary";
+    public static experimentalLanguageSupport: string = "experimentalLanguageSupport";
 }

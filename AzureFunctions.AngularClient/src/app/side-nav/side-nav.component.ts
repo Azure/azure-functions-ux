@@ -68,8 +68,6 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
     public selectedNode: TreeNode;
     public selectedDashboardType: DashboardType;
 
-    public tryFunctionApp = null;
-
     private _subscriptionsStream = new ReplaySubject<Subscription[]>(1);
     private _searchTermStream = new ReplaySubject<string>(1);
     private _ngUnsubscribe = new Subject();
@@ -89,7 +87,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         public configService: ConfigService,
         public armService: ArmService,
         public cacheService: CacheService,
-        public tryFunctionsService: TryFunctionsService,
+        public tryFunctionsSevice: TryFunctionsService,
         public http: Http,
         public globalStateService: GlobalStateService,
         public broadcastService: BroadcastService,
@@ -155,7 +153,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                 this.globalStateService.clearBusyState();
 
                 if (functions.isSuccessful && functions.result.length > 0) {
-                    this.initialResourceId = `${this._tryFunctionAppContext.site.id}/functions/${functions[0].name}`;
+                    this.initialResourceId = `${this._tryFunctionAppContext.site.id}/functions/${functions.result[0].name}`;
                 } else {
                     this.initialResourceId = this._tryFunctionAppContext.site.id;
                 }
@@ -174,6 +172,9 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                 this.rootNode.children = [appNode];
                 this.rootNode.isExpanded = true;
             });
+        if (this.tryFunctionsSevice.functionAppContext) {
+            this._tryFunctionAppContextStream.next(this.tryFunctionsSevice.functionAppContext);
+        }
     }
 
     ngAfterViewInit() {
@@ -207,9 +208,9 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
             }, 10);
 
             this._searchTermStream
-            .subscribe(term => {
-                this.searchTerm = term;
-            });
+                .subscribe(term => {
+                    this.searchTerm = term;
+                });
 
         } else {
             const resourceIdMatch = /\/resources([a-z0-9\-\/]+)/gi.exec(this.router.url);
@@ -275,6 +276,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                 }
 
                 this.selectedNode.handleDeselection(newSelectedNode);
+                this.selectedNode.showMenu = false;
             }
         }
 
@@ -283,6 +285,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         this.selectedNode = newSelectedNode;
         this.selectedDashboardType = newDashboardType;
         this.resourceId = newSelectedNode.resourceId;   // TODO: should this be updated to resourceId passed in or is this fine?
+        this.selectedNode.showMenu = true;
 
         const viewInfo = <TreeViewInfo<any>>{
             resourceId: resourceId,

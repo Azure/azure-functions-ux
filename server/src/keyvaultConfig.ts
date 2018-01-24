@@ -11,7 +11,6 @@ async function getAADTokenFromMSI(endpoint: string, secret: string, resource: st
                 Secret: secret
             }
         });
-        console.log(response.data);
         return response.data.access_token;
     } catch (err) {
         console.error(err);

@@ -24,6 +24,7 @@ import { UIFunctionBinding } from '../../shared/models/binding';
 import { PortalService } from '../../shared/services/portal.service';
 import { Observable } from 'rxjs/Observable';
 import { CreateCard } from 'app/function/function-new/function-new.component';
+import { EmbeddedService } from 'app/shared/services/embedded.service';
 
 @Component({
     selector: 'function-new-detail',
@@ -32,8 +33,6 @@ import { CreateCard } from 'app/function/function-new/function-new.component';
 })
 export class FunctionNewDetailComponent implements OnChanges {
 
-    // TODO: ellhamai - figure out where to put this
-    private _cdsEntitiesUrl = 'https://tip1.api.cds.microsoft.com/providers/Microsoft.CommonDataModel/environments/0fb7e803-94aa-4e69-9694-d3b3cea74523/namespaces/5d5374aa-0df3-421c-9656-5244ac88593c/entities?api-version=2016-11-01-alpha&$expand=namespace&headeronly=true';
     private _bindingComponents: BindingComponent[] = [];
 
     @Input() functionCard: CreateCard;
@@ -78,7 +77,8 @@ export class FunctionNewDetailComponent implements OnChanges {
         private _aiService: AiService,
         private _cacheService: CacheService,
         private _functionAppService: FunctionAppService,
-        private _logService: LogService) {
+        private _logService: LogService,
+        private _embeddedService: EmbeddedService) {
 
         this.isEmbedded = this._portalService.isEmbeddedFunctions;
     }
@@ -122,17 +122,19 @@ export class FunctionNewDetailComponent implements OnChanges {
     }
 
     getEntityOptions() {
-        this._getEntities()
+        this._embeddedService.getEntities()
             .subscribe(r => {
-                const entities = r.value.map(e => e.name);
-                this.entityOptions = [];
-                entities.forEach(entity => {
-                    const dropDownElement: any = {
-                        displayLabel: entity,
-                        value: entity
-                    };
-                    this.entityOptions.push(dropDownElement);
-                });
+                if (r.isSuccessful) {
+                    const entities = (r.result.value.map(e => e.name)).sort();
+                    this.entityOptions = [];
+                    entities.forEach(entity => {
+                        const dropDownElement: any = {
+                            displayLabel: entity,
+                            value: entity
+                        };
+                        this.entityOptions.push(dropDownElement);
+                    });
+                }
             });
     }
 
@@ -309,12 +311,6 @@ export class FunctionNewDetailComponent implements OnChanges {
             // Last binding update
             this._createFunction();
         }
-    }
-
-    private _getEntities() {
-        const url = this._cdsEntitiesUrl;
-        return this._cacheService.get(url)
-            .map(r => r.json());
     }
 
     private _createFunction() {
