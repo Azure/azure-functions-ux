@@ -106,7 +106,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .takeUntil(this._ngUnsubscribe)
             .switchMap(() => this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me'))
             .map(r => r.json())
-            .switchMap(r => this.FetchAccounts(r.id))
+            .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
                 let projectCalls: Observable<VSORepo[]>[] = [];
                 r.forEach(account => {
@@ -180,7 +180,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             );
     }
 
-    private FetchAccounts(memberId: string): Observable<VSOAccount[]> {
+    private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
         const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
         return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
             const accounts = r.json().value as VSOAccount[];
@@ -192,7 +192,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         });
     }
 
-    AccountChanged(accountName: string) {
+    accountChanged(accountName: string) {
         this.ProjectList = _.uniqBy(
             this.vstsRepositories.filter(r => r.account === accountName).map(repo => {
                 return {
@@ -204,7 +204,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         );
     }
 
-    ProjectChanged(projectName: string) {
+    projectChanged(projectName: string) {
         this.RepositoryList = _.uniqBy(
             this.vstsRepositories.filter(r => r.project.name === projectName).map(repo => {
                 return {
@@ -216,12 +216,12 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         );
     }
 
-    RepoChanged(repoUri: string) {
+    repoChanged(repoUri: string) {
         this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = repoUri;
         this._branchSubscription.next(repoUri);
     }
 
-    BranchChanged(branch: string) {
+    branchChanged(branch: string) {
         this._wizard.wizardForm.controls.sourceSettings.value.branch = branch;
     }
 
