@@ -253,12 +253,10 @@ export class FunctionAppService {
 
         return this.getClient(context).executeWithConditions([], context, t => {
             const headers = this.jsonHeaders(t);
-            if (this._portalService.isEmbeddedFunctions) {
-                headers.append('x-cds-crm-user-token', this.startupInfo.crmInfo.crmTokenHeaderName);
-                headers.append('x-cds-crm-org', this.startupInfo.crmInfo.crmInstanceHeaderName);
-                headers.append('x-cds-crm-solutionid', this.startupInfo.crmInfo.crmSolutionIdHeaderName);
-            }
-            return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo);
+            return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo)
+                .do(() => {
+                    this._cacheService.clearCachePrefix(context.urlTemplates.scmSiteUrl);
+                });
         });
     }
 
