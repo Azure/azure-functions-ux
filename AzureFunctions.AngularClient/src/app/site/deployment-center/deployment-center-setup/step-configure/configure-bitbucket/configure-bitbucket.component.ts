@@ -6,7 +6,8 @@ import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
-import { Constants } from 'app/shared/models/constants';
+import { Constants, LogCategories } from 'app/shared/models/constants';
+import { LogService } from 'app/shared/services/log.service';
 
 @Component({
     selector: 'app-configure-bitbucket',
@@ -23,6 +24,7 @@ export class ConfigureBitbucketComponent {
         private _wizard: DeploymentCenterWizardService,
         _portalService: PortalService,
         private _cacheService: CacheService,
+        private _logService: LogService,
         _armService: ArmService,
         _aiService: AiService
     ) {
@@ -38,17 +40,22 @@ export class ConfigureBitbucketComponent {
             .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
                 url: `https://api.bitbucket.org/2.0/repositories?role=admin`
             })
-            .subscribe(r => {
-                const newRepoList: DropDownElement<string>[] = [];
-                r.json().values.forEach(repo => {
-                    newRepoList.push({
-                        displayLabel: repo.name,
-                        value: repo.full_name
+            .subscribe(
+                r => {
+                    const newRepoList: DropDownElement<string>[] = [];
+                    r.json().values.forEach(repo => {
+                        newRepoList.push({
+                            displayLabel: repo.name,
+                            value: repo.full_name
+                        });
                     });
-                });
 
-                this.RepoList = newRepoList;
-            });
+                    this.RepoList = newRepoList;
+                },
+                err => {
+                    this._logService.error(LogCategories.cicd, '/fetch-bitbucket-repos', err);
+                }
+            );
     }
 
     fetchBranches(repo: string) {
@@ -58,18 +65,23 @@ export class ConfigureBitbucketComponent {
                 .post(Constants.serviceHost + `api/bitbucket/passthrough?branch=${repo}`, true, null, {
                     url: `https://api.bitbucket.org/2.0/repositories/${repo}/refs/branches`
                 })
-                .subscribe(r => {
-                    const newBranchList: DropDownElement<string>[] = [];
+                .subscribe(
+                    r => {
+                        const newBranchList: DropDownElement<string>[] = [];
 
-                    r.json().values.forEach(branch => {
-                        newBranchList.push({
-                            displayLabel: branch.name,
-                            value: branch.name
+                        r.json().values.forEach(branch => {
+                            newBranchList.push({
+                                displayLabel: branch.name,
+                                value: branch.name
+                            });
                         });
-                    });
 
-                    this.BranchList = newBranchList;
-                });
+                        this.BranchList = newBranchList;
+                    },
+                    err => {
+                        this._logService.error(LogCategories.cicd, '/fetch-bitbucket-branches', err);
+                    }
+                );
         }
     }
 

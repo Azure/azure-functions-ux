@@ -10,11 +10,13 @@ import { Subject } from 'rxjs/Subject';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { PublishingCredentials } from 'app/shared/models/publishing-credentials';
+import { LogService } from 'app/shared/services/log.service';
+import { LogCategories } from 'app/shared/models/constants';
 
 @Component({
     selector: 'app-step-complete',
     templateUrl: './step-complete.component.html',
-    styleUrls: ['./step-complete.component.scss']
+    styleUrls: ['./step-complete.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepCompleteComponent implements OnInit {
     resourceId: string;
@@ -29,7 +31,8 @@ export class StepCompleteComponent implements OnInit {
         public wizard: DeploymentCenterWizardService,
         private _cacheService: CacheService,
         private _armService: ArmService,
-        private _broadcastService: BroadcastService
+        private _broadcastService: BroadcastService,
+        private _logService: LogService
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
@@ -91,10 +94,16 @@ export class StepCompleteComponent implements OnInit {
             .do(r => {
                 this._busyManager.clearBusy();
             })
-            .subscribe(r => {
-                this._busyManager.clearBusy();
-                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
-            });
+            .subscribe(
+                r => {
+                    this._busyManager.clearBusy();
+                    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+                },
+                err => {
+                    this._busyManager.clearBusy();
+                    this._logService.error(LogCategories.cicd, '/save-cicd', err);
+                }
+            );
     }
     ngOnInit() {}
 }

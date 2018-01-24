@@ -6,6 +6,6 @@
 <app-configure-external *ngIf="sourceProvider === 'external'" (stepExit)="stepExit($event)"></app-configure-external>
 <app-configure-vsts-build *ngIf="buildProvider === 'vsts' && sourceProvider != 'vsts'"></app-configure-vsts-build>
 <div class="footer">
-  <button type="button" class="custom-button" style="margin-top:12px" previousStep>{{'back' | translate}}</button>
-  <button type="button" class="custom-button" style="margin-top:12px" nextStep>{{'continue' | translate}}</button>
+  <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
+  <button type="button" class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
 </div>

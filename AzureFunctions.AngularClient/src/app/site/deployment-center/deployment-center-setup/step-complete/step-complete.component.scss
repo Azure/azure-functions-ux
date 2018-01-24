@@ -1,6 +1,4 @@
-
 @import '../../../../../sass/common/variables';
-
 
 :host {
     width: 100%;
@@ -21,52 +19,51 @@
     box-shadow: 0px -5px 13px -1px rgba(0, 0, 0, 0.38);
 }
 
-#site-config-wrapper{
+#site-config-wrapper {
     padding: 5px 20px;
 }
 
-th{
+th {
     height: 0px;
 }
 
-td{
-    span{
+td {
+    span {
         font-size: 16px;
 
-        &:hover{
+        &:hover {
             color: $error-color;
         }
-
     }
 
-    span.delete:hover{
+    span.delete:hover {
         color: $error-color;
     }
 }
 
-.nameCol{
+.nameCol {
     width: 30%;
 }
 
-.valueCol{
+.valueCol {
     width: 65%;
 }
 
-.typeCol{
+.typeCol {
     width: 200px;
 }
 
-.actionCol{
+.actionCol {
     width: 25px;
 }
 
-.add-setting{
+.add-setting {
     margin-top: 10px;
     margin-left: 5px;
     display: inline-block;
 }
 
-h3{
+h3 {
     font-weight: bold;
     margin-left: 0px;
     margin-bottom: 10px;
@@ -74,12 +71,12 @@ h3{
     padding-bottom: 10px;
     display: inline-block;
 
-    &.first-config-heading{
+    &.first-config-heading {
         margin-top: 10px;
     }
 }
 
-.shield{
+.shield {
     position: absolute;
     left: 0;
     right: 0;
@@ -89,7 +86,7 @@ h3{
     display: flex;
     background: rgba(255, 255, 255, 0.60);
 
-    .shield-message{
+    .shield-message {
         padding-top: 15px;
         padding-bottom: 15px;
         margin-left: 25px;
@@ -104,18 +101,18 @@ h3{
     }
 }
 
-.settings-group-wrapper{
+.settings-group-wrapper {
     position: relative;
     padding: 10px;
 }
 
-.settings-wrapper{
+.settings-wrapper {
     margin-top: 10px;
     margin-bottom: 10px;
     padding-left: 10px;
     position: relative;
 
-    .settings-load-message{
+    .settings-load-message {
         padding-top: 15px;
         padding-bottom: 15px;
         margin-top: auto;
@@ -127,22 +124,22 @@ h3{
         text-align: center;
     }
 
-    .setting-wrapper{
+    .setting-wrapper {
         width: 535px;
         padding-bottom: 15px;
 
-        &.last{
+        &.last {
             padding-bottom: 0px;
         }
 
-        .setting-label{
+        .setting-label {
             box-sizing: border-box;
             display: inline-block;
             min-height: 20px;
             width: 32%;
         }
 
-        .setting-control-container{
+        .setting-control-container {
             display: inline-block;
             vertical-align: middle;
             width: 66%;
@@ -150,6 +147,6 @@ h3{
     }
 }
 
-.transparent{
+.transparent {
     background: transparent;
 }

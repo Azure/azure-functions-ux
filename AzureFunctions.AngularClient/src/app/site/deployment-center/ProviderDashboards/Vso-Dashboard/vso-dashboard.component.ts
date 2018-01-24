@@ -1,7 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { AuthzService } from '../../../../shared/services/authz.service';
-import { AiService } from '../../../../shared/services/ai.service';
 import { Observable, Subject } from 'rxjs/Rx';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
@@ -12,6 +11,8 @@ import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_h
 import { Deployment, DeploymentData } from '../../Models/deploymentData';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from 'app/shared/services/log.service';
 
 class VSODeploymentObject extends DeploymentData {
     VSOData: VSOBuildDefinition;
@@ -37,8 +38,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     constructor(
         private _portalService: PortalService,
         private _cacheService: CacheService,
-        private _aiService: AiService,
         private _authZService: AuthzService,
+        private _logService: LogService,
         private _translateService: TranslateService
     ) {
         this.viewInfoStream = new Subject<string>();
@@ -67,11 +68,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     })
                 );
             })
-            .do(null, error => {
-                this.deploymentObject = null;
-                this._aiService.trackEvent('/errors/deployment-center', error);
-            })
-            .retry()
             .switchMap(r => {
                 this.deploymentObject = {
                     site: r.site,
@@ -107,9 +103,15 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                     `https://${endpointUri.host}/DefaultCollection/${projectId}/_apis/build/Definitions/${buildId}?api-version=2.0`
                 );
             })
-            .subscribe(r => {
-                this.deploymentObject.VSOData = r.json();
-            });
+            .subscribe(
+                r => {
+                    this.deploymentObject.VSOData = r.json();
+                },
+                err => {
+                    this.deploymentObject = null;
+                    this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
+                }
+            );
     }
 
     SyncScm() {}
@@ -194,9 +196,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
 
             // grouping is done by date therefore time information is excluded
-            date: t.format('YYYY/MM/DD'),
+            date: t.format('YY/M/D'),
 
-            time: t.format('hh:mm:ss A'),
+            time: t.format('h:mm:ss A'),
             message: this._getMessage(messageJSON, item.status, logType, targetApp),
             urlInfo: this._getUrlInfoFromJSONMessage(messageJSON)
         };
@@ -389,9 +391,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             icon: item.status === 4 ? 'image/success.svg' : 'image/error.svg',
             type: 'row',
             // grouping is done by date therefore time information is excluded
-            date: t.format('YYYY/MM/DD'),
+            date: t.format('YY/M/D'),
 
-            time: t.format('hh:mm:ss A'),
+            time: t.format('h:mm:ss A'),
             message: item.status === 4 ? 'Deployed successfully' : 'Failed to deploy',
 
             urlInfo: this._getUrlInfoFromStringMessage(messageString)

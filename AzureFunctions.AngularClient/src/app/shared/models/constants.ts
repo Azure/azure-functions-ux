@@ -236,6 +236,7 @@ export class LogCategories {
     public static readonly swaggerDefinition = 'SwaggerDefinition';
     public static readonly binding = 'Binding';
     public static readonly functionNew = 'FunctionNew';
+    public static readonly cicd = 'CICD';
 }
 
 export class KeyCodes {

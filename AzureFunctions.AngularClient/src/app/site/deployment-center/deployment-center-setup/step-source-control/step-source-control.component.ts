@@ -5,8 +5,9 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { AiService } from 'app/shared/services/ai.service';
-import { Constants } from 'app/shared/models/constants';
+import { Constants, LogCategories } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
+import { LogService } from 'app/shared/services/log.service';
 
 export interface ProviderCard {
     id: sourceControlProvider;
@@ -22,7 +23,7 @@ export interface ProviderCard {
 @Component({
     selector: 'app-step-source-control',
     templateUrl: './step-source-control.component.html',
-    styleUrls: ['./step-source-control.component.scss']
+    styleUrls: ['./step-source-control.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepSourceControlComponent {
     public readonly providerCards: ProviderCard[] = [
@@ -121,6 +122,7 @@ export class StepSourceControlComponent {
     constructor(
         private _wizardService: DeploymentCenterWizardService,
         private _cacheService: CacheService,
+        private _logService: LogService,
         _portalService: PortalService,
         _armService: ArmService,
         _aiService: AiService
@@ -133,10 +135,15 @@ export class StepSourceControlComponent {
                     url: 'https://api.github.com/user'
                 })
             )
-            .subscribe(r => {
-                this.providerCards[1].authenticatedId = r.json().login;
-                this.providerCards[1].authorizedStatus = 'authorized';
-            });
+            .subscribe(
+                r => {
+                    this.providerCards[1].authenticatedId = r.json().login;
+                    this.providerCards[1].authorizedStatus = 'authorized';
+                },
+                err => {
+                    this._logService.error(LogCategories.cicd, '/fetch-github-user', err);
+                }
+            );
 
         this.bitbucketUserSubject
             .takeUntil(this._ngUnsubscribe)
@@ -146,10 +153,15 @@ export class StepSourceControlComponent {
                     url: 'https://api.bitbucket.org/2.0/user'
                 })
             )
-            .subscribe(r => {
-                this.providerCards[4].authenticatedId = r.json().display_name;
-                this.providerCards[4].authorizedStatus = 'authorized';
-            });
+            .subscribe(
+                r => {
+                    this.providerCards[4].authenticatedId = r.json().display_name;
+                    this.providerCards[4].authorizedStatus = 'authorized';
+                },
+                err => {
+                    this._logService.error(LogCategories.cicd, '/fetch-bitbucket-user', err);
+                }
+            );
 
         this.onedriveUserSubject
             .takeUntil(this._ngUnsubscribe)
@@ -159,10 +171,15 @@ export class StepSourceControlComponent {
                     url: 'https://api.onedrive.com/v1.0/drive'
                 })
             )
-            .subscribe(r => {
-                this.providerCards[0].authenticatedId = r.json().owner.user.displayName;
-                this.providerCards[0].authorizedStatus = 'authorized';
-            });
+            .subscribe(
+                r => {
+                    this.providerCards[0].authenticatedId = r.json().owner.user.displayName;
+                    this.providerCards[0].authorizedStatus = 'authorized';
+                },
+                err => {
+                    this._logService.error(LogCategories.cicd, '/fetch-onedrive-user', err);
+                }
+            );
 
         this.dropboxUserSubject
             .takeUntil(this._ngUnsubscribe)
@@ -172,10 +189,15 @@ export class StepSourceControlComponent {
                     url: 'https://api.dropboxapi.com/2/users/get_current_account'
                 })
             )
-            .subscribe(r => {
-                this.providerCards[5].authenticatedId = r.json().name.display_name;
-                this.providerCards[5].authorizedStatus = 'authorized';
-            });
+            .subscribe(
+                r => {
+                    this.providerCards[5].authenticatedId = r.json().name.display_name;
+                    this.providerCards[5].authorizedStatus = 'authorized';
+                },
+                err => {
+                    this._logService.error(LogCategories.cicd, '/fetch-dropbox-user', err);
+                }
+            );
 
         this._wizardService.resourceIdStream
             .takeUntil(this._ngUnsubscribe)
@@ -186,33 +208,38 @@ export class StepSourceControlComponent {
                 this.providerCards[5].authorizedStatus = 'loadingAuth';
                 return this._cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
             })
-            .subscribe(dep => {
-                const r = dep.json();
+            .subscribe(
+                dep => {
+                    const r = dep.json();
 
-                if (r.onedrive) {
-                    this.onedriveUserSubject.next(r.onedrive);
-                } else {
-                    this.providerCards[0].authorizedStatus = 'notAuthorized';
-                }
+                    if (r.onedrive) {
+                        this.onedriveUserSubject.next(r.onedrive);
+                    } else {
+                        this.providerCards[0].authorizedStatus = 'notAuthorized';
+                    }
 
-                if (r.dropbox) {
-                    this.dropboxUserSubject.next(r.dropbox);
-                } else {
-                    this.providerCards[5].authorizedStatus = 'notAuthorized';
-                }
+                    if (r.dropbox) {
+                        this.dropboxUserSubject.next(r.dropbox);
+                    } else {
+                        this.providerCards[5].authorizedStatus = 'notAuthorized';
+                    }
 
-                if (r.github) {
-                    this.githubUserSubject.next(r.github);
-                } else {
-                    this.providerCards[1].authorizedStatus = 'notAuthorized';
-                }
+                    if (r.github) {
+                        this.githubUserSubject.next(r.github);
+                    } else {
+                        this.providerCards[1].authorizedStatus = 'notAuthorized';
+                    }
 
-                if (r.bitbucket) {
-                    this.bitbucketUserSubject.next(r.bitbucket);
-                } else {
-                    this.providerCards[4].authorizedStatus = 'notAuthorized';
+                    if (r.bitbucket) {
+                        this.bitbucketUserSubject.next(r.bitbucket);
+                    } else {
+                        this.providerCards[4].authorizedStatus = 'notAuthorized';
+                    }
+                },
+                err => {
+                    this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
                 }
-            });
+            );
     }
 
     public selectProvider(card: ProviderCard) {
@@ -226,7 +253,9 @@ export class StepSourceControlComponent {
 
         var pollTimer = window.setInterval(() => {
             try {
-                if (win.document.URL.indexOf(`/callback`) != -1) {
+                if (win.closed) {
+                    window.clearInterval(pollTimer);
+                } else if (win.document.URL.indexOf(`/callback`) != -1) {
                     window.clearInterval(pollTimer);
 
                     this._cacheService
