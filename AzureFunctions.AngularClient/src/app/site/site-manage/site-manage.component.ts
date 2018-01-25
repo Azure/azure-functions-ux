@@ -504,7 +504,9 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 this._translateService.instant(PortalResources.feature_appServicePlanInfo),
                 'image/app-service-plan.svg',
                 {
-                    detailBlade: 'WebHostingPlanBlade',
+                    detailBlade: this._scenarioService.checkScenario(ScenarioIds.openOldWebhostingPlanBlade).status === 'enabled'
+                        ? 'WebHostingPlanBlade'
+                        : 'PlansOverviewBlade',
                     detailBladeInputs: { id: site.properties.serverFarmId }
                 },
                 this._portalService,

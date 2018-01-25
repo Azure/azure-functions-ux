@@ -194,6 +194,7 @@ export class ScenarioIds {
     public static readonly noPaddingOnSideNav = 'NoPaddingOnSideNav';
     public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
     public static readonly downloadWithVsProj = 'DownloadWithVsProj';
+    public static readonly openOldWebhostingPlanBlade = 'OpenOldWebhostingPlanBlade';
 }
 
 export class ServerFarmSku {
