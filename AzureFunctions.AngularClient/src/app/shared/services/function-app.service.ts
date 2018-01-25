@@ -1,4 +1,3 @@
-import { StartupInfo } from './../models/portal';
 import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
 import { ArmSiteDescriptor } from './../resourceDescriptors';
@@ -46,8 +45,6 @@ export class FunctionAppService {
     private readonly azure: ConditionalHttpClient;
     private readonly _embeddedTemplates: Templates;
 
-    private startupInfo: StartupInfo;
-
     constructor(private _cacheService: CacheService,
         private _translateService: TranslateService,
         private _userService: UserService,
@@ -55,11 +52,6 @@ export class FunctionAppService {
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
         logService: LogService) {
-
-        this._userService.getStartupInfo()
-            .subscribe(info => {
-                this.startupInfo = info;
-            });
 
         this.runtime = new ConditionalHttpClient(_cacheService, logService, context => this.getRuntimeToken(context), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
         this.azure = new ConditionalHttpClient(_cacheService, logService, _ => _userService.getStartupInfo().map(i => i.token), 'NotOverQuota', 'ReachableLoadballancer');
