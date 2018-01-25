@@ -341,9 +341,6 @@ export class FunctionNewDetailComponent implements OnChanges {
                       });
                 }
                 this._globalStateService.clearBusyState();
-            },
-            () => {
-                this._globalStateService.clearBusyState();
             });
         } else {
             this._functionAppService.createFunctionV2(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
