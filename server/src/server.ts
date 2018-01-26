@@ -13,11 +13,24 @@ import './polyfills';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
 import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, getTemplates } from './actions/metadata';
-import { maybeAuthenticate } from './authentication';
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
-const cookieSession = require('cookie-session');
 import { triggerFunctionAPIM } from './actions/apim';
+const cookieSession = require('cookie-session');
+const appInsights = require('applicationinsights');
+if (process.env.aiInstrumentationKey) {
+    appInsights
+        .setup(process.env.aiInstrumentationKey)
+        .setAutoDependencyCorrelation(true)
+        .setAutoCollectRequests(true)
+        .setAutoCollectPerformance(true)
+        .setAutoCollectExceptions(true)
+        .setAutoCollectDependencies(true)
+        .setAutoCollectConsole(true)
+        .setUseDiskRetryCaching(true)
+        .start();
+}
+
 const app = express();
 //Load config before anything else
 configLoader.config();
@@ -43,7 +56,7 @@ const renderIndex = (req: express.Request, res: express.Response) => {
         req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
     res.render('index', staticConfig);
 };
-app.get('/', maybeAuthenticate, renderIndex);
+app.get('/', renderIndex);
 
 app.get('/api/ping', (_, res) => {
     res.send('success');
