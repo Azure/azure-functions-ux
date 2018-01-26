@@ -10,7 +10,7 @@ const merge = require('gulp-merge-json');
 const del = require('del');
 const download = require('gulp-download');
 const decompress = require('gulp-decompress');
-
+const replace = require('gulp-token-replace');
 /********
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
@@ -52,6 +52,27 @@ gulp.task('resources-clean', function() {
 });
 
 /********
+ *   replace values in index.html with minified bundle names with hash
+ *  This should only be ran as part of the production deployment
+ */
+
+gulp.task('replace-tokens-for-minimized-angular', cb => {
+    const ngMinPath = path.join(__dirname, 'public', 'ng-min');
+    const minFolderExists = fs.existsSync(ngMinPath);
+    if (minFolderExists) {
+        const index = fs.readFileSync(path.join(ngMinPath, 'index.html'), 'utf8');
+        const config = {};
+        config.inline = index.match(/inline.*?\.bundle.js/)[0];
+        config.polyfills = index.match(/polyfills.*?\.bundle.js/)[0];
+        config.scripts = index.match(/scripts.*?\.bundle.js/)[0];
+        config.vendor = index.match(/vendor.*?\.bundle.js/)[0];
+        config.main = index.match(/main.*?\.bundle.js/)[0];
+        config.styles = index.match(/styles.*?\.bundle.css/)[0];
+        return gulp.src('src/**/*.pug').pipe(replace({ global: config })).pipe(gulp.dest('./src/'));
+    }
+    cb();
+});
+/********
  *   Bundle Up production server views
  */
 gulp.task('bundle-views', function() {
@@ -69,13 +90,13 @@ gulp.task('bundle-json', function() {
  *   Bundle Up config
  */
 gulp.task('bundle-config', function() {
-    return gulp.src(['web.config', 'iisnode.yml', 'package.json', '.env']).pipe(gulp.dest('build'));
+    return gulp.src(['web.config', 'iisnode.yml', 'package.json', '.env', 'gulpfile.js']).pipe(gulp.dest('build'));
 });
 
 /********
  *   This will make the portal-resources.ts file
  */
-gulp.task('resx-to-typescript-models', function() {
+gulp.task('resx-to-typescript-models', function(cb) {
     const resources = require('../server/src/actions/resources/Resources.json').en;
     let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources\r\n{\r\n';
     Object.keys(resources).forEach(function(stringName) {
@@ -86,6 +107,7 @@ gulp.task('resx-to-typescript-models', function() {
         path.join(__dirname, '..', 'AzureFunctions.AngularClient', 'src', 'app', 'shared', 'models', 'portal-resources.ts')
     );
     fs.writeFileSync(writePath, new Buffer(typescriptFileContent));
+    cb();
 });
 
 /********
@@ -277,7 +299,7 @@ function makeStreams() {
  * Templates Building
  */
 
-gulp.task('build-templates', function() {
+gulp.task('build-templates', function(cb) {
     const templateRuntimeVersions = getSubDirectories('Templates');
     templateRuntimeVersions.forEach(version => {
         let templateListJson = [];
@@ -302,13 +324,14 @@ gulp.task('build-templates', function() {
         writePath = path.join(writePath, version + '.json');
         fs.writeFileSync(writePath, new Buffer(JSON.stringify(templateListJson)));
     });
+    cb();
 });
 
 /********
  * Place Binding Templates
  */
 
-gulp.task('build-bindings', function() {
+gulp.task('build-bindings', function(cb) {
     const templateRuntimeVersions = getSubDirectories('Templates');
     templateRuntimeVersions.forEach(version => {
         const bindingFile = require(path.join(__dirname, 'Templates', version, 'Bindings', 'bindings.json'));
@@ -330,6 +353,7 @@ gulp.task('build-bindings', function() {
         writePath = path.join(writePath, version + '.json');
         fs.writeFileSync(writePath, new Buffer(JSON.stringify(bindingFile)));
     });
+    cb();
 });
 
 const templateVersionMap = {

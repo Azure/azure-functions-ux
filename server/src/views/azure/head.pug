@@ -1,2 +1,11 @@
+- const cdn = "https://functions.azureedge.net";
+- const production = process.env['FUNCTIONS_SLOT_NAME'] === 'production';
+
 head
-    base(href="/ng-full/")
+    if clientOptimzationsOff
+        base(href="/ng-full/")
+    else
+        base(href="/ng-min/")
+        if production
+            link(href=cdn + "/ng-min/{{styles}}" rel="stylesheet")
+            
