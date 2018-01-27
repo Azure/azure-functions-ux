@@ -1,7 +1,7 @@
 //BASED ON https://github.com/martinpeck/dotenv-keyvault/blob/master/index.js
 import axios from 'axios';
 const dotenvConfig = require('dotenv').config();
-
+import { constants } from './constants';
 async function getAADTokenFromMSI(endpoint: string, secret: string, resource: string) {
     const apiVersion = '2017-09-01';
 
@@ -24,7 +24,7 @@ export async function config(props: any = {}) {
     let aadToken;
     if (!aadAccessToken) {
         // no token - get one using Managed Service Identity inside process.env
-        const resource = 'https://vault.azure.net';
+        const resource = constants.KeyvaultUri;
         if (process.env.MSI_ENDPOINT && process.env.MSI_SECRET) {
             aadToken = await getAADTokenFromMSI(process.env.MSI_ENDPOINT as string, process.env.MSI_SECRET as string, resource);
         } else {
@@ -39,8 +39,9 @@ export async function config(props: any = {}) {
     const token = aadToken;
 
     if (token) {
+        //This will find all dotnetEnv defined values that match the pattern kv:<secret url> and fetches the true value from keyvault
         const fetches = Object.keys(dotenvParsed).filter(key => dotenvParsed[key].match(/^kv:/)).map(async key => {
-            const uri = dotenvParsed[key].replace(/^kv:/, '') + '?api-version=2016-10-01';
+            const uri = `${dotenvParsed[key].replace(/^kv:/, '')}?api-version=${constants.KeyvaultApiVersion}`;
             try {
                 const secretResponse = await axios.get(uri, {
                     headers: {
@@ -49,7 +50,6 @@ export async function config(props: any = {}) {
                 });
                 envWithKeyvault[key] = secretResponse.data.value;
             } catch (err) {
-                console.log(uri);
                 console.log(err);
             }
         });

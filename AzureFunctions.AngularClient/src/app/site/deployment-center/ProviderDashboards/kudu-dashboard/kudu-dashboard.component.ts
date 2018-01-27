@@ -43,7 +43,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     public hasWritePermissions = true;
     public deploymentObject: DeploymentData;
 
-    public RightPaneItem: ArmObj<Deployment>;
+    public rightPaneItem: ArmObj<Deployment>;
     private _busyManager: BusyStateScopeManager;
     private _forceLoad = false;
     public sidePanelOpened = false;
@@ -161,44 +161,44 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         }
     }
 
-    get FolderPath() {
-        if (this.SourceLocation !== 'Dropbox' && this.SourceLocation !== 'Onedrive') {
+    get folderPath() {
+        if (this.sourceLocation !== 'Dropbox' && this.sourceLocation !== 'Onedrive') {
             return null;
         }
-        const folderPath = this.Repo
+        const folderPath = this.repo
             .replace('https://www.dropbox.com/home', '')
             .replace('https://api.onedrive.com/v1.0/drive/special/approot:', '');
         return folderPath;
     }
 
-    get RollbackEnabled() {
+    get rollbackEnabled() {
         const rollbackEnabled = this.deploymentObject && this.deploymentObject.sourceControls.properties.deploymentRollbackEnabled;
         return rollbackEnabled ? 'Yes' : 'No';
     }
-    get Repo(): string {
+    get repo(): string {
         return this.deploymentObject && this.deploymentObject.sourceControls.properties.repoUrl;
     }
 
-    get Branch() {
+    get branch() {
         return this.deploymentObject && this.deploymentObject.sourceControls.properties.branch;
     }
 
-    get ScmType() {
+    get scmType() {
         const isMerc: boolean = this.deploymentObject && this.deploymentObject.sourceControls.properties.isMercurial;
         return isMerc ? 'Mercurial' : 'Git';
     }
 
-    get TableItems() {
+    get tableItems() {
         return this._tableItems || [];
     }
-    get GitCloneUri() {
+    get gitCloneUri() {
         const publishingUsername = this.deploymentObject && this.deploymentObject.publishingUser.properties.publishingUserName;
         const scmUri = this.deploymentObject && this.deploymentObject.publishingCredentials.properties.scmUri.split('@')[1];
         const siteName = this.deploymentObject && this.deploymentObject.site.name;
         return this.deploymentObject && `https://${publishingUsername}@${scmUri}:443/${siteName}.git`;
     }
 
-    SyncScm() {
+    syncScm() {
         this._busyManager.setBusy();
         this._cacheService.postArm(`${this.resourceId}/sync`, true).subscribe(
             r => {
@@ -223,11 +223,11 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     details(item: KuduTableItem) {
-        this.RightPaneItem = item.deploymentObj;
+        this.rightPaneItem = item.deploymentObj;
         this.sidePanelOpened = true;
     }
 
-    get SourceLocation() {
+    get sourceLocation() {
         const scmType = this.deploymentObject && this.deploymentObject.siteConfig.properties.scmType;
         switch (scmType) {
             case 'BitbucketGit':

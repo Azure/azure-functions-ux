@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oAuthHelper';
-
+import { constants } from '../constants';
 const oauthHelper: oAuthHelper = new oAuthHelper('github');
 export async function getGithubTokens(req: any): Promise<any> {
     return await oauthHelper.getToken(req.headers.authorization);
@@ -28,7 +28,7 @@ export function setupGithubAuthentication(app: Application) {
             stateKey = req.session['github_state_key'] = oauthHelper.newGuid();
         }
         res.redirect(
-            `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env
+            `${constants.oauthApis.githubApiUri}/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env
                 .GITHUB_REDIRECT_URL}&scope=admin:repo_hook+repo&response_type=code&state=${oauthHelper.hashStateGuid(stateKey)}`
         );
     });
@@ -39,7 +39,6 @@ export function setupGithubAuthentication(app: Application) {
 
     app.post('/auth/github/storeToken', async (req, res) => {
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-
         if (
             !req ||
             !req.session ||
@@ -51,13 +50,13 @@ export function setupGithubAuthentication(app: Application) {
         }
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         try {
-            const r = await axios.post(`https://github.com/login/oauth/access_token`, {
+            const r = await axios.post(`${constants.oauthApis.githubApiUri}/access_token`, {
                 client_id: process.env.GITHUB_CLIENT_ID,
                 client_secret: process.env.GITHUB_CLIENT_SECRET,
                 code: code
             });
             const token = oauthHelper.getParameterByName('access_token', '?' + r.data);
-            oauthHelper.putTokenInArm(token, req.headers.authorization as string);
+            oauthHelper.saveToken(token, req.headers.authorization as string);
             res.sendStatus(200);
         } catch (err) {
             res.send(400);

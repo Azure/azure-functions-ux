@@ -3,7 +3,7 @@
     <command-bar>
       <command displayText="{{ 'refresh' | translate }}" iconUrl="image/swap.svg" (click)="refresh()"></command>
       <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/error.svg" (click)="disconnect()"></command>
-      <command displayText="{{ 'sync' | translate }}" iconUrl="image/Functions.svg" (click)="SyncScm()"></command>
+      <command displayText="{{ 'sync' | translate }}" iconUrl="image/Functions.svg" (click)="syncScm()"></command>
     </command-bar>
 
     <div id="essentials-container">
@@ -12,7 +12,7 @@
         <div>
           <label id="siteStatusLabel">{{'source' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{SourceLocation}}
+            {{sourceLocation}}
           </div>
         </div>
 
@@ -30,14 +30,14 @@
         <div>
           <label id="siteStatusLabel">{{'repository' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{Repo}}
+            {{repo}}
           </div>
         </div>
 
         <div>
           <label id="siteStatusLabel">{{'branch' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{Branch}}
+            {{branch}}
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
         <div>
           <label id="siteStatusLabel">{{'gitCloneUri' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{GitCloneUri}}
+            {{gitCloneUri}}
           </div>
         </div>
       </div>
@@ -58,14 +58,14 @@
         <div>
           <label id="siteStatusLabel">{{'folder' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{FolderPath}}
+            {{folderPath}}
           </div>
         </div>
 
         <div>
           <label id="siteStatusLabel">{{'rollbackEnabled' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{RollbackEnabled}}
+            {{rollbackEnabled}}
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
         <div>
           <label id="siteStatusLabel">{{'scmType' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{ScmType}}
+            {{scmType}}
           </div>
         </div>
       </div>
@@ -139,7 +139,7 @@
   </div>
   <ng-sidebar #sidebar [(opened)]="sidePanelOpened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="true" [trapFocus]="false"
     [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'Deployment Details'" [animate]="true" [showBackdrop]="true">
-    <app-deployment-detail [deploymentObject]="RightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
+    <app-deployment-detail [deploymentObject]="rightPaneItem" (closePanel)="sidebar.close()"></app-deployment-detail>
 
   </ng-sidebar>
 </ng-sidebar-container>

@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oAuthHelper';
-
+import { constants } from '../constants';
 const oauthHelper: oAuthHelper = new oAuthHelper('bitbucket');
 export async function getBitbucketTokens(req: any): Promise<any> {
     return await oauthHelper.getToken(req.headers.authorization);
@@ -27,8 +27,10 @@ export function setupBitbucketAuthentication(app: Application) {
             stateKey = req.session['bitbucket_state_key'] = oauthHelper.newGuid();
         }
         res.redirect(
-            `https://bitbucket.org/site/oauth2/authorize?client_id=${process.env.BITBUCKET_CLIENT_ID}&redirect_uri=${process.env
-                .BITBUCKET_REDIRECT_URL}&scope=account+repository+webhook&response_type=code&state=${oauthHelper.hashStateGuid(stateKey).substr(0, 10)}`
+            `${constants.oauthApis.bitbucketUri}/authorize?client_id=${process.env.BITBUCKET_CLIENT_ID}&redirect_uri=${process.env
+                .BITBUCKET_REDIRECT_URL}&scope=account+repository+webhook&response_type=code&state=${oauthHelper
+                .hashStateGuid(stateKey)
+                .substr(0, 10)}`
         );
     });
 
@@ -39,7 +41,6 @@ export function setupBitbucketAuthentication(app: Application) {
     app.post('/auth/bitbucket/storeToken', async (req, res) => {
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-
         if (
             !req ||
             !req.session ||
@@ -51,7 +52,7 @@ export function setupBitbucketAuthentication(app: Application) {
         }
         try {
             const r = await axios.post(
-                `https://bitbucket.org/site/oauth2/access_token`,
+                `${constants.oauthApis.bitbucketUri}/access_token`,
                 `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.BITBUCKET_REDIRECT_URL}`,
                 {
                     auth: {
@@ -65,7 +66,7 @@ export function setupBitbucketAuthentication(app: Application) {
                 }
             );
             const token = { access_token: r.data.access_token, refresh_token: r.data.refresh_token };
-            oauthHelper.putTokenInArm(token.access_token, req.headers.authorization as string, token.refresh_token);
+            oauthHelper.saveToken(token.access_token, req.headers.authorization as string, token.refresh_token);
             res.sendStatus(200);
         } catch (err) {
             res.sendStatus(400);

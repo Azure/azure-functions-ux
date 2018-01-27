@@ -8,6 +8,7 @@ import { AiService } from 'app/shared/services/ai.service';
 import { Constants, LogCategories } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
+import { Observable } from 'rxjs/Observable';
 
 export interface ProviderCard {
     id: sourceControlProvider;
@@ -249,14 +250,14 @@ export class StepSourceControlComponent {
 
     public authorize() {
         let provider = this.selectedProvider.id;
-        var win = window.open(`${Constants.serviceHost}auth/${provider}/authorize`, 'windowname1', 'width=800, height=600');
-
-        var pollTimer = window.setInterval(() => {
+        const win = window.open(`${Constants.serviceHost}auth/${provider}/authorize`, 'windowname1', 'width=800, height=600');
+        const clearInterval = new Subject();
+        Observable.timer(100, 100).takeUntil(this._ngUnsubscribe).takeUntil(clearInterval).subscribe(() => {
             try {
                 if (win.closed) {
-                    window.clearInterval(pollTimer);
-                } else if (win.document.URL.indexOf(`/callback`) != -1) {
-                    window.clearInterval(pollTimer);
+                    clearInterval.next();
+                } else if (win.document.URL.indexOf(`/callback`) !== -1) {
+                    clearInterval.next();
 
                     this._cacheService
                         .post(`${Constants.serviceHost}auth/${provider}/storeToken`, true, null, {
@@ -267,6 +268,6 @@ export class StepSourceControlComponent {
                         });
                 }
             } catch (e) {}
-        }, 100);
+        });
     }
 }

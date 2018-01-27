@@ -46,7 +46,6 @@ export function setupDropboxAuthentication(app: Application) {
     app.post('/auth/dropbox/storeToken', async (req, res) => {
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-
         if (
             !req ||
             !req.session ||
@@ -68,7 +67,7 @@ export function setupDropboxAuthentication(app: Application) {
                 }
             );
             const token = r.data.access_token as string;
-            oauthHelper.putTokenInArm(token, req.headers.authorization as string);
+            oauthHelper.saveToken(token, req.headers.authorization as string);
             res.sendStatus(200);
         } catch (err) {
             console.log(err);
