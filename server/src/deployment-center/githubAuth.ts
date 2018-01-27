@@ -3,31 +3,44 @@ import axios from 'axios';
 import { oAuthHelper } from './oAuthHelper';
 import { constants } from '../constants';
 import { GUID } from '../utilities';
+import { LogHelper } from '../logHelper';
+import { ApiRequest, PassthroughRequestBody } from '../types/request';
 const oauthHelper: oAuthHelper = new oAuthHelper('github');
 export async function getGithubTokens(req: any): Promise<any> {
     return await oauthHelper.getToken(req.headers.authorization);
 }
 
 export function setupGithubAuthentication(app: Application) {
-    app.post('/api/github/passthrough', async (req, res) => {
+    app.post('/api/github/passthrough', async (req: ApiRequest<PassthroughRequestBody>, res) => {
         const tokenData = await getGithubTokens(req);
         if (!tokenData.authenticated) {
+            LogHelper.warn('github-passthrough-unauthorized', {});
             res.sendStatus(401);
         }
-
-        const response = await axios.get(req.body.url, {
-            headers: {
-                Authorization: `Bearer ${tokenData.token}`
-            }
-        });
-        res.json(response.data);
+        try {
+            const response = await axios.get(req.body.url, {
+                headers: {
+                    Authorization: `Bearer ${tokenData.token}`
+                }
+            });
+            res.json(response.data);
+        } catch (err) {
+            LogHelper.error('github-passthrough', err);
+            res.send(err.response);
+        }
     });
 
     app.get('/auth/github/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
             stateKey = req.session['github_state_key'] = GUID.newGuid();
+        } else {
+            //Should be impossible to hit this
+            LogHelper.error('session-not-found', {});
+            res.sendStatus(500);
+            return;
         }
+
         res.redirect(
             `${constants.oauthApis.githubApiUri}/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env
                 .GITHUB_REDIRECT_URL}&scope=admin:repo_hook+repo&response_type=code&state=${oauthHelper.hashStateGuid(stateKey)}`
@@ -40,12 +53,8 @@ export function setupGithubAuthentication(app: Application) {
 
     app.post('/auth/github/storeToken', async (req, res) => {
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-        if (
-            !req ||
-            !req.session ||
-            !req.session['github_state_key'] ||
-            oauthHelper.hashStateGuid(req.session['github_state_key']) !== state
-        ) {
+        if (!req || !req.session || !req.session['github_state_key'] || oauthHelper.hashStateGuid(req.session['github_state_key']) !== state) {
+            LogHelper.error('github-invalid-sate-key', {});
             res.sendStatus(403);
             return;
         }
@@ -60,7 +69,8 @@ export function setupGithubAuthentication(app: Application) {
             oauthHelper.saveToken(token, req.headers.authorization as string);
             res.sendStatus(200);
         } catch (err) {
-            res.send(400);
+            LogHelper.error('github-token-store', err);
+            res.send(err.response);
         }
     });
 }

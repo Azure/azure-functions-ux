@@ -2,6 +2,7 @@ import axios from 'axios';
 import { staticConfig } from '../config';
 import * as crypto from 'crypto';
 import { constants } from '../constants';
+import { LogHelper } from '../logHelper';
 
 export class oAuthHelper {
     constructor(private _provider: string) {}
@@ -9,8 +10,7 @@ export class oAuthHelper {
     public async getToken(aadToken: string): Promise<any> {
         try {
             const r = await axios.get(
-                `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/${this
-                    ._provider}?api-version=${constants.AntaresApiVersion}`,
+                `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/${this._provider}?api-version=${constants.AntaresApiVersion}`,
                 {
                     headers: {
                         Authorization: aadToken
@@ -23,7 +23,8 @@ export class oAuthHelper {
             } else {
                 return { authenticated: false };
             }
-        } catch (_) {
+        } catch (err) {
+            LogHelper.error(`${this._provider}-get-token`, err);
             return { authenticated: false };
         }
     }
@@ -39,8 +40,7 @@ export class oAuthHelper {
 
     public saveToken(token: string, aadToken: string, refreshToken: string = ''): Promise<any> {
         return axios.put(
-            `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/${this
-                ._provider}?api-version=${constants.AntaresApiVersion}`,
+            `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/${this._provider}?api-version=${constants.AntaresApiVersion}`,
             {
                 name: this._provider,
                 properties: {

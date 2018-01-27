@@ -2,6 +2,7 @@
 import axios from 'axios';
 const dotenvConfig = require('dotenv').config();
 import { constants } from './constants';
+import { LogHelper } from './logHelper';
 async function getAADTokenFromMSI(endpoint: string, secret: string, resource: string) {
     const apiVersion = '2017-09-01';
 
@@ -13,7 +14,7 @@ async function getAADTokenFromMSI(endpoint: string, secret: string, resource: st
         });
         return response.data.access_token;
     } catch (err) {
-        console.error(err);
+        LogHelper.error('msi-token-fetch', err);
         return null;
     }
 }
@@ -50,7 +51,7 @@ export async function config(props: any = {}) {
                 });
                 envWithKeyvault[key] = secretResponse.data.value;
             } catch (err) {
-                console.log(err);
+                LogHelper.error('key-vault-value-fetch', err);
             }
         });
         await Promise.all(fetches);

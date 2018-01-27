@@ -47,13 +47,12 @@ app
         cookieSession({
             //This session cookie will live as long as the session and be used for authentication/security purposes
             name: 'session',
-            keys: [ process.env.SALT ]
+            keys: [process.env.SALT]
         })
     );
 
 const renderIndex = (req: express.Request, res: express.Response) => {
-    staticConfig.config.clientOptimzationsOff =
-        req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
+    staticConfig.config.clientOptimzationsOff = req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
     res.render('index', staticConfig);
 };
 app.get('/', renderIndex);

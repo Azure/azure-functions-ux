@@ -3,12 +3,11 @@ import { PortalResources } from '../../../../../shared/models/portal-resources';
 import { TableItem } from '../../../../../controls/tbl/tbl.component';
 import { AiService } from '../../../../../shared/services/ai.service';
 import { CacheService } from '../../../../../shared/services/cache.service';
-import { BusyStateComponent } from '../../../../../busy-state/busy-state.component';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Rx';
 import { Deployment } from '../../../Models/deployment-data';
 import { ArmArrayResult, ArmObj } from '../../../../../shared/models/arm/arm-obj';
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import * as moment from 'moment';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 
@@ -34,7 +33,6 @@ interface DeploymentLogItem {
 })
 export class DeploymentDetailComponent implements OnChanges {
     @Input() deploymentObject: ArmObj<Deployment>;
-    @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Output() closePanel = new EventEmitter();
     public viewInfoStream = new Subject<ArmObj<Deployment>>();
     private _deploymentLogFetcher = new Subject<DeploymentDetailTableItem>();
@@ -42,12 +40,8 @@ export class DeploymentDetailComponent implements OnChanges {
     private _tableItems: DeploymentDetailTableItem[];
     private _ngUnsubscribe = new Subject();
     public logsToShow = null;
-    constructor(
-        private _cacheService: CacheService,
-        private _aiService: AiService,
-        private _translateService: TranslateService,
-        broadcastService: BroadcastService
-    ) {
+
+    constructor(private _cacheService: CacheService, private _aiService: AiService, private _translateService: TranslateService, broadcastService: BroadcastService) {
         this._tableItems = [];
         this.logsToShow = null;
         this._deploymentLogFetcher.takeUntil(this._ngUnsubscribe).switchMap(item => this._cacheService.getArm(item.id)).subscribe(r => {
@@ -59,18 +53,15 @@ export class DeploymentDetailComponent implements OnChanges {
         this.viewInfoStream
             .takeUntil(this._ngUnsubscribe)
             .switchMap(deploymentObject => {
-                this.busyState.setBusyState();
                 const deploymentId = deploymentObject.id;
                 return this._cacheService.getArm(`${deploymentId}/log`);
             })
             .do(null, error => {
                 this.deploymentObject = null;
                 this._aiService.trackEvent('/errors/deployment-center', error);
-                this.busyState.clearBusyState();
             })
             .retry()
             .subscribe(r => {
-                this.busyState.clearBusyState();
                 const logs: ArmArrayResult<DeploymentLogItem> = r.json();
                 this._tableItems = [];
                 logs.value.forEach(val => {

@@ -1,18 +1,42 @@
+import axios from 'axios';
 import { Application } from 'express';
-import { setupGithubAuthentication, getGithubTokens } from './githubAuth';
-import { setupBitbucketAuthentication, getBitbucketTokens } from './bitbucketAuth';
-import { setupOnedriveAuthentication, getOnedriveTokens } from './onedriveAuth';
-import { setupDropboxAuthentication, getDropboxTokens } from './dropboxAuth';
+import { setupGithubAuthentication } from './githubAuth';
+import { setupBitbucketAuthentication } from './bitbucketAuth';
+import { setupOnedriveAuthentication } from './onedriveAuth';
+import { setupDropboxAuthentication } from './dropboxAuth';
+import { staticConfig } from '../config';
+import { constants } from '../constants';
+import { LogHelper } from '../logHelper';
 
 export function setupDeploymentCenter(app: Application) {
     app.get('/api/SourceControlAuthenticationState', async (req, res) => {
-        const result = await Promise.all([getBitbucketTokens(req), getGithubTokens(req), getOnedriveTokens(req), getDropboxTokens(req)]);
-        res.send({
-            github: result[1].authenticated,
-            onedrive: result[2].authenticated,
-            bitbucket: result[0].authenticated,
-            dropbox: result[3].authenticated
-        });
+        try {
+            const r = await axios.get(`${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols?api-version=${constants.AntaresApiVersion}`, {
+                headers: {
+                    Authorization: req.headers.authorization
+                }
+            });
+            const body = r.data;
+            var providers: any[] = body.value;
+            const oneDriveObject = providers.find(x => x.name.toLowerCase() === 'onedrive');
+            const bitbucketObject = providers.find(x => x.name.toLowerCase() === 'bitbucket');
+            const dropboxObject = providers.find(x => x.name.toLowerCase() === 'dropbox');
+            const githubObject = providers.find(x => x.name.toLowerCase() === 'github');
+            res.send({
+                github: githubObject && githubObject.properties && githubObject.properties.token,
+                onedrive: oneDriveObject && oneDriveObject.properties && oneDriveObject.properties.token,
+                bitbucket: bitbucketObject && bitbucketObject.properties && bitbucketObject.properties.token,
+                dropbox: dropboxObject && dropboxObject.properties && dropboxObject.properties.token
+            });
+        } catch (err) {
+            LogHelper.error('SourceControlAuthenticationState', err);
+            res.send({
+                github: false,
+                onedrive: false,
+                bitbucket: false,
+                dropbox: false
+            });
+        }
     });
 
     setupGithubAuthentication(app);

@@ -2,15 +2,18 @@ import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oAuthHelper';
 import { GUID } from '../utilities';
+import { LogHelper } from '../logHelper';
+import { ApiRequest, PassthroughRequestBody } from '../types/request';
 
 const oauthHelper: oAuthHelper = new oAuthHelper('dropbox');
 export async function getDropboxTokens(req: any): Promise<any> {
     return await oauthHelper.getToken(req.headers.authorization);
 }
 export function setupDropboxAuthentication(app: Application) {
-    app.post('/api/dropbox/passthrough', async (req, res) => {
+    app.post('/api/dropbox/passthrough', async (req: ApiRequest<PassthroughRequestBody>, res) => {
         const tokenData = await getDropboxTokens(req);
         if (!tokenData.authenticated) {
+            LogHelper.warn('dropbox-passthrough-unauthorized', {});
             res.sendStatus(401);
             return;
         }
@@ -23,8 +26,8 @@ export function setupDropboxAuthentication(app: Application) {
             });
             res.json(response.data);
         } catch (err) {
-            console.log(err);
-            res.sendStatus(401);
+            LogHelper.error('dropbox-passthrough', err);
+            res.send(err.response);
         }
     });
 
@@ -32,6 +35,11 @@ export function setupDropboxAuthentication(app: Application) {
         let stateKey = '';
         if (req && req.session) {
             stateKey = req.session['dropbox_state_key'] = GUID.newGuid();
+        } else {
+            //Should be impossible to hit this
+            LogHelper.error('session-not-found', {});
+            res.sendStatus(500);
+            return;
         }
 
         res.redirect(
@@ -47,20 +55,16 @@ export function setupDropboxAuthentication(app: Application) {
     app.post('/auth/dropbox/storeToken', async (req, res) => {
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-        if (
-            !req ||
-            !req.session ||
-            !req.session['dropbox_state_key'] ||
-            oauthHelper.hashStateGuid(req.session['dropbox_state_key']).substr(0, 10) !== state
-        ) {
+        if (!req || !req.session || !req.session['dropbox_state_key'] || oauthHelper.hashStateGuid(req.session['dropbox_state_key']).substr(0, 10) !== state) {
+            LogHelper.error('dropbox-invalid-sate-key', {});
             res.sendStatus(403);
             return;
         }
         try {
             const r = await axios.post(
                 `https://api.dropbox.com/oauth2/token`,
-                `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${process.env
-                    .DROPBOX_CLIENT_ID}&client_secret=${process.env.DROPBOX_CLIENT_SECRET}`,
+                `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${process.env.DROPBOX_CLIENT_ID}&client_secret=${process.env
+                    .DROPBOX_CLIENT_SECRET}`,
                 {
                     headers: {
                         'Content-type': 'application/x-www-form-urlencoded'
@@ -71,8 +75,8 @@ export function setupDropboxAuthentication(app: Application) {
             oauthHelper.saveToken(token, req.headers.authorization as string);
             res.sendStatus(200);
         } catch (err) {
-            console.log(err);
-            res.sendStatus(400);
+            LogHelper.error('dropbox-token-store', err);
+            res.send(err.response);
         }
     });
 }
