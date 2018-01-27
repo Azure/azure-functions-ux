@@ -436,11 +436,15 @@ export class ConnectionStringsComponent implements OnChanges, OnDestroy {
         const connectionStringDropDownTypes: DropDownElement<string>[] = [];
 
         EnumEx.getNamesAndValues(ConnectionStringType).forEach(pair => {
-            connectionStringDropDownTypes.push({
-                displayLabel: pair.name,
-                value: pair.name,
-                default: pair.value === defaultType
-            });
+            // We should only include supported connection string types. However, in the case where an
+            // unsupported type is already set in the conf, we must also include that particular type.
+            if (ConnectionStringType.isSupported(pair.value) || pair.value === defaultType) {
+                connectionStringDropDownTypes.push({
+                    displayLabel: pair.name,
+                    value: pair.name,
+                    default: pair.value === defaultType
+                });
+            }
         });
 
         return connectionStringDropDownTypes;
