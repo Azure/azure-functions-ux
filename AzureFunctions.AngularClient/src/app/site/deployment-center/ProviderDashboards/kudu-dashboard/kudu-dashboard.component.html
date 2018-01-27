@@ -25,7 +25,7 @@
       </div>
 
 
-      <div class="essentials-col" *ngIf="Branch">
+      <div class="essentials-col" *ngIf="branch">
 
         <div>
           <label id="siteStatusLabel">{{'repository' | translate}}</label>
@@ -43,7 +43,7 @@
       </div>
 
 
-      <div class="essentials-col" *ngIf="SourceLocation === 'Local Git'">
+      <div class="essentials-col" *ngIf="sourceLocation === 'Local Git'">
 
         <div>
           <label id="siteStatusLabel">{{'gitCloneUri' | translate}}</label>
@@ -53,7 +53,7 @@
         </div>
       </div>
 
-      <div class="essentials-col" *ngIf="FolderPath">
+      <div class="essentials-col" *ngIf="folderPath">
 
         <div>
           <label id="siteStatusLabel">{{'folder' | translate}}</label>
@@ -70,7 +70,7 @@
         </div>
       </div>
 
-      <div class="essentials-col" *ngIf="Branch">
+      <div class="essentials-col" *ngIf="branch">
         <div>
           <label id="siteStatusLabel">{{'scmType' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
@@ -81,7 +81,7 @@
     </div>
 
     <div class="browse-container">
-      <tbl [items]="TableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="time">
+      <tbl [items]="tableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="time">
         <tr>
           <th>
             {{'time' | translate}}
