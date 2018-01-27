@@ -54,18 +54,17 @@ export class DeploymentCenterComponent implements OnDestroy {
     ) {
         this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
-        this.resourceIdStream = new Subject<string>();
-        this.resourceIdStream
+        this.viewInfoStream
             .takeUntil(this._ngUnsubscribe)
             .distinctUntilChanged()
-            .switchMap(resourceId => {
+            .switchMap(view => {
                 this._busyManager.setBusy();
-                this.resourceId = resourceId;
+                this.resourceId = view.resourceId;
                 this._siteConfigObject = null;
                 return Observable.zip(
-                    this._cacheService.getArm(`${resourceId}/config/web`),
-                    this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(resourceId),
+                    this._cacheService.getArm(`${this.resourceId}/config/web`),
+                    this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
+                    this._authZService.hasReadOnlyLock(this.resourceId),
                     (sc, wp, rl) => ({
                         siteConfig: sc.json(),
                         writePermission: wp,

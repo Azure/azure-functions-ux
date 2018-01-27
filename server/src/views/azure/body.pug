@@ -4,11 +4,12 @@
 
 body
     if clientOptimzationsOff || !production
-        script(scr='inline.bundle.js')
+        script(src='inline.bundle.js')
         script(src='polyfills.bundle.js')
         script(src='scripts.bundle.js')
         script(src='vendor.bundle.js')
         script(src='main.bundle.js')
+        script(src='styles.bundle.js')
     else
         script(scr=cdn + '/ng-min/{{inline}}')
         script(src=cdn + '/ng-min/{{polyfills}}')
