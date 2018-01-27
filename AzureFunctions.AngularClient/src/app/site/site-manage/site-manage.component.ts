@@ -31,6 +31,7 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { FunctionAppContextComponent } from '../../shared/components/function-app-context-component';
 import { FunctionAppService } from '../../shared/services/function-app.service';
+import { Url } from 'app/shared/Utilities/url';
 
 @Component({
     selector: 'site-manage',
@@ -164,8 +165,29 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
     }
 
     private _initCol1Groups(site: ArmObj<Site>) {
-        let codeDeployFeatures = [
-            new TabFeature(
+        let deploymentFeature: FeatureItem = new DisableableBladeFeature(
+            this._translateService.instant(PortalResources.feature_deploymentSourceName),
+            this._translateService.instant(PortalResources.continuousDeployment) +
+                ' ' +
+                this._translateService.instant(PortalResources.source) +
+                ' ' +
+                this._translateService.instant(PortalResources.options) +
+                '  github bitbucket dropbox onedrive vsts vso',
+            this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
+            'image/deployment-source.svg',
+            {
+                detailBlade: 'ContinuousDeploymentListBlade',
+                detailBladeInputs: {
+                    id: this._descriptor.resourceId,
+                    ResourceId: this._descriptor.resourceId
+                }
+            },
+            this._portalService,
+            this._hasSiteWritePermissionStream
+        );
+        const showDeploymentCenter = Url.getParameterByName(null, 'appsvc.deploymentcenter');
+        if (showDeploymentCenter) {
+            deploymentFeature = new TabFeature(
                 this._translateService.instant(PortalResources.feature_deploymentSourceName),
                 this._translateService.instant(PortalResources.continuousDeployment) +
                     ' ' +
@@ -177,7 +199,10 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 'image/deployment-source.svg',
                 SiteTabIds.continuousDeployment,
                 this._broadcastService
-            ),
+            );
+        }
+        let codeDeployFeatures = [
+            deploymentFeature,
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),
