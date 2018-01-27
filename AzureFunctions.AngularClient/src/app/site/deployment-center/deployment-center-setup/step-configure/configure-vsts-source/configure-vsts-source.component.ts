@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Headers } from '@angular/http';
 import { UserService } from 'app/shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs/Subject';
-import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/VSORepo';
+import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
@@ -81,12 +81,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     //Subscriptions
     private _memberIdSubscription = new Subject();
     private _branchSubscription = new Subject<string>();
-    constructor(
-        private _wizard: DeploymentCenterStateManager,
-        private _cacheService: CacheService,
-        private _userService: UserService,
-        private _logService: LogService
-    ) {
+    constructor(private _wizard: DeploymentCenterStateManager, private _cacheService: CacheService, private _userService: UserService, private _logService: LogService) {
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.token = r.token;
         });
@@ -112,11 +107,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                 r.forEach(account => {
                     projectCalls.push(
                         this._cacheService
-                            .get(
-                                `https://${account.accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`,
-                                true,
-                                this.getHeaders()
-                            )
+                            .get(`https://${account.accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`, true, this.getHeaders())
                             .map(res => res.json().value)
                     );
                 });

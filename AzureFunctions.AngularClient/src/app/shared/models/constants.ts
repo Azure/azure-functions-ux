@@ -10,9 +10,7 @@
 }
 
 export class Constants {
-    public static serviceHost = window.location.hostname === 'localhost' ||
-    window.appsvc.env.runtimeType === 'Standalone' ||
-    window.appsvc.env.runtimeType === 'OnPrem'
+    public static serviceHost = window.location.hostname === 'localhost' || window.appsvc.env.runtimeType === 'Standalone' || window.appsvc.env.runtimeType === 'OnPrem'
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
@@ -327,4 +325,14 @@ export class HttpConstants {
         400: 'Client Error',
         500: 'Server Error'
     };
+}
+
+export class DeploymentCenterConstants {
+    public static githubUri = 'https://github.com';
+    public static githubApiUrl = 'https://api.github.com';
+    public static bitbucketApiUrl = 'https://api.bitbucket.org/2.0';
+    public static bitbucketUrl = 'https://bitbucket.org';
+    public static dropboxApiUrl = 'https://api.dropboxapi.com/2';
+    public static dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
+    public static onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot:';
 }

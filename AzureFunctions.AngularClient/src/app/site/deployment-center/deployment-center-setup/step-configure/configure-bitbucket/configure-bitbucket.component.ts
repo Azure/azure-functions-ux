@@ -1,12 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
-import { Constants, LogCategories } from 'app/shared/models/constants';
+import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
 
@@ -40,7 +40,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.RepoList = [];
         this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
-                url: `https://api.bitbucket.org/2.0/repositories?role=admin`
+                url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?role=admin`
             })
             .subscribe(
                 r => {
@@ -65,7 +65,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
             this.BranchList = [];
             this._cacheService
                 .post(Constants.serviceHost + `api/bitbucket/passthrough?branch=${repo}`, true, null, {
-                    url: `https://api.bitbucket.org/2.0/repositories/${repo}/refs/branches`
+                    url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${repo}/refs/branches`
                 })
                 .subscribe(
                     r => {
@@ -88,12 +88,12 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     }
 
     RepoChanged(repo: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://bitbucket.org/${repo}`;
+        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo}`;
         this.reposStream.next(repo);
     }
 
     BranchChanged(branch: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://bitbucket.org/${branch}`;
+        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${branch}`;
     }
 
     ngOnDestroy(): void {

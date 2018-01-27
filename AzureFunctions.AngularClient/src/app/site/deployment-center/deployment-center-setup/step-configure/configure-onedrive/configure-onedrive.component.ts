@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
-import { Constants, LogCategories } from 'app/shared/models/constants';
+import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
@@ -35,7 +35,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
             .takeUntil(this._ngUnsubscribe)
             .switchMap(() =>
                 this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
-                    url: 'https://api.onedrive.com/v1.0/drive/special/approot/children'
+                    url: `${DeploymentCenterConstants.onedriveApiUri}/children`
                 })
             )
             .subscribe(
@@ -47,7 +47,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
 
                     options.push({
                         displayLabel: siteName,
-                        value: `https://api.onedrive.com/v1.0/drive/special/approot:/${siteName}`
+                        value: `${DeploymentCenterConstants.onedriveApiUri}/${siteName}`
                     });
 
                     rawFolders.value.forEach(item => {
@@ -55,13 +55,13 @@ export class ConfigureOnedriveComponent implements OnDestroy {
                         } else {
                             options.push({
                                 displayLabel: item.name,
-                                value: `https://api.onedrive.com/v1.0/drive/special/approot:/${item.name}`
+                                value: `${DeploymentCenterConstants.onedriveApiUri}/${item.name}`
                             });
                         }
                     });
 
                     this.folderList = options;
-                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://api.onedrive.com/v1.0/drive/special/approot:/${siteName}`;
+                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.onedriveApiUri}/${siteName}`;
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-onedrive-folders', err);

@@ -2,6 +2,7 @@ import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oAuthHelper';
 import { constants } from '../constants';
+import { GUID } from '../utilities';
 const oauthHelper: oAuthHelper = new oAuthHelper('bitbucket');
 export async function getBitbucketTokens(req: any): Promise<any> {
     return await oauthHelper.getToken(req.headers.authorization);
@@ -24,7 +25,7 @@ export function setupBitbucketAuthentication(app: Application) {
     app.get('/auth/bitbucket/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['bitbucket_state_key'] = oauthHelper.newGuid();
+            stateKey = req.session['bitbucket_state_key'] = GUID.newGuid();
         }
         res.redirect(
             `${constants.oauthApis.bitbucketUri}/authorize?client_id=${process.env.BITBUCKET_CLIENT_ID}&redirect_uri=${process.env

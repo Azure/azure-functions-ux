@@ -1,7 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { FormBuilder, Validators } from '@angular/forms';
-import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
+import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-setup-models';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./deployment-center-setup.component.scss'],
     providers: [DeploymentCenterStateManager]
 })
-export class DeploymentCenterSetupComponent implements OnChanges{
+export class DeploymentCenterSetupComponent implements OnChanges {
     @Input() resourceId: string;
 
     constructor(private _wizardService: DeploymentCenterStateManager, private _fb: FormBuilder, translateService: TranslateService) {
@@ -42,7 +42,7 @@ export class DeploymentCenterSetupComponent implements OnChanges{
     }
 
     get showTestStep() {
-        const buildProvider : sourceControlProvider =
+        const buildProvider: sourceControlProvider =
             this._wizardService &&
             this._wizardService.wizardForm &&
             this._wizardService.wizardForm.controls['buildProvider'] &&
@@ -51,7 +51,7 @@ export class DeploymentCenterSetupComponent implements OnChanges{
     }
 
     get showDeployStep() {
-        const buildProvider : sourceControlProvider =
+        const buildProvider: sourceControlProvider =
             this._wizardService &&
             this._wizardService.wizardForm &&
             this._wizardService.wizardForm.controls['buildProvider'] &&
@@ -76,13 +76,13 @@ export class DeploymentCenterSetupComponent implements OnChanges{
     }
 
     get showConfigureStep() {
-        const sourceControlProvider : sourceControlProvider =
+        const sourceControlProvider: sourceControlProvider =
             this._wizardService &&
             this._wizardService.wizardForm &&
             this._wizardService.wizardForm.controls['sourceProvider'] &&
             this._wizardService.wizardForm.controls['sourceProvider'].value;
 
-        const buildProvider : sourceControlProvider =
+        const buildProvider: sourceControlProvider =
             this._wizardService &&
             this._wizardService.wizardForm &&
             this._wizardService.wizardForm.controls['buildProvider'] &&

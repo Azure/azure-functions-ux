@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
-import { Constants, LogCategories } from 'app/shared/models/constants';
+import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Guid } from 'app/shared/Utilities/Guid';
@@ -46,10 +46,10 @@ export class ConfigureGithubComponent implements OnDestroy {
     fetchOrgs() {
         return Observable.zip(
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?orgs=', true, null, {
-                url: 'https://api.github.com/user/orgs'
+                url: `${DeploymentCenterConstants.githubApiUrl}/user/orgs`
             }),
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?user=', true, null, {
-                url: 'https://api.github.com/user'
+                url: `${DeploymentCenterConstants.githubApiUrl}/user`
             }),
             (orgs, user) => ({
                 orgs: orgs.json(),
@@ -100,14 +100,9 @@ export class ConfigureGithubComponent implements OnDestroy {
                         const pageCalls: Observable<Response>[] = [];
                         for (let i = 1; i <= pageCount; i++) {
                             pageCalls.push(
-                                this._cacheService.post(
-                                    Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`,
-                                    true,
-                                    null,
-                                    {
-                                        url: `${org}/repos?per_page=100&page=${i}`
-                                    }
-                                )
+                                this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
+                                    url: `${org}/repos?per_page=100&page=${i}`
+                                })
                             );
                         }
                         return Observable.forkJoin(pageCalls);
@@ -147,7 +142,7 @@ export class ConfigureGithubComponent implements OnDestroy {
             this.BranchList = [];
             this._cacheService
                 .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
-                    url: `https://api.github.com/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`
+                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`
                 })
                 .subscribe(
                     r => {
@@ -170,7 +165,7 @@ export class ConfigureGithubComponent implements OnDestroy {
     }
 
     RepoChanged(repo: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://github.com/${this.repoUrlToNameMap[repo]}`;
+        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.githubUri}/${this.repoUrlToNameMap[repo]}`;
         this.reposStream.next(repo);
     }
 

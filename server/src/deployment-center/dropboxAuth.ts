@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oAuthHelper';
+import { GUID } from '../utilities';
 
 const oauthHelper: oAuthHelper = new oAuthHelper('dropbox');
 export async function getDropboxTokens(req: any): Promise<any> {
@@ -30,7 +31,7 @@ export function setupDropboxAuthentication(app: Application) {
     app.get('/auth/dropbox/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['dropbox_state_key'] = oauthHelper.newGuid();
+            stateKey = req.session['dropbox_state_key'] = GUID.newGuid();
         }
 
         res.redirect(

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 
 @Component({
     selector: 'app-step-configure',

@@ -2791,4 +2791,28 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="experimentalLanguageSupport" xml:space="preserve">
     <value>Experimental Language Support:</value>
   </data>
+  <data name="sourceProvider" xml:space="preserve">
+    <value>Source Provider</value>
+  </data>
+  <data name="onedriveDesc" xml:space="preserve">
+    <value>Sync content from a OneDrive cloud folder.</value>
+  </data>
+  <data name="githubDesc" xml:space="preserve">
+    <value>Configure continuous integration with a Github repo.</value>
+  </data>
+  <data name="vstsDesc" xml:space="preserve">
+    <value>Configure continuous integration with a VSTS repo.</value>
+  </data>
+  <data name="externalDesc" xml:space="preserve">
+    <value>Deploy from a public Git or Mercurial repo.</value>
+  </data>
+  <data name="bitbucketDesc" xml:space="preserve">
+    <value>Configure continuous integration with a Bitbucket repo.</value>
+  </data>
+  <data name="localGitDesc" xml:space="preserve">
+    <value>Deploy from a local Git repo.</value>
+  </data>
+  <data name="dropboxDesc" xml:space="preserve">
+    <value>Configure continuous integration with a Dropbox folder</value>
+  </data>
 </root>

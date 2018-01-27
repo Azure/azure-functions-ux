@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
@@ -12,6 +12,9 @@ import { Site } from 'app/shared/models/arm/site';
 import { PublishingCredentials } from 'app/shared/models/publishing-credentials';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
+import { summaryItem } from 'app/site/deployment-center/Models/summary-item';
+import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-setup-models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-step-complete',
@@ -32,7 +35,8 @@ export class StepCompleteComponent implements OnInit {
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _broadcastService: BroadcastService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _translateService: TranslateService
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
@@ -64,18 +68,6 @@ export class StepCompleteComponent implements OnInit {
         return `https://${publishingUsername}@${scmUri}:443/${siteName}.git`;
     }
 
-    get summaryItems() {
-        let sumItems = this.wizard.summaryItems;
-        if (
-            this.wizard.wizardForm.controls &&
-            this.wizard.wizardForm.controls.sourceProvider &&
-            this.wizard.wizardForm.controls.sourceProvider.value === 'localgit'
-        ) {
-            sumItems.push({ name: 'Repository', value: this.LocalGitCloneUri });
-            sumItems.push({ name: 'Branch', value: 'master' });
-        }
-        return sumItems;
-    }
     Save() {
         this._busyManager.setBusy();
         let payload = this.wizard.wizardForm.controls.sourceSettings.value;
@@ -105,5 +97,53 @@ export class StepCompleteComponent implements OnInit {
                 }
             );
     }
-    ngOnInit() { }
+
+    public get summaryItems(): summaryItem[] {
+        let summaryItems: summaryItem[] = [];
+        let sourceProvider: sourceControlProvider =
+            this.wizard.wizardForm.controls && this.wizard.wizardForm.controls.sourceProvider && this.wizard.wizardForm.controls.sourceProvider.value;
+
+        summaryItems.push({
+            name: this._translateService.instant('sourceProvider'),
+            value: sourceProvider
+        });
+
+        summaryItems.push({
+            name: this._translateService.instant('buildProvider'),
+            value: 'Kudu'
+        });
+
+        if (sourceProvider === 'github' || sourceProvider === 'bitbucket' || sourceProvider === 'vsts' || sourceProvider === 'external') {
+            summaryItems.push({
+                name: this._translateService.instant('repository'),
+                value: this.wizard.wizardForm.controls.sourceSettings.value.repoUrl
+            });
+            summaryItems.push({
+                name: this._translateService.instant('branch'),
+                value: this.wizard.wizardForm.controls.sourceSettings.value.branch
+            });
+        } else if (sourceProvider === 'onedrive' || sourceProvider === 'dropbox') {
+            const FolderUrl: string = this.wizard.wizardForm.controls.sourceSettings.value.repoUrl;
+            const folderUrlPieces = FolderUrl.split('/');
+            const folderName = folderUrlPieces[folderUrlPieces.length - 1];
+            summaryItems.push({
+                name: 'Folder',
+                value: folderName
+            });
+        } else if (sourceProvider === 'localgit') {
+            summaryItems.push({ name: this._translateService.instant('repository'), value: this.LocalGitCloneUri });
+            summaryItems.push({ name: this._translateService.instant('branch'), value: 'master' });
+        }
+
+        if (sourceProvider === 'external') {
+            const isMercurial = this.wizard.wizardForm.controls.sourceSettings.value.isMercurial;
+            summaryItems.push({
+                name: this._translateService.instant('repoType'),
+                value: isMercurial ? 'Mercurial' : 'Git'
+            });
+        }
+
+        return summaryItems;
+    }
+    ngOnInit() {}
 }

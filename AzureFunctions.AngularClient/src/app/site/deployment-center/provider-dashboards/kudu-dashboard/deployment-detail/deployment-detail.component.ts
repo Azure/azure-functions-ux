@@ -6,7 +6,7 @@ import { CacheService } from '../../../../../shared/services/cache.service';
 import { BusyStateComponent } from '../../../../../busy-state/busy-state.component';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Rx';
-import { Deployment } from '../../../Models/deploymentData';
+import { Deployment } from '../../../Models/deployment-data';
 import { ArmArrayResult, ArmObj } from '../../../../../shared/models/arm/arm-obj';
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import * as moment from 'moment';
@@ -36,7 +36,7 @@ export class DeploymentDetailComponent implements OnChanges {
     @Input() deploymentObject: ArmObj<Deployment>;
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
     @Output() closePanel = new EventEmitter();
-    public viewInfoStream= new Subject<ArmObj<Deployment>>();
+    public viewInfoStream = new Subject<ArmObj<Deployment>>();
     private _deploymentLogFetcher = new Subject<DeploymentDetailTableItem>();
 
     private _tableItems: DeploymentDetailTableItem[];
@@ -50,14 +50,11 @@ export class DeploymentDetailComponent implements OnChanges {
     ) {
         this._tableItems = [];
         this.logsToShow = null;
-        this._deploymentLogFetcher
-            .takeUntil(this._ngUnsubscribe)
-            .switchMap(item =>  this._cacheService.getArm(item.id))
-            .subscribe(r => {
-                const obs: ArmObj<any>[] = r.json().value;
-                const message = obs.map(x => x.properties.message as string).join('\n');
-                this.logsToShow = message;
-            });
+        this._deploymentLogFetcher.takeUntil(this._ngUnsubscribe).switchMap(item => this._cacheService.getArm(item.id)).subscribe(r => {
+            const obs: ArmObj<any>[] = r.json().value;
+            const message = obs.map(x => x.properties.message as string).join('\n');
+            this.logsToShow = message;
+        });
 
         this.viewInfoStream
             .takeUntil(this._ngUnsubscribe)
@@ -106,7 +103,7 @@ export class DeploymentDetailComponent implements OnChanges {
 
     showLogs(item: DeploymentDetailTableItem) {
         this.logsToShow = this._translateService.instant(PortalResources.resourceSelect);
-       this._deploymentLogFetcher.next(item);
+        this._deploymentLogFetcher.next(item);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

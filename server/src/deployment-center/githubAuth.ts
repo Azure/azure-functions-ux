@@ -2,6 +2,7 @@ import { Application } from 'express';
 import axios from 'axios';
 import { oAuthHelper } from './oAuthHelper';
 import { constants } from '../constants';
+import { GUID } from '../utilities';
 const oauthHelper: oAuthHelper = new oAuthHelper('github');
 export async function getGithubTokens(req: any): Promise<any> {
     return await oauthHelper.getToken(req.headers.authorization);
@@ -25,7 +26,7 @@ export function setupGithubAuthentication(app: Application) {
     app.get('/auth/github/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['github_state_key'] = oauthHelper.newGuid();
+            stateKey = req.session['github_state_key'] = GUID.newGuid();
         }
         res.redirect(
             `${constants.oauthApis.githubApiUri}/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env

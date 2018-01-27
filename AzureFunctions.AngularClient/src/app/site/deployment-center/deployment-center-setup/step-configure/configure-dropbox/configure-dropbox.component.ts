@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
-import { Constants, LogCategories } from 'app/shared/models/constants';
+import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class ConfigureDropboxComponent {
         this.folderList = [];
         return this._cacheService
             .post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
-                url: 'https://api.dropboxapi.com/2/files/list_folder',
+                url: `${DeploymentCenterConstants.dropboxApiUrl}/files/list_folder`,
                 arg: {
                     path: ''
                 },
@@ -50,7 +50,7 @@ export class ConfigureDropboxComponent {
 
                     options.push({
                         displayLabel: siteName,
-                        value: `https://www.dropbox.com/home/Apps/Azure/${siteName}`
+                        value: `${DeploymentCenterConstants.dropboxUri}/${siteName}`
                     });
 
                     rawFolders.entries.forEach(item => {
@@ -58,13 +58,13 @@ export class ConfigureDropboxComponent {
                         } else {
                             options.push({
                                 displayLabel: item.name,
-                                value: `https://www.dropbox.com/home/Apps/Azure/${item.name}`
+                                value: `${DeploymentCenterConstants.dropboxUri}/${item.name}`
                             });
                         }
                     });
 
                     this.folderList = options;
-                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `https://www.dropbox.com/home/Apps/Azure/${siteName}`;
+                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.dropboxUri}/${siteName}`;
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-dropbox-folders', err);

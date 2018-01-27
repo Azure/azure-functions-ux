@@ -5,7 +5,7 @@ import { AuthzService } from '../../../../shared/services/authz.service';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Observable, Subject } from 'rxjs/Rx';
-import { Deployment, DeploymentData } from '../../Models/deploymentData';
+import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';

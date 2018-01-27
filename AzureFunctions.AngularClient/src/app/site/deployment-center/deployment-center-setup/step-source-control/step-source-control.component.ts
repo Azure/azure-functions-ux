@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-setup-models';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/WizardLogic/deployment-center-state-manager';
+import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-setup-models';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { ArmService } from 'app/shared/services/arm.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
@@ -9,6 +9,7 @@ import { Constants, LogCategories } from 'app/shared/models/constants';
 import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface ProviderCard {
     id: sourceControlProvider;
@@ -34,7 +35,7 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/onedrive.svg',
             color: '#0A4BB3',
             barColor: '#D7E2F2',
-            description: 'Sync content from a OneDrive cloud folder.',
+            description: this._translateService.instant('onedriveDesc'),
             authorizedStatus: 'none'
         },
         {
@@ -43,7 +44,7 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/github.svg',
             color: '#68217A',
             barColor: '#c473d9',
-            description: 'Configure continuous integration with a Github repo.',
+            description: this._translateService.instant('githubDesc'),
             authorizedStatus: 'none'
         },
         {
@@ -52,7 +53,7 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/vsts.svg',
             color: '#0071bc',
             barColor: '#5ebeff',
-            description: 'Configure continuous integration with a VSTS repo.',
+            description: this._translateService.instant('vstsDesc'),
             authorizedStatus: 'none'
         },
         {
@@ -61,7 +62,7 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/External.svg',
             color: '#7FBA00',
             barColor: '#cbff5d',
-            description: 'Deploy from a public Git or Mercurial repo.',
+            description: this._translateService.instant('externalDesc'),
             authorizedStatus: 'none'
         },
         {
@@ -79,7 +80,7 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/Dropbox.svg',
             color: '#007EE5',
             barColor: '#72bfff',
-            description: 'Configure continuous integration with a Bitbucket repo.',
+            description: this._translateService.instant('dropboxDesc'),
             authorizedStatus: 'none'
         },
         {
@@ -88,7 +89,7 @@ export class StepSourceControlComponent {
             icon: 'image/deployment-center/LocalGit.svg',
             color: '#ba141a',
             barColor: '#f0757a',
-            description: 'Deploy from a local Git repo.',
+            description: this._translateService.instant('localGitDesc'),
             authorizedStatus: 'none'
         }
         // {
@@ -124,6 +125,7 @@ export class StepSourceControlComponent {
         private _wizardService: DeploymentCenterStateManager,
         private _cacheService: CacheService,
         private _logService: LogService,
+        private _translateService: TranslateService,
         _portalService: PortalService,
         _armService: ArmService,
         _aiService: AiService

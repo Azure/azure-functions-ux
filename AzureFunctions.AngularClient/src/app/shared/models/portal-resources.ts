@@ -889,4 +889,12 @@
     public static deploy: string = "deploy";
     public static summary: string = "summary";
     public static experimentalLanguageSupport: string = "experimentalLanguageSupport";
+    public static sourceProvider: string = "sourceProvider";
+    public static onedriveDesc: string = "onedriveDesc";
+    public static githubDesc: string = "githubDesc";
+    public static vstsDesc: string = "vstsDesc";
+    public static externalDesc: string = "externalDesc";
+    public static bitbucketDesc: string = "bitbucketDesc";
+    public static localGitDesc: string = "localGitDesc";
+    public static dropboxDesc: string = "dropboxDesc";
 }
