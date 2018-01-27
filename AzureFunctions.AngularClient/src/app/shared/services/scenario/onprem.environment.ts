@@ -14,6 +14,12 @@ export class OnPremEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.openOldWebhostingPlanBlade] = {
+            id: ScenarioIds.openOldWebhostingPlanBlade,
+            runCheck: () => {
+                return { status: 'enabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

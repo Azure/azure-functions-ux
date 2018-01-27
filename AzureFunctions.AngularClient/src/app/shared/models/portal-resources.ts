@@ -897,4 +897,8 @@
     public static bitbucketDesc: string = "bitbucketDesc";
     public static localGitDesc: string = "localGitDesc";
     public static dropboxDesc: string = "dropboxDesc";
+    public static temp_category_durableFunctions: string = "temp_category_durableFunctions";
+    public static DurableFunctionsActivity_description: string = "DurableFunctionsActivity_description";
+    public static DurableFunctionsOrchestrator_description: string = "DurableFunctionsOrchestrator_description";
+    public static DurableFunctionsHttpStart_description: string = "DurableFunctionsHttpStart_description";
 }

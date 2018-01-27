@@ -89,8 +89,8 @@ export class Templates {
                                 'display': 'Create'
                             },
                             {
-                                'value': 'Destroy',
-                                'display': 'Destroy'
+                                'value': 'Delete',
+                                'display': 'Delete'
                             },
                             {
                                 'value': 'Update',

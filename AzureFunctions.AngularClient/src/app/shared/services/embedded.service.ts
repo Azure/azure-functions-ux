@@ -1,3 +1,6 @@
+import { ArmEmbeddedService } from './arm-embedded.service';
+import { FunctionInfo } from 'app/shared/models/function-info';
+import { FunctionAppContext } from 'app/shared/function-app-context';
 import { StartupInfo } from 'app/shared/models/portal';
 import { ArmService } from 'app/shared/services/arm.service';
 import { errorIds } from 'app/shared/models/error-ids';
@@ -19,6 +22,46 @@ export class EmbeddedService {
         private _cacheService: CacheService,
         private _armService: ArmService) { }
 
+    createFunction(context: FunctionAppContext, functionName: string, files: any, config: any): Observable<FunctionAppHttpResult<FunctionInfo>> {
+        const filesCopy = Object.assign({}, files);
+        const sampleData = filesCopy['sample.dat'];
+        delete filesCopy['sample.dat'];
+
+        return this._userService.getStartupInfo()
+        .first()
+        .switchMap(info => {
+            const headers = this._getHeaders(info);
+            const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
+            const url = context.urlTemplates.getFunctionUrl(functionName);
+            return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo);
+        })
+        .do(() => {
+            const smallerSiteId = context.site.id.split('/').filter(part => !!part).slice(0, 4).join('/');
+            const functionsUrl = `${ArmEmbeddedService.url}/${smallerSiteId}/functions`;
+            this._cacheService.clearCachePrefix(functionsUrl);
+        })
+        .map((r: FunctionInfo) => {
+            const result: FunctionAppHttpResult<FunctionInfo> = {
+                isSuccessful: true,
+                error: null,
+                result: r
+            };
+            return result;
+        })
+        .catch(e => {
+            const result: FunctionAppHttpResult<FunctionInfo> = {
+                isSuccessful: false,
+                error: {
+                    errorId: errorIds.embeddedCreateError,
+                    message: 'Failed to create function'
+                },
+                result: null
+            };
+
+            return Observable.of(result);
+        });
+    }
+
     deleteFunction(resourceId: string): Observable<FunctionAppHttpResult<void>> {
         return this._userService.getStartupInfo()
             .first()
@@ -39,7 +82,7 @@ export class EmbeddedService {
                 const result: FunctionAppHttpResult<void> = {
                     isSuccessful: false,
                     error: {
-                        errorId: errorIds.embeddedEditorDeleteError,
+                        errorId: errorIds.embeddedDeleteError,
                         message: 'Failed to delete function'
                     },
                     result: null
