@@ -47,7 +47,11 @@ app
         cookieSession({
             //This session cookie will live as long as the session and be used for authentication/security purposes
             name: 'session',
-            keys: [process.env.SALT]
+            keys: [process.env.SALT],
+            cookie: {
+                httpOnly: true,
+                secure: true
+            }
         })
     );
 
