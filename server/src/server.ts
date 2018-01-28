@@ -1,4 +1,4 @@
-import * as configLoader from './keyvaultConfig';
+import * as configLoader from './keyvault-config';
 import * as https from 'https';
 import * as fs from 'fs';
 import * as bodyParser from 'body-parser';

@@ -1,6 +1,6 @@
 import { Application } from 'express';
 import axios from 'axios';
-import { oAuthHelper } from './oAuthHelper';
+import { oAuthHelper } from './oauth-helper';
 import { constants } from '../constants';
 import { GUID } from '../utilities';
 import { LogHelper } from '../logHelper';

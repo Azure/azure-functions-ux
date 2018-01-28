@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { Application } from 'express';
-import { setupGithubAuthentication } from './githubAuth';
-import { setupBitbucketAuthentication } from './bitbucketAuth';
-import { setupOnedriveAuthentication } from './onedriveAuth';
-import { setupDropboxAuthentication } from './dropboxAuth';
+import { setupGithubAuthentication } from './github-auth';
+import { setupBitbucketAuthentication } from './bitbucket-auth';
+import { setupOnedriveAuthentication } from './onedrive-auth';
+import { setupDropboxAuthentication } from './dropbox-auth';
 import { staticConfig } from '../config';
 import { constants } from '../constants';
 import { LogHelper } from '../logHelper';
