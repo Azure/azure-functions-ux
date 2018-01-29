@@ -156,6 +156,11 @@ export class LinuxConstants {
                             displayVersion: "1.1",
                             runtimeVersion: "1.1",
                             isDefault: false,
+                        },
+                        {
+                            displayVersion: "2.0",
+                            runtimeVersion: "2.0",
+                            isDefault: false,
                         }
                     ]
                 }
