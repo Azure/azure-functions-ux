@@ -4,9 +4,9 @@ head
         window.appsvc = !{JSON.stringify(config)}
     style
         include iframe-loading.css
-    if !isAzure
+    if !config.isAzure
         include ../local/head.pug
-    else if !!isAzure && isOnPrem
+    else if !!config.isAzure && isOnPrem
         include ../onprem/head.pug
     else
         include ../azure/head.pug

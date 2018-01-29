@@ -22,7 +22,6 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { ErrorableComponent } from 'app/shared/components/errorable-component';
 
-
 @Component({
     selector: 'create-app',
     templateUrl: './create-app.component.html',
@@ -47,42 +46,38 @@ export class CreateAppComponent extends ErrorableComponent implements OnInit, On
         _fb: FormBuilder,
         private _aiService: AiService,
         userService: UserService,
-        injector: Injector) {
+        injector: Injector
+    ) {
         super('create-app', broadcastService);
 
-        userService.getStartupInfo()
-            .first()
-            .subscribe(info => {
-                const subs = info.subscriptions;
-                let defaultSubId: string;
-                subs.forEach(sub => {
-                    if (sub.state === 'Enabled') {
-                        this.subscriptionOptions.push({
-                            displayLabel: `${sub.displayName}(${sub.subscriptionId})`,
-                            value: sub.subscriptionId
-                        });
-                        if (!defaultSubId) {
-                            defaultSubId = sub.subscriptionId;
-                        }
+        userService.getStartupInfo().first().subscribe(info => {
+            const subs = info.subscriptions;
+            let defaultSubId: string;
+            subs.forEach(sub => {
+                if (sub.state === 'Enabled') {
+                    this.subscriptionOptions.push({
+                        displayLabel: `${sub.displayName}(${sub.subscriptionId})`,
+                        value: sub.subscriptionId
+                    });
+                    if (!defaultSubId) {
+                        defaultSubId = sub.subscriptionId;
                     }
-                });
-                const sub = subs.find(s => s.state === 'Enabled');
-                if (!sub) {
-                    return;
                 }
-
-                const required = new RequiredValidator(this._translateService);
-                const siteNameValidator = new SiteNameValidator(injector, sub.subscriptionId);
-
-                this.group = _fb.group({
-                    name: [
-                        null,
-                        required.validate.bind(required),
-                        siteNameValidator.validate.bind(siteNameValidator)],
-                    subscription: defaultSubId,
-                    runtimeImage: RuntimeImage.v2
-                });
             });
+            const sub = subs.find(s => s.state === 'Enabled');
+            if (!sub) {
+                return;
+            }
+
+            const required = new RequiredValidator(this._translateService);
+            const siteNameValidator = new SiteNameValidator(injector, sub.subscriptionId);
+
+            this.group = _fb.group({
+                name: [null, required.validate.bind(required), siteNameValidator.validate.bind(siteNameValidator)],
+                subscription: defaultSubId,
+                runtimeImage: RuntimeImage.v2
+            });
+        });
 
         this.runtimeImageOptions.push({
             displayLabel: this._translateService.instant(PortalResources.runtimeImagev1),
@@ -101,19 +96,19 @@ export class CreateAppComponent extends ErrorableComponent implements OnInit, On
         */
 
         this.viewInfoStream = new Subject<TreeViewInfo<any>>();
-        this.viewInfoStream
-            .subscribe(viewInfo => {
-                this._viewInfo = viewInfo;
-            });
-
+        this.viewInfoStream.subscribe(viewInfo => {
+            this._viewInfo = viewInfo;
+        });
     }
 
-    @Input() set viewInfoInput(viewInfo: TreeViewInfo<any>) {
+    @Input()
+    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
         this.viewInfoStream.next(viewInfo);
     }
 
     ngOnInit() {
-        this._broadcastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+        this._broadcastService
+            .getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
             .filter(info => {
                 return info.dashboardType === DashboardType.createApp;
             })
@@ -136,7 +131,8 @@ export class CreateAppComponent extends ErrorableComponent implements OnInit, On
             return;
         }
 
-        const id = `/subscriptions/${this.group.controls['subscription'].value}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
+        const id = `/subscriptions/${this.group.controls['subscription']
+            .value}/resourceGroups/StandaloneResourceGroup/providers/Microsoft.Web/sites/${name}`;
 
         const body = {
             properties: {
@@ -152,13 +148,14 @@ export class CreateAppComponent extends ErrorableComponent implements OnInit, On
         };
 
         this._globalStateService.setBusyState();
-        this._cacheService.putArm(id, null, body)
-            .subscribe(r => {
+        this._cacheService.putArm(id, null, body).subscribe(
+            r => {
                 this._globalStateService.clearBusyState();
                 const siteObj: ArmObj<Site> = r.json();
                 const appsNode: AppsNode = <AppsNode>this._viewInfo.node;
                 appsNode.addChild(siteObj);
-            }, error => {
+            },
+            error => {
                 this._globalStateService.clearBusyState();
 
                 this.showComponentError({
@@ -169,6 +166,7 @@ export class CreateAppComponent extends ErrorableComponent implements OnInit, On
                 });
 
                 this._aiService.trackEvent(errorIds.failedToCreateApp, { error: error, id: id });
-            });
+            }
+        );
     }
 }

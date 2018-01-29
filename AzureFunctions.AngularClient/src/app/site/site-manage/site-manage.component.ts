@@ -15,7 +15,14 @@ import { PortalResources } from './../../shared/models/portal-resources';
 import { CacheService } from './../../shared/services/cache.service';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { AiService } from './../../shared/services/ai.service';
-import { DisableInfo, TabFeature, FeatureItem, BladeFeature, DisableableBladeFeature, DisableableFeature } from './../../feature-group/feature-item';
+import {
+    DisableInfo,
+    TabFeature,
+    FeatureItem,
+    BladeFeature,
+    DisableableBladeFeature,
+    DisableableFeature
+} from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
 import { AuthzService } from '../../shared/services/authz.service';
 import { PortalService } from '../../shared/services/portal.service';
@@ -24,13 +31,13 @@ import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { FunctionAppContextComponent } from '../../shared/components/function-app-context-component';
 import { FunctionAppService } from '../../shared/services/function-app.service';
+import { Url } from 'app/shared/Utilities/url';
 
 @Component({
     selector: 'site-manage',
     templateUrl: './site-manage.component.html',
-    styleUrls: ['./site-manage.component.scss'],
+    styleUrls: ['./site-manage.component.scss']
 })
-
 export class SiteManageComponent extends FunctionAppContextComponent implements OnDestroy {
     public groups1: FeatureGroup[];
     public groups2: FeatureGroup[];
@@ -46,7 +53,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
 
     private _busyManager: BusyStateScopeManager;
 
-    @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
+    @Input()
+    set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this._viewInfoStream.next(viewInfo);
     }
 
@@ -58,11 +66,11 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
         private _translateService: TranslateService,
         private _scenarioService: ScenarioService,
         broadcastService: BroadcastService,
-        functionAppService: FunctionAppService) {
+        functionAppService: FunctionAppService
+    ) {
         super('site-manage', functionAppService, broadcastService);
 
         this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
-
     }
 
     setup(): Subscription {
@@ -97,7 +105,6 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
             })
             .retry()
             .subscribe(r => {
-
                 this._aiService.stopTrace('/timings/site/tab/features/full-ready', this.viewInfo.data.siteTabFullReadyTraceKey);
                 let siteWriteDisabledMessage = '';
 
@@ -154,28 +161,48 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
 
     //Bug 10307095:[RTM] [BugBash] Use Environment Switcher to properly enable and disable feature in OnPrem
     private _isOnprem(): boolean {
-        return window.appsvc.env.runtimeType === "OnPrem";
+        return window.appsvc.env.runtimeType === 'OnPrem';
     }
 
     private _initCol1Groups(site: ArmObj<Site>) {
-        let codeDeployFeatures = [
-            new DisableableBladeFeature(
+        let deploymentFeature: FeatureItem = new DisableableBladeFeature(
+            this._translateService.instant(PortalResources.feature_deploymentSourceName),
+            this._translateService.instant(PortalResources.continuousDeployment) +
+                ' ' +
+                this._translateService.instant(PortalResources.source) +
+                ' ' +
+                this._translateService.instant(PortalResources.options) +
+                '  github bitbucket dropbox onedrive vsts vso',
+            this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
+            'image/deployment-source.svg',
+            {
+                detailBlade: 'ContinuousDeploymentListBlade',
+                detailBladeInputs: {
+                    id: this._descriptor.resourceId,
+                    ResourceId: this._descriptor.resourceId
+                }
+            },
+            this._portalService,
+            this._hasSiteWritePermissionStream
+        );
+        const showDeploymentCenter = Url.getParameterByName(null, 'appsvc.deploymentcenter');
+        if (showDeploymentCenter) {
+            deploymentFeature = new TabFeature(
                 this._translateService.instant(PortalResources.feature_deploymentSourceName),
                 this._translateService.instant(PortalResources.continuousDeployment) +
-                ' ' + this._translateService.instant(PortalResources.source) +
-                ' ' + this._translateService.instant(PortalResources.options) +
-                '  github bitbucket dropbox onedrive vsts vso',
+                    ' ' +
+                    this._translateService.instant(PortalResources.source) +
+                    ' ' +
+                    this._translateService.instant(PortalResources.options) +
+                    '  github bitbucket dropbox onedrive vsts vso',
                 this._translateService.instant(PortalResources.feature_deploymentSourceInfo),
                 'image/deployment-source.svg',
-                {
-                    detailBlade: 'ContinuousDeploymentListBlade',
-                    detailBladeInputs: {
-                        id: this._descriptor.resourceId,
-                        ResourceId: this._descriptor.resourceId
-                    }
-                },
-                this._portalService,
-                this._hasSiteWritePermissionStream),
+                SiteTabIds.continuousDeployment,
+                this._broadcastService
+            );
+        }
+        let codeDeployFeatures = [
+            deploymentFeature,
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_deploymentCredsName),
@@ -188,7 +215,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                         WebsiteId: this._descriptor.getWebsiteId()
                     }
                 },
-                this._portalService)
+                this._portalService
+            )
         ];
 
         const developmentToolFeatures = [
@@ -198,24 +226,26 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 this._translateService.instant(PortalResources.feature_logicAppsInfo),
                 'image/logicapp.svg',
                 SiteTabIds.logicApps,
-                this._broadcastService),
-
+                this._broadcastService
+            ),
 
             this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_consoleName),
-                    this._translateService.instant(PortalResources.feature_consoleName) +
-                    ' ' + this._translateService.instant(PortalResources.debug),
-                    this._translateService.instant(PortalResources.feature_consoleInfo),
-                    'image/console.svg',
-                    {
-                        detailBlade: 'ConsoleBlade',
-                        detailBladeInputs: {
-                            resourceUri: site.id
-                        }
-                    },
-                    this._portalService,
-                    this._hasSiteWritePermissionStream)
+                      this._translateService.instant(PortalResources.feature_consoleName),
+                      this._translateService.instant(PortalResources.feature_consoleName) +
+                          ' ' +
+                          this._translateService.instant(PortalResources.debug),
+                      this._translateService.instant(PortalResources.feature_consoleInfo),
+                      'image/console.svg',
+                      {
+                          detailBlade: 'ConsoleBlade',
+                          detailBladeInputs: {
+                              resourceUri: site.id
+                          }
+                      },
+                      this._portalService,
+                      this._hasSiteWritePermissionStream
+                  )
                 : null,
 
             this._scenarioService.checkScenario(ScenarioIds.addSsh, { site: site }).status === 'enabled'
@@ -243,7 +273,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableExtensions, { site: site })),
+                this._scenarioService.checkScenario(ScenarioIds.enableExtensions, { site: site })
+            )
         ];
 
         const generalFeatures: FeatureItem[] = [
@@ -253,7 +284,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 this._translateService.instant(PortalResources.feature_functionSettingsInfo),
                 'image/functions.svg',
                 SiteTabIds.functionRuntime,
-                this._broadcastService),
+                this._broadcastService
+            ),
 
             new TabFeature(
                 this._translateService.instant(PortalResources.tab_applicationSettings),
@@ -261,7 +293,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 this._translateService.instant(PortalResources.feature_applicationSettingsInfo),
                 'image/application-settings.svg',
                 SiteTabIds.applicationSettings,
-                this._broadcastService),
+                this._broadcastService
+            ),
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_propertiesName),
@@ -271,10 +304,11 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 {
                     detailBlade: 'PropertySheetBlade',
                     detailBladeInputs: {
-                        resourceId: this._descriptor.resourceId,
+                        resourceId: this._descriptor.resourceId
                     }
                 },
-                this._portalService),
+                this._portalService
+            ),
 
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_backupsName),
@@ -289,22 +323,26 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableBackups, { site: site })),
+                this._scenarioService.checkScenario(ScenarioIds.enableBackups, { site: site })
+            ),
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_allSettingsName),
                 this._translateService.instant(PortalResources.feature_allSettingsName) +
-                ' ' + this._translateService.instant(PortalResources.supportRequest) +
-                ' ' + this._translateService.instant(PortalResources.scale),
+                    ' ' +
+                    this._translateService.instant(PortalResources.supportRequest) +
+                    ' ' +
+                    this._translateService.instant(PortalResources.scale),
                 this._translateService.instant(PortalResources.feature_allSettingsInfo),
                 'image/webapp.svg',
                 {
-                    detailBlade: this._isOnprem() ? "WebsiteBlade" : "AppsOverviewBlade",
+                    detailBlade: this._isOnprem() ? 'WebsiteBlade' : 'AppsOverviewBlade',
                     detailBladeInputs: {
                         id: site.id
                     }
                 },
-                this._portalService)
+                this._portalService
+            )
         ];
 
         // Instead of setting null in Features array, We are removing it here to minimize merge conflict
@@ -318,18 +356,19 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
             new FeatureGroup(this._translateService.instant(PortalResources.feature_codeDeployment), codeDeployFeatures),
             new FeatureGroup(
                 this._translateService.instant(PortalResources.feature_developmentTools),
-                developmentToolFeatures.filter(f => !!f))
+                developmentToolFeatures.filter(f => !!f)
+            )
         ];
     }
 
     private _initCol2Groups(site: ArmObj<Site>) {
-
         const networkFeatures = [
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_networkingName),
                 this._translateService.instant(PortalResources.feature_networkingName) +
-                ' ' + this._translateService.instant(PortalResources.hybridConnections) +
-                ' vnet',
+                    ' ' +
+                    this._translateService.instant(PortalResources.hybridConnections) +
+                    ' vnet',
                 this._translateService.instant(PortalResources.feature_networkingInfo),
                 'image/networking.svg',
                 {
@@ -340,7 +379,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })),
+                this._scenarioService.checkScenario(ScenarioIds.enableNetworking, { site: site })
+            ),
 
             new DisableableBladeFeature(
                 'SSL',
@@ -352,7 +392,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                     detailBladeInputs: { resourceUri: site.id }
                 },
                 this._portalService,
-                this._hasSiteWritePermissionStream),
+                this._hasSiteWritePermissionStream
+            ),
 
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_customDomainsName),
@@ -367,13 +408,15 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                     }
                 },
                 this._portalService,
-                this._hasSiteWritePermissionStream),
+                this._hasSiteWritePermissionStream
+            ),
 
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_authName),
                 this._translateService.instant(PortalResources.authentication) +
-                ' ' + this._translateService.instant(PortalResources.authorization) +
-                ' aad google facebook microsoft',
+                    ' ' +
+                    this._translateService.instant(PortalResources.authorization) +
+                    ' aad google facebook microsoft',
                 this._translateService.instant(PortalResources.feature_authInfo),
                 'image/authentication.svg',
                 {
@@ -382,39 +425,42 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableAuth, { site: site })),
+                this._scenarioService.checkScenario(ScenarioIds.enableAuth, { site: site })
+            ),
 
             this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_msiName),
-                    this._translateService.instant(PortalResources.feature_msiName) +
-                    this._translateService.instant(PortalResources.authentication) +
-                    'MSI',
-                    this._translateService.instant(PortalResources.feature_msiInfo),
-                    'image/toolbox.svg',
-                    {
-                        detailBlade: 'MSIBlade',
-                        detailBladeInputs: { resourceUri: site.id }
-                    },
-                    this._portalService,
-                    null,
-                    this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site }))
+                      this._translateService.instant(PortalResources.feature_msiName),
+                      this._translateService.instant(PortalResources.feature_msiName) +
+                          this._translateService.instant(PortalResources.authentication) +
+                          'MSI',
+                      this._translateService.instant(PortalResources.feature_msiInfo),
+                      'image/toolbox.svg',
+                      {
+                          detailBlade: 'MSIBlade',
+                          detailBladeInputs: { resourceUri: site.id }
+                      },
+                      this._portalService,
+                      null,
+                      this._scenarioService.checkScenario(ScenarioIds.enableMsi, { site: site })
+                  )
                 : null,
 
             this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_pushNotificationsName),
-                    this._translateService.instant(PortalResources.feature_pushNotificationsName),
-                    this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
-                    'image/push.svg',
-                    {
-                        detailBlade: 'PushRegistrationBlade',
-                        detailBladeInputs: { resourceUri: this._descriptor.resourceId }
-                    },
-                    this._portalService,
-                    this._hasSiteWritePermissionStream,
-                    this._scenarioService.checkScenario(ScenarioIds.enablePushNotifications, { site: site }))
-                : null,
+                      this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                      this._translateService.instant(PortalResources.feature_pushNotificationsName),
+                      this._translateService.instant(PortalResources.feature_pushNotificationsInfo),
+                      'image/push.svg',
+                      {
+                          detailBlade: 'PushRegistrationBlade',
+                          detailBladeInputs: { resourceUri: this._descriptor.resourceId }
+                      },
+                      this._portalService,
+                      this._hasSiteWritePermissionStream,
+                      this._scenarioService.checkScenario(ScenarioIds.enablePushNotifications, { site: site })
+                  )
+                : null
         ];
 
         const monitoringFeatures = [
@@ -427,7 +473,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                     detailBlade: 'WebsiteLogsBlade',
                     detailBladeInputs: { WebsiteId: this._descriptor.getWebsiteId() }
                 },
-                this._portalService),
+                this._portalService
+            ),
 
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_logStreamingName),
@@ -440,7 +487,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableLogStream, { site: site })),
+                this._scenarioService.checkScenario(ScenarioIds.enableLogStream, { site: site })
+            ),
 
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.feature_processExplorerName),
@@ -453,7 +501,8 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                 },
                 this._portalService,
                 this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site }))
+                this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site })
+            )
         ];
 
         // Instead of setting null in Features array, We are removing it here to minimize merge conflict
@@ -465,12 +514,9 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
         }
 
         this.groups2 = [
-            new FeatureGroup(
-                this._translateService.instant(PortalResources.feature_networkingName),
-                networkFeatures.filter(f => !!f)),
-            new FeatureGroup(
-                this._translateService.instant(PortalResources.feature_monitoring),
-                monitoringFeatures.filter(f => !!f))];
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_networkingName), networkFeatures.filter(f => !!f)),
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_monitoring), monitoringFeatures.filter(f => !!f))
+        ];
     }
 
     private _initCol3Groups(site: ArmObj<Site>) {
@@ -493,14 +539,16 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                     detailBlade: 'ApiCors',
                     detailBladeInputs: { resourceUri: site.id }
                 },
-                this._portalService)
+                this._portalService
+            )
         ];
 
         const appServicePlanFeatures = [
             new DisableableBladeFeature(
                 this._translateService.instant(PortalResources.appServicePlan),
                 this._translateService.instant(PortalResources.appServicePlan) +
-                ' ' + this._translateService.instant(PortalResources.scale),
+                    ' ' +
+                    this._translateService.instant(PortalResources.scale),
                 this._translateService.instant(PortalResources.feature_appServicePlanInfo),
                 'image/app-service-plan.svg',
                 {
@@ -510,38 +558,41 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                     detailBladeInputs: { id: site.properties.serverFarmId }
                 },
                 this._portalService,
-                this._hasPlanReadPermissionStream),
+                this._hasPlanReadPermissionStream
+            ),
 
             this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_quotasName),
-                    this._translateService.instant(PortalResources.feature_quotasName),
-                    this._translateService.instant(PortalResources.feature_quotasInfo),
-                    'image/quotas.svg',
-                    {
-                        detailBlade: 'QuotasBlade',
-                        detailBladeInputs: {
-                            resourceUri: site.id
-                        }
-                    },
-                    this._portalService,
-                    this._hasPlanReadPermissionStream)
+                      this._translateService.instant(PortalResources.feature_quotasName),
+                      this._translateService.instant(PortalResources.feature_quotasName),
+                      this._translateService.instant(PortalResources.feature_quotasInfo),
+                      'image/quotas.svg',
+                      {
+                          detailBlade: 'QuotasBlade',
+                          detailBladeInputs: {
+                              resourceUri: site.id
+                          }
+                      },
+                      this._portalService,
+                      this._hasPlanReadPermissionStream
+                  )
                 : null,
 
             this._scenarioService.checkScenario(ScenarioIds.addSiteFileStorage, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
-                    this._translateService.instant(PortalResources.feature_quotasName),
-                    this._translateService.instant(PortalResources.feature_quotasName),
-                    this._translateService.instant(PortalResources.feature_quotasInfo),
-                    'image/quotas.svg',
-                    {
-                        detailBlade: 'FileSystemStorage',
-                        detailBladeInputs: {
-                            resourceUri: site.properties.serverFarmId
-                        }
-                    },
-                    this._portalService,
-                    this._hasPlanReadPermissionStream)
+                      this._translateService.instant(PortalResources.feature_quotasName),
+                      this._translateService.instant(PortalResources.feature_quotasName),
+                      this._translateService.instant(PortalResources.feature_quotasInfo),
+                      'image/quotas.svg',
+                      {
+                          detailBlade: 'FileSystemStorage',
+                          detailBladeInputs: {
+                              resourceUri: site.properties.serverFarmId
+                          }
+                      },
+                      this._portalService,
+                      this._hasPlanReadPermissionStream
+                  )
                 : null
         ];
 
@@ -549,8 +600,10 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_activityLogName),
                 this._translateService.instant(PortalResources.feature_activityLogName) +
-                ' ' + this._translateService.instant(PortalResources.feature_activityLogName) +
-                ' ' + this._translateService.instant(PortalResources.events),
+                    ' ' +
+                    this._translateService.instant(PortalResources.feature_activityLogName) +
+                    ' ' +
+                    this._translateService.instant(PortalResources.events),
                 this._translateService.instant(PortalResources.feature_activityLogInfo),
                 'image/activity-log.svg',
                 {
@@ -607,29 +660,33 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
                     },
                     extension: 'HubsExtension'
                 },
-                this._portalService),
+                this._portalService
+            ),
 
             // new NotImplementedFeature('Clone app', 'clone app', 'Info'),  // TODO: [ehamai] - Need to implent
 
             new BladeFeature(
                 this._translateService.instant(PortalResources.feature_automationScriptName),
                 this._translateService.instant(PortalResources.feature_automationScriptName) +
-                ' ' + this._translateService.instant(PortalResources.template) +
-                ' arm',
+                    ' ' +
+                    this._translateService.instant(PortalResources.template) +
+                    ' arm',
                 this._translateService.instant(PortalResources.feature_automationScriptInfo),
                 'image/automation-script.svg',
                 {
                     detailBlade: 'TemplateViewerBlade',
                     detailBladeInputs: {
                         options: {
-                            resourceGroup: `/subscriptions/${this._descriptor.subscription}/resourcegroups/${this._descriptor.resourceGroup}`,
+                            resourceGroup: `/subscriptions/${this._descriptor.subscription}/resourcegroups/${this._descriptor
+                                .resourceGroup}`,
                             telemetryId: 'Microsoft.Web/sites'
                         },
                         stepOutput: null
                     },
                     extension: 'HubsExtension'
                 },
-                this._portalService),
+                this._portalService
+            )
 
             // new NotImplementedFeature(  // TODO: [ehamai] - Need to implement
             //     'New support request',
@@ -644,26 +701,21 @@ export class SiteManageComponent extends FunctionAppContextComponent implements 
         }
         this.groups3 = [
             new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
-            new FeatureGroup(
-                this._translateService.instant(PortalResources.appServicePlan),
-                appServicePlanFeatures.filter(f => !!f)),
-            new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)];
+            new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures.filter(f => !!f)),
+            new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures)
+        ];
     }
 }
 
 export class OpenSshFeature extends DisableableFeature {
-    constructor(
-        private _site: ArmObj<Site>,
-        disableInfoStream: Subject<DisableInfo>,
-        _translateService: TranslateService) {
-
+    constructor(private _site: ArmObj<Site>, disableInfoStream: Subject<DisableInfo>, _translateService: TranslateService) {
         super(
             _translateService.instant(PortalResources.feature_sshName),
-            _translateService.instant(PortalResources.feature_sshName)
-            + _translateService.instant(PortalResources.feature_consoleName),
+            _translateService.instant(PortalResources.feature_sshName) + _translateService.instant(PortalResources.feature_consoleName),
             _translateService.instant(PortalResources.feature_sshInfo),
             'image/console.svg',
-            disableInfoStream);
+            disableInfoStream
+        );
     }
 
     click() {
@@ -673,17 +725,14 @@ export class OpenSshFeature extends DisableableFeature {
 }
 
 export class OpenKuduFeature extends DisableableFeature {
-    constructor(
-        private _site: ArmObj<Site>,
-        disableInfoStream: Subject<DisableInfo>,
-        _translateService: TranslateService) {
-
+    constructor(private _site: ArmObj<Site>, disableInfoStream: Subject<DisableInfo>, _translateService: TranslateService) {
         super(
             _translateService.instant(PortalResources.feature_advancedToolsName),
             _translateService.instant(PortalResources.feature_advancedToolsName) + ' kudu',
             _translateService.instant(PortalResources.feature_advancedToolsInfo),
             'image/advanced-tools.svg',
-            disableInfoStream);
+            disableInfoStream
+        );
     }
 
     click() {
@@ -697,14 +746,16 @@ export class OpenEditorFeature extends DisableableFeature {
         private _site: ArmObj<Site>,
         disabledInfoStream: Subject<DisableInfo>,
         _translateService: TranslateService,
-        scenarioService: ScenarioService) {
-
+        scenarioService: ScenarioService
+    ) {
         super(
             _translateService.instant(PortalResources.feature_appServiceEditorName),
             _translateService.instant(PortalResources.feature_appServiceEditorName),
             _translateService.instant(PortalResources.feature_appServiceEditorInfo),
             'image/appsvc-editor.svg',
-            disabledInfoStream, scenarioService.checkScenario(ScenarioIds.enableAppServiceEditor, { site: _site }));
+            disabledInfoStream,
+            scenarioService.checkScenario(ScenarioIds.enableAppServiceEditor, { site: _site })
+        );
     }
 
     click() {
@@ -719,7 +770,8 @@ export class OpenResourceExplorer extends FeatureItem {
             _translateService.instant(PortalResources.feature_resourceExplorerName),
             _translateService.instant(PortalResources.feature_resourceExplorerName),
             _translateService.instant(PortalResources.feature_resourceExplorerInfo),
-            'image/resource-explorer.svg');
+            'image/resource-explorer.svg'
+        );
     }
 
     click() {
@@ -728,11 +780,7 @@ export class OpenResourceExplorer extends FeatureItem {
 }
 
 export class NotImplementedFeature extends FeatureItem {
-    constructor(
-        title: string,
-        keywords: string,
-        info: string) {
-
+    constructor(title: string, keywords: string, info: string) {
         super(title, keywords, info);
     }
 

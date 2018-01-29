@@ -1,43 +1,65 @@
+import * as configLoader from './keyvault-config';
 import * as https from 'https';
 import * as fs from 'fs';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as path from 'path';
 import * as logger from 'morgan';
-import * as passport from 'passport';
-import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
+import * as compression from 'compression';
 
 import './polyfills';
-import { getTenants, switchTenant, getToken } from './actions/user-account';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
 import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, getTemplates } from './actions/metadata';
-import { setupAuthentication, authenticate, maybeAuthenticate } from './authentication';
 import { staticConfig } from './config';
+import { setupDeploymentCenter } from './deployment-center/deployment-center';
 import { triggerFunctionAPIM } from './actions/apim';
+const cookieSession = require('cookie-session');
+const appInsights = require('applicationinsights');
+if (process.env.aiInstrumentationKey) {
+    appInsights
+        .setup(process.env.aiInstrumentationKey)
+        .setAutoDependencyCorrelation(true)
+        .setAutoCollectRequests(true)
+        .setAutoCollectPerformance(true)
+        .setAutoCollectExceptions(true)
+        .setAutoCollectDependencies(true)
+        .setAutoCollectConsole(true)
+        .setUseDiskRetryCaching(true)
+        .start();
+}
 
 const app = express();
-
+//Load config before anything else
+configLoader.config();
 app
+    .use(compression())
     .use(express.static(path.join(__dirname, 'public')))
-    .use(logger('dev'))
+    .use(logger('combined'))
     .set('view engine', 'pug')
     .set('views', 'src/views')
-    .use(session({ secret: 'keyboard cat' }))
     .use(bodyParser.json())
-    .use(cookieParser())
     .use(bodyParser.urlencoded({ extended: true }))
-    .use(passport.initialize())
-    .use(passport.session());
+    .use(cookieParser())
+    .use(
+        cookieSession({
+            //This session cookie will live as long as the session and be used for authentication/security purposes
+            name: 'session',
+            keys: [process.env.SALT],
+            cookie: {
+                httpOnly: true,
+                secure: true
+            }
+        })
+    );
 
-setupAuthentication(app);
-
-const renderIndex = (_: express.Request, res: express.Response) => {
+const renderIndex = (req: express.Request, res: express.Response) => {
+    staticConfig.config.clientOptimzationsOff = req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
     res.render('index', staticConfig);
 };
-app.get('/', maybeAuthenticate, renderIndex);
+app.get('/', renderIndex);
 
 app.get('/api/ping', (_, res) => {
     res.send('success');
@@ -47,28 +69,21 @@ app.get('/api/health', (_, res) => {
     res.send('healthy');
 });
 
-app.get('/api/switchtenants/:tenantId', authenticate, switchTenant);
+app.get('/api/templates', getTemplates);
+app.get('/api/bindingconfig', getBindingConfig);
 
-app.get('/api/templates', maybeAuthenticate, getTemplates);
-app.get('/api/bindingconfig', maybeAuthenticate, getBindingConfig);
+app.get('/api/resources', getResources);
+app.get('/api/latestruntime', getRuntimeVersion);
+app.get('/api/latestrouting', getRoutingVersion);
+app.get('/api/config', getConfig);
+app.post('/api/proxy', proxy);
+app.post('/api/passthrough', proxy);
+app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 
-app.get('/api/tenants', authenticate, getTenants);
-app.post('/api/tenants/switch/:tenantId', authenticate, switchTenant);
-app.get('/api/token', authenticate, getToken);
-
-app.get('/api/resources', maybeAuthenticate, getResources);
-app.get('/api/latestruntime', maybeAuthenticate, getRuntimeVersion);
-app.get('/api/latestrouting', maybeAuthenticate, getRoutingVersion);
-app.get('/api/config', maybeAuthenticate, getConfig);
-app.post('/api/proxy', maybeAuthenticate, proxy);
-app.post('/api/passthrough', maybeAuthenticate, proxy);
-app.post('/api/triggerFunctionAPIM', maybeAuthenticate, triggerFunctionAPIM);
-
+setupDeploymentCenter(app);
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.
 app.get('*', renderIndex);
-
-
 if (process.env.FUNCTIONS_SLOT_NAME) {
     function normalizePort(val: any) {
         var port = parseInt(val, 10);
