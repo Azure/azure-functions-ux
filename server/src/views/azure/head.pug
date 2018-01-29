@@ -2,7 +2,7 @@
 - const production = process.env['FUNCTIONS_SLOT_NAME'] === 'production';
 
 head
-    if clientOptimzationsOff || !production
+    if config.clientOptimzationsOff || !production
         base(href="/ng-full/")
     else
         base(href="/ng-min/")
