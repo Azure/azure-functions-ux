@@ -1,5 +1,5 @@
 import { ArmError, HttpError } from './models/http-result';
-import { Preconditions as p } from './preconditions/preconditions';
+import { Preconditions as p } from './preconditions';
 import { Observable } from 'rxjs/Observable';
 import { HttpResult, HttpErrorResponse } from 'app/shared/models/http-result';
 import { Injector } from '@angular/core';
