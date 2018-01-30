@@ -1,7 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { DeploymentShellComponent } from './deployment-shell.component';
 import { RouterModule } from '@angular/router';
-import { SiteConfigComponent } from 'app/site/site-config/site-config.component';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,4 +15,4 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
     declarations: [],
     providers: []
 })
-export class AppSettingsShellModule {}
+export class DeploymentShellModule {}
