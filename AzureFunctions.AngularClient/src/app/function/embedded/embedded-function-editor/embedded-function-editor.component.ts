@@ -1,7 +1,7 @@
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
 import { ErrorEvent } from 'app/shared/models/error-event';
-import { FunctionAppHttpResult } from './../../../shared/models/function-app-http-result';
+import { HttpResult } from './../../../shared/models/http-result';
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
@@ -82,7 +82,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
       });
   }
 
-  private _getScriptContent(resourceId: string): Observable<FunctionAppHttpResult<string>> {
+  private _getScriptContent(resourceId: string): Observable<HttpResult<string>> {
     this._busyManager.setBusy();
     this.resourceId = resourceId;
 
@@ -98,7 +98,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
         return this._cacheService.getArm(this._functionInfo.script_href, true);
       })
       .map(r => {
-        return <FunctionAppHttpResult<string>>{
+        return <HttpResult<string>>{
           isSuccessful: true,
           error: null,
           result: r.text()
@@ -106,7 +106,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
       })
       .catch(e => {
         const descriptor = new CdsFunctionDescriptor(this.resourceId);
-        return Observable.of(<FunctionAppHttpResult<string>>{
+        return Observable.of(<HttpResult<string>>{
           isSuccessful: false,
           error: {
             errorId: errorIds.embeddedEditorLoadError,

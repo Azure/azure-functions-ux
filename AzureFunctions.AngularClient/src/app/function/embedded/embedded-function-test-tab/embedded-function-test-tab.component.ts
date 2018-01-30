@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ErrorEvent } from 'app/shared/models/error-event';
 import { errorIds } from 'app/shared/models/error-ids';
 import { Observable } from 'rxjs/Observable';
-import { FunctionAppHttpResult } from './../../../shared/models/function-app-http-result';
+import { HttpResult } from './../../../shared/models/http-result';
 import { BottomTabEvent } from './../../../controls/bottom-tabs/bottom-tab-event';
 import { FunctionEditorEvent } from './../function-editor-event';
 import { RightTabEvent } from './../../../controls/right-tabs/right-tab-event';
@@ -93,7 +93,7 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
   private _getFunction(resourceId: string) {
     return this._cacheService.getArm(resourceId, true)
       .map(r => {
-        return <FunctionAppHttpResult<FunctionInfo>>{
+        return <HttpResult<FunctionInfo>>{
           isSuccessful: true,
           error: null,
           result: r.json()
@@ -101,7 +101,7 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
       })
       .catch(e => {
         const descriptor = new CdsFunctionDescriptor(resourceId);
-        return Observable.of(<FunctionAppHttpResult<FunctionInfo>>{
+        return Observable.of(<HttpResult<FunctionInfo>>{
           isSuccessful: false,
           error: {
             errorId: errorIds.embeddedEditorLoadError,

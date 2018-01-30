@@ -62,6 +62,7 @@ import { TableRootComponent } from './../controls/table-root/table-root.componen
 import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filter.pipe';
 import { ActivateWithKeysDirective } from './../controls/activate-with-keys/activate-with-keys.directive';
 import { EmbeddedService } from 'app/shared/services/embedded.service';
+import { SiteService } from 'app/shared/services/site.service';
 
 export function ArmServiceFactory(
     http: Http,
@@ -198,6 +199,7 @@ export class SharedModule {
                 BackgroundTasksService,
                 GlobalStateService,
                 EmbeddedService,
+                SiteService,
                 { provide: AiService, useFactory: AiServiceFactory },
                 { provide: ErrorHandler, useClass: GlobalErrorHandler }
             ]
