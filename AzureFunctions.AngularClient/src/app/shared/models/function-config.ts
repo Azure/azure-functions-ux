@@ -19,4 +19,5 @@ export interface FunctionBinding {
     authLevel: string;
     route: string;
     methods: string[];
+    message: string;
 }
