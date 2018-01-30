@@ -23,10 +23,10 @@ export function setupDeploymentCenter(app: Application) {
             const dropboxObject = providers.find(x => x.name.toLowerCase() === 'dropbox');
             const githubObject = providers.find(x => x.name.toLowerCase() === 'github');
             res.send({
-                github: githubObject && githubObject.properties && githubObject.properties.token,
-                onedrive: oneDriveObject && oneDriveObject.properties && oneDriveObject.properties.token,
-                bitbucket: bitbucketObject && bitbucketObject.properties && bitbucketObject.properties.token,
-                dropbox: dropboxObject && dropboxObject.properties && dropboxObject.properties.token
+                github: !!githubObject && !!githubObject.properties && !!githubObject.properties.token,
+                onedrive: !!oneDriveObject && !!oneDriveObject.properties && !!oneDriveObject.properties.token,
+                bitbucket: !!bitbucketObject && !!bitbucketObject.properties && !!bitbucketObject.properties.token,
+                dropbox: !!dropboxObject && !!dropboxObject.properties && !!dropboxObject.properties.token
             });
         } catch (err) {
             LogHelper.error('SourceControlAuthenticationState', err);
