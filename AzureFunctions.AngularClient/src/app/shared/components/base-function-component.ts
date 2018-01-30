@@ -7,14 +7,14 @@ import { FunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-result';
+import { HttpResult } from 'app/shared/models/http-result';
 import { NavigableComponent } from './navigable-component';
 
 type FunctionChangedEventsType = Observable<TreeViewInfo<SiteData> & {
     siteDescriptor: ArmSiteDescriptor;
     functionDescriptor: FunctionDescriptor;
     context: FunctionAppContext;
-    functionInfo: FunctionAppHttpResult<FunctionInfo>;
+    functionInfo: HttpResult<FunctionInfo>;
 }>;
 
 export abstract class BaseFunctionComponent extends NavigableComponent {

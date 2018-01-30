@@ -6,7 +6,7 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { errorIds } from 'app/shared/models/error-ids';
 import { Entity } from './../../function/embedded/models/entity';
 import { ArmArrayResult } from './../models/arm/arm-obj';
-import { FunctionAppHttpResult } from './../models/function-app-http-result';
+import { HttpResult } from './../models/http-result';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Injectable } from '@angular/core';
@@ -22,7 +22,7 @@ export class EmbeddedService {
         private _cacheService: CacheService,
         private _armService: ArmService) { }
 
-    createFunction(context: FunctionAppContext, functionName: string, files: any, config: any): Observable<FunctionAppHttpResult<FunctionInfo>> {
+    createFunction(context: FunctionAppContext, functionName: string, files: any, config: any): Observable<HttpResult<FunctionInfo>> {
         const filesCopy = Object.assign({}, files);
         const sampleData = filesCopy['sample.dat'];
         delete filesCopy['sample.dat'];
@@ -41,7 +41,7 @@ export class EmbeddedService {
             this._cacheService.clearCachePrefix(functionsUrl);
         })
         .map((r: FunctionInfo) => {
-            const result: FunctionAppHttpResult<FunctionInfo> = {
+            const result: HttpResult<FunctionInfo> = {
                 isSuccessful: true,
                 error: null,
                 result: r
@@ -49,7 +49,7 @@ export class EmbeddedService {
             return result;
         })
         .catch(e => {
-            const result: FunctionAppHttpResult<FunctionInfo> = {
+            const result: HttpResult<FunctionInfo> = {
                 isSuccessful: false,
                 error: {
                     errorId: errorIds.embeddedCreateError,
@@ -62,7 +62,7 @@ export class EmbeddedService {
         });
     }
 
-    deleteFunction(resourceId: string): Observable<FunctionAppHttpResult<void>> {
+    deleteFunction(resourceId: string): Observable<HttpResult<void>> {
         return this._userService.getStartupInfo()
             .first()
             .switchMap(info => {
@@ -71,7 +71,7 @@ export class EmbeddedService {
                 return this._cacheService.delete(url, headers);
             })
             .map(r => {
-                const result: FunctionAppHttpResult<void> = {
+                const result: HttpResult<void> = {
                     isSuccessful: true,
                     error: null,
                     result: null
@@ -79,7 +79,7 @@ export class EmbeddedService {
                 return result;
             })
             .catch(e => {
-                const result: FunctionAppHttpResult<void> = {
+                const result: HttpResult<void> = {
                     isSuccessful: false,
                     error: {
                         errorId: errorIds.embeddedDeleteError,
@@ -92,7 +92,7 @@ export class EmbeddedService {
             });
     }
 
-    getEntities(): Observable<FunctionAppHttpResult<ArmArrayResult<Entity>>> {
+    getEntities(): Observable<HttpResult<ArmArrayResult<Entity>>> {
         return this._userService
             .getStartupInfo()
             .first()
@@ -102,7 +102,7 @@ export class EmbeddedService {
                 return this._cacheService.get(url, false, headers);
             })
             .map((r: Response) => {
-                const result: FunctionAppHttpResult<ArmArrayResult<Entity>> = {
+                const result: HttpResult<ArmArrayResult<Entity>> = {
                     isSuccessful: true,
                     error: null,
                     result: r.json()
@@ -110,7 +110,7 @@ export class EmbeddedService {
                 return result;
             })
             .catch(e => {
-                const result: FunctionAppHttpResult<ArmArrayResult<Entity>> = {
+                const result: HttpResult<ArmArrayResult<Entity>> = {
                     isSuccessful: false,
                     error: {
                         errorId: errorIds.embeddedGetEntities,

@@ -1,15 +1,13 @@
-import { FunctionAppContext } from './function-app-context';
+import { ArmError, HttpError } from './models/http-result';
 import { Preconditions as p } from './preconditions';
-import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
-import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-result';
-import { LogService } from './services/log.service';
-import 'rxjs/add/observable/forkJoin';
+import { HttpResult, HttpErrorResponse } from 'app/shared/models/http-result';
+import { Injector } from '@angular/core';
+import { errorIds } from 'app/shared/models/error-ids';
 
 type AuthenticatedQuery<T> = (t: AuthToken) => Observable<T>;
 type Query<T> = Observable<T> | AuthenticatedQuery<T>;
 type AuthToken = string;
-type ErrorId = string;
 type Milliseconds = number;
 interface ExecuteOptions {
     retryCount: number;
@@ -21,32 +19,38 @@ export class ConditionalHttpClient {
     private readonly preconditionsMap: p.PreconditionMap = {} as p.PreconditionMap;
     private readonly conditions: p.HttpPreconditions[];
 
-    constructor(cacheService: CacheService, logService: LogService, private getToken: (context: FunctionAppContext) => Observable<string>, ...defaultConditions: p.HttpPreconditions[]) {
+    constructor(injector: Injector, private getToken: (resourceId: string) => Observable<string>, ...defaultConditions: p.HttpPreconditions[]) {
 
         this.conditions = defaultConditions;
 
-        this.preconditionsMap['NoClientCertificate'] = new p.NoClientCertificatePrecondition(cacheService, logService);
-        this.preconditionsMap['NotOverQuota'] = new p.NotOverQuotaPrecondition(cacheService, logService);
-        this.preconditionsMap['NotStopped'] = new p.NotStoppedPrecondition(cacheService, logService);
-        this.preconditionsMap['ReachableLoadballancer'] = new p.ReachableLoadballancerPrecondition(cacheService, logService);
-        this.preconditionsMap['RuntimeAvailable'] = new p.RuntimeAvailablePrecondition(cacheService, logService, getToken);
+        this.preconditionsMap['NoClientCertificate'] = new p.NoClientCertificatePrecondition(injector);
+        this.preconditionsMap['NotOverQuota'] = new p.NotOverQuotaPrecondition(injector);
+        this.preconditionsMap['NotStopped'] = new p.NotStoppedPrecondition(injector);
+        this.preconditionsMap['ReachableLoadballancer'] = new p.ReachableLoadballancerPrecondition(injector);
+        this.preconditionsMap['RuntimeAvailable'] = new p.RuntimeAvailablePrecondition(injector, getToken);
     }
 
-    execute<T>(context: FunctionAppContext, query: Query<T>, executeOptions?: ExecuteOptions) {
-        return this.executeWithConditions(this.conditions, context, query, executeOptions);
+    execute<T>(input: p.PreconditionInput, query: Query<T>, executeOptions?: ExecuteOptions) {
+        return this.executeWithConditions(this.conditions, input, query, executeOptions);
     }
 
-    executeWithConditions<T>(preconditions: p.HttpPreconditions[], context: FunctionAppContext, query: Query<T>, executeOptions?: ExecuteOptions): Observable<FunctionAppHttpResult<T>> {
+    executeWithConditions<T>(
+        preconditions: p.HttpPreconditions[],
+        input: p.PreconditionInput,
+        query: Query<T>,
+        executeOptions?: ExecuteOptions): Observable<HttpResult<T>> {
+
         const errorMapper = (error: p.PreconditionResult) => Observable.of({
             isSuccessful: false,
             error: {
-                errorId: error.errorId
+                errorId: error.errorId,
+                result: error
             },
             result: null
         });
 
         const observableQuery = typeof query === 'function'
-            ? this.getToken(context).take(1).concatMap(t => query(t))
+            ? this.getToken(input.resourceId).take(1).concatMap(t => query(t))
             : query;
 
         const successMapper = () => observableQuery
@@ -55,20 +59,65 @@ export class ConditionalHttpClient {
                 error: null,
                 result: r
             }))
-            .catch((e: ErrorId) => Observable.of({
-                isSuccessful: false,
-                error: {
-                    errorId: e
-                },
-                result: null
-            }));
+            .catch((e: any) => {
 
-        return preconditions.length > 0
-            ? Observable.forkJoin(preconditions
-                .map(i => this.preconditionsMap[i])
-                .map(i => context ? i.check(context) : Observable.of({ conditionMet: true, errorId: null })))
+                return Observable.of({
+                    isSuccessful: false,
+                    error: this._getErrorObj(e),
+                    result: null
+                });
+            });
+
+        if (preconditions.length > 0) {
+            const checkPreconditions = Observable.forkJoin(
+                preconditions
+                    .map(i => this.preconditionsMap[i])
+                    .map(i => input ? i.check(input) : Observable.of({ conditionMet: true, errorId: null })));
+
+            return checkPreconditions
                 .map(preconditionResults => preconditionResults.find(r => !r.conditionMet))
-                .concatMap(maybeError => maybeError ? errorMapper(maybeError) : successMapper())
-            : successMapper();
+                .concatMap(failedPreconditionResult =>
+                    failedPreconditionResult
+                        ? errorMapper(failedPreconditionResult)
+                        : successMapper());
+        } else {
+            return successMapper();
+        }
+    }
+
+    // We have no idea what kind of observable will be failing, so we make a best
+    // effort to come up with some kind of useful error.
+    private _getErrorObj(e: any) {
+        let mesg: string;
+        let errorId = '/errors/unknown-error';
+
+        if (typeof e === 'string') {
+            mesg = e;
+        } else {
+            const httpError = e as HttpErrorResponse<ArmError>;
+            let body: ArmError;
+            if (httpError.json) {
+                body = httpError.json();
+                if (body && body.error) {
+                    mesg = body.error.message;
+
+                    if (httpError.status === 401) {
+                        errorId = errorIds.armErrors.noAccess;
+                    } else if (httpError.status === 409 && body.error.code === 'ScopeLocked') {
+                        errorId = errorIds.armErrors.scopeLocked;
+                    }
+                }
+            }
+
+            if (!mesg && httpError.statusText && httpError.url) {
+                mesg = `${httpError.statusText} - ${httpError.url}`;
+            }
+        }
+
+        return <HttpError> {
+            errorId: errorId,
+            message: mesg,
+            result: e
+        };
     }
 }

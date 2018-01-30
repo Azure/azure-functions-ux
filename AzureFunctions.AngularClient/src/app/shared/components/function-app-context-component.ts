@@ -3,7 +3,7 @@ import { OnDestroy, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TreeViewInfo } from 'app/tree-view/models/tree-view-info';
 import { FunctionAppContext } from 'app/shared/function-app-context';
-import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-result';
+import { HttpResult } from 'app/shared/models/http-result';
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { ArmSiteDescriptor, ArmFunctionDescriptor, CdsEntityDescriptor } from 'app/shared/resourceDescriptors';
 import { Subject } from 'rxjs/Subject';
@@ -21,7 +21,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
         siteDescriptor: ArmSiteDescriptor | CdsEntityDescriptor | null;
         functionDescriptor: ArmFunctionDescriptor | null;
         context: FunctionAppContext | null;
-        functionInfo: FunctionAppHttpResult<FunctionInfo> | null;
+        functionInfo: HttpResult<FunctionInfo> | null;
     }>;
     protected ngUnsubscribe: Observable<void>;
 
@@ -70,7 +70,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
                 return Observable.zip(
                     tuple[1].functionDescriptor
                         ? functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name)
-                        : Observable.of({ isSuccessful: false, error: { errorId: '' } } as FunctionAppHttpResult<FunctionInfo>),
+                        : Observable.of({ isSuccessful: false, error: { errorId: '' } } as HttpResult<FunctionInfo>),
                     Observable.of(tuple[0]),
                     Observable.of(tuple[1])
                 );
