@@ -1,6 +1,10 @@
 import { CacheService } from 'app/shared/services/cache.service';
-import { Site } from './../../shared/models/arm/site';
-import { ArmObj, ArmObjMap } from './../../shared/models/arm/arm-obj';
+import { Site } from 'app/shared/models/arm/site';
+import { SiteConfig } from 'app/shared/models/arm/site-config';
+import { SlotConfigNames } from 'app/shared/models/arm/slot-config-names';
+import { ApplicationSettings } from 'app/shared/models/arm/application-settings';
+import { ConnectionStrings } from 'app/shared/models/arm/connection-strings';
+import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -24,9 +28,26 @@ import { BroadcastService } from './../../shared/services/broadcast.service';
 import { LogService } from './../../shared/services/log.service';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
-export interface SaveOrValidationResult {
+export interface ArmSaveConfigs {
+    siteConfig?: ArmObj<Site>;
+    slotConfigNames?: ArmObj<SlotConfigNames>;
+    appSettings?: ArmObj<ApplicationSettings>;
+    connectionStrings?: ArmObj<ConnectionStrings>;
+    webConfig?: ArmObj<SiteConfig>;
+}
+
+export interface ArmResult<T> {
     success: boolean;
     error?: string;
+    result?: ArmObj<T>;
+}
+
+export interface ArmSaveResults {
+    siteConfig?: ArmResult<Site>;
+    slotConfigNames?: ArmResult<SlotConfigNames>;
+    applicationSettings?: ArmResult<ApplicationSettings>;
+    connectionStrings?: ArmResult<ConnectionStrings>;
+    webConfig?: ArmResult<SiteConfig>;
 }
 
 @Component({
@@ -168,7 +189,21 @@ export class SiteConfigComponent implements OnDestroy {
 
             this._busyManager.setBusy();
             let notificationId = null;
-            let saveAttempted = false;
+
+            const saveConfigs: ArmSaveConfigs = {};
+
+            this.generalSettings.getSaveConfigs(saveConfigs);
+            this.appSettings.getSaveConfigs(saveConfigs);
+            this.connectionStrings.getSaveConfigs(saveConfigs);
+            if (this.defaultDocumentsSupported) {
+                this.defaultDocuments.getSaveConfigs(saveConfigs);
+            }
+            if (this.handlerMappingsSupported) {
+                this.handlerMappings.getSaveConfigs(saveConfigs);
+            }
+            if (this.virtualDirectoriesSupported) {
+                this.virtualDirectories.getSaveConfigs(saveConfigs);
+            }
 
             this._portalService.startNotification(
                 this._translateService.instant(PortalResources.configUpdating),
@@ -177,86 +212,49 @@ export class SiteConfigComponent implements OnDestroy {
                 .switchMap(s => {
                     notificationId = s.id;
 
-                    // This is a temporary workaround for merging the slotConfigNames config from AppSettingsModule and ConnectionStringsModule.
-                    // Adding a proper solution (for all config APIs) is tracked here: https://github.com/Azure/azure-functions-ux/issues/1856
-                    const asConfig: ArmObjMap = this.appSettings.getConfigForSave();
-                    const csConfig: ArmObjMap = this.connectionStrings.getConfigForSave();
-
-                    if (!asConfig && !csConfig) {
-                        return Observable.of({ slotConfigNamesResult: null, appSettingsArm: null, connectionStringsArm: null });
-                    } else {
-                        const errors = [asConfig, csConfig].filter(c => !!c && !!c.error).map(c => c.error);
-                        if (errors.length > 0) {
-                            return Observable.throw(errors);
-                        } else {
-                            let slotConfigNamesArm: ArmObj<any>;
-                            if (!!asConfig) {
-                                slotConfigNamesArm = JSON.parse(JSON.stringify(asConfig['slotConfigNames']));
-                                if (!!csConfig) {
-                                    slotConfigNamesArm.properties.connectionStringNames =
-                                        JSON.parse(JSON.stringify(csConfig['slotConfigNames'].properties.connectionStringNames));
-                                }
-                            } else {
-                                slotConfigNamesArm = JSON.parse(JSON.stringify(csConfig['slotConfigNames']));
-                            }
-                            return Observable.zip(
-                                this._cacheService.putArm(slotConfigNamesArm.id, null, slotConfigNamesArm),
-                                !!asConfig ? Observable.of(asConfig['appSettings']) : Observable.of(null),
-                                !!csConfig ? Observable.of(csConfig['connectionStrings']) : Observable.of(null),
-                                (sc, a, c) => ({ slotConfigNamesResult: sc, appSettingsArm: a, connectionStringsArm: c })
-                            );
-                        }
-                    }
-                })
-                .mergeMap(r => {
-                    saveAttempted = true;
                     return Observable.zip(
-                        this.generalSettings.save(),
-                        this.appSettings.save(r.appSettingsArm, r.slotConfigNamesResult),
-                        this.connectionStrings.save(r.connectionStringsArm, r.slotConfigNamesResult),
-                        this.defaultDocumentsSupported ? this.defaultDocuments.save() : Observable.of({ success: true }),
-                        this.handlerMappingsSupported ? this.handlerMappings.save() : Observable.of({ success: true }),
-                        this.virtualDirectoriesSupported ? this.virtualDirectories.save() : Observable.of({ success: true }),
-                        (g, a, c, d, h, v) => ({
-                            generalSettingsResult: g,
-                            appSettingsResult: a,
-                            connectionStringsResult: c,
-                            defaultDocumentsResult: d,
-                            handlerMappingsResult: h,
-                            virtualDirectoriesResult: v
+                        this._putArm(saveConfigs.siteConfig),
+                        this._putArm(saveConfigs.slotConfigNames),
+                        this._putArm(saveConfigs.appSettings),
+                        this._putArm(saveConfigs.connectionStrings),
+                        this._putArm(saveConfigs.webConfig),
+                        (sc, scn, as, cs, wc) => ({
+                            siteConfig: sc,
+                            slotConfigNames: scn,
+                            applicationSettings: as,
+                            connectionStrings: cs,
+                            webConfig: wc
                         })
                     );
                 })
-                .do(null, error => {
-                    this.dirtyMessage = null;
-                    this._logService.error(LogCategories.siteConfig, '/site-config', error);
-                    this._busyManager.clearBusy();
-                    if (saveAttempted) {
-                        this._setupForm(true /*retain dirty state*/);
-                        this.mainForm.markAsDirty();
-                    }
-                    this._portalService.stopNotification(
-                        notificationId,
-                        false,
-                        this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error));
-                })
-                .subscribe(r => {
+                .subscribe(results => {
                     this.dirtyMessage = null;
                     this._busyManager.clearBusy();
 
-                    const saveResults: SaveOrValidationResult[] = [
-                        r.generalSettingsResult,
-                        r.appSettingsResult,
-                        r.connectionStringsResult,
-                        r.defaultDocumentsResult,
-                        r.handlerMappingsResult,
-                        r.virtualDirectoriesResult
-                    ];
-                    const saveFailures: string[] = saveResults.filter(res => !res.success).map(res => res.error);
-                    const saveSuccess: boolean = saveFailures.length === 0;
+                    const saveResults: ArmSaveResults = results;
+
+                    this.generalSettings.processSaveResults(saveResults);
+                    this.appSettings.processSaveResults(saveResults);
+                    this.connectionStrings.processSaveResults(saveResults);
+                    if (this.defaultDocumentsSupported) {
+                        this.defaultDocuments.processSaveResults(saveResults);
+                    }
+                    if (this.handlerMappingsSupported) {
+                        this.handlerMappings.processSaveResults(saveResults);
+                    }
+                    if (this.virtualDirectoriesSupported) {
+                        this.virtualDirectories.processSaveResults(saveResults);
+                    }
+
+                    const saveErrors: string[] = Object.keys(saveResults)
+                        .map(k => saveResults[k] as { error?: string })
+                        .filter(r => !!r && !!r.error)
+                        .map(r => r.error);
+
+                    const saveSuccess: boolean = !saveErrors || saveErrors.length === 0;
                     const saveNotification = saveSuccess ?
                         this._translateService.instant(PortalResources.configUpdateSuccess) :
-                        this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
+                        this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveErrors);
 
                     // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
                     // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
@@ -269,6 +267,26 @@ export class SiteConfigComponent implements OnDestroy {
                     this._portalService.stopNotification(notificationId, saveSuccess, saveNotification);
                 });
         }
+    }
+
+    private _putArm<T>(armObj: ArmObj<T>): Observable<ArmResult<T>> {
+        if (!armObj) {
+            return Observable.of(null);
+        }
+
+        return this._cacheService.putArm(armObj.id, null, armObj)
+            .map(res => {
+                return {
+                    success: true,
+                    result: res.json()
+                };
+            })
+            .catch(error => {
+                return Observable.of({
+                    success: false,
+                    error: error._body
+                });
+            });
     }
 
     discard() {

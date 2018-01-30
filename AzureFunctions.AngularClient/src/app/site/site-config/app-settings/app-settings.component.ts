@@ -1,5 +1,4 @@
 import { LogCategories } from './../../../shared/models/constants';
-import { Response } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
@@ -10,12 +9,13 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Site } from './../../../shared/models/arm/site';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
-import { SaveOrValidationResult } from './../site-config.component';
+import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
+import { ArmSaveConfigs, ArmSaveResults } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
+import { ArmObj } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -41,7 +41,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   private _busyManager: BusyStateScopeManager;
 
-  private _saveError: string;
+  private _saveFailed: boolean;
+  private _appSettingsSubmitted: boolean;
+  private _slotConfigNamesSubmitted: boolean;
 
   private _validatorFns: ValidatorFn[];
   private _requiredValidator: RequiredValidator;
@@ -49,7 +51,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   private _linuxAppSettingNameValidator: LinuxAppSettingNameValidator;
   private _isLinux: boolean;
 
-  private _appSettingsArm: ArmObj<any>;
+  private _appSettingsArm: ArmObj<ApplicationSettings>;
   private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
 
   public loadingFailureMessage: string;
@@ -83,7 +85,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       .distinctUntilChanged()
       .switchMap(() => {
         this._busyManager.setBusy();
-        this._saveError = null;
+        this._saveFailed = false;
+        this._appSettingsSubmitted = false;
+        this._slotConfigNamesSubmitted = false;
         this._appSettingsArm = null;
         this._slotConfigNamesArm = null;
         this.groupArray = null;
@@ -171,9 +175,9 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
 
-  private _setupForm(appSettingsArm: ArmObj<any>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
+  private _setupForm(appSettingsArm: ArmObj<ApplicationSettings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
     if (!!appSettingsArm && !!slotConfigNamesArm) {
-      if (!this._saveError || !this.groupArray) {
+      if (!this._saveFailed || !this.groupArray) {
         this.newItem = null;
         this.originalItemsDeleted = 0;
         this.groupArray = this._fb.array([]);
@@ -231,10 +235,12 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
       }
     }
 
-    this._saveError = null;
+    this._saveFailed = false;
+    this._appSettingsSubmitted = false;
+    this._slotConfigNamesSubmitted = false;
   }
 
-  validate(): SaveOrValidationResult {
+  validate() {
     const groups = this.groupArray.controls;
 
     // Purge any added entries that were never modified
@@ -249,11 +255,6 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     }
 
     this._validateAllControls(groups as CustomFormGroup[]);
-
-    return {
-      success: this.groupArray.valid,
-      error: this.groupArray.valid ? null : this._validationFailureMessage()
-    };
   }
 
   private _validateAllControls(groups: CustomFormGroup[]) {
@@ -267,92 +268,96 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     });
   }
 
-  getConfigForSave(): ArmObjMap {
-    // Prevent unnecessary PUT call if these settings haven't been changed
-    if (this.groupArray.pristine) {
-      return null;
-    } else {
-      const configObjects: ArmObjMap = {
-        objects: {}
-      };
+  getSaveConfigs(saveConfigs: ArmSaveConfigs) {
+    this._appSettingsSubmitted = false;
+    this._slotConfigNamesSubmitted = false;
 
-      const appSettingGroups = this.groupArray.controls;
+    if (!this.groupArray.pristine) {
+      const configs = this._getConfigsFromForms(saveConfigs);
 
-      if (this.mainForm.contains('appSettings') && this.mainForm.controls['appSettings'].valid) {
-        const appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
-        appSettingsArm.properties = {};
-
-        this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-        const slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-        slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
-        const appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
-
-        for (let i = 0; i < appSettingGroups.length; i++) {
-          if ((appSettingGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
-            const name = appSettingGroups[i].value.name;
-
-            appSettingsArm.properties[name] = appSettingGroups[i].value.value;
-
-            if (appSettingGroups[i].value.isSlotSetting) {
-              if (appSettingNames.indexOf(name) === -1) {
-                appSettingNames.push(name);
-              }
-            } else {
-              const index = appSettingNames.indexOf(name);
-              if (index !== -1) {
-                appSettingNames.splice(index, 1);
-              }
-            }
-          }
-        }
-
-        configObjects['slotConfigNames'] = slotConfigNamesArm;
-        configObjects['appSettings'] = appSettingsArm;
-      } else {
-        configObjects.error = this._validationFailureMessage();
+      if (configs.appSettings) {
+        saveConfigs.appSettings = configs.appSettings;
+        this._appSettingsSubmitted = true;
       }
 
-      return configObjects;
+      if (configs.slotConfigNames) {
+        saveConfigs.slotConfigNames = configs.slotConfigNames;
+        this._slotConfigNamesSubmitted = true;
+      }
     }
   }
 
-  save(
-    appSettingsArm: ArmObj<any>,
-    slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
+  private _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
+    const appSettingsArm: ArmObj<ApplicationSettings> = (saveConfigs && saveConfigs.appSettings) ?
+      JSON.parse(JSON.stringify(saveConfigs.appSettings)) : // TODO: [andimarc] not valid scenario - should never be already set
+      JSON.parse(JSON.stringify(this._appSettingsArm));
+    appSettingsArm.id = `${this.resourceId}/config/appSettings`;
+    appSettingsArm.properties = {};
 
-    // Don't make unnecessary PUT call if these settings haven't been changed
-    if (this.groupArray.pristine) {
-      return Observable.of({
-        success: true,
-        error: null
-      });
-    } else {
-      return Observable.zip(
-        this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
-        Observable.of(slotConfigNamesResponse),
-        (a, s) => ({ appSettingsResponse: a, slotConfigNamesResponse: s })
-      )
-        .map(r => {
-          this._appSettingsArm = r.appSettingsResponse.json();
-          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
-          return {
-            success: true,
-            error: null
-          };
-        })
-        .catch(error => {
-          this._saveError = error._body;
-          return Observable.of({
-            success: false,
-            error: error._body
-          });
-        });
-    }
+    const slotConfigNamesArm: ArmObj<SlotConfigNames> = (saveConfigs && saveConfigs.slotConfigNames) ?
+      JSON.parse(JSON.stringify(saveConfigs.slotConfigNames)) :
+      JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+    slotConfigNamesArm.id = this._slotConfigNamesArmPath;
+    slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
+
+    const appSettings: ApplicationSettings = appSettingsArm.properties;
+    const appSettingNames: string[] = slotConfigNamesArm.properties.appSettingNames;
+
+    let appSettingsPristine = true;
+    let appSettingNamesPristine = true;
+
+    this.groupArray.controls.forEach(group => {
+      if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+        const controls = (group as CustomFormGroup).controls;
+
+        const name = controls['name'].value;
+
+        appSettings[name] = controls['value'].value;
+
+        if (appSettingsPristine && !group.pristine) {
+          appSettingsPristine = controls['name'].pristine && controls['value'].pristine;
+        }
+
+        if (group.value.isSlotSetting) {
+          if (appSettingNames.indexOf(name) === -1) {
+            appSettingNames.push(name);
+            appSettingNamesPristine = false;
+          }
+        } else {
+          const index = appSettingNames.indexOf(name);
+          if (index !== -1) {
+            appSettingNames.splice(index, 1);
+            appSettingNamesPristine = false;
+          }
+        }
+      }
+      else {
+        appSettingsPristine = false;
+      }
+    });
+
+    return {
+      appSettings: appSettingsPristine ? null : appSettingsArm,
+      slotConfigNames: appSettingNamesPristine ? null : slotConfigNamesArm
+    };
   }
 
-  private _validationFailureMessage(): string {
-    const configGroupName = this._translateService.instant(PortalResources.feature_applicationSettingsName);
-    return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+  processSaveResults(results: ArmSaveResults) {
+    if (results && results.applicationSettings && results.applicationSettings.success && results.applicationSettings.result) {
+      this._appSettingsArm = results.applicationSettings.result;
+    } else if (this._appSettingsSubmitted) {
+      this._appSettingsSubmitted = false;
+      this._saveFailed = true;
+      //TODO: [andimarc] throw exception if (!result || !result.applicationSettings)?
+    }
+
+    if (results && results.slotConfigNames && results.slotConfigNames.success && results.slotConfigNames.result) {
+      this._slotConfigNamesArm = results.slotConfigNames.result;
+    } else if (this._slotConfigNamesSubmitted) {
+      this._slotConfigNamesSubmitted = false;
+      this._saveFailed = true;
+      //TODO: [andimarc] throw exception if (!result || !result.slotConfigNames)?
+    }
   }
 
   deleteItem(group: FormGroup) {
