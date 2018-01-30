@@ -52,7 +52,6 @@ export class EmbeddedService {
             const result: HttpResult<FunctionInfo> = {
                 isSuccessful: false,
                 error: {
-                    preconditionSuccess: true,
                     errorId: errorIds.embeddedCreateError,
                     message: 'Failed to create function'
                 },
@@ -83,7 +82,6 @@ export class EmbeddedService {
                 const result: HttpResult<void> = {
                     isSuccessful: false,
                     error: {
-                        preconditionSuccess: true,
                         errorId: errorIds.embeddedDeleteError,
                         message: 'Failed to delete function'
                     },
@@ -115,7 +113,6 @@ export class EmbeddedService {
                 const result: HttpResult<ArmArrayResult<Entity>> = {
                     isSuccessful: false,
                     error: {
-                        preconditionSuccess: true,
                         errorId: errorIds.embeddedGetEntities,
                         message: 'Failed to get entitites'
                     },

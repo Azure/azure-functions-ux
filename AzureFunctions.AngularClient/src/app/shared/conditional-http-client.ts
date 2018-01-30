@@ -1,8 +1,9 @@
+import { ArmError, HttpError } from './models/http-result';
 import { Preconditions as p } from './preconditions/preconditions';
-import { Preconditions as Arm } from './preconditions/preconditions-arm';
 import { Observable } from 'rxjs/Observable';
-import { HttpResult } from 'app/shared/models/http-result';
+import { HttpResult, HttpErrorResponse } from 'app/shared/models/http-result';
 import { Injector } from '@angular/core';
+import { errorIds } from 'app/shared/models/error-ids';
 
 type AuthenticatedQuery<T> = (t: AuthToken) => Observable<T>;
 type Query<T> = Observable<T> | AuthenticatedQuery<T>;
@@ -27,8 +28,6 @@ export class ConditionalHttpClient {
         this.preconditionsMap['NotStopped'] = new p.NotStoppedPrecondition(injector);
         this.preconditionsMap['ReachableLoadballancer'] = new p.ReachableLoadballancerPrecondition(injector);
         this.preconditionsMap['RuntimeAvailable'] = new p.RuntimeAvailablePrecondition(injector, getToken);
-        this.preconditionsMap['HasPermissions'] = new Arm.HasPermissionsPrecondition(injector);
-        this.preconditionsMap['NoReadonlyLock'] = new Arm.NoReadonlyLockPrecondition(injector);
     }
 
     execute<T>(input: p.PreconditionInput, query: Query<T>, executeOptions?: ExecuteOptions) {
@@ -44,8 +43,8 @@ export class ConditionalHttpClient {
         const errorMapper = (error: p.PreconditionResult) => Observable.of({
             isSuccessful: false,
             error: {
-                preconditionSuccess: false,
-                errorId: error.errorId
+                errorId: error.errorId,
+                result: error
             },
             result: null
         });
@@ -64,13 +63,9 @@ export class ConditionalHttpClient {
 
                 return Observable.of({
                     isSuccessful: false,
-                    error: {
-                        preconditionSuccess: true,
-                        errorId: e,
-                        message: this._getErrorMessage(e)
-                    },
+                    error: this._getErrorObj(e),
                     result: null
-                })
+                });
             });
 
         if (preconditions.length > 0) {
@@ -92,18 +87,37 @@ export class ConditionalHttpClient {
 
     // We have no idea what kind of observable will be failing, so we make a best
     // effort to come up with some kind of useful error.
-    private _getErrorMessage(e: any){
-        let mesg = 'An error occurred';
-        if(typeof e === 'string'){
+    private _getErrorObj(e: any) {
+        let mesg: string;
+        let errorId = '/errors/unknown-error';
+
+        if (typeof e === 'string') {
             mesg = e;
-        } else if(e.statusText){
-            if(e.url){
-                mesg = `${e.statusText} - ${e.url}`;
-            } else{
-                mesg = e.statusText;
+        } else {
+            const httpError = e as HttpErrorResponse<ArmError>;
+            let body: ArmError;
+            if (httpError.json) {
+                body = httpError.json();
+                if (body && body.error) {
+                    mesg = body.error.message;
+
+                    if (httpError.status === 401) {
+                        errorId = errorIds.armErrors.noAccess;
+                    } else if (httpError.status === 409 && body.error.code === 'ScopeLocked') {
+                        errorId = errorIds.armErrors.scopeLocked;
+                    }
+                }
+            }
+
+            if (!mesg && httpError.statusText && httpError.url) {
+                mesg = `${httpError.statusText} - ${httpError.url}`;
             }
         }
 
-        return mesg;
+        return <HttpError> {
+            errorId: errorId,
+            message: mesg,
+            result: e
+        };
     }
 }

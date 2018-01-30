@@ -20,7 +20,6 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { LinuxAppSettingNameValidator } from 'app/shared/validators/linuxAppSettingNameValidator';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
-import { HttpResult } from 'app/shared/models/http-result';
 import { errorIds } from 'app/shared/models/error-ids';
 import { LogCategories } from 'app/shared/models/constants';
 
@@ -99,38 +98,38 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           this._siteService.getAppSettings(this.resourceId),
           this._siteService.getSlotConfigNames(this.resourceId));
       })
-      .subscribe((results: HttpResult<any>[]) => {
+      .subscribe((results: any[]) => {
         const siteResult = results[0];
         const asResult = results[1];
         const slotNamesResult = results[2];
 
         const noWritePermission = !asResult.isSuccessful
-          && asResult.error.errorId === errorIds.preconditionsErrors.noPermission;
+          && asResult.error.errorId === errorIds.armErrors.noAccess;
 
         const hasReadonlyLock = !asResult.isSuccessful
-          && asResult.error.errorId === errorIds.preconditionsErrors.hasReadonlyLock;
+          && asResult.error.errorId === errorIds.armErrors.scopeLocked;
 
         this._setPermissions(!noWritePermission, hasReadonlyLock);
 
-        if(siteResult.isSuccessful){
+        if (siteResult.isSuccessful) {
           const site = siteResult.result;
           this._isLinux = ArmUtil.isLinuxApp(site);
         }
 
-        if(asResult.isSuccessful){
+        if (asResult.isSuccessful) {
           this._appSettingsArm = asResult.result;
         }
 
-        if(slotNamesResult.isSuccessful){
+        if (slotNamesResult.isSuccessful) {
           this._slotConfigNamesArm = slotNamesResult.result;
         }
 
-        if(this._appSettingsArm && this._slotConfigNamesArm){
+        if (this._appSettingsArm && this._slotConfigNamesArm) {
           this._setupForm(this._appSettingsArm, this._slotConfigNamesArm);
         }
 
         const failedRequest = results.find(r => !r.isSuccessful && r.error.preconditionSuccess)
-        if(failedRequest){
+        if (failedRequest) {
           this._logService.error(LogCategories.appSettings, '/app-settings', failedRequest.error.message);
           this._setupForm(null, null);
           this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);

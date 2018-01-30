@@ -7,10 +7,11 @@ export namespace errorIds {
         export const runtimeIsNotAvailable = '/errors/preconditions/runtimeIsNotAvailable';
         export const runtimeHttpNotAvailable = '/errors/preconditions/runtimeHttpNotAvailable';
         export const noFunctionAppContext = '/errors/preconditions/noFunctionAppContext';
-        export const noResourceId = '/errors/preconditions/noResourceId';
-        export const noPermissionToCheck = '/errors/preconditions/noPermissionToCheck';
-        export const noPermission = '/errors/preconditions/noPermission';
-        export const hasReadonlyLock = '/errors/preconditions/hasReadonlyLock';
+    }
+
+    export namespace armErrors {
+        export const noAccess = '/errors/arm/noaccess';
+        export const scopeLocked = '/errors/arm/scopelocked';
     }
 
     export const functionNotFound = '/errors/functionNotFound';

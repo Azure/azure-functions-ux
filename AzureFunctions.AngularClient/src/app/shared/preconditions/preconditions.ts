@@ -18,15 +18,12 @@ export namespace Preconditions {
         | 'ReachableLoadballancer'
         | 'NotOverQuota'
         | 'RuntimeAvailable'
-        | 'NoClientCertificate'
-        | 'HasPermissions'
-        | 'NoReadonlyLock';
+        | 'NoClientCertificate';
 
     export type PreconditionMap = {[key in HttpPreconditions]: HttpPrecondition };
 
     export interface PreconditionInput {
         resourceId: string;
-        permissionsToCheck?: string[];
     }
 
     export interface PreconditionResult {
