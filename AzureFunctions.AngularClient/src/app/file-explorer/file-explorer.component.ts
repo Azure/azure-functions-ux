@@ -15,7 +15,7 @@ import { FunctionAppContextComponent } from 'app/shared/components/function-app-
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { FunctionAppHttpResult } from 'app/shared/models/function-app-http-result';
+import { HttpResult } from 'app/shared/models/http-result';
 
 
 @Component({
@@ -182,7 +182,7 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
         setTimeout(() => element.focus(), 50);
     }
 
-    addFile(content?: string): Observable<FunctionAppHttpResult<VfsObject | string>> {
+    addFile(content?: string): Observable<HttpResult<VfsObject | string>> {
         if (this.newFileName && this.files.find(f => f.name.toLocaleLowerCase() === this.newFileName.toLocaleLowerCase())) {
             const error = {
                 message: this._translateService.instant(PortalResources.fileExplorer_fileAlreadyExists, { fileName: this.newFileName })

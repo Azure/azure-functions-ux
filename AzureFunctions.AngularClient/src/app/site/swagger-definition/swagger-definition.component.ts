@@ -25,7 +25,7 @@ import { CacheService } from '../../shared/services/cache.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
-import { FunctionAppHttpResult } from '../../shared/models/function-app-http-result';
+import { HttpResult } from '../../shared/models/http-result';
 import { Host } from '../../shared/models/host';
 
 @Component({
@@ -91,7 +91,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         return this.viewInfoEvents
             .switchMap(viewInfo => {
                 return Observable.zip(this._functionAppService.getHostJson(this.context), this._functionAppService.getRuntimeGeneration(this.context),
-                    (a: FunctionAppHttpResult<Host>, b: string) => ({ host: a, gen: b }));
+                    (a: HttpResult<Host>, b: string) => ({ host: a, gen: b }));
             })
             .switchMap(result => {
                 this.generation = result.gen;

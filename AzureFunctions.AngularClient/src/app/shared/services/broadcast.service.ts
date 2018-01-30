@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { FunctionInfo } from '../models/function-info';
 import { TutorialEvent } from '../models/tutorial';
 import { ErrorEvent } from '../models/error-event';
-import { FunctionAppHttpError } from '../models/function-app-http-result';
+import { HttpError } from '../models/http-result';
 
 interface EventInfo<T> {
     eventType: BroadcastEvent;
@@ -26,7 +26,7 @@ export class BroadcastService {
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
     private integrateChangedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
-    private errorEvent: EventEmitter<ErrorEvent | FunctionAppHttpError>;
+    private errorEvent: EventEmitter<ErrorEvent | HttpError>;
     private trialExpired: EventEmitter<void>;
     private resetKeySelection: EventEmitter<FunctionInfo>;
     private clearErrorEvent: EventEmitter<string>;

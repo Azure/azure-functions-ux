@@ -1,4 +1,3 @@
-import { LogCategories } from './../../../shared/models/constants';
 import { Response } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
@@ -7,8 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-
-import { Site } from './../../../shared/models/arm/site';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SaveOrValidationResult } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
@@ -17,12 +14,15 @@ import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-ma
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
-import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 import { LinuxAppSettingNameValidator } from 'app/shared/validators/linuxAppSettingNameValidator';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { SiteService } from 'app/shared/services/site.service';
+import { HttpResult } from 'app/shared/models/http-result';
+import { errorIds } from 'app/shared/models/error-ids';
+import { LogCategories } from 'app/shared/models/constants';
 
 @Component({
   selector: 'app-settings',
@@ -68,7 +68,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     private _fb: FormBuilder,
     private _translateService: TranslateService,
     private _logService: LogService,
-    private _authZService: AuthzService,
+    private _siteService: SiteService,
     broadcastService: BroadcastService
   ) {
     this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
@@ -82,6 +82,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     this._resourceIdSubscription = this._resourceIdStream
       .distinctUntilChanged()
       .switchMap(() => {
+
         this._busyManager.setBusy();
         this._saveError = null;
         this._appSettingsArm = null;
@@ -92,41 +93,50 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
         this._resetPermissionsAndLoadingState();
         this._slotConfigNamesArmPath =
           `${new ArmSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
+
         return Observable.zip(
-          this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
-          this._authZService.hasReadOnlyLock(this.resourceId),
-          (wp, rl) => ({ writePermission: wp, readOnlyLock: rl })
-        )
+          this._siteService.getSite(this.resourceId),
+          this._siteService.getAppSettings(this.resourceId),
+          this._siteService.getSlotConfigNames(this.resourceId));
       })
-      .mergeMap(p => {
-        this._setPermissions(p.writePermission, p.readOnlyLock);
-        return Observable.zip(
-          Observable.of(this.hasWritePermissions),
-          this._cacheService.getArm(this.resourceId),
-          this.hasWritePermissions ?
-            this._cacheService.postArm(`${this.resourceId}/config/appSettings/list`, true) : Observable.of(null),
-          this.hasWritePermissions ?
-            this._cacheService.getArm(this._slotConfigNamesArmPath, true) : Observable.of(null),
-          (h, s, a, scn) => ({ hasWritePermissions: h, siteConfigResponse: s, appSettingsResponse: a, slotConfigNamesResponse: scn })
-        );
-      })
-      .do(null, error => {
-        this._logService.error(LogCategories.appSettings, '/app-settings', error);
-        this._setupForm(null, null);
-        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
-        this.loadingMessage = null;
-        this.showPermissionsMessage = true;
-        this._busyManager.clearBusy();
-      })
-      .retry()
-      .subscribe(r => {
-        if (r.hasWritePermissions) {
-          const siteConfigArm: ArmObj<Site> = r.siteConfigResponse.json();
-          this._isLinux = ArmUtil.isLinuxApp(siteConfigArm);
-          this._appSettingsArm = r.appSettingsResponse.json();
-          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+      .subscribe((results: HttpResult<any>[]) => {
+        const siteResult = results[0];
+        const asResult = results[1];
+        const slotNamesResult = results[2];
+
+        const noWritePermission = !asResult.isSuccessful
+          && asResult.error.errorId === errorIds.preconditionsErrors.noPermission;
+
+        const hasReadonlyLock = !asResult.isSuccessful
+          && asResult.error.errorId === errorIds.preconditionsErrors.hasReadonlyLock;
+
+        this._setPermissions(!noWritePermission, hasReadonlyLock);
+
+        if(siteResult.isSuccessful){
+          const site = siteResult.result;
+          this._isLinux = ArmUtil.isLinuxApp(site);
+        }
+
+        if(asResult.isSuccessful){
+          this._appSettingsArm = asResult.result;
+        }
+
+        if(slotNamesResult.isSuccessful){
+          this._slotConfigNamesArm = slotNamesResult.result;
+        }
+
+        if(this._appSettingsArm && this._slotConfigNamesArm){
           this._setupForm(this._appSettingsArm, this._slotConfigNamesArm);
         }
+
+        const failedRequest = results.find(r => !r.isSuccessful && r.error.preconditionSuccess)
+        if(failedRequest){
+          this._logService.error(LogCategories.appSettings, '/app-settings', failedRequest.error.message);
+          this._setupForm(null, null);
+          this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+          this.loadingMessage = null;
+        }
+
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
         this._busyManager.clearBusy();

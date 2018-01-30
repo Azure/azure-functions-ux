@@ -1,19 +1,33 @@
-import { FunctionAppContext } from './function-app-context';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
-import { ArmObj } from './models/arm/arm-obj';
-import { Site } from './models/arm/site';
-import { errorIds } from './models/error-ids';
-import { HostingEnvironment } from './models/arm/hosting-environment';
-import { LogService } from './services/log.service';
+import { ArmObj } from '../models/arm/arm-obj';
+import { Site } from '../models/arm/site';
+import { errorIds } from '../models/error-ids';
+import { HostingEnvironment } from '../models/arm/hosting-environment';
+import { LogService } from '../services/log.service';
 import { Headers } from '@angular/http';
-import { HostStatus } from './models/host-status';
+import { HostStatus } from '../models/host-status';
+import { Injector } from '@angular/core';
+import { FunctionAppContext } from 'app/shared/function-app-context';
+import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
 export namespace Preconditions {
     export type PreconditionErrorId = string;
-    export type HttpPreconditions = 'NotStopped' | 'ReachableLoadballancer' | 'NotOverQuota' | 'RuntimeAvailable' | 'NoClientCertificate';
+    export type HttpPreconditions =
+        'NotStopped'
+        | 'ReachableLoadballancer'
+        | 'NotOverQuota'
+        | 'RuntimeAvailable'
+        | 'NoClientCertificate'
+        | 'HasPermissions'
+        | 'NoReadonlyLock';
+
     export type PreconditionMap = {[key in HttpPreconditions]: HttpPrecondition };
-    export type DataService = CacheService;
+
+    export interface PreconditionInput {
+        resourceId: string;
+        permissionsToCheck?: string[];
+    }
 
     export interface PreconditionResult {
         conditionMet: boolean;
@@ -21,13 +35,28 @@ export namespace Preconditions {
     }
 
     export abstract class HttpPrecondition {
-        constructor(protected dataService: DataService, protected logService: LogService) { }
-        abstract check(context: FunctionAppContext): Observable<PreconditionResult>;
+        protected cacheService: CacheService;
+        protected logService: LogService;
+
+        constructor(protected injector: Injector) {
+            this.cacheService = injector.get(CacheService);
+            this.logService = injector.get(LogService);
+        }
+
+        abstract check(input: PreconditionInput): Observable<PreconditionResult>;
+
+        // Can't reference the FunctionAppService here since that service creates these preconditions
+        // and would create a stack overflow.
+        protected getFunctionAppContext(resourceId: string){
+            return this.cacheService.getArm(resourceId)
+            .map(r => ArmUtil.mapArmSiteToContext(r.json(), this.injector));
+        }
     }
 
     export class NotStoppedPrecondition extends HttpPrecondition {
-        check(context: FunctionAppContext): Observable<PreconditionResult> {
-            return this.dataService.getArm(context.site.id)
+        check(input: PreconditionInput): Observable<PreconditionResult> {
+
+            return this.cacheService.getArm(input.resourceId)
                 .map(r => {
                     const app: ArmObj<Site> = r.json();
                     return {
@@ -46,18 +75,19 @@ export namespace Preconditions {
     }
 
     export class ReachableLoadballancerPrecondition extends HttpPrecondition {
-        check(context: FunctionAppContext): Observable<PreconditionResult> {
-            return this.dataService.getArm(context.site.id)
-                .concatMap(r => {
-                    const app: ArmObj<Site> = r.json();
+
+        check(input: PreconditionInput): Observable<PreconditionResult> {
+            return this.getFunctionAppContext(input.resourceId)
+                .concatMap(context => {
+                    const app: ArmObj<Site> = context.site;
                     if (app.properties.hostingEnvironmentProfile &&
                         app.properties.hostingEnvironmentProfile.id) {
-                        return this.dataService.getArm(app.properties.hostingEnvironmentProfile.id, false, '2016-09-01')
+                        return this.cacheService.getArm(app.properties.hostingEnvironmentProfile.id, false, '2016-09-01')
                             .concatMap(a => {
                                 const ase: ArmObj<HostingEnvironment> = a.json();
                                 if (ase.properties.internalLoadBalancingMode &&
                                     ase.properties.internalLoadBalancingMode !== 'None') {
-                                    return this.dataService.get(context.urlTemplates.runtimeSiteUrl)
+                                    return this.cacheService.get(context.urlTemplates.runtimeSiteUrl)
                                         .map(() => true)
                                         .catch(() => Observable.of(false));
                                 } else {
@@ -85,7 +115,7 @@ export namespace Preconditions {
     }
 
     export class NotOverQuotaPrecondition extends HttpPrecondition {
-        check(context: FunctionAppContext): Observable<PreconditionResult> {
+        check(input: PreconditionInput): Observable<PreconditionResult> {
             return Observable.of({
                 conditionMet: true,
                 errorId: null
@@ -94,15 +124,19 @@ export namespace Preconditions {
     }
 
     export class NoClientCertificatePrecondition extends HttpPrecondition {
-        check(context: FunctionAppContext): Observable<PreconditionResult> {
-            return this.dataService.postArm(`${context.site.id}/config/authsettings/list`)
-                .map(r => {
-                    const auth: ArmObj<any> = r.json();
+        check(input: PreconditionInput): Observable<PreconditionResult> {
+
+            return Observable.zip(
+                this.cacheService.getArm(input.resourceId),
+                this.cacheService.postArm(`${input.resourceId}/config/authsettings/list`))
+                .map(tuple => {
+                    const site: ArmObj<Site> = tuple[0].json();
+                    const auth: ArmObj<any> = tuple[1].json();
                     return {
                         easyAuthEnabled: auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1,
                         AADConfigured: auth.properties['clientId'] ? true : false,
                         AADNotConfigured: auth.properties['clientId'] ? false : true,
-                        clientCertEnabled: context.site.properties.clientCertEnabled
+                        clientCertEnabled: site.properties.clientCertEnabled
                     };
                 })
                 .map(auth => {
@@ -122,16 +156,22 @@ export namespace Preconditions {
     }
 
     export class RuntimeAvailablePrecondition extends HttpPrecondition {
-        constructor(dataService: DataService, logService: LogService, private getToken: (context: FunctionAppContext) => Observable<string>) {
-            super(dataService, logService);
+
+        constructor(injector: Injector, private getToken: (resourceId: string) => Observable<string>) {
+            super(injector);
         }
-        check(context: FunctionAppContext): Observable<PreconditionResult> {
-            return this.getToken(context)
-                .take(1)
+
+        check(input: PreconditionInput): Observable<PreconditionResult> {
+            let context: FunctionAppContext;
+            return this.getFunctionAppContext(input.resourceId)
+                .concatMap(c => {
+                    context = c;
+                    return this.getToken(input.resourceId).take(1)
+                })
                 .concatMap(token => {
                     const headers = new Headers();
                     headers.append('Authorization', `Bearer ${token}`);
-                    return this.dataService.post(context.urlTemplates.runtimeStatusUrl, false, headers);
+                    return this.cacheService.post(context.urlTemplates.runtimeStatusUrl, false, headers);
                 })
                 .map(r => {
                     const status: HostStatus = r.json();

@@ -6,6 +6,11 @@ export namespace errorIds {
         export const unreachableInternalLoadBalancer = '/errors/preconditions/unreachableInternalLoadBalancer';
         export const runtimeIsNotAvailable = '/errors/preconditions/runtimeIsNotAvailable';
         export const runtimeHttpNotAvailable = '/errors/preconditions/runtimeHttpNotAvailable';
+        export const noFunctionAppContext = '/errors/preconditions/noFunctionAppContext';
+        export const noResourceId = '/errors/preconditions/noResourceId';
+        export const noPermissionToCheck = '/errors/preconditions/noPermissionToCheck';
+        export const noPermission = '/errors/preconditions/noPermission';
+        export const hasReadonlyLock = '/errors/preconditions/hasReadonlyLock';
     }
 
     export const functionNotFound = '/errors/functionNotFound';
