@@ -4,7 +4,6 @@ import { EmptyDashboardComponent } from 'app/main/empty-dashboard.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { DeploymentShellComponent } from './deployment-shell/deployment-shell.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -37,6 +36,6 @@ const routing: ModuleWithProviders = RouterModule.forChild([
 
 @NgModule({
     imports: [TranslateModule.forChild(), SharedModule, routing],
-    declarations: [IbizaFeatureComponent, DeploymentShellComponent]
+    declarations: [IbizaFeatureComponent]
 })
 export class IbizaFeatureModule {}
