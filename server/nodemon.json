@@ -2,5 +2,5 @@
     "watch": ["src"],
     "ext": "ts",
     "ignore": ["src/**/*.spec.ts", "src/public/*"],
-    "exec": "./node_modules/.bin/ts-node --inspect --debug-brk ./src/server.ts"
+    "exec": ".\\node_modules\\.bin\\ts-node --inspect .\\src\\server.ts"
 }

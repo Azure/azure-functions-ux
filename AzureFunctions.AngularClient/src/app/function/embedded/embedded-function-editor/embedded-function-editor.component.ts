@@ -33,6 +33,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   public fileName = '';
   public rightBarExpanded = false;
   public bottomBarExpanded = false;
+  public displayName = '';
 
   private _updatedEditorContent = '';
 
@@ -91,6 +92,9 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
 
         const scriptHrefParts = this._functionInfo.script_href.split('/');
         this.fileName = scriptHrefParts[scriptHrefParts.length - 1];
+        const event = this._functionInfo.config.bindings[0].message.toLowerCase();
+        const entity = scriptHrefParts[8].toLowerCase();
+        this.displayName = `${entity}/${event}/${this.fileName}`;
         return this._cacheService.getArm(this._functionInfo.script_href, true);
       })
       .map(r => {

@@ -11,7 +11,9 @@
 
         <div class="browse-container">
             <img src="image/function_f.svg" />
-            <h2>{{ 'functions' | translate }}</h2><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+            <h2 *ngIf="!isEmbedded">{{ 'functions' | translate }}</h2>
+            <h2 *ngIf="isEmbedded">{{ 'functionsPreviewTitle' | translate }}</h2>
+            <i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
             <div class="search-box-container">
                 <search-box (onInputChange)="searchChanged($event)" 

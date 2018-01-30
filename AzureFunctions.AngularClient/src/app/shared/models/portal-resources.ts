@@ -901,4 +901,5 @@
     public static DurableFunctionsActivity_description: string = "DurableFunctionsActivity_description";
     public static DurableFunctionsOrchestrator_description: string = "DurableFunctionsOrchestrator_description";
     public static DurableFunctionsHttpStart_description: string = "DurableFunctionsHttpStart_description";
+    public static functionsPreviewTitle: string = "functionsPreviewTitle";
 }
