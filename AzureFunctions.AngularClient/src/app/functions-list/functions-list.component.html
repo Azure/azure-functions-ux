@@ -23,16 +23,16 @@
             </div>
             <tbl [items]="functions" #table="tbl">
                 <tr>
-                    <th>
+                    <th name="name">
                         <tbl-th name="functionInfo.name">{{ '_name' | translate }}</tbl-th>
                     </th>
-                    <th *ngIf="isEmbedded">
+                    <th *ngIf="isEmbedded" name="entity">
                         <tbl-th name="functionInfo.entity">{{ 'entity' | translate }}</tbl-th>
                     </th>
-                    <th *ngIf="!isEmbedded">
+                    <th *ngIf="!isEmbedded" name="status">
                         <tbl-th name="functionInfo.config.disabled">{{ 'status' | translate }}</tbl-th>
                     </th>
-                    <th class="icon"></th>
+                    <th class="icon" name="delete"></th>
                 </tr>
 
                 <tr *ngFor="let item of table.items">

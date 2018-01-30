@@ -5,7 +5,6 @@ import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-
 import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, BladeResult, DirtyStateInfo } from './../models/portal';
 import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
@@ -26,14 +25,12 @@ export class PortalService {
 
     private acceptedSignatures = [this.portalSignature, this.portalSignatureFrameBlade, this.embeddedSignature];
     private acceptedOrigins = [
-        'https://ms.portal.azure.com',
-        'https://rc.portal.azure.com',
-        'https://portal.azure.com',
+        'portal.azure.com',
         'https://portal.microsoftazure.de',
         'https://portal.azure.cn',
         'https://portal.azure.us',
         'https://powerapps.cloudapp.net',
-        'https://tip1.web.powerapps.com'
+        'web.powerapps.com'
     ];
 
     private startupInfo: StartupInfo | null;
@@ -183,8 +180,7 @@ export class PortalService {
             };
 
             this.postMessage(Verbs.setNotification, JSON.stringify(payload));
-        }
-        else {
+        } else {
             setTimeout(() => {
                 this.notificationStartStream.next({ id: 'id' });
             });
@@ -246,7 +242,7 @@ export class PortalService {
     private iframeReceivedMsg(event: Event): void {
         if (!event || !event.data) {
             return;
-        } else if (!this.acceptedOrigins.find(o => event.origin.toLowerCase() === o.toLowerCase())) {
+        } else if (!this.acceptedOrigins.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
             return;
         } else if (!this.acceptedSignatures.find(s => event.data.signature !== s)) {
             return;
