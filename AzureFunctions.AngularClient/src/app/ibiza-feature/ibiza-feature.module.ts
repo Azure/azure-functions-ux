@@ -21,6 +21,14 @@ const routing: ModuleWithProviders = RouterModule.forChild([
             {
                 path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/settings',
                 loadChildren: 'app/ibiza-feature/app-settings-shell/app-settings-shell.module#AppSettingsShellModule'
+            },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/deployment',
+                loadChildren: 'app/ibiza-feature/app-settings-shell/app-settings-shell.module#AppSettingsShellModule'
+            },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/deployment',
+                loadChildren: 'app/ibiza-feature/app-settings-shell/app-settings-shell.module#AppSettingsShellModule'
             }
         ]
     }
@@ -28,8 +36,6 @@ const routing: ModuleWithProviders = RouterModule.forChild([
 
 @NgModule({
     imports: [TranslateModule.forChild(), SharedModule, routing],
-    declarations: [
-        IbizaFeatureComponent
-    ]
+    declarations: [IbizaFeatureComponent]
 })
 export class IbizaFeatureModule {}
