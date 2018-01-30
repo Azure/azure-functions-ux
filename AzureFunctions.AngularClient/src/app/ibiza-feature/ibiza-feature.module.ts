@@ -4,6 +4,7 @@ import { EmptyDashboardComponent } from 'app/main/empty-dashboard.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
+import { DeploymentShellComponent } from './deployment-shell/deployment-shell.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -21,6 +22,14 @@ const routing: ModuleWithProviders = RouterModule.forChild([
             {
                 path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/settings',
                 loadChildren: 'app/ibiza-feature/app-settings-shell/app-settings-shell.module#AppSettingsShellModule'
+            },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/deployment',
+                loadChildren: 'app/ibiza-feature/app-settings-shell/app-settings-shell.module#AppSettingsShellModule'
+            },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/deployment',
+                loadChildren: 'app/ibiza-feature/app-settings-shell/app-settings-shell.module#AppSettingsShellModule'
             }
         ]
     }
@@ -28,8 +37,6 @@ const routing: ModuleWithProviders = RouterModule.forChild([
 
 @NgModule({
     imports: [TranslateModule.forChild(), SharedModule, routing],
-    declarations: [
-        IbizaFeatureComponent
-    ]
+    declarations: [IbizaFeatureComponent, DeploymentShellComponent]
 })
 export class IbizaFeatureModule {}
