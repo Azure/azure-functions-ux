@@ -14,7 +14,7 @@ import { Observable } from 'rxjs/Observable';
 
 export class EmbeddedFunctionsNode extends TreeNode implements Collection, MutableCollection {
 
-    public title = this.sideNav.translateService.instant(PortalResources.functions);
+    public title = this.sideNav.translateService.instant(PortalResources.functionsPreviewTitle);
     public dashboardType = DashboardType.FunctionsDashboard;
     private _cacheService: CacheService;
     private _broadcastService: BroadcastService;

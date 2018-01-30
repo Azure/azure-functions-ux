@@ -2827,4 +2827,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="DurableFunctionsHttpStart_description" xml:space="preserve">
     <value>A function that will trigger whenever it receives an HTTP request to execute an orchestrator function.</value>
   </data>
+  <data name="functionsPreviewTitle" xml:space="preserve">
+    <value>Functions (Preview)</value>
+  </data>
 </root>
