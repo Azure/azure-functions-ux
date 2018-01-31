@@ -1,3 +1,17 @@
+<command-bar>
+    <command displayText="{{ 'addSlot' | translate }}" 
+        iconUrl="image/add.svg" 
+        (click)="showAddControls()"
+        [disabled]="!hasWriteAccess"></command>
+  
+    <command displayText="{{ context?.site.properties.targetSwapSlot ? 'continueSwap' : 'swap' | translate }}"
+        iconUrl="image/swap.svg"
+        (click)="showSwapControls(context?.site.properties.targetSwapSlot)"
+        [disabled]="!hasWriteAccess || !hasSwapAccess"></command>
+</command-bar>
+
 <h1>Deployment Slots Placeholder</h1>
 <span load-image="image/slots.svg" class="icon-large"></span>
 <span load-image="image/scale-up.svg" class="icon-large"></span>
+
+<h1 *ngIf="swapTarget">SwapTarget: {{swapTarget}}</h1>

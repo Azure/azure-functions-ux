@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class SlotsShellComponent implements OnDestroy {
     viewInfo: TreeViewInfo<SiteData>;
+    swapTarget: string;
 
     private routeParamsSubscription: Subscription;
     constructor(translateService: TranslateService, route: ActivatedRoute) {
@@ -25,6 +26,10 @@ export class SlotsShellComponent implements OnDestroy {
                 node: null,
                 data: null
             };
+
+            if(x['destslot']) {
+                this.swapTarget = x['destslot'];
+            }
         });
     }
 
