@@ -10,6 +10,8 @@ export class InfoBoxComponent {
 
     @Input() infoText: string = null;
     @Input() infoLink: string = null;
+    @Input() infoActionFn: () => void = null;
+    @Input() infoActionIcon: string = null;
 
     public typeClass = 'info';
     public iconPath = 'image/info.svg';
@@ -32,13 +34,19 @@ export class InfoBoxComponent {
     }
 
     onClick(event: any) {
-        if (!!this.infoLink) {
-            window.open(this.infoLink, '_blank');
-        }
+        this._invoke();
     }
 
     onKeyPress(event: KeyboardEvent) {
-        if (!!this.infoLink && event.keyCode === KeyCodes.enter) {
+        if (event.keyCode === KeyCodes.enter) {
+            this._invoke();
+        }
+    }
+
+    private _invoke() {
+        if (!!this.infoActionFn) {
+            this.infoActionFn();
+        } else if (!!this.infoLink) {
             window.open(this.infoLink, '_blank');
         }
     }

@@ -1,0 +1,255 @@
+<div *ngIf="!fetchingContent && !featureSupported && canUpgrade" class="scale-up-container">
+
+    <div load-image="image/scale-up.svg" class="icon-large"></div>
+    <div class="scale-up-message">
+        {{ Resources.slots_upgrade | translate}}
+    </div>
+    <div class="slots-description">
+        {{ Resources.slots_description | translate }}
+        <a class="link" target="_blank" [href]="FwdLinks.standaloneCreateLearnMore"> <!-- TODO [andimrc]: use correct fwdlink -->
+            {{ Resources.topBar_learnMore | translate }}
+        </a>
+    </div>
+    <button (click)="scaleUp()" class="custom-button">
+        {{ Resources.upgrade | translate }}
+    </button>
+
+</div>
+
+<ng-sidebar-container
+    *ngIf="keepVisible || featureSupported || loadingFailed"
+    class="sidebar-container"
+    backdropClass="sidebar-backdrop-deployment-slots"
+    [animate]="true">
+
+    <div ng-sidebar-content>
+        <command-bar>
+            <command
+                displayText="{{ Resources.slotNew | translate }}"
+                iconUrl="image/add.svg"
+                (click)="showAddControls()"
+                [disabled]="!hasWriteAccess || !!slotsQuotaMessage">
+            </command>
+
+            <command
+                displayText="{{ (siteArm?.properties.targetSwapSlot ? Resources.completeSwap : Resources.swap) | translate }}"
+                iconUrl="image/swap.svg"
+                (click)="showSwapControls()"
+                [disabled]="!hasWriteAccess || !hasSwapAccess || !relativeSlotsArm || !relativeSlotsArm.length">
+            </command>
+
+            <command
+                [displayText]="Resources.save | translate"
+                iconUrl="image/save.svg"
+                (click)="save()"
+                [disabled]="!mainForm || !mainForm.valid || mainForm.pristine || !hasWriteAccess">
+            </command>
+
+            <command
+                [displayText]="Resources.discard | translate"
+                iconUrl="image/discard.svg"
+                (click)="discard()"
+                [disabled]="!mainForm || mainForm.pristine || !hasWriteAccess">
+            </command>
+
+            <command
+                [displayText]="Resources.refresh | translate"
+                iconUrl="image/reset.svg"
+                (click)="refresh(true)"
+                [disabled]="!viewInfo">
+            </command>
+        </command-bar>
+
+        <div class="config-wrapper">
+            <div class="config-container"
+                [is-dirty]="mainForm?.dirty"
+                [is-dirty-message]="dirtyMessage">
+
+                <!-- TODO [andiamrc]: Provide more granular details for permissions errors -->
+                <!-- TODO [andiamrc]: Add permissions error strings to Resources -->
+                <info-box
+                    *ngIf="!fetchingPermissions && (!hasWriteAccess || !hasSwapAccess)"
+                    typeClass="warning"
+                    [infoText]="(!hasSwapAccess ? 'no swap access\r\n' : '') + 'no write access'">
+                </info-box>
+
+                <!-- TODO [andiamrc]: Provide more granular details for loading failures -->
+                <info-box
+                    *ngIf="loadingFailed"
+                    typeClass="error"
+                    [infoText]="Resources.error_unableToLoadSlotsList | translate">
+                </info-box>
+
+                <info-box
+                    *ngIf="slotsQuotaMessage"
+                    typeClass="info"
+                    [infoText]="slotsQuotaMessage"
+                    infoActionIcon='image/scale-up.svg'
+                    [infoActionFn]="canUpgrade ? slotsQuotaScaleUp : null">
+                </info-box>
+
+                <div class="slots-header-container">
+                    <div class="slots-icon-container">
+                        <div load-image="image/slots.svg" class="icon-large"></div>
+                    </div>
+                    <div class="slots-title-container">
+                        <div class="slots-title">{{ Resources.feature_deploymentSlotsName | translate }}</div>
+                        <div class="underline"></div>
+                    </div>
+                </div>
+
+                <div class="slots-description-container">
+                    <div class="slots-description">{{ Resources.slots_description | translate }}</div>
+                    <div class="underline"></div>
+                </div>
+
+                <table-root
+                    tblClass="tbl fixed stretch"
+                    [name]="Resources.feature_deploymentSlotsName | translate">
+
+                    <tr class="header-row" table-row>
+                        <th class="one-quarter-col padded-col" table-cell>
+                            {{ Resources.slotsList_nameHeader | translate }}
+                        </th>
+                        <th class="one-quarter-col padded-col" table-cell>
+                            {{ Resources.slotsList_statusHeader | translate }}
+                        </th>
+                        <th class="one-quarter-col padded-col" table-cell>
+                            {{ Resources.slotsList_serverfarmHeader | translate }}
+                        </th>
+                        <th class="one-quarter-col padded-col" table-cell>
+                            {{ Resources.slotsList_trafficPercentHeader | translate }}
+                        </th>
+                    </tr>
+
+                    <tr *ngIf="siteArm" table-row>
+
+                        <td class="one-quarter-col padded-col" table-cell>
+                            {{ siteArm ? siteArm.properties.name : '-' }}
+                            <div
+                                *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
+                                class="pill">
+                                {{ Resources.production | translate }}
+                            </div>
+                        </td>
+
+                        <td class="one-quarter-col padded-col" table-cell>
+                            {{ siteArm ? siteArm.properties.state : '-' }}
+                        </td>
+
+                        <td class="one-quarter-col padded-col" table-cell>
+                            {{ siteArm ? getSegment(siteArm.properties.serverFarmId, 8) : '-' }}
+                        </td>
+
+                        <td class="one-quarter-col padded-col" table-cell>
+                            <div class="pct-wrapper">
+                                <textbox
+                                    disabled="true"
+                                    readonly="true"
+                                    [control]="mainForm ? mainForm.controls[SumValidator.REMAINDER_CONTROL_NAME] : null">
+                                </textbox>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr *ngFor="let relativeSlotArm of (siteArm ? relativeSlotsArm : [])" table-row>
+
+                        <td class="one-quarter-col padded-col" table-cell>
+                            <a tabindex="0" (click)="openSlotBlade(relativeSlotArm.id)" [activate-with-keys]>
+                                {{ relativeSlotArm.properties.name }}
+                            </a>
+                            <div
+                                *ngIf="relativeSlotArm.type === 'Microsoft.Web/sites'"
+                                class="pill">
+                                {{ Resources.production | translate }}
+                            </div>
+                        </td>
+
+                        <td class="one-quarter-col padded-col" table-cell>
+                            {{ relativeSlotArm.properties.state }}
+                        </td>
+
+                        <td class="one-quarter-col padded-col" table-cell>
+                            {{ getSegment(relativeSlotArm.properties.serverFarmId, 8) }}
+                        </td>
+
+                        <td class="one-quarter-col padded-col" table-cell [editable]="true">
+                            <div class="pct-wrapper">
+                                <textbox
+                                    [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[relativeSlotArm.name] : null"
+                                    [placeholder]="0"
+                                    [highlightDirty]="true">
+                                </textbox>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <!-- Placeholder/Message Row -->
+                    <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+                    <tr *ngIf="!siteArm || !relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
+
+                        <td *ngIf="fetchingContent" class="message-row" colspan="4" table-cell>
+                            {{ Resources.loading | translate }}
+                        </td>
+
+                        <td *ngIf="!fetchingContent" class="message-row" colspan="4" table-cell>
+                            {{ (!siteArm ? Resources.error_unableToLoadSlotsList : Resources.slotsList_noSlots) | translate }}
+                        </td>
+
+                    </tr>
+                </table-root>
+
+            </div>
+
+        </div>
+    </div>
+
+    <ng-sidebar
+        #sidebar
+        [(opened)]="swapControlsOpen"
+        [mode]="'over'"
+        [position]="'right'"
+        [closeOnClickOutside]="false"
+        [trapFocus]="false"
+        [autoFocus]="true"
+        sidebarClass="sidebar-swap-slot"
+        [ariaLabel]="Resources.swap | translate"
+        [animate]="true"
+        [closeOnClickBackdrop]="false"
+        [showBackdrop]="true">
+
+        <div class="flyout-liner">
+            <swap-slots
+                *ngIf="swapControlsOpen"
+                [resourceIdInput]="resourceId"
+                (close)="hideControls($event)">
+            </swap-slots>
+        </div>
+    </ng-sidebar>
+
+    <ng-sidebar
+        #sidebar
+        [(opened)]="addControlsOpen"
+        [mode]="'over'"
+        [position]="'right'"
+        [closeOnClickOutside]="false"
+        [trapFocus]="false"
+        [autoFocus]="true"
+        sidebarClass="sidebar-add-slot"
+        [ariaLabel]="Resources.swap | translate"
+        [animate]="true"
+        [closeOnClickBackdrop]="false"
+        [showBackdrop]="true">
+
+        <div class="flyout-liner">
+            <add-slot
+                *ngIf="addControlsOpen"
+                [resourceId]="resourceId"
+                (close)="hideControls($event)">
+            </add-slot>
+        </div>
+    </ng-sidebar>
+
+</ng-sidebar-container>

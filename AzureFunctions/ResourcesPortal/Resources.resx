@@ -129,6 +129,9 @@
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
+  <data name="upgrade" xml:space="preserve">
+    <value>Upgrade</value>
+  </data>
   <data name="upgradeToEnable" xml:space="preserve">
     <value>Upgrade to enable</value>
   </data>
@@ -355,8 +358,14 @@
   <data name="run" xml:space="preserve">
     <value>Run</value>
   </data>
+  <data name="refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
   <data name="save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="unsavedChangesWarning" xml:space="preserve">
+    <value>Unsaved changes will be discarded.</value>
   </data>
   <data name="saveOperationInProgressWarning" xml:space="preserve">
     <value>A save operation is currently in progress.  Navigating away may cause some changes to be lost.</value>
@@ -1156,6 +1165,12 @@
   <data name="swap" xml:space="preserve">
     <value>Swap</value>
   </data>
+  <data name="completeSwap" xml:space="preserve">
+    <value>Complete Swap</value>
+  </data>
+  <data name="cancelSwap" xml:space="preserve">
+    <value>Cancel Swap</value>
+  </data>
   <data name="downloadProfile" xml:space="preserve">
     <value>Download publish profile</value>
   </data>
@@ -1525,6 +1540,9 @@
   <data name="feature_codeDeployment" xml:space="preserve">
     <value>Code Deployment</value>
   </data>
+  <data name="feature_deploymentSlotsName" xml:space="preserve">
+    <value>Deployment Slots</value>
+  </data>
   <data name="feature_developmentTools" xml:space="preserve">
     <value>Development tools</value>
   </data>
@@ -1731,6 +1749,9 @@
   </data>
   <data name="source" xml:space="preserve">
     <value>Source</value>
+  </data>
+  <data name="target" xml:space="preserve">
+    <value>Target</value>
   </data>
   <data name="options" xml:space="preserve">
     <value>Options</value>
@@ -1987,14 +2008,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
     <value>Read/Write</value>
   </data>
+  <data name="validation_decimalFormatError" xml:space="preserve">
+    <value>Please enter a valid decimal value with format 'ddd.dd'.</value>
+  </data>
+  <data name="validation_decimalRangeValueError" xml:space="preserve">
+    <value>Value must be an decimal in the range of {{min}} to {{max}}</value>
+  </data>
   <data name="validation_duplicateError" xml:space="preserve">
     <value>Duplicate values are not allowed</value>
+  </data>
+  <data name="validation_error" xml:space="preserve">
+    <value>ERROR</value>
   </data>
   <data name="validation_linuxAppSettingNameError" xml:space="preserve">
     <value>This field can only contain letters, numbers (0-9), periods ("."), and underscores ("_")</value>
   </data>
   <data name="validation_requiredError" xml:space="preserve">
     <value>This field is required</value>
+  </data>
+  <data name="validation_routingTotalPercentError" xml:space="preserve">
+    <value>Sum of routing percentage value of all rules must be less than or equal to 100.0</value>
   </data>
   <data name="validation_siteNameMinChars" xml:space="preserve">
     <value>The name must be at least 2 characters</value>
@@ -2083,6 +2116,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="appFunctionSettings_warning_5" xml:space="preserve">
     <value>node for each function.</value>
   </data>
+  <data name="slotCreateOperationInProgressWarning" xml:space="preserve">
+    <value>A slot create operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>
+  </data>
+  <data name="slotNew" xml:space="preserve">
+    <value>Add Slot</value>
+  </data>
   <data name="slotNew_nameLabel" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -2104,8 +2143,35 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="error_unableToLoadSlotsList" xml:space="preserve">
     <value>Unable to upate the list of slots</value>
   </data>
+  <data name="slotNew_quotaReached" xml:space="preserve">
+    <value>You have reached the slots quota limit ({{quota}}) for the current plan.</value>
+  </data>
+  <data name="slotNew_quotaUpgrade" xml:space="preserve">
+    <value>Please upgrade your plan.</value>
+  </data>
   <data name="slotNew_noAccess" xml:space="preserve">
     <value>No access to create a slot. Please ensure you have the right RBAC access for the function app and do not have read locks enabled either.</value>
+  </data>
+  <data name="slots_upgrade" xml:space="preserve">
+    <value>Upgrade to a standard or premium plan to add slots.</value>
+  </data>
+  <data name="slots_description" xml:space="preserve">
+    <value>Deployment slots are live apps with their own hostnames. App content and configurations elements can be swapped between two deployment slots, including the production slot.</value>
+  </data>
+  <data name="slotsDiff_settingHeader" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="slotsDiff_typeHeader" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="slotsDiff_oldValueHeader" xml:space="preserve">
+    <value>Old Value</value>
+  </data>
+  <data name="slotsDiff_newValueHeader" xml:space="preserve">
+    <value>New Value</value>
+  </data>
+  <data name="slotsList_noSlots" xml:space="preserve">
+    <value>You haven't added any deployment slots. Click 'Add Slot' to get started.</value>
   </data>
   <data name="slotsList_nameHeader" xml:space="preserve">
     <value>Name</value>
@@ -2115,6 +2181,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="slotsList_serverfarmHeader" xml:space="preserve">
     <value>App service plan</value>
+  </data>
+  <data name="slotsList_trafficPercentHeader" xml:space="preserve">
+    <value>Traffic %</value>
   </data>
   <data name="slotsList_title" xml:space="preserve">
     <value>Slots (preview)</value>
@@ -2697,6 +2766,48 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="deployedFailedTo" xml:space="preserve">
     <value>Failed to deploy to {0}</value>
+  </data>
+  <data name="swapWithPreviewLabel" xml:space="preserve">
+    <value>Perform swap with preview</value>
+  </data>
+  <data name="swapPhaseOneLabel" xml:space="preserve">
+    <value>Start the swap</value>
+  </data>
+  <data name="swapPhaseTwoLabel" xml:space="preserve">
+    <value>Review + complete the swap</value>
+  </data>
+  <data name="swapOperationInProgressWarning" xml:space="preserve">
+    <value>A swap operation is currently in progress. After navigating away, you will no longer be able to check operation status.</value>
+  </data>
+  <data name="swapOperation" xml:space="preserve">
+    <value>{{swapType}} between slot {{srcSlot}} and slot {{destSlot}}</value>
+  </data>
+  <data name="swapFull" xml:space="preserve">
+    <value>swap</value>
+  </data>
+  <data name="swapPhaseOne" xml:space="preserve">
+    <value>phase one of swap</value>
+  </data>
+  <data name="swapPhaseTwo" xml:space="preserve">
+    <value>phase two of swap</value>
+  </data>
+  <data name="swapStarted" xml:space="preserve">
+    <value>Performing {{operation}}</value>
+  </data>
+  <data name="swapSuccess" xml:space="preserve">
+    <value>Successfully completed {{operation}}</value>
+  </data>
+  <data name="swapFailure" xml:space="preserve">
+    <value>Failed to complete {{operation}}. Error: {{error}}</value>
+  </data>
+  <data name="swapCancelStarted" xml:space="preserve">
+    <value>Cancelling {{operation}}</value>
+  </data>
+  <data name="swapCancelSuccess" xml:space="preserve">
+    <value>Successfully cancelled {{operation}}</value>
+  </data>
+  <data name="swapCancelFailure" xml:space="preserve">
+    <value>Failed to cancel {{operation}}. Error: {{error}}</value>
   </data>
   <data name="swappedSlotSuccess" xml:space="preserve">
     <value>Swapped slot {0} with {1}</value>

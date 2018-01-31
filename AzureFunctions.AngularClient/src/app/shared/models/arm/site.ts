@@ -18,4 +18,5 @@ export interface Site {
     clientCertEnabled?: boolean;
     clientAffinityEnabled?: boolean;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
+    name?: string;
 }
