@@ -29,6 +29,14 @@ const routing: ModuleWithProviders = RouterModule.forChild([
             {
                 path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/deployment',
                 loadChildren: 'app/ibiza-feature/deployment-shell/deployment-shell.module#DeploymentShellModule'
+            },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots',
+                loadChildren: 'app/ibiza-feature/slots-shell/slots-shell.module#SlotsShellModule'
+            },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/slots',
+                loadChildren: 'app/ibiza-feature/slots-shell/slots-shell.module#SlotsShellModule'
             }
         ]
     }
