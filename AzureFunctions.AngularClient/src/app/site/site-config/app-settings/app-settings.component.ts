@@ -1,10 +1,9 @@
+import { Injector } from '@angular/core';
+import { FeatureComponent } from 'app/shared/components/feature-component';
 import { Response } from '@angular/http';
-import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SaveOrValidationResult } from './../site-config.component';
@@ -12,7 +11,7 @@ import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj, ArmObjMap } from './../../../shared/models/arm/arm-obj';
+import { ArmObj, ArmObjMap, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
@@ -28,12 +27,10 @@ import { LogCategories } from 'app/shared/models/constants';
   templateUrl: './app-settings.component.html',
   styleUrls: ['./../site-config.component.scss']
 })
-export class AppSettingsComponent implements OnChanges, OnDestroy {
+export class AppSettingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
   public Resources = PortalResources;
   public groupArray: FormArray;
 
-  private _resourceIdStream: Subject<string>;
-  private _resourceIdSubscription: RxSubscription;
   public hasWritePermissions: boolean;
   public permissionsMessage: string;
   public showPermissionsMessage: boolean;
@@ -68,17 +65,19 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
     private _translateService: TranslateService,
     private _logService: LogService,
     private _siteService: SiteService,
-    broadcastService: BroadcastService
+    injector: Injector
   ) {
-    this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+    super('AppSettingsComponent', injector);
+    this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
 
     this._resetPermissionsAndLoadingState();
 
     this.newItem = null;
     this.originalItemsDeleted = 0;
+  }
 
-    this._resourceIdStream = new Subject<string>();
-    this._resourceIdSubscription = this._resourceIdStream
+  protected setup(inputEvents: Observable<ResourceId>) {
+    return inputEvents
       .distinctUntilChanged()
       .switchMap(() => {
 
@@ -98,7 +97,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
           this._siteService.getAppSettings(this.resourceId),
           this._siteService.getSlotConfigNames(this.resourceId));
       })
-      .subscribe((results: any[]) => {
+      .do((results: any[]) => {
         const siteResult = results[0];
         const asResult = results[1];
         const slotNamesResult = results[2];
@@ -144,7 +143,7 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['resourceId']) {
-      this._resourceIdStream.next(this.resourceId);
+      this.setInput(this.resourceId);
     }
     if (changes['mainForm'] && !changes['resourceId']) {
       this._setupForm(this._appSettingsArm, this._slotConfigNamesArm);
@@ -152,10 +151,6 @@ export class AppSettingsComponent implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this._resourceIdSubscription) {
-      this._resourceIdSubscription.unsubscribe();
-      this._resourceIdSubscription = null;
-    }
     this._busyManager.clearBusy();
   }
 

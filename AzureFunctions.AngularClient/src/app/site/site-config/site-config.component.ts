@@ -1,10 +1,11 @@
+import { Injector } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
 import { ArmObj, ArmObjMap } from './../../shared/models/arm/arm-obj';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+// import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -20,9 +21,9 @@ import { VirtualDirectoriesComponent } from './virtual-directories/virtual-direc
 import { PortalService } from './../../shared/services/portal.service';
 import { AuthzService } from './../../shared/services/authz.service';
 import { LogCategories, SiteTabIds } from './../../shared/models/constants';
-import { BroadcastService } from './../../shared/services/broadcast.service';
 import { LogService } from './../../shared/services/log.service';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { FeatureComponent } from 'app/shared/components/feature-component';
 
 export interface SaveOrValidationResult {
     success: boolean;
@@ -34,9 +35,7 @@ export interface SaveOrValidationResult {
     templateUrl: './site-config.component.html',
     styleUrls: ['./site-config.component.scss']
 })
-export class SiteConfigComponent implements OnDestroy {
-    public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
-    private _viewInfoSubscription: RxSubscription;
+export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
     public hasWritePermissions = true;
 
     public defaultDocumentsSupported = false;
@@ -52,7 +51,7 @@ export class SiteConfigComponent implements OnDestroy {
     private _busyManager: BusyStateScopeManager;
 
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
-        this.viewInfoStream.next(viewInfo);
+        this.setInput(viewInfo);
     }
 
     @ViewChild(GeneralSettingsComponent) generalSettings: GeneralSettingsComponent;
@@ -69,14 +68,19 @@ export class SiteConfigComponent implements OnDestroy {
         private _translateService: TranslateService,
         private _portalService: PortalService,
         private _logService: LogService,
-        private _broadcastService: BroadcastService,
         private _authZService: AuthzService,
-        private _cacheService: CacheService
+        private _cacheService: CacheService,
+        injector: Injector
     ) {
-        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+        super('SiteConfigComponent', injector);
 
-        this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
-        this._viewInfoSubscription = this.viewInfoStream
+        // For ibiza scenario's, this needs to match the deep link feature name used to load this in ibiza menu
+        this.featureName = 'settings';
+        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
+    }
+
+    protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
+        return inputEvents
             .distinctUntilChanged()
             .switchMap(viewInfo => {
                 this._busyManager.setBusy();
@@ -101,7 +105,7 @@ export class SiteConfigComponent implements OnDestroy {
                 this._busyManager.clearBusy();
             })
             .retry()
-            .subscribe(r => {
+            .do(r => {
                 this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                 if (!ArmUtil.isLinuxApp(this._site)) {
                     this.defaultDocumentsSupported = true;
@@ -136,10 +140,6 @@ export class SiteConfigComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this._viewInfoSubscription) {
-            this._viewInfoSubscription.unsubscribe();
-            this._viewInfoSubscription = null;
-        }
         if (this._valueSubscription) {
             this._valueSubscription.unsubscribe();
             this._valueSubscription = null;

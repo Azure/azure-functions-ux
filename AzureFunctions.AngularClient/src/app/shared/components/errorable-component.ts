@@ -5,7 +5,7 @@ import { BroadcastEvent } from '../models/broadcast-event';
 
 export abstract class ErrorableComponent {
 
-    constructor(_componentName: string, protected _broadcastService: BroadcastService) { }
+    constructor(protected componentName: string, protected _broadcastService: BroadcastService) { }
 
     showComponentError(error: ErrorEvent) {
         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, error);

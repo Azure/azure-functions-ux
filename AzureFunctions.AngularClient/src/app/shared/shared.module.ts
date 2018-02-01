@@ -1,3 +1,4 @@
+import { TelemetryService } from './services/telemetry.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { Injector } from '@angular/core';
 import { TabComponent } from './../controls/tabs/tab/tab.component';
@@ -200,6 +201,7 @@ export class SharedModule {
                 GlobalStateService,
                 EmbeddedService,
                 SiteService,
+                TelemetryService,
                 { provide: AiService, useFactory: AiServiceFactory },
                 { provide: ErrorHandler, useClass: GlobalErrorHandler }
             ]
