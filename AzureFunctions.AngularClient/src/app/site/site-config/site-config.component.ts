@@ -74,6 +74,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
         // For ibiza scenarios, this needs to match the deep link feature name used to load this in ibiza menu
         this.featureName = 'settings';
+        this.isParentComponent = true;
         this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
     }
 

@@ -1,8 +1,8 @@
+import { LogCategories } from './../models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { PortalService } from './portal.service';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { LogCategories } from 'app/shared/models/constants';
 
 interface ComponentMap {
     [key: string]: string;
@@ -11,7 +11,13 @@ interface ComponentMap {
 @Injectable()
 export class TelemetryService {
 
+    // Keeps track of which features are currently being loaded.
     private _featureMap: { [key: string]: ComponentMap } = {};
+
+    // Keeps track to make sure that no feature gets logged without a parent
+    // being logged first.  This is to help enforce that someone writing a new
+    // feature properly defines a parent component
+    private _registeredParentFeatures: { [key: string]: string } = {};
 
     private readonly _loadingIdFormat = '/feature/{0}/loading';
     private readonly _debouceTimeMs = 250;
@@ -21,16 +27,40 @@ export class TelemetryService {
         private _logService: LogService) {
     }
 
-    public featureLoading(featureName: string, componentName: string) {
+    public featureLoading(isParentComponent: boolean, featureName: string, componentName: string) {
         if (!this._featureMap[featureName]) {
-            this._featureMap[featureName] = {};
 
-            this._logService.verbose(LogCategories.telemetry, `Feature loading started. feature: ${featureName}`);
+            if (isParentComponent) {
+                this._registeredParentFeatures[featureName] = featureName;
+                this._featureMap[featureName] = {};
 
-            this._portalService.sendTimerEvent({
-                timerId: this._loadingIdFormat.format(featureName),
-                timerAction: 'start'
-            });
+                this._logService.verbose(LogCategories.telemetry, `Feature loading started. feature: ${featureName}`);
+
+                this._portalService.sendTimerEvent({
+                    timerId: this._loadingIdFormat.format(featureName),
+                    timerAction: 'start'
+                });
+            } else if (!this._registeredParentFeatures[featureName]) {
+
+                // There needs to be one parent component which represents timing for the entire feature.
+                // Otherwise if one child component is used independently of a parent component and start/stops
+                // it's timer, our load times would be completely off.
+                this._logService.error(
+                    LogCategories.telemetry,
+                    '/no-parent-component-defined',
+                    `No parentComponent defined for feature: ${featureName}, component: ${componentName}.
+                    One parent component must be defined for telemetry to work properly.`);
+                return;
+            } else {
+
+                // This can happen if a feature has already been loaded, but there's child components that get created
+                // after the initial loading
+                this._logService.verbose(
+                    LogCategories.telemetry,
+                    `A child component started after feature load complete.  feature: ${featureName}, component: ${componentName}`
+                );
+                return;
+            }
         }
 
         this._logService.verbose(

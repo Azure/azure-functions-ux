@@ -11,6 +11,7 @@ import { LogCategories } from 'app/shared/models/constants';
 
 export abstract class FeatureComponent<T> extends ErrorableComponent implements OnDestroy {
     @Input() featureName: string;
+    isParentComponent = false;
 
     private _inputEvents = new Subject<T>();
     private _ngUnsubscribe = new Subject();
@@ -29,7 +30,7 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
                     throw Error('featureName is not defined');
                 }
 
-                this._telemetryService.featureLoading(this.featureName, this.componentName);
+                this._telemetryService.featureLoading(this.isParentComponent, this.featureName, this.componentName);
             });
 
         this.setup(preCheckEvents)
