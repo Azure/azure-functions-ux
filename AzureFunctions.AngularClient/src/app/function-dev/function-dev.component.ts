@@ -146,7 +146,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
     setup(): Subscription {
         return this.viewInfoEvents
-            .switchMap(functionView => {
+            .switchMap(functionView => { 
                 delete this.updatedTestContent;
                 delete this.runResult;
                 this.disabled = this._functionAppService.getFunctionAppEditMode(functionView.context)
@@ -154,7 +154,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
                 return Observable.zip(
                     Observable.of(functionView),
-                    this._functionAppService.getEventGridKey(functionView.context),
+                    this._functionAppService.getEventGridUri(functionView.context, functionView.functionInfo.result.name),
                     this._functionAppService.getFunctionHostStatus(functionView.context),
                     this._functionAppService.getFunctionKeys(functionView.context, functionView.functionInfo.result));
             })
@@ -182,8 +182,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 if (tuple[0].functionInfo.isSuccessful) {
                     const functionInfo = tuple[0].functionInfo.result;
                     this.content = '';
-                    this.eventGridSubscribeUrl =
-                        `${this.context.mainSiteUrl.toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${functionInfo.name}&code=${tuple[1].result}`;
+                    this.eventGridSubscribeUrl = tuple[1].result;
                     this.testContent = functionInfo.test_data;
                     try {
                         const httpModel = JSON.parse(this.testContent);
