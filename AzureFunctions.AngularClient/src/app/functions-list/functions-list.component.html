@@ -41,7 +41,7 @@
                         <span>{{item.functionInfo.entity}}</span>
                     </td>
                     <td *ngIf="!isEmbedded">
-                        <div *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="functionApp">
+                        <div *ngIf="runtimeVersion === 'V1'" [fnWriteAccess]="context">
                             <slide-toggle
                                 [on]="!item.functionInfo.config.disabled"
                                 [isCommand]="true"
@@ -61,7 +61,7 @@
                         </div>
                     </td>
                     <td class="icon-cell">
-                        <div [fnWriteAccess]="functionApp">
+                        <div [fnWriteAccess]="context">
                             <span role="button"
                                 class="icon-small"
                                 load-image="image/delete.svg"
