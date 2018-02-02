@@ -3,7 +3,7 @@
 - const cdn = production ? 'https://functions.azureedge.net' : '';
 
 body
-    if config.clientOptimzationsOff || !production
+    if config.clientOptimzationsOff
         script(src='inline.bundle.js')
         script(src='polyfills.bundle.js')
         script(src='scripts.bundle.js')
