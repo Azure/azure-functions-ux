@@ -24,12 +24,12 @@ export class PortalService {
     private embeddedSignature = 'FunctionsEmbedded';
 
     private acceptedSignatures = [this.portalSignature, this.portalSignatureFrameBlade, this.embeddedSignature];
-    private acceptedOrigins = [
+    private acceptedOriginsSuffix = [
         'portal.azure.com',
-        'https://portal.microsoftazure.de',
-        'https://portal.azure.cn',
-        'https://portal.azure.us',
-        'https://powerapps.cloudapp.net',
+        'portal.microsoftazure.de',
+        'portal.azure.cn',
+        'portal.azure.us',
+        'powerapps.cloudapp.net',
         'web.powerapps.com'
     ];
 
@@ -242,7 +242,7 @@ export class PortalService {
     private iframeReceivedMsg(event: Event): void {
         if (!event || !event.data) {
             return;
-        } else if (!this.acceptedOrigins.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
+        } else if (!this.acceptedOriginsSuffix.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
             return;
         } else if (!this.acceptedSignatures.find(s => event.data.signature !== s)) {
             return;
