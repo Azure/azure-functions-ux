@@ -4,13 +4,14 @@ import { SlotsShellComponent } from 'app/ibiza-feature/slots-shell/slots-shell.c
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
+import { SidebarModule } from 'ng-sidebar';
 
 @NgModule({
   entryComponents: [
     SlotsComponent
   ],
   imports: [
-    TranslateModule.forChild(), SharedModule, SharedFunctionsModule
+    TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SidebarModule
   ],
   declarations: [
     SlotsComponent,

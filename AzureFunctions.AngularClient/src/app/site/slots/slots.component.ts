@@ -28,9 +28,14 @@ import { Site } from 'app/shared/models/arm/site';
     styleUrls: ['./slots.component.scss']
 })
 export class SlotsComponent implements OnDestroy {
-    public context: FunctionAppContext;
+    public slotContext: FunctionAppContext;
+    public siteContext: FunctionAppContext;
     public hasWriteAccess: boolean;
     public hasSwapAccess: boolean;
+
+    public swapControlsOpen: boolean;
+    public swapSrc: string;
+    public swapDest: string;
 
     public dirtyMessage: string;
 
@@ -38,7 +43,7 @@ export class SlotsComponent implements OnDestroy {
     private _viewInfoSubscription: RxSubscription;
     private _isSlot: boolean;
 
-    private _slotsListArm: ArmObj<Site>[];
+    private slotsListArm: ArmObj<Site>[];
 
     private _busyManager: BusyStateScopeManager;
 
@@ -46,8 +51,13 @@ export class SlotsComponent implements OnDestroy {
         this._viewInfoStream.next(viewInfo);
     }
 
-    @Input() set swapTarget(target: string) {
-        this.showSwapControls(target);
+    private _swapMode: boolean;
+    @Input() set swapMode(swapMode: boolean) {
+        // We don't expect this input to change after it is set for the first time,
+        // but here we make sure to only react the first time the input is set.
+        if (this._swapMode === undefined && swapMode !== undefined) {
+            this._swapMode = swapMode;
+        }
     }
 
     constructor(
@@ -65,20 +75,33 @@ export class SlotsComponent implements OnDestroy {
 
                 this.hasWriteAccess = false;
                 this.hasSwapAccess = false;
-                this._slotsListArm = null;
+
+                this.swapControlsOpen = false;
+                this.swapSrc = null;
+                this.swapDest = null;
+
+                this.slotsListArm = null;
 
                 const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
-                return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId());
+
+                const siteResourceId = siteDescriptor.slot ? siteDescriptor.getSiteOnlyResourceId() : null;
+                
+                return Observable.zip(
+                    this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId()),
+                    siteResourceId ? this._functionAppService.getAppContext(siteResourceId) : Observable.of(null)
+                );
             })
-            .switchMap(context => {
-                this.context = context;
-                this._isSlot = _functionAppService.isSlot(context);
+            .switchMap(r => {
+                this.slotContext = r[0];
+                this.siteContext = r[1] || r[0];
+
+                this._isSlot = _functionAppService.isSlot(this.slotContext);
 
                 return Observable.zip(
-                    authZService.hasPermission(context.site.id, [AuthzService.writeScope]),
-                    authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
-                    authZService.hasReadOnlyLock(context.site.id),
-                    this._functionAppService.getSlotsList(context),
+                    authZService.hasPermission(this.slotContext.site.id, [AuthzService.writeScope]),
+                    authZService.hasPermission(this.slotContext.site.id, [AuthzService.actionScope]),
+                    authZService.hasReadOnlyLock(this.slotContext.site.id),
+                    this._functionAppService.getSlotsList(this.siteContext),
                     (p, s, l, slots) => ({
                         hasWritePermission: p,
                         hasSwapPermission: s,
@@ -94,15 +117,23 @@ export class SlotsComponent implements OnDestroy {
                 this.hasWriteAccess = r.hasWritePermission && !r.hasReadOnlyLock;
 
                 if (r.slotsList.isSuccessful) {
-                    this._slotsListArm = r.slotsList.result;
+                    this.slotsListArm = r.slotsList.result.filter(s => s != this.slotContext.site);
+                    if (this._isSlot) {
+                        this.slotsListArm.unshift(this.siteContext.site);
+                    }
                 }
 
                 if (this.hasWriteAccess && r.hasSwapPermission) {
                     if (this._isSlot) {
                         this.hasSwapAccess = true;
                     } else {
-                        this.hasSwapAccess = this._slotsListArm && this._slotsListArm.length > 0;
+                        this.hasSwapAccess = this.slotsListArm && this.slotsListArm.length > 0;
                     }
+                }
+
+                if (this._swapMode) {
+                    this._swapMode = false;
+                    this.showSwapControls();
                 }
             });
     }
@@ -118,7 +149,20 @@ export class SlotsComponent implements OnDestroy {
     }
 
     public showSwapControls(dest?:string) {
+        this.swapControlsOpen = false;
+        this.swapSrc = null;
+        this.swapDest = null;
 
+        dest = dest || this.slotContext.site.properties.targetSwapSlot;
+        if (!dest) {
+            if (this.slotsListArm && this.slotsListArm.length > 0) {
+                dest = this.slotsListArm[0].name;
+            }
+        }
+
+        this.swapSrc = this.slotContext.site.name;
+        this.swapDest = dest;
+        this.swapControlsOpen = true;
     }
 
     public showAddControls() {

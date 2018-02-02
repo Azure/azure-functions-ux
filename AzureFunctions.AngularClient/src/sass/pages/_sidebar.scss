@@ -9,10 +9,17 @@
     }
 }
 
-.sidebar-new-function {
-    width: 30vw;
+.sidebar-new-function, .sidebar-slot-swap {
     background-color: $body-bg-color;
     z-index: 11 !important;
+}
+
+.sidebar-new-function {
+    width: 30vw;
+}
+
+.sidebar-slot-swap {
+    width: 60vw;
 }
 
 .ng-sidebar__backdrop {
@@ -20,7 +27,7 @@
 }
 
 #app-root[theme=dark]{
-    .sidebar-new-function {
+    .sidebar-new-function, .sidebar-slot-swap {
         background-color: $body-bg-color-dark;
     }
 

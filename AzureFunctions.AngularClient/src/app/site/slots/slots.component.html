@@ -1,17 +1,54 @@
-<command-bar>
-    <command displayText="{{ 'addSlot' | translate }}" 
-        iconUrl="image/add.svg" 
-        (click)="showAddControls()"
-        [disabled]="!hasWriteAccess"></command>
-  
-    <command displayText="{{ context?.site.properties.targetSwapSlot ? 'continueSwap' : 'swap' | translate }}"
-        iconUrl="image/swap.svg"
-        (click)="showSwapControls(context?.site.properties.targetSwapSlot)"
-        [disabled]="!hasWriteAccess || !hasSwapAccess"></command>
-</command-bar>
+<ng-sidebar-container class="sidebar-container" [animate]="true">
+    <div ng-sidebar-content>
+        <command-bar>
+            <command displayText="{{ 'addSlot' | translate }}" 
+                iconUrl="image/add.svg" 
+                (click)="showAddControls()"
+                [disabled]="!hasWriteAccess"></command>
+        
+            <command displayText="{{ slotContext?.site.properties.targetSwapSlot ? 'continueSwap' : 'swap' | translate }}"
+                iconUrl="image/swap.svg"
+                (click)="showSwapControls()"
+                [disabled]="!hasWriteAccess || !hasSwapAccess"></command>
+        </command-bar>
 
-<h1>Deployment Slots Placeholder</h1>
-<span load-image="image/slots.svg" class="icon-large"></span>
-<span load-image="image/scale-up.svg" class="icon-large"></span>
+        <h1>Deployment Slots</h1>
+        <br>
 
-<h1 *ngIf="swapTarget">SwapTarget: {{swapTarget}}</h1>
+        <div load-image="image/slots.svg" class="icon-large"></div>
+        <br>
+
+        <div load-image="image/scale-up.svg" class="icon-large"></div>
+        <br>
+
+        <h2>This Slot</h2>
+        <h3>{{ slotContext ? slotContext.site.name : '-' }}</h3>
+        <br>
+
+        <h2>Other Slots</h2>
+        <div *ngIf="slotsListArm && slotsListArm.length > 0">
+            <h3 *ngFor="let slot of slotsListArm">{{ slot.name }}</h3>
+        </div>
+        <h3 *ngIf="!slotsListArm || slotsListArm.length === 0">-</h3>
+        <br>
+    </div>
+
+    <ng-sidebar #sidebar [(opened)]="swapControlsOpen" 
+                [mode]="'over'" 
+                [position]="'right'" 
+                [closeOnClickOutside]="false" 
+                [trapFocus]="false"
+                [autoFocus]="true" 
+                [sidebarClass]="'sidebar-slot-swap'" 
+                [ariaLabel]="'Swap Slot'" 
+                [animate]="true" 
+                [closeOnClickBackdrop]="false" 
+                [showBackdrop]="true">
+
+                <div *ngIf="swapControlsOpen">
+                    <h2>Swap</h2>
+                    <h3>SrcSlot: {{swapSrc}}</h3>
+                    <h3>DestSlot: {{swapDest}}</h3>
+                </div>
+    </ng-sidebar>
+</ng-sidebar-container>
