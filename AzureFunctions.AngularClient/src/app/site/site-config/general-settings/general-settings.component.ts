@@ -1,11 +1,9 @@
+import { FeatureComponent } from 'app/shared/components/feature-component';
 import { Links, LogCategories } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
-import { BroadcastService } from './../../../shared/services/broadcast.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges, Injector } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 import { SaveOrValidationResult } from '../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
@@ -18,7 +16,7 @@ import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
+import { ArmObj, ArmArrayResult, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -26,36 +24,26 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
-
-// TODO: [andimarc] update to extend FunctionAppContextComponent
 @Component({
     selector: 'general-settings',
     templateUrl: './general-settings.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class GeneralSettingsComponent implements OnChanges, OnDestroy {
+export class GeneralSettingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+    @Input() mainForm: FormGroup;
+    @Input() resourceId: ResourceId;
+
     public Resources = PortalResources;
     public group: FormGroup;
-
-    private _resourceIdStream: Subject<string>;
-    private _resourceIdSubscription: RxSubscription;
     public hasWritePermissions: boolean;
     public permissionsMessage: string;
     public showPermissionsMessage: boolean;
     public showReadOnlySettingsMessage: string;
-
-    private _busyManager: BusyStateScopeManager;
-
-    private _saveError: string;
-
-    private _webConfigArm: ArmObj<SiteConfig>;
     public siteArm: ArmObj<Site>;
     public loadingFailureMessage: string;
     public loadingMessage: string;
-
-    private _sku: string;
-
     public FwLinks = Links;
+    public isProductionSlot: boolean;
 
     public clientAffinityEnabledOptions: SelectOption<boolean>[];
     public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -64,15 +52,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     public managedPipelineModeOptions: SelectOption<number>[];
     public remoteDebuggingEnabledOptions: SelectOption<boolean>[];
     public remoteDebuggingVersionOptions: SelectOption<string>[];
-
-    private _emptyJavaWebContainerProperties: JavaWebContainerProperties = { container: '-', containerMajorVersion: '', containerMinorVersion: '' };
-
-    public versionOptionsMap: { [key: string]: DropDownElement<string>[] };
-    private _versionOptionsMapClean: { [key: string]: DropDownElement<string>[] };
-    private _javaMinorVersionOptionsMap: { [key: string]: DropDownElement<string>[] };
-    private _javaMinorToMajorVersionsMap: { [key: string]: string };
-
-    private _selectedJavaVersion: string;
 
     public netFrameworkSupported = false;
     public phpSupported = false;
@@ -91,17 +70,22 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     public linuxRuntimeSupported = false;
     public linuxFxVersionOptions: DropDownGroupElement<string>[];
+    public versionOptionsMap: { [key: string]: DropDownElement<string>[] };
+
+    private _busyManager: BusyStateScopeManager;
+    private _saveError: string;
+    private _webConfigArm: ArmObj<SiteConfig>;
+    private _sku: string;
+
+    private _emptyJavaWebContainerProperties: JavaWebContainerProperties = { container: '-', containerMajorVersion: '', containerMinorVersion: '' };
+    private _versionOptionsMapClean: { [key: string]: DropDownElement<string>[] };
+    private _javaMinorVersionOptionsMap: { [key: string]: DropDownElement<string>[] };
+    private _javaMinorToMajorVersionsMap: { [key: string]: string };
+
+    private _selectedJavaVersion: string;
     private _linuxFxVersionOptionsClean: DropDownGroupElement<string>[];
-
-
-    @Input() mainForm: FormGroup;
-
-    @Input() resourceId: string;
-
     private _slotsConfigArmPath: string;
     private _slotsConfigArm: ArmArrayResult<Site>;
-    public isProductionSlot: boolean;
-
     private _ignoreChildEvents = true;
 
     constructor(
@@ -111,18 +95,21 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         private _logService: LogService,
         private _authZService: AuthzService,
         private _portalService: PortalService,
-        broadcastService: BroadcastService
+        injector: Injector
     ) {
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        super('GeneralSettingsComponent', injector);
+
+        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
 
         this._resetSlotsInfo();
 
         this._resetPermissionsAndLoadingState();
 
         this._generateRadioOptions();
+    }
 
-        this._resourceIdStream = new Subject<string>();
-        this._resourceIdSubscription = this._resourceIdStream
+    protected setup(inputEvents: Observable<ResourceId>) {
+        return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
                 this._busyManager.setBusy();
@@ -167,7 +154,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
                 this._busyManager.clearBusy();
             })
             .retry()
-            .subscribe(r => {
+            .do(r => {
                 this.siteArm = r.siteConfigResponse.json();
                 this._webConfigArm = r.webConfigResponse.json();
                 this._slotsConfigArm = r.slotsConfigResponse.json();
@@ -188,7 +175,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['resourceId']) {
-            this._resourceIdStream.next(this.resourceId);
+            this.setInput(this.resourceId);
         }
         if (changes['mainForm'] && !changes['resourceId']) {
             this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
@@ -196,10 +183,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this._resourceIdSubscription) {
-            this._resourceIdSubscription.unsubscribe();
-            this._resourceIdSubscription = null;
-        }
+        super.ngOnDestroy();
         this._busyManager.clearBusy();
     }
 
