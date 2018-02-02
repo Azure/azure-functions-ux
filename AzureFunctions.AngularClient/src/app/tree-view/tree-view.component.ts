@@ -96,6 +96,14 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
         }
     }
 
+    public showMenu(mouseEnter: boolean) {
+        if (mouseEnter) {
+            this.node.showMenu = true;
+        } else if (this.node.sideNav.selectedNode !== this.node) {
+            this.node.showMenu = false;
+        }
+    }
+
     private _moveFocusedItemDown() {
 
         const nextNode = new TreeNodeIterator(this.node).next();
@@ -124,14 +132,5 @@ export class TreeViewComponent implements OnChanges, AfterContentInit {
         Dom.clearFocus(node.treeView.item.nativeElement);
         (<HTMLElement>node.treeView.item.nativeElement).removeAttribute('aria-selected');
         node.isFocused = false;
-    }
-
-    openNewTab() {
-        // open a new tab with the rousource information
-        let windowLocation = `${window.location.hostname}`;
-        if (window.location.port) {
-            windowLocation += `:${window.location.port}`;
-        }
-        window.open(`https://${windowLocation}/signin?tabbed=true&rid=${this.node.resourceId}`, '_blank');
     }
 }

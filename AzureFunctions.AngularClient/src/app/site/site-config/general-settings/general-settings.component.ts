@@ -1,11 +1,9 @@
+import { FeatureComponent } from 'app/shared/components/feature-component';
 import { Links, LogCategories } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
-import { BroadcastService } from './../../../shared/services/broadcast.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges, Injector } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 import { SaveOrValidationResult } from '../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
@@ -18,7 +16,7 @@ import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj, ArmArrayResult } from './../../../shared/models/arm/arm-obj';
+import { ArmObj, ArmArrayResult, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -26,36 +24,26 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 
-
-// TODO: [andimarc] update to extend FunctionAppContextComponent
 @Component({
     selector: 'general-settings',
     templateUrl: './general-settings.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class GeneralSettingsComponent implements OnChanges, OnDestroy {
+export class GeneralSettingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+    @Input() mainForm: FormGroup;
+    @Input() resourceId: ResourceId;
+
     public Resources = PortalResources;
     public group: FormGroup;
-
-    private _resourceIdStream: Subject<string>;
-    private _resourceIdSubscription: RxSubscription;
     public hasWritePermissions: boolean;
     public permissionsMessage: string;
     public showPermissionsMessage: boolean;
     public showReadOnlySettingsMessage: string;
-
-    private _busyManager: BusyStateScopeManager;
-
-    private _saveError: string;
-
-    private _webConfigArm: ArmObj<SiteConfig>;
     public siteArm: ArmObj<Site>;
     public loadingFailureMessage: string;
     public loadingMessage: string;
-
-    private _sku: string;
-
     public FwLinks = Links;
+    public isProductionSlot: boolean;
 
     public clientAffinityEnabledOptions: SelectOption<boolean>[];
     public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -64,15 +52,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     public managedPipelineModeOptions: SelectOption<number>[];
     public remoteDebuggingEnabledOptions: SelectOption<boolean>[];
     public remoteDebuggingVersionOptions: SelectOption<string>[];
-
-    private _emptyJavaWebContainerProperties: JavaWebContainerProperties = { container: '-', containerMajorVersion: '', containerMinorVersion: '' };
-
-    public versionOptionsMap: { [key: string]: DropDownElement<string>[] };
-    private _versionOptionsMapClean: { [key: string]: DropDownElement<string>[] };
-    private _javaMinorVersionOptionsMap: { [key: string]: DropDownElement<string>[] };
-    private _javaMinorToMajorVersionsMap: { [key: string]: string };
-
-    private _selectedJavaVersion: string;
 
     public netFrameworkSupported = false;
     public phpSupported = false;
@@ -87,21 +66,24 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     public autoSwapSupported = false;
     public autoSwapEnabledOptions: SelectOption<boolean>[];
-    public autoSwapSlotNameOptions: DropDownElement<string>[];
 
+    public dropDownOptionsMap: { [key: string]: DropDownElement<string>[] };
     public linuxRuntimeSupported = false;
     public linuxFxVersionOptions: DropDownGroupElement<string>[];
+
+    private _busyManager: BusyStateScopeManager;
+    private _saveError: string;
+    private _webConfigArm: ArmObj<SiteConfig>;
+    private _sku: string;
+
+    private _dropDownOptionsMapClean: { [key: string]: DropDownElement<string>[] };
+    private _emptyJavaWebContainerProperties: JavaWebContainerProperties = { container: '-', containerMajorVersion: '', containerMinorVersion: '' };
+    private _javaMinorVersionOptionsMap: { [key: string]: DropDownElement<string>[] };
+    private _javaMinorToMajorVersionsMap: { [key: string]: string };
+
+    private _selectedJavaVersion: string;
     private _linuxFxVersionOptionsClean: DropDownGroupElement<string>[];
-
-
-    @Input() mainForm: FormGroup;
-
-    @Input() resourceId: string;
-
     private _slotsConfigArmPath: string;
-    private _slotsConfigArm: ArmArrayResult<Site>;
-    public isProductionSlot: boolean;
-
     private _ignoreChildEvents = true;
 
     constructor(
@@ -111,18 +93,21 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         private _logService: LogService,
         private _authZService: AuthzService,
         private _portalService: PortalService,
-        broadcastService: BroadcastService
+        injector: Injector
     ) {
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        super('GeneralSettingsComponent', injector);
+
+        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
 
         this._resetSlotsInfo();
 
         this._resetPermissionsAndLoadingState();
 
         this._generateRadioOptions();
+    }
 
-        this._resourceIdStream = new Subject<string>();
-        this._resourceIdSubscription = this._resourceIdStream
+    protected setup(inputEvents: Observable<ResourceId>) {
+        return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
                 this._busyManager.setBusy();
@@ -130,7 +115,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
                 this.siteArm = null;
                 this._webConfigArm = null;
                 this.group = null;
-                this.versionOptionsMap = null;
+                this.dropDownOptionsMap = null;
                 this._ignoreChildEvents = true;
                 this._resetSlotsInfo();
                 this._resetSupportedControls();
@@ -160,26 +145,27 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             })
             .do(null, error => {
                 this._logService.error(LogCategories.generalSettings, '/general-settings', error);
-                this._setupForm(null, null, null);
+                this._setupForm(null, null);
                 this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
                 this.loadingMessage = null;
                 this.showPermissionsMessage = true;
                 this._busyManager.clearBusy();
             })
             .retry()
-            .subscribe(r => {
+            .do(r => {
                 this.siteArm = r.siteConfigResponse.json();
                 this._webConfigArm = r.webConfigResponse.json();
-                this._slotsConfigArm = r.slotsConfigResponse.json();
+                const slotsConfigArm = r.slotsConfigResponse.json();
                 const availableStacksArm = r.availableStacksResponse.json();
-                if (!this._versionOptionsMapClean) {
+                if (!this._dropDownOptionsMapClean) {
                     this._parseAvailableStacks(availableStacksArm);
+                    this._parseSlotsConfig(slotsConfigArm);
                 }
                 if (!this._linuxFxVersionOptionsClean) {
                     this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
                 }
                 this._processSupportedControls(this.siteArm, this._webConfigArm);
-                this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
+                this._setupForm(this._webConfigArm, this.siteArm);
                 this.loadingMessage = null;
                 this.showPermissionsMessage = true;
                 this._busyManager.clearBusy();
@@ -188,18 +174,15 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['resourceId']) {
-            this._resourceIdStream.next(this.resourceId);
+            this.setInput(this.resourceId);
         }
         if (changes['mainForm'] && !changes['resourceId']) {
-            this._setupForm(this._webConfigArm, this.siteArm, this._slotsConfigArm);
+            this._setupForm(this._webConfigArm, this.siteArm);
         }
     }
 
     ngOnDestroy(): void {
-        if (this._resourceIdSubscription) {
-            this._resourceIdSubscription.unsubscribe();
-            this._resourceIdSubscription = null;
-        }
+        super.ngOnDestroy();
         this._busyManager.clearBusy();
     }
 
@@ -209,7 +192,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         const inputs = {
             aspResourceId: this.siteArm.properties.serverFarmId,
             aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
-                && this.siteArm.properties.hostingEnvironmentProfile.id
+            && this.siteArm.properties.hostingEnvironmentProfile.id
         };
 
         const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
@@ -233,7 +216,6 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
     private _resetSlotsInfo() {
         this._slotsConfigArmPath = null;
-        this._slotsConfigArm = null;
         this.isProductionSlot = true;
 
         if (this.resourceId) {
@@ -346,32 +328,27 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         }
     }
 
-    private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>, slotsConfigArm: ArmArrayResult<Site>) {
-        if (!!webConfigArm && !!siteConfigArm && !!slotsConfigArm) {
+    private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
+        if (!!webConfigArm && !!siteConfigArm) {
 
             this._ignoreChildEvents = true;
 
             if (!this._saveError || !this.group) {
                 const group = this._fb.group({});
-                const versionOptionsMap: { [key: string]: DropDownElement<string>[] } = {};
+                const dropDownOptionsMap: { [key: string]: DropDownElement<string>[] } = {};
                 const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
-                const autoSwapSlotNameOptions: DropDownElement<string>[] = [];
 
-                this._setupNetFramworkVersion(group, versionOptionsMap, webConfigArm.properties.netFrameworkVersion);
-                this._setupPhpVersion(group, versionOptionsMap, webConfigArm.properties.phpVersion);
-                this._setupPythonVersion(group, versionOptionsMap, webConfigArm.properties.pythonVersion);
-                this._setupJava(group, versionOptionsMap, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
+                this._setupNetFramworkVersion(group, dropDownOptionsMap, webConfigArm.properties.netFrameworkVersion);
+                this._setupPhpVersion(group, dropDownOptionsMap, webConfigArm.properties.phpVersion);
+                this._setupPythonVersion(group, dropDownOptionsMap, webConfigArm.properties.pythonVersion);
+                this._setupJava(group, dropDownOptionsMap, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
                 this._setupGeneralSettings(group, webConfigArm, siteConfigArm);
-
-                this._setupAutoSwapSettings(group, autoSwapSlotNameOptions, webConfigArm, siteConfigArm, slotsConfigArm);
-
+                this._setupAutoSwapSettings(group, dropDownOptionsMap, webConfigArm.properties.autoSwapSlotName);
                 this._setupLinux(group, linuxFxVersionOptions, webConfigArm.properties.linuxFxVersion, webConfigArm.properties.appCommandLine);
 
                 this.group = group;
-                this.versionOptionsMap = versionOptionsMap;
+                this.dropDownOptionsMap = dropDownOptionsMap;
                 this.linuxFxVersionOptions = linuxFxVersionOptions;
-                this.autoSwapSlotNameOptions = autoSwapSlotNameOptions;
-
             }
 
             if (this.mainForm.contains('generalSettings')) {
@@ -387,7 +364,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         } else {
 
             this.group = null;
-            this.versionOptionsMap = null;
+            this.dropDownOptionsMap = null;
 
             if (this.mainForm.contains('generalSettings')) {
                 this.mainForm.removeControl('generalSettings');
@@ -494,62 +471,111 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
         }
     }
 
-    private _setupAutoSwapSettings(
-        group: FormGroup,
-        autoSwapSlotNameOptions: DropDownElement<string>[],
-        webConfigArm: ArmObj<SiteConfig>,
-        siteConfigArm: ArmObj<Site>,
-        slotsConfigArm: ArmArrayResult<Site>
-    ) {
+    private _setupAutoSwapSettings(group: FormGroup, dropDownOptionsMap: { [key: string]: DropDownElement<string>[] }, autoSwapSlotName: string) {
         if (this.autoSwapSupported) {
-            if (this.isProductionSlot) {
-                group.addControl('autoSwapEnabled', this._fb.control({ value: false, disabled: true }));
-                group.addControl('autoSwapSlotName', this._fb.control({ value: null, disabled: true }));
-                setTimeout(() => { this._setControlsEnabledState(['autoSwapEnabled', 'autoSwapSlotName'], false); }, 0);
-            } else {
-                const slotNames: string[] = ['production'];
-                if (slotsConfigArm && slotsConfigArm.value) {
-                    slotsConfigArm.value
-                        .map(s => s.name)
-                        .filter(r => r !== siteConfigArm.name)
-                        .forEach(n => slotNames.push(n.split('/').slice(-1)[0]));
+            const autoSwapEnabledControlInfo = { value: false, disabled: true };
+            const autoSwapSlotNameControlInfo = { value: '', disabled: true };
+
+            const autoSwapSlotNameOptions: DropDownElement<string>[] = [];
+            const autoSwapSlotNameOptionsClean = this._dropDownOptionsMapClean['autoSwapSlotName'];
+
+            if (!this.isProductionSlot && autoSwapSlotNameOptionsClean.length > 0) {
+                autoSwapEnabledControlInfo.disabled = false;
+
+                // We only show Auto Swap as "On" if the autoSwapSlotName config property is set and the configured value appears in the list of slot names.
+                if (autoSwapSlotName) {
+                    let foundIndex = autoSwapSlotNameOptionsClean.findIndex(n => n.value === autoSwapSlotName);
+                    if (foundIndex !== -1) {
+                        autoSwapEnabledControlInfo.value = true;
+                        autoSwapSlotNameControlInfo.value = autoSwapSlotName;
+                        autoSwapSlotNameControlInfo.disabled = false;
+
+                        autoSwapSlotNameOptionsClean.forEach((element, index) => {
+                            autoSwapSlotNameOptions.push({
+                                displayLabel: element.displayLabel,
+                                value: element.value,
+                                default: index === foundIndex
+                            });
+                        });
+                    }
                 }
-
-                slotNames.forEach(name => {
-                    autoSwapSlotNameOptions.push({
-                        displayLabel: name,
-                        value: name,
-                        default: name === webConfigArm.properties.autoSwapSlotName
-                    });
-                });
-
-                group.addControl('autoSwapEnabled', this._fb.control({ value: !!webConfigArm.properties.autoSwapSlotName, disabled: !this.hasWritePermissions }));
-                group.addControl('autoSwapSlotName', this._fb.control({ value: webConfigArm.properties.autoSwapSlotName, disabled: !this.hasWritePermissions }));
-                setTimeout(() => { this._setControlsEnabledState(['autoSwapSlotName'], !!webConfigArm.properties.autoSwapSlotName && this.hasWritePermissions); }, 0);
             }
+
+            autoSwapEnabledControlInfo.disabled = autoSwapEnabledControlInfo.disabled || !this.hasWritePermissions;
+            autoSwapSlotNameControlInfo.disabled = autoSwapSlotNameControlInfo.disabled || !this.hasWritePermissions;
+
+            group.addControl('autoSwapEnabled', this._fb.control({ value: autoSwapEnabledControlInfo.value, disabled: autoSwapEnabledControlInfo.disabled }));
+            group.addControl('autoSwapSlotName', this._fb.control({ value: autoSwapSlotNameControlInfo.value, disabled: autoSwapSlotNameControlInfo.disabled }));
+
+            dropDownOptionsMap['autoSwapSlotName'] = autoSwapSlotNameOptions;
+
+            setTimeout(() => {
+                this._setControlsEnabledState(['autoSwapEnabled'], !autoSwapEnabledControlInfo.disabled);
+                this._setControlsEnabledState(['autoSwapSlotName'], !autoSwapSlotNameControlInfo.disabled);
+            }, 0);
         }
     }
 
     public updateAutoSwapSlotNameOptions(enabled: boolean) {
         if (!this._ignoreChildEvents) {
-            this._setControlsEnabledState(['autoSwapSlotName'], enabled && this.hasWritePermissions);
-            setTimeout(() => {
+            let autoSwapSlotNameOptions: DropDownElement<string>[] = [];
+            let autoSwapSlotName = '';
+
+            if (enabled) {
+                const autoSwapSlotNameOptionsClean = this._dropDownOptionsMapClean['autoSwapSlotName'];
+                autoSwapSlotNameOptions = JSON.parse(JSON.stringify(autoSwapSlotNameOptionsClean));
+                autoSwapSlotNameOptions[0].default = true;
+                autoSwapSlotName = autoSwapSlotNameOptions[0].value;
+            }
+
+            const autoSwapSlotNameControl = this._fb.control({ value: autoSwapSlotName, disabled: !enabled || !this.hasWritePermissions });
+
+            if (!!this.group.controls['autoSwapSlotName']) {
+                this.group.setControl('autoSwapSlotName', autoSwapSlotNameControl);
+            } else {
+                this.group.addControl('autoSwapSlotName', autoSwapSlotNameControl);
+            }
+
+            if (enabled || this.group.controls['autoSwapEnabled'].dirty) {
                 this.group.controls['autoSwapSlotName'].markAsDirty();
-            }, 0);
+            }
+
+            this._setDropDownOptions('autoSwapSlotName', autoSwapSlotNameOptions);
+
+            setTimeout(() => { this._setControlsEnabledState(['autoSwapSlotName'], enabled && this.hasWritePermissions); }, 0);
         }
     }
 
-    private _setVersionOptions(name: string, options: DropDownElement<string>[]) {
-        this.versionOptionsMap = this.versionOptionsMap || {};
-        this.versionOptionsMap[name] = options;
+    private _parseSlotsConfig(slotsConfigArm: ArmArrayResult<Site>) {
+        this._dropDownOptionsMapClean = this._dropDownOptionsMapClean || {};
+
+        const autoSwapSlotNameOptions: DropDownElement<string>[] = [];
+
+        if (!this.isProductionSlot) {
+            const prodSlotDisplayName = this._translateService.instant(PortalResources.productionSlotDisplayName);
+            autoSwapSlotNameOptions.push({ displayLabel: prodSlotDisplayName, value: 'production', default: false });
+            if (slotsConfigArm && slotsConfigArm.value) {
+                slotsConfigArm.value
+                    .filter(s => s.name !== this.siteArm.name)
+                    .map(s => s.name.split('/').slice(-1)[0])
+                    .forEach(n => autoSwapSlotNameOptions.push({ displayLabel: n, value: n, default: false }));
+            }
+        }
+
+        this._dropDownOptionsMapClean['autoSwapSlotName'] = autoSwapSlotNameOptions;
     }
 
-    private _setupNetFramworkVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, netFrameworkVersion: string) {
+    private _setDropDownOptions(name: string, options: DropDownElement<string>[]) {
+        this.dropDownOptionsMap = this.dropDownOptionsMap || {};
+        this.dropDownOptionsMap[name] = options;
+    }
+
+    private _setupNetFramworkVersion(group: FormGroup, dropDownOptionsMap: { [key: string]: DropDownElement<string>[] }, netFrameworkVersion: string) {
         if (this.netFrameworkSupported) {
             let defaultValue = '';
 
             const netFrameworkVersionOptions: DropDownElement<string>[] = [];
-            const netFrameworkVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.NetStack];
+            const netFrameworkVersionOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.NetStack];
 
             netFrameworkVersionOptionsClean.forEach(element => {
                 const match = element.value === netFrameworkVersion || (!element.value && !netFrameworkVersion);
@@ -565,17 +591,17 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             const netFrameworkVersionControl = this._fb.control({ value: defaultValue, disabled: !this.hasWritePermissions });
             group.addControl('netFrameworkVersion', netFrameworkVersionControl);
 
-            versionOptionsMap['netFrameworkVersion'] = netFrameworkVersionOptions;
+            dropDownOptionsMap['netFrameworkVersion'] = netFrameworkVersionOptions;
         }
     }
 
-    private _setupPhpVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, phpVersion: string) {
+    private _setupPhpVersion(group: FormGroup, dropDownOptionsMap: { [key: string]: DropDownElement<string>[] }, phpVersion: string) {
         if (this.phpSupported) {
 
             let defaultValue = '';
 
             const phpVersionOptions: DropDownElement<string>[] = [];
-            const phpVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.PhpStack];
+            const phpVersionOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.PhpStack];
 
             phpVersionOptionsClean.forEach(element => {
                 const match = element.value === phpVersion || (!element.value && !phpVersion);
@@ -591,17 +617,17 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             const phpVersionControl = this._fb.control({ value: defaultValue, disabled: !this.hasWritePermissions });
             group.addControl('phpVersion', phpVersionControl);
 
-            versionOptionsMap['phpVersion'] = phpVersionOptions;
+            dropDownOptionsMap['phpVersion'] = phpVersionOptions;
         }
     }
 
-    private _setupPythonVersion(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, pythonVersion: string) {
+    private _setupPythonVersion(group: FormGroup, dropDownOptionsMap: { [key: string]: DropDownElement<string>[] }, pythonVersion: string) {
         if (this.pythonSupported) {
 
             let defaultValue = '';
 
             const pythonVersionOptions: DropDownElement<string>[] = [];
-            const pythonVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.PythonStack];
+            const pythonVersionOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.PythonStack];
 
             pythonVersionOptionsClean.forEach(element => {
                 const match = element.value === pythonVersion || (!element.value && !pythonVersion);
@@ -617,11 +643,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             const pythonVersionControl = this._fb.control({ value: defaultValue, disabled: !this.hasWritePermissions });
             group.addControl('pythonVersion', pythonVersionControl);
 
-            versionOptionsMap['pythonVersion'] = pythonVersionOptions;
+            dropDownOptionsMap['pythonVersion'] = pythonVersionOptions;
         }
     }
 
-    private _setupJava(group: FormGroup, versionOptionsMap: { [key: string]: DropDownElement<string>[] }, javaVersion: string, javaContainer: string, javaContainerVersion: string) {
+    private _setupJava(group: FormGroup, dropDownOptionsMap: { [key: string]: DropDownElement<string>[] }, javaVersion: string, javaContainer: string, javaContainerVersion: string) {
         if (this.javaSupported) {
 
             let defaultJavaMinorVersion = '';
@@ -629,11 +655,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
             let defaultJavaVersion = '';
             const javaVersionOptions: DropDownElement<string>[] = [];
-            const javaVersionOptionsClean = this._versionOptionsMapClean[AvailableStackNames.JavaStack];
+            const javaVersionOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.JavaStack];
 
             let defaultJavaWebContainer = JSON.stringify(this._emptyJavaWebContainerProperties);
             let javaWebContainerOptions: DropDownElement<string>[] = [];
-            const javaWebContainerOptionsClean = this._versionOptionsMapClean[AvailableStackNames.JavaContainer];
+            const javaWebContainerOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.JavaContainer];
 
             if (javaVersion) {
                 if (this._javaMinorVersionOptionsMap[javaVersion]) {
@@ -699,9 +725,9 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             group.addControl('javaMinorVersion', javaMinorVersionControl);
             group.addControl('javaWebContainer', javaWebContainerControl);
 
-            versionOptionsMap['javaVersion'] = javaVersionOptions;
-            versionOptionsMap['javaMinorVersion'] = javaMinorVersionOptions;
-            versionOptionsMap['javaWebContainer'] = javaWebContainerOptions;
+            dropDownOptionsMap['javaVersion'] = javaVersionOptions;
+            dropDownOptionsMap['javaMinorVersion'] = javaMinorVersionOptions;
+            dropDownOptionsMap['javaWebContainer'] = javaWebContainerOptions;
 
         }
     }
@@ -740,7 +766,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
                 javaMinorVersionNeedsUpdate = true;
 
                 if (!previousJavaVersionSelection) {
-                    const javaWebContainerOptionsClean = this._versionOptionsMapClean[AvailableStackNames.JavaContainer];
+                    const javaWebContainerOptionsClean = this._dropDownOptionsMapClean[AvailableStackNames.JavaContainer];
                     javaWebContainerOptions = JSON.parse(JSON.stringify(javaWebContainerOptionsClean));
                     javaWebContainerOptions[0].default = true;
                     defaultJavaWebContainer = javaWebContainerOptions[0].value;
@@ -759,7 +785,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
                 }
                 this.group.controls['javaMinorVersion'].markAsDirty();
 
-                this._setVersionOptions('javaMinorVersion', javaMinorVersionOptions);
+                this._setDropDownOptions('javaMinorVersion', javaMinorVersionOptions);
             }
 
             // WebContainer
@@ -773,7 +799,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
                 }
                 this.group.controls['javaWebContainer'].markAsDirty();
 
-                this._setVersionOptions('javaWebContainer', javaWebContainerOptions);
+                this._setDropDownOptions('javaWebContainer', javaWebContainerOptions);
             }
 
             setTimeout(() => { this._setEnabledStackControls(); }, 0);
@@ -781,7 +807,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
 
     private _parseAvailableStacks(availableStacksArm: ArmArrayResult<AvailableStack>) {
-        this._versionOptionsMapClean = {};
+        this._dropDownOptionsMapClean = {};
 
         availableStacksArm.value.forEach(availableStackArm => {
             switch (availableStackArm.name) {
@@ -807,7 +833,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
 
     private _parseNetStackOptions(availableStack: AvailableStack) {
-        this._versionOptionsMapClean = this._versionOptionsMapClean || {};
+        this._dropDownOptionsMapClean = this._dropDownOptionsMapClean || {};
 
         const netFrameworkVersionOptions: DropDownElement<string>[] = [];
 
@@ -819,11 +845,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             });
         });
 
-        this._versionOptionsMapClean[AvailableStackNames.NetStack] = netFrameworkVersionOptions;
+        this._dropDownOptionsMapClean[AvailableStackNames.NetStack] = netFrameworkVersionOptions;
     }
 
     private _parsePhpStackOptions(availableStack: AvailableStack) {
-        this._versionOptionsMapClean = this._versionOptionsMapClean || {};
+        this._dropDownOptionsMapClean = this._dropDownOptionsMapClean || {};
 
         const phpVersionOptions: DropDownElement<string>[] = [];
 
@@ -841,11 +867,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             });
         });
 
-        this._versionOptionsMapClean[AvailableStackNames.PhpStack] = phpVersionOptions;
+        this._dropDownOptionsMapClean[AvailableStackNames.PhpStack] = phpVersionOptions;
     }
 
     private _parsePythonStackOptions(availableStack: AvailableStack) {
-        this._versionOptionsMapClean = this._versionOptionsMapClean || {};
+        this._dropDownOptionsMapClean = this._dropDownOptionsMapClean || {};
 
         const pythonVersionOptions: DropDownElement<string>[] = [];
 
@@ -863,11 +889,11 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             });
         });
 
-        this._versionOptionsMapClean[AvailableStackNames.PythonStack] = pythonVersionOptions;
+        this._dropDownOptionsMapClean[AvailableStackNames.PythonStack] = pythonVersionOptions;
     }
 
     private _parseJavaStackOptions(availableStack: AvailableStack) {
-        this._versionOptionsMapClean = this._versionOptionsMapClean || {};
+        this._dropDownOptionsMapClean = this._dropDownOptionsMapClean || {};
         this._javaMinorToMajorVersionsMap = {};
         this._javaMinorVersionOptionsMap = {};
 
@@ -889,7 +915,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
             });
         });
 
-        this._versionOptionsMapClean[AvailableStackNames.JavaStack] = javaVersionOptions;
+        this._dropDownOptionsMapClean[AvailableStackNames.JavaStack] = javaVersionOptions;
     }
 
     private _parseJavaMinorStackOptions(majorVersion: MajorVersion) {
@@ -917,7 +943,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
     }
 
     private _parseJavaContainerOptions(availableStack: AvailableStack) {
-        this._versionOptionsMapClean = this._versionOptionsMapClean || {};
+        this._dropDownOptionsMapClean = this._dropDownOptionsMapClean || {};
 
         const javaWebContainerOptions: DropDownElement<string>[] = [];
 
@@ -945,7 +971,7 @@ export class GeneralSettingsComponent implements OnChanges, OnDestroy {
 
         });
 
-        this._versionOptionsMapClean[AvailableStackNames.JavaContainer] = javaWebContainerOptions;
+        this._dropDownOptionsMapClean[AvailableStackNames.JavaContainer] = javaWebContainerOptions;
     }
 
     private _parseLinuxBuiltInStacks(builtInStacks: Framework[]) {

@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { FunctionInfo } from '../models/function-info';
 import { TutorialEvent } from '../models/tutorial';
 import { ErrorEvent } from '../models/error-event';
-import { FunctionAppHttpError } from '../models/function-app-http-result';
+import { HttpError } from '../models/http-result';
 
 interface EventInfo<T> {
     eventType: BroadcastEvent;
@@ -26,7 +26,7 @@ export class BroadcastService {
     private functionUpdatedEvent: EventEmitter<FunctionInfo>;
     private integrateChangedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
-    private errorEvent: EventEmitter<ErrorEvent | FunctionAppHttpError>;
+    private errorEvent: EventEmitter<ErrorEvent | HttpError>;
     private trialExpired: EventEmitter<void>;
     private resetKeySelection: EventEmitter<FunctionInfo>;
     private clearErrorEvent: EventEmitter<string>;
@@ -56,6 +56,7 @@ export class BroadcastService {
         this._streamMap[BroadcastEvent.DirtyStateChange] = new ReplaySubject(1);
         this._streamMap[BroadcastEvent.UpdateAppsList] = new ReplaySubject(1);
         this._streamMap[BroadcastEvent.IntegrateChanged] = new Subject();
+        this._streamMap[BroadcastEvent.ReloadDeploymentCenter] = new Subject();
         this._streamMap[BroadcastEvent.FunctionEditorEvent] = new Subject();
         this._streamMap[BroadcastEvent.RightTabsEvent] = new Subject();
         this._streamMap[BroadcastEvent.BottomTabsEvent] = new Subject();

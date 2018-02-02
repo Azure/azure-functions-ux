@@ -83,18 +83,18 @@ export class LogService {
         }
     }
 
-    public log(level: LogLevel, category: string, data: any, id?: string){
-        if(!id && (level === LogLevel.error || level === LogLevel.warning)){
+    public log(level: LogLevel, category: string, data: any, id?: string) {
+        if (!id && (level === LogLevel.error || level === LogLevel.warning)) {
             throw Error('Error and Warning log levels require an id');
         }
 
-        if(level === LogLevel.error){
+        if (level === LogLevel.error) {
             this.error(category, id, data);
-        } else if(level === LogLevel.warning){
+        } else if (level === LogLevel.warning) {
             this.warn(category, id, data);
-        } else if(level === LogLevel.debug){
+        } else if (level === LogLevel.debug) {
             this.debug(category, data);
-        } else{
+        } else {
             this.verbose(category, data);
         }
     }
@@ -102,7 +102,9 @@ export class LogService {
     private _shouldLog(category: string, logLevel: LogLevel) {
 
         if (logLevel <= this._logLevel) {
-            if (this._categories.length > 0 && this._categories.find(c => c.toLowerCase() === category.toLowerCase())) {
+            if (logLevel === LogLevel.error || logLevel === LogLevel.warning) {
+                return true;
+            } else if (this._categories.length > 0 && this._categories.find(c => c.toLowerCase() === category.toLowerCase())) {
                 return true;
             } else if (this._categories.length === 0) {
                 return true;
@@ -114,7 +116,7 @@ export class LogService {
         return false;
     }
 
-    private _getTime(){
+    private _getTime() {
         const now = new Date();
         return now.toISOString();
     }

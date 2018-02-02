@@ -799,6 +799,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to production.
+        /// </summary>
+        internal static string productionSlotDisplayName {
+            get {
+                return ResourceManager.GetString("productionSlotDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Swap requires a standard or higher App Service Plan.
         /// </summary>
         internal static string autoSwapUpsell {

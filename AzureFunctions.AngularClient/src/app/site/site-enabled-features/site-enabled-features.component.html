@@ -1,3 +1,5 @@
+<label id="enabledFeatureLabel">{{ 'enabledFeatures_header' | translate }}</label>
+
 <div *ngIf="featureItems.length === 0 && !isLoading" class="site-enabled-feature">
     {{ 'enabledFeatures_description' | translate}}
 </div>
@@ -5,10 +7,14 @@
 <div #enabledFeatures>
     <div *ngFor="let featureItem of featureItems" class="list-item site-enabled-feature">
         <span [load-image]="featureItem.iconUrl" class="icon-small"></span>
-        <a class="link"
-            (click)="openFeature(featureItem)"
-            (keydown)="onKeyPress($event, featureItem)"
-            [tabIndex] = "featureItem.focusable ? 0 : -1">{{featureItem.title}}</a>
+        <a class="link" 
+           id="featureTitle"
+           (click)="openFeature(featureItem)"
+           (keydown)="onKeyPress($event, featureItem)"
+           [tabIndex] = "featureItem.focusable ? 0 : -1"
+           aria-labelledby="enabledFeatureLabel featureTitle">
+           {{featureItem.title}}
+        </a>
     </div>  
 </div>
 

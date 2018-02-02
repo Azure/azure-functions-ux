@@ -1,3 +1,4 @@
+import { TelemetryService } from './services/telemetry.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { Injector } from '@angular/core';
 import { TabComponent } from './../controls/tabs/tab/tab.component';
@@ -47,7 +48,7 @@ import { ArmTryService } from './services/arm-try.service';
 import { AiService } from './services/ai.service';
 import { UserService } from './services/user.service';
 import { Http } from '@angular/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
@@ -61,6 +62,8 @@ import { TableRowComponent } from './../controls/table-row/table-row.component';
 import { TableRootComponent } from './../controls/table-root/table-root.component';
 import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filter.pipe';
 import { ActivateWithKeysDirective } from './../controls/activate-with-keys/activate-with-keys.directive';
+import { EmbeddedService } from 'app/shared/services/embedded.service';
+import { SiteService } from 'app/shared/services/site.service';
 
 export function ArmServiceFactory(
     http: Http,
@@ -177,6 +180,7 @@ export class SharedModule {
                 PortalService,
                 BroadcastService,
                 FunctionMonitorService,
+                FormBuilder,
                 LogService,
                 {
                     provide: ArmService, useFactory: ArmServiceFactory, deps: [
@@ -195,6 +199,9 @@ export class SharedModule {
                 UtilitiesService,
                 BackgroundTasksService,
                 GlobalStateService,
+                EmbeddedService,
+                SiteService,
+                TelemetryService,
                 { provide: AiService, useFactory: AiServiceFactory },
                 { provide: ErrorHandler, useClass: GlobalErrorHandler }
             ]

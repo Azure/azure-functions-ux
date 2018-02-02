@@ -9,7 +9,7 @@ import { CacheService } from 'app/shared/services/cache.service';
 import { Injectable, Injector } from '@angular/core';
 import { Headers, Response, ResponseType } from '@angular/http';
 import { FunctionInfo } from 'app/shared/models/function-info';
-import { FunctionAppHttpResult } from './../models/function-app-http-result';
+import { HttpResult } from './../models/http-result';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { FunctionsVersionInfoHelper } from 'app/shared/models/functions-version-info';
 import { Constants } from 'app/shared/models/constants';
@@ -36,121 +36,14 @@ import { errorIds } from 'app/shared/models/error-ids';
 import { LogService } from './log.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { ExtensionInstallStatus } from '../models/extension-install-status';
+import { Templates } from './../../function/embedded/temp-templates';
 
-type Result<T> = Observable<FunctionAppHttpResult<T>>;
+type Result<T> = Observable<HttpResult<T>>;
 @Injectable()
 export class FunctionAppService {
     private readonly runtime: ConditionalHttpClient;
     private readonly azure: ConditionalHttpClient;
-
-    private testJsonTemplates = JSON.stringify([
-        {
-            "id": "SyncTrigger-CSharp",
-            "runtime": "1",
-            "files": {
-                "readme.md": "# HttpTrigger -on",
-                "run.csx": "#r \"..\\bin\\Microsoft.Xrm.Sdk.dll\"\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\"name\"] = entity.Attributes[\"name\"].ToString().ToUpper();\n\treturn entity;\n}",
-                "sample.dat": "{}"
-            },
-            "function": {
-                "disabled": false,
-                "bindings": [
-                    {
-                        "name": "entity",
-                        "message": "create",
-                        "type": "synctrigger",
-                        "direction": "in"
-                    }
-                ]
-            },
-            "metadata": {
-                "defaultFunctionName": "SyncTriggerCSharp",
-                "description": "$SyncTrigger_description",
-                "name": "Sync trigger",
-                "language": "C#",
-                "trigger": "SyncTrigger",
-                "category": [
-                    "$temp_category_core"
-                ],
-                "categoryStyle": "http",
-                "enabledInTryMode": true,
-                "userPrompt": [
-                    "message"
-                ]
-            }
-        },
-        {
-            "id": "SyncTrigger-JavaScript",
-            "runtime": "1",
-            "files": {
-                "index.js": "module.exports",
-                "sample.dat": "{}"
-            },
-            "function": {
-                "disabled": false,
-                "bindings": [
-                    {
-                        "name": "entity",
-                        "message": "create",
-                        "type": "synctrigger",
-                        "direction": "in"
-                    }
-                ]
-            },
-            "metadata": {
-                "defaultFunctionName": "SyncTriggerJS",
-                "description": "$SyncTrigger_description",
-                "name": "Sync trigger",
-                "language": "JavaScript",
-                "trigger": "SyncTrigger",
-                "category": [
-                    "$temp_category_core"
-                ],
-                "categoryStyle": "http",
-                "enabledInTryMode": true,
-                "userPrompt": [
-                    "message"
-                ]
-            }
-        }
-    ]);
-
-    private testJsonBindings = JSON.stringify({
-        "bindings": [
-            {
-                "type": "syncTrigger",
-                "displayName": "Sync",
-                "direction": "trigger",
-                "settings": [
-                    {
-                        "name": "message",
-                        "value": "enum",
-                        "enum": [
-                            {
-                                "value": "Create",
-                                "display": "Create"
-                            },
-                            {
-                                "value": "Destroy",
-                                "display": "Destroy"
-                            },
-                            {
-                                "value": "Update",
-                                "display": "Update"
-                            },
-                            {
-                                "value": "Retrieve",
-                                "display": "Retrieve"
-                            }
-                        ],
-                        "label": "Event",
-                        "help": "Event help"
-                    }
-                ]
-
-            }
-        ]
-    });
+    private readonly _embeddedTemplates: Templates;
 
     constructor(private _cacheService: CacheService,
         private _translateService: TranslateService,
@@ -158,14 +51,22 @@ export class FunctionAppService {
         private _injector: Injector,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
-        logService: LogService) {
+        logService: LogService,
+        injector: Injector) {
 
-        this.runtime = new ConditionalHttpClient(_cacheService, logService, context => this.getRuntimeToken(context), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
-        this.azure = new ConditionalHttpClient(_cacheService, logService, _ => _userService.getStartupInfo().map(i => i.token), 'NotOverQuota', 'ReachableLoadballancer');
+        this.runtime = new ConditionalHttpClient(injector, resourceId => this.getRuntimeToken(resourceId), 'NoClientCertificate', 'NotOverQuota', 'NotStopped', 'ReachableLoadballancer');
+        this.azure = new ConditionalHttpClient(injector, _ => _userService.getStartupInfo().map(i => i.token), 'NotOverQuota', 'ReachableLoadballancer');
+        this._embeddedTemplates = new Templates();
     }
 
-    private getRuntimeToken(context: FunctionAppContext): Observable<string> {
-        return this._userService.getStartupInfo()
+    private getRuntimeToken(resourceId: string): Observable<string> {
+        let context: FunctionAppContext;
+
+        return this.getAppContext(resourceId)
+            .concatMap(c => {
+                context = c;
+                return this._userService.getStartupInfo()
+            })
             .concatMap(info => ArmUtil.isLinuxApp(context.site)
                 ? this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
                 : this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token)))
@@ -177,7 +78,7 @@ export class FunctionAppService {
     }
 
     getFunction(context: FunctionAppContext, name: string): Result<FunctionInfo> {
-        return this.getClient(context).execute(context, t => Observable.zip(
+        return this.getClient(context).execute({ resourceId: context.site.id }, t => Observable.zip(
             this._cacheService.get(context.urlTemplates.getFunctionUrl(name), false, this.headers(t)),
             this._cacheService.postArm(`${context.site.id}/config/appsettings/list`),
             (functions, appSettings) => ({ function: functions.json() as FunctionInfo, appSettings: appSettings.json() }))
@@ -193,7 +94,7 @@ export class FunctionAppService {
     }
 
     getFunctions(context: FunctionAppContext): Result<FunctionInfo[]> {
-        return this.getClient(context).execute(context, t => Observable.zip(
+        return this.getClient(context).execute({ resourceId: context.site.id }, t => Observable.zip(
             this._cacheService.get(context.urlTemplates.functionsUrl, false, this.headers(t)),
             this._cacheService.postArm(`${context.site.id}/config/appsettings/list`),
             (functions, appSettings) => ({ functions: functions.json() as FunctionInfo[], appSettings: appSettings.json() }))
@@ -216,7 +117,7 @@ export class FunctionAppService {
 
     getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
         const client = this.getClient(context);
-        return client.execute(context, t => Observable.zip(
+        return client.execute({ resourceId: context.site.id }, t => Observable.zip(
             this._cacheService.get(context.urlTemplates.proxiesJsonUrl, false, this.headers(t))
                 .catch(err => err.status === 404
                     ? Observable.throw(errorIds.proxyJsonNotFound)
@@ -240,26 +141,26 @@ export class FunctionAppService {
         const uri = context.urlTemplates.proxiesJsonUrl;
 
         this._cacheService.clearCachePrefix(uri);
-        return this.getClient(context).execute(context, t => this._cacheService.put(uri, this.jsonHeaders(t, ['If-Match', '*']), jsonString));
+        return this.getClient(context).execute({ resourceId: context.site.id }, t => this._cacheService.put(uri, this.jsonHeaders(t, ['If-Match', '*']), jsonString));
     }
 
     getFileContent(context: FunctionAppContext, file: VfsObject | string): Result<string> {
         const fileHref = typeof file === 'string' ? file : file.href;
 
-        return this.getClient(context).execute(context, t => this._cacheService.get(fileHref, false, this.headers(t)).map(r => r.text()));
+        return this.getClient(context).execute({ resourceId: context.site.id }, t => this._cacheService.get(fileHref, false, this.headers(t)).map(r => r.text()));
     }
 
     saveFile(context: FunctionAppContext, file: VfsObject | string, updatedContent: string, functionInfo?: FunctionInfo): Result<VfsObject | string> {
         const fileHref = typeof file === 'string' ? file : file.href;
 
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.put(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*']), updatedContent).map(() => file));
     }
 
     deleteFile(context: FunctionAppContext, file: VfsObject | string, functionInfo?: FunctionInfo): Result<VfsObject | string> {
         const fileHref = typeof file === 'string' ? file : file.href;
 
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.delete(fileHref, this.jsonHeaders(t, ['Content-Type', 'plain/text'], ['If-Match', '*'])).map(() => file));
     }
 
@@ -278,7 +179,7 @@ export class FunctionAppService {
 
     getTemplates(context: FunctionAppContext): Result<FunctionTemplate[]> {
         if (this._portalService.isEmbeddedFunctions) {
-            const devTemplate: FunctionTemplate[] = JSON.parse(this.testJsonTemplates);
+            const devTemplate: FunctionTemplate[] = JSON.parse(this._embeddedTemplates.templatesJson);
             return Observable.of({
                 isSuccessful: true,
                 result: devTemplate,
@@ -300,7 +201,7 @@ export class FunctionAppService {
         } catch (e) {
             console.error(e);
         }
-        return this.azure.executeWithConditions([], context, t =>
+        return this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
             this.getExtensionVersionFromAppSettings(context)
                 .mergeMap(extensionVersion => {
                     const headers = this.portalHeaders(t);
@@ -330,13 +231,13 @@ export class FunctionAppService {
                 config: {}
             };
 
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.put(context.urlTemplates.getFunctionUrl(functionName), this.jsonHeaders(t), JSON.stringify(body))
                 .map(r => r.json()));
     }
 
     getFunctionAppAzureAppSettings(context: FunctionAppContext) {
-        return this.azure.executeWithConditions([], context, t =>
+        return this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
             this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, true)
                 .map(r => r.json() as ArmObj<{ [key: string]: string }>));
     }
@@ -349,8 +250,13 @@ export class FunctionAppService {
         const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
         const url = context.urlTemplates.getFunctionUrl(functionName);
 
-        return this.getClient(context).executeWithConditions([], context, t =>
-            this._cacheService.put(url, this.jsonHeaders(t), content).map(r => r.json() as FunctionInfo));
+        return this.getClient(context).executeWithConditions([], { resourceId: context.site.id }, t => {
+            const headers = this.jsonHeaders(t);
+            return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo)
+                .do(() => {
+                    this._cacheService.clearCachePrefix(context.urlTemplates.scmSiteUrl);
+                });
+        });
     }
 
     statusCodeToText(code: number) {
@@ -359,7 +265,7 @@ export class FunctionAppService {
     }
 
     runHttpFunction(context: FunctionAppContext, functionInfo: FunctionInfo, url: string, model: HttpRunModel): Result<RunFunctionResult> {
-        return this.runtime.executeWithConditions([], context, token => {
+        return this.runtime.executeWithConditions([], { resourceId: context.site.id }, token => {
             const content = model.body;
 
             const regExp = /\{([^}]+)\}/g;
@@ -468,12 +374,12 @@ export class FunctionAppService {
             contentType = 'plain/text';
         }
 
-        return this.runtime.executeWithConditions([], context, t =>
+        return this.runtime.executeWithConditions([], { resourceId: context.site.id }, t =>
             this.runFunctionInternal(context, this._cacheService.post(url, true, this.headers(t, ['Content-Type', contentType]), _content), functionInfo));
     }
 
     deleteFunction(context: FunctionAppContext, functionInfo: FunctionInfo): Result<void> {
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.delete(functionInfo.href, this.jsonHeaders(t)));
         // .concatMap(r => this.getRuntimeGeneration())
         // .concatMap((runtimeVersion: string) => {
@@ -509,27 +415,27 @@ export class FunctionAppService {
     }
 
     getHostJson(context: FunctionAppContext): Result<Host> {
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.hostJsonUrl, false, this.headers(t)).map(r => r.json()));
     }
 
     saveFunction(context: FunctionAppContext, fi: FunctionInfo, config: any) {
         this._cacheService.clearCachePrefix(context.scmUrl);
         this._cacheService.clearCachePrefix(context.mainSiteUrl);
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.put(fi.href, this.jsonHeaders(t), JSON.stringify({ config: config })).map(r => r.json() as FunctionInfo));
     }
 
     getHostToken(context: FunctionAppContext) {
         return ArmUtil.isLinuxApp(context.site)
-            ? this.azure.executeWithConditions([], context, t =>
+            ? this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
                 this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(t)))
-            : this.azure.execute(context, t =>
+            : this.azure.execute({ resourceId: context.site.id }, t =>
                 this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(t)));
     }
 
     getHostKeys(context: FunctionAppContext): Result<FunctionKeys> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             Observable.zip(
                 this._cacheService.get(context.urlTemplates.adminKeysUrl, false, this.headers(t)),
                 this._cacheService.get(context.urlTemplates.masterKeyUrl, false, this.headers(t))
@@ -549,7 +455,7 @@ export class FunctionAppService {
 
     getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
         if (this._portalService.isEmbeddedFunctions) {
-            const devBindings: BindingConfig = JSON.parse(this.testJsonBindings);
+            const devBindings: BindingConfig = JSON.parse(this._embeddedTemplates.bindingsJson);
             return Observable.of({
                 isSuccessful: true,
                 result: devBindings,
@@ -573,14 +479,14 @@ export class FunctionAppService {
             console.error(e);
         }
 
-        return this.azure.execute(context, t => this.getExtensionVersionFromAppSettings(context)
+        return this.azure.execute({ resourceId: context.site.id }, t => this.getExtensionVersionFromAppSettings(context)
             .concatMap(extensionVersion => {
                 if (!extensionVersion) {
                     extensionVersion = 'latest';
                 }
 
                 const headers = this.portalHeaders(t);
-                if(this._globalStateService.showTryView){
+                if (this._globalStateService.showTryView) {
                     headers.delete('Authorization');
                 }
 
@@ -603,25 +509,25 @@ export class FunctionAppService {
 
         this._cacheService.clearCachePrefix(context.scmUrl);
         this._cacheService.clearCachePrefix(context.mainSiteUrl);
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.put(fi.href, this.jsonHeaders(t), JSON.stringify(fiCopy))
                 .map(r => r.json() as FunctionInfo));
     }
 
     getFunctionErrors(context: FunctionAppContext, fi: FunctionInfo, handleUnauthorized?: boolean): Result<string[]> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.getFunctionRuntimeErrorsUrl(fi.name), false, this.headers(t))
                 .map(r => (r.json().errors || []) as string[]));
     }
 
     getHostErrors(context: FunctionAppContext): Result<string[]> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.runtimeStatusUrl, true, this.headers(t))
                 .map(r => (r.json().errors || []) as string[]));
     }
 
     getFunctionHostStatus(context: FunctionAppContext): Result<HostStatus> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.runtimeStatusUrl, true, this.headers(t))
                 .map(r => r.json() as HostStatus));
     }
@@ -629,7 +535,7 @@ export class FunctionAppService {
     getOldLogs(context: FunctionAppContext, fi: FunctionInfo, range: number): Result<string> {
         const url = context.urlTemplates.getFunctionLogUrl(fi.name);
 
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(url, false, this.headers(t))
                 .concatMap(r => {
                     let files: VfsObject[] = r.json();
@@ -654,13 +560,13 @@ export class FunctionAppService {
 
     getVfsObjects(context: FunctionAppContext, fi: FunctionInfo | string): Result<VfsObject[]> {
         const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(href, false, this.headers(t)).map(e => <VfsObject[]>e.json()));
     }
 
 
     getFunctionKeys(context: FunctionAppContext, functionInfo: FunctionInfo): Result<FunctionKeys> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.getFunctionKeysUrl(functionInfo.name), false, this.headers(t))
                 .map(r => r.json() as FunctionKeys));
     }
@@ -683,7 +589,7 @@ export class FunctionAppService {
             })
             : null;
 
-        return this.runtime.execute(context, t => {
+        return this.runtime.execute({ resourceId: context.site.id }, t => {
             const req = body
                 ? this._cacheService.put(url, this.jsonHeaders(t), body)
                 : this._cacheService.post(url, true, this.jsonHeaders(t));
@@ -701,7 +607,7 @@ export class FunctionAppService {
             ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
             : context.urlTemplates.getAdminKeyUrl(key.name);
 
-        return this.runtime.execute(context, t => this._cacheService.delete(url, this.jsonHeaders(t)));
+        return this.runtime.execute({ resourceId: context.site.id }, t => this._cacheService.delete(url, this.jsonHeaders(t)));
     }
 
     renewKey(context: FunctionAppContext, key: FunctionKey, functionInfo?: FunctionInfo): Result<FunctionKey> {
@@ -711,7 +617,7 @@ export class FunctionAppService {
             ? context.urlTemplates.getFunctionKeyUrl(functionInfo.name, key.name)
             : context.urlTemplates.getAdminKeyUrl(key.name);
 
-        return this.runtime.execute(context, t => this._cacheService.post(url, true, this.jsonHeaders(t)));
+        return this.runtime.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)));
     }
 
     private clearKeysCache(context: FunctionAppContext, functionInfo?: FunctionInfo) {
@@ -725,12 +631,12 @@ export class FunctionAppService {
 
     fireSyncTrigger(context: FunctionAppContext): void {
         const url = context.urlTemplates.syncTriggersUrl;
-        this.azure.execute(context, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
+        this.azure.execute({ resourceId: context.site.id }, t => this._cacheService.post(url, true, this.jsonHeaders(t)))
             .subscribe(success => console.log(success), error => console.log(error));
     }
 
     isSourceControlEnabled(context: FunctionAppContext): Result<boolean> {
-        return this.azure.executeWithConditions([], context, this._cacheService.getArm(`${context.site.id}/config/web`)
+        return this.azure.executeWithConditions([], { resourceId: context.site.id }, this._cacheService.getArm(`${context.site.id}/config/web`)
             .map(r => {
                 const config: ArmObj<SiteConfig> = r.json();
                 return !config.properties['scmType'] || config.properties['scmType'] !== 'None';
@@ -768,7 +674,7 @@ export class FunctionAppService {
                 result: [],
                 error: null
             })
-            : this.azure.executeWithConditions([], typeof context !== 'string' ? context : null, this._cacheService.getArm(`${id}/slots`)
+            : this.azure.executeWithConditions([], typeof context !== 'string' ? { resourceId: context.site.id } : null, this._cacheService.getArm(`${id}/slots`)
                 .map(r => r.json().value as ArmObj<Site>[]));
     }
 
@@ -814,10 +720,10 @@ export class FunctionAppService {
         // | Yes  | false         | undefined       | ReadOnlySlots                 |
         // |______|_______________|_________________|_______________________________|
 
-        return this.azure.executeWithConditions([], context,
+        return this.azure.executeWithConditions([], { resourceId: context.site.id },
             Observable.zip(
                 this.isSourceControlEnabled(context),
-                this.azure.executeWithConditions([], context, this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, true)),
+                this.azure.executeWithConditions([], { resourceId: context.site.id }, this._cacheService.postArm(`${context.site.id}/config/appsettings/list`, true)),
                 this.isSlot(context)
                     ? Observable.of({ isSuccessful: true, result: true, error: null })
                     : this.getSlotsList(context).map(r => r.isSuccessful ? Object.assign(r, { result: r.result.length > 0 }) : r),
@@ -853,7 +759,7 @@ export class FunctionAppService {
     }
 
     public getAuthSettings(context: FunctionAppContext): Result<AuthSettings> {
-        return this.azure.executeWithConditions([], context, this._cacheService.postArm(`${context.site.id}/config/authsettings/list`)
+        return this.azure.executeWithConditions([], { resourceId: context.site.id }, this._cacheService.postArm(`${context.site.id}/config/authsettings/list`)
             .map(r => {
                 const auth: ArmObj<any> = r.json();
                 return {
@@ -869,7 +775,7 @@ export class FunctionAppService {
      * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
      */
     pingScmSite(context: FunctionAppContext): Result<boolean> {
-        return this.azure.execute(context, t =>
+        return this.azure.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.pingScmSiteUrl, true, this.headers(t))
                 .map(_ => true)
                 .catch(() => Observable.of(false)));
@@ -928,36 +834,36 @@ export class FunctionAppService {
 
     getGeneratedSwaggerData(context: FunctionAppContext, key: string): Result<any> {
         const url: string = context.urlTemplates.getGeneratedSwaggerDataUrl;
-        return this.runtime.execute(context, t => this._cacheService.get(`${url}?code=${key}`, false, this.headers(t)).map(r => r.json()));
+        return this.runtime.execute({ resourceId: context.site.id }, t => this._cacheService.get(`${url}?code=${key}`, false, this.headers(t)).map(r => r.json()));
     }
 
     getSwaggerDocument(context: FunctionAppContext, key: string): Result<any> {
         const url: string = context.urlTemplates.getSwaggerDocumentUrl;
-        return this.runtime.execute(context, t => this._cacheService.get(`${url}?code=${key}`, false, this.headers(t)).map(r => r.json()));
+        return this.runtime.execute({ resourceId: context.site.id }, t => this._cacheService.get(`${url}?code=${key}`, false, this.headers(t)).map(r => r.json()));
     }
 
     addOrUpdateSwaggerDocument(context: FunctionAppContext, swaggerUrl: string, content: string): Result<any> {
-        return this.runtime.execute(context, this._cacheService.post(swaggerUrl, false, this.jsonHeaders(null), content).map(r => r.json()));
+        return this.runtime.execute({ resourceId: context.site.id }, this._cacheService.post(swaggerUrl, false, this.jsonHeaders(null), content).map(r => r.json()));
     }
 
     deleteSwaggerDocument(context: FunctionAppContext, swaggerUrl: string) {
-        return this.runtime.execute(context, this._cacheService.delete(swaggerUrl));
+        return this.runtime.execute({ resourceId: context.site.id }, this._cacheService.delete(swaggerUrl));
     }
 
     saveHostJson(context: FunctionAppContext, jsonString: string): Result<any> {
-        return this.getClient(context).execute(context, t =>
+        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
             this._cacheService.put(context.urlTemplates.hostJsonUrl, this.jsonHeaders(t, ['If-Match', '*']), jsonString).map(r => r.json()));
     }
 
     createSystemKey(context: FunctionAppContext, keyName: string) {
-        return this.runtime.execute(context, t => this._cacheService.post(context.urlTemplates.getSystemKeyUrl(keyName), true, this.jsonHeaders(t, ['If-Match', '*']))
+        return this.runtime.execute({ resourceId: context.site.id }, t => this._cacheService.post(context.urlTemplates.getSystemKeyUrl(keyName), true, this.jsonHeaders(t, ['If-Match', '*']))
             .map(r => r.json()));
     }
 
     // Try and the list of runtime extensions install.
     // If there was an error getting the list, show an error. return an empty list.
     getHostExtensions(context: FunctionAppContext): Result<any> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.runtimeHostExtensionsUrl, false, this.headers(t))
                 .map(r => r.json() as FunctionKeys));
     }
@@ -966,20 +872,20 @@ export class FunctionAppService {
     // TODO: [soninaren] returns error object when resulted in error
     // TODO: [soninaren] error.id is not defined
     installExtension(context: FunctionAppContext, extension: RuntimeExtension): Result<ExtensionInstallStatus> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.post(context.urlTemplates.runtimeHostExtensionsUrl, true, this.jsonHeaders(t), extension)
                 .map(r => r.json() as ExtensionInstallStatus));
     }
 
     getExtensionInstallStatus(context: FunctionAppContext, jobId: string): Result<ExtensionInstallStatus> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.getRuntimeHostExtensionsJobStatusUrl(jobId), true, this.headers(t))
                 .map(r => r.json() as ExtensionInstallStatus)
         );
     }
 
     getSystemKey(context: FunctionAppContext): Result<FunctionKeys> {
-        return this.runtime.execute(context, t =>
+        return this.runtime.execute({ resourceId: context.site.id }, t =>
             this._cacheService.get(context.urlTemplates.systemKeysUrl, false, this.headers(t))
                 .map(r => r.json() as FunctionKeys));
     }
@@ -995,7 +901,7 @@ export class FunctionAppService {
                         error: null
                     };
                 } else {
-                    return result as any as FunctionAppHttpResult<string>;
+                    return result as any as HttpResult<string>;
                 }
             });
     }

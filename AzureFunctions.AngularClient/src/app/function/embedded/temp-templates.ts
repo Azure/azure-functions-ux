@@ -1,13 +1,13 @@
 // This is a temporary file until we move this to the template gallery
 
-export class Templates{
-    public static readonly templatesJson = JSON.stringify([
+export class Templates {
+    public readonly templatesJson = JSON.stringify([
         {
             'id': 'SyncTrigger-CSharp',
             'runtime': '1',
             'files': {
                 'readme.md': '# HttpTrigger -on',
-                'run.csx': '#r \'..\\bin\\Microsoft.Xrm.Sdk.dll\'\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\'name\'] = entity.Attributes[\'name\'].ToString().ToUpper();\n\treturn entity;\n}',
+                'run.csx': '#r \"..\\bin\\Microsoft.Xrm.Sdk.dll\"\nusing Microsoft.Xrm.Sdk;\n\npublic static Entity Run(Entity entity, TraceWriter log)\n{\n\tentity.Attributes[\"name\"] = entity.Attributes[\"name\"].ToString().ToUpper();\n\treturn entity;\n}',
                 'sample.dat': '{}'
             },
             'function': {
@@ -41,7 +41,7 @@ export class Templates{
             'id': 'SyncTrigger-JavaScript',
             'runtime': '1',
             'files': {
-                'index.js': 'module.exports',
+                'index.js': 'module.exports = function (context req) {\n\tcontext.log(\'Created entity!\');\n\tvar entity = context.bindings.entity;\n\tentity.Attributes.name=entity.Attributes.name.toUpperCase();\n\tcontext.done(null, entity);\n};',
                 'sample.dat': '{}'
             },
             'function': {
@@ -73,7 +73,7 @@ export class Templates{
         }
     ]);
 
-    public static readonly bindingsJson = JSON.stringify({
+    public readonly bindingsJson = JSON.stringify({
         'bindings': [
             {
                 'type': 'syncTrigger',
@@ -89,20 +89,16 @@ export class Templates{
                                 'display': 'Create'
                             },
                             {
-                                'value': 'Destroy',
-                                'display': 'Destroy'
+                                'value': 'Delete',
+                                'display': 'Delete'
                             },
                             {
                                 'value': 'Update',
                                 'display': 'Update'
-                            },
-                            {
-                                'value': 'Retrieve',
-                                'display': 'Retrieve'
                             }
                         ],
                         'label': 'Event',
-                        'help': 'Event help'
+                        'help': 'CDS event on which the function will trigger'
                     }
                 ]
 

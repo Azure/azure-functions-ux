@@ -5,9 +5,9 @@ body(style='background-color: inherit')
                 div
                 div
                 div
-    if !isAzure
+    if !config.isAzure
         include ../local/body.pug
-    else if !!isAzure && isOnPrem
+    else if !!config.isAzure && config.isOnPrem
         include ../onprem/body.pug
     else
         include ../azure/body.pug

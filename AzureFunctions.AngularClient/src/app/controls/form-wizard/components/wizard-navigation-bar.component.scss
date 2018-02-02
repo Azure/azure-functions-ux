@@ -1,0 +1,181 @@
+@import '../../../../sass/main';
+/*
+ color definitions
+ */
+$wz-color-default: #8492a0;
+$wz-color-current: #0456de;
+$text-color: white;
+
+$wz-color-done: #009e1a;
+$wz-color-optional: #8492a0;
+$wz-color-editing: #0456de;
+
+$text-height: 14px;
+
+$bubble-diameter: 30px;
+
+:host {
+    &.NavSymbols {
+        ul.steps-indicator {
+            padding: 0px 0 10px 0;
+
+            li {
+                &:not(:last-child):before {
+                    background-color: $wz-color-default;
+                    content: '';
+                    position: absolute;
+                    height: 1px;
+                    width: calc(100% - #{$bubble-diameter});
+                    top: -$bubble-diameter/2;
+                    left: calc(50% + #{$bubble-diameter/2});
+                }
+
+                &:after {
+                    position: absolute;
+                    top: -$bubble-diameter;
+                    left: calc(50% - #{$bubble-diameter/2});
+                    width: $bubble-diameter;
+                    height: $bubble-diameter;
+                    text-align: center;
+                    vertical-align: middle;
+                    line-height: $bubble-diameter;
+                    transition: 0.25s;
+                    border-radius: 100%;
+                    background-color: $wz-color-default;
+                    color: $text-color;
+                    content: attr(step-symbol);
+                }
+            }
+
+            // default steps shouldn't change when hovered, because they aren't clickable
+            li.default a:hover {
+                color: $wz-color-current;
+            }
+
+            li.current:after {
+                background-color: $wz-color-current;
+                color: $text-color;
+                box-shadow: 0px 0px 0px 8px transparentize($wz-color-current, 0.5);
+            }
+
+            li.done:after {
+                background-color: $wz-color-done;
+                color: $text-color;
+                content: url(/ng-full/image/success.svg);
+            }
+
+            li.optional:after {
+                background-color: $wz-color-optional;
+                color: $text-color;
+            }
+
+            li.editing:after {
+                background-color: $wz-color-editing;
+                color: $text-color;
+                box-shadow: 0px 0px 0px 8px transparentize($wz-color-current, 0.5);
+            }
+        }
+    }
+
+    ul.steps-indicator {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: 60px auto 0px auto;
+        width: 50%;
+        list-style: none;
+
+        @mixin steps($number-of-components) {
+            &:before {
+                left: 100% / $number-of-components / 2;
+                right: 100% / $number-of-components / 2;
+            }
+
+            li {
+                width: 100% / $number-of-components;
+            }
+        }
+
+        &.steps-2 {
+            @include steps(2);
+        }
+
+        &.steps-3 {
+            @include steps(3);
+        }
+
+        &.steps-4 {
+            @include steps(4);
+        }
+
+        &.steps-5 {
+            @include steps(5);
+        }
+
+        &.steps-6 {
+            @include steps(6);
+        }
+
+        &.steps-7 {
+            @include steps(7);
+        }
+
+        &.steps-8 {
+            @include steps(8);
+        }
+
+        &.steps-9 {
+            @include steps(9);
+        }
+
+        &.steps-10 {
+            @include steps(10);
+        }
+
+        /* --- http://www.paulirish.com/2012/box-sizing-border-box-ftw/ ---- */
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        li {
+            position: relative;
+            margin: 0;
+            padding: 10px 0 0 0;
+
+            div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                a {
+                    color: black;
+                    line-height: 0.9em;
+                    font-size: 0.9em;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    text-align: center;
+                    font-weight: bold;
+                    transition: 0.25s;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: darken($primary-color, 20%);
+                    }
+                }
+            }
+        }
+
+        li.default,
+        li.current,
+        li.optional,
+        li.editing {
+            pointer-events: none;
+        }
+    }
+}

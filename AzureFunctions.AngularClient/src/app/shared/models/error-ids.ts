@@ -6,6 +6,12 @@ export namespace errorIds {
         export const unreachableInternalLoadBalancer = '/errors/preconditions/unreachableInternalLoadBalancer';
         export const runtimeIsNotAvailable = '/errors/preconditions/runtimeIsNotAvailable';
         export const runtimeHttpNotAvailable = '/errors/preconditions/runtimeHttpNotAvailable';
+        export const noFunctionAppContext = '/errors/preconditions/noFunctionAppContext';
+    }
+
+    export namespace armErrors {
+        export const noAccess = '/errors/arm/noaccess';
+        export const scopeLocked = '/errors/arm/scopelocked';
     }
 
     export const functionNotFound = '/errors/functionNotFound';
@@ -61,5 +67,7 @@ export namespace errorIds {
     export const proxyJsonNotFound = '/errors/proxyJsonNotFound';
     export const embeddedEditorLoadError = '/errors/embedded/editor-load';
     export const embeddedEditorSaveError = '/errors/embedded/editor-save';
-    export const embeddedEditorDeleteError = '/errors/embedded/editor-delete';
+    export const embeddedDeleteError = '/errors/embedded/delete';
+    export const embeddedGetEntities = '/errors/embedded/get-entities';
+    export const embeddedCreateError = '/errors/embedded/create';
 }

@@ -1,7 +1,7 @@
 import { CdsFunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { errorIds } from 'app/shared/models/error-ids';
 import { ErrorEvent } from 'app/shared/models/error-event';
-import { FunctionAppHttpResult } from './../../../shared/models/function-app-http-result';
+import { HttpResult } from './../../../shared/models/http-result';
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,7 @@ import { TreeViewInfo } from './../../../tree-view/models/tree-view-info';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { EmbeddedService } from 'app/shared/services/embedded.service';
 
 @Component({
   selector: 'embedded-function-editor',
@@ -32,6 +33,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   public fileName = '';
   public rightBarExpanded = false;
   public bottomBarExpanded = false;
+  public displayName = '';
 
   private _updatedEditorContent = '';
 
@@ -42,7 +44,8 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   constructor(
     private _broadcastService: BroadcastService,
     private _cacheService: CacheService,
-    private _translateService: TranslateService) {
+    private _translateService: TranslateService,
+    private _embeddedService: EmbeddedService) {
 
     this._busyManager = new BusyStateScopeManager(this._broadcastService, 'dashboard');
 
@@ -79,7 +82,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
       });
   }
 
-  private _getScriptContent(resourceId: string): Observable<FunctionAppHttpResult<string>> {
+  private _getScriptContent(resourceId: string): Observable<HttpResult<string>> {
     this._busyManager.setBusy();
     this.resourceId = resourceId;
 
@@ -89,10 +92,13 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
 
         const scriptHrefParts = this._functionInfo.script_href.split('/');
         this.fileName = scriptHrefParts[scriptHrefParts.length - 1];
+        const event = this._functionInfo.config.bindings[0].message.toLowerCase();
+        const entity = scriptHrefParts[8].toLowerCase();
+        this.displayName = `${entity}/${event}/${this.fileName}`;
         return this._cacheService.getArm(this._functionInfo.script_href, true);
       })
       .map(r => {
-        return <FunctionAppHttpResult<string>>{
+        return <HttpResult<string>>{
           isSuccessful: true,
           error: null,
           result: r.text()
@@ -100,7 +106,7 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
       })
       .catch(e => {
         const descriptor = new CdsFunctionDescriptor(this.resourceId);
-        return Observable.of(<FunctionAppHttpResult<string>>{
+        return Observable.of(<HttpResult<string>>{
           isSuccessful: false,
           error: {
             errorId: errorIds.embeddedEditorLoadError,
@@ -163,21 +169,23 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this._functionInfo.name }));
     if (result) {
       this._busyManager.setBusy();
-      this._cacheService.deleteArm(this.resourceId)
-        .subscribe(r => {
-          this._busyManager.clearBusy();
-          this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-            resourceId: this.resourceId,
-            operation: 'remove'
-          });
-        }, err => {
-          this._busyManager.clearBusy();
-          this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-            message: this._translateService.instant(PortalResources.error_unableToDeleteFunction).format(this._functionInfo.name),
-            errorId: errorIds.embeddedEditorDeleteError,
-            resourceId: this.resourceId,
-          });
-        });
+      this._embeddedService.deleteFunction(this.resourceId)
+      .subscribe(r => {
+          if (r.isSuccessful) {
+              this._busyManager.clearBusy();
+              this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+                  resourceId: this.resourceId,
+                  operation: 'remove'
+              });
+          } else {
+              this._busyManager.clearBusy();
+              this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                  message: r.error.message,
+                  errorId: r.error.errorId,
+                  resourceId: this.resourceId,
+                });
+          }
+      });
     }
   }
 }

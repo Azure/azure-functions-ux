@@ -19,16 +19,37 @@
   [is-dirty]="mainForm.dirty"
   [is-dirty-message]="dirtyMessage">
 
-  <general-settings [mainForm]="mainForm" [resourceId]="resourceId"></general-settings>
+  <general-settings
+    [mainForm]="mainForm"
+    [resourceId]="resourceId"
+    [featureName]="featureName"></general-settings>
 
-  <app-settings [mainForm]="mainForm" [resourceId]="resourceId"></app-settings>
+  <app-settings
+    [mainForm]="mainForm"
+    [resourceId]="resourceId"
+    [featureName]="featureName"></app-settings>
 
-  <connection-strings [mainForm]="mainForm" [resourceId]="resourceId"></connection-strings>
+  <connection-strings
+    [mainForm]="mainForm"
+    [resourceId]="resourceId"
+    [featureName]="featureName"></connection-strings>
 
-  <default-documents *ngIf="defaultDocumentsSupported" [mainForm]="mainForm" [resourceId]="resourceId"></default-documents>
+  <default-documents
+    *ngIf="defaultDocumentsSupported"
+    [mainForm]="mainForm"
+    [resourceId]="resourceId"
+    [featureName]="featureName"></default-documents>
 
-  <handler-mappings *ngIf="handlerMappingsSupported" [mainForm]="mainForm" [resourceId]="resourceId"></handler-mappings>
+  <handler-mappings
+    *ngIf="handlerMappingsSupported"
+    [mainForm]="mainForm"
+    [resourceId]="resourceId"
+    [featureName]="featureName"></handler-mappings>
 
-  <virtual-directories *ngIf="virtualDirectoriesSupported" [mainForm]="mainForm" [resourceId]="resourceId"></virtual-directories>
+  <virtual-directories
+    *ngIf="virtualDirectoriesSupported"
+    [mainForm]="mainForm"
+    [resourceId]="resourceId"
+    [featureName]="featureName"></virtual-directories>
 
 </div>

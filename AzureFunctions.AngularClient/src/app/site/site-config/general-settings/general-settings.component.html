@@ -23,7 +23,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['netFrameworkVersion'] : null"
-          [options]="!!versionOptionsMap ? versionOptionsMap['netFrameworkVersion'] : []"
+          [options]="!!dropDownOptionsMap ? dropDownOptionsMap['netFrameworkVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -38,7 +38,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['phpVersion'] : null"
-          [options]="!!versionOptionsMap ? versionOptionsMap['phpVersion'] : []"
+          [options]="!!dropDownOptionsMap ? dropDownOptionsMap['phpVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -57,7 +57,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['pythonVersion'] : null"
-          [options]="!!versionOptionsMap ? versionOptionsMap['pythonVersion'] : []"
+          [options]="!!dropDownOptionsMap ? dropDownOptionsMap['pythonVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -72,7 +72,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaVersion'] : null"
-          [options]="!!versionOptionsMap ? versionOptionsMap['javaVersion'] : []"
+          [options]="!!dropDownOptionsMap ? dropDownOptionsMap['javaVersion'] : []"
           [highlightDirty]="true"
           (value)="updateJavaOptions($event)">
         </drop-down>
@@ -88,7 +88,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaMinorVersion'] : null"
-          [options]="!!versionOptionsMap ? versionOptionsMap['javaMinorVersion'] : []"
+          [options]="!!dropDownOptionsMap ? dropDownOptionsMap['javaMinorVersion'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -103,7 +103,7 @@
       <div class="setting-control-container">
         <drop-down
           [control]="!!group ? group.controls['javaWebContainer'] : null"
-          [options]="!!versionOptionsMap ? versionOptionsMap['javaWebContainer'] : []"
+          [options]="!!dropDownOptionsMap ? dropDownOptionsMap['javaWebContainer'] : []"
           [highlightDirty]="true">
         </drop-down>
       </div>
@@ -231,7 +231,7 @@
         <div class="setting-control-container">
           <drop-down
             [control]="!!group ? group.controls['autoSwapSlotName'] : null"
-            [options]="autoSwapSlotNameOptions || []"
+            [options]="!!dropDownOptionsMap ? dropDownOptionsMap['autoSwapSlotName'] : []"
             [highlightDirty]="true">
           </drop-down>
         </div>

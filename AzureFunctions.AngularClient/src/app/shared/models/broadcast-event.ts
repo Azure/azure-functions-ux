@@ -16,6 +16,7 @@ export enum BroadcastEvent {
     ClearError,
     OpenTab,
     DirtyStateChange,
+    ReloadDeploymentCenter,
     UpdateAppsList,
     FunctionEditorEvent,
     RightTabsEvent,

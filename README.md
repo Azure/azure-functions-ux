@@ -1,3 +1,7 @@
+Travis CI [![Travis CI](https://travis-ci.org/Azure/azure-functions-ux.svg?branch=dev)](https://travis-ci.org/Azure/azure-functions-ux)
+
+Visual Studio Online ![Visual Studio Online](https://azure-functions-ux.visualstudio.com/_apis/public/build/definitions/95c5b65b-c568-42b7-8b23-d8e9640a79dd/2/badge)
+
 # Azure Functions UX
 
 ## Getting started

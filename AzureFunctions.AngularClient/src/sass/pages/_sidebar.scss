@@ -2,7 +2,7 @@
 .sidebar {
     background-color: $body-bg-color;
 
-    width: 30vw;
+    width: 50vw;
 
     &.ng-sidebar--opened.ng-sidebar--push {
         border-left: $border;
@@ -21,6 +21,10 @@
 
 #app-root[theme=dark]{
     .sidebar-new-function {
+        background-color: $body-bg-color-dark;
+    }
+
+    .sidebar{
         background-color: $body-bg-color-dark;
     }
 }

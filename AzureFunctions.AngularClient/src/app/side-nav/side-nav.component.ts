@@ -276,6 +276,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
                 }
 
                 this.selectedNode.handleDeselection(newSelectedNode);
+                this.selectedNode.showMenu = false;
             }
         }
 
@@ -284,6 +285,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         this.selectedNode = newSelectedNode;
         this.selectedDashboardType = newDashboardType;
         this.resourceId = newSelectedNode.resourceId;   // TODO: should this be updated to resourceId passed in or is this fine?
+        this.selectedNode.showMenu = true;
 
         const viewInfo = <TreeViewInfo<any>>{
             resourceId: resourceId,

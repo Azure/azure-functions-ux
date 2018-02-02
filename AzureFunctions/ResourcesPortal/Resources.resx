@@ -13,19 +13,7 @@
     Example:
     
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
                 
     There are any number of "resheader" rows that contain simple 
     name/value pairs.
@@ -59,7 +47,10 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root" 
+    xmlns="" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -1456,6 +1447,9 @@
   <data name="autoSwapSlotNameLabel" xml:space="preserve">
     <value>Auto Swap Slot</value>
   </data>
+  <data name="productionSlotDisplayName" xml:space="preserve">
+    <value>production</value>
+  </data>
   <data name="clientAffinityEnabledLabel" xml:space="preserve">
     <value>ARR Affinity</value>
   </data>
@@ -2410,6 +2404,42 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="optional" xml:space="preserve">
     <value>Optional</value>
   </data>
+  <data name="gitCloneUri" xml:space="preserve">
+    <value>Git Clone Uri</value>
+  </data>
+  <data name="rollbackEnabled" xml:space="preserve">
+    <value>Rollback Enabled</value>
+  </data>
+  <data name="scmType" xml:space="preserve">
+    <value>Source Control Type</value>
+  </data>
+  <data name="redeploy" xml:space="preserve">
+    <value>Redeploy</value>
+  </data>
+  <data name="activity" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="showLogs" xml:space="preserve">
+    <value>Show Logs...</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="commitIdAuthor" xml:space="preserve">
+    <value>Commit ID (Author)</value>
+  </data>
+  <data name="checkinMessage" xml:space="preserve">
+    <value>Checkin Message</value>
+  </data>
   <data name="topBar_runtimeV2" xml:space="preserve">
     <value>You're using a prerelease version of Azure Functions. Thanks for trying it out!</value>
   </data>
@@ -2576,10 +2606,73 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Cannot Upgrade with Existing Functions</value>
   </data>
   <data name="appFunctionSettings_warning_7" xml:space="preserve">
-    <value>Upgrating the runtime version is also coupled with upgrades to languages and binding dependecies that may introduce breaking changes. Please create a blank function app to upgrade major versions of the runtime.</value>
+    <value>Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app.</value>
   </data>
   <data name="warning" xml:space="preserve">
     <value>Warning</value>
+  </data>
+  <data name="authorizedAs" xml:space="preserve">
+    <value>Authorized as:</value>
+  </data>
+  <data name="continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="authorize" xml:space="preserve">
+    <value>Authorize</value>
+  </data>
+  <data name="changeAuthorization" xml:space="preserve">
+    <value>Authorize</value>
+  </data>
+  <data name="back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="repository" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="branch" xml:space="preserve">
+    <value>Branch</value>
+  </data>
+  <data name="folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="repoType" xml:space="preserve">
+    <value>Repository Type</value>
+  </data>
+  <data name="organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="vstsAccount" xml:space="preserve">
+    <value>Visual Studio Team Service Account</value>
+  </data>
+  <data name="project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="loadTest" xml:space="preserve">
+    <value>Load Test</value>
+  </data>
+  <data name="slot" xml:space="preserve">
+    <value>Slot</value>
+  </data>
+  <data name="production" xml:space="preserve">
+    <value>Production</value>
   </data>
   <data name="entity" xml:space="preserve">
     <value>Entity</value>
@@ -2589,5 +2682,155 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="swaggerDefinition_notSupportedForBeta" xml:space="preserve">
     <value>Function API definition (Swagger) feature is not supported for beta runtime currently.</value>
+  </data>
+  <data name="deployedSuccessfullyTo" xml:space="preserve">
+    <value>Deployed Successfully to {0}</value>
+  </data>
+  <data name="deployedFailedTo" xml:space="preserve">
+    <value>Failed to deploy to {0}</value>
+  </data>
+  <data name="swappedSlotSuccess" xml:space="preserve">
+    <value>Swapped slot {0} with {1}</value>
+  </data>
+  <data name="swappedSlotFail" xml:space="preserve">
+    <value>Failed to swap slot {0} with {1}</value>
+  </data>
+  <data name="setupCDSuccessAndTriggerBuild" xml:space="preserve">
+    <value>Successfully setup Continuous Delivery and triggered build</value>
+  </data>
+  <data name="setupCDSuccess" xml:space="preserve">
+    <value>Successfully setup Continuous Delivery for the repository</value>
+  </data>
+  <data name="setupCDFail" xml:space="preserve">
+    <value>Failed to setup Continuous Delivery</value>
+  </data>
+  <data name="createVSTSAccountSuccess" xml:space="preserve">
+    <value>Created new Visual Studio Team Services account</value>
+  </data>
+  <data name="createVSTSAccountFail" xml:space="preserve">
+    <value>Failed to create Visual Studio Team Services account</value>
+  </data>
+  <data name="createdNewSlotSuccess" xml:space="preserve">
+    <value>Created new slot</value>
+  </data>
+  <data name="createdNewSlotFail" xml:space="preserve">
+    <value>Failed to create a slot</value>
+  </data>
+  <data name="createTestWebAppSuccess" xml:space="preserve">
+    <value>Created new Web Application for test environment</value>
+  </data>
+  <data name="createTestWebAppFail" xml:space="preserve">
+    <value>Failed to create new Web Application for test environment</value>
+  </data>
+  <data name="disconnectCICDVSOSuccess" xml:space="preserve">
+    <value>Successfully disconnected Continuous Delivery for {0}</value>
+  </data>
+  <data name="appServiceStartSuccess" xml:space="preserve">
+    <value>{0} got started'</value>
+  </data>
+  <data name="appServiceStartFail" xml:space="preserve">
+    <value>Failed to start {0}</value>
+  </data>
+  <data name="appServiceStopSuccess" xml:space="preserve">
+    <value>{0} got stopped'</value>
+  </data>
+  <data name="appServiceStopFail" xml:space="preserve">
+    <value>Failed to stop {0}</value>
+  </data>
+  <data name="appServiceRestartSuccess" xml:space="preserve">
+    <value>{0} got restarted'</value>
+  </data>
+  <data name="appServiceRestartFail" xml:space="preserve">
+    <value>Failed to restart {0}</value>
+  </data>
+  <data name="vsoSync" xml:space="preserve">
+    <value>Successfully triggered Continuous Delivery with latest source code from repository</value>
+  </data>
+  <data name="buildDefinition" xml:space="preserve">
+    <value>Build Definition</value>
+  </data>
+  <data name="releaseDefinition" xml:space="preserve">
+    <value>Release Definition</value>
+  </data>
+  <data name="buildTriggered" xml:space="preserve">
+    <value>Build Triggered</value>
+  </data>
+  <data name="webApp" xml:space="preserve">
+    <value>Web App</value>
+  </data>
+  <data name="slot" xml:space="preserve">
+    <value>Slot</value>
+  </data>
+  <data name="vsoAccount" xml:space="preserve">
+    <value>Visual Studio Online Account</value>
+  </data>
+  <data name="viewInstructions" xml:space="preserve">
+    <value>View Instructions</value>
+  </data>
+  <data name="buildUrl" xml:space="preserve">
+    <value>Build: {0}</value>
+  </data>
+  <data name="releaseUrl" xml:space="preserve">
+    <value>Release: {0}</value>
+  </data>
+  <data name="deploymentCenter" xml:space="preserve">
+    <value>Deployment Center</value>
+  </data>
+  <data name="sourceControl" xml:space="preserve">
+    <value>Source Control</value>
+  </data>
+  <data name="buildProvider" xml:space="preserve">
+    <value>Build Provider</value>
+  </data>
+  <data name="configure" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="deploy" xml:space="preserve">
+    <value>Deploy</value>
+  </data>
+  <data name="summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="experimentalLanguageSupport" xml:space="preserve">
+    <value>Experimental Language Support:</value>
+  </data>
+  <data name="sourceProvider" xml:space="preserve">
+    <value>Source Provider</value>
+  </data>
+  <data name="onedriveDesc" xml:space="preserve">
+    <value>Sync content from a OneDrive cloud folder.</value>
+  </data>
+  <data name="githubDesc" xml:space="preserve">
+    <value>Configure continuous integration with a Github repo.</value>
+  </data>
+  <data name="vstsDesc" xml:space="preserve">
+    <value>Configure continuous integration with a VSTS repo.</value>
+  </data>
+  <data name="externalDesc" xml:space="preserve">
+    <value>Deploy from a public Git or Mercurial repo.</value>
+  </data>
+  <data name="bitbucketDesc" xml:space="preserve">
+    <value>Configure continuous integration with a Bitbucket repo.</value>
+  </data>
+  <data name="localGitDesc" xml:space="preserve">
+    <value>Deploy from a local Git repo.</value>
+  </data>
+  <data name="dropboxDesc" xml:space="preserve">
+    <value>Configure continuous integration with a Dropbox folder</value>
+  </data>
+  <data name="temp_category_durableFunctions" xml:space="preserve">
+    <value>Durable Functions</value>
+  </data>
+  <data name="DurableFunctionsActivity_description" xml:space="preserve">
+    <value>A function that will be run whenever an Activity is called by an orchestrator function.</value>
+  </data>
+  <data name="DurableFunctionsOrchestrator_description" xml:space="preserve">
+    <value>An orchestrator function that invokes activity functions in a sequence.</value>
+  </data>
+  <data name="DurableFunctionsHttpStart_description" xml:space="preserve">
+    <value>A function that will trigger whenever it receives an HTTP request to execute an orchestrator function.</value>
+  </data>
+  <data name="functionsPreviewTitle" xml:space="preserve">
+    <value>Functions (Preview)</value>
   </data>
 </root>

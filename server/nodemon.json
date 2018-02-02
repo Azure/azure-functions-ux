@@ -1,11 +1,6 @@
 {
-    "watch": [
-        "src"
-    ],
+    "watch": ["src"],
     "ext": "ts",
-    "ignore": [
-        "src/**/*.spec.ts",
-        "src/public/*"
-    ],
+    "ignore": ["src/**/*.spec.ts", "src/public/*"],
     "exec": ".\\node_modules\\.bin\\ts-node --inspect .\\src\\server.ts"
 }

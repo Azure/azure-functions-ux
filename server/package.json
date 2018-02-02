@@ -16,11 +16,13 @@
         "express-session": "^1.15.3",
         "jsonwebtoken": "^7.4.1",
         "morgan": "^1.8.2",
-        "passport": "^0.3.2",
-        "passport-azure-ad": "^3.0.7",
-        "passport-azure-ad-oauth2": "^0.0.4",
         "pug": "^2.0.0-rc.2",
-        "uuid": "^3.1.0"
+        "uuid": "^3.1.0",
+        "dotenv": "^4.0.0",
+        "compression": "^1.7.1",
+        "cookie-session": "^2.0.0-beta.3",
+        "crypto": "^1.0.1",
+        "applicationinsights": "^1.0.1"
     },
     "devDependencies": {
         "@types/async": "^2.0.40",
@@ -32,9 +34,9 @@
         "@types/express-session": "^1.15.0",
         "@types/jsonwebtoken": "^7.2.1",
         "@types/morgan": "^1.7.32",
-        "@types/passport": "^0.3.3",
         "@types/pug": "^2.0.4",
         "@types/uuid": "^3.4.0",
+        "@types/compression": "^0.0.35",
         "concurrently": "^3.5.0",
         "del": "^3.0.0",
         "gulp": "^3.9.1",
@@ -48,6 +50,8 @@
         "nodemon": "^1.11.0",
         "run-sequence": "^2.2.0",
         "ts-node": "^3.1.0",
-        "typescript": "^2.4.1"
+        "typescript": "^2.4.1",
+        "@types/cookie-session": "^2.0.34",
+        "gulp-token-replace": "^1.1.2"
     }
 }

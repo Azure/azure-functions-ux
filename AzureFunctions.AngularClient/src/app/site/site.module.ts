@@ -15,12 +15,11 @@ import { SiteDashboardComponent } from './site-dashboard/site-dashboard.componen
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { DeploymentCenterModule } from 'app/site/deployment-center/deployment-center.module';
 import { HostEditorComponent } from './../host-editor/host-editor.component';
 import { SiteConfigModule } from 'app/site/site-config/site-config.module';
 
-const routing: ModuleWithProviders = RouterModule.forChild([
-    { path: '', component: SiteDashboardComponent }
-]);
+const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: SiteDashboardComponent }]);
 
 @NgModule({
     entryComponents: [
@@ -31,13 +30,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SiteConfigComponent,
         LogicAppsComponent
     ],
-    imports: [
-        TranslateModule.forChild(),
-        SharedModule,
-        SharedFunctionsModule,
-        SiteConfigModule,
-        routing
-    ],
+    imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SiteConfigModule, DeploymentCenterModule, routing],
     declarations: [
         SiteDashboardComponent,
         SiteSummaryComponent,
@@ -54,4 +47,4 @@ const routing: ModuleWithProviders = RouterModule.forChild([
     ],
     providers: []
 })
-export class SiteModule { }
+export class SiteModule {}

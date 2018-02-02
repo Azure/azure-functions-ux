@@ -1,10 +1,10 @@
-﻿import { Jwt } from './../Utilities/jwt';
+﻿import { ArmServiceHelper } from './arm.service-helper';
+import { Jwt } from './../Utilities/jwt';
 import { Observable } from 'rxjs/Observable';
 import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-
 import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, BladeResult, DirtyStateInfo } from './../models/portal';
 import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
@@ -24,14 +24,13 @@ export class PortalService {
     private embeddedSignature = 'FunctionsEmbedded';
 
     private acceptedSignatures = [this.portalSignature, this.portalSignatureFrameBlade, this.embeddedSignature];
-    private acceptedOrigins = [
-        'https://ms.portal.azure.com',
-        'https://rc.portal.azure.com',
-        'https://portal.azure.com',
-        'https://portal.microsoftazure.de',
-        'https://portal.azure.cn',
-        'https://portal.azure.us',
-        'https://powerapps.cloudapp.net'
+    private acceptedOriginsSuffix = [
+        'portal.azure.com',
+        'portal.microsoftazure.de',
+        'portal.azure.cn',
+        'portal.azure.us',
+        'powerapps.cloudapp.net',
+        'web.powerapps.com'
     ];
 
     private startupInfo: StartupInfo | null;
@@ -181,8 +180,7 @@ export class PortalService {
             };
 
             this.postMessage(Verbs.setNotification, JSON.stringify(payload));
-        }
-        else {
+        } else {
             setTimeout(() => {
                 this.notificationStartStream.next({ id: 'id' });
             });
@@ -244,7 +242,7 @@ export class PortalService {
     private iframeReceivedMsg(event: Event): void {
         if (!event || !event.data) {
             return;
-        } else if (!this.acceptedOrigins.find(o => event.origin.toLowerCase() === o.toLowerCase())) {
+        } else if (!this.acceptedOriginsSuffix.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
             return;
         } else if (!this.acceptedSignatures.find(s => event.data.signature !== s)) {
             return;
@@ -259,6 +257,10 @@ export class PortalService {
             this.startupInfo = <StartupInfo>data;
             this.sessionId = this.startupInfo.sessionId;
             this._aiService.setSessionId(this.sessionId);
+
+            // Prefer whatever Ibiza sends us if hosted in iframe.  This is mainly for national clouds
+            ArmServiceHelper.armEndpoint = this.startupInfo.armEndpoint ? this.startupInfo.armEndpoint : ArmServiceHelper.armEndpoint;
+            window.appsvc.env.azureResourceManagerEndpoint = ArmServiceHelper.armEndpoint;
 
             this.startupInfoObservable.next(this.startupInfo);
             this.logTokenExpiration(this.startupInfo.token, '/portal-service/token-new-startupInfo');

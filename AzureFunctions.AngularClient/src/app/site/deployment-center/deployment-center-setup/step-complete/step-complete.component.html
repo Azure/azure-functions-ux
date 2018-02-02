@@ -1,0 +1,19 @@
+<div class="settings-group-wrapper">
+
+  <h3 class="first-config-heading">Summary</h3>
+
+  <div class="settings-wrapper">
+    <div class="setting-wrapper" *ngFor="let item of summaryItems">
+      <div class="setting-label">{{item.name}}
+      </div>
+      <div class="setting-control-container">
+        {{item.value}}
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="footer">
+  <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
+  <button type="button" class="custom-button form-button" (click)="Save()">{{'finish' | translate}}</button>
+</div>
