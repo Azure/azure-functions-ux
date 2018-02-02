@@ -447,6 +447,7 @@
     public static autoSwapUpsell: string = "autoSwapUpsell";
     public static autoSwapEnabledLabel: string = "autoSwapEnabledLabel";
     public static autoSwapSlotNameLabel: string = "autoSwapSlotNameLabel";
+    public static productionSlotDisplayName: string = "productionSlotDisplayName";
     public static clientAffinityEnabledLabel: string = "clientAffinityEnabledLabel";
     public static clientAffinityInfoText: string = "clientAffinityInfoText";
     public static remoteDebuggingEnabledLabel: string = "remoteDebuggingEnabledLabel";
