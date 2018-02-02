@@ -890,18 +890,18 @@ export class FunctionAppService {
                 .map(r => r.json() as FunctionKeys));
     }
 
-    getEventGridKey(context: FunctionAppContext): Result<string> {
-        return this.getSystemKey(context)
-            .map(result => {
-                if (result.isSuccessful) {
-                    const key = result.result.keys.find(k => k.name === Constants.eventGridName);
+    getEventGridUri(context: FunctionAppContext, functionName: string): Result<string> {
+        return Observable.zip(this.getSystemKey(context), this.getRuntimeGeneration(context))
+            .map(tuple => {
+                if (tuple[0].isSuccessful) {
+                    const key = tuple[0].result.keys.find(k => k.name === Constants.eventGridName);
                     return {
                         isSuccessful: true,
-                        result: key ? key.value : '',
+                        result: key ? FunctionsVersionInfoHelper.getEventGridUri(tuple[1], context.mainSiteUrl, functionName, key.value) : '',
                         error: null
                     };
                 } else {
-                    return result as any as HttpResult<string>;
+                    return tuple[0] as any as HttpResult<string>;
                 }
             });
     }
