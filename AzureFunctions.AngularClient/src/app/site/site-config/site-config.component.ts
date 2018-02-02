@@ -5,10 +5,8 @@ import { Site } from './../../shared/models/arm/site';
 import { ArmObj, ArmObjMap } from './../../shared/models/arm/arm-obj';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-// import { Subject } from 'rxjs/Subject';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-
 import { PortalResources } from './../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
@@ -74,7 +72,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
     ) {
         super('SiteConfigComponent', injector);
 
-        // For ibiza scenario's, this needs to match the deep link feature name used to load this in ibiza menu
+        // For ibiza scenarios, this needs to match the deep link feature name used to load this in ibiza menu
         this.featureName = 'settings';
         this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
     }
@@ -140,6 +138,8 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
 
     ngOnDestroy(): void {
+        super.ngOnDestroy();
+
         if (this._valueSubscription) {
             this._valueSubscription.unsubscribe();
             this._valueSubscription = null;

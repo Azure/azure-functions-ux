@@ -26,7 +26,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 })
 export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
-    @Input() resourceId: string;
+    @Input() resourceId: ResourceId;
 
     public Resources = PortalResources;
     public groupArray: FormArray;
@@ -116,6 +116,7 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
     }
 
     ngOnDestroy(): void {
+        super.ngOnDestroy();
         this._busyManager.clearBusy();
     }
 

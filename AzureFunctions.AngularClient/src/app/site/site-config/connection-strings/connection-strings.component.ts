@@ -29,7 +29,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 })
 export class ConnectionStringsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
-    @Input() resourceId: string;
+    @Input() resourceId: ResourceId;
 
     public Resources = PortalResources;
     public groupArray: FormArray;
@@ -127,6 +127,7 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     }
 
     ngOnDestroy(): void {
+        super.ngOnDestroy();
         this._busyManager.clearBusy();
     }
 

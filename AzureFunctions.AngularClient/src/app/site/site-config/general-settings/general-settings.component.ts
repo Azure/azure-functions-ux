@@ -31,7 +31,7 @@ import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 })
 export class GeneralSettingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
-    @Input() resourceId: string;
+    @Input() resourceId: ResourceId;
 
     public Resources = PortalResources;
     public group: FormGroup;
@@ -183,6 +183,7 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
     }
 
     ngOnDestroy(): void {
+        super.ngOnDestroy();
         this._busyManager.clearBusy();
     }
 

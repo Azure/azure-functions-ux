@@ -28,35 +28,28 @@ import { LogCategories } from 'app/shared/models/constants';
   styleUrls: ['./../site-config.component.scss']
 })
 export class AppSettingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+  @Input() mainForm: FormGroup;
+  @Input() resourceId: ResourceId;
+
   public Resources = PortalResources;
   public groupArray: FormArray;
-
   public hasWritePermissions: boolean;
   public permissionsMessage: string;
   public showPermissionsMessage: boolean;
+  public loadingFailureMessage: string;
+  public loadingMessage: string;
+  public newItem: CustomFormGroup;
+  public originalItemsDeleted: number;
 
   private _busyManager: BusyStateScopeManager;
-
   private _saveError: string;
-
   private _validatorFns: ValidatorFn[];
   private _requiredValidator: RequiredValidator;
   private _uniqueAppSettingValidator: UniqueValidator;
   private _linuxAppSettingNameValidator: LinuxAppSettingNameValidator;
   private _isLinux: boolean;
-
   private _appSettingsArm: ArmObj<any>;
   private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
-
-  public loadingFailureMessage: string;
-  public loadingMessage: string;
-
-  public newItem: CustomFormGroup;
-  public originalItemsDeleted: number;
-
-  @Input() mainForm: FormGroup;
-
-  @Input() resourceId: string;
   private _slotConfigNamesArmPath: string;
 
   constructor(
@@ -151,6 +144,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
   }
 
   ngOnDestroy(): void {
+    super.ngOnDestroy();
     this._busyManager.clearBusy();
   }
 

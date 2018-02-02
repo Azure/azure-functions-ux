@@ -1,3 +1,4 @@
+import { LogService } from './../services/log.service';
 import { TelemetryService } from './../services/telemetry.service';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { Injector } from '@angular/core/src/core';
@@ -6,6 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { ErrorableComponent } from './errorable-component';
 import { Input } from '@angular/core';
+import { LogCategories } from 'app/shared/models/constants';
 
 export abstract class FeatureComponent<T> extends ErrorableComponent implements OnDestroy {
     @Input() featureName: string;
@@ -18,6 +20,8 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
         super(componentName, injector.get(BroadcastService));
 
         this._telemetryService = injector.get(TelemetryService);
+        const logService = injector.get(LogService);
+
         const preCheckEvents = this._inputEvents
             .takeUntil(this._ngUnsubscribe)
             .do(input => {
@@ -32,6 +36,8 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
             .takeUntil(this._ngUnsubscribe)
             .subscribe(r => {
                 this._telemetryService.featureLoadingComplete(this.featureName, this.componentName);
+            }, err => {
+                logService.error(LogCategories.featureLoading, '/load-failure', err);
             });
     }
 

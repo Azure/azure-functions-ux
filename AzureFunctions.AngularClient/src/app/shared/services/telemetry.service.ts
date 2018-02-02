@@ -57,7 +57,10 @@ export class TelemetryService {
                 LogCategories.telemetry,
                 `All components should be complete for: ${featureName}.  Debouncing for ${this._debouceTimeMs}ms`);
 
-            // "Debouncing" any straggling signals
+            // "Debouncing" any straggling signals.  We need to do this it's possible that on completion of
+            // a parent component, new child components may be created from the result of conditional statements
+            // becoming true.  In that case, the child components will start to emit feature loading events, so we
+            // need to wait for things to settle down.
             Observable.timer(this._debouceTimeMs)
                 .subscribe(() => {
                     if (this._featureMap[featureName] && Object.keys(this._featureMap[featureName]).length === 0) {

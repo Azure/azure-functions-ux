@@ -110,6 +110,7 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
     }
 
     ngOnDestroy(): void {
+        super.ngOnDestroy();
         this._busyManager.clearBusy();
     }
 
