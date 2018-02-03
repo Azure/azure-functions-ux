@@ -5,6 +5,8 @@ head
     if config.clientOptimzationsOff
         base(href="/ng-full/")
     else
+        script(type='text/javascript').
+            window.appsvc.cdn = "#{cdn}#"
         base(href="/ng-min/")
         link(href=cdn + "/ng-min/{{styles}}" rel="stylesheet")
             

@@ -21,7 +21,8 @@ export class LoadImageDirective implements OnChanges {
     ngOnChanges() {
         if (this.imageUrl) {
             if (!this.imageUrl.toLowerCase().endsWith('.svg')) {
-                this._elementRef.nativeElement.innerHTML = `<img src="${this.imageUrl}" />`;
+                const cdnUrl = window.appsvc && window.appsvc.cdn || '';
+                this._elementRef.nativeElement.innerHTML = `<img src="${cdnUrl}${this.imageUrl}" />`;
             } else {
                 const headers = new Headers();
                 headers.append('Accept', 'image/webp,image/apng,image/*,*/*;q=0.8');
