@@ -1,19 +1,17 @@
+import { FeatureComponent } from 'app/shared/components/feature-component';
 import { LogCategories } from './../../../shared/models/constants';
 import { BroadcastService } from './../../../shared/services/broadcast.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges, Injector } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
-
-import { SiteConfig } from './../../../shared/models/arm/site-config'
+import { SiteConfig } from './../../../shared/models/arm/site-config';
 import { SaveOrValidationResult } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj } from './../../../shared/models/arm/arm-obj';
+import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
@@ -24,35 +22,26 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
     templateUrl: './default-documents.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
+export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+    @Input() mainForm: FormGroup;
+    @Input() resourceId: ResourceId;
+
     public Resources = PortalResources;
     public groupArray: FormArray;
-
-    private _resourceIdStream: Subject<string>;
-    private _resourceIdSubscription: RxSubscription;
     public hasWritePermissions: boolean;
     public permissionsMessage: string;
     public showPermissionsMessage: boolean;
     public showReadOnlySettingsMessage: string;
-
-    private _busyManager: BusyStateScopeManager;
-
-    private _saveError: string;
-
-    private _requiredValidator: RequiredValidator;
-    private _uniqueDocumentValidator: UniqueValidator;
-
-    private _webConfigArm: ArmObj<SiteConfig>;
-
     public loadingFailureMessage: string;
     public loadingMessage: string;
-
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
 
-    @Input() mainForm: FormGroup;
-
-    @Input() resourceId: string;
+    private _busyManager: BusyStateScopeManager;
+    private _saveError: string;
+    private _requiredValidator: RequiredValidator;
+    private _uniqueDocumentValidator: UniqueValidator;
+    private _webConfigArm: ArmObj<SiteConfig>;
 
     constructor(
         private _cacheService: CacheService,
@@ -60,17 +49,20 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
         private _translateService: TranslateService,
         private _logService: LogService,
         private _authZService: AuthzService,
-        broadcastService: BroadcastService
+        broadcastService: BroadcastService,
+        injector: Injector
     ) {
+        super('DefaultDocumentComponent', injector);
         this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
         this._resetPermissionsAndLoadingState();
 
         this.newItem = null;
         this.originalItemsDeleted = 0;
+    }
 
-        this._resourceIdStream = new Subject<string>();
-        this._resourceIdSubscription = this._resourceIdStream
+    protected setup(inputEvents: Observable<ResourceId>) {
+        return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
                 this._busyManager.setBusy();
@@ -101,7 +93,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
                 this._busyManager.clearBusy();
             })
             .retry()
-            .subscribe(r => {
+            .do(r => {
                 this._webConfigArm = r.webConfigResponse.json();
                 this._setupForm(this._webConfigArm);
                 this.loadingMessage = null;
@@ -112,7 +104,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['resourceId']) {
-            this._resourceIdStream.next(this.resourceId);
+            this.setInput(this.resourceId);
         }
         if (changes['mainForm'] && !changes['resourceId']) {
             this._setupForm(this._webConfigArm);
@@ -120,10 +112,7 @@ export class DefaultDocumentsComponent implements OnChanges, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (this._resourceIdSubscription) {
-            this._resourceIdSubscription.unsubscribe();
-            this._resourceIdSubscription = null;
-        }
+        super.ngOnDestroy();
         this._busyManager.clearBusy();
     }
 

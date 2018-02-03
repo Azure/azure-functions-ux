@@ -237,6 +237,8 @@ export class LogCategories {
     public static readonly binding = 'Binding';
     public static readonly functionNew = 'FunctionNew';
     public static readonly cicd = 'CICD';
+    public static readonly telemetry = 'Telemetry';
+    public static readonly featureLoading = 'FeatureLoading';
 }
 
 export class KeyCodes {
