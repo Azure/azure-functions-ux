@@ -21,4 +21,12 @@ export class FunctionsVersionInfoHelper {
             || runtimeVersion.startsWith('2')
             || runtimeVersion.startsWith('beta')) ? 'V2' : 'V1';
     }
+
+    public static getEventGridUri(generation: string, mainSiteUrl: string, functionName: string, code: string)
+    {
+        const path = generation === 'V1' ? 'admin/extensions/EventGridExtensionConfig'
+            : 'runtime/webhooks/EventGridExtensionConfig';
+
+        return `${mainSiteUrl.toLowerCase()}/${path}?functionName=${functionName}&code=${code}`;
+    }
 }

@@ -483,8 +483,8 @@ export class BindingComponent extends FunctionAppContextComponent implements OnD
                         input.label = this._translateService.instant(PortalResources.eventGrid_label);
                         input.help = this._translateService.instant(PortalResources.eventGrid_help);
                         input.bladeLabel = this._functionInfo.name;
-                        this._functionAppService.getEventGridKey(this.context).subscribe(eventGridKey => {
-                            input.value = `${this.context.mainSiteUrl.toLowerCase()}/admin/extensions/EventGridExtensionConfig?functionName=${this._functionInfo.name}&code=${eventGridKey}`;
+                        this._functionAppService.getEventGridUri(this.context, this._functionInfo.name).subscribe(eventGridUri => {
+                            input.value = eventGridUri.result;
                         });
                         this.model.inputs.push(input);
                     }
