@@ -210,7 +210,7 @@ export class FunctionAppService {
                     }
 
                     return this._cacheService.get(
-                        Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
+                        Constants.cdnHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
                         true,
                         headers);
                 })
@@ -490,7 +490,7 @@ export class FunctionAppService {
                     headers.delete('Authorization');
                 }
 
-                return this._cacheService.get(`${Constants.serviceHost}api/bindingconfig?runtime=${extensionVersion}`, false, headers)
+                return this._cacheService.get(`${Constants.cdnHost}api/bindingconfig?runtime=${extensionVersion}`, false, headers)
             })
             .map(r => {
                 const object = r.json();

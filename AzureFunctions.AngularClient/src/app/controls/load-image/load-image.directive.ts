@@ -1,4 +1,4 @@
-import { LogCategories } from './../../shared/models/constants';
+import { LogCategories, Constants } from './../../shared/models/constants';
 import { Guid } from './../../shared/Utilities/Guid';
 import { LogService } from './../../shared/services/log.service';
 import { CacheService } from './../../shared/services/cache.service';
@@ -20,8 +20,8 @@ export class LoadImageDirective implements OnChanges {
 
     ngOnChanges() {
         if (this.imageUrl) {
+            const cdnUrl = Constants.cdnHost;
             if (!this.imageUrl.toLowerCase().endsWith('.svg')) {
-                const cdnUrl = window.appsvc && window.appsvc.cdn || '';
                 this._elementRef.nativeElement.innerHTML = `<img src="${cdnUrl}${this.imageUrl}" />`;
             } else {
                 const headers = new Headers();
@@ -33,7 +33,7 @@ export class LoadImageDirective implements OnChanges {
                 // cacheService isn't entirely necessary, though it does mimic actual browser
                 // behavior a little better which doesn't make new requests (even to local disk) for
                 // every instance of an image
-                this._cacheService.get(this.imageUrl, false, headers)
+                this._cacheService.get(`${cdnUrl}${this.imageUrl}`, false, headers)
                     .subscribe(image => {
                         this._elementRef.nativeElement.innerHTML = image.text();
                     }, (e => {
