@@ -8,10 +8,10 @@
       <div class="modal-body keys-dialog-body">
         <div *ngIf="isHttpFunction && hostKeys">
           <div class="text-label">{{'keysDialog_key' | translate}}</div>
-          <select (change)="onChangeKey($event.target.value)">
-                        <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
-                        <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
-                    </select>
+          <select #selectKeys (change)="onChangeKey($event.target.value)">
+            <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
+            <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
+          </select>
         </div>
         <div class="keys-dialog-body-invokeUrl">
           <div class="text-label">{{'keysDialog_url' | translate}}</div>
