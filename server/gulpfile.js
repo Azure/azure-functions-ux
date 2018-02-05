@@ -131,7 +131,7 @@ gulp.task('resources-convert', function() {
         .pipe(gulp.dest('resources-convert'));
 
     const templateResourceStream = gulp
-        .src([ 'templates/**/Resources/**/Resources.resx' ])
+        .src([ 'templates/**/Resources/**/Resources.resx', '!templates/**/Resources/**/qps-*/**' ])
         .pipe(resx2())
         .pipe(
             rename(function(p) {
