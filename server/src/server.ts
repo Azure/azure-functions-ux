@@ -17,6 +17,8 @@ import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
 import { triggerFunctionAPIM } from './actions/apim';
 import { NextFunction } from 'express';
+import { getLinuxRuntimeToken } from './actions/linux-function-app';
+
 const cookieSession = require('cookie-session');
 const appInsights = require('applicationinsights');
 if (process.env.aiInstrumentationKey) {
@@ -46,15 +48,15 @@ app
     .use(bodyParser.urlencoded({ extended: true }))
     .use(cookieParser())
     .use(
-    cookieSession({
-        //This session cookie will live as long as the session and be used for authentication/security purposes
-        name: 'session',
-        keys: [process.env.SALT],
-        cookie: {
-            httpOnly: true,
-            secure: true
-        }
-    })
+        cookieSession({
+            //This session cookie will live as long as the session and be used for authentication/security purposes
+            name: 'session',
+            keys: [process.env.SALT],
+            cookie: {
+                httpOnly: true,
+                secure: true
+            }
+        })
     );
 const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
     if (!req.query.trustedAuthority) {
@@ -97,6 +99,7 @@ app.get('/api/config', getConfig);
 app.post('/api/proxy', proxy);
 app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
+app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
 
 setupDeploymentCenter(app);
 // if are here, that means we didn't match any of the routes above including those for static content.
