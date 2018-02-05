@@ -56,8 +56,22 @@
                 </td>
             </tr>
             <tr *ngIf="addingNew" class="not-clickable">
-                <td><input type="text" id="newKeyName" (keyup)="checkValidName($event)" [(ngModel)]="newKeyName" placeholder="{{'functionKeys_enterKeyName' | translate}}" /></td>
-                <td><input type="text" id="newKeyValue" (keyup)="checkValidName($event)" [(ngModel)]="newKeyValue" placeholder="{{'functionKeys_enterKeyValue' | translate}}" /></td>
+                <td>
+                    <input #newKeyInput
+                        type="text"
+                        id="newKeyName"
+                        (keyup)="checkValidName($event)"
+                        [(ngModel)]="newKeyName"
+                        placeholder="{{'functionKeys_enterKeyName' | translate}}" />
+                </td>
+                <td>
+                    <input
+                        type="text"
+                        id="newKeyValue"
+                        (keyup)="checkValidName($event)"
+                        [(ngModel)]="newKeyValue"
+                        placeholder="{{'functionKeys_enterKeyValue' | translate}}" />
+                </td>
                 <td>
                     <button 
                         class="custom-button" 
