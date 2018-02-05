@@ -1,28 +1,11 @@
-<div *ngIf="showFunctionInvokeUrlModal" id="my-modal" class="modal fade in" style="display: block">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
-        <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>
-      </div>
-      <div class="modal-body keys-dialog-body">
-        <div *ngIf="isHttpFunction && hostKeys">
-          <div class="text-label">{{'keysDialog_key' | translate}}</div>
-          <select (change)="onChangeKey($event.target.value)">
-                        <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
-                        <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
-                    </select>
-        </div>
-        <div class="keys-dialog-body-invokeUrl">
-          <div class="text-label">{{'keysDialog_url' | translate}}</div>
-          <div>
-            <copy-pre [content]="functionInvokeUrl"></copy-pre>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<get-function-url *ngIf="showFunctionInvokeUrlModal"
+  [isHttpFunction]='isHttpFunction'
+  [functionKeys]='functionKeys'
+  [hostKeys]='hostKeys'
+  [functionInvokeUrl]='functionInvokeUrl'
+  [setKey]='setKey'
+  (close)="setShowFunctionInvokeUrlModal(false)">
+</get-function-url>
 
 <div *ngIf="showFunctionKeyModal" id="my-modal" class="modal fade in" style="display: block">
   <div class="modal-dialog modal-lg">
