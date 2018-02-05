@@ -14,7 +14,8 @@ export class Constants {
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
-    public static cdnHost = `${window.appsvc.cdn}/` || Constants.serviceHost;
+    public static cdnHost = !!window.appsvc.cdn ? `${window.appsvc.cdn}/` : Constants.serviceHost;
+    public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';
     public static nodeVersion = '6.5.0';
     public static latest = 'latest';
     public static disabled = 'disabled';

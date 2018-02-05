@@ -20,7 +20,7 @@ export class LoadImageDirective implements OnChanges {
 
     ngOnChanges() {
         if (this.imageUrl) {
-            const cdnUrl = Constants.cdnHost;
+            const cdnUrl = Constants.cdnNgMin;
             if (!this.imageUrl.toLowerCase().endsWith('.svg')) {
                 this._elementRef.nativeElement.innerHTML = `<img src="${cdnUrl}${this.imageUrl}" />`;
             } else {
