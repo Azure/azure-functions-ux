@@ -148,18 +148,19 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
             return;
         }
         this._functionAppService.getTemplates(this.context)
-            .subscribe((templates: any) => {
-
-                let templateId = action.template + '-' + FunctionInfoHelper.getLanguage(this.functionInfo);
-                let template = templates.find(t => t.id === templateId);
-                // C# is default language. Set C# if can not found original language
-                if (!template) {
-                    templateId = action.template + '-CSharp';
-                    template = templates.find(t => t.id === templateId);
-                }
-                if (template) {
-                    action.templateId = templateId;
-                    (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.CreateFunctionDashboard, action);
+            .subscribe(templates => {
+                if (templates.isSuccessful) {
+                    let templateId = action.template + '-' + FunctionInfoHelper.getLanguage(this.functionInfo);
+                    let template = templates.result.find(t => t.id === templateId);
+                    // C# is default language. Set C# if can not found original language
+                    if (!template) {
+                        templateId = action.template + '-CSharp';
+                        template = templates.result.find(t => t.id === templateId);
+                    }
+                    if (template) {
+                        action.templateId = templateId;
+                        (<FunctionsNode>this.viewInfo.node.parent.parent).openCreateDashboard(DashboardType.CreateFunctionDashboard, action);
+                    }
                 }
             });
 
