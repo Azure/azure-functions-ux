@@ -22,7 +22,7 @@ export class LoadImageDirective implements OnChanges {
         if (this.imageUrl) {
             const cdnUrl = Constants.cdnNgMin;
             if (!this.imageUrl.toLowerCase().endsWith('.svg')) {
-                this._elementRef.nativeElement.innerHTML = `<img src="${cdnUrl}${this.imageUrl}" />`;
+                this._elementRef.nativeElement.innerHTML = `<img src="${cdnUrl}${this.imageUrl}?cacheBreak=${window.appsvc.cacheBreakQuery}" />`;
             } else {
                 const headers = new Headers();
                 headers.append('Accept', 'image/webp,image/apng,image/*,*/*;q=0.8');
@@ -33,7 +33,7 @@ export class LoadImageDirective implements OnChanges {
                 // cacheService isn't entirely necessary, though it does mimic actual browser
                 // behavior a little better which doesn't make new requests (even to local disk) for
                 // every instance of an image
-                this._cacheService.get(`${cdnUrl}${this.imageUrl}`, false, headers)
+                this._cacheService.get(`${cdnUrl}${this.imageUrl}?cacheBreak=${window.appsvc.cacheBreakQuery}`, false, headers)
                     .subscribe(image => {
                         this._elementRef.nativeElement.innerHTML = image.text();
                     }, (e => {
