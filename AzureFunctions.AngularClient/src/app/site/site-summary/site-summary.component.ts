@@ -38,13 +38,6 @@ import { Site } from '../../shared/models/arm/site';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 
-interface DataModel {
-    hasWritePermission: boolean;
-    hasSwapPermission: boolean;
-    hasReadOnlyLock: boolean;
-    slotsList: ArmObj<Site>[];
-}
-
 @Component({
     selector: 'site-summary',
     templateUrl: './site-summary.component.html',
@@ -164,7 +157,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     timerAction: 'stop'
                 });
 
-                return Observable.zip<DataModel>(
+                return Observable.zip(
                     authZService.hasPermission(context.site.id, [AuthzService.writeScope]),
                     authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
                     authZService.hasReadOnlyLock(context.site.id),
@@ -173,7 +166,7 @@ export class SiteSummaryComponent implements OnDestroy {
                         hasWritePermission: p,
                         hasSwapPermission: s,
                         hasReadOnlyLock: l,
-                        slotsList: slots
+                        slotsList: slots.isSuccessful ? slots.result : []
                     }));
             })
             .mergeMap(r => {
