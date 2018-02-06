@@ -97,7 +97,12 @@ export class ConditionalHttpClient {
             const httpError = e as HttpErrorResponse<ArmError>;
             let body: ArmError;
             if (httpError.json) {
-                body = httpError.json();
+                try {
+                    body = httpError.json();
+                } catch (e) {
+                    // Lots of Functions API's don't return JSON even though they have a JSON content type
+                }
+
                 if (body && body.error) {
                     mesg = body.error.message;
 
@@ -114,7 +119,7 @@ export class ConditionalHttpClient {
             }
         }
 
-        return <HttpError> {
+        return <HttpError>{
             errorId: errorId,
             message: mesg,
             result: e

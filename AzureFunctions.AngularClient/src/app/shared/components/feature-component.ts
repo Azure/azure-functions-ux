@@ -30,6 +30,10 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
                     throw Error('featureName is not defined');
                 }
 
+                if (this.isParentComponent) {
+                    this._telemetryService.featureConstructComplete(this.featureName);
+                }
+
                 this._telemetryService.featureLoading(this.isParentComponent, this.featureName, this.componentName);
             });
 
