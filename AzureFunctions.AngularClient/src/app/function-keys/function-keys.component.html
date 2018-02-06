@@ -13,26 +13,35 @@
         <tbody>
             <tr class="not-clickable" *ngFor="let key of keys">
                 <td><label id="keyNameLabel">{{key.name}}</label></td>
-                <td>                    
-                    <a (click)="key.show=!key.show" 
+                <td>
+                    <a *ngIf="key.show"
+                        role="button"
+                        (click)="key.show=!key.show" 
                         (keydown)="keyDown($event, 'showKey', key)"
                         class="operation" 
                         tabindex="0"
                         [attr.aria-expanded]="key.show"
-                        [attr.aria-label]="key.name"
-                        >
-                        <ng-container *ngIf="key.show">{{'functionKeys_clickToHide' | translate}}</ng-container>
-                        <ng-container *ngIf="!key.show">{{'functionKeys_clickToShow' | translate}}</ng-container>
+                        [attr.aria-label]="clickToHide">
+                        {{'functionKeys_clickToHide' | translate}}
+                    </a>
+                    <a *ngIf="!key.show"
+                        role="button"
+                        (click)="key.show=!key.show" 
+                        (keydown)="keyDown($event, 'showKey', key)"
+                        class="operation" 
+                        tabindex="0"
+                        [attr.aria-expanded]="key.show"
+                        [attr.aria-label]="clickToShow">
+                        {{'functionKeys_clickToShow' | translate}}
                     </a>
                     <span *ngIf="key.show" [attr.aria-label]="key.value" tabindex="0">{{ key.value }}</span>
                 </td>
                 <td>
                     <div id="operations-bar">
-                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">                            
+                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
                             <span class="operation" 
                                 (click)="copyKey(key)" 
-                                (keydown)="keyDown($event, 'copyKey', key)"
-                                >
+                                (keydown)="keyDown($event, 'copyKey', key)">
                                 <i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}
                             </span>
                         </pop-over>
@@ -80,7 +89,7 @@
                         tabindex="0"
                         id="saveNewKeyButton"
                         aria-labelledby="newKeyName newKeyValue saveNewKeyButton">
-                        {{'save' | translate}}                        
+                        {{'save' | translate}}
                     </button>
                 </td>
             </tr>
