@@ -11,6 +11,7 @@ interface AppSvc {
   env: Environment;
   functionsVersionInfo: FunctionsVersionInfo;
   cdn?: string;
+  cacheBreakQuery: string;
 }
 
 declare global {

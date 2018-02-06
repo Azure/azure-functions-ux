@@ -37,7 +37,7 @@ export class LanguageService {
         const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, runtime);
 
         return this._cacheService.get(
-            `${Constants.cdnHost}api/resources?name=${input.lang}&runtime=${input.runtime}`,
+            `${Constants.cdnHost}api/resources?name=${input.lang}&runtime=${input.runtime}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
             false,
             LanguageServiceHelper.getApiControllerHeaders())
 

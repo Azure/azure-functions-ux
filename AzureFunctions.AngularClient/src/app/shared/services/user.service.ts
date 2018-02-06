@@ -195,7 +195,7 @@ export class UserService {
 
             const lang = input.lang ? input.lang : 'en';
             const getResources = this._http.get(
-                `${Constants.cdnHost}api/resources?name=${lang}&runtime=${input.runtime}`,
+                `${Constants.cdnHost}api/resources?name=${lang}&runtime=${input.runtime}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
                 { headers: LanguageServiceHelper.getApiControllerHeaders() })
                 .retryWhen(LanguageServiceHelper.retry)
                 .do(r => {
