@@ -19,12 +19,21 @@ export class TelemetryService {
     // feature properly defines a parent component
     private _registeredParentFeatures: { [key: string]: string } = {};
 
+    private readonly _constructIdFormat = '/feature/{0}/construct';
     private readonly _loadingIdFormat = '/feature/{0}/loading';
     private readonly _debouceTimeMs = 250;
 
     constructor(
         private _portalService: PortalService,
         private _logService: LogService) {
+    }
+
+    public featureConstructComplete(featureName: string) {
+        // For now, this will only be started for Ibiza menu scenario's.
+        this._portalService.sendTimerEvent({
+            timerId: this._constructIdFormat.format(featureName),
+            timerAction: 'stop'
+        });
     }
 
     public featureLoading(isParentComponent: boolean, featureName: string, componentName: string) {
