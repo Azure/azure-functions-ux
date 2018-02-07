@@ -1,0 +1,30 @@
+<div class="settings-group-wrapper">
+
+  <h3>{{ name }}</h3>
+  <info-box
+    *ngIf="!hasWritePermissions && showPermissionsMessage"
+    typeClass="warning"
+    [infoText]="permissionsMessage">
+  </info-box>
+  <info-box
+    *ngIf="!groupArray && !!loadingFailureMessage"
+    typeClass="error"
+    [infoText]="loadingFailureMessage">
+  </info-box>
+
+  <div class="settings-wrapper">
+
+    <config-table
+      [name]="name"
+      [groupArray]="groupArray"
+      [noInputMessage]="noInputMessage"
+      [emptyTableMessage]="emptyTableMessage"
+      [allowModification]="hasWritePermissions"
+      [addItemLabel]="addItemLabel"
+      [getNewItem]="getNewItem"
+      [cellTemplates]="cellTemplates">
+    </config-table>
+
+  </div>
+
+</div>

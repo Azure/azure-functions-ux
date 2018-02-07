@@ -8,6 +8,8 @@ import { AppSettingsShellComponent } from 'app/ibiza-feature/app-settings-shell/
 import { DefaultDocumentsComponent } from 'app/site/site-config/default-documents/default-documents.component';
 import { HandlerMappingsComponent } from 'app/site/site-config/handler-mappings/handler-mappings.component';
 import { VirtualDirectoriesComponent } from 'app/site/site-config/virtual-directories/virtual-directories.component';
+import { ConfigTableComponent } from 'app/site/site-config/config-table/config-table.component';
+import { ConfigTableWrapperComponent } from 'app/site/site-config/config-table-wrapper/config-table-wrapper.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
@@ -28,7 +30,9 @@ import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
     AppSettingsShellComponent,
     DefaultDocumentsComponent,
     HandlerMappingsComponent,
-    VirtualDirectoriesComponent
+    VirtualDirectoriesComponent,
+    ConfigTableComponent,
+    ConfigTableWrapperComponent
   ],
   exports: [
     SiteConfigComponent,

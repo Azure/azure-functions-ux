@@ -1,101 +1,51 @@
-<div class="settings-group-wrapper">
+<config-table-wrapper
+  *ngIf="initialized"
+  [name]="(Resources.feature_handlerMappingsName | translate)"
+  [groupArray]="groupArray"
+  [hasWritePermissions]="hasWritePermissions"
+  [showPermissionsMessage]="showPermissionsMessage"
+  [permissionsMessage]="permissionsMessage"
+  [loadingFailureMessage]="loadingFailureMessage"
+  [loadingMessage]="loadingMessage"
+  [emptyTableMessage]="(Resources.emptyHandlerMappings | translate)"
+  [addItemLabel]="(Resources.addNewHandlerMapping | translate)"
+  [getNewItem]="getNewItem"
+  [cellTemplates]="cellTemplates">
+</config-table-wrapper>
 
-  <h3>{{ 'feature_handlerMappingsName' | translate }}</h3>
-  <info-box
-    *ngIf="!hasWritePermissions && showPermissionsMessage"
-    typeClass="warning"
-    [infoText]="permissionsMessage">
-  </info-box>
-  <info-box
-    *ngIf="!groupArray && !!loadingFailureMessage"
-    typeClass="error"
-    [infoText]="loadingFailureMessage">
-  </info-box>
+<ng-template
+  let-group="group"
+  table-cell-template
+  className="one-third-col padded-col"
+  [showDirtyState]="true"
+  [editable]="true">
 
-  <div class="settings-wrapper">
+  <click-to-edit [group]="group" name="extension">
+    <textbox [control]="group.controls['extension']" [placeholder]="Resources.enterExtension | translate"></textbox>
+  </click-to-edit>
 
-    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
-    <table-root tblClass="tbl fixed stretch" [name]="Resources.feature_handlerMappingsName | translate" [items]="groupArray?.controls" #handlerMappingsTable>
+</ng-template>
 
-      <!-- Data/Content Rows -->
-      <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each handler mapping returned (if any) -->
-      <tr *ngFor="let group of handlerMappingsTable.items | excludeDeleted:true" table-row [group]="group">
+<ng-template
+  let-group="group"
+  table-cell-template
+  className="one-third-col padded-col"
+  [editable]="true">
 
-        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
-          <click-to-edit [group]="group" name="extension">
+  <click-to-edit [group]="group" name="scriptProcessor">
+    <textbox [control]="group.controls['scriptProcessor']" [placeholder]="Resources.enterScriptProcessor | translate"></textbox>
+  </click-to-edit>
 
-            <textbox [control]="group.controls['extension']" [placeholder]="Resources.enterExtension | translate"></textbox>
+</ng-template>
 
-          </click-to-edit>
-        </td>
+<ng-template
+  let-group="group"
+  table-cell-template
+  className="one-third-col padded-col"
+  [editable]="true">
 
-        <td class="one-third-col padded-col" table-cell [editable]="true">
-          <click-to-edit [group]="group" name="scriptProcessor">
+  <click-to-edit [group]="group" name="arguments">
+    <textbox [control]="group.controls['arguments']" [placeholder]="Resources.enterArguments | translate"></textbox>
+  </click-to-edit>
 
-            <textbox [control]="group.controls['scriptProcessor']" [placeholder]="Resources.enterScriptProcessor | translate"></textbox>
-
-          </click-to-edit>
-        </td>
-
-        <td class="one-third-col padded-col" table-cell [editable]="true">
-          <click-to-edit [group]="group" name="arguments">
-
-            <textbox [control]="group.controls['arguments']" [placeholder]="Resources.enterArguments | translate"></textbox>
-
-          </click-to-edit>
-        </td>
-
-        <td class="action-col" table-cell [editable]="false">
-          <span
-            [tabindex]="hasWritePermissions ? 0 : -1"
-            role="button"
-            class="fa fa-times delete"
-            [attr.aria-label]="Resources._delete | translate"
-            [attr.aria-disabled]="!hasWritePermissions"
-            (click)="hasWritePermissions ? deleteItem(group) : null"
-            [activate-with-keys]>
-          </span>
-        </td>
-
-      </tr>
-
-      <!-- Placeholder/Message Row -->
-      <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && handlerMappingsTable.items.length - originalItemsDeleted === 0)" table-row>
-
-        <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
-          {{ (loadingFailureMessage || loadingMessage) }}
-        </td>
-
-        <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="4" table-cell [editable]="false">
-          {{ showPermissionsMessage ? permissionsMessage : '' }}
-        </td>
-
-        <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && handlerMappingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="4" table-cell [editable]="false">
-          {{ ('emptyHandlerMappings' | translate) }}
-        </td>
-
-      </tr>
-
-    </table-root>
-    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-
-
-    <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
-    <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
-    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" tabindex="0" role="button" class="link add-setting" (click)="addItem()" [activate-with-keys]>
-      {{ 'addNewHandlerMapping' | translate }}
-    </div>
-
-    <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
-    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" tabindex="-1" role="button" class="disabled-link add-setting" aria-disabled="true">
-      {{ 'addNewHandlerMapping' | translate }}
-    </div>
-    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-
-  </div>
-
-</div>
+</ng-template>

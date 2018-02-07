@@ -1,103 +1,53 @@
-<div class="settings-group-wrapper">
+<config-table-wrapper
+  *ngIf="initialized"
+  [name]="(Resources.feature_applicationSettingsName | translate)"
+  [groupArray]="groupArray"
+  [hasWritePermissions]="hasWritePermissions"
+  [showPermissionsMessage]="showPermissionsMessage"
+  [permissionsMessage]="permissionsMessage"
+  [loadingFailureMessage]="loadingFailureMessage"
+  [loadingMessage]="loadingMessage"
+  [emptyTableMessage]="(Resources.emptyAppSettings | translate)"
+  [addItemLabel]="(Resources.addNewSetting | translate)"
+  [getNewItem]="getNewItem"
+  [cellTemplates]="cellTemplates">
+</config-table-wrapper>
 
-  <h3>{{ 'feature_applicationSettingsName' | translate }}</h3>
-  <info-box
-    *ngIf="!hasWritePermissions && showPermissionsMessage"
-    typeClass="warning"
-    [infoText]="permissionsMessage">
-  </info-box>
-  <info-box
-    *ngIf="!groupArray && !!loadingFailureMessage"
-    typeClass="error"
-    [infoText]="loadingFailureMessage">
-  </info-box>
+<ng-template
+  let-group="group"
+  table-cell-template
+  className="one-third-col padded-col"
+  [showDirtyState]="true"
+  [editable]="true">
 
-  <div class="settings-wrapper">
+  <click-to-edit [group]="group" name="name">
+    <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+  </click-to-edit>
 
-    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
-    <table-root tblClass="tbl fixed stretch" [name]="Resources.feature_applicationSettingsName | translate" [items]="groupArray?.controls" #appSettingsTable>
+</ng-template>
 
-      <!-- Data/Content Rows -->
-      <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
-      <tr *ngFor="let group of appSettingsTable.items | excludeDeleted:true" table-row [group]="group">
+<ng-template
+  let-group="group"
+  table-cell-template
+  className="two-thirds-col padded-col"
+  [editable]="true">
 
-        <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="true">
-          <click-to-edit [group]="group" name="name">
+  <click-to-edit [group]="group" name="value">
+    <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
+  </click-to-edit>
 
-            <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+</ng-template>
 
-          </click-to-edit>
-        </td>
+<ng-template
+  let-group="group"
+  table-cell-template
+  className="slot-setting-col padded-col">
 
-        <td class="two-thirds-col padded-col" table-cell [editable]="true">
-          <click-to-edit [group]="group" name="value">
+  <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
+    <label>
+      <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
+      {{ 'isSlotSetting' | translate }}
+    </label>
+  </click-to-edit>
 
-            <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
-
-          </click-to-edit>
-        </td>
-
-        <td class="slot-setting-col padded-col" table-cell [editable]="false">
-          <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
-
-            <label>
-              <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
-              {{ 'isSlotSetting' | translate }}
-            </label>
-
-          </click-to-edit>
-        </td>
-
-        <td class="action-col" table-cell [editable]="false">
-          <span
-            [tabindex]="hasWritePermissions ? 0 : -1"
-            role="button"
-            class="fa fa-times delete"
-            [attr.aria-label]="Resources._delete | translate"
-            [attr.aria-disabled]="!hasWritePermissions"
-            (click)="hasWritePermissions ? deleteItem(group) : null"
-            [activate-with-keys]>
-          </span>
-        </td>
-
-      </tr>
-
-      <!-- Placeholder/Message Row -->
-      <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-      <tr *ngIf="!groupArray || (!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0)" table-row>
-
-        <!-- ARM call did not return successfully, and user has permissions -->
-        <td *ngIf="!groupArray && hasWritePermissions" class="message-row" colspan="3" table-cell [editable]="false">
-          {{ (loadingFailureMessage || loadingMessage) }}
-        </td>
-
-        <!-- ARM call did not return successfully, and user doesn't have permissions -->
-        <td *ngIf="!groupArray && !hasWritePermissions" class="message-row" colspan="3" table-cell [editable]="false">
-          {{ (showPermissionsMessage) ? permissionsMessage : '' }}
-        </td>
-
-        <!-- ARM call returned successfully, but there are no entries to display -->
-        <td *ngIf="!!groupArray && appSettingsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell [editable]="false">
-          {{ ('emptyAppSettings' | translate) }}
-        </td>
-
-      </tr>
-    </table-root>
-    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-
-
-    <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
-    <!-- Display 'add' link if ARM call returned successfully and user has write permissions and new pristine item doesn't exist  -->
-    <div *ngIf="!!groupArray && hasWritePermissions && !newItem?.pristine" tabindex="0" role="button" class="link add-setting" (click)="addItem()" [activate-with-keys]>
-      {{ 'addNewSetting' | translate }}
-    </div>
-
-    <!-- Display 'add' link disabled if ARM call did not return successfully or user does not have write permissions, or new pristine item already exits -->
-    <div *ngIf="!groupArray || !hasWritePermissions || newItem?.pristine" tabindex="-1" role="button" class="disabled-link add-setting" aria-disabled="true">
-      {{ 'addNewSetting' | translate }}
-    </div>
-    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-
-  </div>
-
-</div>
+</ng-template>

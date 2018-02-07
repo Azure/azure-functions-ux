@@ -1,7 +1,7 @@
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { Links, LogCategories } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges, Injector } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
