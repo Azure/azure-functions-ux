@@ -16,6 +16,7 @@ import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, g
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
 import { triggerFunctionAPIM } from './actions/apim';
+import { NextFunction } from 'express';
 const cookieSession = require('cookie-session');
 const appInsights = require('applicationinsights');
 if (process.env.aiInstrumentationKey) {
@@ -45,22 +46,38 @@ app
     .use(bodyParser.urlencoded({ extended: true }))
     .use(cookieParser())
     .use(
-        cookieSession({
-            //This session cookie will live as long as the session and be used for authentication/security purposes
-            name: 'session',
-            keys: [process.env.SALT],
-            cookie: {
-                httpOnly: true,
-                secure: true
-            }
-        })
+    cookieSession({
+        //This session cookie will live as long as the session and be used for authentication/security purposes
+        name: 'session',
+        keys: [process.env.SALT],
+        cookie: {
+            httpOnly: true,
+            secure: true
+        }
+    })
     );
+const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
+    if (!req.query.trustedAuthority) {
+        res.redirect('https://azure.microsoft.com/services/functions/');
+    }
+    else {
+        next();
+    }
+};
 
 const renderIndex = (req: express.Request, res: express.Response) => {
     staticConfig.config.clientOptimzationsOff = req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
     res.render('index', staticConfig);
 };
-app.get('/', renderIndex);
+app.get('/', redirectToAcom, renderIndex);
+
+app.get('/signin', (_, res) => {
+    res.redirect('https://portal.azure.com')
+});
+
+app.get('/try', (_, res) => {
+    res.redirect('https://www.tryfunctions.com')
+});
 
 app.get('/api/ping', (_, res) => {
     res.send('success');
