@@ -88,41 +88,62 @@ export class ConditionalHttpClient {
     // We have no idea what kind of observable will be failing, so we make a best
     // effort to come up with some kind of useful error.
     private _getErrorObj(e: any) {
-        let mesg: string;
-        let errorId = '/errors/unknown-error';
+        let error: HttpError = {
+            errorId: errorIds.unknown,
+            message: '',
+            result: e
+        };
 
         if (typeof e === 'string') {
-            mesg = e;
+            error.message = e;
         } else {
-            const httpError = e as HttpErrorResponse<ArmError>;
-            let body: ArmError;
-            if (httpError.json) {
-                try {
-                    body = httpError.json();
-                } catch (e) {
-                    // Lots of Functions API's don't return JSON even though they have a JSON content type
+
+            if ((e as HttpErrorResponse<ArmError>).json) {
+                const httpError = this._parseHttpError(e);
+                if (httpError) {
+                    error = httpError;
                 }
-
-                if (body && body.error) {
-                    mesg = body.error.message;
-
-                    if (httpError.status === 401) {
-                        errorId = errorIds.armErrors.noAccess;
-                    } else if (httpError.status === 409 && body.error.code === 'ScopeLocked') {
-                        errorId = errorIds.armErrors.scopeLocked;
-                    }
-                }
+            } else if ((e as HttpError).errorId) {
+                error = e;
             }
+        }
 
-            if (!mesg && httpError.statusText && httpError.url) {
-                mesg = `${httpError.statusText} - ${httpError.url}`;
+        return error;
+    }
+
+    private _parseHttpError(response: HttpErrorResponse<ArmError>) {
+        let body: ArmError;
+        let mesg: string;
+        let errorId = errorIds.unknown;
+
+        try {
+            body = response.json();
+        } catch (e) {
+            // Lots of Functions API's don't return JSON even though they have a JSON content type
+        }
+
+        if (body && body.error) {
+            mesg = body.error.message;
+
+            if (response.status === 401) {
+                errorId = errorIds.armErrors.noAccess;
+            } else if (response.status === 409 && body.error.code === 'ScopeLocked') {
+                errorId = errorIds.armErrors.scopeLocked;
             }
+        }
+
+        if (!mesg && response.statusText && response.url) {
+            mesg = `${response.statusText} - ${response.url}`;
+        }
+
+        if (errorId === errorIds.unknown && !mesg) {
+            return null;
         }
 
         return <HttpError>{
             errorId: errorId,
             message: mesg,
-            result: e
+            result: response
         };
     }
 }
