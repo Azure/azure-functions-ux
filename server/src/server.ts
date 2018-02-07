@@ -76,7 +76,7 @@ app.get('/signin', (_, res) => {
 });
 
 app.get('/try', (_, res) => {
-    res.redirect('https://www.tryfunctions.com')
+    res.redirect('https://www.tryfunctions.com/try')
 });
 
 app.get('/api/ping', (_, res) => {
