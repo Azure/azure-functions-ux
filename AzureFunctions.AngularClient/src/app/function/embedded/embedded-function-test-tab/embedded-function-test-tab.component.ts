@@ -141,13 +141,6 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
       });
     });
 
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('Cache-Control', 'no-cache');
-    headers.append('Ocp-Apim-Subscription-Key', `403ca4c30e9d45fba7306a7a4edb5f75`);
-    headers.append('Ocp-Apim-Trace', 'true');
-
     this._busyManager.setBusy();
 
     const content = {
