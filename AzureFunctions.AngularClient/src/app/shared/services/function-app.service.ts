@@ -120,8 +120,11 @@ export class FunctionAppService {
         return client.execute({ resourceId: context.site.id }, t => Observable.zip(
             this._cacheService.get(context.urlTemplates.proxiesJsonUrl, false, this.headers(t))
                 .catch(err => err.status === 404
-                    ? Observable.throw(errorIds.proxyJsonNotFound)
-                    : Observable.throw(err)),
+                    ? Observable.throw({
+                        errorId: errorIds.proxyJsonNotFound,
+                        message: '',
+                        result: null
+                    }) : Observable.throw(err)),
             this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(t)),
             (p, s) => ({ proxies: p, schema: s.json() })
         ).map(r => {
