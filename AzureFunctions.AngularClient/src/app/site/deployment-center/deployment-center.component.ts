@@ -56,7 +56,6 @@ export class DeploymentCenterComponent implements OnDestroy {
 
         this.viewInfoStream
             .takeUntil(this._ngUnsubscribe)
-            .distinctUntilChanged()
             .switchMap(view => {
                 this._busyManager.setBusy();
                 this.resourceId = view.resourceId;

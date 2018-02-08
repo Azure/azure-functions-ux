@@ -43,6 +43,7 @@ export class StepCompleteComponent implements OnInit {
         this.wizard.resourceIdStream
             .takeUntil(this._ngUnsubscribe)
             .switchMap(resourceId => {
+                this.resourceId = resourceId;
                 return Observable.zip(
                     this._cacheService.getArm(resourceId, false),
                     this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`, false),
