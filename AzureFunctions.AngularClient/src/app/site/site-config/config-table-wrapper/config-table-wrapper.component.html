@@ -1,18 +1,9 @@
 <div class="settings-group-wrapper">
 
-  <h3>{{ name }}</h3>
-  <info-box
-    *ngIf="!hasWritePermissions && showPermissionsMessage"
-    typeClass="warning"
-    [infoText]="permissionsMessage">
-  </info-box>
-  <info-box
-    *ngIf="!groupArray && !!loadingFailureMessage"
-    typeClass="error"
-    [infoText]="loadingFailureMessage">
-  </info-box>
-
-  <div class="settings-wrapper">
+  <config-section
+    [name]="name"
+    [warningMessage]="(!hasWritePermissions && showPermissionsMessage) ? permissionsMessage : null"
+    [errorMessage]="(!groupArray && !!loadingFailureMessage) ? loadingFailureMessage : null">
 
     <config-table
       [name]="name"
@@ -25,6 +16,6 @@
       [cellTemplates]="cellTemplates">
     </config-table>
 
-  </div>
+  </config-section>
 
 </div>
