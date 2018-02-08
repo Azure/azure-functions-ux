@@ -97,7 +97,7 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
                 this._setPermissions(p.writePermission, p.readOnlyLock);
                 return Observable.zip(
                     Observable.of(this.hasWritePermissions),
-                    this._cacheService.postArm(`${this.resourceId}/config/web`, true),
+                    this._cacheService.getArm(`${this.resourceId}/config/web`, true),
                     (h, w) => ({ hasWritePermissions: h, webConfigResponse: w })
                 );
             })
