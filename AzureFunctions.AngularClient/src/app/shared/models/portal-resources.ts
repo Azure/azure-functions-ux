@@ -1,5 +1,6 @@
 // This file is auto generated
-    export class PortalResources
+
+export class PortalResources
 {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
@@ -904,3 +905,4 @@
     public static DurableFunctionsHttpStart_description: string = "DurableFunctionsHttpStart_description";
     public static functionsPreviewTitle: string = "functionsPreviewTitle";
 }
+

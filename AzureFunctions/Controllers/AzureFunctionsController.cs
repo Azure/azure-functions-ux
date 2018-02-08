@@ -166,7 +166,7 @@ namespace AzureFunctions.Controllers
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "");
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apimKey);
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Trace", "true");
 
                 var content = new StringContent(request.body, Encoding.UTF8, "application/json");
