@@ -16,7 +16,6 @@ import { TabComponent } from './../../../controls/tabs/tab/tab.component';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, ViewChild, Output, Input, OnChanges, SimpleChange, ContentChildren, QueryList, OnDestroy } from '@angular/core';
-import { Headers } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 
 @Component({
