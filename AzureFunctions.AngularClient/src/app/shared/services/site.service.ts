@@ -1,3 +1,7 @@
+import { ConnectionStrings } from './../models/arm/connection-strings';
+import { AvailableStack } from './../models/arm/stacks';
+import { SiteConfig } from './../models/arm/site-config';
+import { ArmArrayResult } from './../models/arm/arm-obj';
 import { Injectable, Injector } from '@angular/core';
 import { ConditionalHttpClient } from 'app/shared/conditional-http-client';
 import { UserService } from 'app/shared/services/user.service';
@@ -25,22 +29,48 @@ export class SiteService {
 
     getSite(resourceId: string): Result<ArmObj<Site>> {
         const getSite = this._cacheService.getArm(resourceId).map(r => r.json());
-        return this._client.execute({ resourceId: resourceId}, t => getSite);
+        return this._client.execute({ resourceId: resourceId }, t => getSite);
     }
 
-    getAppSettings(resourceId: string): Result<ArmObj<{[key: string]: string}>> {
+    getSlots(resourceId: string): Result<ArmArrayResult<Site>> {
+        const siteDescriptor = new ArmSiteDescriptor(resourceId);
+        const slotsId = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
+        const getSlots = this._cacheService.getArm(slotsId).map(r => r.json());
 
-        const getAppSettings = this._cacheService.postArm(`${resourceId}/config/appSettings/list`, true)
+        return this._client.execute({ resourceId: resourceId }, t => getSlots);
+    }
+
+    getSiteConfig(resourceId: string, force?: boolean): Result<ArmObj<SiteConfig>> {
+        const getSiteConfig = this._cacheService.getArm(`${resourceId}/config/web`, force).map(r => r.json());
+        return this._client.execute({ resourceId: resourceId }, t => getSiteConfig);
+    }
+
+    getAppSettings(resourceId: string, force?: boolean): Result<ArmObj<{ [key: string]: string }>> {
+
+        const getAppSettings = this._cacheService.postArm(`${resourceId}/config/appSettings/list`, force)
             .map(r => r.json());
 
         return this._client.execute({ resourceId: resourceId }, t => getAppSettings);
     }
 
-    getSlotConfigNames(resourceId: string): Result<ArmObj<SlotConfigNames>> {
-        const slotsConfigNamesId = `${new ArmSiteDescriptor(resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
-        const getSlotConfigNames = this._cacheService.getArm(slotsConfigNamesId, true)
+    getConnectionStrings(resourceId: string, force?: boolean): Result<ArmObj<ConnectionStrings>> {
+
+        const getConnectionStrings = this._cacheService.postArm(`${resourceId}/config/connectionstrings/list`, force)
             .map(r => r.json());
 
-        return this._client.execute( { resourceId: resourceId }, t => getSlotConfigNames);
+        return this._client.execute({ resourceId: resourceId }, t => getConnectionStrings);
+    }
+
+    getSlotConfigNames(resourceId: string, force?: boolean): Result<ArmObj<SlotConfigNames>> {
+        const slotsConfigNamesId = `${new ArmSiteDescriptor(resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
+        const getSlotConfigNames = this._cacheService.getArm(slotsConfigNamesId, force)
+            .map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getSlotConfigNames);
+    }
+
+    getAvailableStacks(): Result<ArmArrayResult<AvailableStack>> {
+        const getAvailableStacks = this._cacheService.getArm('/providers/Microsoft.Web/availablestacks').map(r => r.json());
+        return this._client.execute({ resourceId: null }, t => getAvailableStacks);
     }
 }
