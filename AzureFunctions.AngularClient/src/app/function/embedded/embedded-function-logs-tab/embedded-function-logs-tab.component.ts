@@ -12,6 +12,7 @@ import { Component, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/c
 import { FunctionEditorEvent } from 'app/function/embedded/function-editor-event';
 import { Subscription } from 'rxjs/Subscription';
 import { LogCategories } from 'app/shared/models/constants';
+import { VfsObject } from 'app/shared/models/vfs-object';
 
 @Component({
   selector: 'embedded-function-logs-tab',
@@ -124,11 +125,11 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
       })
       .switchMap(r => {
         if (r) {
-          const files: any[] = r.json();
+          const files: VfsObject[] = r.json();
           if (files.length > 0) {
 
             files
-              .map(e => { e.parsedTime = new Date(e.m_time); return e; })
+              .map(e => { e.parsedTime = new Date(e.mtime); return e; })
               .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
 
             const headers = this._armService.getHeaders();
