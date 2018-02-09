@@ -28,6 +28,7 @@ import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem } from '../../shared/models/localStorage/enabled-features';
 import { FunctionAppService } from '../../shared/services/function-app.service';
+import { ArmUtil } from '../../shared/Utilities/arm-utils';
 
 @Component({
     selector: 'site-enabled-features',
@@ -468,16 +469,19 @@ export class SiteEnabledFeaturesComponent {
 
     private _getSiteExtensions(site: ArmObj<Site>) {
         const extensionsId = `${site.id}/siteExtensions`;
-        return this._cacheService.getArm(extensionsId)
-            .map(r => {
-                const extensions: any[] = r.json().value;
-                let items = null;
-                if (extensions && extensions.length > 0) {
-                    items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
-                }
-
-                return items;
-            });
+        if (ArmUtil.isLinuxDynamic(site)) {
+            return Observable.of([]);
+        } else {
+            return this._cacheService.getArm(extensionsId)
+                .map(r => {
+                    const extensions: any[] = r.json().value;
+                    let items = null;
+                    if (extensions && extensions.length > 0) {
+                        items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
+                    }
+                    return items;
+                });
+        }
     }
 
     private _getFeatures() {

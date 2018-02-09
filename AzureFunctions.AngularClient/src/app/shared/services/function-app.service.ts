@@ -65,11 +65,18 @@ export class FunctionAppService {
         return this.getAppContext(resourceId)
             .concatMap(c => {
                 context = c;
-                return this._userService.getStartupInfo()
+                return this._userService.getStartupInfo();
             })
-            .concatMap(info => ArmUtil.isLinuxApp(context.site)
-                ? this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
-                : this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token)))
+            .concatMap(info => {
+                if (ArmUtil.isLinuxDynamic(context.site)) {
+                    // TODO: [ahmels] use ARM for token update
+                    return Observable.of({ json: () => '' });
+                } else if (ArmUtil.isLinuxApp(context.site)) {
+                    return this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
+                } else {
+                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
+                }
+            })
             .map(r => r.json());
     }
 
@@ -207,6 +214,10 @@ export class FunctionAppService {
         return this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
             this.getExtensionVersionFromAppSettings(context)
                 .mergeMap(extensionVersion => {
+                    if (ArmUtil.isLinuxDynamic(context.site)) {
+                        extensionVersion = 'beta';
+                    }
+
                     const headers = this.portalHeaders(t);
                     if (this._globalStateService.showTryView) {
                         headers.delete('Authorization');

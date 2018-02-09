@@ -32,7 +32,8 @@ export class UrlTemplates {
         } else if (this.isEmbeddedFunctions) {
             return null;
         } else {
-            return `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
+            const scmHostName = this.site.properties.hostNameSslStates.find(s => s.hostType === 1);
+            return scmHostName ? `https://${scmHostName.name}` : this.getMainUrl();
         }
     }
 

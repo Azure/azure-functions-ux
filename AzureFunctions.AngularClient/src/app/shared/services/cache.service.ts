@@ -129,6 +129,29 @@ export class CacheService {
         content?: any,
         invokeApi?: boolean) {
 
+        if (url.startsWith('http://')) {
+            // This is only for seabreaze function apps.
+            // Seabreaze is missing dwasmod, and doesn't update the HOST header
+            // correctly to replace HOST with DISGUISED_HOST, causing the HOST
+            // for a site called mySite.azurewebsites.net to be mySite.
+            // It also doesn't update the protocol after the frontEnd terminates SSL
+            // This causes vfs to build urls that look like:
+            //      http://mySite/admin/vfs/site/wwwroot/
+            // instead of the correct
+            //      https://mySite.azurewebsites.net/admin/vfs/site/wwwroot
+            // This can be removed once https://github.com/Azure/azure-functions-host/issues/2407 is fixed.
+
+            // Today the portal can never make any http://* requests anyway. The mixed content policy would prevent it
+            // so there is no regression risk for any current requests
+            url = url.replace('http://', 'https://');
+            const parts = url.split('/');
+            let domain = parts[2];
+            if (domain.indexOf('.') === -1) {
+                domain = domain + '.azurewebsites.net';
+            }
+            url = url.replace(parts[2], domain);
+        }
+
         const key = url.toLowerCase();
 
         // Grab a reference before any async calls in case the item gets cleaned up
