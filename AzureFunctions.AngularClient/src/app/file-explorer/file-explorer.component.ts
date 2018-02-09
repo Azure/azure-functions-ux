@@ -202,13 +202,15 @@ export class FileExplorerComponent extends FunctionAppContextComponent {
                     this.refresh();
                     this._aiService.trackEvent('/actions/file_explorer/create_directory');
                 } else {
-                    const o = typeof r === 'string'
+                    const o = typeof r.result === 'string'
                         ? { name: this.newFileName, href: href, mime: 'file', mtime: Date.now.toString() }
                         : r.result;
                     if (typeof o !== 'string') {
                         this.files.push(o);
                         this.selectVfsObject(o, true);
                         this._aiService.trackEvent('/actions/file_explorer/create_file');
+                    } else {
+                        this.clearBusyState();
                     }
                 }
                 this.creatingNewFile = false;
