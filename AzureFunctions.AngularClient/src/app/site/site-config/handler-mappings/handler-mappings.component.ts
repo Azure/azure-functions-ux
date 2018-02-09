@@ -1,6 +1,6 @@
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { LogCategories } from './../../../shared/models/constants';
-import { AfterViewInit, Component, Injector, Input, OnChanges, OnDestroy, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +14,6 @@ import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
-import { TableCellTemplateDirective } from 'app/controls/table-cell/table-cell-template.directive';
 import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-table-wrapper.component';
 
 @Component({
@@ -22,7 +21,7 @@ import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-ta
     templateUrl: './handler-mappings.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class HandlerMappingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy, AfterViewInit {
+export class HandlerMappingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
@@ -34,15 +33,12 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
     public showReadOnlySettingsMessage: string;
     public loadingFailureMessage: string;
     public loadingMessage: string;
-    public initialized: boolean;
     public getNewItem: () => CustomFormGroup;
 
     private _busyManager: BusyStateScopeManager;
     private _saveError: string;
     private _requiredValidator: RequiredValidator;
     private _webConfigArm: ArmObj<SiteConfig>;
-
-    @ViewChildren(TableCellTemplateDirective) cellTemplates: QueryList<TableCellTemplateDirective>;
 
     @ViewChild(ConfigTableWrapperComponent) configTableWrapper: ConfigTableWrapperComponent;
 
@@ -105,10 +101,6 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
                 this.showPermissionsMessage = true;
                 this._busyManager.clearBusy();
             });
-    }
-
-    ngAfterViewInit() {
-        setTimeout(() => { this.initialized = true; });
     }
 
     ngOnChanges(changes: SimpleChanges) {

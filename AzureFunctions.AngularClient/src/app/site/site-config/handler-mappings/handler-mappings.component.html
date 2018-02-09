@@ -1,5 +1,4 @@
 <config-table-wrapper
-  *ngIf="initialized"
   [name]="(Resources.feature_handlerMappingsName | translate)"
   [groupArray]="groupArray"
   [hasWritePermissions]="hasWritePermissions"
@@ -9,43 +8,43 @@
   [loadingMessage]="loadingMessage"
   [emptyTableMessage]="(Resources.emptyHandlerMappings | translate)"
   [addItemLabel]="(Resources.addNewHandlerMapping | translate)"
-  [getNewItem]="getNewItem"
-  [cellTemplates]="cellTemplates">
+  [getNewItem]="getNewItem">
+
+  <ng-template
+    let-group="group"
+    table-cell-template
+    className="one-third-col padded-col"
+    [showDirtyState]="true"
+    [editable]="true">
+
+    <click-to-edit [group]="group" name="extension">
+      <textbox [control]="group.controls['extension']" [placeholder]="Resources.enterExtension | translate"></textbox>
+    </click-to-edit>
+
+  </ng-template>
+
+  <ng-template
+    let-group="group"
+    table-cell-template
+    className="one-third-col padded-col"
+    [editable]="true">
+
+    <click-to-edit [group]="group" name="scriptProcessor">
+      <textbox [control]="group.controls['scriptProcessor']" [placeholder]="Resources.enterScriptProcessor | translate"></textbox>
+    </click-to-edit>
+
+  </ng-template>
+
+  <ng-template
+    let-group="group"
+    table-cell-template
+    className="one-third-col padded-col"
+    [editable]="true">
+
+    <click-to-edit [group]="group" name="arguments">
+      <textbox [control]="group.controls['arguments']" [placeholder]="Resources.enterArguments | translate"></textbox>
+    </click-to-edit>
+
+  </ng-template>
+
 </config-table-wrapper>
-
-<ng-template
-  let-group="group"
-  table-cell-template
-  className="one-third-col padded-col"
-  [showDirtyState]="true"
-  [editable]="true">
-
-  <click-to-edit [group]="group" name="extension">
-    <textbox [control]="group.controls['extension']" [placeholder]="Resources.enterExtension | translate"></textbox>
-  </click-to-edit>
-
-</ng-template>
-
-<ng-template
-  let-group="group"
-  table-cell-template
-  className="one-third-col padded-col"
-  [editable]="true">
-
-  <click-to-edit [group]="group" name="scriptProcessor">
-    <textbox [control]="group.controls['scriptProcessor']" [placeholder]="Resources.enterScriptProcessor | translate"></textbox>
-  </click-to-edit>
-
-</ng-template>
-
-<ng-template
-  let-group="group"
-  table-cell-template
-  className="one-third-col padded-col"
-  [editable]="true">
-
-  <click-to-edit [group]="group" name="arguments">
-    <textbox [control]="group.controls['arguments']" [placeholder]="Resources.enterArguments | translate"></textbox>
-  </click-to-edit>
-
-</ng-template>

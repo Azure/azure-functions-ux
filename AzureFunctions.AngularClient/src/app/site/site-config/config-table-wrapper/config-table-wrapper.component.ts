@@ -1,8 +1,8 @@
-import { Component, Input, ViewChild, QueryList, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ContentChildren, Input, OnChanges, QueryList, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { CustomFormGroup } from 'app/controls/click-to-edit/click-to-edit.component';
-import { TableCellTemplateDirective }  from 'app/controls/table-cell/table-cell-template.directive';
-import { ConfigTableComponent }  from './../config-table/config-table.component';
+import { TableCellTemplateDirective } from 'app/controls/table-cell/table-cell-template.directive';
+import { ConfigTableComponent } from './../config-table/config-table.component';
 
 @Component({
     selector: 'config-table-wrapper',
@@ -21,7 +21,8 @@ export class ConfigTableWrapperComponent implements OnChanges {
     @Input() emptyTableMessage: string;
     @Input() addItemLabel: string;
     @Input() getNewItem: () => CustomFormGroup;
-    @Input() cellTemplates: QueryList<TableCellTemplateDirective>;
+
+    @ContentChildren(TableCellTemplateDirective) cellTemplates: QueryList<TableCellTemplateDirective>;
 
     @ViewChild(ConfigTableComponent) configTable: ConfigTableComponent;
 

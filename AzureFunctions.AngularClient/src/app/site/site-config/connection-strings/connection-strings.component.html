@@ -1,5 +1,4 @@
 <config-table-wrapper
-  *ngIf="initialized"
   [name]="(Resources.connectionStrings | translate)"
   [groupArray]="groupArray"
   [hasWritePermissions]="hasWritePermissions"
@@ -9,57 +8,57 @@
   [loadingMessage]="loadingMessage"
   [emptyTableMessage]="(Resources.emptyConnectionStrings | translate)"
   [addItemLabel]="(Resources.addNewConnectionString | translate)"
-  [getNewItem]="getNewItem"
-  [cellTemplates]="cellTemplates">
+  [getNewItem]="getNewItem">
+
+  <ng-template
+    let-group="group"
+    table-cell-template
+    className="one-third-col padded-col"
+    [showDirtyState]="true"
+    [editable]="true">
+
+    <click-to-edit [group]="group" name="name">
+      <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+    </click-to-edit>
+
+  </ng-template>
+
+  <ng-template
+    let-group="group"
+    table-cell-template
+    className="two-thirds-col padded-col"
+    [editable]="true">
+
+    <click-to-edit [group]="group" name="value" hiddenText="true">
+      <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
+    </click-to-edit>
+
+  </ng-template>
+
+  <ng-template
+    let-group="group"
+    table-cell-template
+    className="type-col padded-col"
+    [editable]="true">
+
+    <click-to-edit [group]="group" name="type">
+      <drop-down [group]="group" name="type" [options]="group.csTypes" [size]="'small'"></drop-down>
+    </click-to-edit>
+
+  </ng-template>
+
+  <ng-template
+    let-group="group"
+    table-cell-template
+    className="slot-setting-col padded-col">
+
+    <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
+      <label>
+        <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
+        {{ 'isSlotSetting' | translate }}
+      </label>
+    </click-to-edit>
+
+  </ng-template>
+
 </config-table-wrapper>
-
-<ng-template
-  let-group="group"
-  table-cell-template
-  className="one-third-col padded-col"
-  [showDirtyState]="true"
-  [editable]="true">
-
-  <click-to-edit [group]="group" name="name">
-    <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
-  </click-to-edit>
-
-</ng-template>
-
-<ng-template
-  let-group="group"
-  table-cell-template
-  className="two-thirds-col padded-col"
-  [editable]="true">
-
-  <click-to-edit [group]="group" name="value" hiddenText="true">
-    <textbox [control]="group.controls['value']" [placeholder]="Resources.enterValue | translate"></textbox>
-  </click-to-edit>
-
-</ng-template>
-
-<ng-template
-  let-group="group"
-  table-cell-template
-  className="type-col padded-col"
-  [editable]="true">
-
-  <click-to-edit [group]="group" name="type">
-    <drop-down [group]="group" name="type" [options]="group.csTypes" [size]="'small'"></drop-down>
-  </click-to-edit>
-
-</ng-template>
-
-<ng-template
-  let-group="group"
-  table-cell-template
-  className="slot-setting-col padded-col">
-
-  <click-to-edit [group]="group" name="isSlotSetting" alwaysShow="true">
-    <label>
-      <input [formControl]="group.controls['isSlotSetting']" type="checkbox">
-      {{ 'isSlotSetting' | translate }}
-    </label>
-  </click-to-edit>
-
-</ng-template>

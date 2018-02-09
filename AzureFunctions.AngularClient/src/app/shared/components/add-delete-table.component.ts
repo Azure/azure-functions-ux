@@ -2,7 +2,7 @@ import { Input, OnChanges, SimpleChanges, QueryList } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { CustomFormControl, CustomFormGroup } from './../../controls/click-to-edit/click-to-edit.component';
 import { PortalResources } from './../../shared/models/portal-resources';
-import { TableCellTemplateDirective }  from 'app/controls/table-cell/table-cell-template.directive';
+import { TableCellTemplateDirective } from 'app/controls/table-cell/table-cell-template.directive';
 
 export class AddDeleteTableComponent implements OnChanges {
     @Input() name: string;

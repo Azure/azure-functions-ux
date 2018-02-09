@@ -1,5 +1,4 @@
 <config-table-wrapper
-  *ngIf="initialized"
   [name]="(Resources.feature_defaultDocumentsName | translate)"
   [groupArray]="groupArray"
   [hasWritePermissions]="hasWritePermissions"
@@ -9,19 +8,19 @@
   [loadingMessage]="loadingMessage"
   [emptyTableMessage]="(Resources.emptyDefaultDocuments | translate)"
   [addItemLabel]="(Resources.addNewDocument | translate)"
-  [getNewItem]="getNewItem"
-  [cellTemplates]="cellTemplates">
+  [getNewItem]="getNewItem">
+
+  <ng-template
+    let-group="group"
+    table-cell-template
+    className="single-col padded-col"
+    [showDirtyState]="true"
+    [editable]="true">
+
+    <click-to-edit [group]="group" name="name">
+      <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
+    </click-to-edit>
+
+  </ng-template>
+
 </config-table-wrapper>
-
-<ng-template
-  let-group="group"
-  table-cell-template
-  className="single-col padded-col"
-  [showDirtyState]="true"
-  [editable]="true">
-
-  <click-to-edit [group]="group" name="name">
-    <textbox [control]="group.controls['name']" [placeholder]="Resources.enterName | translate"></textbox>
-  </click-to-edit>
-
-</ng-template>

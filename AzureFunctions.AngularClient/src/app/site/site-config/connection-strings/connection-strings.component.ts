@@ -1,7 +1,7 @@
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { LogCategories } from './../../../shared/models/constants';
 import { Response } from '@angular/http';
-import { AfterViewInit, Component, Injector, Input, OnChanges, OnDestroy, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,7 +20,6 @@ import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
-import { TableCellTemplateDirective } from 'app/controls/table-cell/table-cell-template.directive';
 import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-table-wrapper.component';
 
 @Component({
@@ -28,7 +27,7 @@ import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-ta
     templateUrl: './connection-strings.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class ConnectionStringsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy, AfterViewInit {
+export class ConnectionStringsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
@@ -40,7 +39,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     public connectionStringTypes: DropDownElement<ConnectionStringType>[];
     public loadingFailureMessage: string;
     public loadingMessage: string;
-    public initialized: boolean;
     public getNewItem: () => CustomFormGroup;
 
     private _busyManager: BusyStateScopeManager;
@@ -50,8 +48,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     private _connectionStringsArm: ArmObj<ConnectionStrings>;
     private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
     private _slotConfigNamesArmPath: string;
-
-    @ViewChildren(TableCellTemplateDirective) cellTemplates: QueryList<TableCellTemplateDirective>;
 
     @ViewChild(ConfigTableWrapperComponent) configTableWrapper: ConfigTableWrapperComponent;
 
@@ -137,10 +133,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
                 this.showPermissionsMessage = true;
                 this._busyManager.clearBusy();
             });
-    }
-
-    ngAfterViewInit() {
-        setTimeout(() => { this.initialized = true; });
     }
 
     ngOnChanges(changes: SimpleChanges) {

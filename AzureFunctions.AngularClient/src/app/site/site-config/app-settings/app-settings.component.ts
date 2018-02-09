@@ -1,7 +1,7 @@
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { LogCategories } from 'app/shared/models/constants';
 import { Response } from '@angular/http';
-import { AfterViewInit, Component, Injector, Input, OnChanges, OnDestroy, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,7 +20,6 @@ import { LinuxAppSettingNameValidator } from 'app/shared/validators/linuxAppSett
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
 import { errorIds } from 'app/shared/models/error-ids';
-import { TableCellTemplateDirective } from 'app/controls/table-cell/table-cell-template.directive';
 import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-table-wrapper.component';
 
 @Component({
@@ -28,7 +27,7 @@ import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-ta
   templateUrl: './app-settings.component.html',
   styleUrls: ['./../site-config.component.scss']
 })
-export class AppSettingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy, AfterViewInit {
+export class AppSettingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
   @Input() mainForm: FormGroup;
   @Input() resourceId: ResourceId;
 
@@ -39,7 +38,6 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
   public showPermissionsMessage: boolean;
   public loadingFailureMessage: string;
   public loadingMessage: string;
-  public initialized: boolean;
   public getNewItem: () => CustomFormGroup;
 
   private _busyManager: BusyStateScopeManager;
@@ -52,8 +50,6 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
   private _appSettingsArm: ArmObj<any>;
   private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
   private _slotConfigNamesArmPath: string;
-
-  @ViewChildren(TableCellTemplateDirective) cellTemplates: QueryList<TableCellTemplateDirective>;
 
   @ViewChild(ConfigTableWrapperComponent) configTableWrapper: ConfigTableWrapperComponent;
 
@@ -143,10 +139,6 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
         this.showPermissionsMessage = true;
         this._busyManager.clearBusy();
       });
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => { this.initialized = true; });
   }
 
   ngOnChanges(changes: SimpleChanges) {

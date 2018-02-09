@@ -1,6 +1,6 @@
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { LogCategories } from './../../../shared/models/constants';
-import { AfterViewInit, Component, Injector, Input, OnChanges, OnDestroy, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,7 +15,6 @@ import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
-import { TableCellTemplateDirective } from 'app/controls/table-cell/table-cell-template.directive';
 import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-table-wrapper.component';
 
 @Component({
@@ -23,7 +22,7 @@ import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-ta
     templateUrl: './default-documents.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy, AfterViewInit {
+export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
@@ -35,7 +34,6 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
     public showReadOnlySettingsMessage: string;
     public loadingFailureMessage: string;
     public loadingMessage: string;
-    public initialized: boolean;
     public getNewItem: () => CustomFormGroup;
 
     private _busyManager: BusyStateScopeManager;
@@ -43,8 +41,6 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
     private _requiredValidator: RequiredValidator;
     private _uniqueDocumentValidator: UniqueValidator;
     private _webConfigArm: ArmObj<SiteConfig>;
-
-    @ViewChildren(TableCellTemplateDirective) cellTemplates: QueryList<TableCellTemplateDirective>;
 
     @ViewChild(ConfigTableWrapperComponent) configTableWrapper: ConfigTableWrapperComponent;
 
@@ -111,10 +107,6 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
                 this.showPermissionsMessage = true;
                 this._busyManager.clearBusy();
             });
-    }
-
-    ngAfterViewInit() {
-        setTimeout(() => { this.initialized = true; });
     }
 
     ngOnChanges(changes: SimpleChanges) {
