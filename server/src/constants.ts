@@ -6,6 +6,7 @@ export namespace constants {
     }
     export const templatesPath = '';
     export const AntaresApiVersion = '2016-03-01';
+    export const AntaresAppSettingsApiVersion = '2015-08-01';
     export const KeyvaultApiVersion = '2016-10-01';
     export const KeyvaultUri = 'https://vault.azure.net';
     export namespace oauthApis {
