@@ -133,21 +133,41 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
                 const hasWritePermission = results[4];
                 const hasReadonlyLock = results[5];
 
-                this.siteArm = siteResult.result;
-                this._webConfigArm = configResult.result;
+                if (!siteResult.isSuccessful
+                    || !slotsResult.isSuccessful
+                    || !configResult.isSuccessful
+                    || !stacksResult.isSuccessful) {
 
-                this._setPermissions(hasWritePermission, hasReadonlyLock);
+                    if (!siteResult.isSuccessful) {
+                        this._logService.error(LogCategories.generalSettings, '/general-settings', siteResult.error.result);
+                    } else if (!slotsResult.isSuccessful) {
+                        this._logService.error(LogCategories.generalSettings, '/general-settings', slotsResult.error.result);
+                    } else if (!configResult.isSuccessful) {
+                        this._logService.error(LogCategories.generalSettings, '/general-settings', configResult.error.result);
+                    } else {
+                        this._logService.error(LogCategories.generalSettings, '/general-settings', stacksResult.error.result);
+                    }
 
-                if (!this._dropDownOptionsMapClean) {
-                    this._parseAvailableStacks(stacksResult.result);
-                    this._parseSlotsConfig(slotsResult.result);
+                    this._setupForm(null, null);
+                    this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+
+                } else {
+                    this.siteArm = siteResult.result;
+                    this._webConfigArm = configResult.result;
+
+                    this._setPermissions(hasWritePermission, hasReadonlyLock);
+
+                    if (!this._dropDownOptionsMapClean) {
+                        this._parseAvailableStacks(stacksResult.result);
+                        this._parseSlotsConfig(slotsResult.result);
+                    }
+                    if (!this._linuxFxVersionOptionsClean) {
+                        this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
+                    }
+
+                    this._processSupportedControls(this.siteArm, this._webConfigArm);
+                    this._setupForm(this._webConfigArm, this.siteArm);
                 }
-                if (!this._linuxFxVersionOptionsClean) {
-                    this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
-                }
-
-                this._processSupportedControls(this.siteArm, this._webConfigArm);
-                this._setupForm(this._webConfigArm, this.siteArm);
 
                 this.loadingMessage = null;
                 this.showPermissionsMessage = true;

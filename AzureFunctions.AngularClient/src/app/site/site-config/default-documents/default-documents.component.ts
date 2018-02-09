@@ -1,3 +1,5 @@
+import { LogCategories } from './../../../shared/models/constants';
+import { LogService } from './../../../shared/services/log.service';
 import { SiteService } from 'app/shared/services/site.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { BroadcastService } from './../../../shared/services/broadcast.service';
@@ -44,6 +46,7 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
         private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
+        private _logService: LogService,
         private _authZService: AuthzService,
         private _siteService: SiteService,
         broadcastService: BroadcastService,
@@ -74,9 +77,16 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
                     this._authZService.hasReadOnlyLock(this.resourceId));
             })
             .do(results => {
-                this._webConfigArm = results[0].result;
-                this._setPermissions(results[1], results[2]);
-                this._setupForm(this._webConfigArm);
+                if (results[0].isSuccessful) {
+                    this._webConfigArm = results[0].result;
+                    this._setPermissions(results[1], results[2]);
+                    this._setupForm(this._webConfigArm);
+                } else {
+                    this._logService.error(LogCategories.defaultDocuments, '/default-documents', results[0].error.result);
+                    this._setupForm(null);
+                    this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+                }
+
                 this.loadingMessage = null;
                 this.showPermissionsMessage = true;
             });

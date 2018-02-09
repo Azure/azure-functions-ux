@@ -1,3 +1,5 @@
+import { LogService } from './../../../shared/services/log.service';
+import { LogCategories } from './../../../shared/models/constants';
 import { SiteService } from 'app/shared/services/site.service';
 import { Injector } from '@angular/core';
 import { FeatureComponent } from 'app/shared/components/feature-component';
@@ -46,6 +48,7 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
         private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
+        private _logService: LogService,
         private _authZService: AuthzService,
         private _siteService: SiteService,
         broadcastService: BroadcastService,
@@ -75,17 +78,19 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
                     this._authZService.hasReadOnlyLock(this.resourceId));
             })
             .do(results => {
-                this._webConfigArm = results[0].result;
-                this._setPermissions(results[1], results[2]);
-                this._setupForm(this._webConfigArm);
+
+                if (!results[0].isSuccessful) {
+                    this._logService.error(LogCategories.virtualDirectories, '/virtual-directories', results[0].error.result);
+                    this._setupForm(null);
+                    this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+                } else {
+                    this._webConfigArm = results[0].result;
+                    this._setPermissions(results[1], results[2]);
+                    this._setupForm(this._webConfigArm);
+                }
+
                 this.loadingMessage = null;
                 this.showPermissionsMessage = true;
-
-                return Observable.zip(
-                    Observable.of(this.hasWritePermissions),
-                    this._cacheService.postArm(`${this.resourceId}/config/web`, true),
-                    (h, w) => ({ hasWritePermissions: h, webConfigResponse: w })
-                );
             });
     }
 

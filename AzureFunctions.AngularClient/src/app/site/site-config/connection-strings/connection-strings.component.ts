@@ -125,7 +125,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
-        // this._busyManager.clearBusy();
         this.clearBusy();
     }
 
