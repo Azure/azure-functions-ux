@@ -1,18 +1,10 @@
 <div class="settings-group-wrapper">
 
-  <h3 class="first-config-heading">{{ 'feature_generalSettingsName' | translate }}</h3>
-  <info-box
-    *ngIf="!hasWritePermissions && showPermissionsMessage"
-    typeClass="warning"
-    [infoText]="permissionsMessage">
-  </info-box>
-  <info-box
-    *ngIf="!group && !!loadingFailureMessage"
-    typeClass="error"
-    [infoText]="loadingFailureMessage">
-  </info-box>
-
-  <div class="settings-wrapper">
+  <config-section
+    [name]="('feature_generalSettingsName' | translate)"
+    [warningMessage]="(!hasWritePermissions && showPermissionsMessage) ? permissionsMessage : null"
+    [errorMessage]="(!group && !!loadingFailureMessage) ? loadingFailureMessage : null"
+    [isFirstSection]="true">
 
     <div *ngIf="netFrameworkSupported" class="setting-wrapper">
       <label class="setting-label">{{ 'netFrameWorkVersionLabel' | translate }}
@@ -238,93 +230,71 @@
       </div>
     </ng-container>
 
-  </div>
+  </config-section>
   
-  <ng-container *ngIf="remoteDebuggingSupported">
-    <h3>{{ 'feature_debuggingSettingsName' | translate }}</h3>
-    <info-box
-      *ngIf="!hasWritePermissions && showPermissionsMessage"
-      typeClass="warning"
-      [infoText]="permissionsMessage">
-    </info-box>
-    <info-box
-      *ngIf="!group && !!loadingFailureMessage"
-      typeClass="error"
-      [infoText]="loadingFailureMessage">
-    </info-box>
+  <config-section *ngIf="remoteDebuggingSupported"
+    [name]="('feature_debuggingSettingsName' | translate)"
+    [warningMessage]="(!hasWritePermissions && showPermissionsMessage) ? permissionsMessage : null"
+    [errorMessage]="(!group && !!loadingFailureMessage) ? loadingFailureMessage : null">
 
-    <div class="settings-wrapper">
-
-      <div class="setting-wrapper">
-        <label class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}</label>
-        <div class="setting-control-container">
-          <radio-selector
-            [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
-            [options]="remoteDebuggingEnabledOptions"
-            [highlightDirty]="true"
-            (value)="updateRemoteDebuggingVersionOptions($event)">
-          </radio-selector>
-        </div>
+    <div class="setting-wrapper">
+      <label class="setting-label">{{ 'remoteDebuggingEnabledLabel' | translate }}</label>
+      <div class="setting-control-container">
+        <radio-selector
+          [control]="!!group ? group.controls['remoteDebuggingEnabled'] : null"
+          [options]="remoteDebuggingEnabledOptions"
+          [highlightDirty]="true"
+          (value)="updateRemoteDebuggingVersionOptions($event)">
+        </radio-selector>
       </div>
-
-      <div class="setting-wrapper last">
-        <label class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}</label>
-        <div class="setting-control-container">
-          <radio-selector
-            [control]="!!group ? group.controls['remoteDebuggingVersion'] : null"
-            [options]="remoteDebuggingVersionOptions"
-            [highlightDirty]="true">
-          </radio-selector>
-        </div>
-      </div>
-      
     </div>
-  </ng-container>
 
-  <ng-container *ngIf="linuxRuntimeSupported">
-    <h3>{{ 'feature_linuxRuntimeName' | translate }}</h3>
-    <info-box
-      *ngIf="!hasWritePermissions && showPermissionsMessage"
-      typeClass="warning"
-      [infoText]="permissionsMessage">
-    </info-box>
-    <info-box
-      *ngIf="!group && !!loadingFailureMessage"
-      typeClass="error"
-      [infoText]="loadingFailureMessage">
-    </info-box>
-
-    <div class="settings-wrapper">
-
-      <div class="setting-wrapper">
-        <label class="setting-label">{{ 'linuxFxVersionLabel' | translate }}
-          <pop-over [message]="('linuxFxVersionLabelHelp' | translate)" position="right">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-          </pop-over>
-        </label>
-        <div class="setting-control-container">
-          <drop-down
-            [control]="!!group ? group.controls['linuxFxVersion'] : null"
-            [options]="linuxFxVersionOptions"
-            [highlightDirty]="true">
-          </drop-down>
-        </div>
+    <div class="setting-wrapper last">
+      <label class="setting-label">{{ 'remoteDebuggingVersionLabel' | translate }}</label>
+      <div class="setting-control-container">
+        <radio-selector
+          [control]="!!group ? group.controls['remoteDebuggingVersion'] : null"
+          [options]="remoteDebuggingVersionOptions"
+          [highlightDirty]="true">
+        </radio-selector>
       </div>
-
-      <div class="setting-wrapper last">
-        <label class="setting-label">{{ 'appCommandLineLabel' | translate }}
-          <pop-over [message]="('appCommandLineLabelHelp' | translate)" position="right">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-          </pop-over>
-        </label>
-        <div class="setting-control-container">
-          <textbox
-            [control]="!!group ? group.controls['appCommandLine'] : null"
-            [highlightDirty]="true">
-          </textbox>
-        </div>
-      </div>
-
     </div>
-  </ng-container>
+  
+  </config-section>
+
+  <config-section *ngIf="linuxRuntimeSupported"
+    [name]="('feature_linuxRuntimeName' | translate)"
+    [warningMessage]="(!hasWritePermissions && showPermissionsMessage) ? permissionsMessage : null"
+    [errorMessage]="(!group && !!loadingFailureMessage) ? loadingFailureMessage : null">
+
+    <div class="setting-wrapper">
+      <label class="setting-label">{{ 'linuxFxVersionLabel' | translate }}
+        <pop-over [message]="('linuxFxVersionLabelHelp' | translate)" position="right">
+            <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </label>
+      <div class="setting-control-container">
+        <drop-down
+          [control]="!!group ? group.controls['linuxFxVersion'] : null"
+          [options]="linuxFxVersionOptions"
+          [highlightDirty]="true">
+        </drop-down>
+      </div>
+    </div>
+
+    <div class="setting-wrapper last">
+      <label class="setting-label">{{ 'appCommandLineLabel' | translate }}
+        <pop-over [message]="('appCommandLineLabelHelp' | translate)" position="right">
+            <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </label>
+      <div class="setting-control-container">
+        <textbox
+          [control]="!!group ? group.controls['appCommandLine'] : null"
+          [highlightDirty]="true">
+        </textbox>
+      </div>
+    </div>
+
+  </config-section>
 </div>

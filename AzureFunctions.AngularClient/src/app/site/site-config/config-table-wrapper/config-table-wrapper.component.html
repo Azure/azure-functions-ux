@@ -1,0 +1,23 @@
+<div class="settings-group-wrapper">
+
+  <config-section
+    [name]="name"
+    [warningMessage]="(!hasWritePermissions && showPermissionsMessage) ? permissionsMessage : null"
+    [errorMessage]="(!groupArray && !!loadingFailureMessage) ? loadingFailureMessage : null">
+
+    <config-table
+      [name]="name"
+      [groupArray]="groupArray"
+      [noInputMessage]="noInputMessage"
+      [emptyTableMessage]="emptyTableMessage"
+      [allowModification]="hasWritePermissions"
+      [addItemLabel]="addItemLabel"
+      [getNewItem]="getNewItem"
+      [cellTemplates]="cellTemplates">
+    </config-table>
+
+  </config-section>
+
+</div>
+
+<ng-content></ng-content>

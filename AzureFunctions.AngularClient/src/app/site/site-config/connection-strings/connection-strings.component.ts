@@ -1,8 +1,7 @@
-import { Injector } from '@angular/core';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { LogCategories } from './../../../shared/models/constants';
 import { Response } from '@angular/http';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,13 +13,14 @@ import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
-import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
+import { CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ArmObjMap, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-table-wrapper.component';
 
 @Component({
     selector: 'connection-strings',
@@ -39,8 +39,7 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     public connectionStringTypes: DropDownElement<ConnectionStringType>[];
     public loadingFailureMessage: string;
     public loadingMessage: string;
-    public newItem: CustomFormGroup;
-    public originalItemsDeleted: number;
+    public getNewItem: () => CustomFormGroup;
 
     private _busyManager: BusyStateScopeManager;
     private _saveError: string;
@@ -49,6 +48,8 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     private _connectionStringsArm: ArmObj<ConnectionStrings>;
     private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
     private _slotConfigNamesArmPath: string;
+
+    @ViewChild(ConfigTableWrapperComponent) configTableWrapper: ConfigTableWrapperComponent;
 
     constructor(
         private _cacheService: CacheService,
@@ -61,10 +62,29 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
         super('ConnectionStringsComponent', injector);
         this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
 
-        this._resetPermissionsAndLoadingState();
+        this.getNewItem =
+            () => {
+                const connectionStringDropDownTypes = this._getConnectionStringTypes(ConnectionStringType.SQLAzure);
 
-        this.newItem = null;
-        this.originalItemsDeleted = 0;
+                const newItem = this._fb.group({
+                    name: [
+                        null,
+                        Validators.compose([
+                            this._requiredValidator.validate.bind(this._requiredValidator),
+                            this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
+                    value: [
+                        null,
+                        this._requiredValidator.validate.bind(this._requiredValidator)],
+                    type: [connectionStringDropDownTypes.find(t => t.default).value],
+                    isSlotSetting: [false]
+                }) as CustomFormGroup;
+
+                (<any>newItem).csTypes = connectionStringDropDownTypes;
+
+                return newItem;
+            };
+
+        this._resetPermissionsAndLoadingState();
     }
 
     protected setup(inputEvents: Observable<ResourceId>) {
@@ -76,8 +96,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
                 this._connectionStringsArm = null;
                 this._slotConfigNamesArm = null;
                 this.groupArray = null;
-                this.newItem = null;
-                this.originalItemsDeleted = 0;
                 this._resetPermissionsAndLoadingState();
                 this._slotConfigNamesArmPath =
                     `${new ArmSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
@@ -154,8 +172,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
         if (!!connectionStringsArm && !!slotConfigNamesArm) {
             if (!this._saveError || !this.groupArray) {
-                this.newItem = null;
-                this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
 
                 this._requiredValidator = new RequiredValidator(this._translateService);
@@ -192,8 +208,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
                         this.groupArray.push(group);
                     }
                 }
-
-                this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
             }
 
             if (this.mainForm.contains('connectionStrings')) {
@@ -202,8 +216,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
                 this.mainForm.addControl('connectionStrings', this.groupArray);
             }
         } else {
-            this.newItem = null;
-            this.originalItemsDeleted = 0;
             this.groupArray = null;
             if (this.mainForm.contains('connectionStrings')) {
                 this.mainForm.removeControl('connectionStrings');
@@ -214,36 +226,22 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     }
 
     validate(): SaveOrValidationResult {
-        const groups = this.groupArray.controls;
+        const result = {
+            success: false,
+            error: this._validationFailureMessage()
+        };
 
-        // Purge any added entries that were never modified
-        for (let i = groups.length - 1; i >= 0; i--) {
-            const group = groups[i] as CustomFormGroup;
-            if (group.msStartInEditMode && group.pristine) {
-                groups.splice(i, 1);
-                if (group === this.newItem) {
-                    this.newItem = null;
-                }
+        if (this.configTableWrapper && this.configTableWrapper.configTable) {
+            this.configTableWrapper.configTable.purgePristineNewItems();
+            this.configTableWrapper.configTable.validateAllControls();
+
+            if (this.groupArray.valid) {
+                result.success = true;
+                result.error = null;
             }
         }
 
-        this._validateAllControls(groups as CustomFormGroup[]);
-
-        return {
-            success: this.groupArray.valid,
-            error: this.groupArray.valid ? null : this._validationFailureMessage()
-        };
-    }
-
-    private _validateAllControls(groups: CustomFormGroup[]) {
-        groups.forEach(group => {
-            const controls = (<FormGroup>group).controls;
-            for (const controlName in controls) {
-                const control = <CustomFormControl>controls[controlName];
-                control._msRunValidation = true;
-                control.updateValueAndValidity();
-            }
-        });
+        return result;
     }
 
     getConfigForSave(): ArmObjMap {
@@ -338,86 +336,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     private _validationFailureMessage(): string {
         const configGroupName = this._translateService.instant(PortalResources.connectionStrings);
         return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
-    }
-
-    deleteItem(group: FormGroup) {
-        const groups = this.groupArray;
-        const index = groups.controls.indexOf(group);
-        if (index >= 0) {
-            if ((group as CustomFormGroup).msExistenceState === 'original') {
-                this._deleteOriginalItem(groups, group);
-            } else {
-                this._deleteAddedItem(groups, group, index);
-            }
-        }
-    }
-
-    private _deleteOriginalItem(groups: FormArray, group: FormGroup) {
-        // Keep the deleted group around with its state set to dirty.
-        // This keeps the overall state of this.groupArray and this.mainForm dirty.
-        group.markAsDirty();
-
-        // Set the group.msExistenceState to 'deleted' so we know to ignore it when validating and saving.
-        (group as CustomFormGroup).msExistenceState = 'deleted';
-
-        // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
-        for (const key in group.controls) {
-            const control = group.controls[key];
-            control.clearAsyncValidators();
-            control.clearValidators();
-            control.updateValueAndValidity();
-        }
-
-        this.originalItemsDeleted++;
-
-        groups.updateValueAndValidity();
-    }
-
-    private _deleteAddedItem(groups: FormArray, group: FormGroup, index: number) {
-        // Remove group from groups
-        groups.removeAt(index);
-        if (group === this.newItem) {
-            this.newItem = null;
-        }
-
-        // If group was dirty, then groups is also dirty.
-        // If all the remaining controls in groups are pristine, mark groups as pristine.
-        if (!group.pristine) {
-            let pristine = true;
-            for (const control of groups.controls) {
-                pristine = pristine && control.pristine;
-            }
-
-            if (pristine) {
-                groups.markAsPristine();
-            }
-        }
-
-        groups.updateValueAndValidity();
-    }
-
-    addItem() {
-        const groups = this.groupArray;
-        const connectionStringDropDownTypes = this._getConnectionStringTypes(ConnectionStringType.SQLAzure);
-
-        this.newItem = this._fb.group({
-            name: [
-                null,
-                Validators.compose([
-                    this._requiredValidator.validate.bind(this._requiredValidator),
-                    this._uniqueCsValidator.validate.bind(this._uniqueCsValidator)])],
-            value: [
-                null,
-                this._requiredValidator.validate.bind(this._requiredValidator)],
-            type: [connectionStringDropDownTypes.find(t => t.default).value],
-            isSlotSetting: [false]
-        }) as CustomFormGroup;
-
-        (<any>this.newItem).csTypes = connectionStringDropDownTypes;
-
-        this.newItem.msExistenceState = 'new';
-        this.newItem.msStartInEditMode = true;
-        groups.push(this.newItem);
     }
 
     private _getConnectionStringTypes(defaultType: ConnectionStringType) {

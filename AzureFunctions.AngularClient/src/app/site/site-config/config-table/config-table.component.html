@@ -1,0 +1,58 @@
+<ng-container>
+    <!-- ---------------------------------------------------------- TABLE ----------------------------------------------------------- -->
+    <table-root tblClass="tbl fixed stretch" [name]="name" [items]="groupArray?.controls" #table>
+
+      <!-- Data/Content Rows -->
+      <tr *ngFor="let group of table.items | excludeDeleted:true" table-row [group]="group">
+
+        <td *ngFor="let cellTemplate of cellTemplates"
+          [class]="cellTemplate.className"
+          [class.pristine]="cellTemplate.showDirtyState ? group.pristine : null"
+          [class.dirty]="cellTemplate.showDirtyState ? group.dirty : null"
+          table-cell
+          [editable]="cellTemplate.editable">
+          <ng-container *ngTemplateOutlet="cellTemplate.templateRef;context:{group: group}"></ng-container>
+        </td>
+
+        <td class="action-col" table-cell [editable]="false">
+          <span
+            [tabindex]="allowModification ? 0 : -1"
+            role="button"
+            class="fa fa-times delete"
+            [attr.aria-label]="Resources._delete | translate"
+            [attr.aria-disabled]="!allowModification"
+            (click)="deleteItem(group)"
+            [activate-with-keys]>
+          </span>
+        </td>
+
+      </tr>
+
+      <!-- Placeholder/Message Row -->
+      <!-- If no input data was passed in or input is empty, display a placeholder row -->
+      <tr *ngIf="!groupArray || (!!groupArray && table.items.length - originalItemsDeleted === 0)" table-row>
+
+        <td class="message-row" colspan="cellTemplates.length + 1" table-cell [editable]="false">
+          {{ !groupArray ? noInputMessage : emptyTableMessage }}
+        </td>
+
+      </tr>
+    </table-root>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+
+
+    <!-- --------------------------------------------------------  ADD LINK --------------------------------------------------------- -->
+    <!-- The 'add' link is disabled if there is not input data, modification is not allowed, or a new pristine item already exits -->
+    <div
+      role="button"
+      [activate-with-keys]
+      (click)="addItem()"
+      class="add-setting"
+      [class.link]="!!groupArray && allowModification && !newItem?.pristine"
+      [class.disabled-link]="!groupArray || !allowModification || newItem?.pristine"
+      [attr.aria-disabled]="!groupArray || !allowModification || newItem?.pristine"
+      [tabindex]="(!!groupArray && allowModification && !newItem?.pristine) ? 0 : -1">
+      {{ addItemLabel }}
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
+</ng-container>

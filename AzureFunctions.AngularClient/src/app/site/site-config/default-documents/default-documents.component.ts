@@ -1,7 +1,6 @@
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { LogCategories } from './../../../shared/models/constants';
-import { BroadcastService } from './../../../shared/services/broadcast.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges, Injector } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,12 +9,13 @@ import { SaveOrValidationResult } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
-import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
+import { CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { ConfigTableWrapperComponent } from './../config-table-wrapper/config-table-wrapper.component';
 
 @Component({
     selector: 'default-documents',
@@ -34,8 +34,7 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
     public showReadOnlySettingsMessage: string;
     public loadingFailureMessage: string;
     public loadingMessage: string;
-    public newItem: CustomFormGroup;
-    public originalItemsDeleted: number;
+    public getNewItem: () => CustomFormGroup;
 
     private _busyManager: BusyStateScopeManager;
     private _saveError: string;
@@ -43,22 +42,32 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
     private _uniqueDocumentValidator: UniqueValidator;
     private _webConfigArm: ArmObj<SiteConfig>;
 
+    @ViewChild(ConfigTableWrapperComponent) configTableWrapper: ConfigTableWrapperComponent;
+
     constructor(
         private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
         private _logService: LogService,
         private _authZService: AuthzService,
-        broadcastService: BroadcastService,
         injector: Injector
     ) {
         super('DefaultDocumentComponent', injector);
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
+
+        this.getNewItem =
+            () => {
+                return (this._fb.group({
+                    name: [
+                        null,
+                        Validators.compose([
+                            this._requiredValidator.validate.bind(this._requiredValidator),
+                            this._uniqueDocumentValidator.validate.bind(this._uniqueDocumentValidator)])],
+                    value: [null]
+                }) as CustomFormGroup);
+            };
 
         this._resetPermissionsAndLoadingState();
-
-        this.newItem = null;
-        this.originalItemsDeleted = 0;
     }
 
     protected setup(inputEvents: Observable<ResourceId>) {
@@ -69,8 +78,6 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
                 this._saveError = null;
                 this._webConfigArm = null;
                 this.groupArray = null;
-                this.newItem = null;
-                this.originalItemsDeleted = 0;
                 this._resetPermissionsAndLoadingState();
                 return Observable.zip(
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
@@ -81,7 +88,7 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
                 this._setPermissions(p.writePermission, p.readOnlyLock);
                 return Observable.zip(
                     Observable.of(this.hasWritePermissions),
-                    this._cacheService.postArm(`${this.resourceId}/config/web`, true),
+                    this._cacheService.getArm(`${this.resourceId}/config/web`, true),
                     (h, w) => ({ hasWritePermissions: h, webConfigResponse: w }));
             })
             .do(null, error => {
@@ -141,8 +148,6 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
     private _setupForm(webConfigArm: ArmObj<SiteConfig>) {
         if (!!webConfigArm) {
             if (!this._saveError || !this.groupArray) {
-                this.newItem = null;
-                this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
 
                 this._requiredValidator = new RequiredValidator(this._translateService);
@@ -165,8 +170,6 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
                         this.groupArray.push(group);
                     });
                 }
-
-                this._validateAllControls(this.groupArray.controls as CustomFormGroup[]);
             }
 
             if (this.mainForm.contains('defaultDocs')) {
@@ -175,8 +178,6 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
                 this.mainForm.addControl('defaultDocs', this.groupArray);
             }
         } else {
-            this.newItem = null;
-            this.originalItemsDeleted = 0;
             this.groupArray = null;
             if (this.mainForm.contains('defaultDocs')) {
                 this.mainForm.removeControl('defaultDocs');
@@ -187,36 +188,22 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
     }
 
     validate(): SaveOrValidationResult {
-        const groups = this.groupArray.controls;
+        const result = {
+            success: false,
+            error: this._validationFailureMessage()
+        };
 
-        // Purge any added entries that were never modified
-        for (let i = groups.length - 1; i >= 0; i--) {
-            const group = groups[i] as CustomFormGroup;
-            if (group.msStartInEditMode && group.pristine) {
-                groups.splice(i, 1);
-                if (group === this.newItem) {
-                    this.newItem = null;
-                }
+        if (this.configTableWrapper && this.configTableWrapper.configTable) {
+            this.configTableWrapper.configTable.purgePristineNewItems();
+            this.configTableWrapper.configTable.validateAllControls();
+
+            if (this.groupArray.valid) {
+                result.success = true;
+                result.error = null;
             }
         }
 
-        this._validateAllControls(groups as CustomFormGroup[]);
-
-        return {
-            success: this.groupArray.valid,
-            error: this.groupArray.valid ? null : this._validationFailureMessage()
-        };
-    }
-
-    private _validateAllControls(groups: CustomFormGroup[]) {
-        groups.forEach(group => {
-            const controls = (<FormGroup>group).controls;
-            for (const controlName in controls) {
-                const control = <CustomFormControl>controls[controlName];
-                control._msRunValidation = true;
-                control.updateValueAndValidity();
-            }
-        });
+        return result;
     }
 
     save(): Observable<SaveOrValidationResult> {
@@ -267,78 +254,5 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
     private _validationFailureMessage(): string {
         const configGroupName = this._translateService.instant(PortalResources.feature_defaultDocumentsName);
         return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
-    }
-
-    deleteItem(group: FormGroup) {
-        const groups = this.groupArray;
-        const index = groups.controls.indexOf(group);
-        if (index >= 0) {
-            if ((group as CustomFormGroup).msExistenceState === 'original') {
-                this._deleteOriginalItem(groups, group);
-            } else {
-                this._deleteAddedItem(groups, group, index);
-            }
-        }
-    }
-
-    private _deleteOriginalItem(groups: FormArray, group: FormGroup) {
-        // Keep the deleted group around with its state set to dirty.
-        // This keeps the overall state of this.groupArray and this.mainForm dirty.
-        group.markAsDirty();
-
-        // Set the group.msExistenceState to 'deleted' so we know to ignore it when validating and saving.
-        (group as CustomFormGroup).msExistenceState = 'deleted';
-
-        // Force the deleted group to have a valid state by clear all validators on the controls and then running validation.
-        for (const key in group.controls) {
-            const control = group.controls[key];
-            control.clearAsyncValidators();
-            control.clearValidators();
-            control.updateValueAndValidity();
-        }
-
-        this.originalItemsDeleted++;
-
-        groups.updateValueAndValidity();
-    }
-
-    private _deleteAddedItem(groups: FormArray, group: FormGroup, index: number) {
-        // Remove group from groups
-        groups.removeAt(index);
-        if (group === this.newItem) {
-            this.newItem = null;
-        }
-
-        // If group was dirty, then groups is also dirty.
-        // If all the remaining controls in groups are pristine, mark groups as pristine.
-        if (!group.pristine) {
-            let pristine = true;
-            for (const control of groups.controls) {
-                pristine = pristine && control.pristine;
-            }
-
-            if (pristine) {
-                groups.markAsPristine();
-            }
-        }
-
-        groups.updateValueAndValidity();
-    }
-
-    addItem() {
-        const groups = this.groupArray;
-
-        this.newItem = this._fb.group({
-            name: [
-                null,
-                Validators.compose([
-                    this._requiredValidator.validate.bind(this._requiredValidator),
-                    this._uniqueDocumentValidator.validate.bind(this._uniqueDocumentValidator)])],
-            value: [null]
-        }) as CustomFormGroup;
-
-        this.newItem.msExistenceState = 'new';
-        this.newItem.msStartInEditMode = true;
-        groups.push(this.newItem);
     }
 }

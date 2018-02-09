@@ -1,0 +1,15 @@
+<h3 [class.first-config-heading]="isFirstSection">{{ name }}</h3>
+<info-box
+  *ngIf="warningMessage"
+  typeClass="warning"
+  [infoText]="warningMessage">
+</info-box>
+<info-box
+  *ngIf="errorMessage"
+  typeClass="error"
+  [infoText]="errorMessage">
+</info-box>
+
+<div class="settings-wrapper">
+    <ng-content></ng-content>
+</div>
