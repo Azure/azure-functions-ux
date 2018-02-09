@@ -4,12 +4,13 @@ import * as jwt from 'jsonwebtoken';
 import * as safeJson from 'circular-json';
 import * as crypto from 'crypto';
 import { LogHelper } from '../logHelper';
+import { constants } from '../constants';
 
 export async function getLinuxRuntimeToken(req: Request, res: Response) {
     const armId: string = req.params ? req.params[0] : '';
     const siteName = armId.split('/').filter(i => !!i).pop() || '';
-    const getAppSettingsUrl = `${armId}/config/appsettings/list?api-version=2015-08-01`;
-    const updateAppSettingsUrl = `${armId}/config/appsettings?api-version=2015-08-01`;
+    const getAppSettingsUrl = `${armId}/config/appsettings/list?api-version=${constants.AntaresAppSettingsApiVersion}`;
+    const updateAppSettingsUrl = `${armId}/config/appsettings?api-version=${constants.AntaresAppSettingsApiVersion}`;
     const armToken = req.header('portal-token');
 
     // get app settings
