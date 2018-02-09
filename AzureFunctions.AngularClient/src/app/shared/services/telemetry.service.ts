@@ -37,6 +37,11 @@ export class TelemetryService {
     }
 
     public featureLoading(isParentComponent: boolean, featureName: string, componentName: string) {
+        // If the inputs on a parent component have changed, then we should reset timers
+        if (isParentComponent && this._featureMap[featureName]) {
+            delete this._featureMap[featureName];
+        }
+
         if (!this._featureMap[featureName]) {
 
             if (isParentComponent) {

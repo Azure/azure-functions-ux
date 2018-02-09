@@ -1,26 +1,26 @@
+import { LogService } from 'app/shared/services/log.service';
+import { LogCategories } from './../../../shared/models/constants';
+import { errorIds } from 'app/shared/models/error-ids';
 import { Injector } from '@angular/core';
 import { FeatureComponent } from 'app/shared/components/feature-component';
-import { LogCategories } from './../../../shared/models/constants';
 import { Response } from '@angular/http';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
-import { ConnectionStrings, ConnectionStringType } from './../../../shared/models/arm/connection-strings';
+import { ConnectionStringType, ConnectionString } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
 import { SaveOrValidationResult } from './../site-config.component';
-import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
-import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ArmObjMap, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
-import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
+import { SiteService } from 'app/shared/services/site.service';
 
 @Component({
     selector: 'connection-strings',
@@ -42,11 +42,10 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
 
-    private _busyManager: BusyStateScopeManager;
     private _saveError: string;
     private _requiredValidator: RequiredValidator;
     private _uniqueCsValidator: UniqueValidator;
-    private _connectionStringsArm: ArmObj<ConnectionStrings>;
+    private _connectionStringsArm: ArmObj<ConnectionString>;
     private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
     private _slotConfigNamesArmPath: string;
 
@@ -54,12 +53,11 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
         private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
+        private _siteService: SiteService,
         private _logService: LogService,
-        private _authZService: AuthzService,
         injector: Injector
     ) {
-        super('ConnectionStringsComponent', injector);
-        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
+        super('ConnectionStringsComponent', injector, 'site-tabs');
 
         this._resetPermissionsAndLoadingState();
 
@@ -71,7 +69,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
         return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
-                this._busyManager.setBusy();
                 this._saveError = null;
                 this._connectionStringsArm = null;
                 this._slotConfigNamesArm = null;
@@ -81,39 +78,39 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
                 this._resetPermissionsAndLoadingState();
                 this._slotConfigNamesArmPath =
                     `${new ArmSiteDescriptor(this.resourceId).getSiteOnlyResourceId()}/config/slotConfigNames`;
+
                 return Observable.zip(
-                    this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this.resourceId),
-                    (wp, rl) => ({ writePermission: wp, readOnlyLock: rl }));
+                    this._siteService.getConnectionStrings(this.resourceId, true),
+                    this._siteService.getSlotConfigNames(this.resourceId));
             })
-            .mergeMap(p => {
-                this._setPermissions(p.writePermission, p.readOnlyLock);
-                return Observable.zip(
-                    Observable.of(this.hasWritePermissions),
-                    this.hasWritePermissions ?
-                        this._cacheService.postArm(`${this.resourceId}/config/connectionstrings/list`, true) : Observable.of(null),
-                    this.hasWritePermissions ?
-                        this._cacheService.getArm(this._slotConfigNamesArmPath, true) : Observable.of(null),
-                    (h, c, s) => ({ hasWritePermissions: h, connectionStringsResponse: c, slotConfigNamesResponse: s }));
-            })
-            .do(null, error => {
-                this._logService.error(LogCategories.connectionStrings, '/connection-strings', error);
-                this._setupForm(null, null);
-                this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
-                this.loadingMessage = null;
-                this.showPermissionsMessage = true;
-                this._busyManager.clearBusy();
-            })
-            .retry()
-            .do(r => {
-                if (r.hasWritePermissions) {
-                    this._connectionStringsArm = r.connectionStringsResponse.json();
-                    this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
-                    this._setupForm(this._connectionStringsArm, this._slotConfigNamesArm);
+            .do(results => {
+                const csResult = results[0];
+                const slotNamesResult = results[1];
+
+                const noWritePermission = !csResult.isSuccessful
+                    && csResult.error.errorId === errorIds.armErrors.noAccess;
+
+                const hasReadOnlyLock = !csResult.isSuccessful
+                    && csResult.error.errorId === errorIds.armErrors.scopeLocked;
+
+                this._setPermissions(!noWritePermission, hasReadOnlyLock);
+                if (this.hasWritePermissions) {
+                    const failedRequest = results.find(r => !r.isSuccessful);
+                    if (failedRequest) {
+                        this._logService.error(LogCategories.connectionStrings, '/connection-strings', failedRequest.error);
+                        this._setupForm(null, null);
+                        this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
+                        this.loadingMessage = null;
+                        this.showPermissionsMessage = true;
+                    } else {
+                        this._connectionStringsArm = csResult.result;
+                        this._slotConfigNamesArm = slotNamesResult.result;
+                        this._setupForm(this._connectionStringsArm, this._slotConfigNamesArm);
+                    }
                 }
+
                 this.loadingMessage = null;
                 this.showPermissionsMessage = true;
-                this._busyManager.clearBusy();
             });
     }
 
@@ -128,7 +125,8 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
-        this._busyManager.clearBusy();
+        // this._busyManager.clearBusy();
+        this.clearBusy();
     }
 
     private _resetPermissionsAndLoadingState() {
@@ -151,7 +149,7 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
         this.hasWritePermissions = writePermission && !readOnlyLock;
     }
 
-    private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
+    private _setupForm(connectionStringsArm: ArmObj<ConnectionString>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
         if (!!connectionStringsArm && !!slotConfigNamesArm) {
             if (!this._saveError || !this.groupArray) {
                 this.newItem = null;

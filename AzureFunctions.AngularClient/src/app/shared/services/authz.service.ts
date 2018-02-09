@@ -46,6 +46,9 @@ export class AuthzService {
         return this._getLocks(resourceId)
             .map(locks => {
                 return !!locks.find(l => l.properties.level === 'ReadOnly');
+            })
+            .catch(e => {
+                return Observable.of(false);
             });
     }
 

@@ -125,7 +125,7 @@ export class ConditionalHttpClient {
         if (body && body.error) {
             mesg = body.error.message;
 
-            if (response.status === 401) {
+            if (response.status === 401 || response.status === 403) {
                 errorId = errorIds.armErrors.noAccess;
             } else if (response.status === 409 && body.error.code === 'ScopeLocked') {
                 errorId = errorIds.armErrors.scopeLocked;

@@ -14,7 +14,6 @@ import { SelectOption } from './../../../shared/models/select-option';
 
 import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
-import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ArmArrayResult, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -23,6 +22,7 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
 import { JavaWebContainerProperties } from './models/java-webcontainer-properties';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
+import { SiteService } from 'app/shared/services/site.service';
 
 @Component({
     selector: 'general-settings',
@@ -71,7 +71,6 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
     public linuxRuntimeSupported = false;
     public linuxFxVersionOptions: DropDownGroupElement<string>[];
 
-    private _busyManager: BusyStateScopeManager;
     private _saveError: string;
     private _webConfigArm: ArmObj<SiteConfig>;
     private _sku: string;
@@ -83,7 +82,6 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
 
     private _selectedJavaVersion: string;
     private _linuxFxVersionOptionsClean: DropDownGroupElement<string>[];
-    private _slotsConfigArmPath: string;
     private _ignoreChildEvents = true;
 
     constructor(
@@ -93,11 +91,10 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         private _logService: LogService,
         private _authZService: AuthzService,
         private _portalService: PortalService,
+        private _siteService: SiteService,
         injector: Injector
     ) {
-        super('GeneralSettingsComponent', injector);
-
-        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
+        super('GeneralSettingsComponent', injector, 'site-tabs');
 
         this._resetSlotsInfo();
 
@@ -110,7 +107,6 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
-                this._busyManager.setBusy();
                 this._saveError = null;
                 this.siteArm = null;
                 this._webConfigArm = null;
@@ -120,55 +116,41 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
                 this._resetSlotsInfo();
                 this._resetSupportedControls();
                 this._resetPermissionsAndLoadingState();
+
                 return Observable.zip(
+                    this._siteService.getSite(this.resourceId),
+                    this._siteService.getSlots(this.resourceId),
+                    this._siteService.getSiteConfig(this.resourceId, true),
+                    this._siteService.getAvailableStacks(),
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this.resourceId),
-                    (wp, rl) => ({ writePermission: wp, readOnlyLock: rl })
-                );
+                    this._authZService.hasReadOnlyLock(this.resourceId));
             })
-            .mergeMap(p => {
-                this._setPermissions(p.writePermission, p.readOnlyLock);
-                return Observable.zip(
-                    Observable.of(this.hasWritePermissions),
-                    this._cacheService.getArm(`${this.resourceId}`, true),
-                    this._cacheService.getArm(this._slotsConfigArmPath, true),
-                    this._cacheService.getArm(`${this.resourceId}/config/web`, true),
-                    this._cacheService.getArm(`/providers/Microsoft.Web/availablestacks`),
-                    (h, c, t, w, s) => ({
-                        hasWritePermissions: h,
-                        siteConfigResponse: c,
-                        slotsConfigResponse: t,
-                        webConfigResponse: w,
-                        availableStacksResponse: s
-                    })
-                );
-            })
-            .do(null, error => {
-                this._logService.error(LogCategories.generalSettings, '/general-settings', error);
-                this._setupForm(null, null);
-                this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
-                this.loadingMessage = null;
-                this.showPermissionsMessage = true;
-                this._busyManager.clearBusy();
-            })
-            .retry()
-            .do(r => {
-                this.siteArm = r.siteConfigResponse.json();
-                this._webConfigArm = r.webConfigResponse.json();
-                const slotsConfigArm = r.slotsConfigResponse.json();
-                const availableStacksArm = r.availableStacksResponse.json();
+            .do(results => {
+                const siteResult = results[0];
+                const slotsResult = results[1];
+                const configResult = results[2];
+                const stacksResult = results[3];
+                const hasWritePermission = results[4];
+                const hasReadonlyLock = results[5];
+
+                this.siteArm = siteResult.result;
+                this._webConfigArm = configResult.result;
+
+                this._setPermissions(hasWritePermission, hasReadonlyLock);
+
                 if (!this._dropDownOptionsMapClean) {
-                    this._parseAvailableStacks(availableStacksArm);
-                    this._parseSlotsConfig(slotsConfigArm);
+                    this._parseAvailableStacks(stacksResult.result);
+                    this._parseSlotsConfig(slotsResult.result);
                 }
                 if (!this._linuxFxVersionOptionsClean) {
                     this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
                 }
+
                 this._processSupportedControls(this.siteArm, this._webConfigArm);
                 this._setupForm(this._webConfigArm, this.siteArm);
+
                 this.loadingMessage = null;
                 this.showPermissionsMessage = true;
-                this._busyManager.clearBusy();
             });
     }
 
@@ -183,16 +165,16 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
-        this._busyManager.clearBusy();
+        this.clearBusy();
     }
 
     scaleUp() {
-        this._busyManager.setBusy();
+        this.setBusy();
 
         const inputs = {
             aspResourceId: this.siteArm.properties.serverFarmId,
             aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
-            && this.siteArm.properties.hostingEnvironmentProfile.id
+                && this.siteArm.properties.hostingEnvironmentProfile.id
         };
 
         const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
@@ -205,22 +187,20 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         openScaleUpBlade
             .first()
             .subscribe(r => {
-                this._busyManager.clearBusy();
+                this.clearBusy();
                 this._logService.debug(LogCategories.siteConfig, `Scale up ${r ? 'succeeded' : 'cancelled'}`);
             },
             e => {
-                this._busyManager.clearBusy();
+                this.clearBusy();
                 this._logService.error(LogCategories.siteConfig, '/scale-up', `Scale up failed: ${e}`);
             });
     }
 
     private _resetSlotsInfo() {
-        this._slotsConfigArmPath = null;
         this.isProductionSlot = true;
 
         if (this.resourceId) {
             const siteDescriptor = new ArmSiteDescriptor(this.resourceId);
-            this._slotsConfigArmPath = `${siteDescriptor.getSiteOnlyResourceId()}/slots`;
             this.isProductionSlot = !siteDescriptor.slot;
         }
     }

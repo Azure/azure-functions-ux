@@ -1,6 +1,6 @@
+import { SiteService } from './../../../shared/services/site.service';
 import { Injector } from '@angular/core';
 import { FeatureComponent } from 'app/shared/components/feature-component';
-import { LogCategories } from './../../../shared/models/constants';
 import { BroadcastService } from './../../../shared/services/broadcast.service';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
@@ -8,9 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { SiteConfig } from './../../../shared/models/arm/site-config';
 import { SaveOrValidationResult } from './../site-config.component';
-import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
-import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-manager';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { CacheService } from './../../../shared/services/cache.service';
@@ -37,7 +35,6 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
 
-    private _busyManager: BusyStateScopeManager;
     private _saveError: string;
     private _requiredValidator: RequiredValidator;
     private _webConfigArm: ArmObj<SiteConfig>;
@@ -46,13 +43,12 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
         private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
-        private _logService: LogService,
         private _authZService: AuthzService,
         broadcastService: BroadcastService,
+        private _siteService: SiteService,
         injector: Injector
     ) {
-        super('HandlerMappingsComponent', injector);
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        super('HandlerMappingsComponent', injector, 'site-tabs');
 
         this._resetPermissionsAndLoadingState();
 
@@ -63,7 +59,6 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
     protected setup(inputEvents: Observable<ResourceId>) {
         return inputEvents.distinctUntilChanged()
             .switchMap(() => {
-                this._busyManager.setBusy();
                 this._saveError = null;
                 this._webConfigArm = null;
                 this.groupArray = null;
@@ -71,32 +66,16 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
                 this.originalItemsDeleted = 0;
                 this._resetPermissionsAndLoadingState();
                 return Observable.zip(
+                    this._siteService.getSiteConfig(this.resourceId, true),
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this.resourceId),
-                    (wp, rl) => ({ writePermission: wp, readOnlyLock: rl }));
+                    this._authZService.hasReadOnlyLock(this.resourceId));
             })
-            .mergeMap(p => {
-                this._setPermissions(p.writePermission, p.readOnlyLock);
-                return Observable.zip(
-                    Observable.of(this.hasWritePermissions),
-                    this._cacheService.postArm(`${this.resourceId}/config/web`, true),
-                    (h, w) => ({ hasWritePermissions: h, webConfigResponse: w }));
-            })
-            .do(null, error => {
-                this._logService.error(LogCategories.handlerMappings, '/handler-mappings', error);
-                this._setupForm(null);
-                this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
-                this.loadingMessage = null;
-                this.showPermissionsMessage = true;
-                this._busyManager.clearBusy();
-            })
-            .retry()
-            .do(r => {
-                this._webConfigArm = r.webConfigResponse.json();
+            .do(results => {
+                this._webConfigArm = results[0].result;
+                this._setPermissions(results[1], results[2]);
                 this._setupForm(this._webConfigArm);
                 this.loadingMessage = null;
                 this.showPermissionsMessage = true;
-                this._busyManager.clearBusy();
             });
     }
 
@@ -111,7 +90,7 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
 
     ngOnDestroy(): void {
         super.ngOnDestroy();
-        this._busyManager.clearBusy();
+        this.clearBusy();
     }
 
     private _resetPermissionsAndLoadingState() {

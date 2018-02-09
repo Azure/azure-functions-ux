@@ -41,7 +41,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
   public newItem: CustomFormGroup;
   public originalItemsDeleted: number;
 
-  private _busyManager: BusyStateScopeManager;
+  private busyManager: BusyStateScopeManager;
   private _saveError: string;
   private _validatorFns: ValidatorFn[];
   private _requiredValidator: RequiredValidator;
@@ -61,7 +61,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
     injector: Injector
   ) {
     super('AppSettingsComponent', injector);
-    this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
+    this.busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
 
     this._resetPermissionsAndLoadingState();
 
@@ -74,7 +74,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
       .distinctUntilChanged()
       .switchMap(() => {
 
-        this._busyManager.setBusy();
+        this.busyManager.setBusy();
         this._saveError = null;
         this._appSettingsArm = null;
         this._slotConfigNamesArm = null;
@@ -87,10 +87,10 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
 
         return Observable.zip(
           this._siteService.getSite(this.resourceId),
-          this._siteService.getAppSettings(this.resourceId),
-          this._siteService.getSlotConfigNames(this.resourceId));
+          this._siteService.getAppSettings(this.resourceId, true),
+          this._siteService.getSlotConfigNames(this.resourceId, true));
       })
-      .do((results: any[]) => {
+      .do(results => {
         const siteResult = results[0];
         const asResult = results[1];
         const slotNamesResult = results[2];
@@ -120,8 +120,10 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
           this._setupForm(this._appSettingsArm, this._slotConfigNamesArm);
         }
 
-        const failedRequest = results.find(r => !r.isSuccessful && r.error.preconditionSuccess)
-        if (failedRequest) {
+        const failedRequest = results.find(r => !r.isSuccessful);
+
+        // If there's a failed request for a reason other than write permission, then show failure
+        if (failedRequest && this.hasWritePermissions) {
           this._logService.error(LogCategories.appSettings, '/app-settings', failedRequest.error.message);
           this._setupForm(null, null);
           this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
@@ -130,7 +132,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
 
         this.loadingMessage = null;
         this.showPermissionsMessage = true;
-        this._busyManager.clearBusy();
+        this.busyManager.clearBusy();
       });
   }
 
@@ -145,7 +147,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
-    this._busyManager.clearBusy();
+    this.busyManager.clearBusy();
   }
 
   private _resetPermissionsAndLoadingState() {
