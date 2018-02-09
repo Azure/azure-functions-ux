@@ -119,21 +119,25 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
       .switchMap(t => {
         return this._cacheService.getArm(`${this.resourceId}/logs`, true);
       })
+      .catch(e => {
+        return Observable.of(null);
+      })
       .switchMap(r => {
-        const files: any[] = r.json();
-        if (files.length > 0) {
+        if (r) {
+          const files: any[] = r.json();
+          if (files.length > 0) {
 
-          files
-            .map(e => { e.parsedTime = new Date(e.m_time); return e; })
-            .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
+            files
+              .map(e => { e.parsedTime = new Date(e.m_time); return e; })
+              .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
 
-          const headers = this._armService.getHeaders();
-          headers.append('Range', `bytes=-${10000}`);
-          const url = this._armService.getArmUrl(this.resourceId);
-          return this._cacheService.get(`${url}/logs/${files.pop().name}`, true, headers);
-        } else {
-          return Observable.of(null);
+            const headers = this._armService.getHeaders();
+            headers.append('Range', `bytes=-${10000}`);
+            const url = this._armService.getArmUrl(this.resourceId);
+            return this._cacheService.get(`${url}/logs/${files.pop().name}`, true, headers);
+          }
         }
+        return Observable.of(null);
       })
       .subscribe(r => {
         if (r) {

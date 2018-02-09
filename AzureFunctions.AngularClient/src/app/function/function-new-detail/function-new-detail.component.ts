@@ -339,6 +339,7 @@ export class FunctionNewDetailComponent implements OnChanges {
                             errorId: r.error.errorId,
                             resourceId: this.entityContext.site.id,
                         });
+                        this.close();
                     }
                     this._globalStateService.clearBusyState();
                 });
