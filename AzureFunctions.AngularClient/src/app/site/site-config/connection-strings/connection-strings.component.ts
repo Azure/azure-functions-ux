@@ -9,7 +9,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
-import { ConnectionStringType, ConnectionString } from './../../../shared/models/arm/connection-strings';
+import { ConnectionStringType, ConnectionStrings } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
 import { SaveOrValidationResult } from './../site-config.component';
 import { PortalResources } from './../../../shared/models/portal-resources';
@@ -45,7 +45,7 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     private _saveError: string;
     private _requiredValidator: RequiredValidator;
     private _uniqueCsValidator: UniqueValidator;
-    private _connectionStringsArm: ArmObj<ConnectionString>;
+    private _connectionStringsArm: ArmObj<ConnectionStrings>;
     private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
     private _slotConfigNamesArmPath: string;
 
@@ -148,7 +148,7 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
         this.hasWritePermissions = writePermission && !readOnlyLock;
     }
 
-    private _setupForm(connectionStringsArm: ArmObj<ConnectionString>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
+    private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
         if (!!connectionStringsArm && !!slotConfigNamesArm) {
             if (!this._saveError || !this.groupArray) {
                 this.newItem = null;

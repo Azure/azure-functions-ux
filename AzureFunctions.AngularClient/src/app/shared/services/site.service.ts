@@ -1,4 +1,4 @@
-import { ConnectionString } from './../models/arm/connection-strings';
+import { ConnectionStrings } from './../models/arm/connection-strings';
 import { AvailableStack } from './../models/arm/stacks';
 import { SiteConfig } from './../models/arm/site-config';
 import { ArmArrayResult } from './../models/arm/arm-obj';
@@ -53,7 +53,7 @@ export class SiteService {
         return this._client.execute({ resourceId: resourceId }, t => getAppSettings);
     }
 
-    getConnectionStrings(resourceId: string, force?: boolean): Result<ArmObj<ConnectionString>> {
+    getConnectionStrings(resourceId: string, force?: boolean): Result<ArmObj<ConnectionStrings>> {
 
         const getConnectionStrings = this._cacheService.postArm(`${resourceId}/config/connectionstrings/list`, force)
             .map(r => r.json());
