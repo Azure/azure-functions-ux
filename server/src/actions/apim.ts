@@ -8,6 +8,11 @@ interface TriggerRequest{
 }
 
 export function triggerFunctionAPIM(req: Request, res: Response){
+    if(!process.env.APIMSubscriptionKey){
+        res.status(500).send('APIMSubscriptionKey is not defined');
+        return;
+    }
+
     const content = req.body as TriggerRequest;
     const headers: IncomingMessageHeaders = { };
     headers['Content-Type'] = 'application/json';
