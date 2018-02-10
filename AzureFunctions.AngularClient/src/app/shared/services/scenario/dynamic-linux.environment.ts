@@ -1,4 +1,3 @@
-import { TranslateService } from '@ngx-translate/core';
 import { ScenarioCheckInput } from './scenario.models';
 import { ScenarioIds } from './../../models/constants';
 import { Environment } from './scenario.models';
@@ -7,7 +6,7 @@ import { ArmUtil } from '../../Utilities/arm-utils';
 export class DynamicLinuxEnvironment extends Environment {
     name = 'DynamicLinux';
 
-    constructor(translateService: TranslateService) {
+    constructor() {
         super();
         this.scenarioChecks[ScenarioIds.listExtensionsArm] = {
             id: ScenarioIds.listExtensionsArm,
