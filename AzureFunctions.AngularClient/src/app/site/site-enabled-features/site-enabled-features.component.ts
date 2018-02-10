@@ -1,7 +1,7 @@
 import { ElementRef, Input } from '@angular/core';
 import { Dom } from './../../shared/Utilities/dom';
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
-import { SiteTabIds, KeyCodes } from './../../shared/models/constants';
+import { SiteTabIds, KeyCodes, ScenarioIds } from './../../shared/models/constants';
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -28,6 +28,7 @@ import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem } from '../../shared/models/localStorage/enabled-features';
 import { FunctionAppService } from '../../shared/services/function-app.service';
+import { ScenarioService } from '../../shared/services/scenario/scenario.service';
 
 @Component({
     selector: 'site-enabled-features',
@@ -59,7 +60,8 @@ export class SiteEnabledFeaturesComponent {
         private _translateService: TranslateService,
         private _globalStateService: GlobalStateService,
         private _siteDashboard: SiteDashboardComponent,
-        private _functionAppService: FunctionAppService) {
+        private _functionAppService: FunctionAppService,
+        private _scenarioService: ScenarioService) {
 
         this._siteSubject
             .distinctUntilChanged()
@@ -468,16 +470,20 @@ export class SiteEnabledFeaturesComponent {
 
     private _getSiteExtensions(site: ArmObj<Site>) {
         const extensionsId = `${site.id}/siteExtensions`;
-        return this._cacheService.getArm(extensionsId)
-            .map(r => {
-                const extensions: any[] = r.json().value;
-                let items = null;
-                if (extensions && extensions.length > 0) {
-                    items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
-                }
-
-                return items;
-            });
+        const listExtensionsDisabled = this._scenarioService.checkScenario(ScenarioIds.listExtensionsArm, { site: site }).status === 'disabled';
+        if (listExtensionsDisabled) {
+            return Observable.of([]);
+        } else {
+            return this._cacheService.getArm(extensionsId)
+                .map(r => {
+                    const extensions: any[] = r.json().value;
+                    let items = null;
+                    if (extensions && extensions.length > 0) {
+                        items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
+                    }
+                    return items;
+                });
+        }
     }
 
     private _getFeatures() {
