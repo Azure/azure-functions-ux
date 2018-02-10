@@ -1,7 +1,6 @@
-<div class="wrapper" *ngIf="!disabled" role="region" aria-labelledby="keys1 keys2">
+<div class="wrapper" *ngIf="!disabled" role="region">
     <busy-state name="function-keys"></busy-state>
-    <label *ngIf="functionInfo" id="keys1" class="title"> {{'functionKeys_title' | translate}} </label>
-    <label *ngIf="!functionInfo" id="keys2" class="title"> {{'adminKeys_title' | translate}} </label>
+    <label id="{{ tableId }}" class="title">{{ (functionInfo ? 'functionKeys_title' : 'adminKeys_title') | translate }}</label>
     <table class="table-function">
         <thead>
             <tr class="not-clickable">
@@ -11,27 +10,29 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="not-clickable" *ngFor="let key of keys">
-                <td><label id="keyNameLabel">{{key.name}}</label></td>
+            <tr class="not-clickable" *ngFor="let key of keys; let i = index;">
+                <td><label id="{{ keyNameIdPrefix + i }}">{{key.name}}</label></td>
                 <td>
                     <a *ngIf="key.show"
+                        id="clickToHide"
                         role="button"
                         (click)="key.show=!key.show" 
                         (keydown)="keyDown($event, 'showKey', key)"
                         class="operation" 
                         tabindex="0"
                         [attr.aria-expanded]="key.show"
-                        [attr.aria-label]="clickToHide">
+                        [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' clickToHide'">
                         {{'functionKeys_clickToHide' | translate}}
                     </a>
                     <a *ngIf="!key.show"
+                        id="clickToShow"
                         role="button"
                         (click)="key.show=!key.show" 
                         (keydown)="keyDown($event, 'showKey', key)"
                         class="operation" 
                         tabindex="0"
                         [attr.aria-expanded]="key.show"
-                        [attr.aria-label]="clickToShow">
+                        [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' clickToShow'">
                         {{'functionKeys_clickToShow' | translate}}
                     </a>
                     <span *ngIf="key.show" [attr.aria-label]="key.value" tabindex="0">{{ key.value }}</span>
@@ -51,7 +52,7 @@
                             (keydown)="keyDown($event, 'renewKey', key)"
                             tabindex="0"
                             id="renewKeyAction"
-                            aria-labelledby="keyNameLabel renewKeyAction">
+                            [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' renewKeyAction'">
                             <i class="fa fa-refresh"></i>
                             {{'functionKeys_renew' | translate}}
                         </a>
@@ -62,7 +63,7 @@
                             (keydown)="keyDown($event, 'revokeKey', key)"
                             tabindex="0"
                             id="revokeKeyAction"
-                            aria-labelledby="keyNameLabel revokeKeyAction">
+                            [attr.aria-labelledby]="keyActionLabelledByPrefix + i + ' revokeKeyAction'">
                             <i class="fa fa-times"></i>
                             {{'functionKeys_revoke' | translate}}
                         </a>
