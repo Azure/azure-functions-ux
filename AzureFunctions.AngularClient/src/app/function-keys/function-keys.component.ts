@@ -45,6 +45,10 @@ export class FunctionKeysComponent extends FunctionAppContextComponent implement
     private refreshSubject: ReplaySubject<void>;
     private functionInfo: FunctionInfo;
 
+    public tableId: string;
+    public keyNameIdPrefix: string;
+    public keyActionLabelledByPrefix: string;
+
     constructor(
         broadcastService: BroadcastService,
         private _translateService: TranslateService,
@@ -73,9 +77,11 @@ export class FunctionKeysComponent extends FunctionAppContextComponent implement
                     return this._functionAppService.getHostKeys(viewInfo.context);
                 } else if (viewInfo.functionInfo.isSuccessful) {
                     this.functionInfo = viewInfo.functionInfo.result;
+
                     return this._functionAppService.getFunctionKeys(viewInfo.context, viewInfo.functionInfo.result)
                 } else {
                     this.functionInfo = null;
+
                     return Observable.of({
                         isSuccessful: true,
                         result: { keys: [], links: [] },
@@ -84,6 +90,10 @@ export class FunctionKeysComponent extends FunctionAppContextComponent implement
                 }
             })
             .subscribe(keysResult => {
+                this.tableId = this.functionInfo ? 'functionKeys' : 'hostKeys';
+                this.keyNameIdPrefix = `keyNameLabel-${this.tableId}-`;
+                this.keyActionLabelledByPrefix = `${this.tableId} ${this.keyNameIdPrefix}`;
+
                 this.resetState();
                 if (keysResult.isSuccessful) {
                     const keys = keysResult.result;
