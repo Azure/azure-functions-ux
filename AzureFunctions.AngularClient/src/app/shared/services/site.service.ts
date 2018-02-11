@@ -1,3 +1,5 @@
+import { Availability } from './../../site/site-notifications/notifications';
+import { ArmService } from './arm.service';
 import { ConnectionStrings } from './../models/arm/connection-strings';
 import { AvailableStack } from './../models/arm/stacks';
 import { SiteConfig } from './../models/arm/site-config';
@@ -72,5 +74,27 @@ export class SiteService {
     getAvailableStacks(): Result<ArmArrayResult<AvailableStack>> {
         const getAvailableStacks = this._cacheService.getArm('/providers/Microsoft.Web/availablestacks').map(r => r.json());
         return this._client.execute({ resourceId: null }, t => getAvailableStacks);
+    }
+
+    getAvailability(resourceId: string): Result<ArmObj<Availability>> {
+        const subscriptionId = (new ArmSiteDescriptor(resourceId)).subscription;
+        const availabilityId = `${resourceId}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
+        const getAvailability = this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+            .map(r => r.json())
+            .catch((e: any) => {
+
+                // this call fails with 409 is Microsoft.ResourceHealth is not registered
+                if (e.status === 409) {
+                    return this._cacheService.postArm(`/subscriptions/${subscriptionId}/providers/Microsoft.ResourceHealth/register`)
+                        .mergeMap(() => {
+                            return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+                        })
+                        .map(r => r.json());
+                }
+
+                return Observable.throw(e);
+            });
+
+        return this._client.execute({ resourceId: resourceId }, t => getAvailability);
     }
 }

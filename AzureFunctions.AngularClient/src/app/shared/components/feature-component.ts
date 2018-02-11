@@ -46,7 +46,7 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
             .do(input => {
 
                 if (!this.featureName) {
-                    throw Error('featureName is not defined');
+                    throw Error(`featureName must be defined for the featureComponent ${this.componentName}`);
                 }
 
                 if (this.isParentComponent) {
@@ -79,7 +79,10 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
                     this.clearBusy();
                 }
             }, err => {
-                this.__logService.error(LogCategories.featureComponent, '/load-failure', err);
+                this.__logService.error(
+                    LogCategories.featureComponent,
+                    '/load-failure',
+                    `Component ${this.componentName} threw an unhandled error: ${err}`);
                 this.clearBusy();
             });
     }
