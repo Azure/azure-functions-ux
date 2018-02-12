@@ -196,6 +196,7 @@ export class ScenarioIds {
     public static readonly downloadWithVsProj = 'DownloadWithVsProj';
     public static readonly openOldWebhostingPlanBlade = 'OpenOldWebhostingPlanBlade';
     public static readonly listExtensionsArm = 'ListExtensionsArm';
+    public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
 }
 
 export class ServerFarmSku {

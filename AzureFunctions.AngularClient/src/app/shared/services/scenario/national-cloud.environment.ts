@@ -47,6 +47,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
                 return { status: 'disabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.enableExportToPowerApps] = {
+            id: ScenarioIds.enableExportToPowerApps,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
