@@ -45,15 +45,13 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
             .takeUntil(this._ngUnsubscribe)
             .do(input => {
 
-                if (!this.featureName) {
-                    throw Error(`featureName must be defined for the featureComponent ${this.componentName}`);
-                }
-
                 if (this.isParentComponent) {
                     this.__telemetryService.featureConstructComplete(this.featureName);
                 }
 
                 if (this._busyManager) {
+                    this.setBusy();
+
                     this.__telemetryService.featureLoading(
                         this.isParentComponent,
                         this.featureName,
@@ -62,8 +60,6 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
                     this.__logService.verbose(
                         LogCategories.featureComponent,
                         `New input received, setting busy componentName: ${this.componentName}`);
-
-                    this.setBusy();
                 }
             });
 
@@ -96,6 +92,10 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
             throw Error(`No busy manager defined, component: ${this.componentName}`);
         }
 
+        if (!this.featureName) {
+            throw Error(`featureName must be defined for the featureComponent ${this.componentName}`);
+        }
+
         this.__logService.verbose(
             LogCategories.featureComponent,
             `Setting busy componentName: ${this.componentName}`);
@@ -119,6 +119,10 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
     protected clearBusy() {
         if (!this._busyManager) {
             throw Error(`No busy manager defined, component: ${this.componentName}`);
+        }
+
+        if (!this.featureName) {
+            throw Error(`featureName must be defined for the featureComponent ${this.componentName}`);
         }
 
         this.__logService.verbose(

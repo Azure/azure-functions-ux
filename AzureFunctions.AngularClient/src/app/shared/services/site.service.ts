@@ -14,6 +14,8 @@ import { HttpResult } from './../models/http-result';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { SlotConfigNames } from 'app/shared/models/arm/slot-config-names';
+import { AuthSettings } from 'app/shared/models/arm/auth-settings';
+import { SiteExtension } from 'app/shared/models/arm/site-extension';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -96,5 +98,19 @@ export class SiteService {
             });
 
         return this._client.execute({ resourceId: resourceId }, t => getAvailability);
+    }
+
+    getAuthSettings(resourceId: string, force?: boolean): Result<ArmObj<AuthSettings>> {
+        const getAuthSettings = this._cacheService.postArm(`${resourceId}/config/authsettings/list`, force)
+            .map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getAuthSettings);
+    }
+
+    getSiteExtensions(resourceId: string): Result<ArmArrayResult<SiteExtension>> {
+        const getSiteExtensions = this._cacheService.getArm(`${resourceId}/siteExtensions`, false)
+            .map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getSiteExtensions);
     }
 }
