@@ -1,3 +1,5 @@
+import { Availability } from './../../site/site-notifications/notifications';
+import { ArmService } from './arm.service';
 import { ConnectionStrings } from './../models/arm/connection-strings';
 import { AvailableStack } from './../models/arm/stacks';
 import { SiteConfig } from './../models/arm/site-config';
@@ -12,6 +14,8 @@ import { HttpResult } from './../models/http-result';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { SlotConfigNames } from 'app/shared/models/arm/slot-config-names';
+import { AuthSettings } from 'app/shared/models/arm/auth-settings';
+import { SiteExtension } from 'app/shared/models/arm/site-extension';
 
 type Result<T> = Observable<HttpResult<T>>;
 
@@ -72,5 +76,41 @@ export class SiteService {
     getAvailableStacks(): Result<ArmArrayResult<AvailableStack>> {
         const getAvailableStacks = this._cacheService.getArm('/providers/Microsoft.Web/availablestacks').map(r => r.json());
         return this._client.execute({ resourceId: null }, t => getAvailableStacks);
+    }
+
+    getAvailability(resourceId: string): Result<ArmObj<Availability>> {
+        const subscriptionId = (new ArmSiteDescriptor(resourceId)).subscription;
+        const availabilityId = `${resourceId}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
+        const getAvailability = this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+            .map(r => r.json())
+            .catch((e: any) => {
+
+                // this call fails with 409 is Microsoft.ResourceHealth is not registered
+                if (e.status === 409) {
+                    return this._cacheService.postArm(`/subscriptions/${subscriptionId}/providers/Microsoft.ResourceHealth/register`)
+                        .mergeMap(() => {
+                            return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion)
+                        })
+                        .map(r => r.json());
+                }
+
+                return Observable.throw(e);
+            });
+
+        return this._client.execute({ resourceId: resourceId }, t => getAvailability);
+    }
+
+    getAuthSettings(resourceId: string, force?: boolean): Result<ArmObj<AuthSettings>> {
+        const getAuthSettings = this._cacheService.postArm(`${resourceId}/config/authsettings/list`, force)
+            .map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getAuthSettings);
+    }
+
+    getSiteExtensions(resourceId: string): Result<ArmArrayResult<SiteExtension>> {
+        const getSiteExtensions = this._cacheService.getArm(`${resourceId}/siteExtensions`, false)
+            .map(r => r.json());
+
+        return this._client.execute({ resourceId: resourceId }, t => getSiteExtensions);
     }
 }

@@ -29,6 +29,10 @@ export class TelemetryService {
     }
 
     public featureConstructComplete(featureName: string) {
+        if (!featureName) {
+            return;
+        }
+
         // For now, this will only be started for Ibiza menu scenario's.
         this._portalService.sendTimerEvent({
             timerId: this._constructIdFormat.format(featureName),
@@ -55,6 +59,8 @@ export class TelemetryService {
                     timerAction: 'start'
                 });
             } else if (!this._registeredParentFeatures[featureName]) {
+                const errMesg = `No parentComponent defined for feature: ${featureName}, component: ${componentName}.  
+Exactly one parent component must be defined for a given feature by setting the isParentComponent property.`;
 
                 // There needs to be one parent component which represents timing for the entire feature.
                 // Otherwise if one child component is used independently of a parent component and start/stops
@@ -62,9 +68,8 @@ export class TelemetryService {
                 this._logService.error(
                     LogCategories.telemetry,
                     '/no-parent-component-defined',
-                    `No parentComponent defined for feature: ${featureName}, component: ${componentName}.
-                    One parent component must be defined for telemetry to work properly.`);
-                return;
+                    errMesg);
+                throw Error(errMesg);
             } else {
 
                 // This can happen if a feature has already been loaded, but there's child components that get created

@@ -45,15 +45,13 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
             .takeUntil(this._ngUnsubscribe)
             .do(input => {
 
-                if (!this.featureName) {
-                    throw Error('featureName is not defined');
-                }
-
                 if (this.isParentComponent) {
                     this.__telemetryService.featureConstructComplete(this.featureName);
                 }
 
                 if (this._busyManager) {
+                    this.setBusy();
+
                     this.__telemetryService.featureLoading(
                         this.isParentComponent,
                         this.featureName,
@@ -62,8 +60,6 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
                     this.__logService.verbose(
                         LogCategories.featureComponent,
                         `New input received, setting busy componentName: ${this.componentName}`);
-
-                    this.setBusy();
                 }
             });
 
@@ -79,7 +75,10 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
                     this.clearBusy();
                 }
             }, err => {
-                this.__logService.error(LogCategories.featureComponent, '/load-failure', err);
+                this.__logService.error(
+                    LogCategories.featureComponent,
+                    '/load-failure',
+                    `Component ${this.componentName} threw an unhandled error: ${err}`);
                 this.clearBusy();
             });
     }
@@ -91,6 +90,10 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
     protected setBusy() {
         if (!this._busyManager) {
             throw Error(`No busy manager defined, component: ${this.componentName}`);
+        }
+
+        if (!this.featureName) {
+            throw Error(`featureName must be defined for the featureComponent ${this.componentName}`);
         }
 
         this.__logService.verbose(
@@ -116,6 +119,10 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
     protected clearBusy() {
         if (!this._busyManager) {
             throw Error(`No busy manager defined, component: ${this.componentName}`);
+        }
+
+        if (!this.featureName) {
+            throw Error(`featureName must be defined for the featureComponent ${this.componentName}`);
         }
 
         this.__logService.verbose(
