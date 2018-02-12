@@ -12,7 +12,7 @@ import { ArmService } from './arm.service';
 export class ArmEmbeddedService extends ArmService {
     public static url = 'https://blueridge-tip1-rp-westus.azurewebsites.net';
 
-    public websiteApiVersion = null;  // Force us to not use default API versions
+    public websiteApiVersion = '2018-02-01-preview';
 
     private _whitelistedAPIMUrls: string[] = [
         'https://blueridge.azure-api.net',
@@ -127,7 +127,7 @@ export class ArmEmbeddedService extends ArmService {
             return super.send(method, url, body, etag, headers);
         }
 
-        if(this._whitelistedPathPrefix.find(u => path.startsWith(u.toLowerCase()))){
+        if (this._whitelistedPathPrefix.find(u => path.startsWith(u.toLowerCase()))) {
             return super.send(method, url, body, etag, headers);
         }
 

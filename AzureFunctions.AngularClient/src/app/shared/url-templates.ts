@@ -1,3 +1,4 @@
+import { ArmService } from 'app/shared/services/arm.service';
 import { ArmEmbeddedService } from './services/arm-embedded.service';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { ConfigService } from 'app/shared/services/config.service';
@@ -9,6 +10,7 @@ import { Site } from 'app/shared/models/arm/site';
 export class UrlTemplates {
     private configService: ConfigService;
     private portalService: PortalService;
+    private armService: ArmService;
     private scmUrl: string;
     private mainSiteUrl: string;
     private useNewUrls: boolean;
@@ -18,6 +20,7 @@ export class UrlTemplates {
 
         this.portalService = injector.get(PortalService);
         this.configService = injector.get(ConfigService);
+        this.armService = injector.get(ArmService);
 
         this.isEmbeddedFunctions = this.portalService.isEmbeddedFunctions;
         this.scmUrl = this.isEmbeddedFunctions ? null : this.getScmUrl();
@@ -54,10 +57,10 @@ export class UrlTemplates {
             if (parts.length === 6) {
                 // url to get all functions for the environment: removes "/scopes/cds"
                 const smallerSiteId = this.site.id.split('/').filter(part => !!part).slice(0, 4).join('/');
-                return `${ArmEmbeddedService.url}/${smallerSiteId}/functions`;
+                return `${ArmEmbeddedService.url}/${smallerSiteId}/functions?api-version=${this.armService.websiteApiVersion}`;
             }
             // url to get all functions for the entity
-            return `${ArmEmbeddedService.url}${this.site.id}/functions`;
+            return `${ArmEmbeddedService.url}${this.site.id}/functions?api-version=${this.armService.websiteApiVersion}`;
         }
 
         return this.useNewUrls
@@ -75,9 +78,9 @@ export class UrlTemplates {
         if (this.isEmbeddedFunctions) {
             if (!!functionEntity) {
                 const smallerSiteId = this.site.id.split('/').filter(part => !!part).slice(0, 6).join('/');
-                return `${ArmEmbeddedService.url}/${smallerSiteId}/entities/${functionEntity}/functions/${functionName}`;
+                return `${ArmEmbeddedService.url}/${smallerSiteId}/entities/${functionEntity}/functions/${functionName}?api-version=${this.armService.websiteApiVersion}`;
             }
-            return `${ArmEmbeddedService.url}${this.site.id}/functions/${functionName}`;
+            return `${ArmEmbeddedService.url}${this.site.id}/functions/${functionName}?api-version=${this.armService.websiteApiVersion}`;
         }
 
         return this.useNewUrls
