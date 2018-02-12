@@ -422,18 +422,17 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
 
         return this._siteService.getAuthSettings(site.id)
             .map(r => {
+                let items: EnabledFeatureItem[] = null;
                 if (r.isSuccessful) {
                     const authSettings = r.result;
-                    let items: EnabledFeatureItem[] = null;
 
                     if (authSettings.properties.enabled) {
                         items = [this._getEnabledFeatureItem(Feature.Authentication)];
                     }
 
-                    return items;
                 }
 
-                return null;
+                return items;
             });
     }
 
@@ -444,16 +443,16 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
         } else {
             return this._siteService.getSiteExtensions(site.id)
                 .map(r => {
+                    let items: EnabledFeatureItem[] = null;
+
                     if (r.isSuccessful) {
                         const extensions = r.result.value;
-                        let items = null;
                         if (extensions && extensions.length > 0) {
                             items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
                         }
-                        return items;
                     }
 
-                    return null;
+                    return items;
                 });
         }
     }
