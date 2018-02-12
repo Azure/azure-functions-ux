@@ -1,7 +1,6 @@
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
 import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories } from './../../shared/models/constants';
-import { BroadcastService } from './../../shared/services/broadcast.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
@@ -76,7 +75,6 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         private _router: Router,
         userService: UserService,
         private _scenarioService: ScenarioService,
-        broadcastService: BroadcastService,
         private _siteService: SiteService,
         injector: Injector) {
 

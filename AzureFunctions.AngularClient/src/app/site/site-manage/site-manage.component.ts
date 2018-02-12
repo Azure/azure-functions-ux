@@ -1,6 +1,5 @@
 import { SiteService } from 'app/shared/services/site.service';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { BroadcastService } from './../../shared/services/broadcast.service';
 import { ScenarioIds, SiteTabIds } from './../../shared/models/constants';
 import { Component, Input, OnDestroy, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -52,7 +51,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         private _siteService: SiteService,
         private _translateService: TranslateService,
         private _scenarioService: ScenarioService,
-        broadcastService: BroadcastService,
         injector: Injector
     ) {
         super('site-manage', injector, 'site-tabs');

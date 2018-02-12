@@ -29,6 +29,10 @@ export class TelemetryService {
     }
 
     public featureConstructComplete(featureName: string) {
+        if (!featureName) {
+            return;
+        }
+
         // For now, this will only be started for Ibiza menu scenario's.
         this._portalService.sendTimerEvent({
             timerId: this._constructIdFormat.format(featureName),
