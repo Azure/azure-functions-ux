@@ -1,18 +1,15 @@
+import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { LogCategories } from './../../../shared/models/constants';
 import { LogService } from './../../../shared/services/log.service';
 import { SiteService } from 'app/shared/services/site.service';
-import { FeatureComponent } from 'app/shared/components/feature-component';
-import { BroadcastService } from './../../../shared/services/broadcast.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges, Injector } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { SiteConfig } from './../../../shared/models/arm/site-config';
-import { SaveOrValidationResult } from './../site-config.component';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
@@ -22,7 +19,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
     templateUrl: './default-documents.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+export class DefaultDocumentsComponent extends ConfigSaveComponent implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
@@ -37,22 +34,18 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
 
-    private _saveError: string;
     private _requiredValidator: RequiredValidator;
     private _uniqueDocumentValidator: UniqueValidator;
-    private _webConfigArm: ArmObj<SiteConfig>;
 
     constructor(
-        private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
         private _logService: LogService,
         private _authZService: AuthzService,
         private _siteService: SiteService,
-        broadcastService: BroadcastService,
         injector: Injector
     ) {
-        super('DefaultDocumentComponent', injector, 'site-tabs');
+        super('DefaultDocumentComponent', injector, ['SiteConfig'], 'site-tabs');
 
         this._resetPermissionsAndLoadingState();
 
@@ -60,12 +53,17 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
         this.originalItemsDeleted = 0;
     }
 
+    protected get _isPristine() {
+        return this.groupArray && this.groupArray.pristine;
+    }
+
     protected setup(inputEvents: Observable<ResourceId>) {
         return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
-                this._saveError = null;
-                this._webConfigArm = null;
+                this._saveFailed = false;
+                this._resetSubmittedStates();
+                this._resetConfigs();
                 this.groupArray = null;
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
@@ -78,9 +76,9 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
             })
             .do(results => {
                 if (results[0].isSuccessful) {
-                    this._webConfigArm = results[0].result;
+                    this.siteConfigArm = results[0].result;
                     this._setPermissions(results[1], results[2]);
-                    this._setupForm(this._webConfigArm);
+                    this._setupForm(this.siteConfigArm);
                 } else {
                     this._logService.error(LogCategories.defaultDocuments, '/default-documents', results[0].error.result);
                     this._setupForm(null);
@@ -97,13 +95,8 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
             this.setInput(this.resourceId);
         }
         if (changes['mainForm'] && !changes['resourceId']) {
-            this._setupForm(this._webConfigArm);
+            this._setupForm(this.siteConfigArm);
         }
-    }
-
-    ngOnDestroy(): void {
-        super.ngOnDestroy();
-        this.clearBusy();
     }
 
     private _resetPermissionsAndLoadingState() {
@@ -127,10 +120,9 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
         this.hasWritePermissions = writePermission && !readOnlyLock;
     }
 
-
-    private _setupForm(webConfigArm: ArmObj<SiteConfig>) {
-        if (!!webConfigArm) {
-            if (!this._saveError || !this.groupArray) {
+    private _setupForm(siteConfigArm: ArmObj<SiteConfig>) {
+        if (!!siteConfigArm) {
+            if (!this._saveFailed || !this.groupArray) {
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
@@ -141,8 +133,8 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
                     this.groupArray,
                     this._translateService.instant(PortalResources.validation_duplicateError));
 
-                if (webConfigArm.properties.defaultDocuments) {
-                    webConfigArm.properties.defaultDocuments.forEach(document => {
+                if (siteConfigArm.properties.defaultDocuments) {
+                    siteConfigArm.properties.defaultDocuments.forEach(document => {
                         const group = this._fb.group({
                             name: [
                                 { value: document, disabled: !this.hasWritePermissions },
@@ -173,10 +165,11 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
             }
         }
 
-        this._saveError = null;
+        this._saveFailed = false;
+        this._resetSubmittedStates();
     }
 
-    validate(): SaveOrValidationResult {
+    validate() {
         const groups = this.groupArray.controls;
 
         // Purge any added entries that were never modified
@@ -191,11 +184,6 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
         }
 
         this._validateAllControls(groups as CustomFormGroup[]);
-
-        return {
-            success: this.groupArray.valid,
-            error: this.groupArray.valid ? null : this._validationFailureMessage()
-        };
     }
 
     private _validateAllControls(groups: CustomFormGroup[]) {
@@ -209,54 +197,24 @@ export class DefaultDocumentsComponent extends FeatureComponent<ResourceId> impl
         });
     }
 
-    save(): Observable<SaveOrValidationResult> {
-        // Don't make unnecessary PATCH call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else if (this.mainForm.contains('defaultDocs') && this.mainForm.controls['defaultDocs'].valid) {
-            const defaultDocGroups = this.groupArray.controls;
+    protected _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
+        const siteConfigArm: ArmObj<SiteConfig> = (saveConfigs && saveConfigs.siteConfigArm) ?
+            JSON.parse(JSON.stringify(saveConfigs.siteConfigArm)) :
+            JSON.parse(JSON.stringify(this.siteConfigArm));
+        siteConfigArm.id = `${this.resourceId}/config/web`;
+        siteConfigArm.properties.defaultDocuments = [];
 
-            const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
-            webConfigArm.properties = {};
+        const defaultDocuments: string[] = siteConfigArm.properties.defaultDocuments;
 
-            webConfigArm.properties.defaultDocuments = [];
-            defaultDocGroups.forEach(group => {
-                if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
-                    webConfigArm.properties.defaultDocuments.push((group as FormGroup).controls['name'].value);
-                }
-            });
+        this.groupArray.controls.forEach(group => {
+            if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+                defaultDocuments.push((group as FormGroup).controls['name'].value);
+            }
+        });
 
-            return this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm)
-                .map(webConfigResponse => {
-                    this._webConfigArm = webConfigResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
-                });
-        } else {
-            const failureMessage = this._validationFailureMessage();
-            this._saveError = failureMessage;
-            return Observable.of({
-                success: false,
-                error: failureMessage
-            });
-        }
-    }
-
-    private _validationFailureMessage(): string {
-        const configGroupName = this._translateService.instant(PortalResources.feature_defaultDocumentsName);
-        return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+        return {
+            siteConfigArm: siteConfigArm
+        };
     }
 
     deleteItem(group: FormGroup) {

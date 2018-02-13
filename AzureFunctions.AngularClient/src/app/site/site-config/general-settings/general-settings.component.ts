@@ -1,11 +1,10 @@
-import { FeatureComponent } from 'app/shared/components/feature-component';
+import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { Links, LogCategories } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges, Injector } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { SaveOrValidationResult } from '../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { AvailableStack, AvailableStackNames, AvailableStacksOsType, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
@@ -16,7 +15,6 @@ import { LogService } from './../../../shared/services/log.service';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { CustomFormControl } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ArmArrayResult, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 
@@ -29,7 +27,7 @@ import { SiteService } from 'app/shared/services/site.service';
     templateUrl: './general-settings.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class GeneralSettingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+export class GeneralSettingsComponent extends ConfigSaveComponent implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
@@ -39,7 +37,6 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
     public permissionsMessage: string;
     public showPermissionsMessage: boolean;
     public showReadOnlySettingsMessage: string;
-    public siteArm: ArmObj<Site>;
     public loadingFailureMessage: string;
     public loadingMessage: string;
     public FwLinks = Links;
@@ -71,8 +68,6 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
     public linuxRuntimeSupported = false;
     public linuxFxVersionOptions: DropDownGroupElement<string>[];
 
-    private _saveError: string;
-    private _webConfigArm: ArmObj<SiteConfig>;
     private _sku: string;
 
     private _dropDownOptionsMapClean: { [key: string]: DropDownElement<string>[] };
@@ -85,7 +80,6 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
     private _ignoreChildEvents = true;
 
     constructor(
-        private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
         private _logService: LogService,
@@ -94,7 +88,7 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         private _siteService: SiteService,
         injector: Injector
     ) {
-        super('GeneralSettingsComponent', injector, 'site-tabs');
+        super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], 'site-tabs');
 
         this._resetSlotsInfo();
 
@@ -103,13 +97,17 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         this._generateRadioOptions();
     }
 
+    protected get _isPristine() {
+        return this.group && this.group.pristine;
+    }
+
     protected setup(inputEvents: Observable<ResourceId>) {
         return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
-                this._saveError = null;
-                this.siteArm = null;
-                this._webConfigArm = null;
+                this._saveFailed = false;
+                this._resetSubmittedStates();
+                this._resetConfigs();
                 this.group = null;
                 this.dropDownOptionsMap = null;
                 this._ignoreChildEvents = true;
@@ -158,7 +156,7 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
 
                 } else {
                     this.siteArm = siteResult.result;
-                    this._webConfigArm = configResult.result;
+                    this.siteConfigArm = configResult.result;
 
                     this._setPermissions(hasWritePermission, hasReadonlyLock);
 
@@ -170,8 +168,8 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
                         this._parseLinuxBuiltInStacks(stacksResultLinux.result);
                     }
 
-                    this._processSupportedControls(this.siteArm, this._webConfigArm);
-                    this._setupForm(this._webConfigArm, this.siteArm);
+                    this._processSupportedControls(this.siteArm, this.siteConfigArm);
+                    this._setupForm(this.siteConfigArm, this.siteArm);
                 }
 
                 this.loadingMessage = null;
@@ -184,13 +182,8 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
             this.setInput(this.resourceId);
         }
         if (changes['mainForm'] && !changes['resourceId']) {
-            this._setupForm(this._webConfigArm, this.siteArm);
+            this._setupForm(this.siteConfigArm, this.siteArm);
         }
-    }
-
-    ngOnDestroy(): void {
-        super.ngOnDestroy();
-        this.clearBusy();
     }
 
     scaleUp() {
@@ -266,8 +259,8 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         this.linuxRuntimeSupported = false;
     }
 
-    private _processSupportedControls(siteConfigArm: ArmObj<Site>, webConfigArm: ArmObj<SiteConfig>) {
-        if (!!siteConfigArm) {
+    private _processSupportedControls(siteArm: ArmObj<Site>, siteConfigArm: ArmObj<SiteConfig>) {
+        if (!!siteArm) {
             let netFrameworkSupported = true;
             let phpSupported = true;
             let pythonSupported = true;
@@ -281,9 +274,9 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
 
-            this._sku = siteConfigArm.properties.sku;
+            this._sku = siteArm.properties.sku;
 
-            if (ArmUtil.isLinuxApp(siteConfigArm)) {
+            if (ArmUtil.isLinuxApp(siteArm)) {
                 netFrameworkSupported = false;
                 phpSupported = false;
                 pythonSupported = false;
@@ -293,14 +286,14 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
                 classicPipelineModeSupported = false;
                 remoteDebuggingSupported = false;
 
-                if ((webConfigArm.properties.linuxFxVersion || '').indexOf(LinuxConstants.dockerPrefix) === -1) {
+                if ((siteConfigArm.properties.linuxFxVersion || '').indexOf(LinuxConstants.dockerPrefix) === -1) {
                     linuxRuntimeSupported = true;
                 }
 
                 autoSwapSupported = false;
             }
 
-            if (ArmUtil.isFunctionApp(siteConfigArm)) {
+            if (ArmUtil.isFunctionApp(siteArm)) {
                 netFrameworkSupported = false;
                 pythonSupported = false;
                 javaSupported = false;
@@ -333,23 +326,23 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         }
     }
 
-    private _setupForm(webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
-        if (!!webConfigArm && !!siteConfigArm) {
+    private _setupForm(siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
+        if (!!siteConfigArm && !!siteArm) {
 
             this._ignoreChildEvents = true;
 
-            if (!this._saveError || !this.group) {
+            if (!this._saveFailed || !this.group) {
                 const group = this._fb.group({});
                 const dropDownOptionsMap: { [key: string]: DropDownElement<string>[] } = {};
                 const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
 
-                this._setupNetFramworkVersion(group, dropDownOptionsMap, webConfigArm.properties.netFrameworkVersion);
-                this._setupPhpVersion(group, dropDownOptionsMap, webConfigArm.properties.phpVersion);
-                this._setupPythonVersion(group, dropDownOptionsMap, webConfigArm.properties.pythonVersion);
-                this._setupJava(group, dropDownOptionsMap, webConfigArm.properties.javaVersion, webConfigArm.properties.javaContainer, webConfigArm.properties.javaContainerVersion);
-                this._setupGeneralSettings(group, webConfigArm, siteConfigArm);
-                this._setupAutoSwapSettings(group, dropDownOptionsMap, webConfigArm.properties.autoSwapSlotName);
-                this._setupLinux(group, linuxFxVersionOptions, webConfigArm.properties.linuxFxVersion, webConfigArm.properties.appCommandLine);
+                this._setupNetFramworkVersion(group, dropDownOptionsMap, siteConfigArm.properties.netFrameworkVersion);
+                this._setupPhpVersion(group, dropDownOptionsMap, siteConfigArm.properties.phpVersion);
+                this._setupPythonVersion(group, dropDownOptionsMap, siteConfigArm.properties.pythonVersion);
+                this._setupJava(group, dropDownOptionsMap, siteConfigArm.properties.javaVersion, siteConfigArm.properties.javaContainer, siteConfigArm.properties.javaContainerVersion);
+                this._setupGeneralSettings(group, siteConfigArm, siteArm);
+                this._setupAutoSwapSettings(group, dropDownOptionsMap, siteConfigArm.properties.autoSwapSlotName);
+                this._setupLinux(group, linuxFxVersionOptions, siteConfigArm.properties.linuxFxVersion, siteConfigArm.properties.appCommandLine);
 
                 this.group = group;
                 this.dropDownOptionsMap = dropDownOptionsMap;
@@ -377,7 +370,8 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
 
         }
 
-        this._saveError = null;
+        this._saveFailed = null;
+        this._resetSubmittedStates();
     }
 
     private _setControlsEnabledState(names: string[], enabled: boolean) {
@@ -447,26 +441,26 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
             { displayLabel: onString, value: true }];
     }
 
-    private _setupGeneralSettings(group: FormGroup, webConfigArm: ArmObj<SiteConfig>, siteConfigArm: ArmObj<Site>) {
+    private _setupGeneralSettings(group: FormGroup, siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
         if (this.platform64BitSupported) {
-            group.addControl('use32BitWorkerProcess', this._fb.control({ value: webConfigArm.properties.use32BitWorkerProcess, disabled: !this.hasWritePermissions }));
+            group.addControl('use32BitWorkerProcess', this._fb.control({ value: siteConfigArm.properties.use32BitWorkerProcess, disabled: !this.hasWritePermissions }));
         }
         if (this.webSocketsSupported) {
-            group.addControl('webSocketsEnabled', this._fb.control({ value: webConfigArm.properties.webSocketsEnabled, disabled: !this.hasWritePermissions }));
+            group.addControl('webSocketsEnabled', this._fb.control({ value: siteConfigArm.properties.webSocketsEnabled, disabled: !this.hasWritePermissions }));
         }
         if (this.alwaysOnSupported) {
-            group.addControl('alwaysOn', this._fb.control({ value: webConfigArm.properties.alwaysOn, disabled: !this.hasWritePermissions }));
+            group.addControl('alwaysOn', this._fb.control({ value: siteConfigArm.properties.alwaysOn, disabled: !this.hasWritePermissions }));
         }
         if (this.classicPipelineModeSupported) {
-            group.addControl('managedPipelineMode', this._fb.control({ value: webConfigArm.properties.managedPipelineMode, disabled: !this.hasWritePermissions }));
+            group.addControl('managedPipelineMode', this._fb.control({ value: siteConfigArm.properties.managedPipelineMode, disabled: !this.hasWritePermissions }));
         }
         if (this.clientAffinitySupported) {
-            group.addControl('clientAffinityEnabled', this._fb.control({ value: siteConfigArm.properties.clientAffinityEnabled, disabled: !this.hasWritePermissions }));
+            group.addControl('clientAffinityEnabled', this._fb.control({ value: siteArm.properties.clientAffinityEnabled, disabled: !this.hasWritePermissions }));
         }
         if (this.remoteDebuggingSupported) {
-            group.addControl('remoteDebuggingEnabled', this._fb.control({ value: webConfigArm.properties.remoteDebuggingEnabled, disabled: !this.hasWritePermissions }));
-            group.addControl('remoteDebuggingVersion', this._fb.control({ value: webConfigArm.properties.remoteDebuggingVersion, disabled: !this.hasWritePermissions }));
-            setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], webConfigArm.properties.remoteDebuggingEnabled && this.hasWritePermissions); }, 0);
+            group.addControl('remoteDebuggingEnabled', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingEnabled, disabled: !this.hasWritePermissions }));
+            group.addControl('remoteDebuggingVersion', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingVersion, disabled: !this.hasWritePermissions }));
+            setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], siteConfigArm.properties.remoteDebuggingEnabled && this.hasWritePermissions); }, 0);
         }
     }
 
@@ -725,7 +719,6 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
             }
             const javaWebContainerControl = this._fb.control({ value: defaultJavaWebContainer, disabled: !this.hasWritePermissions });
 
-
             group.addControl('javaVersion', javaVersionControl);
             group.addControl('javaMinorVersion', javaMinorVersionControl);
             group.addControl('javaWebContainer', javaWebContainerControl);
@@ -749,7 +742,6 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
             let javaWebContainerOptions: DropDownElement<string>[];
             let defaultJavaWebContainer: string;
             let javaWebContainerNeedsUpdate = false;
-
 
             if (!javaVersion) {
                 if (previousJavaVersionSelection) {
@@ -1041,117 +1033,99 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         }
     }
 
-    validate(): SaveOrValidationResult {
+    validate() {
         let controls = this.group.controls;
         for (const controlName in controls) {
             const control = <CustomFormControl>controls[controlName];
             control._msRunValidation = true;
             control.updateValueAndValidity();
         }
-
-        return {
-            success: this.group.valid,
-            error: this.group.valid ? null : this._validationFailureMessage()
-        };
     }
 
-    save(): Observable<SaveOrValidationResult> {
-        // Don't make unnecessary PATCH call if these settings haven't been changed
-        if (this.group.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else if (this.mainForm.contains('generalSettings') && this.mainForm.controls['generalSettings'].valid) {
-            const generalSettingsControls = this.group.controls;
+    protected _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
+        const generalSettingsControls = this.group.controls;
 
-            // level: site
-            const siteConfigArm: ArmObj<Site> = JSON.parse(JSON.stringify(this.siteArm));
+        let sitePristine = true;
+        let siteConfigPristine = true;
+
+        for (let name in generalSettingsControls) {
+            if (generalSettingsControls[name].dirty) {
+                if (name === 'clientAffinityEnabled') {
+                    sitePristine = false;
+                } else {
+                    siteConfigPristine = false;
+                }
+            }
+        }
+
+        let siteArm: ArmObj<Site> = null;
+
+        if (!sitePristine) {
+            siteArm = (saveConfigs && saveConfigs.siteArm) ?
+                JSON.parse(JSON.stringify(saveConfigs.siteArm)) :
+                JSON.parse(JSON.stringify(this.siteArm));
+            siteArm.id = this.resourceId;
 
             if (this.clientAffinitySupported) {
-                const clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);
-                siteConfigArm.properties.clientAffinityEnabled = clientAffinityEnabled;
+                siteArm.properties.clientAffinityEnabled = <boolean>(generalSettingsControls['clientAffinityEnabled'].value);;
             }
+        }
 
-            // level: site/config/web
-            const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
-            webConfigArm.properties = {};
+        let siteConfigArm: ArmObj<SiteConfig> = null;
+
+        if (!siteConfigPristine) {
+            siteConfigArm = (saveConfigs && saveConfigs.siteConfigArm) ?
+                JSON.parse(JSON.stringify(saveConfigs.siteConfigArm)) :
+                JSON.parse(JSON.stringify(this.siteConfigArm));
+            siteConfigArm.id = `${this.resourceId}/config/web`;
 
             // -- non-stack settings --
             if (this.platform64BitSupported) {
-                webConfigArm.properties.use32BitWorkerProcess = <boolean>(generalSettingsControls['use32BitWorkerProcess'].value);
+                siteConfigArm.properties.use32BitWorkerProcess = <boolean>(generalSettingsControls['use32BitWorkerProcess'].value);
             }
             if (this.webSocketsSupported) {
-                webConfigArm.properties.webSocketsEnabled = <boolean>(generalSettingsControls['webSocketsEnabled'].value);
+                siteConfigArm.properties.webSocketsEnabled = <boolean>(generalSettingsControls['webSocketsEnabled'].value);
             }
             if (this.alwaysOnSupported) {
-                webConfigArm.properties.alwaysOn = <boolean>(generalSettingsControls['alwaysOn'].value);
+                siteConfigArm.properties.alwaysOn = <boolean>(generalSettingsControls['alwaysOn'].value);
             }
             if (this.classicPipelineModeSupported) {
-                webConfigArm.properties.managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value);
+                siteConfigArm.properties.managedPipelineMode = <string>(generalSettingsControls['managedPipelineMode'].value);
             }
             if (this.remoteDebuggingSupported) {
-                webConfigArm.properties.remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
-                webConfigArm.properties.remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
+                siteConfigArm.properties.remoteDebuggingEnabled = <boolean>(generalSettingsControls['remoteDebuggingEnabled'].value);
+                siteConfigArm.properties.remoteDebuggingVersion = <string>(generalSettingsControls['remoteDebuggingVersion'].value);
             }
             if (this.autoSwapSupported) {
                 const autoSwapEnabled = <boolean>(generalSettingsControls['autoSwapEnabled'].value);
-                webConfigArm.properties.autoSwapSlotName = autoSwapEnabled ? <string>(generalSettingsControls['autoSwapSlotName'].value) : '';
+                siteConfigArm.properties.autoSwapSlotName = autoSwapEnabled ? <string>(generalSettingsControls['autoSwapSlotName'].value) : '';
             }
 
             // -- stacks settings --
             if (this.netFrameworkSupported) {
-                webConfigArm.properties.netFrameworkVersion = <string>(generalSettingsControls['netFrameworkVersion'].value);
+                siteConfigArm.properties.netFrameworkVersion = <string>(generalSettingsControls['netFrameworkVersion'].value);
             }
             if (this.phpSupported) {
-                webConfigArm.properties.phpVersion = <string>(generalSettingsControls['phpVersion'].value);
+                siteConfigArm.properties.phpVersion = <string>(generalSettingsControls['phpVersion'].value);
             }
             if (this.pythonSupported) {
-                webConfigArm.properties.pythonVersion = <string>(generalSettingsControls['pythonVersion'].value);
+                siteConfigArm.properties.pythonVersion = <string>(generalSettingsControls['pythonVersion'].value);
             }
             if (this.javaSupported) {
-                webConfigArm.properties.javaVersion = <string>(generalSettingsControls['javaMinorVersion'].value) || <string>(generalSettingsControls['javaVersion'].value) || '';
+                siteConfigArm.properties.javaVersion = <string>(generalSettingsControls['javaMinorVersion'].value) || <string>(generalSettingsControls['javaVersion'].value) || '';
                 const javaWebContainerProperties: JavaWebContainerProperties = JSON.parse(<string>(generalSettingsControls['javaWebContainer'].value));
-                webConfigArm.properties.javaContainer = !webConfigArm.properties.javaVersion ? '' : (javaWebContainerProperties.container || '');
-                webConfigArm.properties.javaContainerVersion = !webConfigArm.properties.javaVersion ? '' : (javaWebContainerProperties.containerMinorVersion || javaWebContainerProperties.containerMajorVersion || '');
+                siteConfigArm.properties.javaContainer = !siteConfigArm.properties.javaVersion ? '' : (javaWebContainerProperties.container || '');
+                siteConfigArm.properties.javaContainerVersion = !siteConfigArm.properties.javaVersion ? '' : (javaWebContainerProperties.containerMinorVersion || javaWebContainerProperties.containerMajorVersion || '');
             }
             if (this.linuxRuntimeSupported) {
-                webConfigArm.properties.linuxFxVersion = <string>(generalSettingsControls['linuxFxVersion'].value);
-                webConfigArm.properties.appCommandLine = <string>(generalSettingsControls['appCommandLine'].value);
+                siteConfigArm.properties.linuxFxVersion = <string>(generalSettingsControls['linuxFxVersion'].value);
+                siteConfigArm.properties.appCommandLine = <string>(generalSettingsControls['appCommandLine'].value);
             }
-
-            return Observable.zip(
-                this._cacheService.putArm(`${this.resourceId}`, null, siteConfigArm),
-                this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm),
-                (c, w) => ({ siteConfigResponse: c, webConfigResponse: w })
-            )
-                .map(r => {
-                    this.siteArm = r.siteConfigResponse.json();
-                    this._webConfigArm = r.webConfigResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
-                });
-        } else {
-            const failureMessage = this._validationFailureMessage();
-            this._saveError = failureMessage;
-            return Observable.of({
-                success: false,
-                error: failureMessage
-            });
         }
-    }
 
-    private _validationFailureMessage(): string {
-        const configGroupName = this._translateService.instant(PortalResources.feature_generalSettingsName);
-        return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+        return {
+            siteArm: siteArm,
+            siteConfigArm: siteConfigArm
+        };
     }
 }

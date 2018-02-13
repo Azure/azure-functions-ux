@@ -1,4 +1,5 @@
 import { VirtualApplication } from './virtual-application';
+import { HandlerMapping } from './handler-mapping';
 
 export interface SiteConfig {
     scmType: string;
@@ -21,11 +22,7 @@ export interface SiteConfig {
     remoteDebuggingEnabled: boolean;
     remoteDebuggingVersion: string;
     defaultDocuments: string[];
-    handlerMappings: [{
-        extension: string;
-        scriptProcessor: string;
-        arguments: string;
-    }];
+    handlerMappings: HandlerMapping[];
     linuxFxVersion: string;
     appCommandLine: string;
     virtualApplications: VirtualApplication[];

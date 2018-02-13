@@ -1,20 +1,16 @@
+import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { LogService } from './../../../shared/services/log.service';
 import { LogCategories } from './../../../shared/models/constants';
 import { SiteService } from 'app/shared/services/site.service';
-import { Injector } from '@angular/core';
-import { FeatureComponent } from 'app/shared/components/feature-component';
-import { BroadcastService } from './../../../shared/services/broadcast.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { VirtualApplication, VirtualDirectory } from './../../../shared/models/arm/virtual-application';
 import { SiteConfig } from './../../../shared/models/arm/site-config';
-import { SaveOrValidationResult } from './../site-config.component';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
@@ -24,7 +20,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
     templateUrl: './virtual-directories.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+export class VirtualDirectoriesComponent extends ConfigSaveComponent implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
@@ -39,22 +35,18 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
 
-    private _saveError: string;
     private _requiredValidator: RequiredValidator;
     private _uniqueValidator: UniqueValidator;
-    private _webConfigArm: ArmObj<SiteConfig>;
 
     constructor(
-        private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
         private _logService: LogService,
         private _authZService: AuthzService,
         private _siteService: SiteService,
-        broadcastService: BroadcastService,
         injector: Injector
     ) {
-        super('VirtualDirectoriesComponent', injector, 'site-tabs');
+        super('VirtualDirectoriesComponent', injector, ['SiteConfig'], 'site-tabs');
 
         this._resetPermissionsAndLoadingState();
 
@@ -62,12 +54,17 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
         this.originalItemsDeleted = 0;
     }
 
+    protected get _isPristine() {
+        return this.groupArray && this.groupArray.pristine;
+    }
+
     protected setup(inputEvents: Observable<ResourceId>) {
         return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
-                this._saveError = null;
-                this._webConfigArm = null;
+                this._saveFailed = false;
+                this._resetSubmittedStates();
+                this._resetConfigs();
                 this.groupArray = null;
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
@@ -84,9 +81,9 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
                     this._setupForm(null);
                     this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
                 } else {
-                    this._webConfigArm = results[0].result;
+                    this.siteConfigArm = results[0].result;
                     this._setPermissions(results[1], results[2]);
-                    this._setupForm(this._webConfigArm);
+                    this._setupForm(this.siteConfigArm);
                 }
 
                 this.loadingMessage = null;
@@ -99,13 +96,8 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
             this.setInput(this.resourceId);
         }
         if (changes['mainForm'] && !changes['resourceId']) {
-            this._setupForm(this._webConfigArm);
+            this._setupForm(this.siteConfigArm);
         }
-    }
-
-    ngOnDestroy(): void {
-        super.ngOnDestroy();
-        this.clearBusy();
     }
 
     private _resetPermissionsAndLoadingState() {
@@ -129,9 +121,9 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
         this.hasWritePermissions = writePermission && !readOnlyLock;
     }
 
-    private _setupForm(webConfigArm: ArmObj<SiteConfig>) {
-        if (!!webConfigArm) {
-            if (!this._saveError || !this.groupArray) {
+    private _setupForm(siteConfigArm: ArmObj<SiteConfig>) {
+        if (!!siteConfigArm) {
+            if (!this._saveFailed || !this.groupArray) {
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
@@ -143,8 +135,8 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
                     this._translateService.instant(PortalResources.validation_duplicateError),
                     this._getNormalizedVirtualPath);
 
-                if (webConfigArm.properties.virtualApplications) {
-                    webConfigArm.properties.virtualApplications.forEach(virtualApplication => {
+                if (siteConfigArm.properties.virtualApplications) {
+                    siteConfigArm.properties.virtualApplications.forEach(virtualApplication => {
                         this._addVDirToGroup(
                             virtualApplication.virtualPath,
                             virtualApplication.physicalPath,
@@ -179,7 +171,8 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
             }
         }
 
-        this._saveError = null;
+        this._saveFailed = false;
+        this._resetSubmittedStates();
     }
 
     private _getNormalizedVirtualPath(virtualPath: string): string {
@@ -219,7 +212,7 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
         return basePathAdjusted + subPathAdjusted;
     }
 
-    validate(): SaveOrValidationResult {
+    validate() {
         const groups = this.groupArray.controls;
 
         // Purge any added entries that were never modified
@@ -234,11 +227,6 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
         }
 
         this._validateAllControls(groups as CustomFormGroup[]);
-
-        return {
-            success: this.groupArray.valid,
-            error: this.groupArray.valid ? null : this._validationFailureMessage()
-        };
     }
 
     private _validateAllControls(groups: CustomFormGroup[]) {
@@ -252,88 +240,56 @@ export class VirtualDirectoriesComponent extends FeatureComponent<ResourceId> im
         });
     }
 
-    save(): Observable<SaveOrValidationResult> {
-        // Don't make unnecessary PATCH call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else if (this.mainForm.contains('virtualDirectories') && this.mainForm.controls['virtualDirectories'].valid) {
-            const virtualDirGroups = this.groupArray.controls;
+    protected _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
+        const siteConfigArm: ArmObj<SiteConfig> = (saveConfigs && saveConfigs.siteConfigArm) ?
+            JSON.parse(JSON.stringify(saveConfigs.siteConfigArm)) :
+            JSON.parse(JSON.stringify(this.siteConfigArm));
+        siteConfigArm.id = `${this.resourceId}/config/web`;
+        siteConfigArm.properties.virtualApplications = [];
 
-            const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
-            webConfigArm.properties = {};
+        const virtualApplications: VirtualApplication[] = siteConfigArm.properties.virtualApplications;
+        const virtualDirectories: VirtualDirectory[] = [];
 
-            const virtualApplications: VirtualApplication[] = [];
-            const virtualDirectories: VirtualDirectory[] = [];
-
-            virtualDirGroups.forEach(group => {
-                if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
-                    const formGroup = (group as FormGroup);
-                    if (formGroup.controls['isApplication'].value) {
-                        virtualApplications.push({
-                            virtualPath: this._getNormalizedVirtualPath(formGroup.controls['virtualPath'].value),
-                            physicalPath: formGroup.controls['physicalPath'].value,
-                            virtualDirectories: []
-                        });
-                    } else {
-                        virtualDirectories.push({
-                            virtualPath: this._getNormalizedVirtualPath(formGroup.controls['virtualPath'].value),
-                            physicalPath: formGroup.controls['physicalPath'].value
-                        });
-                    }
-                }
-            });
-
-            // TODO: Prevent savinng config with no applictions defined
-            // if (virtualApplications.length === 0) { //DO SOMETHING - MAYBE HANDLE IN FRORM VALIDATION }
-            virtualApplications.sort((a, b) => { return b.virtualPath.length - a.virtualPath.length; });
-
-            virtualDirectories.forEach(virtualDirectory => {
-                let appFound = false;
-                const dirPathLen = virtualDirectory.virtualPath.length;
-                for (let i = 0; i < virtualApplications.length && !appFound; i++) {
-                    const appPathLen = virtualApplications[i].virtualPath.length;
-                    if (appPathLen < dirPathLen && virtualDirectory.virtualPath.startsWith(virtualApplications[i].virtualPath)) {
-                        appFound = true;
-                        virtualDirectory.virtualPath = virtualDirectory.virtualPath.substring(appPathLen);
-                        virtualApplications[i].virtualDirectories.push(virtualDirectory);
-                    }
-                }
-                // TODO: Prevent saving config with "orphan" virtual directory
-                // if (!parentFound) { // DO SOMETHING }
-            });
-
-            webConfigArm.properties.virtualApplications = virtualApplications;
-            return this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm)
-                .map(webConfigResponse => {
-                    this._webConfigArm = webConfigResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
+        this.groupArray.controls.forEach(group => {
+            if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+                const formGroup = (group as FormGroup);
+                if (formGroup.controls['isApplication'].value) {
+                    virtualApplications.push({
+                        virtualPath: this._getNormalizedVirtualPath(formGroup.controls['virtualPath'].value),
+                        physicalPath: formGroup.controls['physicalPath'].value,
+                        virtualDirectories: []
                     });
-                });
-        } else {
-            const failureMessage = this._validationFailureMessage();
-            this._saveError = failureMessage;
-            return Observable.of({
-                success: false,
-                error: failureMessage
-            });
-        }
-    }
+                } else {
+                    virtualDirectories.push({
+                        virtualPath: this._getNormalizedVirtualPath(formGroup.controls['virtualPath'].value),
+                        physicalPath: formGroup.controls['physicalPath'].value
+                    });
+                }
+            }
+        });
 
-    private _validationFailureMessage(): string {
-        const configGroupName = this._translateService.instant(PortalResources.feature_virtualDirectoriesName);
-        return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+        // TODO: Prevent savinng config with no applictions defined
+        // if (virtualApplications.length === 0) { //DO SOMETHING - MAYBE HANDLE IN FRORM VALIDATION }
+        virtualApplications.sort((a, b) => { return b.virtualPath.length - a.virtualPath.length; });
+
+        virtualDirectories.forEach(virtualDirectory => {
+            let appFound = false;
+            const dirPathLen = virtualDirectory.virtualPath.length;
+            for (let i = 0; i < virtualApplications.length && !appFound; i++) {
+                const appPathLen = virtualApplications[i].virtualPath.length;
+                if (appPathLen < dirPathLen && virtualDirectory.virtualPath.startsWith(virtualApplications[i].virtualPath)) {
+                    appFound = true;
+                    virtualDirectory.virtualPath = virtualDirectory.virtualPath.substring(appPathLen);
+                    virtualApplications[i].virtualDirectories.push(virtualDirectory);
+                }
+            }
+            // TODO: Prevent saving config with "orphan" virtual directory
+            // if (!parentFound) { // DO SOMETHING }
+        });
+
+        return {
+            siteConfigArm: siteConfigArm
+        };
     }
 
     deleteItem(group: FormGroup) {
