@@ -1,19 +1,16 @@
+import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { LogService } from './../../../shared/services/log.service';
 import { LogCategories } from './../../../shared/models/constants';
 import { SiteService } from './../../../shared/services/site.service';
-import { Injector } from '@angular/core';
-import { FeatureComponent } from 'app/shared/components/feature-component';
-import { BroadcastService } from './../../../shared/services/broadcast.service';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
+import { HandlerMapping } from './../../../shared/models/arm/handler-mapping';
 import { SiteConfig } from './../../../shared/models/arm/site-config';
-import { SaveOrValidationResult } from './../site-config.component';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
 import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { CacheService } from './../../../shared/services/cache.service';
 import { AuthzService } from './../../../shared/services/authz.service';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
 
@@ -22,7 +19,7 @@ import { RequiredValidator } from 'app/shared/validators/requiredValidator';
     templateUrl: './handler-mappings.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class HandlerMappingsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+export class HandlerMappingsComponent extends ConfigSaveComponent implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
@@ -37,21 +34,17 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
 
-    private _saveError: string;
     private _requiredValidator: RequiredValidator;
-    private _webConfigArm: ArmObj<SiteConfig>;
 
     constructor(
-        private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
         private _logService: LogService,
         private _authZService: AuthzService,
-        broadcastService: BroadcastService,
         private _siteService: SiteService,
         injector: Injector
     ) {
-        super('HandlerMappingsComponent', injector, 'site-tabs');
+        super('HandlerMappingsComponent', injector, ['SiteConfig'], 'site-tabs');
 
         this._resetPermissionsAndLoadingState();
 
@@ -62,8 +55,9 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
     protected setup(inputEvents: Observable<ResourceId>) {
         return inputEvents.distinctUntilChanged()
             .switchMap(() => {
-                this._saveError = null;
-                this._webConfigArm = null;
+                this._saveFailed = false;
+                this._resetSubmittedStates();
+                this._resetConfigs();
                 this.groupArray = null;
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
@@ -79,9 +73,9 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
                     this._setupForm(null);
                     this.loadingFailureMessage = this._translateService.instant(PortalResources.configLoadFailure);
                 } else {
-                    this._webConfigArm = results[0].result;
+                    this.siteConfigArm = results[0].result;
                     this._setPermissions(results[1], results[2]);
-                    this._setupForm(this._webConfigArm);
+                    this._setupForm(this.siteConfigArm);
                 }
 
                 this.loadingMessage = null;
@@ -89,18 +83,17 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
             });
     }
 
+    protected get _isPristine() {
+        return this.groupArray && this.groupArray.pristine;
+    }
+
     ngOnChanges(changes: SimpleChanges) {
         if (changes['resourceId']) {
             this.setInput(this.resourceId);
         }
         if (changes['mainForm'] && !changes['resourceId']) {
-            this._setupForm(this._webConfigArm);
+            this._setupForm(this.siteConfigArm);
         }
-    }
-
-    ngOnDestroy(): void {
-        super.ngOnDestroy();
-        this.clearBusy();
     }
 
     private _resetPermissionsAndLoadingState() {
@@ -124,18 +117,17 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
         this.hasWritePermissions = writePermission && !readOnlyLock;
     }
 
-
-    private _setupForm(webConfigArm: ArmObj<SiteConfig>) {
-        if (!!webConfigArm) {
-            if (!this._saveError || !this.groupArray) {
+    private _setupForm(siteConfigArm: ArmObj<SiteConfig>) {
+        if (!!siteConfigArm) {
+            if (!this._saveFailed || !this.groupArray) {
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
 
                 this._requiredValidator = new RequiredValidator(this._translateService);
 
-                if (webConfigArm.properties.handlerMappings) {
-                    webConfigArm.properties.handlerMappings.forEach(mapping => {
+                if (siteConfigArm.properties.handlerMappings) {
+                    siteConfigArm.properties.handlerMappings.forEach(mapping => {
                         const group = this._fb.group({
                             extension: [{ value: mapping.extension, disabled: !this.hasWritePermissions }, this._requiredValidator.validate.bind(this._requiredValidator)],
                             scriptProcessor: [{ value: mapping.scriptProcessor, disabled: !this.hasWritePermissions }, this._requiredValidator.validate.bind(this._requiredValidator)],
@@ -164,10 +156,11 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
             }
         }
 
-        this._saveError = null;
+        this._saveFailed = false;
+        this._resetSubmittedStates();
     }
 
-    validate(): SaveOrValidationResult {
+    validate() {
         const groups = this.groupArray.controls;
 
         // Purge any added entries that were never modified
@@ -182,11 +175,6 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
         }
 
         this._validateAllControls(groups as CustomFormGroup[]);
-
-        return {
-            success: this.groupArray.valid,
-            error: this.groupArray.valid ? null : this._validationFailureMessage()
-        };
     }
 
     private _validateAllControls(groups: CustomFormGroup[]) {
@@ -200,59 +188,29 @@ export class HandlerMappingsComponent extends FeatureComponent<ResourceId> imple
         });
     }
 
-    save(): Observable<SaveOrValidationResult> {
-        // Don't make unnecessary PATCH call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else if (this.mainForm.contains('handlerMappings') && this.mainForm.controls['handlerMappings'].valid) {
-            const handlerMappingGroups = this.groupArray.controls;
+    protected _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
+        const siteConfigArm: ArmObj<SiteConfig> = (saveConfigs && saveConfigs.siteConfigArm) ?
+            JSON.parse(JSON.stringify(saveConfigs.siteConfigArm)) :
+            JSON.parse(JSON.stringify(this.siteConfigArm));
+        siteConfigArm.id = `${this.resourceId}/config/web`;
+        siteConfigArm.properties.handlerMappings = [];
 
-            const webConfigArm: ArmObj<any> = JSON.parse(JSON.stringify(this._webConfigArm));
-            webConfigArm.properties = {};
+        const handlerMappings: HandlerMapping[] = siteConfigArm.properties.handlerMappings;
 
-            webConfigArm.properties.handlerMappings = [];
-            handlerMappingGroups.forEach(group => {
-                if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
-                    const formGroup: FormGroup = group as FormGroup;
-                    webConfigArm.properties.handlerMappings.push({
-                        extension: formGroup.controls['extension'].value,
-                        scriptProcessor: formGroup.controls['scriptProcessor'].value,
-                        arguments: formGroup.controls['arguments'].value,
-                    });
-                }
-            });
-
-            return this._cacheService.patchArm(`${this.resourceId}/config/web`, null, webConfigArm)
-                .map(webConfigResponse => {
-                    this._webConfigArm = webConfigResponse.json();
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
+        this.groupArray.controls.forEach(group => {
+            if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+                const formGroup: FormGroup = group as FormGroup;
+                handlerMappings.push({
+                    extension: formGroup.controls['extension'].value,
+                    scriptProcessor: formGroup.controls['scriptProcessor'].value,
+                    arguments: formGroup.controls['arguments'].value,
                 });
-        } else {
-            const failureMessage = this._validationFailureMessage();
-            this._saveError = failureMessage;
-            return Observable.of({
-                success: false,
-                error: failureMessage
-            });
-        }
-    }
+            }
+        });
 
-    private _validationFailureMessage(): string {
-        const configGroupName = this._translateService.instant(PortalResources.feature_handlerMappingsName);
-        return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+        return {
+            siteConfigArm: siteConfigArm
+        };
     }
 
     deleteItem(group: FormGroup) {
