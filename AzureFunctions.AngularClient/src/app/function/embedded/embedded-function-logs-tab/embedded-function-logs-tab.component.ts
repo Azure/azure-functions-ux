@@ -137,8 +137,8 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
         }
         return Observable.of(null);
       })
-      .do(null, e => {
-        return Observable.of(null);
+      .do(null, err => {
+        this.logContent = this._translateService.instant(PortalResources.logStreaming_failedToDownload).format(err.text());
       })
       .retry()
       .subscribe(r => {
@@ -147,8 +147,6 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
         } else {
           this.logContent = this._translateService.instant(PortalResources.logStreaming_noLogs);
         }
-      }, err => {
-        this.logContent = this._translateService.instant(PortalResources.logStreaming_failedToDownload).format(err.text());
       });
   }
 
