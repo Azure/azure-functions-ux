@@ -106,8 +106,7 @@ export class ApiNewComponent extends NavigableComponent {
                 }
                 if (res.proxies.isSuccessful) {
                     this.apiProxies = res.proxies.result;
-                } else if (res.proxies.error.errorId === errorIds.proxyJsonNotFound ||
-                    res.proxies.error.message === errorIds.proxyJsonNotFound) {
+                } else if (res.proxies.error.errorId === errorIds.proxyJsonNotFound) {
                     this.apiProxies = [];
                 } else {
                     this.showComponentError({

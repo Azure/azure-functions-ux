@@ -47,12 +47,12 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
                 let functionDescriptor: ArmFunctionDescriptor | null;
                 try {
                     siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(view.resourceId);
-                } catch {
+                } catch (_) {
                     siteDescriptor = null;
                 }
                 try {
                     functionDescriptor = new ArmFunctionDescriptor(view.resourceId);
-                } catch {
+                } catch (_) {
                     functionDescriptor = null;
                 }
                 return Object.assign(view, {

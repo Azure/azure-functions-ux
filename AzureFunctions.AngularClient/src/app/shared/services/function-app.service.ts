@@ -65,11 +65,18 @@ export class FunctionAppService {
         return this.getAppContext(resourceId)
             .concatMap(c => {
                 context = c;
-                return this._userService.getStartupInfo()
+                return this._userService.getStartupInfo();
             })
-            .concatMap(info => ArmUtil.isLinuxApp(context.site)
-                ? this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
-                : this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token)))
+            .concatMap(info => {
+                if (ArmUtil.isLinuxDynamic(context.site)) {
+                    // TODO: [ahmels] use ARM for token update
+                    return Observable.of({ json: () => '' });
+                } else if (ArmUtil.isLinuxApp(context.site)) {
+                    return this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
+                } else {
+                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
+                }
+            })
             .map(r => r.json());
     }
 
@@ -120,8 +127,11 @@ export class FunctionAppService {
         return client.execute({ resourceId: context.site.id }, t => Observable.zip(
             this._cacheService.get(context.urlTemplates.proxiesJsonUrl, false, this.headers(t))
                 .catch(err => err.status === 404
-                    ? Observable.throw(errorIds.proxyJsonNotFound)
-                    : Observable.throw(err)),
+                    ? Observable.throw({
+                        errorId: errorIds.proxyJsonNotFound,
+                        message: '',
+                        result: null
+                    }) : Observable.throw(err)),
             this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(t)),
             (p, s) => ({ proxies: p, schema: s.json() })
         ).map(r => {
@@ -204,13 +214,17 @@ export class FunctionAppService {
         return this.azure.executeWithConditions([], { resourceId: context.site.id }, t =>
             this.getExtensionVersionFromAppSettings(context)
                 .mergeMap(extensionVersion => {
+                    if (ArmUtil.isLinuxDynamic(context.site)) {
+                        extensionVersion = 'beta';
+                    }
+
                     const headers = this.portalHeaders(t);
                     if (this._globalStateService.showTryView) {
                         headers.delete('Authorization');
                     }
 
                     return this._cacheService.get(
-                        Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
+                        `${Constants.cdnHost}api/templates?runtime=${(extensionVersion || 'latest')}&cacheBreak=${window.appsvc.cacheBreakQuery}`,
                         true,
                         headers);
                 })
@@ -490,7 +504,7 @@ export class FunctionAppService {
                     headers.delete('Authorization');
                 }
 
-                return this._cacheService.get(`${Constants.serviceHost}api/bindingconfig?runtime=${extensionVersion}`, false, headers)
+                return this._cacheService.get(`${Constants.cdnHost}api/bindingconfig?runtime=${extensionVersion}&cacheBreak=${window.appsvc.cacheBreakQuery}`, false, headers)
             })
             .map(r => {
                 const object = r.json();

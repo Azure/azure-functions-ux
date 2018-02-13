@@ -3,7 +3,7 @@ import { FunctionAppService } from './../shared/services/function-app.service';
 import { FileUtilities } from './../shared/Utilities/file';
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { ConfigService } from './../shared/services/config.service';
-import { Component, QueryList, ViewChild, ViewChildren, OnDestroy, ElementRef, ChangeDetectorRef, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren, OnDestroy, ElementRef, ChangeDetectorRef, AfterViewInit, AfterContentInit, AfterViewChecked } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -40,7 +40,7 @@ import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
     templateUrl: './function-dev.component.html',
     styleUrls: ['./function-dev.component.scss']
 })
-export class FunctionDevComponent extends FunctionAppContextComponent implements AfterViewInit, AfterContentInit, OnDestroy {
+export class FunctionDevComponent extends FunctionAppContextComponent implements AfterViewInit, AfterContentInit, OnDestroy, AfterViewChecked {
     @ViewChild(FileExplorerComponent) fileExplorer: FileExplorerComponent;
     @ViewChild(RunHttpComponent) runHttp: RunHttpComponent;
     @ViewChildren(BusyStateComponent) BusyStates: QueryList<BusyStateComponent>;
@@ -51,6 +51,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     @ViewChild('editorContainer') editorContainer: ElementRef;
     @ViewChild('rightContainer') rightContainer: ElementRef;
     @ViewChild('bottomContainer') bottomContainer: ElementRef;
+    @ViewChild('selectKeys') selectKeys: ElementRef;
 
     public functionInfo: FunctionInfo;
     public functionUpdate: Subscription;
@@ -146,7 +147,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
     setup(): Subscription {
         return this.viewInfoEvents
-            .switchMap(functionView => { 
+            .switchMap(functionView => {
                 delete this.updatedTestContent;
                 delete this.runResult;
                 this.disabled = this._functionAppService.getFunctionAppEditMode(functionView.context)
@@ -162,7 +163,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             .subscribe(tuple => {
                 if (tuple[2].isSuccessful) {
                     const status = tuple[2].result;
-                    if (status.state !== 'Running' && status.state !== 'Default') {
+                    if (status.state === 'Error') {
                         status.errors = status.errors || [];
                         this.showComponentError({
                             message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart)
@@ -315,6 +316,12 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
     ngAfterViewInit() {
         this.onDisableTestData(this._disableTestDataAfterViewInit);
+    }
+
+    ngAfterViewChecked() {
+        if (this.showFunctionInvokeUrlModal) {
+            this.selectKeys.nativeElement.focus();
+        }
     }
 
     private setInvokeUrlVisibility() {

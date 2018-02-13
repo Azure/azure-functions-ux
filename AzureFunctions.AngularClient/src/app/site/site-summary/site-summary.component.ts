@@ -1,26 +1,16 @@
+import { SiteService } from './../../shared/services/site.service';
+import { Injector } from '@angular/core';
 import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories } from './../../shared/models/constants';
-import { BroadcastService } from './../../shared/services/broadcast.service';
-import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfigService } from './../../shared/services/config.service';
 import { PortalResources } from './../../shared/models/portal-resources';
 import { PortalService } from './../../shared/services/portal.service';
 import { Subscription } from './../../shared/models/subscription';
-import { Availability } from './../site-notifications/notifications';
 import { AiService } from './../../shared/services/ai.service';
 import { ArmObj } from './../../shared/models/arm/arm-obj';
 import { AppNode } from './../../tree-view/app-node';
@@ -30,13 +20,13 @@ import { GlobalStateService } from './../../shared/services/global-state.service
 import { LogService } from './../../shared/services/log.service';
 import { Router } from '@angular/router';
 import { Url } from './../../shared/Utilities/url';
-
 import { CacheService } from '../../shared/services/cache.service';
 import { AuthzService } from '../../shared/services/authz.service';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { Site } from '../../shared/models/arm/site';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { FeatureComponent } from 'app/shared/components/feature-component';
 
 @Component({
     selector: 'site-summary',
@@ -44,7 +34,7 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
     styleUrls: ['./site-summary.component.scss']
 })
 
-export class SiteSummaryComponent implements OnDestroy {
+export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
     public context: FunctionAppContext;
     public subscriptionId: string;
     public subscriptionName: string;
@@ -65,17 +55,14 @@ export class SiteSummaryComponent implements OnDestroy {
     public Resources = PortalResources;
     public showDownloadFunctionAppModal = false;
 
-    private _viewInfoStream: Subject<TreeViewInfo<SiteData>>;
     private _viewInfo: TreeViewInfo<SiteData>;
     private _subs: Subscription[];
     private _blobUrl: string;
     private _isSlot: boolean;
 
-    private _busyManager: BusyStateScopeManager;
-
     constructor(
         private _cacheService: CacheService,
-        authZService: AuthzService,
+        private _authZService: AuthzService,
         private _armService: ArmService,
         private _globalStateService: GlobalStateService,
         private _aiService: AiService,
@@ -88,26 +75,27 @@ export class SiteSummaryComponent implements OnDestroy {
         private _router: Router,
         userService: UserService,
         private _scenarioService: ScenarioService,
-        broadcastService: BroadcastService) {
+        private _siteService: SiteService,
+        injector: Injector) {
+
+        super('site-summary', injector, 'site-tabs');
+
+        this.featureName = 'site-summary';
+        this.isParentComponent = true;
 
         this.isStandalone = _configService.isStandalone();
-
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
         userService.getStartupInfo()
             .first()
             .subscribe(info => {
                 this._subs = info.subscriptions;
             });
+    }
 
-        this._viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
-        this._viewInfoStream
+    protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
+        return inputEvents
             .switchMap(viewInfo => {
                 this._viewInfo = viewInfo;
-                this._portalService.sendTimerEvent({
-                    timerId: 'TreeViewLoad',
-                    timerAction: 'stop'
-                });
                 const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
                 return this._functionAppService.getAppContext(siteDescriptor.getTrimmedResourceId());
             })
@@ -137,10 +125,9 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 const serverFarm = context.site.properties.serverFarmId.split('/')[8];
                 this.plan = `${serverFarm} (${context.site.properties.sku.replace('Dynamic', 'Consumption')})`;
-                this._isSlot = _functionAppService.isSlot(context);
+                this._isSlot = this._functionAppService.isSlot(context);
 
-                this._busyManager.clearBusy();
-                this._aiService.stopTrace('/timings/site/tab/overview/revealed', this._viewInfo.data.siteTabRevealedTraceKey);
+                this.clearBusyEarly();
 
                 this.hideAvailability = this._scenarioService.checkScenario(ScenarioIds.showSiteAvailability, { site: context.site }).status === 'disabled';
 
@@ -148,19 +135,10 @@ export class SiteSummaryComponent implements OnDestroy {
                 // cases where this causes a false positive, the backend will take care of giving a graceful failure.
                 this.hasWriteAccess = true;
 
-                this._portalService.sendTimerEvent({
-                    timerId: 'ClickToOverviewInputsSet',
-                    timerAction: 'stop'
-                });
-                this._portalService.sendTimerEvent({
-                    timerId: 'ClickToOverviewConstructor',
-                    timerAction: 'stop'
-                });
-
                 return Observable.zip(
-                    authZService.hasPermission(context.site.id, [AuthzService.writeScope]),
-                    authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
-                    authZService.hasReadOnlyLock(context.site.id),
+                    this._authZService.hasPermission(context.site.id, [AuthzService.writeScope]),
+                    this._authZService.hasPermission(context.site.id, [AuthzService.actionScope]),
+                    this._authZService.hasReadOnlyLock(context.site.id),
                     this._functionAppService.getSlotsList(context),
                     (p, s, l, slots) => ({
                         hasWritePermission: p,
@@ -177,49 +155,19 @@ export class SiteSummaryComponent implements OnDestroy {
                     this.hasSwapAccess = this.hasWriteAccess && r.hasSwapPermission;
                 }
 
-                let getAvailabilityObservible = Observable.of(null);
-                if (!this.hideAvailability) {
-                    const availabilityId = `${this.context.site.id}/providers/Microsoft.ResourceHealth/availabilityStatuses/current`;
-                    getAvailabilityObservible = this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion).catch((e: any) => {
-                        // this call fails with 409 is Microsoft.ResourceHealth is not registered
-                        if (e.status === 409) {
-                            return this._cacheService.postArm(`/subscriptions/${this.subscriptionId}/providers/Microsoft.ResourceHealth/register`)
-                                .mergeMap(() => {
-                                    return this._cacheService.getArm(availabilityId, false, ArmService.availabilityApiVersion);
-                                })
-                                .catch(() => {
-                                    return Observable.of(null);
-                                });
-                        }
-                        return Observable.of(null);
-                    });
-                }
-
-                return getAvailabilityObservible;
+                return !this.hideAvailability
+                    ? this._siteService.getAvailability(this.context.site.id)
+                    : Observable.of(null);
             })
-            .mergeMap(res => {
-                const availability: ArmObj<Availability> = res && res.json();
-                this._setAvailabilityState(!!availability ? availability.properties.availabilityState : AvailabilityStates.unknown);
-                return Observable.of(res);
-            })
-            .do(null, e => {
-                this._busyManager.clearBusy();
-
-                if (!this._globalStateService.showTryView) {
-                    this._aiService.trackException(e, 'site-summary');
+            .do(res => {
+                if (res && res.isSuccessful) {
+                    this._setAvailabilityState(res.result.properties.availabilityState);
+                } else if (!this._globalStateService.showTryView) {
+                    this._setAvailabilityState(AvailabilityStates.unknown);
                 } else {
                     this._setAvailabilityState(AvailabilityStates.available);
                     this.plan = 'Trial';
                 }
-            })
-            .retry()
-            .subscribe((res: any) => {
-                if (!res) {
-                    return;
-                }
-
-                // I'm leaving this one here for now so it measures every call
-                this._aiService.stopTrace('/timings/site/tab/overview/full-ready', this._viewInfo.data.siteTabFullReadyTraceKey);
             });
     }
 
@@ -232,7 +180,7 @@ export class SiteSummaryComponent implements OnDestroy {
             return;
         }
 
-        this._viewInfoStream.next(viewInfo);
+        this.setInput(viewInfo);
     }
 
     ngOnDestroy() {
@@ -314,7 +262,7 @@ export class SiteSummaryComponent implements OnDestroy {
         if (confirmResult) {
 
             let notificationId = null;
-            this._busyManager.setBusy();
+            this.setBusy();
             this._portalService.startNotification(
                 this.ts.instant(PortalResources.siteSummary_resetProfileNotifyTitle),
                 this.ts.instant(PortalResources.siteSummary_resetProfileNotifyTitle))
@@ -324,14 +272,14 @@ export class SiteSummaryComponent implements OnDestroy {
                     return this._armService.post(`${this.context.site.id}/newpassword`, null);
                 })
                 .subscribe(() => {
-                    this._busyManager.clearBusy();
+                    this.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         true,
                         this.ts.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
                 },
                 e => {
-                    this._busyManager.clearBusy();
+                    this.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         false,
@@ -352,7 +300,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
         const confirmResult = confirm(this.ts.instant(PortalResources.siteSummary_restartConfirmation).format(this.context.site.name));
         if (confirmResult) {
-            this._busyManager.setBusy();
+            this.setBusy();
 
             this._portalService.startNotification(
                 this.ts.instant(PortalResources.siteSummary_restartNotifyTitle).format(site.name),
@@ -363,21 +311,21 @@ export class SiteSummaryComponent implements OnDestroy {
                     return this._armService.post(`${site.id}/restart`, null);
                 })
                 .subscribe(() => {
-                    this._busyManager.clearBusy();
+                    this.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         true,
                         this.ts.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
                 },
                 e => {
-                    this._busyManager.clearBusy();
+                    this.clearBusy();
                     this._portalService.stopNotification(
                         notificationId,
                         false,
                         this.ts.instant(PortalResources.siteSummary_restartNotifyFail).format(site.name));
 
                     this._aiService.trackException(e, '/errors/site-summary/restart-app');
-                }, () => this._busyManager.clearBusy());
+                }, () => this.clearBusy());
         }
     }
 
@@ -453,7 +401,7 @@ export class SiteSummaryComponent implements OnDestroy {
             ? this.ts.instant(PortalResources.siteSummary_stopNotifyTitle).format(site.name)
             : this.ts.instant(PortalResources.siteSummary_startNotifyTitle).format(site.name);
 
-        this._busyManager.setBusy();
+        this.setBusy();
 
         this._portalService.startNotification(notifyTitle, notifyTitle)
             .first()
@@ -463,7 +411,7 @@ export class SiteSummaryComponent implements OnDestroy {
                     .concatMap(() => this._cacheService.getArm(`${site.id}`, true));
             })
             .subscribe(r => {
-                this._busyManager.clearBusy();
+                this.clearBusy();
                 const refreshedSite: ArmObj<Site> = r.json();
 
                 // Current site could have changed if user clicked away
@@ -483,7 +431,7 @@ export class SiteSummaryComponent implements OnDestroy {
                 appNode.refresh();
             },
             e => {
-                this._busyManager.clearBusy();
+                this.clearBusy();
                 const notifyFail = stop
                     ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
                     : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
@@ -495,7 +443,7 @@ export class SiteSummaryComponent implements OnDestroy {
 
                 this._aiService.trackException(e, '/errors/site-summary/stop-start');
             },
-            () => this._busyManager.clearBusy());
+            () => this.clearBusy());
     }
 
     openSwapBlade() {
@@ -525,15 +473,15 @@ export class SiteSummaryComponent implements OnDestroy {
         const appsNode = appNode.parent;
         appsNode.select(true);
 
-        this._busyManager.setBusy();
+        this.setBusy();
         this._cacheService.deleteArm(this.context.site.id)
             .subscribe(r => {
-                this._busyManager.clearBusy();
+                this.clearBusy();
                 appsNode.refresh();
                 this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
             }, err => {
                 this._logService.error(LogCategories.subsCriptions, '/delete-app', err);
-                this._busyManager.clearBusy();
+                this.clearBusy();
                 this._router.navigate(['/resources/apps'], { queryParams: Url.getQueryStringObj() });
             });
     }

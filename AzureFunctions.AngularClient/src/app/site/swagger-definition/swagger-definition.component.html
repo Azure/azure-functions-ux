@@ -114,11 +114,23 @@
                     </pop-over>
                 </div>
                 <div class="header right">
-                    <span class="link" *ngIf="!isFullscreen" (click)="isFullscreen = true" tabindex="0" (keydown)="expandCollapseKeyDown($event)">
+                    <span class="link"
+                          *ngIf="!isFullscreen"
+                          (click)="isFullscreen = true"
+                          tabindex="0"
+                          role="button"
+                          attr.aria-label="{{'swaggerDefinition_expand' | translate}}"
+                          (keydown)="expandCollapseKeyDown($event)">
                         <i class="fa fa-expand"></i>
                         {{'swaggerDefinition_expand' | translate}}
                     </span>
-                    <span class="link" *ngIf="isFullscreen" (click)="isFullscreen = false" tabindex="0" (keydown)="expandCollapseKeyDown($event)">
+                    <span class="link"
+                          *ngIf="isFullscreen"
+                          (click)="isFullscreen = false"
+                          tabindex="0"
+                          role="button"
+                          attr.aria-label="{{'swaggerDefinition_collapse' | translate}}"
+                          (keydown)="expandCollapseKeyDown($event)">
                         <i class="fa fa-compress"></i>
                         {{'swaggerDefinition_collapse' | translate}}
                     </span>

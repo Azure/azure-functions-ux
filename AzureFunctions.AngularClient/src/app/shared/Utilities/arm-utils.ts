@@ -20,6 +20,12 @@ export namespace ArmUtil {
             obj.kind.toLocaleLowerCase().indexOf('linux') !== -1;
     }
 
+    export function isLinuxDynamic(obj: ArmObj<Site> | FunctionContainer) {
+        return isLinuxApp(obj) &&
+            obj.properties.sku &&
+            obj.properties.sku.toLocaleLowerCase() === 'dynamic';
+    }
+
     export function mapArmSiteToContext(obj: ArmObj<Site>, injector: Injector): FunctionAppContext {
         const template = new UrlTemplates(obj, injector);
         return {

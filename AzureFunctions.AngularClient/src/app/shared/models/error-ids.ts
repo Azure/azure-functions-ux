@@ -14,6 +14,7 @@ export namespace errorIds {
         export const scopeLocked = '/errors/arm/scopelocked';
     }
 
+    export const unknown = 'errors/unknown-error';
     export const functionNotFound = '/errors/functionNotFound';
     export const unableToRetrieveFileContent = '/errors/UnableToRetrieveFileContent';
     export const deserializingKudusFunctionList = '/errors/deserializingKudusFunctionList';

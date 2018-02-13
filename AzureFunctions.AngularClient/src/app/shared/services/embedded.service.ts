@@ -28,38 +28,38 @@ export class EmbeddedService {
         delete filesCopy['sample.dat'];
 
         return this._userService.getStartupInfo()
-        .first()
-        .switchMap(info => {
-            const headers = this._getHeaders(info);
-            const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
-            const url = context.urlTemplates.getFunctionUrl(functionName);
-            return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo);
-        })
-        .do(() => {
-            const smallerSiteId = context.site.id.split('/').filter(part => !!part).slice(0, 4).join('/');
-            const functionsUrl = `${ArmEmbeddedService.url}/${smallerSiteId}/functions`;
-            this._cacheService.clearCachePrefix(functionsUrl);
-        })
-        .map((r: FunctionInfo) => {
-            const result: HttpResult<FunctionInfo> = {
-                isSuccessful: true,
-                error: null,
-                result: r
-            };
-            return result;
-        })
-        .catch(e => {
-            const result: HttpResult<FunctionInfo> = {
-                isSuccessful: false,
-                error: {
-                    errorId: errorIds.embeddedCreateError,
-                    message: 'Failed to create function'
-                },
-                result: null
-            };
+            .first()
+            .switchMap(info => {
+                const headers = this._getHeaders(info);
+                const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
+                const url = context.urlTemplates.getFunctionUrl(functionName);
+                return this._cacheService.put(url, headers, content).map(r => r.json() as FunctionInfo);
+            })
+            .do(() => {
+                const smallerSiteId = context.site.id.split('/').filter(part => !!part).slice(0, 4).join('/');
+                const functionsUrl = `${ArmEmbeddedService.url}/${smallerSiteId}/functions`;
+                this._cacheService.clearCachePrefix(functionsUrl);
+            })
+            .map((r: FunctionInfo) => {
+                const result: HttpResult<FunctionInfo> = {
+                    isSuccessful: true,
+                    error: null,
+                    result: r
+                };
+                return result;
+            })
+            .catch(e => {
+                const result: HttpResult<FunctionInfo> = {
+                    isSuccessful: false,
+                    error: {
+                        errorId: errorIds.embeddedCreateError,
+                        message: e._body
+                    },
+                    result: null
+                };
 
-            return Observable.of(result);
-        });
+                return Observable.of(result);
+            });
     }
 
     deleteFunction(resourceId: string): Observable<HttpResult<void>> {
@@ -123,7 +123,7 @@ export class EmbeddedService {
             });
     }
 
-    private _getHeaders(info: StartupInfo){
+    private _getHeaders(info: StartupInfo) {
         const headers = this._armService.getHeaders();
         headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
         headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);

@@ -16,6 +16,9 @@ import { getBindingConfig, getResources, getRuntimeVersion, getRoutingVersion, g
 import { staticConfig } from './config';
 import { setupDeploymentCenter } from './deployment-center/deployment-center';
 import { triggerFunctionAPIM } from './actions/apim';
+import { NextFunction } from 'express';
+import { getLinuxRuntimeToken } from './actions/linux-function-app';
+
 const cookieSession = require('cookie-session');
 const appInsights = require('applicationinsights');
 if (process.env.aiInstrumentationKey) {
@@ -40,6 +43,7 @@ app
     .use(logger('combined'))
     .set('view engine', 'pug')
     .set('views', 'src/views')
+    .set('view cache', true)
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: true }))
     .use(cookieParser())
@@ -54,12 +58,28 @@ app
             }
         })
     );
+const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
+    if (!req.query.trustedAuthority) {
+        res.redirect('https://azure.microsoft.com/services/functions/');
+    }
+    else {
+        next();
+    }
+};
 
 const renderIndex = (req: express.Request, res: express.Response) => {
     staticConfig.config.clientOptimzationsOff = req.query['appsvc.clientoptimizations'] && req.query['appsvc.clientoptimizations'] === 'false';
     res.render('index', staticConfig);
 };
-app.get('/', renderIndex);
+app.get('/', redirectToAcom, renderIndex);
+
+app.get('/signin', (_, res) => {
+    res.redirect('https://portal.azure.com')
+});
+
+app.get('/try', (_, res) => {
+    res.redirect('https://www.tryfunctions.com/try')
+});
 
 app.get('/api/ping', (_, res) => {
     res.send('success');
@@ -79,6 +99,7 @@ app.get('/api/config', getConfig);
 app.post('/api/proxy', proxy);
 app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
+app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
 
 setupDeploymentCenter(app);
 // if are here, that means we didn't match any of the routes above including those for static content.

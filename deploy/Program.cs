@@ -27,8 +27,6 @@ namespace Deploy
                 .StandardDeployment
                 .Call("npm", $"config set prefix {toolsDirectory}")
                 .Call("npm", "install -g yarn")
-                .Call("nuget", $"restore {deploymentSource}\\AzureFunctions.sln")
-                .Call(msBuild, $@"{deploymentSource}\AzureFunctions\AzureFunctions.csproj /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir=""%DEPLOYMENT_TEMP%"";AutoParameterizationWebConfigConnectionStrings=false;Configuration=Release;UseSharedCompilation=false  /p:DeleteExistingFiles=False /p:SolutionDir=""{deploymentSource}\.\\"" %SCM_BUILD_ARGS%")
                 .KuduSync()
                 .ChangeDirectory($@"{deploymentSource}\AzureFunctions.AngularClient")
                 .Call(yarn, "install", tries: 2)
@@ -38,8 +36,6 @@ namespace Deploy
                 .Call(ng, $"build --progress false --output-path=\"{deploymentTempTarget}\\ng-full\"", tries: 2)
                 .CopyDirectory($@"{deploymentTempTarget}\ng-min", $@"{deploymentTarget}\ng-min")
                 .CopyDirectory($@"{deploymentTempTarget}\ng-full", $@"{deploymentTarget}\ng-full")
-                .UpdateCshtml()
-                .SetupTemplatesWebJob()
                 .UpdateBuildTxt()
                 .CopyFile($@"{assets}\googlecdaac16e0f037ee3.html", $@"{deploymentTarget}\googlecdaac16e0f037ee3.html")
                 .CopyDirectory($@"{assets}\schemas", $@"{deploymentTarget}\schemas")

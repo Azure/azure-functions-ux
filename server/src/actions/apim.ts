@@ -2,19 +2,19 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { Request, Response } from 'express';
 import { IncomingMessageHeaders } from 'http';
 
-interface TriggerRequest{
+interface TriggerRequest {
     body: string;
     url: string;
 }
 
-export function triggerFunctionAPIM(req: Request, res: Response){
-    if(!process.env.APIMSubscriptionKey){
+export function triggerFunctionAPIM(req: Request, res: Response) {
+    if (!process.env.APIMSubscriptionKey) {
         res.status(500).send('APIMSubscriptionKey is not defined');
         return;
     }
 
     const content = req.body as TriggerRequest;
-    const headers: IncomingMessageHeaders = { };
+    const headers: IncomingMessageHeaders = {};
     headers['Content-Type'] = 'application/json';
     headers['Accept'] = 'application/json';
     headers['Cache-Control'] = 'no-cache';
@@ -30,10 +30,10 @@ export function triggerFunctionAPIM(req: Request, res: Response){
 
     axios.request(request)
         .then(r => res.send(r.data))
-        .catch(e =>{
+        .catch(e => {
             if (e.response && e.response.status) {
                 let message = e.message;
-                if(e.response.data){
+                if (e.response.data) {
                     message = e.response.data;
                 }
                 res.status(e.response.status).send(message);

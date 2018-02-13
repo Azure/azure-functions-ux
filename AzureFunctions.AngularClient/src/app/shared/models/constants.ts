@@ -14,6 +14,8 @@ export class Constants {
         ? `https://${window.location.hostname}:${window.location.port}/`
         : `https://${window.location.hostname}/`;
 
+    public static cdnHost = !!window.appsvc.cdn ? `${window.appsvc.cdn}/` : Constants.serviceHost;
+    public static cdnNgMin = !!window.appsvc.cdn ? `${window.appsvc.cdn}/ng-min/` : '';
     public static nodeVersion = '6.5.0';
     public static latest = 'latest';
     public static disabled = 'disabled';
@@ -193,6 +195,7 @@ export class ScenarioIds {
     public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
     public static readonly downloadWithVsProj = 'DownloadWithVsProj';
     public static readonly openOldWebhostingPlanBlade = 'OpenOldWebhostingPlanBlade';
+    public static readonly listExtensionsArm = 'ListExtensionsArm';
 }
 
 export class ServerFarmSku {
@@ -238,7 +241,7 @@ export class LogCategories {
     public static readonly functionNew = 'FunctionNew';
     public static readonly cicd = 'CICD';
     public static readonly telemetry = 'Telemetry';
-    public static readonly featureLoading = 'FeatureLoading';
+    public static readonly featureComponent = 'FeatureComponent';
 }
 
 export class KeyCodes {
