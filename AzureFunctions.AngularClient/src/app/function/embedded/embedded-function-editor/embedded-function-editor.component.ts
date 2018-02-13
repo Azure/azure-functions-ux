@@ -137,8 +137,6 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
   setBottomBarState(expanded: boolean) {
     this.bottomBarExpanded = expanded;
 
-    console.log('editor bottom bar expanded - ' + this.bottomBarExpanded);
-
     setTimeout(() => {
       this.codeEditor.resize();
     });
@@ -170,22 +168,22 @@ export class EmbeddedFunctionEditorComponent implements OnInit, AfterContentInit
     if (result) {
       this._busyManager.setBusy();
       this._embeddedService.deleteFunction(this.resourceId)
-      .subscribe(r => {
+        .subscribe(r => {
           if (r.isSuccessful) {
-              this._busyManager.clearBusy();
-              this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
-                  resourceId: this.resourceId,
-                  operation: 'remove'
-              });
+            this._busyManager.clearBusy();
+            this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
+              resourceId: this.resourceId,
+              operation: 'remove'
+            });
           } else {
-              this._busyManager.clearBusy();
-              this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                  message: r.error.message,
-                  errorId: r.error.errorId,
-                  resourceId: this.resourceId,
-                });
+            this._busyManager.clearBusy();
+            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+              message: r.error.message,
+              errorId: r.error.errorId,
+              resourceId: this.resourceId,
+            });
           }
-      });
+        });
     }
   }
 }
