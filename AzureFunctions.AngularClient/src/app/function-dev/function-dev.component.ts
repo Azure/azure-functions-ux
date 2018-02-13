@@ -147,7 +147,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
     setup(): Subscription {
         return this.viewInfoEvents
-            .switchMap(functionView => { 
+            .switchMap(functionView => {
                 delete this.updatedTestContent;
                 delete this.runResult;
                 this.disabled = this._functionAppService.getFunctionAppEditMode(functionView.context)
@@ -163,7 +163,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             .subscribe(tuple => {
                 if (tuple[2].isSuccessful) {
                     const status = tuple[2].result;
-                    if (status.state !== 'Running' && status.state !== 'Default') {
+                    if (status.state === 'Error') {
                         status.errors = status.errors || [];
                         this.showComponentError({
                             message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart)

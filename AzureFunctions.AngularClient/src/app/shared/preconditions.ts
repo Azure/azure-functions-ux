@@ -44,9 +44,9 @@ export namespace Preconditions {
 
         // Can't reference the FunctionAppService here since that service creates these preconditions
         // and would create a stack overflow.
-        protected getFunctionAppContext(resourceId: string){
+        protected getFunctionAppContext(resourceId: string) {
             return this.cacheService.getArm(resourceId)
-            .map(r => ArmUtil.mapArmSiteToContext(r.json(), this.injector));
+                .map(r => ArmUtil.mapArmSiteToContext(r.json(), this.injector));
         }
     }
 
@@ -173,7 +173,7 @@ export namespace Preconditions {
                 .map(r => {
                     const status: HostStatus = r.json();
                     return {
-                        conditionMet: status.state === 'running',
+                        conditionMet: status.state !== 'Error',
                         errorId: errorIds.preconditionsErrors.runtimeIsNotAvailable
                     };
                 })
