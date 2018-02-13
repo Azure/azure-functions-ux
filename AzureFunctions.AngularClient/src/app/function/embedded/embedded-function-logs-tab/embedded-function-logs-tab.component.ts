@@ -120,10 +120,6 @@ export class EmbeddedFunctionLogsTabComponent extends BottomTabComponent impleme
       .switchMap(t => {
         return this._cacheService.getArm(`${this.resourceId}/logs`, true);
       })
-      .do(null, e => {
-        return Observable.of(null);
-      })
-      .retry()
       .switchMap(r => {
         if (r) {
           const files: VfsObject[] = r.json();
