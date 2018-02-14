@@ -49,6 +49,17 @@ export class PortalService {
         return (Url.getParameterByName(null, 'tabbed') === 'true');
     }
 
+    // eventually move to sever
+    public static getEmbeddedRP(): string {
+        const host = Url.getHostName(window.location.href);
+        if (host) {
+            if (window.location.host.indexOf('next') !== -1 || window.location.host.indexOf('local') !== -1) {
+                return 'https://blueridge-tip1-rp-westus.azurewebsites.net';
+            }
+        }
+        return 'https://blueridge-rp-westus.azurewebsites.net';
+    }
+
     constructor(private _broadcastService: BroadcastService, private _aiService: AiService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
