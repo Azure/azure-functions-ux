@@ -10,7 +10,7 @@ import { ArmService } from './arm.service';
 
 @Injectable()
 export class ArmEmbeddedService extends ArmService {
-    public static url = 'https://blueridge-tip1-rp-westus.azurewebsites.net';
+    public static url = PortalService.getEmbeddedRP();
 
     public websiteApiVersion = '2018-02-01-preview';
 
