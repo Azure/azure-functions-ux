@@ -13,7 +13,6 @@ namespace Deploy.Extensions
             ("inline.*.bundle.js", "{{INLINE}}"),
             ("polyfills.*.bundle.js", "{{POLYFILLS}}"),
             ("scripts.*.bundle.js", "{{SCRIPTS}}"),
-            ("vendor.*.bundle.js", "{{VENDOR}}"),
             ("main.*.bundle.js", "{{MAIN}}"),
             ("styles.*.bundle.css", "{{STYLES}}")
         };
