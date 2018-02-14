@@ -769,20 +769,53 @@ export class FunctionAppService {
                         ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
                         : false;
                     const usingRunFromZip = appSettings ? appSettings.properties[Constants.WebsiteUseZip] || '' : '';
+                    const hasSlots = result.hasSlots;
+
+                    const resolveReadOnlyMode = () => {
+                        if (sourceControlled) {
+                            return FunctionAppEditMode.ReadOnlySourceControlled;
+                        } else if (vsCreatedFunc) {
+                            return FunctionAppEditMode.ReadOnlyVSGenerated;
+                        } else if (hasSlots) {
+                            return FunctionAppEditMode.ReadOnly;
+                        } else {
+                            return FunctionAppEditMode.ReadOnly;
+                        };
+                    };
+
+                    const resolveReadWriteMode = () => {
+                        if (sourceControlled) {
+                            return FunctionAppEditMode.ReadWriteSourceControlled;
+                        } else if (vsCreatedFunc) {
+                            return FunctionAppEditMode.ReadWriteVSGenerated;
+                        } else if (hasSlots) {
+                            return FunctionAppEditMode.ReadWrite;
+                        } else {
+                            return FunctionAppEditMode.ReadWrite;
+                        };
+                    };
+
+                    const resolveUndefined = () => {
+                        if (sourceControlled) {
+                            return FunctionAppEditMode.ReadOnlySourceControlled;
+                        } else if (vsCreatedFunc) {
+                            return FunctionAppEditMode.ReadOnlyVSGenerated;
+                        } else if (hasSlots) {
+                            return FunctionAppEditMode.ReadOnlySlots;
+                        } else {
+                            return FunctionAppEditMode.ReadWrite;
+                        };
+                    };
 
                     // TODO: [ahmels] ignore dynamic linux apps with that app setting for now
                     if (usingRunFromZip && !ArmUtil.isLinuxDynamic(context.site)) {
                         return FunctionAppEditMode.ReadOnlyRunFromZip;
-                    } else if (vsCreatedFunc && (editModeSettingString === Constants.ReadOnlyMode || editModeSettingString === '')) {
-                        return FunctionAppEditMode.ReadOnlyVSGenerated;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
-                        return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
+                        return resolveReadWriteMode();
                     } else if (editModeSettingString === Constants.ReadOnlyMode) {
-                        return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadOnly;
-                    } else if (sourceControlled) {
-                        return FunctionAppEditMode.ReadOnlySourceControlled;
+                        return resolveReadOnlyMode();
                     } else {
-                        return result.hasSlots.result ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
+                        return resolveUndefined();
                     }
                 })
                 .catch(() => Observable.of(FunctionAppEditMode.ReadWrite)));
