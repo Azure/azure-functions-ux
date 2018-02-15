@@ -20,10 +20,11 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
     // There should only be one parent component per feature
     isParentComponent = false;
 
-    private _inputEvents = new Subject<T>();
-    private _ngUnsubscribe = new Subject();
-    private _busyManager: BusyStateScopeManager;
-    private _busyClearedEarly = false;
+    protected ngUnsubscribe: Subject<void>;
+
+    private __inputEvents = new Subject<T>();
+    private __busyManager: BusyStateScopeManager;
+    private __busyClearedEarly = false;
 
     private __logService: LogService;
     private __telemetryService: TelemetryService;
@@ -35,21 +36,23 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
 
         super(componentName, injector.get(BroadcastService));
 
+        this.ngUnsubscribe = new Subject();
+
         this.__telemetryService = injector.get(TelemetryService);
         this.__logService = injector.get(LogService);
         if (busyComponentName) {
-            this._busyManager = new BusyStateScopeManager(this._broadcastService, busyComponentName);
+            this.__busyManager = new BusyStateScopeManager(this._broadcastService, busyComponentName);
         }
 
-        const preCheckEvents = this._inputEvents
-            .takeUntil(this._ngUnsubscribe)
+        const preCheckEvents = this.__inputEvents
+            .takeUntil(this.ngUnsubscribe)
             .do(input => {
 
                 if (this.isParentComponent) {
                     this.__telemetryService.featureConstructComplete(this.featureName);
                 }
 
-                if (this._busyManager) {
+                if (this.__busyManager) {
                     this.setBusy();
 
                     this.__telemetryService.featureLoading(
@@ -64,9 +67,9 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
             });
 
         this.setup(preCheckEvents)
-            .takeUntil(this._ngUnsubscribe)
+            .takeUntil(this.ngUnsubscribe)
             .subscribe(r => {
-                if (!this._busyClearedEarly && this._busyManager) {
+                if (!this.__busyClearedEarly && this.__busyManager) {
                     this.__logService.verbose(
                         LogCategories.featureComponent,
                         `Clearing busy normally componentName: ${this.componentName}`);
@@ -84,11 +87,11 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
     }
 
     protected setInput(input: T) {
-        this._inputEvents.next(input);
+        this.__inputEvents.next(input);
     }
 
     protected setBusy() {
-        if (!this._busyManager) {
+        if (!this.__busyManager) {
             throw Error(`No busy manager defined, component: ${this.componentName}`);
         }
 
@@ -96,18 +99,18 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
             throw Error(`featureName must be defined for the featureComponent ${this.componentName}`);
         }
 
-        this.__logService.verbose(
+        this.__logService.debug(
             LogCategories.featureComponent,
             `Setting busy componentName: ${this.componentName}`);
 
-        this._busyManager.setBusy();
+        this.__busyManager.setBusy();
     }
 
     // Use this to clear the busy state before the initial setup observable has
     // completed loading.  This is useful if the main parts of your UI are ready
     // to be used, but you still want to load some stuff in the background.
     protected clearBusyEarly() {
-        this._busyClearedEarly = true;
+        this.__busyClearedEarly = true;
         this.__telemetryService.featureLoadingComplete(this.featureName, this.componentName);
         this.__logService.verbose(
             LogCategories.featureComponent,
@@ -117,7 +120,7 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
     }
 
     protected clearBusy() {
-        if (!this._busyManager) {
+        if (!this.__busyManager) {
             throw Error(`No busy manager defined, component: ${this.componentName}`);
         }
 
@@ -125,16 +128,19 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
             throw Error(`featureName must be defined for the featureComponent ${this.componentName}`);
         }
 
-        this.__logService.verbose(
+        this.__logService.debug(
             LogCategories.featureComponent,
             `Clearing busy componentName: ${this.componentName}`);
 
-        this._busyManager.clearBusy();
+        this.__busyManager.clearBusy();
     }
 
     protected abstract setup(inputEvents: Observable<T>): Observable<any>;
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this.ngUnsubscribe.next();
+        if (this.__busyManager) {
+            this.__busyManager.clearBusy();
+        }
     }
 }

@@ -1,18 +1,12 @@
-import { LogCategories } from './../shared/models/constants';
+import { SiteService } from './../shared/services/site.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { LogService } from './../shared/services/log.service';
 import { Component, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import 'rxjs/add/operator/mergeMap';
-
 import { SlotsService } from '../shared/services/slots.service';
 import { SlotsNode } from '../tree-view/slots-node';
-import { GlobalStateService } from '../shared/services/global-state.service';
-import { BroadcastService } from '../shared/services/broadcast.service';
 import { AiService } from '../shared/services/ai.service';
-import { CacheService } from '../shared/services/cache.service';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { Site } from '../shared/models/arm/site';
 import { PortalService } from '../shared/services/portal.service';
@@ -23,17 +17,8 @@ import { SlotNameValidator } from '../shared/validators/slotNameValidator';
 import { errorIds } from '../shared/models/error-ids';
 import { AuthzService } from '../shared/services/authz.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { Subscription } from 'rxjs/Subscription';
 import { Constants } from 'app/shared/models/constants';
-import { NavigableComponent } from '../shared/components/navigable-component';
-
-interface DataModel {
-    writePermission: boolean;
-    readOnlyLock: boolean;
-    siteInfo: any;
-    appSettings: any;
-    slotsList: ArmObj<Site>[];
-}
+import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 
 @Component({
     selector: 'slot-new',
@@ -56,28 +41,24 @@ export class SlotNewComponent extends NavigableComponent {
 
     constructor(
         private fb: FormBuilder,
-        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _aiService: AiService,
         private _slotService: SlotsService,
-        private _cacheService: CacheService,
-        private _logService: LogService,
+        private _siteService: SiteService,
         private _functionAppService: FunctionAppService,
         private authZService: AuthzService,
         private injector: Injector) {
-        super('slot-new', broadcastService, DashboardType.CreateSlotDashboard);
+        super('slot-new', injector, DashboardType.CreateSlotDashboard);
     }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .switchMap(v => this._functionAppService.getAppContext(v.siteDescriptor.getTrimmedResourceId())
                 .map(r => Object.assign(v, {
                     context: r
                 })))
             .switchMap(viewInfo => {
-                this._globalStateService.setBusyState();
                 this._slotsNode = <SlotsNode>viewInfo.node;
                 const validator = new RequiredValidator(this._translateService);
 
@@ -90,42 +71,28 @@ export class SlotNewComponent extends NavigableComponent {
                         slotNameValidator.validate.bind(slotNameValidator)]
                 });
 
-                return Observable.zip<DataModel>(
+                return Observable.zip(
                     this.authZService.hasPermission(this._siteId, [AuthzService.writeScope]),
                     this.authZService.hasReadOnlyLock(this._siteId),
-                    this._cacheService.getArm(this._siteId),
+                    this._siteService.getSite(this._siteId),
                     this._functionAppService.getSlotsList(viewInfo.context),
-                    (w, rl, s, l) => ({
-                        writePermission: w,
-                        readOnlyLock: rl,
-                        siteInfo: s,
-                        slotsList: l
-                    }));
+                    this._siteService.getAppSettings(this._siteId));
             })
-            .mergeMap(res => {
-                this.hasCreatePermissions = res.writePermission && !res.readOnlyLock;
-                if (this.hasCreatePermissions) {
-                    return this._cacheService.postArm(`${this._siteId}/config/appsettings/list`, true)
-                        .map(r => {
-                            res.appSettings = r.json();
-                            return res;
-                        });
-                }
-                return Observable.of(res);
-            })
-            .do(null, e => {
-                // log error & clear busy state
-                this._logService.error(LogCategories.newSlot, '/slot-new', e);
-                this._globalStateService.clearBusyState();
-            })
-            .subscribe(res => {
-                this._siteObj = <ArmObj<Site>>res.siteInfo.json();
+            .do(r => {
+                const writePermission = r[0];
+                const readOnlyLock = r[1];
+                this._siteObj = r[2].result;
+                this._slotsList = r[3].result;
+                const as = r[4];
+
+                this.hasCreatePermissions = writePermission && !readOnlyLock;
+
+                this.slotOptinEnabled = this._slotsList.length > 0 ||
+                    (as.isSuccessful && as.result.properties[Constants.slotsSecretStorageSettingsName] === Constants.slotsSecretStorageSettingsValue);
+
+
                 const sku = this._siteObj.properties.sku;
-                this._slotsList = <ArmObj<Site>[]>res.slotsList;
-                this.slotOptinEnabled = res.slotsList.length > 0 ||
-                    res.appSettings.properties[Constants.slotsSecretStorageSettingsName] === Constants.slotsSecretStorageSettingsValue;
                 this.hasReachedDynamicQuotaLimit = !!sku && sku.toLowerCase() === 'dynamic' && this._slotsList.length === 1;
-                this._globalStateService.clearBusyState();
                 this.isLoading = false;
             });
     }
@@ -138,7 +105,7 @@ export class SlotNewComponent extends NavigableComponent {
     createSlot() {
         const newSlotName = this.newSlotForm.controls['name'].value;
         let notificationId = null;
-        this._globalStateService.setBusyState();
+        this.setBusy();
         // show create slot start notification
         this._portalService.startNotification(
             this._translateService.instant(PortalResources.slotNew_startCreateNotifyTitle).format(newSlotName),
@@ -149,7 +116,7 @@ export class SlotNewComponent extends NavigableComponent {
                 return this._slotService.createNewSlot(this._siteObj.id, newSlotName, this._siteObj.location, this._siteObj.properties.serverFarmId);
             })
             .subscribe((r) => {
-                this._globalStateService.clearBusyState();
+                this.clearBusy();
                 // update notification
                 this._portalService.stopNotification(
                     notificationId,
@@ -162,7 +129,7 @@ export class SlotNewComponent extends NavigableComponent {
                 slotsNode.addChild(<ArmObj<Site>>r.json());
                 slotsNode.isExpanded = true;
             }, err => {
-                this._globalStateService.clearBusyState();
+                this.clearBusy();
                 this._portalService.stopNotification(
                     notificationId,
                     false,

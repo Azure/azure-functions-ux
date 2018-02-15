@@ -1,13 +1,12 @@
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SlotsNode } from '../tree-view/slots-node';
 import { SlotNode } from '../tree-view/app-node';
-import { BroadcastService } from '../shared/services/broadcast.service';
 import { PortalResources } from '../shared/models/portal-resources';
 import { errorIds } from '../shared/models/error-ids';
-import { NavigableComponent } from '../shared/components/navigable-component';
-import { Subscription } from 'rxjs/Subscription';
+import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
+import { Observable } from 'rxjs/Observable';
 
 
 interface SlotItem {
@@ -28,15 +27,16 @@ export class SlotsListComponent extends NavigableComponent {
 
     private _slotsNode: SlotsNode;
     constructor(
-        broadcastService: BroadcastService,
-        private _translateService: TranslateService) {
-        super('slots-list', broadcastService, DashboardType.SlotsDashboard);
+        private _translateService: TranslateService,
+        injector: Injector) {
+        super('slots-list', injector, DashboardType.SlotsDashboard);
     }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .takeUntil(this.ngUnsubscribe)
             .switchMap(viewInfo => {
+                this.clearBusyEarly();
                 this.isLoading = true;
                 this._slotsNode = (<SlotsNode>viewInfo.node);
                 return this._slotsNode.loadChildren();
@@ -49,8 +49,7 @@ export class SlotsListComponent extends NavigableComponent {
                     resourceId: 'none'
                 });
             })
-            .retry()
-            .subscribe(() => {
+            .do(() => {
                 this.isLoading = false;
                 this.slots = (<SlotNode[]>this._slotsNode.children)
                     .map(s => {

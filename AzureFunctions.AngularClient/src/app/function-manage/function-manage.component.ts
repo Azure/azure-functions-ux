@@ -1,27 +1,19 @@
 import { FunctionAppContext } from './../shared/function-app-context';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { TreeUpdateEvent } from './../shared/models/broadcast-event';
-import { BroadcastService } from './../shared/services/broadcast.service';
 import { ConfigService } from './../shared/services/config.service';
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { FunctionInfo } from '../shared/models/function-info';
 import { SelectOption } from '../shared/models/select-option';
 import { PortalService } from '../shared/services/portal.service';
-import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
 import { BindingManager } from '../shared/models/binding-manager';
 import { errorIds } from './../shared/models/error-ids';
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { NavigableComponent } from '../shared/components/navigable-component';
+import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 
 @Component({
@@ -40,12 +32,11 @@ export class FunctionManageComponent extends NavigableComponent {
 
     constructor(private _portalService: PortalService,
         private _functionAppService: FunctionAppService,
-        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
-        broadcastService: BroadcastService,
+        injector: Injector,
         configService: ConfigService) {
 
-        super('function-manage', broadcastService, DashboardType.FunctionManageDashboard);
+        super('function-manage', injector, DashboardType.FunctionManageDashboard);
 
         this.isStandalone = configService.isStandalone();
 
@@ -71,7 +62,7 @@ export class FunctionManageComponent extends NavigableComponent {
             })
             .do(null, (e) => {
                 this.functionInfo.config.disabled = !this.functionInfo.config.disabled;
-                this._globalStateService.clearBusyState();
+                this.clearBusy();
                 this.showComponentError({
                     message: this._translateService.instant(PortalResources.failedToSwitchFunctionState,
                         { state: !this.functionInfo.config.disabled, functionName: this.functionInfo.name }),
@@ -83,18 +74,17 @@ export class FunctionManageComponent extends NavigableComponent {
             .retry()
             .takeUntil(this.ngUnsubscribe)
             .subscribe(() => {
-                this._globalStateService.clearBusyState();
+                this.clearBusy();
                 this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
                     resourceId: `${this.context.site.id}/functions/${this.functionInfo.name}`,
                     operation: 'update',
                     data: this.functionInfo.config.disabled
                 });
-            }, null, () => this._globalStateService.clearBusyState());
+            }, null, () => this.clearBusy());
     }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
-            .do(() => this._globalStateService.setBusyState())
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .switchMap(view => Observable.zip(
                 this._functionAppService.getAppContext(view.siteDescriptor.getTrimmedResourceId()),
                 Observable.of(view)
@@ -105,8 +95,7 @@ export class FunctionManageComponent extends NavigableComponent {
                 Observable.of(tuple[0]),
                 Observable.of(tuple[1])
             ))
-            .do(() => this._globalStateService.clearBusyState())
-            .subscribe(tuple => {
+            .do(tuple => {
                 this.context = tuple[2];
                 this.functionInfo = tuple[1].result;
                 this.runtimeVersion = tuple[0];
@@ -117,7 +106,7 @@ export class FunctionManageComponent extends NavigableComponent {
     deleteFunction() {
         const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this.functionInfo.name }));
         if (result) {
-            this._globalStateService.setBusyState();
+            this.setBusy();
             this._portalService.logAction('function-manage', 'delete');
             // Clone node for removing as it can be change during http call
             this._functionAppService.deleteFunction(this.context, this.functionInfo)
@@ -126,8 +115,7 @@ export class FunctionManageComponent extends NavigableComponent {
                         resourceId: `${this.context.site.id}/functions/${this.functionInfo.name}`,
                         operation: 'remove'
                     });
-                    // this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.functionInfo);
-                    this._globalStateService.clearBusyState();
+                    this.clearBusy();
                 });
         }
     }

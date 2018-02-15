@@ -1,18 +1,13 @@
-import { LogCategories } from './../../shared/models/constants';
 import { FunctionAppService } from './../../shared/services/function-app.service';
 import { FunctionAppContext } from './../../shared/function-app-context';
 import { TreeUpdateEvent } from './../../shared/models/broadcast-event';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { LogService } from './../../shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
-import { Subject } from 'rxjs/Subject';
-import { Component, ViewChild, OnDestroy } from '@angular/core';
-import { GlobalStateService } from '../../shared/services/global-state.service';
+import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiProxy } from '../../shared/models/api-proxy';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BroadcastService } from '../../shared/services/broadcast.service';
 import { ApiNewComponent } from '../api-new/api-new.component';
 import { ProxiesNode } from '../../tree-view/proxies-node';
 import { AppNode } from '../../tree-view/app-node';
@@ -20,8 +15,7 @@ import { ProxyNode } from '../../tree-view/proxy-node';
 import { AiService } from '../../shared/services/ai.service';
 import { RequestResposeOverrideComponent } from '../request-respose-override/request-respose-override.component';
 import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
-import { Subscription } from 'rxjs/Subscription';
-import { NavigableComponent } from '../../shared/components/navigable-component';
+import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/components/navigable-component';
 
 @Component({
     selector: 'api-details',
@@ -43,24 +37,20 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
     private selectedNode: ProxyNode;
     private proxiesNode: ProxiesNode;
     private _rrOverrideValue: any;
-    private _ngUnsubscribe = new Subject();
 
     constructor(private _fb: FormBuilder,
-        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
-        private _logService: LogService,
         private _functionAppService: FunctionAppService,
-        broadcastService: BroadcastService) {
-        super('api-details', broadcastService, DashboardType.ProxyDashboard);
+        injector: Injector) {
+        super('api-details', injector, DashboardType.ProxyDashboard);
 
         this.initComplexFrom();
     }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .switchMap(viewInfo => {
-                this._globalStateService.setBusyState();
                 this.selectedNode = <ProxyNode>viewInfo.node;
                 this.proxiesNode = (<ProxiesNode>this.selectedNode.parent);
                 this.apiProxyEdit = this.selectedNode.proxy;
@@ -75,23 +65,13 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
                             this._functionAppService.getFunctionAppAzureAppSettings(context));
                     });
             })
-            .do(null, e => {
-                this._logService.error(LogCategories.apiDetails, '/apidetails', e);
-                this._globalStateService.clearBusyState();
-            })
-            .subscribe(r => {
-                this._globalStateService.clearBusyState();
+            .do(r => {
                 this.apiProxies = r[0].isSuccessful ? r[0].result : [];
             });
     }
 
     onFunctionAppSettingsClicked() {
         (<AppNode>this.proxiesNode.parent).openSettings();
-
-    }
-
-    ngOnDestroy() {
-        this._ngUnsubscribe.next();
     }
 
     private initEdit() {
@@ -129,7 +109,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
     }
 
     deleteProxyClicked() {
-        this._globalStateService.setBusyState();
+        this.setBusy();
         this._functionAppService.getApiProxies(this.context)
             .concatMap(proxies => {
                 this.apiProxies = proxies.isSuccessful ? proxies.result : [];
@@ -142,7 +122,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
                 return this._functionAppService.saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService));
             })
             .subscribe(() => {
-                this._globalStateService.clearBusyState();
+                this.clearBusy();
                 this._aiService.trackEvent('/actions/proxy/delete');
                 this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
                     operation: 'remove',
@@ -167,7 +147,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
 
     submitForm() {
         if (this.complexForm.valid && this.rrOverrideValid) {
-            this._globalStateService.setBusyState();
+            this.setBusy();
 
             this.apiProxyEdit.backendUri = this.complexForm.controls['backendUri'].value;
             this.apiProxyEdit.matchCondition.route = this.complexForm.controls['routeTemplate'].value;
@@ -209,7 +189,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
                     return this._functionAppService.saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService));
                 })
                 .subscribe(() => {
-                    this._globalStateService.clearBusyState();
+                    this.clearBusy();
                     if (this.rrComponent) {
                         this.rrComponent.saveModel();
                     }

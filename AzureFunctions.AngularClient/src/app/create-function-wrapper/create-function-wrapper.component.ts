@@ -1,13 +1,10 @@
+import { ExtendedTreeViewInfo } from './../shared/components/navigable-component';
 import { FunctionAppService } from './../shared/services/function-app.service';
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { BroadcastService } from './../shared/services/broadcast.service';
 import { ConfigService } from './../shared/services/config.service';
 import { Observable } from 'rxjs/Observable';
-import { AiService } from './../shared/services/ai.service';
-import { TreeViewInfo } from './../tree-view/models/tree-view-info';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
-import { Subscription } from 'rxjs/Subscription';
 import { NavigableComponent } from '../shared/components/navigable-component';
 
 @Component({
@@ -18,22 +15,20 @@ import { NavigableComponent } from '../shared/components/navigable-component';
 export class CreateFunctionWrapperComponent extends NavigableComponent {
 
     public dashboardType: string;
-    public viewInfo: TreeViewInfo<any>;
 
     constructor(
-        private _aiService: AiService,
         private _configService: ConfigService,
-        _broadCastService: BroadcastService,
-        private _functionAppService: FunctionAppService) {
-        super('create-function-wrapper', _broadCastService, [
+        private _functionAppService: FunctionAppService,
+        injector: Injector) {
+        super('create-function-wrapper', injector, [
             DashboardType.CreateFunctionAutoDetectDashboard,
             DashboardType.CreateFunctionDashboard,
             DashboardType.CreateFunctionQuickstartDashboard
         ]);
     }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .switchMap(info => {
                 if (info.dashboardType === DashboardType.CreateFunctionDashboard
                     || info.dashboardType === DashboardType.CreateFunctionQuickstartDashboard) {
@@ -55,10 +50,7 @@ export class CreateFunctionWrapperComponent extends NavigableComponent {
                         });
                 }
             })
-            .do(null, e => {
-                this._aiService.trackException(e, '/errors/create-function-wrapper');
-            })
-            .subscribe(result => {
+            .do(result => {
                 this.dashboardType = result;
             });
     }

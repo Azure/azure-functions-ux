@@ -1,3 +1,4 @@
+import { SiteService } from 'app/shared/services/site.service';
 import { Subscription } from 'rxjs/Subscription';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { LogicAppsComponent } from './../../logic-apps/logic-apps.component';
@@ -10,12 +11,11 @@ import { SiteConfigStandaloneComponent } from './../site-config-standalone/site-
 import { SwaggerDefinitionComponent } from './../swagger-definition/swagger-definition.component';
 import { FunctionRuntimeComponent } from './../function-runtime/function-runtime.component';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
-import { BroadcastService } from './../../shared/services/broadcast.service';
 import { SiteManageComponent } from './../site-manage/site-manage.component';
 import { TabInfo } from './site-tab/tab-info';
 import { SiteSummaryComponent } from './../site-summary/site-summary.component';
 import { SiteData } from './../../tree-view/models/tree-view-info';
-import { Component, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ElementRef, ViewChild, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/Subject';
 import { PortalService } from './../../shared/services/portal.service';
@@ -23,15 +23,14 @@ import { PortalResources } from './../../shared/models/portal-resources';
 import { AiService } from './../../shared/services/ai.service';
 import { SiteTabIds, ScenarioIds, LogCategories, KeyCodes } from './../../shared/models/constants';
 import { AppNode } from './../../tree-view/app-node';
-import { CacheService } from '../../shared/services/cache.service';
 import { GlobalStateService } from '../../shared/services/global-state.service';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
-import { ArmSiteDescriptor } from '../../shared/resourceDescriptors';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Site } from '../../shared/models/arm/site';
 import { PartSize } from '../../shared/models/portal';
-import { NavigableComponent } from '../../shared/components/navigable-component';
+import { NavigableComponent, ExtendedTreeViewInfo } from '../../shared/components/navigable-component';
 import { DeploymentCenterComponent } from 'app/site/deployment-center/deployment-center.component';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'site-dashboard',
@@ -47,7 +46,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
 
     @ViewChild('siteTabs') groupElements: ElementRef;
 
-    public dynamicTabIds: (string | null) [] = [null, null];
+    public dynamicTabIds: (string | null)[] = [null, null];
     public site: ArmObj<Site>;
     public viewInfoStream: Subject<TreeViewInfo<SiteData>>;
     public Resources = PortalResources;
@@ -56,24 +55,23 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
     private _prevTabId: string;
     private _currentTabIndex: number;
 
-    private _ngUnsubscribe: Subject<void> = new Subject<void>();
     private _openTabSubscription: Subscription;
 
     constructor(
-        private _cacheService: CacheService,
         private _globalStateService: GlobalStateService,
         private _aiService: AiService,
         private _portalService: PortalService,
         private _translateService: TranslateService,
         private _scenarioService: ScenarioService,
         private _logService: LogService,
-        broadcastService: BroadcastService
+        private _siteService: SiteService,
+        injector: Injector
     ) {
-        super('site-dashboard', broadcastService, DashboardType.AppDashboard);
+        super('site-dashboard', injector, DashboardType.AppDashboard);
 
         this._broadcastService
             .getEvents<DirtyStateEvent>(BroadcastEvent.DirtyStateChange)
-            .takeUntil(this._ngUnsubscribe)
+            .takeUntil(this.ngUnsubscribe)
             .subscribe(event => {
                 if (!event.dirty && !event.reason) {
                     this.tabInfos.forEach(t => (t.dirty = false));
@@ -105,8 +103,12 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         }
     }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
+    setupNavigation(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return null;
+    }
+
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .switchMap(viewInfo => {
                 if (this._globalStateService.showTryView) {
                     this._globalStateService.setDisabledMessage(this._translateService.instant(PortalResources.try_appDisabled));
@@ -115,12 +117,10 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 viewInfo.data.siteTabRevealedTraceKey = this._aiService.startTrace();
                 viewInfo.data.siteTabFullReadyTraceKey = this._aiService.startTrace();
 
-                this._globalStateService.setBusyState();
-
                 if (!this._openTabSubscription) {
                     this._openTabSubscription = this._broadcastService
                         .getEvents<string>(BroadcastEvent.OpenTab)
-                        .takeUntil(this._ngUnsubscribe)
+                        .takeUntil(this.ngUnsubscribe)
                         .subscribe(tabId => {
                             if (tabId) {
                                 this.openFeature(tabId);
@@ -129,22 +129,20 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                         });
                 }
 
-                return this._cacheService.getArm(viewInfo.resourceId);
+                return this._siteService.getSite(viewInfo.resourceId);
             })
-            .do(null, e => {
-                const descriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
-                let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(descriptor.site);
-                if (e && e.status === 404) {
-                    message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(descriptor.site);
+            .do(r => {
+                if (!r.isSuccessful) {
+                    let message = this._translateService.instant(PortalResources.siteDashboard_getAppError).format(this.viewInfo.siteDescriptor.site);
+                    if (r.error.result && r.error.result.status === 404) {
+                        message = this._translateService.instant(PortalResources.siteDashboard_appNotFound).format(this.viewInfo.siteDescriptor.site);
+                    }
+
+                    this._logService.error(LogCategories.siteDashboard, '/site-dashboard', r.error.result);
+                    this._globalStateService.setDisabledMessage(message);
+                    return;
                 }
 
-                this._logService.error(LogCategories.siteDashboard, '/site-dashboard', e);
-
-                this._globalStateService.setDisabledMessage(message);
-                this._globalStateService.clearBusyState();
-            })
-            .retry()
-            .subscribe(r => {
                 this._broadcastService.clearAllDirtyStates();
 
                 this._logService.verbose(LogCategories.siteDashboard, `Received new input, updating tabs`);
@@ -171,10 +169,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                     }
                 }
 
-                this._globalStateService.clearBusyState();
-
-                const site: ArmObj<Site> = r.json();
-                this.site = site;
+                this.site = r.result;
 
                 const appNode = <AppNode>this.viewInfo.node;
                 if (appNode.openTabId) {
@@ -185,9 +180,10 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
+
         // Save current set of tabs
         SiteDashboardComponent._tabInfos = this.tabInfos;
-        this._ngUnsubscribe.next();
     }
 
     private _selectTabId(id: string) {
