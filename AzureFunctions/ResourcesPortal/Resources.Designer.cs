@@ -10,8 +10,8 @@
 
 namespace AzureFunctions.ResourcesPortal {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,15 +23,15 @@ namespace AzureFunctions.ResourcesPortal {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,7 +59,7 @@ namespace AzureFunctions.ResourcesPortal {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Continue.
         /// </summary>
@@ -68,7 +68,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("continue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
@@ -77,7 +77,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("_delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
@@ -86,7 +86,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("_name", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App service Authentication / Authorization:.
         /// </summary>
@@ -95,7 +95,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_appService", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Auth configuration required.
         /// </summary>
@@ -104,7 +104,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_authConfRequired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure AAD now.
         /// </summary>
@@ -113,7 +113,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_configureAADNow", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add permissions now.
         /// </summary>
@@ -122,7 +122,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_configureAADPermissionsNow", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to configured.
         /// </summary>
@@ -131,7 +131,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_configured", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Identity requirements (not satisfied).
         /// </summary>
@@ -140,7 +140,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_identityRequirements", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Identity requirements.
         /// </summary>
@@ -149,7 +149,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_identityRequirementsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
@@ -158,7 +158,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_manage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to not configured.
         /// </summary>
@@ -167,7 +167,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_notConfigured", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Required permissions.
         /// </summary>
@@ -176,7 +176,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_requiredPerm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The template needs the following permission:.
         /// </summary>
@@ -185,7 +185,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_templateNeeds", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This integration requires an AAD configuration for the function app..
         /// </summary>
@@ -194,7 +194,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_thisIntegration", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This template requires an AAD configuration for the function app..
         /// </summary>
@@ -203,7 +203,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_thisTemplate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You may need to configure any additional permissions you function requires. Please see the documentation for this binding..
         /// </summary>
@@ -212,7 +212,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("aadreg_youMayNeed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Account.
         /// </summary>
@@ -221,7 +221,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("account", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Active.
         /// </summary>
@@ -230,7 +230,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("active", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Activity.
         /// </summary>
@@ -239,7 +239,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("activity", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to + Add new connection string.
         /// </summary>
@@ -248,7 +248,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("addNewConnectionString", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to + Add new document.
         /// </summary>
@@ -257,7 +257,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("addNewDocument", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to + Add new handler mapping.
         /// </summary>
@@ -266,7 +266,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("addNewHandlerMapping", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to + Add new setting.
         /// </summary>
@@ -275,7 +275,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("addNewSetting", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to + Add new virtual application or directory.
         /// </summary>
@@ -284,7 +284,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("addNewVirtualDirectory", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Host Keys (All functions).
         /// </summary>
@@ -293,7 +293,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("adminKeys_title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
@@ -302,7 +302,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("all", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All items selected.
         /// </summary>
@@ -311,7 +311,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("allItemsSelected", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All locations.
         /// </summary>
@@ -320,7 +320,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("allLocations", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All resource groups.
         /// </summary>
@@ -329,7 +329,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("allResourceGroups", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Always On.
         /// </summary>
@@ -338,7 +338,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("alwaysOnLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Indicates that your web app needs to be loaded at all times. By default, web apps are unloaded after they have been idle. It is recommended that you enable this option when you have continuous web jobs running on the web app..
         /// </summary>
@@ -347,7 +347,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("alwaysOnLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Always on requires a basic or higher App Service plan.
         /// </summary>
@@ -356,7 +356,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("alwaysOnUpsell", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All methods.
         /// </summary>
@@ -365,7 +365,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_allMethods", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Allowed HTTP methods.
         /// </summary>
@@ -374,7 +374,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_allowedHttpMethods", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Proxy with name &apos;{{name}}&apos; already exists.
         /// </summary>
@@ -383,7 +383,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_alreadyExists", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Backend URL must start with &apos;http://&apos; or &apos;https://&apos;.
         /// </summary>
@@ -392,7 +392,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_backanrUrlStart", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Backend URL.
         /// </summary>
@@ -401,7 +401,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_backendUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete proxy.
         /// </summary>
@@ -410,7 +410,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Proxy or function with that name already exists..
         /// </summary>
@@ -419,7 +419,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_errorExists", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
@@ -428,7 +428,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_name", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New proxy.
         /// </summary>
@@ -437,7 +437,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_new", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No override.
         /// </summary>
@@ -446,7 +446,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_noOverride", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Proxy URL.
         /// </summary>
@@ -455,7 +455,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_proxyUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Route template.
         /// </summary>
@@ -464,7 +464,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_routeTemplate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Selected methods.
         /// </summary>
@@ -473,7 +473,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("apiProxy_seectedMethods", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Startup File.
         /// </summary>
@@ -482,7 +482,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appCommandLineLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Provide an optional startup command that will be run as part of container startup. &lt;a href=&quot;https://go.microsoft.com/fwlink/?linkid=861969&quot;&gt;Learn more&lt;/a&gt;..
         /// </summary>
@@ -491,7 +491,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appCommandLineLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Proxies.
         /// </summary>
@@ -500,7 +500,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_apiProxies", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Change the edit mode of your function app.
         /// </summary>
@@ -509,7 +509,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_changeEditMode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function app edit mode.
         /// </summary>
@@ -518,7 +518,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_editMode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to function app settings.
         /// </summary>
@@ -527,7 +527,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_functionAppSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}})..
         /// </summary>
@@ -536,7 +536,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_functionAppSettings1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Runtime version: {{exactExtensionVersion}} ({{latestExtensionVersion}}).
         /// </summary>
@@ -545,7 +545,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_functionAppSettings2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Proxies has been enabled. To disable again, delete or disable all individual proxies..
         /// </summary>
@@ -554,7 +554,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_proxyEnabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Read Only.
         /// </summary>
@@ -563,7 +563,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_readOnlyMode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Read/Write.
         /// </summary>
@@ -572,7 +572,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_readWriteMode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enable deployment slots (preview)..
         /// </summary>
@@ -581,7 +581,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_slotsDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Slots (preview).
         /// </summary>
@@ -590,7 +590,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_slotsOptinSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enable Azure Functions Proxies (preview).
         /// </summary>
@@ -599,7 +599,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_useApiProxies", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Known issues:.
         /// </summary>
@@ -608,7 +608,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_warning_1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logic apps integration with Functions does not work when Slots(preview) is enabled..
         /// </summary>
@@ -617,7 +617,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_warning_2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Opting into this preview feature will reset any pre-existing secrets. Function secrets can be found under the.
         /// </summary>
@@ -626,7 +626,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_warning_3", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;Manage&apos;.
         /// </summary>
@@ -635,7 +635,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_warning_4", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to node for each function..
         /// </summary>
@@ -644,7 +644,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_warning_5", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cannot Upgrade with Existing Functions.
         /// </summary>
@@ -653,7 +653,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_warning_6", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app..
         /// </summary>
@@ -662,7 +662,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appFunctionSettings_warning_7", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App executions.
         /// </summary>
@@ -671,7 +671,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appMonitoring_appExecutions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App Usage(Gb Sec).
         /// </summary>
@@ -680,7 +680,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appMonitoring_appUsage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function App Usage.
         /// </summary>
@@ -689,7 +689,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appMonitoring_functionAppUsage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No data available.
         /// </summary>
@@ -698,7 +698,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appMonitoring_noData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to of executions.
         /// </summary>
@@ -707,7 +707,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appMonitoring_ofExecutions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App Service plan.
         /// </summary>
@@ -716,7 +716,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appServicePlan", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App Service plan / pricing tier.
         /// </summary>
@@ -725,7 +725,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appServicePlanPricingTier", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to restart {0}.
         /// </summary>
@@ -734,7 +734,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appServiceRestartFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} got restarted&apos;.
         /// </summary>
@@ -743,7 +743,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appServiceRestartSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to start {0}.
         /// </summary>
@@ -752,7 +752,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appServiceStartFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} got started&apos;.
         /// </summary>
@@ -761,7 +761,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appServiceStartSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to stop {0}.
         /// </summary>
@@ -770,7 +770,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appServiceStopFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} got stopped&apos;.
         /// </summary>
@@ -779,7 +779,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appServiceStopSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add app setting.
         /// </summary>
@@ -788,7 +788,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("appSettingPicker_add", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 32-bit.
         /// </summary>
@@ -797,7 +797,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("architecture32", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 64-bit.
         /// </summary>
@@ -806,7 +806,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("architecture64", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Manage App Service Authentication / Authorization.
         /// </summary>
@@ -815,7 +815,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("asdreg_manageAppService", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Associated Logic Apps.
         /// </summary>
@@ -824,7 +824,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("associatedLogicApps_title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Australia East.
         /// </summary>
@@ -833,7 +833,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("australiaeast", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Australia Southeast.
         /// </summary>
@@ -842,7 +842,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("australiasoutheast", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Authentication.
         /// </summary>
@@ -851,7 +851,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("authentication", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Authorization.
         /// </summary>
@@ -860,7 +860,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("authorization", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Authorize.
         /// </summary>
@@ -869,7 +869,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("authorize", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Authorized as:.
         /// </summary>
@@ -878,7 +878,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("authorizedAs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Auto Swap.
         /// </summary>
@@ -887,7 +887,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("autoSwapEnabledLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Auto swap destinations cannot be configured from production slot.
         /// </summary>
@@ -896,7 +896,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("autoSwapNotSupportedFromProd", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Auto Swap Slot.
         /// </summary>
@@ -905,7 +905,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("autoSwapSlotNameLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Auto Swap requires a standard or higher App Service Plan.
         /// </summary>
@@ -914,7 +914,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("autoSwapUpsell", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Availability.
         /// </summary>
@@ -923,7 +923,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("availability", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Available.
         /// </summary>
@@ -932,7 +932,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("available", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Functions.
         /// </summary>
@@ -941,7 +941,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("azureFunctions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Functions Runtime.
         /// </summary>
@@ -950,7 +950,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("azureFunctionsRuntime", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
@@ -959,7 +959,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("back", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to access your Azure settings for your function app..
         /// </summary>
@@ -968,7 +968,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_CannotAccessFunctionApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to First make sure you have proper access to the Azure resource {0}. If you dotTry refreshing the portal to renew your authentication token..
         /// </summary>
@@ -977,7 +977,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_CannotAccessFunctionApp_action", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please check the storage account connection string in application settings as it appears to be invalid..
         /// </summary>
@@ -986,7 +986,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_InvalidStorageConnectionString", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Update the app setting with a valid storage connection string..
         /// </summary>
@@ -995,7 +995,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_InvalidStorageConnectionString_action", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is used to host your functions content. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting..
         /// </summary>
@@ -1004,7 +1004,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_MissingAzureFilesConnectionString", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a share name where your function content lives. Your app will be completely broken without this setting. You may need to delete and recreate this function app if you no longer have access to the value of that application setting..
         /// </summary>
@@ -1013,7 +1013,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_MissingAzureFilesContentShare", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the monitoring view of your functions. This is where invocation data is aggregated and then displayed in monitoring view. Your monitoring view might be broken..
         /// </summary>
@@ -1022,7 +1022,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_MissingAzureWebJobsDashboardAppSetting", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. This setting contains a connection string for an Azure Storage account that is needed for the functions runtime to handle multiple instances synchronization, log invocation results, and other infrastructure jobs. Your function app will not work correctly without that setting..
         /// </summary>
@@ -1031,7 +1031,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_MissingAzureWebJobsStorageAppSetting", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create the app setting with a valid storage connection string..
         /// </summary>
@@ -1040,7 +1040,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_MissingAzureWebJobsStorageAppSetting_action", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; application setting is missing from your app. Without this setting you&apos;ll always be running the latest version of the runtime even across major version updates which might contain breaking changes. It&apos;s advised to set that value to the current latest major version (~1) and you&apos;ll get notified with newer versions for update..
         /// </summary>
@@ -1049,7 +1049,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_MissingFunctionsExtensionVersionAppSetting", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Storage Account connection string stored in &apos;{0}&apos; is null or empty. This is required to have your function app working..
         /// </summary>
@@ -1058,7 +1058,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_StorageAccountConnectionStringIsNullOrEmpty", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Update the app setting with a valid storage connection string..
         /// </summary>
@@ -1067,7 +1067,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_StorageAccountConnectionStringIsNullOrEmpty_action", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Storage account {0} doesn&apos;t exist. Deleting the storage account the function app is using will cause the function app to stop working. .
         /// </summary>
@@ -1076,7 +1076,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_StorageAccountDoesNotExist", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Update the app setting with a valid existing storage connection string..
         /// </summary>
@@ -1085,7 +1085,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_StorageAccountDoesNotExist_action", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Storage account {0} doesn&apos;t support Azure Queues Storage. Functions runtime require queues to work properly. You&apos;ll have to delete and recreate your function app with a storage account that supports Azure Queues Storage..
         /// </summary>
@@ -1094,7 +1094,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_StorageAccountDoesntSupportQueues", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There seem to be a problem querying Azure backend for your function app..
         /// </summary>
@@ -1103,7 +1103,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_UnexpectedArmError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There seem to be a problem querying Azure backend for your function app..
         /// </summary>
@@ -1112,7 +1112,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("backend_error_UnknownErrorWhileCallingArm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure App Service Authentication / Authorization.
         /// </summary>
@@ -1121,7 +1121,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_AADLinkAuth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
@@ -1130,7 +1130,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_actions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create a new function triggered by this output.
         /// </summary>
@@ -1139,7 +1139,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_createNewFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to delete.
         /// </summary>
@@ -1148,7 +1148,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Documentation.
         /// </summary>
@@ -1157,7 +1157,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_documentation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Go.
         /// </summary>
@@ -1166,7 +1166,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_go", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parameter name.
         /// </summary>
@@ -1175,7 +1175,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_parameterName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Account Key:.
         /// </summary>
@@ -1184,7 +1184,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_storageAccountKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Account Name:.
         /// </summary>
@@ -1193,7 +1193,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_storageAccountName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Connection String:.
         /// </summary>
@@ -1202,7 +1202,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_storageConnectionString", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You can now view the blobs, queues and tables associated with this storage binding..
         /// </summary>
@@ -1211,7 +1211,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_storageInfoFooter", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Connecting to your Storage Account.
         /// </summary>
@@ -1220,7 +1220,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_storageInfoHeader", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download Storage explorer from here:      .
         /// </summary>
@@ -1229,7 +1229,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_storageInfoHeader2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Connect using these credentials:.
         /// </summary>
@@ -1238,7 +1238,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_storageInfoHeader3", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Use function return value.
         /// </summary>
@@ -1247,7 +1247,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("binding_useFunctionReturnValue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App setting is not found..
         /// </summary>
@@ -1256,7 +1256,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingInput_appSettingNotFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to hide value.
         /// </summary>
@@ -1265,7 +1265,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingInput_hide", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to new.
         /// </summary>
@@ -1274,7 +1274,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingInput_new", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to retrieve.
         /// </summary>
@@ -1283,7 +1283,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingInput_retrieve", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to select.
         /// </summary>
@@ -1292,7 +1292,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingInput_select", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to show value.
         /// </summary>
@@ -1301,7 +1301,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingInput_show", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;direction&apos; is missed..
         /// </summary>
@@ -1310,7 +1310,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingsValidationDirectionMissed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unknown direction: &apos;{{direction}}&apos;..
         /// </summary>
@@ -1319,7 +1319,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingsValidationDirectionUnknown", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parameter name must be unique in a function: &apos;{{functionName}}&apos;.
         /// </summary>
@@ -1328,7 +1328,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingsValidationNameDublicate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;name&apos; is missed..
         /// </summary>
@@ -1337,7 +1337,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingsValidationNameMissed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;type&apos; is missed..
         /// </summary>
@@ -1346,7 +1346,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingsValidationTypeMIssed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unknown type: &apos;{{type}}&apos;..
         /// </summary>
@@ -1355,7 +1355,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bindingsValidationTypeUnknown", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure continuous integration with a Bitbucket repo..
         /// </summary>
@@ -1364,7 +1364,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("bitbucketDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Branch.
         /// </summary>
@@ -1373,7 +1373,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("branch", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Brazil South.
         /// </summary>
@@ -1382,7 +1382,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("brazilsouth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Build.
         /// </summary>
@@ -1391,7 +1391,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("build", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Build Definition.
         /// </summary>
@@ -1400,7 +1400,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("buildDefinition", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Build Provider.
         /// </summary>
@@ -1409,7 +1409,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("buildProvider", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Build Triggered.
         /// </summary>
@@ -1418,7 +1418,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("buildTriggered", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Build: {0}.
         /// </summary>
@@ -1427,7 +1427,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("buildUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Canada Central.
         /// </summary>
@@ -1436,7 +1436,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("canadacentral", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Canada East.
         /// </summary>
@@ -1445,7 +1445,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("canadaeast", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
@@ -1454,7 +1454,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("cancel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Central India.
         /// </summary>
@@ -1463,7 +1463,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("centralindia", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Central US.
         /// </summary>
@@ -1472,7 +1472,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("centralus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Authorize.
         /// </summary>
@@ -1481,7 +1481,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("changeAuthorization", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Checkin Message.
         /// </summary>
@@ -1490,7 +1490,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("checkinMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ARR Affinity.
         /// </summary>
@@ -1499,7 +1499,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("clientAffinityEnabledLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more..
         /// </summary>
@@ -1508,7 +1508,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("clientAffinityInfoText", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
@@ -1517,7 +1517,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("close", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Code.
         /// </summary>
@@ -1526,7 +1526,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("code", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Commit ID (Author).
         /// </summary>
@@ -1535,7 +1535,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("commitIdAuthor", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Config.
         /// </summary>
@@ -1544,7 +1544,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("config", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This app has a read-only lock that prevents editing settings or retrieving secure data. Please remove the lock and try again..
         /// </summary>
@@ -1553,7 +1553,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configDisabledReadOnlyLockOnApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to load settings..
         /// </summary>
@@ -1562,7 +1562,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configLoadFailure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You must have write permissions on the current app in order to edit these settings..
         /// </summary>
@@ -1571,7 +1571,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configRequiresWritePermissionOnApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to update web app settings: .
         /// </summary>
@@ -1580,7 +1580,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configUpdateFailure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {{configGroupName}} Save Error: Invlid input provided..
         /// </summary>
@@ -1589,7 +1589,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configUpdateFailureInvalidInput", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully updated web app settings.
         /// </summary>
@@ -1598,7 +1598,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configUpdateSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Updating web app settings.
         /// </summary>
@@ -1607,7 +1607,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configUpdating", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure.
         /// </summary>
@@ -1616,7 +1616,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to View settings in read-only mode..
         /// </summary>
@@ -1625,7 +1625,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("configViewReadOnlySettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Connection strings.
         /// </summary>
@@ -1634,7 +1634,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("connectionStrings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Continuous deployment.
         /// </summary>
@@ -1643,7 +1643,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("continuousDeployment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copied!.
         /// </summary>
@@ -1652,7 +1652,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("copypre_copied", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
@@ -1661,7 +1661,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("copypre_copy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy to clipboard.
         /// </summary>
@@ -1670,7 +1670,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("copypre_copyClipboard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to CORS.
         /// </summary>
@@ -1679,7 +1679,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("cors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
@@ -1688,7 +1688,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("create", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Creating a Function App will automatically provision a new container capable of hosting and running your code..
         /// </summary>
@@ -1697,7 +1697,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createApp_description", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to create app.
         /// </summary>
@@ -1706,7 +1706,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createApp_fail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to create a slot.
         /// </summary>
@@ -1715,7 +1715,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createdNewSlotFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Created new slot.
         /// </summary>
@@ -1724,7 +1724,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createdNewSlotSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Search by trigger, language, or description.
         /// </summary>
@@ -1733,7 +1733,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createFunction_search", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Logic Apps.
         /// </summary>
@@ -1742,7 +1742,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createLogicApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create new.
         /// </summary>
@@ -1751,7 +1751,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createNew", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to create new Web Application for test environment.
         /// </summary>
@@ -1760,7 +1760,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createTestWebAppFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Created new Web Application for test environment.
         /// </summary>
@@ -1769,7 +1769,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createTestWebAppSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to create Visual Studio Team Services account.
         /// </summary>
@@ -1778,7 +1778,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createVSTSAccountFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Created new Visual Studio Team Services account.
         /// </summary>
@@ -1787,7 +1787,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("createVSTSAccountSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your trial has expired.
         /// </summary>
@@ -1796,7 +1796,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("dashboard_yourTrialExpiered", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Debug.
         /// </summary>
@@ -1805,7 +1805,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("debug", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deploy.
         /// </summary>
@@ -1814,7 +1814,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("deploy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to deploy to {0}.
         /// </summary>
@@ -1823,7 +1823,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("deployedFailedTo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deployed Successfully to {0}.
         /// </summary>
@@ -1832,7 +1832,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("deployedSuccessfullyTo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deployment Center.
         /// </summary>
@@ -1841,7 +1841,61 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("deploymentCenter", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Code.
+        /// </summary>
+        internal static string diagnostics_code {
+            get {
+                return ResourceManager.GetString("diagnostics_code", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Column.
+        /// </summary>
+        internal static string diagnostics_column {
+            get {
+                return ResourceManager.GetString("diagnostics_column", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string diagnostics_description {
+            get {
+                return ResourceManager.GetString("diagnostics_description", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Errors and warnings.
+        /// </summary>
+        internal static string diagnostics_errorsAndWarnings {
+            get {
+                return ResourceManager.GetString("diagnostics_errorsAndWarnings", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        internal static string diagnostics_file {
+            get {
+                return ResourceManager.GetString("diagnostics_file", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        internal static string diagnostics_line {
+            get {
+                return ResourceManager.GetString("diagnostics_line", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to disable.
         /// </summary>
@@ -1850,7 +1904,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("disable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Disabled.
         /// </summary>
@@ -1859,7 +1913,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("disabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discard.
         /// </summary>
@@ -1868,7 +1922,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("discard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully disconnected Continuous Delivery for {0}.
         /// </summary>
@@ -1877,7 +1931,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("disconnectCICDVSOSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download.
         /// </summary>
@@ -1886,7 +1940,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("download", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download app content.
         /// </summary>
@@ -1895,7 +1949,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("downloadFunctionAppContent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Include app settings in the download.
         /// </summary>
@@ -1904,7 +1958,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("downloadFunctionAppContent_includeAppSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This will include a file called local.settings.json which will contain your app settings values. This file will not be encrypted on download, but can be encrypted using the Azure Functions Core Tools command line..
         /// </summary>
@@ -1913,7 +1967,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("downloadFunctionAppContent_includeAppSettingsHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Site content.
         /// </summary>
@@ -1922,7 +1976,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("downloadFunctionAppContent_siteContent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Content and Visual Studio project.
         /// </summary>
@@ -1931,7 +1985,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("downloadFunctionAppContent_vsProject", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Download publish profile.
         /// </summary>
@@ -1940,7 +1994,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("downloadProfile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure continuous integration with a Dropbox folder.
         /// </summary>
@@ -1949,7 +2003,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("dropboxDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to A function that will be run whenever an Activity is called by an orchestrator function..
         /// </summary>
@@ -1958,7 +2012,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("DurableFunctionsActivity_description", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to A function that will trigger whenever it receives an HTTP request to execute an orchestrator function..
         /// </summary>
@@ -1967,7 +2021,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("DurableFunctionsHttpStart_description", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to An orchestrator function that invokes activity functions in a sequence..
         /// </summary>
@@ -1976,7 +2030,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("DurableFunctionsOrchestrator_description", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to East Asia.
         /// </summary>
@@ -1985,7 +2039,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eastasia", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to East US.
         /// </summary>
@@ -1994,7 +2048,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eastus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to East US 2.
         /// </summary>
@@ -2003,7 +2057,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eastus2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (no application settings to display).
         /// </summary>
@@ -2012,7 +2066,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("emptyAppSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Functions are an event-based serverless compute experience to accelerate your development. Scale based on demand and pay only for the resources you consume..
         /// </summary>
@@ -2021,7 +2075,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("emptyBrowse", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Learn more about azure functions.
         /// </summary>
@@ -2030,7 +2084,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("emptyBrowse_learnMore", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No function apps to display.
         /// </summary>
@@ -2039,7 +2093,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("emptyBrowse_title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (no connection strings to display).
         /// </summary>
@@ -2048,7 +2102,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("emptyConnectionStrings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (no default documents to display).
         /// </summary>
@@ -2057,7 +2111,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("emptyDefaultDocuments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (no handler mappings to display).
         /// </summary>
@@ -2066,7 +2120,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("emptyHandlerMappings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (no virtual applications or directories to display).
         /// </summary>
@@ -2075,7 +2129,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("emptyVirtualDirectories", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to enabled.
         /// </summary>
@@ -2084,7 +2138,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enabled.
         /// </summary>
@@ -2093,7 +2147,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Quick links to your features will show up here after you&apos;ve configured them from the &quot;Platform features&quot; tab above..
         /// </summary>
@@ -2102,7 +2156,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enabledFeatures_description", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configured features.
         /// </summary>
@@ -2111,7 +2165,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enabledFeatures_header", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter arguments.
         /// </summary>
@@ -2120,7 +2174,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enterArguments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter extension.
         /// </summary>
@@ -2129,7 +2183,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enterExtension", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter a name.
         /// </summary>
@@ -2138,7 +2192,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enterName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter physical path.
         /// </summary>
@@ -2147,7 +2201,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enterPhysicalPath", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter script processor.
         /// </summary>
@@ -2156,7 +2210,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enterScriptProcessor", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter a value.
         /// </summary>
@@ -2165,7 +2219,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enterValue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter virtual path.
         /// </summary>
@@ -2174,7 +2228,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("enterVirtualPath", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Entity.
         /// </summary>
@@ -2183,7 +2237,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("entity", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Entity:.
         /// </summary>
@@ -2192,7 +2246,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("entityColon", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The application is offline. Please check your internet connection..
         /// </summary>
@@ -2201,7 +2255,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_appOffline", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to CORS is not configured for this function app. Please add {{origin}} to your CORS list..
         /// </summary>
@@ -2210,7 +2264,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_CORSNotConfigured", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are unable to reach your function app. Your app could be having a temporary issue or may be failing to start. You can check logs or try again in a couple of minutes..
         /// </summary>
@@ -2219,7 +2273,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_DnsResolution", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your function app is disabled because it has exceeded the set quota. You can change that from the function app settings view on the left side bar..
         /// </summary>
@@ -2228,7 +2282,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_FunctionExceededQuota", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The function runtime is unable to start..
         /// </summary>
@@ -2237,7 +2291,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_functionRuntimeIsUnableToStart", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have sufficient permissions to access this function app. You may still be able to see basic settings in the app service settings blade which you can access from the function app settings link on the left sidebar..
         /// </summary>
@@ -2246,7 +2300,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_NoPermissionToAccessApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to retrieve the list of functions for this function app..
         /// </summary>
@@ -2255,7 +2309,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_parsingFunctionListReturenedFromKudu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to proxies.json schema validation error.
         /// </summary>
@@ -2264,7 +2318,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_schemaValidationProxies", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to If the problem persists, contact support with the following code {{code}}.
         /// </summary>
@@ -2273,7 +2327,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_shareCodeWithSupport", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your function app is stopped. You cannot use the functions portal when the app is stopped. You can change that by going to the function app settings view on the left side bar and then going to the app service settings blade..
         /// </summary>
@@ -2282,7 +2336,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_siteStopped", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to create function {{functionName}}. Please try again later..
         /// </summary>
@@ -2291,7 +2345,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToCreateFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to create or update the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors..
         /// </summary>
@@ -2300,7 +2354,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToCreateFunctionKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to create or update the key swaggerdocumentationkey for the Swagger Endpoint. Please check the runtime logs for any errors or try again later..
         /// </summary>
@@ -2309,7 +2363,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToCreateSwaggerKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are unable to decrypt your function access keys. This can happen if you delete and recreate the app with the same name, or if you copied your keys from a different function app. You can try following steps here to fix the issue Follow steps here https://go.microsoft.com/fwlink/?linkid=844094.
         /// </summary>
@@ -2318,7 +2372,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToDecryptKeys", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to delete the file {{fileName}}. Please try again later..
         /// </summary>
@@ -2327,7 +2381,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToDeleteFileThroughKudu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to delete function &apos;{0}&apos;. Please try again later..
         /// </summary>
@@ -2336,7 +2390,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToDeleteFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to delete the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors..
         /// </summary>
@@ -2345,7 +2399,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToDeleteFunctionKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to delete the API defintion. Please check the runtime logs for any errors or try again later..
         /// </summary>
@@ -2354,7 +2408,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToDeleteSwaggerData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to get the content for {{fileName}}. Please try again later..
         /// </summary>
@@ -2363,7 +2417,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToGetFileContentFromKudu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to get the key {{keyName}}. Please check the runtime logs for any errors or try again later..
         /// </summary>
@@ -2372,7 +2426,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToGetSystemKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to load the generated API definition. Please check the runtime logs for any errors or try again later..
         /// </summary>
@@ -2381,7 +2435,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToloadGeneratedAPIDefinition", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unable to upate the list of slots.
         /// </summary>
@@ -2390,7 +2444,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToLoadSlotsList", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to renew the key {{keyName}} for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors..
         /// </summary>
@@ -2399,7 +2453,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToRenewFunctionKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to retrieve directory content for your function. Please try again later..
         /// </summary>
@@ -2408,7 +2462,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToRetrieveDirectoryContent", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are unable to get the content for function &apos;{0}&apos;. Please try again later..
         /// </summary>
@@ -2417,7 +2471,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToRetrieveFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve Function App ({{functionApp}}).
         /// </summary>
@@ -2426,7 +2480,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_UnableToRetrieveFunctionApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to retrieve the keys for function {{functionName}}. This can happen if the runtime is not able to load your function. Check other function errors..
         /// </summary>
@@ -2435,7 +2489,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToRetrieveFunctionKeys", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to retrieve your functions right now. Please try again later..
         /// </summary>
@@ -2444,7 +2498,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToRetrieveFunctionListFromKudu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are unable to reach your function app ({{statusText}}). Please try again later..
         /// </summary>
@@ -2453,7 +2507,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_UnableToRetrieveFunctions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are unable to retrieve the runtime config. Please try again later..
         /// </summary>
@@ -2462,7 +2516,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToRetrieveRuntimeConfig", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to retrieve the runtime master key. Please try again later..
         /// </summary>
@@ -2471,7 +2525,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToRetrieveRuntimeKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to retrieve secrets file for {{functionName}}. Please try again later..
         /// </summary>
@@ -2480,7 +2534,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_UnableToRetrieveSecretsFileFromKudu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to save the content for {{fileName}}. Please try again later..
         /// </summary>
@@ -2489,7 +2543,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToSaveFileContentThroughKudu", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are unable to save the content for function &apos;{0}&apos;..
         /// </summary>
@@ -2498,7 +2552,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToSaveFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to update function {{functionName}}. Please try again later..
         /// </summary>
@@ -2507,7 +2561,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToUpdateFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are unable to update your function app&apos;s edit mode. Please try again later..
         /// </summary>
@@ -2516,7 +2570,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToUpdateFunctionAppEditMode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are unable to update the runtime config. Please try again later..
         /// </summary>
@@ -2525,7 +2579,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToUpdateRuntimeConfig", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to update the API definition. Please check the runtime logs for any errors or try again later..
         /// </summary>
@@ -2534,7 +2588,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("error_unableToUpdateSwaggerData", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to here.
         /// </summary>
@@ -2543,7 +2597,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("errorList_here", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You may be experiencing an error. If you&apos;re having issues, please post them.
         /// </summary>
@@ -2552,7 +2606,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("errorList_youMay", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Error parsing config: {{error}}.
         /// </summary>
@@ -2561,7 +2615,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("errorParsingConfig", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parameter name must be unique..
         /// </summary>
@@ -2570,7 +2624,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("errorUniqueParameterName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to create.
         /// </summary>
@@ -2579,7 +2633,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventGrid_create", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You need to add Event Grid subscription after function creation..
         /// </summary>
@@ -2588,7 +2642,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventGrid_createMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Event Grid Subscription URL.
         /// </summary>
@@ -2597,7 +2651,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventGrid_help", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Event Grid Subscription URL.
         /// </summary>
@@ -2606,7 +2660,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventGrid_label", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Manage Event Grid subscriptions.
         /// </summary>
@@ -2615,7 +2669,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventGrid_manageSubscriptions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Key.
         /// </summary>
@@ -2624,7 +2678,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_appSettingName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
@@ -2633,7 +2687,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_appSettingValue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Connection.
         /// </summary>
@@ -2642,7 +2696,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_connection", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Custom.
         /// </summary>
@@ -2651,7 +2705,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_custom", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Event Hub.
         /// </summary>
@@ -2660,7 +2714,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_eventHub", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (hub policy).
         /// </summary>
@@ -2669,7 +2723,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_eventHubPolicy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Endpoint.
         /// </summary>
@@ -2678,7 +2732,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_IOTEndpoint", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Events (built-in endpoint).
         /// </summary>
@@ -2687,7 +2741,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_IOTEvents", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to IoT hub.
         /// </summary>
@@ -2696,7 +2750,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_IOTHub", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Operations monitoring.
         /// </summary>
@@ -2705,7 +2759,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_IOTMonitoring", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Namespace.
         /// </summary>
@@ -2714,7 +2768,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_namespace", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (namespace policy).
         /// </summary>
@@ -2723,7 +2777,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_namespacePolicy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Policy.
         /// </summary>
@@ -2732,7 +2786,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("eventHubPicker_policy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Events.
         /// </summary>
@@ -2741,7 +2795,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("events", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expand or Collapse.
         /// </summary>
@@ -2750,7 +2804,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("expandCollapse", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Experimental Language Support:.
         /// </summary>
@@ -2759,7 +2813,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("experimentalLanguageSupport", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Express AAD Registration.
         /// </summary>
@@ -2768,7 +2822,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("expressAADRegistration", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Install.
         /// </summary>
@@ -2777,7 +2831,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("extension_install_button", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Extension Installation Succeeded.
         /// </summary>
@@ -2786,7 +2840,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("extension_install_success", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Extensions not Installed.
         /// </summary>
@@ -2795,7 +2849,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("extension_install_warning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This integration requires the following extensions..
         /// </summary>
@@ -2804,7 +2858,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("extension_integrate_warning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This template requires the following extensions..
         /// </summary>
@@ -2813,7 +2867,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("extension_template_warning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The extension {{extensionId}} with a different version is already installed.
         /// </summary>
@@ -2822,7 +2876,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("extensionAlreadyInstalledWithDifferentVersion", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deploy from a public Git or Mercurial repo..
         /// </summary>
@@ -2831,7 +2885,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("externalDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to get the list of installed runtime extensions.
         /// </summary>
@@ -2840,7 +2894,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("failedToGetFunctionRuntimeExtensions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to install runtime extension {{extensionId}}.
         /// </summary>
@@ -2849,7 +2903,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("failedToInstallFunctionRuntimeExtension", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to install runtime extension. Install id {{installationId}}.
         /// </summary>
@@ -2858,7 +2912,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("failedToInstallFunctionRuntimeExtensionForId", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to {{state}} function: {{functionName}}.
         /// </summary>
@@ -2867,7 +2921,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("failedToSwitchFunctionState", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We are not able to uninstall runtime extension {{extensionId}}.
         /// </summary>
@@ -2876,7 +2930,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("failedToUnInstallFunctionRuntimeExtension", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure Role-Based Access Control (RBAC) for your app..
         /// </summary>
@@ -2885,7 +2939,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_accessControlInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Access control (IAM).
         /// </summary>
@@ -2894,7 +2948,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_accessControlName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to View management operations that have been performed on your app..
         /// </summary>
@@ -2903,7 +2957,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_activityLogInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Activity log.
         /// </summary>
@@ -2912,7 +2966,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_activityLogName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Use Kudu to inspect environment variables, access the debug console, upload zips, view processes, and more..
         /// </summary>
@@ -2921,7 +2975,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_advancedToolsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Advanced tools (Kudu).
         /// </summary>
@@ -2930,7 +2984,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_advancedToolsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to View all App Service settings..
         /// </summary>
@@ -2939,7 +2993,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_allSettingsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All settings.
         /// </summary>
@@ -2948,7 +3002,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_allSettingsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to API.
         /// </summary>
@@ -2957,7 +3011,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_api", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure the location of the Swagger 2.0 metadata describing your API. This makes it easy for others to discover and consume your API..
         /// </summary>
@@ -2966,7 +3020,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_apiDefinitionInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to API definition.
         /// </summary>
@@ -2975,7 +3029,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_apiDefinitionName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Manage app settings, connection strings, runtime settings, and more..
         /// </summary>
@@ -2984,7 +3038,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_applicationSettingsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Application settings.
         /// </summary>
@@ -2993,7 +3047,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_applicationSettingsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App Service Editor provides an in-browser editing experience for your code..
         /// </summary>
@@ -3002,7 +3056,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_appServiceEditorInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App Service Editor.
         /// </summary>
@@ -3011,7 +3065,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_appServiceEditorName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to An App Service plan is the container for your app. The App Service plan settings will determine the location, features, cost and compute resources associated with your app..
         /// </summary>
@@ -3020,7 +3074,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_appServicePlanInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Use Authentication / Authorization to protect your application and work with per-user data..
         /// </summary>
@@ -3029,7 +3083,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_authInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Authentication / Authorization.
         /// </summary>
@@ -3038,7 +3092,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_authName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Automate deploying resources with Azure Resource Manager templates in a single, coordinated operation. Define resources and configurable input parameters and deploy with script or code..
         /// </summary>
@@ -3047,7 +3101,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_automationScriptInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Automation script.
         /// </summary>
@@ -3056,7 +3110,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_automationScriptName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Auto Swap.
         /// </summary>
@@ -3065,7 +3119,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_autoSwapSettingsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Use Backup and Restore to easily create automatic or manual backups..
         /// </summary>
@@ -3074,7 +3128,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_backupsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Backups.
         /// </summary>
@@ -3083,7 +3137,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_backupsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Code Deployment.
         /// </summary>
@@ -3092,7 +3146,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_codeDeployment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Explore your app&apos;s file system from an interactive web-based console..
         /// </summary>
@@ -3101,7 +3155,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_consoleInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Console.
         /// </summary>
@@ -3110,7 +3164,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_consoleName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure Cross-Origin Resource Sharing (CORS) rules for your app..
         /// </summary>
@@ -3119,7 +3173,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_corsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure and purchase custom domain names..
         /// </summary>
@@ -3128,7 +3182,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_customDomainsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Custom domains.
         /// </summary>
@@ -3137,7 +3191,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_customDomainsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Debugging.
         /// </summary>
@@ -3146,7 +3200,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_debuggingSettingsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Default documents.
         /// </summary>
@@ -3155,7 +3209,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_defaultDocumentsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure Azure account-level deployment credentials. To change your app-level credentials (also known as &apos;Publish Credentials&apos;), choose &apos;Reset publish credentials&apos; in the &apos;Overview&apos; tab. &lt;a href=&quot;https://go.microsoft.com/fwlink/?linkid=846056&quot;&gt;Learn more&lt;/a&gt;..
         /// </summary>
@@ -3164,7 +3218,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_deploymentCredsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deployment credentials.
         /// </summary>
@@ -3173,7 +3227,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_deploymentCredsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure and manage deployment options for your app, including continuous deployment from VSTS, Github and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more..
         /// </summary>
@@ -3182,7 +3236,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_deploymentSourceInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deployment options.
         /// </summary>
@@ -3191,7 +3245,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_deploymentSourceName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Development tools.
         /// </summary>
@@ -3200,7 +3254,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_developmentTools", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure where and when to log application and server events..
         /// </summary>
@@ -3209,7 +3263,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_diagnosticLogsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Diagnostic logs.
         /// </summary>
@@ -3218,7 +3272,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_diagnosticLogsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Extensions add functionality to your entire app..
         /// </summary>
@@ -3227,7 +3281,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_extensionsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Extensions.
         /// </summary>
@@ -3236,7 +3290,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_extensionsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Manage settings that affect the Functions runtime for all functions within your app..
         /// </summary>
@@ -3245,7 +3299,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_functionSettingsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to General Settings.
         /// </summary>
@@ -3254,7 +3308,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_generalSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to General settings.
         /// </summary>
@@ -3263,7 +3317,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_generalSettingsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Handler mappings.
         /// </summary>
@@ -3272,7 +3326,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_handlerMappingsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Runtime.
         /// </summary>
@@ -3281,7 +3335,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_linuxRuntimeName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Lock resources to prevent unexpected changes or deletions..
         /// </summary>
@@ -3290,7 +3344,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_locksInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Locks.
         /// </summary>
@@ -3299,7 +3353,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_locksName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logic Apps allow you to easily utilize your function across multiple platforms.
         /// </summary>
@@ -3308,7 +3362,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_logicAppsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to View real-time application logs..
         /// </summary>
@@ -3317,7 +3371,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_logStreamingInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Log streaming.
         /// </summary>
@@ -3326,7 +3380,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_logStreamingName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Monitoring.
         /// </summary>
@@ -3335,7 +3389,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_monitoring", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your application can communicate with other Azure services as itself using a managed Azure Active Directory identity..
         /// </summary>
@@ -3344,7 +3398,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_msiInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Managed service identity.
         /// </summary>
@@ -3353,7 +3407,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_msiName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Securely access resources through VNET Integration and Hybrid Connections..
         /// </summary>
@@ -3362,7 +3416,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_networkingInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Networking.
         /// </summary>
@@ -3371,7 +3425,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_networkingName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to View details on application processes, memory usage, and CPU utilization..
         /// </summary>
@@ -3380,7 +3434,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_processExplorerInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Process explorer.
         /// </summary>
@@ -3389,7 +3443,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_processExplorerName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to View properties of your app..
         /// </summary>
@@ -3398,7 +3452,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_propertiesInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Properties.
         /// </summary>
@@ -3407,7 +3461,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_propertiesName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Send fast, scalable, and cross-platform mobile push notifications using Notification Hubs..
         /// </summary>
@@ -3416,7 +3470,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_pushNotificationsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Push notifications.
         /// </summary>
@@ -3425,7 +3479,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_pushNotificationsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Monitor file system usage quotas..
         /// </summary>
@@ -3434,7 +3488,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_quotasInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Quotas.
         /// </summary>
@@ -3443,7 +3497,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_quotasName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Explore management APIs with Azure Resource Explorer (preview)..
         /// </summary>
@@ -3452,7 +3506,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_resourceExplorerInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Resource Explorer.
         /// </summary>
@@ -3461,7 +3515,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_resourceExplorerName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Resource management.
         /// </summary>
@@ -3470,7 +3524,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_resourceManagement", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enable security scanning for your app with Tinfoil Security..
         /// </summary>
@@ -3479,7 +3533,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_securityScanningInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Security scanning.
         /// </summary>
@@ -3488,7 +3542,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_securityScanningName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SSH provides a Web SSH console experience for your Linux app code.
         /// </summary>
@@ -3497,7 +3551,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_sshInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SSH.
         /// </summary>
@@ -3506,7 +3560,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_sshName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure SSL bindings for your app using either a certificate you purchased externally or an App Service Certificate..
         /// </summary>
@@ -3515,7 +3569,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_sslInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Tags are key/value pairs that enable you to categorize resources and view consolidated billing by applying the same tag to multiple resources and resource groups. .
         /// </summary>
@@ -3524,7 +3578,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_tagsInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Tags.
         /// </summary>
@@ -3533,7 +3587,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_tagsName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Virtual applications and directories.
         /// </summary>
@@ -3542,7 +3596,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("feature_virtualDirectoriesName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You must have Read permissions on the associated App Service plan in order to use this feature.
         /// </summary>
@@ -3551,7 +3605,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureDisabledNoPermissionToPlan", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This feature is disabled because the app has a ReadOnly lock on it.
         /// </summary>
@@ -3560,7 +3614,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureDisabledReadOnlyLockOnApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Application Insights.
         /// </summary>
@@ -3569,7 +3623,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureEnabled_appInsights", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to CORS Rules ({0} defined).
         /// </summary>
@@ -3578,7 +3632,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureEnabled_cors", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deployment options configured with {0}.
         /// </summary>
@@ -3587,7 +3641,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureEnabled_deploymentSource", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Extensions ({0} installed).
         /// </summary>
@@ -3596,7 +3650,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureEnabled_extensions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SSL certificates.
         /// </summary>
@@ -3605,7 +3659,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureEnabled_sslCert", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to WebJobs ({0} defined).
         /// </summary>
@@ -3614,7 +3668,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureEnabled_webjobs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This feature is not supported for apps on a Consumption plan.
         /// </summary>
@@ -3623,7 +3677,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureNotSupportedConsumption", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This feature is not supported for Linux apps.
         /// </summary>
@@ -3632,7 +3686,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureNotSupportedForLinuxApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This feature is not supported for slots.
         /// </summary>
@@ -3641,7 +3695,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureNotSupportedForSlots", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You must have write permissions on the current app in order to use this feature.
         /// </summary>
@@ -3650,7 +3704,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("featureRequiresWritePermissionOnApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Features.
         /// </summary>
@@ -3659,7 +3713,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("features", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This field is required.
         /// </summary>
@@ -3668,7 +3722,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("filedRequired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
@@ -3677,7 +3731,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_add", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Changes made to current file will be lost. Are you sure you want to continue?.
         /// </summary>
@@ -3686,7 +3740,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_changesLost", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
@@ -3695,7 +3749,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete {{fileName}}.
         /// </summary>
@@ -3704,7 +3758,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_deletePromt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
@@ -3713,7 +3767,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_edit", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Editing binary files is not supported..
         /// </summary>
@@ -3722,7 +3776,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_editingBinary", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Error creating file: {{fileName}}.
         /// </summary>
@@ -3731,7 +3785,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_errorCreatingFile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Error deleting file: {{fileName}}.
         /// </summary>
@@ -3740,7 +3794,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_errorDeletingFile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to A File with the name {{fileName}} already exists..
         /// </summary>
@@ -3749,7 +3803,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_fileAlreadyExists", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Upload.
         /// </summary>
@@ -3758,7 +3812,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("fileExplorer_upload", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Finish.
         /// </summary>
@@ -3767,7 +3821,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("finish", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Folder.
         /// </summary>
@@ -3776,7 +3830,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("folder", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function Apps.
         /// </summary>
@@ -3785,7 +3839,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Daily Usage Quota (GB-Sec).
         /// </summary>
@@ -3794,7 +3848,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionAppSettings_dailyUsageQuota", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to On a Consumption plan, you can limit platform usage by setting a daily usage quota, in gigabytes-seconds. Once the daily usage quota is reached, the Function App is stopped until the next day at 0:00 AM UTC..
         /// </summary>
@@ -3803,7 +3857,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionAppSettings_dailyUsageQuotaHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to When the daily usage quota is exceeded, the Function App is stopped until the next day at 0:00 AM UTC..
         /// </summary>
@@ -3812,7 +3866,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionAppSettings_quotaInfo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter value in GB-sec.
         /// </summary>
@@ -3821,7 +3875,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionAppSettings_quotaPlaceHolder", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The Function App has reached daily usage quota and has been stopped until the next 24 hours time frame..
         /// </summary>
@@ -3830,7 +3884,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionAppSettings_quotaWarning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Remove quota.
         /// </summary>
@@ -3839,7 +3893,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionAppSettings_removeQuota", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Set quota.
         /// </summary>
@@ -3848,7 +3902,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionAppSettings_setQuota", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Function Error: {{error}}.
         /// </summary>
@@ -3857,7 +3911,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionCreateErrorDetails", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function creation error! Please try again..
         /// </summary>
@@ -3866,7 +3920,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionCreateErrorMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add Event Grid subscription.
         /// </summary>
@@ -3875,7 +3929,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_addEventGrid", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Code.
         /// </summary>
@@ -3884,7 +3938,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_code", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function Error: {{error}}.
         /// </summary>
@@ -3893,7 +3947,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_functionErrorDetails", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function (${{name}}) Error: {{error}}.
         /// </summary>
@@ -3902,7 +3956,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_functionErrorMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function Url.
         /// </summary>
@@ -3911,7 +3965,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_functionUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;/&gt; Get function URL.
         /// </summary>
@@ -3920,7 +3974,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_getFunctionUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;/&gt; Get GitHub secret.
         /// </summary>
@@ -3929,7 +3983,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_getGithubSecret", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to GitHub Secret.
         /// </summary>
@@ -3938,7 +3992,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_githubSelect", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Hide files.
         /// </summary>
@@ -3947,7 +4001,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_hideFiles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Host Error: {{error}}.
         /// </summary>
@@ -3956,7 +4010,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_hostErrorMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Loading...
         /// </summary>
@@ -3965,7 +4019,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_loading", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Output.
         /// </summary>
@@ -3974,7 +4028,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_Output", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Request body.
         /// </summary>
@@ -3983,7 +4037,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_requestBody", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Run.
         /// </summary>
@@ -3992,7 +4046,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_run", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Save and run.
         /// </summary>
@@ -4001,7 +4055,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_saveAndRun", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status:.
         /// </summary>
@@ -4010,7 +4064,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_status", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to View files.
         /// </summary>
@@ -4019,7 +4073,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionDev_viewFiles", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function State.
         /// </summary>
@@ -4028,7 +4082,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionEdit_functionState", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Read only - because you have started editing with source control, this view is read only..
         /// </summary>
@@ -4037,7 +4091,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionEdit_readOnly", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Advanced editor.
         /// </summary>
@@ -4046,7 +4100,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionIntegrate_advancedEditor", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Changes made will be lost. Are you sure you want to continue?.
         /// </summary>
@@ -4055,7 +4109,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionIntegrate_changesLost1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Changes made to function {{name}} will be lost. Are you sure you want to continue?.
         /// </summary>
@@ -4064,7 +4118,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionIntegrate_changesLost2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Setting name:.
         /// </summary>
@@ -4073,7 +4127,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionIntegrate_settingName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Standard editor.
         /// </summary>
@@ -4082,7 +4136,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionIntegrate_standardEditor", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ACTIONS.
         /// </summary>
@@ -4091,7 +4145,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_actions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add new host key.
         /// </summary>
@@ -4100,7 +4154,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_addNewAdminKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add new function key.
         /// </summary>
@@ -4109,7 +4163,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_addNewFunctionKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Click to hide.
         /// </summary>
@@ -4118,7 +4172,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_clickToHide", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Click to show.
         /// </summary>
@@ -4127,7 +4181,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_clickToShow", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy.
         /// </summary>
@@ -4136,7 +4190,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_copy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discard.
         /// </summary>
@@ -4145,7 +4199,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_discard", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (Required).
         /// </summary>
@@ -4154,7 +4208,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_enterKeyName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (Optional) Leave empty to auto-generate a key..
         /// </summary>
@@ -4163,7 +4217,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_enterKeyValue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to NAME.
         /// </summary>
@@ -4172,7 +4226,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_keyName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to VALUE.
         /// </summary>
@@ -4181,7 +4235,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_keyValue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Renew.
         /// </summary>
@@ -4190,7 +4244,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_renew", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to renew {{name}} key?.
         /// </summary>
@@ -4199,7 +4253,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_renewConfirmation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Revoke.
         /// </summary>
@@ -4208,7 +4262,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_revoke", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to revoke {{name}} key?.
         /// </summary>
@@ -4217,7 +4271,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_revokeConfirmation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function Keys.
         /// </summary>
@@ -4226,7 +4280,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionKeys_title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete Function {{name}}?.
         /// </summary>
@@ -4235,7 +4289,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionManage_areYouSure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete Function {{name}}.
         /// </summary>
@@ -4244,7 +4298,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionManage_delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Delete function.
         /// </summary>
@@ -4253,7 +4307,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionManage_deleteFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Error count since.
         /// </summary>
@@ -4262,7 +4316,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitor_errorsAggregate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invocation details.
         /// </summary>
@@ -4271,7 +4325,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitor_invocationDetails", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invocation log.
         /// </summary>
@@ -4280,7 +4334,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitor_invocationLog", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logs.
         /// </summary>
@@ -4289,7 +4343,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitor_invocationOutput", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Loading ....
         /// </summary>
@@ -4298,7 +4352,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitor_loading", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to live event stream.
         /// </summary>
@@ -4307,7 +4361,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitor_pulseUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Success count since.
         /// </summary>
@@ -4316,7 +4370,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitor_successAggregate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Parameter.
         /// </summary>
@@ -4325,7 +4379,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitorInvocationTable_paramColumn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Details: Last ran.
         /// </summary>
@@ -4334,7 +4388,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitorTable_detailsColumn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to (duration).
         /// </summary>
@@ -4343,7 +4397,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitorTable_durationColumn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function.
         /// </summary>
@@ -4352,7 +4406,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitorTable_functionColumn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
@@ -4361,7 +4415,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionMonitorTable_statusColumn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Choose a template below.
         /// </summary>
@@ -4370,7 +4424,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_chooseTemplate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to go to the quickstart.
         /// </summary>
@@ -4379,7 +4433,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_chooseTemplateQuickstart", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href=&quot;https://github.com/Azure/azure-webjobs-sdk-templates/issues&quot; target=&quot;_blank&quot;&gt;GitHub repository.&lt;/a&gt;.
         /// </summary>
@@ -4388,7 +4442,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_experimentalTemplate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function with name &apos;{{name}}&apos; already exists..
         /// </summary>
@@ -4397,7 +4451,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_functionExsists", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function name.
         /// </summary>
@@ -4406,7 +4460,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_functionName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to A function name is required.
         /// </summary>
@@ -4415,7 +4469,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_functionNameRequired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The name must be unique within a Function App. It must start with a letter and can contain letters, numbers (0-9), dashes (&quot;-&quot;), and underscores (&quot;_&quot;)..
         /// </summary>
@@ -4424,7 +4478,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_nameError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name your function.
         /// </summary>
@@ -4433,7 +4487,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionNew_nameYourFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Manage application settings.
         /// </summary>
@@ -4442,7 +4496,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionRuntime_manageAppSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Functions.
         /// </summary>
@@ -4451,7 +4505,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Authentication is enabled for the function app. Disable authentication before running the function..
         /// </summary>
@@ -4460,7 +4514,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionService_authIsEnabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to A client certificate is required to call run this function. To run it from the portal you have to disable client certificate..
         /// </summary>
@@ -4469,7 +4523,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionService_clientCertEnabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There was an error running function ({{name}}). Check logs output for the full error..
         /// </summary>
@@ -4478,7 +4532,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionService_errorRunningFunc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Search functions.
         /// </summary>
@@ -4487,7 +4541,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionsList_searchFunctions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Functions (Preview).
         /// </summary>
@@ -4496,7 +4550,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("functionsPreviewTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create + get started.
         /// </summary>
@@ -4505,7 +4559,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_createGetStarted", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function Apps.
         /// </summary>
@@ -4514,7 +4568,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_functionApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get started with Azure Functions.
         /// </summary>
@@ -4523,7 +4577,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_getStarted", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New function app.
         /// </summary>
@@ -4532,7 +4586,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_newFunctionApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your subscription contains no function apps. These are containers where your functions are executed. Create one now..
         /// </summary>
@@ -4541,7 +4595,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_noFunApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Or create a function app from &lt;a href=&quot;https://portal.azure.com/#create/Microsoft.FunctionApp&quot;&gt;Azure Portal&lt;/a&gt;..
         /// </summary>
@@ -4550,7 +4604,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_orCreate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select Location.
         /// </summary>
@@ -4559,7 +4613,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_selectLocation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select Subscription.
         /// </summary>
@@ -4568,7 +4622,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_selectSubscription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Subscription {{displayName}} ({{ subscriptionId }}) is not white listed for running functions.
         /// </summary>
@@ -4577,7 +4631,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_subIsNotWhitelisted", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This subscription contains one or more function apps. These are containers where your functions are executed. Select one or create a new one below..
         /// </summary>
@@ -4586,7 +4640,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_thisSub", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The name must be at least 2 characters.
         /// </summary>
@@ -4595,7 +4649,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_validateContainer1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The name must be at most 60 characters.
         /// </summary>
@@ -4604,7 +4658,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_validateContainer2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The name can contain letters, numbers, and hyphens (but the first and last character must be a letter or number).
         /// </summary>
@@ -4613,7 +4667,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_validateContainer3", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to function app name {{funcName}} isn&apos;t available.
         /// </summary>
@@ -4622,7 +4676,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_validateContainer4", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You need an Azure subscription in order to use this service. &lt;a href=&quot;https://azure.microsoft.com/en-us/free/&quot;&gt;Click here&lt;/a&gt; to create a free trial subscription.
         /// </summary>
@@ -4631,7 +4685,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_youNeed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your function apps.
         /// </summary>
@@ -4640,7 +4694,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_yourFunctionApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your subscription.
         /// </summary>
@@ -4649,7 +4703,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gettingStarted_yourSubscription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Git Clone Uri.
         /// </summary>
@@ -4658,7 +4712,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("gitCloneUri", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure continuous integration with a Github repo..
         /// </summary>
@@ -4667,7 +4721,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("githubDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Group by location.
         /// </summary>
@@ -4676,7 +4730,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("grouping_location", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No grouping.
         /// </summary>
@@ -4685,7 +4739,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("grouping_none", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Group by resource group.
         /// </summary>
@@ -4694,7 +4748,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("grouping_resourceGroup", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Group by subscription.
         /// </summary>
@@ -4703,7 +4757,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("grouping_subscription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Hidden value.  Click to show..
         /// </summary>
@@ -4712,7 +4766,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("hiddenValueClickToShow", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add header.
         /// </summary>
@@ -4721,7 +4775,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("httpRun_addHeader", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add parameter.
         /// </summary>
@@ -4730,7 +4784,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("httpRun_addParameter", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Headers.
         /// </summary>
@@ -4739,7 +4793,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("httpRun_headers", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to HTTP method.
         /// </summary>
@@ -4748,7 +4802,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("httpRun_httpMethod", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There are no headers.
         /// </summary>
@@ -4757,7 +4811,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("httpRun_noHeaders", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There are no query parameters.
         /// </summary>
@@ -4766,7 +4820,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("httpRun_noQuery", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Query.
         /// </summary>
@@ -4775,7 +4829,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("httpRun_query", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Hybrid connections.
         /// </summary>
@@ -4784,7 +4838,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("hybridConnections", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Inputs.
         /// </summary>
@@ -4793,7 +4847,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("input", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Installing template dependencies, you will be able to create a function once this done. Dependency installation happens in the background and can take up to 10 minutes. You can continue to use the portal during this time..
         /// </summary>
@@ -4802,7 +4856,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("installingExtension", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Input bindings provide additional data provided to your function when it is triggered. For instance, you can fetch data from table storage on a new queue message. Inputs are optional..
         /// </summary>
@@ -4811,7 +4865,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("integrate_inputsHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Outputs bindings allow you to output data from your function. For instance, you can add a new item to a queue. Outputs are optional..
         /// </summary>
@@ -4820,7 +4874,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("integrate_outputsHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger..
         /// </summary>
@@ -4829,7 +4883,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("integrate_triggersHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 2. Choose a language.
         /// </summary>
@@ -4838,7 +4892,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_chooseLanguage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 1. Choose a scenario.
         /// </summary>
@@ -4847,7 +4901,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_chooseScenario", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create this function.
         /// </summary>
@@ -4856,7 +4910,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_createThisFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to create your own custom function.
         /// </summary>
@@ -4865,7 +4919,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_createYourOwn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Custom function.
         /// </summary>
@@ -4874,7 +4928,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_customFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Data processing.
         /// </summary>
@@ -4883,7 +4937,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_dataProcessing", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get started quickly with a premade function.
         /// </summary>
@@ -4892,7 +4946,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_getStarted", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get started on your own.
         /// </summary>
@@ -4901,7 +4955,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_getStartedOn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to For PowerShell, Python, and Batch,.
         /// </summary>
@@ -4910,7 +4964,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_ifYou", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Keep using this quickstart.
         /// </summary>
@@ -4919,7 +4973,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_keepUsingQuickstart", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to or.
         /// </summary>
@@ -4928,7 +4982,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_or", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sign in with Facebook.
         /// </summary>
@@ -4937,7 +4991,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_signInWithFacebook", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sign in with GitHub.
         /// </summary>
@@ -4946,7 +5000,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_signInWithGitHub", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sign in with Google.
         /// </summary>
@@ -4955,7 +5009,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_signInWithGoogle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sign in with Microsoft.
         /// </summary>
@@ -4964,7 +5018,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_signInWithMicrosoft", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Start from source control.
         /// </summary>
@@ -4973,7 +5027,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_startSC", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Timer.
         /// </summary>
@@ -4982,7 +5036,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_timer", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Webhook + API.
         /// </summary>
@@ -4991,7 +5045,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("intro_webHook", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Application.
         /// </summary>
@@ -5000,7 +5054,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("isApplication", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Slot Setting.
         /// </summary>
@@ -5009,7 +5063,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("isSlotSetting", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Japan East.
         /// </summary>
@@ -5018,7 +5072,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("japaneast", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Japan West.
         /// </summary>
@@ -5027,7 +5081,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("japanwest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Java on Azure Functions Quickstart.
         /// </summary>
@@ -5036,7 +5090,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("java_splash_button", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Java Functions can be built, tested and deployed locally from your machine. No portal required!.
         /// </summary>
@@ -5045,7 +5099,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("java_splash_line_1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Click below to get started with documentation on how to build your first Azure Function with Java..
         /// </summary>
@@ -5054,7 +5108,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("java_splash_line_2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Java minor version.
         /// </summary>
@@ -5063,7 +5117,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("javaMinorVersionLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select the desired Java minor version. Selecting &apos;Newest&apos; will keep your app using the JVM most recently added to the portal..
         /// </summary>
@@ -5072,7 +5126,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("javaMinorVersionLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Java version.
         /// </summary>
@@ -5081,7 +5135,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("javaVersionLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The version used to run your web app if using Java.
         /// </summary>
@@ -5090,7 +5144,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("javaVersionLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Java web container.
         /// </summary>
@@ -5099,7 +5153,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("javaWebContainerLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The web container version used to run your web app if using Java.
         /// </summary>
@@ -5108,7 +5162,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("javaWebContainerLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Keys.
         /// </summary>
@@ -5117,7 +5171,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("keys", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Get function URL.
         /// </summary>
@@ -5126,7 +5180,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("keysDialog_getFunctionUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Key.
         /// </summary>
@@ -5135,7 +5189,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("keysDialog_key", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to URL.
         /// </summary>
@@ -5144,7 +5198,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("keysDialog_url", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Korea Central.
         /// </summary>
@@ -5153,7 +5207,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("koreacentral", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Korea South.
         /// </summary>
@@ -5162,7 +5216,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("koreasouth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Stack.
         /// </summary>
@@ -5171,7 +5225,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("linuxFxVersionLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Web Apps on Linux provide run-time options through a collection of built in containers. &lt;a href=&quot;https://go.microsoft.com/fwlink/?linkid=861969&quot;&gt;Learn more&lt;/a&gt;..
         /// </summary>
@@ -5180,7 +5234,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("linuxFxVersionLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
@@ -5189,7 +5243,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("loading", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Load Test.
         /// </summary>
@@ -5198,7 +5252,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("loadTest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deploy from a local Git repo..
         /// </summary>
@@ -5207,7 +5261,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("localGitDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
@@ -5216,7 +5270,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("location", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Location:.
         /// </summary>
@@ -5225,7 +5279,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("locationColon", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} locations.
         /// </summary>
@@ -5234,7 +5288,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("locationCount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Log.
         /// </summary>
@@ -5243,7 +5297,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("log", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows..
         /// </summary>
@@ -5252,7 +5306,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logicApp_description", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logic Apps.
         /// </summary>
@@ -5261,7 +5315,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logicApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sign out.
         /// </summary>
@@ -5270,7 +5324,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("Logout", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
@@ -5279,7 +5333,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_clear", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Collapse.
         /// </summary>
@@ -5288,7 +5342,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_compress", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copied!.
         /// </summary>
@@ -5297,7 +5351,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_copied", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Copy logs.
         /// </summary>
@@ -5306,7 +5360,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_copyLogs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expand.
         /// </summary>
@@ -5315,7 +5369,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_expand", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to download log content - &apos;{0}&apos;.
         /// </summary>
@@ -5324,7 +5378,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_failedToDownload", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logs.
         /// </summary>
@@ -5333,7 +5387,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_logs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No logs to display.
         /// </summary>
@@ -5342,7 +5396,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_noLogs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Pause.
         /// </summary>
@@ -5351,7 +5405,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_pause", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logging paused.
         /// </summary>
@@ -5360,7 +5414,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_paused", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
@@ -5369,7 +5423,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_start", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Too many logs. Refresh rate: {{seconds}} seconds..
         /// </summary>
@@ -5378,7 +5432,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("logStreaming_tooManyLogs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Managed Pipeline Version.
         /// </summary>
@@ -5387,7 +5441,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("managedPipelineModeLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to For a richer monitoring experience, including live metrics and custom queries, &lt;a target=&quot;_blank&quot; href=&quot;https://go.microsoft.com/fwlink/?linkid=848587&quot;&gt;enable Application Insights for your Function app&lt;/a&gt;.
         /// </summary>
@@ -5396,7 +5450,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("monitoring_appInsights", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App Insights instrumentation key is presented in app settings but App Insights is not found in Function App&apos;s subscription. Please make sure your App Insights is localted in the same subscription as Function App..
         /// </summary>
@@ -5405,7 +5459,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("monitoring_appInsightsIsNotFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open Application Insights.
         /// </summary>
@@ -5414,7 +5468,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("monitoring_appInsightsOpen", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App Insights is enabled for your function..
         /// </summary>
@@ -5423,7 +5477,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("monitoring_appInsightsSetUp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No Monitoring data to display.
         /// </summary>
@@ -5432,7 +5486,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("monitoring_noMonitoring", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name:.
         /// </summary>
@@ -5441,7 +5495,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("nameColon", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to .NET Framework version.
         /// </summary>
@@ -5450,7 +5504,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("netFrameWorkVersionLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The version used to run your web app if using the .NET Framework.
         /// </summary>
@@ -5459,7 +5513,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("netFrameWorkVersionLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New.
         /// </summary>
@@ -5468,7 +5522,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("new_", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Newest.
         /// </summary>
@@ -5477,7 +5531,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("newest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New function.
         /// </summary>
@@ -5486,7 +5540,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("newFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New Input.
         /// </summary>
@@ -5495,7 +5549,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("newInput", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New Output.
         /// </summary>
@@ -5504,7 +5558,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("newOutput", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New Trigger.
         /// </summary>
@@ -5513,7 +5567,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("newTrigger", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
@@ -5522,7 +5576,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("next", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No access.
         /// </summary>
@@ -5531,7 +5585,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("noAccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No Logic Apps to display.
         /// </summary>
@@ -5540,7 +5594,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("noLogicApps_title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No results.
         /// </summary>
@@ -5549,7 +5603,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("noResults", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to North Central US.
         /// </summary>
@@ -5558,7 +5612,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("northcentralus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to North Europe.
         /// </summary>
@@ -5567,7 +5621,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("northeurope", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Not applicable.
         /// </summary>
@@ -5576,7 +5630,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("notApplicable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Not available.
         /// </summary>
@@ -5585,7 +5639,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("notAvailable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Not found..
         /// </summary>
@@ -5594,7 +5648,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("notFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Connection.
         /// </summary>
@@ -5603,7 +5657,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("notificationHubPicker_connection", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Notification Hub.
         /// </summary>
@@ -5612,7 +5666,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("notificationHubPicker_notificationHub", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Not valid value.
         /// </summary>
@@ -5621,7 +5675,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("notValidValue", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} items selected.
         /// </summary>
@@ -5630,7 +5684,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("numItemsSelected", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Off.
         /// </summary>
@@ -5639,7 +5693,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("off", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to On.
         /// </summary>
@@ -5648,7 +5702,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("on", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sync content from a OneDrive cloud folder..
         /// </summary>
@@ -5657,7 +5711,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("onedriveDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
@@ -5666,7 +5720,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("open", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Optional.
         /// </summary>
@@ -5675,7 +5729,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("optional", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
@@ -5684,7 +5738,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("options", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to or.
         /// </summary>
@@ -5693,7 +5747,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("or", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Orchestrate with Logic Apps.
         /// </summary>
@@ -5702,7 +5756,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("orchestrateWithLogicApps_title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Organization.
         /// </summary>
@@ -5711,7 +5765,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("organization", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Outputs.
         /// </summary>
@@ -5720,7 +5774,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("output", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to PHP version.
         /// </summary>
@@ -5729,7 +5783,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("phpVersionLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The version used to run your web app if using PHP.
         /// </summary>
@@ -5738,7 +5792,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("phpVersionLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Classic.
         /// </summary>
@@ -5747,7 +5801,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("pipelineModeClassic", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Integrated.
         /// </summary>
@@ -5756,7 +5810,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("pipelineModeIntegrated", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Production.
         /// </summary>
@@ -5765,7 +5819,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("production", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to production.
         /// </summary>
@@ -5774,7 +5828,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("productionSlotDisplayName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Project.
         /// </summary>
@@ -5783,7 +5837,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("project", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App Service supports installing newer versions of Python. Click here to learn more..
         /// </summary>
@@ -5792,7 +5846,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("pythonInfoText", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Python version.
         /// </summary>
@@ -5801,7 +5855,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("pythonVersionLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The version used to run your web app if using Python.
         /// </summary>
@@ -5810,7 +5864,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("pythonVersionLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read only mode because you&apos;ve set the edit mode to read only. To change edit mode visit .
         /// </summary>
@@ -5819,7 +5873,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("readOnly", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. .
         /// </summary>
@@ -5828,7 +5882,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("readOnlyGeneratedBy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read-only mode because you are using Run-From-Zip. When using Run-From-Zip, the file system is read-only and no changes can be made to the files. To make any changes update the content in your zip file and WEBSITE_USE_ZIP app setting..
         /// </summary>
@@ -5837,7 +5891,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("readOnlyRunFromZip", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read only mode because you have slot(s) configured. To change edit mode visit.
         /// </summary>
@@ -5846,7 +5900,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("readOnlySlots", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read only mode because you have source control integration enabled. To change edit mode visit .
         /// </summary>
@@ -5855,7 +5909,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("readOnlySourceControlled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read\write mode because you&apos;ve set the edit mode to read\write despite having a generated function.json. Any changes you make may get overwritten with your next deployment. To change edit mode visit .
         /// </summary>
@@ -5864,7 +5918,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("readWriteGeneratedBy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your app is currently in read\write mode because you&apos;ve set the edit mode to read\write despite having source control enabled. Any changes you make may get overwritten with your next deployment. To change edit mode visit .
         /// </summary>
@@ -5873,7 +5927,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("readWriteSourceControlled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Redeploy.
         /// </summary>
@@ -5882,7 +5936,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("redeploy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Region.
         /// </summary>
@@ -5891,7 +5945,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("region", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Release Definition.
         /// </summary>
@@ -5900,7 +5954,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("releaseDefinition", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Release: {0}.
         /// </summary>
@@ -5909,7 +5963,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("releaseUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Remote debugging.
         /// </summary>
@@ -5918,7 +5972,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("remoteDebuggingEnabledLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Remote Visual Studio version.
         /// </summary>
@@ -5927,7 +5981,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("remoteDebuggingVersionLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Repository.
         /// </summary>
@@ -5936,7 +5990,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("repository", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Repository Type.
         /// </summary>
@@ -5945,7 +5999,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("repoType", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Reset publish credentials.
         /// </summary>
@@ -5954,7 +6008,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("resetPubCredentials", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Resource group.
         /// </summary>
@@ -5963,7 +6017,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("resourceGroup", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Resource Group:.
         /// </summary>
@@ -5972,7 +6026,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("resourceGroupColon", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} resource groups.
         /// </summary>
@@ -5981,7 +6035,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("resourceGroupCount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Waiting for the resource.
         /// </summary>
@@ -5990,7 +6044,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("resourceSelect", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Restart.
         /// </summary>
@@ -5999,7 +6053,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("restart", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Rollback Enabled.
         /// </summary>
@@ -6008,7 +6062,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("rollbackEnabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Body.
         /// </summary>
@@ -6017,7 +6071,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("rrOverride_boby", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status code.
         /// </summary>
@@ -6026,7 +6080,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("rrOverride_code", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status message.
         /// </summary>
@@ -6035,7 +6089,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("rrOverride_message", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Request override.
         /// </summary>
@@ -6044,7 +6098,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("rrOverride_request", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Response override.
         /// </summary>
@@ -6053,7 +6107,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("rrOverride_response", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Run.
         /// </summary>
@@ -6062,7 +6116,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("run", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Runtime version.
         /// </summary>
@@ -6071,7 +6125,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("runtimeImage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to custom.
         /// </summary>
@@ -6080,7 +6134,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("runtimeImageCustom", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Functions v1 (.NET Framework).
         /// </summary>
@@ -6089,7 +6143,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("runtimeImagev1", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Functions v2 (.NET Standard).
         /// </summary>
@@ -6098,7 +6152,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("runtimeImagev2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Runtime version.
         /// </summary>
@@ -6107,7 +6161,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("runtimeVersion", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
@@ -6116,7 +6170,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("save", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to A save operation is currently in progress.  Navigating away may cause some changes to be lost..
         /// </summary>
@@ -6125,7 +6179,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("saveOperationInProgressWarning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to scale.
         /// </summary>
@@ -6134,7 +6188,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("scale", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Source Control Type.
         /// </summary>
@@ -6143,7 +6197,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("scmType", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Scope to this item.
         /// </summary>
@@ -6152,7 +6206,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("scopeToItem", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
@@ -6161,7 +6215,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("search", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Search features.
         /// </summary>
@@ -6170,7 +6224,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("searchFeatures", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Search Function apps.
         /// </summary>
@@ -6179,7 +6233,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("searchFunctionApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
@@ -6188,7 +6242,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("select", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select all.
         /// </summary>
@@ -6197,7 +6251,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("selectAll", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Service Bus.
         /// </summary>
@@ -6206,7 +6260,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("serviceBusPicker_serviceBus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to setup Continuous Delivery.
         /// </summary>
@@ -6215,7 +6269,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("setupCDFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully setup Continuous Delivery for the repository.
         /// </summary>
@@ -6224,7 +6278,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("setupCDSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully setup Continuous Delivery and triggered build.
         /// </summary>
@@ -6233,7 +6287,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("setupCDSuccessAndTriggerBuild", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Show Logs....
         /// </summary>
@@ -6242,7 +6296,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("showLogs", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Changes made to function {{name}} will be lost. Are you sure you want to continue?.
         /// </summary>
@@ -6251,7 +6305,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideBar_changeMade", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Changes made to proxy {{name}} will be lost. Are you sure you want to continue?.
         /// </summary>
@@ -6260,7 +6314,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideBar_changeMadeApiProxy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Functions.
         /// </summary>
@@ -6269,7 +6323,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sidebar_Functions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New proxy.
         /// </summary>
@@ -6278,7 +6332,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sidebar_newApiProxy", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to New Function.
         /// </summary>
@@ -6287,7 +6341,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideBar_newFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
@@ -6296,7 +6350,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideBar_refresh", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to All subscriptions.
         /// </summary>
@@ -6305,7 +6359,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_AllSubscriptions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Functions (No access).
         /// </summary>
@@ -6314,7 +6368,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_FunctionsNoAccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Functions (ReadOnly lock).
         /// </summary>
@@ -6323,7 +6377,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_FunctionsReadOnlyLock", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Functions (Stopped).
         /// </summary>
@@ -6332,7 +6386,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_FunctionsStopped", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Proxies (No access).
         /// </summary>
@@ -6341,7 +6395,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_ProxiesNoAccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Proxies (ReadOnly lock).
         /// </summary>
@@ -6350,7 +6404,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_ProxiesReadOnlyLock", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Proxies (Stopped).
         /// </summary>
@@ -6359,7 +6413,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_ProxiesStopped", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {0} subscriptions.
         /// </summary>
@@ -6368,7 +6422,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_SubscriptionCount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Subscriptions.
         /// </summary>
@@ -6377,7 +6431,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sideNav_Subscriptions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The app &apos;{0}&apos; could not be found.
         /// </summary>
@@ -6386,7 +6440,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteDashboard_appNotFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unsaved changes for the app &apos;{0}&apos; will be lost.  Are you sure you would like to continue?.
         /// </summary>
@@ -6395,7 +6449,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteDashboard_confirmLoseChanges", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There was an error retrieving information about the app &apos;{0}&apos;.
         /// </summary>
@@ -6404,7 +6458,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteDashboard_getAppError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Pin app to dashboard.
         /// </summary>
@@ -6413,7 +6467,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteDashboard_pinApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete &apos;{0}&apos;.
         /// </summary>
@@ -6422,7 +6476,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_deleteConfirmation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to delete app &apos;{0}&apos;.
         /// </summary>
@@ -6431,7 +6485,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_deleteNotifyFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully deleted app &apos;{0}&apos;.
         /// </summary>
@@ -6440,7 +6494,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_deleteNotifySuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deleting app &apos;{0}&apos;.
         /// </summary>
@@ -6449,7 +6503,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_deleteNotifyTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to reset your publish profile? Profiles downloaded previously will become invalid..
         /// </summary>
@@ -6458,7 +6512,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_resetProfileConfirmation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to reset publishing profile.
         /// </summary>
@@ -6467,7 +6521,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_resetProfileNotifyFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully reset publishing profile.
         /// </summary>
@@ -6476,7 +6530,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_resetProfileNotifySuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Resetting publishing profile.
         /// </summary>
@@ -6485,7 +6539,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_resetProfileNotifyTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you would like to restart &apos;{0}&apos;.
         /// </summary>
@@ -6494,7 +6548,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_restartConfirmation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to restart app &apos;{0}&apos;.
         /// </summary>
@@ -6503,7 +6557,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_restartNotifyFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully restarted app &apos;{0}&apos;.
         /// </summary>
@@ -6512,7 +6566,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_restartNotifySuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Restarting app &apos;{0}&apos;.
         /// </summary>
@@ -6521,7 +6575,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_restartNotifyTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to start app &apos;{0}&apos;.
         /// </summary>
@@ -6530,7 +6584,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_startNotifyFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully started app &apos;{0}&apos;.
         /// </summary>
@@ -6539,7 +6593,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_startNotifySuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Starting app &apos;{0}&apos;.
         /// </summary>
@@ -6548,7 +6602,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_startNotifyTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you would like to stop &apos;{0}&apos;.
         /// </summary>
@@ -6557,7 +6611,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_stopConfirmation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to stop app &apos;{0}&apos;.
         /// </summary>
@@ -6566,7 +6620,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_stopNotifyFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully stopped app &apos;{0}&apos;.
         /// </summary>
@@ -6575,7 +6629,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_stopNotifySuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Stopping app &apos;{0}&apos;.
         /// </summary>
@@ -6584,7 +6638,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("siteSummary_stopNotifyTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Slot.
         /// </summary>
@@ -6593,7 +6647,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slot", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots..
         /// </summary>
@@ -6602,7 +6656,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_desc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans..
         /// </summary>
@@ -6611,7 +6665,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_dynamicQuotaReached", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create a new deployment slot.
         /// </summary>
@@ -6620,7 +6674,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_heading", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
@@ -6629,7 +6683,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_nameLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This value will be appended to your main web app&apos;s URL and will serve as the public address of the slot.  For example if you have a web app named &apos;contoso&apos; and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’..
         /// </summary>
@@ -6638,7 +6692,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_nameLabel_balloonText", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No access to create a slot. Please ensure you have the right RBAC access for the function app and do not have read locks enabled either..
         /// </summary>
@@ -6647,7 +6701,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_noAccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to create slot {0} .
         /// </summary>
@@ -6656,7 +6710,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_startCreateFailureNotifyTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Creating new slot {0} .
         /// </summary>
@@ -6665,7 +6719,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_startCreateNotifyTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully created slot {0} .
         /// </summary>
@@ -6674,7 +6728,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotNew_startCreateSuccessNotifyTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure functions slots (preview) is currently disabled. To enable, visit.
         /// </summary>
@@ -6683,7 +6737,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slots_warningOff", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
@@ -6692,7 +6746,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotsList_nameHeader", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to App service plan.
         /// </summary>
@@ -6701,7 +6755,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotsList_serverfarmHeader", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
@@ -6710,7 +6764,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotsList_statusHeader", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Slots (preview).
         /// </summary>
@@ -6719,7 +6773,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("slotsList_title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Source.
         /// </summary>
@@ -6728,7 +6782,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("source", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Source Control.
         /// </summary>
@@ -6737,7 +6791,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sourceControl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Source Provider.
         /// </summary>
@@ -6746,7 +6800,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sourceProvider", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to South Central US.
         /// </summary>
@@ -6755,7 +6809,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("southcentralus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Southeast Asia.
         /// </summary>
@@ -6764,7 +6818,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("southeastasia", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to South India.
         /// </summary>
@@ -6773,7 +6827,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("southindia", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add Sql connection string.
         /// </summary>
@@ -6782,7 +6836,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sql_add", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Database name.
         /// </summary>
@@ -6791,7 +6845,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sql_database_name", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to SQL Server endpoint.
         /// </summary>
@@ -6800,7 +6854,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sql_endpoint", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
@@ -6809,7 +6863,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sql_password", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to User name.
         /// </summary>
@@ -6818,7 +6872,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("sql_user_name", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
@@ -6827,7 +6881,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("start", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
@@ -6836,7 +6890,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("status", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Stop.
         /// </summary>
@@ -6845,7 +6899,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("stop", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Account key.
         /// </summary>
@@ -6854,7 +6908,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_accountKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Account name.
         /// </summary>
@@ -6863,7 +6917,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_accountName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Add storage account connection string.
         /// </summary>
@@ -6872,7 +6926,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_add", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to storage account connection string name.
         /// </summary>
@@ -6881,7 +6935,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_appSettingName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter a name for storage account connection string.
         /// </summary>
@@ -6890,7 +6944,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_appSettingName_empty_text", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Storage endpoints domain.
         /// </summary>
@@ -6899,7 +6953,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_endpoint", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Microsoft Azure.
         /// </summary>
@@ -6908,7 +6962,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_endpoint_azure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enter storage endpoints domain.
         /// </summary>
@@ -6917,7 +6971,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_endpoint_empty_text", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Other(specify bellow).
         /// </summary>
@@ -6926,7 +6980,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storage_endpoint_other", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to One or more function apps were linked to this storage account. You can see all the function apps linked to the account under &apos;files&apos; or &apos;Shares&apos;..
         /// </summary>
@@ -6935,7 +6989,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("storageLockNote", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Choose a plan below to create new subscription.
         /// </summary>
@@ -6944,7 +6998,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("subNew_chooseTemplate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Friendly subscription name.
         /// </summary>
@@ -6953,7 +7007,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("subNew_friendlySubNameName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invitation code.
         /// </summary>
@@ -6962,7 +7016,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("subNew_invitationCode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Provide a friendly subscription name.
         /// </summary>
@@ -6971,7 +7025,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("subNew_nameYourFriendlySubName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Subscription with name &apos;{0}&apos; already exist.
         /// </summary>
@@ -6980,7 +7034,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("subNew_subAlreadyExist", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Subscription ID.
         /// </summary>
@@ -6989,7 +7043,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("subscription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Subscription.
         /// </summary>
@@ -6998,7 +7052,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("subscriptionName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Summary.
         /// </summary>
@@ -7007,7 +7061,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("summary", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to support request.
         /// </summary>
@@ -7016,7 +7070,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("supportRequest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Collapse.
         /// </summary>
@@ -7025,7 +7079,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_collapse", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to overwrite the API definition in the editor?.
         /// </summary>
@@ -7034,7 +7088,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_confirmOverwrite", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete your API definition?.
         /// </summary>
@@ -7043,7 +7097,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_delete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Documentation.
         /// </summary>
@@ -7052,7 +7106,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_documentation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Expand.
         /// </summary>
@@ -7061,7 +7115,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_expand", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Use your API definition to access your Functions from within &lt;a href=&quot;https://powerapps.microsoft.com/en-us/&quot; target=&quot;_blank&quot;&gt;PowerApps&lt;/a&gt; and &lt;a href=&quot;https://ms.flow.microsoft.com/en-us/&quot; target=&quot;_blank&quot;&gt;Flow&lt;/a&gt;. .
         /// </summary>
@@ -7070,7 +7124,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_exporthelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to External URL.
         /// </summary>
@@ -7079,7 +7133,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_external", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Read the feature overview.
         /// </summary>
@@ -7088,7 +7142,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_feature_overview", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create a sparse definition with the metadata from your HTTP triggered functions.
         ///Fill in the &lt;a href=&quot;http://swagger.io/specification/#operationObject&quot; target=&quot;_blank&quot;&gt;operation objects&lt;/a&gt;, and other information about your API before use..
@@ -7098,7 +7152,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_generateHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Check out our getting started tutorial.
         /// </summary>
@@ -7107,7 +7161,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_getting_started", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function (preview).
         /// </summary>
@@ -7116,7 +7170,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_internal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to API definition key.
         /// </summary>
@@ -7125,7 +7179,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_key", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This key secures your API Definition from access to anyone without the key.
         ///It does not secure the underlying API. See each Function to see their key security..
@@ -7135,7 +7189,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_keyHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Load API definition.
         /// </summary>
@@ -7144,7 +7198,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_loadDefinition", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Generate API definition template.
         /// </summary>
@@ -7153,7 +7207,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_loadGeneratedDefinition", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function API definition (Swagger) feature is not supported for beta runtime currently..
         /// </summary>
@@ -7162,7 +7216,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_notSupportedForBeta", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to #Click &quot;Generate API definition template&quot; to get started.
         /// </summary>
@@ -7171,7 +7225,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_placeHolder", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Export to PowerApps + Flow.
         /// </summary>
@@ -7180,7 +7234,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_powerAppsFlow", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cannot save malformed API definition..
         /// </summary>
@@ -7189,7 +7243,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_prompt", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Renew.
         /// </summary>
@@ -7198,7 +7252,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_renew", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Revert to last save.
         /// </summary>
@@ -7207,7 +7261,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_revert", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Set external definition URL.
         /// </summary>
@@ -7216,7 +7270,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_setExternal", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to API definition source.
         /// </summary>
@@ -7225,7 +7279,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_source", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Set to &quot;Function&quot; to enable a hosted API definition and template definition generation.
         ///Set to &quot;External URL&quot; to use an API definition that is hosted elsewhere..
@@ -7235,7 +7289,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_sourceHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Consume your HTTP triggered Functions in a variety of services using an OpenAPI 2.0 (Swagger) definition.
         /// </summary>
@@ -7244,7 +7298,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_subtitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function API definition (Swagger).
         /// </summary>
@@ -7253,7 +7307,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_title", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to API definition URL.
         /// </summary>
@@ -7262,7 +7316,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_url", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Use this URL to directly access your API definition and import into 3rd party tools .
         /// </summary>
@@ -7271,7 +7325,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_urlHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Use your API definition.
         /// </summary>
@@ -7280,7 +7334,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swaggerDefinition_useAPIdefinition", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Swap.
         /// </summary>
@@ -7289,7 +7343,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swap", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Failed to swap slot {0} with {1}.
         /// </summary>
@@ -7298,7 +7352,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swappedSlotFail", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Swapped slot {0} with {1}.
         /// </summary>
@@ -7307,7 +7361,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("swappedSlotSuccess", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to API definition.
         /// </summary>
@@ -7316,7 +7370,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tab_api_definition", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Application settings.
         /// </summary>
@@ -7325,7 +7379,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tab_applicationSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configuration.
         /// </summary>
@@ -7334,7 +7388,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tab_configuration", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Platform features.
         /// </summary>
@@ -7343,7 +7397,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tab_features", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function app settings.
         /// </summary>
@@ -7352,7 +7406,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tab_functionSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Logic Apps.
         /// </summary>
@@ -7361,7 +7415,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tab_logicApps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Overview.
         /// </summary>
@@ -7370,7 +7424,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tab_overview", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
@@ -7379,7 +7433,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tab_settings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to End of row.
         /// </summary>
@@ -7388,7 +7442,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("table_endOfRow", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Start of row.
         /// </summary>
@@ -7397,7 +7451,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("table_startOfRow", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Develop.
         /// </summary>
@@ -7406,7 +7460,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tabNames_develop", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Integrate.
         /// </summary>
@@ -7415,7 +7469,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tabNames_integrate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
@@ -7424,7 +7478,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tabNames_manage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Monitor.
         /// </summary>
@@ -7433,7 +7487,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tabNames_monitor", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Durable Functions.
         /// </summary>
@@ -7442,7 +7496,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("temp_category_durableFunctions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Template.
         /// </summary>
@@ -7451,7 +7505,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("template", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Choose an input binding.
         /// </summary>
@@ -7460,7 +7514,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("templatePicker_chooseInput", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Choose an output binding.
         /// </summary>
@@ -7469,7 +7523,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("templatePicker_chooseOutput", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Choose a template.
         /// </summary>
@@ -7478,7 +7532,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("templatePicker_chooseTemplate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Choose a trigger.
         /// </summary>
@@ -7487,7 +7541,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("templatePicker_chooseTrigger", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Language:.
         /// </summary>
@@ -7496,7 +7550,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("templatePicker_language", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Scenario:.
         /// </summary>
@@ -7505,7 +7559,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("templatePicker_scenario", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Test.
         /// </summary>
@@ -7514,7 +7568,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("test", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
@@ -7523,7 +7577,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("time", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Installing runtime extensions is taking longer than expected.
         /// </summary>
@@ -7532,7 +7586,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("timeoutInstallingFunctionRuntimeExtension", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;AlwaysOn&apos; is not enabled. Your app may not function properly.
         /// </summary>
@@ -7541,7 +7595,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_alwaysOn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Changes made to the current function will be lost. Are you sure you want to continue?.
         /// </summary>
@@ -7550,7 +7604,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_changeMade", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to API settings.
         /// </summary>
@@ -7559,7 +7613,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_functionApiSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function app settings.
         /// </summary>
@@ -7568,7 +7622,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_functionAppSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Learn more.
         /// </summary>
@@ -7577,7 +7631,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_learnMore", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to A new version of Azure Functions is available. To upgrade, click here.
         /// </summary>
@@ -7586,7 +7640,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_newVersion", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Quickstart.
         /// </summary>
@@ -7595,7 +7649,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_quickStart", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Azure Functions release notes..
         /// </summary>
@@ -7604,7 +7658,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_releaseNotes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You&apos;re using a prerelease version of Azure Functions. Thanks for trying it out!.
         /// </summary>
@@ -7613,7 +7667,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_runtimeV2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Value for id has been explicitly set in host.json, which may cause unexpected behavior when using deployment slots.
         /// </summary>
@@ -7622,7 +7676,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_slotsHostId", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Usage.
         /// </summary>
@@ -7631,7 +7685,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("topBar_usage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We&apos;ve enjoyed hosting your functions !.
         /// </summary>
@@ -7640,7 +7694,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("trialExpired_enjoyedHostingFunctions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your trial has now expired, but you can sign up for an extended trial which includes the rest of Azure as well..
         /// </summary>
@@ -7649,7 +7703,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("trialExpired_signupForAzure", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Triggers.
         /// </summary>
@@ -7658,7 +7712,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("trigger", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Managing your Function app is not available for this trial..
         /// </summary>
@@ -7667,7 +7721,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("try_appDisabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Choose an auth provider.
         /// </summary>
@@ -7676,7 +7730,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryLanding_chooseAnAuthProvider", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function creation error! Please try again..
         /// </summary>
@@ -7685,7 +7739,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryLanding_functionError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create Function Error.
         /// </summary>
@@ -7694,7 +7748,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryLanding_functionErrorDetails", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to If you&apos;d prefer another supported language, you can choose one later in the functions portal..
         /// </summary>
@@ -7703,7 +7757,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryLanding_ifYou", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Microsoft Account.
         /// </summary>
@@ -7712,7 +7766,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryLanding_microsoftAcccount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Create a free Azure account.
         /// </summary>
@@ -7721,7 +7775,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_createFreeAzureAccount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Discover more.
         /// </summary>
@@ -7730,7 +7784,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_discoverMore", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Extend trial to 24 hours.
         /// </summary>
@@ -7739,7 +7793,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_extendTrial", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Just a few more seconds....
         /// </summary>
@@ -7748,7 +7802,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_fewMoreSeconds", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Signing up for a free Azure account unlocks all Functions capabilities without worrying about time limits!.
         /// </summary>
@@ -7757,7 +7811,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_FreeAccountToolTip", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Hang on while we put the &apos;fun&apos; in functions....
         /// </summary>
@@ -7766,7 +7820,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_hangOn", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Less than 1 minute.
         /// </summary>
@@ -7775,7 +7829,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_lessThanOneMinute", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to  minutes.
         /// </summary>
@@ -7784,7 +7838,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_minutes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Trial expired.
         /// </summary>
@@ -7793,7 +7847,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_trialExpired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Free Trial - Time remaining:.
         /// </summary>
@@ -7802,7 +7856,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tryNow_trialTimeRemaining", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Changes made here will affect all of the functions within your function app..
         /// </summary>
@@ -7811,7 +7865,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_changesMade", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;span&gt;Create a brand-new function&lt;/span&gt; - Get started with one of the pre-built function templates.
         /// </summary>
@@ -7820,7 +7874,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_createNew", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Develop.
         /// </summary>
@@ -7829,7 +7883,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_develop", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;span&gt;Dive into the documentation&lt;/span&gt; - Explore all of the Azure Functions features &lt;a target=&quot;_blank&quot; href=&quot;http://go.microsoft.com/fwlink/?LinkId=747839&quot;&gt;here&lt;/a&gt;.
         /// </summary>
@@ -7838,7 +7892,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_diveIntoDocumentation", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Function App Settings.
         /// </summary>
@@ -7847,7 +7901,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_functionAppSettings", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Integrate.
         /// </summary>
@@ -7856,7 +7910,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_integrate", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Integrating your functions with other services and data sources is easy..
         /// </summary>
@@ -7865,7 +7919,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_integrateYourFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Next Steps.
         /// </summary>
@@ -7874,7 +7928,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_nextSteps", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Set up automated actions based on external triggers, include other input data sources, and send the output to multiple targets..
         /// </summary>
@@ -7883,7 +7937,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_setUpAutomated", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Skip the tour and start coding.
         /// </summary>
@@ -7892,7 +7946,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_skip", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The fastest way to edit code is with the code editor, but you can also use Git.This example uses C#, but many other languages are also supported..
         /// </summary>
@@ -7901,7 +7955,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_theFastestWayCSharp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The fastest way to edit code is with the code editor, but you can also use Git.This example uses NodeJS, but many other languages are also supported..
         /// </summary>
@@ -7910,7 +7964,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_theFastestWayNode", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This page also includes a log stream and a test console for helping you debug your function..
         /// </summary>
@@ -7919,7 +7973,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_thisPageInclude", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;span&gt;Tweak this sample function&lt;/span&gt; - Make it yours on the easy-to-use dashboard.
         /// </summary>
@@ -7928,7 +7982,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_tweakThisSample", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Your functions are designed to run within Azure App Service as a function app, and this is where you modify the features of that app..
         /// </summary>
@@ -7937,7 +7991,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("tutorial_yourFunction", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to UK South.
         /// </summary>
@@ -7946,7 +8000,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("uksouth", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to UK West.
         /// </summary>
@@ -7955,7 +8009,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("ukwest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Update.
         /// </summary>
@@ -7964,7 +8018,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("update", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Upgrade to enable.
         /// </summary>
@@ -7973,7 +8027,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("upgradeToEnable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Platform.
         /// </summary>
@@ -7982,7 +8036,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("use32BitWorkerProcessLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The platform architecture your web app runs.
         /// </summary>
@@ -7991,7 +8045,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("use32BitWorkerProcessLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to 64-bit configuration requires a basic or higher App Service plan.
         /// </summary>
@@ -8000,7 +8054,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("use32BitWorkerProcessUpsell", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Duplicate values are not allowed.
         /// </summary>
@@ -8009,7 +8063,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("validation_duplicateError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This field can only contain letters, numbers (0-9), periods (&quot;.&quot;), and underscores (&quot;_&quot;).
         /// </summary>
@@ -8018,7 +8072,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("validation_linuxAppSettingNameError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This field is required.
         /// </summary>
@@ -8027,7 +8081,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("validation_requiredError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; is an invalid character.
         /// </summary>
@@ -8036,7 +8090,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("validation_siteNameInvalidChar", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The name must be fewer than 60 characters.
         /// </summary>
@@ -8045,7 +8099,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("validation_siteNameMaxChars", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The name must be at least 2 characters.
         /// </summary>
@@ -8054,7 +8108,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("validation_siteNameMinChars", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The app name &apos;{0}&apos; is not available.
         /// </summary>
@@ -8063,7 +8117,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("validation_siteNameNotAvailable", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to View Instructions.
         /// </summary>
@@ -8072,7 +8126,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("viewInstructions", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Visual Studio Online Account.
         /// </summary>
@@ -8081,7 +8135,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("vsoAccount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Successfully triggered Continuous Delivery with latest source code from repository.
         /// </summary>
@@ -8090,7 +8144,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("vsoSync", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Visual Studio Team Service Account.
         /// </summary>
@@ -8099,7 +8153,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("vstsAccount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Configure continuous integration with a VSTS repo..
         /// </summary>
@@ -8108,7 +8162,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("vstsDesc", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
@@ -8117,7 +8171,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("warning", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Web App.
         /// </summary>
@@ -8126,7 +8180,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("webApp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Web sockets.
         /// </summary>
@@ -8135,7 +8189,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("webSocketsEnabledLabel", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to WebSockets allow more flexible connectivity between web apps and modern browsers.  Your web app would need to be built to leverage these capabilities..
         /// </summary>
@@ -8144,7 +8198,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("webSocketsEnabledLabelHelp", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to West Central US.
         /// </summary>
@@ -8153,7 +8207,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("westcentralus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to West Europe.
         /// </summary>
@@ -8162,7 +8216,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("westeurope", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to West India.
         /// </summary>
@@ -8171,7 +8225,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("westindia", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to West US.
         /// </summary>
@@ -8180,7 +8234,7 @@ namespace AzureFunctions.ResourcesPortal {
                 return ResourceManager.GetString("westus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to West US 2.
         /// </summary>
