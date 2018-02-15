@@ -756,8 +756,12 @@ export class FunctionAppService {
                     const vsCreatedFunc = result.functions.isSuccessful
                         ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
                         : false;
+                    const usingRunFromZip = appSettings ? appSettings.properties[Constants.WebsiteUseZip] || '' : '';
 
-                    if (vsCreatedFunc && (editModeSettingString === Constants.ReadOnlyMode || editModeSettingString === '')) {
+                    // TODO: [ahmels] ignore dynamic linux apps with that app setting for now
+                    if (usingRunFromZip && !ArmUtil.isLinuxDynamic(context.site)) {
+                        return FunctionAppEditMode.ReadOnlyRunFromZip;
+                    } else if (vsCreatedFunc && (editModeSettingString === Constants.ReadOnlyMode || editModeSettingString === '')) {
                         return FunctionAppEditMode.ReadOnlyVSGenerated;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
