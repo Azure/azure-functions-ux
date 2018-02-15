@@ -103,3 +103,13 @@ $custom-picker-header-bg-color: rgb(218, 230, 239);
 $custom-sql-picker-imgae-bg-color: $heading-text-color;
 $custom-sq-picker-header-bg-color: rgb(217, 217, 217);
 
+$errors-warnings-table-background-color: whitesmoke;
+$errors-warnings-table-background-color-dark: #323232;
+
+$errors-warnings-table-border-color: lightgray;
+$errors-warnings-table-row-hover-color: lightgray;
+$errors-warnings-table-row-hover-color-dark: darken($errors-warnings-table-background-color-dark, 5%);
+
+$severity-error-color: red;
+$severity-warnings-color: orange;
+$severity-info-color: steelblue;

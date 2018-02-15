@@ -46,6 +46,7 @@ import { BindingV2Component } from './function/binding-v2/binding-v2.component';
 import { BindingInputV2Component } from './function/binding-input-v2/binding-input-v2.component';
 import { SidebarPickerComponent } from './function/sidebar-picker/sidebar-picker.component';
 import { ExtensionInstallDetailComponent } from './function/extension-install-detail/extension-install-detail.component';
+import { ErrorsWarningsComponent } from './errors-warnings/errors-warnings.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -134,7 +135,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         BindingInputV2Component,
         JavaSplashPageComponent,
         SidebarPickerComponent,
-        ExtensionInstallDetailComponent
+        ExtensionInstallDetailComponent,
+        ErrorsWarningsComponent
     ],
     providers: []
 })

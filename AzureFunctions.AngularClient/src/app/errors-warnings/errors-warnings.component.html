@@ -1,0 +1,25 @@
+<div class="errors-warnings">
+    <table #diagnosticsTable id="diagnostics-table">
+        <busy-state></busy-state>
+        <thead>
+            <tr>
+                <th [ngStyle] = " { 'width' : '50px'} " ></th>
+                <th [ngStyle] = "{ 'width.px' : codeColumnWidth} " > {{'diagnostics_code' | translate}} </th>
+                <th [ngStyle] = "{ 'width.px' : msgColumnWidth} " > {{'diagnostics_description' | translate}} </th>
+                <th [ngStyle] = "{ 'width.px' : sourceColumnWidth} " > {{'diagnostics_file' | translate}} </th>
+                <th [ngStyle] = "{ 'width.px' : startLineNumberColumnWidth} " > {{'diagnostics_line' | translate}} </th>
+                <th [ngStyle] = "{ 'width.px' : startColumnColumnWidth} " > {{'diagnostics_column' | translate}} </th>
+            </tr>
+        </thead>
+        <tbody>
+             <tr *ngFor="let feature of diagnostics " (click)="itemClick(feature)" class="clickable">
+                 <td style="width: 50px" [ngClass]="getSeverityClass(feature.severity) "></td>
+                 <td [ngStyle] = "{ 'width.px' : codeColumnWidth} " >{{feature.code}}</td>
+                 <td [ngStyle] = "{ 'width.px' : msgColumnWidth} ">{{feature.message}}</td>
+                 <td [ngStyle] = "{ 'width.px' : sourceColumnWidth} ">{{feature.source}}</td>
+                 <td [ngStyle] = "{ 'width.px' : startLineNumberColumnWidth} ">{{feature.startLineNumber}}</td>
+                 <td [ngStyle] = "{ 'width.px' : startColumnColumnWidth} ">{{feature.startColumn}}</td>
+             </tr>
+        </tbody>
+    </table>
+</div>

@@ -4,6 +4,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import { GlobalStateService } from '../services/global-state.service';
 import { CacheService } from 'app/shared/services/cache.service';
+import { Subject } from 'rxjs/Subject';
 
 declare var monaco;
 
@@ -12,17 +13,19 @@ declare var monaco;
 })
 export class MonacoEditorDirective {
     @Output() public onContentChanged: EventEmitter<string>;
+    @Output() public onFileChanged: Subject<void>;
     @Output() public onSave: EventEmitter<string>;
     @Output() public onRun: EventEmitter<void>;
-    @HostBinding('style.opacity') opacity: string = '1';
+    @HostBinding('style.opacity') opacity = '1';
 
     private _language: string;
     private _content: string;
     private _disabled: boolean;
-    private _editor: any;
-    private _silent: boolean = false;
+    private _editor: monaco.editor.IStandaloneCodeEditor;
+    private _silent = false;
     private _fileName: string;
     private _theme: string;
+    private diagnostics: monaco.editor.IMarkerData[];
 
     constructor(
         public elementRef: ElementRef,
@@ -33,6 +36,7 @@ export class MonacoEditorDirective {
         this.onContentChanged = new EventEmitter<string>();
         this.onSave = new EventEmitter<string>();
         this.onRun = new EventEmitter<void>();
+        this.onFileChanged = new Subject();
 
         this._userService.getStartupInfo()
             .first()
@@ -43,10 +47,16 @@ export class MonacoEditorDirective {
         this.init();
     }
 
-    @Input('content') set content(str: string) {
+    @Input('content')
+    set content(str: string) {
         if (!str) {
             str = '';
         }
+
+        // We explicitly silence the onContentChanged events if the content
+        // was changed by setting this prop.
+        // onFileChanged fires regardless.
+        this.onFileChanged.next();
 
         if (this._editor && this._editor.getValue() === str) {
             return;
@@ -59,7 +69,8 @@ export class MonacoEditorDirective {
         }
     }
 
-    @Input('disabled') set disabled(value: boolean) {
+    @Input('disabled')
+    set disabled(value: boolean) {
         if (value !== this._disabled) {
             this._disabled = value;
             if (this._editor) {
@@ -71,7 +82,8 @@ export class MonacoEditorDirective {
         }
     }
 
-    @Input('fileName') set fileName(filename: string) {
+    @Input('fileName')
+    set fileName(filename: string) {
         let extension = filename.split('.').pop().toLocaleLowerCase();
         this._fileName = filename;
 
@@ -114,7 +126,9 @@ export class MonacoEditorDirective {
         }
     }
 
-
+    get CurrentFileName() {
+        return this._fileName;
+    }
 
     public setLayout(width?: number, height?: number) {
         if (this._editor) {
@@ -126,6 +140,44 @@ export class MonacoEditorDirective {
         }
     }
 
+    get width() {
+        return this.elementRef.nativeElement.clientWidth;
+    }
+
+    public resize() {
+        this.setLayout(100, 100);
+        setTimeout(() => {
+            const width = this.elementRef.nativeElement.clientWidth;
+            const height = this.elementRef.nativeElement.clientHeight;
+            this.setLayout(width - 4, height - 4);
+        });
+    }
+
+    public setDiagnostics(diagnostics: monaco.editor.IMarkerData[]) {
+        this.diagnostics = diagnostics;
+        this.updateDiagnostics();
+    }
+
+    public setPosition(lineNumber: number, column: number): void {
+        const position: monaco.IPosition = { lineNumber, column };
+        this._editor.revealPositionInCenterIfOutsideViewport(position);
+        this._editor.setPosition(position);
+        this._editor.focus();
+    }
+
+    private updateDiagnostics() {
+        if (this.diagnostics) {
+            if (!this._editor) {
+                return;
+            }
+
+            try {
+                monaco.editor.setModelMarkers(this._editor.getModel(), 'monaco', this.diagnostics.filter(d => d.source === this._fileName));
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 
     private init() {
         this._globalStateService.setBusyState();
@@ -175,11 +227,11 @@ export class MonacoEditorDirective {
                 // TODO: test with MAC
                 that._editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
                     that.onSave.emit(that._editor.getValue());
-                });
+                }, undefined);
 
                 that._editor.addCommand(monaco.KeyMod.Shift | monaco.KeyCode.Enter, () => {
                     that.onRun.emit();
-                });
+                }, undefined);
 
                 that._globalStateService.clearBusyState();
 
@@ -197,7 +249,7 @@ export class MonacoEditorDirective {
             let loaderScript = document.createElement('script');
             loaderScript.type = 'text/javascript';
             loaderScript.src = 'assets/monaco/vs/loader.js';
-            loaderScript.addEventListener('load', onGotAmdLoader);
+            loaderScript.addEventListener('load', () => onGotAmdLoader());
             document.body.appendChild(loaderScript);
         } else {
             onGotAmdLoader();
