@@ -10,7 +10,7 @@ import { ArmService } from './arm.service';
 
 @Injectable()
 export class ArmEmbeddedService extends ArmService {
-    public static url = PortalService.getEmbeddedRP();
+    public static url = ArmEmbeddedService.getRPUrl();
 
     public websiteApiVersion = '2018-02-01-preview';
 
@@ -27,6 +27,14 @@ export class ArmEmbeddedService extends ArmService {
     private _whitelistedPathPrefix: string[] = [
         '/api/'
     ];
+
+    // eventually move to sever
+    public static getRPUrl(): string {
+        if (window.location.host.indexOf('next') !== -1 || window.location.host.indexOf('localhost') !== -1) {
+            return 'https://blueridge-tip1-rp-westus.azurewebsites.net';
+        }
+        return 'https://blueridge-rp-westus.azurewebsites.net';
+    }
 
     constructor(http: Http,
         userService: UserService,
