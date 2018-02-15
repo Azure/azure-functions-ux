@@ -39,3 +39,10 @@
     {{ 'readWriteGeneratedBy' | translate }} <span *ngIf="context" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
   </div>
 </div>
+
+<div *ngIf="readOnlyRunFromZip">
+  <br />
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'readOnlyRunFromZip' | translate }}
+  </div>
+</div>
