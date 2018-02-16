@@ -1,4 +1,4 @@
-<!-- <div class="settings-group-wrapper">
+ <div class="settings-group-wrapper">
 
   <h3 class="first-config-heading">Build</h3>
 
@@ -7,8 +7,12 @@
       <div class="setting-label">Visual Studio Team Service Account</div>
       <div class="setting-control-container">
         <div class="newOrExistingSelection">
-          <label><input type="radio" name="language" value="new" checked>Create New</label>
-          <label><input type="radio" name="language" value="existing">Use Existing</label>
+          <radio-selector
+          [control]="this.wizard?.vstsBuildSettings?.controls?.createNewVsoAccount"
+          [options]="NewVsoAccountOptions"
+          [defaultValue]="'Existing'"
+          [highlightDirty]="false">
+        </radio-selector>
         </div>
 
         <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!BranchList ? BranchList : []"
@@ -48,4 +52,4 @@
         </div>
       </div>
   </div>
-</div> -->
+</div> 

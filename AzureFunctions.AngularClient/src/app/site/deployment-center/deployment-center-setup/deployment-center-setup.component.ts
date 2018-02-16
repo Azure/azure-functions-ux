@@ -26,7 +26,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                 isMercurial: [false, []]
             }),
             vstsBuildSettings: this._fb.group({
-                createNewVsoAccount: ['', []],
+                createNewVsoAccount: ['existing', []],
                 vstsAccount: ['', []],
                 vstsProject: ['', []],
                 location: ['', []],
@@ -60,19 +60,18 @@ export class DeploymentCenterSetupComponent implements OnChanges {
     }
 
     get showBuildStep() {
-        return false;
-        // const sourceControlProvider =
-        //     this._wizardService &&
-        //     this._wizardService.wizardForm &&
-        //     this._wizardService.wizardForm.controls['sourceProvider'] &&
-        //     this._wizardService.wizardForm.controls['sourceProvider'].value;
-        // return (
-        //     sourceControlProvider !== 'onedrive' &&
-        //     sourceControlProvider !== 'dropbox' &&
-        //     sourceControlProvider !== 'bitbucket' &&
-        //     sourceControlProvider !== 'ftp' &&
-        //     sourceControlProvider !== 'webdeploy'
-        // );
+        const sourceControlProvider =
+            this._wizardService &&
+            this._wizardService.wizardForm &&
+            this._wizardService.wizardForm.controls['sourceProvider'] &&
+            this._wizardService.wizardForm.controls['sourceProvider'].value;
+        return (
+            sourceControlProvider !== 'onedrive' &&
+            sourceControlProvider !== 'dropbox' &&
+            sourceControlProvider !== 'bitbucket' &&
+            sourceControlProvider !== 'ftp' &&
+            sourceControlProvider !== 'webdeploy'
+        );
     }
 
     get showConfigureStep() {
