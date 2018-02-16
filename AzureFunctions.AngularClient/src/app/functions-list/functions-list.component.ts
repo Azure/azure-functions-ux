@@ -79,10 +79,6 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
             });
     }
 
-    setupNavigation(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
-        return null;
-    }
-
     private _buildCreateCardTemplate(context: FunctionAppContext) {
         return this._functionAppService.getTemplates(context)
             .do(templates => {

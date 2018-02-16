@@ -103,10 +103,6 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
         }
     }
 
-    setupNavigation(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
-        return null;
-    }
-
     setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
         return super.setup(navigationEvents)
             .switchMap(viewInfo => {
