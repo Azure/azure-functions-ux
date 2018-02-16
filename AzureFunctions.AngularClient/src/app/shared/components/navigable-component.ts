@@ -39,7 +39,7 @@ export class NavigableComponent extends FeatureComponent<TreeViewInfo<SiteData>>
         });
     }
 
-    protected setup(inputEvents: Observable<TreeViewInfo<any>>): Observable<any> {
+    protected setup(inputEvents: Observable<TreeViewInfo<any>>) {
         return inputEvents
             .filter(view => {
                 if (typeof this._filter === 'undefined' || !this._filter) {

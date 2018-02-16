@@ -294,6 +294,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.functionUpdate.unsubscribe();
         this.selectedFileStream.unsubscribe();
         if (this.logStreamings) {
@@ -458,9 +459,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
                 this.content = this.updatedContent;
             },
-            () => {
-                this._globalStateService.clearBusyState();
-            });
+                () => {
+                    this._globalStateService.clearBusyState();
+                });
     }
 
     contentChanged(content: string) {

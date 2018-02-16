@@ -16,12 +16,13 @@ export abstract class BaseFunctionComponent extends NavigableComponent {
         this._functionAppService = injector.get(FunctionAppService);
     }
 
-    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>) {
         return super.setup(navigationEvents)
-            .switchMap(viewInfo => Observable.zip(
-                this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()),
-                Observable.of(viewInfo)
-            ))
+            .switchMap(viewInfo => {
+                return Observable.zip(
+                    this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()),
+                    Observable.of(viewInfo));
+            })
             .switchMap(tuple => Observable.zip(
                 this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
                 Observable.of(tuple[0]),
