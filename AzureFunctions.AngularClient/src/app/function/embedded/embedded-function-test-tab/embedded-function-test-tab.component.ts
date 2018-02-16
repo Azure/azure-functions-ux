@@ -16,8 +16,8 @@ import { TabComponent } from './../../../controls/tabs/tab/tab.component';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, ViewChild, Output, Input, OnChanges, SimpleChange, ContentChildren, QueryList, OnDestroy } from '@angular/core';
-import { Headers } from '@angular/http';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { Headers } from '@angular/http';
 
 @Component({
   selector: 'embedded-function-test-tab',
@@ -141,13 +141,6 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
       });
     });
 
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('Cache-Control', 'no-cache');
-    headers.append('Ocp-Apim-Subscription-Key', `403ca4c30e9d45fba7306a7a4edb5f75`);
-    headers.append('Ocp-Apim-Trace', 'true');
-
     this._busyManager.setBusy();
 
     const content = {
@@ -155,7 +148,12 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
       url: this._functionInfo.trigger_url
     };
 
-    this._cacheService.post('/api/triggerFunctionAPIM', true, null, content)
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    headers.append('Cache-Control', 'no-cache');
+
+    this._cacheService.post('/api/triggerFunctionAPIM', true, headers, content)
       .subscribe(r => {
         this._busyManager.clearBusy();
         this.responseOutputText = r.text();

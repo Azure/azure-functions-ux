@@ -45,21 +45,26 @@
                                 <i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}
                             </span>
                         </pop-over>
-                        <a class="operation" 
+                        <a class="operation"
+                            role="link"
                             (click)="renewKey(key)"
                             (keydown)="keyDown($event, 'renewKey', key)"
                             tabindex="0"
                             id="renewKeyAction"
                             aria-labelledby="keyNameLabel renewKeyAction">
-                                <i class="fa fa-refresh"></i> {{'functionKeys_renew' | translate}}</a>
-                        <a class="operation" 
+                            <i class="fa fa-refresh"></i>
+                            {{'functionKeys_renew' | translate}}
+                        </a>
+                        <a class="operation"
+                            role="link"
                             *ngIf="key.name !== '_master'"
                             (click)="revokeKey(key)"
                             (keydown)="keyDown($event, 'revokeKey', key)"
                             tabindex="0"
                             id="revokeKeyAction"
                             aria-labelledby="keyNameLabel revokeKeyAction">
-                                <i class="fa fa-times"></i> {{'functionKeys_revoke' | translate}}
+                            <i class="fa fa-times"></i>
+                            {{'functionKeys_revoke' | translate}}
                         </a>
                     </div>
                 </td>

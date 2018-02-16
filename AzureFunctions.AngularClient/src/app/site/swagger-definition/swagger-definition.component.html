@@ -10,7 +10,7 @@
                 <br>
                 <label class="subtitle">{{'swaggerDefinition_subtitle' | translate}}</label>
             </div>
-            <div [class.collapse]="!swaggerEnabled">
+            <div *ngIf="exportToPowerAppsEnabled" [class.collapse]="!swaggerEnabled">
                 <label id="useApiDefinition" class="setting-title">{{'swaggerDefinition_useAPIdefinition' | translate}}</label>
                 <pop-over [position]="'bottom'" [message]="'swaggerDefinition_exporthelp' | translate">
                     <span class="glyphicon glyphicon-info-sign button-title"></span>

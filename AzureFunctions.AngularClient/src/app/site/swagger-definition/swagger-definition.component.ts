@@ -1,4 +1,5 @@
-import { KeyCodes, Constants } from './../../shared/models/constants';
+import { ScenarioService } from './../../shared/services/scenario/scenario.service';
+import { KeyCodes, Constants, ScenarioIds } from './../../shared/models/constants';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -39,7 +40,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     public keyVisible: boolean;
     public documentationVisible: boolean;
     public swaggerEnabled: boolean;
-
+    public exportToPowerAppsEnabled = false;
     public swaggerStatusOptions: SelectOption<boolean>[];
     public valueChange: Subject<boolean>;
     public swaggerKey: string;
@@ -57,7 +58,9 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
         private _cacheService: CacheService,
         broadcastService: BroadcastService,
         private _translateService: TranslateService,
-        private _functionAppService: FunctionAppService) {
+        private _functionAppService: FunctionAppService,
+        private _scenarioService: ScenarioService
+    ) {
         super('swagger-definition', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
         this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
@@ -96,6 +99,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
             .switchMap(result => {
                 this.generation = result.gen;
                 this.swaggerEnabled = false;
+                this.exportToPowerAppsEnabled = this._scenarioService.checkScenario(ScenarioIds.enableExportToPowerApps).status !== 'disabled';
                 if (result.host && result.host.result.swagger && typeof (result.host.result.swagger.enabled) === 'boolean') {
                     this.swaggerEnabled = result.host.result.swagger.enabled;
                 }

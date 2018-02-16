@@ -1,7 +1,7 @@
 ﻿import { AADPermissions } from './microsoft-graph';
 
 export class BindingType {
-    static syncTrigger = 'syncTrigger';
+    static xrmwebhooktrigger = 'xrmwebhooktrigger';
     static timerTrigger = "timerTrigger";
     static eventHubTrigger = "eventHubTrigger";
     static eventHub = "eventHub";

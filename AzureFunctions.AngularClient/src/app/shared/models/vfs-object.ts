@@ -5,4 +5,5 @@ export interface VfsObject {
     href: string;
     isDirty?: boolean;
     isBinary?: boolean;
+    parsedTime?: Date;
 }

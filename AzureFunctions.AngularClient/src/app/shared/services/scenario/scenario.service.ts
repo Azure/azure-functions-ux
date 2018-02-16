@@ -16,6 +16,7 @@ import { OnPremEnvironment } from './onprem.environment';
 import { Environment } from './scenario.models';
 import { Injectable } from '@angular/core';
 import { LinuxSiteEnvironment } from 'app/shared/services/scenario/linux-site.environment';
+import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
 
 @Injectable()
 export class ScenarioService {
@@ -27,7 +28,8 @@ export class ScenarioService {
         new DynamicSiteEnvironment(this._translateService),
         new LinuxSiteEnvironment(this._translateService),
         new AzureTryEnvironment(),
-        new EmbeddedFunctionsEnvironment(this._portalService)
+        new EmbeddedFunctionsEnvironment(this._portalService),
+        new DynamicLinuxEnvironment()
     ];
 
     constructor(

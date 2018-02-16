@@ -328,36 +328,37 @@ export class FunctionNewDetailComponent implements OnChanges {
         this._globalStateService.setBusyState();
         if (this._portalService.isEmbeddedFunctions) {
             this._embeddedService.createFunction(this.entityContext, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
-            .subscribe(r => {
-                if (r.isSuccessful) {
-                    r.result.context = this.entityContext;
-                    this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
-                    this.functionsNode.addChild(r.result);
-                } else {
-                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                        message: r.error.message,
-                        errorId: r.error.errorId,
-                        resourceId: r.result.context.site.id,
-                      });
-                }
-                this._globalStateService.clearBusyState();
-            });
+                .subscribe(r => {
+                    if (r.isSuccessful) {
+                        r.result.context = this.entityContext;
+                        this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
+                        this.functionsNode.addChild(r.result);
+                    } else {
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            message: r.error.message,
+                            errorId: r.error.errorId,
+                            resourceId: this.entityContext.site.id,
+                        });
+                        this.close();
+                    }
+                    this._globalStateService.clearBusyState();
+                });
         } else {
             this._functionAppService.createFunctionV2(this.context, this.functionName, this.currentTemplate.files, this.bc.UIToFunctionConfig(this.model.config))
-            .subscribe(newFunctionInfo => {
-                if (newFunctionInfo.isSuccessful) {
-                    this._portalService.logAction('new-function', 'success', { template: this.currentTemplate.id, name: this.functionName });
-                    this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
+                .subscribe(newFunctionInfo => {
+                    if (newFunctionInfo.isSuccessful) {
+                        this._portalService.logAction('new-function', 'success', { template: this.currentTemplate.id, name: this.functionName });
+                        this._aiService.trackEvent('new-function', { template: this.currentTemplate.id, result: 'success', first: 'false' });
 
-                    newFunctionInfo.result.context = this.context;
-                    this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
-                    this.functionsNode.addChild(newFunctionInfo.result);
-                }
-                this._globalStateService.clearBusyState();
-            },
-            () => {
-                this._globalStateService.clearBusyState();
-            });
+                        newFunctionInfo.result.context = this.context;
+                        this.functionsNode = <FunctionsNode>this.appNode.children.find(node => node.title === this.functionsNode.title);
+                        this.functionsNode.addChild(newFunctionInfo.result);
+                    }
+                    this._globalStateService.clearBusyState();
+                },
+                () => {
+                    this._globalStateService.clearBusyState();
+                });
         }
     }
 

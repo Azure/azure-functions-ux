@@ -1,33 +1,23 @@
-import { ElementRef, Input } from '@angular/core';
+import { SiteService } from 'app/shared/services/site.service';
+import { ElementRef, Input, Injector } from '@angular/core';
 import { Dom } from './../../shared/Utilities/dom';
 import { SiteDashboardComponent } from './../site-dashboard/site-dashboard.component';
-import { SiteTabIds, KeyCodes } from './../../shared/models/constants';
+import { SiteTabIds, KeyCodes, ScenarioIds } from './../../shared/models/constants';
 import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
-
 import { PortalResources } from './../../shared/models/portal-resources';
-import { GlobalStateService } from './../../shared/services/global-state.service';
 import { AiService } from './../../shared/services/ai.service';
 import { ArmSiteDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from './../../shared/services/authz.service';
-import { AuthSettings } from './../../shared/models/arm/auth-settings';
 import { PortalService } from './../../shared/services/portal.service';
-import { CacheService } from '../../shared/services/cache.service';
 import { LocalStorageService as StorageService } from '../../shared/services/local-storage.service';
 import { Site } from '../../shared/models/arm/site';
-import { SiteConfig } from '../../shared/models/arm/site-config';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem } from '../../shared/models/localStorage/enabled-features';
 import { FunctionAppService } from '../../shared/services/function-app.service';
+import { ScenarioService } from '../../shared/services/scenario/scenario.service';
+import { FeatureComponent } from 'app/shared/components/feature-component';
 
 @Component({
     selector: 'site-enabled-features',
@@ -38,30 +28,44 @@ import { FunctionAppService } from '../../shared/services/function-app.service';
 // First load list of enabled features from localStorage
 // Then it continues to pull from the back-end to refresh the UI
 // and update what's cached in localStorage
-export class SiteEnabledFeaturesComponent {
+export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>> {
 
     public featureItems: EnabledFeatureItem[] = [];
     public isLoading: boolean;
 
     private _site: ArmObj<Site>;
-    private _siteSubject = new Subject<ArmObj<Site>>();
     private _descriptor: ArmSiteDescriptor;
     private _focusedFeatureIndex = -1;
 
     @ViewChild('enabledFeatures') featureList: ElementRef;
 
     constructor(
-        private _cacheService: CacheService,
         private _storageService: StorageService,
         private _portalService: PortalService,
         private _authZService: AuthzService,
         private _aiService: AiService,
         private _translateService: TranslateService,
-        private _globalStateService: GlobalStateService,
+        private _siteService: SiteService,
         private _siteDashboard: SiteDashboardComponent,
-        private _functionAppService: FunctionAppService) {
+        private _functionAppService: FunctionAppService,
+        private _scenarioService: ScenarioService,
+        injector: Injector) {
 
-        this._siteSubject
+        super('site-enabled-features', injector, null);
+    }
+
+
+    @Input()
+    set siteInput(site: ArmObj<Site>) {
+        if (!site) {
+            return;
+        }
+
+        this.setInput(site);
+    }
+
+    protected setup(inputEvents: Observable<ArmObj<Site>>) {
+        return inputEvents
             .distinctUntilChanged()
             .switchMap(site => {
                 this._site = site;
@@ -100,19 +104,11 @@ export class SiteEnabledFeaturesComponent {
                 return Observable.zip(
                     this._getConfigFeatures(r.site),
                     this._getSiteFeatures(r.site),
-                    this._getAuthFeatures(r.site, r.hasSiteWritePermissions, r.hasReadOnlyLock),
+                    this._getAuthFeatures(r.site),
                     this._getSiteExtensions(r.site),
                     this._getAppInsights(r.hasSiteWritePermissions, r.hasReadOnlyLock));
             })
-            .do(null, e => {
-                if (!this._globalStateService.showTryView) {
-                    this._aiService.trackException(e, 'site-enabled-features');
-                } else {
-                    this.isLoading = false;
-                }
-            })
-            .retry()
-            .subscribe((results: EnabledFeatureItem[][]) => {
+            .do((results: EnabledFeatureItem[][]) => {
                 this.isLoading = false;
 
                 const latestFeatureItems: EnabledFeatureItem[] = [];
@@ -138,16 +134,7 @@ export class SiteEnabledFeaturesComponent {
                     this._focusedFeatureIndex = 0;
                 }
             });
-    }
 
-
-    @Input()
-    set siteInput(site: ArmObj<Site>) {
-        if (!site) {
-            return;
-        }
-
-        this._siteSubject.next(site);
     }
 
     openFeature(feature: EnabledFeatureItem) {
@@ -164,13 +151,17 @@ export class SiteEnabledFeaturesComponent {
             return Observable.of([]);
         }
 
-        return this._functionAppService.isAppInsightsEnabled(this._site.id).flatMap((aiId) => {
-            const items = [];
-            if (aiId) {
-                items.push(this._getEnabledFeatureItem(Feature.AppInsight, aiId));
-            }
-            return Observable.of(items);
-        });
+        return this._functionAppService.isAppInsightsEnabled(this._site.id)
+            .flatMap((aiId) => {
+                const items = [];
+                if (aiId) {
+                    items.push(this._getEnabledFeatureItem(Feature.AppInsight, aiId));
+                }
+                return Observable.of(items);
+            })
+            .catch(e => {
+                return Observable.of(null);
+            });
     }
 
     private _copyCachedFeaturesToF1(storageItem: EnabledFeatures) {
@@ -392,11 +383,10 @@ export class SiteEnabledFeaturesComponent {
 
     private _getConfigFeatures(site: ArmObj<Site>) {
 
-        const configId = `${site.id}/config/web`;
-        return this._cacheService.getArm(configId)
+        return this._siteService.getSiteConfig(site.id)
             .map(r => {
                 const items = [];
-                const config: ArmObj<SiteConfig> = r.json();
+                const config = r.result;
                 if (config.properties.scmType !== 'None') {
                     items.push(this._getEnabledFeatureItem(Feature.DeploymentSource, config.properties.scmType));
                 }
@@ -428,56 +418,43 @@ export class SiteEnabledFeaturesComponent {
         return !!nonDefaultRule;
     }
 
-    private _getAuthFeatures(
-        site: ArmObj<Site>,
-        hasSiteActionPermission: boolean,
-        hasReadLock: boolean) {
+    private _getAuthFeatures(site: ArmObj<Site>) {
 
-        if (!hasSiteActionPermission || hasReadLock) {
-            return Observable.of([]);
-        }
-
-        const authId = `${site.id}/config/authsettings/list`;
-        return this._cacheService.postArm(authId)
+        return this._siteService.getAuthSettings(site.id)
             .map(r => {
-                const authSettings: ArmObj<AuthSettings> = r.json();
-                let items = null;
+                let items: EnabledFeatureItem[] = null;
+                if (r.isSuccessful) {
+                    const authSettings = r.result;
 
-                if (authSettings.properties.enabled) {
-                    items = [this._getEnabledFeatureItem(Feature.Authentication)];
+                    if (authSettings.properties.enabled) {
+                        items = [this._getEnabledFeatureItem(Feature.Authentication)];
+                    }
+
                 }
 
                 return items;
             });
     }
 
-    // private _getWebJobs(site : ArmObj<Site>){
-    //     let webJobsId = `${site.id}/webjobs`;
-    //     return this._cacheService.getArm(webJobsId)
-    //         .map(r =>{
-    //             let jobs : any[] = r.json().value;
-    //             let items = null;
-
-    //             if(jobs && jobs.length > 0){
-    //                 items = [this._getEnabledFeatureItem(Feature.WebJobs, jobs.length)];
-    //             }
-
-    //             return items;
-    //         });
-    // }
-
     private _getSiteExtensions(site: ArmObj<Site>) {
-        const extensionsId = `${site.id}/siteExtensions`;
-        return this._cacheService.getArm(extensionsId)
-            .map(r => {
-                const extensions: any[] = r.json().value;
-                let items = null;
-                if (extensions && extensions.length > 0) {
-                    items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
-                }
+        const listExtensionsDisabled = this._scenarioService.checkScenario(ScenarioIds.listExtensionsArm, { site: site }).status === 'disabled';
+        if (listExtensionsDisabled) {
+            return Observable.of([]);
+        } else {
+            return this._siteService.getSiteExtensions(site.id)
+                .map(r => {
+                    let items: EnabledFeatureItem[] = null;
 
-                return items;
-            });
+                    if (r.isSuccessful) {
+                        const extensions = r.result.value;
+                        if (extensions && extensions.length > 0) {
+                            items = [this._getEnabledFeatureItem(Feature.SiteExtensions, extensions.length)];
+                        }
+                    }
+
+                    return items;
+                });
+        }
     }
 
     private _getFeatures() {
@@ -535,4 +512,5 @@ export class SiteEnabledFeaturesComponent {
 
         }
     }
+
 }

@@ -195,6 +195,8 @@ export class ScenarioIds {
     public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
     public static readonly downloadWithVsProj = 'DownloadWithVsProj';
     public static readonly openOldWebhostingPlanBlade = 'OpenOldWebhostingPlanBlade';
+    public static readonly listExtensionsArm = 'ListExtensionsArm';
+    public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
 }
 
 export class ServerFarmSku {
@@ -240,7 +242,7 @@ export class LogCategories {
     public static readonly functionNew = 'FunctionNew';
     public static readonly cicd = 'CICD';
     public static readonly telemetry = 'Telemetry';
-    public static readonly featureLoading = 'FeatureLoading';
+    public static readonly featureComponent = 'FeatureComponent';
 }
 
 export class KeyCodes {

@@ -48,12 +48,12 @@ export abstract class NavigableComponent extends ErrorableComponent implements O
                 let functionDescriptor: ArmFunctionDescriptor | null;
                 try {
                     siteDescriptor = new ArmSiteDescriptor(view.resourceId);
-                } catch {
+                } catch (_) {
                     siteDescriptor = null;
                 }
                 try {
                     functionDescriptor = new ArmFunctionDescriptor(view.resourceId);
-                } catch {
+                } catch (_) {
                     functionDescriptor = null;
                 }
                 return Object.assign(view, {

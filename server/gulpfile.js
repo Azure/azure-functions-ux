@@ -64,7 +64,6 @@ gulp.task('replace-tokens-for-minimized-angular', (cb) => {
         config.inline = index.match(/inline.*?\.bundle.js/)[0];
         config.polyfills = index.match(/polyfills.*?\.bundle.js/)[0];
         config.scripts = index.match(/scripts.*?\.bundle.js/)[0];
-        config.vendor = index.match(/vendor.*?\.bundle.js/)[0];
         config.main = index.match(/main.*?\.bundle.js/)[0];
         config.styles = index.match(/styles.*?\.bundle.css/)[0];
         return gulp.src('src/**/*.pug').pipe(replace({ global: config })).pipe(gulp.dest('./src/'));

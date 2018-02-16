@@ -1,3 +1,4 @@
+import { SiteService } from 'app/shared/services/site.service';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { CacheService } from 'app/shared/services/cache.service';
@@ -8,7 +9,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from './../../shared/models/portal-resources';
-import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { TreeViewInfo, SiteData } from './../../tree-view/models/tree-view-info';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
@@ -46,8 +46,6 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
     public resourceType: string;
     public dirtyMessage: string;
 
-    private _busyManager: BusyStateScopeManager;
-
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.setInput(viewInfo);
     }
@@ -68,52 +66,44 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
         private _logService: LogService,
         private _authZService: AuthzService,
         private _cacheService: CacheService,
+        private _siteService: SiteService,
         injector: Injector
     ) {
-        super('SiteConfigComponent', injector);
+        super('SiteConfigComponent', injector, 'site-tabs');
 
         // For ibiza scenarios, this needs to match the deep link feature name used to load this in ibiza menu
         this.featureName = 'settings';
         this.isParentComponent = true;
-        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'site-tabs');
     }
 
     protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
         return inputEvents
             .distinctUntilChanged()
             .switchMap(viewInfo => {
-                this._busyManager.setBusy();
-                return Observable.zip(
-                    Observable.of(viewInfo.resourceId),
-                    this._authZService.hasPermission(viewInfo.resourceId, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(viewInfo.resourceId),
-                    (r, wp, rl) => ({ resourceId: r, writePermission: wp, readOnlyLock: rl })
-                );
+                this.resourceId = viewInfo.resourceId;
+                return this._siteService.getSite(viewInfo.resourceId)
             })
-            .switchMap(res => {
-                return this._cacheService.getArm(res.resourceId)
-                    .map(site => {
-                        this._site = <ArmObj<Site>>site.json();
-                        return res;
-                    });
-            })
-            .do(null, error => {
-                this.resourceId = null;
-                this._setupForm();
-                this._logService.error(LogCategories.siteConfig, '/site-config', error);
-                this._busyManager.clearBusy();
-            })
-            .retry()
-            .do(r => {
-                this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+            .switchMap(r => {
+                this._site = r.result;
+
                 if (!ArmUtil.isLinuxApp(this._site)) {
                     this.defaultDocumentsSupported = true;
                     this.handlerMappingsSupported = true;
                     this.virtualDirectoriesSupported = true;
                 }
-                this.resourceId = r.resourceId;
+
                 this._setupForm();
-                this._busyManager.clearBusy();
+
+                this.clearBusyEarly();
+                return Observable.zip<boolean>(
+                    this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
+                    this._authZService.hasReadOnlyLock(this.resourceId)
+                );
+            })
+            .do(results => {
+                const writePermission = results[0];
+                const readonlyLock = results[1];
+                this.hasWritePermissions = writePermission && !readonlyLock;
             });
     }
 
@@ -145,7 +135,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
             this._valueSubscription.unsubscribe();
             this._valueSubscription = null;
         }
-        this._busyManager.clearBusy();
+        this.clearBusy();
         this._broadcastService.clearDirtyState(SiteTabIds.applicationSettings);
     }
 
@@ -167,7 +157,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
         if (this.mainForm.valid) {
 
-            this._busyManager.setBusy();
+            this.setBusy();
             let notificationId = null;
             let saveAttempted = false;
 
@@ -231,7 +221,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 .do(null, error => {
                     this.dirtyMessage = null;
                     this._logService.error(LogCategories.siteConfig, '/site-config', error);
-                    this._busyManager.clearBusy();
+                    this.clearBusy();
                     if (saveAttempted) {
                         this._setupForm(true /*retain dirty state*/);
                         this.mainForm.markAsDirty();
@@ -243,7 +233,7 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 })
                 .subscribe(r => {
                     this.dirtyMessage = null;
-                    this._busyManager.clearBusy();
+                    this.clearBusy();
 
                     const saveResults: SaveOrValidationResult[] = [
                         r.generalSettingsResult,

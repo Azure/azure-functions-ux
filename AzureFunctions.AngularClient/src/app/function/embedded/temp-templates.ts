@@ -16,7 +16,7 @@ export class Templates {
                     {
                         'name': 'entity',
                         'message': 'create',
-                        'type': 'synctrigger',
+                        'type': 'xrmwebhooktrigger',
                         'direction': 'in'
                     }
                 ]
@@ -50,7 +50,7 @@ export class Templates {
                     {
                         'name': 'entity',
                         'message': 'create',
-                        'type': 'synctrigger',
+                        'type': 'xrmwebhooktrigger',
                         'direction': 'in'
                     }
                 ]
@@ -76,7 +76,7 @@ export class Templates {
     public readonly bindingsJson = JSON.stringify({
         'bindings': [
             {
-                'type': 'syncTrigger',
+                'type': 'xrmwebhooktrigger',
                 'displayName': 'Sync',
                 'direction': 'trigger',
                 'settings': [
