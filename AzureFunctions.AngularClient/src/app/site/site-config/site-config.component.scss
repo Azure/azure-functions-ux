@@ -1,6 +1,11 @@
 @import '../../../sass/common/variables';
 
-#site-config-wrapper{
+.site-config-wrapper{
+    height: calc(100% - 42px);
+    overflow-y: auto;
+}
+
+.site-config-container{
     padding: 5px 20px;
 }
 
