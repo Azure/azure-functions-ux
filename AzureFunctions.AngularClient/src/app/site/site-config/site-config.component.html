@@ -15,41 +15,46 @@
 
 <div
   *ngIf="!!mainForm"
-  id="site-config-wrapper"
-  [is-dirty]="mainForm.dirty"
-  [is-dirty-message]="dirtyMessage">
+  class="site-config-wrapper">
 
-  <general-settings
-    [mainForm]="mainForm"
-    [resourceId]="resourceId"
-    [featureName]="featureName"></general-settings>
+  <div
+    class="site-config-container"
+    [is-dirty]="mainForm.dirty"
+    [is-dirty-message]="dirtyMessage">
 
-  <app-settings
-    [mainForm]="mainForm"
-    [resourceId]="resourceId"
-    [featureName]="featureName"></app-settings>
+    <general-settings
+      [mainForm]="mainForm"
+      [resourceId]="resourceId"
+      [featureName]="featureName"></general-settings>
 
-  <connection-strings
-    [mainForm]="mainForm"
-    [resourceId]="resourceId"
-    [featureName]="featureName"></connection-strings>
+    <app-settings
+      [mainForm]="mainForm"
+      [resourceId]="resourceId"
+      [featureName]="featureName"></app-settings>
 
-  <default-documents
-    *ngIf="defaultDocumentsSupported"
-    [mainForm]="mainForm"
-    [resourceId]="resourceId"
-    [featureName]="featureName"></default-documents>
+    <connection-strings
+      [mainForm]="mainForm"
+      [resourceId]="resourceId"
+      [featureName]="featureName"></connection-strings>
 
-  <handler-mappings
-    *ngIf="handlerMappingsSupported"
-    [mainForm]="mainForm"
-    [resourceId]="resourceId"
-    [featureName]="featureName"></handler-mappings>
+    <default-documents
+      *ngIf="defaultDocumentsSupported"
+      [mainForm]="mainForm"
+      [resourceId]="resourceId"
+      [featureName]="featureName"></default-documents>
 
-  <virtual-directories
-    *ngIf="virtualDirectoriesSupported"
-    [mainForm]="mainForm"
-    [resourceId]="resourceId"
-    [featureName]="featureName"></virtual-directories>
+    <handler-mappings
+      *ngIf="handlerMappingsSupported"
+      [mainForm]="mainForm"
+      [resourceId]="resourceId"
+      [featureName]="featureName"></handler-mappings>
+
+    <virtual-directories
+      *ngIf="virtualDirectoriesSupported"
+      [mainForm]="mainForm"
+      [resourceId]="resourceId"
+      [featureName]="featureName"></virtual-directories>
+
+  </div>
 
 </div>
