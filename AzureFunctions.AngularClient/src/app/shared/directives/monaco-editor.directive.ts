@@ -264,7 +264,7 @@ export class MonacoEditorDirective {
                     validate: true,
                     schemas: [{
                         fileMatch: ['*'],
-                        schema: schema
+                        schema: schema.json()
                     }]
                 });
             });
