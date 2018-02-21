@@ -1,5 +1,5 @@
 - const aiIinstrumentationKey = process.env.aiInstrumentationKey;
-- const production = process.env['FUNCTIONS_SLOT_NAME'] === 'production';
+- const stage = process.env['FUNCTIONS_SLOT_NAME'] === 'stage';
 - const cdn = "#{cdn}#";
 
 body
@@ -10,6 +10,12 @@ body
         script(src='vendor.bundle.js')
         script(src='main.bundle.js')
         script(src='styles.bundle.js')
+    else if stage
+        script(src='/ng-nocdn/{{inline}}')
+        script(src='/ng-nocdn/{{polyfills}}')
+        script(src='/ng-nocdn/{{scripts}}')
+        script(src='/ng-nocdn/{{main}}')
+        script(src='/ng-nocdn/assets/monaco/min/vs/loader.js')
     else
         script(src=cdn + '/ng-min/{{inline}}')
         script(src=cdn + '/ng-min/{{polyfills}}')
