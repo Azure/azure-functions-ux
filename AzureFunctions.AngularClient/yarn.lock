@@ -162,6 +162,10 @@
   dependencies:
     tslib "^1.7.1"
 
+"@ng-select/ng-select@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-0.21.0.tgz#4aec32cec5ac6bb9f4f9b8746e15320115480843"
+
 "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
@@ -7103,6 +7107,6 @@ yn@^1.2.0:
   dependencies:
     object-assign "^4.1.1"
 
-zone.js@^0.8.4:
+zone.js@^0.8.20:
   version "0.8.20"
   resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.20.tgz#a218c48db09464b19ff6fc8f0d4bb5b1046e185d"

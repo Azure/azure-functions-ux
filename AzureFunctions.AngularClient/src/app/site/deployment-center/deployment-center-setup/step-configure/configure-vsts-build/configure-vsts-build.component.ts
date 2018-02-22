@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectOption } from '../../../../../shared/models/select-option';
-import { DeploymentCenterStateManager } from '../../wizard-logic/deployment-center-state-manager';
+//import { DeploymentCenterStateManager } from '../../wizard-logic/deployment-center-state-manager';
 //import { TranslateService } from '@ngx-translate/core';
 //import { PortalResources } from '../../../../../shared/models/portal-resources';
 
@@ -15,7 +15,7 @@ export class ConfigureVstsBuildComponent implements OnInit {
   
   constructor(
    // private _translateService: TranslateService
-   private _wizard: DeploymentCenterStateManager
+  // private _wizard: DeploymentCenterStateManager
   ) { 
     this.NewVsoAccountOptions =
             [{ displayLabel: 'New', value: 'new' },
@@ -24,10 +24,7 @@ export class ConfigureVstsBuildComponent implements OnInit {
   }
 
   get newOrExisting() {
-    return this._wizard &&
-            this._wizard.wizardForm &&
-            this._wizard.wizardForm.controls &&
-            this._wizard.wizardForm.controls.
+    return 'new';
   }
   ngOnInit() {
   }

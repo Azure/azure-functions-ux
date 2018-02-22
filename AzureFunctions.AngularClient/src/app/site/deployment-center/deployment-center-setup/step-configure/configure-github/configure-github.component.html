@@ -10,9 +10,12 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [options]="!!OrgList ? OrgList : []"
-          [highlightDirty]="false" (value)="OrgChanged($event)">
-        </drop-down>
+          <ng-select class="custom-select" [items]="OrgList"
+            bindLabel="displayLabel"
+            bindValue="value"
+            placeholder="Select org"
+            (change)="OrgChanged($event)">
+          </ng-select>
       </div>
     </div>
 
@@ -23,9 +26,13 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [options]="!!RepoList ? RepoList : []"
-          [highlightDirty]="false" (value)="RepoChanged($event)">
-        </drop-down>
+          <ng-select class="custom-select" [items]="RepoList"
+          bindLabel="displayLabel"
+          bindValue="value"
+          placeholder="Select Repo"
+          [loading]="reposLoading"
+          (change)="RepoChanged($event)">
+        </ng-select>
       </div>
     </div>
 
@@ -36,9 +43,12 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="this.wizard?.sourceSettings?.controls?.branch" [options]="!!BranchList ? BranchList : []"
-          [highlightDirty]="false">
-        </drop-down>
+        <ng-select class="custom-select" [items]="BranchList"
+          bindLabel="displayLabel"
+          bindValue="value"
+          placeholder="Select Branch"
+          (change)="BranchChanged($event)">
+        </ng-select>
       </div>
     </div>
 

@@ -26,6 +26,8 @@ export class ConfigureGithubComponent implements OnDestroy {
     private reposStream = new ReplaySubject<string>();
     private _ngUnsubscribe = new Subject();
     private orgStream = new ReplaySubject<string>();
+    public reposLoading = false;
+    public branchesLoading = false;
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -34,9 +36,11 @@ export class ConfigureGithubComponent implements OnDestroy {
         private _logService: LogService
     ) {
         this.orgStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+            this.reposLoading = true;
             this.fetchRepos(r);
         });
         this.reposStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+            this.branchesLoading = true;
             this.fetchBranches(r);
         });
 
@@ -131,7 +135,9 @@ export class ConfigureGithubComponent implements OnDestroy {
                     });
 
                 this.RepoList = newRepoList;
+                this.reposLoading = false;
             }), err => {
+                this.reposLoading = false;
                 this._logService.error(LogCategories.cicd, '/fetch-github-repos', err);
             };
         }
@@ -156,25 +162,27 @@ export class ConfigureGithubComponent implements OnDestroy {
                         });
 
                         this.BranchList = newBranchList;
+                        this.branchesLoading = false;
                     },
                     err => {
                         this._logService.error(LogCategories.cicd, '/fetch-github-branches', err);
+                        this.branchesLoading = false;
                     }
                 );
         }
     }
 
-    RepoChanged(repo: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.githubUri}/${this.repoUrlToNameMap[repo]}`;
-        this.reposStream.next(repo);
+    RepoChanged(repo: DropDownElement<string>) {
+        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.githubUri}/${this.repoUrlToNameMap[repo.value]}`;
+        this.reposStream.next(repo.value);
     }
 
-    OrgChanged(org: string) {
-        this.orgStream.next(org);
+    OrgChanged(org: DropDownElement<string>) {
+        this.orgStream.next(org.value);
     }
 
-    BranchChanged(branch: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.branch = branch;
+    BranchChanged(branch: DropDownElement<string>) {
+        this.wizard.wizardForm.controls.sourceSettings.value.branch = branch.value;
     }
 
     ngOnDestroy(): void {

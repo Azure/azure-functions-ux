@@ -639,6 +639,9 @@
     public static keysDialog_getFunctionUrl: string = "keysDialog_getFunctionUrl";
     public static keysDialog_key: string = "keysDialog_key";
     public static keysDialog_url: string = "keysDialog_url";
+    public static keysDialog_domain: string = "keysDialog_domain";
+    public static keysDialog_warning: string = "keysDialog_warning";
+    public static keysDialog_noHttps: string = "keysDialog_noHttps";
     public static downloadFunctionAppContent: string = "downloadFunctionAppContent";
     public static functionKeys_renewConfirmation: string = "functionKeys_renewConfirmation";
     public static emptyBrowse: string = "emptyBrowse";
@@ -903,4 +906,5 @@
     public static DurableFunctionsOrchestrator_description: string = "DurableFunctionsOrchestrator_description";
     public static DurableFunctionsHttpStart_description: string = "DurableFunctionsHttpStart_description";
     public static functionsPreviewTitle: string = "functionsPreviewTitle";
+    public static readOnlyRunFromZip: string = "readOnlyRunFromZip";
 }
