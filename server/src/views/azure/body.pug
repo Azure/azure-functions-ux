@@ -3,19 +3,13 @@
 - const cdn = "#{cdn}#";
 
 body
-    if config.clientOptimzationsOff
+    if config.clientOptimzationsOff || stage
         script(src='inline.bundle.js')
         script(src='polyfills.bundle.js')
         script(src='scripts.bundle.js')
         script(src='vendor.bundle.js')
         script(src='main.bundle.js')
         script(src='styles.bundle.js')
-    else if stage
-        script(src='/ng-nocdn/{{inline}}')
-        script(src='/ng-nocdn/{{polyfills}}')
-        script(src='/ng-nocdn/{{scripts}}')
-        script(src='/ng-nocdn/{{main}}')
-        script(src='/ng-nocdn/assets/monaco/min/vs/loader.js')
     else
         script(src=cdn + '/ng-min/{{inline}}')
         script(src=cdn + '/ng-min/{{polyfills}}')
