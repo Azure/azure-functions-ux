@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SaveOrValidationResult } from '../site-config.component';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
-import { AvailableStackNames, AvailableStack, Framework, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
+import { AvailableStack, AvailableStackNames, AvailableStacksOsType, MajorVersion, LinuxConstants } from 'app/shared/models/arm/stacks';
 import { DropDownElement, DropDownGroupElement } from './../../../shared/models/drop-down-element';
 import { SelectOption } from './../../../shared/models/select-option';
 
@@ -121,7 +121,8 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
                     this._siteService.getSite(this.resourceId),
                     this._siteService.getSlots(this.resourceId),
                     this._siteService.getSiteConfig(this.resourceId, true),
-                    this._siteService.getAvailableStacks(),
+                    this._siteService.getAvailableStacks(AvailableStacksOsType.Windows),
+                    this._siteService.getAvailableStacks(AvailableStacksOsType.Linux),
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(this.resourceId));
             })
@@ -129,14 +130,16 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
                 const siteResult = results[0];
                 const slotsResult = results[1];
                 const configResult = results[2];
-                const stacksResult = results[3];
-                const hasWritePermission = results[4];
-                const hasReadonlyLock = results[5];
+                const stacksResultWindows = results[3];
+                const stacksResultLinux = results[4];
+                const hasWritePermission = results[5];
+                const hasReadonlyLock = results[6];
 
                 if (!siteResult.isSuccessful
                     || !slotsResult.isSuccessful
                     || !configResult.isSuccessful
-                    || !stacksResult.isSuccessful) {
+                    || !stacksResultWindows.isSuccessful
+                    || !stacksResultLinux.isSuccessful) {
 
                     if (!siteResult.isSuccessful) {
                         this._logService.error(LogCategories.generalSettings, '/general-settings', siteResult.error.result);
@@ -144,8 +147,10 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
                         this._logService.error(LogCategories.generalSettings, '/general-settings', slotsResult.error.result);
                     } else if (!configResult.isSuccessful) {
                         this._logService.error(LogCategories.generalSettings, '/general-settings', configResult.error.result);
+                    } else if (!stacksResultWindows.isSuccessful) {
+                        this._logService.error(LogCategories.generalSettings, '/general-settings', stacksResultWindows.error.result);
                     } else {
-                        this._logService.error(LogCategories.generalSettings, '/general-settings', stacksResult.error.result);
+                        this._logService.error(LogCategories.generalSettings, '/general-settings', stacksResultLinux.error.result);
                     }
 
                     this._setupForm(null, null);
@@ -158,11 +163,11 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
                     this._setPermissions(hasWritePermission, hasReadonlyLock);
 
                     if (!this._dropDownOptionsMapClean) {
-                        this._parseAvailableStacks(stacksResult.result);
+                        this._parseAvailableStacks(stacksResultWindows.result);
                         this._parseSlotsConfig(slotsResult.result);
                     }
                     if (!this._linuxFxVersionOptionsClean) {
-                        this._parseLinuxBuiltInStacks(LinuxConstants.builtInStacks);
+                        this._parseLinuxBuiltInStacks(stacksResultLinux.result);
                     }
 
                     this._processSupportedControls(this.siteArm, this._webConfigArm);
@@ -194,7 +199,7 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         const inputs = {
             aspResourceId: this.siteArm.properties.serverFarmId,
             aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
-                && this.siteArm.properties.hostingEnvironmentProfile.id
+            && this.siteArm.properties.hostingEnvironmentProfile.id
         };
 
         const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
@@ -974,26 +979,23 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
         this._dropDownOptionsMapClean[AvailableStackNames.JavaContainer] = javaWebContainerOptions;
     }
 
-    private _parseLinuxBuiltInStacks(builtInStacks: Framework[]) {
+    private _parseLinuxBuiltInStacks(builtInStacks: ArmArrayResult<AvailableStack>) {
         const linuxFxVersionOptions: DropDownGroupElement<string>[] = [];
 
-        LinuxConstants.builtInStacks.forEach(framework => {
+        builtInStacks.value.forEach(availableStackArm => {
+            const availableStack: AvailableStack = availableStackArm.properties;
 
             const dropDownGroupElement: DropDownGroupElement<string> = {
-                displayLabel: framework.display,
+                displayLabel: availableStack.display,
                 dropDownElements: []
             };
 
-            framework.majorVersions.forEach(majorVersion => {
+            availableStack.majorVersions.forEach(majorVersion => {
 
-                majorVersion.minorVersions.forEach(minorVersion => {
-
-                    dropDownGroupElement.dropDownElements.push({
-                        displayLabel: framework.display + ' ' + minorVersion.displayVersion,
-                        value: framework.name + '|' + minorVersion.displayVersion,
-                        default: false
-                    });
-
+                dropDownGroupElement.dropDownElements.push({
+                    displayLabel: majorVersion.displayVersion,
+                    value: majorVersion.runtimeVersion,
+                    default: false
                 });
 
             });
@@ -1017,7 +1019,7 @@ export class GeneralSettingsComponent extends FeatureComponent<ResourceId> imple
 
                 g.dropDownElements.forEach(element => {
 
-                    const match = element.value === linuxFxVersion || (!element.value && !linuxFxVersion);
+                    const match = element.value.toUpperCase() === linuxFxVersion.toUpperCase() || (!element.value && !linuxFxVersion);
                     defaultFxVersionValue = match ? element.value : defaultFxVersionValue;
 
                     dropDownGroupElement.dropDownElements.push({

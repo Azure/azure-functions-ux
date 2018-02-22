@@ -107,7 +107,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
             route = '/' + route;
         }
 
-        this.proxyUrl = `https://${this.context.mainSiteUrl}` + route;
+        this.proxyUrl = `${this.context.mainSiteUrl}` + route;
 
         const methods = {};
         methods['method_GET'] = false;

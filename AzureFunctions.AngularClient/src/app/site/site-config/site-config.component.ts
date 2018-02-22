@@ -3,6 +3,9 @@ import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
+import { ApplicationSettings } from './../../shared/models/arm/application-settings';
+import { ConnectionStrings } from './../../shared/models/arm/connection-strings';
+import { SlotConfigNames } from './../../shared/models/arm/slot-config-names';
 import { ArmObj, ArmObjMap } from './../../shared/models/arm/arm-obj';
 import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -173,31 +176,67 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     const asConfig: ArmObjMap = this.appSettings.getConfigForSave();
                     const csConfig: ArmObjMap = this.connectionStrings.getConfigForSave();
 
-                    if (!asConfig && !csConfig) {
-                        return Observable.of({ slotConfigNamesResult: null, appSettingsArm: null, connectionStringsArm: null });
-                    } else {
-                        const errors = [asConfig, csConfig].filter(c => !!c && !!c.error).map(c => c.error);
-                        if (errors.length > 0) {
-                            return Observable.throw(errors);
-                        } else {
-                            let slotConfigNamesArm: ArmObj<any>;
-                            if (!!asConfig) {
-                                slotConfigNamesArm = JSON.parse(JSON.stringify(asConfig['slotConfigNames']));
-                                if (!!csConfig) {
-                                    slotConfigNamesArm.properties.connectionStringNames =
-                                        JSON.parse(JSON.stringify(csConfig['slotConfigNames'].properties.connectionStringNames));
-                                }
-                            } else {
-                                slotConfigNamesArm = JSON.parse(JSON.stringify(csConfig['slotConfigNames']));
-                            }
-                            return Observable.zip(
-                                this._cacheService.putArm(slotConfigNamesArm.id, null, slotConfigNamesArm),
-                                !!asConfig ? Observable.of(asConfig['appSettings']) : Observable.of(null),
-                                !!csConfig ? Observable.of(csConfig['connectionStrings']) : Observable.of(null),
-                                (sc, a, c) => ({ slotConfigNamesResult: sc, appSettingsArm: a, connectionStringsArm: c })
-                            );
+                    let appSettingsArm: ArmObj<ApplicationSettings> = null;
+                    let asSlotConfigNamesArm: ArmObj<SlotConfigNames> = null;
+
+                    let connectionStringsArm: ArmObj<ConnectionStrings> = null;
+                    let csSlotConfigNamesArm: ArmObj<SlotConfigNames> = null;
+
+                    let slotConfigNamesArm: ArmObj<SlotConfigNames> = null;
+
+                    const errors: string[] = [];
+
+                    // asConfig will be null if neither /config/appSettings or /config/slotConfigNames.appSettingNames have changes to be saved
+                    if (asConfig) {
+                        if (asConfig['appSettings']) {
+                            // there are changes to be saved for /config/appSettings
+                            appSettingsArm = asConfig['appSettings'];
+                        }
+                        if (asConfig['slotConfigNames']) {
+                            // there are changes to be saved for /config/slotConfigNames.appSettingNames
+                            asSlotConfigNamesArm = JSON.parse(JSON.stringify(asConfig['slotConfigNames']));
+                        }
+                        if (asConfig.error) {
+                            errors.push(asConfig.error);
                         }
                     }
+
+                    // csConfig will be null if neither /config/connectionStrings or /config/slotConfigNames.connectionStringNames have changes to be saved
+                    if (csConfig) {
+                        if (csConfig['connectionStrings']) {
+                            // there are changes to be saved for /config/appSettings
+                            connectionStringsArm = csConfig['connectionStrings'];
+                        }
+                        if (csConfig['slotConfigNames']) {
+                            // there are changes to be saved for /config/slotConfigNames.connectionStringNames
+                            csSlotConfigNamesArm = JSON.parse(JSON.stringify(csConfig['slotConfigNames']));
+                        }
+                        if (csConfig.error) {
+                            errors.push(csConfig.error);
+                        }
+                    }
+
+                    if (errors.length > 0) {
+                        return Observable.throw(errors);
+                    }
+
+                    if (asSlotConfigNamesArm && csSlotConfigNamesArm) {
+                        // If there are changes to both /config/slotConfigNames.appSettingNames and /config/slotConfigNames.connectionStringNames,
+                        // so merge the changes into a single /config/slotConfigNames payload.
+                        slotConfigNamesArm = asSlotConfigNamesArm;
+                        slotConfigNamesArm.properties.connectionStringNames = csSlotConfigNamesArm.properties.connectionStringNames;
+                    } else {
+                        // At most one of the /config/slotConfigNames.* properties has changes. Select the config that has changes (or null if neither has changes).
+                        slotConfigNamesArm = asSlotConfigNamesArm || csSlotConfigNamesArm;
+                    }
+
+                    return Observable.zip(
+                        // Don't make the PUT call if there are no /config/slotConfigNames to submit.
+                        slotConfigNamesArm ? this._cacheService.putArm(slotConfigNamesArm.id, null, slotConfigNamesArm) : Observable.of(null),
+                        Observable.of(appSettingsArm),
+                        Observable.of(connectionStringsArm),
+                        (sc, a, c) => ({ slotConfigNamesResult: sc, appSettingsArm: a, connectionStringsArm: c })
+                    );
                 })
                 .mergeMap(r => {
                     saveAttempted = true;

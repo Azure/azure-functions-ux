@@ -1,7 +1,7 @@
 import { Availability } from './../../site/site-notifications/notifications';
 import { ArmService } from './arm.service';
 import { ConnectionStrings } from './../models/arm/connection-strings';
-import { AvailableStack } from './../models/arm/stacks';
+import { AvailableStack, AvailableStacksOsType } from './../models/arm/stacks';
 import { SiteConfig } from './../models/arm/site-config';
 import { ArmArrayResult } from './../models/arm/arm-obj';
 import { Injectable, Injector } from '@angular/core';
@@ -73,8 +73,9 @@ export class SiteService {
         return this._client.execute({ resourceId: resourceId }, t => getSlotConfigNames);
     }
 
-    getAvailableStacks(): Result<ArmArrayResult<AvailableStack>> {
-        const getAvailableStacks = this._cacheService.getArm('/providers/Microsoft.Web/availablestacks').map(r => r.json());
+    getAvailableStacks(osType?: AvailableStacksOsType): Result<ArmArrayResult<AvailableStack>> {
+        const queryString = !osType ? '' : `?osTypeSelected=${osType}`;
+        const getAvailableStacks = this._cacheService.getArm(`/providers/Microsoft.Web/availablestacks${queryString}`).map(r => r.json());
         return this._client.execute({ resourceId: null }, t => getAvailableStacks);
     }
 
