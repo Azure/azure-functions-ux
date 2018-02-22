@@ -5,6 +5,7 @@ import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/
 import { FormArray, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
+import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { SaveOrValidationResult } from './../site-config.component';
 import { LogService } from './../../../shared/services/log.service';
@@ -48,7 +49,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
   private _uniqueAppSettingValidator: UniqueValidator;
   private _linuxAppSettingNameValidator: LinuxAppSettingNameValidator;
   private _isLinux: boolean;
-  private _appSettingsArm: ArmObj<any>;
+  private _appSettingsArm: ArmObj<ApplicationSettings>;
   private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
   private _slotConfigNamesArmPath: string;
 
@@ -171,7 +172,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
   }
 
 
-  private _setupForm(appSettingsArm: ArmObj<any>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
+  private _setupForm(appSettingsArm: ArmObj<ApplicationSettings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
     if (!!appSettingsArm && !!slotConfigNamesArm) {
       if (!this._saveError || !this.groupArray) {
         this.newItem = null;
@@ -276,38 +277,56 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
         objects: {}
       };
 
-      const appSettingGroups = this.groupArray.controls;
-
       if (this.mainForm.contains('appSettings') && this.mainForm.controls['appSettings'].valid) {
-        const appSettingsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._appSettingsArm));
+        const appSettingsArm: ArmObj<ApplicationSettings> = JSON.parse(JSON.stringify(this._appSettingsArm));
+        appSettingsArm.id = `${this.resourceId}/config/appSettings`;
         appSettingsArm.properties = {};
 
         this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-        const slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+        const slotConfigNamesArm: ArmObj<SlotConfigNames> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
         slotConfigNamesArm.properties.appSettingNames = slotConfigNamesArm.properties.appSettingNames || [];
-        const appSettingNames = slotConfigNamesArm.properties.appSettingNames as string[];
 
-        for (let i = 0; i < appSettingGroups.length; i++) {
-          if ((appSettingGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
-            const name = appSettingGroups[i].value.name;
+        const appSettings = appSettingsArm.properties;
+        const appSettingNames = slotConfigNamesArm.properties.appSettingNames;
 
-            appSettingsArm.properties[name] = appSettingGroups[i].value.value;
+        let appSettingsPristine = true;
+        let appSettingNamesPristine = true;
 
-            if (appSettingGroups[i].value.isSlotSetting) {
+        this.groupArray.controls.forEach(group => {
+          if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+            const controls = (group as CustomFormGroup).controls;
+
+            const name = controls['name'].value;
+
+            appSettings[name] = controls['value'].value;
+
+            if (appSettingsPristine && !group.pristine) {
+              appSettingsPristine = controls['name'].pristine && controls['value'].pristine;
+            }
+
+            if (group.value.isSlotSetting) {
               if (appSettingNames.indexOf(name) === -1) {
                 appSettingNames.push(name);
+                appSettingNamesPristine = false;
               }
             } else {
               const index = appSettingNames.indexOf(name);
               if (index !== -1) {
                 appSettingNames.splice(index, 1);
+                appSettingNamesPristine = false;
               }
             }
+          } else {
+            appSettingsPristine = false;
           }
-        }
+        })
 
-        configObjects['slotConfigNames'] = slotConfigNamesArm;
-        configObjects['appSettings'] = appSettingsArm;
+        if (!appSettingNamesPristine) {
+          configObjects['slotConfigNames'] = slotConfigNamesArm;
+        }
+        if (!appSettingsPristine) {
+          configObjects['appSettings'] = appSettingsArm;
+        }
       } else {
         configObjects.error = this._validationFailureMessage();
       }
@@ -317,7 +336,7 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
   }
 
   save(
-    appSettingsArm: ArmObj<any>,
+    appSettingsArm: ArmObj<ApplicationSettings>,
     slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
 
     // Don't make unnecessary PUT call if these settings haven't been changed
@@ -328,13 +347,13 @@ export class AppSettingsComponent extends FeatureComponent<ResourceId> implement
       });
     } else {
       return Observable.zip(
-        this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm),
+        appSettingsArm ? this._cacheService.putArm(`${this.resourceId}/config/appSettings`, null, appSettingsArm) : Observable.of(null),
         Observable.of(slotConfigNamesResponse),
         (a, s) => ({ appSettingsResponse: a, slotConfigNamesResponse: s })
       )
         .map(r => {
-          this._appSettingsArm = r.appSettingsResponse.json();
-          this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+          this._appSettingsArm = r.appSettingsResponse ? r.appSettingsResponse.json() : this._appSettingsArm;
+          this._slotConfigNamesArm = r.slotConfigNamesResponse ? r.slotConfigNamesResponse.json() : this._slotConfigNamesArm;
           return {
             success: true,
             error: null

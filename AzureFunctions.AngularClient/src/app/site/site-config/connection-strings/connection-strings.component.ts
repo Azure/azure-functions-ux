@@ -252,44 +252,59 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
                 objects: {}
             };
 
-            const connectionStringGroups = this.groupArray.controls;
-
             if (this.mainForm.contains('connectionStrings') && this.mainForm.controls['connectionStrings'].valid) {
-                const connectionStringsArm: ArmObj<any> = JSON.parse(JSON.stringify(this._connectionStringsArm));
+                const connectionStringsArm: ArmObj<ConnectionStrings> = JSON.parse(JSON.stringify(this._connectionStringsArm));
+                connectionStringsArm.id = `${this.resourceId}/config/connectionStrings`;
                 connectionStringsArm.properties = {};
 
                 this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-                const slotConfigNamesArm: ArmObj<any> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
+                const slotConfigNamesArm: ArmObj<SlotConfigNames> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
                 slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
-                const connectionStringNames = slotConfigNamesArm.properties.connectionStringNames as string[];
 
-                for (let i = 0; i < connectionStringGroups.length; i++) {
-                    if ((connectionStringGroups[i] as CustomFormGroup).msExistenceState !== 'deleted') {
-                        const connectionStringControl = connectionStringGroups[i];
-                        const connectionString = {
-                            value: connectionStringControl.value.value,
-                            type: ConnectionStringType[connectionStringControl.value.type]
+                const connectionStrings: ConnectionStrings = connectionStringsArm.properties;
+                const connectionStringNames: string[] = slotConfigNamesArm.properties.connectionStringNames;
+
+                let connectionStringsPristine = true;
+                let connectionStringNamesPristine = true;
+
+                this.groupArray.controls.forEach(group => {
+                    if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+                        const controls = (group as CustomFormGroup).controls;
+
+                        const name = controls['name'].value;
+
+                        connectionStrings[name] = {
+                            value: controls['value'].value,
+                            type: controls['type'].value
                         };
 
-                        const name = connectionStringGroups[i].value.name;
+                        if (connectionStringsPristine && !group.pristine) {
+                            connectionStringsPristine = controls['name'].pristine && controls['value'].pristine && controls['type'].pristine;
+                        }
 
-                        connectionStringsArm.properties[name] = connectionString;
-
-                        if (connectionStringGroups[i].value.isSlotSetting) {
+                        if (group.value.isSlotSetting) {
                             if (connectionStringNames.indexOf(name) === -1) {
                                 connectionStringNames.push(name);
+                                connectionStringNamesPristine = false;
                             }
                         } else {
                             const index = connectionStringNames.indexOf(name);
                             if (index !== -1) {
                                 connectionStringNames.splice(index, 1);
+                                connectionStringNamesPristine = false;
                             }
                         }
+                    } else {
+                        connectionStringsPristine = false;
                     }
-                }
+                })
 
-                configObjects['slotConfigNames'] = slotConfigNamesArm;
-                configObjects['connectionStrings'] = connectionStringsArm;
+                if (!connectionStringNamesPristine) {
+                    configObjects['slotConfigNames'] = slotConfigNamesArm;
+                }
+                if (!connectionStringsPristine) {
+                    configObjects['connectionStrings'] = connectionStringsArm;
+                }
             } else {
                 configObjects.error = this._validationFailureMessage();
             }
@@ -299,7 +314,7 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     }
 
     save(
-        connectionStringsArm: ArmObj<any>,
+        connectionStringsArm: ArmObj<ConnectionStrings>,
         slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
 
         // Don't make unnecessary PUT call if these settings haven't been changed
@@ -310,13 +325,13 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
             });
         } else {
             return Observable.zip(
-                this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm),
+                connectionStringsArm ? this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm) : Observable.of(null),
                 Observable.of(slotConfigNamesResponse),
                 (c, s) => ({ connectionStringsResponse: c, slotConfigNamesResponse: s })
             )
                 .map(r => {
-                    this._connectionStringsArm = r.connectionStringsResponse.json();
-                    this._slotConfigNamesArm = r.slotConfigNamesResponse.json();
+                    this._connectionStringsArm = r.connectionStringsResponse ? r.connectionStringsResponse.json() : this._connectionStringsArm;
+                    this._slotConfigNamesArm = r.slotConfigNamesResponse ? r.slotConfigNamesResponse.json() : this._slotConfigNamesArm;
                     return {
                         success: true,
                         error: null
