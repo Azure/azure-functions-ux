@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, AfterViewChecked, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -28,7 +28,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
     templateUrl: './function-keys.component.html',
     styleUrls: ['./function-keys.component.scss', '../table-function-monitor/table-function-monitor.component.scss']
 })
-export class FunctionKeysComponent extends FunctionAppContextComponent implements AfterViewChecked  {
+export class FunctionKeysComponent extends FunctionAppContextComponent {
     @Input() autoSelect: boolean;
     @Input() adminKeys: boolean;
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
@@ -103,16 +103,6 @@ export class FunctionKeysComponent extends FunctionAppContextComponent implement
                     });
                 }
             });
-    }
-
-    setFocusNewKeyInput() {
-        this.newKeyInput.nativeElement.focus();
-    }
-
-    ngAfterViewChecked () {
-        if (this.addingNew) {
-            this.setFocusNewKeyInput();
-        }
     }
 
     showOrHideNewKeyUi() {
