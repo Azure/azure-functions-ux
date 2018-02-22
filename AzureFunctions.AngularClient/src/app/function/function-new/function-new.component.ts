@@ -69,11 +69,12 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public allLanguages: DropDownElement<string>[] = [];
     public supportedLanguages: DropDownElement<string>[] = [];
 
-    public readonly allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript' ];
+    public readonly allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
 
     public createCardStyles = {
         'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
         'cosmosDB': { color: '#379DA6', barcolor: '#DCF1F3', icon: 'image/cosmosDB.svg' },
+        'eventGrid': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventGrid.svg' },
         'eventHub': { color: '#719516', barcolor: '#E5EDD8', icon: 'image/eventHub.svg' },
         'http': { color: '#731DDA', barcolor: '#EBDBFA', icon: 'image/http.svg' },
         'iot': { color: '#990000', barcolor: '#EFD9D9', icon: 'image/iot.svg' },
