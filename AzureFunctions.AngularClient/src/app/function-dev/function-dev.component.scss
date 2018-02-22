@@ -1,8 +1,8 @@
 @import '../../sass/common/variables';
 
 .dev-full {
-    height:100%;
-    width:100%;
+    height: 100%;
+    width: 100%;
 }
 
 .dev-border {
@@ -120,13 +120,13 @@
 }
 
 .run-container {
-    flex-grow:1;
+    flex-grow: 1;
     padding-left: 10px;
     padding-right: 10px;
 }
 
 .run-output {
-    flex-grow:1;
+    flex-grow: 1;
     padding-bottom: 10px;
 }
 
@@ -140,7 +140,7 @@
 }
 
 .run-pre-regular {
-    flex-grow:1;
+    flex-grow: 1;
     margin-bottom: 0px;
 }
 
@@ -162,17 +162,31 @@
 
 .keys-dialog-body {
     display: flex;
+    flex-direction: column;
 }
 
-.keys-dialog-body {
-    display: flex;
-}
-
-.keys-dialog-body-invokeUrl {
-    flex-grow:1;
-    width: 0px; /*IE 11 fix*/
+.keys-dialog-footer {
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    flex-direction: row;
 }
 
 .bottom-empty {
-    flex-grow: 1;    
+    flex-grow: 1;
+}
+
+select {
+    width: 100%;
+}
+
+.keysDialog-column-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.keysDialog-column {
+    flex-grow: 1;
+    padding-right: 5px;
 }

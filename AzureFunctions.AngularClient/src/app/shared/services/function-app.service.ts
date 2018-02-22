@@ -26,7 +26,7 @@ import { BindingConfig, RuntimeExtension } from 'app/shared/models/binding';
 import { HostStatus } from 'app/shared/models/host-status';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { FunctionAppEditMode } from 'app/shared/models/function-app-edit-mode';
-import { Site } from 'app/shared/models/arm/site';
+import { Site, HostNameSslState } from 'app/shared/models/arm/site';
 import { AuthSettings } from 'app/shared/models/auth-settings';
 import { RunFunctionResult } from 'app/shared/models/run-function-result';
 import { PortalResources } from 'app/shared/models/portal-resources';
@@ -467,6 +467,18 @@ export class FunctionAppService {
         );
     }
 
+    getDomains(context: FunctionAppContext): Observable<Array<HostNameSslState>> {
+        return this._cacheService.getArm(context.site.id, false, '2016-08-01')
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.hostNameSslStates);
+    }
+
+    getDefaultHostName(context: FunctionAppContext): Observable<string> {
+        return this._cacheService.getArm(context.site.id, false, '2016-08-01')
+            .map(s => s.json() as ArmObj<Site>)
+            .map(s => s.properties.defaultHostName);
+    }
+
     getBindingConfig(context: FunctionAppContext): Result<BindingConfig> {
         if (this._portalService.isEmbeddedFunctions) {
             const devBindings: BindingConfig = JSON.parse(this._embeddedTemplates.bindingsJson);
@@ -756,8 +768,12 @@ export class FunctionAppService {
                     const vsCreatedFunc = result.functions.isSuccessful
                         ? !!result.functions.result.find((fc: any) => !!fc.config.generatedBy)
                         : false;
+                    const usingRunFromZip = appSettings ? appSettings.properties[Constants.WebsiteUseZip] || '' : '';
 
-                    if (vsCreatedFunc && (editModeSettingString === Constants.ReadOnlyMode || editModeSettingString === '')) {
+                    // TODO: [ahmels] ignore dynamic linux apps with that app setting for now
+                    if (usingRunFromZip && !ArmUtil.isLinuxDynamic(context.site)) {
+                        return FunctionAppEditMode.ReadOnlyRunFromZip;
+                    } else if (vsCreatedFunc && (editModeSettingString === Constants.ReadOnlyMode || editModeSettingString === '')) {
                         return FunctionAppEditMode.ReadOnlyVSGenerated;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;

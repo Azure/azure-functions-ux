@@ -5,20 +5,30 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
         <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>
       </div>
-      <div class="modal-body keys-dialog-body">
-        <div *ngIf="isHttpFunction && hostKeys">
+      <div class="modal-body keys-dialog-body keysDialog-column-container">
+        <div class="keysDialog-column" *ngIf="isHttpFunction && hostKeys">
           <div class="text-label">{{'keysDialog_key' | translate}}</div>
           <select #selectKeys (change)="onChangeKey($event.target.value)">
             <option *ngFor="let key of functionKeys.keys" [value]="key.value">{{key.name}} (Function key)</option>
             <option *ngFor="let key of hostKeys.keys" [value]="key.value">{{key.name}} (Host key)</option>
           </select>
         </div>
-        <div class="keys-dialog-body-invokeUrl">
-          <div class="text-label">{{'keysDialog_url' | translate}}</div>
-          <div>
-            <copy-pre [content]="functionInvokeUrl"></copy-pre>
-          </div>
+        <div class="keysDialog-column" *ngIf="isHttpFunction && showDomains">
+          <div class="text-label">{{'keysDialog_domain' | translate}}</div>
+          <select (change)="onChangeDomain($event.target.value)">
+            <option [value]="defaultDomain.name">{{ defaultDomain.name }}</option>
+            <option *ngFor="let domain of domainsNoSSL" [value]="domain.name">{{ domain.name }} ({{ 'keysDialog_noHttp' | translate }})</option>
+            <option *ngFor="let domain of domainsWithSSL" [value]="domain.name">{{ domain.name }}</option>
+          </select>
         </div>
+        <div class="keysDialog-column">
+          <div class="text-label">{{'keysDialog_url' | translate}}</div>
+          <copy-pre *ngIf="displayDomain && displayPath" [content]="displayDomain + displayPath"></copy-pre>
+          <copy-pre *ngIf="!(displayDomain && displayPath)" [content]="loading"></copy-pre>
+        </div>
+      </div>
+      <div class="keys-dialog-footer text-label" *ngIf="!isHttps">
+        <span load-image="image/warning.svg" class="icon-small"></span>{{'keysDialog_warning' | translate}}
       </div>
     </div>
   </div>
