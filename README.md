@@ -1,5 +1,3 @@
-Travis CI [![Travis CI](https://travis-ci.org/AzureAppService/azure-functions-ux.svg?branch=dev)](https://travis-ci.org/AzureAppService/azure-functions-ux)
-
 # Azure Functions UX
 
 ## Getting started
@@ -7,13 +5,6 @@ Travis CI [![Travis CI](https://travis-ci.org/AzureAppService/azure-functions-ux
 1. **Install Prerequisites**
     * [Node 6.*](https://nodejs.org/en/download/)
     * [yarn](https://yarnpkg.com/en/docs/install)
-    * A text editor. [vscode](https://code.visualstudio.com/)
-
-2. **Environment Prerequisites**
-    * `AADClientId` **Required**
-    * `AADClientSecret` **Required**
-
-You'll need to create an AAD web application and set `https://localhost:44300` as a reply URI, then configure the following environment variable.
 
 3. **Clone and Build**
 
@@ -43,25 +34,13 @@ yarn run watch
 
 you have to do this at least once (or `yarn run build`) for the page to load.
 
-to run both you can do
+If you're using bash and want to run both you can run the following from the top level
 
 ```bash
-# on unix
-./run.sh
-
-# on Windows
-
-# from cmd
-run.cmd
-
-# or from powershell
-.\run.ps1
-
-# of from bash
-./run.sh
+> ./run.sh
 ```
 
-4. Visit `https://localhost:44300`
+4. Visit `https://portal.azure.com?websitesextension_ext=appsvc.env=local` and load up Function Apps from browse
 
 ## Code and branches
 
@@ -102,28 +81,14 @@ run.cmd
 The API surface is very limited:
 
 ``` bash
-# used while in Azure Portal
+# resource apis
+api/resources
 api/templates
 api/bindingconfig
-
-# Used before user gets to Azure Portal
-api/tenants
-api/switchtenants
-api/token
 
 # health pings by traffic manager and monitoring
 api/health
 ```
-
-#### Authentication
-
-This is a bit of a complicated subject:
-
-**For external sites** (i.e: https://functions.azure.com, https://functions-staging.azure.com, https://functions-next.azure.com) authentication is done on the frontEnd and we get the token passed to us. Logic to handle that is in \Authentication\FrontEndAuthProvider.cs
-
-**For local development** (i.e: https://localhost:44300) authentication is handled by the app itself, code in \Authentication\LocalhostAuthProvider.cs
-
-**When in Azure Portal** authentication is always handled by Azure Portal itself and we just get the token.
 
 #### AzureFunctions.Client
 
