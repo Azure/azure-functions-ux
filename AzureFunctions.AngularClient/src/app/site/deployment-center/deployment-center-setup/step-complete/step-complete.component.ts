@@ -100,9 +100,8 @@ export class StepCompleteComponent implements OnInit {
     }
 
     public get summaryItems(): summaryItem[] {
-        let summaryItems: summaryItem[] = [];
-        let sourceProvider: sourceControlProvider =
-            this.wizard.wizardForm.controls && this.wizard.wizardForm.controls.sourceProvider && this.wizard.wizardForm.controls.sourceProvider.value;
+        const summaryItems: summaryItem[] = [];
+        const sourceProvider: sourceControlProvider = this.wizard.wizardValues.sourceProvider;
 
         summaryItems.push({
             name: this._translateService.instant('sourceProvider'),

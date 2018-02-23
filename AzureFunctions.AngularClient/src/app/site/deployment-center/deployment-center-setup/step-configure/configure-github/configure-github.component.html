@@ -13,7 +13,6 @@
             bindLabel="displayLabel"
             bindValue="value"
             placeholder="Select org"
-            [(ngModel)]="selectedOrg"
             (change)="OrgChanged($event)">
           </ng-select>
       </div>
@@ -32,7 +31,6 @@
           placeholder="Select Repo"
           [loading]="reposLoading"
           formControlName="repoUrl"
-          [(ngModel)]="selectedRepo"
           (change)="RepoChanged($event)">
         </ng-select>
       </div>
@@ -49,7 +47,6 @@
           bindLabel="displayLabel"
           bindValue="value"
           placeholder="Select Branch"
-          [(ngModel)]="selectedBranch"
           formControlName="branch">
         </ng-select>
       </div>

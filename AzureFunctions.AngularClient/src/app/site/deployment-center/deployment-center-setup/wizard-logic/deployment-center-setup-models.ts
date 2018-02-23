@@ -1,6 +1,6 @@
 export class WizardForm {
-    public sourceProvider: string;
-    public buildProvider: string;
+    public sourceProvider: sourceControlProvider;
+    public buildProvider: sourceControlProvider;
     public sourceSettings: SourceSettings;
     public vstsBuildSettings: VstsBuildSettings;
 }
