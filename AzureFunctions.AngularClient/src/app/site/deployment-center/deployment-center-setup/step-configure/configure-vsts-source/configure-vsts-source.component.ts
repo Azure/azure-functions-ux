@@ -81,13 +81,13 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     //Subscriptions
     private _memberIdSubscription = new Subject();
     private _branchSubscription = new Subject<string>();
-    constructor(private _wizard: DeploymentCenterStateManager, private _cacheService: CacheService, private _userService: UserService, private _logService: LogService) {
+    constructor(public wizard: DeploymentCenterStateManager, private _cacheService: CacheService, private _userService: UserService, private _logService: LogService) {
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.token = r.token;
         });
         this.setupSubscriptions();
         this.populate();
-        this._wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.populate();
         });
     }
@@ -175,7 +175,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
         return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
             const accounts = r.json().value as VSOAccount[];
-            if (this._wizard.wizardForm.controls.buildProvider.value === 'kudu') {
+            if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {
                 return Observable.of(accounts.filter(x => x.isAccountOwner));
             } else {
                 return Observable.of(accounts);
@@ -208,12 +208,12 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     repoChanged(repoUri: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = repoUri;
+        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = repoUri;
         this._branchSubscription.next(repoUri);
     }
 
     branchChanged(branch: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.branch = branch;
+        this.wizard.wizardForm.controls.sourceSettings.value.branch = branch;
     }
 
     private getHeaders(): Headers {

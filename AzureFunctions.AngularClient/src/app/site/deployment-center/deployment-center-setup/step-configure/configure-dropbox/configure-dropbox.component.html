@@ -1,7 +1,7 @@
-<div class="settings-group-wrapper">
+<div class="settings-group-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
   
     <h3 class="first-config-heading">{{'code' | translate}}</h3>
-  
+    
     <div class="settings-wrapper">
       <div class="setting-wrapper">
         <div class="setting-label">{{'folder' | translate}}
@@ -10,9 +10,12 @@
           </pop-over>
         </div>
         <div class="setting-control-container">
-          <drop-down [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [options]="!!folderList ? folderList : []"
-            [highlightDirty]="true">
-          </drop-down>
+          <ng-select class="custom-select" [items]="folderList"
+            bindLabel="displayLabel"
+            bindValue="value"
+            placeholder="Select Branch"
+            formControlName="repoUrl">
+            </ng-select>
         </div>
       </div>
   

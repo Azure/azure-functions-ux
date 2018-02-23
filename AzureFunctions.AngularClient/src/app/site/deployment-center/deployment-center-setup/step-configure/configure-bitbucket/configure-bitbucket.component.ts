@@ -91,11 +91,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo}`;
         this.reposStream.next(repo);
     }
-
-    BranchChanged(branch: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${branch}`;
-    }
-
+    
     ngOnDestroy(): void {
         this._ngUnsubscribe.next();
     }

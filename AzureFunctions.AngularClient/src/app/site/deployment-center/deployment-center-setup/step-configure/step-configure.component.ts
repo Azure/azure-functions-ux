@@ -7,21 +7,21 @@ import { DeploymentCenterStateManager } from 'app/site/deployment-center/deploym
     styleUrls: ['./step-configure.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepConfigureComponent {
-    constructor(private _wizard: DeploymentCenterStateManager) {}
+    constructor(public wizard: DeploymentCenterStateManager) {}
 
     get sourceProvider() {
         return (
-            this._wizard.wizardForm &&
-            this._wizard.wizardForm.controls.sourceProvider &&
-            this._wizard.wizardForm.controls.sourceProvider.value
+            this.wizard.wizardForm &&
+            this.wizard.wizardForm.controls.sourceProvider &&
+            this.wizard.wizardForm.controls.sourceProvider.value
         );
     }
 
     get buildProvider() {
         return (
-            this._wizard.wizardForm &&
-            this._wizard.wizardForm.controls.buildProvider &&
-            this._wizard.wizardForm.controls.buildProvider.value
+            this.wizard.wizardForm &&
+            this.wizard.wizardForm.controls.buildProvider &&
+            this.wizard.wizardForm.controls.buildProvider.value
         );
     }
 }
