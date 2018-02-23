@@ -249,7 +249,7 @@ export class MonacoEditorDirective {
             let loaderScript = document.createElement('script');
             loaderScript.type = 'text/javascript';
             loaderScript.src = 'assets/monaco/vs/loader.js';
-            loaderScript.addEventListener('load', () => onGotAmdLoader());
+            loaderScript.addEventListener('load', onGotAmdLoader);
             document.body.appendChild(loaderScript);
         } else {
             onGotAmdLoader();
