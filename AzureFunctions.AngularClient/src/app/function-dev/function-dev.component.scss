@@ -162,7 +162,6 @@
 
 .keys-dialog-body {
     display: flex;
-    flex-direction: column;
 }
 
 .keys-dialog-footer {
@@ -176,17 +175,12 @@
     flex-grow: 1;
 }
 
-select {
-    width: 100%;
-}
-
-.keysDialog-column-container {
-    display: flex;
+.keysDialog-wrap {
     flex-direction: row;
     flex-wrap: wrap;
+    flex-grow: 1;
 }
 
 .keysDialog-column {
-    flex-grow: 1;
     padding-right: 5px;
 }
