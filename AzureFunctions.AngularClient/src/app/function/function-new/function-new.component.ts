@@ -68,8 +68,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public showExperimentalLanguages = false;
     public allLanguages: DropDownElement<string>[] = [];
     public supportedLanguages: DropDownElement<string>[] = [];
+    public runtimeVersion: string;
 
-    public readonly allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript' ];
+    public readonly allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
 
     public createCardStyles = {
         'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
@@ -147,7 +148,8 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
                 return Observable.zip(
                     this._buildCreateCardTemplates(),
-                    this._functionAppService.getFunctions(this.context));
+                    this._functionAppService.getFunctions(this.context),
+                    this._functionAppService.getRuntimeGeneration(this.context));
             })
             .do(null, e => {
                 this._logService.error(LogCategories.functionNew, '/load-functions-cards-failure', e);
@@ -155,6 +157,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
             .subscribe(tuple => {
                 this._globalStateService.clearBusyState();
                 this.functionsInfo = tuple[1].result;
+                this.runtimeVersion = tuple[2];
 
                 if (this.action && this.functionsInfo && !this.selectedTemplate) {
                     this.selectedTemplateId = this.action.templateId;
