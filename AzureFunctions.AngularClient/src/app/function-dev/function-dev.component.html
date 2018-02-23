@@ -5,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="hideModal()">&times;</button>
         <span class="text-label">{{'keysDialog_getFunctionUrl' | translate}}</span>
       </div>
-      <div class="modal-body keys-dialog-body keysDialog-column-container">
+      <div class="modal-body keys-dialog-body" [ngClass]="{'keysDialog-wrap' : isHttpFunction && showDomains}">
         <div class="keysDialog-column" *ngIf="isHttpFunction && hostKeys">
           <div class="text-label">{{'keysDialog_key' | translate}}</div>
           <select #selectKeys (change)="onChangeKey($event.target.value)">
