@@ -41,7 +41,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
             .subscribe(
                 r => {
                     const rawFolders = r.json();
-                    let options: DropDownElement<string>[] = [];
+                    const options: DropDownElement<string>[] = [];
                     const splitRID = this._resourceId.split('/');
                     const siteName = splitRID[splitRID.length - 1];
 
@@ -61,7 +61,9 @@ export class ConfigureOnedriveComponent implements OnDestroy {
                     });
 
                     this.folderList = options;
-                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.onedriveApiUri}/${siteName}`;
+                    const vals = this.wizard.wizardValues;
+                    vals.sourceSettings.repoUrl = `${DeploymentCenterConstants.onedriveApiUri}/${siteName}`;
+                    this.wizard.wizardValues = vals;
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-onedrive-folders', err);

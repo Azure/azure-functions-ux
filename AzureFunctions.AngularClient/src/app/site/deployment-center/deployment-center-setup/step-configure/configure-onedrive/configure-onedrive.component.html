@@ -10,8 +10,12 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [options]="!!folderList ? folderList : []"
-          [highlightDirty]="true">
+          <ng-select class="custom-select" [items]="folderList"
+            bindLabel="displayLabel"
+            bindValue="value"
+            placeholder="Select Branch"
+            formControlName="repoUrl">
+          </ng-select>
         </drop-down>
       </div>
     </div>

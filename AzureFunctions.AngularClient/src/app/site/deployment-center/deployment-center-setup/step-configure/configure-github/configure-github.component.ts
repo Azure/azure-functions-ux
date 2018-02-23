@@ -28,6 +28,7 @@ export class ConfigureGithubComponent implements OnDestroy {
     private orgStream = new ReplaySubject<string>();
     public reposLoading = false;
     public branchesLoading = false;
+
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -72,7 +73,6 @@ export class ConfigureGithubComponent implements OnDestroy {
                     value: org.url
                 });
             });
-
             this.OrgList = newOrgsList;
         });
     }
@@ -83,8 +83,8 @@ export class ConfigureGithubComponent implements OnDestroy {
             this.RepoList = [];
             this.BranchList = [];
 
-            //This branch is to handle the differences between getting a users personal repos and getting repos for a specific org such as Azure
-            //The API handles these differently but the UX shows them the same
+            // This branch is to handle the differences between getting a users personal repos and getting repos for a specific org such as Azure
+            // The API handles these differently but the UX shows them the same
             if (org.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
@@ -119,6 +119,7 @@ export class ConfigureGithubComponent implements OnDestroy {
                         return Observable.of(ret);
                     });
             }
+            // tslint:disable-next-line:no-unused-expression
             fetchListCall.subscribe(r => {
                 const newRepoList: DropDownElement<string>[] = [];
                 this.repoUrlToNameMap = {};
@@ -153,7 +154,6 @@ export class ConfigureGithubComponent implements OnDestroy {
                 .subscribe(
                     r => {
                         const newBranchList: DropDownElement<string>[] = [];
-
                         r.json().forEach(branch => {
                             newBranchList.push({
                                 displayLabel: branch.name,
@@ -173,16 +173,11 @@ export class ConfigureGithubComponent implements OnDestroy {
     }
 
     RepoChanged(repo: DropDownElement<string>) {
-        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.githubUri}/${this.repoUrlToNameMap[repo.value]}`;
         this.reposStream.next(repo.value);
     }
 
     OrgChanged(org: DropDownElement<string>) {
         this.orgStream.next(org.value);
-    }
-
-    BranchChanged(branch: DropDownElement<string>) {
-        this.wizard.wizardForm.controls.sourceSettings.value.branch = branch.value;
     }
 
     ngOnDestroy(): void {

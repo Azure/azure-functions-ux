@@ -16,7 +16,6 @@ import { LogService } from 'app/shared/services/log.service';
 export class ConfigureDropboxComponent {
     private _resourceId: string;
     public folderList: DropDownElement<string>[];
-
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -44,7 +43,7 @@ export class ConfigureDropboxComponent {
             .subscribe(
                 r => {
                     const rawFolders = r.json();
-                    let options: DropDownElement<string>[] = [];
+                    const options: DropDownElement<string>[] = [];
                     const splitRID = this._resourceId.split('/');
                     const siteName = splitRID[splitRID.length - 1];
 
@@ -64,7 +63,9 @@ export class ConfigureDropboxComponent {
                     });
 
                     this.folderList = options;
-                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.dropboxUri}/${siteName}`;
+                    const vals = this.wizard.wizardValues;
+                    vals.sourceSettings.repoUrl = `${DeploymentCenterConstants.dropboxUri}/${siteName}`;
+                    this.wizard.wizardValues = vals;
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-dropbox-folders', err);

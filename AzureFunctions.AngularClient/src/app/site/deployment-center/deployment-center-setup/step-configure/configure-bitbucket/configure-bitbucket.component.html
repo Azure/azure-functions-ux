@@ -13,6 +13,7 @@
           bindLabel="displayLabel"
           bindValue="value"
           placeholder="Select Repo"
+          formControlName="repoUrl"
           (change)="RepoChanged($event)">
         </ng-select>
       </div>
@@ -31,7 +32,6 @@
           placeholder="Select Branch"
           formControlName="branch">
           </ng-select>
-        <!-- </drop-down> -->
       </div>
     </div>
   </div>

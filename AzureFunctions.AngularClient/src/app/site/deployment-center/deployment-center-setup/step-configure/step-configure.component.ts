@@ -10,18 +10,12 @@ export class StepConfigureComponent {
     constructor(public wizard: DeploymentCenterStateManager) {}
 
     get sourceProvider() {
-        return (
-            this.wizard.wizardForm &&
-            this.wizard.wizardForm.controls.sourceProvider &&
-            this.wizard.wizardForm.controls.sourceProvider.value
-        );
+        const values = this.wizard.wizardValues;
+        return values && values.sourceProvider;
     }
 
     get buildProvider() {
-        return (
-            this.wizard.wizardForm &&
-            this.wizard.wizardForm.controls.buildProvider &&
-            this.wizard.wizardForm.controls.buildProvider.value
-        );
+        const values = this.wizard.wizardValues;
+        return values && values.buildProvider;
     }
 }

@@ -6,8 +6,8 @@
 }
 
 export interface DropDownGroupElement<T> {
-    displayLabel: string,
-    dropDownElements: DropDownElement<T>[]
+    displayLabel: string;
+    dropDownElements: DropDownElement<T>[];
 }
 
 export interface MultiDropDownElement<T> extends DropDownElement<T> {

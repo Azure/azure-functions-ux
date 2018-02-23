@@ -78,7 +78,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     private vstsRepositories: VSORepo[];
 
-    //Subscriptions
+    // Subscriptions
     private _memberIdSubscription = new Subject();
     private _branchSubscription = new Subject<string>();
     constructor(public wizard: DeploymentCenterStateManager, private _cacheService: CacheService, private _userService: UserService, private _logService: LogService) {
@@ -103,7 +103,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
-                let projectCalls: Observable<VSORepo[]>[] = [];
+                const projectCalls: Observable<VSORepo[]>[] = [];
                 r.forEach(account => {
                     projectCalls.push(
                         this._cacheService
