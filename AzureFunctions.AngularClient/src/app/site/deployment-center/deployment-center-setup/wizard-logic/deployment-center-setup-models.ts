@@ -2,7 +2,7 @@ export class WizardForm {
     public sourceProvider: sourceControlProvider;
     public buildProvider: sourceControlProvider;
     public sourceSettings: SourceSettings;
-    public vstsBuildSettings: VstsBuildSettings;
+    public buildSettings: VstsBuildSettings;
 }
 
 export class VstsTestEnvironment {

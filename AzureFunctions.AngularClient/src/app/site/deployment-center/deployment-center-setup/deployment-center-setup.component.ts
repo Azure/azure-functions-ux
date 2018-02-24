@@ -25,7 +25,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                 deploymentRollbackEnabled: [false, []],
                 isMercurial: [false, []]
             }),
-            vstsBuildSettings: this._fb.group({
+            buildSettings: this._fb.group({
                 createNewVsoAccount: ['existing', []],
                 vstsAccount: ['', []],
                 vstsProject: ['', []],

@@ -16,4 +16,8 @@ export class DeploymentCenterStateManager {
     public get sourceSettings(): FormGroup {
         return (this.wizardForm && (this.wizardForm.controls.sourceSettings as FormGroup)) || null;
     }
+
+    public get buildSettings(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.buildSettings as FormGroup)) || null;
+    }
 }
