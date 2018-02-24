@@ -29,6 +29,9 @@ export class ConfigureGithubComponent implements OnDestroy {
     public reposLoading = false;
     public branchesLoading = false;
 
+    public selectedOrg = '';
+    public selectedRepo = '';
+    public selectedBranch = '';
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -153,7 +156,7 @@ export class ConfigureGithubComponent implements OnDestroy {
                 })
                 .subscribe(
                     r => {
-                        const newBranchList: DropDownElement<string>[] = [];
+                        const newBranchList: any[] = [];
                         r.json().forEach(branch => {
                             newBranchList.push({
                                 displayLabel: branch.name,
@@ -174,10 +177,13 @@ export class ConfigureGithubComponent implements OnDestroy {
 
     RepoChanged(repo: DropDownElement<string>) {
         this.reposStream.next(repo.value);
+        this.selectedBranch = '';
     }
 
     OrgChanged(org: DropDownElement<string>) {
         this.orgStream.next(org.value);
+        this.selectedRepo = '';
+        this.selectedBranch = '';
     }
 
     ngOnDestroy(): void {

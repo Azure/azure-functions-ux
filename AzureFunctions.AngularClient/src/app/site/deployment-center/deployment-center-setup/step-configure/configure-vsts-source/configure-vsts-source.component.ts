@@ -81,6 +81,12 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     // Subscriptions
     private _memberIdSubscription = new Subject();
     private _branchSubscription = new Subject<string>();
+
+    public selectedAccount = '';
+    public selectedProject = '';
+    public selectedRepo = '';
+    public selectedBranch = '';
+
     constructor(public wizard: DeploymentCenterStateManager, private _cacheService: CacheService, private _userService: UserService, private _logService: LogService) {
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.token = r.token;
@@ -145,27 +151,36 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this._branchSubscription
             .takeUntil(this._ngUnsubscribe)
             .switchMap(repoUri => {
-                const repoObj = _.first(this.vstsRepositories.filter(x => x.remoteUrl === repoUri));
-                const repoId = repoObj.id;
-                const account = repoObj.account;
-                return this._cacheService.get(
-                    `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
-                    true,
-                    this.getHeaders()
-                );
+                if (repoUri) {
+                    const repoObj = _.first(this.vstsRepositories.filter(x => x.remoteUrl === repoUri));
+                    const repoId = repoObj.id;
+                    const account = repoObj.account;
+                    return this._cacheService.get(
+                        `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
+                        true,
+                        this.getHeaders()
+                    );
+                } else {
+                    return Observable.of(null);
+                }
             })
             .subscribe(
                 r => {
-                    const branchList = r.json().value;
-                    this.BranchList = branchList.map(x => {
-                        const item: DropDownElement<string> = {
-                            displayLabel: x.name.replace('refs/heads/', ''),
-                            value: x.name.replace('refs/heads/', '')
-                        };
-                        return item;
-                    });
+                    if (r) {
+                        const branchList = r.json().value;
+                        this.BranchList = branchList.map(x => {
+                            const item: DropDownElement<string> = {
+                                displayLabel: x.name.replace('refs/heads/', ''),
+                                value: x.name.replace('refs/heads/', '')
+                            };
+                            return item;
+                        });
+                    } else {
+                        this.BranchList = [];
+                    }
                 },
                 err => {
+                    this.BranchList = [];
                     this._logService.error(LogCategories.cicd, '/fetch-vso-branches', err);
                 }
             );
@@ -183,9 +198,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         });
     }
 
-    accountChanged(accountName: string) {
+    accountChanged(accountName: DropDownElement<string>) {
         this.ProjectList = _.uniqBy(
-            this.vstsRepositories.filter(r => r.account === accountName).map(repo => {
+            this.vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
                 return {
                     displayLabel: repo.project.name,
                     value: repo.project.name
@@ -193,11 +208,15 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             }),
             'value'
         );
+        this.selectedProject = '';
+        this.selectedRepo = '';
+        this.BranchList = [];
+        this.selectedBranch = '';
     }
 
-    projectChanged(projectName: string) {
+    projectChanged(projectName: DropDownElement<string>) {
         this.RepositoryList = _.uniqBy(
-            this.vstsRepositories.filter(r => r.project.name === projectName).map(repo => {
+            this.vstsRepositories.filter(r => r.project.name === projectName.value).map(repo => {
                 return {
                     displayLabel: repo.name,
                     value: repo.remoteUrl
@@ -205,15 +224,14 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             }),
             'value'
         );
+        this.selectedRepo = '';
+        this.BranchList = [];
+        this.selectedBranch = '';
     }
 
-    repoChanged(repoUri: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = repoUri;
-        this._branchSubscription.next(repoUri);
-    }
-
-    branchChanged(branch: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.branch = branch;
+    repoChanged(repoUri: DropDownElement<string>) {
+        this._branchSubscription.next(repoUri.value);
+        this.selectedBranch = '';
     }
 
     private getHeaders(): Headers {
@@ -223,14 +241,6 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         headers.append('Authorization', `Bearer ${this.token}`);
         headers.append('X-VSS-ForceMsaPassThrough', 'true');
         return headers;
-    }
-
-    frameworkChanged(framework) {
-        this.chosenBuildFramework = framework;
-    }
-
-    get showWorkingDirectory() {
-        return true;
     }
 
     ngOnDestroy(): void {

@@ -71,7 +71,7 @@ export class StepCompleteComponent implements OnInit {
 
     Save() {
         this._busyManager.setBusy();
-        let payload = this.wizard.wizardForm.controls.sourceSettings.value;
+        const payload = this.wizard.wizardForm.controls.sourceSettings.value;
         if (this.wizard.wizardForm.controls.sourceProvider.value === 'external') {
             payload.isManualIntegration = true;
         }
