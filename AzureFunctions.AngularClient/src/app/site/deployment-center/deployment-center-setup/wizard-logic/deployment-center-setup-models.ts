@@ -7,8 +7,10 @@ export class WizardForm {
 
 export class VstsTestEnvironment {
     public enabled: boolean;
+    public newApp: boolean;
     public AppServicePlanId: string;
-    public AppName: string;
+    public WebAppId: string;
+    public loadTestingEnabled: boolean;
 }
 export class VstsBuildSettings {
     public createNewVsoAccount: string;
@@ -18,6 +20,7 @@ export class VstsBuildSettings {
     public applicationFramework: string;
     public testEnvironment: VstsTestEnvironment;
     public deploymentSlot: string;
+    public deploymentSlotEnabled: boolean;
     public workerDirecory: string;
     public nodejsTaskRunner: string;
     public pythonSettings: any;

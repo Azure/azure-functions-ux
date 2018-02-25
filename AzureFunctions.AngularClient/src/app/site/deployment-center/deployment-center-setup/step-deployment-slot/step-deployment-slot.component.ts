@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DeploymentCenterStateManager } from '../wizard-logic/deployment-center-state-manager';
 
 @Component({
   selector: 'app-step-deployment-slot',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StepDeploymentSlotComponent implements OnInit {
 
-  constructor() { }
+  DeploymentSlotEnabledOptions =
+    [{ displayLabel: 'No', value: false },
+    { displayLabel: 'Yes', value: true }];
+
+  constructor(
+    wizard: DeploymentCenterStateManager
+  ) { }
 
   ngOnInit() {
   }

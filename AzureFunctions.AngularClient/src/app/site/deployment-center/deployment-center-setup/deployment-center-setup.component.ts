@@ -40,10 +40,13 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                 }),
                 nodejsTaskRunner: ['', []],
                 testEnvironment: this._fb.group({
-                    enabled: ['', []],
+                    enabled: [false, []],
+                    newApp: [false, []],
                     AppServicePlanId: ['', []],
-                    AppName: ['', []]
+                    WebAppId: ['', []],
+                    loadTestingEnabled: [false, []]
                 }),
+                deploymentSlotEnabled: [false, []],
                 deploymentSlot: ['', []]
             })
         });
