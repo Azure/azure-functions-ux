@@ -1,4 +1,4 @@
-<div class="settings-group-wrapper" [formGroup]="wizard?.buildSettings?.controls?.testEnvironment" novalidate>
+<div class="settings-group-wrapper" [formGroup]="wizard?.testEnvironmentSettings" novalidate>
 
   <h3 class="first-config-heading">Load Testing</h3>
 
@@ -7,8 +7,7 @@
       <div class="setting-label">Enable Test Environment
       </div>
       <div class="setting-control-container">
-        <radio-selector [control]="wizard?.buildSettings?.controls?.testEnvironment?.controls?.enabled" [options]="testEnvironmentOptions"
-          [highlightDirty]="true">
+        <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.enabled" [options]="testEnvironmentOptions" [highlightDirty]="true">
         </radio-selector>
       </div>
     </div>
@@ -18,8 +17,7 @@
         <div class="setting-label">App Service Plan</div>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
-            <radio-selector [control]="wizard?.buildSettings?.controls?.testEnvironment?.controls?.newApp" [options]="newAppServicePlanOptions"
-              [highlightDirty]="true">
+            <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.newApp" [options]="newAppServicePlanOptions" [highlightDirty]="true">
             </radio-selector>
           </div>
           <ng-select *ngIf="wizard?.wizardValues?.buildSettings?.testEnvironment?.newApp === false" class="custom-select" [loading]="appServicePlansLoading"
@@ -45,7 +43,7 @@
         <div class="setting-label">Enable Load Testing
         </div>
         <div class="setting-control-container">
-          <radio-selector [control]="wizard?.buildSettings?.controls?.testEnvironment?.controls?.loadTestingEnabled" [options]="enableLoadTestingOptions"
+          <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.loadTestingEnabled" [options]="enableLoadTestingOptions"
             [highlightDirty]="true">
           </radio-selector>
         </div>

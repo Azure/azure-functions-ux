@@ -13,7 +13,7 @@ export class StepDeploymentSlotComponent implements OnInit {
     { displayLabel: 'Yes', value: true }];
 
   constructor(
-    wizard: DeploymentCenterStateManager
+    public wizard: DeploymentCenterStateManager
   ) { }
 
   ngOnInit() {

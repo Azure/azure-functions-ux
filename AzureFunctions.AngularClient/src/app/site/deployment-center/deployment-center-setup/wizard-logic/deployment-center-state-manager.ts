@@ -20,4 +20,8 @@ export class DeploymentCenterStateManager {
     public get buildSettings(): FormGroup {
         return (this.wizardForm && (this.wizardForm.controls.buildSettings as FormGroup)) || null;
     }
+
+    public get testEnvironmentSettings(): FormGroup {
+        return (this.wizardForm && (this.buildSettings.controls.testEnvironment as FormGroup)) || null;
+    }
 }
