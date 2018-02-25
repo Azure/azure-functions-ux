@@ -15,27 +15,6 @@ import { LogCategories } from '../../../../../shared/models/constants';
 // import { TranslateService } from '@ngx-translate/core';
 // import { PortalResources } from '../../../../../shared/models/portal-resources';
 
-// const recommendedPythonVersion = { value: 'python353x86', text: 'Python 3.5.3 x86' };
-
-// const pythonVersionList = [
-//   { value: 'python2712x64', text: 'Python 2.7.12 x64' },
-//   { value: 'python2712x86', text: 'Python 2.7.12 x86' },
-//   { value: 'python2713x64', text: 'Python 2.7.13 x64' },
-//   { value: 'python2713x86', text: 'Python 2.7.13 x86' },
-//   { value: 'python353x64', text: 'Python 3.5.3 x64' },
-//   { value: 'python353x86', text: 'Python 3.5.3 x86' }, // Recommended version
-//   { value: 'python360x86', text: 'Python 3.6.0 x86' },
-//   { value: 'python360x64', text: 'Python 3.6.0 x64' },
-//   { value: 'python361x86', text: 'Python 3.6.1 x86' },
-//   { value: 'python361x64', text: 'Python 3.6.1 x64' }
-// ];
-
-export const PythonFramework = {
-  Bottle: 'Bottle',
-  Django: 'Django',
-  Flask: 'Flask'
-};
-
 export const TaskRunner = {
   None: 'None',
   Gulp: 'Gulp',
@@ -65,6 +44,12 @@ export class VSTSRepository {
   styleUrls: ['./configure-vsts-build.component.scss', '../step-configure.component.scss']
 })
 export class ConfigureVstsBuildComponent implements OnDestroy {
+
+  nodeJsTaskRunners: DropDownElement<string>[] = [
+    { value: 'gulp', displayLabel: 'Gulp' },
+    { value: 'grunt', displayLabel: 'Grunt' },
+    { value: 'none', displayLabel: 'None' },
+  ];
 
   recommendedPythonVersion = 'python353x86';
   pythonVersionList: DropDownElement<string>[] = [
@@ -128,9 +113,9 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   selectedAccount = '';
   selectedProject = '';
   selectedLocation = '';
-  selectedFramework = '';
-  selectedPythonVersion = '';
-  selectedPythonFramework = '';
+  selectedFramework = WebAppFramework.AspNetWap;
+  selectedPythonVersion = this.recommendedPythonVersion;
+  selectedPythonFramework = 'Bottle';
   // projects https://admetrics.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true
   // https://admetrics.vsrm.visualstudio.com/_apis/Release
   // https://admetrics.vsrm.visualstudio.com/c6f597f2-902e-47df-9dbd-f5ee1ac627f2/_apis/Release/definitions/environmenttemplates
@@ -152,6 +137,9 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
       { displayLabel: 'Existing', value: 'existing' }];
 
     this.setupSubscriptions();
+    const val = this.wizard.wizardValues;
+    val.buildSettings.createNewVsoAccount = 'existing';
+    this.wizard.wizardValues = val;
   }
 
   private setupSubscriptions() {

@@ -11,7 +11,7 @@ export class VstsTestEnvironment {
     public AppName: string;
 }
 export class VstsBuildSettings {
-    public createNewVsoAccount: boolean;
+    public createNewVsoAccount: string;
     public vstsAccount: string;
     public vstsProject: string;
     public location: string;

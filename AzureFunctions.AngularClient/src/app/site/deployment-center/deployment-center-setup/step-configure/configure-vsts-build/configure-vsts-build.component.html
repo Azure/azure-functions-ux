@@ -2,41 +2,41 @@
 
   <h3 class="first-config-heading">Build</h3>
   <div class="settings-wrapper">
-    <div class="setting-wrapper">
-      <div class="setting-label">Visual Studio Team Service Account</div>
-      <div class="setting-control-container">
-        <div class="newOrExistingSelection">
-          <radio-selector [control]="this.wizard?.buildSettings?.controls?.createNewVsoAccount" [options]="NewVsoAccountOptions" [defaultValue]="'New'"
-            [highlightDirty]="false">
-          </radio-selector>
+    <div *ngIf="wizard?.wizardValues?.sourceProvider !== 'vsts'">
+      <div class="setting-wrapper">
+        <div class="setting-label">Visual Studio Team Service Account</div>
+        <div class="setting-control-container">
+          <div class="newOrExistingSelection">
+            <radio-selector [control]="wizard?.buildSettings?.controls?.createNewVsoAccount" [options]="NewVsoAccountOptions" [highlightDirty]="true">
+            </radio-selector>
+          </div>
+          <ng-select *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'existing'" class="custom-select" [items]="AccountList"
+            bindLabel="displayLabel" bindValue="value" placeholder="Select Account" [(ngModel)]="selectedAccount" formControlName="vstsAccount"
+            (change)="accountChanged($event)">
+          </ng-select>
+          <textbox *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'new'" [control]="wizard?.buildSettings?.controls?.vstsAccount"
+            [placeholder]="'Enter Account Name'"></textbox>
         </div>
-        <ng-select *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'existing'" class="custom-select" [items]="AccountList"
-          bindLabel="displayLabel" bindValue="value" placeholder="Select Account" [(ngModel)]="selectedAccount" formControlName="vstsAccount"
-          (change)="accountChanged($event)">
-        </ng-select>
-        <textbox *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'new'" [control]="this.wizard?.buildSettings?.controls?.vstsAccount"
-          [placeholder]="'Enter Account Name'"></textbox>
+      </div>
+
+      <div *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'new'" class="setting-wrapper">
+        <div class="setting-label">Location</div>
+        <div class="setting-control-container">
+          <ng-select class="custom-select" [items]="LocationList" bindLabel="displayLabel" bindValue="value" placeholder="Select Location"
+            [(ngModel)]="selectedLocation" formControlName="location">
+          </ng-select>
+        </div>
+      </div>
+
+      <div *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'existing'" class="setting-wrapper">
+        <div class="setting-label">Project Name</div>
+        <div class="setting-control-container">
+          <ng-select class="custom-select" [items]="ProjectList" bindLabel="displayLabel" bindValue="value" placeholder="Select Project"
+            [(ngModel)]="selectedProject" formControlName="vstsProject">
+          </ng-select>
+        </div>
       </div>
     </div>
-
-    <div *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'new'" class="setting-wrapper">
-      <div class="setting-label">Location</div>
-      <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="LocationList" bindLabel="displayLabel" bindValue="value" placeholder="Select Location"
-          [(ngModel)]="selectedLocation" formControlName="location">
-        </ng-select>
-      </div>
-    </div>
-
-    <div *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'existing'" class="setting-wrapper">
-      <div class="setting-label">Project Name</div>
-      <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="ProjectList" bindLabel="displayLabel" bindValue="value" placeholder="Select Project"
-          [(ngModel)]="selectedProject" formControlName="vstsProject">
-        </ng-select>
-      </div>
-    </div>
-
 
     <div class="setting-wrapper">
       <div class="setting-label"> Web Application Framework
@@ -53,8 +53,6 @@
 
 
     <div *ngIf="selectedFramework!=='AspNetWap' && selectedFramework!=='AspNetCore'">
-
-
       <div class="setting-wrapper">
         <div class="setting-label"> Working Directory
           <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
@@ -62,7 +60,7 @@
           </pop-over>
         </div>
         <div class="setting-control-container">
-          <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
+          <textbox [control]="wizard?.buildSettings?.controls?.workingDirectory" [placeholder]="'enter value'"></textbox>
         </div>
       </div>
 
@@ -73,9 +71,9 @@
           </pop-over>
         </div>
         <div class="setting-control-container">
-          <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
-            [highlightDirty]="true">
-          </drop-down>
+          <ng-select class="custom-select" [searchable]="false" [items]="pythonFrameworkList" bindLabel="displayLabel" bindValue="value"
+            placeholder="Select Python Framework" [(ngModel)]="selectedPythonFramework" formControlName="framework">
+          </ng-select>
         </div>
       </div>
 
@@ -114,7 +112,7 @@
             </pop-over>
           </div>
           <div class="setting-control-container">
-            <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
+            <textbox [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.djangoSettingsModule" [placeholder]="'enter value'"></textbox>
           </div>
         </div>
 
@@ -125,7 +123,7 @@
             </pop-over>
           </div>
           <div class="setting-control-container">
-            <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
+            <textbox [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.flaskProjectName" [placeholder]="'enter value'"></textbox>
           </div>
         </div>
       </div>

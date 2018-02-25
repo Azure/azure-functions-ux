@@ -2,31 +2,21 @@
 
   <h3 class="first-config-heading">{{'code' | translate}}</h3>
 
-  <div class="settings-wrapper">
+  <div class="settings-wrapper" [formGroup]="wizard?.buildSettings">
     <div class="setting-wrapper">
       <div class="setting-label">{{'vstsAccount' | translate}}</div>
       <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="AccountList"
-          bindLabel="displayLabel"
-          bindValue="value"
-          placeholder="Select Account"
-          [(ngModel)]="selectedAccount"
-          [ngModelOptions]="{standalone: true}"
-          (change)="accountChanged($event)">
+        <ng-select class="custom-select" [items]="AccountList" bindLabel="displayLabel" bindValue="value" placeholder="Select Account"
+          [(ngModel)]="selectedAccount" formControlName="vstsAccount" (change)="accountChanged($event)">
         </ng-select>
       </div>
     </div>
 
-    <div class="setting-wrapper">
+    <div class="setting-wrapper" [formGroup]="wizard?.buildSettings">
       <div class="setting-label">{{'project' | translate}}</div>
       <div class="setting-control-container">
-          <ng-select class="custom-select" [items]="ProjectList"
-          bindLabel="displayLabel"
-          bindValue="value"
-          placeholder="Select Project"
-          [(ngModel)]="selectedProject"
-          [ngModelOptions]="{standalone: true}"
-          (change)="projectChanged($event)">
+        <ng-select class="custom-select" [items]="ProjectList" bindLabel="displayLabel" bindValue="value" placeholder="Select Project"
+          [(ngModel)]="selectedProject" formControlName="selectedProject" (change)="projectChanged($event)">
         </ng-select>
       </div>
     </div>
@@ -34,13 +24,8 @@
     <div class="setting-wrapper">
       <div class="setting-label">{{'repository' | translate}}</div>
       <div class="setting-control-container">
-          <ng-select class="custom-select" [items]="RepositoryList"
-          bindLabel="displayLabel"
-          bindValue="value"
-          placeholder="Select Repository"
-          formControlName="repoUrl"
-          [(ngModel)]="selectedRepo"
-          (change)="repoChanged($event)">
+        <ng-select class="custom-select" [items]="RepositoryList" bindLabel="displayLabel" bindValue="value" placeholder="Select Repository"
+          formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="repoChanged($event)">
         </ng-select>
       </div>
     </div>
@@ -48,16 +33,12 @@
     <div class="setting-wrapper">
       <div class="setting-label">{{'branch' | translate}}</div>
       <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="BranchList"
-          bindLabel="displayLabel"
-          bindValue="value"
-          placeholder="Select Branch"
-          [(ngModel)]="selectedBranch"
-          formControlName="branch">
+        <ng-select class="custom-select" [items]="BranchList" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
+          [(ngModel)]="selectedBranch" formControlName="branch">
         </ng-select>
       </div>
     </div>
-<!-- 
+    <!-- 
     <div class="setting-wrapper">
       <div class="setting-label"> Web Application Framework
         <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">

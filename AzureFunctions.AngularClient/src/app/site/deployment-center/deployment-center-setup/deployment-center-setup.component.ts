@@ -26,7 +26,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                 isMercurial: [false, []]
             }),
             buildSettings: this._fb.group({
-                createNewVsoAccount: ['existing', []],
+                createNewVsoAccount: ['', []],
                 vstsAccount: ['', []],
                 vstsProject: ['', []],
                 location: ['', []],
@@ -35,8 +35,8 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                 pythonSettings: this._fb.group({
                     framework: ['', []],
                     version: ['', []],
-                    flaskProjectName: ['', []],
-                    djangoSettingsModule: ['', []]
+                    flaskProjectName: ['flaskProjectName', []],
+                    djangoSettingsModule: ['DjangoProjectName.settings', []]
                 }),
                 nodejsTaskRunner: ['', []],
                 testEnvironment: this._fb.group({
