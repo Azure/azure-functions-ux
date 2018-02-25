@@ -18,8 +18,17 @@ export class VstsBuildSettings {
     public applicationFramework: string;
     public testEnvironment: VstsTestEnvironment;
     public deploymentSlot: string;
+    public workerDirecory: string;
+    public nodejsTaskRunner: string;
+    public pythonSettings: any;
 }
 
+export class PythonSettings {
+    public framework: string;
+    public version: string;
+    public flaskProjectName: string;
+    public djangoSettingsModule: string;
+}
 export class SourceSettings {
     public repoUrl: string;
     public branch: string;

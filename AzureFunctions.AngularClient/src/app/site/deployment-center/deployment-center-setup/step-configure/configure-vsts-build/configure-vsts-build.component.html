@@ -37,63 +37,25 @@
       </div>
     </div>
 
-  </div>
-</div>
-<!--
-  <div class="settings-wrapper">
-    <div class="setting-wrapper">
-      <div class="setting-label">Visual Studio Team Service Account</div>
-      <div class="setting-control-container">
-        <div class="newOrExistingSelection">
-          <radio-selector
-          [control]="this.wizard?.vstsBuildSettings?.controls?.createNewVsoAccount"
-          [options]="NewVsoAccountOptions"
-          [defaultValue]="'Existing'"
-          [highlightDirty]="false">
-        </radio-selector>
-        </div>
 
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!BranchList ? BranchList : []"
-          [highlightDirty]="true">
-        </drop-down>
+    <div class="setting-wrapper">
+      <div class="setting-label"> Web Application Framework
+        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
+      </div>
+      <div class="setting-control-container">
+        <ng-select class="custom-select" [searchable]="false" [items]="WebApplicationFrameworks" bindLabel="displayLabel" bindValue="value"
+          placeholder="Select Framework" [(ngModel)]="selectedFramework" formControlName="applicationFramework">
+        </ng-select>
       </div>
     </div>
 
-    <div class="setting-wrapper">
-        <div class="setting-label">Location</div>
-        <div class="setting-control-container">
-          <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!BranchList ? BranchList : []"
-            [highlightDirty]="true">
-          </drop-down>
-        </div>
-      </div>
 
-    <div class="setting-wrapper">
-      <div class="setting-label">Project Name</div>
-      <div class="setting-control-container">
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!BranchList ? BranchList : []"
-          [highlightDirty]="true">
-        </drop-down>
-      </div>
-    </div>
+    <div *ngIf="selectedFramework!=='AspNetWap' && selectedFramework!=='AspNetCore'">
 
-    <div class="setting-wrapper">
-        <div class="setting-label"> Web Application Framework
-          <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-            <span class="glyphicon glyphicon-info-sign button-title"></span>
-          </pop-over>
-        </div>
-        <div class="setting-control-container">
-          <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
-            [highlightDirty]="true">
-          </drop-down>
-        </div>
-      </div>
-  </div>
-</div>  
-<div *ngIf="chosenBuildFramework!=='AspNetWap' && chosenBuildFramework!=='AspNetCore'">
 
-      <div class="setting-wrapper" *ngIf="showWorkingDirectory">
+      <div class="setting-wrapper">
         <div class="setting-label"> Working Directory
           <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -104,7 +66,7 @@
         </div>
       </div>
 
-      <div class="setting-wrapper" *ngIf="chosenBuildFramework==='Node'">
+      <div class="setting-wrapper" *ngIf="selectedFramework==='Node'">
         <div class="setting-label"> Task Runner
           <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
             <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -117,7 +79,8 @@
         </div>
       </div>
 
-      <div *ngIf="chosenBuildFramework==='Python'">
+      <div *ngIf="selectedFramework==='Python'" [formGroup]="wizard?.buildSettings?.controls?.pythonSettings" novalidate>
+
         <div class="setting-wrapper">
           <div class="setting-label"> Python Framework
             <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
@@ -125,9 +88,9 @@
             </pop-over>
           </div>
           <div class="setting-control-container">
-            <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
-              [highlightDirty]="true">
-            </drop-down>
+            <ng-select class="custom-select" [searchable]="false" [items]="pythonFrameworkList" bindLabel="displayLabel" bindValue="value"
+              placeholder="Select Python Framework" [(ngModel)]="selectedPythonFramework" formControlName="framework">
+            </ng-select>
           </div>
         </div>
 
@@ -138,13 +101,13 @@
             </pop-over>
           </div>
           <div class="setting-control-container">
-            <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
-              [highlightDirty]="true">
-            </drop-down>
+            <ng-select class="custom-select" [searchable]="false" [items]="pythonVersionList" bindLabel="displayLabel" bindValue="value"
+              placeholder="Select Python Version" [(ngModel)]="selectedPythonVersion" formControlName="version">
+            </ng-select>
           </div>
         </div>
 
-        <div class="setting-wrapper">
+        <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Django'">
           <div class="setting-label"> Django Settings Module
             <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
               <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -155,7 +118,7 @@
           </div>
         </div>
 
-        <div class="setting-wrapper">
+        <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Flask'">
           <div class="setting-label"> Flask project name
             <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
               <span class="glyphicon glyphicon-info-sign button-title"></span>
@@ -166,4 +129,6 @@
           </div>
         </div>
       </div>
-    </div>  -->
+    </div>
+  </div>
+</div>

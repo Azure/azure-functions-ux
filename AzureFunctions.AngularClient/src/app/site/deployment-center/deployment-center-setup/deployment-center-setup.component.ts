@@ -31,6 +31,14 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                 vstsProject: ['', []],
                 location: ['', []],
                 applicationFramework: ['', []],
+                workingDirectory: ['', []],
+                pythonSettings: this._fb.group({
+                    framework: ['', []],
+                    version: ['', []],
+                    flaskProjectName: ['', []],
+                    djangoSettingsModule: ['', []]
+                }),
+                nodejsTaskRunner: ['', []],
                 testEnvironment: this._fb.group({
                     enabled: ['', []],
                     AppServicePlanId: ['', []],

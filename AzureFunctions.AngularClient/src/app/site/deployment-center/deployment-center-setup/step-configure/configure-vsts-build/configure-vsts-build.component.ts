@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../../shared/services/user.service';
 import { CacheService } from '../../../../../shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
-import { VSOAccount,  VsoProject } from '../../../Models/vso-repo';
+import { VSOAccount, VsoProject } from '../../../Models/vso-repo';
 import { Headers } from '@angular/http';
 // import { switchMap } from 'rxjs/operator/switchMap';
 import { forkJoin } from 'rxjs/observable/forkJoin';
@@ -30,12 +30,88 @@ import { LogCategories } from '../../../../../shared/models/constants';
 //   { value: 'python361x64', text: 'Python 3.6.1 x64' }
 // ];
 
+export const PythonFramework = {
+  Bottle: 'Bottle',
+  Django: 'Django',
+  Flask: 'Flask'
+};
+
+export const TaskRunner = {
+  None: 'None',
+  Gulp: 'Gulp',
+  Grunt: 'Grunt'
+};
+
+export const WebAppFramework = {
+  AspNetWap: 'AspNetWap',
+  AspNetCore: 'AspNetCore',
+  Node: 'Node',
+  PHP: 'PHP',
+  Python: 'Python',
+  StaticWebapp: 'StaticWebapp'
+};
+
+export class VSTSRepository {
+  name: string;
+  account: string;
+  remoteUrl: string;
+  projectName: string;
+  id: string;
+}
+
 @Component({
   selector: 'app-configure-vsts-build',
   templateUrl: './configure-vsts-build.component.html',
   styleUrls: ['./configure-vsts-build.component.scss', '../step-configure.component.scss']
 })
 export class ConfigureVstsBuildComponent implements OnDestroy {
+
+  recommendedPythonVersion = 'python353x86';
+  pythonVersionList: DropDownElement<string>[] = [
+    { value: 'python2712x64', displayLabel: 'Python 2.7.12 x64' },
+    { value: 'python2712x86', displayLabel: 'Python 2.7.12 x86' },
+    { value: 'python2713x64', displayLabel: 'Python 2.7.13 x64' },
+    { value: 'python2713x86', displayLabel: 'Python 2.7.13 x86' },
+    { value: 'python353x64', displayLabel: 'Python 3.5.3 x64' },
+    { value: 'python353x86', displayLabel: 'Python 3.5.3 x86' }, // Recommended version
+    { value: 'python360x86', displayLabel: 'Python 3.6.0 x86' },
+    { value: 'python360x64', displayLabel: 'Python 3.6.0 x64' },
+    { value: 'python361x86', displayLabel: 'Python 3.6.1 x86' },
+    { value: 'python361x64', displayLabel: 'Python 3.6.1 x64' }
+  ];
+
+  pythonFrameworkList: DropDownElement<string>[] = [
+    { value: 'Bottle', displayLabel: 'Bottle' },
+    { value: 'Django', displayLabel: 'Django' },
+    { value: 'Flask', displayLabel: 'Flask' }
+  ];
+
+  WebApplicationFrameworks: DropDownElement<string>[] = [
+    {
+      displayLabel: 'ASP.NET',
+      value: WebAppFramework.AspNetWap
+    },
+    {
+      displayLabel: 'ASP.NET Core',
+      value: WebAppFramework.AspNetCore
+    },
+    {
+      displayLabel: 'Node.JS',
+      value: WebAppFramework.Node
+    },
+    {
+      displayLabel: 'PHP',
+      value: WebAppFramework.PHP
+    },
+    {
+      displayLabel: 'Python',
+      value: WebAppFramework.Python
+    },
+    {
+      displayLabel: 'Static Webapp',
+      value: WebAppFramework.StaticWebapp
+    }
+  ];
 
   private token: string;
   public NewVsoAccountOptions: SelectOption<string>[];
@@ -46,21 +122,19 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   public AccountList: DropDownElement<string>[];
   public ProjectList: DropDownElement<string>[];
   public LocationList: DropDownElement<string>[];
-  
+
   private vsoAccountToProjectMap: { [key: string]: DropDownElement<string>[] } = {};
 
-  public selectedAccount = '';
-  public selectedProject = '';
-  public selectedLocation = '';
+  selectedAccount = '';
+  selectedProject = '';
+  selectedLocation = '';
+  selectedFramework = '';
+  selectedPythonVersion = '';
+  selectedPythonFramework = '';
   // projects https://admetrics.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true
   // https://admetrics.vsrm.visualstudio.com/_apis/Release
   // https://admetrics.vsrm.visualstudio.com/c6f597f2-902e-47df-9dbd-f5ee1ac627f2/_apis/Release/definitions/environmenttemplates
-
-  private _memberIdSubscription = new Subject();
-
-
-
-
+  // https://app.vssps.visualstudio.com/_AzureSpsAccount/ValidateAccountName?accountName=test3320
 
   constructor(
     // private _translateService: TranslateService
@@ -78,17 +152,11 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
       { displayLabel: 'Existing', value: 'existing' }];
 
     this.setupSubscriptions();
-    this.populate();
   }
 
-  private populate() {
-    this._memberIdSubscription.next();
-}
-
   private setupSubscriptions() {
-    this._memberIdSubscription
-      .takeUntil(this._ngUnsubscribe)
-      .switchMap(() => this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me'))
+
+    this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me')
       .map(r => r.json())
       .switchMap(r => this.fetchAccounts(r.id))
       .switchMap(r => {
@@ -99,7 +167,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
               value: account.accountName
             };
           });
-        const projectCalls: Observable<{account: string, projects: VsoProject[]}>[] = [];
+        const projectCalls: Observable<{ account: string, projects: VsoProject[] }>[] = [];
         r.forEach(account => {
           projectCalls.push(
             this._cacheService
@@ -108,8 +176,8 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
                 return {
                   account: account.accountName,
                   projects: res.json().value
-              };
-            }));
+                };
+              }));
         });
         return forkJoin(projectCalls);
       })
@@ -117,11 +185,11 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         r => {
           this.vsoAccountToProjectMap = {};
           r.forEach(projectList => {
-              this.vsoAccountToProjectMap[projectList.account] = projectList.projects.map(project => {
-                return {
-                  displayLabel: project.name,
-                  value: project.name
-                };
+            this.vsoAccountToProjectMap[projectList.account] = projectList.projects.map(project => {
+              return {
+                displayLabel: project.name,
+                value: project.name
+              };
             });
           });
 
@@ -130,6 +198,20 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
           this._logService.error(LogCategories.cicd, '/fetch-vso-profile-repo-data', err);
         }
       );
+
+    this._cacheService.get('https://app.vssps.visualstudio.com/_apis/commerce/regions', true, this.getHeaders())
+      .subscribe(r => {
+        const locationArray: any[] = r.json().value;
+        this.LocationList = locationArray.map(v => {
+          return {
+            displayLabel: v.displayName,
+            value: v.id
+          };
+        });
+      },
+        err => {
+          this._logService.error(LogCategories.cicd, '/fetch-vso-available-locations', err);
+        });
   }
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
@@ -144,11 +226,13 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     });
   }
 
+  get getFramework() {
+    return this.selectedPythonFramework;
+  }
   accountChanged(accountName: DropDownElement<string>) {
     this.ProjectList = this.vsoAccountToProjectMap[accountName.value];
     this.selectedProject = '';
-}
-
+  }
 
   private getHeaders(): Headers {
     const headers = new Headers();

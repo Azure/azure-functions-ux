@@ -12,33 +12,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
-export const PythonFramework = {
-    Bottle: 'Bottle',
-    Django: 'Django',
-    Flask: 'Flask'
-};
 
-export const TaskRunner = {
-    None: 'None',
-    Gulp: 'Gulp',
-    Grunt: 'Grunt'
-};
-
-export const WebAppFramework = {
-    AspNetWap: 'AspNetWap',
-    AspNetCore: 'AspNetCore',
-    Node: 'Node',
-    PHP: 'PHP',
-    Python: 'Python'
-};
-
-export class VSTSRepository {
-    name: string;
-    account: string;
-    remoteUrl: string;
-    projectName: string;
-    id: string;
-}
 
 @Component({
     selector: 'app-configure-vsts-source',
@@ -46,28 +20,7 @@ export class VSTSRepository {
     styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss']
 })
 export class ConfigureVstsSourceComponent implements OnDestroy {
-    WebApplicationFrameworks: DropDownElement<string>[] = [
-        {
-            displayLabel: 'ASP.NET',
-            value: WebAppFramework.AspNetWap
-        },
-        {
-            displayLabel: 'ASP.NET Core',
-            value: WebAppFramework.AspNetCore
-        },
-        {
-            displayLabel: 'Node.JS',
-            value: WebAppFramework.Node
-        },
-        {
-            displayLabel: 'PHP',
-            value: WebAppFramework.PHP
-        },
-        {
-            displayLabel: 'Python',
-            value: WebAppFramework.Python
-        }
-    ];
+
     chosenBuildFramework: string;
     public AccountList: DropDownElement<string>[];
     public ProjectList: DropDownElement<string>[];
