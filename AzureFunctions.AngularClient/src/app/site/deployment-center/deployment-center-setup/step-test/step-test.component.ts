@@ -18,10 +18,6 @@ export class StepTestComponent implements OnDestroy {
         [{ displayLabel: 'No', value: false },
         { displayLabel: 'Yes', value: true }];
 
-    enableLoadTestingOptions =
-        [{ displayLabel: 'No', value: false },
-        { displayLabel: 'Yes', value: true }];
-
     newAppServicePlanOptions =
         [{ displayLabel: 'New', value: true },
         { displayLabel: 'Existing', value: false }];

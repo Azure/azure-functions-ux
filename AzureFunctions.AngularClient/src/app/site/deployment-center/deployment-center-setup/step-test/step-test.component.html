@@ -4,7 +4,7 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label">Enable Test Environment
+      <div class="setting-label">Enable Load Test
       </div>
       <div class="setting-control-container">
         <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.enabled" [options]="testEnvironmentOptions" [highlightDirty]="true">
@@ -22,9 +22,9 @@
           </div>
           <ng-select *ngIf="wizard?.wizardValues?.buildSettings?.testEnvironment?.newApp === false" class="custom-select" [loading]="appServicePlansLoading"
             [items]="appServicePlanList" bindLabel="displayLabel" bindValue="value" placeholder="Select App Service Plan" [(ngModel)]="selectedAppServicePlan"
-            formControlName="vstsAccount" (change)="aspChanged($event)">
+            formControlName="appServicePlanId" (change)="aspChanged($event)">
           </ng-select>
-          <textbox *ngIf="wizard?.wizardValues?.buildSettings?.testEnvironment?.newApp === true" [control]="wizard?.buildSettings?.controls?.testEnvironment?.controls?.AppServicePlanId"
+          <textbox *ngIf="wizard?.wizardValues?.buildSettings?.testEnvironment?.newApp === true" [control]="wizard?.buildSettings?.controls?.testEnvironment?.controls?.appServicePlanId"
             [placeholder]="'Enter App Service Plan Name'"></textbox>
         </div>
       </div>
@@ -34,18 +34,8 @@
         <div class="setting-label">Web App</div>
         <div class="setting-control-container">
           <ng-select class="custom-select" [items]="appsList" bindLabel="displayLabel" [loading]="appsLoading" bindValue="value" placeholder="Select Web App"
-            [(ngModel)]="selectedWebApp" formControlName="WebAppId">
+            [(ngModel)]="selectedWebApp" formControlName="webAppId">
           </ng-select>
-        </div>
-      </div>
-
-      <div class="setting-wrapper">
-        <div class="setting-label">Enable Load Testing
-        </div>
-        <div class="setting-control-container">
-          <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.loadTestingEnabled" [options]="enableLoadTestingOptions"
-            [highlightDirty]="true">
-          </radio-selector>
         </div>
       </div>
     </div>

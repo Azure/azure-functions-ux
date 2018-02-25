@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DeploymentCenterStateManager } from '../wizard-logic/deployment-center-state-manager';
+import { DropDownElement } from '../../../../shared/models/drop-down-element';
 
 @Component({
   selector: 'app-step-deployment-slot',
@@ -12,6 +13,12 @@ export class StepDeploymentSlotComponent implements OnInit {
     [{ displayLabel: 'No', value: false },
     { displayLabel: 'Yes', value: true }];
 
+  DeploymentSlotNewOptions =
+    [{ displayLabel: 'New', value: true },
+    { displayLabel: 'Existing', value: false }];
+  DeploymentSlotsLoading = false;
+  ExistingDeploymentSlotsList: DropDownElement<string>[] = [];
+  selectedDeploymentSlot = '';
   constructor(
     public wizard: DeploymentCenterStateManager
   ) { }
