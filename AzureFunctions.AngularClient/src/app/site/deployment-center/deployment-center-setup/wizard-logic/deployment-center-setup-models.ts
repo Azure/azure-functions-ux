@@ -54,6 +54,32 @@ export type sourceControlProvider = 'dropbox' | 'onedrive' | 'github' | 'vsts' |
 
 // THESE MODELS AND ENUMS COME DIRECTLY FROM VSO
 
+
+
+/*********************
+ * DEPLOYMENT TARGET MODELS
+ */
+
+export interface ProvisioningConfiguration {
+    /**
+     * Gets or sets the CI/CD configuration details.
+     */
+    ciConfiguration: CiConfiguration;
+    /**
+     * Gets or sets the unique identifier of the provisioning configuration.
+     */
+    id: string;
+    /**
+     * Gets or sets the deployment source.
+     */
+    source: DeploymentSource;
+    /**
+     * Gets or sets one or more deployment targets.
+     */
+    targets: DeploymentTarget[];
+}
+
+
 export enum DeploymentTargetProvider {
     /**
      * Deployment target provider is not specified.
@@ -156,9 +182,7 @@ export interface Authorization {
     /**
      * Gets or sets the authorization parameters.
      */
-    parameters: {
-        Authorization: string;
-    };
+    parameters: { [key: string]: string; };
     /**
      * Gets or sets the authorization scheme.
      */
@@ -216,4 +240,182 @@ export interface AzureDeploymentTarget extends DeploymentTarget {
      * Gets or sets the type of Azure resource.
      */
     type: AzureResourceType;
+}
+
+export interface CiConfiguration {
+    /**
+     * Gets or sets the project where the CI/CD pipeline is configured.
+     */
+    project: ProjectReference;
+}
+
+
+/**
+ * Describes the team project.
+ */
+export interface ProjectReference {
+    /**
+     * Gets or sets the friendly name of the team project.
+     */
+    name: string;
+}
+/**
+ * Defines the supported deployment source types.
+ */
+export enum DeploymentSourceType {
+    /**
+     * Deployment source type is not specified.
+     */
+    Undefined = 0,
+    /**
+     * Code repository deployment source.
+     */
+    CodeRepository = 1,
+    /**
+     * VSTS build deployment source.
+     */
+    VstsBuild = 2,
+    /**
+     * Code template deployment source.
+     */
+    CodeTemplate = 3
+}
+
+export interface DeploymentSource {
+    /**
+     * Gets or sets the type of deployment source.
+     */
+    type: DeploymentSourceType;
+}
+
+
+
+
+export interface CodeRepositoryDeploymentSource extends DeploymentSource {
+    /**
+     * Gets or sets the configuration used to build the source.
+     */
+    buildConfiguration: BuildConfiguration;
+    /**
+     * Gets or sets the code repository.
+     */
+    repository: CodeRepository;
+}
+
+
+/**
+ * Describes the type of application.
+ */
+export enum ApplicationType {
+    /**
+     * Applicate type is not specified.
+     */
+    Undefined = 0,
+    /**
+     * ASP.NET web application.
+     */
+    AspNetWap = 1,
+    /**
+     * ASP.NET Core web application.
+     */
+    AspNetCore = 2,
+    /**
+     * NodeJS application.
+     */
+    NodeJS = 3,
+    /**
+     * Virtual Machine image.
+     */
+    AzureVirtualMachineImage = 4,
+    /**
+     * Docker container image.
+     */
+    DockerImage = 5,
+    /**
+     * .NET container services application.
+     */
+    DotNetContainerServices = 6,
+    /**
+     * Python application.
+     */
+    Python = 7,
+    /**
+     * PHP application.
+     */
+    PHP = 8,
+    /**
+     * Generic container services application.
+     */
+    ContainerServices = 9,
+    /**
+     * Function App containing only script files.
+     */
+    ScriptFunctionApp = 10,
+    /**
+     * Function App containing buildable code.
+     */
+    DotNetPreCompiledFunctionApp = 11,
+    /**
+     * Static Webapp.
+     */
+    StaticWebapp = 12,
+    /**
+     * An application which gets executed/installed via a custom script
+     */
+    CustomScript = 13,
+    /**
+     * Java web application.
+     */
+    Java = 14
+}
+
+
+/**
+ * Describes the base build configuration.
+ */
+export interface BuildConfiguration {
+    /**
+     * Gets or sets the type of application.
+     */
+    type: ApplicationType;
+    /**
+     * Gets or sets the working directory.
+     */
+    workingDirectory: string;
+}
+
+
+
+/**
+ * Describes a code repository.
+ */
+export interface CodeRepository {
+    /**
+     * Gets or sets the authorization details used to access the repository.
+     */
+    authorizationInfo: Authorization;
+    /**
+     * Gets or sets the default branch of the repository.
+     */
+    defaultBranch: string;
+    /**
+     * Gets or sets the unique identifier of the repository.
+     */
+    id: string;
+    /**
+     * Gets or sets the friendly name of the repository.
+     */
+    name: string;
+    /**
+     * Gets the repository specific properties.
+     */
+    properties: { [key: string]: string; };
+    /**
+     * Gets or sets the type of repository.
+     */
+    type: string;
+    /**
+     * Gets or sets the URL of the repository.
+     */
+    url: string;
 }
