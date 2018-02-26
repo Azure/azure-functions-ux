@@ -88,7 +88,6 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
                     });
             })
             .switchMap(r => {
-
                 const storageItem = <EnabledFeatures>this._storageService.getItem(r.site.id + '/enabledFeatures');
                 if (storageItem && storageItem.enabledFeatures && storageItem.enabledFeatures.length > 0) {
 
@@ -96,9 +95,9 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
                     // in the cacheHit case.  I think this is okay since in most cases, the list of enabled
                     // features won't change after the background loading is complete.
                     this.isLoading = false;
-                    this._copyCachedFeaturesToF1(storageItem);
+                    this.featureItems = this._getCachedFeatures(storageItem);
                 } else {
-                    this._addDefaultItems(this.featureItems);
+                    this.featureItems = this._getDefaultItems();
                 }
 
                 return Observable.zip(
@@ -111,22 +110,18 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
             .do((results: EnabledFeatureItem[][]) => {
                 this.isLoading = false;
 
-                const latestFeatureItems: EnabledFeatureItem[] = [];
-
                 // Need to add default items to latest otherwise they'll be removed from featureItems during merge.
-                this._addDefaultItems(latestFeatureItems);
+                const defaultFeatureItems: EnabledFeatureItem[] = this._getDefaultItems();
 
-                results.forEach(result => {
-                    if (result && result.length > 0) {
-                        result.forEach(featureItem => {
-                            if (featureItem) {
-                                latestFeatureItems.push(featureItem);
-                            }
-                        });
-                    }
+                // flatten not a built-in function (yet)
+                let  flattenedResults = results.reduce((list1, list2) => list1.concat(list2))
+                                                .filter(ele => ele) //remove nulls
+
+                // union of defaultFeatureItems and flattenedResults
+                let mergedFeatures = defaultFeatureItems.concat(flattenedResults);
+                this.featureItems = mergedFeatures.filter((elem, index) => {
+                    return mergedFeatures.findIndex(f => f.feature === elem.feature) === index;
                 });
-
-                this._mergeFeaturesIntoF1(this.featureItems, latestFeatureItems);
                 this._saveFeatures(this.featureItems);
 
                 if (this.featureItems.length > 0) {
@@ -164,20 +159,20 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
             });
     }
 
-    private _copyCachedFeaturesToF1(storageItem: EnabledFeatures) {
-        storageItem.enabledFeatures.forEach((cachedFeatureItem: EnabledFeature) => {
+    private _getCachedFeatures(storageItem: EnabledFeatures) {
+        return storageItem.enabledFeatures.map((cachedFeatureItem: EnabledFeature) => {
             const featureItem = this._getEnabledFeatureItem(cachedFeatureItem.feature);
             if (featureItem) {
                 featureItem.title = cachedFeatureItem.title;
-                this.featureItems.push(featureItem);
             }
-        });
+            return featureItem;
+        }).filter(ele => ele);  // remove nulls
     }
 
-    private _addDefaultItems(features: EnabledFeature[]) {
+    private _getDefaultItems() {
         const functionSettings = this._getEnabledFeatureItem(Feature.FunctionSettings);
         const appSettings = this._getEnabledFeatureItem(Feature.AppSettings);
-        features.splice(0, 0, functionSettings, appSettings);
+        return [functionSettings, appSettings];
     }
 
     private _getEnabledFeatureItem(feature: Feature, ...args: any[]): EnabledFeatureItem {
@@ -338,34 +333,6 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
         };
 
         this._storageService.setItem(item.id, item);
-    }
-
-    private _mergeFeaturesIntoF1(
-        featureItems1: EnabledFeatureItem[],
-        featureItems2: EnabledFeatureItem[]) {
-
-        const removeFeatures: EnabledFeatureItem[] = [];
-        featureItems1.forEach(f1 => {
-            const index = featureItems2.findIndex(f2 => f2.feature === f1.feature);
-            if (index < 0) {
-                removeFeatures.push(f1);
-            }
-        });
-
-        removeFeatures.forEach(rf => {
-            const removeIndex = featureItems1.indexOf(rf);
-            featureItems1.splice(removeIndex, 1);
-        });
-
-        featureItems2.forEach(f2 => {
-            const featureItem = featureItems1.find(f1 => f1.feature === f2.feature);
-            if (featureItem) {
-                featureItem.title = f2.title;
-                featureItem.bladeInfo = f2.bladeInfo;
-            } else {
-                featureItems1.push(f2);
-            }
-        });
     }
 
     private _getSiteFeatures(site: ArmObj<Site>) {
