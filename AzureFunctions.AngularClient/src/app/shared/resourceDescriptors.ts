@@ -160,7 +160,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
     }
 }
 
-export interface FunctionDescriptor extends Descriptor{
+export interface FunctionDescriptor extends Descriptor {
     name: string;
 }
 
@@ -187,6 +187,10 @@ export class ArmFunctionDescriptor extends ArmSiteDescriptor implements Function
             }
 
             if (this.parts[8].toLowerCase() !== 'functions' && this.parts[8].toLowerCase() !== 'proxies') {
+                throw Error('Not a site function/proxy id');
+            }
+
+            if (this.parts[9].toLowerCase() === 'new' && this.parts.length > 10 && this.parts[10] === 'function') {
                 throw Error('Not a site function/proxy id');
             }
 

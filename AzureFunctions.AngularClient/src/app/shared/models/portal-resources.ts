@@ -1,6 +1,5 @@
 // This file is auto generated
-    export class PortalResources
-{
+export class PortalResources {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
@@ -907,4 +906,10 @@
     public static DurableFunctionsHttpStart_description: string = "DurableFunctionsHttpStart_description";
     public static functionsPreviewTitle: string = "functionsPreviewTitle";
     public static readOnlyRunFromZip: string = "readOnlyRunFromZip";
+    public static diagnostics_code: string = "diagnostics_code";
+    public static diagnostics_column: string = "diagnostics_column";
+    public static diagnostics_description: string = "diagnostics_description";
+    public static diagnostics_errorsAndWarnings: string = "diagnostics_errorsAndWarnings";
+    public static diagnostics_file: string = "diagnostics_file";
+    public static diagnostics_line: string = "diagnostics_line";
 }

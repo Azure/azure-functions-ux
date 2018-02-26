@@ -54,20 +54,21 @@ export class SidebarPickerComponent extends FunctionAppContextComponent {
                     t.metadata.language === this.functionLanguage && !!this._functionCard.ids.find(id => id === t.id));
                 const runtimeExtensions = this.currentTemplate.metadata.extensions;
                 if (runtimeExtensions && runtimeExtensions.length > 0) {
-                    return this._getRequiredExtensions(runtimeExtensions);
+                    return this._getNeededExtensions(runtimeExtensions);
+                } else {
+                    return Observable.of(null);
                 }
-                return Observable.of(null);
             })
             .do(null, e => {
                 this._logService.error(LogCategories.functionNew, '/sidebar-error', e);
             })
             .subscribe(extensions => {
-                if (extensions) {
+                if (extensions && extensions.length > 0) {
                     this.neededExtensions = extensions;
-                    this.allInstalled = (this.neededExtensions.length === 0);
+                    this.allInstalled = false;
                     this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
-                    this.openFunctionNewDetail = this.allInstalled;
-                    this.openExtensionInstallDetail = !this.allInstalled;
+                    this.openFunctionNewDetail = false;
+                    this.openExtensionInstallDetail = true;
                 } else {
                     this.neededExtensions = [];
                     this.allInstalled = true;
@@ -98,7 +99,7 @@ export class SidebarPickerComponent extends FunctionAppContextComponent {
                 if (currentTemplate) {
                     const runtimeExtensions = this.currentTemplate.metadata.extensions;
                     if (runtimeExtensions && runtimeExtensions.length > 0) {
-                        return this._getRequiredExtensions(runtimeExtensions);
+                        return this._getNeededExtensions(runtimeExtensions);
                     }
                 }
                 return Observable.of(null);
@@ -129,26 +130,26 @@ export class SidebarPickerComponent extends FunctionAppContextComponent {
         }, 100);
     }
 
-    private _getRequiredExtensions(templateExtensions: RuntimeExtension[]) {
-        const extensions: RuntimeExtension[] = [];
+    private _getNeededExtensions(requiredExtensions: RuntimeExtension[]) {
+        const neededExtensions: RuntimeExtension[] = [];
         return this._functionAppService.getHostExtensions(this.context)
             .map(r => {
                 // no extensions installed, all template extensions are required
                 if (!r.isSuccessful || !r.result.extensions) {
-                    return templateExtensions;
+                    return requiredExtensions;
                 }
 
-                templateExtensions.forEach(requiredExtension => {
+                requiredExtensions.forEach(requiredExtension => {
                     const ext = r.result.extensions.find(installedExtention => {
                         return installedExtention.id === requiredExtension.id
                             && installedExtention.version === requiredExtension.version;
                     });
                     if (!ext) {
-                        extensions.push(requiredExtension);
+                        neededExtensions.push(requiredExtension);
                     }
                 });
 
-                return extensions;
+                return neededExtensions;
             });
     }
 

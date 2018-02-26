@@ -36,6 +36,8 @@ import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { HostNameSslState } from '../shared/models/arm/site';
 
+type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
+
 @Component({
     selector: 'function-dev',
     templateUrl: './function-dev.component.html',
@@ -49,7 +51,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     @ViewChildren(LogStreamingComponent) logStreamings: QueryList<LogStreamingComponent>;
 
     @ViewChild('functionContainer') functionContainer: ElementRef;
-    @ViewChild('editorContainer') editorContainer: ElementRef;
     @ViewChild('rightContainer') rightContainer: ElementRef;
     @ViewChild('bottomContainer') bottomContainer: ElementRef;
     @ViewChild('selectKeys') selectKeys: ElementRef;
@@ -76,10 +77,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     public showFunctionInvokeUrlModal = false;
     public showFunctionKeyModal = false;
 
-    public rightTab: string = FunctionDevComponent.rightTab;
-    public bottomTab: string = FunctionDevComponent.bottomTab;
-    public static rightTab: string;
-    public static bottomTab: string;
+    public rightTab: string;
+    public bottomTab: string;
     public functionInvokeUrl: string;
     public expandLogs = false;
     public functionKeys: FunctionKeys;
@@ -90,7 +89,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     public inTab: boolean;
     public disabled: Observable<boolean>;
     public eventGridSubscribeUrl: string;
-    public selectedFileStream: Subject<VfsObject>;
+    public selectedFileStream: Subject<FileSelectionEvent>;
     public functionKey: string;
 
     public domainsNoSSL: Array<HostNameSslState>;
@@ -106,6 +105,11 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     public focusSelectKeys: boolean = false;
 
     private defaultDomain: HostNameSslState;
+    public bottomBarExpanded: boolean;
+    public rightBarExpanded: boolean;
+
+    public showErrorsAndWarnings: Observable<boolean>;
+
     private updatedContent: string;
     private updatedTestContent: string;
 
@@ -124,15 +128,26 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         this.isStandalone = configService.isStandalone();
         this.inTab = PortalService.inTab();
 
-        this.selectedFileStream = new Subject<VfsObject>();
+        this.selectedFileStream = new Subject<FileSelectionEvent>();
+        // a type predicate for checking which type in in a FileSelectionEvent
+        const isVfsObject = (obj: FileSelectionEvent): obj is VfsObject => {
+            return (obj as VfsObject).href !== undefined;
+        };
+
         this.selectedFileStream
             .switchMap(file => {
                 if (this.fileExplorer) {
                     this.fileExplorer.setBusyState();
                 }
+                const vfsFile = isVfsObject(file) ? file : file[0];
+                const diagnostics = isVfsObject(file) ? null : file[1];
+                const diagnostic = isVfsObject(file) ? null : file[2];
+
                 return Observable.zip(
-                    this._functionAppService.getFileContent(this.context, file),
-                    Observable.of(file));
+                    this._functionAppService.getFileContent(this.context, vfsFile),
+                    Observable.of(vfsFile),
+                    Observable.of(diagnostics),
+                    Observable.of(diagnostic));
             })
             .subscribe(tuple => {
                 if (tuple[0].isSuccessful) {
@@ -147,6 +162,19 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     tuple[1].isDirty = false;
                     this.scriptFile = null;
                     this.fileName = '';
+                }
+
+                if (tuple[2]) {
+                    // if we have a diagnostics info in the event
+                    // make sure to set it after giving Monaco a chance
+                    // to update its file
+                    setTimeout(() => {
+                        this.codeEditor.setDiagnostics(tuple[2]);
+                        if (tuple[3]) {
+                            // if we have a specific diagnostic, set position to it.
+                            this.codeEditor.setPosition(tuple[3].startLineNumber, tuple[3].startColumn);
+                        }
+                    });
                 }
 
                 if (this.fileExplorer) {
@@ -168,6 +196,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 delete this.runResult;
                 this.disabled = this._functionAppService.getFunctionAppEditMode(functionView.context)
                     .map(r => r.isSuccessful ? EditModeHelper.isReadOnly(r.result) : false);
+                this.showErrorsAndWarnings = this._functionAppService.getRuntimeGeneration(functionView.context).map(v => v === 'V1');
 
                 return Observable.zip(
                     Observable.of(functionView),
@@ -274,33 +303,45 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     }
 
     onResize() {
-        MonacoHelper.onResizeFunction(
-            this.functionContainer,
-            this.editorContainer,
-            this.rightContainer,
-            this.bottomContainer,
-            this.rightTab,
-            this.bottomTab,
-            this.expandLogs,
-            this.isHttpFunction,
-            this.testDataEditor,
-            this.codeEditor);
+        // make sure to call monaco resize to let the editor
+        // handle viewport changes.
+        if (this.codeEditor) {
+            this.codeEditor.resize();
+        }
+
+        if (this.testDataEditor) {
+            this.testDataEditor.resize();
+        }
+
+        if (this.bottomContainer) {
+            this.bottomContainer.nativeElement.style.width = this.codeEditor.width + 'px';
+        }
+    }
+
+    clickBottomTab(tab: string) {
+        if (this.bottomTab === tab) {
+            this.bottomTab = '';
+            this.expandLogs = false;
+            if (this.runLogs) {
+                this.runLogs.compress();
+            }
+            this.bottomBarExpanded = false;
+        } else {
+            this.bottomTab = tab;
+            this.bottomBarExpanded = true;
+            this.expandLogs = false;
+        }
+
+        // double resize to fix pre height
+
+        setTimeout(() => {
+            this.onResize();
+        }, 0);
     }
 
     clickRightTab(tab: string) {
-        if (tab === 'logs') {
-            if (this.bottomTab === tab) {
-                this.bottomTab = '';
-                this.expandLogs = false;
-                if (this.runLogs) {
-                    this.runLogs.compress();
-                }
-            } else {
-                this.bottomTab = tab;
-            }
-        } else {
-            this.rightTab = (this.rightTab === tab) ? '' : tab;
-        }
+        this.rightTab = (this.rightTab === tab) ? '' : tab;
+        this.rightBarExpanded = !!this.rightTab;
 
         // double resize to fix pre height
         this.onResize();
@@ -317,8 +358,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 ls.ngOnDestroy();
             });
         }
-        FunctionDevComponent.rightTab = this.rightTab;
-        FunctionDevComponent.bottomTab = this.bottomTab;
     }
 
     ngAfterContentInit() {
@@ -421,9 +460,12 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     path = path.replace(re, '/');
                     path = path.replace('/?', '?') + queryParams;
 
+                    if (!domain) {
+                        domain = this.defaultDomain
+                    }
                     this.displayDomain = 'https://' + domain.name;
                     this.displayPath = path;
-    
+
                     this.runValid = true;
                 });
         } else {
@@ -476,9 +518,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
                 this.content = this.updatedContent;
             },
-            () => {
-                this._globalStateService.clearBusyState();
-            });
+                () => {
+                    this._globalStateService.clearBusyState();
+                });
     }
 
     contentChanged(content: string) {
@@ -513,21 +555,12 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             return;
         }
 
-        let resizeNeeded = false;
         if (this.bottomTab !== 'logs') {
-            this.bottomTab = 'logs';
-            resizeNeeded = true;
+            this.clickBottomTab('logs');
         }
 
         if (this.rightTab !== 'run') {
-            this.rightTab = 'run';
-            resizeNeeded = true;
-        }
-
-        if (resizeNeeded) {
-            setTimeout(() => {
-                this.onResize();
-            });
+            this.clickRightTab('run');
         }
 
         this._globalStateService.setBusyState();
@@ -691,7 +724,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             const result = (this.runHttp)
                 ? this._functionAppService.runHttpFunction(this.context, this.functionInfo, this.displayDomain + this.displayPath, this.runHttp.model)
                 : this._functionAppService.runFunction(this.context, this.functionInfo, this.getTestData());
-                
+
             this.running = result
                 .switchMap(r => {
                     return r.result.statusCode >= 400
@@ -720,13 +753,13 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 this.defaultDomain = tuple[2].find(domain => domain.name === tuple[3]);
                 this.selectedDomain = this.defaultDomain;
                 this.domainsNoSSL = tuple[2]
-                                        .filter(domain => domain.sslState === 'Disabled')
-                                        .filter(domain => domain.hostType === 'Standard')
-                                        .filter(domain => domain.name !== this.defaultDomain.name) || [];
+                    .filter(domain => domain.sslState === 'Disabled')
+                    .filter(domain => domain.hostType === 'Standard')
+                    .filter(domain => domain.name !== this.defaultDomain.name) || [];
                 this.domainsWithSSL = tuple[2]
-                                        .filter(domain => domain.sslState === 'Enabled')
-                                        .filter(domain => domain.hostType === 'Standard')
-                                        .filter(domain => domain.name !== this.defaultDomain.name) || [];
+                    .filter(domain => domain.sslState === 'Enabled')
+                    .filter(domain => domain.hostType === 'Standard')
+                    .filter(domain => domain.name !== this.defaultDomain.name) || [];
                 this.showDomains = this.domainsNoSSL.length + this.domainsWithSSL.length >= 1;
 
                 if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
