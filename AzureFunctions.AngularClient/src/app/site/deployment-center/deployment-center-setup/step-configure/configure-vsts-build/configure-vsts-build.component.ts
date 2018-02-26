@@ -117,7 +117,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   selectedFramework = WebAppFramework.AspNetWap;
   selectedPythonVersion = this.recommendedPythonVersion;
   selectedPythonFramework = 'Bottle';
-  selectedTaskRunner = 'None';
+  selectedTaskRunner = 'none';
   // projects https://admetrics.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true
   // https://admetrics.vsrm.visualstudio.com/_apis/Release
   // https://admetrics.vsrm.visualstudio.com/c6f597f2-902e-47df-9dbd-f5ee1ac627f2/_apis/Release/definitions/environmenttemplates
