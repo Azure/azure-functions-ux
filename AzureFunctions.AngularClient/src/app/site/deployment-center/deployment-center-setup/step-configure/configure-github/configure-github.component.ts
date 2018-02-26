@@ -11,6 +11,7 @@ import { Guid } from 'app/shared/Utilities/Guid';
 import { LogService } from 'app/shared/services/log.service';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Subject';
+import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-configure-github',
@@ -49,8 +50,14 @@ export class ConfigureGithubComponent implements OnDestroy {
         });
 
         this.fetchOrgs();
+        this.updateFormValidation();
     }
-
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('isMercurial').setValidators(Validators.required);
+        this.wizard.sourceSettings.updateValueAndValidity();
+    }
     fetchOrgs() {
         return Observable.zip(
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?orgs=', true, null, {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SelectOption } from 'app/shared/models/select-option';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
+import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-configure-external',
@@ -19,11 +20,19 @@ export class ConfigureExternalComponent {
         }
     ];
     public repoMode = 'Git';
-    constructor(public wizard: DeploymentCenterStateManager) {}
+    constructor(public wizard: DeploymentCenterStateManager) {
+        this.updateFormValidation();
+    }
 
     repoTypeChanged(evt) {
         this.repoMode = evt;
         this.wizard.wizardForm.controls.sourceSettings.value.isMercurial = evt === 'Mercurial';
         console.log(evt);
+    }
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('isMercurial').setValidators(Validators.required);
+        this.wizard.sourceSettings.updateValueAndValidity();
     }
 }

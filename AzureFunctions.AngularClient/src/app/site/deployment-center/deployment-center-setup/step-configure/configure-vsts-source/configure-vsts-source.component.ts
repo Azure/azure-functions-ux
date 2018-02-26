@@ -12,6 +12,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
+import { Validators } from '@angular/forms';
 
 
 @Component({
@@ -49,10 +50,18 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this.wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.populate();
         });
+        this.updateFormValidation();
     }
 
     private populate() {
         this._memberIdSubscription.next();
+    }
+
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('isMercurial').setValidators(Validators.required);
+        this.wizard.sourceSettings.updateValueAndValidity();
     }
 
     setupSubscriptions() {

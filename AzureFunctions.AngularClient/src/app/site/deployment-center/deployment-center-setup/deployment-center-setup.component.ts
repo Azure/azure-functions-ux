@@ -19,7 +19,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
             sourceProvider: ['', []],
             buildProvider: ['kudu', []],
             sourceSettings: this._fb.group({
-                repoUrl: ['', [Validators.required]],
+                repoUrl: ['', []],
                 branch: ['', []],
                 isManualIntegration: [false, []],
                 deploymentRollbackEnabled: [false, []],

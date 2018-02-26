@@ -8,6 +8,7 @@ import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/
 import { Subject } from 'rxjs/Subject';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
+import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-configure-onedrive',
@@ -70,6 +71,12 @@ export class ConfigureOnedriveComponent implements OnDestroy {
                 }
             );
         this.fillOnedriveFolders();
+    }
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators([]);
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.updateValueAndValidity();
     }
 
     public fillOnedriveFolders() {

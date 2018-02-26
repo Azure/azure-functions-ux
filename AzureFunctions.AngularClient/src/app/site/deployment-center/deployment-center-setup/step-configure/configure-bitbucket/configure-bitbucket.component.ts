@@ -9,6 +9,7 @@ import { AiService } from 'app/shared/services/ai.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
+import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-configure-bitbucket',
@@ -23,7 +24,8 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     private _ngUnsubscribe = new Subject();
     private repoUrlToNameMap: { [key: string]: string } = {};
 
-    public selectedRepo;
+    selectedRepo = '';
+    selectedBranch = '';
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -36,8 +38,15 @@ export class ConfigureBitbucketComponent implements OnDestroy {
             this.fetchBranches(r);
         });
         this.fetchRepos();
+        this.updateFormValidation();
     }
 
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.updateValueAndValidity();
+    }
     fetchRepos() {
         this.RepoList = [];
         this._cacheService

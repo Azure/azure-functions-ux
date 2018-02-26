@@ -22,6 +22,7 @@ import { ConfigureVstsBuildComponent } from './deployment-center-setup/step-conf
 import { ConfigureExternalComponent } from './deployment-center-setup/step-configure/configure-external/configure-external.component';
 import { ConfigureBitbucketComponent } from './deployment-center-setup/step-configure/configure-bitbucket/configure-bitbucket.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ConfigureLocalGitComponent } from './deployment-center-setup/step-configure/configure-local-git/configure-local-git.component';
 
 @NgModule({
     entryComponents: [DeploymentCenterComponent],
@@ -43,7 +44,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
         ConfigureVstsSourceComponent,
         ConfigureVstsBuildComponent,
         ConfigureExternalComponent,
-        ConfigureBitbucketComponent
+        ConfigureBitbucketComponent,
+        ConfigureLocalGitComponent
     ],
     imports: [TranslateModule.forChild(), NgSelectModule, SharedModule, SidebarModule, WizardModule],
     exports: [DeploymentCenterComponent]

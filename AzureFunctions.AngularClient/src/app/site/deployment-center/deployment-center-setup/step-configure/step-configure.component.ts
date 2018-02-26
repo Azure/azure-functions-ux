@@ -7,7 +7,7 @@ import { DeploymentCenterStateManager } from 'app/site/deployment-center/deploym
     styleUrls: ['./step-configure.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepConfigureComponent {
-    constructor(public wizard: DeploymentCenterStateManager) {}
+    constructor(public wizard: DeploymentCenterStateManager) { }
 
     get sourceProvider() {
         const values = this.wizard.wizardValues;
@@ -17,5 +17,9 @@ export class StepConfigureComponent {
     get buildProvider() {
         const values = this.wizard.wizardValues;
         return values && values.buildProvider;
+    }
+
+    get configureValid() {
+        return this.wizard.wizardForm.valid;
     }
 }

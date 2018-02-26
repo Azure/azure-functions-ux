@@ -7,6 +7,7 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
+import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-configure-dropbox',
@@ -16,6 +17,8 @@ import { LogService } from 'app/shared/services/log.service';
 export class ConfigureDropboxComponent {
     private _resourceId: string;
     public folderList: DropDownElement<string>[];
+
+    selectedFolder = '';
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -28,8 +31,14 @@ export class ConfigureDropboxComponent {
             this._resourceId = r;
         });
         this.fillDropboxFolders();
+        this.updateFormValidation();
     }
-
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators([]);
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.updateValueAndValidity();
+    }
     public fillDropboxFolders() {
         this.folderList = [];
         return this._cacheService
