@@ -1,6 +1,6 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-setup-models';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +26,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
                 isMercurial: [false, []]
             }),
             buildSettings: this._fb.group({
-                createNewVsoAccount: ['', []],
+                createNewVsoAccount: [false, []],
                 vstsAccount: ['', []],
                 vstsProject: ['', []],
                 location: ['', []],

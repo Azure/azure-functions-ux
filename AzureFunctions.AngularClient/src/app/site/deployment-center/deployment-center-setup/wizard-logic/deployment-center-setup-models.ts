@@ -12,7 +12,7 @@ export class VstsTestEnvironment {
     public webAppId: string;
 }
 export class VstsBuildSettings {
-    public createNewVsoAccount: string;
+    public createNewVsoAccount: boolean;
     public vstsAccount: string;
     public vstsProject: string;
     public location: string;

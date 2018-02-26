@@ -12,6 +12,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DropDownElement } from '../../../../../shared/models/drop-down-element';
 import { LogService } from '../../../../../shared/services/log.service';
 import { LogCategories } from '../../../../../shared/models/constants';
+import { Validators } from '@angular/forms';
 // import { TranslateService } from '@ngx-translate/core';
 // import { PortalResources } from '../../../../../shared/models/portal-resources';
 
@@ -99,7 +100,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   ];
 
   private token: string;
-  public NewVsoAccountOptions: SelectOption<string>[];
+  public NewVsoAccountOptions: SelectOption<boolean>[];
   private _ngUnsubscribe = new Subject();
 
   // https://app.vssps.visualstudio.com/_apis/commerce/regions
@@ -134,13 +135,34 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     });
 
     this.NewVsoAccountOptions =
-      [{ displayLabel: 'New', value: 'new' },
-      { displayLabel: 'Existing', value: 'existing' }];
+      [{ displayLabel: 'New', value: true },
+      { displayLabel: 'Existing', value: false }];
 
     this.setupSubscriptions();
     const val = this.wizard.wizardValues;
-    val.buildSettings.createNewVsoAccount = 'existing';
+    val.buildSettings.createNewVsoAccount = false;
     this.wizard.wizardValues = val;
+    this.setUpformValidators();
+  }
+
+  private setUpformValidators() {
+    this.wizard.buildSettings.get('createNewVsoAccount').setValidators(Validators.required);
+    this.wizard.buildSettings.get('vstsAccount').setValidators(Validators.required);
+    this.wizard.buildSettings.get('vstsProject').setValidators(Validators.required);
+    if (this.wizard.wizardValues.buildSettings.createNewVsoAccount) {
+      this.wizard.buildSettings.get('location').setValidators(Validators.required);
+    } else {
+      this.wizard.buildSettings.get('location').setValidators([]);
+    }
+    this.wizard.buildSettings.updateValueAndValidity();
+  }
+
+  private removeFormValidators() {
+    this.wizard.buildSettings.get('createNewVsoAccount').setValidators([]);
+    this.wizard.buildSettings.get('vstsAccount').setValidators([]);
+    this.wizard.buildSettings.get('vstsProject').setValidators([]);
+    this.wizard.buildSettings.get('location').setValidators([]);
+    this.wizard.buildSettings.updateValueAndValidity();
   }
 
   private setupSubscriptions() {
@@ -218,6 +240,10 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   get getFramework() {
     return this.selectedPythonFramework;
   }
+
+  createOrExistingChanged(event) {
+    this.setUpformValidators();
+  }
   accountChanged(accountName: DropDownElement<string>) {
     this.ProjectList = this.vsoAccountToProjectMap[accountName.value];
     this.selectedProject = '';
@@ -233,5 +259,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   }
   ngOnDestroy(): void {
     this._ngUnsubscribe.next();
+    this.removeFormValidators();
   }
 }
