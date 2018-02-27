@@ -1,4 +1,4 @@
-import { LogCategories } from './../../shared/models/constants';
+import { LogCategories, KeyCodes } from './../../shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -76,6 +76,11 @@ export class SidebarPickerComponent extends BaseExtensionInstallComponent {
             .subscribe(extensions => {
                 this.functionLanguage = this.autoPickedLanguage ? null : this.functionLanguage;
                 this._setInstallationVariables(extensions);
+                if (this.allInstalled) {
+                    this.continueToFunctionNewDetail();
+                } else {
+                    this.showExtensionInstallDetail = true;
+                }
             });
     }
 
@@ -100,6 +105,11 @@ export class SidebarPickerComponent extends BaseExtensionInstallComponent {
                 this._pollInstallationStatus(0);
             });
         }
+    }
+
+    continueToFunctionNewDetail() {
+        this.openFunctionNewDetail = true;
+        this.showExtensionInstallDetail = false;
     }
 
     private _getNeededExtensions(runtimeExtensions: RuntimeExtension[]) {
@@ -129,13 +139,9 @@ export class SidebarPickerComponent extends BaseExtensionInstallComponent {
         if (neededExtensions && neededExtensions.length > 0) {
             this.neededExtensions = neededExtensions;
             this.allInstalled = false;
-            this.openFunctionNewDetail = false;
-            this.showExtensionInstallDetail = true;
         } else {
             this.neededExtensions = [];
             this.allInstalled = true;
-            this.openFunctionNewDetail = true;
-            this.showExtensionInstallDetail = false;
         }
     }
 
@@ -195,13 +201,18 @@ export class SidebarPickerComponent extends BaseExtensionInstallComponent {
                     this._pollInstallationStatus(timeOut + 1);
                 });
             } else {
-                // TODO: show some form of success before opening new-detail-component
                 this._getNeededExtensions(this.runtimeExtensions).subscribe((extensions) => {
                     this.installing = false;
                     this._setInstallationVariables(extensions);
                 });
             }
         }, 1000);
+    }
+
+    onKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.escape) {
+            this.close();
+        }
     }
 
     close() {
