@@ -1,0 +1,135 @@
+<ng-sidebar-container class="sidebar-container" [animate]="true">
+    <div ng-sidebar-content>
+        <command-bar>
+            <command displayText="{{ 'addSlot' | translate }}" 
+                iconUrl="image/add.svg" 
+                (click)="showAddControls()"
+                [disabled]="!hasWriteAccess"></command>
+        
+            <command displayText="{{ slotContext?.site.properties.targetSwapSlot ? 'completeSwap' : 'swap' | translate }}"
+                iconUrl="image/swap.svg"
+                (click)="showSwapControls()"
+                [disabled]="!hasWriteAccess || !hasSwapAccess"></command>
+
+            <command
+                [displayText]="'save' | translate"
+                iconUrl="image/save.svg"
+                (click)="save()"
+                [disabled]="!mainForm || !mainForm.valid || mainForm.pristine || !hasWriteAccess"></command>
+
+            <command
+                [displayText]="'discard' | translate"
+                iconUrl="image/discard.svg"
+                (click)="discard()"
+                [disabled]="!mainForm || mainForm.pristine || !hasWriteAccess"></command>
+
+        </command-bar>
+
+        <h1>Deployment Slots</h1>
+        <br>
+
+        <div load-image="image/slots.svg" class="icon-large"></div>
+        <br>
+
+        <div load-image="image/scale-up.svg" class="icon-large"></div>
+        <br>
+
+        <h2>This Slot</h2>
+        <h3>{{ slotContext ? slotContext.site.name : '-' }}</h3>
+        <br>
+
+        <h2>Other Slots</h2>
+        <div *ngIf="slotsListArm && slotsListArm.length > 0">
+            <h3 *ngFor="let slot of slotsListArm">{{ slot.name }}</h3>
+        </div>
+        <h3 *ngIf="!slotsListArm || slotsListArm.length === 0">-</h3>
+        <br>
+
+        <table-root
+            *ngIf="mainForm?.controls['routingRules']"
+            tblClass="tbl fixed stretch"
+            [name]="Resources.feature_applicationSettingsName | translate"
+            [items]="mainForm?.controls['routingRules']?.controls" #slotsTable>
+
+            <tr table-row>
+      
+                <td class="one-third-col padded-col" table-cell [editable]="false">
+                    {{ (slotContext && slotContext.site) ? slotContext.site.name : '-' }}
+                </td>
+        
+                <td class="one-third-col padded-col" table-cell [editable]="false">
+                    Foo
+                </td>
+        
+                <td class="one-third-col padded-col" table-cell [editable]="false">
+                  <textbox [placeholder]="100"></textbox>
+                </td>
+
+            </tr>
+
+            <!-- Data/Content Rows -->
+            <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
+            <tr *ngFor="let group of slotsTable.items" table-row [group]="group">
+      
+              <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="false">      
+                  <a (click)="openSlotBlade(group.controls['resourceId'].value)">
+                    {{ group.controls['name'].value }}
+                  </a>
+              </td>
+      
+              <td class="one-third-col padded-col" table-cell [editable]="false">
+                  Foo
+              </td>
+      
+              <td class="one-third-col padded-col" table-cell [editable]="false">
+                <textbox [control]="group.controls['pct']" [placeholder]="0"></textbox>
+              </td>
+      
+            </tr>
+      
+            <!-- Placeholder/Message Row -->
+            <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+            <tr *ngIf="!mainForm?.controls['routingRules'] || mainForm?.controls['routingRules'].controls.length === 0" table-row>
+      
+              <!-- ARM call did not return successfully, and user has permissions -->
+              <!--<td *ngIf="!groupArray && hasWriteAccess" class="message-row" colspan="3" table-cell [editable]="false">
+                {{ (loadingFailureMessage || loadingMessage) }}
+              </td>-->
+      
+              <!-- ARM call did not return successfully, and user doesn't have permissions -->
+              <!--<td *ngIf="!groupArray && !hasWriteAccess" class="message-row" colspan="3" table-cell [editable]="false">
+                {{ (showPermissionsMessage) ? permissionsMessage : '' }}
+              </td>-->
+      
+              <!-- ARM call returned successfully, but there are no entries to display -->
+              <!--<td *ngIf="!!groupArray && slotsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell [editable]="false">
+                {{ ('emptyAppSettings' | translate) }}
+              </td>-->
+
+              <td class="message-row" colspan="3" table-cell [editable]="false">
+                EMPTY
+              </td>
+      
+            </tr>
+          </table-root>
+    </div>
+
+    <ng-sidebar #sidebar [(opened)]="swapControlsOpen" 
+                [mode]="'over'" 
+                [position]="'right'" 
+                [closeOnClickOutside]="false" 
+                [trapFocus]="false"
+                [autoFocus]="true" 
+                [sidebarClass]="'sidebar-slot-swap'" 
+                [ariaLabel]="'Swap Slot'" 
+                [animate]="true" 
+                [closeOnClickBackdrop]="false" 
+                [showBackdrop]="true">
+
+                <div *ngIf="swapControlsOpen">
+                    <h2>Swap</h2>
+                    <h3>SrcSlot: {{swapSrc}}</h3>
+                    <h3>DestSlot: {{swapDest}}</h3>
+                </div>
+    </ng-sidebar>
+</ng-sidebar-container>

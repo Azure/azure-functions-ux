@@ -1,5 +1,6 @@
 import { VirtualApplication } from './virtual-application';
 import { HandlerMapping } from './handler-mapping';
+import { RoutingRule } from './routing-rule';
 
 export interface SiteConfig {
     scmType: string;
@@ -27,4 +28,5 @@ export interface SiteConfig {
     appCommandLine: string;
     virtualApplications: VirtualApplication[];
     autoSwapSlotName: string;
+    routingRules: RoutingRule[];
 }

@@ -6,11 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-    selector: 'app-slots-shell',
-    templateUrl: './slots-shell.component.html',
-    styleUrls: ['./slots-shell.component.scss']
+    selector: 'app-deployment-slots-shell',
+    templateUrl: './deployment-slots-shell.component.html',
+    styleUrls: ['./deployment-slots-shell.component.scss']
 })
-export class SlotsShellComponent implements OnDestroy {
+export class DeploymentSlotsShellComponent implements OnDestroy {
     viewInfo: TreeViewInfo<SiteData>;
     swapMode: boolean;
 
@@ -27,7 +27,7 @@ export class SlotsShellComponent implements OnDestroy {
                 data: null
             };
 
-            if(x['action'] && x['action'] === 'swap') {
+            if (x['action'] && x['action'] === 'swap') {
                 this.swapMode = true;
             }
         });
