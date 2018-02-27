@@ -55,8 +55,10 @@ export class ConfigureGithubComponent implements OnDestroy {
     updateFormValidation() {
         this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
         this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
-        this.wizard.sourceSettings.get('isMercurial').setValidators(Validators.required);
-        this.wizard.sourceSettings.updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
     fetchOrgs() {
         return Observable.zip(

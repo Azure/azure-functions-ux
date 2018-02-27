@@ -20,6 +20,6 @@ export class StepConfigureComponent {
     }
 
     get configureValid() {
-        return this.wizard.wizardForm.valid;
+        return this.wizard.buildSettings.valid && this.wizard.sourceSettings.valid;
     }
 }

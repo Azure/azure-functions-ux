@@ -76,7 +76,9 @@ export class ConfigureOnedriveComponent implements OnDestroy {
         this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
         this.wizard.sourceSettings.get('branch').setValidators([]);
         this.wizard.sourceSettings.get('isMercurial').setValidators([]);
-        this.wizard.sourceSettings.updateValueAndValidity();
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
 
     public fillOnedriveFolders() {

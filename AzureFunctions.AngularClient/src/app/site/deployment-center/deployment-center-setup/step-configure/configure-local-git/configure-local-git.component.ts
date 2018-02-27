@@ -14,7 +14,9 @@ export class ConfigureLocalGitComponent implements OnInit {
     wizard.sourceSettings.get('repoUrl').setValidators([]);
     wizard.sourceSettings.get('branch').setValidators([]);
     wizard.sourceSettings.get('isMercurial').setValidators([]);
-    wizard.sourceSettings.updateValueAndValidity();
+    wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+    wizard.sourceSettings.get('branch').updateValueAndValidity();
+    wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
   }
 
   ngOnInit() {

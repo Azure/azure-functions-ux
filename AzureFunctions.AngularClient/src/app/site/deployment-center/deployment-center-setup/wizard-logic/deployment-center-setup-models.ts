@@ -3,8 +3,15 @@ export class WizardForm {
     public buildProvider: sourceControlProvider;
     public sourceSettings: SourceSettings;
     public buildSettings: VstsBuildSettings;
+    public testEnvironment: VstsTestEnvironment;
+    public deploymentSlotSetting: DeploymentSLotSettings;
 }
 
+export class DeploymentSLotSettings {
+    public newDeploymentSlot: boolean;
+    public deploymentSlot: string;
+    public deploymentSlotEnabled: boolean;
+}
 export class VstsTestEnvironment {
     public enabled: boolean;
     public newApp: boolean;
@@ -17,9 +24,6 @@ export class VstsBuildSettings {
     public vstsProject: string;
     public location: string;
     public applicationFramework: string;
-    public testEnvironment: VstsTestEnvironment;
-    public deploymentSlot: string;
-    public deploymentSlotEnabled: boolean;
     public workerDirecory: string;
     public nodejsTaskRunner: string;
     public pythonSettings: any;

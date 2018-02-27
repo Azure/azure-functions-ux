@@ -1,4 +1,4 @@
-<div class="settings-group-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
+<div class="settings-group-wrapper" [formGroup]="wizard?.deploymentSlotSetting" novalidate>
 
   <h3 class="first-config-heading">Deployment</h3>
 
@@ -7,24 +7,25 @@
       <div class="setting-label">Enable Deployment Slot
       </div>
       <div class="setting-control-container">
-        <radio-selector [control]="wizard?.buildSettings?.controls?.deploymentSlotEnabled" [options]="DeploymentSlotEnabledOptions"
+        <radio-selector [control]="wizard?.deploymentSlotSetting?.controls?.deploymentSlotEnabled" [options]="DeploymentSlotEnabledOptions"
           [highlightDirty]="true">
         </radio-selector>
       </div>
     </div>
-    <div *ngIf="wizard?.wizardValues?.buildSettings?.deploymentSlotEnabled">
+    <div *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.deploymentSlotEnabled">
       <div class="setting-wrapper">
         <div class="setting-label">Deployment Slot</div>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
-            <radio-selector [control]="wizard?.buildSettings?.controls.newDeploymentSlot" [options]="DeploymentSlotNewOptions" [highlightDirty]="true">
+            <radio-selector [control]="wizard?.deploymentSlotSetting?.controls.newDeploymentSlot" [options]="DeploymentSlotNewOptions"
+              [highlightDirty]="true">
             </radio-selector>
           </div>
-          <ng-select *ngIf="wizard?.wizardValues?.buildSettings?.newDeploymentSlot === false" class="custom-select" [loading]="DeploymentSlotsLoading"
+          <ng-select *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.newDeploymentSlot === false" class="custom-select" [loading]="DeploymentSlotsLoading"
             [items]="ExistingDeploymentSlotsList" bindLabel="displayLabel" bindValue="value" placeholder="Select Existing Slot"
             [(ngModel)]="selectedDeploymentSlot" formControlName="deploymentSlot">
           </ng-select>
-          <textbox *ngIf="wizard?.wizardValues?.buildSettings?.newDeploymentSlot === true" [control]="wizard?.buildSettings?.controls?.deploymentSlot"
+          <textbox *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.newDeploymentSlot === true" [control]="wizard?.deploymentSlotSetting?.controls?.deploymentSlot"
             [placeholder]="'Enter Deployment Slot Name'"></textbox>
         </div>
       </div>

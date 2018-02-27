@@ -24,7 +24,11 @@ export class DeploymentCenterStateManager {
     }
 
     public get testEnvironmentSettings(): FormGroup {
-        return (this.wizardForm && (this.buildSettings.controls.testEnvironment as FormGroup)) || null;
+        return (this.wizardForm && (this.wizardForm.controls.testEnvironment as FormGroup)) || null;
+    }
+
+    public get deploymentSlotSetting(): FormGroup {
+        return (this.wizardForm && (this.wizardForm.controls.deploymentSlotSetting as FormGroup)) || null;
     }
 
     public Deploy(

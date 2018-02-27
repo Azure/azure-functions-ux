@@ -147,14 +147,17 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
 
   private setUpformValidators() {
     this.wizard.buildSettings.get('createNewVsoAccount').setValidators(Validators.required);
+    this.wizard.buildSettings.get('createNewVsoAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsAccount').setValidators(Validators.required);
+    this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsProject').setValidators(Validators.required);
+    this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
     if (this.wizard.wizardValues.buildSettings.createNewVsoAccount) {
       this.wizard.buildSettings.get('location').setValidators(Validators.required);
     } else {
       this.wizard.buildSettings.get('location').setValidators([]);
     }
-    this.wizard.buildSettings.updateValueAndValidity();
+    this.wizard.buildSettings.get('location').updateValueAndValidity();
   }
 
   private removeFormValidators() {
@@ -162,7 +165,10 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     this.wizard.buildSettings.get('vstsAccount').setValidators([]);
     this.wizard.buildSettings.get('vstsProject').setValidators([]);
     this.wizard.buildSettings.get('location').setValidators([]);
-    this.wizard.buildSettings.updateValueAndValidity();
+    this.wizard.buildSettings.get('createNewVsoAccount').updateValueAndValidity();
+    this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
+    this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
+    this.wizard.buildSettings.get('location').updateValueAndValidity();
   }
 
   private setupSubscriptions() {
