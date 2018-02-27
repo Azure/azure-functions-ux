@@ -14,16 +14,15 @@ import { Observable } from 'rxjs/Observable';
 import { NotificationIds, Constants, SiteTabIds } from './../shared/models/constants';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, Injector } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalService } from '../shared/services/portal.service';
 import { UserService } from '../shared/services/user.service';
 import { FunctionDevComponent } from '../function-dev/function-dev.component';
-import { BroadcastService } from '../shared/services/broadcast.service';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { Response } from '@angular/http';
 import { FunctionsVersionInfoHelper } from '../shared/models/functions-version-info';
-import { NavigableComponent } from '../shared/components/navigable-component';
+import { NavigableComponent, ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 
 @Component({
     selector: 'function-edit',
@@ -48,7 +47,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
     public context: FunctionAppContext;
 
     constructor(
-        broadcastService: BroadcastService,
+        private _globalStateService: GlobalStateService,
         private _userService: UserService,
         private _portalService: PortalService,
         private _functionAppService: FunctionAppService,
@@ -56,8 +55,8 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
         private _translateService: TranslateService,
         private _aiService: AiService,
         private _configService: ConfigService,
-        private _globalStateService: GlobalStateService) {
-        super('function-edit', broadcastService, info => {
+        injector: Injector) {
+        super('function-edit', injector, info => {
             if (this.viewInfo) {
 
                 // If clicking on the same dashboard type for a different function, the component
@@ -89,10 +88,9 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
         this.ManageTab = _translateService.instant('tabNames_manage');
     }
 
-    setupNavigation(): RxSubscription {
-        return this.navigationEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .distinctUntilChanged()
-            .do(() => this._globalStateService.setBusyState())
             .switchMap(viewInfo => {
                 return Observable.zip(
                     this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()),
@@ -104,8 +102,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
                 return this._functionAppService.getFunction(this.context, functionDescriptor.name);
             })
             .takeUntil(this.ngUnsubscribe)
-            .do(() => this._globalStateService.clearBusyState())
-            .subscribe(functionResult => {
+            .do(functionResult => {
                 if (functionResult.isSuccessful) {
                     this.selectedFunction = functionResult.result;
                     this._setupPollingTasks();
@@ -177,7 +174,7 @@ export class FunctionEditComponent extends NavigableComponent implements OnDestr
                         message: this._translateService.instant(PortalResources.topBar_alwaysOn),
                         iconClass: 'fa fa-exclamation-triangle warning',
                         learnMoreLink: 'https://go.microsoft.com/fwlink/?linkid=830855',
-                        clickCallback: () =>{
+                        clickCallback: () => {
                             this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
                                 operation: 'navigate',
                                 resourceId: this.context.site.id,

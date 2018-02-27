@@ -1,19 +1,15 @@
-import { Subscription } from 'rxjs/Subscription';
+import { ExtendedTreeViewInfo } from './../../shared/components/navigable-component';
 import { FunctionAppService } from './../../shared/services/function-app.service';
 import { FunctionAppContext } from './../../shared/function-app-context';
-import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-
 import { AppNode } from './../../tree-view/app-node';
 import { AiService } from './../../shared/services/ai.service';
 import { ApiProxy } from '../../shared/models/api-proxy';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { GlobalStateService } from '../../shared/services/global-state.service';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { BroadcastService } from '../../shared/services/broadcast.service';
 import { ProxiesNode } from '../../tree-view/proxies-node';
 import { FunctionInfo } from '../../shared/models/function-info';
 import { errorIds } from '../../shared/models/error-ids';
@@ -26,6 +22,7 @@ import { NavigableComponent } from '../../shared/components/navigable-component'
     styleUrls: ['./api-new.component.scss', '../../binding-input/binding-input.component.css'],
 })
 export class ApiNewComponent extends NavigableComponent {
+
     @ViewChild(RequestResposeOverrideComponent) rrComponent: RequestResposeOverrideComponent;
     complexForm: FormGroup;
     isMethodsVisible = false;
@@ -35,17 +32,32 @@ export class ApiNewComponent extends NavigableComponent {
     public functionsInfo: FunctionInfo[];
     public appNode: AppNode;
     public rrOverrideValid: boolean;
+
     private _proxiesNode: ProxiesNode;
     private _rrOverrideValue: any;
 
+    static validateUrl(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } => {
+            if (control.value) {
+                const url: string = <string>control.value.toLowerCase();
+                return url.startsWith('http://') || url.startsWith('https://') ? null : {
+                    validateName: {
+                        valid: false
+                    }
+                };
+            } else {
+                return null;
+            }
+        };
+    }
+
     constructor(
-        private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _aiService: AiService,
         private _functionAppService: FunctionAppService,
         fb: FormBuilder,
-        broadcastService: BroadcastService) {
-        super('api-new', broadcastService, DashboardType.CreateProxyDashboard);
+        injector: Injector) {
+        super('api-new', injector, DashboardType.CreateProxyDashboard);
 
         this.complexForm = fb.group({
             // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we�ll default the gender to female.
@@ -68,17 +80,14 @@ export class ApiNewComponent extends NavigableComponent {
         });
     }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .takeUntil(this.ngUnsubscribe)
             .switchMap(viewInfo => {
-                this._globalStateService.setBusyState();
                 this._proxiesNode = <ProxiesNode>viewInfo.node;
                 this.appNode = (<AppNode>this._proxiesNode.parent);
 
-                const descriptor = new ArmSiteDescriptor(viewInfo.resourceId);
-
-                return this._functionAppService.getAppContext(descriptor.getTrimmedResourceId())
+                return this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId())
                     .concatMap(context => {
                         // Should be okay to query app settings without checkout RBAC/locks since this component
                         // shouldn't load unless you have write access.
@@ -89,11 +98,7 @@ export class ApiNewComponent extends NavigableComponent {
                             (f, p, a) => ({ fcs: f, proxies: p, appSettings: a, context: context }));
                     });
             })
-            .do(null, e => {
-                this._aiService.trackException(e, '/errors/internal/navigation/proxy-create');
-            })
-            .subscribe(res => {
-                this._globalStateService.clearBusyState();
+            .do(res => {
                 this.context = res.context;
                 if (res.fcs.isSuccessful) {
                     this.functionsInfo = res.fcs.result;
@@ -120,21 +125,6 @@ export class ApiNewComponent extends NavigableComponent {
 
     onFunctionAppSettingsClicked() {
         this.appNode.openSettings();
-    }
-
-    static validateUrl(): ValidatorFn {
-        return (control: AbstractControl): { [key: string]: any } => {
-            if (control.value) {
-                const url: string = <string>control.value.toLowerCase();
-                return url.startsWith('http://') || url.startsWith('https://') ? null : {
-                    validateName: {
-                        valid: false
-                    }
-                };
-            } else {
-                return null;
-            }
-        };
     }
 
     validateName(that: ApiNewComponent): ValidatorFn {
@@ -169,7 +159,7 @@ export class ApiNewComponent extends NavigableComponent {
 
     submitForm() {
         if (this.complexForm.valid && this.rrOverrideValid) {
-            this._globalStateService.setBusyState();
+            this.setBusy();
 
             const newApiProxy: ApiProxy = {
                 name: this.complexForm.controls['name'].value,
@@ -191,7 +181,7 @@ export class ApiNewComponent extends NavigableComponent {
                     }
 
                     if (this.apiProxies.find((p) => p.name === newApiProxy.name)) {
-                        this._globalStateService.clearBusyState();
+                        this.clearBusy();
                         // No need to log this error as this is just a user error.
                         this.showComponentError({
                             message: this._translateService.instant(PortalResources.apiProxy_alreadyExists, { name: newApiProxy.name }),
@@ -226,7 +216,7 @@ export class ApiNewComponent extends NavigableComponent {
 
                     this._functionAppService.saveApiProxy(this.context, ApiProxy.toJson(this.apiProxies, this._translateService))
                         .subscribe(() => {
-                            this._globalStateService.clearBusyState();
+                            this.clearBusy();
 
                             // If someone refreshed the app, it would created a new set of child nodes under the app node.
                             this._proxiesNode = <ProxiesNode>this.appNode.children.find(node => node.title === this._proxiesNode.title);

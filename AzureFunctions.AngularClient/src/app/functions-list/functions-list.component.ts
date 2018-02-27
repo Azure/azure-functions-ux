@@ -1,3 +1,4 @@
+import { ExtendedTreeViewInfo } from './../shared/components/navigable-component';
 import { ArmSiteDescriptor } from './../shared/resourceDescriptors';
 import { FunctionAppContext } from './../shared/function-app-context';
 import { TreeUpdateEvent, BroadcastEvent } from './../shared/models/broadcast-event';
@@ -5,18 +6,15 @@ import { FunctionInfo } from 'app/shared/models/function-info';
 import { CreateCard } from 'app/function/function-new/function-new.component';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { errorIds } from './../shared/models/error-ids';
-import { BroadcastService } from './../shared/services/broadcast.service';
 import { AppNode } from './../tree-view/app-node';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Injector } from '@angular/core';
 import { FunctionNode } from './../tree-view/function-node';
 import { FunctionsNode } from './../tree-view/functions-node';
-import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { PortalService } from '../shared/services/portal.service';
 import { Observable } from 'rxjs/Observable';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { Subscription } from 'rxjs/Subscription';
 import { NavigableComponent } from '../shared/components/navigable-component';
 import { EmbeddedService } from 'app/shared/services/embedded.service';
 import { ErrorEvent } from 'app/shared/models/error-event';
@@ -43,21 +41,21 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
 
     private _functionsNode: FunctionsNode;
 
-    constructor(private _globalStateService: GlobalStateService,
+    constructor(
         private _portalService: PortalService,
         private _translateService: TranslateService,
-        broadcastService: BroadcastService,
         private _functionAppService: FunctionAppService,
-        private _embeddedService: EmbeddedService) {
+        private _embeddedService: EmbeddedService,
+        injector: Injector) {
 
-        super('functions-list', broadcastService, DashboardType.FunctionsDashboard);
-
+        super('functions-list', injector, DashboardType.FunctionsDashboard);
         this.isEmbedded = this._portalService.isEmbeddedFunctions;
     }
 
-    setupNavigation(): Subscription {
-        return this.navigationEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .switchMap(viewInfo => {
+                this.clearBusyEarly();
                 this.isLoading = true;
                 this._functionsNode = (<FunctionsNode>viewInfo.node);
                 this.appNode = (<AppNode>viewInfo.node.parent);
@@ -71,7 +69,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
                     this._functionAppService.getRuntimeGeneration(this.context),
                     this._portalService.isEmbeddedFunctions ? this._buildCreateCardTemplate(context) : Observable.of(null));
             })
-            .subscribe(tuple => {
+            .do(tuple => {
                 this.runtimeVersion = tuple[1];
                 this.isLoading = false;
                 this.functions = (<FunctionNode[]>this._functionsNode.children);
@@ -138,7 +136,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
 
     enableChange(item: FunctionNode, enabled: boolean) {
         item.functionInfo.config.disabled = !enabled;
-        this._globalStateService.setBusyState();
+        this.setBusy();
         item.functionInfo.config.disabled
             ? this._portalService.logAction('function-list', 'disable')
             : this._portalService.logAction('function-list', 'enable');
@@ -156,12 +154,12 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
                     errorId: errorIds.failedToSwitchEnabledFunction,
                     resourceId: this.context.site.id
                 });
-                this._globalStateService.clearBusyState();
+                this.clearBusy();
                 console.error(e);
             })
             .subscribe(() => {
                 this.clearComponentErrors();
-                this._globalStateService.clearBusyState();
+                this.clearBusy();
             });
     }
 
@@ -173,11 +171,11 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
         const functionInfo = item.functionInfo;
         const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: functionInfo.name }));
         if (result) {
-            this._globalStateService.setBusyState();
+            this.setBusy();
             this._portalService.logAction('function-list', 'delete');
             this._functionAppService.deleteFunction(this.context, functionInfo)
                 .do(null, e => {
-                    this._globalStateService.clearBusyState();
+                    this.clearBusy();
                     console.error(e);
                 })
                 .subscribe(() => {
@@ -195,7 +193,7 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
                     item.sideNav.cacheService.clearCachePrefix(`https://${defaultHostName}`);
                     item.sideNav.cacheService.clearCachePrefix(`https://${scmHostName}`);
 
-                    this._globalStateService.clearBusyState();
+                    this.clearBusy();
                 });
         }
     }
@@ -203,17 +201,17 @@ export class FunctionsListComponent extends NavigableComponent implements OnDest
     embeddedDelete(item: FunctionNode) {
         const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: item.functionInfo.name }));
         if (result) {
-            this._globalStateService.setBusyState();
+            this.setBusy();
             this._embeddedService.deleteFunction(item.resourceId)
                 .subscribe(r => {
                     if (r.isSuccessful) {
-                        this._globalStateService.clearBusyState();
+                        this.clearBusy(); this.clearBusy();
                         this._broadcastService.broadcastEvent<TreeUpdateEvent>(BroadcastEvent.TreeUpdate, {
                             resourceId: item.resourceId,
                             operation: 'remove'
                         });
                     } else {
-                        this._globalStateService.clearBusyState();
+                        this.clearBusy();
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             message: r.error.message,
                             errorId: r.error.errorId,
