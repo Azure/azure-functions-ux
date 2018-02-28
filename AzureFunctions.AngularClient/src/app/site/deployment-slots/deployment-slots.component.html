@@ -6,7 +6,7 @@
                 (click)="showAddControls()"
                 [disabled]="!hasWriteAccess"></command>
         
-            <command displayText="{{ slotContext?.site.properties.targetSwapSlot ? 'completeSwap' : 'swap' | translate }}"
+            <command displayText="{{ siteArm?.properties.targetSwapSlot ? 'completeSwap' : 'swap' | translate }}"
                 iconUrl="image/swap.svg"
                 (click)="showSwapControls()"
                 [disabled]="!hasWriteAccess || !hasSwapAccess"></command>
@@ -34,6 +34,7 @@
         <div load-image="image/scale-up.svg" class="icon-large"></div>
         <br>
 
+        <!--
         <h2>This Slot</h2>
         <h3>{{ slotContext ? slotContext.site.name : '-' }}</h3>
         <br>
@@ -44,25 +45,25 @@
         </div>
         <h3 *ngIf="!slotsListArm || slotsListArm.length === 0">-</h3>
         <br>
+        -->
 
         <table-root
-            *ngIf="mainForm?.controls['routingRules']"
             tblClass="tbl fixed stretch"
             [name]="Resources.feature_applicationSettingsName | translate"
-            [items]="mainForm?.controls['routingRules']?.controls" #slotsTable>
+            [items]="mainForm?.controls['slotsGroupArray']?.controls" #slotsTable>
 
             <tr table-row>
       
-                <td class="one-third-col padded-col" table-cell [editable]="false">
-                    {{ (slotContext && slotContext.site) ? slotContext.site.name : '-' }}
+                <td class="one-third-col padded-col" table-cell>
+                    {{ siteArm ? siteArm.properties.name : '-' }}
                 </td>
         
-                <td class="one-third-col padded-col" table-cell [editable]="false">
+                <td class="one-third-col padded-col" table-cell>
                     Foo
                 </td>
         
-                <td class="one-third-col padded-col" table-cell [editable]="false">
-                  <textbox [placeholder]="100"></textbox>
+                <td class="one-third-col padded-col" table-cell>
+                    {{ leftoverPct }}
                 </td>
 
             </tr>
@@ -71,17 +72,17 @@
             <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
             <tr *ngFor="let group of slotsTable.items" table-row [group]="group">
       
-              <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell [editable]="false">      
-                  <a (click)="openSlotBlade(group.controls['resourceId'].value)">
+              <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell>      
+                  <a tabindex="0" (click)="openSlotBlade(group.controls['name'].value)">
                     {{ group.controls['name'].value }}
                   </a>
               </td>
       
-              <td class="one-third-col padded-col" table-cell [editable]="false">
+              <td class="one-third-col padded-col" table-cell>
                   Foo
               </td>
       
-              <td class="one-third-col padded-col" table-cell [editable]="false">
+              <td class="one-third-col padded-col" table-cell [editable]="true">
                 <textbox [control]="group.controls['pct']" [placeholder]="0"></textbox>
               </td>
       
@@ -89,24 +90,24 @@
       
             <!-- Placeholder/Message Row -->
             <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-            <tr *ngIf="!mainForm?.controls['routingRules'] || mainForm?.controls['routingRules'].controls.length === 0" table-row>
+            <tr *ngIf="!mainForm?.controls['slotsGroupArray'] || mainForm?.controls['slotsGroupArray'].controls.length === 0" table-row>
       
               <!-- ARM call did not return successfully, and user has permissions -->
-              <!--<td *ngIf="!groupArray && hasWriteAccess" class="message-row" colspan="3" table-cell [editable]="false">
+              <!--<td *ngIf="!groupArray && hasWriteAccess" class="message-row" colspan="3" table-cell>
                 {{ (loadingFailureMessage || loadingMessage) }}
               </td>-->
       
               <!-- ARM call did not return successfully, and user doesn't have permissions -->
-              <!--<td *ngIf="!groupArray && !hasWriteAccess" class="message-row" colspan="3" table-cell [editable]="false">
+              <!--<td *ngIf="!groupArray && !hasWriteAccess" class="message-row" colspan="3" table-cell>
                 {{ (showPermissionsMessage) ? permissionsMessage : '' }}
               </td>-->
       
               <!-- ARM call returned successfully, but there are no entries to display -->
-              <!--<td *ngIf="!!groupArray && slotsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell [editable]="false">
+              <!--<td *ngIf="!!groupArray && slotsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell>
                 {{ ('emptyAppSettings' | translate) }}
               </td>-->
 
-              <td class="message-row" colspan="3" table-cell [editable]="false">
+              <td class="message-row" colspan="3" table-cell>
                 EMPTY
               </td>
       

@@ -28,5 +28,7 @@ export interface SiteConfig {
     appCommandLine: string;
     virtualApplications: VirtualApplication[];
     autoSwapSlotName: string;
-    routingRules: RoutingRule[];
+    experiments: {
+        rampUpRules: RoutingRule[];
+    }
 }
