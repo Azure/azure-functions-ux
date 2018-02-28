@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
-import { ArmService } from 'app/shared/services/arm.service';
 import { Observable } from 'rxjs/Observable';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
@@ -30,10 +29,10 @@ export class StepCompleteComponent implements OnInit {
     private pubUserName: ArmObj<{
         publishingUserName: string;
     }>;
+
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
-        private _armService: ArmService,
         private _broadcastService: BroadcastService,
         private _logService: LogService,
         private _translateService: TranslateService
@@ -71,7 +70,7 @@ export class StepCompleteComponent implements OnInit {
 
     Save() {
         this._busyManager.setBusy();
-        this.wizard.Deploy(this._armService, this.resourceId)
+        this.wizard.Deploy()
             .subscribe(
                 r => {
                     this._busyManager.clearBusy();

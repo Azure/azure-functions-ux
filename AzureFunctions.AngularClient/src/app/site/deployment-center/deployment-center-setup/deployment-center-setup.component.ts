@@ -47,7 +47,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
             }),
             testEnvironment: this._fb.group({
                 enabled: [false, []],
-                newApp: [false, []],
+                newApp: [true, []],
                 appServicePlanId: ['', []],
                 webAppId: ['', []]
             })

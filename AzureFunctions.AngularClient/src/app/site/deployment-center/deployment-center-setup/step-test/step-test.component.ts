@@ -31,6 +31,13 @@ export class StepTestComponent implements OnDestroy {
     appsLoading = false;
     private _appServicePlanSubscription = new Subject<string>();
     private _appsSubscription = new Subject<string>();
+
+    newAppName = 'newAppName';
+    resourceGroup = 'resourceGroupName';
+    appServicePlanName = 'asp Name';
+    pricingTier = '(S1) Standard';
+    location = 'South Central US';
+
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _armService: ArmService

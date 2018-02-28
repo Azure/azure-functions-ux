@@ -24,18 +24,44 @@
             [items]="appServicePlanList" bindLabel="displayLabel" bindValue="value" placeholder="Select App Service Plan" [(ngModel)]="selectedAppServicePlan"
             formControlName="appServicePlanId" (change)="aspChanged($event)">
           </ng-select>
-          <textbox *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === true" [control]="wizard?.buildSettings?.controls?.testEnvironment?.controls?.appServicePlanId"
-            [placeholder]="'Enter App Service Plan Name'"></textbox>
         </div>
       </div>
 
 
-      <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
-        <div class="setting-label">Web App</div>
+      <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
+        <div class="setting-label">App Name</div>
         <div class="setting-control-container">
-          <ng-select class="custom-select" [items]="appsList" bindLabel="displayLabel" [loading]="appsLoading" bindValue="value" placeholder="Select Web App"
-            [(ngModel)]="selectedWebApp" formControlName="webAppId">
-          </ng-select>
+          {{newAppName}}
+        </div>
+      </div>
+
+      <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
+        <div class="setting-label">Resource Group</div>
+        <div class="setting-control-container">
+          {{resourceGroup}}
+        </div>
+      </div>
+
+
+      <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
+        <div class="setting-label">App Service Plan Name</div>
+        <div class="setting-control-container">
+          {{appServicePlanName}}
+        </div>
+      </div>
+
+
+      <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
+        <div class="setting-label">Pricing Tier/Location</div>
+        <div class="setting-control-container">
+          {{pricingTier}}
+        </div>
+      </div>
+
+      <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
+        <div class="setting-label">Pricing Tier/Location</div>
+        <div class="setting-control-container">
+          {{location}}
         </div>
       </div>
     </div>

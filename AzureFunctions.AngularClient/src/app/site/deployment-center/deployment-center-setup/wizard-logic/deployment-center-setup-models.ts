@@ -183,13 +183,7 @@ export enum TargetEnvironmentType {
  * Specifies information related to authorization.
  */
 export interface Authorization {
-    /**
-     * Gets or sets the authorization parameters.
-     */
     parameters: { [key: string]: string; };
-    /**
-     * Gets or sets the authorization scheme.
-     */
     scheme: string;
 }
 
@@ -211,58 +205,24 @@ export enum AzureResourceType {
     LinuxAppService = 2,
 }
 
-
-/**
- * Describes a generic Azure deployment target.
- */
 export interface AzureDeploymentTarget extends DeploymentTarget {
-    /**
-     * Gets or sets the location of the target resource.
-     */
     location: string;
-    /**
-     * Gets or sets the name of Azure resource group containing the target resource.
-     */
     resourceGroupName: string;
-    /**
-     * Gets or sets the name/identifier of the target resource.
-     */
     resourceIdentifier: string;
-    /**
-     * Gets or sets the Azure subscription id associated with the target resource.
-     */
     subscriptionId: string;
-    /**
-     * Gets or sets the Azure subscription name associated with the target resource.
-     */
     subscriptionName: string;
-    /**
-     * Gets or sets the Azure Active Directory tenant identifier.
-     */
     tenantId: string;
-    /**
-     * Gets or sets the type of Azure resource.
-     */
     type: AzureResourceType;
 }
 
 export interface CiConfiguration {
-    /**
-     * Gets or sets the project where the CI/CD pipeline is configured.
-     */
     project: ProjectReference;
 }
 
-
-/**
- * Describes the team project.
- */
 export interface ProjectReference {
-    /**
-     * Gets or sets the friendly name of the team project.
-     */
     name: string;
 }
+
 /**
  * Defines the supported deployment source types.
  */
@@ -286,23 +246,11 @@ export enum DeploymentSourceType {
 }
 
 export interface DeploymentSource {
-    /**
-     * Gets or sets the type of deployment source.
-     */
     type: DeploymentSourceType;
 }
 
-
-
-
 export interface CodeRepositoryDeploymentSource extends DeploymentSource {
-    /**
-     * Gets or sets the configuration used to build the source.
-     */
     buildConfiguration: BuildConfiguration;
-    /**
-     * Gets or sets the code repository.
-     */
     repository: CodeRepository;
 }
 
@@ -373,53 +321,14 @@ export enum ApplicationType {
     Java = 14
 }
 
-
-/**
- * Describes the base build configuration.
- */
 export interface BuildConfiguration {
-    /**
-     * Gets or sets the type of application.
-     */
     type: ApplicationType;
-    /**
-     * Gets or sets the working directory.
-     */
     workingDirectory: string;
 }
 
-
-
-/**
- * Describes a code repository.
- */
 export interface CodeRepository {
-    /**
-     * Gets or sets the authorization details used to access the repository.
-     */
     authorizationInfo: Authorization;
-    /**
-     * Gets or sets the default branch of the repository.
-     */
     defaultBranch: string;
-    /**
-     * Gets or sets the unique identifier of the repository.
-     */
-    id: string;
-    /**
-     * Gets or sets the friendly name of the repository.
-     */
-    name: string;
-    /**
-     * Gets the repository specific properties.
-     */
-    properties: { [key: string]: string; };
-    /**
-     * Gets or sets the type of repository.
-     */
     type: string;
-    /**
-     * Gets or sets the URL of the repository.
-     */
-    url: string;
+    id?: string;
 }
