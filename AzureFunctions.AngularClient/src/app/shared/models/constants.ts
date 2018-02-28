@@ -198,6 +198,7 @@ export class ScenarioIds {
     public static readonly openOldWebhostingPlanBlade = 'OpenOldWebhostingPlanBlade';
     public static readonly listExtensionsArm = 'ListExtensionsArm';
     public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
+    public static readonly disabledBindings = 'disabledBindings';
 }
 
 export class ServerFarmSku {

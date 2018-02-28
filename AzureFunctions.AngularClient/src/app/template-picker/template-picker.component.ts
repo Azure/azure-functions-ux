@@ -1,4 +1,4 @@
-﻿import { Order } from './../shared/models/constants';
+﻿import { Order, ScenarioIds } from './../shared/models/constants';
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -16,6 +16,7 @@ import { BroadcastService } from '../shared/services/broadcast.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
+import { ScenarioService } from '../shared/services/scenario/scenario.service';
 
 interface CategoryOrder {
     name: string;
@@ -61,6 +62,7 @@ export class TemplatePickerComponent extends FunctionAppContextComponent {
     @Output() cancel: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(
+        private _scenarioService: ScenarioService,
         private _globalStateService: GlobalStateService,
         private _functionAppService: FunctionAppService,
         private _translateService: TranslateService,
@@ -300,14 +302,13 @@ export class TemplatePickerComponent extends FunctionAppContextComponent {
 
             // Hide BYOB features unless flag present: https://localhost:44300/?MSGraph=true
             // binding has attribute "filters": ["MSGraph"]
-            if (this.getFilterMatch(binding.filters)) {
+            if (this.getFilterMatch(binding.filters) && !this.bindingDisabled(binding.type.toString())) {
 
                 result.push({
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),
                     enabledInTryMode: binding.enabledInTryMode
                 });
-
             }
         });
 
@@ -328,6 +329,11 @@ export class TemplatePickerComponent extends FunctionAppContextComponent {
             }
         }
         return isFilterMatch;
+    }
+
+    bindingDisabled(bindingType: string): boolean {
+        const data = this._scenarioService.checkScenario(ScenarioIds.disabledBindings).data;
+        return data && data.find((p) => p === bindingType);
     }
 
     private getQueryStringValue(key) {
