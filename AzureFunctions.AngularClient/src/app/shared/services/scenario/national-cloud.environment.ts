@@ -1,9 +1,14 @@
 import { NationalCloudArmUris, ScenarioIds } from './../../models/constants';
 import { AzureEnvironment } from './azure.environment';
-import { ScenarioCheckInput } from './scenario.models';
+import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
     name = 'NationalCloud';
+    disabledBindings: string[] = [
+        'apiHubFile',
+        'apiHubTable',
+        'apiHubFileTrigger'
+    ];
 
     public static isNationalCloud() {
         return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.mooncake.toLowerCase()
@@ -54,9 +59,23 @@ export class NationalCloudEnvironment extends AzureEnvironment {
                 return { status: 'disabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.disabledBindings] = {
+            id: ScenarioIds.disabledBindings,
+            runCheck: () => {
+                return this._getDisabledBindings();
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
         return NationalCloudEnvironment.isNationalCloud();
+    }
+
+    private _getDisabledBindings() {
+        return <ScenarioResult>{
+            status: 'enabled',
+            data: this.disabledBindings
+        };
     }
 }
