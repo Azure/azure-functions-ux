@@ -127,15 +127,17 @@ export class ErrorsWarningsComponent extends FunctionAppContextComponent impleme
         // A VfsObject for the file: this allows the listener to open the file if not opened
         // List of diagnostics info: this allows the listener to set the diag info if the file changed
         // The current diagnostic that was clicked: this allows the listener to setPosition of the editor
-        this.selectFile.next([
-            {
-                name: diagnostic.source,
-                href: `${this.functionInfo.script_root_path_href}${diagnostic.source}`,
-                mime: 'plain/text'
-            },
-            this.diagnostics,
-            diagnostic
-        ]);
+        if (diagnostic.source) {
+            this.selectFile.next([
+                {
+                    name: diagnostic.source,
+                    href: `${this.functionInfo.script_root_path_href}${diagnostic.source}`,
+                    mime: 'plain/text'
+                },
+                this.diagnostics,
+                diagnostic
+            ]);
+        }
     }
 
     public getSeverityClass(severity: monaco.Severity) {
