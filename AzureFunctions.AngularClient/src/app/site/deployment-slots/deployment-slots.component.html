@@ -25,94 +25,155 @@
 
         </command-bar>
 
-        <h1>Deployment Slots</h1>
-        <br>
+        <div class="config-wrapper">
 
-        <div load-image="image/slots.svg" class="icon-large"></div>
-        <br>
+            <div
+                *ngIf="false"
+                class="scale-up-container">
+                
+                <div load-image="image/scale-up.svg" class="icon-large"></div>
+                <div>Upgrade to a standard or premium plan to add slots.</div>
+                <div>
+                    Deployment slots are live apps with their own hostnames. App content and configuration elements can be swapped between two deployment slots, including the production slot.
+                    <a>Learn More</a>
+                </div>
+                <button>
+                    Upgrade
+                </button>
+            </div>
+            
+            <div
+                *ngIf="!!mainForm"
+                class="config-container"
+                [is-dirty]="mainForm.dirty"
+                [is-dirty-message]="dirtyMessage">
 
-        <div load-image="image/scale-up.svg" class="icon-large"></div>
-        <br>
+                <!--
+                <div class="slots-header-container">                
+                    <div class="slots-icon-container">
+                        <div load-image="image/slots.svg" class="icon-large"></div>
+                    </div>
+                    <div class="slots-text-container">
+                        <div class="slots-header-title">Deployment Slots</div>
+                        <div class="slots-header-description">Deployment slots are live apps with their own hostnames. App content and configurations elements can be swapped between two deployment slots, including the production slot.</div>
+                    </div>
+                </div>
+                -->
 
-        <!--
-        <h2>This Slot</h2>
-        <h3>{{ slotContext ? slotContext.site.name : '-' }}</h3>
-        <br>
+                <div class="slots-header-container">                
+                    <div class="slots-icon-container">
+                        <div load-image="image/slots.svg" class="icon-large"></div>
+                    </div>
+                    <div class="slots-title-container">
+                        <div class="slots-title">Deployment Slots</div>
+                        <div class="underline"></div>
+                    </div>
+                </div>
 
-        <h2>Other Slots</h2>
-        <div *ngIf="slotsListArm && slotsListArm.length > 0">
-            <h3 *ngFor="let slot of slotsListArm">{{ slot.name }}</h3>
+                <div class="slots-description-container">
+                    <div class="slots-description">Deployment slots are live apps with their own hostnames. App content and configurations elements can be swapped between two deployment slots, including the production slot.</div>
+                    <div class="underline"></div>
+                </div>
+
+                <table-root
+                    tblClass="tbl fixed stretch"
+                    [name]="Resources.feature_applicationSettingsName | translate"
+                    [items]="mainForm?.controls['slotsGroupArray']?.controls" #slotsTable>
+
+                    <tr class="header-row" table-row>
+                        <th class="one-quarter-col padded-col" table-cell>
+                            SLOT
+                        </th>
+                        <th class="one-quarter-col padded-col" table-cell>
+                            STATUS
+                        </th>
+                        <th class="one-quarter-col padded-col" table-cell>
+                            APP SERVICE PLAN
+                        </th>
+                        <th class="one-quarter-col padded-col" table-cell>
+                            TRAFFIC (%)
+                        </th>
+                    </tr>
+
+                    <tr table-row>
+            
+                        <td class="one-quarter-col padded-col" table-cell>
+                            {{ siteArm ? siteArm.properties.name : '-' }}
+                        </td>
+                
+                        <td class="one-quarter-col padded-col" table-cell>
+                            slot_status
+                        </td>
+                
+                        <td class="one-quarter-col padded-col" table-cell>
+                            slot_plan
+                        </td>
+                
+                        <td class="one-quarter-col padded-col" table-cell>
+                            {{ leftoverPct || 'N/A' }}
+                        </td>
+
+                    </tr>
+
+                    <!-- Data/Content Rows -->
+                    <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
+                    <tr *ngFor="let group of slotsTable.items" table-row [group]="group">
+            
+                        <td class="one-quarter-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell>      
+                            <a tabindex="0" (click)="openSlotBlade(group.controls['name'].value)">
+                                {{ group.controls['name'].value }}
+                            </a>
+                        </td>
+                    
+                        <td class="one-quarter-col padded-col" table-cell>
+                            slot_status
+                        </td>
+                
+                        <td class="one-quarter-col padded-col" table-cell>
+                            slot_plan
+                        </td>
+                
+                        <td class="one-quarter-col padded-col" table-cell [editable]="true">
+                            <click-to-edit [group]="group" name="pct">
+                                <textbox
+                                    [control]="group.controls['pct']"
+                                    [placeholder]="0"
+                                    (value)="computeLeftoverPct()">
+                                </textbox>
+                            </click-to-edit>
+                        </td>
+            
+                    </tr>
+            
+                    <!-- Placeholder/Message Row -->
+                    <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
+                    <tr *ngIf="!mainForm?.controls['slotsGroupArray'] || mainForm?.controls['slotsGroupArray'].controls.length === 0" table-row>
+            
+                    <!-- ARM call did not return successfully, and user has permissions -->
+                    <!--<td *ngIf="!groupArray && hasWriteAccess" class="message-row" colspan="3" table-cell>
+                        {{ (loadingFailureMessage || loadingMessage) }}
+                    </td>-->
+            
+                    <!-- ARM call did not return successfully, and user doesn't have permissions -->
+                    <!--<td *ngIf="!groupArray && !hasWriteAccess" class="message-row" colspan="3" table-cell>
+                        {{ (showPermissionsMessage) ? permissionsMessage : '' }}
+                    </td>-->
+            
+                    <!-- ARM call returned successfully, but there are no entries to display -->
+                    <!--<td *ngIf="!!groupArray && slotsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell>
+                        {{ ('emptyAppSettings' | translate) }}
+                    </td>-->
+
+                    <td class="message-row" colspan="3" table-cell>
+                        EMPTY
+                    </td>
+            
+                    </tr>
+                </table-root>
+
+            </div>
+
         </div>
-        <h3 *ngIf="!slotsListArm || slotsListArm.length === 0">-</h3>
-        <br>
-        -->
-
-        <table-root
-            tblClass="tbl fixed stretch"
-            [name]="Resources.feature_applicationSettingsName | translate"
-            [items]="mainForm?.controls['slotsGroupArray']?.controls" #slotsTable>
-
-            <tr table-row>
-      
-                <td class="one-third-col padded-col" table-cell>
-                    {{ siteArm ? siteArm.properties.name : '-' }}
-                </td>
-        
-                <td class="one-third-col padded-col" table-cell>
-                    Foo
-                </td>
-        
-                <td class="one-third-col padded-col" table-cell>
-                    {{ leftoverPct }}
-                </td>
-
-            </tr>
-
-            <!-- Data/Content Rows -->
-            <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
-            <tr *ngFor="let group of slotsTable.items" table-row [group]="group">
-      
-              <td class="one-third-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell>      
-                  <a tabindex="0" (click)="openSlotBlade(group.controls['name'].value)">
-                    {{ group.controls['name'].value }}
-                  </a>
-              </td>
-      
-              <td class="one-third-col padded-col" table-cell>
-                  Foo
-              </td>
-      
-              <td class="one-third-col padded-col" table-cell [editable]="true">
-                <textbox [control]="group.controls['pct']" [placeholder]="0"></textbox>
-              </td>
-      
-            </tr>
-      
-            <!-- Placeholder/Message Row -->
-            <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-            <tr *ngIf="!mainForm?.controls['slotsGroupArray'] || mainForm?.controls['slotsGroupArray'].controls.length === 0" table-row>
-      
-              <!-- ARM call did not return successfully, and user has permissions -->
-              <!--<td *ngIf="!groupArray && hasWriteAccess" class="message-row" colspan="3" table-cell>
-                {{ (loadingFailureMessage || loadingMessage) }}
-              </td>-->
-      
-              <!-- ARM call did not return successfully, and user doesn't have permissions -->
-              <!--<td *ngIf="!groupArray && !hasWriteAccess" class="message-row" colspan="3" table-cell>
-                {{ (showPermissionsMessage) ? permissionsMessage : '' }}
-              </td>-->
-      
-              <!-- ARM call returned successfully, but there are no entries to display -->
-              <!--<td *ngIf="!!groupArray && slotsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell>
-                {{ ('emptyAppSettings' | translate) }}
-              </td>-->
-
-              <td class="message-row" colspan="3" table-cell>
-                EMPTY
-              </td>
-      
-            </tr>
-          </table-root>
     </div>
 
     <ng-sidebar #sidebar [(opened)]="swapControlsOpen" 
@@ -128,9 +189,87 @@
                 [showBackdrop]="true">
 
                 <div *ngIf="swapControlsOpen">
-                    <h2>Swap</h2>
-                    <h3>SrcSlot: {{swapSrc}}</h3>
-                    <h3>DestSlot: {{swapDest}}</h3>
+                    <h1>Swap slots</h1>
+
+                    <div class="slot-drop-down-container">
+                        <div class="slot-drop-down">
+                            <div class="slot-drop-down">
+                                Source
+                            </div>
+                            <select>
+                                <option
+                                    *ngFor="let group of ((mainForm && mainForm.controls['slotsGroupArray']) ? mainForm.controls['slotsGroupArray'].controls : [])"
+                                    [value]="group.controls['name'].value"
+                                    [selected]="group.controls['name'].value === swapSrc">
+                                    {{ group.controls['name'].value }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="slot-drop-down-container">
+                        <div class="slot-drop-down">
+                            <div class="slot-drop-down">
+                                Target
+                            </div>
+                            <select>
+                                <option
+                                    *ngFor="let group of ((mainForm && mainForm.controls['slotsGroupArray']) ? mainForm.controls['slotsGroupArray'].controls : [])"
+                                    [value]="group.controls['name'].value"
+                                    [selected]="group.controls['name'].value === swapDest">
+                                    {{ group.controls['name'].value }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox">
+                            Perform a multiphase swap
+                        </label>
+                    </div>
+
+                    <div class="phase-container">
+                        <div class="phase-marker phase-current">
+                            <p>1</p>
+                        </div>
+                        <div class="phase-connector">    
+                        </div>
+                        <div class="phase-marker phase-complete">
+                            <p>2</p>
+                        </div>
+                    </div>
+
+                    <button
+                        class="custom-button">
+                        Swap
+                    </button>
+
+                    <button
+                        class="custom-button"
+                        (click)="swapControlsOpen=false">
+                        Cancel
+                    </button>
+
+                    <div>
+                    <h1>Preview changes</h1>
+                        <tbl>
+                            <tr>
+                                <th class="one-quarter-col padded-col" tbl-th>SETTING</th>
+                                <th class="one-quarter-col padded-col" tbl-th>TYPE</th>
+                                <th class="one-quarter-col padded-col" tbl-th>OLD VALUE</th>
+                                <th class="one-quarter-col padded-col" tbl-th>NEW VALUE</th>
+                            </tr>
+                            <tr>
+                                <td class="one-quarter-col padded-col">-</td>
+                                <td class="one-quarter-col padded-col">-</td>
+                                <td class="one-quarter-col padded-col">-</td>
+                                <td class="one-quarter-col padded-col">-</td>
+                            </tr>
+                        </tbl>
+                    </div>
+
                 </div>
     </ng-sidebar>
 </ng-sidebar-container>

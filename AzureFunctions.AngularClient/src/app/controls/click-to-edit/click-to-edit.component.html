@@ -1,7 +1,7 @@
 <div #container class="click-to-edit-wrapper" (mousedown)="onMouseDown($event)">
   <ng-container *ngIf="group.valid && !showTextbox && !this?.group?.msStayInEditMode">
     <div *ngIf="!hiddenText" class="read-only-text">
-      {{control.value || '&#8203;'}}
+      {{ (control.value === null || control.value === undefined) ? '&#8203;' : control.value }}
     </div>
 
     <div *ngIf="hiddenText" class="read-only-text hidden-text">

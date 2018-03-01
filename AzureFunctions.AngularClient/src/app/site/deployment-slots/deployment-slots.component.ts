@@ -26,6 +26,7 @@ import { AuthzService } from 'app/shared/services/authz.service';
 import { LogService } from 'app/shared/services/log.service';
 import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
+import { FormArray } from '@angular/forms/src/model';
 
 @Component({
     selector: 'slots',
@@ -217,6 +218,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         } else {
             this.mainForm = null;
         }
+
+        this.computeLeftoverPct();
     }
 
     save() {
@@ -233,6 +236,25 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.clearBusy();
         this._broadcastService.clearDirtyState('slot-swap');
         this._broadcastService.clearDirtyState('slot-add');
+    }
+
+    public computeLeftoverPct() {
+        let leftoverPct = null;
+
+        if (this.mainForm && this.mainForm.controls['slotsGroupArray'] && this.mainForm.controls['slotsGroupArray'].valid) {
+            let leftoverPctValue = 100;
+
+            (this.mainForm.controls['slotsGroupArray'] as FormArray).controls.forEach(g => {
+                const pct = (g as FormGroup).controls['pct'].value;
+                leftoverPctValue = leftoverPctValue - pct;
+            })
+
+            if (leftoverPctValue >= 0) {
+                leftoverPct = leftoverPctValue.toString();
+            }
+        }
+
+        this.leftoverPct = leftoverPct;
     }
 
     public showSwapControls(dest?: string) {

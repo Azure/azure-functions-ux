@@ -2,12 +2,18 @@
 
 <input *ngIf="!control"
     type="text"
+    (change)="onChange($event.target.value)"
+    (keyup)="onKeyUp($event.target.value)"
+    [readonly]="readonly"
     [placeholder]="placeholder" />
 
 <ng-container *ngIf="!!control">
 
     <input #textboxInput
         type="text"
+        (change)="onChange($event.target.value)"
+        (keyup)="onKeyUp($event.target.value)"
+        [readonly]="readonly"
         [formControl]="control"
         [placeholder]="placeholder"
         [class.dirty]="highlightDirty && control?.dirty" />
