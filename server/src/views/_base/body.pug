@@ -1,14 +1,13 @@
-body(style='background-color: inherit')
-    app-root
-        div.fxs-progress
-            div.fxs-progress-dots
-                div
-                div
-                div
-    if !config.isAzure
-        include ../local/body.pug
-    else if !!config.isAzure && config.isOnPrem
-        include ../onprem/body.pug
-    else
-        include ../azure/body.pug
+app-root
+    div.fxs-progress
+        div.fxs-progress-dots
+            div
+            div
+            div
+if !config.isAzure
+    include ../local/body.pug
+else if !!config.isAzure && config.isOnPrem
+    include ../onprem/body.pug
+else
+    include ../azure/body.pug
 
