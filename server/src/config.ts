@@ -7,6 +7,7 @@ interface StaticConfig {
             hostName: string | undefined;
         };
         cacheBreakQuery: string;
+        isNationalClouds: boolean;
         isAzure: boolean;
         isOnPrem: boolean;
         clientOptimzationsOff: boolean;
@@ -26,6 +27,7 @@ export const staticConfig: StaticConfig = {
         },
         cacheBreakQuery: "{{cacheBreakQuery}}",
         // TODO: [ehamai] I wouldn't use "isAzure" or "isOnPrem" as properties. RuntimeType should contain all of those variations.
+        isNationalClouds: !!process.env.CLOUD_ENVIRONMENT,
         isAzure: !!process.env.WEBSITE_SITE_NAME,
         isOnPrem: false,
         clientOptimzationsOff: false,

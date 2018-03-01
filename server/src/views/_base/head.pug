@@ -3,7 +3,10 @@ script(type='text/javascript').
     window.appsvc = !{JSON.stringify(config)}
 style
     include iframe-loading.css
-if !config.isAzure
+    
+if config.isNationalClouds
+    include ../national-clouds/head.pug
+else if !config.isAzure
     include ../local/head.pug
 else if !!config.isAzure && isOnPrem
     include ../onprem/head.pug

@@ -4,7 +4,9 @@ app-root
             div
             div
             div
-if !config.isAzure
+if config.isNationalClouds
+    include ../national-clouds/body.pug
+else if !config.isAzure
     include ../local/body.pug
 else if !!config.isAzure && config.isOnPrem
     include ../onprem/body.pug
