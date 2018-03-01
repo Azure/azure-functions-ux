@@ -101,7 +101,6 @@ export class SidebarPickerComponent extends BaseExtensionInstallComponent {
             // Check install status
             Observable.zip(...extensionCalls).subscribe((r) => {
                 this.installJobs = r.filter(i => i.isSuccessful).map(i => i.result);
-                this.installing = false;
                 this._pollInstallationStatus(0);
             });
         }
