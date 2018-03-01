@@ -17,11 +17,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 
 @Component({
-    selector: 'sidebar-picker',
-    templateUrl: './sidebar-picker.component.html',
-    styleUrls: ['./sidebar-picker.component.scss']
+    selector: 'extension-checker',
+    templateUrl: './extension-checker.component.html',
+    styleUrls: ['./extension-checker.component.scss']
 })
-export class SidebarPickerComponent extends BaseExtensionInstallComponent {
+export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
 
     @Input() functionLanguage: string;
     @Input() functionsInfo: FunctionInfo[];
@@ -48,7 +48,7 @@ export class SidebarPickerComponent extends BaseExtensionInstallComponent {
         translateService: TranslateService,
         aiService: AiService) {
 
-        super('sidebar-picker', _functionAppService, broadcastService, aiService, translateService);
+        super('extension-checker', _functionAppService, broadcastService, aiService, translateService);
         this.functionCardStream = new Subject();
         this.functionCardStream
             .takeUntil(this.ngUnsubscribe)
