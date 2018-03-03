@@ -1,15 +1,12 @@
 import { HostingEnvironmentProfile } from './hosting-environment';
 
-export interface HostNameSslState {
-    name: string;
-    hostType: number | string;
-    sslState: string;
-};
-
 export interface Site {
     state: string;
     hostNames: string[];
-    hostNameSslStates: HostNameSslState[];
+    hostNameSslStates: Array<{
+        name: string;
+        hostType: number;
+    }>;
     sku: string;
     targetSwapSlot?: string;
     containerSize: number;
@@ -21,4 +18,4 @@ export interface Site {
     clientCertEnabled?: boolean;
     clientAffinityEnabled?: boolean;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
-};
+}
