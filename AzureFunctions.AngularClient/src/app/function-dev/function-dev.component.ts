@@ -461,10 +461,9 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     path = path.replace(re, '/');
                     path = path.replace('/?', '?') + queryParams;
 
-                    if (!domain) {
-                        domain = this.defaultDomain
+                    if (domain) {
+                        this.displayDomain = 'https://' + domain.name;
                     }
-                    this.displayDomain = 'https://' + domain.name;
                     this.displayPath = path;
 
                     this.runValid = true;
