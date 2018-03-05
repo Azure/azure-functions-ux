@@ -1,9 +1,8 @@
 - const aiIinstrumentationKey = process.env.aiInstrumentationKey;
 - const stage = process.env['FUNCTIONS_SLOT_NAME'] === 'staging';
-- const cdn = "#{cdn}#";
 
 
-if config.clientOptimzationsOff || stage
+if config.clientOptimzationsOff 
     script(src='inline.bundle.js')
     script(src='polyfills.bundle.js')
     script(src='scripts.bundle.js')
@@ -11,11 +10,12 @@ if config.clientOptimzationsOff || stage
     script(src='main.bundle.js')
     script(src='styles.bundle.js')
 else
-    script(src=cdn + '/ng-min/{{inline}}')
-    script(src=cdn + '/ng-min/{{polyfills}}')
-    script(src=cdn + '/ng-min/{{scripts}}')
-    script(src=cdn + '/ng-min/{{main}}')
-    script(src=cdn + "/ng-min/assets/monaco/min/vs/loader.js")
+    script(src='{{inline}}')
+    script(src='{{polyfills}}')
+    script(src='{{scripts}}')
+    script(src='{{main}}')
+    
+script(src='assets/monaco/min/vs/loader.js')
         
 if aiIinstrumentationKey
     script(src='https://az416426.vo.msecnd.net/scripts/a/ai.0.js')

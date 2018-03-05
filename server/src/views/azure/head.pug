@@ -1,10 +1,7 @@
-- const cdn = "#{cdn}#";
 - const stage = process.env['FUNCTIONS_SLOT_NAME'] === 'staging';
 
-if config.clientOptimzationsOff || stage
+if config.clientOptimzationsOff
     base(href="/ng-full/")
 else
-    script(type='text/javascript').
-        window.appsvc.cdn = "#{cdn}#"
     base(href="/ng-min/")
-    link(href=cdn + "/ng-min/{{styles}}" rel="stylesheet")
+    link(href="{{styles}}" rel="stylesheet")
