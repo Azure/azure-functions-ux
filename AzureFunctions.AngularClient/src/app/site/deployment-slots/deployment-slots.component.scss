@@ -130,6 +130,21 @@
 }
 
 
+.pill{
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0px 5px 0px 5px;
+    border-radius: 7px;
+    background: green;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.pct-wrapper{
+    width: 50px;
+}
+
 td, th{
     span{
         font-size: 16px;
@@ -170,17 +185,8 @@ td, th{
     width: 100%;
 }
 
-.type-col, .is-app-col, .slot-setting-col{
+.pct-col{
     width: 200px;
-}
-
-.is-app-col, .slot-setting-col{
-    text-align: center;
-}
-
-.action-col{
-    width: 25px;
-    text-align: center;
 }
 
 input[type="checkbox"]{

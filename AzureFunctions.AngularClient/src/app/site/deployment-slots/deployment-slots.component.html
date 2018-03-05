@@ -99,18 +99,28 @@
             
                         <td class="one-quarter-col padded-col" table-cell>
                             {{ siteArm ? siteArm.properties.name : '-' }}
+                            <div
+                                *ngIf="siteArm.type === 'Microsoft.Web/sites'"
+                                class="pill">
+                                PROD
+                            </div>
                         </td>
                 
                         <td class="one-quarter-col padded-col" table-cell>
-                            slot_status
+                            {{ siteArm ? siteArm.properties.state : '-' }}
                         </td>
                 
                         <td class="one-quarter-col padded-col" table-cell>
-                            slot_plan
+                            {{ siteArm ? getSegment(siteArm.properties.serverFarmId, 8) : '-' }}
                         </td>
                 
                         <td class="one-quarter-col padded-col" table-cell>
-                            {{ leftoverPct || 'N/A' }}
+                            <div class="pct-wrapper">
+                                <textbox
+                                    readonly="true"
+                                    [placeholder]="leftoverPct || 'NaN'">
+                                </textbox>
+                            </div>
                         </td>
 
                     </tr>
@@ -120,27 +130,34 @@
                     <tr *ngFor="let group of slotsTable.items" table-row [group]="group">
             
                         <td class="one-quarter-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell>      
-                            <a tabindex="0" (click)="openSlotBlade(group.controls['name'].value)">
+                            <a tabindex="0" (click)="openSlotBlade(group.controls['resourceId'].value)">
                                 {{ group.controls['name'].value }}
                             </a>
+                            <div
+                                *ngIf="group.controls['isProdSlot'].value"
+                                class="pill">
+                                PROD
+                            </div>
                         </td>
                     
                         <td class="one-quarter-col padded-col" table-cell>
-                            slot_status
+                            {{ group.controls['state'].value }}
                         </td>
                 
                         <td class="one-quarter-col padded-col" table-cell>
-                            slot_plan
+                            {{ group.controls['serverFarm'].value }}
                         </td>
                 
                         <td class="one-quarter-col padded-col" table-cell [editable]="true">
-                            <click-to-edit [group]="group" name="pct">
-                                <textbox
-                                    [control]="group.controls['pct']"
-                                    [placeholder]="0"
-                                    (value)="computeLeftoverPct()">
-                                </textbox>
-                            </click-to-edit>
+                            <div class="pct-wrapper">
+                                <!--<click-to-edit [group]="group" name="pct">-->
+                                    <textbox
+                                        [control]="group.controls['pct']"
+                                        [placeholder]="0"
+                                        (value)="computeLeftoverPct()">
+                                    </textbox>
+                                <!--</click-to-edit>-->
+                            </div>
                         </td>
             
                     </tr>

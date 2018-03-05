@@ -17,6 +17,7 @@ import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
 import { CustomFormGroup } from 'app/controls/click-to-edit/click-to-edit.component';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmObj, ResourceId } from 'app/shared/models/arm/arm-obj';
+import { RoutingRule } from 'app/shared/models/arm/routing-rule';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { LogCategories } from 'app/shared/models/constants';
@@ -123,9 +124,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                     if (!siteResult.isSuccessful) {
                         this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteResult.error.result);
                     } else if (!slotsResult.isSuccessful) {
-                        this._logService.error(LogCategories.deploymentSlots, '/general-settings', slotsResult.error.result);
+                        this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', slotsResult.error.result);
                     } else {
-                        this._logService.error(LogCategories.deploymentSlots, '/general-settings', siteConfigResult.error.result);
+                        this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteConfigResult.error.result);
                     }
                 } else {
                     this._siteConfigArm = siteConfigResult.result;
@@ -154,37 +155,30 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
                 if (success) {
                     return Observable.zip(
-                        Observable.of(true),
                         this._authZService.hasPermission(this._resourceId, [AuthzService.writeScope]),
                         this._authZService.hasPermission(this._resourceId, [AuthzService.actionScope]),
                         this._authZService.hasReadOnlyLock(this._resourceId));
                 } else {
                     return Observable.zip(
-                        Observable.of(false));
+                        Observable.of(false),
+                        Observable.of(false),
+                        Observable.of(true)
+                    );
                 }
-
-
             })
             .do(r => {
-                const loaded = r[0];
+                const hasWritePermission = r[1];
+                const hasSwapPermission = r[2];
+                const hasReadOnlyLock = r[3];
 
-                if (loaded) {
-                    const hasWritePermission = r[1];
-                    const hasSwapPermission = r[2];
-                    const hasReadOnlyLock = r[3];
+                this.hasWriteAccess = hasWritePermission && !hasReadOnlyLock;
 
-                    this.hasWriteAccess = hasWritePermission && !hasReadOnlyLock;
-
-                    if (this.hasWriteAccess && hasSwapPermission) {
-                        if (this._isSlot) {
-                            this.hasSwapAccess = true;
-                        } else {
-                            this.hasSwapAccess = this._relativeSlotsArm && this._relativeSlotsArm.length > 0;
-                        }
+                if (this.hasWriteAccess && hasSwapPermission) {
+                    if (this._isSlot) {
+                        this.hasSwapAccess = true;
+                    } else {
+                        this.hasSwapAccess = this._relativeSlotsArm && this._relativeSlotsArm.length > 0;
                     }
-                } else {
-                    this.hasWriteAccess = false;
-                    this.hasSwapAccess = false;
                 }
             });
     }
@@ -199,17 +193,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             const rampUpRules = this._siteConfigArm.properties.experiments.rampUpRules;
 
             this._relativeSlotsArm.forEach(siteArm => {
-                const ruleName = siteArm.type === 'Microsoft.Web/sites' ? 'production' : siteArm.name.split('/').slice(-1)[0];
-                const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name === ruleName)[0];
-
-                const slotName = siteArm.properties.name;
-                const pct = rule ? rule.reroutePercentage : 0;
-
-                const group = this._fb.group({
-                    name: [{ value: slotName, disabled: false }],
-                    pct: [{ value: pct, disabled: false }],
-                }) as CustomFormGroup;
-
+                const group = this._generateSlotFormGroup(siteArm, rampUpRules);
                 slotsGroupArray.push(group);
             })
 
@@ -220,6 +204,29 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         }
 
         this.computeLeftoverPct();
+    }
+
+    private _generateSlotFormGroup(siteArm: ArmObj<Site>, rampUpRules: RoutingRule[]): CustomFormGroup {
+
+        const isProdSlot = siteArm.type === 'Microsoft.Web/sites';
+        //const ruleName = isProdSlot ? 'production' : siteArm.name.split('/').slice(-1)[0];
+        const ruleName = isProdSlot ? 'production' : this.getSegment(siteArm.name, -1);
+        const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name === ruleName)[0];
+
+        const resourceId = siteArm.id;
+        const slotName = siteArm.properties.name;
+        const state = siteArm.properties.state;
+        const serverFarm = this.getSegment(siteArm.properties.serverFarmId, 8);
+        const pct = rule ? rule.reroutePercentage : 0;
+
+        return this._fb.group({
+            isProdSlot: [{ value: isProdSlot, disabled: false }],
+            resourceId: [{ value: resourceId, disabled: false }],
+            name: [{ value: slotName, disabled: false }],
+            state: [{ value: state, disabled: false }],
+            serverFarm: [{ value: serverFarm, disabled: false }],
+            pct: [{ value: pct, disabled: false }],
+        }) as CustomFormGroup;
     }
 
     save() {
@@ -259,14 +266,16 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     public showSwapControls(dest?: string) {
         this.swapControlsOpen = false;
-        this.swapSrc = this.siteArm.name.split('/').slice(-1)[0];
+        //this.swapSrc = this.siteArm.name.split('/').slice(-1)[0];
+        this.swapSrc = this.getSegment(this.siteArm.name, -1);
         this.swapDest = null;
 
         dest = dest || this.siteArm.properties.targetSwapSlot;
         if (!dest && this._relativeSlotsArm) {
             const destSlot = this._relativeSlotsArm[0];
             if (destSlot) {
-                dest = destSlot.name.split('/').slice(-1)[0];
+                //dest = destSlot.name.split('/').slice(-1)[0];
+                dest = this.getSegment(destSlot.name, -1);
             }
         }
 
@@ -278,6 +287,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     }
 
+    /*
     openSlotBlade(slotName: string) {
         const resourceId = this._relativeSlotsArm.filter(s => s.properties.name === slotName).map(s => s.id)[0];
 
@@ -289,5 +299,33 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 'deployment-slots'
             );
         }
+    }
+    */
+
+    openSlotBlade(resourceId: string) {
+        if (resourceId) {
+            this._portalService.openBlade({
+                detailBlade: 'AppsOverviewBlade',
+                detailBladeInputs: { id: resourceId }
+            },
+                'deployment-slots'
+            );
+        }
+    }
+
+    getSegment(path: string, index: number): string {
+        let segment = null;
+
+        if (!!path) {
+            const segments = path.split('/');
+
+            index = (index < 0) ? segments.length + index : index;
+
+            if (index >= 0 && index < segments.length) {
+                segment = segments[index];
+            }
+        }
+
+        return segment;
     }
 }
