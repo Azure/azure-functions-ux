@@ -546,22 +546,32 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         this._globalStateService.setBusyState();
         this.saveTestData();
 
-        if (this.runHttp) {
-            if (!this.runHttp.valid) {
-                this._globalStateService.clearBusyState();
-                this.runValid = false;
-                return;
+        const run = () => {
+            if (this.isHttpFunction && !this.runHttp) {
+                // if this is an http function, but the <run-http> component isn't
+                // ready yet, give it some more time to load.
+                // this.clickRightTab('run') above should cause it to load eventually.
+                setTimeout(() => run(), 100);
+            } else {
+                if (this.runHttp) {
+                    if (!this.runHttp.valid) {
+                        this._globalStateService.clearBusyState();
+                        this.runValid = false;
+                        return;
+                    }
+
+                    if (this.httpRunLogs) {
+                        this.httpRunLogs.clearLogs();
+                    }
+                    this.runFunctionInternal();
+
+                } else {
+                    this.runFunctionInternal();
+                }
             }
+        };
 
-            if (this.httpRunLogs) {
-                this.httpRunLogs.clearLogs();
-            }
-            this.runFunctionInternal();
-
-        } else {
-            this.runFunctionInternal();
-        }
-
+        run();
     }
 
     cancelCurrentRun() {
