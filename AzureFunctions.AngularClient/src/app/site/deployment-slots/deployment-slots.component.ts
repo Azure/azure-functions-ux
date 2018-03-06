@@ -3,7 +3,7 @@ import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 //import { Subject } from 'rxjs/Subject';
 //import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/map';
@@ -14,23 +14,26 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
-import { CustomFormGroup } from 'app/controls/click-to-edit/click-to-edit.component';
+//import { CustomFormControl, CustomFormGroup } from 'app/controls/click-to-edit/click-to-edit.component';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmObj, ResourceId } from 'app/shared/models/arm/arm-obj';
-import { RoutingRule } from 'app/shared/models/arm/routing-rule';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { LogCategories } from 'app/shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
+import { RoutingRule } from 'app/shared/models/arm/routing-rule';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
+import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from 'app/shared/services/log.service';
 import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
-import { FormArray } from '@angular/forms/src/model';
+import { DecimalRangeValidator } from 'app/shared/validators/decimalRangeValidator';
+import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
+//import { FormArray } from '@angular/forms/src/model';
 
 @Component({
-    selector: 'slots',
+    selector: 'deployment-slots',
     templateUrl: './deployment-slots.component.html',
     styleUrls: ['./deployment-slots.component.scss']
 })
@@ -49,8 +52,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     public dirtyMessage: string;
 
     public siteArm: ArmObj<Site>;
+    public relativeSlotsArm: ArmObj<Site>[];
 
-    private _relativeSlotsArm: ArmObj<Site>[];
     private _siteConfigArm: ArmObj<SiteConfig>;
 
     private _resourceId: ResourceId;
@@ -70,12 +73,13 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     }
 
     constructor(
-        public ts: TranslateService,
         private _authZService: AuthzService,
+        private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _logService: LogService,
         private _portalService: PortalService,
         private _siteService: SiteService,
+        private _translateService: TranslateService,
         injector: Injector) {
 
         super('SlotsComponent', injector, 'site-tabs');
@@ -96,8 +100,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 this.swapSrc = null;
                 this.swapDest = null;
 
-                this._relativeSlotsArm = null;
                 this.siteArm = null;
+                this.relativeSlotsArm = null;
                 this._siteConfigArm = null;
 
                 const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
@@ -133,11 +137,11 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
                     if (this._isSlot) {
                         this.siteArm = slotsResult.result.value.filter(s => s.id === this._resourceId)[0];
-                        this._relativeSlotsArm = slotsResult.result.value.filter(s => s.id !== this._resourceId);
-                        this._relativeSlotsArm.unshift(siteResult.result);
+                        this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id !== this._resourceId);
+                        this.relativeSlotsArm.unshift(siteResult.result);
                     } else {
                         this.siteArm = siteResult.result;
-                        this._relativeSlotsArm = slotsResult.result.value;
+                        this.relativeSlotsArm = slotsResult.result.value;
                     }
                 }
 
@@ -177,27 +181,27 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                     if (this._isSlot) {
                         this.hasSwapAccess = true;
                     } else {
-                        this.hasSwapAccess = this._relativeSlotsArm && this._relativeSlotsArm.length > 0;
+                        this.hasSwapAccess = this.relativeSlotsArm && this.relativeSlotsArm.length > 0;
                     }
                 }
             });
     }
 
     private _setupForm() {
-        if (!!this.siteArm && !!this._relativeSlotsArm && !!this._siteConfigArm) {
+        if (!!this.siteArm && !!this.relativeSlotsArm && !!this._siteConfigArm) {
 
             this.mainForm = this._fb.group({});
 
-            const slotsGroupArray = this._fb.array([]);
+            //const rulesGroup = this._fb.group({});
+            const routingSumValidator = new RoutingSumValidator();
+            const rulesGroup = this._fb.group({}, { validator: routingSumValidator.validate.bind(routingSumValidator) });
 
-            const rampUpRules = this._siteConfigArm.properties.experiments.rampUpRules;
-
-            this._relativeSlotsArm.forEach(siteArm => {
-                const group = this._generateSlotFormGroup(siteArm, rampUpRules);
-                slotsGroupArray.push(group);
+            this.relativeSlotsArm.forEach(siteArm => {
+                const rulteControl = this._generateRuleControl(siteArm);
+                rulesGroup.addControl(siteArm.name, rulteControl);
             })
 
-            this.mainForm.setControl('slotsGroupArray', slotsGroupArray);
+            this.mainForm.addControl('rulesGroup', rulesGroup);
 
         } else {
             this.mainForm = null;
@@ -206,31 +210,94 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.computeLeftoverPct();
     }
 
-    private _generateSlotFormGroup(siteArm: ArmObj<Site>, rampUpRules: RoutingRule[]): CustomFormGroup {
-
-        const isProdSlot = siteArm.type === 'Microsoft.Web/sites';
-        //const ruleName = isProdSlot ? 'production' : siteArm.name.split('/').slice(-1)[0];
-        const ruleName = isProdSlot ? 'production' : this.getSegment(siteArm.name, -1);
+    private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
+        const rampUpRules = this._siteConfigArm.properties.experiments.rampUpRules;
+        const ruleName = siteArm.type === 'Microsoft.Web/sites' ? 'production' : this.getSegment(siteArm.name, -1);
         const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name === ruleName)[0];
 
-        const resourceId = siteArm.id;
-        const slotName = siteArm.properties.name;
-        const state = siteArm.properties.state;
-        const serverFarm = this.getSegment(siteArm.properties.serverFarmId, 8);
-        const pct = rule ? rule.reroutePercentage : 0;
+        const decimalRangeValidator = new DecimalRangeValidator(this._translateService);
 
-        return this._fb.group({
-            isProdSlot: [{ value: isProdSlot, disabled: false }],
-            resourceId: [{ value: resourceId, disabled: false }],
-            name: [{ value: slotName, disabled: false }],
-            state: [{ value: state, disabled: false }],
-            serverFarm: [{ value: serverFarm, disabled: false }],
-            pct: [{ value: pct, disabled: false }],
-        }) as CustomFormGroup;
+        return this._fb.control({ value: rule ? rule.reroutePercentage : 0, disabled: false }, decimalRangeValidator.validate.bind(decimalRangeValidator));
     }
 
     save() {
+        this.dirtyMessage = this._translateService.instant(PortalResources.saveOperationInProgressWarning);
 
+        if (this.mainForm.controls['rulesGroup'] && this.mainForm.controls['rulesGroup'].valid) {
+
+            this.setBusy();
+            let notificationId = null;
+
+            this._portalService.startNotification(
+                this._translateService.instant('foo'/*PortalResources.configUpdating*/),
+                this._translateService.instant('foo'/*PortalResources.configUpdating*/))
+                .first()
+                .switchMap(s => {
+                    notificationId = s.id;
+
+                    const siteConfigArm = JSON.parse(JSON.stringify(this._siteConfigArm));
+                    const rampUpRules = siteConfigArm.properties.experiments.rampUpRules as RoutingRule[];
+
+                    const rulesGroup: FormGroup = (this.mainForm.controls['rulesGroup'] as FormGroup);
+                    for (const name in rulesGroup.controls) {
+                        const ruleControl = rulesGroup.controls[name];
+
+                        if (!ruleControl.pristine) {
+                            const nameParts = name.split('/');
+                            const ruleName = nameParts.length === 0 ? 'production' : nameParts[1];
+                            const index = rampUpRules.findIndex(r => r.name === ruleName);
+
+                            if (!ruleControl.value) {
+                                if (index >= 0) {
+                                    rampUpRules.splice(index, 1);
+                                }
+                            } else {
+                                if (index >= 0) {
+                                    rampUpRules[index].reroutePercentage = ruleControl.value;
+                                } else {
+                                    const slotArm = this.relativeSlotsArm.find(s => s.name === name);
+
+                                    if (slotArm) {
+                                        rampUpRules.push({
+                                            actionHostName: slotArm.properties.hostNames[0],
+                                            reroutePercentage: ruleControl.value,
+                                            changeStep: null,
+                                            changeIntervalInMinutes: null,
+                                            minReroutePercentage: null,
+                                            maxReroutePercentage: null,
+                                            changeDecisionCallbackUrl: null,
+                                            name: ruleName
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    return this._cacheService.putArm(`${this._resourceId}/config/web`, null, siteConfigArm);
+                })
+                .do(null, error => {
+                    this.dirtyMessage = null;
+                    this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', error);
+                    this.clearBusy();
+                    this._portalService.stopNotification(
+                        notificationId,
+                        false,
+                        this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error));
+                })
+                .subscribe(r => {
+                    this.dirtyMessage = null;
+                    this.clearBusy();
+                    this._portalService.stopNotification(
+                        notificationId,
+                        true,
+                        this._translateService.instant(PortalResources.configUpdateSuccess));
+
+                    this._siteConfigArm = r.json();
+                    this._setupForm();
+                });
+
+        }
     }
 
     discard() {
@@ -248,6 +315,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     public computeLeftoverPct() {
         let leftoverPct = null;
 
+        /*
         if (this.mainForm && this.mainForm.controls['slotsGroupArray'] && this.mainForm.controls['slotsGroupArray'].valid) {
             let leftoverPctValue = 100;
 
@@ -255,6 +323,22 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 const pct = (g as FormGroup).controls['pct'].value;
                 leftoverPctValue = leftoverPctValue - pct;
             })
+
+            if (leftoverPctValue >= 0) {
+                leftoverPct = leftoverPctValue.toString();
+            }
+        }
+        */
+
+        if (this.mainForm && this.mainForm.controls['rulesGroup'] && this.mainForm.controls['rulesGroup'].valid) {
+            let leftoverPctValue = 100;
+
+            const rulesGroup: FormGroup = (this.mainForm.controls['rulesGroup'] as FormGroup);
+
+            for (const name in rulesGroup.controls) {
+                const pct = rulesGroup.controls[name].value;
+                leftoverPctValue = leftoverPctValue - pct;
+            }
 
             if (leftoverPctValue >= 0) {
                 leftoverPct = leftoverPctValue.toString();
@@ -271,8 +355,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.swapDest = null;
 
         dest = dest || this.siteArm.properties.targetSwapSlot;
-        if (!dest && this._relativeSlotsArm) {
-            const destSlot = this._relativeSlotsArm[0];
+        if (!dest && this.relativeSlotsArm) {
+            const destSlot = this.relativeSlotsArm[0];
             if (destSlot) {
                 //dest = destSlot.name.split('/').slice(-1)[0];
                 dest = this.getSegment(destSlot.name, -1);
@@ -289,7 +373,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     /*
     openSlotBlade(slotName: string) {
-        const resourceId = this._relativeSlotsArm.filter(s => s.properties.name === slotName).map(s => s.id)[0];
+        const resourceId = this.relativeSlotsArm.filter(s => s.properties.name === slotName).map(s => s.id)[0];
 
         if (resourceId) {
             this._portalService.openBlade({

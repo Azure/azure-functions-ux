@@ -1,6 +1,5 @@
 // This file is auto generated
-    export class PortalResources
-{
+export class PortalResources {
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
@@ -623,9 +622,11 @@
     public static appFunctionSettings_editMode: string = "appFunctionSettings_editMode";
     public static appFunctionSettings_readOnlyMode: string = "appFunctionSettings_readOnlyMode";
     public static appFunctionSettings_readWriteMode: string = "appFunctionSettings_readWriteMode";
+    public static validation_decimalRangeValueError: string = "validation_decimalRangeValueError";
     public static validation_duplicateError: string = "validation_duplicateError";
     public static validation_linuxAppSettingNameError: string = "validation_linuxAppSettingNameError";
     public static validation_requiredError: string = "validation_requiredError";
+    public static validation_routingTotalPctError: string = "validation_routingTotalPctError";
     public static validation_siteNameMinChars: string = "validation_siteNameMinChars";
     public static validation_siteNameMaxChars: string = "validation_siteNameMaxChars";
     public static validation_siteNameInvalidChar: string = "validation_siteNameInvalidChar";

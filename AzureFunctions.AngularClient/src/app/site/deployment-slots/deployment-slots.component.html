@@ -77,8 +77,7 @@
 
                 <table-root
                     tblClass="tbl fixed stretch"
-                    [name]="Resources.feature_applicationSettingsName | translate"
-                    [items]="mainForm?.controls['slotsGroupArray']?.controls" #slotsTable>
+                    [name]="Resources.feature_deploymentSlotsName | translate">
 
                     <tr class="header-row" table-row>
                         <th class="one-quarter-col padded-col" table-cell>
@@ -100,7 +99,7 @@
                         <td class="one-quarter-col padded-col" table-cell>
                             {{ siteArm ? siteArm.properties.name : '-' }}
                             <div
-                                *ngIf="siteArm.type === 'Microsoft.Web/sites'"
+                                *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
                                 class="pill">
                                 PROD
                             </div>
@@ -127,36 +126,35 @@
 
                     <!-- Data/Content Rows -->
                     <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
-                    <tr *ngFor="let group of slotsTable.items" table-row [group]="group">
+                    <tr *ngFor="let relativeSlotArm of relativeSlotsArm" table-row>
             
-                        <td class="one-quarter-col padded-col" [class.pristine]="group.pristine" [class.dirty]="group.dirty" table-cell>      
-                            <a tabindex="0" (click)="openSlotBlade(group.controls['resourceId'].value)">
-                                {{ group.controls['name'].value }}
+                        <td class="one-quarter-col padded-col" table-cell>      
+                            <a tabindex="0" (click)="openSlotBlade(relativeSlotArm.id)">
+                                {{ relativeSlotArm.properties.name }}
                             </a>
                             <div
-                                *ngIf="group.controls['isProdSlot'].value"
+                                *ngIf="relativeSlotArm.type === 'Microsoft.Web/sites'"
                                 class="pill">
                                 PROD
                             </div>
                         </td>
                     
                         <td class="one-quarter-col padded-col" table-cell>
-                            {{ group.controls['state'].value }}
+                            {{ relativeSlotArm.properties.state }}
                         </td>
                 
                         <td class="one-quarter-col padded-col" table-cell>
-                            {{ group.controls['serverFarm'].value }}
+                            {{ getSegment(relativeSlotArm.properties.serverFarmId, 8) }}
                         </td>
                 
                         <td class="one-quarter-col padded-col" table-cell [editable]="true">
                             <div class="pct-wrapper">
-                                <!--<click-to-edit [group]="group" name="pct">-->
-                                    <textbox
-                                        [control]="group.controls['pct']"
-                                        [placeholder]="0"
-                                        (value)="computeLeftoverPct()">
-                                    </textbox>
-                                <!--</click-to-edit>-->
+                                <textbox
+                                    [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[relativeSlotArm.name] : null"
+                                    [placeholder]="0"
+                                    [highlightDirty]="true"
+                                    (value)="computeLeftoverPct()">
+                                </textbox>
                             </div>
                         </td>
             
@@ -164,26 +162,26 @@
             
                     <!-- Placeholder/Message Row -->
                     <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-                    <tr *ngIf="!mainForm?.controls['slotsGroupArray'] || mainForm?.controls['slotsGroupArray'].controls.length === 0" table-row>
+                    <tr *ngIf="!relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
             
-                    <!-- ARM call did not return successfully, and user has permissions -->
-                    <!--<td *ngIf="!groupArray && hasWriteAccess" class="message-row" colspan="3" table-cell>
-                        {{ (loadingFailureMessage || loadingMessage) }}
-                    </td>-->
-            
-                    <!-- ARM call did not return successfully, and user doesn't have permissions -->
-                    <!--<td *ngIf="!groupArray && !hasWriteAccess" class="message-row" colspan="3" table-cell>
-                        {{ (showPermissionsMessage) ? permissionsMessage : '' }}
-                    </td>-->
-            
-                    <!-- ARM call returned successfully, but there are no entries to display -->
-                    <!--<td *ngIf="!!groupArray && slotsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell>
-                        {{ ('emptyAppSettings' | translate) }}
-                    </td>-->
+                        <!-- ARM call did not return successfully, and user has permissions -->
+                        <!--<td *ngIf="!groupArray && hasWriteAccess" class="message-row" colspan="3" table-cell>
+                            {{ (loadingFailureMessage || loadingMessage) }}
+                        </td>-->
+                
+                        <!-- ARM call did not return successfully, and user doesn't have permissions -->
+                        <!--<td *ngIf="!groupArray && !hasWriteAccess" class="message-row" colspan="3" table-cell>
+                            {{ (showPermissionsMessage) ? permissionsMessage : '' }}
+                        </td>-->
+                
+                        <!-- ARM call returned successfully, but there are no entries to display -->
+                        <!--<td *ngIf="!!groupArray && slotsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell>
+                            {{ ('emptyAppSettings' | translate) }}
+                        </td>-->
 
-                    <td class="message-row" colspan="3" table-cell>
-                        EMPTY
-                    </td>
+                        <td class="message-row" colspan="4" table-cell>
+                            NO SLOTS
+                        </td>
             
                     </tr>
                 </table-root>

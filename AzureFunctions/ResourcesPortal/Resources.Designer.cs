@@ -8056,6 +8056,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Value must be an decimal in the range of {{min}} to {{max}}.
+        /// </summary>
+        internal static string validation_decimalRangeValueError {
+            get {
+                return ResourceManager.GetString("validation_decimalRangeValueError", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Duplicate values are not allowed.
         /// </summary>
         internal static string validation_duplicateError {
@@ -8079,6 +8088,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string validation_requiredError {
             get {
                 return ResourceManager.GetString("validation_requiredError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sum of routing percentage value of all rules must be less than or equal to 100.0.
+        /// </summary>
+        internal static string validation_routingTotalPctError {
+            get {
+                return ResourceManager.GetString("validation_routingTotalPctError", resourceCulture);
             }
         }
 
