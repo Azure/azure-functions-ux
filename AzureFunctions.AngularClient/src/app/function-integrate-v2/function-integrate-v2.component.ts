@@ -1,10 +1,9 @@
-import { Component, ElementRef, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, Inject, Output, EventEmitter, Injector } from '@angular/core';
 import { BindingList } from '../shared/models/binding-list';
 import { UIFunctionBinding, DirectionType, Action } from '../shared/models/binding';
 import { BindingManager } from '../shared/models/binding-manager';
 import { FunctionInfo, FunctionInfoHelper } from '../shared/models/function-info';
 import { TemplatePickerType } from '../shared/models/template-picker';
-import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalService } from '../shared/services/portal.service';
 import { GlobalStateService } from '../shared/services/global-state.service';
@@ -13,10 +12,9 @@ import { PortalResources } from '../shared/models/portal-resources';
 import { errorIds } from '../shared/models/error-ids';
 import { FunctionsNode } from '../tree-view/functions-node';
 import { DashboardType } from '../tree-view/models/dashboard-type';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { BaseFunctionComponent } from '../shared/components/base-function-component';
+import { ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 
 @Component({
     selector: 'function-integrate-v2',
@@ -38,16 +36,16 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
 
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
-        broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _globalStateService: GlobalStateService,
-        private _functionAppService: FunctionAppService,
-        private _translateService: TranslateService) {
-        super('function-integrate-v2', broadcastService, _functionAppService, () => _globalStateService.setBusyState(), DashboardType.FunctionIntegrateDashboard);
+        private _translateService: TranslateService,
+        injector: Injector) {
+
+        super('function-integrate-v2', injector, DashboardType.FunctionIntegrateDashboard);
     }
 
-    setupNavigation(): Subscription {
-        return this.functionChangedEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .switchMap(view => {
                 if (view.functionInfo.isSuccessful) {
                     try {
@@ -67,8 +65,7 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
                         Observable.of(view));
                 }
             })
-            .do(() => this._globalStateService.clearBusyState())
-            .subscribe(tuple => {
+            .do(tuple => {
                 this.pickerType = TemplatePickerType.none;
 
                 this.currentBinding = null;
@@ -87,9 +84,8 @@ export class FunctionIntegrateV2Component extends BaseFunctionComponent {
                         this.model.setBindings();
                     }
                 }
-            }, null, () => this._globalStateService.clearBusyState());
+            });
     }
-
 
     newBinding(type: 'trigger' | 'in' | 'out' | 'inout') {
         if (!this.checkDirty()) {

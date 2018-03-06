@@ -101,7 +101,7 @@
                          [closeOnClickBackdrop]="false"
                          [showBackdrop]="true">
 
-        <sidebar-picker *ngIf="sidePanelOpened"
+        <extension-checker *ngIf="sidePanelOpened"
                         [functionCard]="createFunctionCard"
                         [functionLanguage]="createFunctionLanguage"
                         [functionsInfo]="functionsInfo"
@@ -109,6 +109,6 @@
                         [functionsNode]="functionsNode"
                         [viewInfo]="viewInfo"
                         (closePanel) ="closeSidePanel()">
-        </sidebar-picker>
+        </extension-checker>
     </ng-sidebar>
 </ng-sidebar-container>

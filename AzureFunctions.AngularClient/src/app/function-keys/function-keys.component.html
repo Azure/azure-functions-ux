@@ -72,7 +72,7 @@
             </tr>
             <tr *ngIf="addingNew" class="not-clickable">
                 <td>
-                    <input #newKeyInput
+                    <input [autofocus]="true"
                         type="text"
                         id="newKeyName"
                         (keyup)="checkValidName($event)"

@@ -1,13 +1,14 @@
-﻿import { HostNameSslState } from '../models/arm/site';
-
-export interface FunctionContainer {
+﻿export interface FunctionContainer {
     id: string;
     name: string;
     type: string;
     kind: string;
     location: string;
     properties: {
-        hostNameSslStates: HostNameSslState[];
+        hostNameSslStates: [{
+            name: string;
+            hostType: number;
+        }];
         sku: string;
         containerSize: number;
         dailyMemoryTimeQuota?: number;
@@ -16,6 +17,6 @@ export interface FunctionContainer {
         state?: string;
         defaultHostName?: string;
         lastModifiedTimeUtc?: string;
-    };
+    }
     tryScmCred?: string;
-};
+}

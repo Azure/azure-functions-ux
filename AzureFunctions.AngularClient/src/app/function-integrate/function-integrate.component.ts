@@ -1,20 +1,18 @@
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import { errorIds } from './../shared/models/error-ids';
-import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, QueryList, OnInit } from '@angular/core';
+import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, QueryList, OnInit, Injector } from '@angular/core';
 import { FunctionInfo } from '../shared/models/function-info';
 import { PortalService } from '../shared/services/portal.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
-import { GlobalStateService } from '../shared/services/global-state.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { MonacoEditorDirective } from '../shared/directives/monaco-editor.directive';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Subscription } from 'rxjs/Subscription';
 import { BaseFunctionComponent } from '../shared/components/base-function-component';
+import { ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 
 @Component({
     selector: 'function-integrate',
@@ -38,21 +36,19 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
     constructor(
         private _portalService: PortalService,
         broadcastService: BroadcastService,
-        private _globalStateService: GlobalStateService,
-        private _functionAppService: FunctionAppService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        injector: Injector
+    ) {
 
-        super('function-integrate', broadcastService, _functionAppService, () => _globalStateService.setBusyState(), DashboardType.FunctionIntegrateDashboard);
+        super('function-integrate', injector, DashboardType.FunctionIntegrateDashboard);
 
         this.isDirty = false;
         this.onResize();
     }
 
-
-    setupNavigation(): Subscription {
-        return this.functionChangedEvents
-            .do(() => this._globalStateService.clearBusyState())
-            .subscribe(view => {
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
+            .do(view => {
                 this.disabled = this._functionAppService.getFunctionAppEditMode(view.context).map(r => {
                     if (r.isSuccessful) {
                         return EditModeHelper.isReadOnly(r.result);
@@ -98,12 +94,12 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
             try {
                 this.configContent = this._currentContent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
-                this._globalStateService.setBusyState();
+                this.setBusy();
                 this._functionAppService.updateFunction(this.context, this._selectedFunction)
                     .subscribe(() => {
                         this._originalContent = this.configContent;
                         this.clearDirty();
-                        this._globalStateService.clearBusyState();
+                        this.clearBusy();
                         this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
                     });
                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, errorIds.errorParsingConfig);

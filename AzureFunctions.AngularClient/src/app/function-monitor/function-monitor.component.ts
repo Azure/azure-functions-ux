@@ -1,24 +1,20 @@
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
-import { LogCategories, ScenarioIds } from './../shared/models/constants';
+import { ScenarioIds } from './../shared/models/constants';
 import { Constants } from 'app/shared/models/constants';
-import { LogService } from './../shared/services/log.service';
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-
 import { FunctionInfo } from '../shared/models/function-info';
 import { FunctionMonitorService } from '../shared/services/function-monitor.service';
 import { FunctionInvocations } from '../shared/models/function-monitor';
-
-import { GlobalStateService } from '../shared/services/global-state.service';
 import { PortalResources } from '../shared/models/portal-resources';
 import { PortalService } from './../shared/services/portal.service';
 import { CacheService } from './../shared/services/cache.service';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
-import { Subscription } from 'rxjs/Subscription';
-import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { BaseFunctionComponent } from '../shared/components/base-function-component';
+import { ExtendedTreeViewInfo } from '../shared/components/navigable-component';
+import { GlobalStateService } from '../shared/services/global-state.service';
 
 declare const moment: any;
 
@@ -49,11 +45,11 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
         private _portalService: PortalService,
         private _cacheService: CacheService,
         broadcastService: BroadcastService,
-        private _functionAppService: FunctionAppService,
-        private _logService: LogService,
-        private _scenarioService: ScenarioService
+        private _scenarioService: ScenarioService,
+        injector: Injector
     ) {
-        super('function-monitor', broadcastService, _functionAppService, () => globalStateService.setBusyState(), DashboardType.FunctionMonitorDashboard);
+        super('function-monitor', injector, DashboardType.FunctionMonitorDashboard);
+
         this.columns = [
             {
                 display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn), // The display text
@@ -78,11 +74,10 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
         ];
     }
 
-    setupNavigation(): Subscription {
-        return this.functionChangedEvents
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
+        return super.setup(navigationEvents)
             .switchMap(fi => {
                 this.currentFunction = fi.functionInfo.result;
-                this.globalStateService.setBusyState();
 
                 this.aiEnabled = this._scenarioService.checkScenario(ScenarioIds.enableAppInsights).status !== 'disabled';
 
@@ -127,16 +122,11 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
                             : Observable.of([]);
                     });
             })
-            .do(null, (e) => {
-                this._logService.error(LogCategories.FunctionMonitor, '/function-monitor/selected-function-stream', e);
-                this.globalStateService.clearBusyState();
-            })
-            .subscribe(result => {
-                this.globalStateService.clearBusyState();
+            .do(result => {
                 if (result) {
                     this.rows = result;
                 }
-            }, null, () => this.globalStateService.clearBusyState());
+            });
     }
 
     openAppInsigthsBlade() {

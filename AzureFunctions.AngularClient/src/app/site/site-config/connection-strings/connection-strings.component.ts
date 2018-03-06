@@ -1,22 +1,18 @@
+import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories } from './../../../shared/models/constants';
 import { errorIds } from 'app/shared/models/error-ids';
-import { Injector } from '@angular/core';
-import { FeatureComponent } from 'app/shared/components/feature-component';
-import { Response } from '@angular/http';
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 import { SlotConfigNames } from './../../../shared/models/arm/slot-config-names';
 import { ConnectionStringType, ConnectionStrings } from './../../../shared/models/arm/connection-strings';
 import { EnumEx } from './../../../shared/Utilities/enumEx';
-import { SaveOrValidationResult } from './../site-config.component';
 import { PortalResources } from './../../../shared/models/portal-resources';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { CustomFormControl, CustomFormGroup } from './../../../controls/click-to-edit/click-to-edit.component';
-import { ArmObj, ArmObjMap, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { CacheService } from './../../../shared/services/cache.service';
+import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { UniqueValidator } from 'app/shared/validators/uniqueValidator';
 import { RequiredValidator } from 'app/shared/validators/requiredValidator';
@@ -27,7 +23,7 @@ import { SiteService } from 'app/shared/services/site.service';
     templateUrl: './connection-strings.component.html',
     styleUrls: ['./../site-config.component.scss']
 })
-export class ConnectionStringsComponent extends FeatureComponent<ResourceId> implements OnChanges, OnDestroy {
+export class ConnectionStringsComponent extends ConfigSaveComponent implements OnChanges, OnDestroy {
     @Input() mainForm: FormGroup;
     @Input() resourceId: ResourceId;
 
@@ -42,22 +38,18 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
     public newItem: CustomFormGroup;
     public originalItemsDeleted: number;
 
-    private _saveError: string;
     private _requiredValidator: RequiredValidator;
     private _uniqueCsValidator: UniqueValidator;
-    private _connectionStringsArm: ArmObj<ConnectionStrings>;
-    private _slotConfigNamesArm: ArmObj<SlotConfigNames>;
     private _slotConfigNamesArmPath: string;
 
     constructor(
-        private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _translateService: TranslateService,
         private _siteService: SiteService,
         private _logService: LogService,
         injector: Injector
     ) {
-        super('ConnectionStringsComponent', injector, 'site-tabs');
+        super('ConnectionStringsComponent', injector, ['ConnectionStrings', 'SlotConfigNames'], 'site-tabs');
 
         this._resetPermissionsAndLoadingState();
 
@@ -65,13 +57,17 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
         this.originalItemsDeleted = 0;
     }
 
+    protected get _isPristine() {
+        return this.groupArray && this.groupArray.pristine;
+    }
+
     protected setup(inputEvents: Observable<ResourceId>) {
         return inputEvents
             .distinctUntilChanged()
             .switchMap(() => {
-                this._saveError = null;
-                this._connectionStringsArm = null;
-                this._slotConfigNamesArm = null;
+                this._saveFailed = false;
+                this._resetSubmittedStates();
+                this._resetConfigs();
                 this.groupArray = null;
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
@@ -103,9 +99,9 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
                         this.loadingMessage = null;
                         this.showPermissionsMessage = true;
                     } else {
-                        this._connectionStringsArm = csResult.result;
-                        this._slotConfigNamesArm = slotNamesResult.result;
-                        this._setupForm(this._connectionStringsArm, this._slotConfigNamesArm);
+                        this.connectionStringsArm = csResult.result;
+                        this.slotConfigNamesArm = slotNamesResult.result;
+                        this._setupForm(this.connectionStringsArm, this.slotConfigNamesArm);
                     }
                 }
 
@@ -119,13 +115,8 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
             this.setInput(this.resourceId);
         }
         if (changes['mainForm'] && !changes['resourceId']) {
-            this._setupForm(this._connectionStringsArm, this._slotConfigNamesArm);
+            this._setupForm(this.connectionStringsArm, this.slotConfigNamesArm);
         }
-    }
-
-    ngOnDestroy(): void {
-        super.ngOnDestroy();
-        this.clearBusy();
     }
 
     private _resetPermissionsAndLoadingState() {
@@ -150,7 +141,7 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
 
     private _setupForm(connectionStringsArm: ArmObj<ConnectionStrings>, slotConfigNamesArm: ArmObj<SlotConfigNames>) {
         if (!!connectionStringsArm && !!slotConfigNamesArm) {
-            if (!this._saveError || !this.groupArray) {
+            if (!this._saveFailed || !this.groupArray) {
                 this.newItem = null;
                 this.originalItemsDeleted = 0;
                 this.groupArray = this._fb.array([]);
@@ -207,10 +198,11 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
             }
         }
 
-        this._saveError = null;
+        this._saveFailed = false;
+        this._resetSubmittedStates();
     }
 
-    validate(): SaveOrValidationResult {
+    validate() {
         const groups = this.groupArray.controls;
 
         // Purge any added entries that were never modified
@@ -225,11 +217,6 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
         }
 
         this._validateAllControls(groups as CustomFormGroup[]);
-
-        return {
-            success: this.groupArray.valid,
-            error: this.groupArray.valid ? null : this._validationFailureMessage()
-        };
     }
 
     private _validateAllControls(groups: CustomFormGroup[]) {
@@ -243,113 +230,62 @@ export class ConnectionStringsComponent extends FeatureComponent<ResourceId> imp
         });
     }
 
-    getConfigForSave(): ArmObjMap {
-        // Prevent unnecessary PUT call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return null;
-        } else {
-            const configObjects: ArmObjMap = {
-                objects: {}
-            };
+    protected _getConfigsFromForms(saveConfigs: ArmSaveConfigs): ArmSaveConfigs {
+        const connectionStringsArm: ArmObj<ConnectionStrings> = (saveConfigs && saveConfigs.connectionStringsArm) ?
+            JSON.parse(JSON.stringify(saveConfigs.connectionStringsArm)) : // TODO: [andimarc] not valid scenario - should never be already set
+            JSON.parse(JSON.stringify(this.connectionStringsArm));
+        connectionStringsArm.id = `${this.resourceId}/config/connectionStrings`;
+        connectionStringsArm.properties = {};
 
-            if (this.mainForm.contains('connectionStrings') && this.mainForm.controls['connectionStrings'].valid) {
-                const connectionStringsArm: ArmObj<ConnectionStrings> = JSON.parse(JSON.stringify(this._connectionStringsArm));
-                connectionStringsArm.id = `${this.resourceId}/config/connectionStrings`;
-                connectionStringsArm.properties = {};
+        const slotConfigNamesArm: ArmObj<SlotConfigNames> = (saveConfigs && saveConfigs.slotConfigNamesArm) ?
+            JSON.parse(JSON.stringify(saveConfigs.slotConfigNamesArm)) :
+            JSON.parse(JSON.stringify(this.slotConfigNamesArm));
+        slotConfigNamesArm.id = this._slotConfigNamesArmPath;
+        slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
 
-                this._slotConfigNamesArm.id = this._slotConfigNamesArmPath;
-                const slotConfigNamesArm: ArmObj<SlotConfigNames> = JSON.parse(JSON.stringify(this._slotConfigNamesArm));
-                slotConfigNamesArm.properties.connectionStringNames = slotConfigNamesArm.properties.connectionStringNames || [];
+        const connectionStrings: ConnectionStrings = connectionStringsArm.properties;
+        const connectionStringNames: string[] = slotConfigNamesArm.properties.connectionStringNames;
 
-                const connectionStrings: ConnectionStrings = connectionStringsArm.properties;
-                const connectionStringNames: string[] = slotConfigNamesArm.properties.connectionStringNames;
+        let connectionStringsPristine = true;
+        let connectionStringNamesPristine = true;
 
-                let connectionStringsPristine = true;
-                let connectionStringNamesPristine = true;
+        this.groupArray.controls.forEach(group => {
+            if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
+                const controls = (group as CustomFormGroup).controls;
 
-                this.groupArray.controls.forEach(group => {
-                    if ((group as CustomFormGroup).msExistenceState !== 'deleted') {
-                        const controls = (group as CustomFormGroup).controls;
+                const name = controls['name'].value;
 
-                        const name = controls['name'].value;
+                connectionStrings[name] = {
+                    value: controls['value'].value,
+                    type: controls['type'].value
+                };
 
-                        connectionStrings[name] = {
-                            value: controls['value'].value,
-                            type: controls['type'].value
-                        };
+                if (connectionStringsPristine && !group.pristine) {
+                    connectionStringsPristine = controls['name'].pristine && controls['value'].pristine && controls['type'].pristine;
+                }
 
-                        if (connectionStringsPristine && !group.pristine) {
-                            connectionStringsPristine = controls['name'].pristine && controls['value'].pristine && controls['type'].pristine;
-                        }
-
-                        if (group.value.isSlotSetting) {
-                            if (connectionStringNames.indexOf(name) === -1) {
-                                connectionStringNames.push(name);
-                                connectionStringNamesPristine = false;
-                            }
-                        } else {
-                            const index = connectionStringNames.indexOf(name);
-                            if (index !== -1) {
-                                connectionStringNames.splice(index, 1);
-                                connectionStringNamesPristine = false;
-                            }
-                        }
-                    } else {
-                        connectionStringsPristine = false;
+                if (group.value.isSlotSetting) {
+                    if (connectionStringNames.indexOf(name) === -1) {
+                        connectionStringNames.push(name);
+                        connectionStringNamesPristine = false;
                     }
-                })
-
-                if (!connectionStringNamesPristine) {
-                    configObjects['slotConfigNames'] = slotConfigNamesArm;
+                } else {
+                    const index = connectionStringNames.indexOf(name);
+                    if (index !== -1) {
+                        connectionStringNames.splice(index, 1);
+                        connectionStringNamesPristine = false;
+                    }
                 }
-                if (!connectionStringsPristine) {
-                    configObjects['connectionStrings'] = connectionStringsArm;
-                }
-            } else {
-                configObjects.error = this._validationFailureMessage();
             }
+            else {
+                connectionStringsPristine = false;
+            }
+        });
 
-            return configObjects;
-        }
-    }
-
-    save(
-        connectionStringsArm: ArmObj<ConnectionStrings>,
-        slotConfigNamesResponse: Response): Observable<SaveOrValidationResult> {
-
-        // Don't make unnecessary PUT call if these settings haven't been changed
-        if (this.groupArray.pristine) {
-            return Observable.of({
-                success: true,
-                error: null
-            });
-        } else {
-            return Observable.zip(
-                connectionStringsArm ? this._cacheService.putArm(`${this.resourceId}/config/connectionstrings`, null, connectionStringsArm) : Observable.of(null),
-                Observable.of(slotConfigNamesResponse),
-                (c, s) => ({ connectionStringsResponse: c, slotConfigNamesResponse: s })
-            )
-                .map(r => {
-                    this._connectionStringsArm = r.connectionStringsResponse ? r.connectionStringsResponse.json() : this._connectionStringsArm;
-                    this._slotConfigNamesArm = r.slotConfigNamesResponse ? r.slotConfigNamesResponse.json() : this._slotConfigNamesArm;
-                    return {
-                        success: true,
-                        error: null
-                    };
-                })
-                .catch(error => {
-                    this._saveError = error._body;
-                    return Observable.of({
-                        success: false,
-                        error: error._body
-                    });
-                });
-        }
-    }
-
-    private _validationFailureMessage(): string {
-        const configGroupName = this._translateService.instant(PortalResources.connectionStrings);
-        return this._translateService.instant(PortalResources.configUpdateFailureInvalidInput, { configGroupName: configGroupName });
+        return {
+            connectionStringsArm: connectionStringsPristine ? null : connectionStringsArm,
+            slotConfigNamesArm: connectionStringNamesPristine ? null : slotConfigNamesArm
+        };
     }
 
     deleteItem(group: FormGroup) {

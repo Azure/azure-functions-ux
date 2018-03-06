@@ -1,37 +1,30 @@
-import { ArmSiteDescriptor } from './../resourceDescriptors';
-import { BroadcastService } from 'app/shared/services/broadcast.service';
+import { Injector } from '@angular/core';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { Observable } from 'rxjs/Observable';
-import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
-import { FunctionDescriptor } from 'app/shared/resourceDescriptors';
 import { FunctionAppContext } from 'app/shared/function-app-context';
-import { FunctionInfo } from 'app/shared/models/function-info';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { HttpResult } from 'app/shared/models/http-result';
-import { NavigableComponent } from './navigable-component';
-
-type FunctionChangedEventsType = Observable<TreeViewInfo<SiteData> & {
-    siteDescriptor: ArmSiteDescriptor;
-    functionDescriptor: FunctionDescriptor;
-    context: FunctionAppContext;
-    functionInfo: HttpResult<FunctionInfo>;
-}>;
+import { NavigableComponent, ExtendedTreeViewInfo } from './navigable-component';
 
 export abstract class BaseFunctionComponent extends NavigableComponent {
     public context: FunctionAppContext;
-    public viewInfo: TreeViewInfo<SiteData>;
-    protected functionChangedEvents: FunctionChangedEventsType;
 
-    constructor(componentName: string, broadcastService: BroadcastService, functionAppService: FunctionAppService, setBusy: Function, dashboardType: DashboardType) {
-        super(componentName, broadcastService, dashboardType);
-        this.functionChangedEvents = this.navigationEvents
-            .do(() => setBusy())
-            .switchMap(viewInfo => Observable.zip(
-                functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()),
-                Observable.of(viewInfo)
-            ))
+    protected _functionAppService: FunctionAppService;
+
+    constructor(componentName: string, injector: Injector, dashboardType: DashboardType) {
+
+        super(componentName, injector, dashboardType);
+        this._functionAppService = injector.get(FunctionAppService);
+    }
+
+    setup(navigationEvents: Observable<ExtendedTreeViewInfo>) {
+        return super.setup(navigationEvents)
+            .switchMap(viewInfo => {
+                return Observable.zip(
+                    this._functionAppService.getAppContext(viewInfo.siteDescriptor.getTrimmedResourceId()),
+                    Observable.of(viewInfo));
+            })
             .switchMap(tuple => Observable.zip(
-                functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
+                this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
                 Observable.of(tuple[0]),
                 Observable.of(tuple[1])
             ))
@@ -44,4 +37,5 @@ export abstract class BaseFunctionComponent extends NavigableComponent {
                 this.context = v.context;
             });
     }
+
 }

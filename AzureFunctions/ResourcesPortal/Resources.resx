@@ -2021,7 +2021,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Your app is currently in read-only mode because you have published a generated function.json. Changes made to function.json will not be honored by the Functions runtime. </value>
   </data>
   <data name="readWriteGeneratedBy" xml:space="preserve">
-    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having a generated function.json. Any changes you make may get overwritten with your next deployment. To change edit mode visit </value>
+    <value>Your app is currently in read\write mode because you've set the edit mode to read\write despite having a generated function.json. Changes made to function.json will not be honored by the Functions runtime.</value>
   </data>
   <data name="copypre_copy" xml:space="preserve">
     <value>Copy</value>
@@ -2034,15 +2034,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="keysDialog_url" xml:space="preserve">
     <value>URL</value>
-  </data>
-  <data name="keysDialog_domain" xml:space="preserve">
-    <value>Available Domains</value>
-  </data>
-  <data name="keysDialog_warning" xml:space="preserve">
-    <value>Warning: the selected domain doesn't have an associated TLS/SSL certificate.</value>
-  </data>
-  <data name="keysDialog_noHttps" xml:space="preserve">
-    <value>no https</value>
   </data>
   <data name="downloadFunctionAppContent" xml:space="preserve">
     <value>Download app content</value>

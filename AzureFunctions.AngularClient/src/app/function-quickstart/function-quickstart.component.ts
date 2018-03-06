@@ -22,6 +22,7 @@ import { FunctionAppContextComponent } from 'app/shared/components/function-app-
 import { Subscription } from 'rxjs/Subscription';
 import { KeyCodes } from '../shared/models/constants';
 import { Dom } from '../shared/Utilities/dom';
+import { Observable } from 'rxjs/Observable';
 
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
@@ -40,6 +41,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
     showJavaSplashPage = false;
     setShowJavaSplashPage = new Subject<boolean>();
     templateTypeOptions: TemplateType[] = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
+    runtimeVersion: string;
 
     private functionsNode: FunctionsNode;
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
@@ -69,15 +71,18 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
         return this.viewInfoEvents
             .switchMap(r => {
                 this.functionsNode = r.node as FunctionsNode;
-                return this._functionAppService.getFunctions(this.context);
+                return Observable.zip(
+                    this._functionAppService.getFunctions(this.context),
+                    this._functionAppService.getRuntimeGeneration(this.context));
             })
             .do(null, e => {
                 this._aiService.trackException(e, '/errors/function-quickstart');
                 console.error(e);
             })
-            .subscribe(fcs => {
+            .subscribe(tuple => {
                 this._globalStateService.clearBusyState();
-                this.functionsInfo = fcs.result;
+                this.functionsInfo = tuple[0].result;
+                this.runtimeVersion = tuple[1];
             });
     }
 
@@ -166,9 +171,9 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                                     }
                                     this._globalStateService.clearBusyState();
                                 },
-                                () => {
-                                    this._globalStateService.clearBusyState();
-                                });
+                                    () => {
+                                        this._globalStateService.clearBusyState();
+                                    });
                         } catch (e) {
                             this.showComponentError({
                                 message: this._translateService.instant(PortalResources.functionCreateErrorDetails, { error: JSON.stringify(e) }),

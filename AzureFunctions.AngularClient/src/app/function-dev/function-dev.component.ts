@@ -34,7 +34,6 @@ import { HttpRunModel } from '../shared/models/http-run';
 import { FunctionKeys } from '../shared/models/function-key';
 import { MonacoHelper } from '../shared/Utilities/monaco.helper';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
-import { HostNameSslState } from '../shared/models/arm/site';
 
 type FileSelectionEvent = VfsObject | [VfsObject, monaco.editor.IMarkerData[], monaco.editor.IMarkerData];
 
@@ -83,7 +82,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     public expandLogs = false;
     public functionKeys: FunctionKeys;
     public hostKeys: FunctionKeys;
-    public selectedKey: string;
     public masterKey: string;
     public isStandalone: boolean;
     public inTab: boolean;
@@ -92,19 +90,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     public selectedFileStream: Subject<FileSelectionEvent>;
     public functionKey: string;
 
-    public domainsNoSSL: Array<HostNameSslState>;
-    public domainsWithSSL: Array<HostNameSslState>;
-
-    public selectedDomain: HostNameSslState;
-    public isHttps: boolean;
-    public showDomains: boolean;
-    public displayDomain: string;
-    public displayPath: string;
-    public loading: string;
-
-    public focusSelectKeys: boolean = false;
-
-    private defaultDomain: HostNameSslState;
     public bottomBarExpanded: boolean;
     public rightBarExpanded: boolean;
 
@@ -112,7 +97,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
 
     private updatedContent: string;
     private updatedTestContent: string;
-
     private _disableTestDataAfterViewInit = false;
 
     constructor(broadcastService: BroadcastService,
@@ -124,7 +108,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         private cd: ChangeDetectorRef) {
         super('function-dev', _functionAppService, broadcastService, () => _globalStateService.setBusyState());
 
-        this.loading = this._translateService.instant(PortalResources.functionDev_loading);
+        this.functionInvokeUrl = this._translateService.instant(PortalResources.functionDev_loading);
         this.isStandalone = configService.isStandalone();
         this.inTab = PortalService.inTab();
 
@@ -276,7 +260,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     } else {
                         delete this.authLevel;
                     }
-                    this.updateKeysAndDomains();
+                    this.updateKeys();
 
                     this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
                     this.isEventGridFunction = BindingManager.isEventGridFunction(this.functionInfo);
@@ -351,6 +335,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.functionUpdate.unsubscribe();
         this.selectedFileStream.unsubscribe();
         if (this.logStreamings) {
@@ -374,9 +359,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     }
 
     ngAfterViewChecked() {
-        if (this.showFunctionInvokeUrlModal && this.focusSelectKeys) {
+        if (this.showFunctionInvokeUrlModal) {
             this.selectKeys.nativeElement.focus();
-            this.focusSelectKeys = false;
         }
     }
 
@@ -399,7 +383,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                 });
         }
     }
-    private setFunctionInvokeUrl(key?: string, domain?: HostNameSslState) {
+
+    private setFunctionInvokeUrl(key?: string) {
         if (this.isHttpFunction) {
 
             // No webhook https://xxx.azurewebsites.net/api/HttpTriggerCSharp1?code=[keyvalue]
@@ -460,12 +445,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     path = path.replace(re, '/');
                     path = path.replace('/?', '?') + queryParams;
 
-                    if (!domain) {
-                        domain = this.defaultDomain
-                    }
-                    this.displayDomain = 'https://' + domain.name;
-                    this.displayPath = path;
-
+                    this.functionInvokeUrl = this.context.mainSiteUrl + path;
                     this.runValid = true;
                 });
         } else {
@@ -566,22 +546,32 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         this._globalStateService.setBusyState();
         this.saveTestData();
 
-        if (this.runHttp) {
-            if (!this.runHttp.valid) {
-                this._globalStateService.clearBusyState();
-                this.runValid = false;
-                return;
+        const run = () => {
+            if (this.isHttpFunction && !this.runHttp) {
+                // if this is an http function, but the <run-http> component isn't
+                // ready yet, give it some more time to load.
+                // this.clickRightTab('run') above should cause it to load eventually.
+                setTimeout(() => run(), 100);
+            } else {
+                if (this.runHttp) {
+                    if (!this.runHttp.valid) {
+                        this._globalStateService.clearBusyState();
+                        this.runValid = false;
+                        return;
+                    }
+
+                    if (this.httpRunLogs) {
+                        this.httpRunLogs.clearLogs();
+                    }
+                    this.runFunctionInternal();
+
+                } else {
+                    this.runFunctionInternal();
+                }
             }
+        };
 
-            if (this.httpRunLogs) {
-                this.httpRunLogs.clearLogs();
-            }
-            this.runFunctionInternal();
-
-        } else {
-            this.runFunctionInternal();
-        }
-
+        run();
     }
 
     cancelCurrentRun() {
@@ -621,7 +611,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     }
 
     onRunValid(runValid: any) {
-        this.runValid = runValid && this.displayDomain !== '' && this.displayPath !== '';
+        this.runValid = runValid && this.functionInvokeUrl !== this._translateService.instant(PortalResources.functionDev_loading);
     }
 
     setShowFunctionInvokeUrlModal(value: boolean) {
@@ -629,10 +619,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         if (allKeys.length > 0) {
             this.onChangeKey(allKeys[0].value);
         }
-        if (this.defaultDomain) {
-            this.onChangeDomain(this.defaultDomain.name);
-        }
         this.showFunctionInvokeUrlModal = value;
+
     }
 
     setShowFunctionKeyModal(value: boolean) {
@@ -653,16 +641,8 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
     }
 
     onChangeKey(key: string) {
-        this.focusSelectKeys = true;
-        this.selectedKey = key;
-        this.setFunctionInvokeUrl(this.selectedKey, this.selectedDomain);
+        this.setFunctionInvokeUrl(key);
         this.setFunctionKey(this.functionInfo);
-    }
-
-    onChangeDomain(domain: string) {
-        this.selectedDomain = this.domainsNoSSL.concat(this.domainsWithSSL).concat(this.defaultDomain).find(d => d.name === domain);
-        this.isHttps = this.selectedDomain.sslState === 'Enabled' || this.defaultDomain.name === this.selectedDomain.name;
-        this.setFunctionInvokeUrl(this.selectedKey, this.selectedDomain);
     }
 
     onEventGridSubscribe() {
@@ -722,7 +702,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
             this.saveScript().add(() => setTimeout(() => this.runFunction(), 1000));
         } else {
             const result = (this.runHttp)
-                ? this._functionAppService.runHttpFunction(this.context, this.functionInfo, this.displayDomain + this.displayPath, this.runHttp.model)
+                ? this._functionAppService.runHttpFunction(this.context, this.functionInfo, this.functionInvokeUrl, this.runHttp.model)
                 : this._functionAppService.runFunction(this.context, this.functionInfo, this.getTestData());
 
             this.running = result
@@ -740,27 +720,14 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         }
     }
 
-    private updateKeysAndDomains() {
+    private updateKeys() {
         Observable.zip(
             this._functionAppService.getFunctionKeys(this.context, this.functionInfo),
-            this._functionAppService.getHostKeys(this.context),
-            this._functionAppService.getDomains(this.context),
-            this._functionAppService.getDefaultHostName(this.context)
+            this._functionAppService.getHostKeys(this.context)
         )
             .subscribe(tuple => {
                 this.functionKeys = tuple[0].isSuccessful ? tuple[0].result : { keys: [], links: [] };
                 this.hostKeys = tuple[1].isSuccessful ? tuple[1].result : { keys: [], links: [] };
-                this.defaultDomain = tuple[2].find(domain => domain.name === tuple[3]);
-                this.selectedDomain = this.defaultDomain;
-                this.domainsNoSSL = tuple[2]
-                    .filter(domain => domain.sslState === 'Disabled')
-                    .filter(domain => domain.hostType === 'Standard')
-                    .filter(domain => domain.name !== this.defaultDomain.name) || [];
-                this.domainsWithSSL = tuple[2]
-                    .filter(domain => domain.sslState === 'Enabled')
-                    .filter(domain => domain.hostType === 'Standard')
-                    .filter(domain => domain.name !== this.defaultDomain.name) || [];
-                this.showDomains = this.domainsNoSSL.length + this.domainsWithSSL.length >= 1;
 
                 if (this.authLevel && this.authLevel.toLowerCase() === 'admin') {
                     const masterKey = this.hostKeys.keys.find((k) => k.name === '_master');
@@ -771,9 +738,6 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
                     const allKeys = this.functionKeys.keys.concat(this.hostKeys.keys);
                     if (allKeys.length > 0) {
                         this.onChangeKey(allKeys[0].value);
-                    }
-                    if (this.defaultDomain) {
-                        this.onChangeDomain(this.defaultDomain.name);
                     }
                 }
             });

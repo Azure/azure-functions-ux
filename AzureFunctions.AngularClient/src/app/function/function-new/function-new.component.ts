@@ -1,4 +1,4 @@
-import { LogCategories, Order, Regex, KeyCodes } from './../../shared/models/constants';
+import { LogCategories, Order, Regex, KeyCodes, ScenarioIds } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
@@ -22,6 +22,7 @@ import { Observable } from 'rxjs/Observable';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
+import { ScenarioService } from '../../shared/services/scenario/scenario.service';
 
 interface CategoryOrder {
     name: string;
@@ -124,6 +125,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     constructor(
         @Inject(ElementRef) elementRef: ElementRef,
         _broadcastService: BroadcastService,
+        private _scenarioService: ScenarioService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
         private _logService: LogService,
@@ -192,6 +194,10 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 tuple[0].result.forEach((template) => {
 
                     if (template.metadata.visible === false) {
+                        return;
+                    }
+
+                    if (template.function.bindings.find(b => this.bindingDisabled(b.type))) {
                         return;
                     }
 
@@ -710,5 +716,10 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
         if (event.keyCode === KeyCodes.enter) {
             this.quickstart();
         }
+    }
+
+    bindingDisabled(bindingType: string): boolean {
+        const data = this._scenarioService.checkScenario(ScenarioIds.disabledBindings).data;
+        return data && data.find((p) => p === bindingType);
     }
 }
