@@ -3,7 +3,7 @@ import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 //import { Subject } from 'rxjs/Subject';
 //import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/map';
@@ -29,7 +29,7 @@ import { LogService } from 'app/shared/services/log.service';
 import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { DecimalRangeValidator } from 'app/shared/validators/decimalRangeValidator';
-import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
+//import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
 //import { FormArray } from '@angular/forms/src/model';
 
 @Component({
@@ -53,7 +53,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     public hasWriteAccess: boolean;
     public hasSwapAccess: boolean;
 
-    public leftoverPct: string;
     public swapControlsOpen: boolean;
 
     public dirtyMessage: string;
@@ -116,7 +115,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             .subscribe(r => {
                 this.clearBusy();
                 this._logService.debug(LogCategories.siteConfig, `Scale up ${r ? 'succeeded' : 'cancelled'}`);
-                setTimeout(() => { this.refresh(); });
+                setTimeout(_ => { this.refresh(); });
             },
             e => {
                 this.clearBusy();
@@ -146,8 +145,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 this.hasSwapAccess = false;
 
                 this.swapControlsOpen = false;
-
-                this.leftoverPct = null;
 
                 this.siteArm = null;
                 this.relativeSlotsArm = null;
@@ -205,9 +202,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
                 if (this._swapMode) {
                     this._swapMode = false;
-
                     if (success) {
-                        setTimeout(() => { this.showSwapControls(); });
+                        setTimeout(_ => { this.showSwapControls(); });
                     }
                 }
 
@@ -250,15 +246,18 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
             this.mainForm = this._fb.group({});
 
-            //const rulesGroup = this._fb.group({});
-            const routingSumValidator = new RoutingSumValidator();
-            const rulesGroup = this._fb.group({}, { validator: routingSumValidator.validate.bind(routingSumValidator) });
+            //const routingSumValidator = new RoutingSumValidator();
+            //const rulesGroup = this._fb.group({}, { validator: routingSumValidator.validate.bind(routingSumValidator) });
 
+            const leftoverPct = this._fb.control({ value: '', disabled: true });
+
+            const rulesGroup = this._fb.group({});
             this.relativeSlotsArm.forEach(siteArm => {
                 const rulteControl = this._generateRuleControl(siteArm);
                 rulesGroup.addControl(siteArm.name, rulteControl);
             })
 
+            this.mainForm.addControl('leftoverPct', leftoverPct);
             this.mainForm.addControl('rulesGroup', rulesGroup);
 
         } else {
@@ -371,39 +370,49 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     }
 
     public computeLeftoverPct() {
-        let leftoverPct = null;
-
-        /*
-        if (this.mainForm && this.mainForm.controls['slotsGroupArray'] && this.mainForm.controls['slotsGroupArray'].valid) {
-            let leftoverPctValue = 100;
-
-            (this.mainForm.controls['slotsGroupArray'] as FormArray).controls.forEach(g => {
-                const pct = (g as FormGroup).controls['pct'].value;
-                leftoverPctValue = leftoverPctValue - pct;
-            })
-
-            if (leftoverPctValue >= 0) {
-                leftoverPct = leftoverPctValue.toString();
-            }
-        }
-        */
-
-        if (this.mainForm && this.mainForm.controls['rulesGroup'] && this.mainForm.controls['rulesGroup'].valid) {
-            let leftoverPctValue = 100;
+        if (this.mainForm) {
+            let routingPctVal: number = NaN;
 
             const rulesGroup: FormGroup = (this.mainForm.controls['rulesGroup'] as FormGroup);
-
-            for (const name in rulesGroup.controls) {
-                const pct = rulesGroup.controls[name].value;
-                leftoverPctValue = leftoverPctValue - pct;
+            if (rulesGroup) {
+                routingPctVal = 0.0;
+                for (const name in rulesGroup.controls) {
+                    const pct = (rulesGroup.controls[name].value as string) || '0';
+                    const pctVal = Number.parseFloat(pct);
+                    routingPctVal = routingPctVal + pctVal;
+                }
             }
 
-            if (leftoverPctValue >= 0) {
-                leftoverPct = leftoverPctValue.toString();
-            }
+            const errors: ValidationErrors = (routingPctVal > 100.0) ?
+                { "routingSumOverLimig": "Sum of routing percentage value of all rules must be less than or equal to 100.0" } : null;
+
+            const leftoverPctVal = 100.0 - routingPctVal;
+            const leftoverPct = (leftoverPctVal >= 0.0 && leftoverPctVal <= 100.0) ? leftoverPctVal.toString() : '';
+
+            this._addControlOrSetValue(this.mainForm, 'leftoverPct', leftoverPct, true);
+
+            this.mainForm.controls['leftoverPct'].setErrors(errors);
+        }
+    }
+
+    private _addControlOrSetValue(group: FormGroup, controlName: string, controlValue: any, disabled: boolean = false) {
+        let control = group.get(controlName);
+        if (control) {
+            control.setValue(controlValue);
+        } else {
+            group.addControl(controlName, this._fb.control({ value: controlValue, disabled: false }));
         }
 
-        this.leftoverPct = leftoverPct;
+        control = group.get(controlName);
+        if (control.disabled !== disabled) {
+            setTimeout(_ => {
+                if (disabled) {
+                    control.disable();
+                } else {
+                    control.enable();
+                }
+            });
+        }
     }
 
     public showSwapControls() {

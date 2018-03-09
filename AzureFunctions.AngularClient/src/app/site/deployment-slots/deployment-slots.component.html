@@ -132,9 +132,16 @@
                 
                         <td class="one-quarter-col padded-col" table-cell>
                             <div class="pct-wrapper">
+                                <!--
                                 <textbox
                                     readonly="true"
                                     [placeholder]="leftoverPct || 'NaN'">
+                                </textbox>
+                                -->
+                                <textbox
+                                    readonly="true"
+                                    [control]="mainForm ? mainForm.controls['leftoverPct'] : null"
+                                    [placeholder]="">
                                 </textbox>
                             </div>
                         </td>
