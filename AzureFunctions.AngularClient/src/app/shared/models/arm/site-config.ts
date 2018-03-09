@@ -31,4 +31,5 @@ export interface SiteConfig {
     experiments: {
         rampUpRules: RoutingRule[];
     }
+    siteAuthEnabled: boolean;
 }

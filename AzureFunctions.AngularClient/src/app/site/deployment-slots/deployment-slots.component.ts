@@ -35,10 +35,19 @@ import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
 @Component({
     selector: 'deployment-slots',
     templateUrl: './deployment-slots.component.html',
-    styleUrls: ['./deployment-slots.component.scss']
+    styleUrls: ['./deployment-slots.component.scss', './common.scss']
 })
 export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
     public Resources = PortalResources;
+    public viewInfo: TreeViewInfo<SiteData>;
+    public resourceId: ResourceId;
+
+    public loadingFailed: boolean;
+    public fetchingContent: boolean;
+    public fetchingPermissions: boolean;
+    public keepVisible: boolean;
+
+    public featureSupported: boolean;
 
     public mainForm: FormGroup;
     public hasWriteAccess: boolean;
@@ -46,8 +55,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     public leftoverPct: string;
     public swapControlsOpen: boolean;
-    public swapSrc: string;
-    public swapDest: string;
 
     public dirtyMessage: string;
 
@@ -56,7 +63,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     private _siteConfigArm: ArmObj<SiteConfig>;
 
-    private _resourceId: ResourceId;
     private _isSlot: boolean;
 
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -89,32 +95,75 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.isParentComponent = true;
     }
 
+    scaleUp() {
+        this.setBusy();
+
+        const inputs = {
+            aspResourceId: this.siteArm.properties.serverFarmId,
+            aseResourceId: this.siteArm.properties.hostingEnvironmentProfile
+                && this.siteArm.properties.hostingEnvironmentProfile.id
+        };
+
+        const openScaleUpBlade = this._portalService.openCollectorBladeWithInputs(
+            '',
+            inputs,
+            'site-manage',
+            null,
+            'WebsiteSpecPickerV3');
+
+        openScaleUpBlade
+            .first()
+            .subscribe(r => {
+                this.clearBusy();
+                this._logService.debug(LogCategories.siteConfig, `Scale up ${r ? 'succeeded' : 'cancelled'}`);
+                setTimeout(() => { this.refresh(); });
+            },
+            e => {
+                this.clearBusy();
+                this._logService.error(LogCategories.siteConfig, '/scale-up', `Scale up failed: ${e}`);
+            });
+    }
+
+    refresh(keepVisible?: boolean) {
+        this.keepVisible = keepVisible;
+        const viewInfo: TreeViewInfo<SiteData> = JSON.parse(JSON.stringify(this.viewInfo));
+        this.setInput(viewInfo);
+    }
+
     protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
         return inputEvents
             .distinctUntilChanged()
             .switchMap(viewInfo => {
+                this.viewInfo = viewInfo;
+
+                this.loadingFailed = false;
+                this.fetchingContent = true;
+                this.fetchingPermissions = true;
+
+                this.featureSupported = false;
+
                 this.hasWriteAccess = false;
                 this.hasSwapAccess = false;
 
                 this.swapControlsOpen = false;
-                this.swapSrc = null;
-                this.swapDest = null;
+
+                this.leftoverPct = null;
 
                 this.siteArm = null;
                 this.relativeSlotsArm = null;
                 this._siteConfigArm = null;
 
-                const siteDescriptor = new ArmSiteDescriptor(viewInfo.resourceId);
+                const siteDescriptor = new ArmSiteDescriptor(this.viewInfo.resourceId);
 
                 this._isSlot = !!siteDescriptor.slot;
-                this._resourceId = siteDescriptor.getTrimmedResourceId();
+                this.resourceId = siteDescriptor.getTrimmedResourceId();
 
                 const siteResourceId = siteDescriptor.getSiteOnlyResourceId();
 
                 return Observable.zip(
                     this._siteService.getSite(siteResourceId),
                     this._siteService.getSlots(siteResourceId),
-                    this._siteService.getSiteConfig(this._resourceId)
+                    this._siteService.getSiteConfig(this.resourceId)
                 );
             })
             .switchMap(r => {
@@ -136,14 +185,21 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                     this._siteConfigArm = siteConfigResult.result;
 
                     if (this._isSlot) {
-                        this.siteArm = slotsResult.result.value.filter(s => s.id === this._resourceId)[0];
-                        this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id !== this._resourceId);
+                        this.siteArm = slotsResult.result.value.filter(s => s.id === this.resourceId)[0];
+                        this.relativeSlotsArm = slotsResult.result.value.filter(s => s.id !== this.resourceId);
                         this.relativeSlotsArm.unshift(siteResult.result);
                     } else {
                         this.siteArm = siteResult.result;
                         this.relativeSlotsArm = slotsResult.result.value;
                     }
+
+                    const sku = this.siteArm.properties.sku;
+                    this.featureSupported = (sku.toLowerCase() === 'standard' || sku.toLowerCase() === 'premium');
                 }
+
+                this.loadingFailed = !success;
+                this.fetchingContent = false;
+                this.keepVisible = false;
 
                 this._setupForm();
 
@@ -151,7 +207,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                     this._swapMode = false;
 
                     if (success) {
-                        this.showSwapControls();
+                        setTimeout(() => { this.showSwapControls(); });
                     }
                 }
 
@@ -159,9 +215,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
                 if (success) {
                     return Observable.zip(
-                        this._authZService.hasPermission(this._resourceId, [AuthzService.writeScope]),
-                        this._authZService.hasPermission(this._resourceId, [AuthzService.actionScope]),
-                        this._authZService.hasReadOnlyLock(this._resourceId));
+                        this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
+                        this._authZService.hasPermission(this.resourceId, [AuthzService.actionScope]),
+                        this._authZService.hasReadOnlyLock(this.resourceId));
                 } else {
                     return Observable.zip(
                         Observable.of(false),
@@ -171,9 +227,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 }
             })
             .do(r => {
-                const hasWritePermission = r[1];
-                const hasSwapPermission = r[2];
-                const hasReadOnlyLock = r[3];
+                const hasWritePermission = r[0];
+                const hasSwapPermission = r[1];
+                const hasReadOnlyLock = r[2];
 
                 this.hasWriteAccess = hasWritePermission && !hasReadOnlyLock;
 
@@ -184,6 +240,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                         this.hasSwapAccess = this.relativeSlotsArm && this.relativeSlotsArm.length > 0;
                     }
                 }
+
+                this.fetchingPermissions = false;
             });
     }
 
@@ -274,7 +332,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                         }
                     }
 
-                    return this._cacheService.putArm(`${this._resourceId}/config/web`, null, siteConfigArm);
+                    return this._cacheService.putArm(`${this.resourceId}/config/web`, null, siteConfigArm);
                 })
                 .do(null, error => {
                     this.dirtyMessage = null;
@@ -348,22 +406,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.leftoverPct = leftoverPct;
     }
 
-    public showSwapControls(dest?: string) {
-        this.swapControlsOpen = false;
-        //this.swapSrc = this.siteArm.name.split('/').slice(-1)[0];
-        this.swapSrc = this.getSegment(this.siteArm.name, -1);
-        this.swapDest = null;
-
-        dest = dest || this.siteArm.properties.targetSwapSlot;
-        if (!dest && this.relativeSlotsArm) {
-            const destSlot = this.relativeSlotsArm[0];
-            if (destSlot) {
-                //dest = destSlot.name.split('/').slice(-1)[0];
-                dest = this.getSegment(destSlot.name, -1);
-            }
-        }
-
-        this.swapDest = dest;
+    public showSwapControls() {
         this.swapControlsOpen = true;
     }
 

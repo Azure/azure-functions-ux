@@ -1,51 +1,65 @@
-<ng-sidebar-container class="sidebar-container" [animate]="true">
+<div *ngIf="!fetchingContent && !featureSupported" class="scale-up-container">
+
+    <div load-image="image/scale-up.svg" class="icon-large"></div>
+    <div class="scale-up-message">Upgrade to a standard or premium plan to add slots.</div>
+    <div class="slots-description">
+        Deployment slots are live apps with their own hostnames. App content and configuration elements can be swapped between two deployment slots, including the production slot.
+        <a>Learn More</a>
+    </div>
+    <button (click)="scaleUp()" class="custom-button">
+        Upgrade
+    </button>
+
+</div>
+
+<!-- *ngIf="keepVisible || (!fetchingContent && (featureSupported || loadingFailed)" -->
+<ng-sidebar-container
+    *ngIf="keepVisible || featureSupported || loadingFailed"
+    class="sidebar-container"
+    [backdropClass]="'sidebar-backdrop-slot-swap'"
+    [animate]="true">
+
     <div ng-sidebar-content>
         <command-bar>
-            <command displayText="{{ 'addSlot' | translate }}" 
+            <command
+                displayText="{{ 'addSlot' | translate }}" 
                 iconUrl="image/add.svg" 
                 (click)="showAddControls()"
-                [disabled]="!hasWriteAccess"></command>
+                [disabled]="!hasWriteAccess">
+            </command>
         
-            <command displayText="{{ siteArm?.properties.targetSwapSlot ? 'completeSwap' : 'swap' | translate }}"
+            <command
+                displayText="{{ siteArm?.properties.targetSwapSlot ? 'completeSwap' : 'swap' | translate }}"
                 iconUrl="image/swap.svg"
                 (click)="showSwapControls()"
-                [disabled]="!hasWriteAccess || !hasSwapAccess"></command>
+                [disabled]="!hasWriteAccess || !hasSwapAccess">
+            </command>
 
             <command
                 [displayText]="'save' | translate"
                 iconUrl="image/save.svg"
                 (click)="save()"
-                [disabled]="!mainForm || !mainForm.valid || mainForm.pristine || !hasWriteAccess"></command>
+                [disabled]="!mainForm || !mainForm.valid || mainForm.pristine || !hasWriteAccess">
+            </command>
 
             <command
                 [displayText]="'discard' | translate"
                 iconUrl="image/discard.svg"
                 (click)="discard()"
-                [disabled]="!mainForm || mainForm.pristine || !hasWriteAccess"></command>
+                [disabled]="!mainForm || mainForm.pristine || !hasWriteAccess">
+            </command>
 
+            <command
+                [displayText]="'refresh' | translate"
+                iconUrl="image/reset.svg"
+                (click)="refresh(true)"
+                [disabled]="!viewInfo">
+            </command>
         </command-bar>
 
         <div class="config-wrapper">
-
-            <div
-                *ngIf="false"
-                class="scale-up-container">
-                
-                <div load-image="image/scale-up.svg" class="icon-large"></div>
-                <div>Upgrade to a standard or premium plan to add slots.</div>
-                <div>
-                    Deployment slots are live apps with their own hostnames. App content and configuration elements can be swapped between two deployment slots, including the production slot.
-                    <a>Learn More</a>
-                </div>
-                <button>
-                    Upgrade
-                </button>
-            </div>
-            
-            <div
-                *ngIf="!!mainForm"
-                class="config-container"
-                [is-dirty]="mainForm.dirty"
+            <div class="config-container"
+                [is-dirty]="mainForm?.dirty"
                 [is-dirty-message]="dirtyMessage">
 
                 <!--
@@ -75,6 +89,9 @@
                     <div class="underline"></div>
                 </div>
 
+                <!-- TODO: Add loading failure infobox -->
+                <!-- TODO: Add permissions warning infobox -->
+
                 <table-root
                     tblClass="tbl fixed stretch"
                     [name]="Resources.feature_deploymentSlotsName | translate">
@@ -94,7 +111,7 @@
                         </th>
                     </tr>
 
-                    <tr table-row>
+                    <tr *ngIf="siteArm" table-row>
             
                         <td class="one-quarter-col padded-col" table-cell>
                             {{ siteArm ? siteArm.properties.name : '-' }}
@@ -124,12 +141,10 @@
 
                     </tr>
 
-                    <!-- Data/Content Rows -->
-                    <!-- If ARM call returned successfully, 'items' will not be null, so this will loop through and create a row for each app setting returned (if any) -->
-                    <tr *ngFor="let relativeSlotArm of relativeSlotsArm" table-row>
+                    <tr *ngFor="let relativeSlotArm of (siteArm ? relativeSlotsArm : [])" table-row>
             
                         <td class="one-quarter-col padded-col" table-cell>      
-                            <a tabindex="0" (click)="openSlotBlade(relativeSlotArm.id)">
+                            <a tabindex="0" (click)="openSlotBlade(relativeSlotArm.id)" [activate-with-keys]>
                                 {{ relativeSlotArm.properties.name }}
                             </a>
                             <div
@@ -162,25 +177,14 @@
             
                     <!-- Placeholder/Message Row -->
                     <!-- If ARM call did not return successfully or there are no entries to display, display a placeholder row -->
-                    <tr *ngIf="!relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
-            
-                        <!-- ARM call did not return successfully, and user has permissions -->
-                        <!--<td *ngIf="!groupArray && hasWriteAccess" class="message-row" colspan="3" table-cell>
-                            {{ (loadingFailureMessage || loadingMessage) }}
-                        </td>-->
-                
-                        <!-- ARM call did not return successfully, and user doesn't have permissions -->
-                        <!--<td *ngIf="!groupArray && !hasWriteAccess" class="message-row" colspan="3" table-cell>
-                            {{ (showPermissionsMessage) ? permissionsMessage : '' }}
-                        </td>-->
-                
-                        <!-- ARM call returned successfully, but there are no entries to display -->
-                        <!--<td *ngIf="!!groupArray && slotsTable.items.length - originalItemsDeleted === 0" class="message-row" colspan="3" table-cell>
-                            {{ ('emptyAppSettings' | translate) }}
-                        </td>-->
+                    <tr *ngIf="!siteArm || !relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
 
-                        <td class="message-row" colspan="4" table-cell>
-                            NO SLOTS
+                        <td *ngIf="fetchingContent" class="message-row" colspan="4" table-cell>
+                            loading...
+                        </td>
+
+                        <td *ngIf="!fetchingContent" class="message-row" colspan="4" table-cell>
+                            {{ !siteArm ? 'loading failed' : "You haven't added any deployment slots. Click ADD SLOT to get started." }}
                         </td>
             
                     </tr>
@@ -191,100 +195,27 @@
         </div>
     </div>
 
-    <ng-sidebar #sidebar [(opened)]="swapControlsOpen" 
-                [mode]="'over'" 
-                [position]="'right'" 
-                [closeOnClickOutside]="false" 
-                [trapFocus]="false"
-                [autoFocus]="true" 
-                [sidebarClass]="'sidebar-slot-swap'" 
-                [ariaLabel]="'Swap Slot'" 
-                [animate]="true" 
-                [closeOnClickBackdrop]="false" 
-                [showBackdrop]="true">
+    <ng-sidebar
+        #sidebar
+        [(opened)]="swapControlsOpen"
+        [mode]="'over'" 
+        [position]="'right'" 
+        [closeOnClickOutside]="false" 
+        [trapFocus]="false"
+        [autoFocus]="true"
+        [sidebarClass]="'sidebar-slot-swap'"
+        [ariaLabel]="'Swap Slot'"
+        [animate]="true"
+        [closeOnClickBackdrop]="false"
+        [showBackdrop]="true">
 
-                <div *ngIf="swapControlsOpen">
-                    <h1>Swap slots</h1>
+        <div class="flyout-liner">
+            <swap-slots
+                *ngIf="swapControlsOpen"
+                [resourceIdInput]="resourceId"
+                (close)="swapControlsOpen=false">
+            </swap-slots>
+        </div>
 
-                    <div class="slot-drop-down-container">
-                        <div class="slot-drop-down">
-                            <div class="slot-drop-down">
-                                Source
-                            </div>
-                            <select>
-                                <option
-                                    *ngFor="let group of ((mainForm && mainForm.controls['slotsGroupArray']) ? mainForm.controls['slotsGroupArray'].controls : [])"
-                                    [value]="group.controls['name'].value"
-                                    [selected]="group.controls['name'].value === swapSrc">
-                                    {{ group.controls['name'].value }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="slot-drop-down-container">
-                        <div class="slot-drop-down">
-                            <div class="slot-drop-down">
-                                Target
-                            </div>
-                            <select>
-                                <option
-                                    *ngFor="let group of ((mainForm && mainForm.controls['slotsGroupArray']) ? mainForm.controls['slotsGroupArray'].controls : [])"
-                                    [value]="group.controls['name'].value"
-                                    [selected]="group.controls['name'].value === swapDest">
-                                    {{ group.controls['name'].value }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label>
-                            <input type="checkbox">
-                            Perform a multiphase swap
-                        </label>
-                    </div>
-
-                    <div class="phase-container">
-                        <div class="phase-marker phase-current">
-                            <p>1</p>
-                        </div>
-                        <div class="phase-connector">    
-                        </div>
-                        <div class="phase-marker phase-complete">
-                            <p>2</p>
-                        </div>
-                    </div>
-
-                    <button
-                        class="custom-button">
-                        Swap
-                    </button>
-
-                    <button
-                        class="custom-button"
-                        (click)="swapControlsOpen=false">
-                        Cancel
-                    </button>
-
-                    <div>
-                    <h1>Preview changes</h1>
-                        <tbl>
-                            <tr>
-                                <th class="one-quarter-col padded-col" tbl-th>SETTING</th>
-                                <th class="one-quarter-col padded-col" tbl-th>TYPE</th>
-                                <th class="one-quarter-col padded-col" tbl-th>OLD VALUE</th>
-                                <th class="one-quarter-col padded-col" tbl-th>NEW VALUE</th>
-                            </tr>
-                            <tr>
-                                <td class="one-quarter-col padded-col">-</td>
-                                <td class="one-quarter-col padded-col">-</td>
-                                <td class="one-quarter-col padded-col">-</td>
-                                <td class="one-quarter-col padded-col">-</td>
-                            </tr>
-                        </tbl>
-                    </div>
-
-                </div>
     </ng-sidebar>
 </ng-sidebar-container>

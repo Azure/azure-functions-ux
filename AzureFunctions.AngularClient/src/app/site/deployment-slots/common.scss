@@ -1,0 +1,13 @@
+@import '../../../sass/common/variables';
+
+.pill{
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0px 5px 0px 5px;
+    border-radius: 7px;
+    background: $success-color;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: $body-bg-color;
+}
