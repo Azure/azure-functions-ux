@@ -1,8 +1,5 @@
 import axios from 'axios';
-
 import { Request, Response } from 'express';
-
-import * as safeJson from 'circular-json';
 
 interface ProxyRequest {
     body: string;
