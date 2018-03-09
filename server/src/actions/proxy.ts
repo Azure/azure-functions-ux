@@ -23,7 +23,7 @@ export function proxy(req: Request, res: Response) {
         .then(r => res.send(r.data))
         .catch(e => {
             if (e.response && e.response.status) {
-                res.status(e.response.status).send();
+                res.status(e.response.status).send(e.response);
             } else if (e.request) {
                 res.status(400).send({
                     reason: 'PassThrough',
