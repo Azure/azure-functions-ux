@@ -132,16 +132,10 @@
                 
                         <td class="one-quarter-col padded-col" table-cell>
                             <div class="pct-wrapper">
-                                <!--
                                 <textbox
+                                    disabled="true"
                                     readonly="true"
-                                    [placeholder]="leftoverPct || 'NaN'">
-                                </textbox>
-                                -->
-                                <textbox
-                                    readonly="true"
-                                    [control]="mainForm ? mainForm.controls['leftoverPct'] : null"
-                                    [placeholder]="">
+                                    [control]="mainForm ? mainForm.controls[SumValidator.REMAINDER_CONTROL_NAME] : null">
                                 </textbox>
                             </div>
                         </td>
@@ -174,8 +168,7 @@
                                 <textbox
                                     [control]="(mainForm && mainForm.controls['rulesGroup']) ? mainForm.controls['rulesGroup'].controls[relativeSlotArm.name] : null"
                                     [placeholder]="0"
-                                    [highlightDirty]="true"
-                                    (value)="computeLeftoverPct()">
+                                    [highlightDirty]="true">
                                 </textbox>
                             </div>
                         </td>

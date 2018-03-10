@@ -5,6 +5,7 @@
     (change)="onChange($event.target.value)"
     (keyup)="onKeyUp($event.target.value)"
     [readonly]="readonly"
+    [disabled]="disabled"
     [placeholder]="placeholder" />
 
 <ng-container *ngIf="!!control">
@@ -14,6 +15,7 @@
         (change)="onChange($event.target.value)"
         (keyup)="onKeyUp($event.target.value)"
         [readonly]="readonly"
+        [disabled]="disabled"
         [formControl]="control"
         [placeholder]="placeholder"
         [class.dirty]="highlightDirty && control?.dirty" />

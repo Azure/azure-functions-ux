@@ -3,7 +3,7 @@ import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 //import { Subject } from 'rxjs/Subject';
 //import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup/*, ValidationErrors*/ } from '@angular/forms';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/map';
@@ -14,7 +14,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import { TranslateService } from '@ngx-translate/core';
 import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
-//import { CustomFormControl, CustomFormGroup } from 'app/controls/click-to-edit/click-to-edit.component';
+import { CustomFormControl } from 'app/controls/click-to-edit/click-to-edit.component';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmObj, ResourceId } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
@@ -28,8 +28,8 @@ import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from 'app/shared/services/log.service';
 import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
+import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
 import { DecimalRangeValidator } from 'app/shared/validators/decimalRangeValidator';
-//import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
 //import { FormArray } from '@angular/forms/src/model';
 
 @Component({
@@ -39,6 +39,7 @@ import { DecimalRangeValidator } from 'app/shared/validators/decimalRangeValidat
 })
 export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
     public Resources = PortalResources;
+    public SumValidator = RoutingSumValidator;
     public viewInfo: TreeViewInfo<SiteData>;
     public resourceId: ResourceId;
 
@@ -124,9 +125,11 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     }
 
     refresh(keepVisible?: boolean) {
-        this.keepVisible = keepVisible;
-        const viewInfo: TreeViewInfo<SiteData> = JSON.parse(JSON.stringify(this.viewInfo));
-        this.setInput(viewInfo);
+        if (this._confirmIfDirty()) {
+            this.keepVisible = keepVisible;
+            const viewInfo: TreeViewInfo<SiteData> = JSON.parse(JSON.stringify(this.viewInfo));
+            this.setInput(viewInfo);
+        }
     }
 
     protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
@@ -246,25 +249,27 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
             this.mainForm = this._fb.group({});
 
-            //const routingSumValidator = new RoutingSumValidator();
-            //const rulesGroup = this._fb.group({}, { validator: routingSumValidator.validate.bind(routingSumValidator) });
+            const remainderControl = this._fb.control({ value: '', disabled: false });
 
-            const leftoverPct = this._fb.control({ value: '', disabled: true });
+            const routingSumValidator = new RoutingSumValidator(this._fb, this._translateService);
+            const rulesGroup = this._fb.group({}, { validator: routingSumValidator.validate.bind(routingSumValidator) });
 
-            const rulesGroup = this._fb.group({});
             this.relativeSlotsArm.forEach(siteArm => {
-                const rulteControl = this._generateRuleControl(siteArm);
-                rulesGroup.addControl(siteArm.name, rulteControl);
+                const ruleControl = this._generateRuleControl(siteArm);
+                rulesGroup.addControl(siteArm.name, ruleControl);
             })
 
-            this.mainForm.addControl('leftoverPct', leftoverPct);
+            this.mainForm.addControl(RoutingSumValidator.REMAINDER_CONTROL_NAME, remainderControl);
+
             this.mainForm.addControl('rulesGroup', rulesGroup);
+
+            this._validateRoutingControls();
+
+            setTimeout(_ => { remainderControl.disable() });
 
         } else {
             this.mainForm = null;
         }
-
-        this.computeLeftoverPct();
     }
 
     private _generateRuleControl(siteArm: ArmObj<Site>): FormControl {
@@ -273,8 +278,19 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         const rule = !rampUpRules ? null : rampUpRules.filter(r => r.name === ruleName)[0];
 
         const decimalRangeValidator = new DecimalRangeValidator(this._translateService);
-
         return this._fb.control({ value: rule ? rule.reroutePercentage : 0, disabled: false }, decimalRangeValidator.validate.bind(decimalRangeValidator));
+    }
+
+    private _validateRoutingControls() {
+        if (this.mainForm && this.mainForm.controls['rulesGroup']) {
+            const rulesGroup = (this.mainForm.controls['rulesGroup'] as FormGroup);
+            for (const name in rulesGroup.controls) {
+                const control = (rulesGroup.controls[name] as CustomFormControl);
+                control._msRunValidation = true;
+                control.updateValueAndValidity();
+            }
+            rulesGroup.updateValueAndValidity();
+        }
     }
 
     save() {
@@ -369,30 +385,59 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this._broadcastService.clearDirtyState('slot-add');
     }
 
-    public computeLeftoverPct() {
-        if (this.mainForm) {
-            let routingPctVal: number = NaN;
 
-            const rulesGroup: FormGroup = (this.mainForm.controls['rulesGroup'] as FormGroup);
-            if (rulesGroup) {
-                routingPctVal = 0.0;
-                for (const name in rulesGroup.controls) {
-                    const pct = (rulesGroup.controls[name].value as string) || '0';
-                    const pctVal = Number.parseFloat(pct);
-                    routingPctVal = routingPctVal + pctVal;
-                }
+    /*
+    private _validateRouteControl(control: FormControl): ValidationErrors {
+        const stringValue = (control.value as string);
+
+        const leftRegExp: RegExp = /^[0-9]{1,3}(\.[0-9]{0,2})?$/; // makes sure there's at least one digit to the left of the '.' if there are none to the right
+        const rightRegExp: RegExp = /^[0-9]{0,3}(\.[0-9]{1,2})?$/; // makes sure there's at least one digit to the right of the '.' if there are none to the left
+
+        if (!!stringValue && !leftRegExp.test(stringValue) && !rightRegExp.test(stringValue)) {
+            return { invalidDecimalError: 'Plese enter a non-negative decimal value' };
+        }
+
+        const decimalValue = !stringValue ? 0 : Number.parseFloat(stringValue);
+        if (decimalValue < 0.0 || decimalValue > 100.0) {
+            return { outOfRangeError: 'Value must be in the range of 0 to 100' };
+        }
+
+        return null;
+    }
+    */
+
+    /*
+    public computeAndValidatePct(controlName?: string) {
+        const rulesGroup: FormGroup = this.mainForm ? (this.mainForm.controls['rulesGroup'] as FormGroup) : null;
+        if (rulesGroup) {
+
+            if (controlName) {
+                const control = rulesGroup.controls[controlName];
+                const errors = this._validateRouteControl(control as FormControl);
             }
 
-            const errors: ValidationErrors = (routingPctVal > 100.0) ?
-                { "routingSumOverLimig": "Sum of routing percentage value of all rules must be less than or equal to 100.0" } : null;
-
-            const leftoverPctVal = 100.0 - routingPctVal;
-            const leftoverPct = (leftoverPctVal >= 0.0 && leftoverPctVal <= 100.0) ? leftoverPctVal.toString() : '';
-
-            this._addControlOrSetValue(this.mainForm, 'leftoverPct', leftoverPct, true);
-
-            this.mainForm.controls['leftoverPct'].setErrors(errors);
         }
+
+        let routingPctVal: number = NaN;
+
+        if (rulesGroup) {
+            routingPctVal = 0.0;
+            for (const name in rulesGroup.controls) {
+                const pct = (rulesGroup.controls[name].value as string) || '0';
+                const pctVal = Number.parseFloat(pct);
+                routingPctVal = routingPctVal + pctVal;
+            }
+        }
+
+        const errors: ValidationErrors = (routingPctVal > 100.0) ?
+            { "routingSumOverLimig": "Sum of routing percentage value of all rules must be less than or equal to 100.0" } : null;
+
+        const leftoverPctVal = 100.0 - routingPctVal;
+        const leftoverPct = (leftoverPctVal >= 0.0 && leftoverPctVal <= 100.0) ? leftoverPctVal.toString() : '';
+
+        this._addControlOrSetValue(this.mainForm, 'leftoverPct', leftoverPct, true);
+
+        this.mainForm.controls['leftoverPct'].setErrors(errors);
     }
 
     private _addControlOrSetValue(group: FormGroup, controlName: string, controlValue: any, disabled: boolean = false) {
@@ -414,13 +459,26 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             });
         }
     }
+    */
+
+    private _confirmIfDirty(): boolean {
+        if (!this.mainForm || !this.mainForm.dirty) {
+            return true;
+        } else {
+            return confirm(this._translateService.instant('changes will be lost. continue?'));
+        }
+    }
 
     public showSwapControls() {
-        this.swapControlsOpen = true;
+        if (this._confirmIfDirty()) {
+            this.swapControlsOpen = true;
+        }
     }
 
     public showAddControls() {
-
+        if (this._confirmIfDirty()) {
+            //
+        }
     }
 
     /*

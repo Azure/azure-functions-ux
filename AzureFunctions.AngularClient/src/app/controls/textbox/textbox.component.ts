@@ -12,6 +12,7 @@ export class TextboxComponent implements OnInit {
   @Input() placeholder = '';
   @Input() highlightDirty: boolean;
   @Input() readonly: boolean;
+  @Input() disabled: boolean;
 
   @Output() change: EventEmitter<string>;
   @Output() value: EventEmitter<string>;
