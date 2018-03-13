@@ -14,7 +14,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/zip';
 import 'rxjs/add/observable/interval';
-//import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 //import { CustomFormControl, CustomFormGroup } from 'app/controls/click-to-edit/click-to-edit.component';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmObj, ResourceId, ArmArrayResult } from 'app/shared/models/arm/arm-obj';
@@ -29,7 +29,7 @@ import { AuthzService } from 'app/shared/services/authz.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { LogService } from 'app/shared/services/log.service';
 import { SiteService } from 'app/shared/services/site.service';
-//import { PortalService } from 'app/shared/services/portal.service';
+import { PortalService } from 'app/shared/services/portal.service';
 
 
 interface SlotInfo {
@@ -49,7 +49,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         this.setInput(resourceId);
     }
 
-    @Output() close: EventEmitter<void>;
+    @Output() close: EventEmitter<boolean>;
 
     public dirtyMessage: string;
 
@@ -66,7 +66,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     public siteAuthConflicts: string[];
     public isValid: boolean;
 
-    public phase: null | 'phaseOne' | 'phaseTwo';
+    public previewLink: string;
+    public phase: null | 'phaseOne' | 'phaseTwo' | 'complete';
 
     public checkingSrc: boolean;
     public checkingDest: boolean;
@@ -76,6 +77,8 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     public diffsPreviewSlot: 'source' | 'target' = 'source';
 
     public swapForm: FormGroup;
+
+    private _swapped: boolean;
 
     private _diffSubject: Subject<string>;
 
@@ -91,14 +94,14 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         private _cacheService: CacheService,
         private _fb: FormBuilder,
         private _logService: LogService,
-        //private _portalService: PortalService,
+        private _portalService: PortalService,
         private _siteService: SiteService,
-        //private _translateService: TranslateService,
+        private _translateService: TranslateService,
         injector: Injector
     ) {
         super('SwapSlotsComponent', injector, 'site-tabs');
 
-        this.close = new EventEmitter<void>();
+        this.close = new EventEmitter<boolean>();
 
         super('SlotsComponent', injector, 'site-tabs');
 
@@ -192,37 +195,6 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         }
     }
 
-    /*
-    private _hasSiteAuth(slotInfo: SlotInfo): Observable<boolean> {
-        if (slotInfo.hasSiteAuth !== undefined) {
-            return Observable.of(slotInfo.hasSiteAuth);
-        } else {
-            return this._siteService.getSiteConfig(slotInfo.siteArm.id)
-                .mergeMap(r => {
-                    return Observable.of(!r.result || r.result.properties.siteAuthEnabled);
-                });
-        }
-    }
-
-    private _hasSwapAccess(slotInfo: SlotInfo): Observable<boolean> {
-        if (slotInfo.hasSwapAccess !== undefined) {
-            return Observable.of(slotInfo.hasSwapAccess);
-        } else {
-            return Observable.zip(
-                this._authZService.hasPermission(slotInfo.siteArm.id, [AuthzService.writeScope]),
-                this._authZService.hasPermission(slotInfo.siteArm.id, [AuthzService.actionScope]),
-                this._authZService.hasReadOnlyLock(slotInfo.siteArm.id))
-                    .mergeMap(r => {
-                        const hasWritePermission = r[0];
-                        const hasSwapPermission = r[1];
-                        const hasReadOnlyLock = r[2];
-
-                        return Observable.of(hasWritePermission && hasSwapPermission && !hasReadOnlyLock);
-                    });
-        }
-    }
-    */
-
     private _getSlotInfo(resourceId: ResourceId, force?: boolean): Observable<SlotInfo> {
         const slotInfo: SlotInfo = resourceId ? this._slotsMap[resourceId] : null;
 
@@ -266,7 +238,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     }
 
     closePanel() {
-        this.close.next();
+        this.close.next(!!this._swapped);
     }
 
     private _getSlotsDiffs(src: string, dest: string): Observable<ArmArrayResult<SlotsDiff>> {
@@ -288,43 +260,103 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
     }
 
     swap() {
-        const src = this.swapForm.controls['src'].value;
-        const dest = this.swapForm.controls['dest'].value;
-        const multiPhase = this.swapForm.controls['multiPhase'].value;
+        this.dirtyMessage = this._translateService.instant(PortalResources.swapOperationInProgressWarning);
 
-        const srcDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(src);
-        const path = srcDescriptor.getTrimmedResourceId() + (multiPhase ? '/applyslotconfig' : '/slotsswap');
+        if (true) { // TODO [andimarc]: check if form is valid
+            if (this.swapForm.controls['multiPhase'].value && !this.phase) {
+                this.phase = 'phaseOne';
+            }
 
-        const destDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(dest);
-        const content = {
-            targetSlot: destDescriptor.slot || 'production'
+            const srcId = this.swapForm.controls['src'].value;
+            const destId = this.swapForm.controls['dest'].value;
+
+            const srcDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(srcId);
+            const destDescriptor: ArmSiteDescriptor = new ArmSiteDescriptor(destId);
+
+            const srcName = srcDescriptor.slot || 'production';
+            const destName = destDescriptor.slot || 'production';
+
+            const path = srcDescriptor.getTrimmedResourceId() + (this.phase === 'phaseOne' ? '/applyslotconfig' : '/slotsswap');
+            const content = {
+                targetSlot: destName
+            }
+
+            let swapType = this._translateService.instant(PortalResources.swap);
+            if (this.phase === 'phaseOne') {
+                swapType = this._translateService.instant(PortalResources.swapPhaseOne);
+            } else if (this.phase === 'phaseTwo') {
+                swapType = this._translateService.instant(PortalResources.swapPhaseTwo);
+            }
+            const operation = this._translateService.instant(PortalResources.swapOperation, { swapType: swapType, srcSlot: srcName, destSlot: destName });
+            const startMessage = this._translateService.instant(PortalResources.swapStarted, { operation: operation });
+
+            this.setBusy();
+            let notificationId = null;
+
+            this._portalService.startNotification(
+                startMessage,
+                startMessage)
+                .first()
+                .switchMap(s => {
+                    notificationId = s.id;
+
+                    return this._cacheService.postArm(path, null, null, content)
+                        .mergeMap(r => {
+                            const location = r.headers.get('Location');
+                            if (this.phase === 'phaseOne') {
+                                return Observable.of({ success: true, error: null });
+                            } else if (!location) {
+                                return Observable.of({ success: false, error: 'no location header' });
+                            } else {
+                                return Observable.interval(1000)
+                                    .concatMap(_ => this._cacheService.get(location))
+                                    .map((r: Response) => r.status)
+                                    .take(30 * 60 * 1000)
+                                    .filter(s => s !== 202)
+                                    .map(r => { return { success: true, error: null } })
+                                    .catch(e => Observable.of({ success: false, error: e }))
+                                    .take(1);
+                            }
+                        })
+                        .catch(e => {
+                            return Observable.of({ success: false, error: e })
+                        })
+                })
+                .do(null, error => {
+                    this.dirtyMessage = null;
+                    this.clearBusy();
+                    this._portalService.stopNotification(
+                        notificationId,
+                        false,
+                        this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error));
+                })
+                .subscribe(r => {
+                    this.dirtyMessage = null;
+                    this.clearBusy();
+
+                    if (!r.success) {
+                        this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', r.error);
+                    } else {
+                        if (!this.phase || this.phase === 'phaseTwo') {
+                            this.phase = 'complete';
+                        } else {
+                            this.phase = 'phaseTwo';
+                            this.previewLink = (this._slotsMap[srcId] as SlotInfo).siteArm.properties.hostNames[0];
+                        }
+
+                        this._swapped = true;
+                    }
+
+                    const resultMessage = r.success ?
+                        this._translateService.instant(PortalResources.swapSuccess, { operation: operation }) :
+                        this._translateService.instant(PortalResources.swapFailure, { operation: operation, error: JSON.stringify(r.error) });
+
+                    this._portalService.stopNotification(
+                        notificationId,
+                        r.success,
+                        resultMessage);
+                });
         }
-
-        this.setBusy();
-        this._cacheService.postArm(path, null, null, content)
-            .mergeMap(r => {
-                const location = r.headers.get('Location');
-                if (!multiPhase) {
-                    return Observable.of(true);
-                } else if (!location) {
-                    return Observable.of(false);
-                } else {
-                    return Observable.interval(1000)
-                        .concatMap(_ => this._cacheService.get(location))
-                        .map((r: Response) => r.status)
-                        .take(30 * 60 * 1000)
-                        .filter(s => s !== 202)
-                        .map(r => true)
-                        .catch(_ => Observable.of(false))
-                        .take(1);
-                }
-            })
-            .catch(e => {
-                return Observable.of(false);
-            })
-            .subscribe(r => {
-                this.clearBusy();
-            });
     }
 
     cancelMultiPhaseSwap() {
@@ -354,9 +386,13 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
             .switchMap(resourceId => {
                 this._resourceId = resourceId;
 
+                this.previewLink = null;
+
                 this.srcDropDownOptions = [];
                 this.destDropDownOptions = [];
                 this._slotsMap = {};
+
+                this._swapped = false;
 
                 const siteDescriptor = new ArmSiteDescriptor(resourceId);
                 this.siteResourceId = siteDescriptor.getSiteOnlyResourceId();

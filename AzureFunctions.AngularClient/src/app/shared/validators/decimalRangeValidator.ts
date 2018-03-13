@@ -1,7 +1,7 @@
 import { ValidationErrors, Validator } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { PortalResources } from 'app/shared/models/portal-resources';
 import { CustomFormControl } from 'app/controls/click-to-edit/click-to-edit.component';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 export class DecimalRangeValidator implements Validator {
     static leftRegExp: RegExp = /^[0-9]{1,3}(\.[0-9]{0,2})?$/; // makes sure there's at least one digit to the left of the '.' if there are none to the right
@@ -15,7 +15,7 @@ export class DecimalRangeValidator implements Validator {
     constructor(translateService: TranslateService, rangeMin: number = 0.0, rangeMax: number = 100.0) {
         this._rangeMin = rangeMin;
         this._rangeMax = rangeMax;
-        this._formatErrorMessage = translateService.instant('Plese enter a non-negative decimal value'); //TODO [andimarc]
+        this._formatErrorMessage = translateService.instant(PortalResources.validation_decimalFormatError);
         this._rangeErrorMessage = translateService.instant(PortalResources.validation_decimalRangeValueError, { min: this._rangeMin, max: this._rangeMax });
     }
 
@@ -32,7 +32,6 @@ export class DecimalRangeValidator implements Validator {
                 return { 'outOfRangeError': this._rangeErrorMessage };
             }
         }
-
         return null;
     }
 }

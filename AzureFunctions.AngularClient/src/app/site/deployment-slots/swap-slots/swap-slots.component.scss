@@ -1,74 +1,189 @@
 @import '../../../../sass/common/variables';
 
-.close-button{
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 7px;
-    margin: 0;
-    text-align: center;
-    font-size: 0;
-    background-color: transparent !important;
-    border-radius: 2px;
-    transition: background-color .2s ease-in-out;
-
-    &:hover{
-        background: $error-color !important;
-        transition: background-color .2s ease-in-out;
-    }
-
-    .icon-medium{
-        height: 18px;
-        width: 18px;
-    }
+.slot-drop-downs-container {
+    width: 450px;
 }
 
 .slot-drop-down-container{
     display: inline-block;
     width: 200px;
-    padding: 10px;
+
+    &.dest{
+        margin-left: 50px;
+    }
 }
 
-.phase-marker{
+.drop-down-label{
+    margin-bottom: 2px;
+}
+
+.bullet{
+    height: 10px;
+    width: 10px;
     display: inline-block;
-    height: 22px;
-    width: 22px;
     border-radius: 50%;
-    text-align: center;
-    margin: 4px;
-    box-shadow: 0px 0px 0px 4px transparent;
-    background-color: gray;
+    margin-right: 3px;
+
+    &.src{
+        background-color: aqua;
+    }
+
+    &.dest{
+        background-color: pink;
+    }
 }
 
-.phase-current{
-    box-shadow: 0px 0px 0px 4px lightblue;
-    background-color: blue;
+$markersHeight: 22px;
+$markersWidth: $markersHeight;
+$markersShadowWidth: 4px;
+$markersDistance: 90px;
+
+.phase-markers{
+    position: relative;
+    height: ($markersHeight + $markersShadowWidth*2);
+
+    .left-marker, .right-marker, .phase-connector{
+        position: absolute;
+    }
+
+    .left-marker, .right-marker{
+        top: 0px;
+        height: $markersHeight;
+        width: $markersHeight;
+        margin-top: $markersShadowWidth;
+        margin-bottom: $markersShadowWidth;
+        bottom: $markersShadowWidth;
+        border-radius: 50%;
+        text-align: center;
+        background-color: gray;
+
+        &.phase-current{
+            box-shadow: 0px 0px 0px $markersShadowWidth lightblue;
+            background-color: blue;
+        }
+
+        &.phase-complete{
+            background-color: green;
+        }
+    }
+
+    .left-marker{
+        left: $markersShadowWidth;
+
+        &.phase-current{
+            margin-right: $markersShadowWidth;
+        }
+    }
+
+    .right-marker{
+        left: ($markersWidth + $markersShadowWidth*3 + $markersDistance);
+
+        &.phase-current{
+            left: ($markersWidth + $markersShadowWidth*2 + $markersDistance);
+            margin-left: $markersShadowWidth;
+        }
+    }
+
+    .phase-connector{
+        left: ($markersWidth + $markersShadowWidth);
+        top: ($markersHeight + $markersShadowWidth*2 - 2px)/2;
+        height: 2px;
+        width: ($markersDistance + $markersShadowWidth*2);
+        background-color: #cccccc;
+
+        &.contract-left, &.contract-right {
+            width: ($markersDistance + $markersShadowWidth);
+        }
+
+        &.contract-left {
+            left: ($markersWidth + $markersShadowWidth*2);
+        }
+    }
 }
 
-.phase-complete{
-    background-color: green;
-}
+.phase-labels{
+    position: relative;
+    height: 22px;
 
-.phase-connector{
-    display: inline-block;
-    height: 1px;
-    width: 20px;
-    border-top: 3px solid #cccccc;
+    .left-label, .right-label{
+        position: absolute;
+        top: 0px;
+    }
+
+    .left-label{
+        left: 0px;
+    }
+
+    .right-label{
+        left: ($markersWidth + $markersShadowWidth*2 + $markersDistance);
+    }
 }
 
 /*
-.pill{
-    display: inline-block;
-    margin-left: 5px;
-    padding: 0px 5px 0px 5px;
-    border-radius: 7px;
-    background: $success-color;
-    text-align: center;
-    font-size: 10px;
-    font-weight: bold;
-    color: $body-bg-color;
+.phase-markers{
+    position: relative;
+    height: 30px;
+
+    .left-marker, .right-marker, .phase-connector{
+        position: absolute;
+    }
+
+    .left-marker, .right-marker{
+        top: 0px;
+        height: 22px;
+        width: 22px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        bottom: 4px;
+        border-radius: 50%;
+        text-align: center;
+        background-color: gray;
+
+        &.phase-current{
+            box-shadow: 0px 0px 0px 4px lightblue;
+            background-color: blue;
+        }
+
+        &.phase-complete{
+            background-color: green;
+        }
+    }
+
+    .left-marker{
+        left: 4px;
+
+        &.phase-current{
+            margin-right: 4px;
+        }
+    }
+
+    .right-marker{
+        left: 124px;
+
+        &.phase-current{
+            left: 120px;
+            margin-left: 4px;
+        }
+    }
+
+    .phase-connector{
+        left: 26px;
+        top: 14px;
+        height: 2px;
+        width: 98px;
+        background-color: #cccccc;
+
+        &.contract-left, &.contract-right {
+            width: 94px;
+        }
+
+        &.contract-left {
+            left: 30px;
+        }
+    }
 }
 */
+
 
 //.drop-down-label{
 //    display: inline-block;

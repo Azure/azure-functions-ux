@@ -1,9 +1,6 @@
-//import { BroadcastService } from './../../shared/services/broadcast.service';
 import { Component, Injector, Input, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-//import { Subject } from 'rxjs/Subject';
-//import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import { FormBuilder, FormControl, FormGroup/*, ValidationErrors*/ } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/map';
@@ -19,7 +16,7 @@ import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmObj, ResourceId } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
-import { LogCategories } from 'app/shared/models/constants';
+import { Links, LogCategories } from 'app/shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { RoutingRule } from 'app/shared/models/arm/routing-rule';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -30,7 +27,6 @@ import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
 import { DecimalRangeValidator } from 'app/shared/validators/decimalRangeValidator';
-//import { FormArray } from '@angular/forms/src/model';
 
 @Component({
     selector: 'deployment-slots',
@@ -39,6 +35,7 @@ import { DecimalRangeValidator } from 'app/shared/validators/decimalRangeValidat
 })
 export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
     public Resources = PortalResources;
+    public FwdLinks = Links;
     public SumValidator = RoutingSumValidator;
     public viewInfo: TreeViewInfo<SiteData>;
     public resourceId: ResourceId;
@@ -49,12 +46,17 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     public keepVisible: boolean;
 
     public featureSupported: boolean;
+    public canUpgrade: boolean;
 
     public mainForm: FormGroup;
     public hasWriteAccess: boolean;
     public hasSwapAccess: boolean;
 
+    public slotsQuotaMessage: string;
+    public slotsQuotaScaleUp: () => void;
+
     public swapControlsOpen: boolean;
+    public addControlsOpen: boolean;
 
     public dirtyMessage: string;
 
@@ -64,6 +66,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     private _siteConfigArm: ArmObj<SiteConfig>;
 
     private _isSlot: boolean;
+
+    //private readonly _slotsQuotaMap: { [key: string]: number } = { 'dynamic': 2, 'standard': 5, 'premium': 20 };
 
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.setInput(viewInfo);
@@ -93,6 +97,12 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         // For ibiza scenarios, this needs to match the deep link feature name used to load this in ibiza menu
         this.featureName = 'deploymentslots';
         this.isParentComponent = true;
+
+        this.slotsQuotaScaleUp = () => {
+            if (this._confirmIfDirty()) {
+                this.scaleUp();
+            }
+        }
     }
 
     scaleUp() {
@@ -143,11 +153,15 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 this.fetchingPermissions = true;
 
                 this.featureSupported = false;
+                this.canUpgrade = false;
 
                 this.hasWriteAccess = false;
                 this.hasSwapAccess = false;
 
+                this.slotsQuotaMessage = null;
+
                 this.swapControlsOpen = false;
+                this.addControlsOpen = false;
 
                 this.siteArm = null;
                 this.relativeSlotsArm = null;
@@ -173,6 +187,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
                 const success = siteResult.isSuccessful && slotsResult.isSuccessful && siteConfigResult.isSuccessful;
 
+                // TODO [andimarc]: If only siteConfigResult fails, don't fail entire UI, just disable controls for routing rules
                 if (!success) {
                     if (!siteResult.isSuccessful) {
                         this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteResult.error.result);
@@ -193,8 +208,32 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                         this.relativeSlotsArm = slotsResult.result.value;
                     }
 
-                    const sku = this.siteArm.properties.sku;
-                    this.featureSupported = (sku.toLowerCase() === 'standard' || sku.toLowerCase() === 'premium');
+                    // TODO [andimarc]: Make sure scale-up control is not showm for Dynamic SKU
+                    const sku = this.siteArm.properties.sku.toLowerCase();
+
+                    let slotsQuota = 0;
+                    if (sku === 'dynamic') {
+                        slotsQuota = 2;
+                        this.canUpgrade = false;
+                    } else if (sku === 'standard') {
+                        slotsQuota = 5;
+                        this.canUpgrade = true;
+                    } else if (sku === 'premium') {
+                        slotsQuota = 20;
+                        this.canUpgrade = false;
+                    } else {
+                        this.canUpgrade = true;
+                    }
+
+                    this.featureSupported = !!slotsQuota;
+
+                    if (this.featureSupported && this.relativeSlotsArm && (this.relativeSlotsArm.length + 1) >= slotsQuota) {
+                        let quotaMessage = this._translateService.instant(PortalResources.slotNew_quotaReached);
+                        if (this.canUpgrade) {
+                            quotaMessage = quotaMessage + ' ' + this._translateService.instant(PortalResources.slotNew_quotaUpgrade);
+                        }
+                        this.slotsQuotaMessage = quotaMessage;
+                    }
                 }
 
                 this.loadingFailed = !success;
@@ -232,6 +271,9 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
                 this.hasWriteAccess = hasWritePermission && !hasReadOnlyLock;
 
+                this.hasSwapAccess = this.hasWriteAccess && hasSwapPermission;
+
+                /*
                 if (this.hasWriteAccess && hasSwapPermission) {
                     if (this._isSlot) {
                         this.hasSwapAccess = true;
@@ -239,6 +281,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                         this.hasSwapAccess = this.relativeSlotsArm && this.relativeSlotsArm.length > 0;
                     }
                 }
+                */
 
                 this.fetchingPermissions = false;
             });
@@ -302,8 +345,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
             let notificationId = null;
 
             this._portalService.startNotification(
-                this._translateService.instant('foo'/*PortalResources.configUpdating*/),
-                this._translateService.instant('foo'/*PortalResources.configUpdating*/))
+                this._translateService.instant(PortalResources.configUpdating),
+                this._translateService.instant(PortalResources.configUpdating))
                 .first()
                 .switchMap(s => {
                     notificationId = s.id;
@@ -373,128 +416,64 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         }
     }
 
-    discard() {
-        this._setupForm();
-    }
-
     ngOnDestroy(): void {
         super.ngOnDestroy();
 
         this.clearBusy();
-        this._broadcastService.clearDirtyState('slot-swap');
-        this._broadcastService.clearDirtyState('slot-add');
+        this._broadcastService.clearDirtyState('swap-slot');
+        this._broadcastService.clearDirtyState('add-slot');
     }
-
-
-    /*
-    private _validateRouteControl(control: FormControl): ValidationErrors {
-        const stringValue = (control.value as string);
-
-        const leftRegExp: RegExp = /^[0-9]{1,3}(\.[0-9]{0,2})?$/; // makes sure there's at least one digit to the left of the '.' if there are none to the right
-        const rightRegExp: RegExp = /^[0-9]{0,3}(\.[0-9]{1,2})?$/; // makes sure there's at least one digit to the right of the '.' if there are none to the left
-
-        if (!!stringValue && !leftRegExp.test(stringValue) && !rightRegExp.test(stringValue)) {
-            return { invalidDecimalError: 'Plese enter a non-negative decimal value' };
-        }
-
-        const decimalValue = !stringValue ? 0 : Number.parseFloat(stringValue);
-        if (decimalValue < 0.0 || decimalValue > 100.0) {
-            return { outOfRangeError: 'Value must be in the range of 0 to 100' };
-        }
-
-        return null;
-    }
-    */
-
-    /*
-    public computeAndValidatePct(controlName?: string) {
-        const rulesGroup: FormGroup = this.mainForm ? (this.mainForm.controls['rulesGroup'] as FormGroup) : null;
-        if (rulesGroup) {
-
-            if (controlName) {
-                const control = rulesGroup.controls[controlName];
-                const errors = this._validateRouteControl(control as FormControl);
-            }
-
-        }
-
-        let routingPctVal: number = NaN;
-
-        if (rulesGroup) {
-            routingPctVal = 0.0;
-            for (const name in rulesGroup.controls) {
-                const pct = (rulesGroup.controls[name].value as string) || '0';
-                const pctVal = Number.parseFloat(pct);
-                routingPctVal = routingPctVal + pctVal;
-            }
-        }
-
-        const errors: ValidationErrors = (routingPctVal > 100.0) ?
-            { "routingSumOverLimig": "Sum of routing percentage value of all rules must be less than or equal to 100.0" } : null;
-
-        const leftoverPctVal = 100.0 - routingPctVal;
-        const leftoverPct = (leftoverPctVal >= 0.0 && leftoverPctVal <= 100.0) ? leftoverPctVal.toString() : '';
-
-        this._addControlOrSetValue(this.mainForm, 'leftoverPct', leftoverPct, true);
-
-        this.mainForm.controls['leftoverPct'].setErrors(errors);
-    }
-
-    private _addControlOrSetValue(group: FormGroup, controlName: string, controlValue: any, disabled: boolean = false) {
-        let control = group.get(controlName);
-        if (control) {
-            control.setValue(controlValue);
-        } else {
-            group.addControl(controlName, this._fb.control({ value: controlValue, disabled: false }));
-        }
-
-        control = group.get(controlName);
-        if (control.disabled !== disabled) {
-            setTimeout(_ => {
-                if (disabled) {
-                    control.disable();
-                } else {
-                    control.enable();
-                }
-            });
-        }
-    }
-    */
 
     private _confirmIfDirty(): boolean {
-        if (!this.mainForm || !this.mainForm.dirty) {
-            return true;
-        } else {
-            return confirm(this._translateService.instant('changes will be lost. continue?'));
+        let proceed = true;
+
+        if (this.mainForm && this.mainForm.dirty) {
+            proceed = confirm(this._translateService.instant(PortalResources.unsavedChangesWarning));
+            if (proceed) {
+                this._discard();
+            }
+        }
+
+        return proceed;
+    }
+
+    private _discard() {
+        this._setupForm();
+    }
+
+    discard() {
+        if (this._confirmIfDirty()) {
+            this._discard();
         }
     }
 
-    public showSwapControls() {
+    showSwapControls() {
         if (this._confirmIfDirty()) {
             this.swapControlsOpen = true;
         }
     }
 
-    public showAddControls() {
+    hideSwapControls(refresh: boolean) {
+        this.swapControlsOpen = false;
+        if (refresh) {
+            // TODO [andimarc]: prompt to confirm refresh?
+            this.refresh();
+        }
+    }
+
+    showAddControls() {
         if (this._confirmIfDirty()) {
-            //
+            this.addControlsOpen = true;
         }
     }
 
-    /*
-    openSlotBlade(slotName: string) {
-        const resourceId = this.relativeSlotsArm.filter(s => s.properties.name === slotName).map(s => s.id)[0];
-
-        if (resourceId) {
-            this._portalService.openBlade({
-                detailBlade: 'AppsOverviewBlade',
-                detailBladeInputs: { id: resourceId }
-            },
-                'deployment-slots'
-            );
+    hideAddControls(refresh: boolean) {
+        this.addControlsOpen = false;
+        if (refresh) {
+            // TODO [andimarc]: prompt to confirm refresh?
+            this.refresh();
         }
     }
-    */
 
     openSlotBlade(resourceId: string) {
         if (resourceId) {

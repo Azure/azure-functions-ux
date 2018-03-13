@@ -1,9 +1,11 @@
 // This file is auto generated
-export class PortalResources {
+    export class PortalResources
+{
     public static azureFunctions: string = "azureFunctions";
     public static azureFunctionsRuntime: string = "azureFunctionsRuntime";
     public static cancel: string = "cancel";
     public static configure: string = "configure";
+    public static upgrade: string = "upgrade";
     public static upgradeToEnable: string = "upgradeToEnable";
     public static selectAll: string = "selectAll";
     public static allItemsSelected: string = "allItemsSelected";
@@ -79,7 +81,9 @@ export class PortalResources {
     public static readOnlySourceControlled: string = "readOnlySourceControlled";
     public static region: string = "region";
     public static run: string = "run";
+    public static refresh: string = "refresh";
     public static save: string = "save";
+    public static unsavedChangesWarning: string = "unsavedChangesWarning";
     public static saveOperationInProgressWarning: string = "saveOperationInProgressWarning";
     public static addNewSetting: string = "addNewSetting";
     public static addNewConnectionString: string = "addNewConnectionString";
@@ -346,6 +350,8 @@ export class PortalResources {
     public static start: string = "start";
     public static restart: string = "restart";
     public static swap: string = "swap";
+    public static completeSwap: string = "completeSwap";
+    public static cancelSwap: string = "cancelSwap";
     public static downloadProfile: string = "downloadProfile";
     public static resetPubCredentials: string = "resetPubCredentials";
     public static _delete: string = "_delete";
@@ -469,6 +475,7 @@ export class PortalResources {
     public static feature_functionSettingsInfo: string = "feature_functionSettingsInfo";
     public static feature_generalSettings: string = "feature_generalSettings";
     public static feature_codeDeployment: string = "feature_codeDeployment";
+    public static feature_deploymentSlotsName: string = "feature_deploymentSlotsName";
     public static feature_developmentTools: string = "feature_developmentTools";
     public static feature_networkingName: string = "feature_networkingName";
     public static feature_networkingInfo: string = "feature_networkingInfo";
@@ -622,8 +629,10 @@ export class PortalResources {
     public static appFunctionSettings_editMode: string = "appFunctionSettings_editMode";
     public static appFunctionSettings_readOnlyMode: string = "appFunctionSettings_readOnlyMode";
     public static appFunctionSettings_readWriteMode: string = "appFunctionSettings_readWriteMode";
+    public static validation_decimalFormatError: string = "validation_decimalFormatError";
     public static validation_decimalRangeValueError: string = "validation_decimalRangeValueError";
     public static validation_duplicateError: string = "validation_duplicateError";
+    public static validation_error: string = "validation_error";
     public static validation_linuxAppSettingNameError: string = "validation_linuxAppSettingNameError";
     public static validation_requiredError: string = "validation_requiredError";
     public static validation_routingTotalPctError: string = "validation_routingTotalPctError";
@@ -659,6 +668,7 @@ export class PortalResources {
     public static appFunctionSettings_warning_3: string = "appFunctionSettings_warning_3";
     public static appFunctionSettings_warning_4: string = "appFunctionSettings_warning_4";
     public static appFunctionSettings_warning_5: string = "appFunctionSettings_warning_5";
+    public static slotNew: string = "slotNew";
     public static slotNew_nameLabel: string = "slotNew_nameLabel";
     public static slotNew_heading: string = "slotNew_heading";
     public static slotNew_desc: string = "slotNew_desc";
@@ -666,10 +676,16 @@ export class PortalResources {
     public static slotNew_startCreateSuccessNotifyTitle: string = "slotNew_startCreateSuccessNotifyTitle";
     public static slotNew_startCreateFailureNotifyTitle: string = "slotNew_startCreateFailureNotifyTitle";
     public static error_unableToLoadSlotsList: string = "error_unableToLoadSlotsList";
+    public static slotNew_quotaReached: string = "slotNew_quotaReached";
+    public static slotNew_quotaUpgrade: string = "slotNew_quotaUpgrade";
     public static slotNew_noAccess: string = "slotNew_noAccess";
+    public static slots_upgrade: string = "slots_upgrade";
+    public static slots_description: string = "slots_description";
+    public static slotsList_noSlots: string = "slotsList_noSlots";
     public static slotsList_nameHeader: string = "slotsList_nameHeader";
     public static slotsList_statusHeader: string = "slotsList_statusHeader";
     public static slotsList_serverfarmHeader: string = "slotsList_serverfarmHeader";
+    public static slotsList_trafficPercentHeader: string = "slotsList_trafficPercentHeader";
     public static slotsList_title: string = "slotsList_title";
     public static monitoring_appInsights: string = "monitoring_appInsights";
     public static slotNew_nameLabel_balloonText: string = "slotNew_nameLabel_balloonText";
@@ -861,6 +877,13 @@ export class PortalResources {
     public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
     public static deployedSuccessfullyTo: string = "deployedSuccessfullyTo";
     public static deployedFailedTo: string = "deployedFailedTo";
+    public static swapOperationInProgressWarning: string = "swapOperationInProgressWarning";
+    public static swapOperation: string = "swapOperation";
+    public static swapPhaseOne: string = "swapPhaseOne";
+    public static swapPhaseTwo: string = "swapPhaseTwo";
+    public static swapStarted: string = "swapStarted";
+    public static swapSuccess: string = "swapSuccess";
+    public static swapFailure: string = "swapFailure";
     public static swappedSlotSuccess: string = "swappedSlotSuccess";
     public static swappedSlotFail: string = "swappedSlotFail";
     public static setupCDSuccessAndTriggerBuild: string = "setupCDSuccessAndTriggerBuild";

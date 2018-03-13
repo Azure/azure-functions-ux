@@ -1,6 +1,6 @@
-import { TranslateService } from '@ngx-translate/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validator } from '@angular/forms';
-//import { PortalResources } from 'app/shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 export class RoutingSumValidator implements Validator {
     static REMAINDER_CONTROL_NAME = '_REMAINDER_';
@@ -8,8 +8,8 @@ export class RoutingSumValidator implements Validator {
     private _errorMessage: string;
 
     constructor(private _fb: FormBuilder, translateService: TranslateService) {
-        this._remainderStringError = translateService.instant('ERROR') //TODO [andimarc]
-        this._errorMessage = translateService.instant('Sum of routing percentage value of all rules must be less than or equal to 100.0'); //TODO [andimarc]
+        this._remainderStringError = translateService.instant(PortalResources.validation_error);
+        this._errorMessage = translateService.instant(PortalResources.validation_routingTotalPctError);
     }
 
     validate(group: FormGroup): ValidationErrors {
@@ -38,12 +38,6 @@ export class RoutingSumValidator implements Validator {
         if (invalidRangeFound || invalidFormatFound || sumIsValid) {
             controls.forEach(c => {
                 if (c.hasError('invalidRoutingSum')) {
-                    /*
-                    const errors = c.errors;
-                    delete errors['invalidRoutingSum'];
-                    c.setErrors(errors === {} ? null : errors);
-                    */
-
                     let errors: ValidationErrors = null;
                     for (let errorKey in c.errors) {
                         if (errorKey !== 'invalidRoutingSum') {
@@ -57,11 +51,6 @@ export class RoutingSumValidator implements Validator {
         } else {
             controls.forEach(c => {
                 if (!c.hasError('invalidRoutingSum')) {
-                    /*
-                    const errors = c.errors || {};
-                    errors['invalidRoutingSum'] = this._errorMessage;
-                    c.setErrors(errors);
-                    */
                     const errors: ValidationErrors = { 'invalidRoutingSum': this._errorMessage };
                     for (let errorKey in c.errors) {
                         errors[errorKey] = c.errors[errorKey]

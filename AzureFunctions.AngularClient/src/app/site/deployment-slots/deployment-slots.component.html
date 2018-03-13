@@ -1,56 +1,59 @@
-<div *ngIf="!fetchingContent && !featureSupported" class="scale-up-container">
+<div *ngIf="!fetchingContent && !featureSupported && canUpgrade" class="scale-up-container">
 
     <div load-image="image/scale-up.svg" class="icon-large"></div>
-    <div class="scale-up-message">Upgrade to a standard or premium plan to add slots.</div>
+    <div class="scale-up-message">
+        {{ Resources.slots_upgrade | translate}}
+    </div>
     <div class="slots-description">
-        Deployment slots are live apps with their own hostnames. App content and configuration elements can be swapped between two deployment slots, including the production slot.
-        <a>Learn More</a>
+        {{ Resources.slots_description | translate }}
+        <a class="link" target="_blank" [href]="FwdLinks.standaloneCreateLearnMore"> <!-- TODO [andimrc]: use correct fwdlink -->
+            {{ Resources.topBar_learnMore | translate }}
+        </a>
     </div>
     <button (click)="scaleUp()" class="custom-button">
-        Upgrade
+        {{ Resources.upgrade | translate }}
     </button>
 
 </div>
 
-<!-- *ngIf="keepVisible || (!fetchingContent && (featureSupported || loadingFailed)" -->
 <ng-sidebar-container
     *ngIf="keepVisible || featureSupported || loadingFailed"
     class="sidebar-container"
-    [backdropClass]="'sidebar-backdrop-slot-swap'"
+    backdropClass="sidebar-backdrop-deployment-slots"
     [animate]="true">
 
     <div ng-sidebar-content>
         <command-bar>
             <command
-                displayText="{{ 'addSlot' | translate }}" 
+                displayText="{{ Resources.slotNew | translate }}" 
                 iconUrl="image/add.svg" 
                 (click)="showAddControls()"
                 [disabled]="!hasWriteAccess">
             </command>
         
             <command
-                displayText="{{ siteArm?.properties.targetSwapSlot ? 'completeSwap' : 'swap' | translate }}"
+                displayText="{{ (siteArm?.properties.targetSwapSlot ? Resources.completeSwap : Resources.swap) | translate }}"
                 iconUrl="image/swap.svg"
                 (click)="showSwapControls()"
-                [disabled]="!hasWriteAccess || !hasSwapAccess">
+                [disabled]="!hasWriteAccess || !hasSwapAccess || !relativeSlotsArm || !relativeSlotsArm.length">
             </command>
 
             <command
-                [displayText]="'save' | translate"
+                [displayText]="Resources.save | translate"
                 iconUrl="image/save.svg"
                 (click)="save()"
                 [disabled]="!mainForm || !mainForm.valid || mainForm.pristine || !hasWriteAccess">
             </command>
 
             <command
-                [displayText]="'discard' | translate"
+                [displayText]="Resources.discard | translate"
                 iconUrl="image/discard.svg"
                 (click)="discard()"
                 [disabled]="!mainForm || mainForm.pristine || !hasWriteAccess">
             </command>
 
             <command
-                [displayText]="'refresh' | translate"
+                [displayText]="Resources.refresh | translate"
                 iconUrl="image/reset.svg"
                 (click)="refresh(true)"
                 [disabled]="!viewInfo">
@@ -62,35 +65,43 @@
                 [is-dirty]="mainForm?.dirty"
                 [is-dirty-message]="dirtyMessage">
 
-                <!--
-                <div class="slots-header-container">                
-                    <div class="slots-icon-container">
-                        <div load-image="image/slots.svg" class="icon-large"></div>
-                    </div>
-                    <div class="slots-text-container">
-                        <div class="slots-header-title">Deployment Slots</div>
-                        <div class="slots-header-description">Deployment slots are live apps with their own hostnames. App content and configurations elements can be swapped between two deployment slots, including the production slot.</div>
-                    </div>
-                </div>
-                -->
+                <!-- TODO [andiamrc]: Provide more granular details for permissions errors -->
+                <!-- TODO [andiamrc]: Add permissions error strings to Resources -->
+                <info-box
+                    *ngIf="!fetchingPermissions && (!hasWriteAccess || !hasSwapAccess)"
+                    typeClass="warning"
+                    [infoText]="(!hasSwapAccess ? 'no swap access\r\n' : '') + 'no write access'">
+                </info-box>
+
+                <!-- TODO [andiamrc]: Provide more granular details for loading failures -->
+                <info-box
+                    *ngIf="loadingFailed"
+                    typeClass="error"
+                    [infoText]="Resources.error_unableToLoadSlotsList | translate">
+                </info-box>
+
+                <info-box
+                    *ngIf="slotsQuotaMessage"
+                    typeClass="info"
+                    [infoText]="slotsQuotaMessage"
+                    infoActionIcon='image/scale-up.svg'
+                    [infoActionFn]="canUpgrade ? slotsQuotaScaleUp : null">
+                </info-box>
 
                 <div class="slots-header-container">                
                     <div class="slots-icon-container">
                         <div load-image="image/slots.svg" class="icon-large"></div>
                     </div>
                     <div class="slots-title-container">
-                        <div class="slots-title">Deployment Slots</div>
+                        <div class="slots-title">{{ Resources.feature_deploymentSlotsName | translate }}</div>
                         <div class="underline"></div>
                     </div>
                 </div>
 
                 <div class="slots-description-container">
-                    <div class="slots-description">Deployment slots are live apps with their own hostnames. App content and configurations elements can be swapped between two deployment slots, including the production slot.</div>
+                    <div class="slots-description">{{ Resources.slots_description | translate }}</div>
                     <div class="underline"></div>
                 </div>
-
-                <!-- TODO: Add loading failure infobox -->
-                <!-- TODO: Add permissions warning infobox -->
 
                 <table-root
                     tblClass="tbl fixed stretch"
@@ -98,16 +109,16 @@
 
                     <tr class="header-row" table-row>
                         <th class="one-quarter-col padded-col" table-cell>
-                            SLOT
+                            {{ Resources.slotsList_nameHeader | translate }}
                         </th>
                         <th class="one-quarter-col padded-col" table-cell>
-                            STATUS
+                            {{ Resources.slotsList_statusHeader | translate }}
                         </th>
                         <th class="one-quarter-col padded-col" table-cell>
-                            APP SERVICE PLAN
+                            {{ Resources.slotsList_serverfarmHeader | translate }}
                         </th>
                         <th class="one-quarter-col padded-col" table-cell>
-                            TRAFFIC (%)
+                            {{ Resources.slotsList_trafficPercentHeader | translate }}
                         </th>
                     </tr>
 
@@ -118,7 +129,7 @@
                             <div
                                 *ngIf="siteArm?.type === 'Microsoft.Web/sites'"
                                 class="pill">
-                                PROD
+                                {{ Resources.production | translate }}
                             </div>
                         </td>
                 
@@ -151,7 +162,7 @@
                             <div
                                 *ngIf="relativeSlotArm.type === 'Microsoft.Web/sites'"
                                 class="pill">
-                                PROD
+                                {{ Resources.production | translate }}
                             </div>
                         </td>
                     
@@ -180,11 +191,11 @@
                     <tr *ngIf="!siteArm || !relativeSlotsArm || relativeSlotsArm.length === 0" table-row>
 
                         <td *ngIf="fetchingContent" class="message-row" colspan="4" table-cell>
-                            loading...
+                            {{ Resources.loading | translate }}
                         </td>
 
                         <td *ngIf="!fetchingContent" class="message-row" colspan="4" table-cell>
-                            {{ !siteArm ? 'loading failed' : "You haven't added any deployment slots. Click ADD SLOT to get started." }}
+                            {{ (!siteArm ? Resources.error_unableToLoadSlotsList : Resources.slotsList_noSlots) | translate }}
                         </td>
             
                     </tr>
@@ -203,8 +214,8 @@
         [closeOnClickOutside]="false" 
         [trapFocus]="false"
         [autoFocus]="true"
-        [sidebarClass]="'sidebar-slot-swap'"
-        [ariaLabel]="'Swap Slot'"
+        sidebarClass="sidebar-swap-slot"
+        [ariaLabel]="Resources.swap | translate"
         [animate]="true"
         [closeOnClickBackdrop]="false"
         [showBackdrop]="true">
@@ -213,9 +224,33 @@
             <swap-slots
                 *ngIf="swapControlsOpen"
                 [resourceIdInput]="resourceId"
-                (close)="swapControlsOpen=false">
+                (close)="hideSwapControls($event)">
             </swap-slots>
         </div>
-
     </ng-sidebar>
+
+    <ng-sidebar
+        #sidebar
+        [(opened)]="addControlsOpen"
+        [mode]="'over'" 
+        [position]="'right'" 
+        [closeOnClickOutside]="false" 
+        [trapFocus]="false"
+        [autoFocus]="true"
+        sidebarClass="sidebar-add-slot"
+        [ariaLabel]="Resources.swap | translate"
+        [animate]="true"
+        [closeOnClickBackdrop]="false"
+        [showBackdrop]="true">
+
+        <div class="flyout-liner">
+            <!--<add-slot
+                *ngIf="addControlsOpen"
+                [resourceIdInput]="resourceId"
+                (close)="hideAddControls($event)">
+            </add-slot>-->
+            <button (click)="hideAddControls($event)">Close</button>
+        </div>
+    </ng-sidebar>
+
 </ng-sidebar-container>

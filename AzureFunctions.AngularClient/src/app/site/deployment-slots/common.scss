@@ -7,7 +7,32 @@
     border-radius: 7px;
     background: $success-color;
     text-align: center;
+    text-transform: uppercase;
     font-size: 10px;
     font-weight: bold;
     color: $body-bg-color;
+    //vertical-align: text-top;
+}
+
+.close-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 7px;
+    margin: 0;
+    text-align: center;
+    font-size: 0;
+    background-color: transparent !important;
+    border-radius: 2px;
+    transition: background-color .2s ease-in-out;
+
+    &:hover{
+        background: $error-color !important;
+        transition: background-color .2s ease-in-out;
+    }
+
+    .icon-medium{
+        height: 18px;
+        width: 18px;
+    }
 }
