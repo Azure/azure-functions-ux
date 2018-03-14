@@ -279,16 +279,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
                 this.hasSwapAccess = this.hasWriteAccess && hasSwapPermission;
 
-                /*
-                if (this.hasWriteAccess && hasSwapPermission) {
-                    if (this._isSlot) {
-                        this.hasSwapAccess = true;
-                    } else {
-                        this.hasSwapAccess = this.relativeSlotsArm && this.relativeSlotsArm.length > 0;
-                    }
-                }
-                */
-
                 this.fetchingPermissions = false;
             });
     }

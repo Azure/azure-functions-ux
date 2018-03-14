@@ -5,10 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/mergeMap';
-
 import { SlotsService } from 'app/shared/services/slots.service';
 import { AiService } from 'app/shared/services/ai.service';
-//import { CacheService } from 'app/shared/services/cache.service';
 import { ArmObj, ResourceId } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { PortalService } from 'app/shared/services/portal.service';
@@ -17,79 +15,12 @@ import { PortalResources } from 'app/shared/models/portal-resources';
 import { SlotNameValidator } from 'app/shared/validators/slotNameValidator';
 import { errorIds } from 'app/shared/models/error-ids';
 import { AuthzService } from 'app/shared/services/authz.service';
-//import { Subscription } from 'rxjs/Subscription';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { SiteService } from 'app/shared/services/site.service';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { CustomFormControl } from 'app/controls/click-to-edit/click-to-edit.component';
-
-/*
-public class ResourceDefinition
-    {
-        /// <summary>
-        /// Gets or sets the ID for the resource.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the subscription.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string SubscriptionId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the resource group to which the resource belongs.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string ResourceGroup { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the resource definition.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current spec plan. 
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, string> Plan { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the resource definition.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Type { get; set; }
-
-        /// <summary>
-        /// Gets or sets the kind of the resource definition.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Kind { get; set; }
-
-        /// <summary>
-        /// Gets or sets the resource location.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Location { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tags.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Dictionary<string, string> Tags { get; set; }
-
-        /// <summary>
-        /// Gets or sets the properties.
-        /// </summary>
-        [JsonProperty(Required = Required.Default, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public JToken Properties { get; set; }
-
-     }
-*/
 
 // TODO [andimarc]: disable all controls when an add operation is in progress
 
@@ -129,7 +60,6 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> {
         private _portalService: PortalService,
         private _aiService: AiService,
         private _slotService: SlotsService,
-        //private _cacheService: CacheService,
         private _logService: LogService,
         private _authZService: AuthzService,
         private _injector: Injector
