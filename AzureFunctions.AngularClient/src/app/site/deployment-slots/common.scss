@@ -1,4 +1,5 @@
 @import '../../../sass/common/variables';
+
 .close-button{
     position: absolute;
     top: 0;
@@ -14,6 +15,11 @@
     &:hover{
         background: $error-color !important;
         transition: background-color .2s ease-in-out;
+    }
+
+    &:disabled{
+        background: $disabled-color !important;
+        transition: none;
     }
 
     .icon-medium{
@@ -66,4 +72,10 @@
 .submit-spinner{
     text-align: center;
     margin-top: 15px;
+}
+
+:host-context(#app-root[theme=dark]){
+    .pill{
+        color: $body-bg-color-dark;
+    }
 }
