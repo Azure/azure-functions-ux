@@ -4,15 +4,15 @@
 </div>
 <div *ngIf="tabId === 'integrate'" class="function-edit-content">
     <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
-    <function-integrate-v2
+    <function-integrate-standard
         *ngIf="editorType === 'standard'"
         (changeEditor)="onEditorChange($event)">
-    </function-integrate-v2>
+    </function-integrate-standard>
 
-    <function-integrate
+    <function-integrate-advanced
         *ngIf="editorType === 'advanced'"
         (changeEditor)="onEditorChange($event)">
-    </function-integrate>
+    </function-integrate-advanced>
 </div>
 <div *ngIf="tabId === 'manage'" class="function-edit-content">
     <app-edit-mode-warning [context]="context"></app-edit-mode-warning>

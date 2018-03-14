@@ -24,7 +24,8 @@ import { FunctionQuickstartComponent } from './function-quickstart/function-quic
 import { CreateFunctionWrapperComponent } from './create-function-wrapper/create-function-wrapper.component';
 import { FunctionManageComponent } from './function-manage/function-manage.component';
 import { FunctionIntegrateV2Component } from './function-integrate-v2/function-integrate-v2.component';
-import { FunctionIntegrateComponent } from './function-integrate/function-integrate.component';
+import { FunctionIntegrateAdvancedComponent } from './function-integrate-advanced/function-integrate-advanced.component';
+import { FunctionIntegrateStandardComponent } from './function-integrate-standard/function-integrate-standard.component';
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { LogStreamingComponent } from './log-streaming/log-streaming.component';
 import { FunctionDevComponent } from './function-dev/function-dev.component';
@@ -103,7 +104,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         EmbeddedFunctionLogsTabComponent,
         LogStreamingComponent,
         FileExplorerComponent,
-        FunctionIntegrateComponent,
+        FunctionIntegrateAdvancedComponent,
+        FunctionIntegrateStandardComponent,
         FunctionIntegrateV2Component,
         FunctionManageComponent,
         CreateFunctionWrapperComponent,

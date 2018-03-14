@@ -1,0 +1,115 @@
+<div>
+    <div class="col-md-4" heigth="100%">
+        <div class="text-center">
+            <h2 class="column-title">
+                {{ 'trigger' | translate }}
+                <pop-over [position]="'bottom'" [message]="'integrate_triggersHelp' | translate">
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
+                </pop-over>
+            </h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="text-center">
+            <h2 class="column-title">
+            {{ 'input' | translate }}
+                <pop-over [position]="'bottom'" [message]="'integrate_inputsHelp' | translate">
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
+                </pop-over>
+            </h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('advanced')"><i class="fa fa-edit"></i> {{ 'functionIntegrate_advancedEditor' | translate }}</div>
+        <div class="text-center">
+            <h2 class="column-title">
+            {{ 'output' | translate }}
+                <pop-over [position]="'bottom'" [message]="'integrate_outputsHelp' | translate">
+                    <span class="glyphicon glyphicon-info-sign button-title"></span>
+                </pop-over>
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="col-md-4">
+        <div class="list-group">
+            <div>
+                <span *ngIf="model.trigger"
+                    class="list-group-item list-item"
+                    [class.selected]="currentBindingId === model.trigger.id"
+                    (click)="onBindingSelect(model.trigger.id)">
+                    {{model.trigger.title}}
+                </span>
+                <span *ngIf="!model.trigger"
+                    [fnWriteAccess]="context"
+                    class="list-group-item list-item"
+                    [class.selected]="currentBindingId === 'trigger'"
+                    (click)="newBinding('trigger')">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    {{ 'newTrigger' | translate }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="list-group">
+            <div *ngFor="let input of model.inputs">
+                <span [class.selected]="currentBindingId === input.id"
+                    class="list-group-item list-item"
+                    (click)="onBindingSelect(input.id)">
+                    {{input.title}}
+                </span>
+            </div>
+            <span [fnWriteAccess]="context"
+                [class.selected]="currentBindingId === 'input'"
+                class="list-group-item list-item"
+                (click)="newBinding('in')">
+                <span class="glyphicon glyphicon-plus"></span>
+                {{ 'newInput' | translate }}
+            </span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="list-group">
+            <div *ngFor="let input of model.outputs">
+                <span [class.selected]="currentBindingId === input.id"
+                    class="list-group-item list-item"
+                    (click)="onBindingSelect(input.id)">
+                    {{input.title}}
+                </span>
+            </div>
+            <span [fnWriteAccess]="context"
+                [class.selected]="currentBindingId === 'output'"
+                class="list-group-item list-item"
+                (click)="newBinding('out')">
+                <span class="glyphicon glyphicon-plus"></span>
+                 {{ 'newOutput' | translate }}
+            </span>
+        </div>
+    </div>
+</div>
+<br />
+<hr>
+<br />
+
+<div>
+    <binding
+        *ngIf="currentBinding"
+        [viewInfo]="viewInfo"
+        [allBindings]="model.config.bindings"
+        [binding]="currentBinding"
+        (remove)="onRemoveBinding($event)"
+        (update)="onUpdateBinding($event)"
+        (go)="onGo($event)"
+        (cancel)="onCancel($event)"></binding>
+</div>
+
+<template-picker
+    *ngIf="pickerType!==4"
+    [viewInfo]="viewInfo"
+    [type]="pickerType"
+    [showFooter]="true"
+    (complete)="onBindingCreateComplete(behavior, $event)"
+    (cancel)="onBindingCreateCancel($event)"></template-picker>

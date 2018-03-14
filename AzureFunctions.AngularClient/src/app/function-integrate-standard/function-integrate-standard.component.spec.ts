@@ -4,19 +4,19 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { FunctionIntegrateComponent } from './function-integrate.component';
+import { FunctionIntegrateStandardComponent } from './function-integrate-standard.component';
 
-describe('FunctionIntegrateComponent', () => {
-  let component: FunctionIntegrateComponent;
-  let fixture: ComponentFixture<FunctionIntegrateComponent>;
+describe('FunctionIntegrateStandardComponent', () => {
+  let component: FunctionIntegrateStandardComponent;
+  let fixture: ComponentFixture<FunctionIntegrateStandardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule(AppModule.moduleDefinition)
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FunctionIntegrateComponent);
+    fixture = TestBed.createComponent(FunctionIntegrateStandardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

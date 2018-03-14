@@ -1,0 +1,47 @@
+@import '../../sass/common/variables';
+
+.list-group-item{
+    border-radius: 0;
+    cursor: pointer;
+    background-color: inherit;
+
+    // The list-item class should define all these color behaviors
+    // but since list-group-item is a Bootstrap class and they're
+    // hijacking our styles, we need to override.
+    &:hover{
+        background-color: $item-hover-color;
+    }
+
+    &.selected{
+        background-color: $item-selected-color;
+    }
+}
+
+.column-title{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#toggle-editor {
+    top: 0;
+    right: 0;
+    padding: 7px;
+    color: $primary-color;
+}
+
+.button-title {
+    font-size: 12px !important;
+}
+
+:host-context(#app-root[theme=dark]){
+    .list-group-item{
+
+        &:hover{
+            background-color: $item-hover-color-dark;
+        }
+
+        &.selected{
+            background-color: $item-selected-color-dark;
+        }
+    }
+}

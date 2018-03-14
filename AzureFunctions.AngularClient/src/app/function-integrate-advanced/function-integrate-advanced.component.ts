@@ -15,11 +15,11 @@ import { BaseFunctionComponent } from '../shared/components/base-function-compon
 import { ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 
 @Component({
-    selector: 'function-integrate',
-    templateUrl: './function-integrate.component.html',
-    styleUrls: ['./function-integrate.component.scss'],
+    selector: 'function-integrate-advanced',
+    templateUrl: './function-integrate-advanced.component.html',
+    styleUrls: ['./function-integrate-advanced.component.scss'],
 })
-export class FunctionIntegrateComponent extends BaseFunctionComponent implements OnInit, OnDestroy {
+export class FunctionIntegrateAdvancedComponent extends BaseFunctionComponent implements OnInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
     @ViewChild('editorContainer') editorContainer: ElementRef;
     @ViewChildren(MonacoEditorDirective) monacoEditors: QueryList<MonacoEditorDirective>;
@@ -40,7 +40,7 @@ export class FunctionIntegrateComponent extends BaseFunctionComponent implements
         injector: Injector
     ) {
 
-        super('function-integrate', injector, DashboardType.FunctionIntegrateDashboard);
+        super('function-integrate-advanced', injector, DashboardType.FunctionIntegrateDashboard);
 
         this.isDirty = false;
         this.onResize();
