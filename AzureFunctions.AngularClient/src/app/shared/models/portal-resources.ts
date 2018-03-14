@@ -545,6 +545,7 @@
     public static debug: string = "debug";
     public static continuousDeployment: string = "continuousDeployment";
     public static source: string = "source";
+    public static target: string = "target";
     public static options: string = "options";
     public static backend_error_CannotAccessFunctionApp: string = "backend_error_CannotAccessFunctionApp";
     public static backend_error_CannotAccessFunctionApp_action: string = "backend_error_CannotAccessFunctionApp_action";
@@ -668,6 +669,7 @@
     public static appFunctionSettings_warning_3: string = "appFunctionSettings_warning_3";
     public static appFunctionSettings_warning_4: string = "appFunctionSettings_warning_4";
     public static appFunctionSettings_warning_5: string = "appFunctionSettings_warning_5";
+    public static slotCreateOperationInProgressWarning: string = "slotCreateOperationInProgressWarning";
     public static slotNew: string = "slotNew";
     public static slotNew_nameLabel: string = "slotNew_nameLabel";
     public static slotNew_heading: string = "slotNew_heading";
@@ -681,6 +683,10 @@
     public static slotNew_noAccess: string = "slotNew_noAccess";
     public static slots_upgrade: string = "slots_upgrade";
     public static slots_description: string = "slots_description";
+    public static slotsDiff_settingHeader: string = "slotsDiff_settingHeader";
+    public static slotsDiff_typeHeader: string = "slotsDiff_typeHeader";
+    public static slotsDiff_oldValueHeader: string = "slotsDiff_oldValueHeader";
+    public static slotsDiff_newValueHeader: string = "slotsDiff_newValueHeader";
     public static slotsList_noSlots: string = "slotsList_noSlots";
     public static slotsList_nameHeader: string = "slotsList_nameHeader";
     public static slotsList_statusHeader: string = "slotsList_statusHeader";
@@ -877,13 +883,20 @@
     public static swaggerDefinition_notSupportedForBeta: string = "swaggerDefinition_notSupportedForBeta";
     public static deployedSuccessfullyTo: string = "deployedSuccessfullyTo";
     public static deployedFailedTo: string = "deployedFailedTo";
+    public static swapWithPreviewLabel: string = "swapWithPreviewLabel";
+    public static swapPhaseOneLabel: string = "swapPhaseOneLabel";
+    public static swapPhaseTwoLabel: string = "swapPhaseTwoLabel";
     public static swapOperationInProgressWarning: string = "swapOperationInProgressWarning";
     public static swapOperation: string = "swapOperation";
+    public static swapFull: string = "swapFull";
     public static swapPhaseOne: string = "swapPhaseOne";
     public static swapPhaseTwo: string = "swapPhaseTwo";
     public static swapStarted: string = "swapStarted";
     public static swapSuccess: string = "swapSuccess";
     public static swapFailure: string = "swapFailure";
+    public static swapCancelStarted: string = "swapCancelStarted";
+    public static swapCancelSuccess: string = "swapCancelSuccess";
+    public static swapCancelFailure: string = "swapCancelFailure";
     public static swappedSlotSuccess: string = "swappedSlotSuccess";
     public static swappedSlotFail: string = "swappedSlotFail";
     public static setupCDSuccessAndTriggerBuild: string = "setupCDSuccessAndTriggerBuild";

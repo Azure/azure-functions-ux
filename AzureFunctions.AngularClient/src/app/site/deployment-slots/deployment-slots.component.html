@@ -28,7 +28,7 @@
                 displayText="{{ Resources.slotNew | translate }}" 
                 iconUrl="image/add.svg" 
                 (click)="showAddControls()"
-                [disabled]="!hasWriteAccess">
+                [disabled]="!hasWriteAccess || !!slotsQuotaMessage">
             </command>
         
             <command
@@ -224,7 +224,7 @@
             <swap-slots
                 *ngIf="swapControlsOpen"
                 [resourceIdInput]="resourceId"
-                (close)="hideSwapControls($event)">
+                (close)="hideControls($event)">
             </swap-slots>
         </div>
     </ng-sidebar>
@@ -244,12 +244,11 @@
         [showBackdrop]="true">
 
         <div class="flyout-liner">
-            <!--<add-slot
+            <add-slot
                 *ngIf="addControlsOpen"
-                [resourceIdInput]="resourceId"
-                (close)="hideAddControls($event)">
-            </add-slot>-->
-            <button (click)="hideAddControls($event)">Close</button>
+                [resourceId]="resourceId"
+                (close)="hideControls($event)">
+            </add-slot>
         </div>
     </ng-sidebar>
 

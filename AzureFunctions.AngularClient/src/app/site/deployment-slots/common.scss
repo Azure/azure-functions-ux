@@ -1,19 +1,4 @@
 @import '../../../sass/common/variables';
-
-.pill{
-    display: inline-block;
-    margin-left: 5px;
-    padding: 0px 5px 0px 5px;
-    border-radius: 7px;
-    background: $success-color;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 10px;
-    font-weight: bold;
-    color: $body-bg-color;
-    //vertical-align: text-top;
-}
-
 .close-button{
     position: absolute;
     top: 0;
@@ -35,4 +20,50 @@
         height: 18px;
         width: 18px;
     }
+}
+
+.pill{
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0px 5px 0px 5px;
+    border-radius: 7px;
+    background: $success-color;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: bold;
+    color: $body-bg-color;
+}
+
+.spinner{
+    display: inline-block;
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid #3498db;
+    width: 12px;
+    height: 12px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+
+    &.large{
+        border-width: 10px;
+        width: 60px;
+        height: 60px;
+    }
+ }
+
+/* Safari */
+@-webkit-keyframes spin{
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin{
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.submit-spinner{
+    text-align: center;
+    margin-top: 15px;
 }

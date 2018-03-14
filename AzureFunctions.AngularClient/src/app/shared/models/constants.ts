@@ -249,6 +249,8 @@ export class LogCategories {
     public static readonly telemetry = 'Telemetry';
     public static readonly featureComponent = 'FeatureComponent';
     public static readonly deploymentSlots = 'DeploymentSlots';
+    public static readonly swapSlots = 'SwapSlots';
+    public static readonly addSlot = 'AddSlot';
 }
 
 export class KeyCodes {

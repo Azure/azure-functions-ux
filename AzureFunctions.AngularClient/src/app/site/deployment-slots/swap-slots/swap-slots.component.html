@@ -1,11 +1,12 @@
 <div
-    [is-dirty]="!!dirtyMessage"
+    [is-dirty]="!!dirtyMessage || (swapForm && swapForm.dirty && phase !== 'complete')"
     [is-dirty-message]="dirtyMessage">
 
     <button
         role="button"
         class="custom-button close-button"
         [attr.aria-label]="'close panel' | translate"
+        [disabled]="!!swapping"
         (click)="closePanel()">
         <span
             load-image="image/discard.svg"
@@ -19,7 +20,7 @@
             <div class="slot-drop-down">
                 <div class="drop-down-label">
                     <div class="bullet src"></div>
-                    Source
+                    {{ Resources.source | translate }}
                     <div *ngIf="swapForm?.controls['src']?.value === siteResourceId" class="pill">{{ Resources.production | translate }}</div>
                     <div *ngIf="checkingSrc" class="spinner"></div>
                 </div>
@@ -38,7 +39,7 @@
             <div class="slot-drop-down">
                 <div class="drop-down-label">
                     <div class="bullet dest"></div>
-                    Target
+                    {{ Resources.target | translate }}
                     <div *ngIf="swapForm?.controls['dest']?.value === siteResourceId" class="pill">{{ Resources.production | translate }}</div>
                     <div *ngIf="checkingDest" class="spinner"></div>
                 </div>
@@ -50,29 +51,10 @@
                 <div *ngIf="destNoSwapAccess">
                     No swap access on the selected slot.
                 </div>
-                <!--
-                <select [formControl]="swapForm ? swapForm.controls['dest'] : null">
-                    <!--
-                    <option
-                        *ngFor="let group of ((mainForm && mainForm.controls['slotsGroupArray']) ? mainForm.controls['slotsGroupArray'].controls : [])"
-                        [value]="group.controls['name'].value"
-                        [selected]="group.controls['name'].value === swapDest">
-                        {{ group.controls['name'].value }}
-                    </option>
-                    --><!--
-                    <option
-                        *ngFor="let option of slotDropDownOptions"
-                        [value]="option.value"
-                        [selected]="swapForm && swapForm.controls['dest'].value === option.value">
-                        {{ option.displayLabel }}
-                    </option>
-
-                </select>
-                -->
             </div>
         </div>
     </div>
-    <!--<div *ngIf="swapForm?.controls['src']?.value === swapForm?.controls['dest']?.value">-->
+
     <div *ngIf="slotsNotUnique">
         Slots must be different
     </div>
@@ -80,7 +62,7 @@
     <div>
         <label>
             <input [formControl]="swapForm ? swapForm.controls['multiPhase'] : null" type="checkbox">
-            Perform swap with preview
+            {{ Resources.swapWithPreviewLabel | translate }}
         </label>
         <div *ngIf="siteAuthConflicts">
             Cannnot perform multiphase swap because the following slots have authentication enabled:
@@ -113,24 +95,88 @@
                 2
             </div>
         </div>
+
         <div class="phase-labels">
             <div class="left-label">
-                {{ 'Start the swap' | translate }}
+                {{ Resources.swapPhaseOneLabel | translate }}
             </div>
             <div class="right-label">
-                {{ 'Review + complete the swap' | translate }}
+                {{ Resources.swapPhaseTwoLabel | translate }}
             </div>
         </div>
 
         <info-box
-            *ngIf="phase==='phaseTwo'"
+            *ngIf="phase==='phaseTwo' && !swapping"
             typeClass="info"
             [infoText]="'Before you complete the swap, review the first slot’s app behavior with the second slot’s configuration.' | translate"
             [infoLink]="previewLink">
         </info-box>
     </div>
 
-    <div *ngIf="phase!=='complete'">
+    <div *ngIf="phase!=='complete' && !swapping && (loadingDiffs || slotsDiffs)">
+        <h1>Preview changes</h1>
+        <div class="preview-changes-container">
+            <div class="preview-toggle-container">
+                <div
+                    class="preview-toggle-button src"
+                    [class.selected]="diffsPreviewSlot==='source'"
+                    [attr.role]="diffsPreviewSlot==='target' ? 'button' : null"
+                    [tabindex]="diffsPreviewSlot==='target' ? 0 : -1"
+                    (click)="diffsPreviewSlot='source'"
+                    [activate-with-keys]>
+
+                    <div class="bullet src"></div>
+                    Source Changes
+
+                </div>
+                <div
+                    class="preview-toggle-button dest"
+                    [class.selected]="diffsPreviewSlot==='target'"
+                    [attr.role]="diffsPreviewSlot==='source' ? 'button' : null"
+                    [tabindex]="diffsPreviewSlot==='source' ? 0 : -1"
+                    (click)="diffsPreviewSlot='target'"
+                    [activate-with-keys]>
+
+                    <div class="bullet dest"></div>
+                    Target Changes
+
+                </div>
+            </div>
+            <tbl tblClass="tbl fixed stretch">
+                <tr class="header-row">
+                    <th class="one-quarter-col padded-col">{{ Resources.slotsDiff_settingHeader | translate }}</th>
+                    <th class="one-quarter-col padded-col">{{ Resources.slotsDiff_typeHeader | translate }}</th>
+                    <th class="one-quarter-col padded-col">{{ Resources.slotsDiff_oldValueHeader | translate }}</th>
+                    <th class="one-quarter-col padded-col">{{ Resources.slotsDiff_newValueHeader | translate }}</th>
+                </tr>
+
+                <tr *ngIf="loadingDiffs">
+                    <td colspan="4" class="spinner-row">
+                        <div class="spinner"></div>
+                    </td>
+                </tr>
+
+                <tr *ngFor="let diff of (loadingDiffs ? [] : slotsDiffs)">
+                    <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
+                    <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
+                    <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
+                    <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
+                </tr>
+            </tbl>
+        </div>
+    </div>
+
+    <div *ngIf="swapping" class="submit-spinner">
+        <div class="spinner large"></div>
+        <div>Swap Or Cancel In Progress</div>
+    </div>
+
+    <div *ngIf="phase==='complete'">
+        <div></div>
+        {{ successMessage }}
+    </div>
+
+    <div *ngIf="phase!=='complete' && !swapping" class="buttons-container">
         <button
             class="custom-button"
             (click)="swap()"
@@ -143,39 +189,6 @@
             (click)="cancelMultiPhaseSwap()">
             {{ Resources.cancelSwap | translate }}
         </button>
-    </div>
-
-    <div>
-        <h1>Preview changes</h1>
-        <div>
-            <div class="preview-changes-button" [class.selected]="diffsPreviewSlot==='source'" role="button" tabindex="0" (click)="diffsPreviewSlot='source'">
-                Source Changes
-            </div>
-            <div class="preview-changes-button" [class.selected]="diffsPreviewSlot==='target'" role="button" tabindex="0" (click)="diffsPreviewSlot='target'">
-                Destination Changes
-            </div>
-        </div>
-        <tbl>
-            <tr class="header-row">
-                <th class="one-quarter-col padded-col">SETTING</th>
-                <th class="one-quarter-col padded-col">TYPE</th>
-                <th class="one-quarter-col padded-col">OLD VALUE</th>
-                <th class="one-quarter-col padded-col">NEW VALUE</th>
-            </tr>
-
-            <tr *ngIf="loadingDiffs">
-                <td colspan="4" class="spinner-row">
-                    <div class="spinner"></div>
-                </td>
-            </tr>
-
-            <tr *ngFor="let diff of (loadingDiffs ? [] : slotsDiffs)">
-                <td class="one-quarter-col padded-col">{{ diff.settingName }}</td>
-                <td class="one-quarter-col padded-col">{{ diff.settingType}}</td>
-                <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInCurrentSlot : diff.valueInTargetSlot }}</td>
-                <td class="one-quarter-col padded-col">{{ diffsPreviewSlot==='source' ? diff.valueInTargetSlot : diff.valueInCurrentSlot }}</td>
-            </tr>
-        </tbl>
     </div>
 
 </div>

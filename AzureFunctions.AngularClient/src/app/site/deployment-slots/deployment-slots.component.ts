@@ -28,6 +28,8 @@ import { PortalService } from 'app/shared/services/portal.service';
 import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
 import { DecimalRangeValidator } from 'app/shared/validators/decimalRangeValidator';
 
+// TODO [andimarc]: disable all controls when the sidepanel is open
+
 @Component({
     selector: 'deployment-slots',
     templateUrl: './deployment-slots.component.html',
@@ -67,8 +69,6 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     private _isSlot: boolean;
 
-    //private readonly _slotsQuotaMap: { [key: string]: number } = { 'dynamic': 2, 'standard': 5, 'premium': 20 };
-
     @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.setInput(viewInfo);
     }
@@ -94,6 +94,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
         super('SlotsComponent', injector, 'site-tabs');
 
+        // TODO [andimarc]
         // For ibiza scenarios, this needs to match the deep link feature name used to load this in ibiza menu
         this.featureName = 'deploymentslots';
         this.isParentComponent = true;
@@ -185,18 +186,23 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
                 const slotsResult = r[1];
                 const siteConfigResult = r[2];
 
-                const success = siteResult.isSuccessful && slotsResult.isSuccessful && siteConfigResult.isSuccessful;
+                let success = true;
 
                 // TODO [andimarc]: If only siteConfigResult fails, don't fail entire UI, just disable controls for routing rules
-                if (!success) {
-                    if (!siteResult.isSuccessful) {
-                        this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteResult.error.result);
-                    } else if (!slotsResult.isSuccessful) {
-                        this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', slotsResult.error.result);
-                    } else {
-                        this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteConfigResult.error.result);
-                    }
-                } else {
+                if (!siteResult.isSuccessful) {
+                    this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteResult.error.result);
+                    success = false;
+                }
+                if (!slotsResult.isSuccessful) {
+                    this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', slotsResult.error.result);
+                    success = false;
+                }
+                if (!siteConfigResult.isSuccessful) {
+                    this._logService.error(LogCategories.deploymentSlots, '/deployment-slots', siteConfigResult.error.result);
+                    success = false;
+                }
+
+                if (success) {
                     this._siteConfigArm = siteConfigResult.result;
 
                     if (this._isSlot) {
@@ -453,25 +459,18 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         }
     }
 
-    hideSwapControls(refresh: boolean) {
-        this.swapControlsOpen = false;
-        if (refresh) {
-            // TODO [andimarc]: prompt to confirm refresh?
-            this.refresh();
-        }
-    }
-
     showAddControls() {
         if (this._confirmIfDirty()) {
             this.addControlsOpen = true;
         }
     }
 
-    hideAddControls(refresh: boolean) {
+    hideControls(refresh: boolean) {
+        this.swapControlsOpen = false;
         this.addControlsOpen = false;
         if (refresh) {
             // TODO [andimarc]: prompt to confirm refresh?
-            this.refresh();
+            this.refresh(true);
         }
     }
 
