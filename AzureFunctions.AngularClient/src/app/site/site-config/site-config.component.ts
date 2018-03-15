@@ -261,6 +261,9 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
 
     discard() {
-        this._setupForm();
+        const proceed = confirm(this._translateService.instant(PortalResources.unsavedChangesWarning));
+        if (proceed) {
+            this._setupForm();
+        }
     }
 }
