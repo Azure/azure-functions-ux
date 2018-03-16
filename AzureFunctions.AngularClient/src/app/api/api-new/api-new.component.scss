@@ -13,8 +13,18 @@ form > div {
     padding-bottom: 10px;
 }
 
-.newproxy-container{
-    padding: 25px 25px;
+.newproxy-container {
+    padding-top: 10px;
+    padding-right: 25px;
+    padding-left: 25px;
+
+    input{
+        height: 23px;
+    }
+    
+    select{
+        height: 23px;
+    }
 }
 
 .custom-button {
@@ -37,4 +47,8 @@ command-bar {
     display: inline-block;
     margin: 0px 10px;
   }
+}
+
+.field-textbox {
+    width: 300px;
 }

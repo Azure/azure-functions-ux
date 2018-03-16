@@ -19,11 +19,10 @@
   
     <command displayText="{{ 'functionIntegrate_advancedEditor' | translate }}" 
       (click)="openAdvancedEditor()"
-      iconUrl="image/appsvc-editor.svg"></command>
+      iconUrl="image/open-external.svg"></command>
   </command-bar>
 
   <div class="newproxy-container">
-
     <h2>{{apiProxyEdit.name}}</h2>
 
     <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
@@ -107,12 +106,13 @@
         [isInputError]="true">
       </pop-over>
     </div>
-
+    
     <request-respose-override
         *ngIf="apiProxyEdit"
         (valueChanges)="rrOverriedValueChanges($event)"
         [proxy]="apiProxyEdit">
     </request-respose-override>
+
   </div>
 </form>
 

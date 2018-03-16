@@ -1,13 +1,6 @@
 
 <form [formGroup]="complexForm">
 
-  <command-bar>
-    <command displayText="{{ 'create' | translate }}" 
-      iconUrl="image/save.svg" 
-      (click)="submitForm()" 
-      [fnWriteAccess]="context"></command>
-  </command-bar>
-
   <div class="newproxy-container">
 
     <h2>{{ 'apiProxy_new' | translate }} </h2>
@@ -24,7 +17,7 @@
       <input [fnWriteAccess]="context" type="text" name="name" [formControl]="complexForm.controls['name']"
         placeholder="{{ 'apiProxy_name' | translate }}" [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
 
-      <pop-over *ngIf="!complexForm.controls['name'].valid" [message]="complexForm.controls['name'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_errorExists' | translate)"
+      <pop-over *ngIf="!complexForm.controls['name'].valid && (complexForm.controls['name'].dirty || complexForm.controls['name'].touched)" [message]="complexForm.controls['name'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_errorExists' | translate)"
         [isInputError]="true">
       </pop-over>
     </div>
@@ -39,7 +32,8 @@
       <input [fnWriteAccess]="context" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
         placeholder="{{ 'apiProxy_routeTemplate' | translate }}" [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
 
-      <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid" [message]="('filedRequired' | translate)" [isInputError]="true">
+      <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid && (complexForm.controls['routeTemplate'].dirty || complexForm.controls['routeTemplate'].touched)"
+        [message]="('filedRequired' | translate)" [isInputError]="true">
       </pop-over>
     </div>
 
@@ -99,5 +93,14 @@
     <request-respose-override
         (valueChanges)="rrOverriedValueChanges($event)">
     </request-respose-override>
+
+    <div>
+      <button [fnWriteAccess]="context" 
+        (click)="submitForm()" 
+        type="submit"
+        [disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid"
+        [disabled]="complexForm.invalid || complexForm.pristine"
+        class="custom-button">{{ 'create' | translate }}</button>
+    </div>
   </div>
 </form>

@@ -1,7 +1,7 @@
 .pair {
     display:flex;
     flex-direction:row;
-    padding-top: 5px;
+    margin-top: 5px;
 }
 
 .name {
@@ -19,7 +19,7 @@
 input, select{
     position: relative;
     vertical-align: middle;
-    height: 29px;
+    height: 23px;
     padding-left: 5px;
     margin-right: 10px;
 
