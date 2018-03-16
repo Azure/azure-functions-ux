@@ -7,7 +7,6 @@ import { SharedModule } from './shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { SidebarModule } from 'ng-sidebar';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -30,8 +29,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         TranslateModule.forChild(),
         SharedModule,
         SharedFunctionsModule,
-        routing,
-        SidebarModule
+        routing
     ],
     declarations: [
         ProxiesListComponent,

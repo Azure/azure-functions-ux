@@ -99,7 +99,6 @@
         (click)="submitForm()"
         type="submit"
         [disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid"
-        [disabled]="complexForm.invalid || complexForm.pristine"
         class="custom-button">{{ 'create' | translate }}</button>
     </div>
   </div>

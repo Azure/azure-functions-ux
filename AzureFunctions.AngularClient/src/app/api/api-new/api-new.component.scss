@@ -18,8 +18,13 @@ form > div {
     padding-right: 25px;
     padding-left: 25px;
 
-    input{
+    input[type=text]{
         height: 23px;
+    }
+
+    input[type=checkbox]{
+        height: 15px;
+        width: 15px;
     }
 
     select{
