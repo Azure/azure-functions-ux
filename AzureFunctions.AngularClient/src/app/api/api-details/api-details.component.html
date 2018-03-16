@@ -1,23 +1,23 @@
 <form [formGroup]="complexForm">
 
   <command-bar>
-    <command displayText="{{ 'save' | translate }}" 
+    <command displayText="{{ 'save' | translate }}"
       (click)="submitForm()"
-      iconUrl="image/save.svg" 
+      iconUrl="image/save.svg"
       [disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid"
       [disabled]="!complexForm.valid || !complexForm.dirty"></command>
-  
-    <command displayText="{{ 'discard' | translate }}" 
+
+    <command displayText="{{ 'discard' | translate }}"
       (click)="onReset()"
-      iconUrl="image/discard.svg" 
+      iconUrl="image/discard.svg"
       [disabled]="!complexForm.dirty"
       [disabled]="!complexForm.dirty"></command>
-  
-    <command displayText="{{ 'apiProxy_delete' | translate }}" 
+
+    <command displayText="{{ 'apiProxy_delete' | translate }}"
       (click)="deleteProxyClicked()"
       iconUrl="image/delete.svg"></command>
-  
-    <command displayText="{{ 'functionIntegrate_advancedEditor' | translate }}" 
+
+    <command displayText="{{ 'functionIntegrate_advancedEditor' | translate }}"
       (click)="openAdvancedEditor()"
       iconUrl="image/open-external.svg"></command>
   </command-bar>
@@ -106,7 +106,7 @@
         [isInputError]="true">
       </pop-over>
     </div>
-    
+
     <request-respose-override
         *ngIf="apiProxyEdit"
         (valueChanges)="rrOverriedValueChanges($event)"

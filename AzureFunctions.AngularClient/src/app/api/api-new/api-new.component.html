@@ -4,7 +4,7 @@
   <div class="newproxy-container">
 
     <h2>{{ 'apiProxy_new' | translate }} </h2>
-    
+
     <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
     <div class="edit">
@@ -95,8 +95,8 @@
     </request-respose-override>
 
     <div>
-      <button [fnWriteAccess]="context" 
-        (click)="submitForm()" 
+      <button [fnWriteAccess]="context"
+        (click)="submitForm()"
         type="submit"
         [disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid"
         [disabled]="complexForm.invalid || complexForm.pristine"
