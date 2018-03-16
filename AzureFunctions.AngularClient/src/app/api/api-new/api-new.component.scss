@@ -1,9 +1,5 @@
 @import '../../../sass/common/variables';
 
-form {
-    padding:10px 0px 0px 0px;
-}
-
 form > div {
     padding-bottom: 10px;
 }
@@ -14,10 +10,15 @@ form > div {
 
 .edit {
     width: 740px;
+    padding-bottom: 10px;
 }
 
 .newproxy-container{
-    padding: 20px;
+    padding: 25px 25px;
+}
+
+.custom-button {
+    margin-right: 20px;
 }
 
 .header {
@@ -29,4 +30,11 @@ form > div {
     div:nth-child(2) {
         flex-grow:0;
     }
+}
+
+command-bar {  
+  > h2 {
+    display: inline-block;
+    margin: 0px 10px;
+  }
 }

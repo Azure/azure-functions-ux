@@ -1,64 +1,72 @@
-<div class="newproxy-container">
+<form [formGroup]="complexForm">
 
-  <div class="header" *ngIf="apiProxyEdit">
-    <div>
-      <h2>{{apiProxyEdit.name}}&nbsp;</h2>
-      <span class="link" (click)="deleteProxyClicked()">
-                <i class="fa fa-remove"></i> {{ 'apiProxy_delete' | translate }}
-            </span>
-    </div>
-    <div class="link" (click)="openAdvancedEditor()">
-      <i class="fa fa-edit"></i> {{ 'functionIntegrate_advancedEditor' | translate }}
-    </div>
-  </div>
+  <command-bar>
+    <command displayText="{{ 'save' | translate }}" 
+      (click)="submitForm()"
+      iconUrl="image/save.svg" 
+      [disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid"
+      [disabled]="!complexForm.valid || !complexForm.dirty"></command>
+  
+    <command displayText="{{ 'discard' | translate }}" 
+      (click)="onReset()"
+      iconUrl="image/discard.svg" 
+      [disabled]="!complexForm.dirty"
+      [disabled]="!complexForm.dirty"></command>
+  
+    <command displayText="{{ 'apiProxy_delete' | translate }}" 
+      (click)="deleteProxyClicked()"
+      iconUrl="image/delete.svg"></command>
+  
+    <command displayText="{{ 'functionIntegrate_advancedEditor' | translate }}" 
+      (click)="openAdvancedEditor()"
+      iconUrl="image/appsvc-editor.svg"></command>
+  </command-bar>
 
-  <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
+  <div class="newproxy-container">
 
-  <form [formGroup]="complexForm">
+    <h2>{{apiProxyEdit.name}}</h2>
+
+    <app-edit-mode-warning [context]="context"></app-edit-mode-warning>
 
     <div class="edit">
+      <div>
+        <label class="control-label">
+            {{ 'apiProxy_proxyUrl' | translate }}
+        </label>
+      </div>
+      <copy-pre [content]="proxyUrl"></copy-pre>
+    </div>
 
-      <label class="control-label">
-                {{ 'apiProxy_proxyUrl' | translate }}
-            </label>
+    <div class="edit">
+      <div>
+        <label class="control-label" name="for1">
+            {{ 'apiProxy_routeTemplate' | translate }}
+        </label>
+      </div>
+
+      <input [fnWriteAccess]="context" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
+        placeholder="{{ 'apiProxy_routeTemplate' | translate }}" [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
+
+      <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid" [message]="('filedRequired' | translate)" [isInputError]="true">
+      </pop-over>
+    </div>
+
+    <div class="edit">
+      <div>
+        <label class="control-label" name="for2">
+            {{ 'apiProxy_allowedHttpMethods' | translate }}
+        </label>
+      </div>
 
       <div>
-        <copy-pre [content]="proxyUrl"></copy-pre>
+        <select [fnWriteAccess]="context" name="methodSelectionType" [formControl]="complexForm.controls['methodSelectionType']">
+            <option value="All">{{ 'apiProxy_allMethods' | translate }}</option>
+            <option value="Selected">{{ 'apiProxy_seectedMethods' | translate }}</option>
+        </select>
       </div>
     </div>
 
-
-    <div style="display: flex;" class="edit">
-      <div style="flex-grow:1">
-        <div>
-          <label class="control-label" name="for1">
-                    {{ 'apiProxy_routeTemplate' | translate }}
-                </label>
-        </div>
-
-        <input [fnWriteAccess]="context" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
-          placeholder="{{ 'apiProxy_routeTemplate' | translate }}" [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
-
-
-        <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid" [message]="('filedRequired' | translate)" [isInputError]="true">
-        </pop-over>
-      </div>
-
-      <div style="flex-grow:1">
-        <label class="control-label" name="for2">
-                {{ 'apiProxy_allowedHttpMethods' | translate }}
-            </label>
-
-        <div>
-          <select [fnWriteAccess]="context" name="methodSelectionType" [formControl]="complexForm.controls['methodSelectionType']">
-                    <option value="All">{{ 'apiProxy_allMethods' | translate }}</option>
-                    <option value="Selected">{{ 'apiProxy_seectedMethods' | translate }}</option>
-                </select>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="isMethodsVisible" class="methods-list">
+    <div *ngIf="isMethodsVisible" class="edit methods-list">
       <div>
         <input [formControl]="complexForm.controls['method_GET']" type="checkbox" name="get"> GET
       </div>
@@ -85,11 +93,11 @@
       </div>
     </div>
 
-    <div>
+    <div class="edit">
       <div>
         <label class="control-label">
-                {{ 'apiProxy_backendUrl' | translate }}
-            </label>
+            {{ 'apiProxy_backendUrl' | translate }}
+        </label>
       </div>
 
       <input [fnWriteAccess]="context" type="text" name="backendUri" style="width: 720px" [formControl]="complexForm.controls['backendUri']"
@@ -98,7 +106,6 @@
       <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)"
         [isInputError]="true">
       </pop-over>
-
     </div>
 
     <request-respose-override
@@ -106,12 +113,7 @@
         (valueChanges)="rrOverriedValueChanges($event)"
         [proxy]="apiProxyEdit">
     </request-respose-override>
+  </div>
+</form>
 
-    <div>
-        <button (click)="submitForm()" [disabled]="!complexForm.valid || !complexForm.dirty || !rrOverrideValid" [disabled]="!complexForm.valid || !complexForm.dirty" class="custom-button">{{ 'save' | translate }}</button>
-        <button (click)="onReset()" [disabled]="!complexForm.dirty" [disabled]="!complexForm.dirty" class="custom-button">{{ 'discard' | translate }}</button>
-    </div>
 
-  </form>
-
-</div>
