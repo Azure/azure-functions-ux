@@ -1,4 +1,8 @@
 import { VirtualApplication } from './virtual-application';
+import { HandlerMapping } from './handler-mapping';
+import { RoutingRule } from './routing-rule';
+import { ConnectionStrings } from './connection-strings';
+import { ApplicationSettings } from './application-settings';
 
 export interface SiteConfig {
     scmType: string;
@@ -21,13 +25,15 @@ export interface SiteConfig {
     remoteDebuggingEnabled: boolean;
     remoteDebuggingVersion: string;
     defaultDocuments: string[];
-    handlerMappings: [{
-        extension: string;
-        scriptProcessor: string;
-        arguments: string;
-    }];
+    handlerMappings: HandlerMapping[];
     linuxFxVersion: string;
     appCommandLine: string;
     virtualApplications: VirtualApplication[];
     autoSwapSlotName: string;
+    experiments: {
+        rampUpRules: RoutingRule[];
+    }
+    siteAuthEnabled: boolean;
+    appSettings?: ApplicationSettings;
+    connectionStrings?: ConnectionStrings;
 }

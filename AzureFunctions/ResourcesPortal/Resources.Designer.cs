@@ -3247,6 +3247,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Deployment Slots.
+        /// </summary>
+        internal static string feature_deploymentSlotsName {
+            get {
+                return ResourceManager.GetString("feature_deploymentSlotsName", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Development tools.
         /// </summary>
         internal static string feature_developmentTools {
@@ -6163,11 +6172,29 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string refresh {
+            get {
+                return ResourceManager.GetString("refresh", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         internal static string save {
             get {
                 return ResourceManager.GetString("save", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Unsaved changes will be discarded..
+        /// </summary>
+        internal static string unsavedChangesWarning {
+            get {
+                return ResourceManager.GetString("unsavedChangesWarning", resourceCulture);
             }
         }
 
@@ -6649,6 +6676,24 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to A slot create operation is currently in progress. After navigating away, you will no longer be able to check operation status..
+        /// </summary>
+        internal static string slotCreateOperationInProgressWarning {
+            get {
+                return ResourceManager.GetString("slotCreateOperationInProgressWarning", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Add Slot.
+        /// </summary>
+        internal static string slotNew {
+            get {
+                return ResourceManager.GetString("slotNew", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Deployment slots let you deploy different versions of your function app to different URLs. You can test a certain version and then swap content and configuration between slots..
         /// </summary>
         internal static string slotNew_desc {
@@ -6690,6 +6735,24 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string slotNew_nameLabel_balloonText {
             get {
                 return ResourceManager.GetString("slotNew_nameLabel_balloonText", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to You have reached the slots quota limit ({{quota}}) for the current plan..
+        /// </summary>
+        internal static string slotNew_quotaReached {
+            get {
+                return ResourceManager.GetString("slotNew_quotaReached", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Please upgrade your plan..
+        /// </summary>
+        internal static string slotNew_quotaUpgrade {
+            get {
+                return ResourceManager.GetString("slotNew_quotaUpgrade", resourceCulture);
             }
         }
 
@@ -6739,6 +6802,69 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Upgrade to a standard or premium plan to add slots..
+        /// </summary>
+        internal static string slots_upgrade {
+            get {
+                return ResourceManager.GetString("slots_upgrade", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Deployment slots are live apps with their own hostnames. App content and configurations elements can be swapped between two deployment slots, including the production slot..
+        /// </summary>
+        internal static string slots_description {
+            get {
+                return ResourceManager.GetString("slots_description", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Setting.
+        /// </summary>
+        internal static string slotsDiff_settingHeader {
+            get {
+                return ResourceManager.GetString("slotsDiff_settingHeader", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string slotsDiff_typeHeader {
+            get {
+                return ResourceManager.GetString("slotsDiff_typeHeader", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Old Value.
+        /// </summary>
+        internal static string slotsDiff_oldValueHeader {
+            get {
+                return ResourceManager.GetString("slotsDiff_oldValueHeader", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to New Value.
+        /// </summary>
+        internal static string slotsDiff_newValueHeader {
+            get {
+                return ResourceManager.GetString("slotsDiff_newValueHeader", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to You haven't added any deployment slots. Click 'Add Slot' to get started..
+        /// </summary>
+        internal static string slotsList_noSlots {
+            get {
+                return ResourceManager.GetString("slotsList_noSlots", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string slotsList_nameHeader {
@@ -6766,6 +6892,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Traffic %.
+        /// </summary>
+        internal static string slotsList_trafficPercentHeader {
+            get {
+                return ResourceManager.GetString("slotsList_trafficPercentHeader", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Slots (preview).
         /// </summary>
         internal static string slotsList_title {
@@ -6780,6 +6915,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string source {
             get {
                 return ResourceManager.GetString("source", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Target.
+        /// </summary>
+        internal static string target {
+            get {
+                return ResourceManager.GetString("target", resourceCulture);
             }
         }
 
@@ -7336,11 +7480,155 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Perform swap with preview.
+        /// </summary>
+        internal static string swapWithPreviewLabel {
+            get {
+                return ResourceManager.GetString("swapWithPreviewLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Start the swap.
+        /// </summary>
+        internal static string swapPhaseOneLabel {
+            get {
+                return ResourceManager.GetString("swapPhaseOneLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Review + complete the swap.
+        /// </summary>
+        internal static string swapPhaseTwoLabel {
+            get {
+                return ResourceManager.GetString("swapPhaseTwoLabel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A swap operation is currently in progress. After navigating away, you will no longer be able to check operation status..
+        /// </summary>
+        internal static string swapOperationInProgressWarning {
+            get {
+                return ResourceManager.GetString("swapOperationInProgressWarning", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {{swapType}} between slot {{srcSlot}} and slot {{destSlot}}.
+        /// </summary>
+        internal static string swapOperation {
+            get {
+                return ResourceManager.GetString("swapOperation", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to swap.
+        /// </summary>
+        internal static string swapFull {
+            get {
+                return ResourceManager.GetString("swapFull", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to phase one of swap.
+        /// </summary>
+        internal static string swapPhaseOne {
+            get {
+                return ResourceManager.GetString("swapPhaseOne", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to phase two of swap.
+        /// </summary>
+        internal static string swapPhaseTwo {
+            get {
+                return ResourceManager.GetString("swapPhaseTwo", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Performing {{operation}}.
+        /// </summary>
+        internal static string swapStarted {
+            get {
+                return ResourceManager.GetString("swapStarted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully completed {{operation}}.
+        /// </summary>
+        internal static string swapSuccess {
+            get {
+                return ResourceManager.GetString("swapSuccess", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to complete {{operation}}. Error: {{error}}.
+        /// </summary>
+        internal static string swapFailure {
+            get {
+                return ResourceManager.GetString("swapFailure", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Cancelling {{operation}}.
+        /// </summary>
+        internal static string swapCancelStarted {
+            get {
+                return ResourceManager.GetString("swapCancelStarted", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully cancelled {{operation}}.
+        /// </summary>
+        internal static string swapCancelSuccess {
+            get {
+                return ResourceManager.GetString("swapCancelSuccess", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to cancel {{operation}}. Error: {{error}}.
+        /// </summary>
+        internal static string swapCancelFailure {
+            get {
+                return ResourceManager.GetString("swapCancelFailure", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Swap.
         /// </summary>
         internal static string swap {
             get {
                 return ResourceManager.GetString("swap", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Complete Swap.
+        /// </summary>
+        internal static string completeSwap {
+            get {
+                return ResourceManager.GetString("completeSwap", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel Swap.
+        /// </summary>
+        internal static string cancelSwap {
+            get {
+                return ResourceManager.GetString("cancelSwap", resourceCulture);
             }
         }
 
@@ -8020,6 +8308,15 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Upgrade.
+        /// </summary>
+        internal static string upgrade {
+            get {
+                return ResourceManager.GetString("upgrade", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Upgrade to enable.
         /// </summary>
         internal static string upgradeToEnable {
@@ -8056,11 +8353,38 @@ namespace AzureFunctions.ResourcesPortal {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid decimal value with format 'ddd.dd'.
+        /// </summary>
+        internal static string validation_decimalFormatError {
+            get {
+                return ResourceManager.GetString("validation_decimalFormatError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be an decimal in the range of {{min}} to {{max}}.
+        /// </summary>
+        internal static string validation_decimalRangeValueError {
+            get {
+                return ResourceManager.GetString("validation_decimalRangeValueError", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Duplicate values are not allowed.
         /// </summary>
         internal static string validation_duplicateError {
             get {
                 return ResourceManager.GetString("validation_duplicateError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR.
+        /// </summary>
+        internal static string validation_error {
+            get {
+                return ResourceManager.GetString("validation_error", resourceCulture);
             }
         }
 
@@ -8079,6 +8403,15 @@ namespace AzureFunctions.ResourcesPortal {
         internal static string validation_requiredError {
             get {
                 return ResourceManager.GetString("validation_requiredError", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sum of routing percentage value of all rules must be less than or equal to 100.0.
+        /// </summary>
+        internal static string validation_routingTotalPercentError {
+            get {
+                return ResourceManager.GetString("validation_routingTotalPercentError", resourceCulture);
             }
         }
 

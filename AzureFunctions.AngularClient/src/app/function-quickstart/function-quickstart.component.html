@@ -55,11 +55,11 @@
     <div id="quickstart-lang-radios">
         <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="CSharp" checked>CSharp</label>
         <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="JavaScript">JavaScript</label>
-        <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="FSharp">FSharp</label>
-        <label><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="Java">Java</label>
+        <label *ngIf="runtimeVersion === 'V1'"><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="FSharp">FSharp</label>
+        <label *ngIf="runtimeVersion === 'V1'"><input type="radio" name="language" [(ngModel)]="selectedLanguage" value="Java">Java</label>
     </div>
 
-    <div id="quickstart-lang-custom">
+    <div *ngIf="runtimeVersion === 'V1'" id="quickstart-lang-custom">
         {{ 'intro_ifYou' | translate }}
         <span class="link" 
               role="link" 

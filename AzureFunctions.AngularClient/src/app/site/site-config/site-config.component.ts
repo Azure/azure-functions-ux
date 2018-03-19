@@ -1,13 +1,9 @@
 import { SiteService } from 'app/shared/services/site.service';
-import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Site } from './../../shared/models/arm/site';
-import { ApplicationSettings } from './../../shared/models/arm/application-settings';
-import { ConnectionStrings } from './../../shared/models/arm/connection-strings';
-import { SlotConfigNames } from './../../shared/models/arm/slot-config-names';
-import { ArmObj, ArmObjMap } from './../../shared/models/arm/arm-obj';
-import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { ArmObj } from './../../shared/models/arm/arm-obj';
+import { Component, Injector, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,6 +21,7 @@ import { LogCategories, SiteTabIds } from './../../shared/models/constants';
 import { LogService } from './../../shared/services/log.service';
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { FeatureComponent } from 'app/shared/components/feature-component';
+import { ArmSaveConfigs, ArmSaveResult, ArmSaveResults } from 'app/shared/components/config-save-component';
 
 export interface SaveOrValidationResult {
     success: boolean;
@@ -162,7 +159,21 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
             this.setBusy();
             let notificationId = null;
-            let saveAttempted = false;
+
+            const saveConfigs: ArmSaveConfigs = {};
+
+            this.generalSettings.getSaveConfigs(saveConfigs);
+            this.appSettings.getSaveConfigs(saveConfigs);
+            this.connectionStrings.getSaveConfigs(saveConfigs);
+            if (this.defaultDocumentsSupported) {
+                this.defaultDocuments.getSaveConfigs(saveConfigs);
+            }
+            if (this.handlerMappingsSupported) {
+                this.handlerMappings.getSaveConfigs(saveConfigs);
+            }
+            if (this.virtualDirectoriesSupported) {
+                this.virtualDirectories.getSaveConfigs(saveConfigs);
+            }
 
             this._portalService.startNotification(
                 this._translateService.instant(PortalResources.configUpdating),
@@ -171,122 +182,50 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 .switchMap(s => {
                     notificationId = s.id;
 
-                    // This is a temporary workaround for merging the slotConfigNames config from AppSettingsModule and ConnectionStringsModule.
-                    // Adding a proper solution (for all config APIs) is tracked here: https://github.com/Azure/azure-functions-ux/issues/1856
-                    const asConfig: ArmObjMap = this.appSettings.getConfigForSave();
-                    const csConfig: ArmObjMap = this.connectionStrings.getConfigForSave();
-
-                    let appSettingsArm: ArmObj<ApplicationSettings> = null;
-                    let asSlotConfigNamesArm: ArmObj<SlotConfigNames> = null;
-
-                    let connectionStringsArm: ArmObj<ConnectionStrings> = null;
-                    let csSlotConfigNamesArm: ArmObj<SlotConfigNames> = null;
-
-                    let slotConfigNamesArm: ArmObj<SlotConfigNames> = null;
-
-                    const errors: string[] = [];
-
-                    // asConfig will be null if neither /config/appSettings or /config/slotConfigNames.appSettingNames have changes to be saved
-                    if (asConfig) {
-                        if (asConfig['appSettings']) {
-                            // there are changes to be saved for /config/appSettings
-                            appSettingsArm = asConfig['appSettings'];
-                        }
-                        if (asConfig['slotConfigNames']) {
-                            // there are changes to be saved for /config/slotConfigNames.appSettingNames
-                            asSlotConfigNamesArm = JSON.parse(JSON.stringify(asConfig['slotConfigNames']));
-                        }
-                        if (asConfig.error) {
-                            errors.push(asConfig.error);
-                        }
-                    }
-
-                    // csConfig will be null if neither /config/connectionStrings or /config/slotConfigNames.connectionStringNames have changes to be saved
-                    if (csConfig) {
-                        if (csConfig['connectionStrings']) {
-                            // there are changes to be saved for /config/appSettings
-                            connectionStringsArm = csConfig['connectionStrings'];
-                        }
-                        if (csConfig['slotConfigNames']) {
-                            // there are changes to be saved for /config/slotConfigNames.connectionStringNames
-                            csSlotConfigNamesArm = JSON.parse(JSON.stringify(csConfig['slotConfigNames']));
-                        }
-                        if (csConfig.error) {
-                            errors.push(csConfig.error);
-                        }
-                    }
-
-                    if (errors.length > 0) {
-                        return Observable.throw(errors);
-                    }
-
-                    if (asSlotConfigNamesArm && csSlotConfigNamesArm) {
-                        // If there are changes to both /config/slotConfigNames.appSettingNames and /config/slotConfigNames.connectionStringNames,
-                        // so merge the changes into a single /config/slotConfigNames payload.
-                        slotConfigNamesArm = asSlotConfigNamesArm;
-                        slotConfigNamesArm.properties.connectionStringNames = csSlotConfigNamesArm.properties.connectionStringNames;
-                    } else {
-                        // At most one of the /config/slotConfigNames.* properties has changes. Select the config that has changes (or null if neither has changes).
-                        slotConfigNamesArm = asSlotConfigNamesArm || csSlotConfigNamesArm;
-                    }
-
                     return Observable.zip(
-                        // Don't make the PUT call if there are no /config/slotConfigNames to submit.
-                        slotConfigNamesArm ? this._cacheService.putArm(slotConfigNamesArm.id, null, slotConfigNamesArm) : Observable.of(null),
-                        Observable.of(appSettingsArm),
-                        Observable.of(connectionStringsArm),
-                        (sc, a, c) => ({ slotConfigNamesResult: sc, appSettingsArm: a, connectionStringsArm: c })
+                        this._putArm(saveConfigs.appSettingsArm),
+                        this._putArm(saveConfigs.connectionStringsArm),
+                        this._putArm(saveConfigs.siteArm),
+                        this._putArm(saveConfigs.siteConfigArm),
+                        this._putArm(saveConfigs.slotConfigNamesArm)
                     );
                 })
-                .mergeMap(r => {
-                    saveAttempted = true;
-                    return Observable.zip(
-                        this.generalSettings.save(),
-                        this.appSettings.save(r.appSettingsArm, r.slotConfigNamesResult),
-                        this.connectionStrings.save(r.connectionStringsArm, r.slotConfigNamesResult),
-                        this.defaultDocumentsSupported ? this.defaultDocuments.save() : Observable.of({ success: true }),
-                        this.handlerMappingsSupported ? this.handlerMappings.save() : Observable.of({ success: true }),
-                        this.virtualDirectoriesSupported ? this.virtualDirectories.save() : Observable.of({ success: true }),
-                        (g, a, c, d, h, v) => ({
-                            generalSettingsResult: g,
-                            appSettingsResult: a,
-                            connectionStringsResult: c,
-                            defaultDocumentsResult: d,
-                            handlerMappingsResult: h,
-                            virtualDirectoriesResult: v
-                        })
-                    );
-                })
-                .do(null, error => {
-                    this.dirtyMessage = null;
-                    this._logService.error(LogCategories.siteConfig, '/site-config', error);
-                    this.clearBusy();
-                    if (saveAttempted) {
-                        this._setupForm(true /*retain dirty state*/);
-                        this.mainForm.markAsDirty();
-                    }
-                    this._portalService.stopNotification(
-                        notificationId,
-                        false,
-                        this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(error));
-                })
-                .subscribe(r => {
+                .subscribe(results => {
                     this.dirtyMessage = null;
                     this.clearBusy();
 
-                    const saveResults: SaveOrValidationResult[] = [
-                        r.generalSettingsResult,
-                        r.appSettingsResult,
-                        r.connectionStringsResult,
-                        r.defaultDocumentsResult,
-                        r.handlerMappingsResult,
-                        r.virtualDirectoriesResult
-                    ];
-                    const saveFailures: string[] = saveResults.filter(res => !res.success).map(res => res.error);
-                    const saveSuccess: boolean = saveFailures.length === 0;
+                    const saveResults: ArmSaveResults = {
+                        appSettings: results[0],
+                        connectionStrings: results[1],
+                        site: results[2],
+                        siteConfig: results[3],
+                        slotConfigNames: results[4]
+                    }
+
+                    this.generalSettings.processSaveResults(saveResults);
+                    this.appSettings.processSaveResults(saveResults);
+                    this.connectionStrings.processSaveResults(saveResults);
+                    if (this.defaultDocumentsSupported) {
+                        this.defaultDocuments.processSaveResults(saveResults);
+                    }
+                    if (this.handlerMappingsSupported) {
+                        this.handlerMappings.processSaveResults(saveResults);
+                    }
+                    if (this.virtualDirectoriesSupported) {
+                        this.virtualDirectories.processSaveResults(saveResults);
+                    }
+
+                    const saveErrors: string[] = [];
+                    results.forEach(result => {
+                        if (result && !result.success) {
+                            saveErrors.push(result.error);
+                            this._logService.error(LogCategories.siteConfig, '/site-config', result.error);
+                        }
+                    });
+                    const saveSuccess: boolean = !saveErrors || saveErrors.length === 0;
                     const saveNotification = saveSuccess ?
                         this._translateService.instant(PortalResources.configUpdateSuccess) :
-                        this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveFailures);
+                        this._translateService.instant(PortalResources.configUpdateFailure) + JSON.stringify(saveErrors);
 
                     // Even if the save failed, we still need to regenerate mainForm since each child component is saves independently, maintaining its own save state.
                     // Here we regenerate mainForm (and mark it as dirty on failure), which triggers _setupForm() to run on the child components. In _setupForm(), the child components
@@ -301,7 +240,30 @@ export class SiteConfigComponent extends FeatureComponent<TreeViewInfo<SiteData>
         }
     }
 
+    private _putArm<T>(armObj: ArmObj<T>): Observable<ArmSaveResult<T>> {
+        if (!armObj) {
+            return Observable.of(null);
+        }
+
+        return this._cacheService.putArm(armObj.id, null, armObj)
+            .map(res => {
+                return {
+                    success: true,
+                    value: res.json()
+                };
+            })
+            .catch(error => {
+                return Observable.of({
+                    success: false,
+                    error: error._body
+                });
+            });
+    }
+
     discard() {
-        this._setupForm();
+        const proceed = confirm(this._translateService.instant(PortalResources.unsavedChangesWarning));
+        if (proceed) {
+            this._setupForm();
+        }
     }
 }
