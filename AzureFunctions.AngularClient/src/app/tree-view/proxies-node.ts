@@ -62,6 +62,11 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
         this._removeHelper(removeIndex);
     }
 
+    public openCreateDashboard(dashboardType: DashboardType) {
+        this.newDashboardType = dashboardType;
+        this.openCreateNew();
+    }
+
     protected _updateTreeForNonUsableState(title: string) {
         this.disabled = true;
         this.newDashboardType = null;

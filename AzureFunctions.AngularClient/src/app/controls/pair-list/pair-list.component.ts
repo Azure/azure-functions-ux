@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { ValidatorFn, FormControl, FormGroup, FormBuilder, FormArray} from '@angular/forms';
+import { ValidatorFn, FormControl, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 
 export interface Pair {
@@ -11,7 +11,7 @@ export interface PairListOptions {
     items: Pair[];
     nameValidators?: ValidatorFn[];
     valueValidators?: ValidatorFn[];
-} 
+}
 
 @Component({
     selector: 'pair-list',

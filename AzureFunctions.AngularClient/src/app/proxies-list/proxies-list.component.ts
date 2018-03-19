@@ -64,4 +64,8 @@ export class ProxiesListComponent implements OnDestroy {
     item.node.select();
   }
 
+  onNewProxyClick() {
+    this._proxiesNode.openCreateDashboard(DashboardType.CreateProxyDashboard);
+  }
+
 }

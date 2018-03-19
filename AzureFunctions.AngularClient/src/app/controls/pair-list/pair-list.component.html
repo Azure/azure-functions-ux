@@ -1,6 +1,6 @@
 <form [formGroup]="form">
 
-    <div style="padding-top:8px">
+    <div *ngIf="!title" style="padding-top:8px">
         {{ title }}
     </div>
 
