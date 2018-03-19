@@ -3,6 +3,14 @@
         width: 740px;
         margin-bottom: 10px;
     }
+
+    input{
+        height: 23px;
+    }
+
+    select{
+        height: 23px;
+    }
 }
 
 .response-body {
@@ -23,4 +31,9 @@
 
 .shown-container {
     padding-top: 15px;
+}
+
+.edit {
+    width: 740px;
+    padding-bottom: 10px;
 }

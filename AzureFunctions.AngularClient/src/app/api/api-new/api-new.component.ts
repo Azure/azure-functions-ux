@@ -19,7 +19,7 @@ import { NavigableComponent } from '../../shared/components/navigable-component'
 @Component({
     selector: 'api-new',
     templateUrl: './api-new.component.html',
-    styleUrls: ['./api-new.component.scss', '../../binding-input/binding-input.component.css'],
+    styleUrls: ['../../binding-input/binding-input.component.css', './api-new.component.scss'],
 })
 export class ApiNewComponent extends NavigableComponent {
 
@@ -60,7 +60,7 @@ export class ApiNewComponent extends NavigableComponent {
         super('api-new', injector, DashboardType.CreateProxyDashboard);
 
         this.complexForm = fb.group({
-            // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value. For our example, we�ll default the gender to female.
+            // We can set default values by passing in the corresponding value or leave blank if we wish to not set the value.
             routeTemplate: [null, Validators.required],
             methodSelectionType: 'All',
             name: [null, Validators.compose([Validators.required, this.validateName(this)])],
