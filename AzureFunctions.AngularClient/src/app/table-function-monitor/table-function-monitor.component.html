@@ -8,6 +8,7 @@
             id="refresh-icon"
             (click)="refreshFuncMonitorGridData()"
             (keydown)="onKeyPressRefresh($event)"
+            [attr.aria-label]="'refresh' | translate"
             style="padding-left: 10px;">
                 <i class="fa fa-refresh"></i> 
                 {{ 'refresh' | translate }}
