@@ -98,4 +98,10 @@ export class TableFunctionMonitorComponent extends FunctionAppContextComponent {
             this.refreshFuncMonitorGridData();
         }
     }
+
+    onKeyPressLogDetails(event: KeyboardEvent, rowData: FunctionInvocations) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.showDetails(rowData);
+        }
+    }
 }
