@@ -8,6 +8,7 @@ import { BusyStateComponent } from '../busy-state/busy-state.component';
 import { Subscription } from 'rxjs/Subscription';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { Subject } from 'rxjs/Subject';
+import { KeyCodes } from 'app/shared/models/constants';
 
 @Component({
     selector: 'table-function-monitor',
@@ -90,5 +91,11 @@ export class TableFunctionMonitorComponent extends FunctionAppContextComponent {
 
     liveStreamCliked() {
         this.openAppInsights.next();
+    }
+
+    onKeyPressRefresh(event: KeyboardEvent) {
+        if (event.keyCode === KeyCodes.enter) {
+            this.refreshFuncMonitorGridData();
+        }
     }
 }
