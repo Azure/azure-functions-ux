@@ -1,0 +1,134 @@
+@import '../../../sass/common/variables';
+
+.flyout-liner{
+    overflow: auto;
+    position: absolute;
+    padding: 15px;
+    top: 0;
+    right: 0;
+    //bottom: 10px;
+    bottom: 0;
+    left: 10px;
+    background: $body-bg-color;
+    border: 1px solid rgba($body-bg-color-dark, 0.6);
+    box-shadow: rgba($body-bg-color-dark, 0.1) -3px 2px 6px,
+                rgba($body-bg-color-dark, 0.07) -5px 4px 20px,
+                rgba($body-bg-color-dark, 0.05) -10px 8px 20px;
+}
+
+.sidebar-container{
+    height: 100%; 
+    width: 100%;
+}
+
+.config-wrapper{
+    position: absolute;
+    height: calc(100% - 42px);
+    overflow-y: auto;
+}
+
+.config-container{
+    padding: 5px 20px;
+}
+
+.slots-header-container, .scale-up-container{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.scale-up-container{
+    padding: 15px;
+    text-align: center;
+    max-width: 700px;
+    margin: auto;
+
+    .scale-up-message, .slots-description{
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .scale-up-message{
+        font-size: 20px;
+    }
+
+    .slots-description{
+        width: 70%;
+        margin-left: 15%;
+    }
+}
+
+.slots-header-container{
+    .slots-icon-container, .slots-title-container{
+        display: inline-block;
+    }
+
+    .slots-icon-container{
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .icon-large{
+        height: 60px;
+        width: 60px;
+    }
+
+    .slots-title-container{
+        vertical-align: bottom;
+    }
+
+    .slots-title{
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 17px;
+        letter-spacing: -.02em;
+        vertical-align: bottom;
+    }
+
+    .slots-description-container{
+        margin-bottom: 10px
+    }
+}
+
+.slots-description{
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.underline{
+    display: block;
+    height: 1px;
+    border-width: 1px 0px 0px;
+    border-top-style: solid;
+    border-top-color: #cccccc;
+    padding: 0px;
+    //margin-top: 5px;
+    //margin-bottom: 10px;
+    margin: 1em 0px;
+}
+
+.pct-wrapper{
+    width: 50px;
+}
+
+.padded-col{
+    padding-left: 10px;
+    padding-right: 2px;
+}
+
+.one-quarter-col{
+    width: 25%;
+}
+
+.message-row{
+    text-align: center;
+}
+
+:host-context(#app-root[theme=dark]){
+    .flyout-liner{
+        background: $body-bg-color-dark;
+        box-shadow: rgba($body-bg-color, 0.1) -3px 0px 6px,
+                    rgba($body-bg-color, 0.07) -5px 0px 20px,
+                    rgba($body-bg-color, 0.05) -10px 0px 20px;
+        border-color: rgba($body-bg-color, 0.6);
+    }
+}

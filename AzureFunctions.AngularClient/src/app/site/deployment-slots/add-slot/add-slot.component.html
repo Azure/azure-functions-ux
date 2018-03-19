@@ -1,0 +1,71 @@
+<div
+    [is-dirty]="!!dirtyMessage || (addForm && addForm.dirty && !created)"
+    [is-dirty-message]="dirtyMessage">
+
+    <button
+        role="button"
+        class="custom-button close-button"
+        [attr.aria-label]="'close panel' | translate"
+        [disabled]="!!creating"
+        (click)="closePanel()">
+        <span
+            load-image="image/discard.svg"
+            class="icon-medium">
+        </span>
+    </button>
+
+    <h1>{{ Resources.slotNew | translate }}</h1>
+    
+    <div>
+        <div class="label-above">
+            {{ Resources.slotNew_nameLabel | translate }}
+        </div>
+        <textbox
+            class="name-textbox"
+            [placeholder]="Resources.enterName | translate"
+            [control]="addForm ? addForm.controls['name'] : null">
+        </textbox>
+
+        <div class="label-above">
+            {{ 'Configuration source' | translate }}
+            <div *ngIf="checkingConfigSrc" class="spinner"></div>
+        </div>
+
+        <div>
+            <label>
+                <input [formControl]="addForm ? addForm.controls['clone'] : null" type="checkbox">
+                {{ 'Clone from existing' | translate }}
+            </label>
+        </div>
+
+        <drop-down
+            [control]="addForm ? addForm.controls['configSrc'] : null"
+            [options]="configSrcDropDownOptions || []"
+            [setDefault]="false">
+        </drop-down>
+
+        <div *ngIf="configSrcReadFailure">
+            {{ configSrcReadFailure | translate }}
+        </div>
+    </div>
+
+    <div *ngIf="creating" class="submit-spinner">
+        <div class="spinner large"></div>
+        <div>Create In Progress</div>
+    </div>
+
+    <div *ngIf="created">
+        <div></div>
+        {{ 'slot created' | translate }}
+    </div>
+
+    <div *ngIf="!creating && !created">
+        <button
+            class="custom-button"
+            [disabled]="addForm.invalid || addForm.pristine || !hasCreateAcess || !!slotsQuotaMessage"
+            (click)="createSlot()">
+            {{ Resources.create | translate }}
+        </button>
+    </div>
+
+</div>

@@ -69,6 +69,9 @@ export class SiteTabIds {
     public static readonly applicationSettings = 'appSettings';
     public static readonly continuousDeployment = 'continuousDeployment';
     public static readonly logicApps = 'logicApps';
+    public static readonly deploymentSlotsConfig = 'deploymentSlotsConfig';
+    public static readonly deploymentSlotsSwap = 'deploymentSlotsSwap';
+    public static readonly deploymentSlotsCreate = 'deploymentSlotsCreate';
 }
 
 export class Arm {
@@ -245,6 +248,9 @@ export class LogCategories {
     public static readonly cicd = 'CICD';
     public static readonly telemetry = 'Telemetry';
     public static readonly featureComponent = 'FeatureComponent';
+    public static readonly deploymentSlots = 'DeploymentSlots';
+    public static readonly swapSlots = 'SwapSlots';
+    public static readonly addSlot = 'AddSlot';
 }
 
 export class KeyCodes {
