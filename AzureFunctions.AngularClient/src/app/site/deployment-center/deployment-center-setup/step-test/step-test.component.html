@@ -21,8 +21,8 @@
             </radio-selector>
           </div>
           <ng-select *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false" class="custom-select" [loading]="appServicePlansLoading"
-            [items]="appServicePlanList" bindLabel="displayLabel" bindValue="value" placeholder="Select App Service Plan" [(ngModel)]="selectedAppServicePlan"
-            formControlName="appServicePlanId" (change)="aspChanged($event)">
+            [clearable]="false" [items]="appServicePlanList" bindLabel="displayLabel" bindValue="value" placeholder="Select App Service Plan"
+            [(ngModel)]="selectedAppServicePlan" formControlName="appServicePlanId" (change)="aspChanged($event)">
           </ng-select>
         </div>
       </div>

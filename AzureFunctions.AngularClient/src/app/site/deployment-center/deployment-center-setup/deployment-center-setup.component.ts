@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-setup-models';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { TranslateService } from '@ngx-translate/core';
+import { MovingDirection } from '../../../controls/form-wizard/util/moving-direction.enum';
 
 @Component({
     selector: 'app-deployment-center-setup',
@@ -16,40 +17,40 @@ export class DeploymentCenterSetupComponent implements OnChanges {
 
     constructor(private _wizardService: DeploymentCenterStateManager, private _fb: FormBuilder, translateService: TranslateService) {
         this._wizardService.wizardForm = this._fb.group({
-            sourceProvider: ['', []],
+            sourceProvider: [null, []],
             buildProvider: ['kudu', []],
             sourceSettings: this._fb.group({
-                repoUrl: ['', []],
-                branch: ['', []],
+                repoUrl: [null, []],
+                branch: [null, []],
                 isManualIntegration: [false, []],
                 deploymentRollbackEnabled: [false, []],
                 isMercurial: [false, []]
             }),
             buildSettings: this._fb.group({
                 createNewVsoAccount: [false, []],
-                vstsAccount: ['', []],
-                vstsProject: ['', []],
-                location: ['', []],
-                applicationFramework: ['', []],
-                workingDirectory: ['', []],
+                vstsAccount: [null, []],
+                vstsProject: [null, []],
+                location: [null, []],
+                applicationFramework: [null, []],
+                workingDirectory: [null, []],
                 pythonSettings: this._fb.group({
-                    framework: ['', []],
-                    version: ['', []],
+                    framework: [null, []],
+                    version: [null, []],
                     flaskProjectName: ['flaskProjectName', []],
                     djangoSettingsModule: ['DjangoProjectName.settings', []]
                 }),
-                nodejsTaskRunner: ['', []]
+                nodejsTaskRunner: [null, []]
             }),
             deploymentSlotSetting: this._fb.group({
                 newDeploymentSlot: [false, []],
                 deploymentSlotEnabled: [false, []],
-                deploymentSlot: ['', []]
+                deploymentSlot: [null, []]
             }),
             testEnvironment: this._fb.group({
                 enabled: [false, []],
                 newApp: [true, []],
-                appServicePlanId: ['', []],
-                webAppId: ['', []]
+                appServicePlanId: [null, []],
+                webAppId: [null, []]
             })
         });
     }
@@ -107,5 +108,12 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         if (changes['resourceId']) {
             this._wizardService.resourceIdStream.next(this.resourceId);
         }
+    }
+
+    buildConfigValid(direction: MovingDirection) {
+        if (direction === MovingDirection.Forwards) {
+            return this._wizardService.buildSettings.valid && this._wizardService.sourceSettings.valid;
+        }
+        return true;
     }
 }

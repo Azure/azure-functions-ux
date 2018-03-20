@@ -11,7 +11,7 @@
       </div>
       <div class="setting-control-container">
         <ng-select class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="Select Folder"
-          [(ngModel)]="selectedFolder" formControlName="repoUrl ">
+          [clearable]="false" [(ngModel)]="selectedFolder" formControlName="repoUrl ">
         </ng-select>
       </div>
     </div>

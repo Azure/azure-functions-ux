@@ -18,8 +18,4 @@ export class StepConfigureComponent {
         const values = this.wizard.wizardValues;
         return values && values.buildProvider;
     }
-
-    get configureValid() {
-        return this.wizard.buildSettings.valid && this.wizard.sourceSettings.valid;
-    }
 }

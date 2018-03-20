@@ -7,7 +7,7 @@
       <div class="setting-label">{{'vstsAccount' | translate}}</div>
       <div class="setting-control-container">
         <ng-select class="custom-select" [items]="AccountList" bindLabel="displayLabel" bindValue="value" placeholder="Select Account"
-          [(ngModel)]="selectedAccount" formControlName="vstsAccount" (change)="accountChanged($event)">
+          [clearable]="false" [(ngModel)]="selectedAccount" formControlName="vstsAccount" (change)="accountChanged($event)">
         </ng-select>
       </div>
     </div>
@@ -16,7 +16,7 @@
       <div class="setting-label">{{'project' | translate}}</div>
       <div class="setting-control-container">
         <ng-select class="custom-select" [items]="ProjectList" bindLabel="displayLabel" bindValue="value" placeholder="Select Project"
-          [(ngModel)]="selectedProject" formControlName="vstsProject" (change)="projectChanged($event)">
+          [clearable]="false" [(ngModel)]="selectedProject" formControlName="vstsProject" (change)="projectChanged($event)">
         </ng-select>
       </div>
     </div>
@@ -25,7 +25,7 @@
       <div class="setting-label">{{'repository' | translate}}</div>
       <div class="setting-control-container">
         <ng-select class="custom-select" [items]="RepositoryList" bindLabel="displayLabel" bindValue="value" placeholder="Select Repository"
-          formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="repoChanged($event)">
+          [clearable]="false" formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="repoChanged($event)">
         </ng-select>
       </div>
     </div>
@@ -34,7 +34,7 @@
       <div class="setting-label">{{'branch' | translate}}</div>
       <div class="setting-control-container">
         <ng-select class="custom-select" [items]="BranchList" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
-          [(ngModel)]="selectedBranch" formControlName="branch">
+          [clearable]="false" [(ngModel)]="selectedBranch" formControlName="branch">
         </ng-select>
       </div>
     </div>

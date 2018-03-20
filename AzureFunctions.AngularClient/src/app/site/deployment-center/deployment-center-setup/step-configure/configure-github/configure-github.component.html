@@ -9,14 +9,9 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-          <ng-select class="custom-select" [items]="OrgList"
-            bindLabel="displayLabel"
-            bindValue="value"
-            placeholder="Select org"
-            [(ngModel)]="selectedOrg"
-            [ngModelOptions]="{standalone: true}"
-            (change)="OrgChanged($event)">
-          </ng-select>
+        <ng-select class="custom-select" [items]="OrgList" bindLabel="displayLabel" bindValue="value" placeholder="Select org" [clearable]="false"
+          [(ngModel)]="selectedOrg" [ngModelOptions]="{standalone: true}" (change)="OrgChanged($event)">
+        </ng-select>
       </div>
     </div>
 
@@ -27,14 +22,8 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-          <ng-select class="custom-select" [items]="RepoList"
-          bindLabel="displayLabel"
-          bindValue="value"
-          placeholder="Select Repo"
-          [loading]="reposLoading"
-          formControlName="repoUrl"
-          [(ngModel)]="selectedRepo"
-          (change)="RepoChanged($event)">
+        <ng-select class="custom-select" [items]="RepoList" bindLabel="displayLabel" bindValue="value" placeholder="Select Repo"
+          [clearable]="false" [loading]="reposLoading" formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="RepoChanged($event)">
         </ng-select>
       </div>
     </div>
@@ -46,12 +35,8 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <ng-select class="custom-select" [items]="BranchList"
-          bindLabel="displayLabel"
-          bindValue="value"
-          placeholder="Select Branch"
-          [(ngModel)]="selectedBranch"
-          formControlName="branch">
+        <ng-select class="custom-select" [items]="BranchList" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
+          [clearable]="false" [(ngModel)]="selectedBranch" formControlName="branch">
         </ng-select>
       </div>
     </div>

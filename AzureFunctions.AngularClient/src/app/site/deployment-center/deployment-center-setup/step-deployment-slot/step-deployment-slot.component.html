@@ -22,7 +22,7 @@
             </radio-selector>
           </div>
           <ng-select *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.newDeploymentSlot === false" class="custom-select" [loading]="DeploymentSlotsLoading"
-            [items]="ExistingDeploymentSlotsList" bindLabel="displayLabel" bindValue="value" placeholder="Select Existing Slot"
+            [clearable]="false" [items]="ExistingDeploymentSlotsList" bindLabel="displayLabel" bindValue="value" placeholder="Select Existing Slot"
             [(ngModel)]="selectedDeploymentSlot" formControlName="deploymentSlot">
           </ng-select>
           <textbox *ngIf="wizard?.wizardValues?.deploymentSlotSetting?.newDeploymentSlot === true" [control]="wizard?.deploymentSlotSetting?.controls?.deploymentSlot"

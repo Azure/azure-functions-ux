@@ -162,9 +162,11 @@
   dependencies:
     tslib "^1.7.1"
 
-"@ng-select/ng-select@^0.21.0":
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-0.21.0.tgz#4aec32cec5ac6bb9f4f9b8746e15320115480843"
+"@ng-select/ng-select@^0.30.1":
+  version "0.30.1"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-0.30.1.tgz#baa68d0c87f7ce7526fac3db1e734dac36260342"
+  dependencies:
+    tslib "^1.7.1"
 
 "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"

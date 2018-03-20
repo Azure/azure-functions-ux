@@ -12,8 +12,8 @@
             </radio-selector>
           </div>
           <ng-select *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === false" class="custom-select" [items]="AccountList"
-            bindLabel="displayLabel" bindValue="value" placeholder="Select Account" [(ngModel)]="selectedAccount" formControlName="vstsAccount"
-            (change)="accountChanged($event)">
+            [clearable]="false" bindLabel="displayLabel" bindValue="value" placeholder="Select Account" [(ngModel)]="selectedAccount"
+            formControlName="vstsAccount" (change)="accountChanged($event)">
           </ng-select>
           <textbox *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'new'" [control]="wizard?.buildSettings?.controls?.vstsAccount"
             [placeholder]="'Enter Account Name'"></textbox>
@@ -24,7 +24,7 @@
         <div class="setting-label">Location</div>
         <div class="setting-control-container">
           <ng-select class="custom-select" [items]="LocationList" bindLabel="displayLabel" bindValue="value" placeholder="Select Location"
-            [(ngModel)]="selectedLocation" formControlName="location">
+            [clearable]="false" [(ngModel)]="selectedLocation" formControlName="location">
           </ng-select>
         </div>
       </div>
@@ -33,7 +33,7 @@
         <div class="setting-label">Project Name</div>
         <div class="setting-control-container">
           <ng-select class="custom-select" [items]="ProjectList" bindLabel="displayLabel" bindValue="value" placeholder="Select Project"
-            [(ngModel)]="selectedProject" formControlName="vstsProject">
+            [clearable]="false" [(ngModel)]="selectedProject" formControlName="vstsProject">
           </ng-select>
         </div>
       </div>
