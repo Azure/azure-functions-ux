@@ -1,10 +1,10 @@
 <form [formGroup]="form">
 
-    <div *ngIf="!title" style="padding-top:8px">
+    <div *ngIf="title" style="padding-top:8px">
         {{ title }}
     </div>
 
-    <div *ngIf="form.value.items.length === 0" class="text-label" style="font-style:italic">
+    <div *ngIf="form.value.items.length === 0 && emptyLabel" class="text-label" style="font-style:italic">
         {{ emptyLabel }}
     </div>
 
