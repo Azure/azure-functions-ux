@@ -26,7 +26,6 @@
             <pair-list *ngIf="paramsOptions"
                         [options]="paramsOptions"
                         addButtonLabel="{{ 'httpRun_addParameter' | translate}}"
-                        emptyLabel="{{ 'httpRun_noQuery' | translate }}"
                         (valueChanges)="paramsValueChanges($event)">
             </pair-list>
         </div>
@@ -39,7 +38,6 @@
             <pair-list *ngIf="headerOptions"
                         [options]="headerOptions"
                         addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
-                        emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
                         (valueChanges)="headerValueChanges($event)">
             </pair-list>
         </div>
@@ -75,7 +73,6 @@
             <pair-list *ngIf="responseHeaderOptions"
                         [options]="responseHeaderOptions"
                         addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
-                        emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
                         (valueChanges)="responseHeaderValueChanges($event)">
 
             </pair-list>
