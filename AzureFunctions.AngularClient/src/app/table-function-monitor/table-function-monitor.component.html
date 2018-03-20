@@ -33,7 +33,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let object of data" [ngClass]="{rowSelected: object.id === selectedRowId}" (click)="showDetails(object)">
+                <tr tabindex="0"
+                    *ngFor="let object of data"
+                    [ngClass]="{rowSelected: object.id === selectedRowId}"
+                    (keydown)="onKeyPressLogDetails($event, object)"
+                    (click)="showDetails(object)">
                     <td *ngFor="let column of columns">
                         <span [innerHtml]="object[column.variable] | format: column.formatTo"></span>
                     </td>
