@@ -123,28 +123,66 @@ export class FunctionAppService {
     }
 
     getApiProxies(context: FunctionAppContext): Result<ApiProxy[]> {
-        const client = this.getClient(context);
-        return client.execute({ resourceId: context.site.id }, t => Observable.zip(
-            this._cacheService.get(context.urlTemplates.proxiesJsonUrl, false, this.headers(t))
-                .catch(err => err.status === 404
-                    ? Observable.throw({
-                        errorId: errorIds.proxyJsonNotFound,
-                        message: '',
-                        result: null
-                    }) : Observable.throw(err)),
-            this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(t)),
-            (p, s) => ({ proxies: p, schema: s.json() })
-        ).map(r => {
-            const proxies = r.proxies.json();
-            if (proxies.proxies) {
-                const validateResult = jsonschema.validate(proxies, r.schema).toString();
-                if (validateResult) {
-                    // TODO: [alrod] handle error
-                    return ApiProxy.fromJson({});
-                }
+        return this
+            .getClient(context)
+            .execute(
+                /*input*/ { resourceId: context.site.id },
+                /*query*/ token => Observable
+                    .zip(
+                        this.retrieveProxies(context, token),
+                        this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
+                        (p, s) => ({ proxies: p, schema: s }))
+                    .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
+    }
+
+    private retrieveProxies(context: FunctionAppContext, token: string) : Observable<any> {
+        return this._cacheService
+            .get(context.urlTemplates.proxiesJsonUrl, false, this.headers(token))
+            .catch(err => err.status === 404
+                ? Observable.throw({
+                    errorId: errorIds.proxyJsonNotFound,
+                    message: '',
+                    result: null
+                })
+                : Observable.throw(err));
+    }
+
+    private validateAndGetProxies(proxiesResponse: any, schemaResponse: any) : Observable<ApiProxy[]>
+    {
+        let proxiesJson, schemaJson;
+
+        try {
+            proxiesJson = proxiesResponse.json();
+        } catch (exception) {
+            return Observable.throw({
+                errorId: errorIds.proxyJsonNotValid,
+                message: this._translateService.instant(PortalResources.proxyJsonInvalid).format(exception.message),
+                result: null
+            });
+        }
+
+        try {
+            schemaJson = schemaResponse.json();
+        } catch (exception) {
+            return Observable.throw({
+                errorId: errorIds.proxySchemaNotValid,
+                message: this._translateService.instant(PortalResources.schemaJsonInvalid).format(exception.message),
+                result: null
+            });
+        }
+
+        if (proxiesJson.proxies) {
+            const validateResult = jsonschema.validate(proxiesJson, schemaJson);
+            if (!validateResult.valid) {
+                return Observable.throw({
+                    errorId: errorIds.proxySchemaValidationFails,
+                    message: this._translateService.instant(PortalResources.error_schemaValidationProxies).format(validateResult.toString()),
+                    result: null
+                });
             }
-            return ApiProxy.fromJson(proxies);
-        }));
+        }
+        
+        return Observable.of(ApiProxy.fromJson(proxiesJson));
     }
 
     saveApiProxy(context: FunctionAppContext, jsonString: string): Result<Response> {

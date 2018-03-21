@@ -950,4 +950,6 @@
     public static diagnostics_errorsAndWarnings: string = "diagnostics_errorsAndWarnings";
     public static diagnostics_file: string = "diagnostics_file";
     public static diagnostics_line: string = "diagnostics_line";
+    public static proxyJsonInvalid: string = "proxyJsonInvalid";
+    public static schemaJsonInvalid: string = "schemaJsonInvalid";
 }

@@ -2243,7 +2243,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Policy</value>
   </data>
   <data name="error_schemaValidationProxies" xml:space="preserve">
-    <value>proxies.json schema validation error</value>
+    <value>The proxies.json schema validation failed. Error: '{0}'.</value>
   </data>
   <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
     <value>On a Consumption plan, you can limit platform usage by setting a daily usage quota, in gigabytes-seconds. Once the daily usage quota is reached, the Function App is stopped until the next day at 0:00 AM UTC.</value>
@@ -2973,5 +2973,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="diagnostics_line" xml:space="preserve">
     <value>Line</value>
+  </data>
+  <data name="proxyJsonInvalid" xml:space="preserve">
+    <value>The proxies.json is not valid. Error: '{0}'.</value>
+  </data>
+  <data name="schemaJsonInvalid" xml:space="preserve">
+    <value>The proxies schema is not valid. Error: '{0}'.</value>
   </data>
 </root>

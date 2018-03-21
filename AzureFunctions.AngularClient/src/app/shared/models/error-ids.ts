@@ -36,8 +36,6 @@ export namespace errorIds {
     export const unableToCreateSwaggerKey = '/errors/unableToCreateSwaggerKey';
     export const unableToDeleteFunctionKey = '/errors/unableToDeleteFunctionKey';
     export const unableToRenewFunctionKey = '/errors/unableToRenewFunctionKey';
-    export const proxyWithSameNameAlreadyExists = '/errors/proxyWithSameNameAlreadyExists';
-    export const proxySchemaValidationFails = '/errors/proxySchemaValidationFails';
     export const errorParsingConfig = '/errors/errorParsingConfig';
     export const generalFunctionErrorFromHost = '/errors/generalFunctionErrorFromHost';
     export const generalHostErrorFromHost = '/errors/generalHostErrorFromHost';
@@ -65,7 +63,11 @@ export namespace errorIds {
     export const failedToUnInstallFunctionRuntimeExtension = '/errors/failedToUnInstallFunctionRuntimeExtension';
     export const timeoutInstallingFunctionRuntimeExtension = '/errors/timeoutInstallingFunctionRuntimeExtension';
     export const extensionAlreadyInstalledWithDifferentVersion = '/errors/extensionAlreadyInstalledWithDifferentVersion';
+    export const proxyWithSameNameAlreadyExists = '/errors/proxyWithSameNameAlreadyExists';
+    export const proxySchemaValidationFails = '/errors/proxySchemaValidationFails';
     export const proxyJsonNotFound = '/errors/proxyJsonNotFound';
+    export const proxyJsonNotValid = '/errors/proxyJsonNotValid';
+    export const proxySchemaNotValid = '/errors/proxySchemaNotValid';
     export const embeddedEditorLoadError = '/errors/embedded/editor-load';
     export const embeddedEditorSaveError = '/errors/embedded/editor-save';
     export const embeddedDeleteError = '/errors/embedded/delete';
