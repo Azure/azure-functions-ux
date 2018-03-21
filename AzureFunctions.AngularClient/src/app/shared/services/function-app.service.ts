@@ -171,7 +171,7 @@ export class FunctionAppService {
             });
         }
 
-        if (proxiesJson.proxies) {
+        if (proxiesJson) {
             const validateResult = jsonschema.validate(proxiesJson, schemaJson);
             if (!validateResult.valid) {
                 return Observable.throw({
