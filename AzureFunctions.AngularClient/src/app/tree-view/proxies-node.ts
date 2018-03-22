@@ -111,7 +111,7 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
                         this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                             errorId: response.error.errorId,
                             message: response.error.message,
-                            resourceId: ""
+                            resourceId: this._context.site.id
                         })
                     }
 

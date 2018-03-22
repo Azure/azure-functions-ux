@@ -126,8 +126,8 @@ export class FunctionAppService {
         return this
             .getClient(context)
             .execute(
-                /*input*/ { resourceId: context.site.id },
-                /*query*/ token => Observable
+                { resourceId: context.site.id }, /*input*/ 
+                token => Observable /*query*/ 
                     .zip(
                         this.retrieveProxies(context, token),
                         this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
