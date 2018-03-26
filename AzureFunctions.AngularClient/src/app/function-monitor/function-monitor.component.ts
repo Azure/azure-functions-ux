@@ -95,7 +95,7 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
                 if (!appSettings.properties[Constants.azureWebJobsDashboardSettingsName]) {
                     this.azureWebJobsDashboardMissed = true;
                     if (this.aiId) {
-                        this.openAppInsigthsBlade();
+                        this.openAppInsightsBlade();
                     }
                     return Observable.of(null);
                 } else {
@@ -129,7 +129,7 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
             });
     }
 
-    openAppInsigthsBlade() {
+    openAppInsightsBlade() {
         this._portalService.openBlade(
             {
                 detailBlade: 'AspNetOverview',
