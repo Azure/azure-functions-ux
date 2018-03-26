@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { ProxyNode } from './../tree-view/proxy-node';
 import { ProxiesNode } from './../tree-view/proxies-node';
 import { TreeViewInfo } from './../tree-view/models/tree-view-info';
+import { errorIds } from '../shared/models/error-ids';
 
 interface ProxyItem {
   name: string;
@@ -22,6 +23,7 @@ export class ProxiesListComponent implements OnDestroy {
   public viewInfoStream: Subject<TreeViewInfo<any>>;
   public proxies: ProxyItem[] = [];
   public isLoading: boolean;
+  public requiresAdvancedEditor: boolean = false;
 
   private _ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -37,10 +39,19 @@ export class ProxiesListComponent implements OnDestroy {
       .switchMap(viewInfo => {
         this.isLoading = true;
         this._proxiesNode = (<ProxiesNode>viewInfo.node);
+
+        this._clearProxyErrors([
+          errorIds.proxyJsonNotValid,
+          errorIds.proxySchemaNotValid,
+          errorIds.proxySchemaValidationFails
+        ]);
+
         return this._proxiesNode.loadChildren();
       })
       .subscribe(() => {
         this.isLoading = false;
+        this.requiresAdvancedEditor = this._proxiesNode.requiresAdvancedEditor;
+        
         this.proxies = (<ProxyNode[]>this._proxiesNode.children)
           .map(p => {
             return <ProxyItem>{
@@ -50,6 +61,10 @@ export class ProxiesListComponent implements OnDestroy {
             };
           });
       });
+  }
+
+  private _clearProxyErrors(errorIds: string[]): void {
+    errorIds.forEach(errorId => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, errorId));
   }
 
   ngOnDestroy(): void {
@@ -68,4 +83,7 @@ export class ProxiesListComponent implements OnDestroy {
     this._proxiesNode.openCreateDashboard(DashboardType.CreateProxyDashboard);
   }
 
+  openAdvancedEditor() {
+    window.open(this._proxiesNode.getProxyAdvancedEditorUrl());
+  }
 }

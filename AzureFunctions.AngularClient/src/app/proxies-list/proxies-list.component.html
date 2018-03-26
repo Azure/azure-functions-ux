@@ -1,7 +1,11 @@
 <command-bar>
-  <command displayText="{{ 'apiProxy_new' | translate }}" 
+  <command *ngIf="!requiresAdvancedEditor" displayText="{{ 'apiProxy_new' | translate }}" 
     iconUrl="image/add.svg" 
     (click)="onNewProxyClick()"></command>
+
+    <command *ngIf="requiresAdvancedEditor" displayText="{{ 'functionIntegrate_advancedEditor' | translate }}"
+        (click)="openAdvancedEditor()"
+        iconUrl="image/open-external.svg"></command>
 </command-bar>
 
 <div class="browse-container">
@@ -20,7 +24,7 @@
       <td>{{item.url}}</td>
     </tr>
 
-    <tr *ngIf="table.items.length === 0 || isLoading">    
+    <tr *ngIf="table.items.length === 0 || isLoading">
       <td *ngIf="isLoading" colspan="2">{{'functionMonitor_loading' | translate}}</td>
       <td *ngIf="!isLoading && table.items.length === 0" colspan="2">{{'noResults' | translate}}</td>
     </tr>
