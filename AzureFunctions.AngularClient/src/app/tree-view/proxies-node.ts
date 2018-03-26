@@ -8,11 +8,14 @@ import { TreeNode } from './tree-node';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { DashboardType } from './models/dashboard-type';
 import { ProxyNode } from './proxy-node';
+import { BroadcastEvent } from './../shared/models/broadcast-event';
+import { ErrorEvent } from './../shared/models/error-event';
 
 export class ProxiesNode extends BaseFunctionsProxiesNode {
     public title = this.sideNav.translateService.instant(PortalResources.appFunctionSettings_apiProxies);
     public dashboardType = DashboardType.ProxiesDashboard;
     public newDashboardType = DashboardType.CreateProxyDashboard;
+    public requiresAdvancedEditor: boolean = false;
 
     constructor(
         sideNav: SideNavComponent,
@@ -67,6 +70,10 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
         this.openCreateNew();
     }
 
+    public getProxyAdvancedEditorUrl() {
+        return `${this._context.scmUrl}/dev/wwwroot/proxies.json`;
+    }
+
     protected _updateTreeForNonUsableState(title: string) {
         this.disabled = true;
         this.newDashboardType = null;
@@ -88,13 +95,24 @@ export class ProxiesNode extends BaseFunctionsProxiesNode {
         }
 
         if (!this.children || this.children.length === 0) {
-            return this._functionAppService.getApiProxies(this._context)
-                .map(proxies => {
+            return this._functionAppService
+                .getApiProxies(this._context)
+                .map(response => {
                     const fcNodes = <ProxyNode[]>[];
-                    if (proxies.isSuccessful) {
-                        proxies.result.forEach(proxy => {
+                    if (response.isSuccessful) {
+                        this.requiresAdvancedEditor = false;
+
+                        response.result.forEach(proxy => {
                             fcNodes.push(new ProxyNode(this.sideNav, proxy, this._context.site, this));
                         });
+                    } else {
+                        this.requiresAdvancedEditor = true;
+
+                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                            errorId: response.error.errorId,
+                            message: response.error.message,
+                            resourceId: this._context.site.id
+                        })
                     }
 
                     this.children = fcNodes;
