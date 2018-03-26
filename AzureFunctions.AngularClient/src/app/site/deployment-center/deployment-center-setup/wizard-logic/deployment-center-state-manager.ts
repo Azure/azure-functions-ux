@@ -9,6 +9,8 @@ import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
+import { Constants } from '../../../../shared/models/constants';
+import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -16,13 +18,20 @@ export class DeploymentCenterStateManager implements OnDestroy {
     public resourceIdStream = new ReplaySubject<string>(1);
     public wizardForm: FormGroup = new FormGroup({});
     private _resourceId = '';
+    private _location = '';
     private _ngUnsubscribe = new Subject();
     private _token: string;
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
         private _userService: UserService) {
-        this.resourceIdStream.subscribe(r => this._resourceId = r);
+        this.resourceIdStream.subscribe(r => {
+            this._resourceId = r;
+            this._armService.get(this._resourceId).subscribe(s => {
+                this._location = s.json().location;
+            });
+
+        });
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this._token = r.token;
         });
@@ -83,11 +92,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
         let vstsCall = new Observable();
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
             vstsCall = vstsCall
-                .switchMap(r => this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}S&api-version=4.0-preview.1`, true, this.getVstsHeaders(this._token)));
+                .switchMap(r => {
+                    return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}S&api-version=4.0-preview.1`, true, this.getVstsHeaders(this._token));
+                });
         }
-        vstsCall = vstsCall
-            .switchMap(r => this._cacheService.post(`https://${this.wizardValues.buildSettings.vstsAccount}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`, true, this.getVstsHeaders(this._token), deploymentObject));
-        return vstsCall;
+        // vstsCall = vstsCall
+        //     .switchMap(r => {
+        return this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsHeaders(this._token), deploymentObject);
+        //     });
+        // return vstsCall;
     }
 
     private get _ciConfig(): CiConfiguration {
@@ -127,7 +140,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             authorizationInfo: {
                 scheme: 'PersonalAccessToken',
                 parameters: {
-                    Authorization: `#{GithubToken}#`
+                    AccessToken: `#{GithubToken}#`
                 }
             },
             defaultBranch: `refs/heads/${this.wizardValues.sourceSettings.branch}`,
@@ -179,6 +192,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
 
     private get _primaryTarget(): AzureAppServiceDeploymentTarget {
+        const tid = parseToken(this._token).tid;
         const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
         const targetObject = {
             provider: DeploymentTargetProvider.Azure,
@@ -187,9 +201,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
             friendlyName: 'Production',
             subscriptionId: siteDescriptor.subscription,
             subscriptionName: '',
-            tenantId: '',
+            tenantId: tid,
             resourceIdentifier: siteDescriptor.site,
-            location: '',
+            location: this._location,
             resourceGroupName: siteDescriptor.resourceGroup,
             authorizationInfo: {
                 scheme: 'Headers',

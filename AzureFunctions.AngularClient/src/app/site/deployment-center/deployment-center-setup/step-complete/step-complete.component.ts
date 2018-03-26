@@ -70,17 +70,17 @@ export class StepCompleteComponent implements OnInit {
 
     Save() {
         this._busyManager.setBusy();
-        this.wizard.Deploy()
-            .subscribe(
-                r => {
-                    this._busyManager.clearBusy();
-                    this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
-                },
-                err => {
-                    this._busyManager.clearBusy();
-                    this._logService.error(LogCategories.cicd, '/save-cicd', err);
-                }
-            );
+        const t = this.wizard.Deploy();
+        t.subscribe(
+            r => {
+                this._busyManager.clearBusy();
+                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+            },
+            err => {
+                this._busyManager.clearBusy();
+                this._logService.error(LogCategories.cicd, '/save-cicd', err);
+            }
+        );
     }
 
     public get summaryItems(): summaryItem[] {
