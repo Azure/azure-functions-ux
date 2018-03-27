@@ -126,8 +126,8 @@ export class FunctionAppService {
         return this
             .getClient(context)
             .execute(
-                { resourceId: context.site.id }, /*input*/ 
-                token => Observable /*query*/ 
+                { resourceId: context.site.id }, /*input*/
+                token => Observable /*query*/
                     .zip(
                         this.retrieveProxies(context, token),
                         this._cacheService.get('assets/schemas/proxies.json', false, this.portalHeaders(token)),
@@ -135,7 +135,7 @@ export class FunctionAppService {
                     .flatMap(response => this.validateAndGetProxies(response.proxies, response.schema)));
     }
 
-    private retrieveProxies(context: FunctionAppContext, token: string) : Observable<any> {
+    private retrieveProxies(context: FunctionAppContext, token: string): Observable<any> {
         return this._cacheService
             .get(context.urlTemplates.proxiesJsonUrl, false, this.headers(token))
             .catch(err => err.status === 404
@@ -147,8 +147,7 @@ export class FunctionAppService {
                 : Observable.throw(err));
     }
 
-    private validateAndGetProxies(proxiesResponse: any, schemaResponse: any) : Observable<ApiProxy[]>
-    {
+    private validateAndGetProxies(proxiesResponse: any, schemaResponse: any): Observable<ApiProxy[]> {
         let proxiesJson, schemaJson;
 
         try {
@@ -181,7 +180,7 @@ export class FunctionAppService {
                 });
             }
         }
-        
+
         return Observable.of(ApiProxy.fromJson(proxiesJson));
     }
 
@@ -431,14 +430,13 @@ export class FunctionAppService {
     }
 
     deleteFunction(context: FunctionAppContext, functionInfo: FunctionInfo): Result<void> {
-        return this.getClient(context).execute({ resourceId: context.site.id }, t =>
-            this._cacheService.delete(functionInfo.href, this.jsonHeaders(t)));
-        // .concatMap(r => this.getRuntimeGeneration())
-        // .concatMap((runtimeVersion: string) => {
-        //     return runtimeVersion === 'V2'
-        //         ? this.updateDisabledAppSettings([functionInfo])
-        //         : Observable.of(null);
-        // }));
+        return this.getClient(context)
+            .execute({ resourceId: context.site.id }, t => {
+                return this._cacheService.delete(functionInfo.href, this.jsonHeaders(t));
+            })
+            .do(r => {
+                this._cacheService.clearCachePrefix(context.urlTemplates.functionsUrl);
+            });
     }
 
     // TODO: [ahmels] change to Result<T>
