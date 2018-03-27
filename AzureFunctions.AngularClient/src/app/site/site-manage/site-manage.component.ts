@@ -198,14 +198,15 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         ];
 
         const developmentToolFeatures = [
-            new TabFeature(
-                this._translateService.instant(PortalResources.tab_logicApps),
-                this._translateService.instant(PortalResources.tab_logicApps),
-                this._translateService.instant(PortalResources.feature_logicAppsInfo),
-                'image/logicapp.svg',
-                SiteTabIds.logicApps,
-                this._broadcastService
-            ),
+            this._scenarioService.checkScenario(ScenarioIds.addLogicApps, { site: site }).status !== 'disabled'
+                ? new TabFeature(
+                    this._translateService.instant(PortalResources.tab_logicApps),
+                    this._translateService.instant(PortalResources.tab_logicApps),
+                    this._translateService.instant(PortalResources.feature_logicAppsInfo),
+                    'image/logicapp.svg',
+                    SiteTabIds.logicApps,
+                    this._broadcastService
+                ) : null,
 
             this._scenarioService.checkScenario(ScenarioIds.addConsole, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
