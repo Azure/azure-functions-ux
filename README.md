@@ -12,7 +12,7 @@
 git clone git@github.com:Azure/azure-functions-ux.git
 # there is a gulp process to build and run everything
 yarn install
-gulp run-dev
+yarn run gulp run-dev
  ```
 
 
