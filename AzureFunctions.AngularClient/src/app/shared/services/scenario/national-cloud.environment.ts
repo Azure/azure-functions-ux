@@ -39,6 +39,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.addLogicApps] = {
+            id: ScenarioIds.addLogicApps,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
         this.scenarioChecks[ScenarioIds.enableAppInsights] = {
             id: ScenarioIds.enableAppInsights,
             runCheck: () => {
