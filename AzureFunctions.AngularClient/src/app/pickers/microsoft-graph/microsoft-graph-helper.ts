@@ -190,11 +190,11 @@ export class MicrosoftGraphHelper {
 
         return this._functionAppService.createAuthSettings(this.context, authSettings)
             .do(null,
-            error => {
-                if (this._aiService) {
-                    this._aiService.trackException(error, 'Error occurred while setting necessary authsettings');
-                }
-            });
+                error => {
+                    if (this._aiService) {
+                        this._aiService.trackException(error, 'Error occurred while setting necessary authsettings');
+                    }
+                });
     }
 
     private checkForExistingAAD(rootUri: string): Observable<any> {
@@ -269,7 +269,7 @@ function trimTrailingSlash(url): string {
     return url.replace(/\/$/, '');
 }
 
-function parseToken(token: string) {
+export function parseToken(token: string) {
     const segments = token.split('.');
 
     if (segments.length >= 2) {

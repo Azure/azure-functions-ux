@@ -1,20 +1,20 @@
-<div class="settings-group-wrapper">
-  
-    <h3 class="first-config-heading">{{'code' | translate}}</h3>
-  
-    <div class="settings-wrapper">
-      <div class="setting-wrapper">
-        <div class="setting-label">{{'folder' | translate}}
-          <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-            <span class="glyphicon glyphicon-info-sign button-title"></span>
-          </pop-over>
-        </div>
-        <div class="setting-control-container">
-          <drop-down [control]="this.wizard?.sourceSettings?.controls?.repoUrl" [options]="!!folderList ? folderList : []"
-            [highlightDirty]="true">
-          </drop-down>
-        </div>
+<div class="settings-group-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
+
+  <h3 class="first-config-heading">{{'code' | translate}}</h3>
+
+  <div class="settings-wrapper">
+    <div class="setting-wrapper">
+      <div class="setting-label">{{'folder' | translate}}
+        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
+          <span class="glyphicon glyphicon-info-sign button-title"></span>
+        </pop-over>
       </div>
-  
+      <div class="setting-control-container">
+        <ng-select class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="Select Folder"
+          [clearable]="false" [(ngModel)]="selectedFolder" formControlName="repoUrl ">
+        </ng-select>
+      </div>
     </div>
+
   </div>
+</div>

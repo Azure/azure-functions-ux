@@ -247,11 +247,13 @@ export class StepSourceControlComponent {
 
     public selectProvider(card: ProviderCard) {
         this.selectedProvider = card;
-        this._wizardService.wizardForm.controls['sourceProvider'].setValue(card.id, { onlySelf: true });
+        const currentFormValues = this._wizardService.wizardValues;
+        currentFormValues.sourceProvider = card.id;
+        this._wizardService.wizardValues = currentFormValues;
     }
 
     public authorize() {
-        let provider = this.selectedProvider.id;
+        const provider = this.selectedProvider.id;
         const win = window.open(`${Constants.serviceHost}auth/${provider}/authorize`, 'windowname1', 'width=800, height=600');
         const clearInterval = new Subject();
         Observable.timer(100, 100).takeUntil(this._ngUnsubscribe).takeUntil(clearInterval).subscribe(() => {

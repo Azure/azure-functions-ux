@@ -11,6 +11,7 @@ import { Guid } from 'app/shared/Utilities/Guid';
 import { LogService } from 'app/shared/services/log.service';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Subject';
+import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-configure-github',
@@ -26,6 +27,12 @@ export class ConfigureGithubComponent implements OnDestroy {
     private reposStream = new ReplaySubject<string>();
     private _ngUnsubscribe = new Subject();
     private orgStream = new ReplaySubject<string>();
+    public reposLoading = false;
+    public branchesLoading = false;
+
+    public selectedOrg = '';
+    public selectedRepo = '';
+    public selectedBranch = '';
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -34,15 +41,25 @@ export class ConfigureGithubComponent implements OnDestroy {
         private _logService: LogService
     ) {
         this.orgStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+            this.reposLoading = true;
             this.fetchRepos(r);
         });
         this.reposStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+            this.branchesLoading = true;
             this.fetchBranches(r);
         });
 
         this.fetchOrgs();
+        this.updateFormValidation();
     }
-
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
+    }
     fetchOrgs() {
         return Observable.zip(
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?orgs=', true, null, {
@@ -68,7 +85,6 @@ export class ConfigureGithubComponent implements OnDestroy {
                     value: org.url
                 });
             });
-
             this.OrgList = newOrgsList;
         });
     }
@@ -79,8 +95,8 @@ export class ConfigureGithubComponent implements OnDestroy {
             this.RepoList = [];
             this.BranchList = [];
 
-            //This branch is to handle the differences between getting a users personal repos and getting repos for a specific org such as Azure
-            //The API handles these differently but the UX shows them the same
+            // This branch is to handle the differences between getting a users personal repos and getting repos for a specific org such as Azure
+            // The API handles these differently but the UX shows them the same
             if (org.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
@@ -115,6 +131,7 @@ export class ConfigureGithubComponent implements OnDestroy {
                         return Observable.of(ret);
                     });
             }
+            // tslint:disable-next-line:no-unused-expression
             fetchListCall.subscribe(r => {
                 const newRepoList: DropDownElement<string>[] = [];
                 this.repoUrlToNameMap = {};
@@ -131,7 +148,9 @@ export class ConfigureGithubComponent implements OnDestroy {
                     });
 
                 this.RepoList = newRepoList;
+                this.reposLoading = false;
             }), err => {
+                this.reposLoading = false;
                 this._logService.error(LogCategories.cicd, '/fetch-github-repos', err);
             };
         }
@@ -146,8 +165,7 @@ export class ConfigureGithubComponent implements OnDestroy {
                 })
                 .subscribe(
                     r => {
-                        const newBranchList: DropDownElement<string>[] = [];
-
+                        const newBranchList: any[] = [];
                         r.json().forEach(branch => {
                             newBranchList.push({
                                 displayLabel: branch.name,
@@ -156,25 +174,25 @@ export class ConfigureGithubComponent implements OnDestroy {
                         });
 
                         this.BranchList = newBranchList;
+                        this.branchesLoading = false;
                     },
                     err => {
                         this._logService.error(LogCategories.cicd, '/fetch-github-branches', err);
+                        this.branchesLoading = false;
                     }
                 );
         }
     }
 
-    RepoChanged(repo: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.githubUri}/${this.repoUrlToNameMap[repo]}`;
-        this.reposStream.next(repo);
+    RepoChanged(repo: DropDownElement<string>) {
+        this.reposStream.next(repo.value);
+        this.selectedBranch = '';
     }
 
-    OrgChanged(org: string) {
-        this.orgStream.next(org);
-    }
-
-    BranchChanged(branch: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.branch = branch;
+    OrgChanged(org: DropDownElement<string>) {
+        this.orgStream.next(org.value);
+        this.selectedRepo = '';
+        this.selectedBranch = '';
     }
 
     ngOnDestroy(): void {

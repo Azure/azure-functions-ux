@@ -18,9 +18,9 @@
 </div>
 <div class="footer">
   <button type="button" *ngIf="selectedProvider && (selectedProvider.authorizedStatus === 'authorized' || selectedProvider.authorizedStatus === 'none')"
-    class="custom-button form-button" nextStep>{{'continue' || translate}}</button>
+    class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
   <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'notAuthorized'" class="custom-button form-button"
-    (click)="authorize()">{{'authorize' || translate}}</button>
+    (click)="authorize()">{{'authorize' | translate}}</button>
   <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'authorized'" class="custom-button form-button"
-    (click)="authorize()">{{'changeAuthorization' || translate}}</button>
+    (click)="authorize()">{{'changeAuthorization' | translate}}</button>
 </div>

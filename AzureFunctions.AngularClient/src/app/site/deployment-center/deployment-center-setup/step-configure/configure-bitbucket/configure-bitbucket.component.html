@@ -1,4 +1,4 @@
-<div class="settings-group-wrapper">
+<div class="settings-group-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
 
   <h3 class="first-config-heading">{{'code' | translate}}</h3>
   <div class="settings-wrapper">
@@ -9,9 +9,9 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [options]="!!RepoList ? RepoList : []" [highlightDirty]="true"
-          (value)="RepoChanged($event)">
-        </drop-down>
+        <ng-select class="custom-select" [items]="RepoList" bindLabel="displayLabel" bindValue="value" placeholder="Select Repo"
+          [clearable]="false" formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="RepoChanged($event)">
+        </ng-select>
       </div>
     </div>
 
@@ -22,9 +22,9 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <drop-down [options]="!!BranchList ? BranchList : []"
-          [highlightDirty]="true">
-        </drop-down>
+        <ng-select class="custom-select" [items]="BranchList" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
+          [clearable]="false" [(ngModel)]="selectedBranch" formControlName="branch">
+        </ng-select>
       </div>
     </div>
   </div>

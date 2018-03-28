@@ -2,131 +2,41 @@
 
   <h3 class="first-config-heading">{{'code' | translate}}</h3>
 
-  <div class="settings-wrapper">
+  <div class="settings-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
     <div class="setting-wrapper">
       <div class="setting-label">{{'vstsAccount' | translate}}</div>
       <div class="setting-control-container">
-        <drop-down [options]="!!AccountList ? AccountList : []"
-          [highlightDirty]="true" (value)="accountChanged($event)">
-        </drop-down>
+        <ng-select class="custom-select" [items]="AccountList" bindLabel="displayLabel" bindValue="value" placeholder="Select Account"
+          [clearable]="false" [(ngModel)]="selectedAccount" formControlName="vstsAccount" (change)="accountChanged($event)">
+        </ng-select>
       </div>
     </div>
 
-    <div class="setting-wrapper">
+    <div class="setting-wrapper" [formGroup]="wizard?.buildSettings" novalidate>
       <div class="setting-label">{{'project' | translate}}</div>
       <div class="setting-control-container">
-        <drop-down [options]="!!ProjectList ? ProjectList : []"
-          [highlightDirty]="true" (value)="projectChanged($event)">
-        </drop-down>
+        <ng-select class="custom-select" [items]="ProjectList" bindLabel="displayLabel" bindValue="value" placeholder="Select Project"
+          [clearable]="false" [(ngModel)]="selectedProject" formControlName="vstsProject" (change)="projectChanged($event)">
+        </ng-select>
       </div>
     </div>
 
-    <div class="setting-wrapper">
+    <div class="setting-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
       <div class="setting-label">{{'repository' | translate}}</div>
       <div class="setting-control-container">
-        <drop-down [options]="!!RepositoryList ? RepositoryList : []"
-          [highlightDirty]="true" (value)="repoChanged($event)">
-        </drop-down>
+        <ng-select class="custom-select" [items]="RepositoryList" bindLabel="displayLabel" bindValue="value" placeholder="Select Repository"
+          [clearable]="false" formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="repoChanged($event)">
+        </ng-select>
       </div>
     </div>
 
-    <div class="setting-wrapper">
+    <div class="setting-wrapper" [formGroup]="wizard?.sourceSettings" novalidate>
       <div class="setting-label">{{'branch' | translate}}</div>
       <div class="setting-control-container">
-        <drop-down [options]="!!BranchList ? BranchList : []"
-          [highlightDirty]="true" (value)="branchChanged($event)">
-        </drop-down>
+        <ng-select class="custom-select" [items]="BranchList" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
+          [clearable]="false" [(ngModel)]="selectedBranch" formControlName="branch">
+        </ng-select>
       </div>
     </div>
-<!-- 
-    <div class="setting-wrapper">
-      <div class="setting-label"> Web Application Framework
-        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-          <span class="glyphicon glyphicon-info-sign button-title"></span>
-        </pop-over>
-      </div>
-      <div class="setting-control-container">
-        <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!WebApplicationFrameworks? WebApplicationFrameworks : []"
-          [highlightDirty]="true" (value)="frameworkChanged($event)">
-        </drop-down>
-      </div>
-    </div>
-
-    <div *ngIf="chosenBuildFramework!=='AspNetWap' && chosenBuildFramework!=='AspNetCore'">
-
-      <div class="setting-wrapper" *ngIf="showWorkingDirectory">
-        <div class="setting-label"> Working Directory
-          <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-            <span class="glyphicon glyphicon-info-sign button-title"></span>
-          </pop-over>
-        </div>
-        <div class="setting-control-container">
-          <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
-        </div>
-      </div>
-
-      <div class="setting-wrapper" *ngIf="chosenBuildFramework==='Node'">
-        <div class="setting-label"> Task Runner
-          <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-            <span class="glyphicon glyphicon-info-sign button-title"></span>
-          </pop-over>
-        </div>
-        <div class="setting-control-container">
-          <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
-            [highlightDirty]="true">
-          </drop-down>
-        </div>
-      </div>
-
-      <div *ngIf="chosenBuildFramework==='Python'">
-        <div class="setting-wrapper">
-          <div class="setting-label"> Python Framework
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
-          <div class="setting-control-container">
-            <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
-              [highlightDirty]="true">
-            </drop-down>
-          </div>
-        </div>
-
-        <div class="setting-wrapper">
-          <div class="setting-label"> Python Version
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
-          <div class="setting-control-container">
-            <drop-down [control]="!!group ? group.controls['netFrameWorkVersion'] : null" [options]="!!FrameworkList ? FramworkList : []"
-              [highlightDirty]="true">
-            </drop-down>
-          </div>
-        </div>
-
-        <div class="setting-wrapper">
-          <div class="setting-label"> Django Settings Module
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
-          <div class="setting-control-container">
-            <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
-          </div>
-        </div>
-
-        <div class="setting-wrapper">
-          <div class="setting-label"> Flask project name
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
-          <div class="setting-control-container">
-            <textbox [control]="!!group ? group.controls['value']: null" [placeholder]="'enter value'"></textbox>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </div>

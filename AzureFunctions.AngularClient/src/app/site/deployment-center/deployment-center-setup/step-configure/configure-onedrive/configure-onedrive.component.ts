@@ -8,6 +8,7 @@ import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/
 import { Subject } from 'rxjs/Subject';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
+import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-configure-onedrive',
@@ -41,7 +42,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
             .subscribe(
                 r => {
                     const rawFolders = r.json();
-                    let options: DropDownElement<string>[] = [];
+                    const options: DropDownElement<string>[] = [];
                     const splitRID = this._resourceId.split('/');
                     const siteName = splitRID[splitRID.length - 1];
 
@@ -61,13 +62,23 @@ export class ConfigureOnedriveComponent implements OnDestroy {
                     });
 
                     this.folderList = options;
-                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.onedriveApiUri}/${siteName}`;
+                    const vals = this.wizard.wizardValues;
+                    vals.sourceSettings.repoUrl = `${DeploymentCenterConstants.onedriveApiUri}/${siteName}`;
+                    this.wizard.wizardValues = vals;
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-onedrive-folders', err);
                 }
             );
         this.fillOnedriveFolders();
+    }
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators([]);
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
 
     public fillOnedriveFolders() {

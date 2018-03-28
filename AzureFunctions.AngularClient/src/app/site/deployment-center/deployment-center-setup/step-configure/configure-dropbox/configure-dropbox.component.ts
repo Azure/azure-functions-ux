@@ -7,6 +7,7 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
+import { Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-configure-dropbox',
@@ -17,6 +18,7 @@ export class ConfigureDropboxComponent {
     private _resourceId: string;
     public folderList: DropDownElement<string>[];
 
+    selectedFolder = '';
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -29,8 +31,16 @@ export class ConfigureDropboxComponent {
             this._resourceId = r;
         });
         this.fillDropboxFolders();
+        this.updateFormValidation();
     }
-
+    updateFormValidation() {
+        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        this.wizard.sourceSettings.get('branch').setValidators([]);
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
+    }
     public fillDropboxFolders() {
         this.folderList = [];
         return this._cacheService
@@ -44,7 +54,7 @@ export class ConfigureDropboxComponent {
             .subscribe(
                 r => {
                     const rawFolders = r.json();
-                    let options: DropDownElement<string>[] = [];
+                    const options: DropDownElement<string>[] = [];
                     const splitRID = this._resourceId.split('/');
                     const siteName = splitRID[splitRID.length - 1];
 
@@ -64,7 +74,9 @@ export class ConfigureDropboxComponent {
                     });
 
                     this.folderList = options;
-                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.dropboxUri}/${siteName}`;
+                    const vals = this.wizard.wizardValues;
+                    vals.sourceSettings.repoUrl = `${DeploymentCenterConstants.dropboxUri}/${siteName}`;
+                    this.wizard.wizardValues = vals;
                 },
                 err => {
                     this._logService.error(LogCategories.cicd, '/fetch-dropbox-folders', err);
