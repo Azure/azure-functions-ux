@@ -7,8 +7,10 @@
     </span>
 
     <div [class.non-visible]="!showRequest" [class.shown-container]="showRequest">
-        <div>
-            <div class="control-label">{{ 'httpRun_httpMethod' | translate }}</div>
+        <div class="edit">
+            <div class="control-label">
+                {{ 'httpRun_httpMethod' | translate }}
+            </div>
 
             <select *ngIf="model" [(ngModel)]="model.method" (ngModelChange)="changeValue()">
                 <option value="no">{{ 'apiProxy_noOverride' | translate }}</option>
@@ -16,25 +18,27 @@
             </select>
         </div>
 
-        <div>
+        <div class="edit">
+            <div class="control-label">
+                {{ 'httpRun_query' | translate }}
+            </div>
+
             <pair-list *ngIf="paramsOptions"
                         [options]="paramsOptions"
                         addButtonLabel="{{ 'httpRun_addParameter' | translate}}"
-                        emptyLabel="{{ 'httpRun_noQuery' | translate }}"
-                        title="{{ 'httpRun_query' | translate }}"
                         (valueChanges)="paramsValueChanges($event)">
-
             </pair-list>
         </div>
 
-        <div>
+        <div class="edit">
+            <div class="control-label">
+                {{ 'httpRun_headers' | translate }}
+            </div>
+
             <pair-list *ngIf="headerOptions"
                         [options]="headerOptions"
                         addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
-                        emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
-                        title="{{ 'httpRun_headers' | translate }}"
                         (valueChanges)="headerValueChanges($event)">
-
             </pair-list>
         </div>
     </div>
@@ -47,13 +51,13 @@
 
     <div [class.non-visible]="!showResponse" [class.shown-container]="showResponse">
         <div class="response-status">
-            <div>
+            <div class="edit">
                 <div>
                     <label class="control-label">{{ 'rrOverride_code' | translate }}</label>
                 </div>
                 <input type="text" [(ngModel)]="model.statusCode" (ngModelChange)="changeValue()">
             </div>
-            <div>
+            <div class="edit">
                 <div>
                     <label class="control-label">{{ 'rrOverride_message' | translate }}</label>
                 </div>
@@ -61,18 +65,20 @@
             </div>
         </div>
 
-        <div>
+        <div class="edit">
+            <div class="control-label">
+                {{ 'httpRun_headers' | translate }}
+            </div>
+
             <pair-list *ngIf="responseHeaderOptions"
                         [options]="responseHeaderOptions"
                         addButtonLabel="{{ 'httpRun_addHeader' | translate}}"
-                        emptyLabel="{{ 'httpRun_noHeaders' | translate }}"
-                        title="{{ 'httpRun_headers' | translate }}"
                         (valueChanges)="responseHeaderValueChanges($event)">
 
             </pair-list>
         </div>
 
-        <div>
+        <div class="edit">
             <label class="control-label">{{ 'rrOverride_boby' | translate }}</label>
             <div monacoEditor class="monaco response-body"
                     (onContentChanged)="contentChanged($event)"

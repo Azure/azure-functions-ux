@@ -22,7 +22,6 @@ export interface StartupInfo {
     acceptLanguage: string;
     effectiveLocale: string;
     resourceId: string;
-    graphToken: string;
     theme: string;
     crmInfo?: CrmInfo;
     armEndpoint?: string;
@@ -197,4 +196,10 @@ export enum PartSize {
      * A tile with a custom size.
      */
     Custom = 99,
+}
+
+
+export interface TokenResponse { 
+    tokenType: 'graph' | 'azureTfsApi';
+    token: string
 }

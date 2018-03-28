@@ -10,35 +10,11 @@
 
  ``` bash
 git clone git@github.com:Azure/azure-functions-ux.git
-# there are 2 places to restore packages in
-cd azure-functions-ux/server
+# there is a gulp process to build and run everything
 yarn install
-yarn run gulp build-all
-cd ../AzureFunctions.AngularClient
-yarn install
+yarn run gulp run-dev
  ```
 
-to run the server
-
-```bash
-cd server
-yarn run watch
-```
-
-this will launch the server watching the files for any changes and will trigger a rebuild. To run the client in the same way
-
-```bash
-cd AzureFunctions.AngularClient
-yarn run watch
-```
-
-you have to do this at least once (or `yarn run build`) for the page to load.
-
-If you're using bash and want to run both you can run the following from the top level
-
-```bash
-> ./run.sh
-```
 
 4. Visit `https://portal.azure.com?websitesextension_ext=appsvc.env=local` and load up Function Apps from browse
 

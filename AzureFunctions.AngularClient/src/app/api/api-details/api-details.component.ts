@@ -129,6 +129,7 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
                     resourceId: `${this.context.site.id}/proxies/${this.apiProxyEdit.name}`
                 });
 
+                this.proxiesNode.select();
             });
     }
 

@@ -29,7 +29,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         TranslateModule.forChild(),
         SharedModule,
         SharedFunctionsModule,
-        routing,
+        routing
     ],
     declarations: [
         ProxiesListComponent,
