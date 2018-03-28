@@ -11,6 +11,7 @@ import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
 import { Constants } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
+import { PortalService } from '../../../../shared/services/portal.service';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -21,10 +22,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _location = '';
     private _ngUnsubscribe = new Subject();
     private _token: string;
+    private _vstsApiToken: string;
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
-        private _userService: UserService) {
+        private _userService: UserService,
+        portalService: PortalService) {
         this.resourceIdStream.subscribe(r => {
             this._resourceId = r;
             this._armService.get(this._resourceId).subscribe(s => {
@@ -35,6 +38,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this._token = r.token;
         });
+        portalService.getAdToken('azureTfsApi')
+            .subscribe(tokenData => {
+                this._vstsApiToken = tokenData.result.token;
+            });
+        
     }
     public get wizardValues(
     ): WizardForm {
@@ -208,7 +216,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             authorizationInfo: {
                 scheme: 'Headers',
                 parameters: {
-                    Authorization: `Bearer ${this._token}`
+                    Authorization: `Bearer ${this._vstsApiToken}`
                 }
             },
             createOptions: null,
@@ -268,8 +276,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Authorization', `Bearer ${token}`);
-        headers.append('X-VSS-ForceMsaPassThrough', 'true');
+        headers.append('Authorization', `Bearer ${this._token}`);
+        headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
         return headers;
     }
 

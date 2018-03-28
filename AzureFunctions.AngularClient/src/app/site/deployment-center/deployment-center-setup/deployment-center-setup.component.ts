@@ -14,7 +14,7 @@ import { MovingDirection } from '../../../controls/form-wizard/util/moving-direc
 })
 export class DeploymentCenterSetupComponent implements OnChanges {
     @Input() resourceId: string;
-
+    
     constructor(private _wizardService: DeploymentCenterStateManager, private _fb: FormBuilder, translateService: TranslateService) {
         this._wizardService.wizardForm = this._fb.group({
             sourceProvider: [null, []],

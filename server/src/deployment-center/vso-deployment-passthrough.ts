@@ -17,10 +17,9 @@ export function setupVsoPassthroughAuthentication(app: Application) {
         try {
             await axios.post(uri, body, {
                 headers: {
-                    "Authorization": headers.authorization,
+                    "Authorization": headers.vstsauthorization,
                     "Content-Type": "application/json",
-                    "accept": "application/json;api-version=4.1-preview.1",
-                    'X-VSS-ForceMsaPassThrough': "true"
+                    "accept": "application/json;api-version=4.1-preview.1"
                 }
             });
             res.sendStatus(200);
