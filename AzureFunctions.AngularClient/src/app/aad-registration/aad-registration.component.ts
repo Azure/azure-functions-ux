@@ -64,10 +64,13 @@ export class AadRegistrationComponent extends FunctionAppContextComponent implem
     }
 
     ngOnInit() {
-        this._portalService.getStartupInfo().first().subscribe(info => {
-            this.graphToken = info.graphToken;
-            this.setModel();
-        });
+        this._portalService.getAdToken('graph')
+            .subscribe(tokenData => {
+                this.graphToken = tokenData.result.token;
+            },
+            err => {
+                this.processError(err, "Error retrieving graph yoken")
+            });
     }
 
     openAuth() {

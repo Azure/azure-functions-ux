@@ -43,7 +43,6 @@ export class UserService {
 
         this._startupInfo = {
             token: null,
-            graphToken: null,
             subscriptions: null,
             sessionId: null,
             acceptLanguage: null,
@@ -131,7 +130,6 @@ export class UserService {
                 .subscribe(r => {
                     const info = {
                         token: token,
-                        graphToken: this._startupInfo.graphToken,
                         subscriptions: r.subs,
                         sessionId: this._startupInfo.sessionId,
                         acceptLanguage: this._startupInfo.acceptLanguage,
