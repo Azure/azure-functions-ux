@@ -143,6 +143,7 @@ export class PortalService {
         this.postMessage(Verbs.openBladeCollectorInputs, JSON.stringify(payload));
         return this.operationStream
             .filter(o => o.operationId === operationId)
+            .first()
             .switchMap((o: DataMessage<BladeResult>) => {
                 if (o.data.status === 'success') {
                     return Observable.of(o.data);
@@ -168,6 +169,7 @@ export class PortalService {
         this.postMessage('get-ad-token', JSON.stringify(payload));
         return this.operationStream
             .filter(o=> o.operationId === operationId)
+            .first()
             .switchMap((o: DataMessage<BladeResult>) => {
                 if (o.data.status === 'success') {
                     return Observable.of(o.data);
