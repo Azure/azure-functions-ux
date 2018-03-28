@@ -154,6 +154,31 @@ export class PortalService {
             });
     }
 
+    getAdToken(tokenType: 'graph' | 'azureTfsApi'){
+        this.logAction('portal-service', `get-ad-token: ${tokenType}`, null);
+        const operationId = Guid.newGuid();
+
+        const payload = {
+            operationId: operationId,
+            data: {
+                tokenType: tokenType
+            }
+        }
+
+        this.postMessage('get-ad-token', JSON.stringify(payload));
+        return this.operationStream
+            .filter(o=> o.operationId === operationId)
+            .switchMap((o: DataMessage<BladeResult>) => {
+                if (o.data.status === 'success') {
+                    return Observable.of(o.data);
+                } else if (o.data.status === 'cancelled') {
+                    return Observable.of(null);
+                } else {
+                    return Observable.throw(o.data);
+                }
+            });
+    }
+
     closeBlades() {
         this.postMessage(Verbs.closeBlades, '');
     }
