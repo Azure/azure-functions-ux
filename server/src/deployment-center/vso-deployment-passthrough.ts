@@ -4,7 +4,6 @@ import { getGithubTokens } from "./github-auth";
 import axios from 'axios';
 
 export function setupVsoPassthroughAuthentication(app: Application) {
-    //TODO change any to take type from angular code
     app.post('/api/sepupvso', async (req: ApiRequest<any>, res) => {
         const uri = `https://${req.query.accountName}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
         const headers = req.headers;
@@ -27,21 +26,5 @@ export function setupVsoPassthroughAuthentication(app: Application) {
         catch (err) {
             res.send(err);
         }
-        // const tokenData = await getGithubTokens(req);
-        // if (!tokenData.authenticated) {
-        //     LogHelper.warn('github-passthrough-unauthorized', {});
-        //     res.sendStatus(401);
-        // }
-        // try {
-        //     const response = await axios.get(req.body.url, {
-        //         headers: {
-        //             Authorization: `Bearer ${tokenData.token}`
-        //         }
-        //     });
-        //     res.json(response.data);
-        // } catch (err) {
-        //     LogHelper.error('github-passthrough', err);
-        //     res.send(err.response);
-        // }
     });
 }
