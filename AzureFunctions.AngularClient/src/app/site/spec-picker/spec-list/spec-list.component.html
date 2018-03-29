@@ -1,0 +1,22 @@
+<article class="spec-container">
+  <div *ngFor="let spec of specs"
+  [class]="spec.cssClass"
+  (click)="selectSpec(spec)"
+  [class.selected]="spec === specGroup.selectedSpec"
+  [class.disabled]="spec.state === 'disabled'">
+
+    <h2>{{spec.skuCode}}</h2>
+    <div class="top-features">
+      <div *ngIf="spec.state === 'enabled'">
+        <div *ngFor="let topFeature of spec.topLevelFeatures">{{topFeature}}</div>
+        <div *ngIf="spec.priceString">{{spec.priceString}}</div>
+        <div *ngIf="!spec.priceString">Loading...</div>
+      </div>
+
+      <div *ngIf="spec.state === 'disabled'">
+        <div>{{spec.disabledMessage}}</div>
+        <div *ngIf="spec.disabledInfoLink"><a [href]="spec.disabledInfoLink" target="_blank">Click here to learn more.</a></div>
+      </div>
+    </div>
+  </div>
+</article>

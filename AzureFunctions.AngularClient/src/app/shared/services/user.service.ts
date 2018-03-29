@@ -165,10 +165,11 @@ export class UserService {
 
     private _getSubscriptions(token: string) {
         if (this._inTry) {
-            return Observable.of([{
+            return Observable.of([<Subscription>{
                 subscriptionId: 'TrialSubscription',
                 displayName: 'Trial Subscription',
-                state: 'Enabled'
+                state: 'Enabled',
+                subscriptionPolicies: null
             }]);
         }
 

@@ -1,7 +1,5 @@
 import { UserService } from './../services/user.service';
 import { Directive, EventEmitter, ElementRef, Input, Output, HostBinding } from '@angular/core';
-import 'rxjs/add/operator/distinctUntilChanged';
-
 import { GlobalStateService } from '../services/global-state.service';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Subject } from 'rxjs/Subject';
@@ -258,8 +256,8 @@ export class MonacoEditorDirective {
 
     setMonacoSchema(schemaName: string) {
         this._cacheService.get('assets/schemas/' + schemaName)
-            .subscribe((schema) => {
-                schema.additionalProperties = false;
+            .subscribe((schema: any) => {
+                schema.additionalProperties = false;    // This is weird.  Seems like it's setting a property on HTTP response object
                 monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
                     validate: true,
                     schemas: [{

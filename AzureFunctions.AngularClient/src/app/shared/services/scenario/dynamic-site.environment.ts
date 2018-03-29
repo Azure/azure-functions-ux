@@ -26,6 +26,16 @@ export class DynamicSiteEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.addScaleUp] = {
+            id: ScenarioIds.addScaleUp,
+            runCheck: () => {
+                return {
+                    status: 'disabled',
+                    data: translateService.instant(PortalResources.featureNotSupportedConsumption)
+                };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -64,6 +64,9 @@ import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filte
 import { ActivateWithKeysDirective } from './../controls/activate-with-keys/activate-with-keys.directive';
 import { EmbeddedService } from 'app/shared/services/embedded.service';
 import { SiteService } from 'app/shared/services/site.service';
+import { PlanService } from './services/plan.service';
+import { AseService } from './services/ase.service';
+import { BillingService } from './services/billing.service';
 
 export function ArmServiceFactory(
     http: Http,
@@ -201,6 +204,9 @@ export class SharedModule {
                 GlobalStateService,
                 EmbeddedService,
                 SiteService,
+                PlanService,
+                AseService,
+                BillingService,
                 TelemetryService,
                 { provide: AiService, useFactory: AiServiceFactory },
                 { provide: ErrorHandler, useClass: GlobalErrorHandler }

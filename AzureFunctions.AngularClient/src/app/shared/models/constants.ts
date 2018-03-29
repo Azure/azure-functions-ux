@@ -72,6 +72,7 @@ export class SiteTabIds {
     public static readonly deploymentSlotsConfig = 'deploymentSlotsConfig';
     public static readonly deploymentSlotsSwap = 'deploymentSlotsSwap';
     public static readonly deploymentSlotsCreate = 'deploymentSlotsCreate';
+    public static readonly scaleUp = 'scaleUp';
 }
 
 export class Arm {
@@ -110,6 +111,11 @@ export class Links {
     public static standaloneCreateLearnMore = 'https://go.microsoft.com/fwlink/?linkid=848756';
     public static pythonLearnMore = 'https://go.microsoft.com/fwlink/?linkid=852196';
     public static clientAffinityLearnMore = 'https://go.microsoft.com/fwlink/?linkid=798249';
+}
+
+export class Kinds {
+    public static readonly linux = 'linux';
+    public static readonly aseV2 = 'ASEV2';
 }
 
 export class LocalStorageKeys {
@@ -180,6 +186,7 @@ export class ScenarioIds {
     public static readonly enableProcessExplorer = 'EnableProcessExplorer';
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
+    public static readonly addScaleUp = 'AddScaleUp';
     public static readonly addSiteFileStorage = 'ShowSiteFileStorage';
     public static readonly showSitePin = 'ShowSitePin';
     public static readonly showCreateRefreshSub = 'ShowCreateRefreshSub';
@@ -248,10 +255,15 @@ export class LogCategories {
     public static readonly functionNew = 'FunctionNew';
     public static readonly cicd = 'CICD';
     public static readonly telemetry = 'Telemetry';
+    public static readonly specPicker = 'SpecPicker';
     public static readonly featureComponent = 'FeatureComponent';
     public static readonly deploymentSlots = 'DeploymentSlots';
     public static readonly swapSlots = 'SwapSlots';
     public static readonly addSlot = 'AddSlot';
+}
+
+export class SubscriptionQuotaIds {
+    public static dreamSparkQuotaId: string = 'DreamSpark_2015-02-01';
 }
 
 export class KeyCodes {

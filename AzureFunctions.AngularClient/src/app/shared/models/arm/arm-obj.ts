@@ -8,6 +8,7 @@ export interface ArmObj<T> {
     location: string;
     properties: T;
     identity?: Identity;
+    sku?: Sku;
 }
 
 export interface ArmArrayResult<T> {
@@ -19,4 +20,16 @@ export interface Identity {
     principalId: string;
     tenantId: string;
     type: string;
+}
+
+export interface Sku {
+    name: string;
+    tier?: string;
+    size?: string;
+    family?: string;
+    capacity?: number;
+}
+
+export interface AvailableSku {
+    sku: Sku;
 }

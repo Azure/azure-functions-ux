@@ -28,13 +28,13 @@ export interface DirtyStateEvent {
     reason: string | null;
 }
 
-export interface BusyStateEvent{
+export interface BusyStateEvent {
     busyComponentName: string;
     action: 'setBusyState' | 'clearBusyState' | 'clearOverallBusyState';
     busyStateKey: string;
 }
 
-export interface TreeUpdateEvent{
+export interface TreeUpdateEvent {
     operation: 'add' | 'remove' | 'removeChild' | 'update' | 'navigate';
     resourceId: string;
     data?: any;
