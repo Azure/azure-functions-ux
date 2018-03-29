@@ -119,7 +119,7 @@ gulp.task('prep-production', ['build-production', 'copy-static-files'], (cb) => 
     shell.exec('yarn install');
     shell.exec('yarn run gulp replace-tokens');
     rmdir('node_modules');
-    shell.exec('yarn install --production');// install only optimized produciton npm packages before zipping
+    shell.exec('yarn install --production');// install only optimized produciton npm packages before zipping, needed to run yarn install with developer first though tor un certain gulp scripts
     return gulp.src("**/*").pipe(zip('package.zip')).pipe(gulp.dest('dist'));
 });
 
