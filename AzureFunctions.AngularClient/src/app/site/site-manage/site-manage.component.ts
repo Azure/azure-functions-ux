@@ -83,7 +83,6 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     this._authZService.hasPermission(site.properties.serverFarmId, [AuthzService.readScope]),
                     this._authZService.hasPermission(site.properties.serverFarmId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(site.id)
-                    // (s, p, l) => ({ hasSiteWritePermissions: s, hasPlanReadPermissions: p, hasReadOnlyLock: l })
                 );
             })
             .do(r => {
