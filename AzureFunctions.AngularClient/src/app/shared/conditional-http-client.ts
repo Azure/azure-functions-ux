@@ -1,4 +1,4 @@
-import { ArmError, HttpError } from './models/http-result';
+import { ArmError, HttpError, ArmPollError } from './models/http-result';
 import { Preconditions as p } from './preconditions';
 import { Observable } from 'rxjs/Observable';
 import { HttpResult, HttpErrorResponse } from 'app/shared/models/http-result';
@@ -130,6 +130,11 @@ export class ConditionalHttpClient {
             } else if (response.status === 409 && body.error.code === 'ScopeLocked') {
                 errorId = errorIds.armErrors.scopeLocked;
             }
+        }
+
+        const armPollError = <ArmPollError><any>body;
+        if (!mesg && armPollError && armPollError.Message) {
+            mesg = armPollError.Message;
         }
 
         if (!mesg && response.statusText && response.url) {

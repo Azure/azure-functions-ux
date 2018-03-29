@@ -73,7 +73,7 @@ export class CacheService {
         return this._armService.send('PATCH', url, content);
     }
 
-    get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean) {
+    get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean): Observable<Response> {
         return this.send(url, 'GET', force, headers, null, invokeApi);
     }
 

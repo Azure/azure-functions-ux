@@ -48,6 +48,14 @@
 .msportalfx-svg-c19{ fill: #0072c6;}
 .msportalfx-svg-c20 { fill: #68217a; }
 .msportalfx-svg-c22 { fill: #e81123; }
+.msportalfx-svg-rotate360 {
+    -webkit-animation: ImageRotation 1.45s infinite linear;
+    animation: ImageRotation 1.45s infinite linear;
+}
+
+.fxs-mode-light .fxs-portal-svg {
+    fill: #252525;
+}
 
 #app-root[theme=dark] {
     .svg-monochromatic{

@@ -149,3 +149,21 @@ export class TabFeature extends FeatureItem {
         this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, this.featureId);
     }
 }
+
+export class DisableableTabFeature extends DisableableFeature {
+    constructor(
+        title: string,
+        keywords: string,
+        info: string,
+        imageUrl: string,
+        public featureId: string,
+        private _broadcastService: BroadcastService,
+        disableInfoStream?: Subject<DisableInfo>,
+        overrideDisableInfo?: ScenarioResult) {
+        super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
+    }
+
+    click() {
+        this._broadcastService.broadcastEvent(BroadcastEvent.OpenTab, this.featureId);
+    }
+}
