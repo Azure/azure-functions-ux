@@ -3,26 +3,6 @@
     <div class="float-left" style="width: 55%;">
         <span class="heading">{{'functionMonitor_invocationLog' | translate}}</span>
 
-        <span role="button"
-            tabindex="0"
-            id="refresh-icon"
-            (click)="refreshFuncMonitorGridData()"
-            (keydown)="onKeyPressRefresh($event)"
-            [attr.aria-label]="'refresh' | translate"
-            style="padding-left: 10px;">
-                <i class="fa fa-refresh"></i> 
-                {{ 'refresh' | translate }}
-        </span>
-
-        <span *ngIf="isAppInsightsConnected" class="float-right">
-        <span *ngIf="globalStateService.showTryView" [tooltip]="freeAccountTooltip"
-        tooltipPlacement="right" class="pulse-button-disabled">{{'functionMonitor_pulseUrl' | translate}}</span>
-        <a *ngIf ="!globalStateService.showTryView" (click)="liveStreamCliked()">{{'functionMonitor_pulseUrl' | translate}}</a></span>
-        <tooltip-content #freeAccountTooltip>
-            <p>
-                {{ 'tryNow_FreeAccountToolTip' | translate }}
-            </p>
-        </tooltip-content>
         <span style="clear: right"></span>
         <table class="table-function color-alt-table">
             <thead>

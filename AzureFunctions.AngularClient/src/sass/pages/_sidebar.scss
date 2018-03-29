@@ -58,3 +58,13 @@
         background: rgba($body-bg-color, 0.07) !important;
     }
 }
+
+.sidebar-monitor-details {
+    background-color: $body-bg-color;
+    border-left: 1px darkgrey solid;
+    width: 40vw;
+
+    &.ng-sidebar--opened.ng-sidebar--push {
+        border-left: $border;
+    }
+}

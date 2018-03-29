@@ -1,0 +1,64 @@
+<div id="essentials-container">
+  <h2>Invocation Details</h2>
+</div>
+
+<div *ngIf="!traceDetail" class="monitor-detail-content">
+    <div *ngIf="isLoading" colspan="5">{{'functionMonitor_loading' | translate}}</div>
+    <div *ngIf="!isLoading" colspan="5">{{'noResults' | translate}}</div>
+</div>
+
+<div *ngIf="traceDetail" class="monitor-detail-content">
+    <div>
+      <label class="control-label">
+          {{'operationId' | translate}}
+      </label>
+    </div>
+    <div>
+      {{traceDetail.operationId}}
+    </div>
+
+    <div>
+      <label class="control-label">
+          {{'date' | translate}}
+      </label>
+    </div>
+    <div>
+      {{traceDetail.timestamp}}
+    </div>
+
+    <div>
+      <label class="control-label">
+          {{'url' | translate}}
+      </label>
+    </div>
+    <div>
+      {{traceDetail.url}}
+    </div>
+
+    <div>
+      <label class="control-label">
+          {{'resultCode' | translate}}
+      </label>
+    </div>
+    <div>
+      {{traceDetail.resultCode}}
+    </div>
+
+    <div>
+      <label class="control-label">
+          {{'triggerReason' | translate}}
+      </label>
+    </div>
+    <div>
+      {{traceDetail.customDimensions.TriggerReason}}
+    </div>
+
+    <div>
+      <label class="control-label">
+          {{'error' | translate}}
+      </label>
+    </div>
+    <div>
+      {{traceDetail.innerMostMessage}}
+    </div>
+</div>

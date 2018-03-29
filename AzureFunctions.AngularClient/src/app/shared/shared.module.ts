@@ -67,6 +67,7 @@ import { SiteService } from 'app/shared/services/site.service';
 import { PlanService } from './services/plan.service';
 import { AseService } from './services/ase.service';
 import { BillingService } from './services/billing.service';
+import { ApplicationInsightsService } from './services/application-insights.service';
 
 export function ArmServiceFactory(
     http: Http,
@@ -209,7 +210,8 @@ export class SharedModule {
                 BillingService,
                 TelemetryService,
                 { provide: AiService, useFactory: AiServiceFactory },
-                { provide: ErrorHandler, useClass: GlobalErrorHandler }
+                { provide: ErrorHandler, useClass: GlobalErrorHandler },
+                ApplicationInsightsService
             ]
         };
     }

@@ -1,3 +1,5 @@
+@import '../../sass/common/variables';
+
 #function-aggregates{
     margin-bottom: 20px;
     width: 90%;
@@ -20,4 +22,12 @@
     img {
         height: 20px;
     }
+}
+
+.control-label{
+    text-align: left;
+    padding-left: 0px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 8px;
 }

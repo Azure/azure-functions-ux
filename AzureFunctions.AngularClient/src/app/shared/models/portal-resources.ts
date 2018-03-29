@@ -949,4 +949,14 @@
     public static diagnostics_line: string = "diagnostics_line";
     public static proxyJsonInvalid: string = "proxyJsonInvalid";
     public static schemaJsonInvalid: string = "schemaJsonInvalid";
+    public static operationId: string = "operationId";
+    public static date: string = "date";
+    public static url: string = "url";
+    public static resultCode: string = "resultCode";
+    public static triggerReason: string = "triggerReason";
+    public static error: string = "error";
+    public static runInAppInsights: string = "runInAppInsights";
+    public static appInsightsInstance: string = "appInsightsInstance";
+    public static success: string = "success";
+    public static duration: string = "duration";
 }

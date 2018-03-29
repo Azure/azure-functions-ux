@@ -2980,4 +2980,34 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="schemaJsonInvalid" xml:space="preserve">
     <value>The proxies schema is not valid. Error: '{0}'.</value>
   </data>
+  <data name="operationId" xml:space="preserve">
+    <value>Operation Id</value>
+  </data>
+  <data name="date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="resultCode" xml:space="preserve">
+    <value>Result Code</value>
+  </data>
+  <data name="triggerReason" xml:space="preserve">
+    <value>Trigger Reason</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="runInAppInsights" xml:space="preserve">
+    <value>Run in Application Insights</value>
+  </data>
+  <data name="appInsightsInstance" xml:space="preserve">
+    <value>Application Insights Instance</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
 </root>

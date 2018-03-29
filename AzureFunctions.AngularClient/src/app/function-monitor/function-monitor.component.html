@@ -1,48 +1,9 @@
-<div>
-    <div *ngIf="aiNotFound" class="alert alert-warning alert-dismissible" role="alert">
-        <img src="image/appInsights.svg"/>
-        {{ 'monitoring_appInsightsIsNotFound' | translate}}
-    </div>
+<monitor-classic
+    *ngIf = "shouldRenderMonitorClassic()"
+    [functionMonitorInfoInput] = "functionMonitorInfo">
+</monitor-classic>
 
-    <div *ngIf="aiEnabled && !azureWebJobsDashboardMissed && aiId === ''" class="alert alert-warning alert-dismissible" role="alert">
-        <img src="image/appInsights.svg"/>
-        <span [innerHTML]="'monitoring_appInsights' | translate"></span>
-    </div>
-
-    <div *ngIf="!azureWebJobsDashboardMissed && !!aiId" class="alert alert-success alert-dismissible" role="alert">
-        <img src="image/appInsights.svg"/>
-        {{ 'monitoring_appInsightsSetUp' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;<a tabindex="0" (click)="openAppInsightsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
-    </div>
-
-    <div *ngIf="!azureWebJobsDashboardMissed || globalStateService.showTryView">
-        <div id="function-aggregates">
-            <aggregate-block [title]="successAggregateHeading" [value]="successAggregate" style="float:left; width: 45%; margin-right:2%">Loading...</aggregate-block>
-            <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
-            <div style="clear: both"></div>
-        </div>
-        <table-function-monitor
-            [viewInfo]="viewInfo"
-            [columns]="columns"
-            [data]="rows"
-            [isAppInsightsConnected]="!!aiId"
-            (openAppInsights)="openAppInsightsBlade()"
-            [selectedFuncId]="functionId">
-        </table-function-monitor>
-    </div>
-
-    <div *ngIf="azureWebJobsDashboardMissed && aiId === ''" class="ai-icon">
-        <div>
-            <img src="image/appInsights.svg"/>
-            <h3>{{ 'monitoring_noMonitoring' | translate }}</h3>
-            <div [innerHTML]="'monitoring_appInsights' | translate"></div>
-        </div>
-    </div>
-
-    <div *ngIf="azureWebJobsDashboardMissed && !!aiId" class="ai-icon">
-        <div>
-            <img src="image/appInsights.svg"/>
-            <h3>{{ 'monitoring_noMonitoring' | translate }}</h3>
-            {{ 'monitoring_appInsightsSetUp' | translate }} <a tabindex="0" (click)="openAppInsigthsBlade()">{{ 'monitoring_appInsightsOpen' | translate }}</a>
-        </div>
-    </div>
-</div>
+<monitor-applicationinsights
+    *ngIf = "shouldRenderMonitorApplicationInsights()"
+    [functionMonitorInfoInput] = "functionMonitorInfo">
+</monitor-applicationinsights>
