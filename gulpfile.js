@@ -8,7 +8,7 @@ const gulpMerge = require('merge-stream');
 const fs = require('fs');
 const path = require('path');
 const zip = require('gulp-zip');
- 
+
 gulp.task('run-dev', function (cb) {
     return gulpMultiProcess(['run-angular', 'run-server'], cb);
 });
@@ -35,13 +35,13 @@ gulp.task('run-server', (cb) => {
 
 
 
-///PRODUCTION BUILD
+///PRODUCTION BUILD - ONLY RUN ENTRY POINT prep-production
 gulp.task('build-server-production', (cb) => {
     shell.cd('server');
     shell.exec('yarn install');
     shell.exec('yarn run gulp build-production');
     const tsProject = ts.createProject('tsconfig.json');
-    const tsResult = gulp.src('src/**/*.ts').pipe(tsProject());
+    const tsResult = gulp.src('src/**/*.ts').pipe(tsProject()).on('error', function() { process.exit(1) });
     return tsResult.js.pipe(gulp.dest('build'));
 });
 
@@ -74,22 +74,29 @@ gulp.task('build-ng-debug', (cb) => {
     cb();
 });
 
-gulp.task('ng-yarn', (cb) => {
-    shell.cd('AzureFunctions.AngularClient');
-    shell.exec('yarn install');
-});
-
 gulp.task('build-production', async (cb) => {
     const outDir = path.normalize(argv.outDir);
     if (!outDir) {
         return;
     }
-    shell.exec('yarn run gulp ng-yarn');
-    const serverPromise = asyncShell.asyncExec(`yarn run gulp copy-server-to-artifacts --outDir "${outDir}"`);
-    const clientProdPromise = asyncShell.asyncExec(`yarn run gulp build-ng-production --outDir "${outDir}"`);
-    const clientDebugPromise = asyncShell.asyncExec(`yarn run gulp build-ng-debug --outDir "${outDir}"`);
-    await Promise.all([serverPromise, clientDebugPromise, clientProdPromise]);
+    try {
+        const serverPromise = asyncShell.asyncExec(`yarn run gulp copy-server-to-artifacts --outDir "${outDir}"`);
+        shell.cd('AzureFunctions.AngularClient');
+        shell.exec('yarn install');
+        shell.cd('..');
+        const clientProdPromise = asyncShell.asyncExec(`yarn run gulp build-ng-production --outDir "${outDir}"`);
+        const clientDebugPromise = asyncShell.asyncExec(`yarn run gulp build-ng-debug --outDir "${outDir}"`);
+        const results = await Promise.all([serverPromise, clientDebugPromise, clientProdPromise]);
+        if(results[0].code !== 0 || results[1].code !== 0 || results[2].code !== 0 )
+        {
+            process.exit(1);
+        }
+    }
+    catch (err) {
+        process.exit(1);
+    }
 });
+
 gulp.task('copy-static-files', (cb) => {
     const outDir = path.normalize(argv.outDir);
     if (!outDir) {
@@ -100,6 +107,8 @@ gulp.task('copy-static-files', (cb) => {
     return gulpMerge(schemasStream, googleFileStream);
 });
 
+
+//ENTRY POINT - Start Here
 gulp.task('prep-production', ['build-production', 'copy-static-files'], (cb) => {
     const outDir = path.normalize(argv.outDir);
     if (!outDir) {
@@ -110,9 +119,11 @@ gulp.task('prep-production', ['build-production', 'copy-static-files'], (cb) => 
     shell.exec('yarn install');
     shell.exec('yarn run gulp replace-tokens');
     rmdir('node_modules');
-    shell.exec('yarn install --production');
+    shell.exec('yarn install --production');// install only optimized produciton npm packages before zipping
     return gulp.src("**/*").pipe(zip('package.zip')).pipe(gulp.dest('dist'));
 });
+
+//HELPER FUNCTIONS
 function rmdir(d) {
     var self = arguments.callee
     if (fs.existsSync(d)) {
