@@ -1,17 +1,19 @@
-﻿import { ArmServiceHelper } from './arm.service-helper';
+﻿import { Observable } from 'rxjs/Observable';
+import { ArmServiceHelper } from './arm.service-helper';
 import { Jwt } from './../Utilities/jwt';
-import { Observable } from 'rxjs/Observable';
 import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, BladeResult, DirtyStateInfo } from './../models/portal';
+import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, DataMessageResult, DirtyStateInfo, SubscriptionRequest } from './../models/portal';
 import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
 import { BroadcastEvent } from '../models/broadcast-event';
 import { AiService } from './ai.service';
 import { Guid } from '../Utilities/Guid';
+import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/price-spec-manager/billing-models';
+import { Subscription } from '../models/subscription';
 
 @Injectable()
 export class PortalService {
@@ -144,7 +146,7 @@ export class PortalService {
         return this.operationStream
             .filter(o => o.operationId === operationId)
             .first()
-            .switchMap((o: DataMessage<BladeResult>) => {
+            .switchMap((o: DataMessage<DataMessageResult<any>>) => {
                 if (o.data.status === 'success') {
                     return Observable.of(o.data);
                 } else if (o.data.status === 'cancelled') {
@@ -155,7 +157,7 @@ export class PortalService {
             });
     }
 
-    getAdToken(tokenType: 'graph' | 'azureTfsApi'){
+    getAdToken(tokenType: 'graph' | 'azureTfsApi') {
         this.logAction('portal-service', `get-ad-token: ${tokenType}`, null);
         const operationId = Guid.newGuid();
 
@@ -168,9 +170,9 @@ export class PortalService {
 
         this.postMessage('get-ad-token', JSON.stringify(payload));
         return this.operationStream
-            .filter(o=> o.operationId === operationId)
+            .filter(o => o.operationId === operationId)
             .first()
-            .switchMap((o: DataMessage<BladeResult>) => {
+            .switchMap((o: DataMessage<DataMessageResult<any>>) => {
                 if (o.data.status === 'success') {
                     return Observable.of(o.data);
                 } else if (o.data.status === 'cancelled') {
@@ -178,6 +180,38 @@ export class PortalService {
                 } else {
                     return Observable.throw(o.data);
                 }
+            });
+    }
+
+    getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {
+        const payload: DataMessage<SpecCostQueryInput> = {
+            operationId: Guid.newGuid(),
+            data: query
+        };
+
+        this.postMessage(Verbs.getSpecCosts, JSON.stringify(payload));
+        return this.operationStream
+            .filter(o => o.operationId === payload.operationId)
+            .first()
+            .map((r: DataMessage<DataMessageResult<SpecCostQueryResult>>) => {
+                return r.data.result;
+            });
+    }
+
+    getSubscription(subscriptionId: string): Observable<Subscription> {
+        const payload: DataMessage<SubscriptionRequest> = {
+            operationId: Guid.newGuid(),
+            data: {
+                subscriptionId: subscriptionId
+            }
+        };
+
+        this.postMessage(Verbs.getSubscriptionInfo, JSON.stringify(payload));
+        return this.operationStream
+            .filter(o => o.operationId === payload.operationId)
+            .first()
+            .map((r: DataMessage<DataMessageResult<Subscription>>) => {
+                return r.data.result;
             });
     }
 

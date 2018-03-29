@@ -17,6 +17,11 @@ export interface ArmError {
     }
 }
 
+export interface ArmPollError {
+    Code: string;
+    Message: string;
+}
+
 export interface HttpErrorResponse<T> {
     message: string;
     error: any | null;

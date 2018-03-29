@@ -11,9 +11,19 @@ export class NationalCloudEnvironment extends AzureEnvironment {
     ];
 
     public static isNationalCloud() {
-        return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.mooncake.toLowerCase()
-            || window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.fairfax.toLowerCase()
-            || window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.blackforest.toLowerCase();
+        return this.isMooncake() || this.isFairFax() || this.isBlackforest();
+    }
+
+    public static isFairFax() {
+        return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.fairfax.toLowerCase();
+    }
+
+    public static isMooncake() {
+        return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.mooncake.toLowerCase();
+    }
+
+    public static isBlackforest() {
+        return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.blackforest.toLowerCase();
     }
 
     constructor() {

@@ -1,3 +1,4 @@
+import { SpecPickerComponent } from './../spec-picker/spec-picker.component';
 import { SiteService } from 'app/shared/services/site.service';
 import { Subscription } from 'rxjs/Subscription';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
@@ -139,6 +140,8 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                     return;
                 }
 
+                this.site = r.result;
+
                 this._broadcastService.clearAllDirtyStates();
 
                 this._logService.verbose(LogCategories.siteDashboard, `Received new input, updating tabs`);
@@ -152,7 +155,11 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                         // We're not recreating the active tab so that it doesn't flash in the UI
                         // All Tabs have `viewInfoInput`
                         // Tabs that inherit from FunctionAppContextComponent like FunctionRuntimeComponent have viewInfoComponent_viewInfo
-                        this.tabInfos[i].componentInput = { viewInfoInput: this.viewInfo, viewInfoComponent_viewInfo: this.viewInfo };
+                        const tabInfo = this._getTabInfo(info.id, false /* active */, {
+                            viewInfoInput: this.viewInfo
+                        });
+
+                        this.tabInfos[i].componentInput = tabInfo.componentInput;
                     } else {
                         // Just to be extra safe, we create new component instances for tabs that
                         // aren't visible to be sure that we can't accidentally load them with the wrong
@@ -164,8 +171,6 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                         this._logService.debug(LogCategories.siteDashboard, `Creating new component for inactive tab '${info.id}'`);
                     }
                 }
-
-                this.site = r.result;
 
                 const appNode = <AppNode>this.viewInfo.node;
                 if (appNode.openTabId) {
@@ -266,7 +271,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             dirty: false,
             componentFactory: null,
             componentInput: input
-                ? Object.assign({}, input, { viewInfo: input.viewInfoInput, viewInfoComponent_viewInfo: input.viewInfoInput })
+                ? Object.assign({}, input, { viewInfo: input.viewInfoInput })
                 : {}
         };
 
@@ -318,6 +323,17 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 info.title = this._translateService.instant(PortalResources.deploymentCenter);
                 info.iconUrl = 'image/deployment-source.svg';
                 info.componentFactory = DeploymentCenterComponent;
+                break;
+            case SiteTabIds.scaleUp:
+                info.title = this._translateService.instant('Scale up');
+                info.iconUrl = 'image/scale-up.svg';
+                info.componentFactory = SpecPickerComponent;
+                (<any>info.componentInput) = {
+                    viewInfoInput: {
+                        resourceId: this.site.properties.serverFarmId
+                    }
+                };
+
                 break;
         }
 
