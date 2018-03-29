@@ -61,7 +61,6 @@ gulp.task('build-ng-production', (cb) => {
     shell.cd('AzureFunctions.AngularClient');
     const folder =
         shell.exec(`yarn run ng build --progress false --prod --environment=prod --output-path="${outDir}"`);
-    cb();
 });
 
 gulp.task('build-ng-debug', (cb) => {
@@ -71,7 +70,11 @@ gulp.task('build-ng-debug', (cb) => {
     }
     shell.cd('AzureFunctions.AngularClient');
     shell.exec(`yarn run ng build --progress false --output-path="${outDir}"`);
-    cb();
+});
+
+gulp.task('ng-yarn', (cb) => {
+    shell.cd('AzureFunctions.AngularClient');
+    shell.exec('yarn install');
 });
 
 gulp.task('build-production', async (cb) => {
@@ -80,10 +83,8 @@ gulp.task('build-production', async (cb) => {
         return;
     }
     try {
+        shell.exec('yarn run gulp ng-yarn');
         const serverPromise = asyncShell.asyncExec(`yarn run gulp copy-server-to-artifacts --outDir "${outDir}"`);
-        shell.cd('AzureFunctions.AngularClient');
-        shell.exec('yarn install');
-        shell.cd('..');
         const clientProdPromise = asyncShell.asyncExec(`yarn run gulp build-ng-production --outDir "${outDir}"`);
         const clientDebugPromise = asyncShell.asyncExec(`yarn run gulp build-ng-debug --outDir "${outDir}"`);
         const results = await Promise.all([serverPromise, clientDebugPromise, clientProdPromise]);
