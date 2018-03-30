@@ -271,7 +271,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             dirty: false,
             componentFactory: null,
             componentInput: input
-                ? Object.assign({}, input, { viewInfo: input.viewInfoInput })
+                ? Object.assign({}, input, { viewInfo: input.viewInfoInput, viewInfoComponent_viewInfo: input.viewInfoInput })
                 : {}
         };
 
