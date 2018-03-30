@@ -49,6 +49,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
         this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
+
     fetchRepos() {
         this.RepoList = [];
         this._cacheService

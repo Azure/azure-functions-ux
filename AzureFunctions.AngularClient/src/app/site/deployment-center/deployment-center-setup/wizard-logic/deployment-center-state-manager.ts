@@ -1,6 +1,6 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { FormGroup } from '@angular/forms';
-import { WizardForm, ProvisioningConfiguration, CiConfiguration, DeploymentTarget, DeploymentSourceType, CodeRepositoryDeploymentSource, ApplicationType, DeploymentTargetProvider, AzureAppServiceDeploymentTarget, AzureResourceType, TargetEnvironmentType } from './deployment-center-setup-models';
+import { WizardForm, ProvisioningConfiguration, CiConfiguration, DeploymentTarget, DeploymentSourceType, CodeRepositoryDeploymentSource, ApplicationType, DeploymentTargetProvider, AzureAppServiceDeploymentTarget, AzureResourceType, TargetEnvironmentType, CodeRepository } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { ArmService } from '../../../../shared/services/arm.service';
 import { Headers } from '@angular/http';
@@ -42,10 +42,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
             .subscribe(tokenData => {
                 this._vstsApiToken = tokenData.result.token;
             });
-        
+
     }
-    public get wizardValues(
-    ): WizardForm {
+
+    public get wizardValues(): WizardForm {
         return this.wizardForm.value;
     }
 
@@ -104,11 +104,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
                     return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}S&api-version=4.0-preview.1`, true, this.getVstsHeaders(this._token));
                 });
         }
-        // vstsCall = vstsCall
-        //     .switchMap(r => {
-        return this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsHeaders(this._token), deploymentObject);
-        //     });
-        // return vstsCall;
+        vstsCall = vstsCall
+            .switchMap(r => {
+                return this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsHeaders(this._token), deploymentObject);
+            });
+        return vstsCall;
     }
 
     private get _ciConfig(): CiConfiguration {
@@ -130,7 +130,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
     }
 
-    private get _repoInfo() {
+    private get _repoInfo(): CodeRepository {
         switch (this.wizardValues.sourceProvider) {
             case 'github':
                 return this._githubRepoInfo;
@@ -142,7 +142,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 return this._localGitInfo;
         };
     }
-    private get _githubRepoInfo() {
+
+    private get _githubRepoInfo(): CodeRepository {
         const repoId = this.wizardValues.sourceSettings.repoUrl.replace('https://github.com/', '');
         return {
             authorizationInfo: {
@@ -157,7 +158,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
     }
 
-    private get _localGitInfo() {
+    private get _localGitInfo(): CodeRepository {
         return {
             type: 'LocalGit',
             id: null,
@@ -166,7 +167,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
     }
 
-    private get _vstsRepoInfo() {
+    private get _vstsRepoInfo(): CodeRepository {
         return {
             type: 'TfsGit',
             id: '',
@@ -175,7 +176,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
     }
 
-    private get _externalRepoInfo() {
+    private get _externalRepoInfo(): CodeRepository {
         return {
             type: 'Git',
             id: this.wizardValues.sourceSettings.repoUrl,
@@ -228,8 +229,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
             };
         }
         return targetObject;
-
     }
+
     private get _loadTestTarget(): AzureAppServiceDeploymentTarget {
         const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
         const targetObject = {

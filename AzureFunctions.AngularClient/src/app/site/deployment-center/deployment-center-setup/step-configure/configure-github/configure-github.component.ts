@@ -131,7 +131,7 @@ export class ConfigureGithubComponent implements OnDestroy {
                         return Observable.of(ret);
                     });
             }
-            // tslint:disable-next-line:no-unused-expression
+
             fetchListCall.subscribe(r => {
                 const newRepoList: DropDownElement<string>[] = [];
                 this.repoUrlToNameMap = {};
@@ -149,10 +149,10 @@ export class ConfigureGithubComponent implements OnDestroy {
 
                 this.RepoList = newRepoList;
                 this.reposLoading = false;
-            }), err => {
+            }, err => {
                 this.reposLoading = false;
                 this._logService.error(LogCategories.cicd, '/fetch-github-repos', err);
-            };
+            });
         }
     }
 

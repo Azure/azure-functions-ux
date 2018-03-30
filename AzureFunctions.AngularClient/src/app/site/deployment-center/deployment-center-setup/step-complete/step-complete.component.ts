@@ -70,8 +70,7 @@ export class StepCompleteComponent implements OnInit {
 
     Save() {
         this._busyManager.setBusy();
-        const t = this.wizard.Deploy();
-        t.subscribe(
+        this.wizard.Deploy().first().subscribe(
             r => {
                 this._busyManager.clearBusy();
                 this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);

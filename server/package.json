@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "watch": "nodemon .\\src\\nodemon.json",
-        "watchu": "nodemon .\\src\\nodemon-unix.json"
+        "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json"
     },
     "dependencies": {
         "applicationinsights": "^1.0.1",
