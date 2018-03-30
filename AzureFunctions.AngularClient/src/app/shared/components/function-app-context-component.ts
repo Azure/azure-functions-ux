@@ -14,7 +14,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 
 export abstract class FunctionAppContextComponent extends ErrorableComponent implements OnDestroy {
-    private _viewInfo: TreeViewInfo<any>;
+    public viewInfo: TreeViewInfo<any>;
     public context: FunctionAppContext;
 
     protected viewInfoEvents: Observable<TreeViewInfo<any> & {
@@ -30,12 +30,8 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
     private timeout: number;
 
     @Input('viewInfo')
-    public set viewInfo(viewInfo: TreeViewInfo<any>) {
+    private set viewInfoComponent_viewInfo(viewInfo: TreeViewInfo<any>) {
         this.viewInfoSubject.next(viewInfo);
-    }
-
-    public get viewInfo() {
-        return this._viewInfo;
     }
 
     constructor(componentName: string, functionAppService: FunctionAppService, broadcastService: BroadcastService, setBusy?: Function, private clearBusy?: Function) {
