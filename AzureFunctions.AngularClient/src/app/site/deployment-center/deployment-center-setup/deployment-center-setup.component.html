@@ -1,3 +1,4 @@
+<app-card-info-control [image]="'image/deployment-source.svg'" [header]="'Deployment Center'" [description]="'Blah Blah BLah Blah'" [learnMoreLink]="'https://aka.ms/canary'"></app-card-info-control>
 <wizard navBarLayout="large-filled-symbols" style="height: 100vh" #wizard StepNumber>
     <app-step-source-control wizardStep title="{{'sourceControl' | translate}}"></app-step-source-control>
     <app-step-build-provider wizardStep title="{{'buildProvider' | translate}}" *ngIf="showBuildStep"></app-step-build-provider>
