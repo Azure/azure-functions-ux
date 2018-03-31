@@ -951,7 +951,7 @@ export class FunctionAppService {
     // If there was an error getting the list, show an error. return an empty list.
     getHostExtensions(context: FunctionAppContext): Result<any> {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
-            this._cacheService.get(context.urlTemplates.runtimeHostExtensionsUrl, false, this.headers(t))
+            this._cacheService.get(context.urlTemplates.runtimeHostExtensionsUrl, true, this.headers(t))
                 .map(r => r.json() as FunctionKeys));
     }
 
