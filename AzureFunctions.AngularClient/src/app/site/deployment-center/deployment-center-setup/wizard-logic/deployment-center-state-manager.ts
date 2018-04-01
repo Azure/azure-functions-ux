@@ -97,18 +97,12 @@ export class DeploymentCenterStateManager implements OnDestroy {
             source: this._deploymentSource,
             targets: this._deploymentTargets
         };
-        let vstsCall = new Observable();
+        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsHeaders(this._token), deploymentObject);
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
-            vstsCall = vstsCall
-                .switchMap(r => {
-                    return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}S&api-version=4.0-preview.1`, true, this.getVstsHeaders(this._token));
-                });
+            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}S&api-version=4.0-preview.1`, true, this.getVstsHeaders(this._token))
+                        .concat(r => setupvsoCall);
         }
-       // vstsCall = vstsCall
-         //   .switchMap(r => {
-                return this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsHeaders(this._token), deploymentObject);
-         //   });
-        //return vstsCall;
+        return setupvsoCall;
     }
 
     private get _ciConfig(): CiConfiguration {
