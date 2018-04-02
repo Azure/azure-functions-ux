@@ -11,7 +11,7 @@ import { Headers } from '@angular/http';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DropDownElement } from '../../../../../shared/models/drop-down-element';
 import { LogService } from '../../../../../shared/services/log.service';
-import { LogCategories } from '../../../../../shared/models/constants';
+import { LogCategories, Constants, DeploymentCenterConstants } from '../../../../../shared/models/constants';
 import { Validators } from '@angular/forms';
 // import { TranslateService } from '@ngx-translate/core';
 // import { PortalResources } from '../../../../../shared/models/portal-resources';
@@ -103,7 +103,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   public NewVsoAccountOptions: SelectOption<boolean>[];
   private _ngUnsubscribe = new Subject();
 
-  // https://app.vssps.visualstudio.com/_apis/commerce/regions
   public vstsRegionList = [];
   public AccountList: DropDownElement<string>[];
   public ProjectList: DropDownElement<string>[];
@@ -118,10 +117,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   selectedPythonVersion = this.recommendedPythonVersion;
   selectedPythonFramework = 'Bottle';
   selectedTaskRunner = 'none';
-  // projects https://admetrics.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true
-  // https://admetrics.vsrm.visualstudio.com/_apis/Release
-  // https://admetrics.vsrm.visualstudio.com/c6f597f2-902e-47df-9dbd-f5ee1ac627f2/_apis/Release/definitions/environmenttemplates
-  // https://app.vssps.visualstudio.com/_AzureSpsAccount/ValidateAccountName?accountName=test3320
 
   constructor(
     // private _translateService: TranslateService
@@ -173,7 +168,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
 
   private setupSubscriptions() {
 
-    this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me')
+    this._cacheService.get(DeploymentCenterConstants.vstsProfileUri)
       .map(r => r.json())
       .switchMap(r => this.fetchAccounts(r.id))
       .switchMap(r => {
@@ -188,7 +183,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         r.forEach(account => {
           projectCalls.push(
             this._cacheService
-              .get(`https://${account.accountName}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true`, true, this.getHeaders())
+              .get(DeploymentCenterConstants.vstsProjectsApi.format(account.accountName), true, this.getHeaders())
               .map(res => {
                 return {
                   account: account.accountName,
@@ -216,7 +211,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         }
       );
 
-    this._cacheService.get('https://app.vssps.visualstudio.com/_apis/commerce/regions', true, this.getHeaders())
+    this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.getHeaders())
       .subscribe(r => {
         const locationArray: any[] = r.json().value;
         this.LocationList = locationArray.map(v => {
@@ -232,7 +227,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   }
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
-    const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
+    const accountsUrl =DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
     return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
       const accounts = r.json().value as VSOAccount[];
       if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {

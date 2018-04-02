@@ -68,8 +68,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         return (this.wizardForm && (this.wizardForm.controls.deploymentSlotSetting as FormGroup)) || null;
     }
 
-    public Deploy(
-    ): Observable<any> {
+    public Deploy(): Observable<any> {
         switch (this.wizardValues.buildProvider) {
             case 'vsts':
                 return this._deployVsts();
