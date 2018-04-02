@@ -14,14 +14,14 @@ export function setupVsoPassthroughAuthentication(app: Application) {
             body.source.repository.authorizationInfo.parameters.AccessToken = githubToken.token;
         }
         try {
-            await axios.post(uri, body, {
+            const result = await axios.post(uri, body, {
                 headers: {
                     "Authorization": headers.vstsauthorization,
                     "Content-Type": "application/json",
                     "accept": "application/json;api-version=4.1-preview.1"
                 }
             });
-            res.sendStatus(200);
+            res.send(result.data)
         }
         catch (err) {
             res.send(err);

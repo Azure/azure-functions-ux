@@ -90,6 +90,24 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
 
     private _deployVsts() {
+        return  this._startVstsDeployment().concatMap(id => {
+            return Observable.interval(1000)
+                .switchMap(() => this._pollVstsCheck(id))
+                .map(r => {
+                    const result = r.json();
+                    const ciConfig: string = result.ciConfiguration.result.status;
+                    return ciConfig;
+                })
+                .first(result => {
+                    return result !== 'inProgress' && result !== 'queued';
+                });
+        });
+    }
+
+    private _pollVstsCheck(id: string) {
+        return this._cacheService.get(`https://cleardb.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`);
+    }
+    private _startVstsDeployment() {
         const deploymentObject: ProvisioningConfiguration = {
             ciConfiguration: this._ciConfig,
             id: null,
@@ -101,9 +119,10 @@ export class DeploymentCenterStateManager implements OnDestroy {
             return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}S&api-version=4.0-preview.1`, true, this.getVstsHeaders(this._token))
                         .concat(r => setupvsoCall);
         }
-        return setupvsoCall;
+        return setupvsoCall.switchMap(r => {
+            return Observable.of(r.json().id);
+        });
     }
-
     private get _ciConfig(): CiConfiguration {
         return {
             project: {

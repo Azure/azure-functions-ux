@@ -66,7 +66,7 @@ export class StepTestComponent implements OnDestroy {
                     };
                 });
                 this.appsLoading = false;
-            })
+            });
         wizard.resourceIdStream.subscribe(r => {
             this.appServicePlansLoading = true;
             const armResource = new ArmResourceDescriptor(r);
