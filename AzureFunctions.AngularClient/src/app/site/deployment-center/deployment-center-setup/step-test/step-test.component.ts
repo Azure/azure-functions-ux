@@ -42,8 +42,6 @@ export class StepTestComponent implements OnDestroy {
         public wizard: DeploymentCenterStateManager,
         private _armService: ArmService
     ) {
-
-
         this._appServicePlanSubscription
             .switchMap(subscriptionId => this._armService.get(`/subscriptions/${subscriptionId}/providers/Microsoft.Web/serverFarms`))
             .subscribe(r => {

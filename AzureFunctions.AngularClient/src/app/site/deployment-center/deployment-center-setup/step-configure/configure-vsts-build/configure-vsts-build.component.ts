@@ -11,7 +11,7 @@ import { Headers } from '@angular/http';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DropDownElement } from '../../../../../shared/models/drop-down-element';
 import { LogService } from '../../../../../shared/services/log.service';
-import { LogCategories, Constants, DeploymentCenterConstants } from '../../../../../shared/models/constants';
+import { LogCategories, DeploymentCenterConstants } from '../../../../../shared/models/constants';
 import { Validators } from '@angular/forms';
 // import { TranslateService } from '@ngx-translate/core';
 // import { PortalResources } from '../../../../../shared/models/portal-resources';
