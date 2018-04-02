@@ -35,14 +35,14 @@ export interface CrmInfo {
     namespaceId: string;
 }
 
-export interface DataMessage<T>{
+export interface DataMessage<T> {
     operationId: string;
     data: T;
 }
 
-export interface BladeResult{
+export interface DataMessageResult<T> {
     status: 'success' | 'failed' | 'cancelled';
-    result: any;
+    result: T;
 }
 
 export interface Action {
@@ -79,6 +79,8 @@ export class Verbs {
     public static setupOAuth = 'setup-oauth';
     public static pinPart = 'pin-part';
     public static setNotification = 'set-notification';
+    public static getSubscriptionInfo = 'get-subscription-info';
+    public static getSpecCosts = 'get-spec-costs';
 
     // Requests from Ibiza
     public static sendStartupInfo = 'send-startup-info';
@@ -138,9 +140,13 @@ export interface NotificationStartedInfo {
     id: string
 }
 
-export interface DirtyStateInfo{
+export interface DirtyStateInfo {
     dirty: boolean;
     message?: string;
+}
+
+export interface SubscriptionRequest {
+    subscriptionId: string;
 }
 
 export enum PartSize {

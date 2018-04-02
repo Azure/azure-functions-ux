@@ -65,6 +65,9 @@ import { ActivateWithKeysDirective } from './../controls/activate-with-keys/acti
 import { EmbeddedService } from 'app/shared/services/embedded.service';
 import { SiteService } from 'app/shared/services/site.service';
 import { CardInfoControlComponent } from '../controls/card-info-control/card-info-control.component';
+import { PlanService } from './services/plan.service';
+import { AseService } from './services/ase.service';
+import { BillingService } from './services/billing.service';
 
 export function ArmServiceFactory(
     http: Http,
@@ -204,6 +207,9 @@ export class SharedModule {
                 GlobalStateService,
                 EmbeddedService,
                 SiteService,
+                PlanService,
+                AseService,
+                BillingService,
                 TelemetryService,
                 { provide: AiService, useFactory: AiServiceFactory },
                 { provide: ErrorHandler, useClass: GlobalErrorHandler }

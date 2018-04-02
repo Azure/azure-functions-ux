@@ -1,0 +1,10 @@
+<h2>{{title}}</h2>
+<div class="feature-description">{{description}}</div>
+<div *ngFor="let feature of featureItems" class="feature-item">
+
+  <div [load-image]="feature.iconUrl" class="icon-medium"></div>
+  <div class="feature-description">
+    <h4>{{feature.title}}</h4>
+    <div>{{feature.description}}</div>
+  </div>
+</div>
