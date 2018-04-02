@@ -13,7 +13,8 @@ import {
     FeatureItem,
     BladeFeature,
     DisableableBladeFeature,
-    DisableableFeature
+    DisableableFeature,
+    DisableableTabFeature
 } from './../../feature-group/feature-item';
 import { FeatureGroup } from './../../feature-group/feature-group';
 import { AuthzService } from '../../shared/services/authz.service';
@@ -39,6 +40,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     private _descriptor: ArmSiteDescriptor;
     private _hasSiteWritePermissionStream = new Subject<DisableInfo>();
     private _hasPlanReadPermissionStream = new Subject<DisableInfo>();
+    private _hasPlanWritePermissionStream = new Subject<DisableInfo>();
 
     @Input()
     set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
@@ -79,27 +81,37 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 return Observable.zip(
                     this._authZService.hasPermission(site.id, [AuthzService.writeScope]),
                     this._authZService.hasPermission(site.properties.serverFarmId, [AuthzService.readScope]),
-                    this._authZService.hasReadOnlyLock(site.id),
-                    (s, p, l) => ({ hasSiteWritePermissions: s, hasPlanReadPermissions: p, hasReadOnlyLock: l })
+                    this._authZService.hasPermission(site.properties.serverFarmId, [AuthzService.writeScope]),
+                    this._authZService.hasReadOnlyLock(site.id)
                 );
             })
             .do(r => {
                 let siteWriteDisabledMessage = '';
 
-                if (!r.hasSiteWritePermissions) {
+                const hasSiteWritePermissions = r[0];
+                const hasPlanReadPermissions = r[1];
+                const hasPlanWritePermissions = r[2];
+                const hasReadOnlyLock = r[3];
+
+                if (!hasSiteWritePermissions) {
                     siteWriteDisabledMessage = this._translateService.instant(PortalResources.featureRequiresWritePermissionOnApp);
-                } else if (r.hasReadOnlyLock) {
+                } else if (hasReadOnlyLock) {
                     siteWriteDisabledMessage = this._translateService.instant(PortalResources.featureDisabledReadOnlyLockOnApp);
                 }
 
                 this._hasSiteWritePermissionStream.next({
-                    enabled: r.hasSiteWritePermissions && !r.hasReadOnlyLock,
+                    enabled: hasSiteWritePermissions && !hasReadOnlyLock,
                     disableMessage: siteWriteDisabledMessage
                 });
 
                 this._hasPlanReadPermissionStream.next({
-                    enabled: r.hasPlanReadPermissions,
+                    enabled: hasPlanReadPermissions,
                     disableMessage: this._translateService.instant(PortalResources.featureDisabledNoPermissionToPlan)
+                });
+
+                this._hasPlanWritePermissionStream.next({
+                    enabled: hasPlanWritePermissions,
+                    disableMessage: 'This feature requires write permissions on the plan'
                 });
             });
     }
@@ -539,6 +551,18 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._portalService,
                 this._hasPlanReadPermissionStream
             ),
+
+            Url.getParameterByName(null, 'appsvc.feature.scale') === 'true' ?
+                new DisableableTabFeature(
+                    this._translateService.instant('Scale up'),
+                    this._translateService.instant('Scale up'),
+                    this._translateService.instant('Choose a different pricing tier to add more resources for your plan'),
+                    'image/scale-up.svg',
+                    SiteTabIds.scaleUp,
+                    this._broadcastService,
+                    this._hasPlanWritePermissionStream,
+                    this._scenarioService.checkScenario(ScenarioIds.addScaleUp, { site: site })
+                ) : null,
 
             this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
