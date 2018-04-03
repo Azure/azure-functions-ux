@@ -13,6 +13,10 @@ import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
+import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
+import { ArmService } from '../../../../shared/services/arm.service';
+import { BroadcastService } from '../../../../shared/services/broadcast.service';
+import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 
 class VSODeploymentObject extends DeploymentData {
     VSOData: VSOBuildDefinition;
@@ -33,13 +37,17 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     public hasWritePermissions = true;
     public deploymentObject: VSODeploymentObject;
     private _ngUnsubscribe = new Subject();
+    private _busyManager: BusyStateScopeManager;
     constructor(
         private _portalService: PortalService,
         private _cacheService: CacheService,
+        private _armService: ArmService,
         private _authZService: AuthzService,
         private _logService: LogService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _broadcastService: BroadcastService
     ) {
+        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
         this.viewInfoStream = new Subject<string>();
         this.viewInfoStream
             .takeUntil(this._ngUnsubscribe)
@@ -110,11 +118,35 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             );
     }
 
-    SyncScm() {}
+    SyncScm() { }
 
-    disconnect() {}
-    edit() {}
-    refresh() {}
+    disconnect() {
+        this._busyManager.setBusy();
+        Observable.zip(
+            this._cacheService.delete(`${this.deploymentObject.VSOData.url}&api-version=2.0`),
+            this._armService.patch(`${this.deploymentObject.site.id}/config/web`, { properties: { scmType: 'None' } })
+        )
+            .subscribe(r => {
+                this._busyManager.clearBusy();
+                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+            },
+                err => {
+                    console.error(err);
+                });
+
+    }
+
+    edit() {
+        const url = this.deploymentObject.VSOData.url;
+        const win = window.open(url, '_blank');
+        win.focus();
+    }
+
+    refresh() {
+        this._busyManager.setBusy();
+        this.viewInfoStream.next(this.resourceId);
+    }
+
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
             this.viewInfoStream.next(this.resourceId);
