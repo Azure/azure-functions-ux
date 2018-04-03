@@ -18,7 +18,7 @@ import { Validators } from '@angular/forms';
 @Component({
     selector: 'app-configure-vsts-source',
     templateUrl: './configure-vsts-source.component.html',
-    styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureVstsSourceComponent implements OnDestroy {
 

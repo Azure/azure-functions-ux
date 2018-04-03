@@ -12,7 +12,7 @@ import { Validators } from '@angular/forms';
 @Component({
     selector: 'app-configure-dropbox',
     templateUrl: './configure-dropbox.component.html',
-    styleUrls: ['./configure-dropbox.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-dropbox.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureDropboxComponent {
     private _resourceId: string;

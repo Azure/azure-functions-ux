@@ -16,7 +16,7 @@ import { Validators } from '@angular/forms';
 @Component({
     selector: 'app-configure-github',
     templateUrl: './configure-github.component.html',
-    styleUrls: ['./configure-github.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-github.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureGithubComponent implements OnDestroy {
     public OrgList: DropDownElement<string>[];

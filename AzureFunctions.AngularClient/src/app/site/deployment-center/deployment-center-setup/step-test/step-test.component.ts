@@ -8,7 +8,7 @@ import { ArmResourceDescriptor } from '../../../../shared/resourceDescriptors';
 @Component({
     selector: 'app-step-test',
     templateUrl: './step-test.component.html',
-    styleUrls: ['./step-test.component.scss']
+    styleUrls: ['./step-test.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepTestComponent implements OnDestroy {
 

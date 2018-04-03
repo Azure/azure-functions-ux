@@ -4,7 +4,7 @@ import { DeploymentCenterStateManager } from '../../wizard-logic/deployment-cent
 @Component({
   selector: 'app-configure-local-git',
   templateUrl: './configure-local-git.component.html',
-  styleUrls: ['./configure-local-git.component.scss']
+  styleUrls: ['./configure-local-git.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureLocalGitComponent implements OnInit {
 

@@ -13,7 +13,7 @@ import { Validators } from '@angular/forms';
 @Component({
     selector: 'app-configure-onedrive',
     templateUrl: './configure-onedrive.component.html',
-    styleUrls: ['./configure-onedrive.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-onedrive.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureOnedriveComponent implements OnDestroy {
     private _resourceId: string;

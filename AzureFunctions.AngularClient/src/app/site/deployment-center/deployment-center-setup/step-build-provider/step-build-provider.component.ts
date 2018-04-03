@@ -5,7 +5,7 @@ import { DeploymentCenterStateManager } from 'app/site/deployment-center/deploym
 @Component({
     selector: 'app-step-build-provider',
     templateUrl: './step-build-provider.component.html',
-    styleUrls: ['./step-build-provider.component.scss']
+    styleUrls: ['./step-build-provider.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepBuildProviderComponent {
     public readonly providerCards: ProviderCard[] = [
@@ -21,7 +21,7 @@ export class StepBuildProviderComponent {
         },
         {
             id: 'kudu',
-            name: 'App Service Kudu build server',
+            name: 'Build on worker',
             icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#000000',
             barColor: '#D6D6D6',

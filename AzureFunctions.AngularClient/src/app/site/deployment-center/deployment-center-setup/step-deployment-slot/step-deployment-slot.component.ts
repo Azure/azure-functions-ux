@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'app-step-deployment-slot',
   templateUrl: './step-deployment-slot.component.html',
-  styleUrls: ['./step-deployment-slot.component.scss']
+  styleUrls: ['./step-deployment-slot.component.scss', '../deployment-center-setup.component.scss']
 })
 export class StepDeploymentSlotComponent implements OnDestroy {
 

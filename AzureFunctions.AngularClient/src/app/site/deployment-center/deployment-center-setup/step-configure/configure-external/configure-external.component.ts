@@ -6,7 +6,7 @@ import { Validators } from '@angular/forms';
 @Component({
     selector: 'app-configure-external',
     templateUrl: './configure-external.component.html',
-    styleUrls: ['./configure-external.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-external.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureExternalComponent {
     public RepoTypeOptions: SelectOption<string>[] = [

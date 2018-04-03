@@ -14,7 +14,7 @@ import { Validators } from '@angular/forms';
 @Component({
     selector: 'app-configure-bitbucket',
     templateUrl: './configure-bitbucket.component.html',
-    styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureBitbucketComponent implements OnDestroy {
     public RepoList: DropDownElement<string>[];
