@@ -90,7 +90,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
 
     private _deployVsts() {
-        return  this._startVstsDeployment().concatMap(id => {
+        return this._startVstsDeployment().concatMap(id => {
             return Observable.interval(1000)
                 .switchMap(() => this._pollVstsCheck(id))
                 .map(r => {
@@ -104,8 +104,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
         });
     }
 
-    private _pollVstsCheck(id: string) {
-        return this._cacheService.get(`https://cleardb.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`);
+    private _pollVstsCheck( id: string) {
+        return this._cacheService.get(`https://${this.wizardValues.buildSettings.vstsAccount}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`);
     }
     private _startVstsDeployment() {
         const deploymentObject: ProvisioningConfiguration = {
@@ -116,8 +116,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
         const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsHeaders(this._token), deploymentObject);
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
-            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}S&api-version=4.0-preview.1`, true, this.getVstsHeaders(this._token))
-                        .concat(r => setupvsoCall);
+            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsHeaders(this._token))
+                .switchMap(r => setupvsoCall)
+                .switchMap(r => Observable.of(r.json().id));
         }
         return setupvsoCall.switchMap(r => {
             return Observable.of(r.json().id);

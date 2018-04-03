@@ -15,7 +15,7 @@
             [clearable]="false" bindLabel="displayLabel" bindValue="value" placeholder="Select Account" [(ngModel)]="selectedAccount"
             formControlName="vstsAccount" (change)="accountChanged($event)">
           </ng-select>
-          <textbox *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount === 'new'" [control]="wizard?.buildSettings?.controls?.vstsAccount"
+          <textbox *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount" [control]="wizard?.buildSettings?.controls?.vstsAccount"
             [placeholder]="'Enter Account Name'"></textbox>
         </div>
       </div>

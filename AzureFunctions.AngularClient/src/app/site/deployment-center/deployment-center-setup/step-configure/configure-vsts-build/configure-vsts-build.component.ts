@@ -145,13 +145,16 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     this.wizard.buildSettings.get('createNewVsoAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsAccount').setValidators(Validators.required);
     this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
-    this.wizard.buildSettings.get('vstsProject').setValidators(Validators.required);
-    this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
+
     if (this.wizard.wizardValues.buildSettings.createNewVsoAccount) {
       this.wizard.buildSettings.get('location').setValidators(Validators.required);
+      this.wizard.buildSettings.get('vstsProject').setValidators([]);
     } else {
       this.wizard.buildSettings.get('location').setValidators([]);
+
+      this.wizard.buildSettings.get('vstsProject').setValidators(Validators.required);
     }
+    this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
     this.wizard.buildSettings.get('location').updateValueAndValidity();
   }
 
@@ -167,7 +170,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   }
 
   private setupSubscriptions() {
-
     this._cacheService.get(DeploymentCenterConstants.vstsProfileUri)
       .map(r => r.json())
       .switchMap(r => this.fetchAccounts(r.id))
@@ -217,7 +219,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         this.LocationList = locationArray.map(v => {
           return {
             displayLabel: v.displayName,
-            value: v.id
+            value: v.regionCode
           };
         });
       },
@@ -227,7 +229,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   }
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
-    const accountsUrl =DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
+    const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
     return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
       const accounts = r.json().value as VSOAccount[];
       if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {
