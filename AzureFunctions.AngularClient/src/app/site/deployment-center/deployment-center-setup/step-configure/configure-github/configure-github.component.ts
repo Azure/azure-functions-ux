@@ -109,8 +109,7 @@ export class ConfigureGithubComponent implements OnDestroy {
                         const linkHeader = r.headers.toJSON().link;
                         if (linkHeader) {
                             const links = this._getLinks(linkHeader);
-                            const lastPageLink = links && links.last;
-                            const lastPageNumber = +new URLSearchParams(new URL(lastPageLink).search.slice(1)).get('page');
+                            const lastPageNumber = this._getLastPage(links);
                             const pageCalls: Observable<Response>[] = [];
                             for (let i = 1; i <= lastPageNumber; i++) {
                                 pageCalls.push(
@@ -189,10 +188,35 @@ export class ConfigureGithubComponent implements OnDestroy {
                 .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
                     url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`
                 })
+                .concatMap(r => {
+                    const linkHeader = r.headers.toJSON().link;
+                    if (linkHeader) {
+                        const links = this._getLinks(linkHeader);
+                        const lastPageNumber = this._getLastPage(links);
+                        const pageCalls: Observable<Response>[] = [];
+                        for (let i = 1; i <= lastPageNumber; i++) {
+                            pageCalls.push(
+                                this._cacheService.post(Constants.serviceHost + `api/github/passthrough?t=${Guid.newTinyGuid()}`, true, null, {
+                                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`
+                                })
+                            );
+                        }
+                        return Observable.forkJoin(pageCalls);
+                    } else {
+                        return Observable.of([r]);
+                    }
+                })
+                .switchMap(r => {
+                    let ret: any[] = [];
+                    r.forEach(e => {
+                        ret = ret.concat(e.json());
+                    });
+                    return Observable.of(ret);
+                })
                 .subscribe(
                     r => {
                         const newBranchList: any[] = [];
-                        r.json().forEach(branch => {
+                        r.forEach(branch => {
                             newBranchList.push({
                                 displayLabel: branch.name,
                                 value: branch.name
@@ -223,6 +247,16 @@ export class ConfigureGithubComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         this._ngUnsubscribe.next();
+    }
+
+    private _getLastPage(links) {
+        const lastPageLink = links && links.last;
+        if (lastPageLink) {
+            const lastPageNumber = +new URLSearchParams(new URL(lastPageLink).search.slice(1)).get('page');
+            return lastPageNumber;
+        } else {
+            return 1;
+        }
     }
 
     private _getLinks(linksHeader): any {
