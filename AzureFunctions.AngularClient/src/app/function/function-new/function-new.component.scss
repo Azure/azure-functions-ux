@@ -165,6 +165,7 @@ drop-down{
     width: 350px;
     height: 23px;
     margin-right: 25px;
+    padding-right: 0px;
 }
 
 .tpicker-dropdown{
@@ -172,6 +173,7 @@ drop-down{
     height: 23px;
     padding-left: 7px;
     padding-right: 25px;
+    z-index: 9;
 }
 
 .language-toggle {
