@@ -269,15 +269,15 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
     private finishResourcePickup(appSettingName: string, picker: PickerInput) {
         if (appSettingName) {
 
-            let existedAppSetting;
+            let existingAppSetting;
             if (picker.items) {
-                existedAppSetting = picker.items.find((item) => {
+                existingAppSetting = picker.items.find((item) => {
                     return item === appSettingName;
                 });
             }
 
             this.input.value = appSettingName;
-            if (!existedAppSetting) {
+            if (!existingAppSetting) {
                 picker.items.splice(0, 0, this.input.value);
                 this.pickerInputs = picker.items
                     .map(p => ({ displayLabel: p, value: p }));
