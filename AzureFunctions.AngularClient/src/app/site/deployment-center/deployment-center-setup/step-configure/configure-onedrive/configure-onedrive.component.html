@@ -10,9 +10,10 @@
         </pop-over>
       </div>
       <div class="setting-control-container">
-        <ng-select [clearable]="false" class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
+        <ng-select [clearable]="false" class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="Select Folder"
           [clearable]="false" formControlName="repoUrl">
         </ng-select>
+        <div invalidmessage="repoUrl"></div>
       </div>
     </div>
 

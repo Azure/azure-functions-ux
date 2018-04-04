@@ -9,6 +9,7 @@
         <ng-select class="custom-select" [items]="AccountList" bindLabel="displayLabel" bindValue="value" placeholder="Select Account"
           [clearable]="false" [(ngModel)]="selectedAccount" formControlName="vstsAccount" (change)="accountChanged($event)">
         </ng-select>
+        <div invalidmessage="vstsAccount"></div>
       </div>
     </div>
 
@@ -18,6 +19,7 @@
         <ng-select class="custom-select" [items]="ProjectList" bindLabel="displayLabel" bindValue="value" placeholder="Select Project"
           [clearable]="false" [(ngModel)]="selectedProject" formControlName="vstsProject" (change)="projectChanged($event)">
         </ng-select>
+        <div invalidmessage="vstsProject"></div>
       </div>
     </div>
 
@@ -27,6 +29,7 @@
         <ng-select class="custom-select" [items]="RepositoryList" bindLabel="displayLabel" bindValue="value" placeholder="Select Repository"
           [clearable]="false" formControlName="repoUrl" [(ngModel)]="selectedRepo" (change)="repoChanged($event)">
         </ng-select>
+        <div invalidmessage="repoUrl"></div>
       </div>
     </div>
 
@@ -36,6 +39,7 @@
         <ng-select class="custom-select" [items]="BranchList" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
           [clearable]="false" [(ngModel)]="selectedBranch" formControlName="branch">
         </ng-select>
+        <div invalidmessage="branch"></div>
       </div>
     </div>
   </div>

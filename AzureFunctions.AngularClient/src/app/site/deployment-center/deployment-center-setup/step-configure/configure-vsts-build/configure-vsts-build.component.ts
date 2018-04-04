@@ -7,14 +7,12 @@ import { CacheService } from '../../../../../shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
 import { VSOAccount, VsoProject } from '../../../Models/vso-repo';
 import { Headers } from '@angular/http';
-// import { switchMap } from 'rxjs/operator/switchMap';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DropDownElement } from '../../../../../shared/models/drop-down-element';
 import { LogService } from '../../../../../shared/services/log.service';
 import { LogCategories, DeploymentCenterConstants } from '../../../../../shared/models/constants';
-import { Validators } from '@angular/forms';
-// import { TranslateService } from '@ngx-translate/core';
-// import { PortalResources } from '../../../../../shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 
 export const TaskRunner = {
   None: 'None',
@@ -119,7 +117,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   selectedTaskRunner = 'none';
 
   constructor(
-    // private _translateService: TranslateService
+    private _translateService: TranslateService,
     private _cacheService: CacheService,
     public wizard: DeploymentCenterStateManager,
     private _userService: UserService,
@@ -141,18 +139,19 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   }
 
   private setUpformValidators() {
-    this.wizard.buildSettings.get('createNewVsoAccount').setValidators(Validators.required);
+    const required = new RequiredValidator(this._translateService, false);
+    this.wizard.buildSettings.get('createNewVsoAccount').setValidators(required.validate.bind(required));
     this.wizard.buildSettings.get('createNewVsoAccount').updateValueAndValidity();
-    this.wizard.buildSettings.get('vstsAccount').setValidators(Validators.required);
+    this.wizard.buildSettings.get('vstsAccount').setValidators(required.validate.bind(required));
     this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
 
     if (this.wizard.wizardValues.buildSettings.createNewVsoAccount) {
-      this.wizard.buildSettings.get('location').setValidators(Validators.required);
+      this.wizard.buildSettings.get('location').setValidators(required.validate.bind(required));
       this.wizard.buildSettings.get('vstsProject').setValidators([]);
     } else {
       this.wizard.buildSettings.get('location').setValidators([]);
 
-      this.wizard.buildSettings.get('vstsProject').setValidators(Validators.required);
+      this.wizard.buildSettings.get('vstsProject').setValidators(required.validate.bind(required));
     }
     this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
     this.wizard.buildSettings.get('location').updateValueAndValidity();

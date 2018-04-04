@@ -7,7 +7,8 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
-import { Validators } from '@angular/forms';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-configure-dropbox',
@@ -25,7 +26,8 @@ export class ConfigureDropboxComponent {
         private _cacheService: CacheService,
         _armService: ArmService,
         _aiService: AiService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _translateService: TranslateService
     ) {
         this.wizard.resourceIdStream.subscribe(r => {
             this._resourceId = r;
@@ -34,7 +36,8 @@ export class ConfigureDropboxComponent {
         this.updateFormValidation();
     }
     updateFormValidation() {
-        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators([]);
         this.wizard.sourceSettings.get('isMercurial').setValidators([]);
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();

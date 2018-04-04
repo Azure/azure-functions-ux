@@ -12,7 +12,8 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
-import { Validators } from '@angular/forms';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -41,7 +42,12 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public selectedRepo = '';
     public selectedBranch = '';
 
-    constructor(public wizard: DeploymentCenterStateManager, private _cacheService: CacheService, private _userService: UserService, private _logService: LogService) {
+    constructor(public wizard: DeploymentCenterStateManager,
+        private _cacheService: CacheService,
+        private _userService: UserService,
+        private _logService: LogService,
+        private _translateService: TranslateService) {
+
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.token = r.token;
         });
@@ -58,9 +64,10 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     updateFormValidation() {
-        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
-        this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
-        this.wizard.sourceSettings.get('isMercurial').setValidators(Validators.required);
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('isMercurial').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
         this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();

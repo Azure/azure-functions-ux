@@ -15,8 +15,9 @@
         'controls/command-bar',
         'controls/popover',
         'controls/modal',
-        'controls/_ng-selector',
-        'controls/bootstrap';
+        'controls/ng-selector',
+        'controls/bootstrap',
+        'controls/error-message';
 
 @import 'pages/binding-designer',
         'pages/deployment-source',

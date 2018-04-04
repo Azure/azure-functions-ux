@@ -8,7 +8,8 @@ import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/
 import { Subject } from 'rxjs/Subject';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
-import { Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 
 @Component({
     selector: 'app-configure-onedrive',
@@ -26,7 +27,8 @@ export class ConfigureOnedriveComponent implements OnDestroy {
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _translateService: TranslateService
     ) {
         this.wizard.wizardForm.controls.sourceSettings.value.isManualIntegration = false;
         this.wizard.resourceIdStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
@@ -73,7 +75,8 @@ export class ConfigureOnedriveComponent implements OnDestroy {
         this.fillOnedriveFolders();
     }
     updateFormValidation() {
-        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators([]);
         this.wizard.sourceSettings.get('isMercurial').setValidators([]);
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();

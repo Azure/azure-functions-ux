@@ -68,6 +68,7 @@ import { CardInfoControlComponent } from '../controls/card-info-control/card-inf
 import { PlanService } from './services/plan.service';
 import { AseService } from './services/ase.service';
 import { BillingService } from './services/billing.service';
+import { InvalidmessageDirective } from './directives/invalid-control-message.directive';
 
 export function ArmServiceFactory(
     http: Http,
@@ -125,7 +126,8 @@ export function AiServiceFactory() {
         DeletedItemsFilter,
         TabComponent,
         ActivateWithKeysDirective,
-        CardInfoControlComponent
+        CardInfoControlComponent,
+        InvalidmessageDirective
     ],
     exports: [
         CommonModule,
@@ -164,7 +166,8 @@ export function AiServiceFactory() {
         DeletedItemsFilter,
         TabComponent,
         ActivateWithKeysDirective,
-        CardInfoControlComponent
+        CardInfoControlComponent,
+        InvalidmessageDirective
     ],
     imports: [
         FormsModule,

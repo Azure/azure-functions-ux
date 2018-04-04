@@ -9,7 +9,8 @@ import { AiService } from 'app/shared/services/ai.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
-import { Validators } from '@angular/forms';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-configure-bitbucket',
@@ -32,7 +33,8 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         private _cacheService: CacheService,
         private _logService: LogService,
         _armService: ArmService,
-        _aiService: AiService
+        _aiService: AiService,
+        private _translateService: TranslateService
     ) {
         this.reposStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.fetchBranches(r);
@@ -42,8 +44,9 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     }
 
     updateFormValidation() {
-        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
-        this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('isMercurial').setValidators([]);
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();

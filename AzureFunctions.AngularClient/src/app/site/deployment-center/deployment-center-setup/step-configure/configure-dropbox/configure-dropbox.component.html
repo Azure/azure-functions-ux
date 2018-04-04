@@ -13,6 +13,7 @@
         <ng-select class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="Select Folder"
           [clearable]="false" [(ngModel)]="selectedFolder" formControlName="repoUrl ">
         </ng-select>
+        <div invalidmessage="repoUrl"></div>
       </div>
     </div>
 

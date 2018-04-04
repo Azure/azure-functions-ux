@@ -11,7 +11,8 @@ import { Guid } from 'app/shared/Utilities/Guid';
 import { LogService } from 'app/shared/services/log.service';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Subject';
-import { Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 
 @Component({
     selector: 'app-configure-github',
@@ -38,7 +39,8 @@ export class ConfigureGithubComponent implements OnDestroy {
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _translateService: TranslateService
     ) {
         this.orgStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.reposLoading = true;
@@ -53,8 +55,9 @@ export class ConfigureGithubComponent implements OnDestroy {
         this.updateFormValidation();
     }
     updateFormValidation() {
-        this.wizard.sourceSettings.get('repoUrl').setValidators(Validators.required);
-        this.wizard.sourceSettings.get('branch').setValidators(Validators.required);
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('isMercurial').setValidators([]);
         this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();

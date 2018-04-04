@@ -14,7 +14,7 @@ import { MovingDirection } from '../../../controls/form-wizard/util/moving-direc
 })
 export class DeploymentCenterSetupComponent implements OnChanges {
     @Input() resourceId: string;
-    
+
     constructor(private _wizardService: DeploymentCenterStateManager, private _fb: FormBuilder, translateService: TranslateService) {
         this._wizardService.wizardForm = this._fb.group({
             sourceProvider: [null, []],
@@ -110,8 +110,11 @@ export class DeploymentCenterSetupComponent implements OnChanges {
         }
     }
 
+    // This is ran when the user attempts to exit the configuration step of the wizard
     buildConfigValid(direction: MovingDirection) {
         if (direction === MovingDirection.Forwards) {
+            this._wizardService.markSectionAsTouched(this._wizardService.buildSettings);
+            this._wizardService.markSectionAsTouched(this._wizardService.sourceSettings);
             return this._wizardService.buildSettings.valid && this._wizardService.sourceSettings.valid;
         }
         return true;

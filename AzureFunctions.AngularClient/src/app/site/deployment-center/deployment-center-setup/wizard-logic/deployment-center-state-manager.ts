@@ -1,5 +1,5 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { WizardForm, ProvisioningConfiguration, CiConfiguration, DeploymentTarget, DeploymentSourceType, CodeRepositoryDeploymentSource, ApplicationType, DeploymentTargetProvider, AzureAppServiceDeploymentTarget, AzureResourceType, TargetEnvironmentType, CodeRepository } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { ArmService } from '../../../../shared/services/arm.service';
@@ -104,7 +104,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         });
     }
 
-    private _pollVstsCheck( id: string) {
+    private _pollVstsCheck(id: string) {
         return this._cacheService.get(`https://${this.wizardValues.buildSettings.vstsAccount}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`);
     }
     private _startVstsDeployment() {
@@ -297,5 +297,21 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
     ngOnDestroy(): void {
         this._ngUnsubscribe.next();
+    }
+
+    resetSection(formGroup: FormGroup) {
+        formGroup.reset();
+    }
+
+    markSectionAsTouched(formGroup: FormGroup) {
+        Object.keys(formGroup.controls).forEach(field => {
+            const control = formGroup.get(field);
+            if (control instanceof FormControl) {
+                control.markAsTouched();
+                control.updateValueAndValidity({ onlySelf: false, emitEvent: true });
+            } else if (control instanceof FormGroup) {
+                this.markSectionAsTouched(control);
+            }
+        });
     }
 }

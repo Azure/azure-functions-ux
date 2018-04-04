@@ -17,6 +17,7 @@
           </ng-select>
           <textbox *ngIf="wizard?.wizardValues?.buildSettings?.createNewVsoAccount" [control]="wizard?.buildSettings?.controls?.vstsAccount"
             [placeholder]="'Enter Account Name'"></textbox>
+            <div invalidmessage="vstsAccount"></div>
         </div>
       </div>
 
@@ -26,6 +27,7 @@
           <ng-select class="custom-select" [items]="LocationList" bindLabel="displayLabel" bindValue="value" placeholder="Select Location"
             [clearable]="false" [(ngModel)]="selectedLocation" formControlName="location">
           </ng-select>
+          <div invalidmessage="location"></div>
         </div>
       </div>
 
@@ -35,6 +37,7 @@
           <ng-select class="custom-select" [items]="ProjectList" bindLabel="displayLabel" bindValue="value" placeholder="Select Project"
             [clearable]="false" [(ngModel)]="selectedProject" formControlName="vstsProject">
           </ng-select>
+          <div invalidmessage="vstsProject"></div>
         </div>
       </div>
     </div>
