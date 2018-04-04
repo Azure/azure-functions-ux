@@ -103,10 +103,33 @@ export class ConfigureGithubComponent implements OnDestroy {
             if (org.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                        url: `${org}`
+                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`
+                    })
+                    .concatMap(r => {
+                        const linkHeader = r.headers.toJSON().link;
+                        if (linkHeader) {
+                            const links = this._getLinks(linkHeader);
+                            const lastPageLink = links && links.last;
+                            const lastPageNumber = +new URLSearchParams(new URL(lastPageLink).search.slice(1)).get('page');
+                            const pageCalls: Observable<Response>[] = [];
+                            for (let i = 1; i <= lastPageNumber; i++) {
+                                pageCalls.push(
+                                    this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
+                                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${i}`
+                                    })
+                                );
+                            }
+                            return Observable.forkJoin(pageCalls);
+                        } else {
+                            return Observable.of([r]);
+                        }
                     })
                     .switchMap(r => {
-                        return Observable.of(r.json());
+                        let ret: any[] = [];
+                        r.forEach(e => {
+                            ret = ret.concat(e.json());
+                        });
+                        return Observable.of(ret);
                     });
             } else {
                 fetchListCall = this._cacheService
@@ -200,5 +223,17 @@ export class ConfigureGithubComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         this._ngUnsubscribe.next();
+    }
+
+    private _getLinks(linksHeader): any {
+        const links = {};
+        // Parse each part into a named link
+        linksHeader.forEach(part => {
+            const section = part.split(';');
+            const url = section[0].replace(/<(.*)>/, '$1').trim();
+            const name = section[1].replace(/rel="(.*)"/, '$1').trim();
+            links[name] = url;
+        });
+        return links;
     }
 }

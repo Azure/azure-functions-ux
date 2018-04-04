@@ -23,6 +23,9 @@ export function setupGithubAuthentication(app: Application) {
                     Authorization: `Bearer ${tokenData.token}`
                 }
             });
+            if (response.headers.link) {
+                res.setHeader('link', response.headers.link);
+            }
             res.json(response.data);
         } catch (err) {
             LogHelper.error('github-passthrough', err);
