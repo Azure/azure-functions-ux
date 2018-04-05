@@ -105,79 +105,73 @@ export class ConfigureGithubComponent implements OnDestroy {
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
                         url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`
                     })
-                    .concatMap(r => {
+                    .switchMap(r => {
                         const linkHeader = r.headers.toJSON().link;
+                        const pageCalls: Observable<any>[] = [Observable.of(r)];
                         if (linkHeader) {
                             const links = this._getLinks(linkHeader);
                             const lastPageNumber = this._getLastPage(links);
-                            const pageCalls: Observable<Response>[] = [];
-                            for (let i = 1; i <= lastPageNumber; i++) {
+                            for (let i = 2; i <= lastPageNumber; i++) {
                                 pageCalls.push(
                                     this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
                                         url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${i}`
                                     })
                                 );
                             }
-                            return Observable.forkJoin(pageCalls);
-                        } else {
-                            return Observable.of([r]);
                         }
-                    })
-                    .switchMap(r => {
-                        let ret: any[] = [];
-                        r.forEach(e => {
-                            ret = ret.concat(e.json());
-                        });
-                        return Observable.of(ret);
+                        return Observable.forkJoin(pageCalls);
                     });
             } else {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                        url: `${org}`
+                        url: `${org}/repos?per_page=100`
                     })
                     .switchMap(r => {
-                        const orgData = r.json();
-                        const pageCount = (orgData.public_repos + orgData.total_private_repos) / 100 + 1;
-                        const pageCalls: Observable<Response>[] = [];
-                        for (let i = 1; i <= pageCount; i++) {
-                            pageCalls.push(
-                                this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
-                                    url: `${org}/repos?per_page=100&page=${i}`
-                                })
-                            );
+                        const linkHeader = r.headers.toJSON().link;
+                        const pageCalls: Observable<any>[] = [Observable.of(r)];
+                        if (linkHeader) {
+                            const links = this._getLinks(linkHeader);
+                            const lastPageNumber = this._getLastPage(links);
+                            for (let i = 2; i <= lastPageNumber; i++) {
+                                pageCalls.push(
+                                    this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
+                                        url: `${org}/repos?per_page=100&page=${i}`
+                                    })
+                                );
+                            }
                         }
                         return Observable.forkJoin(pageCalls);
-                    })
-                    .switchMap(r => {
-                        let ret: any[] = [];
-                        r.forEach(e => {
-                            ret = ret.concat(e.json());
-                        });
-                        return Observable.of(ret);
                     });
             }
 
-            fetchListCall.subscribe(r => {
-                const newRepoList: DropDownElement<string>[] = [];
-                this.repoUrlToNameMap = {};
-                r
-                    .filter(repo => {
-                        return !repo.permissions || repo.permissions.admin;
-                    })
-                    .forEach(repo => {
-                        newRepoList.push({
-                            displayLabel: repo.name,
-                            value: repo.html_url
-                        });
-                        this.repoUrlToNameMap[repo.html_url] = repo.full_name;
+            fetchListCall
+                .switchMap(r => {
+                    let ret: any[] = [];
+                    r.forEach(e => {
+                        ret = ret.concat(e.json());
                     });
+                    return Observable.of(ret);
+                }).subscribe(r => {
+                    const newRepoList: DropDownElement<string>[] = [];
+                    this.repoUrlToNameMap = {};
+                    r
+                        .filter(repo => {
+                            return !repo.permissions || repo.permissions.admin;
+                        })
+                        .forEach(repo => {
+                            newRepoList.push({
+                                displayLabel: repo.name,
+                                value: repo.html_url
+                            });
+                            this.repoUrlToNameMap[repo.html_url] = repo.full_name;
+                        });
 
-                this.RepoList = newRepoList;
-                this.reposLoading = false;
-            }, err => {
-                this.reposLoading = false;
-                this._logService.error(LogCategories.cicd, '/fetch-github-repos', err);
-            });
+                    this.RepoList = newRepoList;
+                    this.reposLoading = false;
+                }, err => {
+                    this.reposLoading = false;
+                    this._logService.error(LogCategories.cicd, '/fetch-github-repos', err);
+                });
         }
     }
 
@@ -188,23 +182,21 @@ export class ConfigureGithubComponent implements OnDestroy {
                 .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
                     url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`
                 })
-                .concatMap(r => {
+                .switchMap(r => {
                     const linkHeader = r.headers.toJSON().link;
+                    const pageCalls: Observable<any>[] = [Observable.of(r)];
                     if (linkHeader) {
                         const links = this._getLinks(linkHeader);
                         const lastPageNumber = this._getLastPage(links);
-                        const pageCalls: Observable<Response>[] = [];
-                        for (let i = 1; i <= lastPageNumber; i++) {
+                        for (let i = 2; i <= lastPageNumber; i++) {
                             pageCalls.push(
                                 this._cacheService.post(Constants.serviceHost + `api/github/passthrough?t=${Guid.newTinyGuid()}`, true, null, {
                                     url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`
                                 })
                             );
                         }
-                        return Observable.forkJoin(pageCalls);
-                    } else {
-                        return Observable.of([r]);
                     }
+                    return Observable.forkJoin(pageCalls);
                 })
                 .switchMap(r => {
                     let ret: any[] = [];
