@@ -20,6 +20,14 @@ export class OnPremEnvironment extends Environment {
                 return { status: 'enabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.monitoring] = {
+            id: ScenarioIds.monitoring,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
