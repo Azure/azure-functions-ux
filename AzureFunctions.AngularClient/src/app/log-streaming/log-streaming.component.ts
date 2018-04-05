@@ -8,6 +8,7 @@ import { UtilitiesService } from '../shared/services/utilities.service';
 import { AccessibilityHelper } from '../shared/Utilities/accessibility-helper';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
+import { ArmUtil } from '../shared/Utilities/arm-utils';
 
 @Component({
     selector: 'log-streaming',
@@ -137,6 +138,11 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
         const defaultInterval = 1000;
         const maxInterval = 10000;
         let oldLogs = '';
+
+        if (ArmUtil.isLinuxDynamic(this.context.site)) {
+            // Dynamic linux doesn't support log streaming
+            return new Promise(resolve => resolve(null));
+        }
 
         const promise = new Promise<string>(resolve => {
 
