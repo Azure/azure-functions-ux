@@ -4,11 +4,7 @@
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label">{{'folder' | translate}}
-        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-          <span class="glyphicon glyphicon-info-sign button-title"></span>
-        </pop-over>
-      </div>
+      <div class="setting-label">{{'folder' | translate}}</div>
       <div class="setting-control-container">
         <ng-select [clearable]="false" class="custom-select" [items]="folderList" bindLabel="displayLabel" bindValue="value" placeholder="Select Folder"
           [clearable]="false" formControlName="repoUrl">

@@ -43,11 +43,7 @@
     </div>
 
     <div class="setting-wrapper">
-      <div class="setting-label"> Web Application Framework
-        <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-          <span class="glyphicon glyphicon-info-sign button-title"></span>
-        </pop-over>
-      </div>
+      <div class="setting-label"> Web Application Framework </div>
       <div class="setting-control-container">
         <ng-select class="custom-select" [clearable]="false" [searchable]="false" [items]="WebApplicationFrameworks" bindLabel="displayLabel"
           bindValue="value" placeholder="Select Framework" [(ngModel)]="selectedFramework" formControlName="applicationFramework">
@@ -58,22 +54,14 @@
 
     <div *ngIf="selectedFramework!=='AspNetWap' && selectedFramework!=='AspNetCore'">
       <div class="setting-wrapper">
-        <div class="setting-label"> Working Directory
-          <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-            <span class="glyphicon glyphicon-info-sign button-title"></span>
-          </pop-over>
-        </div>
+        <div class="setting-label"> Working Directory</div>
         <div class="setting-control-container">
           <textbox [control]="wizard?.buildSettings?.controls?.workingDirectory" [placeholder]="'enter value'"></textbox>
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="selectedFramework==='Node'">
-        <div class="setting-label"> Task Runner
-          <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-            <span class="glyphicon glyphicon-info-sign button-title"></span>
-          </pop-over>
-        </div>
+        <div class="setting-label"> Task Runner</div>
         <div class="setting-control-container">
           <ng-select [clearable]="false" class="custom-select" [searchable]="false" [items]="nodeJsTaskRunners" bindLabel="displayLabel"
             bindValue="value" placeholder="Select NodeJs Task Runner" [(ngModel)]="selectedTaskRunner" formControlName="nodejsTaskRunner">
@@ -84,11 +72,7 @@
       <div *ngIf="selectedFramework==='Python'" [formGroup]="wizard?.buildSettings?.controls?.pythonSettings" novalidate>
 
         <div class="setting-wrapper">
-          <div class="setting-label"> Python Framework
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
+          <div class="setting-label"> Python Framework</div>
           <div class="setting-control-container">
             <ng-select class="custom-select" [clearable]="false" [searchable]="false" [items]="pythonFrameworkList" bindLabel="displayLabel"
               bindValue="value" placeholder="Select Python Framework" [(ngModel)]="selectedPythonFramework" formControlName="framework">
@@ -97,11 +81,7 @@
         </div>
 
         <div class="setting-wrapper">
-          <div class="setting-label"> Python Version
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
+          <div class="setting-label"> Python Version </div>
           <div class="setting-control-container">
             <ng-select class="custom-select" [clearable]="false" [searchable]="false" [items]="pythonVersionList" bindLabel="displayLabel"
               bindValue="value" placeholder="Select Python Version" [(ngModel)]="selectedPythonVersion" formControlName="version">
@@ -110,22 +90,14 @@
         </div>
 
         <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Django'">
-          <div class="setting-label"> Django Settings Module
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
+          <div class="setting-label"> Django Settings Module </div>
           <div class="setting-control-container">
             <textbox [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.djangoSettingsModule" [placeholder]="'enter value'"></textbox>
           </div>
         </div>
 
         <div class="setting-wrapper" *ngIf="selectedPythonFramework === 'Flask'">
-          <div class="setting-label"> Flask project name
-            <pop-over [message]="('netFrameWorkVersionLabelHelp' | translate)">
-              <span class="glyphicon glyphicon-info-sign button-title"></span>
-            </pop-over>
-          </div>
+          <div class="setting-label"> Flask project name </div>
           <div class="setting-control-container">
             <textbox [control]="wizard?.buildSettings?.controls?.pythonSettings?.controls?.flaskProjectName" [placeholder]="'enter value'"></textbox>
           </div>
