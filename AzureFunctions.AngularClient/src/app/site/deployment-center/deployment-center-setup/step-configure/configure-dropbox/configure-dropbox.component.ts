@@ -20,6 +20,8 @@ export class ConfigureDropboxComponent {
     public folderList: DropDownElement<string>[];
 
     selectedFolder = '';
+
+    public foldersLoading = false;
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -45,6 +47,7 @@ export class ConfigureDropboxComponent {
         this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
     public fillDropboxFolders() {
+        this.foldersLoading = true;
         this.folderList = [];
         return this._cacheService
             .post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
@@ -56,6 +59,7 @@ export class ConfigureDropboxComponent {
             })
             .subscribe(
                 r => {
+                    this.foldersLoading = false;
                     const rawFolders = r.json();
                     const options: DropDownElement<string>[] = [];
                     const splitRID = this._resourceId.split('/');
@@ -82,6 +86,7 @@ export class ConfigureDropboxComponent {
                     this.wizard.wizardValues = vals;
                 },
                 err => {
+                    this.foldersLoading = false
                     this._logService.error(LogCategories.cicd, '/fetch-dropbox-folders', err);
                 }
             );

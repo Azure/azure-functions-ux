@@ -27,6 +27,10 @@ export class ConfigureBitbucketComponent implements OnDestroy {
 
     selectedRepo = '';
     selectedBranch = '';
+
+    public reposLoading = false;
+    public branchesLoading = false;
+
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -39,6 +43,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         this.reposStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.fetchBranches(r);
         });
+        this.branchesLoading = true;
         this.fetchRepos();
         this.updateFormValidation();
     }
@@ -55,12 +60,14 @@ export class ConfigureBitbucketComponent implements OnDestroy {
 
     fetchRepos() {
         this.RepoList = [];
+        this.reposLoading = true;
         this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
                 url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?role=admin`
             })
             .subscribe(
                 r => {
+                    this.reposLoading = false;
                     const newRepoList: DropDownElement<string>[] = [];
                     this.repoUrlToNameMap = {};
                     r.json().values.forEach(repo => {
@@ -75,12 +82,14 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                     this.RepoList = newRepoList;
                 },
                 err => {
+                    this.reposLoading = false;
                     this._logService.error(LogCategories.cicd, '/fetch-bitbucket-repos', err);
                 }
             );
     }
 
     fetchBranches(repo: string) {
+        this.branchesLoading = true;
         if (repo) {
             this.BranchList = [];
             this._cacheService
@@ -89,6 +98,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                 })
                 .subscribe(
                     r => {
+                        this.branchesLoading = false;
                         const newBranchList: DropDownElement<string>[] = [];
 
                         r.json().values.forEach(branch => {
@@ -101,6 +111,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                         this.BranchList = newBranchList;
                     },
                     err => {
+                        this.branchesLoading = false;
                         this._logService.error(LogCategories.cicd, '/fetch-bitbucket-branches', err);
                     }
                 );

@@ -22,6 +22,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
     private _ngUnsubscribe = new Subject();
     private _onedriveCallSubject = new Subject();
 
+    public foldersLoading = false;
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
@@ -43,6 +44,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
             )
             .subscribe(
                 r => {
+                    this.foldersLoading = false;
                     const rawFolders = r.json();
                     const options: DropDownElement<string>[] = [];
                     const splitRID = this._resourceId.split('/');
@@ -69,6 +71,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
                     this.wizard.wizardValues = vals;
                 },
                 err => {
+                    this.foldersLoading = false;
                     this._logService.error(LogCategories.cicd, '/fetch-onedrive-folders', err);
                 }
             );
@@ -86,6 +89,7 @@ export class ConfigureOnedriveComponent implements OnDestroy {
 
     public fillOnedriveFolders() {
         this.folderList = [];
+        this.foldersLoading = true;
         this._onedriveCallSubject.next();
     }
 

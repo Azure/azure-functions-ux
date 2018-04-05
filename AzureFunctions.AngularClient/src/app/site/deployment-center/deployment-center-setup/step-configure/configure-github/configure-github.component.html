@@ -25,7 +25,7 @@
       <div class="setting-label">{{'branch' | translate}}</div>
       <div class="setting-control-container">
         <ng-select class="custom-select" [items]="BranchList" bindLabel="displayLabel" bindValue="value" placeholder="Select Branch"
-          [clearable]="false" [(ngModel)]="selectedBranch" formControlName="branch">
+          [clearable]="false" [(ngModel)]="selectedBranch" [loading]="branchesLoading" formControlName="branch">
         </ng-select>
         <div invalidmessage="branch"></div>
       </div>
