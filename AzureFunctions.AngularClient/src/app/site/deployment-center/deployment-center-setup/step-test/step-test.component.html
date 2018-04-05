@@ -14,19 +14,36 @@
     <div *ngIf="wizard?.wizardValues?.testEnvironment?.enabled">
 
       <div class="setting-wrapper">
-        <div class="setting-label">App Service Plan</div>
+        <div class="setting-label">App</div>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
-            <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.newApp" [options]="newAppServicePlanOptions" [highlightDirty]="true">
+            <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.newApp" [options]="newAppServicePlanOptions" [highlightDirty]="true"
+              (value)="exitingNewChanged($event)">
             </radio-selector>
           </div>
-          <ng-select *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false" class="custom-select" [loading]="appServicePlansLoading"
-            [clearable]="false" [items]="appServicePlanList" bindLabel="displayLabel" bindValue="value" placeholder="Select App Service Plan"
-            [(ngModel)]="selectedAppServicePlan" formControlName="appServicePlanId" (change)="aspChanged($event)">
+        </div>
+      </div>
+
+      <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
+        <div class="setting-label">App Service Plan</div>
+        <div class="setting-control-container">
+          <ng-select class="custom-select" [loading]="appServicePlansLoading" [clearable]="false" [items]="appServicePlanList" bindLabel="displayLabel"
+            bindValue="value" placeholder="Select App Service Plan" [(ngModel)]="selectedAppServicePlan" formControlName="appServicePlanId"
+            (change)="aspChanged($event)">
           </ng-select>
         </div>
       </div>
 
+      <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
+        <div class="setting-label">Web App</div>
+        <div class="setting-control-container">
+          <div class="newOrExistingSelection">
+            <ng-select class="custom-select" [loading]="appsLoading" [clearable]="false" [items]="appsList" bindLabel="displayLabel"
+              bindValue="value" placeholder="Select Web App" [(ngModel)]="selectedWebApp" formControlName="webAppId">
+            </ng-select>
+          </div>
+        </div>
+      </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
         <div class="setting-label">App Name</div>
@@ -52,14 +69,14 @@
 
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">Pricing Tier/Location</div>
+        <div class="setting-label">Pricing Tier</div>
         <div class="setting-control-container">
           {{pricingTier}}
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">Pricing Tier/Location</div>
+        <div class="setting-label">Location</div>
         <div class="setting-control-container">
           {{location}}
         </div>

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { ArmService } from '../../../../shared/services/arm.service';
 import { Headers } from '@angular/http';
 import { CacheService } from '../../../../shared/services/cache.service';
-import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
+import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
@@ -23,6 +23,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _ngUnsubscribe = new Subject();
     private _token: string;
     private _vstsApiToken: string;
+    private _pricingTier: string;
     constructor(
         private _cacheService: CacheService,
         private _armService: ArmService,
@@ -32,6 +33,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             this._resourceId = r;
             this._armService.get(this._resourceId).subscribe(s => {
                 this._location = s.json().location;
+                this._pricingTier = s.json().properties.sku;
             });
 
         });
@@ -245,7 +247,11 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
 
     private get _loadTestTarget(): AzureAppServiceDeploymentTarget {
+        const tid = parseToken(this._token).tid;
         const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
+        const newSiteDescriptor = new ArmSiteDescriptor(this.wizardValues.testEnvironment.webAppId);
+
+        const appServicePlanDescriptor = new ArmPlanDescriptor(this._resourceId);
         const targetObject = {
             provider: DeploymentTargetProvider.Azure,
             type: AzureResourceType.WindowsAppService,
@@ -253,17 +259,21 @@ export class DeploymentCenterStateManager implements OnDestroy {
             friendlyName: 'Load Test',
             subscriptionId: siteDescriptor.subscription,
             subscriptionName: '',
-            tenantId: '',
+            tenantId: tid,
             resourceIdentifier: this.wizardValues.testEnvironment.webAppId,
-            location: '',
-            resourceGroupName: siteDescriptor.resourceGroup,
+            location: this._location,
+            resourceGroupName: newSiteDescriptor.resourceGroup,
             authorizationInfo: {
                 scheme: 'Headers',
                 parameters: {
                     Authorization: `Bearer ${this._token}`
                 }
             },
-            createOptions: null,
+            createOptions: this.wizardValues.testEnvironment.newApp ? {
+                appServicePlanName: appServicePlanDescriptor.serverFarm,
+                appServicePricingTier: this._pricingTier,
+                baseAppServiceName: siteDescriptor.site
+            } : null,
             slotSwapConfiguration: null
         };
         return targetObject;

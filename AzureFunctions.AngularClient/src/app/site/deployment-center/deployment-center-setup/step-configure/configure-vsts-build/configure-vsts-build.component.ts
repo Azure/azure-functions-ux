@@ -140,8 +140,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
 
   private setUpformValidators() {
     const required = new RequiredValidator(this._translateService, false);
-    this.wizard.buildSettings.get('createNewVsoAccount').setValidators(required.validate.bind(required));
-    this.wizard.buildSettings.get('createNewVsoAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsAccount').setValidators(required.validate.bind(required));
     this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
 
