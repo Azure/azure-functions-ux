@@ -118,9 +118,8 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             );
     }
 
-    SyncScm() { }
-
     disconnect() {
+        //TODO: ADD NOTIFIATION ON SUCCESS OR ERROR
         this._busyManager.setBusy();
         Observable.zip(
             this._cacheService.delete(`${this.deploymentObject.VSOData.url}&api-version=2.0`),
@@ -131,7 +130,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
                 this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
             },
                 err => {
-                    console.error(err);
+                    this._logService.error(LogCategories.cicd, '/disconnect-vso-dashboard', err);
                 });
 
     }

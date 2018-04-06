@@ -3053,7 +3053,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Enter Deployment Slot Name</value>
   </data>
   <data name="selectExistingSlot" xml:space="preserve">
-    <value></value>
+    <value>Select Slot</value>
   </data>
   <data name="yes" xml:space="preserve">
     <value>Yes</value>

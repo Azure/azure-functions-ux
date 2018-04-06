@@ -2,6 +2,7 @@ import { Application } from "express-serve-static-core";
 import { ApiRequest } from "../types/request";
 import { getGithubTokens } from "./github-auth";
 import axios from 'axios';
+import { LogHelper } from "../logHelper";
 
 export function setupVsoPassthroughAuthentication(app: Application) {
     app.post('/api/sepupvso', async (req: ApiRequest<any>, res) => {
@@ -21,10 +22,11 @@ export function setupVsoPassthroughAuthentication(app: Application) {
                     "accept": "application/json;api-version=4.1-preview.1"
                 }
             });
-            res.send(result.data)
+            res.status(result.status).send(result.data);
         }
         catch (err) {
-            res.send(err);
+            res.sendStatus(500);
+            LogHelper.error('vso-passthrough', err);
         }
     });
 }
