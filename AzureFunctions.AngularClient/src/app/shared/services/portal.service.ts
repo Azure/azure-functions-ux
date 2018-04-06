@@ -359,13 +359,13 @@ export class PortalService {
     }
 
     private postMessage(verb: string, data: string) {
-        if (PortalService.inIFrame()) {
+        if (Url.getParameterByName(null, 'appsvc.bladetype') === 'appblade') {
             window.parent.postMessage(<Data>{
                 signature: this.portalSignature,
                 kind: verb,
                 data: data
             }, this.shellSrc);
-
+        } else {
             window.parent.postMessage(<Data>{
                 signature: this.portalSignatureFrameBlade,
                 kind: verb,
