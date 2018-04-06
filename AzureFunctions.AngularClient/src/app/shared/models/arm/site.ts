@@ -19,4 +19,5 @@ export interface Site {
     clientAffinityEnabled?: boolean;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
     name?: string;
+    resourceGroup?: string;
 }

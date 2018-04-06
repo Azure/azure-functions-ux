@@ -101,7 +101,7 @@
           <th class="icon"></th>
         </tr>
 
-        <tr *ngFor="let item of table.items">
+        <tr *ngFor="let item of table.items;trackBy:tableItemTackBy">
 
           <td>
             <div *ngIf="item.type === 'row'">

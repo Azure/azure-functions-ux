@@ -7,31 +7,47 @@ import { ArmService } from 'app/shared/services/arm.service';
 import { AiService } from 'app/shared/services/ai.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-configure-dropbox',
     templateUrl: './configure-dropbox.component.html',
-    styleUrls: ['./configure-dropbox.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-dropbox.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureDropboxComponent {
     private _resourceId: string;
     public folderList: DropDownElement<string>[];
 
+    selectedFolder = '';
+
+    public foldersLoading = false;
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
         _aiService: AiService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _translateService: TranslateService
     ) {
-        this.wizard.resourceIdStream.subscribe(r => {
+        this.wizard.resourceIdStream$.subscribe(r => {
             this._resourceId = r;
         });
         this.fillDropboxFolders();
+        this.updateFormValidation();
     }
-
+    updateFormValidation() {
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('branch').setValidators([]);
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
+    }
     public fillDropboxFolders() {
+        this.foldersLoading = true;
         this.folderList = [];
         return this._cacheService
             .post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
@@ -43,8 +59,9 @@ export class ConfigureDropboxComponent {
             })
             .subscribe(
                 r => {
+                    this.foldersLoading = false;
                     const rawFolders = r.json();
-                    let options: DropDownElement<string>[] = [];
+                    const options: DropDownElement<string>[] = [];
                     const splitRID = this._resourceId.split('/');
                     const siteName = splitRID[splitRID.length - 1];
 
@@ -64,9 +81,12 @@ export class ConfigureDropboxComponent {
                     });
 
                     this.folderList = options;
-                    this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.dropboxUri}/${siteName}`;
+                    const vals = this.wizard.wizardValues;
+                    vals.sourceSettings.repoUrl = `${DeploymentCenterConstants.dropboxUri}/${siteName}`;
+                    this.wizard.wizardValues = vals;
                 },
                 err => {
+                    this.foldersLoading = false
                     this._logService.error(LogCategories.cicd, '/fetch-dropbox-folders', err);
                 }
             );

@@ -34,24 +34,24 @@ interface DeploymentLogItem {
 export class DeploymentDetailComponent implements OnChanges {
     @Input() deploymentObject: ArmObj<Deployment>;
     @Output() closePanel = new EventEmitter();
-    public viewInfoStream = new Subject<ArmObj<Deployment>>();
-    private _deploymentLogFetcher = new Subject<DeploymentDetailTableItem>();
+    public viewInfoStream$ = new Subject<ArmObj<Deployment>>();
+    private _deploymentLogFetcher$ = new Subject<DeploymentDetailTableItem>();
 
     private _tableItems: DeploymentDetailTableItem[];
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
     public logsToShow = null;
 
     constructor(private _cacheService: CacheService, private _aiService: AiService, private _translateService: TranslateService, broadcastService: BroadcastService) {
         this._tableItems = [];
         this.logsToShow = null;
-        this._deploymentLogFetcher.takeUntil(this._ngUnsubscribe).switchMap(item => this._cacheService.getArm(item.id)).subscribe(r => {
+        this._deploymentLogFetcher$.takeUntil(this._ngUnsubscribe$).switchMap(item => this._cacheService.getArm(item.id)).subscribe(r => {
             const obs: ArmObj<any>[] = r.json().value;
             const message = obs.map(x => x.properties.message as string).join('\n');
             this.logsToShow = message;
         });
 
-        this.viewInfoStream
-            .takeUntil(this._ngUnsubscribe)
+        this.viewInfoStream$
+            .takeUntil(this._ngUnsubscribe$)
             .switchMap(deploymentObject => {
                 const deploymentId = deploymentObject.id;
                 return this._cacheService.getArm(`${deploymentId}/log`);
@@ -94,13 +94,13 @@ export class DeploymentDetailComponent implements OnChanges {
 
     showLogs(item: DeploymentDetailTableItem) {
         this.logsToShow = this._translateService.instant(PortalResources.resourceSelect);
-        this._deploymentLogFetcher.next(item);
+        this._deploymentLogFetcher$.next(item);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['deploymentObject']) {
             if (this.deploymentObject) {
-                this.viewInfoStream.next(this.deploymentObject);
+                this.viewInfoStream$.next(this.deploymentObject);
             }
         }
     }

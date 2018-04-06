@@ -13,13 +13,15 @@
         </aad-registration>
     </div>
 
-    <div class="input-header">
-        <label class="control-label">{{ 'templatePicker_language' | translate }}</label>
-    </div>
-    <drop-down [options]="languageOptions"
-               (value)="onLanguageChanged($event)"
-               [setDefault]="false"
-               attr.aria-label="{{'templatePicker_language' | translate}}"></drop-down>
+    <ng-container *ngIf="!functionAppLanguage">
+        <div class="input-header">
+            <label class="control-label">{{ 'templatePicker_language' | translate }}</label>
+        </div>
+        <drop-down [options]="languageOptions"
+                (value)="onLanguageChanged($event)"
+                [setDefault]="false"
+                attr.aria-label="{{'templatePicker_language' | translate}}"></drop-down>
+    </ng-container>
 
     <ng-container *ngIf="isEmbedded">
         <div class="input-header">

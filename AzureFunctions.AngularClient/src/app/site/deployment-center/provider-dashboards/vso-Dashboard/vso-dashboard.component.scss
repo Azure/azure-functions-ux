@@ -36,6 +36,10 @@
     }
 }
 
+.table-container{
+    padding: 25px 25px;
+}
+
 .messageColumn {
     display: inline-block;
     vertical-align: middle;
@@ -43,14 +47,13 @@
     p {
         margin: 0;
     }
-    img {
-        display: inline-block;
-        margin: 1px;
-        height: 10px;
-        width: 10px;
-    }
 }
 
+.statusImage {
+    margin-top: 50px;
+    height: 10px;
+    width: 10px;
+}
 #activity-list {
     width: 100%;
 }

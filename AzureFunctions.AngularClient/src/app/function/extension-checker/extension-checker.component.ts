@@ -25,6 +25,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
 
     @Input() functionLanguage: string;
     @Input() functionsInfo: FunctionInfo[];
+    @Input() functionAppLanguage: string;
     @Input() appNode: AppNode;
     @Input() functionsNode: FunctionsNode;
     @Output() closePanel = new Subject();

@@ -1,0 +1,26 @@
+@import '../../../sass/common/variables';
+.icon-center {
+    vertical-align: middle
+}
+.cardContainer {
+    padding: 25px 25px;
+}
+
+
+.description-text{
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border-bottom: $border;
+    padding-bottom: 8px;
+}
+
+h2{
+    display: inline-block;
+    font-size: 3em;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+h5{
+    display: inline;
+}

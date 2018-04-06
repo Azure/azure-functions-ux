@@ -1,8 +1,7 @@
 <command-bar>
   <command displayText="{{ 'refresh' | translate }}" iconUrl="image/swap.svg" (click)="refresh()"></command>
   <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/error.svg" (click)="disconnect()"></command>
-  <command displayText="{{ 'edit' | translate }}" iconUrl="image/Functions.svg" (click)="edit()"></command>
-  <command displayText="{{ 'sync' | translate }}" iconUrl="image/Functions.svg" (click)="SyncScm()"></command>
+  <command displayText="{{ 'edit' | translate }}" iconUrl="image/Disconnect.svg" (click)="edit()"></command>
 </command-bar>
 
 <div id="essentials-container">
@@ -85,7 +84,7 @@
 </div>
 
 
-<div class="browse-container">
+<div class="table-container">
   <tbl [items]="TableItems" #table="tbl" id="activity-list" [name]="'functionApps' | translate" groupColName="message">
     <tr style="display:none">
       <th>
@@ -111,7 +110,7 @@
 
           <p>{{item.message}}</p>
           <div style="display:inline-block;margin-left:10px;" *ngFor="let url of item.urlInfo">
-            <img *ngIf="url.urlIcon" [src]="url.urlIcon" />
+            <img class="statusImage" *ngIf="url.urlIcon" [src]="url.urlIcon" />
             <a (click)="onUrlClick(url.url)" tabindex="0">{{url.urlText}}</a>
           </div>
         </div>

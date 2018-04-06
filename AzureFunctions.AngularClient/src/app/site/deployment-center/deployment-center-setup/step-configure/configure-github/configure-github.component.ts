@@ -11,11 +11,14 @@ import { Guid } from 'app/shared/Utilities/Guid';
 import { LogService } from 'app/shared/services/log.service';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Subject';
+import { TranslateService } from '@ngx-translate/core';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { Url } from '../../../../../shared/Utilities/url';
 
 @Component({
     selector: 'app-configure-github',
     templateUrl: './configure-github.component.html',
-    styleUrls: ['./configure-github.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-github.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureGithubComponent implements OnDestroy {
     public OrgList: DropDownElement<string>[];
@@ -24,25 +27,43 @@ export class ConfigureGithubComponent implements OnDestroy {
     public BranchList: DropDownElement<string>[];
 
     private reposStream = new ReplaySubject<string>();
-    private _ngUnsubscribe = new Subject();
-    private orgStream = new ReplaySubject<string>();
+    private _ngUnsubscribe$ = new Subject();
+    private orgStream$ = new ReplaySubject<string>();
+    public reposLoading = false;
+    public branchesLoading = false;
+
+    public selectedOrg = '';
+    public selectedRepo = '';
+    public selectedBranch = '';
     constructor(
         public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
         private _cacheService: CacheService,
         _armService: ArmService,
-        private _logService: LogService
+        private _logService: LogService,
+        private _translateService: TranslateService
     ) {
-        this.orgStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.orgStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
+            this.reposLoading = true;
             this.fetchRepos(r);
         });
-        this.reposStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.reposStream.takeUntil(this._ngUnsubscribe$).subscribe(r => {
+            this.branchesLoading = true;
             this.fetchBranches(r);
         });
 
         this.fetchOrgs();
+        this.updateFormValidation();
     }
-
+    updateFormValidation() {
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
+    }
     fetchOrgs() {
         return Observable.zip(
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?orgs=', true, null, {
@@ -68,7 +89,6 @@ export class ConfigureGithubComponent implements OnDestroy {
                     value: org.url
                 });
             });
-
             this.OrgList = newOrgsList;
         });
     }
@@ -79,61 +99,80 @@ export class ConfigureGithubComponent implements OnDestroy {
             this.RepoList = [];
             this.BranchList = [];
 
-            //This branch is to handle the differences between getting a users personal repos and getting repos for a specific org such as Azure
-            //The API handles these differently but the UX shows them the same
+            // This branch is to handle the differences between getting a users personal repos and getting repos for a specific org such as Azure
+            // The API handles these differently but the UX shows them the same
             if (org.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                        url: `${org}`
+                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`
                     })
                     .switchMap(r => {
-                        return Observable.of(r.json());
+                        const linkHeader = r.headers.toJSON().link;
+                        const pageCalls: Observable<any>[] = [Observable.of(r)];
+                        if (linkHeader) {
+                            const links = this._getLinks(linkHeader);
+                            const lastPageNumber = this._getLastPage(links);
+                            for (let i = 2; i <= lastPageNumber; i++) {
+                                pageCalls.push(
+                                    this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
+                                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner&page=${i}`
+                                    })
+                                );
+                            }
+                        }
+                        return Observable.forkJoin(pageCalls);
                     });
             } else {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                        url: `${org}`
+                        url: `${org}/repos?per_page=100`
                     })
                     .switchMap(r => {
-                        const orgData = r.json();
-                        const pageCount = (orgData.public_repos + orgData.total_private_repos) / 100 + 1;
-                        const pageCalls: Observable<Response>[] = [];
-                        for (let i = 1; i <= pageCount; i++) {
-                            pageCalls.push(
-                                this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
-                                    url: `${org}/repos?per_page=100&page=${i}`
-                                })
-                            );
+                        const linkHeader = r.headers.toJSON().link;
+                        const pageCalls: Observable<any>[] = [Observable.of(r)];
+                        if (linkHeader) {
+                            const links = this._getLinks(linkHeader);
+                            const lastPageNumber = this._getLastPage(links);
+                            for (let i = 2; i <= lastPageNumber; i++) {
+                                pageCalls.push(
+                                    this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
+                                        url: `${org}/repos?per_page=100&page=${i}`
+                                    })
+                                );
+                            }
                         }
                         return Observable.forkJoin(pageCalls);
-                    })
-                    .switchMap(r => {
-                        let ret: any[] = [];
-                        r.forEach(e => {
-                            ret = ret.concat(e.json());
-                        });
-                        return Observable.of(ret);
                     });
             }
-            fetchListCall.subscribe(r => {
-                const newRepoList: DropDownElement<string>[] = [];
-                this.repoUrlToNameMap = {};
-                r
-                    .filter(repo => {
-                        return !repo.permissions || repo.permissions.admin;
-                    })
-                    .forEach(repo => {
-                        newRepoList.push({
-                            displayLabel: repo.name,
-                            value: repo.html_url
-                        });
-                        this.repoUrlToNameMap[repo.html_url] = repo.full_name;
-                    });
 
-                this.RepoList = newRepoList;
-            }), err => {
-                this._logService.error(LogCategories.cicd, '/fetch-github-repos', err);
-            };
+            fetchListCall
+                .map(r => {
+                    let ret: any[] = [];
+                    r.forEach(e => {
+                        ret = ret.concat(e.json());
+                    });
+                    return ret;
+                }).subscribe(r => {
+                    const newRepoList: DropDownElement<string>[] = [];
+                    this.repoUrlToNameMap = {};
+                    r
+                        .filter(repo => {
+                            return !repo.permissions || repo.permissions.admin;
+                        })
+                        .forEach(repo => {
+                            newRepoList.push({
+                                displayLabel: repo.name,
+                                value: repo.html_url
+                            });
+                            this.repoUrlToNameMap[repo.html_url] = repo.full_name;
+                        });
+
+                    this.RepoList = newRepoList;
+                    this.reposLoading = false;
+                }, err => {
+                    this.reposLoading = false;
+                    this._logService.error(LogCategories.cicd, '/fetch-github-repos', err);
+                });
         }
     }
 
@@ -144,11 +183,33 @@ export class ConfigureGithubComponent implements OnDestroy {
                 .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
                     url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`
                 })
+                .switchMap(r => {
+                    const linkHeader = r.headers.toJSON().link;
+                    const pageCalls: Observable<any>[] = [Observable.of(r)];
+                    if (linkHeader) {
+                        const links = this._getLinks(linkHeader);
+                        const lastPageNumber = this._getLastPage(links);
+                        for (let i = 2; i <= lastPageNumber; i++) {
+                            pageCalls.push(
+                                this._cacheService.post(Constants.serviceHost + `api/github/passthrough?t=${Guid.newTinyGuid()}`, true, null, {
+                                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`
+                                })
+                            );
+                        }
+                    }
+                    return Observable.forkJoin(pageCalls);
+                })
+                .switchMap(r => {
+                    let ret: any[] = [];
+                    r.forEach(e => {
+                        ret = ret.concat(e.json());
+                    });
+                    return Observable.of(ret);
+                })
                 .subscribe(
                     r => {
-                        const newBranchList: DropDownElement<string>[] = [];
-
-                        r.json().forEach(branch => {
+                        const newBranchList: any[] = [];
+                        r.forEach(branch => {
                             newBranchList.push({
                                 displayLabel: branch.name,
                                 value: branch.name
@@ -156,28 +217,50 @@ export class ConfigureGithubComponent implements OnDestroy {
                         });
 
                         this.BranchList = newBranchList;
+                        this.branchesLoading = false;
                     },
                     err => {
                         this._logService.error(LogCategories.cicd, '/fetch-github-branches', err);
+                        this.branchesLoading = false;
                     }
                 );
         }
     }
 
-    RepoChanged(repo: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.githubUri}/${this.repoUrlToNameMap[repo]}`;
-        this.reposStream.next(repo);
+    RepoChanged(repo: DropDownElement<string>) {
+        this.reposStream.next(repo.value);
+        this.selectedBranch = '';
     }
 
-    OrgChanged(org: string) {
-        this.orgStream.next(org);
-    }
-
-    BranchChanged(branch: string) {
-        this.wizard.wizardForm.controls.sourceSettings.value.branch = branch;
+    OrgChanged(org: DropDownElement<string>) {
+        this.orgStream$.next(org.value);
+        this.selectedRepo = '';
+        this.selectedBranch = '';
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
+    }
+
+    private _getLastPage(links) {
+        const lastPageLink = links && links.last;
+        if (lastPageLink) {
+            const lastPageNumber = +Url.getParameterByName(lastPageLink, 'page');
+            return lastPageNumber;
+        } else {
+            return 1;
+        }
+    }
+
+    private _getLinks(linksHeader): any {
+        const links = {};
+        // Parse each part into a named link
+        linksHeader.forEach(part => {
+            const section = part.split(';');
+            const url = section[0].replace(/<(.*)>/, '$1').trim();
+            const name = section[1].replace(/rel="(.*)"/, '$1').trim();
+            links[name] = url;
+        });
+        return links;
     }
 }
