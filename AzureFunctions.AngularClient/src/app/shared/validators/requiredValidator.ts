@@ -6,10 +6,11 @@ import { CustomFormControl } from './../../controls/click-to-edit/click-to-edit.
 
 export class RequiredValidator implements Validator {
 
-    constructor(private _translateService: TranslateService) { }
+    constructor(private _translateService: TranslateService, private _checkDirty = true) { }
 
     validate(control: CustomFormControl) {
-        return (control.dirty || control._msRunValidation) && !control.value
+        const dirty = !this._checkDirty || control.dirty;
+        return (dirty || control._msRunValidation) && !control.value
             ? { "required": this._translateService.instant(PortalResources.validation_requiredError) }
             : null;
     }

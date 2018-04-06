@@ -64,9 +64,11 @@ import { DeletedItemsFilter } from './../controls/table-root/deleted-items-filte
 import { ActivateWithKeysDirective } from './../controls/activate-with-keys/activate-with-keys.directive';
 import { EmbeddedService } from 'app/shared/services/embedded.service';
 import { SiteService } from 'app/shared/services/site.service';
+import { CardInfoControlComponent } from '../controls/card-info-control/card-info-control.component';
 import { PlanService } from './services/plan.service';
 import { AseService } from './services/ase.service';
 import { BillingService } from './services/billing.service';
+import { InvalidmessageDirective } from './directives/invalid-control-message.directive';
 
 export function ArmServiceFactory(
     http: Http,
@@ -123,7 +125,9 @@ export function AiServiceFactory() {
         TableRootComponent,
         DeletedItemsFilter,
         TabComponent,
-        ActivateWithKeysDirective
+        ActivateWithKeysDirective,
+        CardInfoControlComponent,
+        InvalidmessageDirective
     ],
     exports: [
         CommonModule,
@@ -161,7 +165,9 @@ export function AiServiceFactory() {
         TableRootComponent,
         DeletedItemsFilter,
         TabComponent,
-        ActivateWithKeysDirective
+        ActivateWithKeysDirective,
+        CardInfoControlComponent,
+        InvalidmessageDirective
     ],
     imports: [
         FormsModule,

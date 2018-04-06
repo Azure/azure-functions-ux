@@ -36,8 +36,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     @ViewChild(TblComponent) appTable: TblComponent;
     private _tableItems: KuduTableItem[];
 
-    public viewInfoStream: Subject<string>;
-    _viewInfoSubscription: RxSubscription;
+    public viewInfoStream$: Subject<string>;
+    _viewInfoSubscription$: RxSubscription;
     _writePermission = true;
     _readOnlyLock = false;
     public hasWritePermissions = true;
@@ -47,7 +47,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     private _busyManager: BusyStateScopeManager;
     private _forceLoad = false;
     public sidePanelOpened = false;
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
+    private _oldTableHash = 0;
     constructor(
         _portalService: PortalService,
         private _cacheService: CacheService,
@@ -58,24 +59,21 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
         this._tableItems = [];
-        this.viewInfoStream = new Subject<string>();
-        this._viewInfoSubscription = this.viewInfoStream
+        this.viewInfoStream$ = new Subject<string>();
+        this._viewInfoSubscription$ = this.viewInfoStream$
             .switchMap(resourceId => {
-                this._busyManager.setBusy();
                 return Observable.zip(
                     this._cacheService.getArm(resourceId, this._forceLoad),
                     this._cacheService.getArm(`${resourceId}/config/web`, this._forceLoad),
-                    this._cacheService.postArm(`${resourceId}/config/metadata/list`),
                     this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`, this._forceLoad),
                     this._cacheService.getArm(`${resourceId}/sourcecontrols/web`, this._forceLoad),
-                    this._cacheService.getArm(`${resourceId}/deployments`, this._forceLoad),
+                    this._cacheService.getArm(`${resourceId}/deployments`, true),
                     this._cacheService.getArm(`/providers/Microsoft.Web/publishingUsers/web`, this._forceLoad),
                     this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(resourceId),
                     (
                         site,
                         siteConfig,
-                        metadata,
                         pubCreds,
                         sourceControl,
                         deployments,
@@ -85,7 +83,6 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                     ) => ({
                         site: site.json(),
                         siteConfig: siteConfig.json(),
-                        metadata: metadata.json(),
                         pubCreds: pubCreds.json(),
                         sourceControl: sourceControl.json(),
                         deployments: deployments.json(),
@@ -96,46 +93,58 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 );
             })
             .subscribe(
-                r => {
-                    this._busyManager.clearBusy();
-                    this._forceLoad = false;
-                    this.deploymentObject = {
-                        site: r.site,
-                        siteConfig: r.siteConfig,
-                        siteMetadata: r.metadata,
-                        sourceControls: r.sourceControl,
-                        publishingCredentials: r.pubCreds,
-                        deployments: r.deployments,
-                        publishingUser: r.publishingUser
-                    };
-                    this._populateTable();
-                    setTimeout(() => {
-                        this.appTable.groupItems('date', 'desc');
-                    }, 0);
-                    this._writePermission = r.writePermission;
-                    this._readOnlyLock = r.readOnlyLock;
-                    this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
-                },
-                err => {
-                    this._busyManager.clearBusy();
-                    this._forceLoad = false;
-                    this.deploymentObject = null;
-                    this._logService.error(LogCategories.cicd, '/deployment-center-initial-load', err);
-                }
+            r => {
+                this._busyManager.clearBusy();
+                this._forceLoad = false;
+                this.deploymentObject = {
+                    site: r.site,
+                    siteConfig: r.siteConfig,
+                    sourceControls: r.sourceControl,
+                    publishingCredentials: r.pubCreds,
+                    deployments: r.deployments,
+                    publishingUser: r.publishingUser
+                };
+                this._populateTable();
+
+                this._writePermission = r.writePermission;
+                this._readOnlyLock = r.readOnlyLock;
+                this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+            },
+            err => {
+                this._busyManager.clearBusy();
+                this._forceLoad = false;
+                this.deploymentObject = null;
+                this._logService.error(LogCategories.cicd, '/deployment-center-initial-load', err);
+            }
             );
 
         //refresh automatically every 5 seconds
-        Observable.timer(5000, 5000).takeUntil(this._ngUnsubscribe).subscribe(() => {
-            this.viewInfoStream.next(this.resourceId);
+        Observable.timer(5000, 5000).takeUntil(this._ngUnsubscribe$).subscribe(() => {
+            this.viewInfoStream$.next(this.resourceId);
         });
     }
 
+    //https://gist.github.com/hyamamoto/fd435505d29ebfa3d9716fd2be8d42f0
+    private _hashcode(s: string): number {
+        var h = 0, l = s.length, i = 0;
+        if (l > 0)
+            while (i < l)
+                h = (h << 5) - h + s.charCodeAt(i++) | 0;
+        return h;
+    };
+    private _getTableHash(tb) {
+        let hashNumber = 0;
+        tb.forEach(item => {
+            hashNumber = hashNumber + this._hashcode(JSON.stringify(item));
+        });
+        return hashNumber;
+    }
     private _populateTable() {
-        this._tableItems = [];
+        const tableItems = [];
         const deployments = this.deploymentObject.deployments.value;
         deployments.forEach(value => {
             const item = value.properties;
-            const date: Date = new Date(item.end_time);
+            const date: Date = new Date(item.received_time);
             const t = moment(date);
 
             const commitId = item.id.substr(0, 7);
@@ -152,12 +161,21 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 author: author,
                 deploymentObj: value
             };
-            this._tableItems.push(row);
+            tableItems.push(row);
         });
+        const newHash = this._getTableHash(tableItems);
+        if (this._oldTableHash !== newHash) {
+            this._tableItems = tableItems;
+            setTimeout(() => {
+                this.appTable.groupItems('date', 'desc');
+            }, 0);
+            this._oldTableHash = newHash;
+        }
     }
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
-            this.viewInfoStream.next(this.resourceId);
+            this._busyManager.setBusy();
+            this.viewInfoStream$.next(this.resourceId);
         }
     }
 
@@ -202,7 +220,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         this._busyManager.setBusy();
         this._cacheService.postArm(`${this.resourceId}/sync`, true).subscribe(
             r => {
-                this.viewInfoStream.next(this.resourceId);
+                this.viewInfoStream$.next(this.resourceId);
             },
             err => {
                 this._busyManager.clearBusy();
@@ -219,7 +237,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
     refresh() {
         this._busyManager.setBusy();
-        this.viewInfoStream.next(this.resourceId);
+        this.viewInfoStream$.next(this.resourceId);
     }
 
     details(item: KuduTableItem) {
@@ -252,6 +270,10 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
+    }
+
+    tableItemTackBy(index: number, item: KuduTableItem) {
+        return item && item.commit; // or item.id
     }
 }
