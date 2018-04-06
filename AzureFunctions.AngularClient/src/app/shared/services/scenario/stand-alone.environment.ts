@@ -134,6 +134,13 @@ export class StandaloneEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
+            id: ScenarioIds.enableAppInsights,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

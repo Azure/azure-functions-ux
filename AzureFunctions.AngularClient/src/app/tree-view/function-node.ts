@@ -15,6 +15,8 @@ import { DashboardType } from './models/dashboard-type';
 import { PortalResources } from '../shared/models/portal-resources';
 import { FunctionInfo } from '../shared/models/function-info';
 import { Url } from 'app/shared/Utilities/url';
+import { ScenarioService } from './../shared/services/scenario/scenario.service';
+import { ScenarioIds} from './../shared/models/constants';
 
 export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposable, CustomSelection {
     public dashboardType = DashboardType.FunctionDashboard;
@@ -22,6 +24,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
     private _globalStateService: GlobalStateService;
     private _broadcastService: BroadcastService;
     private _ngUnsubscribe = new Subject();
+    private _scenarioService: ScenarioService;
 
     public static blockNavChangeHelper(currentNode: TreeNode) {
         let canSwitchFunction = true;
@@ -51,6 +54,7 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             context.site.id + '/functions/' + functionInfo.name,
             parentNode);
 
+        this._scenarioService = this.sideNav.injector.get(ScenarioService);
         this._broadcastService = sideNav.injector.get(BroadcastService);
         this._globalStateService = sideNav.injector.get(GlobalStateService);
 
@@ -120,8 +124,11 @@ export class FunctionNode extends TreeNode implements CanBlockNavChange, Disposa
             this.children = [
                 new FunctionIntegrateNode(this.sideNav, this.context, this.functionInfo, this),
                 new FunctionManageNode(this.sideNav, this.context, this.functionInfo, this),
-                new FunctionMonitorNode(this.sideNav, this.context, this.functionInfo, this)
             ];
+
+            if (this._scenarioService.checkScenario(ScenarioIds.monitoring).status !== 'disabled') {
+                this.children.push(new FunctionMonitorNode(this.sideNav, this.context, this.functionInfo, this));
+            }
         }
 
         return Observable.of(null);
