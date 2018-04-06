@@ -20,9 +20,11 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
-import { KeyCodes } from '../shared/models/constants';
+import { KeyCodes, Constants } from '../shared/models/constants';
 import { Dom } from '../shared/Utilities/dom';
 import { Observable } from 'rxjs/Observable';
+import { ArmObj } from '../shared/models/arm/arm-obj';
+import { ApplicationSettings } from '../shared/models/arm/application-settings';
 
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
@@ -42,6 +44,8 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
     setShowJavaSplashPage = new Subject<boolean>();
     templateTypeOptions: TemplateType[] = ['HttpTrigger', 'TimerTrigger', 'QueueTrigger'];
     runtimeVersion: string;
+    public appSettingsArm: ArmObj<ApplicationSettings>;
+    functionAppLanguage: string;
 
     private functionsNode: FunctionsNode;
     private _viewInfoStream = new Subject<TreeViewInfo<any>>();
@@ -73,7 +77,8 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                 this.functionsNode = r.node as FunctionsNode;
                 return Observable.zip(
                     this._functionAppService.getFunctions(this.context),
-                    this._functionAppService.getRuntimeGeneration(this.context));
+                    this._functionAppService.getRuntimeGeneration(this.context),
+                    this._functionAppService.getFunctionAppAzureAppSettings(this.context));
             })
             .do(null, e => {
                 this._aiService.trackException(e, '/errors/function-quickstart');
@@ -83,6 +88,12 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                 this._globalStateService.clearBusyState();
                 this.functionsInfo = tuple[0].result;
                 this.runtimeVersion = tuple[1];
+                this.appSettingsArm = tuple[2].result;
+
+                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsLanguageAppSettingsName)) {
+                    this.functionAppLanguage = this.appSettingsArm.properties[Constants.functionsLanguageAppSettingsName];
+                    this.selectedLanguage = this.functionAppLanguage;
+                }
             });
     }
 
