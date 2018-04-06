@@ -85,7 +85,6 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                 console.error(e);
             })
             .subscribe(tuple => {
-                this._globalStateService.clearBusyState();
                 this.functionsInfo = tuple[0].result;
                 this.runtimeVersion = tuple[1];
                 this.appSettingsArm = tuple[2].result;
@@ -94,6 +93,8 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                     this.functionAppLanguage = this.appSettingsArm.properties[Constants.functionsLanguageAppSettingsName];
                     this.selectedLanguage = this.functionAppLanguage;
                 }
+
+                this._globalStateService.clearBusyState();
             });
     }
 
