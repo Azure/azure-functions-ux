@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ApplicationInsightsService } from '../../shared/services/application-insights.service';
 import { Observable } from 'rxjs/Observable';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { AIInvocationTraceDetail } from '../../shared/models/application-insights';
+import { AIInvocationTraceHistory } from '../../shared/models/application-insights';
 
 @Component({
   selector: ComponentNames.monitorDetails,
@@ -18,22 +18,23 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
   @Input() set monitorDetailsInfoInput(monitorDetailsInfo: MonitorDetailsInfo) {
     this.functionName = this._translateService.instant(PortalResources.loading);
     this.isLoading = true;
-    this.setBusy();
+    this.historyMessage = null;
     this.setInput(monitorDetailsInfo);
   }
 
+  private _monitorDetailsInfo: MonitorDetailsInfo;
   public functionName: string;
   public operationId: string;
-  public monitorDetailsInfo: MonitorDetailsInfo;
-  public traceDetail: AIInvocationTraceDetail;
+  public traceHistory: AIInvocationTraceHistory[];
   public isLoading: boolean = true;
+  public historyMessage: string = null;
 
   constructor(
     private _translateService: TranslateService,
     private _applicationInsightsService: ApplicationInsightsService,
     injector: Injector
   ) {
-    super(ComponentNames.monitorDetails, injector, 'dashboard');
+    super(ComponentNames.monitorDetails, injector, 'sidebar');
     this.featureName = ComponentNames.functionMonitor;
   }
 
@@ -41,17 +42,29 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
     return monitorDetailsInfoInputEvent
       .switchMap(monitorDetailsInfo => Observable.zip(
         Observable.of(monitorDetailsInfo),
-        this._applicationInsightsService.getInvocationTraceDetail(
-          monitorDetailsInfo.functionMonitorInfo.applicationInsightsResourceId,
-          monitorDetailsInfo.functionMonitorInfo.functionInfo.name,
+        this._applicationInsightsService.getInvocationTraceHistory(
+          monitorDetailsInfo.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(),
           monitorDetailsInfo.operationId)
       ))
       .do(tuple => {
         this.isLoading = false;
-        this.functionName = tuple[0].functionMonitorInfo.functionInfo.name;
-        this.operationId = tuple[0].operationId;
-        this.traceDetail = tuple[1];
-      })
+        this._monitorDetailsInfo = tuple[0];
+        this.functionName = this._monitorDetailsInfo.functionMonitorInfo.functionInfo.name;
+        this.operationId = this._monitorDetailsInfo.operationId;
+        this.traceHistory = tuple[1];
+      });
+  }
+
+  public openAppInsightsQueryEditor() {
+    const url = this._applicationInsightsService.getInvocationTraceHistoryDirectUrl(
+      this._monitorDetailsInfo.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
+      this._monitorDetailsInfo.operationId);
+
+    window.open(url, '_blank');
+  }
+
+  public showHistoryMessage(traceHistory: AIInvocationTraceHistory) {
+    this.historyMessage = traceHistory.message;
   }
 
 }

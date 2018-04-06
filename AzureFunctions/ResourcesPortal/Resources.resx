@@ -575,7 +575,7 @@
     <value>Invocation log</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation details</value>
+    <value>Invocation Details</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Logs</value>
@@ -3009,5 +3009,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="duration" xml:space="preserve">
     <value>Duration</value>
+  </data>
+  <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
+    <value>Success count in last 30 days</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
+    <value>Error count in last 30 days</value>
+  </data>
+  <data name="functionMonitor_message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="functionMonitor_itemCount" xml:space="preserve">
+    <value>Item Count</value>
+  </data>
+  <data name="functionMonitor_logLevel" xml:space="preserve">
+    <value>Log Level</value>
   </data>
 </root>

@@ -15,7 +15,7 @@ import { FunctionMonitorInfo } from '../shared/models/function-monitor';
     styleUrls: ['./function-monitor.component.scss']
 })
 export class FunctionMonitorComponent extends NavigableComponent {
-    private _renderComponentName: string = "";
+    private _renderComponentName: string = '';
     public functionMonitorInfo: FunctionMonitorInfo;
 
     constructor(
@@ -37,26 +37,24 @@ export class FunctionMonitorComponent extends NavigableComponent {
             Observable.of(viewInfo)
         ))
         .switchMap(tuple => Observable.zip(
+            Observable.of(tuple[0]),
             this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
             this._functionAppService.getFunctionAppAzureAppSettings(tuple[0]),
-            this._functionAppService.isAppInsightsEnabled(tuple[0].site.id),
-            Observable.of(tuple[0]),
-            Observable.of(tuple[1])
+            this._scenarioService.checkScenarioAsync(ScenarioIds.enableAppInsights, { site: tuple[0].site })
         ))
         .map((tuple): FunctionMonitorInfo => ({
-            functionAppContext: tuple[3],
-            functionAppSettings: tuple[1].result.properties,
-            functionInfo: tuple[0].result,
-            applicationInsightsResourceId: tuple[2]
+            functionAppContext: tuple[0],
+            functionAppSettings: tuple[2].result.properties,
+            functionInfo: tuple[1].result,
+            appInsightsResourceDescriptor: tuple[3].data
         }))
         .do(functionMonitorInfo => {
-            const aiScenarioEnabled = this._scenarioService.checkScenario(ScenarioIds.enableAppInsights).status !== 'disabled';
             this.functionMonitorInfo = functionMonitorInfo;
 
-            this._renderComponentName = aiScenarioEnabled && functionMonitorInfo.applicationInsightsResourceId !== null
+            this._renderComponentName = functionMonitorInfo.appInsightsResourceDescriptor !== null
                 ? ComponentNames.monitorApplicationInsights
                 : ComponentNames.monitorClassic;
-        })
+        });
     }
 
     shouldRenderMonitorClassic(): boolean {

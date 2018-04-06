@@ -13,12 +13,8 @@ export interface AIInvocationTrace {
     operationId: string;
 }
 
-export interface AIInvocationTraceDetail extends AIInvocationTrace {
-    url: string;
-    performanceBucket: string;
-    customDimensions: JSON;
-    operationName: string;
-    operationParentId: string;
-    innerMostMessage: string;
-    innerMostMethod: string;
+export interface AIInvocationTraceHistory {
+    message: string;
+    itemCount: number;
+    logLevel: string;
 }

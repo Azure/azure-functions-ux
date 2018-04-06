@@ -1,6 +1,7 @@
 import { NationalCloudArmUris, ScenarioIds } from './../../models/constants';
 import { AzureEnvironment } from './azure.environment';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
+import { Injector } from '@angular/core';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
     name = 'NationalCloud';
@@ -26,8 +27,8 @@ export class NationalCloudEnvironment extends AzureEnvironment {
         return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.blackforest.toLowerCase();
     }
 
-    constructor() {
-        super();
+    constructor(injector: Injector) {
+        super(injector);
         this.scenarioChecks[ScenarioIds.addResourceExplorer] = {
             id: ScenarioIds.addResourceExplorer,
             runCheck: () => {

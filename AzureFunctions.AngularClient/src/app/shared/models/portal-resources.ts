@@ -959,4 +959,9 @@
     public static appInsightsInstance: string = "appInsightsInstance";
     public static success: string = "success";
     public static duration: string = "duration";
+    public static functionMonitor_successAggregate_30days: string = "functionMonitor_successAggregate_30days";
+    public static functionMonitor_errorsAggregate_30days: string = "functionMonitor_errorsAggregate_30days";
+    public static functionMonitor_message: string = "functionMonitor_message";
+    public static functionMonitor_itemCount: string = "functionMonitor_itemCount";
+    public static functionMonitor_logLevel: string = "functionMonitor_logLevel";
 }

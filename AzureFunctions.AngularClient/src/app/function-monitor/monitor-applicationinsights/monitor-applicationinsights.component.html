@@ -24,7 +24,7 @@
 
       <div class="essentials-col">
         <div>
-          <label id="successCountLabel">{{successCountHeading}}</label>
+          <label id="successCountLabel">{{ 'functionMonitor_successAggregate_30days' | translate }}</label>
           <div tabindex="0"
                 id="successCountValue"
                 class="success"
@@ -36,7 +36,7 @@
 
       <div class="essentials-col">
         <div>
-          <label id="errorsCountLabel">{{errorsCountHeading}}</label>
+          <label id="errorsCountLabel">{{ 'functionMonitor_errorsAggregate_30days' | translate }}</label>
           <div tabindex="0"
                 id="errorsCountValue"
                 class="fail"
@@ -49,28 +49,28 @@
 
     <div class="function-monitor-content">
         <tbl [items]="invocationTraces" #table="tbl">
-            <tr>
-              <th><tbl-th name="timestamp">{{ ('date' | translate).toUpperCase() }}</tbl-th></th>
-              <th><tbl-th name="success">{{ ('success' | translate).toUpperCase() }}</tbl-th></th>
-              <th><tbl-th name="resultCode">{{ ('resultCode' | translate).toUpperCase() }}</tbl-th></th>
-              <th><tbl-th name="duration">{{ ('duration' | translate).toUpperCase() }}</tbl-th></th>
-              <th><tbl-th name="id">{{ ('operationId' | translate).toUpperCase() }}</tbl-th></th>
-            </tr>
-        
-            <tr *ngFor="let trace of invocationTraces">
-              <td><a class="link" (click)="showTraceDetail(trace)">{{trace.timestamp}}</a></td>
-              <td>{{trace.success}}</td>
-              <td>{{trace.resultCode}}</td>
-              <td>{{trace.duration}}</td>
-              <td>{{trace.operationId}}</td>
-            </tr>
-        
-            <tr *ngIf="invocationTraces.length === 0">
-              <td *ngIf="isLoading" colspan="5">{{'functionMonitor_loading' | translate}}</td>
-              <td *ngIf="!isLoading" colspan="5">{{'noResults' | translate}}</td>
-            </tr>
-            
-          </tbl>
+          <tr>
+            <th><tbl-th name="timestamp">{{ ('date' | translate).toUpperCase() }}</tbl-th></th>
+            <th><tbl-th name="success">{{ ('success' | translate).toUpperCase() }}</tbl-th></th>
+            <th><tbl-th name="resultCode">{{ ('resultCode' | translate).toUpperCase() }}</tbl-th></th>
+            <th><tbl-th name="duration">{{ ('duration' | translate).toUpperCase() }}</tbl-th></th>
+            <th><tbl-th name="id">{{ ('operationId' | translate).toUpperCase() }}</tbl-th></th>
+          </tr>
+      
+          <tr *ngFor="let trace of invocationTraces">
+            <td><a class="link" (click)="showTraceHistory(trace)">{{trace.timestamp}}</a></td>
+            <td>{{trace.success}}</td>
+            <td>{{trace.resultCode}}</td>
+            <td>{{trace.duration}}</td>
+            <td>{{trace.operationId}}</td>
+          </tr>
+      
+          <tr *ngIf="invocationTraces.length === 0">
+            <td *ngIf="isLoading" colspan="5">{{'functionMonitor_loading' | translate}}</td>
+            <td *ngIf="!isLoading" colspan="5">{{'noResults' | translate}}</td>
+          </tr>
+          
+        </tbl>
     </div>
   </div>
 
@@ -91,9 +91,3 @@
 
   </ng-sidebar>
 </ng-sidebar-container>
-
-
-
-
-
-

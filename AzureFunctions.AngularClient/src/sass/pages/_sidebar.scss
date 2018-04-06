@@ -61,7 +61,7 @@
 
 .sidebar-monitor-details {
     background-color: $body-bg-color;
-    border-left: 1px darkgrey solid;
+    border-left: 1px $grey-color-dark solid;
     width: 40vw;
 
     &.ng-sidebar--opened.ng-sidebar--push {

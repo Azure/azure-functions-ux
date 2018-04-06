@@ -20,7 +20,6 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
     @ViewChild(TableFunctionMonitorComponent) tableFunctionMonitorComponent: TableFunctionMonitorComponent;
 
     @Input() set functionMonitorInfoInput(functionMonitorInfo: FunctionMonitorInfo) {
-        this.setBusy();
         this.successAggregate = this.errorsAggregate = this._translateService.instant(PortalResources.functionMonitor_loading);
         this.setInput(functionMonitorInfo);
     }

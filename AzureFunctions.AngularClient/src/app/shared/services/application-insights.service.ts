@@ -1,159 +1,155 @@
 import { Injectable, Injector } from '@angular/core';
 import { Response } from '@angular/http';
-import { ArmService } from './arm.service';
-import { AIMonthlySummary, AIInvocationTrace, AIInvocationTraceDetail } from '../models/application-insights';
+import { AIMonthlySummary, AIInvocationTrace, AIInvocationTraceHistory } from '../models/application-insights';
 import { Observable } from 'rxjs/Observable';
-import { ApplicationInsightsUtil } from '../Utilities/application-insights-util';
 import { ConditionalHttpClient } from '../conditional-http-client';
 import { UserService } from './user.service';
 import { HttpResult } from './../models/http-result';
+import { CacheService } from './cache.service';
+import { LogService } from './log.service';
+import { LogCategories } from '../models/constants';
+
+declare const pako: any;
 
 @Injectable()
 export class ApplicationInsightsService {
   private readonly _client: ConditionalHttpClient;
 
-  private readonly _apiVersion: string = "2015-05-01";
-  private readonly _directUrl: string = "https://analytics.applicationinsights.io/";
+  private readonly _apiVersion: string = '2015-05-01';
+  private readonly _directUrl: string = 'https://analytics.applicationinsights.io/';
 
   constructor(
-    private _armService: ArmService,
+    private _logService: LogService,
+    private _cacheService: CacheService,
     userService: UserService,
     injector: Injector
   ) {
     this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
   }
 
-  public getCurrentMonthSummary(aiResourceId: string, functionName: string): Observable<AIMonthlySummary> {
+  public getLast30DaysSummary(aiResourceId: string, functionName: string): Observable<AIMonthlySummary> {
     this._validateAiResourceid(aiResourceId);
 
-    const resourceId = `${aiResourceId}/api/query`;
     const body = {
-      'query': this._getQueryForCurrentMonthSummary(functionName)
+      'query': this._getQueryForLast30DaysSummary(functionName)
     };
 
-    const response = this._armService.post(resourceId, body, this._apiVersion);
+    const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_30DaysSummary');
 
     return this._client
-      .execute({ resourceId: aiResourceId}, t => response)
+      .execute({ resourceId: aiResourceId}, t => armResponse)
       .map(response => this._extractSummaryFromResponse(response));
   }
 
   public getInvocationTraces(aiResourceId: string, functionName: string, top: number = 20): Observable<AIInvocationTrace[]> {
     this._validateAiResourceid(aiResourceId);
 
-    const resourceId = `${aiResourceId}/api/query`;
     const body = {
       'query': this._getQueryForInvocationTraces(functionName, top)
     };
 
-    const response = this._armService.post(resourceId, body, this._apiVersion);
+    const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_invocationTraces');
 
     return this._client
-      .execute({resourceId: aiResourceId}, t => response)
+      .execute({resourceId: aiResourceId}, t => armResponse)
       .map(response => this._extractInvocationTracesFromResponse(response));
   }
 
-  public getInvocationTraceDetail(aiResourceId: string, functionName: string, operationId: string): Observable<AIInvocationTraceDetail> {
+  public getInvocationTraceHistory(aiResourceId: string, operationId: string): Observable<AIInvocationTraceHistory[]> {
     this._validateAiResourceid(aiResourceId);
 
-    const resourceId = `${aiResourceId}/api/query`;
     const body = {
-      'query': this._getQueryForInvocationTraceDetail(functionName, operationId)
+      'query': this._getQueryForInvocationTraceHistory(operationId)
     };
 
-    const response = this._armService.post(resourceId, body, this._apiVersion);
+    const armResponse = this._cacheService.postArm(`/${aiResourceId}/api/query`, true, this._apiVersion, body, 'applicationInsights_invocationTraceHistory');
 
     return this._client
-      .execute({resourceId: aiResourceId}, t => response)
-      .map(response => this._extractInvocationTraceDetailFromResponse(response));
+      .execute({resourceId: aiResourceId}, t => armResponse)
+      .map(response => this._extractInvocationTraceHistoryFromResponse(response));
   }
 
-  public getInvocationTracesDirectUrl(aiResourceId: string, functionName: string, top: number = 20): string {
-    const baseUrl = this._directUrl + this._getDirectUrlResourceId(aiResourceId) + '?q=';
-    const query = ApplicationInsightsUtil.compressAndEncodeBase64AndUri(this._getQueryForInvocationTraces(functionName, top));
-
+  public getInvocationTracesDirectUrl(aiDirectResourceId: string, functionName: string, top: number = 20): string {
+    const baseUrl = this._directUrl + aiDirectResourceId + '?q=';
+    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(this._getQueryForInvocationTraces(functionName, top));
     return baseUrl + query;
   }
 
-  private _getDirectUrlResourceId(aiResourceId: string): string {
-    // NOTE(michinoy): The aiResourceId is /subscriptions/<sub>/resourceGroups/<rg>/providers/microsoft.insights/components/<name>
-    // to call the app insights instance directly we need /subscriptions/<sub>/resourceGroups/<rg>/components/<name>
-    const resourceIdParts = aiResourceId.split('/');
-    return `subscriptions/${resourceIdParts[2]}/resourceGroups/${resourceIdParts[4]}/components/${resourceIdParts[8]}`;
+  public getInvocationTraceHistoryDirectUrl(aiDirectResourceId: string, operationId: string): string {
+    const baseUrl = this._directUrl + aiDirectResourceId + '?q=';
+    const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(this._getQueryForInvocationTraceHistory(operationId));
+    return baseUrl + query;
   }
 
-  private _getQueryForCurrentMonthSummary(functionName: string): string {
+  private _getQueryForLast30DaysSummary(functionName: string): string {
     this._validateFunctionName(functionName);
-
-    const today = new Date();
-    const startDate = `${today.getFullYear()}-${today.getMonth() + 1}-1`;
-    return `requests | where timestamp >= datetime('${startDate}') | where name == '${functionName}' | summarize count=count() by success`;
+    return `requests | where timestamp >= ago(30d) | where name == '${functionName}' | summarize count=count() by success`;
   }
 
-  private _getQueryForInvocationTraces(functionName: string, top: number = 20): string {
+  private _getQueryForInvocationTraces(functionName: string, top: number): string {
     this._validateFunctionName(functionName);
-
-    return `requests | project timestamp, id, name, success, resultCode, duration, operation_Id | where timestamp > ago(7d) | where name == '${functionName}' | order by timestamp desc | take ${top}`;
+    return `requests | project timestamp, id, name, success, resultCode, duration, operation_Id | where timestamp > ago(30d) | where name == '${functionName}' | order by timestamp desc | take ${top}`;
   }
 
-  private _getQueryForInvocationTraceDetail(functionName: string, operationId: string) {
-    this._validateFunctionName(functionName);
+  private _getQueryForInvocationTraceHistory(operationId: string): string {
     this._validateOperationId(operationId);
 
-    return `requests ` +
-    `| project timestamp, id, name, success, resultCode, duration, operation_Id, url, performanceBucket, customDimensions, operation_Name, operation_ParentId ` +
-    `| where name == '${functionName}' ` +
-    `| where operation_Id == '${operationId}' `+
-    `| where timestamp > ago(7d) ` +
-    `| join kind= leftouter (exceptions | project innermostMessage, innermostMethod , operation_Id) on operation_Id `;
+    return `let dataset=traces ` +
+    `| where timestamp > ago(30d) ` +
+    `| where operation_Id == '${operationId}'; ` +
+    `dataset ` +
+    `| sort by timestamp asc ` +
+    `| project message, itemCount, logLevel = customDimensions.LogLevel `;
   }
 
   private _validateAiResourceid(aiResourceId: string): void {
     if (!aiResourceId) {
-      throw "aiResourceId is required.";
+      throw Error('aiResourceId is required.');
     }
   }
 
   private _validateFunctionName(functionName: string): void {
     if (!functionName) {
-      throw "functionName is required.";
+      throw Error('functionName is required.');
     }
   }
 
   private _validateOperationId(operationId: string): void {
     if (!operationId) {
-      throw "operationId is required.";
+      throw Error('operationId is required.');
     }
   }
 
   private _extractSummaryFromResponse(response: HttpResult<Response>): AIMonthlySummary {
-    var summary: AIMonthlySummary = {
+    const summary: AIMonthlySummary = {
       successCount: 0,
       failedCount: 0
     };
 
     if (response.isSuccessful) {
-      var summaryTable = response.result.json().Tables[0];
-      var rows = summaryTable.Rows;
+      const summaryTable = response.result.json().Tables[0];
+      const rows = summaryTable.Rows;
       if (rows.length <= 2) {
         rows.forEach(element => {
-          if (element[0] === "True") {
+          if (element[0] === 'True') {
             summary.successCount = element[1];
-          } else if (element[0] === "False") {
+          } else if (element[0] === 'False') {
             summary.failedCount = element[1];
           }
         });
       }
+    } else {
+      this._logService.error(LogCategories.applicationInsightsQuery, '/summary', response.error);
     }
 
     return summary;
   }
 
   private _extractInvocationTracesFromResponse(response: HttpResult<Response>): AIInvocationTrace[] {
-    var traces: AIInvocationTrace[] = [];
+    const traces: AIInvocationTrace[] = [];
 
     if (response.isSuccessful) {
-      var summaryTable = response.result.json().Tables[0];
+      const summaryTable = response.result.json().Tables[0];
       if (summaryTable && summaryTable.Rows.length > 0) {
         summaryTable.Rows.forEach(row => {
           traces.push({
@@ -167,38 +163,132 @@ export class ApplicationInsightsService {
           });
         });
       }
+    } else {
+      this._logService.error(LogCategories.applicationInsightsQuery, '/invocationTraces', response.error);
     }
 
     return traces;
   }
 
-  private _extractInvocationTraceDetailFromResponse(response: HttpResult<Response>): AIInvocationTraceDetail {
-    var detail: AIInvocationTraceDetail;
+  private _extractInvocationTraceHistoryFromResponse(response: HttpResult<Response>): AIInvocationTraceHistory[] {
+    const history: AIInvocationTraceHistory[] = [];
 
     if (response.isSuccessful) {
-      var summaryTable = response.result.json().Tables[0];
-      if (summaryTable && summaryTable.Rows.length == 1) {
-        var row = summaryTable.Rows[0];
-        detail = {
-          timestamp: row[0],
-          id: row[1],
-          name: row[2],
-          success: row[3],
-          resultCode: row[4],
-          duration: Number.parseFloat(row[5]),
-          operationId: row[6],
-          url: row[7],
-          performanceBucket: row[8],
-          customDimensions: JSON.parse(row[9]),
-          operationName: row[10],
-          operationParentId: row[11],
-          innerMostMessage: row[12],
-          innerMostMethod: row[13]
-        }
+      const summaryTable = response.result.json().Tables[0];
+      if (summaryTable && summaryTable.Rows.length > 0) {
+        summaryTable.Rows.forEach(row => {
+          history.push({
+            message: row[0],
+            itemCount: row[1],
+            logLevel: row[2]
+          });
+        });
       }
+    } else {
+      this._logService.error(LogCategories.applicationInsightsQuery, '/invocationTraceDetail', response.error);
     }
 
-    return detail;
+    return history;
   }
 
+}
+
+class ApplicationInsightsQueryUtil {
+  public static compressAndEncodeBase64AndUri(str) {
+      const compressedBase64 = ApplicationInsightsQueryUtil._compressAndEncodeBase64(str);
+      return encodeURIComponent(compressedBase64);
+  }
+
+  public static decompressBase64UriComponent(compressedBase64UriComponent) {
+      const compressedBase64 = decodeURIComponent(compressedBase64UriComponent);
+
+      return ApplicationInsightsQueryUtil._decompressBase64(compressedBase64);
+  }
+
+  private static _compressAndEncodeBase64(str) {
+      const compressed = ApplicationInsightsQueryUtil._compressString(str);
+      return btoa(compressed);
+  }
+
+  private static _compressString(str) {
+      const byteArray = ApplicationInsightsQueryUtil._toUTF8Array(str);
+      const compressedByteArray = pako.gzip(byteArray);
+      const compressed = String.fromCharCode.apply(null, compressedByteArray);
+
+      return compressed;
+  }
+
+  private static _decompressBase64(compressedBase64) {
+      const compressed = atob(compressedBase64);
+
+      return ApplicationInsightsQueryUtil._decompressString(compressed);
+  }
+
+  private static _decompressString(compressed) {
+      const compressedByteArray = compressed.split('').map(function (e) {
+          return e.charCodeAt(0);
+      });
+      const decompressedByteArray = pako.inflate(compressedByteArray);
+      const decompressed = ApplicationInsightsQueryUtil._fromUTF8Array(decompressedByteArray);
+
+      return decompressed;
+  }
+
+  private static _toUTF8Array(str) {
+      const utf8 = [];
+      for (let i=0; i < str.length; i++) {
+          let charcode = str.charCodeAt(i);
+          if (charcode < 0x80) utf8.push(charcode);
+          else if (charcode < 0x800) {
+              utf8.push(0xc0 | (charcode >> 6),
+                      0x80 | (charcode & 0x3f));
+          }
+          else if (charcode < 0xd800 || charcode >= 0xe000) {
+              utf8.push(0xe0 | (charcode >> 12),
+                      0x80 | ((charcode>>6) & 0x3f),
+                      0x80 | (charcode & 0x3f));
+          }
+          else {
+              i++;
+              charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+                      | (str.charCodeAt(i) & 0x3ff));
+              utf8.push(0xf0 | (charcode >>18),
+                      0x80 | ((charcode>>12) & 0x3f),
+                      0x80 | ((charcode>>6) & 0x3f),
+                      0x80 | (charcode & 0x3f));
+          }
+      }
+      return utf8;
+  }
+
+  private static _fromUTF8Array(utf8) {
+      const charsArray = [];
+      for (let i = 0; i < utf8.length; i++) {
+          let charCode, firstByte, secondByte, thirdByte, fourthByte;
+          if ((utf8[i] & 0x80) === 0) {
+              charCode = utf8[i];
+          }
+          else if ((utf8[i] & 0xE0) === 0xC0) {
+              firstByte = utf8[i] & 0x1F;
+              secondByte = utf8[++i] & 0x3F;
+              charCode = (firstByte << 6) + secondByte;
+          }
+          else if ((utf8[i] & 0xF0) === 0xE0) {
+              firstByte = utf8[i] & 0x0F;
+              secondByte = utf8[++i] & 0x3F;
+              thirdByte = utf8[++i] & 0x3F;
+              charCode = (firstByte << 12) + (secondByte << 6) + thirdByte;
+          }
+          else if ((utf8[i] & 0xF8) === 0xF0) {
+              firstByte = utf8[i] & 0x07;
+              secondByte = utf8[++i] & 0x3F;
+              thirdByte = utf8[++i] & 0x3F;
+              fourthByte = utf8[++i] & 0x3F;
+              charCode = (firstByte << 18) + (secondByte << 12) + (thirdByte << 6) + fourthByte;
+          }
+
+          charsArray.push(charCode);
+      }
+      return String.fromCharCode.apply(null, charsArray);
+  }
 }

@@ -9,6 +9,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
 
+export interface ColumnInformation {
+    display: string; // The display text
+    variable: string; // The  key that maps to the data property
+    formatTo: string; // The type data for the column (date converts to fromNow etc)
+}
+
 @Component({
     selector: ComponentNames.tableFunctionMonitor,
     templateUrl: './table-function-monitor.component.html',
@@ -24,7 +30,7 @@ export class TableFunctionMonitorComponent extends FeatureComponent<FunctionMoni
     }
 
     private _functionMonitorInfo: FunctionMonitorInfo;
-    public columns: any[];
+    public columns: ColumnInformation[];
     public outputLog: string;
     public selectedRowId: string;
 
@@ -46,9 +52,9 @@ export class TableFunctionMonitorComponent extends FeatureComponent<FunctionMoni
     private _setColumns(): void {
         this.columns = [
             {
-                display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn), // The display text
-                variable: 'functionDisplayTitle', // The  key that maps to the data property
-                formatTo: 'text' // The type data for the column (date converts to fromNow etc)
+                display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn),
+                variable: 'functionDisplayTitle',
+                formatTo: 'text'
             },
             {
                 display: this._translateService.instant(PortalResources.functionMonitorTable_statusColumn),

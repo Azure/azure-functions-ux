@@ -9,8 +9,6 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { AIInvocationTrace } from '../../shared/models/application-insights';
 import { PortalService } from '../../shared/services/portal.service';
 
-declare const moment: any;
-
 @Component({
   selector: ComponentNames.monitorApplicationInsights,
   templateUrl: './monitor-applicationinsights.component.html',
@@ -30,8 +28,6 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     this.setInput(functionMonitorInfo);
   }
 
-  public successCountHeading: string;
-  public errorsCountHeading: string;
   public successCount: string;
   public errorsCount: string;
   public applicationInsightsInstanceName: string;
@@ -48,23 +44,20 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     injector: Injector) {
     super(ComponentNames.monitorApplicationInsights, injector, 'dashboard');
     this.featureName = ComponentNames.functionMonitor;
-    this._setHeaders();
   }
 
   protected setup(functionMonitorInfoInputEvent: Observable<FunctionMonitorInfo>) {
     return functionMonitorInfoInputEvent
       .switchMap(functionMonitorInfo => Observable.zip(
         Observable.of(functionMonitorInfo),
-        this._applicationInsightsService.getCurrentMonthSummary(functionMonitorInfo.applicationInsightsResourceId, functionMonitorInfo.functionInfo.name),
-        this._applicationInsightsService.getInvocationTraces(functionMonitorInfo.applicationInsightsResourceId, functionMonitorInfo.functionInfo.name)
+        this._applicationInsightsService.getLast30DaysSummary(functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(), functionMonitorInfo.functionInfo.name),
+        this._applicationInsightsService.getInvocationTraces(functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId(), functionMonitorInfo.functionInfo.name)
       ))
       .do(tuple => {
         this.functionMonitorInfo = tuple[0];
         this.invocationTraces = tuple[2];
-
         const monthlySummary = tuple[1];
-        const applicationInsightsResourceIdParts = this.functionMonitorInfo.applicationInsightsResourceId.split('/');
-        this.applicationInsightsInstanceName = applicationInsightsResourceIdParts[applicationInsightsResourceIdParts.length - 1];
+        this.applicationInsightsInstanceName = this.functionMonitorInfo.appInsightsResourceDescriptor.instanceName;
 
         this.successCount = monthlySummary.successCount.toString();
         this.errorsCount = monthlySummary.failedCount.toString();
@@ -72,13 +65,13 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
       });
   }
 
-  public showTraceDetail(trace: AIInvocationTrace): void {
+  public showTraceHistory(trace: AIInvocationTrace): void {
     this.sidePanelOpened = true;
     this.monitorDetailsInfo = {
       functionMonitorInfo: this.functionMonitorInfo,
       operationId: trace.operationId,
       id: trace.id
-    }
+    };
   }
 
   public closeSidePanel() {
@@ -95,7 +88,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
       {
           detailBlade: 'AspNetOverview',
           detailBladeInputs: {
-              id: this.functionMonitorInfo.applicationInsightsResourceId
+              id: this.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId()
           },
           extension: 'AppInsightsExtension'
       },
@@ -103,17 +96,11 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
   }
 
   public openAppInsightsQueryEditor() {
-    var url = this._applicationInsightsService.getInvocationTracesDirectUrl(
-      this.functionMonitorInfo.applicationInsightsResourceId,
+    const url = this._applicationInsightsService.getInvocationTracesDirectUrl(
+      this.functionMonitorInfo.appInsightsResourceDescriptor.getResourceIdForDirectUrl(),
       this.functionMonitorInfo.functionInfo.name);
 
     window.open(url, '_blank');
-  }
-
-  private _setHeaders(): void {
-    const firstOfMonth = moment().startOf('month');
-    this.successCountHeading = `${this._translateService.instant(PortalResources.functionMonitor_successAggregate)} ${firstOfMonth.format('MMM Do')}`;
-    this.errorsCountHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format('MMM Do')}`;
   }
 
 }

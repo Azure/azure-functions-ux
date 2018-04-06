@@ -260,6 +260,7 @@ export class LogCategories {
     public static readonly deploymentSlots = 'DeploymentSlots';
     public static readonly swapSlots = 'SwapSlots';
     public static readonly addSlot = 'AddSlot';
+    public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
 }
 
 export class SubscriptionQuotaIds {

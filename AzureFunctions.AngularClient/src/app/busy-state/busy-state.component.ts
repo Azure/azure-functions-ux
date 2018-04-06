@@ -12,7 +12,8 @@ export type BusyStateName =
     | 'dashboard'
     | 'site-tabs'
     | 'try-functions'
-    | 'function-keys';
+    | 'function-keys'
+    | 'sidebar';
 
 @Component({
     selector: 'busy-state',

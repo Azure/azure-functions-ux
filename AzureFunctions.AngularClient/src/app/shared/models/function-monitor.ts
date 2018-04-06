@@ -1,6 +1,7 @@
 import { FunctionAppContext } from "../function-app-context";
 import { Dictionary } from "lodash";
 import { FunctionInfo } from "./function-info";
+import { ARMApplicationInsightsDescriptior } from "../resourceDescriptors";
 
 export interface FunctionInvocations {
     executingJobRunId: string;
@@ -47,7 +48,7 @@ export interface FunctionMonitorInfo {
     functionAppContext: FunctionAppContext;
     functionAppSettings: Dictionary<string>;
     functionInfo: FunctionInfo;
-    applicationInsightsResourceId: string;
+    appInsightsResourceDescriptor: ARMApplicationInsightsDescriptior;
 }
 
 export interface MonitorDetailsInfo {

@@ -2,12 +2,18 @@ import { ScenarioIds, ServerFarmSku } from './../../models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
+import { FunctionAppService } from '../function-app.service';
+import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
+import { Injector } from '@angular/core';
 
 export class AzureEnvironment extends Environment {
     name = 'Azure';
+    private _functionAppService: FunctionAppService;
 
-    constructor() {
+    constructor(injector: Injector) {
         super();
+        this._functionAppService = injector.get(FunctionAppService);
+
         this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
             id: ScenarioIds.addSiteFeaturesTab,
             runCheck: () => {
@@ -62,6 +68,11 @@ export class AzureEnvironment extends Environment {
             runCheck: () => {
                 return { status: 'enabled' };
             }
+        };
+
+        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
+            id: ScenarioIds.enableAppInsights,
+            runCheckAsync: (input: ScenarioCheckInput) => this._getApplicationInsightsId(input)
         };
     }
 
@@ -158,5 +169,22 @@ export class AzureEnvironment extends Environment {
             status: 'enabled',
             data: limit
         };
+    }
+
+    private _getApplicationInsightsId(input: ScenarioCheckInput): Observable<ScenarioResult> {
+        if (this._functionAppService) {
+            return this._functionAppService
+                .isAppInsightsEnabled(input.site.id)
+                .switchMap(applicationInsightsResourceId => Observable.of<ScenarioResult>({
+                    status: applicationInsightsResourceId ? 'enabled' : 'disabled',
+                    data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null
+                }));
+        } else {
+            return Observable.of<ScenarioResult>({
+                status: 'disabled',
+                data: null
+            });
+        }
+
     }
 }
