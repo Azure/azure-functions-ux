@@ -29,6 +29,7 @@ export class Constants {
     public static slotsSecretStorageSettingsValue = 'Blob';
     public static contentShareConfigSettingsName = 'WEBSITE_CONTENTSHARE';
     public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
+    public static functionsLanguageAppSettingsName = 'FUNCTIONS_LANGUAGE';
     public static WebsiteUseZip = 'WEBSITE_USE_ZIP';
 
     public static httpMethods = new HttpMethods();
