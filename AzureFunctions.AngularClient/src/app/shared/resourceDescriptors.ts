@@ -162,7 +162,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
 
 
 export class ArmPlanDescriptor extends ArmResourceDescriptor {
-    public serverFarm: string;
+    public name: string;
 
     public static getSiteDescriptor(resourceId: string): ArmPlanDescriptor | CdsEntityDescriptor {
         const parts = resourceId.split('/').filter(part => !!part);
@@ -193,11 +193,11 @@ export class ArmPlanDescriptor extends ArmResourceDescriptor {
             throw Error(`Expected serverfarms segment in resourceId: ${resourceId}`);
         }
 
-        this.serverFarm = this.parts[7];
+        this.name = this.parts[7];
     }
 
-    getSiteOnlyResourceId(): string {
-        return `/subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/serverfarms/${this.serverFarm}`;
+    getTrimmedResourceId(): string {
+        return `/subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/serverfarms/${this.name}`;
     }
 }
 

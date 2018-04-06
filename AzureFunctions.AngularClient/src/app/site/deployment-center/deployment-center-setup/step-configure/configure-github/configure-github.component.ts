@@ -13,6 +13,7 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Subject';
 import { TranslateService } from '@ngx-translate/core';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { Url } from '../../../../../shared/Utilities/url';
 
 @Component({
     selector: 'app-configure-github',
@@ -145,12 +146,12 @@ export class ConfigureGithubComponent implements OnDestroy {
             }
 
             fetchListCall
-                .switchMap(r => {
+                .map(r => {
                     let ret: any[] = [];
                     r.forEach(e => {
                         ret = ret.concat(e.json());
                     });
-                    return Observable.of(ret);
+                    return ret;
                 }).subscribe(r => {
                     const newRepoList: DropDownElement<string>[] = [];
                     this.repoUrlToNameMap = {};
@@ -244,7 +245,7 @@ export class ConfigureGithubComponent implements OnDestroy {
     private _getLastPage(links) {
         const lastPageLink = links && links.last;
         if (lastPageLink) {
-            const lastPageNumber = +new URLSearchParams(new URL(lastPageLink).search.slice(1)).get('page');
+            const lastPageNumber = +Url.getParameterByName(lastPageLink, 'page');
             return lastPageNumber;
         } else {
             return 1;

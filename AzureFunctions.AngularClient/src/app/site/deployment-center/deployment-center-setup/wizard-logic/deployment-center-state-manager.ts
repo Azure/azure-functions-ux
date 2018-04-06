@@ -271,7 +271,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 }
             },
             createOptions: this.wizardValues.testEnvironment.newApp ? {
-                appServicePlanName: appServicePlanDescriptor.serverFarm,
+                appServicePlanName: appServicePlanDescriptor.name,
                 appServicePricingTier: this._pricingTier,
                 baseAppServiceName: siteDescriptor.site
             } : null,
