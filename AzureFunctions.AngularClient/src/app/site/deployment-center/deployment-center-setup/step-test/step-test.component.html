@@ -1,10 +1,10 @@
 <div class="settings-group-wrapper" [formGroup]="wizard?.testEnvironmentSettings" novalidate>
 
-  <h3 class="first-config-heading">Load Testing</h3>
+  <h3 class="first-config-heading">{{'loadTesting' | translate}}</h3>
 
   <div class="settings-wrapper">
     <div class="setting-wrapper">
-      <div class="setting-label">Enable Load Test
+      <div class="setting-label">{{'enableLoadTesting' | translate}}
       </div>
       <div class="setting-control-container">
         <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.enabled" [options]="testEnvironmentOptions" [highlightDirty]="true">
@@ -14,7 +14,7 @@
     <div *ngIf="wizard?.wizardValues?.testEnvironment?.enabled">
 
       <div class="setting-wrapper">
-        <div class="setting-label">App</div>
+        <div class="setting-label">{{'webApp' | translate}}</div>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
             <radio-selector [control]="wizard?.testEnvironmentSettings?.controls?.newApp" [options]="newAppServicePlanOptions" [highlightDirty]="true"
@@ -25,35 +25,35 @@
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
-        <div class="setting-label">App Service Plan</div>
+        <div class="setting-label">{{'appServicePlan' | translate}}</div>
         <div class="setting-control-container">
           <ng-select class="custom-select" [loading]="appServicePlansLoading" [clearable]="false" [items]="appServicePlanList" bindLabel="displayLabel"
-            bindValue="value" placeholder="Select App Service Plan" [(ngModel)]="selectedAppServicePlan" formControlName="appServicePlanId"
+            bindValue="value"  [(ngModel)]="selectedAppServicePlan" formControlName="appServicePlanId"
             (change)="aspChanged($event)">
           </ng-select>
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp === false">
-        <div class="setting-label">Web App</div>
+        <div class="setting-label">{{'appName' | translate}}</div>
         <div class="setting-control-container">
           <div class="newOrExistingSelection">
             <ng-select class="custom-select" [loading]="appsLoading" [clearable]="false" [items]="appsList" bindLabel="displayLabel"
-              bindValue="value" placeholder="Select Web App" [(ngModel)]="selectedWebApp" formControlName="webAppId">
+              bindValue="value" [(ngModel)]="selectedWebApp" formControlName="webAppId">
             </ng-select>
           </div>
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">App Name</div>
+        <div class="setting-label">{{'appName' | translate}}</div>
         <div class="setting-control-container">
           {{newAppName}}
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">Resource Group</div>
+        <div class="setting-label">{{'resourceGroup' | translate}}</div>
         <div class="setting-control-container">
           {{resourceGroup}}
         </div>
@@ -61,7 +61,7 @@
 
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">App Service Plan Name</div>
+        <div class="setting-label">{{'appServicePlan' | translate}}</div>
         <div class="setting-control-container">
           {{appServicePlanName}}
         </div>
@@ -69,14 +69,14 @@
 
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">Pricing Tier</div>
+        <div class="setting-label">{{'pricingTier' | translate}}</div>
         <div class="setting-control-container">
           {{pricingTier}}
         </div>
       </div>
 
       <div class="setting-wrapper" *ngIf="wizard?.wizardValues?.testEnvironment?.newApp">
-        <div class="setting-label">Location</div>
+        <div class="setting-label">{{'location' | translate}}</div>
         <div class="setting-control-container">
           {{location}}
         </div>
@@ -85,6 +85,6 @@
   </div>
 </div>
 <div class="footer ">
-  <button type="button" class="custom-button form-button" previousStep>Back</button>
-  <button type="button" class="custom-button form-button" nextStep>Continue</button>
+  <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
+  <button type="button" class="custom-button form-button" nextStep>{{'continue' | translate}}</button>
 </div>

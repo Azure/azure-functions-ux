@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ProviderCard } from 'app/site/deployment-center/deployment-center-setup/step-source-control/step-source-control.component';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 
 @Component({
     selector: 'app-step-build-provider',
@@ -11,29 +13,27 @@ export class StepBuildProviderComponent {
     public readonly providerCards: ProviderCard[] = [
         {
             id: 'vsts',
-            name: 'VSTS build server',
+            name: this._translateService.instant(PortalResources.vstsBuildServerTitle),
             icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#68227A',
             barColor: '#CED2EA',
-            description:
-                'Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.',
+            description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
             authorizedStatus: 'none'
         },
         {
             id: 'kudu',
-            name: 'Build on worker',
+            name: this._translateService.instant(PortalResources.kuduTitle),
             icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#000000',
             barColor: '#D6D6D6',
-            description:
-                'Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.',
+            description: this._translateService.instant(PortalResources.kuduDesc),
             authorizedStatus: 'none'
         }
     ];
 
     public selectedProvider: ProviderCard = null;
 
-    constructor(public wizard: DeploymentCenterStateManager) {}
+    constructor(public wizard: DeploymentCenterStateManager, private _translateService: TranslateService) {}
 
     chooseBuildProvider(card: ProviderCard) {
         const currentFormValues = this.wizard.wizardValues;

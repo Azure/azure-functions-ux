@@ -13,6 +13,7 @@ import { LogService } from '../../../../../shared/services/log.service';
 import { LogCategories, DeploymentCenterConstants } from '../../../../../shared/models/constants';
 import { TranslateService } from '@ngx-translate/core';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { PortalResources } from '../../../../../shared/models/portal-resources';
 
 export const TaskRunner = {
   None: 'None',
@@ -128,8 +129,8 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     });
 
     this.NewVsoAccountOptions =
-      [{ displayLabel: 'New', value: true },
-      { displayLabel: 'Existing', value: false }];
+      [{ displayLabel: this._translateService.instant(PortalResources.new), value: true },
+      { displayLabel: this._translateService.instant(PortalResources.existing), value: false }];
 
     this.setupSubscriptions();
     const val = this.wizard.wizardValues;

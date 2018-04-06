@@ -3,6 +3,8 @@ import { DeploymentCenterStateManager } from '../wizard-logic/deployment-center-
 import { DropDownElement } from '../../../../shared/models/drop-down-element';
 import { ArmService } from '../../../../shared/services/arm.service';
 import { Subject } from 'rxjs/Subject';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 
 @Component({
   selector: 'app-step-deployment-slot',
@@ -12,12 +14,12 @@ import { Subject } from 'rxjs/Subject';
 export class StepDeploymentSlotComponent implements OnDestroy {
 
   DeploymentSlotEnabledOptions =
-    [{ displayLabel: 'No', value: false },
-    { displayLabel: 'Yes', value: true }];
+    [{ displayLabel: this._translateService.instant(PortalResources.no), value: false },
+    { displayLabel: this._translateService.instant(PortalResources.yes), value: true }];
 
   DeploymentSlotNewOptions =
-    [{ displayLabel: 'New', value: true },
-    { displayLabel: 'Existing', value: false }];
+    [{ displayLabel: this._translateService.instant(PortalResources.new), value: true },
+    { displayLabel: this._translateService.instant(PortalResources.existing), value: false }];
   DeploymentSlotsLoading = false;
   ExistingDeploymentSlotsList: DropDownElement<string>[] = [];
   selectedDeploymentSlot = '';
@@ -25,7 +27,8 @@ export class StepDeploymentSlotComponent implements OnDestroy {
   private _ngUnsubscribe = new Subject();
   constructor(
     public wizard: DeploymentCenterStateManager,
-    _armService: ArmService
+    _armService: ArmService,
+    private _translateService: TranslateService
   ) {
     this.wizard.resourceIdStream
       .takeUntil(this._ngUnsubscribe)
