@@ -134,8 +134,8 @@ export class StandaloneEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
-            id: ScenarioIds.enableAppInsights,
+        this.scenarioChecks[ScenarioIds.monitoring] = {
+            id: ScenarioIds.monitoring,
             runCheck: () => {
                 return { status: 'disabled' };
             }
