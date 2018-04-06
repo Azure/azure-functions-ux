@@ -38,6 +38,7 @@ export class FunctionNewDetailComponent implements OnChanges {
 
     @Input() functionCard: CreateCard;
     @Input() functionLanguage: string;
+    @Input() functionAppLanguage: string;
     @Input() functionsInfo: FunctionInfo[];
     @Input() viewInfo: TreeViewInfo<any>;
     @Input() appNode: AppNode;
@@ -97,20 +98,23 @@ export class FunctionNewDetailComponent implements OnChanges {
     }
 
     updateLanguageOptions() {
-        this.languageOptions = [];
-        this.functionCard.languages.forEach(language => {
-            const dropDownElement: any = {
-                displayLabel: language,
-                value: language
-            };
+        if (!this.functionAppLanguage) {
+            this.languageOptions = [];
+            this.functionCard.languages.forEach(language => {
+                const dropDownElement: any = {
+                    displayLabel: language,
+                    value: language
+                };
 
-            if (language === this.functionLanguage) {
-                dropDownElement.default = true;
-            }
+                if (language === this.functionLanguage) {
+                    dropDownElement.default = true;
+                }
 
-            this.languageOptions.push(dropDownElement);
-        });
-
+                this.languageOptions.push(dropDownElement);
+            });
+        } else {
+            this.onLanguageChanged(this.functionAppLanguage);
+        }
     }
 
     onLanguageChanged(language: string) {
@@ -356,9 +360,9 @@ export class FunctionNewDetailComponent implements OnChanges {
                     }
                     this._globalStateService.clearBusyState();
                 },
-                () => {
-                    this._globalStateService.clearBusyState();
-                });
+                    () => {
+                        this._globalStateService.clearBusyState();
+                    });
         }
     }
 
