@@ -84,7 +84,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                 r.forEach(account => {
                     projectCalls.push(
                         this._cacheService
-                            .get(`https://${account.accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`, true, this.getHeaders())
+                            .get(`https://${account.accountName}.visualstudio.com/_apis/git/repositories?api-version=1.0`, true, this.wizard.getVstsDirectHeaders())
                             .map(res => res.json().value)
                     );
                 });
@@ -129,7 +129,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                     return this._cacheService.get(
                         `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
                         true,
-                        this.getHeaders()
+                        this.wizard.getVstsDirectHeaders()
                     );
                 } else {
                     return Observable.of(null);
@@ -159,7 +159,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
         const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
-        return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
+        return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
             const accounts = r.json().value as VSOAccount[];
             if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {
                 return Observable.of(accounts.filter(x => x.isAccountOwner));
@@ -203,15 +203,6 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     repoChanged(repoUri: DropDownElement<string>) {
         this._branchSubscription.next(repoUri.value);
         this.selectedBranch = '';
-    }
-
-    private getHeaders(): Headers {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Accept', 'application/json');
-        headers.append('Authorization', `Bearer ${this.token}`);
-        headers.append('X-VSS-ForceMsaPassThrough', 'true');
-        return headers;
     }
 
     ngOnDestroy(): void {

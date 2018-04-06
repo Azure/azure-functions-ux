@@ -45,6 +45,7 @@ export class VSTSRepository {
 })
 export class ConfigureVstsBuildComponent implements OnDestroy {
 
+  defaultNodeTaskRunner = 'none';
   nodeJsTaskRunners: DropDownElement<string>[] = [
     { value: 'gulp', displayLabel: 'Gulp' },
     { value: 'grunt', displayLabel: 'Grunt' },
@@ -65,6 +66,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     { value: 'python361x64', displayLabel: 'Python 3.6.1 x64' }
   ];
 
+  defaultPythonFramework = 'Bottle';
   pythonFrameworkList: DropDownElement<string>[] = [
     { value: 'Bottle', displayLabel: 'Bottle' },
     { value: 'Django', displayLabel: 'Django' },
@@ -98,7 +100,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     }
   ];
 
-  private token: string;
   public NewVsoAccountOptions: SelectOption<boolean>[];
   private _ngUnsubscribe = new Subject();
 
@@ -114,8 +115,8 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
   selectedLocation = '';
   selectedFramework = WebAppFramework.AspNetWap;
   selectedPythonVersion = this.recommendedPythonVersion;
-  selectedPythonFramework = 'Bottle';
-  selectedTaskRunner = 'none';
+  selectedPythonFramework = this.defaultPythonFramework;
+  selectedTaskRunner = this.defaultNodeTaskRunner;
 
   constructor(
     private _translateService: TranslateService,
@@ -124,10 +125,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     private _userService: UserService,
     private _logService: LogService
   ) {
-    this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
-      this.token = r.token;
-    });
-
+    
     this.NewVsoAccountOptions =
       [{ displayLabel: this._translateService.instant(PortalResources.new), value: true },
       { displayLabel: this._translateService.instant(PortalResources.existing), value: false }];
@@ -183,7 +181,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         r.forEach(account => {
           projectCalls.push(
             this._cacheService
-              .get(DeploymentCenterConstants.vstsProjectsApi.format(account.accountName), true, this.getHeaders())
+              .get(DeploymentCenterConstants.vstsProjectsApi.format(account.accountName), true, this.wizard.getVstsDirectHeaders())
               .map(res => {
                 return {
                   account: account.accountName,
@@ -211,7 +209,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
         }
       );
 
-    this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.getHeaders())
+    this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.wizard.getVstsDirectHeaders())
       .subscribe(r => {
         const locationArray: any[] = r.json().value;
         this.LocationList = locationArray.map(v => {
@@ -228,7 +226,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
 
   private fetchAccounts(memberId: string): Observable<VSOAccount[]> {
     const accountsUrl = DeploymentCenterConstants.vstsAccountsFetchUri.format(memberId);
-    return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
+    return this._cacheService.get(accountsUrl, true, this.wizard.getVstsDirectHeaders()).switchMap(r => {
       const accounts = r.json().value as VSOAccount[];
       if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {
         return Observable.of(accounts.filter(x => x.isAccountOwner));
@@ -250,14 +248,6 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     this.selectedProject = '';
   }
 
-  private getHeaders(): Headers {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('Authorization', `Bearer ${this.token}`);
-    headers.append('X-VSS-ForceMsaPassThrough', 'true');
-    return headers;
-  }
   ngOnDestroy(): void {
     this._ngUnsubscribe.next();
     this.removeFormValidators();

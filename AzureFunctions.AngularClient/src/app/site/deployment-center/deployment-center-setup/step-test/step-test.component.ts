@@ -8,6 +8,8 @@ import { ArmObj, Sku } from '../../../../shared/models/arm/arm-obj';
 import { Guid } from '../../../../shared/Utilities/Guid';
 import { ArmResourceDescriptor } from '../../../../shared/resourceDescriptors';
 import { ServerFarm } from '../../../../shared/models/server-farm';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../../../../shared/models/portal-resources';
 
 @Component({
     selector: 'app-step-test',
@@ -48,7 +50,8 @@ export class StepTestComponent implements OnDestroy {
     subId = '';
     constructor(
         public wizard: DeploymentCenterStateManager,
-        private _armService: ArmService
+        private _armService: ArmService,
+        private _translateService: TranslateService
     ) {
         this._currentAppData$
             .switchMap(resourceId => this._armService.get(resourceId))
@@ -111,7 +114,7 @@ export class StepTestComponent implements OnDestroy {
             const name = this.pricingTierData.name;
             return `${tier} (${name})`;
         } else {
-            return 'Loading...';
+            return this._translateService.instant(PortalResources.loading);
         }
     }
 

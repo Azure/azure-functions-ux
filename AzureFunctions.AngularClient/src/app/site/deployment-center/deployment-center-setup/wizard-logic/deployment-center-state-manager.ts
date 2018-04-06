@@ -29,14 +29,15 @@ export class DeploymentCenterStateManager implements OnDestroy {
         private _armService: ArmService,
         private _userService: UserService,
         portalService: PortalService) {
-        this.resourceIdStream.subscribe(r => {
+        this.resourceIdStream.switchMap(r => {
             this._resourceId = r;
-            this._armService.get(this._resourceId).subscribe(s => {
+            return this._armService.get(this._resourceId)
+        })
+            .subscribe(s => {
                 this._location = s.json().location;
                 this._pricingTier = s.json().properties.sku;
             });
 
-        });
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this._token = r.token;
         });
@@ -70,7 +71,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         return (this.wizardForm && (this.wizardForm.controls.deploymentSlotSetting as FormGroup)) || null;
     }
 
-    public Deploy(): Observable<any> {
+    public deploy(): Observable<any> {
         switch (this.wizardValues.buildProvider) {
             case 'vsts':
                 return this._deployVsts();
@@ -296,7 +297,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
     }
 
-    public getVstsHeaders(token: string): Headers {
+    public getVstsPassthroughHeaders(token: string): Headers {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -304,6 +305,17 @@ export class DeploymentCenterStateManager implements OnDestroy {
         headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
         return headers;
     }
+
+
+    public getVstsDirectHeaders(): Headers {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', `Bearer ${this.token}`);
+        headers.append('X-VSS-ForceMsaPassThrough', 'true');
+        return headers;
+    }
+
 
     ngOnDestroy(): void {
         this._ngUnsubscribe.next();
