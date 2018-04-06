@@ -1,3 +1,4 @@
+import { DropDownComponent } from './../../drop-down/drop-down.component';
 import { KeyCodes } from './../../shared/models/constants';
 import { FunctionAppContext } from './../../shared/function-app-context';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
@@ -29,6 +30,7 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
     @Input() binding: UIFunctionBinding;
     @Output() validChange = new Subject<BindingInputBase<any>>();
     @ViewChild('pickerPopover') pickerPopover: PopoverContent;
+    @ViewChild('dropdown') dropdownElement: DropDownComponent<any>;
     public disabled: boolean;
     public enumInputs: DropDownElement<any>[];
     public pickerInputs: DropDownElement<any>[];
@@ -117,14 +119,6 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
                 break;
             default:
                 this.pickerName = 'AppSetting';
-        }
-
-        // for tests
-        if (window.location.hostname === 'localhost' && !this._userService.inIFrame) {
-            this.input.value = name;
-            this.inputChanged(name);
-            this.setClass(name);
-            return;
         }
 
         if (!this._userService.inIFrame) {
@@ -275,26 +269,25 @@ export class BindingInputV2Component extends FunctionAppContextComponent {
     private finishResourcePickup(appSettingName: string, picker: PickerInput) {
         if (appSettingName) {
 
-            let existedAppSetting;
+            let existingAppSetting;
             if (picker.items) {
-                existedAppSetting = picker.items.find((item) => {
+                existingAppSetting = picker.items.find((item) => {
                     return item === appSettingName;
                 });
             }
 
             this.input.value = appSettingName;
-            if (!existedAppSetting) {
+            if (!existingAppSetting) {
                 picker.items.splice(0, 0, this.input.value);
                 this.pickerInputs = picker.items
                     .map(p => ({ displayLabel: p, value: p }));
+            } else {
+                this.dropdownElement.onSelectValue(appSettingName);
             }
-            this.inputChanged(name);
-            this.setClass(appSettingName);
         }
+
         picker.inProcess = false;
         this._globalStateService.clearBusyState();
-        this.pickerInputs = picker.items
-            .map(p => ({ displayLabel: p, value: p }));
     }
 
     setBottomDescription(id: string) {

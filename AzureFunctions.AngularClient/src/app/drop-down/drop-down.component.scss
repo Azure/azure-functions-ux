@@ -74,7 +74,8 @@
 }
 
 .drop-down-selected-arrow:before {
-    border: $border;
+    border-style: solid;
+    border-color: $label-text-color;
     border-width: 0 2px 2px 0;
     box-sizing: border-box;
     content: "";

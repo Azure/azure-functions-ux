@@ -130,7 +130,8 @@
   </div>
 
   <div *ngIf="input?.type === 'picker'" [ngClass]="input?.class">
-    <drop-down [options]="pickerInputs"
+    <drop-down #dropdown
+               [options]="pickerInputs" 
                (value)="onDropDownInputChanged($event)"
                [disabled]="input.isDisabled"
                attr.aria-label="{{input.label}}"></drop-down>
