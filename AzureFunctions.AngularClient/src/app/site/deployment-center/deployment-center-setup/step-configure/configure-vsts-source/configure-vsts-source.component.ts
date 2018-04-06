@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
-import { Headers } from '@angular/http';
-import { UserService } from 'app/shared/services/user.service';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 import { Subject } from 'rxjs/Subject';
@@ -28,7 +26,6 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     public ProjectList: DropDownElement<string>[];
     public RepositoryList: DropDownElement<string>[];
     public BranchList: DropDownElement<string>[];
-    private token: string;
     private _ngUnsubscribe = new Subject();
 
     private vstsRepositories: VSORepo[];
@@ -44,13 +41,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     constructor(public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,
-        private _userService: UserService,
         private _logService: LogService,
         private _translateService: TranslateService) {
 
-        this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
-            this.token = r.token;
-        });
         this.setupSubscriptions();
         this.populate();
         this.wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().takeUntil(this._ngUnsubscribe).subscribe(r => {

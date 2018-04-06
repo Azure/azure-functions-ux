@@ -2,11 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { SelectOption } from '../../../../../shared/models/select-option';
 import { DeploymentCenterStateManager } from '../../wizard-logic/deployment-center-state-manager';
 import { Subject } from 'rxjs/Subject';
-import { UserService } from '../../../../../shared/services/user.service';
 import { CacheService } from '../../../../../shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
 import { VSOAccount, VsoProject } from '../../../Models/vso-repo';
-import { Headers } from '@angular/http';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DropDownElement } from '../../../../../shared/models/drop-down-element';
 import { LogService } from '../../../../../shared/services/log.service';
@@ -122,10 +120,9 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     private _translateService: TranslateService,
     private _cacheService: CacheService,
     public wizard: DeploymentCenterStateManager,
-    private _userService: UserService,
     private _logService: LogService
   ) {
-    
+
     this.NewVsoAccountOptions =
       [{ displayLabel: this._translateService.instant(PortalResources.new), value: true },
       { displayLabel: this._translateService.instant(PortalResources.existing), value: false }];
