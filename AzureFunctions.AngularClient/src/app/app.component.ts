@@ -7,9 +7,6 @@ import { BusyStateComponent } from './busy-state/busy-state.component';
 import { GlobalStateService } from './shared/services/global-state.service';
 import { UserService } from './shared/services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ScenarioService } from './shared/services/scenario/scenario.service';
-import { ScenarioIds} from './shared/models/constants';
-
 
 @Component({
     selector: 'app-root',
@@ -31,14 +28,12 @@ export class AppComponent implements OnInit, AfterViewInit {
         _backgroundTasksService: BackgroundTasksService,
         private _router: Router,
         route: ActivatedRoute,
-        configService: ConfigService,
-        private _scenarioService: ScenarioService
+        configService: ConfigService
     ) {
         this._userService.getStartupInfo().subscribe(info => {
             this.theme = info.theme;
         });
 
-        this._portalService.acceptRequestFromAnyOrigin = this._scenarioService.checkScenario(ScenarioIds.acceptRequestFromAnyOrigin).status === 'enabled';
         const devGuide = Url.getParameterByName(null, 'appsvc.devguide');
 
         // TODO: for now we don't honor any deep links.  We'll need to make a bunch of updates to our

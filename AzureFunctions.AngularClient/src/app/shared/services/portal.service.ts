@@ -14,13 +14,15 @@ import { AiService } from './ai.service';
 import { Guid } from '../Utilities/Guid';
 import { SpecCostQueryInput, SpecCostQueryResult } from '../../site/spec-picker/price-spec-manager/billing-models';
 import { Subscription } from '../models/subscription';
+import { ConfigService } from 'app/shared/services/config.service';
+
 
 @Injectable()
 export class PortalService {
     public sessionId = '';
     public resourceId: string;
     public isEmbeddedFunctions = Url.getParameterByName(window.location.href, 'appsvc.embedded') === 'functions';
-    public acceptRequestFromAnyOrigin = false;
+
     private portalSignature = 'FxAppBlade';
     private portalSignatureFrameBlade = 'FxFrameBlade';
     private embeddedSignature = 'FunctionsEmbedded';
@@ -51,7 +53,9 @@ export class PortalService {
         return (Url.getParameterByName(null, 'tabbed') === 'true');
     }
 
-    constructor(private _broadcastService: BroadcastService, private _aiService: AiService) {
+    constructor(private _broadcastService: BroadcastService,
+        private _aiService: AiService,
+        private configService: ConfigService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
@@ -303,7 +307,9 @@ export class PortalService {
     private iframeReceivedMsg(event: Event): void {
         if (!event || !event.data) {
             return;
-        } else if (!this.acceptRequestFromAnyOrigin && !this.acceptedOriginsSuffix.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
+        } else if (!this.configService.isOnPrem()
+                    && !this.configService.isStandalone()
+                    && !this.acceptedOriginsSuffix.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
             return;
         } else if (!this.acceptedSignatures.find(s => event.data.signature !== s)) {
             return;

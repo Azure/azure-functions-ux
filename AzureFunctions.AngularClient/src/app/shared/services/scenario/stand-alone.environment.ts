@@ -126,14 +126,6 @@ export class StandaloneEnvironment extends Environment {
                 return { status: 'disabled' };
             }
         };
-
-        this.scenarioChecks[ScenarioIds.acceptRequestFromAnyOrigin] = {
-            id: ScenarioIds.acceptRequestFromAnyOrigin,
-            runCheck: () => {
-                return { status: 'enabled' };
-            }
-        };
-
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -20,14 +20,6 @@ export class OnPremEnvironment extends Environment {
                 return { status: 'enabled' };
             }
         };
-
-        this.scenarioChecks[ScenarioIds.acceptRequestFromAnyOrigin] = {
-            id: ScenarioIds.acceptRequestFromAnyOrigin,
-            runCheck: () => {
-                return { status: 'enabled' };
-            }
-        };
-
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
