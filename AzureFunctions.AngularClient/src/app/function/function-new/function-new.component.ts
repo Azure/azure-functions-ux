@@ -1,4 +1,4 @@
-import { LogCategories, Order, Regex, KeyCodes, ScenarioIds } from './../../shared/models/constants';
+import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
@@ -23,6 +23,8 @@ import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
 import { ScenarioService } from '../../shared/services/scenario/scenario.service';
+import { ArmObj } from '../../shared/models/arm/arm-obj';
+import { ApplicationSettings } from '../../shared/models/arm/application-settings';
 
 interface CategoryOrder {
     name: string;
@@ -70,8 +72,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public allLanguages: DropDownElement<string>[] = [];
     public supportedLanguages: DropDownElement<string>[] = [];
     public runtimeVersion: string;
-
-    public readonly allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
+    public allExperimentalLanguages: string[] = [];
+    public appSettingsArm: ArmObj<ApplicationSettings>;
+    public functionAppLanguage: string;
 
     public createCardStyles = {
         'blob': { color: '#1E5890', barcolor: '#DAE6EF', icon: 'image/blob.svg' },
@@ -150,183 +153,191 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                 }
 
                 return Observable.zip(
-                    this._buildCreateCardTemplates(),
                     this._functionAppService.getFunctions(this.context),
-                    this._functionAppService.getRuntimeGeneration(this.context));
+                    this._functionAppService.getRuntimeGeneration(this.context),
+                    this._functionAppService.getFunctionAppAzureAppSettings(this.context),
+                    this._functionAppService.getBindingConfig(this.context),
+                    this._functionAppService.getTemplates(this.context));
             })
             .do(null, e => {
                 this._logService.error(LogCategories.functionNew, '/load-functions-cards-failure', e);
             })
             .subscribe(tuple => {
-                this._globalStateService.clearBusyState();
-                this.functionsInfo = tuple[1].result;
-                this.runtimeVersion = tuple[2];
+                this.functionsInfo = tuple[0].result;
+                this.runtimeVersion = tuple[1];
+                this.appSettingsArm = tuple[2].result;
+                this.bindings = tuple[3].result.bindings;
 
                 if (this.action && this.functionsInfo && !this.selectedTemplate) {
                     this.selectedTemplateId = this.action.templateId;
                 }
+
+                if (this.runtimeVersion === 'V1') {
+                    this.allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
+                }
+
+                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsLanguageAppSettingsName)) {
+                    this.functionAppLanguage = this.appSettingsArm.properties[Constants.functionsLanguageAppSettingsName];
+                }
+
+                this._buildCreateCardTemplates(tuple[4].result);
+                this._globalStateService.clearBusyState();
             });
     }
 
-    private _buildCreateCardTemplates() {
-        return Observable.zip(
-            this._functionAppService.getTemplates(this.context),
-            this._functionAppService.getBindingConfig(this.context))
-            .do(tuple => {
-                if (!tuple[0].isSuccessful || !tuple[1].isSuccessful) {
-                    return;
-                }
+    private _buildCreateCardTemplates(functionTemplates: FunctionTemplate[]) {
+        this.cards = [];
+        this.createCards = [];
 
-                this.bindings = tuple[1].result.bindings;
-                this.cards = [];
-                this.createCards = [];
+        this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
+        this.languages = [{
+            displayLabel: this._translateService.instant(PortalResources.all),
+            value: this._translateService.instant('temp_category_all'), default: true
+        }];
+        this.categories = [{
+            displayLabel: this._translateService.instant(PortalResources.all),
+            value: this._translateService.instant('temp_category_all')
+        }];
 
-                this.title = this._translateService.instant(PortalResources.templatePicker_chooseTemplate);
-                this.languages = [{
-                    displayLabel: this._translateService.instant(PortalResources.all),
-                    value: this._translateService.instant('temp_category_all'), default: true
-                }];
-                this.categories = [{
-                    displayLabel: this._translateService.instant(PortalResources.all),
-                    value: this._translateService.instant('temp_category_all')
-                }];
+        functionTemplates.forEach((template) => {
 
-                tuple[0].result.forEach((template) => {
+            if (this.functionAppLanguage && template.metadata.language !== this.functionAppLanguage) {
+                return;
+            }
 
-                    if (template.metadata.visible === false) {
-                        return;
-                    }
+            if (template.metadata.visible === false) {
+                return;
+            }
 
-                    if (template.function.bindings.find(b => this.bindingDisabled(b.type))) {
-                        return;
-                    }
+            if (template.function.bindings.find(b => this.bindingDisabled(b.type))) {
+                return;
+            }
 
-                    // add template language to languages (if needed)
-                    const lang = this.languages.find((l) => {
-                        return l.value === template.metadata.language;
-                    });
-                    if (!lang) {
-                        this.languages.push({
-                            displayLabel: template.metadata.language,
-                            value: template.metadata.language
-                        });
-                    }
-
-                    // add template category/categories to categories (if needed)
-                    template.metadata.category.forEach((c) => {
-                        if ((this.language === this._translateService.instant('temp_category_all') || (template.metadata.language === this.language))) {
-
-                            const index = this.categories.findIndex((category) => {
-                                return category.value === c;
-                            });
-
-                            if (index === -1) {
-                                const dropDownElement: DropDownElement<string> = {
-                                    displayLabel: c,
-                                    value: c
-                                };
-
-                                if (this.category === c) {
-                                    dropDownElement.default = true;
-                                } else if (!this.category && c === this._translateService.instant('temp_category_all')) {
-                                    dropDownElement.default = true;
-                                }
-
-                                this.categories.push(dropDownElement);
-                            }
-                        }
-                    });
-
-                    const templateIndex = this.createCards.findIndex(finalTemplate => {
-                        return finalTemplate.name === template.metadata.name;
-                    });
-
-                    const isExperimental = this._languageIsExperimental(template.metadata.language);
-
-                    // if the card doesn't exist, create it based off the template, else add information to the preexisting card
-                    if (templateIndex === -1) {
-                        this.createCards.push({
-                            name: `${template.metadata.name}`,
-                            value: template.id,
-                            description: template.metadata.description,
-                            enabledInTryMode: template.metadata.enabledInTryMode,
-                            AADPermissions: template.metadata.AADPermissions,
-                            languages: isExperimental ? [] : [`${template.metadata.language}`],
-                            supportedLanguages: isExperimental ? [] : [`${template.metadata.language}`],
-                            allLanguages: [`${template.metadata.language}`],
-                            categories: template.metadata.category,
-                            ids: [`${template.id}`],
-                            icon: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                                this.createCardStyles[template.metadata.categoryStyle].icon : this.createCardStyles['other'].icon,
-                            color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                                this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
-                            barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
-                                this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor,
-                            focusable: false
-                        });
-                    } else {
-                        if (!isExperimental) {
-                            this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
-                            this.createCards[templateIndex].supportedLanguages.push(`${template.metadata.language}`);
-                        }
-                        this.createCards[templateIndex].allLanguages.push(`${template.metadata.language}`);
-                        this.createCards[templateIndex].categories = this.createCards[templateIndex].categories.concat(template.metadata.category);
-                        this.createCards[templateIndex].ids.push(`${template.id}`);
-                    }
-                });
-
-                // unique categories
-                this.createCards.forEach((template, index) => {
-                    const categoriesDict: { [key: string]: string; } = {};
-                    template.categories.forEach(category => {
-                        categoriesDict[category] = category;
-                    });
-                    this.createCards[index].categories = [];
-                    for (const category in categoriesDict) {
-                        if (categoriesDict.hasOwnProperty(category)) {
-                            this.createCards[index].categories.push(category);
-                        }
-                    }
-                });
-
-                this._sortCategories();
-
-                // sort out supported languages and set those as default language options in drop-down
-                this.languages.forEach(language => {
-                    const isExperimental = this._languageIsExperimental(language.value);
-                    if (!isExperimental) {
-                        this.supportedLanguages.push({
-                            displayLabel: language.displayLabel,
-                            value: language.value
-                        });
-                    }
-                });
-
-                this.allLanguages = this._languageSort(this.languages);
-                this.supportedLanguages = this._languageSort(this.supportedLanguages);
-                this.languages = this.supportedLanguages;
-
-                // order preference defined in constants.ts
-                this.createCards.sort((a: Template, b: Template) => {
-                    let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
-                    let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
-                    if (ia === -1) {
-                        ia = Number.MAX_VALUE;
-                    }
-                    if (ib === -1) {
-                        ib = Number.MAX_VALUE;
-                    }
-                    if (ia === ib) {
-                        // If templates are not in ordered list apply alphabetical order
-                        return a.name > b.name ? 1 : -1;
-                    } else {
-                        return ia > ib ? 1 : -1;
-                    }
-                });
-
-                this.language = this._translateService.instant('temp_category_all');
-                this.category = this._translateService.instant('temp_category_all');
+            // add template language to languages (if needed)
+            const lang = this.languages.find((l) => {
+                return l.value === template.metadata.language;
             });
+            if (!lang) {
+                this.languages.push({
+                    displayLabel: template.metadata.language,
+                    value: template.metadata.language
+                });
+            }
+
+            // add template category/categories to categories (if needed)
+            template.metadata.category.forEach((c) => {
+                if ((this.language === this._translateService.instant('temp_category_all') || (template.metadata.language === this.language))) {
+
+                    const index = this.categories.findIndex((category) => {
+                        return category.value === c;
+                    });
+
+                    if (index === -1) {
+                        const dropDownElement: DropDownElement<string> = {
+                            displayLabel: c,
+                            value: c
+                        };
+
+                        if (this.category === c) {
+                            dropDownElement.default = true;
+                        } else if (!this.category && c === this._translateService.instant('temp_category_all')) {
+                            dropDownElement.default = true;
+                        }
+
+                        this.categories.push(dropDownElement);
+                    }
+                }
+            });
+
+            const templateIndex = this.createCards.findIndex(finalTemplate => {
+                return finalTemplate.name === template.metadata.name;
+            });
+
+            const isExperimental = this._languageIsExperimental(template.metadata.language);
+
+            // if the card doesn't exist, create it based off the template, else add information to the preexisting card
+            if (templateIndex === -1) {
+                this.createCards.push({
+                    name: `${template.metadata.name}`,
+                    value: template.id,
+                    description: template.metadata.description,
+                    enabledInTryMode: template.metadata.enabledInTryMode,
+                    AADPermissions: template.metadata.AADPermissions,
+                    languages: isExperimental ? [] : [`${template.metadata.language}`],
+                    supportedLanguages: isExperimental ? [] : [`${template.metadata.language}`],
+                    allLanguages: [`${template.metadata.language}`],
+                    categories: template.metadata.category,
+                    ids: [`${template.id}`],
+                    icon: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                        this.createCardStyles[template.metadata.categoryStyle].icon : this.createCardStyles['other'].icon,
+                    color: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                        this.createCardStyles[template.metadata.categoryStyle].color : this.createCardStyles['other'].color,
+                    barcolor: this.createCardStyles.hasOwnProperty(template.metadata.categoryStyle) ?
+                        this.createCardStyles[template.metadata.categoryStyle].barcolor : this.createCardStyles['other'].barcolor,
+                    focusable: false
+                });
+            } else {
+                if (!isExperimental) {
+                    this.createCards[templateIndex].languages.push(`${template.metadata.language}`);
+                    this.createCards[templateIndex].supportedLanguages.push(`${template.metadata.language}`);
+                }
+                this.createCards[templateIndex].allLanguages.push(`${template.metadata.language}`);
+                this.createCards[templateIndex].categories = this.createCards[templateIndex].categories.concat(template.metadata.category);
+                this.createCards[templateIndex].ids.push(`${template.id}`);
+            }
+        });
+
+        // unique categories
+        this.createCards.forEach((template, index) => {
+            const categoriesDict: { [key: string]: string; } = {};
+            template.categories.forEach(category => {
+                categoriesDict[category] = category;
+            });
+            this.createCards[index].categories = [];
+            for (const category in categoriesDict) {
+                if (categoriesDict.hasOwnProperty(category)) {
+                    this.createCards[index].categories.push(category);
+                }
+            }
+        });
+
+        this._sortCategories();
+
+        // sort out supported languages and set those as default language options in drop-down
+        this.languages.forEach(language => {
+            const isExperimental = this._languageIsExperimental(language.value);
+            if (!isExperimental) {
+                this.supportedLanguages.push({
+                    displayLabel: language.displayLabel,
+                    value: language.value
+                });
+            }
+        });
+
+        this.allLanguages = this._languageSort(this.languages);
+        this.supportedLanguages = this._languageSort(this.supportedLanguages);
+        this.languages = this.supportedLanguages;
+
+        // order preference defined in constants.ts
+        this.createCards.sort((a: Template, b: Template) => {
+            let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
+            let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
+            if (ia === -1) {
+                ia = Number.MAX_VALUE;
+            }
+            if (ib === -1) {
+                ib = Number.MAX_VALUE;
+            }
+            if (ia === ib) {
+                // If templates are not in ordered list apply alphabetical order
+                return a.name > b.name ? 1 : -1;
+            } else {
+                return ia > ib ? 1 : -1;
+            }
+        });
+
+        this.language = this._translateService.instant('temp_category_all');
+        this.category = this._translateService.instant('temp_category_all');
     }
 
     switchExperimentalLanguagesOption() {
