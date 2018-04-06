@@ -72,7 +72,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
     public allLanguages: DropDownElement<string>[] = [];
     public supportedLanguages: DropDownElement<string>[] = [];
     public runtimeVersion: string;
-    public allExperimentalLanguages: string[] = [];
+    public allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
     public appSettingsArm: ArmObj<ApplicationSettings>;
     public functionAppLanguage: string;
 
@@ -172,12 +172,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     this.selectedTemplateId = this.action.templateId;
                 }
 
-                if (this.runtimeVersion === 'V1') {
-                    this.allExperimentalLanguages = ['Bash', 'Batch', 'PHP', 'PowerShell', 'Python', 'TypeScript'];
-                }
-
                 if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsLanguageAppSettingsName)) {
                     this.functionAppLanguage = this.appSettingsArm.properties[Constants.functionsLanguageAppSettingsName];
+                    this.allExperimentalLanguages = [];
                 }
 
                 this._buildCreateCardTemplates(tuple[4].result);
