@@ -19,8 +19,8 @@ import { RequiredValidator } from '../../../../../shared/validators/requiredVali
 export class ConfigureOnedriveComponent implements OnDestroy {
     private _resourceId: string;
     public folderList: DropDownElement<string>[];
-    private _ngUnsubscribe = new Subject();
-    private _onedriveCallSubject = new Subject();
+    private _ngUnsubscribe$ = new Subject();
+    private _onedriveCallSubject$ = new Subject();
 
     public foldersLoading = false;
     constructor(
@@ -32,11 +32,11 @@ export class ConfigureOnedriveComponent implements OnDestroy {
         private _translateService: TranslateService
     ) {
         this.wizard.wizardForm.controls.sourceSettings.value.isManualIntegration = false;
-        this.wizard.resourceIdStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.wizard.resourceIdStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this._resourceId = r;
         });
-        this._onedriveCallSubject
-            .takeUntil(this._ngUnsubscribe)
+        this._onedriveCallSubject$
+            .takeUntil(this._ngUnsubscribe$)
             .switchMap(() =>
                 this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
                     url: `${DeploymentCenterConstants.onedriveApiUri}/children`
@@ -90,10 +90,10 @@ export class ConfigureOnedriveComponent implements OnDestroy {
     public fillOnedriveFolders() {
         this.folderList = [];
         this.foldersLoading = true;
-        this._onedriveCallSubject.next();
+        this._onedriveCallSubject$.next();
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 }

@@ -23,7 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class StepCompleteComponent implements OnInit {
     resourceId: string;
     private _busyManager: BusyStateScopeManager;
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
     private site: ArmObj<Site>;
     private pubCreds: ArmObj<PublishingCredentials>;
     private pubUserName: ArmObj<{
@@ -39,8 +39,8 @@ export class StepCompleteComponent implements OnInit {
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
 
-        this.wizard.resourceIdStream
-            .takeUntil(this._ngUnsubscribe)
+        this.wizard.resourceIdStream$
+            .takeUntil(this._ngUnsubscribe$)
             .switchMap(resourceId => {
                 this.resourceId = resourceId;
                 return Observable.zip(

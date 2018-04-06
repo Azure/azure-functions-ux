@@ -33,10 +33,10 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     private _tableItems: ActivityDetailsLog[];
     public activeDeployment: ActivityDetailsLog;
 
-    public viewInfoStream: Subject<string>;
+    public viewInfoStream$: Subject<string>;
     public hasWritePermissions = true;
     public deploymentObject: VSODeploymentObject;
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
     private _busyManager: BusyStateScopeManager;
     constructor(
         private _portalService: PortalService,
@@ -48,9 +48,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         private _broadcastService: BroadcastService
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
-        this.viewInfoStream = new Subject<string>();
-        this.viewInfoStream
-            .takeUntil(this._ngUnsubscribe)
+        this.viewInfoStream$ = new Subject<string>();
+        this.viewInfoStream$
+            .takeUntil(this._ngUnsubscribe$)
             .distinctUntilChanged()
             .switchMap(resourceId => {
                 return Observable.zip(
@@ -143,12 +143,12 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
 
     refresh() {
         this._busyManager.setBusy();
-        this.viewInfoStream.next(this.resourceId);
+        this.viewInfoStream$.next(this.resourceId);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
-            this.viewInfoStream.next(this.resourceId);
+            this.viewInfoStream$.next(this.resourceId);
         }
     }
 
@@ -551,6 +551,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 }

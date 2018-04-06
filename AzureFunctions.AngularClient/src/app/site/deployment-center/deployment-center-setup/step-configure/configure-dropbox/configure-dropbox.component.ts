@@ -31,7 +31,7 @@ export class ConfigureDropboxComponent {
         private _logService: LogService,
         private _translateService: TranslateService
     ) {
-        this.wizard.resourceIdStream.subscribe(r => {
+        this.wizard.resourceIdStream$.subscribe(r => {
             this._resourceId = r;
         });
         this.fillDropboxFolders();

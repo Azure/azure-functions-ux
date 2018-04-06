@@ -39,7 +39,7 @@ export class DeploymentCenterComponent implements OnDestroy {
 
     public hasWritePermissions = true;
 
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
     private _siteConfigObject: ArmObj<SiteConfig>;
     private _busyManager: BusyStateScopeManager;
 
@@ -55,7 +55,7 @@ export class DeploymentCenterComponent implements OnDestroy {
         this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
 
         this.viewInfoStream
-            .takeUntil(this._ngUnsubscribe)
+            .takeUntil(this._ngUnsubscribe$)
             .switchMap(view => {
                 this._busyManager.setBusy();
                 this.resourceId = view.resourceId;
@@ -85,7 +85,7 @@ export class DeploymentCenterComponent implements OnDestroy {
             );
         broadcastService
             .getEvents<string>(BroadcastEvent.ReloadDeploymentCenter)
-            .takeUntil(this._ngUnsubscribe)
+            .takeUntil(this._ngUnsubscribe$)
             .subscribe(this.refreshedSCMType.bind(this));
     }
 
@@ -103,6 +103,6 @@ export class DeploymentCenterComponent implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 }

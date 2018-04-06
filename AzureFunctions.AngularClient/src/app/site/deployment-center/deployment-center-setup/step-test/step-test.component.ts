@@ -18,7 +18,7 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 })
 export class StepTestComponent implements OnDestroy {
 
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
 
     testEnvironmentOptions =
         [{ displayLabel: 'No', value: false },
@@ -35,10 +35,10 @@ export class StepTestComponent implements OnDestroy {
 
     appServicePlansLoading = false;
     appsLoading = false;
-    private _appServicePlanSubscription = new Subject<string>();
-    private _appsSubscription = new Subject<string>();
+    private _appServicePlanSubscription$ = new Subject<string>();
+    private _appsSubscription$ = new Subject<string>();
     private _currentAppData$ = new Subject<string>();
-    private _CurrentPlanData$ = new Subject<string>();
+    private _currentPlanData$ = new Subject<string>();
 
     private _currentPlanData: ArmObj<ServerFarm>;
     private _currentAppData: ArmObj<Site>;
@@ -61,10 +61,10 @@ export class StepTestComponent implements OnDestroy {
                 this.resourceGroup = this._currentAppData.properties.resourceGroup;
                 this.appServicePlanName = `${this._currentAppData.name.substring(0, 30)}-loadtest-${Guid.newTinyGuid()}`;
                 this.location = this._currentAppData.location;
-                this._CurrentPlanData$.next(this._currentAppData.properties.serverFarmId);
+                this._currentPlanData$.next(this._currentAppData.properties.serverFarmId);
             });
 
-        this._CurrentPlanData$
+        this._currentPlanData$
             .switchMap(resourceId => this._armService.get(resourceId))
             .subscribe(r => {
                 this._currentPlanData = r.json();
@@ -72,7 +72,7 @@ export class StepTestComponent implements OnDestroy {
                 this.exitingNewChanged(true);
             });
 
-        this._appServicePlanSubscription
+        this._appServicePlanSubscription$
             .switchMap(subscriptionId => this._armService.get(`/subscriptions/${subscriptionId}/providers/Microsoft.Web/serverFarms`))
             .subscribe(r => {
                 const armList = r.json().value;
@@ -85,7 +85,7 @@ export class StepTestComponent implements OnDestroy {
                 this.appServicePlansLoading = false;
             });
 
-        this._appsSubscription
+        this._appsSubscription$
             .switchMap(aspId => this._armService.get(`${aspId}/sites`))
             .subscribe(r => {
                 const siteList = r.json().value;
@@ -99,11 +99,11 @@ export class StepTestComponent implements OnDestroy {
             });
 
 
-        wizard.resourceIdStream.subscribe(r => {
+        wizard.resourceIdStream$.subscribe(r => {
             this.appServicePlansLoading = true;
             const armResource = new ArmResourceDescriptor(r);
             this.subId = armResource.subscription;
-            this._appServicePlanSubscription.next(armResource.subscription);
+            this._appServicePlanSubscription$.next(armResource.subscription);
             this._currentAppData$.next(r);
         });
     }
@@ -134,11 +134,11 @@ export class StepTestComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 
     aspChanged(event: DropDownElement<string>) {
         this.appsLoading = true;
-        this._appsSubscription.next(event.value);
+        this._appsSubscription$.next(event.value);
     }
 }

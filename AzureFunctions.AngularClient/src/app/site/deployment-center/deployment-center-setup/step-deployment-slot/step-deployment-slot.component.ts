@@ -24,18 +24,17 @@ export class StepDeploymentSlotComponent implements OnDestroy {
   ExistingDeploymentSlotsList: DropDownElement<string>[] = [];
   selectedDeploymentSlot = '';
 
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe$ = new Subject();
   constructor(
     public wizard: DeploymentCenterStateManager,
     _armService: ArmService,
     private _translateService: TranslateService
   ) {
-    this.wizard.resourceIdStream
-      .takeUntil(this._ngUnsubscribe)
+    this.wizard.resourceIdStream$
+      .takeUntil(this._ngUnsubscribe$)
       .switchMap(r => _armService.get(`${r}/slots`))
       .subscribe(r => {
         const slots = r.json().value;
-        console.log(slots);
         this.ExistingDeploymentSlotsList = slots.filter(slot => slot.name !== 'production').map(slot => {
           const slotName: string = slot.name.split('/')[1];
           return {
@@ -48,7 +47,7 @@ export class StepDeploymentSlotComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this._ngUnsubscribe.next();
+    this._ngUnsubscribe$.next();
   }
 
 }

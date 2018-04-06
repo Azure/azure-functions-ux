@@ -22,13 +22,13 @@ import { TranslateService } from '@ngx-translate/core';
 export class ConfigureVstsSourceComponent implements OnDestroy {
 
     chosenBuildFramework: string;
-    public AccountList: DropDownElement<string>[];
-    public ProjectList: DropDownElement<string>[];
-    public RepositoryList: DropDownElement<string>[];
-    public BranchList: DropDownElement<string>[];
-    private _ngUnsubscribe = new Subject();
+    public accountList: DropDownElement<string>[];
+    public projectList: DropDownElement<string>[];
+    public repositoryList: DropDownElement<string>[];
+    public branchList: DropDownElement<string>[];
+    private _ngUnsubscribe$ = new Subject();
 
-    private vstsRepositories: VSORepo[];
+    private _vstsRepositories: VSORepo[];
 
     // Subscriptions
     private _memberIdSubscription = new Subject();
@@ -46,7 +46,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
         this.setupSubscriptions();
         this.populate();
-        this.wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this.populate();
         });
         this.updateFormValidation();
@@ -68,7 +68,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     setupSubscriptions() {
         this._memberIdSubscription
-            .takeUntil(this._ngUnsubscribe)
+            .takeUntil(this._ngUnsubscribe$)
             .switchMap(() => this._cacheService.get('https://app.vssps.visualstudio.com/_apis/profile/profiles/me'))
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
@@ -85,10 +85,10 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             })
             .subscribe(
                 r => {
-                    this.vstsRepositories = [];
+                    this._vstsRepositories = [];
                     r.forEach(repoList => {
                         repoList.forEach(repo => {
-                            this.vstsRepositories.push({
+                            this._vstsRepositories.push({
                                 name: repo.name,
                                 remoteUrl: repo.remoteUrl,
                                 account: repo.remoteUrl.split('.')[0].replace('https://', ''),
@@ -97,8 +97,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                             });
                         });
                     });
-                    this.AccountList = _.uniqBy(
-                        this.vstsRepositories.map(repo => {
+                    this.accountList = _.uniqBy(
+                        this._vstsRepositories.map(repo => {
                             return {
                                 displayLabel: repo.account,
                                 value: repo.account
@@ -113,10 +113,10 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             );
 
         this._branchSubscription
-            .takeUntil(this._ngUnsubscribe)
+            .takeUntil(this._ngUnsubscribe$)
             .switchMap(repoUri => {
                 if (repoUri) {
-                    const repoObj = _.first(this.vstsRepositories.filter(x => x.remoteUrl === repoUri));
+                    const repoObj = _.first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri));
                     const repoId = repoObj.id;
                     const account = repoObj.account;
                     return this._cacheService.get(
@@ -132,7 +132,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                 r => {
                     if (r) {
                         const branchList = r.json().value;
-                        this.BranchList = branchList.map(x => {
+                        this.branchList = branchList.map(x => {
                             const item: DropDownElement<string> = {
                                 displayLabel: x.name.replace('refs/heads/', ''),
                                 value: x.name.replace('refs/heads/', '')
@@ -140,11 +140,11 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                             return item;
                         });
                     } else {
-                        this.BranchList = [];
+                        this.branchList = [];
                     }
                 },
                 err => {
-                    this.BranchList = [];
+                    this.branchList = [];
                     this._logService.error(LogCategories.cicd, '/fetch-vso-branches', err);
                 }
             );
@@ -163,8 +163,8 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     accountChanged(accountName: DropDownElement<string>) {
-        this.ProjectList = _.uniqBy(
-            this.vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
+        this.projectList = _.uniqBy(
+            this._vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
                 return {
                     displayLabel: repo.project.name,
                     value: repo.project.name
@@ -174,13 +174,13 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         );
         this.selectedProject = '';
         this.selectedRepo = '';
-        this.BranchList = [];
+        this.branchList = [];
         this.selectedBranch = '';
     }
 
     projectChanged(projectName: DropDownElement<string>) {
-        this.RepositoryList = _.uniqBy(
-            this.vstsRepositories.filter(r => r.project.name === projectName.value).map(repo => {
+        this.repositoryList = _.uniqBy(
+            this._vstsRepositories.filter(r => r.project.name === projectName.value).map(repo => {
                 return {
                     displayLabel: repo.name,
                     value: repo.remoteUrl
@@ -189,7 +189,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             'value'
         );
         this.selectedRepo = '';
-        this.BranchList = [];
+        this.branchList = [];
         this.selectedBranch = '';
     }
 
@@ -199,6 +199,6 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 }

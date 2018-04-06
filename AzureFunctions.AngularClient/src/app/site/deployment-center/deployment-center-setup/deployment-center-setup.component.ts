@@ -106,7 +106,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
-            this._wizardService.resourceIdStream.next(this.resourceId);
+            this._wizardService.resourceIdStream$.next(this.resourceId);
         }
     }
 

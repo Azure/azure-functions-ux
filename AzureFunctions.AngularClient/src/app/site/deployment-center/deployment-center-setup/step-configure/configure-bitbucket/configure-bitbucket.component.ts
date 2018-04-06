@@ -21,8 +21,8 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     public RepoList: DropDownElement<string>[];
     public BranchList: DropDownElement<string>[];
 
-    private reposStream = new ReplaySubject<string>();
-    private _ngUnsubscribe = new Subject();
+    private reposStream$ = new ReplaySubject<string>();
+    private _ngUnsubscribe$ = new Subject();
     private repoUrlToNameMap: { [key: string]: string } = {};
 
     selectedRepo = '';
@@ -40,7 +40,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
         _aiService: AiService,
         private _translateService: TranslateService
     ) {
-        this.reposStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.reposStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this.fetchBranches(r);
         });
         this.branchesLoading = true;
@@ -119,10 +119,10 @@ export class ConfigureBitbucketComponent implements OnDestroy {
     }
 
     RepoChanged(repo: DropDownElement<string>) {
-        this.reposStream.next(this.repoUrlToNameMap[repo.value]);
+        this.reposStream$.next(this.repoUrlToNameMap[repo.value]);
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 }

@@ -26,8 +26,8 @@ export class ConfigureGithubComponent implements OnDestroy {
     public BranchList: DropDownElement<string>[];
 
     private reposStream = new ReplaySubject<string>();
-    private _ngUnsubscribe = new Subject();
-    private orgStream = new ReplaySubject<string>();
+    private _ngUnsubscribe$ = new Subject();
+    private orgStream$ = new ReplaySubject<string>();
     public reposLoading = false;
     public branchesLoading = false;
 
@@ -42,11 +42,11 @@ export class ConfigureGithubComponent implements OnDestroy {
         private _logService: LogService,
         private _translateService: TranslateService
     ) {
-        this.orgStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.orgStream$.takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this.reposLoading = true;
             this.fetchRepos(r);
         });
-        this.reposStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.reposStream.takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this.branchesLoading = true;
             this.fetchBranches(r);
         });
@@ -232,13 +232,13 @@ export class ConfigureGithubComponent implements OnDestroy {
     }
 
     OrgChanged(org: DropDownElement<string>) {
-        this.orgStream.next(org.value);
+        this.orgStream$.next(org.value);
         this.selectedRepo = '';
         this.selectedBranch = '';
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 
     private _getLastPage(links) {

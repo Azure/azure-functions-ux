@@ -36,8 +36,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     @ViewChild(TblComponent) appTable: TblComponent;
     private _tableItems: KuduTableItem[];
 
-    public viewInfoStream: Subject<string>;
-    _viewInfoSubscription: RxSubscription;
+    public viewInfoStream$: Subject<string>;
+    _viewInfoSubscription$: RxSubscription;
     _writePermission = true;
     _readOnlyLock = false;
     public hasWritePermissions = true;
@@ -47,7 +47,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     private _busyManager: BusyStateScopeManager;
     private _forceLoad = false;
     public sidePanelOpened = false;
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
     private _oldTableHash = 0;
     constructor(
         _portalService: PortalService,
@@ -59,8 +59,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     ) {
         this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
         this._tableItems = [];
-        this.viewInfoStream = new Subject<string>();
-        this._viewInfoSubscription = this.viewInfoStream
+        this.viewInfoStream$ = new Subject<string>();
+        this._viewInfoSubscription$ = this.viewInfoStream$
             .switchMap(resourceId => {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId, this._forceLoad),
@@ -119,8 +119,8 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
             );
 
         //refresh automatically every 5 seconds
-        Observable.timer(5000, 5000).takeUntil(this._ngUnsubscribe).subscribe(() => {
-            this.viewInfoStream.next(this.resourceId);
+        Observable.timer(5000, 5000).takeUntil(this._ngUnsubscribe$).subscribe(() => {
+            this.viewInfoStream$.next(this.resourceId);
         });
     }
 
@@ -175,7 +175,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
             this._busyManager.setBusy();
-            this.viewInfoStream.next(this.resourceId);
+            this.viewInfoStream$.next(this.resourceId);
         }
     }
 
@@ -220,7 +220,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         this._busyManager.setBusy();
         this._cacheService.postArm(`${this.resourceId}/sync`, true).subscribe(
             r => {
-                this.viewInfoStream.next(this.resourceId);
+                this.viewInfoStream$.next(this.resourceId);
             },
             err => {
                 this._busyManager.clearBusy();
@@ -237,7 +237,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
     refresh() {
         this._busyManager.setBusy();
-        this.viewInfoStream.next(this.resourceId);
+        this.viewInfoStream$.next(this.resourceId);
     }
 
     details(item: KuduTableItem) {
@@ -270,7 +270,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 
     tableItemTackBy(index: number, item: KuduTableItem) {

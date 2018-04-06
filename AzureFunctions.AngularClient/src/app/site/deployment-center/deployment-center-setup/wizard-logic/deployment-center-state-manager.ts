@@ -16,11 +16,11 @@ import { PortalService } from '../../../../shared/services/portal.service';
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
 
-    public resourceIdStream = new ReplaySubject<string>(1);
+    public resourceIdStream$ = new ReplaySubject<string>(1);
     public wizardForm: FormGroup = new FormGroup({});
     private _resourceId = '';
     private _location = '';
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
     private _token: string;
     private _vstsApiToken: string;
     private _pricingTier: string;
@@ -29,7 +29,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         private _armService: ArmService,
         private _userService: UserService,
         portalService: PortalService) {
-        this.resourceIdStream.switchMap(r => {
+        this.resourceIdStream$.switchMap(r => {
             this._resourceId = r;
             return this._armService.get(this._resourceId)
         })
@@ -38,7 +38,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
                 this._pricingTier = s.json().properties.sku;
             });
 
-        this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this._token = r.token;
         });
         portalService.getAdToken('azureTfsApi')
@@ -257,7 +257,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             provider: DeploymentTargetProvider.Azure,
             type: AzureResourceType.WindowsAppService,
             environmentType: TargetEnvironmentType.Test,
-            friendlyName: 'Load Test',
+            friendlyName: 'Load Test', //DO NOT CHANGE THIS, it looks like it should be localized but it shouldn't. It's needed by VSTS
             subscriptionId: siteDescriptor.subscription,
             subscriptionName: '',
             tenantId: tid,
@@ -318,7 +318,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 
     resetSection(formGroup: FormGroup) {

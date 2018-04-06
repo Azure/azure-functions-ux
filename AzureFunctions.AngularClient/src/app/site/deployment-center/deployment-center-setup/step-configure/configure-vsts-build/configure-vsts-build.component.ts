@@ -71,7 +71,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     { value: 'Flask', displayLabel: 'Flask' }
   ];
 
-  WebApplicationFrameworks: DropDownElement<string>[] = [
+  webApplicationFrameworks: DropDownElement<string>[] = [
     {
       displayLabel: 'ASP.NET',
       value: WebAppFramework.AspNetWap
@@ -98,13 +98,13 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     }
   ];
 
-  public NewVsoAccountOptions: SelectOption<boolean>[];
-  private _ngUnsubscribe = new Subject();
+  public newVsoAccountOptions: SelectOption<boolean>[];
+  private _ngUnsubscribe$ = new Subject();
 
   public vstsRegionList = [];
-  public AccountList: DropDownElement<string>[];
-  public ProjectList: DropDownElement<string>[];
-  public LocationList: DropDownElement<string>[];
+  public accountList: DropDownElement<string>[];
+  public projectList: DropDownElement<string>[];
+  public locationList: DropDownElement<string>[];
 
   private vsoAccountToProjectMap: { [key: string]: DropDownElement<string>[] } = {};
 
@@ -123,7 +123,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     private _logService: LogService
   ) {
 
-    this.NewVsoAccountOptions =
+    this.newVsoAccountOptions =
       [{ displayLabel: this._translateService.instant(PortalResources.new), value: true },
       { displayLabel: this._translateService.instant(PortalResources.existing), value: false }];
 
@@ -167,7 +167,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
       .map(r => r.json())
       .switchMap(r => this.fetchAccounts(r.id))
       .switchMap(r => {
-        this.AccountList =
+        this.accountList =
           r.map(account => {
             return {
               displayLabel: account.accountName,
@@ -209,7 +209,7 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     this._cacheService.get(DeploymentCenterConstants.vstsRegionsApi, true, this.wizard.getVstsDirectHeaders())
       .subscribe(r => {
         const locationArray: any[] = r.json().value;
-        this.LocationList = locationArray.map(v => {
+        this.locationList = locationArray.map(v => {
           return {
             displayLabel: v.displayName,
             value: v.regionCode
@@ -241,12 +241,12 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
     this.setUpformValidators();
   }
   accountChanged(accountName: DropDownElement<string>) {
-    this.ProjectList = this.vsoAccountToProjectMap[accountName.value];
+    this.projectList = this.vsoAccountToProjectMap[accountName.value];
     this.selectedProject = '';
   }
 
   ngOnDestroy(): void {
-    this._ngUnsubscribe.next();
+    this._ngUnsubscribe$.next();
     this.removeFormValidators();
   }
 }
