@@ -9,11 +9,13 @@ import { AiService } from 'app/shared/services/ai.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Subject } from 'rxjs/Subject';
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-configure-bitbucket',
     templateUrl: './configure-bitbucket.component.html',
-    styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-bitbucket.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureBitbucketComponent implements OnDestroy {
     public RepoList: DropDownElement<string>[];
@@ -21,46 +23,73 @@ export class ConfigureBitbucketComponent implements OnDestroy {
 
     private reposStream = new ReplaySubject<string>();
     private _ngUnsubscribe = new Subject();
+    private repoUrlToNameMap: { [key: string]: string } = {};
+
+    selectedRepo = '';
+    selectedBranch = '';
+
+    public reposLoading = false;
+    public branchesLoading = false;
 
     constructor(
-        private _wizard: DeploymentCenterStateManager,
+        public wizard: DeploymentCenterStateManager,
         _portalService: PortalService,
         private _cacheService: CacheService,
         private _logService: LogService,
         _armService: ArmService,
-        _aiService: AiService
+        _aiService: AiService,
+        private _translateService: TranslateService
     ) {
         this.reposStream.takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.fetchBranches(r);
         });
+        this.branchesLoading = true;
         this.fetchRepos();
+        this.updateFormValidation();
+    }
+
+    updateFormValidation() {
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('isMercurial').setValidators([]);
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
 
     fetchRepos() {
         this.RepoList = [];
+        this.reposLoading = true;
         this._cacheService
             .post(Constants.serviceHost + `api/bitbucket/passthrough?repo=`, true, null, {
                 url: `${DeploymentCenterConstants.bitbucketApiUrl}/repositories?role=admin`
             })
             .subscribe(
                 r => {
+                    this.reposLoading = false;
                     const newRepoList: DropDownElement<string>[] = [];
+                    this.repoUrlToNameMap = {};
                     r.json().values.forEach(repo => {
+                        const repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo.full_name}`;
                         newRepoList.push({
                             displayLabel: repo.name,
-                            value: repo.full_name
+                            value: repoUrl
                         });
+                        this.repoUrlToNameMap[repoUrl] = repo.full_name;
                     });
 
                     this.RepoList = newRepoList;
                 },
                 err => {
+                    this.reposLoading = false;
                     this._logService.error(LogCategories.cicd, '/fetch-bitbucket-repos', err);
                 }
             );
     }
 
     fetchBranches(repo: string) {
+        this.branchesLoading = true;
         if (repo) {
             this.BranchList = [];
             this._cacheService
@@ -69,6 +98,7 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                 })
                 .subscribe(
                     r => {
+                        this.branchesLoading = false;
                         const newBranchList: DropDownElement<string>[] = [];
 
                         r.json().values.forEach(branch => {
@@ -81,19 +111,15 @@ export class ConfigureBitbucketComponent implements OnDestroy {
                         this.BranchList = newBranchList;
                     },
                     err => {
+                        this.branchesLoading = false;
                         this._logService.error(LogCategories.cicd, '/fetch-bitbucket-branches', err);
                     }
                 );
         }
     }
 
-    RepoChanged(repo: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${repo}`;
-        this.reposStream.next(repo);
-    }
-
-    BranchChanged(branch: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = `${DeploymentCenterConstants.bitbucketUrl}/${branch}`;
+    RepoChanged(repo: DropDownElement<string>) {
+        this.reposStream.next(this.repoUrlToNameMap[repo.value]);
     }
 
     ngOnDestroy(): void {

@@ -12,62 +12,17 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { LogService } from 'app/shared/services/log.service';
 import { LogCategories } from 'app/shared/models/constants';
-export const PythonFramework = {
-    Bottle: 'Bottle',
-    Django: 'Django',
-    Flask: 'Flask'
-};
+import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
+import { TranslateService } from '@ngx-translate/core';
 
-export const TaskRunner = {
-    None: 'None',
-    Gulp: 'Gulp',
-    Grunt: 'Grunt'
-};
-
-export const WebAppFramework = {
-    AspNetWap: 'AspNetWap',
-    AspNetCore: 'AspNetCore',
-    Node: 'Node',
-    PHP: 'PHP',
-    Python: 'Python'
-};
-
-export class VSTSRepository {
-    name: string;
-    account: string;
-    remoteUrl: string;
-    projectName: string;
-    id: string;
-}
 
 @Component({
     selector: 'app-configure-vsts-source',
     templateUrl: './configure-vsts-source.component.html',
-    styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss']
+    styleUrls: ['./configure-vsts-source.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureVstsSourceComponent implements OnDestroy {
-    WebApplicationFrameworks: DropDownElement<string>[] = [
-        {
-            displayLabel: 'ASP.NET',
-            value: WebAppFramework.AspNetWap
-        },
-        {
-            displayLabel: 'ASP.NET Core',
-            value: WebAppFramework.AspNetCore
-        },
-        {
-            displayLabel: 'Node.JS',
-            value: WebAppFramework.Node
-        },
-        {
-            displayLabel: 'PHP',
-            value: WebAppFramework.PHP
-        },
-        {
-            displayLabel: 'Python',
-            value: WebAppFramework.Python
-        }
-    ];
+
     chosenBuildFramework: string;
     public AccountList: DropDownElement<string>[];
     public ProjectList: DropDownElement<string>[];
@@ -78,22 +33,44 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     private vstsRepositories: VSORepo[];
 
-    //Subscriptions
+    // Subscriptions
     private _memberIdSubscription = new Subject();
     private _branchSubscription = new Subject<string>();
-    constructor(private _wizard: DeploymentCenterStateManager, private _cacheService: CacheService, private _userService: UserService, private _logService: LogService) {
+
+    public selectedAccount = '';
+    public selectedProject = '';
+    public selectedRepo = '';
+    public selectedBranch = '';
+
+    constructor(public wizard: DeploymentCenterStateManager,
+        private _cacheService: CacheService,
+        private _userService: UserService,
+        private _logService: LogService,
+        private _translateService: TranslateService) {
+
         this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.token = r.token;
         });
         this.setupSubscriptions();
         this.populate();
-        this._wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().takeUntil(this._ngUnsubscribe).subscribe(r => {
+        this.wizard.wizardForm.controls.buildProvider.valueChanges.distinctUntilChanged().takeUntil(this._ngUnsubscribe).subscribe(r => {
             this.populate();
         });
+        this.updateFormValidation();
     }
 
     private populate() {
         this._memberIdSubscription.next();
+    }
+
+    updateFormValidation() {
+        const required = new RequiredValidator(this._translateService, false);
+        this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('isMercurial').setValidators(required.validate.bind(required));
+        this.wizard.sourceSettings.get('repoUrl').updateValueAndValidity();
+        this.wizard.sourceSettings.get('branch').updateValueAndValidity();
+        this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
 
     setupSubscriptions() {
@@ -103,7 +80,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .map(r => r.json())
             .switchMap(r => this.fetchAccounts(r.id))
             .switchMap(r => {
-                let projectCalls: Observable<VSORepo[]>[] = [];
+                const projectCalls: Observable<VSORepo[]>[] = [];
                 r.forEach(account => {
                     projectCalls.push(
                         this._cacheService
@@ -145,27 +122,36 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         this._branchSubscription
             .takeUntil(this._ngUnsubscribe)
             .switchMap(repoUri => {
-                const repoObj = _.first(this.vstsRepositories.filter(x => x.remoteUrl === repoUri));
-                const repoId = repoObj.id;
-                const account = repoObj.account;
-                return this._cacheService.get(
-                    `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
-                    true,
-                    this.getHeaders()
-                );
+                if (repoUri) {
+                    const repoObj = _.first(this.vstsRepositories.filter(x => x.remoteUrl === repoUri));
+                    const repoId = repoObj.id;
+                    const account = repoObj.account;
+                    return this._cacheService.get(
+                        `https://${account}.visualstudio.com/DefaultCollection/_apis/git/repositories/${repoId}/refs/heads?api-version=1.0`,
+                        true,
+                        this.getHeaders()
+                    );
+                } else {
+                    return Observable.of(null);
+                }
             })
             .subscribe(
                 r => {
-                    const branchList = r.json().value;
-                    this.BranchList = branchList.map(x => {
-                        const item: DropDownElement<string> = {
-                            displayLabel: x.name.replace('refs/heads/', ''),
-                            value: x.name.replace('refs/heads/', '')
-                        };
-                        return item;
-                    });
+                    if (r) {
+                        const branchList = r.json().value;
+                        this.BranchList = branchList.map(x => {
+                            const item: DropDownElement<string> = {
+                                displayLabel: x.name.replace('refs/heads/', ''),
+                                value: x.name.replace('refs/heads/', '')
+                            };
+                            return item;
+                        });
+                    } else {
+                        this.BranchList = [];
+                    }
                 },
                 err => {
+                    this.BranchList = [];
                     this._logService.error(LogCategories.cicd, '/fetch-vso-branches', err);
                 }
             );
@@ -175,7 +161,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         const accountsUrl = `https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId=${memberId}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline`;
         return this._cacheService.get(accountsUrl, true, this.getHeaders()).switchMap(r => {
             const accounts = r.json().value as VSOAccount[];
-            if (this._wizard.wizardForm.controls.buildProvider.value === 'kudu') {
+            if (this.wizard.wizardForm.controls.buildProvider.value === 'kudu') {
                 return Observable.of(accounts.filter(x => x.isAccountOwner));
             } else {
                 return Observable.of(accounts);
@@ -183,9 +169,9 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         });
     }
 
-    accountChanged(accountName: string) {
+    accountChanged(accountName: DropDownElement<string>) {
         this.ProjectList = _.uniqBy(
-            this.vstsRepositories.filter(r => r.account === accountName).map(repo => {
+            this.vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
                 return {
                     displayLabel: repo.project.name,
                     value: repo.project.name
@@ -193,11 +179,15 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             }),
             'value'
         );
+        this.selectedProject = '';
+        this.selectedRepo = '';
+        this.BranchList = [];
+        this.selectedBranch = '';
     }
 
-    projectChanged(projectName: string) {
+    projectChanged(projectName: DropDownElement<string>) {
         this.RepositoryList = _.uniqBy(
-            this.vstsRepositories.filter(r => r.project.name === projectName).map(repo => {
+            this.vstsRepositories.filter(r => r.project.name === projectName.value).map(repo => {
                 return {
                     displayLabel: repo.name,
                     value: repo.remoteUrl
@@ -205,15 +195,14 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             }),
             'value'
         );
+        this.selectedRepo = '';
+        this.BranchList = [];
+        this.selectedBranch = '';
     }
 
-    repoChanged(repoUri: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.repoUrl = repoUri;
-        this._branchSubscription.next(repoUri);
-    }
-
-    branchChanged(branch: string) {
-        this._wizard.wizardForm.controls.sourceSettings.value.branch = branch;
+    repoChanged(repoUri: DropDownElement<string>) {
+        this._branchSubscription.next(repoUri.value);
+        this.selectedBranch = '';
     }
 
     private getHeaders(): Headers {
@@ -223,14 +212,6 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
         headers.append('Authorization', `Bearer ${this.token}`);
         headers.append('X-VSS-ForceMsaPassThrough', 'true');
         return headers;
-    }
-
-    frameworkChanged(framework) {
-        this.chosenBuildFramework = framework;
-    }
-
-    get showWorkingDirectory() {
-        return true;
     }
 
     ngOnDestroy(): void {

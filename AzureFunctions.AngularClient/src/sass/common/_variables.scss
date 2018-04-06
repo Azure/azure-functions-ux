@@ -41,7 +41,7 @@ $top-bar-height: 40px;
 $disabled-color: rgba(#7f7f7f, .7);
 $disabled-color-dark: lighten($body-bg-color-dark, 10%);
 
-$border-color: darken($chrome-color, 10%);
+$border-color: #bbb;
 
 $item-selected-color: #e1efff;
 $item-selected-color-dark: lighten($body-bg-color-dark, 20%);
@@ -113,3 +113,8 @@ $errors-warnings-table-row-hover-color-dark: darken($errors-warnings-table-backg
 $severity-error-color: red;
 $severity-warnings-color: orange;
 $severity-info-color: steelblue;
+
+$black_shadow: rgba(0, 0, 0, 0.075);
+
+$control-error-color-light: #b40e1b;
+$control-error-color-dark: #f88;
