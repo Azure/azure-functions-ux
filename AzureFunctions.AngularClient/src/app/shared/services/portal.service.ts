@@ -55,7 +55,7 @@ export class PortalService {
 
     constructor(private _broadcastService: BroadcastService,
         private _aiService: AiService,
-        private configService: ConfigService) {
+        private _configService: ConfigService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
@@ -307,8 +307,8 @@ export class PortalService {
     private iframeReceivedMsg(event: Event): void {
         if (!event || !event.data) {
             return;
-        } else if (!this.configService.isOnPrem()
-                    && !this.configService.isStandalone()
+        } else if (!this._configService.isOnPrem()
+                    && !this._configService.isStandalone()
                     && !this.acceptedOriginsSuffix.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
             return;
         } else if (!this.acceptedSignatures.find(s => event.data.signature !== s)) {
