@@ -74,8 +74,7 @@ export const routes = RouterModule.forRoot([
     // /devguide
     {
         path: 'devguide',
-        loadChildren: 'app/dev-guide/dev-guide.module#DevGuideModule',
-        resolve: { info: InitResolver }
+        loadChildren: 'app/dev-guide/dev-guide.module#DevGuideModule'
     }
 
 ]);
