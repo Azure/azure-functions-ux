@@ -100,9 +100,6 @@ app.post('/api/proxy', proxy);
 app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
-app.get('/api/token', (_, res) => {
-    res.status(200).send("success")
-});
 setupDeploymentCenter(app);
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.
