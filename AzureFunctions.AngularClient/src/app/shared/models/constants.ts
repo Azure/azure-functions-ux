@@ -211,6 +211,7 @@ export class ScenarioIds {
     public static readonly listExtensionsArm = 'ListExtensionsArm';
     public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
     public static readonly disabledBindings = 'disabledBindings';
+    public static readonly monitoring = 'monitoring';
 }
 
 export class ServerFarmSku {

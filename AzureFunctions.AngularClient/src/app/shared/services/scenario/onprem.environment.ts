@@ -20,6 +20,14 @@ export class OnPremEnvironment extends Environment {
                 return { status: 'enabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
+            id: ScenarioIds.enableAppInsights,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
