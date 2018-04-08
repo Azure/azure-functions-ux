@@ -20,6 +20,7 @@ export interface ProviderCard {
     description: string;
     authorizedStatus: 'loadingAuth' | 'notAuthorized' | 'authorized' | 'none';
     authenticatedId?: string;
+    manual?: boolean;
 }
 
 @Component({
@@ -91,24 +92,36 @@ export class StepSourceControlComponent {
             barColor: '#f0757a',
             description: this._translateService.instant('localGitDesc'),
             authorizedStatus: 'none'
-        }
+        },
+        {
+            id: 'webdeploy',
+            name: 'Web Deploy',
+            icon: 'image/deployment-center/WebDeploy.svg',
+            color: '#B8D432',
+            barColor: '#dbe998',
+            description: 'use ms deploy',
+            authorizedStatus: 'none',
+            manual: true
+        },
+        {
+            id: 'ftp',
+            name: 'FTP',
+            icon: 'image/deployment-center/FTP.svg',
+            color: '#FCD116',
+            barColor: '#fde88a',
+            description: 'Use an FTP connection to access and copy app files.',
+            authorizedStatus: 'none',
+            manual: true
+        }//,
         // {
-        //     id: 'webdeploy',
-        //     name: 'Web Deploy',
-        //     icon: 'image/deployment-center/WebDeploy.svg',
-        //     color: '#B8D432',
-        //     barColor: '#dbe998',
-        //     description: 'use ms deploy',
-        //     authorizedStatus: 'none'
-        // },
-        // {
-        //     id: 'ftp',
-        //     name: 'FTP',
+        //     id: 'zip',
+        //     name: 'Run From Zip',
         //     icon: 'image/deployment-center/FTP.svg',
         //     color: '#FCD116',
         //     barColor: '#fde88a',
-        //     description: 'Use an FTP connection to access and copy app files.',
-        //     authorizedStatus: 'none'
+        //     description: 'Use the run from zip method of deployment.',
+        //     authorizedStatus: 'none',
+        //     manual: true
         // }
     ];
 
@@ -249,6 +262,7 @@ export class StepSourceControlComponent {
         this.selectedProvider = card;
         const currentFormValues = this._wizardService.wizardValues;
         currentFormValues.sourceProvider = card.id;
+        currentFormValues.buildProvider = 'kudu'; // Not all providers are supported by VSTS, however all providers are supported by kudu so this is a safe default
         this._wizardService.wizardValues = currentFormValues;
     }
 

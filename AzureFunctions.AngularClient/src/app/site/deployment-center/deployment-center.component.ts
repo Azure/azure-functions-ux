@@ -31,6 +31,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     public resourceId: string;
     public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     public viewInfo: TreeViewInfo<SiteData>;
+    public dashboardOverride = '';
     @Input()
     set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.viewInfo = viewInfo;
@@ -89,9 +90,13 @@ export class DeploymentCenterComponent implements OnDestroy {
             .subscribe(this.refreshedSCMType.bind(this));
     }
 
-    refreshedSCMType() {
-        this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
-        this.viewInfoStream.next(this.viewInfo);
+    refreshedSCMType(provider: string) {
+        if(provider) {
+            this.dashboardOverride = provider;
+        } else {
+            this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
+            this.viewInfoStream.next(this.viewInfo);
+        }
     }
 
     get kuduDeploymentSetup() {

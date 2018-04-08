@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
@@ -20,7 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './step-complete.component.html',
     styleUrls: ['./step-complete.component.scss', '../deployment-center-setup.component.scss']
 })
-export class StepCompleteComponent implements OnInit {
+export class StepCompleteComponent {
     resourceId: string;
     private _busyManager: BusyStateScopeManager;
     private _ngUnsubscribe$ = new Subject();
@@ -82,6 +82,10 @@ export class StepCompleteComponent implements OnInit {
         );
     }
 
+    ShowDashboard() {
+        this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, this.wizard.wizardValues.sourceProvider);
+    }
+
     public get summaryItems(): summaryItem[] {
         const summaryItems: summaryItem[] = [];
         const sourceProvider: sourceControlProvider = this.wizard.wizardValues.sourceProvider;
@@ -128,5 +132,13 @@ export class StepCompleteComponent implements OnInit {
 
         return summaryItems;
     }
-    ngOnInit() { }
+
+    showSave(): boolean{
+        return !this.showDashboard;
+    }
+
+    get showDashboard(): boolean {
+        const sourceProvider: sourceControlProvider = this.wizard.wizardValues.sourceProvider;
+        return sourceProvider === 'ftp' || sourceProvider === 'webdeploy';
+    }
 }

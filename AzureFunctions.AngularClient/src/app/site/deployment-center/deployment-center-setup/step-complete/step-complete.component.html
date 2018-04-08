@@ -20,4 +20,5 @@
 <div class="footer">
   <button type="button" class="custom-button form-button" previousStep>{{'back' | translate}}</button>
   <button type="button" class="custom-button form-button" (click)="Save()">{{'finish' | translate}}</button>
+  <button type="button" *ngIf="showDashboard" class="custom-button form-button" (click)="ShowDashboard()">{{'showDashboard' | translate}}</button>
 </div>

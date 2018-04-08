@@ -23,6 +23,9 @@ import { ConfigureExternalComponent } from './deployment-center-setup/step-confi
 import { ConfigureBitbucketComponent } from './deployment-center-setup/step-configure/configure-bitbucket/configure-bitbucket.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfigureLocalGitComponent } from './deployment-center-setup/step-configure/configure-local-git/configure-local-git.component';
+import { FtpDashboardComponent } from './provider-dashboards/ftp-dashboard/ftp-dashboard.component';
+import { WebDeployDashboardComponent } from './provider-dashboards/web-deploy-dashboard/web-deploy-dashboard.component';
+import { ReadFromZipDashboardComponent } from './provider-dashboards/read-from-zip-dashboard/read-from-zip-dashboard.component';
 
 @NgModule({
     entryComponents: [DeploymentCenterComponent],
@@ -45,7 +48,10 @@ import { ConfigureLocalGitComponent } from './deployment-center-setup/step-confi
         ConfigureVstsBuildComponent,
         ConfigureExternalComponent,
         ConfigureBitbucketComponent,
-        ConfigureLocalGitComponent
+        ConfigureLocalGitComponent,
+        FtpDashboardComponent,
+        WebDeployDashboardComponent,
+        ReadFromZipDashboardComponent
     ],
     imports: [TranslateModule.forChild(), NgSelectModule, SharedModule, SidebarModule, WizardModule],
     exports: [DeploymentCenterComponent]
