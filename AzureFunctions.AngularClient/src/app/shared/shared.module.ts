@@ -69,6 +69,7 @@ import { PlanService } from './services/plan.service';
 import { AseService } from './services/ase.service';
 import { BillingService } from './services/billing.service';
 import { InvalidmessageDirective } from './directives/invalid-control-message.directive';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 export function ArmServiceFactory(
     http: Http,
@@ -132,6 +133,7 @@ export function AiServiceFactory() {
     exports: [
         CommonModule,
         FormsModule,
+        NgSelectModule,
         ReactiveFormsModule,
         MultiDropDownComponent,
         TopBarComponent,
@@ -174,6 +176,7 @@ export function AiServiceFactory() {
         CommonModule,
         ReactiveFormsModule,
         TranslateModule.forChild(),
+        NgSelectModule
     ]
 })
 export class SharedModule {

@@ -1,0 +1,18 @@
+<section class="example">
+  <h2>Dropdown</h2>
+  <div [formGroup]="FormGroupExample" novalidate>
+    <ng-select class="custom-select" [items]="items" bindLabel="displayLabel" bindValue="value" placeholder="Select source" [(ngModel)]="chosenValue"
+      formControlName="sourceProvider">
+    </ng-select>
+  </div>
+  <figure>
+    <label>HTML</label>
+    <pre class="language-typescript">
+        <code [innerHTML]="htmlCode" ></code>
+    </pre>
+    <label>TypeScript</label>
+    <pre class="language-typescript">
+      <code [innerHTML]="typescriptCode" ></code>
+  </pre>
+  </figure>
+</section>
