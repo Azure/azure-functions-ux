@@ -20,54 +20,13 @@
         </tbl>
     </div>
     <figure>
-        <label>HTML</label>
-        <pre>
-
-    &lt;tbl [items]=&quot;groupArray.controls&quot; #table=&quot;tbl&quot; name=&quot;Editable table&quot;&gt;
-        &lt;tr&gt;&lt;th colspan=&quot;2&quot;&gt;&lt;/th&gt;&lt;/tr&gt;
-        &lt;tr *ngFor=&quot;let group of table.items&quot;&gt;
-            &lt;td&gt;
-                &lt;click-to-edit [group]=&quot;group&quot; name=&quot;name&quot;&gt;
-                    &lt;textbox [control]=&quot;group.controls['name']&quot;&gt;&lt;/textbox&gt;
-                &lt;/click-to-edit&gt;
-            &lt;/td&gt;
-            &lt;td&gt;
-                &lt;click-to-edit [group]=&quot;group&quot; name=&quot;value&quot;&gt;
-                    &lt;textbox [control]=&quot;group.controls['value']&quot;&gt;&lt;/textbox&gt;
-                &lt;/click-to-edit&gt;
-                &lt;/td&gt;
-            &lt;/tr&gt;
-    &lt;/tbl&gt;
-        </pre>
-
-        <label>TypeScript</label>
-        <pre>
-
-    export class EditableTblExampleComponent {{ '{' }}
-        @ViewChild('table') table: TblComponent;
-    
-        public groupArray: FormArray;
-    
-        constructor(private _fb: FormBuilder, private _translateService: TranslateService) {{ '{' }}
-            this.groupArray = this._fb.array([]);
-            const requiredValidator = new RequiredValidator(this._translateService);
-    
-            this.groupArray.push(this._fb.group({{ '{' }}
-                name: ['a', requiredValidator.validate.bind(requiredValidator)],
-                value: ['1', requiredValidator.validate.bind(requiredValidator)]
-            {{ '}' }}));
-    
-            this.groupArray.push(this._fb.group({{ '{' }}
-                name: ['b', requiredValidator.validate.bind(requiredValidator)],
-                value: ['2', requiredValidator.validate.bind(requiredValidator)]
-            {{ '}' }}));
-    
-            this.groupArray.push(this._fb.group({{ '{' }}
-                name: ['c', requiredValidator.validate.bind(requiredValidator)],
-                value: ['3', requiredValidator.validate.bind(requiredValidator)]
-            {{ '}' }}));
-        {{ '}' }}
-    {{ '}' }}
-        </pre>
+            <label>HTML</label>
+            <pre class="language-html">
+                <code [innerHTML]="htmlCode" ></code>
+            </pre>
+            <label>TypeScript</label>
+            <pre class="language-typescript">
+              <code [innerHTML]="typescriptCode" ></code>
+          </pre>
     </figure>
 </section>

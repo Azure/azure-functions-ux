@@ -1,7 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
-
-import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable} from '@angular/core';
 
 import 'prismjs';
 import 'prismjs/plugins/toolbar/prism-toolbar';
@@ -13,13 +10,7 @@ declare var Prism: any;
 @Injectable()
 export class HighlightService {
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
-
-    highlightAll() {
-        if (isPlatformBrowser(this.platformId)) {
-            Prism.highlightAll();
-        }
-    }
+    constructor() { }
 
     highlightString(s: string, l: 'typescript' | 'scss' | 'html'): string {
         if (l === 'typescript') {
