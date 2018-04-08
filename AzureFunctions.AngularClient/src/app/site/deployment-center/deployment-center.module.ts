@@ -10,7 +10,6 @@ import { StepDeploymentSlotComponent } from 'app/site/deployment-center/deployme
 import { StepBuildProviderComponent } from 'app/site/deployment-center/deployment-center-setup/step-build-provider/step-build-provider.component';
 import { StepCompleteComponent } from 'app/site/deployment-center/deployment-center-setup/step-complete/step-complete.component';
 import { StepConfigureComponent } from 'app/site/deployment-center/deployment-center-setup/step-configure/step-configure.component';
-import { SidebarModule } from 'ng-sidebar';
 import { DeploymentDetailComponent } from 'app/site/deployment-center/provider-dashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
 import { StepTestComponent } from 'app/site/deployment-center/deployment-center-setup/step-test/step-test.component';
 import { WizardModule } from 'app/controls/form-wizard/wizard.module';
@@ -46,7 +45,7 @@ import { ConfigureLocalGitComponent } from './deployment-center-setup/step-confi
         ConfigureBitbucketComponent,
         ConfigureLocalGitComponent
     ],
-    imports: [TranslateModule.forChild(), SharedModule, SidebarModule, WizardModule],
+    imports: [TranslateModule.forChild(), SharedModule, WizardModule],
     exports: [DeploymentCenterComponent]
 })
 export class DeploymentCenterModule {

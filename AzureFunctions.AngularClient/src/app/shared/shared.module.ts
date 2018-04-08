@@ -70,6 +70,7 @@ import { AseService } from './services/ase.service';
 import { BillingService } from './services/billing.service';
 import { InvalidmessageDirective } from './directives/invalid-control-message.directive';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SidebarModule } from 'ng-sidebar';
 
 export function ArmServiceFactory(
     http: Http,
@@ -169,14 +170,16 @@ export function AiServiceFactory() {
         TabComponent,
         ActivateWithKeysDirective,
         CardInfoControlComponent,
-        InvalidmessageDirective
+        InvalidmessageDirective,
+        SidebarModule
     ],
     imports: [
         FormsModule,
         CommonModule,
         ReactiveFormsModule,
         TranslateModule.forChild(),
-        NgSelectModule
+        NgSelectModule,
+        SidebarModule
     ]
 })
 export class SharedModule {

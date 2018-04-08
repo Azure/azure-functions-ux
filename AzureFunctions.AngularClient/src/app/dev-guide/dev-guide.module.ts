@@ -15,6 +15,7 @@ import { SharedModule } from './../shared/shared.module';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { DropdownExampleComponent } from './dropdown-example/dropdown-example.component';
 import { HighlightService } from './highlight.service';
+import { SidepanelExampleComponent } from './sidepanel-example/sidepanel-example.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -40,7 +41,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         RadioSelectorExampleComponent,
         TblExampleComponent,
         EditableTblExampleComponent,
-        DropdownExampleComponent
+        DropdownExampleComponent,
+        SidepanelExampleComponent
     ],
     providers: [
         HighlightService
