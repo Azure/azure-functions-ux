@@ -981,4 +981,5 @@
     public static pricingTier: string = "pricingTier";
     public static deploymentCenterTitle: string = "deploymentCenterTitle";
     public static deploymentCenterDesc: string = "deploymentCenterDesc";
+    public static notAuthorized: string = "notAuthorized";
 }
