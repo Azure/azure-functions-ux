@@ -53,7 +53,16 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
     }
 
     runInitialization(input: PriceSpecInput) {
-        if (input.plan) {
+        // data should only be populated for new plans
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.hostingEnvironmentName) {
+                this.state = 'hidden';
+            } else if (input.specPickerInput.data.isLinux) {
+                this.state = 'hidden';
+            } else if (input.specPickerInput.data.isXenon) {
+                this.state = 'hidden';
+            }
+        } else if (input.plan) {
             if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
                 this.state = 'hidden';
             } else if (input.plan.properties.hostingEnvironmentProfile) {
@@ -67,6 +76,7 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
 
 export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
     skuCode = 'P1';
+    legacySkuName = 'small_premium';
     topLevelFeatures = [
         '2x cores',
         '7.5 GB  Memory',
@@ -86,6 +96,7 @@ export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
 
 export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
     skuCode = 'P2';
+    legacySkuName = 'medium_premium';
     topLevelFeatures = [
         '2x cores',
         '7.5 GB  Memory',
@@ -105,6 +116,7 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
 
 export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
     skuCode = 'P2';
+    legacySkuName = 'large_premium';
     topLevelFeatures = [
         '4x cores',
         '14 GB  Memory',

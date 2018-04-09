@@ -38,7 +38,7 @@
          tabindex="0"
          [attr.aria-label]="'siteDashboard_pinApp' | translate"/>
 
-    <section id="site-tab-content">
+    <section id="site-tab-content" style="position: absolute; left: 250px; right: 0px; height: calc(100% - 43px)">
 
         <site-tab *ngFor="let info of tabInfos"
             [title]="info.title"

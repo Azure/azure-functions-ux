@@ -32,7 +32,14 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
     cssClass = 'spec basic-spec';
 
     runInitialization(input: PriceSpecInput) {
-        if (input.plan) {
+        // data should only be populated for new plans
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.hostingEnvironmentName) {
+                this.state = 'hidden';
+            } else if (input.specPickerInput.data.isXenon) {
+                this.state = 'hidden';
+            }
+        } else if (input.plan) {
             if (input.plan.properties.hostingEnvironmentProfile) {
                 this.state = 'hidden';
             }
@@ -44,6 +51,7 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
 
 export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
     skuCode = 'B1';
+    legacySkuName = 'small_basic';
     topLevelFeatures = [
         '1x cores',
         '1.75 GB Memory',
@@ -63,6 +71,7 @@ export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
 
 export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
     skuCode = 'B2';
+    legacySkuName = 'medium_basic';
     topLevelFeatures = [
         '2x cores',
         '3.5 GB Memory',
@@ -82,6 +91,7 @@ export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
 
 export class BasicLargePlanPriceSpec extends BasicPlanPriceSpec {
     skuCode = 'B3';
+    legacySkuName = 'large_basic';
     topLevelFeatures = [
         '4x cores',
         '7 GB Memory',

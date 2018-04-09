@@ -3,6 +3,7 @@ import { Kinds } from '../../../shared/models/constants';
 
 export class SharedPlanPriceSpec extends PriceSpec {
     skuCode = 'D1';
+    legacySkuName = 'shared';
     topLevelFeatures = [
         'Shared CPU',
         '750 MB Memory',
@@ -44,7 +45,16 @@ export class SharedPlanPriceSpec extends PriceSpec {
     cssClass = 'spec premium-spec';
 
     runInitialization(input: PriceSpecInput) {
-        if (input.plan) {
+        // data should only be populated for new plans
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.hostingEnvironmentName) {
+                this.state = 'hidden';
+            } else if (input.specPickerInput.data.isLinux) {
+                this.state = 'hidden';
+            } else if (input.specPickerInput.data.isXenon) {
+                this.state = 'hidden';
+            }
+        } else if (input.plan) {
             if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
                 this.state = 'hidden';
             } else if (input.plan.properties.hostingEnvironmentProfile) {

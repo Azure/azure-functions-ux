@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { BillingService } from './../../../shared/services/billing.service';
 import { ServerFarm } from './../../../shared/models/server-farm';
 import { SpecResourceSet } from './billing-models';
@@ -8,10 +9,11 @@ import { ArmObj } from '../../../shared/models/arm/arm-obj';
 import { Injector } from '@angular/core';
 import { SubscriptionQuotaIds, LogCategories } from '../../../shared/models/constants';
 import { LogService } from '../../../shared/services/log.service';
-// import { GeoRegion } from '../../../shared/models/arm/georegion';
+import { PortalResources } from '../../../shared/models/portal-resources';
+import { SpecPickerInput, NewPlanSpeckPickerData } from './plan-price-spec-manager';
 
 export interface PriceSpecInput {
-    // geoRegions: ArmObj<GeoRegion>[];
+    specPickerInput: SpecPickerInput<NewPlanSpeckPickerData>;
     subscriptionId: string;
     billingMeters: ArmObj<BillingMeter>[];
     plan?: ArmObj<ServerFarm>;
@@ -19,6 +21,12 @@ export interface PriceSpecInput {
 
 export abstract class PriceSpec {
     abstract skuCode: string;                // SKU code name, like S1 or P1v2
+
+    // Used ONLY for returning legacy PCV3 SKU names to Ibiza create scenario's since it currently
+    // relies on this format.  There's no reason why we couldn't remove it going forward but I've
+    // decided not to touch it for now to be safe.
+    abstract legacySkuName: string;
+
     abstract topLevelFeatures: string[];     // Features that show up in the card, like "1x cores", "1.75GB RAM", etc...
     abstract featureItems: PriceSpecDetail[];
     abstract hardwareItems: PriceSpecDetail[];
@@ -35,10 +43,12 @@ export abstract class PriceSpec {
     protected meterFriendlyName: string;
     protected _billingService: BillingService;
     protected _logService: LogService;
+    protected _ts: TranslateService;
 
     constructor(injector: Injector) {
         this._billingService = injector.get(BillingService);
         this._logService = injector.get(LogService);
+        this._ts = injector.get(TranslateService);
     }
 
     initialize(input: PriceSpecInput): Observable<void> {
@@ -79,7 +89,7 @@ export abstract class PriceSpec {
 
                     if (isDreamspark) {
                         this.state = 'disabled';
-                        this.disabledMessage = 'Your Subscription does not allow this pricing tier';
+                        this.disabledMessage = PortalResources.pricing_subscriptionNotAllowed;
                         this.disabledInfoLink = `https://account.windowsazure.com/Subscriptions/Statement?subscriptionId=${subscriptionId}&isRdfeId=true&launchOption=upgrade`;
                     }
                 });

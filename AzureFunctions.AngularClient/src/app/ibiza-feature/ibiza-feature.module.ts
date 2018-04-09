@@ -46,6 +46,15 @@ const routing: ModuleWithProviders = RouterModule.forChild([
                 path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/sites/:site/slots/:slot/deploymentslots/actions/:action',
                 loadChildren: 'app/ibiza-feature/deployment-slots-shell/deployment-slots-shell.module#DeploymentSlotsShellModule'
             },
+            {
+                path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/serverfarms/:serverfarm/scaleup',
+                loadChildren: 'app/site/spec-picker/spec-picker.module#SpecPickerModule'
+            },
+            {
+                path: 'subscriptions/:subscriptionId/scaleup',
+                loadChildren: 'app/site/spec-picker/spec-picker.module#SpecPickerModule'
+            },
+            // C:\git\AzureFunctionsPortal\AzureFunctions.AngularClient\src\app\site\spec-picker\spec-picker.module.ts
         ]
     }
 ]);

@@ -56,8 +56,9 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
     runInitialization(input: PriceSpecInput) {
 
-
         if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
+            this.state = 'hidden';
+        } else if (input.specPickerInput.data && !input.specPickerInput.data.allowAseV2Creation) {
             this.state = 'hidden';
         } else if (input.plan) {
 
@@ -87,6 +88,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
 export class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I1';
+    legacySkuName = 'small_isolated';
     topLevelFeatures = [
         '1x cores',
         '3.5 GB  Memory',
@@ -106,6 +108,7 @@ export class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
 
 export class IsolatedMediumPlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I2';
+    legacySkuName = 'medium_isolated';
     topLevelFeatures = [
         '2x cores',
         '7 GB  Memory',
@@ -125,6 +128,7 @@ export class IsolatedMediumPlanPriceSpec extends IsolatedPlanPriceSpec {
 
 export class IsolatedLargePlanPriceSpec extends IsolatedPlanPriceSpec {
     skuCode = 'I3';
+    legacySkuName = 'large_isolated';
     topLevelFeatures = [
         '4x cores',
         '14 GB  Memory',
