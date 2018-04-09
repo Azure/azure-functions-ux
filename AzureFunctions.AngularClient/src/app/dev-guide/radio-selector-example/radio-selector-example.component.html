@@ -5,30 +5,13 @@
         <radio-selector [control]="control" [options]="options" [highlightDirty]="true"></radio-selector>
     </div>
     <figure>
-        <label>HTML</label>
-        <pre>
-
-    &lt;radio-selector [control]=&quot;control&quot; [options]=&quot;options&quot; [highlightDirty]=&quot;true&quot;&gt;&lt;/radio-selector&gt;
-        </pre>
-
-        <label>TypeScript</label>
-        <pre>
-
-    export class RadioSelectorExampleComponent {{ '{' }}
-        control: FormControl;
-        options: SelectOption<'off' | 'on'>[] = [{{ '{' }}
-            displayLabel: 'Off',
-            value: 'off'
-        {{ '}' }},
-        {{ '{' }}
-            displayLabel: 'On',
-            value: 'on'
-        {{ '}' }}];
-    
-        constructor(fb: FormBuilder) {{ '{' }}
-            this.control = fb.control('off', null);
-        {{ '}' }}
-    {{ '}' }}
-        </pre>
+            <label>HTML</label>
+            <pre class="language-html">
+                <code [innerHTML]="htmlCode" ></code>
+            </pre>
+            <label>TypeScript</label>
+            <pre class="language-typescript">
+              <code [innerHTML]="typescriptCode" ></code>
+          </pre>
     </figure>
 </section>

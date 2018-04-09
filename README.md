@@ -50,6 +50,8 @@ yarn run gulp run-dev
 > git push origin dev
 ```
 
+For control and styling samples go to [https://functions.azure.com?appsvc.devguide=true](https://functions.azure.com?appsvc.devguide=true)
+
 [Angular 2 coding style](https://angular.io/styleguide)
 
 ## Code layout

@@ -6,7 +6,6 @@ import { DeploymentSlotsShellComponent } from 'app/ibiza-feature/deployment-slot
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from 'app/shared/shared.module';
 import { SharedFunctionsModule } from 'app/shared/shared-functions.module';
-import { SidebarModule } from 'ng-sidebar';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -32,7 +31,7 @@ import 'rxjs/add/observable/zip';
     DeploymentSlotsComponent
   ],
   imports: [
-    TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SidebarModule
+    TranslateModule.forChild(), SharedModule, SharedFunctionsModule
   ],
   declarations: [
     DeploymentSlotsComponent,

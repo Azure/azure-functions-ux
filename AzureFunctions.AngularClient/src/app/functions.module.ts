@@ -1,7 +1,6 @@
 import { EmbeddedFunctionLogsTabComponent } from './function/embedded/embedded-function-logs-tab/embedded-function-logs-tab.component';
 import { EmbeddedFunctionTestTabComponent } from './function/embedded/embedded-function-test-tab/embedded-function-test-tab.component';
 import { EmbeddedFunctionEditorComponent } from './function/embedded/embedded-function-editor/embedded-function-editor.component';
-import { SidebarModule } from 'ng-sidebar';
 import { AadRegistrationComponent } from './aad-registration/aad-registration.component';
 import { RunHttpComponent } from './run-http/run-http.component';
 import { TableFunctionMonitorPipe } from './table-function-monitor/table-function-monitor.pipe';
@@ -91,8 +90,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SharedFunctionsModule,
         routing,
         FileUploadModule,
-        PopoverModule,
-        SidebarModule
+        PopoverModule
     ],
     declarations: [
         FunctionsListComponent,
