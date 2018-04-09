@@ -28,8 +28,8 @@ export class SidepanelExampleComponent {
   public htmlCode = `
 <ng-sidebar-container style="height: 100vh; width: 100vw">
   <!-- A sidebar -->
-  <ng-sidebar #sidebar [(opened)]="opened" [mode]="'over'" [position]="'right'" [closeOnClickOutside]="backdropEnabled" [trapFocus]="false"
-    [autoFocus]="true" [sidebarClass]="'sidebar'" [ariaLabel]="'Accessibility FTW'" [animate]="true" [showBackdrop]="backdropEnabled">
+  <ng-sidebar #sidebar [(opened)]="opened" mode="over" position="right" [closeOnClickOutside]="backdropEnabled" [trapFocus]="false"
+    [autoFocus]="true" sidebarClass="sidebar" ariaLabel="Accessibility FTW" [animate]="true" [showBackdrop]="backdropEnabled">
     <button (click)="toggleBackdrop()">Toggle backdrop</button>
   </ng-sidebar>
 
