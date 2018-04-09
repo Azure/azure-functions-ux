@@ -7,6 +7,10 @@
     <ng-select class="custom-select" [items]="items" bindLabel="displayLabel" bindValue="value" placeholder="Select source" [(ngModel)]="chosenValue"
       formControlName="sourceProvider">
     </ng-select>
+    <div invalidmessage="sourceProvider"></div>
+
+    <h4>ngModel value: {{chosenValue}}</h4>
+    <h4>formValue value: {{FormGroupExample?.value?.sourceProvider}}</h4>
   </div>
   <figure>
     <label>HTML</label>
