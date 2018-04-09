@@ -53,8 +53,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([
             {
                 path: 'subscriptions/:subscriptionId/scaleup',
                 loadChildren: 'app/site/spec-picker/spec-picker.module#SpecPickerModule'
-            },
-            // C:\git\AzureFunctionsPortal\AzureFunctions.AngularClient\src\app\site\spec-picker\spec-picker.module.ts
+            }
         ]
     }
 ]);
