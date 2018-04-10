@@ -1,11 +1,9 @@
 import { Injectable} from '@angular/core';
 
-import 'prismjs';
-import 'prismjs/plugins/toolbar/prism-toolbar';
+import * as Prism from 'prismjs';
 import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-scss';
 
-declare var Prism: any;
 
 @Injectable()
 export class HighlightService {
@@ -14,11 +12,11 @@ export class HighlightService {
 
     highlightString(s: string, l: 'typescript' | 'scss' | 'html'): string {
         if (l === 'typescript') {
-            return Prism.highlight(s, Prism.languages.typescript, l);
+            return Prism.highlight(s, Prism.languages.typescript);
         } else if (l === 'scss') {
-            return Prism.highlight(s, Prism.languages.scss, l);
+            return Prism.highlight(s, Prism.languages.scss);
         } else {
-            return Prism.highlight(s, Prism.languages.html, l);
+            return Prism.highlight(s, Prism.languages.html);
         }
     }
 }
