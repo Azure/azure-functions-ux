@@ -6,6 +6,7 @@ import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalService } from '../shared/services/portal.service';
 import { ErrorItem } from '../shared/models/error-item';
 import { ErrorEvent } from '../shared/models/error-event';
+import 'rxjs/add/observable/timer';
 
 @Component({
     selector: 'error-list',
