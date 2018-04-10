@@ -46,6 +46,16 @@
     z-index: 10 !important;
 }
 
+.sidebar-monitor-details {
+    background-color: $body-bg-color;
+    border-left: 1px $sidebar-border-color solid;
+    width: 40vw;
+
+    &.ng-sidebar--opened.ng-sidebar--push {
+        border-left: $border;
+    }
+}
+
 #app-root[theme=dark]{
     .sidebar{
         background-color: $body-bg-color-dark;
@@ -57,14 +67,7 @@
     .sidebar-backdrop-deployment-slots {
         background: rgba($body-bg-color, 0.07) !important;
     }
-}
-
-.sidebar-monitor-details {
-    background-color: $body-bg-color;
-    border-left: 1px $grey-color-dark solid;
-    width: 40vw;
-
-    &.ng-sidebar--opened.ng-sidebar--push {
-        border-left: $border;
+    .sidebar-monitor-details {
+        background-color: $body-bg-color-dark;
     }
 }

@@ -15,9 +15,9 @@ import { LocalStorageService as StorageService } from '../../shared/services/loc
 import { Site } from '../../shared/models/arm/site';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
 import { Feature, EnabledFeatures, EnabledFeature, EnabledFeatureItem } from '../../shared/models/localStorage/enabled-features';
-import { FunctionAppService } from '../../shared/services/function-app.service';
 import { ScenarioService } from '../../shared/services/scenario/scenario.service';
 import { FeatureComponent } from 'app/shared/components/feature-component';
+import { ApplicationInsightsService } from '../../shared/services/application-insights.service';
 
 @Component({
     selector: 'site-enabled-features',
@@ -47,8 +47,8 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
         private _translateService: TranslateService,
         private _siteService: SiteService,
         private _siteDashboard: SiteDashboardComponent,
-        private _functionAppService: FunctionAppService,
         private _scenarioService: ScenarioService,
+        private _applicationInsightsService: ApplicationInsightsService,
         injector: Injector) {
 
         super('site-enabled-features', injector, null);
@@ -146,7 +146,7 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
             return Observable.of([]);
         }
 
-        return this._functionAppService.isAppInsightsEnabled(this._site.id)
+        return this._applicationInsightsService.getApplicationInsightsId(this._site.id)
             .flatMap((aiId) => {
                 const items = [];
                 if (aiId) {

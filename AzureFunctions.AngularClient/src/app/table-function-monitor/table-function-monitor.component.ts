@@ -90,7 +90,7 @@ export class TableFunctionMonitorComponent extends FeatureComponent<FunctionMoni
 
                         return !!data
                             ? this._functionMonitorService.getInvocationsDataForSelectedFunction(functionMonitorInfo.functionAppContext, data.functionId)
-                            : Observable.of([])
+                            : Observable.of([]);
                     });
             })
             .do(result => {
@@ -119,18 +119,6 @@ export class TableFunctionMonitorComponent extends FeatureComponent<FunctionMoni
             .subscribe(outputData => {
                 this.outputLog = outputData;
             });
-    }
-
-    public setBusyState() {
-        if (this.busyState) {
-            this.busyState.setBusyState();
-        }
-    }
-
-    public clearBusyState() {
-        if (this.busyState) {
-            this.busyState.clearBusyState();
-        }
     }
 
     public onKeyPressLogDetails(event: KeyboardEvent, rowData: FunctionInvocations) {

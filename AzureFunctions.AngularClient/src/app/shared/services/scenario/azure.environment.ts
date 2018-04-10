@@ -2,17 +2,17 @@ import { ScenarioIds, ServerFarmSku } from './../../models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
-import { FunctionAppService } from '../function-app.service';
 import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
 import { Injector } from '@angular/core';
+import { ApplicationInsightsService } from '../application-insights.service';
 
 export class AzureEnvironment extends Environment {
     name = 'Azure';
-    private _functionAppService: FunctionAppService;
+    private _applicationInsightsService: ApplicationInsightsService;
 
     constructor(injector: Injector) {
         super();
-        this._functionAppService = injector.get(FunctionAppService);
+        this._applicationInsightsService = injector.get(ApplicationInsightsService);
 
         this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
             id: ScenarioIds.addSiteFeaturesTab,
@@ -172,8 +172,8 @@ export class AzureEnvironment extends Environment {
     }
 
     private _getApplicationInsightsId(input: ScenarioCheckInput): Observable<ScenarioResult> {
-        return this._functionAppService
-            .isAppInsightsEnabled(input.site.id)
+        return this._applicationInsightsService
+            .getApplicationInsightsId(input.site.id)
             .switchMap(applicationInsightsResourceId => Observable.of<ScenarioResult>({
                 status: applicationInsightsResourceId ? 'enabled' : 'disabled',
                 data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null

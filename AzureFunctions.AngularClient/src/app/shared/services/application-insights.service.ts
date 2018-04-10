@@ -7,7 +7,8 @@ import { UserService } from './user.service';
 import { HttpResult } from './../models/http-result';
 import { CacheService } from './cache.service';
 import { LogService } from './log.service';
-import { LogCategories } from '../models/constants';
+import { LogCategories, Constants } from '../models/constants';
+import { ArmSiteDescriptor } from '../resourceDescriptors';
 
 declare const pako: any;
 
@@ -79,6 +80,31 @@ export class ApplicationInsightsService {
     const baseUrl = this._directUrl + aiDirectResourceId + '?q=';
     const query = ApplicationInsightsQueryUtil.compressAndEncodeBase64AndUri(this._getQueryForInvocationTraceHistory(operationId));
     return baseUrl + query;
+  }
+
+  public getApplicationInsightsId(siteId: string): Observable<string> {
+      const descriptor = new ArmSiteDescriptor(siteId);
+      return Observable.zip(
+          this._cacheService.postArm(`${siteId}/config/appsettings/list`),
+          this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
+          (as, ai) => ({ appSettings: as, appInsights: ai }))
+          .map(r => {
+              const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
+              let result = null;
+              if (ikey) {
+                  const aiResources = r.appInsights.json();
+
+                  // AI RP has an issue where they return an array instead of a JSON response if empty
+                  if (aiResources && !Array.isArray(aiResources)) {
+                      aiResources.value.forEach((ai) => {
+                          if (ai.properties.InstrumentationKey === ikey) {
+                              result = ai.id;
+                          }
+                      });
+                  }
+              }
+              return result;
+          });
   }
 
   private _getQueryForLast30DaysSummary(functionName: string): string {
