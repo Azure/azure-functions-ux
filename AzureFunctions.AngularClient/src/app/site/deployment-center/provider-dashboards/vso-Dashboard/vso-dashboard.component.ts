@@ -13,6 +13,10 @@ import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
+import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
+import { ArmService } from '../../../../shared/services/arm.service';
+import { BroadcastService } from '../../../../shared/services/broadcast.service';
+import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 
 class VSODeploymentObject extends DeploymentData {
     VSOData: VSOBuildDefinition;
@@ -29,20 +33,24 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     private _tableItems: ActivityDetailsLog[];
     public activeDeployment: ActivityDetailsLog;
 
-    public viewInfoStream: Subject<string>;
+    public viewInfoStream$: Subject<string>;
     public hasWritePermissions = true;
     public deploymentObject: VSODeploymentObject;
-    private _ngUnsubscribe = new Subject();
+    private _ngUnsubscribe$ = new Subject();
+    private _busyManager: BusyStateScopeManager;
     constructor(
         private _portalService: PortalService,
         private _cacheService: CacheService,
+        private _armService: ArmService,
         private _authZService: AuthzService,
         private _logService: LogService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _broadcastService: BroadcastService
     ) {
-        this.viewInfoStream = new Subject<string>();
-        this.viewInfoStream
-            .takeUntil(this._ngUnsubscribe)
+        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+        this.viewInfoStream$ = new Subject<string>();
+        this.viewInfoStream$
+            .takeUntil(this._ngUnsubscribe$)
             .distinctUntilChanged()
             .switchMap(resourceId => {
                 return Observable.zip(
@@ -110,14 +118,37 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             );
     }
 
-    SyncScm() {}
+    disconnect() {
+        //TODO: ADD NOTIFIATION ON SUCCESS OR ERROR
+        this._busyManager.setBusy();
+        Observable.zip(
+            this._cacheService.delete(`${this.deploymentObject.VSOData.url}&api-version=2.0`),
+            this._armService.patch(`${this.deploymentObject.site.id}/config/web`, { properties: { scmType: 'None' } })
+        )
+            .subscribe(r => {
+                this._busyManager.clearBusy();
+                this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter);
+            },
+                err => {
+                    this._logService.error(LogCategories.cicd, '/disconnect-vso-dashboard', err);
+                });
 
-    disconnect() {}
-    edit() {}
-    refresh() {}
+    }
+
+    edit() {
+        const url = this.deploymentObject.VSOData.url;
+        const win = window.open(url, '_blank');
+        win.focus();
+    }
+
+    refresh() {
+        this._busyManager.setBusy();
+        this.viewInfoStream$.next(this.resourceId);
+    }
+
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['resourceId']) {
-            this.viewInfoStream.next(this.resourceId);
+            this.viewInfoStream$.next(this.resourceId);
         }
     }
 
@@ -520,6 +551,6 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this._ngUnsubscribe.next();
+        this._ngUnsubscribe$.next();
     }
 }

@@ -3024,5 +3024,103 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="functionMonitor_logLevel" xml:space="preserve">
     <value>Log Level</value>
+  <data name="vstsBuildServerTitle" xml:space="preserve">
+    <value>VSTS build server</value>
+  </data>
+  <data name="vstsBuildServerDesc" xml:space="preserve">
+    <value>Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.</value>
+  </data>
+  <data name="kuduTitle" xml:space="preserve">
+    <value>Build on server</value>
+  </data>
+  <data name="kuduDesc" xml:space="preserve">
+    <value>Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.</value>
+  </data>
+  <data name="build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="selectAccount" xml:space="preserve">
+    <value>Select Account</value>
+  </data>
+  <data name="enterAccountName" xml:space="preserve">
+    <value>Enter Account Name</value>
+  </data>
+  <data name="selectProject" xml:space="preserve">
+    <value>Select Project</value>
+  </data>
+  <data name="webAppFramework" xml:space="preserve">
+    <value>Web Application Framework</value>
+  </data>
+  <data name="selectFramework" xml:space="preserve">
+    <value>Select Framework</value>
+  </data>
+  <data name="workingDirectory" xml:space="preserve">
+    <value>Working Directory</value>
+  </data>
+  <data name="taskRunner" xml:space="preserve">
+    <value>Task Runner</value>
+  </data>
+  <data name="pythonFramework" xml:space="preserve">
+    <value>Python Framework</value>
+  </data>
+  <data name="pythonVersion" xml:space="preserve">
+    <value>Python Version</value>
+  </data>
+  <data name="djangoSettings" xml:space="preserve">
+    <value>Django Settings Module</value>
+  </data>
+  <data name="flaskProjectName" xml:space="preserve">
+    <value>flaskProjectName</value>
+  </data>
+  <data name="new" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="existing" xml:space="preserve">
+    <value>Existing</value>
+  </data>
+  <data name="selectRepo" xml:space="preserve">
+    <value>Select Respository</value>
+  </data>
+  <data name="selectBranch" xml:space="preserve">
+    <value>Select branch</value>
+  </data>
+  <data name="deployment" xml:space="preserve">
+    <value>Deployment</value>
+  </data>
+  <data name="enableDeploymentSlot" xml:space="preserve">
+    <value>Enable Deployment Slot</value>
+  </data>
+  <data name="deploymentSlot" xml:space="preserve">
+    <value>Deployment Slot</value>
+  </data>
+  <data name="enterDSName" xml:space="preserve">
+    <value>Enter Deployment Slot Name</value>
+  </data>
+  <data name="selectExistingSlot" xml:space="preserve">
+    <value>Select Slot</value>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="loadTesting" xml:space="preserve">
+    <value>Load Testing</value>
+  </data>
+  <data name="enableLoadTesting" xml:space="preserve">
+    <value>Enable Load Testing</value>
+  </data>
+  <data name="appName" xml:space="preserve">
+    <value>App Name</value>
+  </data>
+  <data name="pricingTier" xml:space="preserve">
+    <value>Pricing Tier</value>
+  </data>
+  <data name="deploymentCenterTitle" xml:space="preserve">
+    <value>Deployment Center (Preview)</value>
+  </data>
+  <data name="deploymentCenterDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
   </data>
 </root>

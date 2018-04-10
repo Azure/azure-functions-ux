@@ -7,6 +7,7 @@ import { setupDropboxAuthentication } from './dropbox-auth';
 import { staticConfig } from '../config';
 import { constants } from '../constants';
 import { LogHelper } from '../logHelper';
+import { setupVsoPassthroughAuthentication } from './vso-deployment-passthrough';
 
 export function setupDeploymentCenter(app: Application) {
     app.get('/api/SourceControlAuthenticationState', async (req, res) => {
@@ -43,4 +44,5 @@ export function setupDeploymentCenter(app: Application) {
     setupBitbucketAuthentication(app);
     setupOnedriveAuthentication(app);
     setupDropboxAuthentication(app);
+    setupVsoPassthroughAuthentication(app);
 }

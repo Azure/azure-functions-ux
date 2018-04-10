@@ -160,6 +160,48 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
     }
 }
 
+
+export class ArmPlanDescriptor extends ArmResourceDescriptor {
+    public name: string;
+
+    public static getSiteDescriptor(resourceId: string): ArmPlanDescriptor | CdsEntityDescriptor {
+        const parts = resourceId.split('/').filter(part => !!part);
+        let planId = '';
+        let maxIndex: number;
+
+        if (parts.length >= 8 && parts[6].toLowerCase() === 'serverfarms') {
+            maxIndex = 7;
+        } else {
+            throw Error(`Not enough segments in server farm`);
+        }
+
+        for (let i = 0; i <= maxIndex; i++) {
+            planId = planId + '/' + parts[i];
+        }
+
+        return new ArmPlanDescriptor(planId);
+    }
+
+    constructor(resourceId: string) {
+        super(resourceId);
+
+        if (this.parts.length < 8) {
+            throw Error(`resourceId length is too short for serverfarm descriptor: ${resourceId}`);
+        }
+
+        if (this.parts[6].toLowerCase() !== 'serverfarms') {
+            throw Error(`Expected serverfarms segment in resourceId: ${resourceId}`);
+        }
+
+        this.name = this.parts[7];
+    }
+
+    getTrimmedResourceId(): string {
+        return `/subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/serverfarms/${this.name}`;
+    }
+}
+
+
 export interface FunctionDescriptor extends Descriptor {
     name: string;
 }

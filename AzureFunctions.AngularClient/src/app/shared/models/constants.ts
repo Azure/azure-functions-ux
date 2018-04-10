@@ -29,6 +29,7 @@ export class Constants {
     public static slotsSecretStorageSettingsValue = 'Blob';
     public static contentShareConfigSettingsName = 'WEBSITE_CONTENTSHARE';
     public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
+    public static functionsLanguageAppSettingsName = 'FUNCTIONS_LANGUAGE';
     public static WebsiteUseZip = 'WEBSITE_USE_ZIP';
 
     public static httpMethods = new HttpMethods();
@@ -210,6 +211,7 @@ export class ScenarioIds {
     public static readonly listExtensionsArm = 'ListExtensionsArm';
     public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
     public static readonly disabledBindings = 'disabledBindings';
+    public static readonly monitoring = 'monitoring';
 }
 
 export class ServerFarmSku {
@@ -364,6 +366,10 @@ export class DeploymentCenterConstants {
     public static dropboxApiUrl = 'https://api.dropboxapi.com/2';
     public static dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
     public static onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot:';
+    public static vstsProfileUri = 'https://app.vssps.visualstudio.com/_apis/profile/profiles/me';
+    public static vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
+    public static vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
+    public static vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 }
 
 export class ComponentNames {
