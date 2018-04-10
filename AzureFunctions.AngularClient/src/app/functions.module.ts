@@ -45,6 +45,7 @@ import { BindingV2Component } from './function/binding-v2/binding-v2.component';
 import { BindingInputV2Component } from './function/binding-input-v2/binding-input-v2.component';
 import { ExtensionCheckerComponent } from './function/extension-checker/extension-checker.component'
 import { ErrorsWarningsComponent } from './errors-warnings/errors-warnings.component';
+import { SidebarModule } from 'ng-sidebar';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -90,7 +91,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SharedFunctionsModule,
         routing,
         FileUploadModule,
-        PopoverModule
+        PopoverModule,
+        SidebarModule
     ],
     declarations: [
         FunctionsListComponent,

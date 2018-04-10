@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { AiService } from '../shared/services/ai.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalService } from '../shared/services/portal.service';
 import { ErrorItem } from '../shared/models/error-item';
 import { ErrorEvent } from '../shared/models/error-event';
-import 'rxjs/add/observable/timer';
-
+import { Observable } from 'rxjs/Observable';
 @Component({
     selector: 'error-list',
     templateUrl: './error-list.component.html',
