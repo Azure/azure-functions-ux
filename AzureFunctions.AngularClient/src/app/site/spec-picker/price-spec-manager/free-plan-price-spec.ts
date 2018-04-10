@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 export class FreePlanPriceSpec extends PriceSpec {
     skuCode = 'F1';
+    legacySkuName = 'free';
     topLevelFeatures = [
         'Shared CPU',
         '512 MB Memory',
@@ -43,7 +44,14 @@ export class FreePlanPriceSpec extends PriceSpec {
     allowZeroCost = true;
 
     runInitialization(input: PriceSpecInput) {
-        if (input.plan) {
+        // Data should only be populated for new plans
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.hostingEnvironmentName
+                || input.specPickerInput.data.isLinux
+                || input.specPickerInput.data.isXenon) {
+                this.state = 'hidden';
+            }
+        } else if (input.plan) {
             if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
                 this.state = 'hidden';
             } else if (input.plan.properties.hostingEnvironmentProfile) {

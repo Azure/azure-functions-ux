@@ -103,6 +103,10 @@
 
 #site-tab-content{
     background-color: $body-bg-color;
+    position: absolute;
+    left: 250px;
+    right: 0px;
+    height: calc(100% - 43px);
 }
 
 :host-context(#app-root[theme=dark]){

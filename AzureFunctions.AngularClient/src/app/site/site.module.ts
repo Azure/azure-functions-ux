@@ -18,9 +18,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { DeploymentCenterModule } from 'app/site/deployment-center/deployment-center.module';
 import { HostEditorComponent } from './../host-editor/host-editor.component';
 import { SiteConfigModule } from 'app/site/site-config/site-config.module';
-import { SpecPickerComponent } from './spec-picker/spec-picker.component';
-import { SpecListComponent } from './spec-picker/spec-list/spec-list.component';
-import { SpecFeatureListComponent } from './spec-picker/spec-feature-list/spec-feature-list.component';
+import { SpecPickerModule } from './spec-picker/spec-picker.module';
 
 const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', component: SiteDashboardComponent }]);
 
@@ -31,10 +29,17 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         FunctionRuntimeComponent,
         SwaggerDefinitionComponent,
         SiteConfigComponent,
-        LogicAppsComponent,
-        SpecPickerComponent
+        LogicAppsComponent
     ],
-    imports: [TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SiteConfigModule, DeploymentCenterModule, routing],
+    imports: [
+        TranslateModule.forChild(),
+        SharedModule,
+        SharedFunctionsModule,
+        SiteConfigModule,
+        DeploymentCenterModule,
+        SpecPickerModule,
+        routing
+    ],
     declarations: [
         SiteDashboardComponent,
         SiteSummaryComponent,
@@ -47,10 +52,7 @@ const routing: ModuleWithProviders = RouterModule.forChild([{ path: '', componen
         SiteEnabledFeaturesComponent,
         HostEditorComponent,
         SiteTabComponent,
-        LogicAppsComponent,
-        SpecPickerComponent,
-        SpecListComponent,
-        SpecFeatureListComponent
+        LogicAppsComponent
     ],
     providers: []
 })

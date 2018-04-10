@@ -1,15 +1,32 @@
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from 'app/shared/models/portal-resources';
 import { SpecPickerComponent } from './../spec-picker.component';
 import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/billing-models';
 import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup } from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector } from '@angular/core';
-import { ArmResourceDescriptor } from '../../../shared/resourceDescriptors';
+import { ArmSubcriptionDescriptor } from '../../../shared/resourceDescriptors';
 import { Observable } from 'rxjs/Observable';
 import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
-// import { GeoRegion } from '../../../shared/models/arm/georegion';
 import { SpecCostQueryInput } from './billing-models';
+
+export interface SpecPickerInput<T> {
+    id: ResourceId;
+    data: T;
+}
+
+export interface NewPlanSpeckPickerData {
+    subscriptionId: string;
+    location: string;
+    hostingEnvironmentName: string | null;
+    allowAseV2Creation: boolean;
+    forbiddenSkus: string[];
+    isLinux: boolean;
+    isXenon: boolean;
+    selectedLegacySkuName: string;  // Looks like "small_standard"
+}
 
 export class PlanPriceSpecManager {
 
@@ -29,46 +46,23 @@ export class PlanPriceSpecManager {
 
     private _planService: PlanService;
     private _portalService: PortalService;
-    private _descriptor: ArmResourceDescriptor;
+    private _ts: TranslateService;
     private _plan: ArmObj<ServerFarm>;
+    private _subscriptionId: string;
+    private _inputs: SpecPickerInput<NewPlanSpeckPickerData>;
 
     constructor(private _specPicker: SpecPickerComponent, private _injector: Injector) {
         this._planService = _injector.get(PlanService);
         this._portalService = _injector.get(PortalService);
+        this._ts = _injector.get(TranslateService);
     }
 
-    initialize(resourceId: ResourceId) {
-
-        this._descriptor = new ArmResourceDescriptor(resourceId);
+    initialize(inputs: SpecPickerInput<NewPlanSpeckPickerData>) {
+        this._inputs = inputs;
+        this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
         this.selectedSpecGroup = this.specGroups[0];
 
-        return this._planService.getPlan(resourceId, true)
-            .switchMap(r => {
-
-                if (r.isSuccessful) {
-                    this._plan = r.result;
-
-                    if (this._plan.sku.name === 'Y1') {
-                        this._specPicker.infoMessage = {
-                            message: 'Scale up is not available for consumption plans',
-                            level: 'error'
-                        };
-
-                        this._specPicker.shieldEnabled = true;
-                    }
-                } else {
-                    this._specPicker.infoMessage = {
-                        message: 'You must have write permissions to scale up this plan',
-                        level: 'error'
-                    };
-
-                    this._specPicker.shieldEnabled = true;
-
-                    return Observable.of(null);
-                }
-
-                return this._planService.getBillingMeters(this._descriptor.subscription, this._plan.location);
-            })
+        return this._getBillingMeters(inputs)
             .switchMap(r => {
                 if (!r) {
                     return Observable.of(null);
@@ -81,9 +75,10 @@ export class PlanPriceSpecManager {
                 // some require special handling so that we know if we need to hide/disable a card.
                 this.specGroups.forEach(g => {
                     specInitCalls = specInitCalls.concat(g.specs.map(s => s.initialize({
+                        specPickerInput: inputs,
                         billingMeters: billingMeters,
                         plan: this._plan,
-                        subscriptionId: this._descriptor.subscription
+                        subscriptionId: this._subscriptionId
                     })));
                 });
 
@@ -104,7 +99,7 @@ export class PlanPriceSpecManager {
         });
 
         const query: SpecCostQueryInput = {
-            subscriptionId: this._descriptor.subscription,
+            subscriptionId: this._subscriptionId,
             specResourceSets: specResourceSets,
             specsToAllowZeroCost: specsToAllowZeroCost,
             specType: 'WebsitesExtension',
@@ -112,11 +107,6 @@ export class PlanPriceSpecManager {
 
         return this._portalService.getSpecCosts(query)
             .do(result => {
-                if (!result.isSuccess) {
-                    // todo: error handling
-                    return;
-                }
-
                 this.specGroups.forEach(g => this._updatePriceStrings(result, g));
             });
     }
@@ -135,6 +125,43 @@ export class PlanPriceSpecManager {
             });
     }
 
+    private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpeckPickerData>) {
+        // If we're getting meters for an existing plan
+        if (!inputs.data) {
+
+            return this._planService.getPlan(inputs.id, true)
+                .switchMap(r => {
+
+                    if (r.isSuccessful) {
+                        this._plan = r.result;
+
+                        if (this._plan.sku.name === 'Y1') {
+                            this._specPicker.statusMessage = {
+                                message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
+                                level: 'error'
+                            };
+
+                            this._specPicker.shieldEnabled = true;
+                        }
+                    } else {
+                        this._specPicker.statusMessage = {
+                            message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlan),
+                            level: 'error'
+                        };
+
+                        this._specPicker.shieldEnabled = true;
+
+                        return Observable.of(null);
+                    }
+
+                    return this._planService.getBillingMeters(this._subscriptionId, this._plan.location);
+                });
+        }
+
+        // We're getting meters for a new plan
+        return this._planService.getBillingMeters(inputs.data.subscriptionId, inputs.data.location);
+    }
+
     private _updatePriceStrings(result: SpecCostQueryResult, specGroup: PriceSpecGroup) {
         specGroup.specs.forEach(spec => {
             const costResult = result.costs.find(c => c.id === spec.specResourceSet.id);
@@ -151,26 +178,42 @@ export class PlanPriceSpecManager {
         let nonEmptyGroupIndex = 0;
         let foundNonEmptyGroup = false;
 
-        // Remove hidden specs and move disabled specs to end of list.
+        if (this._inputs.data) {
+            if (this._inputs.data.isLinux && this._inputs.data.hostingEnvironmentName) {
+                this._specPicker.infoMessage = this._ts.instant(PortalResources.pricing_linuxAseDiscount);
+            } else if (this._inputs.data.isLinux) {
+                this._specPicker.infoMessage = this._ts.instant(PortalResources.pricing_linuxTrial);
+            } else if (this._inputs.data.isXenon) {
+                this._specPicker.infoMessage = this._ts.instant(PortalResources.pricing_windowsContainers);
+            }
+        }
+
+        // Remove hidden and forbidden specs and move disabled specs to end of list.
         this.specGroups.forEach((g, i) => {
 
-            const enabledSpecs = g.specs.filter(s => s.state !== 'disabled' && s.state !== 'hidden');
+            let enabledSpecs = g.specs.filter(s => s.state !== 'disabled' && s.state !== 'hidden');
+
+            if (this._inputs.data) {
+                enabledSpecs = enabledSpecs.filter(s => !this._inputs.data.forbiddenSkus.find(sku => sku.toLowerCase() === s.legacySkuName.toLowerCase()));
+            }
+
             const disabledSpecs = g.specs.filter(s => s.state === 'disabled');
 
             g.specs = enabledSpecs.concat(disabledSpecs);
 
-            // Initialize the currently selected spec for each group
+            // Find a selected spec within a group
             g.selectedSpec = g.specs.find((s, specIndex) => {
 
-                // If the current SKU is below the fold, then automatically expand the group.
-                if (s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase()) {
+                if ((this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
+                    || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName)) {
+
+                    // If the current SKU is below the fold, then automatically expand the group.
                     g.isExpanded = specIndex > 3;
                     return true;
                 }
 
                 return false;
             });
-
 
             if (!foundNonEmptyGroup && g.specs.length === 0) {
                 nonEmptyGroupIndex++;
@@ -185,6 +228,14 @@ export class PlanPriceSpecManager {
             // view in the list, so we're forcing an update by creating a new reference
             this.specGroups[nonEmptyGroupIndex] = Object.assign({}, this.specGroups[nonEmptyGroupIndex]);
             this.selectedSpecGroup = this.specGroups[nonEmptyGroupIndex];
+
+            // Find the first group with a selectedSpec and make that group the default
+            for (let i = nonEmptyGroupIndex; i < this.specGroups.length; i++) {
+                if (this.specGroups[i].selectedSpec) {
+                    this.selectedSpecGroup = this.specGroups[i];
+                    break;
+                }
+            }
         }
     }
 }
