@@ -172,19 +172,11 @@ export class AzureEnvironment extends Environment {
     }
 
     private _getApplicationInsightsId(input: ScenarioCheckInput): Observable<ScenarioResult> {
-        if (this._functionAppService) {
-            return this._functionAppService
-                .isAppInsightsEnabled(input.site.id)
-                .switchMap(applicationInsightsResourceId => Observable.of<ScenarioResult>({
-                    status: applicationInsightsResourceId ? 'enabled' : 'disabled',
-                    data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null
-                }));
-        } else {
-            return Observable.of<ScenarioResult>({
-                status: 'disabled',
-                data: null
-            });
-        }
-
+        return this._functionAppService
+            .isAppInsightsEnabled(input.site.id)
+            .switchMap(applicationInsightsResourceId => Observable.of<ScenarioResult>({
+                status: applicationInsightsResourceId ? 'enabled' : 'disabled',
+                data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null
+            }));
     }
 }
