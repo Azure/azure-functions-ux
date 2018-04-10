@@ -3024,6 +3024,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="functionMonitor_logLevel" xml:space="preserve">
     <value>Log Level</value>
+  </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
     <value>VSTS build server</value>
   </data>
