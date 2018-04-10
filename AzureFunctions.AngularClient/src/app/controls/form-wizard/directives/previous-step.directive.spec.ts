@@ -1,4 +1,3 @@
-import { PreviousStepDirective } from './previous-step.directive';
 import {ViewChild, Component} from '@angular/core';
 import {WizardComponent} from '../components/wizard.component';
 import {TestBed, async, ComponentFixture} from '@angular/core/testing';

@@ -1,4 +1,3 @@
-import { OptionalStepDirective } from './optional-step.directive';
 import {Component, ViewChild} from '@angular/core';
 import {WizardComponent} from '../components/wizard.component';
 import {ComponentFixture, TestBed, async} from '@angular/core/testing';
