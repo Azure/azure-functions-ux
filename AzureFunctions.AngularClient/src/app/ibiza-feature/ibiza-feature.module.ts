@@ -48,11 +48,11 @@ const routing: ModuleWithProviders = RouterModule.forChild([
             },
             {
                 path: 'subscriptions/:subscriptionId/resourcegroups/:resourceGroup/providers/microsoft.web/serverfarms/:serverfarm/scaleup',
-                loadChildren: 'app/site/spec-picker/spec-picker.module#SpecPickerModule'
+                loadChildren: 'app/site/spec-picker/spec-picker-shell/spec-picker-shell.module#SpecPickerShellModule'
             },
             {
                 path: 'subscriptions/:subscriptionId/scaleup',
-                loadChildren: 'app/site/spec-picker/spec-picker.module#SpecPickerModule'
+                loadChildren: 'app/site/spec-picker/spec-picker-shell/spec-picker-shell.module#SpecPickerShellModule'
             }
         ]
     }

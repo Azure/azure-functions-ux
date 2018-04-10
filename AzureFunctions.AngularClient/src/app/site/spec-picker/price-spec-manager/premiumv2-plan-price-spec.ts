@@ -78,9 +78,6 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
                         }
                     });
             }
-        }
-        if (input.specPickerInput.data && input.specPickerInput.data.hostingEnvironmentName) {
-            this.state = 'hidden';
         } else if (input.plan) {
             if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
                 this.state = 'hidden';

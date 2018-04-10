@@ -8,23 +8,27 @@ import { SpecPickerInput } from '../price-spec-manager/plan-price-spec-manager';
 import { StartupInfo } from '../../../shared/models/portal';
 
 @Component({
-  selector: 'spec-picker-feature-wrapper',
-  templateUrl: './spec-picker-feature-wrapper.component.html',
-  styleUrls: ['./spec-picker-feature-wrapper.component.scss']
+  selector: 'spec-picker-shell',
+  templateUrl: './spec-picker-shell.component.html',
+  styleUrls: ['./spec-picker-shell.component.scss']
 })
-export class SpecPickerFeatureWrapperComponent {
+export class SpecPickerShellComponent {
   viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>;
 
   constructor(translateService: TranslateService, userService: UserService) {
     userService.getStartupInfo()
       .first()
       .subscribe((info: StartupInfo<SpecPickerInput<NewPlanSpeckPickerData>>) => {
-        this.viewInfo = {
-          resourceId: info.featureInfo.id,
-          dashboardType: DashboardType.none,
-          node: null,
-          data: info.featureInfo
-        };
+
+        if (info.featureInfo && info.featureInfo.id) {
+          this.viewInfo = {
+            resourceId: info.featureInfo.id,
+            dashboardType: DashboardType.none,
+            node: null,
+            data: info.featureInfo
+          };
+
+        }
       });
   }
 }

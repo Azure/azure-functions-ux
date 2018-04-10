@@ -863,7 +863,7 @@
     <value>See more options</value>
   </data>
   <data name="seeLessOptions" xml:space="preserve">
-    <value>See less options</value>
+    <value>See fewer options</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
@@ -3000,9 +3000,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_isolatedTitle" xml:space="preserve">
     <value>Isolated</value>
-  </data>
-  <data name="pricing_isolatedDesc" xml:space="preserve">
-    <value>Advanced networking and scale</value>
   </data>
   <data name="pricing_isolatedDesc" xml:space="preserve">
     <value>Advanced networking and scale</value>

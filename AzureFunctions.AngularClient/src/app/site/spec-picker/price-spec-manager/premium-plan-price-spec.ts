@@ -55,11 +55,9 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
     runInitialization(input: PriceSpecInput) {
         // data should only be populated for new plans
         if (input.specPickerInput.data) {
-            if (input.specPickerInput.data.hostingEnvironmentName) {
-                this.state = 'hidden';
-            } else if (input.specPickerInput.data.isLinux) {
-                this.state = 'hidden';
-            } else if (input.specPickerInput.data.isXenon) {
+            if (input.specPickerInput.data.hostingEnvironmentName
+                || input.specPickerInput.data.isLinux
+                || input.specPickerInput.data.isXenon) {
                 this.state = 'hidden';
             }
         } else if (input.plan) {
