@@ -15,6 +15,11 @@
     &.selected{
         background-color: $item-selected-color;
     }
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 30vw;
 }
 
 .column-title{
