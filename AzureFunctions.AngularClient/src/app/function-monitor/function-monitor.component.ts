@@ -10,7 +10,6 @@ import { FunctionInvocations } from '../shared/models/function-monitor';
 import { PortalResources } from '../shared/models/portal-resources';
 import { PortalService } from './../shared/services/portal.service';
 import { CacheService } from './../shared/services/cache.service';
-import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BaseFunctionComponent } from '../shared/components/base-function-component';
 import { ExtendedTreeViewInfo } from '../shared/components/navigable-component';
@@ -43,7 +42,6 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
         private _translateService: TranslateService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
-        broadcastService: BroadcastService,
         private _scenarioService: ScenarioService,
         injector: Injector
     ) {
@@ -111,7 +109,19 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
                 this.errorsAggregateHeading = `${this._translateService.instant(PortalResources.functionMonitor_errorsAggregate)} ${firstOfMonth.format('MMM Do')}`;
 
                 return this._functionAppService.getFunctionHostStatus(this.context)
-                    .flatMap(host => this._functionMonitorService.getDataForSelectedFunction(this.context, this.currentFunction, host.isSuccessful ? host.result.id : ''))
+                    .flatMap(host => {
+                        if (host.isSuccessful) {
+                            return this._functionMonitorService.getDataForSelectedFunction(this.context, this.currentFunction, host.result.id);
+                        } else {
+                            this.showComponentError({
+                                errorId: host.error.errorId,
+                                message: host.error.message,
+                                resourceId: this.context.site.id
+                            });
+
+                            return Observable.of(null);
+                        }
+                    })
                     .flatMap(data => {
                         this.functionId = !!data ? data.functionId : '';
                         this.successAggregate = !!data ? data.successCount.toString() : this._translateService.instant(PortalResources.appMonitoring_noData);
