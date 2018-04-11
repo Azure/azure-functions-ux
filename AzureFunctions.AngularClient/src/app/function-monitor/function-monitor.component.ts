@@ -115,7 +115,7 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
                         } else {
                             this.showComponentError({
                                 errorId: host.error.errorId,
-                                message: host.error.message,
+                                message: this._translateService.instant(PortalResources.monitorHostFetchFailed),
                                 resourceId: this.context.site.id
                             });
 
