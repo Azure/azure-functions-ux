@@ -61,7 +61,7 @@ $bubble-diameter: 30px;
             li.done:after {
                 background-color: $wz-color-done;
                 color: $text-color;
-                content: url(/ng-full/image/success.svg);
+                content: url(/image/success.svg);
             }
 
             li.optional:after {
