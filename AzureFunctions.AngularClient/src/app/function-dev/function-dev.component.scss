@@ -259,3 +259,10 @@
   grid-row: 2;
   padding-top: 10px;
 }
+
+.filename-title {
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    max-width: 25vw;
+}
