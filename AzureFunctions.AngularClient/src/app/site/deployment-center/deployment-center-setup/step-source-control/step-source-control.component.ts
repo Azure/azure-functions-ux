@@ -10,18 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { LogService } from 'app/shared/services/log.service';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-
-export interface ProviderCard {
-    id: sourceControlProvider;
-    name: string;
-    icon: string;
-    color: string;
-    barColor: string;
-    description: string;
-    authorizedStatus: 'loadingAuth' | 'notAuthorized' | 'authorized' | 'none';
-    authenticatedId?: string;
-    manual?: boolean;
-}
+import { ProviderCard } from '../../Models/ProviderCard';
 
 @Component({
     selector: 'app-step-source-control',
@@ -285,7 +274,7 @@ export class StepSourceControlComponent {
                             win.close();
                         });
                 }
-            } catch (e) {}
+            } catch (e) { }
         });
     }
 }

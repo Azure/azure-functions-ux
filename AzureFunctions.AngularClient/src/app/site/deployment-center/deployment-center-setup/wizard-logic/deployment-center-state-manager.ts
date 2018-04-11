@@ -94,7 +94,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
     private _deployVsts() {
         return this._startVstsDeployment().concatMap(id => {
-            return Observable.interval(1000)
+            return Observable.timer(1000, 1000)
                 .switchMap(() => this._pollVstsCheck(id))
                 .map(r => {
                     const result = r.json();
