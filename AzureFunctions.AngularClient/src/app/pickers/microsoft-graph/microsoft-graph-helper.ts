@@ -8,8 +8,6 @@ import { FunctionNewComponent } from '../../function/function-new/function-new.c
 import { CacheService } from '../../shared/services/cache.service';
 import { AiService } from '../../shared/services/ai.service';
 import { ArmObj } from '../../shared/models/arm/arm-obj';
-import { MobileAppsClient } from '../../shared/models/mobile-apps-client';
-import { PickerInput } from '../../shared/models/binding-input';
 import { MSGraphConstants, AADPermissions, AADRegistrationInfo } from '../../shared/models/microsoft-graph';
 import { FunctionAppContext } from 'app/shared/function-app-context';
 
@@ -19,7 +17,6 @@ declare var require: any;
 export class MicrosoftGraphHelper {
     public binding?: BindingComponent;
     public function?: FunctionNewComponent;
-    private _dataRetriever: MobileAppsClient;
     private _token: string;
     private _jwt: any;
     private setClientSecret = false;
@@ -29,9 +26,6 @@ export class MicrosoftGraphHelper {
         private _functionAppService: FunctionAppService,
         private _cacheService: CacheService,
         private _aiService?: AiService) {
-        if (_aiService) {
-            this._dataRetriever = new MobileAppsClient(this.context.mainSiteUrl);
-        }
     }
 
     getADDAppRegistrationInfo(necessaryAADPermisisons: AADPermissions[], graphToken: string): Observable<AADRegistrationInfo> {
@@ -162,16 +156,6 @@ export class MicrosoftGraphHelper {
                     return Observable.of(null);
                 }
             });
-    }
-
-    openLogin(input: PickerInput): Promise<any> {
-        const options = {
-            parameters: {
-                prompt: 'login'
-            }
-        };
-
-        return this._dataRetriever.retrieveOID(options, input);
     }
 
     // Set long list of auth settings needed by Easy Auth
