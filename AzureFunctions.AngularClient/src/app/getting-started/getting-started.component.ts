@@ -54,7 +54,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
     public user: User;
 
     private _ngUnsubscribe = new Subject();
-    private _startupInfo: StartupInfo;
+    private _startupInfo: StartupInfo<void>;
 
     private functionContainer: FunctionContainer;
     constructor(
@@ -281,14 +281,14 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
 
         const createApp = () => this._getResourceGroup(subscription, geoRegion)
             .subscribe(
-            () => {
-                this._getStorageAccount(subscription, geoRegion)
-                    .subscribe(
-                    sa => sa ? this._pullStorageAccount(subscription, geoRegion, sa, name, result) : this._createStorageAccount(subscription, geoRegion, name, result),
-                    () => this._createStorageAccount(subscription, geoRegion, name, result)
-                    );
-            },
-            () => this._createResourceGroup(subscription, geoRegion, name, result)
+                () => {
+                    this._getStorageAccount(subscription, geoRegion)
+                        .subscribe(
+                            sa => sa ? this._pullStorageAccount(subscription, geoRegion, sa, name, result) : this._createStorageAccount(subscription, geoRegion, name, result),
+                            () => this._createStorageAccount(subscription, geoRegion, name, result)
+                        );
+                },
+                () => this._createResourceGroup(subscription, geoRegion, name, result)
             );
 
         const registerProviders = (providers?: string[]) => {
@@ -302,8 +302,8 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
             if (observables.length > 0) {
                 Observable.forkJoin(observables)
                     .subscribe(
-                    () => createApp(),
-                    e => this.completeError(result, e));
+                        () => createApp(),
+                        e => this.completeError(result, e));
             } else {
                 createApp();
             }
@@ -312,8 +312,8 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         this._armService.get(providersId, this._armService.armApiVersion)
             .map(r => <string[]>(r.json().value.filter(e => e['registrationState'] === 'Registered').map(e => e['namespace'])))
             .subscribe(
-            p => registerProviders(p),
-            () => registerProviders());
+                p => registerProviders(p),
+                () => registerProviders());
     }
 
     private _getResourceGroup(subscription: string, geoRegion: string): Observable<ResourceGroup> {
@@ -329,8 +329,8 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         };
         this._armService.put(id, body, this._armService.armApiVersion)
             .subscribe(
-            () => this._createStorageAccount(subscription, geoRegion, functionAppName, result),
-            e => this.completeError(result, e));
+                () => this._createStorageAccount(subscription, geoRegion, functionAppName, result),
+                e => this.completeError(result, e));
     }
 
     private _getStorageAccount(subscription: string, geoRegion: string): Observable<StorageAccount> {
@@ -355,20 +355,20 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
             this._armService.get(id, this._armService.storageApiVersion)
                 .map(r => <StorageAccount>(r.json()))
                 .subscribe(
-                sa => {
-                    if (sa.properties.provisioningState === 'Succeeded') {
-                        this._getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result);
-                    } else if (count < 100) {
-                        setTimeout(() => this._pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 400);
-                    } else {
-                        this._aiService.trackEvent('/errors/portal/storage/timeout', { count: count.toString(), geoRegion: geoRegion, subscription: subscription });
-                        this.completeError(result, sa);
-                    }
-                },
-                e => {
-                    this._aiService.trackEvent('/errors/portal/storage/pull', { count: count.toString(), geoRegion: geoRegion, subscription: subscription });
-                    this.completeError(result, e);
-                });
+                    sa => {
+                        if (sa.properties.provisioningState === 'Succeeded') {
+                            this._getStorageAccountSecrets(subscription, geoRegion, sa, functionAppName, result);
+                        } else if (count < 100) {
+                            setTimeout(() => this._pullStorageAccount(subscription, geoRegion, storageAccount, functionAppName, result, count + 1), 400);
+                        } else {
+                            this._aiService.trackEvent('/errors/portal/storage/timeout', { count: count.toString(), geoRegion: geoRegion, subscription: subscription });
+                            this.completeError(result, sa);
+                        }
+                    },
+                    e => {
+                        this._aiService.trackEvent('/errors/portal/storage/pull', { count: count.toString(), geoRegion: geoRegion, subscription: subscription });
+                        this.completeError(result, e);
+                    });
         }
     }
 
@@ -389,8 +389,8 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
                 return errorCount + 1;
             }, 0).delay(200))
             .subscribe(
-            () => this._pullStorageAccount(subscription, geoRegion, storageAccountName, functionAppName, result),
-            e => this.completeError(result, e));
+                () => this._pullStorageAccount(subscription, geoRegion, storageAccountName, functionAppName, result),
+                e => this.completeError(result, e));
     }
 
     private _createStorageAccountLock(subscription: string, geoRegion: string, storageAccount: string | StorageAccount): RxSubscription {
@@ -421,8 +421,8 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         return this._armService.post(id, null, this._armService.storageApiVersion)
             .map(r => <{ key1: string, key2: string }>(r.json()))
             .subscribe(
-            secrets => this._createFunctionApp(subscription, geoRegion, functionAppName, storageAccount, secrets, result),
-            error => this.completeError(result, error)
+                secrets => this._createFunctionApp(subscription, geoRegion, functionAppName, storageAccount, secrets, result),
+                error => this.completeError(result, error)
             ).add(() => this._createStorageAccountLock(subscription, geoRegion, storageAccount));
 
     }
@@ -453,8 +453,8 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
         this._armService.put(id, body, this._armService.websiteApiVersion)
             .map(r => <FunctionContainer>(r.json()))
             .subscribe(
-            r => this.complete(result, r),
-            e => this.completeError(result, e));
+                r => this.complete(result, r),
+                e => this.completeError(result, e));
     }
 
 

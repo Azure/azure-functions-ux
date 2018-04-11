@@ -1,20 +1,50 @@
 @import '../../../sass/common/variables';
 
 $footer-height: 55px;
+$spec-card-max-width: 350px;
+$center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
 #spec-picker-container{
     padding-bottom: 60px;
 
     #spec-picker-shield{
-        position: absolute;
-        height: calc(100% + 60px);  // Adding padding from bottom of container
-        width: calc(100% - #{$sidenav-width});
+        position: fixed;
         background-color: rgba(0, 0, 0, 0.25);
         z-index: 10;
+        bottom: 0px;
+        top: 42px;
+        left: 0px;
+        right: 0px;
+
+        &.spec-picker-shield-menu{
+            top: 0px;
+        }
     }
 
     nav{
         display: flex;
+    }
+
+    section{
+        &.centered{
+            max-width: $center-column-max-width;
+            margin: 0px auto;    
+        }
+
+        &.empty-group{
+            text-align: center;
+            margin-top: 100px;
+            
+            .icon-large{
+                height: 75px;
+                width: 75px;
+            }
+
+            article{
+                max-width: 600px;
+                margin: 15px auto;
+            }
+        }
     }
 
     .spec-group{
@@ -63,8 +93,8 @@ $footer-height: 55px;
     .spec {
         padding: 10px;
         height: 80px;
-        width: calc(100% * (1/4) - 10px);
-        max-width: 350px;
+        width: calc(25% - 10px);
+        max-width: $spec-card-max-width;
         min-width: 250px;
         margin: 10px 5px;
         position: relative;
@@ -179,7 +209,7 @@ $footer-height: 55px;
         z-index: 100;
         bottom: 0px;
         height: $footer-height;
-        width: calc(100% - #{$sidenav-width});
+        width: 100%;
         border-top: $border;
         padding: 0px 5px;
         background-color: $body-bg-color;

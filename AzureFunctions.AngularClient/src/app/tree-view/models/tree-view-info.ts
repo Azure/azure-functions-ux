@@ -8,7 +8,7 @@ export interface TreeViewInfo<T> {
     data: T;
 }
 
-export interface SiteData{
+export interface SiteData {
     siteTabRevealedTraceKey?: string;
     siteTabFullReadyTraceKey?: string;
 }

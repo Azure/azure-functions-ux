@@ -11,7 +11,7 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "bundle-report": "webpack-bundle-analyzer ../azurefunctions/ng-full/stats.json"
+        "bundle-report": "webpack-bundle-analyzer ../server/src/public/ng-full/stats.json"
     },
     "private": true,
     "dependencies": {
@@ -45,7 +45,8 @@
         "swagger-editor": "git+https://github.com/azure/swagger-editor.git#5c7736ff93ffe36569e1f21efd72a91c9c1f9f77",
         "ts-helpers": "^1.1.1",
         "zone.js": "^0.8.20",
-        "@ng-select/ng-select": "^0.30.1"
+        "@ng-select/ng-select": "^0.36.0",
+        "prismjs": "^1.13.0"
     },
     "devDependencies": {
         "@angular/cli": "^1.7.3",
@@ -54,11 +55,12 @@
         "@types/jsonschema": "^1.1.1",
         "@types/lodash": "^4.14.80",
         "@types/node": "~6.0.60",
+        "@types/prismjs": "^1.9.0",
         "codelyzer": "~2.0.0",
         "jasmine-core": "~2.5.2",
         "jasmine-spec-reporter": "~3.2.0",
         "karma": "~1.4.1",
-        "karma-chrome-launcher": "~2.0.0",
+        "karma-chrome-launcher": "^2.2.0",
         "karma-cli": "~1.0.1",
         "karma-coverage-istanbul-reporter": "^0.2.0",
         "karma-jasmine": "~1.1.0",
@@ -67,6 +69,9 @@
         "ts-node": "~2.0.0",
         "tslint": "~4.5.0",
         "typescript": "2.4.2",
-        "webpack-bundle-analyzer": "^2.9.0"
+        "webpack-bundle-analyzer":  "^2.11.1",
+        "puppeteer": "^1.2.0",
+        "karma-junit-reporter": "^1.2.0",
+        "karma-mocha-reporter": "^1.3.0"
     }
 }

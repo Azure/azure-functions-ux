@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core/src/core';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
@@ -53,7 +54,9 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
     }
 
     runInitialization(input: PriceSpecInput) {
-        if (input.plan) {
+        if (input.specPickerInput.data && input.specPickerInput.data.hostingEnvironmentName) {
+            this.state = 'hidden';
+        } else if (input.plan) {
             if (input.plan.properties.hostingEnvironmentProfile) {
                 this.state = 'hidden';
             }
@@ -65,6 +68,7 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
 
 export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
     skuCode = 'S1';
+    legacySkuName = 'small_standard';
     topLevelFeatures = [
         '1x cores',
         '1.75 GB Memory',
@@ -84,6 +88,7 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
 
 export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
     skuCode = 'S2';
+    legacySkuName = 'medium_standard';
     topLevelFeatures = [
         '2x cores',
         '3.5 GB Memory',
@@ -99,10 +104,20 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        return super.runInitialization(input);
+    }
 }
 
 export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
     skuCode = 'S3';
+    legacySkuName = 'large_standard';
     topLevelFeatures = [
         '4x cores',
         '7 GB Memory',
@@ -118,4 +133,13 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
             resourceId: null
         }]
     };
+
+    runInitialization(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isXenon) {
+            this.state = 'hidden';
+            return Observable.of(null);
+        }
+
+        return super.runInitialization(input);
+    }
 }

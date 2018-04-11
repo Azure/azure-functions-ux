@@ -10,7 +10,6 @@ import { StepDeploymentSlotComponent } from 'app/site/deployment-center/deployme
 import { StepBuildProviderComponent } from 'app/site/deployment-center/deployment-center-setup/step-build-provider/step-build-provider.component';
 import { StepCompleteComponent } from 'app/site/deployment-center/deployment-center-setup/step-complete/step-complete.component';
 import { StepConfigureComponent } from 'app/site/deployment-center/deployment-center-setup/step-configure/step-configure.component';
-import { SidebarModule } from 'ng-sidebar';
 import { DeploymentDetailComponent } from 'app/site/deployment-center/provider-dashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
 import { StepTestComponent } from 'app/site/deployment-center/deployment-center-setup/step-test/step-test.component';
 import { WizardModule } from 'app/controls/form-wizard/wizard.module';
@@ -21,11 +20,13 @@ import { ConfigureVstsSourceComponent } from './deployment-center-setup/step-con
 import { ConfigureVstsBuildComponent } from './deployment-center-setup/step-configure/configure-vsts-build/configure-vsts-build.component';
 import { ConfigureExternalComponent } from './deployment-center-setup/step-configure/configure-external/configure-external.component';
 import { ConfigureBitbucketComponent } from './deployment-center-setup/step-configure/configure-bitbucket/configure-bitbucket.component';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfigureLocalGitComponent } from './deployment-center-setup/step-configure/configure-local-git/configure-local-git.component';
 import { FtpDashboardComponent } from './provider-dashboards/ftp-dashboard/ftp-dashboard.component';
 import { WebDeployDashboardComponent } from './provider-dashboards/web-deploy-dashboard/web-deploy-dashboard.component';
 import { ReadFromZipDashboardComponent } from './provider-dashboards/read-from-zip-dashboard/read-from-zip-dashboard.component';
+import { SidebarModule } from 'ng-sidebar';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
     entryComponents: [DeploymentCenterComponent],
@@ -53,7 +54,7 @@ import { ReadFromZipDashboardComponent } from './provider-dashboards/read-from-z
         WebDeployDashboardComponent,
         ReadFromZipDashboardComponent
     ],
-    imports: [TranslateModule.forChild(), NgSelectModule, SharedModule, SidebarModule, WizardModule],
+    imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule],
     exports: [DeploymentCenterComponent]
 })
 export class DeploymentCenterModule {

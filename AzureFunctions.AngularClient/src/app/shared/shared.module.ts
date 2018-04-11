@@ -173,7 +173,7 @@ export function AiServiceFactory() {
         FormsModule,
         CommonModule,
         ReactiveFormsModule,
-        TranslateModule.forChild(),
+        TranslateModule.forChild()
     ]
 })
 export class SharedModule {

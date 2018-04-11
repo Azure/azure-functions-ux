@@ -184,7 +184,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         }
     }
 
-    private _initializeTree(info: StartupInfo) {
+    private _initializeTree(info: StartupInfo<void>) {
         this._initialized = true;
         this.rootNode = new TreeNode(this, null, null);
 
@@ -451,7 +451,7 @@ export class SideNavComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    private _updateSubscriptions(info: StartupInfo) {
+    private _updateSubscriptions(info: StartupInfo<void>) {
         const savedSubs = <StoredSubscriptions>this.localStorageService.getItem(LocalStorageKeys.savedSubsKey);
         const savedSelectedSubscriptionIds = savedSubs ? savedSubs.subscriptions : [];
         let descriptor: ArmSiteDescriptor | null;

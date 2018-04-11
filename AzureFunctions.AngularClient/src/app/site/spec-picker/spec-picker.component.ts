@@ -1,15 +1,18 @@
+import { PortalService } from 'app/shared/services/portal.service';
+import { TranslateService } from '@ngx-translate/core';
 import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
-import { PlanPriceSpecManager } from './price-spec-manager/plan-price-spec-manager';
+import { PlanPriceSpecManager, NewPlanSpeckPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
 import { Component, OnInit, Input, Injector, ViewEncapsulation } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
-import { TreeViewInfo, SiteData } from '../../tree-view/models/tree-view-info';
+import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
 import { PriceSpec } from './price-spec-manager/price-spec';
 import { PriceSpecGroup } from './price-spec-manager/price-spec-group';
 import { ResourceId } from '../../shared/models/arm/arm-obj';
+import { PortalResources } from '../../shared/models/portal-resources';
 
-interface InfoMessage {
+interface StatusMessage {
   message: string;
   level: 'error' | 'success';
 }
@@ -20,23 +23,26 @@ interface InfoMessage {
   styleUrls: ['./spec-picker.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnInit {
+export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>> implements OnInit {
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>) {
     this.setInput(viewInfo);
   }
 
+  @Input() isOpenedFromMenu: boolean;
+
   specManager: PlanPriceSpecManager;
-  infoMessage: InfoMessage = null;
+  statusMessage: StatusMessage = null;
+  infoMessage: string;
   isInitializing = false;
   isUpdating = false;
   shieldEnabled = false;
 
-  private _planResourceId: ResourceId;
-  private _planDescriptor: ArmResourceDescriptor;
+  private _planOrSubResourceId: ResourceId;
+  private _input: SpecPickerInput<NewPlanSpeckPickerData>;
 
   get applyButtonEnabled(): boolean {
-    if (this.infoMessage && this.infoMessage.level === 'error') {
+    if (this.statusMessage && this.statusMessage.level === 'error') {
       return false;
     } else if (this.specManager
       && this.specManager.selectedSpecGroup.selectedSpec
@@ -54,6 +60,8 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
   constructor(
     private _authZService: AuthzService,
+    private _ts: TranslateService,
+    private _portalService: PortalService,
     private _injector: Injector) {
     super('SpecPickerComponent', _injector, 'site-tabs');
 
@@ -64,19 +72,30 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SiteData>
   ngOnInit() {
   }
 
-  protected setup(inputEvents: Observable<TreeViewInfo<SiteData>>) {
+  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>>) {
     return inputEvents
       .distinctUntilChanged()
       .switchMap(info => {
         this.isInitializing = true;
-        this.infoMessage = null;
+        this.statusMessage = null;
         this.shieldEnabled = false;
 
-        this._planResourceId = info.resourceId;
-        this._planDescriptor = new ArmResourceDescriptor(this._planResourceId);
+        this._planOrSubResourceId = info.resourceId;
 
         this.specManager = new PlanPriceSpecManager(this, this._injector);
-        return this.specManager.initialize(this._planResourceId);
+
+        // data will be null if opened as a tab
+        if (!info.data) {
+          this._input = {
+            id: info.resourceId,
+            data: null
+          };
+        } else {
+          // data will be set if opened from Ibiza
+          this._input = info.data;
+        }
+
+        return this.specManager.initialize(this._input);
       })
       .switchMap(_ => {
 
@@ -84,26 +103,31 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
         return Observable.zip(
           this.specManager.getSpecCosts(),
-          this._authZService.hasPermission(this._planResourceId, [AuthzService.writeScope]),
-          this._authZService.hasReadOnlyLock(this._planResourceId));
+          !this._input.data ? this._authZService.hasPermission(this._planOrSubResourceId, [AuthzService.writeScope]) : Observable.of(true),
+          !this._input.data ? this._authZService.hasReadOnlyLock(this._planOrSubResourceId) : Observable.of(false));
       })
       .do(r => {
         this.isInitializing = false;
 
-        if (!r[1]) {
-          this.infoMessage = {
-            message: `You must have write permissions on the plan '${this._planDescriptor.parts[this._planDescriptor.parts.length - 1]}' to update it`,
-            level: 'error'
-          };
+        if (!this._input.data) {
+          const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
+          const name = planDescriptor.parts[planDescriptor.parts.length - 1];
 
-          this.shieldEnabled = true;
-        } else if (r[2]) {
-          this.infoMessage = {
-            message: `The plan '${this._planDescriptor.parts[this._planDescriptor.parts.length - 1]}' has a read only lock on it and cannot be updated.`,
-            level: 'error'
-          };
+          if (!r[1]) {
+            this.statusMessage = {
+              message: this._ts.instant(PortalResources.pricing_noWritePermissionsOnPlanFormat).format(name),
+              level: 'error'
+            };
 
-          this.shieldEnabled = true;
+            this.shieldEnabled = true;
+          } else if (r[2]) {
+            this.statusMessage = {
+              message: this._ts.instant(PortalResources.pricing_planReadonlyLockFormat).format(name),
+              level: 'error'
+            };
+
+            this.shieldEnabled = true;
+          }
         }
       });
   }
@@ -118,7 +142,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SiteData>
       return;
     }
 
-    this.infoMessage = null;
+    this.statusMessage = null;
 
     this.specManager.selectedSpecGroup.selectedSpec = spec;
   }
@@ -128,27 +152,35 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SiteData>
       return;
     }
 
-    this.infoMessage = null;
+    this.statusMessage = null;
     this.isUpdating = true;
 
-    this.specManager.applySelectedSpec()
-      .subscribe(r => {
-        this.isUpdating = false;
+    // This is an existing plan, so just upgrade in-place
+    if (!this._input.data) {
 
-        if (r.isSuccessful) {
+      this.specManager.applySelectedSpec()
+        .subscribe(r => {
+          this.isUpdating = false;
+          const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
 
-          this.infoMessage = {
-            message: 'Success!',
-            level: 'success'
-          };
+          if (r.isSuccessful) {
 
-        } else {
+            this.statusMessage = {
+              message: this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName),
+              level: 'success'
+            };
 
-          this.infoMessage = {
-            message: r.error.message ? r.error.message : `Failed to update ''${this._planDescriptor.parts[this._planDescriptor.parts.length - 1]}`,
-            level: 'error'
-          };
-        }
-      });
+          } else {
+
+            this.statusMessage = {
+              message: r.error.message ? r.error.message : this._ts.instant(PortalResources.pricing_planUpdateFailFormat).format(planDescriptor.resourceName),
+              level: 'error'
+            };
+          }
+        });
+    } else {
+      // This is a new plan, so return plan information to parent blade
+      this._portalService.returnPcv3Results<string>(this.specManager.selectedSpecGroup.selectedSpec.legacySkuName);
+    }
   }
 }

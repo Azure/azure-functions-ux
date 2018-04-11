@@ -1,7 +1,7 @@
 import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
 import { Observable } from 'rxjs/Observable';
 import { errorIds } from './../shared/models/error-ids';
-import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, Input, QueryList, OnInit } from '@angular/core';
+import { Component, OnDestroy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, Input, QueryList, OnInit, ChangeDetectorRef } from '@angular/core';
 import { PortalService } from '../shared/services/portal.service';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
@@ -40,7 +40,8 @@ export class HostEditorComponent extends ErrorableComponent implements OnInit, O
         broadcastService: BroadcastService,
         private _globalStateService: GlobalStateService,
         private _functionAppService: FunctionAppService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _ref: ChangeDetectorRef) {
         super('host-editor', broadcastService);
         this.isDirty = false;
 
@@ -78,6 +79,7 @@ export class HostEditorComponent extends ErrorableComponent implements OnInit, O
     contentChanged(content: string) {
         if (!this.isDirty) {
             this.isDirty = true;
+            this._ref.detectChanges();
             this._broadcastService.setDirtyState('function');
             this._portalService.setDirtyState(true);
         }

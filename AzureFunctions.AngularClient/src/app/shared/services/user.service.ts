@@ -24,8 +24,8 @@ export class UserService {
     public inIFrame: boolean;
     public deeplinkAllowed: boolean;
     public inTab: boolean;
-    private _startupInfoStream: ReplaySubject<StartupInfo>;
-    private _startupInfo: StartupInfo;
+    private _startupInfoStream: ReplaySubject<StartupInfo<any>>;
+    private _startupInfo: StartupInfo<any>;
     private _inTry: boolean;
 
     constructor(
@@ -35,7 +35,7 @@ export class UserService {
         private _translateService: TranslateService,
         private _localStorageService: LocalStorageService) {
 
-        this._startupInfoStream = new ReplaySubject<StartupInfo>(1);
+        this._startupInfoStream = new ReplaySubject<StartupInfo<any>>(1);
         this.inIFrame = PortalService.inIFrame();
         this.deeplinkAllowed = this.enableDeeplink();
         this.inTab = PortalService.inTab();
@@ -149,7 +149,7 @@ export class UserService {
         return this._startupInfoStream;
     }
 
-    updateStartupInfo(startupInfo: StartupInfo) {
+    updateStartupInfo(startupInfo: StartupInfo<void>) {
         this._startupInfo = startupInfo;
         this._startupInfoStream.next(startupInfo);
     }
@@ -180,7 +180,7 @@ export class UserService {
             .map(r => <Subscription[]>(r.json().value));
     }
 
-    private _getLocalizedResources(startupInfo: StartupInfo, runtime: string): Observable<any> {
+    private _getLocalizedResources(startupInfo: StartupInfo<void>, runtime: string): Observable<any> {
 
         const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, runtime);
         let storageItem: ResourceStringsStorageItem;

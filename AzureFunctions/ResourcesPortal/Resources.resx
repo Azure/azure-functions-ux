@@ -859,6 +859,12 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Upload</value>
   </data>
+  <data name="seeMoreOptions" xml:space="preserve">
+    <value>See more options</value>
+  </data>
+  <data name="seeLessOptions" xml:space="preserve">
+    <value>See fewer options</value>
+  </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
   </data>
@@ -888,6 +894,9 @@
   </data>
   <data name="topBar_learnMore" xml:space="preserve">
     <value>Learn more</value>
+  </data>
+  <data name="clickToLearnMore" xml:space="preserve">
+    <value>Click to learn more.</value>
   </data>
   <data name="httpRun_addHeader" xml:space="preserve">
     <value>Add header</value>
@@ -2973,6 +2982,72 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="diagnostics_line" xml:space="preserve">
     <value>Line</value>
+  </data>
+  <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
+    <value>Your subscription does not allow this pricing tier</value>
+  </data>
+  <data name="pricing_devTestTitle" xml:space="preserve">
+    <value>Dev / Test</value>
+  </data>
+  <data name="pricing_devTestDesc" xml:space="preserve">
+    <value>For less demanding workloads</value>
+  </data>
+  <data name="pricing_productionTitle" xml:space="preserve">
+    <value>Production</value>
+  </data>
+  <data name="pricing_productionDesc" xml:space="preserve">
+    <value>For most production workloads</value>
+  </data>
+  <data name="pricing_isolatedTitle" xml:space="preserve">
+    <value>Isolated</value>
+  </data>
+  <data name="pricing_isolatedDesc" xml:space="preserve">
+    <value>Advanced networking and scale</value>
+  </data>
+  <data name="pricing_notAvailableConsumption" xml:space="preserve">
+    <value>Scale up is not available for consumption plans</value>
+  </data>
+  <data name="pricing_noWritePermissionsOnPlan" xml:space="preserve">
+    <value>You must have write permissions to scale up this plan</value>
+  </data>
+  <data name="pricing_noWritePermissionsOnPlanFormat" xml:space="preserve">
+    <value>You must have write permissions on the plan '{0}' to update it</value>
+  </data>
+  <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
+    <value>The plan '{0}' has a read only lock on it and cannot be updated</value>
+  </data>
+  <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
+    <value>The plan '{0}' was updated successfully!</value>
+  </data>
+  <data name="pricing_planUpdateFailFormat" xml:space="preserve">
+    <value>Failed to update the plan '{0}'</value>
+  </data>
+  <data name="pricing_includedFeatures" xml:space="preserve">
+    <value>Included features</value>
+  </data>
+  <data name="pricing_includedFeaturesDesc" xml:space="preserve">
+    <value>Every app hosted on this App Service plan will have access to these features:</value>
+  </data>
+  <data name="pricing_includedHardware" xml:space="preserve">
+    <value>Included hardware</value>
+  </data>
+  <data name="pricing_includedHardwareDesc" xml:space="preserve">
+    <value>Every instance of your App Service plan will include the following hardware configuration:</value>
+  </data>
+  <data name="pricing_linuxAseDiscount" xml:space="preserve">
+    <value>Linux web apps in an App Service Environment are billed at a 50% discount while in preview.</value>
+  </data>
+  <data name="pricing_linuxTrial" xml:space="preserve">
+    <value>The first Basic (B1) core for Linux is free for the first 30 days!</value>
+  </data>
+  <data name="pricing_windowsContainers" xml:space="preserve">
+    <value>Windows containers are billed at a 50% discount while in preview.</value>
+  </data>
+  <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
+    <value>Isolated plans within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
+  </data>
+  <data name="pricing_pv2NotAvailable" xml:space="preserve">
+    <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>The proxies.json is not valid. Error: '{0}'.</value>

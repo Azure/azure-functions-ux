@@ -13,10 +13,15 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from './../shared/shared.module';
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { DropdownExampleComponent } from './dropdown-example/dropdown-example.component';
+import { HighlightService } from './highlight.service';
+import { SidepanelExampleComponent } from './sidepanel-example/sidepanel-example.component';
+import { SidebarModule } from 'ng-sidebar';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
-        path: '', component: DevGuideComponent
+        path: '**', component: DevGuideComponent
     }
 ]);
 
@@ -24,7 +29,9 @@ const routing: ModuleWithProviders = RouterModule.forChild([
     imports: [
         TranslateModule.forChild(),
         SharedModule,
-        routing
+        routing,
+        SidebarModule,
+        NgSelectModule
     ],
     declarations: [
         TabsComponent,
@@ -37,8 +44,12 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         TextboxExampleComponent,
         RadioSelectorExampleComponent,
         TblExampleComponent,
-        EditableTblExampleComponent
+        EditableTblExampleComponent,
+        DropdownExampleComponent,
+        SidepanelExampleComponent
     ],
-    providers: []
+    providers: [
+        HighlightService
+    ]
 })
 export class DevGuideModule { }

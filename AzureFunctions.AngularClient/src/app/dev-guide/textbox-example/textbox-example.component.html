@@ -7,23 +7,13 @@
         </div>
     </div>
     <figure>
-        <label>HTML</label>
-        <pre>
-
-    &lt;textbox placeholder=&quot;Enter some text and then and delete it&quot; [control]=&quot;control&quot;&gt;&lt;/textbox&gt;
-        </pre>
-
-        <label>TypeScript</label>
-        <pre>
-
-    export class TextboxExampleComponent {{ '{' }}
-        control: FormControl;
-    
-        constructor(fb: FormBuilder, translateService: TranslateService){{ '{' }}
-            const required = new RequiredValidator(translateService);
-            this.control = fb.control('', required.validate.bind(required));
-        {{ '}' }}
-    {{ '}' }}
-        </pre>
+            <label>HTML</label>
+            <pre class="language-html">
+                <code [innerHTML]="htmlCode" ></code>
+            </pre>
+            <label>TypeScript</label>
+            <pre class="language-typescript">
+              <code [innerHTML]="typescriptCode" ></code>
+          </pre>
     </figure>
 </section>

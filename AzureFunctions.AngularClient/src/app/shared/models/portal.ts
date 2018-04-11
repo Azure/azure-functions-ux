@@ -15,7 +15,7 @@ export interface GetStartupInfo {
     iframeHostName: string;
 }
 
-export interface StartupInfo {
+export interface StartupInfo<T> {
     token: string;
     subscriptions: Subscription[];
     sessionId: string;
@@ -24,6 +24,7 @@ export interface StartupInfo {
     resourceId: string;
     theme: string;
     crmInfo?: CrmInfo;
+    featureInfo?: T;
     armEndpoint?: string;
 }
 
@@ -65,10 +66,12 @@ export class Verbs {
     // Requests from iframe
     public static getStartupInfo = 'get-startup-info';
     public static openBlade = 'open-blade';
+    public static openBlade2 = 'open-blade2';
 
     public static openBladeCollector = 'open-blade-collector';                // Deprecated
     public static openBladeCollectorInputs = 'open-blade-collector-inputs';   // Deprecated
     public static updateBladeInfo = 'update-blade-info';
+    public static returnPCV3Results = 'return-pcv3-results';
 
     public static closeBlades = 'close-blades';
     public static logAction = 'log-action';
@@ -109,9 +112,9 @@ export interface WebsiteId {
 }
 
 export interface OpenBladeInfo {
-    detailBlade: string,
-    detailBladeInputs: any,
-    extension?: string
+    detailBlade: string;
+    detailBladeInputs: any;
+    extension?: string;
 }
 
 export interface TimerEvent {
@@ -204,8 +207,12 @@ export enum PartSize {
     Custom = 99,
 }
 
-
-export interface TokenResponse { 
+export interface TokenResponse {
     tokenType: 'graph' | 'azureTfsApi';
-    token: string
+    token: string;
+}
+
+export interface BladeResult<T> {
+    reason: 'userNavigation' | 'childClosedSelf';
+    data: T;
 }

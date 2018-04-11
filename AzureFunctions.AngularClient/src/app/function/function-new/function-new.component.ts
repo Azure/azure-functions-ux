@@ -223,7 +223,7 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
 
             // add template category/categories to categories (if needed)
             template.metadata.category.forEach((c) => {
-                if ((this.language === this._translateService.instant('temp_category_all') || (template.metadata.language === this.language))) {
+                if (!!this.functionAppLanguage || (this.language === this._translateService.instant('temp_category_all') || (template.metadata.language === this.language))) {
 
                     const index = this.categories.findIndex((category) => {
                         return category.value === c;

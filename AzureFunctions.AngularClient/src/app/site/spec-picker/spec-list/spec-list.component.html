@@ -10,12 +10,12 @@
       <div *ngIf="spec.state === 'enabled'">
         <div *ngFor="let topFeature of spec.topLevelFeatures">{{topFeature}}</div>
         <div *ngIf="spec.priceString">{{spec.priceString}}</div>
-        <div *ngIf="!spec.priceString">Loading...</div>
+        <div *ngIf="!spec.priceString">{{'loading' | translate}}</div>
       </div>
 
       <div *ngIf="spec.state === 'disabled'">
         <div>{{spec.disabledMessage}}</div>
-        <div *ngIf="spec.disabledInfoLink"><a [href]="spec.disabledInfoLink" target="_blank">Click here to learn more.</a></div>
+        <div *ngIf="spec.disabledInfoLink"><a [href]="spec.disabledInfoLink" target="_blank">{{'clickToLearnMore' | translate}}</a></div>
       </div>
     </div>
   </div>

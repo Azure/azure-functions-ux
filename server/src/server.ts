@@ -59,7 +59,7 @@ app
         })
     );
 const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
-    if (!req.query.trustedAuthority) {
+    if (!req.query.trustedAuthority && !req.query['appsvc.devguide']) {
         res.redirect('https://azure.microsoft.com/services/functions/');
     }
     else {
@@ -100,7 +100,6 @@ app.post('/api/proxy', proxy);
 app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
-
 setupDeploymentCenter(app);
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.
