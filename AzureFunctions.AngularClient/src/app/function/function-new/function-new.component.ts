@@ -1,4 +1,4 @@
-import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants } from './../../shared/models/constants';
+import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
@@ -41,13 +41,6 @@ export interface CreateCard extends Template {
     focusable: boolean;
     allLanguages?: string[];
     supportedLanguages?: string[];
-}
-
-export class WorkerRuntimeLanguages {
-    public static dotnet = 'C#';
-    public static node = 'JavaScript';
-    public static python = 'Python';
-    public static java = 'Java';
 }
 
 @Component({

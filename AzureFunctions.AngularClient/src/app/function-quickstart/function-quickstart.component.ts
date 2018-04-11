@@ -20,12 +20,11 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
-import { KeyCodes, Constants } from '../shared/models/constants';
+import { KeyCodes, Constants, WorkerRuntimeLanguages } from '../shared/models/constants';
 import { Dom } from '../shared/Utilities/dom';
 import { Observable } from 'rxjs/Observable';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../shared/models/arm/application-settings';
-import { WorkerRuntimeLanguages } from '../function/function-new/function-new.component';
 
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';

@@ -370,3 +370,10 @@ export class DeploymentCenterConstants {
     public static vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
     public static vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 }
+
+export class WorkerRuntimeLanguages {
+    public static dotnet = 'C#';
+    public static node = 'JavaScript';
+    public static python = 'Python';
+    public static java = 'Java';
+}
