@@ -3,7 +3,8 @@ import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { CacheService } from 'app/shared/services/cache.service';
 import { Observable } from 'rxjs/Observable';
-import * as _ from 'lodash';
+import first from 'lodash-es/first';
+import uniqBy from 'lodash-es/uniqBy';
 import { Subject } from 'rxjs/Subject';
 import { VSORepo, VSOAccount } from 'app/site/deployment-center/Models/vso-repo';
 import { forkJoin } from 'rxjs/observable/forkJoin';
@@ -97,7 +98,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
                             });
                         });
                     });
-                    this.accountList = _.uniqBy(
+                    this.accountList = uniqBy(
                         this._vstsRepositories.map(repo => {
                             return {
                                 displayLabel: repo.account,
@@ -116,7 +117,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
             .takeUntil(this._ngUnsubscribe$)
             .switchMap(repoUri => {
                 if (repoUri) {
-                    const repoObj = _.first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri));
+                    const repoObj = first(this._vstsRepositories.filter(x => x.remoteUrl === repoUri));
                     const repoId = repoObj.id;
                     const account = repoObj.account;
                     return this._cacheService.get(
@@ -163,7 +164,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     accountChanged(accountName: DropDownElement<string>) {
-        this.projectList = _.uniqBy(
+        this.projectList = uniqBy(
             this._vstsRepositories.filter(r => r.account === accountName.value).map(repo => {
                 return {
                     displayLabel: repo.project.name,
@@ -179,7 +180,7 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
     }
 
     projectChanged(projectName: DropDownElement<string>) {
-        this.repositoryList = _.uniqBy(
+        this.repositoryList = uniqBy(
             this._vstsRepositories.filter(r => r.project.name === projectName.value).map(repo => {
                 return {
                     displayLabel: repo.name,

@@ -15,8 +15,7 @@ import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { BaseFunctionComponent } from '../shared/components/base-function-component';
 import { ExtendedTreeViewInfo } from '../shared/components/navigable-component';
 import { GlobalStateService } from '../shared/services/global-state.service';
-
-declare const moment: any;
+import * as moment from 'moment-mini-ts';
 
 @Component({
     selector: 'function-monitor',
