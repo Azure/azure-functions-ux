@@ -8,7 +8,6 @@ import { ExtendedTreeViewInfo, NavigableComponent } from '../shared/components/n
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionMonitorInfo } from '../shared/models/function-monitor';
-import * as moment from 'moment-mini-ts';
 
 @Component({
     selector: ComponentNames.functionMonitor,

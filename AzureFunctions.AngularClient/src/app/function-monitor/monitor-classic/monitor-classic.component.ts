@@ -8,8 +8,7 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { FunctionAppService } from '../../shared/services/function-app.service';
 import { FunctionMonitorService } from '../../shared/services/function-monitor.service';
 import { TableFunctionMonitorComponent } from '../../table-function-monitor/table-function-monitor.component';
-
-declare const moment: any;
+import * as moment from 'moment-mini-ts';
 
 @Component({
     selector: ComponentNames.monitorClassic,

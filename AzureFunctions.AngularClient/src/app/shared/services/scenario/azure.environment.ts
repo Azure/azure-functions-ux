@@ -175,21 +175,10 @@ export class AzureEnvironment extends Environment {
     }
 
     private _getApplicationInsightsId(input: ScenarioCheckInput): Observable<ScenarioResult> {
-        this._portalService.sendTimerEvent({
-            timerId: 'getApplicationInsightsId',
-            timerAction: 'start'
-        });
-
         if (input.site) {
             return this._applicationInsightsService
                 .getApplicationInsightsId(input.site.id)
                 .switchMap(applicationInsightsResourceId => {
-
-                    this._portalService.sendTimerEvent({
-                        timerId: 'getApplicationInsightsId',
-                        timerAction: 'stop'
-                    });
-
                     return Observable.of<ScenarioResult>({
                         status: applicationInsightsResourceId ? 'enabled' : 'disabled',
                         data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null

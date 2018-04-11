@@ -9,8 +9,7 @@ import { CacheService } from './cache.service';
 import { LogService } from './log.service';
 import { LogCategories, Constants } from '../models/constants';
 import { ArmSiteDescriptor } from '../resourceDescriptors';
-
-declare const pako: any;
+import * as pako from 'pako';
 
 @Injectable()
 export class ApplicationInsightsService {
