@@ -28,7 +28,6 @@
 
 .busy-site-tabs{
   @extend .container;
-  width: calc(100% - #{$sidenav-width});  
   height: calc(100% - #{$top-bar-height} - 1px);
 }
 

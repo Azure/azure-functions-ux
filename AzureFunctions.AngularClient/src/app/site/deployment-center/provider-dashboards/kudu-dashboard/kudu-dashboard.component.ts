@@ -9,7 +9,7 @@ import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { Subscription as RxSubscription } from 'rxjs/Subscription';
-import * as moment from 'moment';
+import * as moment from 'moment-mini-ts';
 import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';

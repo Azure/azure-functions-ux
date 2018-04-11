@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ViewChild, Component, Host, EventEmitter, forwardRef} from '@angular/core';
+import {ViewChild, Component, Host, forwardRef} from '@angular/core';
 import {WizardComponent} from '../components/wizard.component';
 import {MovingDirection} from '../util/moving-direction.enum';
 import {By} from '@angular/platform-browser';

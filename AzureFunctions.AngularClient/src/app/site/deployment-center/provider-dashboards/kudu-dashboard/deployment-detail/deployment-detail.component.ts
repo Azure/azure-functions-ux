@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Rx';
 import { Deployment } from '../../../Models/deployment-data';
 import { ArmArrayResult, ArmObj } from '../../../../../shared/models/arm/arm-obj';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import * as moment from 'moment';
+import * as moment from 'moment-mini-ts';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 
 class DeploymentDetailTableItem implements TableItem {

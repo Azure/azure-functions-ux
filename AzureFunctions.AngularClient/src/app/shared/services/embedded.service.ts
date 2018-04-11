@@ -123,7 +123,7 @@ export class EmbeddedService {
             });
     }
 
-    private _getHeaders(info: StartupInfo) {
+    private _getHeaders(info: StartupInfo<void>) {
         const headers = this._armService.getHeaders();
         headers.append('x-cds-crm-user-token', info.crmInfo.crmTokenHeaderName);
         headers.append('x-cds-crm-org', info.crmInfo.crmInstanceHeaderName);

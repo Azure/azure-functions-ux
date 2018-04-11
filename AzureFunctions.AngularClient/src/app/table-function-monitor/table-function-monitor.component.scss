@@ -56,18 +56,13 @@ th, td {
     cursor: pointer;
 }
 
-#selected-row-icon{
-    color: #0273D4;
-    font-weight: 900;
-}
-
 #refresh-icon{
     padding-left: 10px;
     cursor: pointer;
     color:#337ab7
 }
 
-.table-function td:nth-child(3), #selected-row-icon{
+.table-function td:nth-child(3) {
     text-align: right;
 }
 
@@ -111,4 +106,8 @@ textarea{
     .color-alt-table > tbody > tr:nth-child(even) {
         background-color: lighten($body-bg-color-dark, 20%);
     }
+}
+
+.rowSelected {
+    font-weight: bold;
 }

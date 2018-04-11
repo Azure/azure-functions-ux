@@ -9,6 +9,9 @@
     vertical-align: middle;
     line-height: 2.2;
     white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    max-width: 25vw;
 }
 
 .shifted {

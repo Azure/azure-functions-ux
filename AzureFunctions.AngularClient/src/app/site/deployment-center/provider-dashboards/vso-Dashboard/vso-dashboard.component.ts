@@ -10,7 +10,7 @@ import { VSTSLogMessageType } from '../../Models/Deployment-enums';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
-import * as moment from 'moment';
+import * as moment from 'moment-mini-ts';
 import { LogCategories } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';

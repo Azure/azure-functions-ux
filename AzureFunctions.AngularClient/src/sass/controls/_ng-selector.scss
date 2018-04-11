@@ -18,6 +18,9 @@ ng-select.ng-invalid.ng-touched .ng-control {
             }
         }
     }
+    .ng-has-value .ng-placeholder {
+        display: none;
+    }
     .ng-control {
         border: $border;
         min-height: 25px;

@@ -1,6 +1,8 @@
 const gulp = require('gulp');
 var shell = require('shelljs');
 var gulpMultiProcess = require('gulp-multi-process');
+var inlinesource = require('gulp-inline-source');
+
 gulp.task('run-dev',  function (cb) {
     return gulpMultiProcess(['run-angular', 'run-server'], cb);
 });
@@ -22,4 +24,11 @@ gulp.task('run-server',  (cb) => {
         cb();
     });
     
+});
+
+
+gulp.task('inline-coverage-source', function () {
+    return gulp.src('./AzureFunctions.AngularClient/coverage/*.html')
+        .pipe(inlinesource({attribute: false}))
+        .pipe(gulp.dest('./coverage/'));
 });

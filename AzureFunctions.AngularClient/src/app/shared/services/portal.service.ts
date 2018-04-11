@@ -5,7 +5,7 @@ import { Url } from './../Utilities/url';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, DataMessageResult, DirtyStateInfo, SubscriptionRequest } from './../models/portal';
+import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo, DataMessage, DataMessageResult, DirtyStateInfo, SubscriptionRequest, BladeResult } from './../models/portal';
 import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
 import { ErrorEvent } from '../models/error-event';
 import { BroadcastService } from './broadcast.service';
@@ -37,8 +37,8 @@ export class PortalService {
         'web.powerapps.com'
     ];
 
-    private startupInfo: StartupInfo | null;
-    private startupInfoObservable: ReplaySubject<StartupInfo>;
+    private startupInfo: StartupInfo<any> | null;
+    private startupInfoObservable: ReplaySubject<StartupInfo<any>>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
     private notificationStartStream: Subject<NotificationStartedInfo>;
@@ -57,7 +57,7 @@ export class PortalService {
         private _aiService: AiService,
         private _configService: ConfigService) {
 
-        this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
+        this.startupInfoObservable = new ReplaySubject<StartupInfo<void>>(1);
         this.notificationStartStream = new Subject<NotificationStartedInfo>();
 
         if (PortalService.inIFrame()) {
@@ -95,6 +95,7 @@ export class PortalService {
         this.postMessage(Verbs.logTimerEvent, JSON.stringify(evt));
     }
 
+    // Deprecated
     openBlade(bladeInfo: OpenBladeInfo, source: string) {
         this.logAction(source, 'open-blade ' + bladeInfo.detailBlade);
         this._aiService.trackEvent('/site/open-blade', {
@@ -104,6 +105,23 @@ export class PortalService {
         });
 
         this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
+    }
+
+    // Returns an Observable which resolves when blade is close.
+    // Optionally may also return a value
+    openBlade2(bladeInfo: OpenBladeInfo, source: string) {
+        const payload: DataMessage<OpenBladeInfo> = {
+            operationId: Guid.newGuid(),
+            data: bladeInfo
+        };
+
+        this.postMessage(Verbs.openBlade2, JSON.stringify(payload));
+        return this.operationStream
+            .filter(o => o.operationId === payload.operationId)
+            .first()
+            .map((r: DataMessage<DataMessageResult<BladeResult<any>>>) => {
+                return r.data.result;
+            });
     }
 
     openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
@@ -304,6 +322,16 @@ export class PortalService {
         this.postMessage(Verbs.logMessage, messageStr);
     }
 
+    returnPcv3Results<T>(results: T) {
+
+        const payload: DataMessage<T> = {
+            operationId: Guid.newGuid(),
+            data: results
+        };
+
+        this.postMessage(Verbs.returnPCV3Results, JSON.stringify(payload));
+    }
+
     private iframeReceivedMsg(event: Event): void {
         if (!event || !event.data) {
             return;
@@ -321,7 +349,7 @@ export class PortalService {
         console.log('[iFrame] Received mesg: ' + methodName);
 
         if (methodName === Verbs.sendStartupInfo) {
-            this.startupInfo = <StartupInfo>data;
+            this.startupInfo = <StartupInfo<void>>data;
             this.sessionId = this.startupInfo.sessionId;
             this._aiService.setSessionId(this.sessionId);
 

@@ -20,9 +20,24 @@ export abstract class Descriptor {
     abstract getTrimmedResourceId(): string;
 }
 
+export class ArmSubcriptionDescriptor extends Descriptor {
+    public subscriptionId: string;
+
+    constructor(resourceId: string) {
+        super(resourceId);
+
+        this.subscriptionId = this.parts[1];
+    }
+
+    getTrimmedResourceId() {
+        return `/subscriptions/${this.subscriptionId}`;
+    }
+}
+
 export class ArmResourceDescriptor extends Descriptor {
     public subscription: string;
     public resourceGroup: string;
+    public resourceName: string;
 
     constructor(resourceId: string) {
         super(resourceId);
@@ -41,6 +56,7 @@ export class ArmResourceDescriptor extends Descriptor {
 
         this.subscription = this.parts[1];
         this.resourceGroup = this.parts[3];
+        this.resourceName = this.parts[this.parts.length - 1];
     }
 
     getTrimmedResourceId() {

@@ -1,3 +1,4 @@
+import { PortalResources } from 'app/shared/models/portal-resources';
 import { PlanService } from './../../../shared/services/plan.service';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Observable } from 'rxjs/Observable';
@@ -6,6 +7,9 @@ import { Injector } from '@angular/core';
 import { ResourceId } from '../../../shared/models/arm/arm-obj';
 
 export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
+
+    protected readonly _disabledLink = 'https://go.microsoft.com/fwlink/?linkid=856301';
+
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',
@@ -58,11 +62,23 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
         this._planService = injector.get(PlanService);
     }
 
-    // etodo: Need to also handle situation where region for NEW plan doesn't support pv2
     runInitialization(input: PriceSpecInput) {
         let $checkStamp: Observable<any> = Observable.of(null);
 
-        if (input.plan) {
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.hostingEnvironmentName) {
+                this.state = 'hidden';
+            } else {
+                return this._planService.getAvailablePremiumV2GeoRegions(input.specPickerInput.data.subscriptionId)
+                    .do(geoRegions => {
+                        if (!geoRegions.find(g => g.properties.name.toLowerCase() === input.specPickerInput.data.location.toLowerCase())) {
+                            this.state = 'disabled';
+                            this.disabledMessage = this._ts.instant(PortalResources.pricing_pv2NotAvailable);
+                            this.disabledInfoLink = this._disabledLink;
+                        }
+                    });
+            }
+        } else if (input.plan) {
             if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
                 this.state = 'hidden';
             } else if (input.plan.properties.hostingEnvironmentProfile) {
@@ -87,8 +103,8 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
                     this.state = availableSkus.find(s => s.sku.name.indexOf('v2') > -1) ? 'enabled' : 'disabled';
 
                     if (this.state === 'disabled') {
-                        this.disabledMessage = 'Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app';
-                        this.disabledInfoLink = 'https://go.microsoft.com/fwlink/?linkid=856301';
+                        this.disabledMessage = this._ts.instant(PortalResources.pricing_pv2NotAvailable);
+                        this.disabledInfoLink = this._disabledLink;
                     }
                 });
         }
@@ -99,6 +115,7 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
 
 export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
     skuCode = 'P1v2';
+    legacySkuName = 'D1_premiumV2';
     topLevelFeatures = [
         '1x cores',
         '3.5 GB  Memory',
@@ -118,6 +135,7 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
 
 export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
     skuCode = 'P2v2';
+    legacySkuName = 'D2_premiumV2';
     topLevelFeatures = [
         '2x cores',
         '7 GB  Memory',
@@ -137,6 +155,7 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
 
 export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
     skuCode = 'P3v2';
+    legacySkuName = 'D3_premiumV2';
     topLevelFeatures = [
         '4x cores',
         '14 GB  Memory',

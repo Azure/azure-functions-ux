@@ -31,13 +31,14 @@
                                     [placeholder]="'createFunction_search' | translate">
                         </search-box>
 
-                        {{ 'templatePicker_language' | translate }}
-                        <drop-down class="tpicker-dropdown"
-                                   [options]="languages"
-                                   (value)="onLanguageChanged($event)"
-                                   attr.aria-label="{{'templatePicker_language' | translate}}">
-                        </drop-down>
-
+                        <ng-container *ngIf="!functionAppLanguage">
+                            {{ 'templatePicker_language' | translate }}
+                            <drop-down class="tpicker-dropdown"
+                                    [options]="languages"
+                                    (value)="onLanguageChanged($event)"
+                                    attr.aria-label="{{'templatePicker_language' | translate}}">
+                            </drop-down>
+                        </ng-container>
                         {{ 'templatePicker_scenario' | translate }}
                         <drop-down class="tpicker-dropdown"
                                    [options]="categories"

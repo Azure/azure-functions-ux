@@ -1,5 +1,4 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {WizardStepComponent} from './wizard-step.component';
 import {ViewChild, Component} from '@angular/core';
 import {WizardComponent} from './wizard.component';
 import {MovingDirection} from '../util/moving-direction.enum';

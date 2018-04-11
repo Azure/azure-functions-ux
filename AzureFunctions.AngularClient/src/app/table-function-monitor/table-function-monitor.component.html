@@ -21,7 +21,6 @@
                     <td *ngFor="let column of columns">
                         <span [innerHtml]="object[column.variable] | format: column.formatTo"></span>
                     </td>
-                    <td id="selected-row-icon"><i *ngIf="object.id === selectedRowId" class="fa fa-chevron-right"></i></td>
                 </tr>
             </tbody>
         </table>

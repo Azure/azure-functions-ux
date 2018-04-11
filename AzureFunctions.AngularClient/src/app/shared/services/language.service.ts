@@ -15,7 +15,7 @@ import { UserService } from './user.service';
 @Injectable()
 export class LanguageService {
 
-    private _startupInfo: StartupInfo;
+    private _startupInfo: StartupInfo<void>;
 
     constructor(
         private _userService: UserService,
@@ -32,7 +32,7 @@ export class LanguageService {
         return this._getLocalizedResources(this._startupInfo, extensionVersion)
     }
 
-    private _getLocalizedResources(startupInfo: StartupInfo, runtime: string): Observable<any> {
+    private _getLocalizedResources(startupInfo: StartupInfo<void>, runtime: string): Observable<any> {
 
         const input = LanguageServiceHelper.getLanguageAndRuntime(startupInfo, runtime);
 
