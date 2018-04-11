@@ -25,6 +25,7 @@ import { Dom } from '../shared/Utilities/dom';
 import { Observable } from 'rxjs/Observable';
 import { ArmObj } from '../shared/models/arm/arm-obj';
 import { ApplicationSettings } from '../shared/models/arm/application-settings';
+import { WorkerRuntimeLanguages } from '../function/function-new/function-new.component';
 
 
 type TemplateType = 'HttpTrigger' | 'TimerTrigger' | 'QueueTrigger';
@@ -89,8 +90,9 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                 this.runtimeVersion = tuple[1];
                 this.appSettingsArm = tuple[2].result;
 
-                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsLanguageAppSettingsName)) {
-                    this.functionAppLanguage = this.appSettingsArm.properties[Constants.functionsLanguageAppSettingsName];
+                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+                    const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+                    this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
                     this.selectedLanguage = this.functionAppLanguage;
                 }
 

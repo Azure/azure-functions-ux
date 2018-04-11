@@ -43,6 +43,13 @@ export interface CreateCard extends Template {
     supportedLanguages?: string[];
 }
 
+export class WorkerRuntimeLanguages {
+    public static dotnet = 'C#';
+    public static node = 'JavaScript';
+    public static python = 'Python';
+    public static java = 'Java';
+}
+
 @Component({
     selector: 'function-new',
     templateUrl: './function-new.component.html',
@@ -172,8 +179,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     this.selectedTemplateId = this.action.templateId;
                 }
 
-                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsLanguageAppSettingsName)) {
-                    this.functionAppLanguage = this.appSettingsArm.properties[Constants.functionsLanguageAppSettingsName];
+                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+                    const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+                    this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
                     this.allExperimentalLanguages = [];
                 }
 
