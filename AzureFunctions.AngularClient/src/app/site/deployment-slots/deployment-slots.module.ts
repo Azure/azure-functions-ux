@@ -25,13 +25,14 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/zip';
+import { SidebarModule } from 'ng-sidebar';
 
 @NgModule({
   entryComponents: [
     DeploymentSlotsComponent
   ],
   imports: [
-    TranslateModule.forChild(), SharedModule, SharedFunctionsModule
+    TranslateModule.forChild(), SharedModule, SharedFunctionsModule, SidebarModule
   ],
   declarations: [
     DeploymentSlotsComponent,

@@ -16,6 +16,8 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { DropdownExampleComponent } from './dropdown-example/dropdown-example.component';
 import { HighlightService } from './highlight.service';
 import { SidepanelExampleComponent } from './sidepanel-example/sidepanel-example.component';
+import { SidebarModule } from 'ng-sidebar';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -27,7 +29,9 @@ const routing: ModuleWithProviders = RouterModule.forChild([
     imports: [
         TranslateModule.forChild(),
         SharedModule,
-        routing
+        routing,
+        SidebarModule,
+        NgSelectModule
     ],
     declarations: [
         TabsComponent,
