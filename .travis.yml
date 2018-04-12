@@ -6,11 +6,11 @@ node_js:
 cache:
   yarn: true
   directories:
-  - client/node_modules
+  - AzureFunctions.AngularClient/node_modules
 os:
 - linux
 script:
-  - cd client 
+  - cd AzureFunctions.AngularClient 
   - yarn install
   - node_modules/.bin/ng test --code-coverage
   - npm run-script coveralls

@@ -8,7 +8,7 @@ gulp.task('run-dev',  function (cb) {
 });
 
 gulp.task('run-angular', function (cb) {
-    shell.cd('client');
+    shell.cd('AzureFunctions.AngularClient');
     shell.exec('yarn install');
     shell.exec('yarn run watch', (code, stdout, stderr) => {
         cb();
@@ -28,7 +28,7 @@ gulp.task('run-server',  (cb) => {
 
 
 gulp.task('inline-coverage-source', function () {
-    return gulp.src('./client/coverage/*.html')
+    return gulp.src('./AzureFunctions.AngularClient/coverage/*.html')
         .pipe(inlinesource({attribute: false}))
         .pipe(gulp.dest('./coverage/'));
 });
