@@ -1,4 +1,4 @@
-import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants } from './../../shared/models/constants';
+import { LogCategories, Order, Regex, KeyCodes, ScenarioIds, Constants, WorkerRuntimeLanguages } from './../../shared/models/constants';
 import { Dom } from './../../shared/Utilities/dom';
 import { Binding } from './../../shared/models/binding';
 import { Template } from './../../shared/models/template-picker';
@@ -172,8 +172,9 @@ export class FunctionNewComponent extends FunctionAppContextComponent implements
                     this.selectedTemplateId = this.action.templateId;
                 }
 
-                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsLanguageAppSettingsName)) {
-                    this.functionAppLanguage = this.appSettingsArm.properties[Constants.functionsLanguageAppSettingsName];
+                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+                    const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+                    this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
                     this.allExperimentalLanguages = [];
                 }
 

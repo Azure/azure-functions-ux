@@ -29,7 +29,7 @@ export class Constants {
     public static slotsSecretStorageSettingsValue = 'Blob';
     public static contentShareConfigSettingsName = 'WEBSITE_CONTENTSHARE';
     public static azureWebJobsDashboardSettingsName = 'AzureWebJobsDashboard';
-    public static functionsLanguageAppSettingsName = 'FUNCTIONS_LANGUAGE';
+    public static functionsWorkerRuntimeAppSettingsName = 'FUNCTIONS_WORKER_RUNTIME';
     public static WebsiteUseZip = 'WEBSITE_USE_ZIP';
 
     public static httpMethods = new HttpMethods();
@@ -369,4 +369,11 @@ export class DeploymentCenterConstants {
     public static vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
     public static vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';
     public static vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
+}
+
+export class WorkerRuntimeLanguages {
+    public static dotnet = 'C#';
+    public static node = 'JavaScript';
+    public static python = 'Python';
+    public static java = 'Java';
 }

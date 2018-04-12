@@ -20,7 +20,7 @@ import { DashboardType } from '../tree-view/models/dashboard-type';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
 import { Subscription } from 'rxjs/Subscription';
-import { KeyCodes, Constants } from '../shared/models/constants';
+import { KeyCodes, Constants, WorkerRuntimeLanguages } from '../shared/models/constants';
 import { Dom } from '../shared/Utilities/dom';
 import { Observable } from 'rxjs/Observable';
 import { ArmObj } from '../shared/models/arm/arm-obj';
@@ -89,8 +89,9 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
                 this.runtimeVersion = tuple[1];
                 this.appSettingsArm = tuple[2].result;
 
-                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsLanguageAppSettingsName)) {
-                    this.functionAppLanguage = this.appSettingsArm.properties[Constants.functionsLanguageAppSettingsName];
+                if (this.appSettingsArm.properties.hasOwnProperty(Constants.functionsWorkerRuntimeAppSettingsName)) {
+                    const workerRuntime = this.appSettingsArm.properties[Constants.functionsWorkerRuntimeAppSettingsName];
+                    this.functionAppLanguage = WorkerRuntimeLanguages[workerRuntime];
                     this.selectedLanguage = this.functionAppLanguage;
                 }
 
