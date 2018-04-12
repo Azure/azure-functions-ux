@@ -59,6 +59,7 @@ node_modules/
 npm-debug.log
 testem.log
 /typings
+**/TESTS.xml
 
 # e2e
 /e2e/*.js
