@@ -1,3 +1,4 @@
+import { SiteTabIds } from './../../../shared/models/constants';
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
@@ -51,7 +52,7 @@ export class AppSettingsComponent extends ConfigSaveComponent implements OnChang
     private _siteService: SiteService,
     injector: Injector
   ) {
-    super('AppSettingsComponent', injector, ['ApplicationSettings', 'SlotConfigNames'], 'site-tabs');
+    super('AppSettingsComponent', injector, ['ApplicationSettings', 'SlotConfigNames'], SiteTabIds.applicationSettings);
 
     this._resetPermissionsAndLoadingState();
 

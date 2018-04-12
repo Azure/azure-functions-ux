@@ -1,6 +1,6 @@
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { LogService } from './../../../shared/services/log.service';
-import { LogCategories } from './../../../shared/models/constants';
+import { LogCategories, SiteTabIds } from './../../../shared/models/constants';
 import { SiteService } from 'app/shared/services/site.service';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -46,7 +46,7 @@ export class VirtualDirectoriesComponent extends ConfigSaveComponent implements 
         private _siteService: SiteService,
         injector: Injector
     ) {
-        super('VirtualDirectoriesComponent', injector, ['SiteConfig'], 'site-tabs');
+        super('VirtualDirectoriesComponent', injector, ['SiteConfig'], SiteTabIds.applicationSettings);
 
         this._resetPermissionsAndLoadingState();
 

@@ -10,7 +10,7 @@ import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { PublishingCredentials } from 'app/shared/models/publishing-credentials';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { summaryItem } from 'app/site/deployment-center/Models/summary-item';
 import { sourceControlProvider } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-setup-models';
 import { TranslateService } from '@ngx-translate/core';
@@ -37,7 +37,7 @@ export class StepCompleteComponent implements OnInit {
         private _logService: LogService,
         private _translateService: TranslateService
     ) {
-        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
 
         this.wizard.resourceIdStream$
             .takeUntil(this._ngUnsubscribe$)

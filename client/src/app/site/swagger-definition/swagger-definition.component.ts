@@ -1,5 +1,5 @@
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
-import { KeyCodes, Constants, ScenarioIds } from './../../shared/models/constants';
+import { KeyCodes, Constants, ScenarioIds, SiteTabIds } from './../../shared/models/constants';
 import { BusyStateScopeManager } from './../../busy-state/busy-state-scope-manager';
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -63,7 +63,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     ) {
         super('swagger-definition', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.apiDefinition);
         this.swaggerStatusOptions = [
             {
                 displayLabel: this._translateService.instant(PortalResources.swaggerDefinition_internal),

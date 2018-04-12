@@ -8,7 +8,7 @@ import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmObj, ResourceId } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { SiteConfig } from 'app/shared/models/arm/site-config';
-import { Links, LogCategories } from 'app/shared/models/constants';
+import { Links, LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { RoutingRule } from 'app/shared/models/arm/routing-rule';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -85,7 +85,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         private _translateService: TranslateService,
         injector: Injector) {
 
-        super('SlotsComponent', injector, 'site-tabs');
+        super('SlotsComponent', injector, SiteTabIds.deploymentSlotsConfig);
 
         // TODO [andimarc]
         // For ibiza scenarios, this needs to match the deep link feature name used to load this in ibiza menu

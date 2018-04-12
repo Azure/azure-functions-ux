@@ -14,7 +14,7 @@ import { BusyStateScopeManager } from 'app/busy-state/busy-state-scope-manager';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 class KuduTableItem implements TableItem {
     public type: 'row' | 'group';
     public time: string;
@@ -57,7 +57,7 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
         private _broadcastService: BroadcastService,
         private _logService: LogService
     ) {
-        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
         this._tableItems = [];
         this.viewInfoStream$ = new Subject<string>();
         this._viewInfoSubscription$ = this.viewInfoStream$
@@ -93,29 +93,29 @@ export class KuduDashboardComponent implements OnChanges, OnDestroy {
                 );
             })
             .subscribe(
-            r => {
-                this._busyManager.clearBusy();
-                this._forceLoad = false;
-                this.deploymentObject = {
-                    site: r.site,
-                    siteConfig: r.siteConfig,
-                    sourceControls: r.sourceControl,
-                    publishingCredentials: r.pubCreds,
-                    deployments: r.deployments,
-                    publishingUser: r.publishingUser
-                };
-                this._populateTable();
+                r => {
+                    this._busyManager.clearBusy();
+                    this._forceLoad = false;
+                    this.deploymentObject = {
+                        site: r.site,
+                        siteConfig: r.siteConfig,
+                        sourceControls: r.sourceControl,
+                        publishingCredentials: r.pubCreds,
+                        deployments: r.deployments,
+                        publishingUser: r.publishingUser
+                    };
+                    this._populateTable();
 
-                this._writePermission = r.writePermission;
-                this._readOnlyLock = r.readOnlyLock;
-                this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
-            },
-            err => {
-                this._busyManager.clearBusy();
-                this._forceLoad = false;
-                this.deploymentObject = null;
-                this._logService.error(LogCategories.cicd, '/deployment-center-initial-load', err);
-            }
+                    this._writePermission = r.writePermission;
+                    this._readOnlyLock = r.readOnlyLock;
+                    this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+                },
+                err => {
+                    this._busyManager.clearBusy();
+                    this._forceLoad = false;
+                    this.deploymentObject = null;
+                    this._logService.error(LogCategories.cicd, '/deployment-center-initial-load', err);
+                }
             );
 
         //refresh automatically every 5 seconds

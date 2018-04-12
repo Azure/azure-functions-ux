@@ -1,6 +1,6 @@
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
-import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories } from './../../shared/models/constants';
+import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
@@ -78,9 +78,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         private _siteService: SiteService,
         injector: Injector) {
 
-        super('site-summary', injector, 'site-tabs');
+        super('site-summary', injector, SiteTabIds.overview);
 
-        this.featureName = 'site-summary';
+        this.featureName = this.componentName;
         this.isParentComponent = true;
 
         this.isStandalone = _configService.isStandalone();
@@ -184,6 +184,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this._cleanupBlob();
     }
 
@@ -278,15 +279,15 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                         true,
                         this.ts.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
                 },
-                e => {
-                    this.clearBusy();
-                    this._portalService.stopNotification(
-                        notificationId,
-                        false,
-                        this.ts.instant(PortalResources.siteSummary_resetProfileNotifyFail));
+                    e => {
+                        this.clearBusy();
+                        this._portalService.stopNotification(
+                            notificationId,
+                            false,
+                            this.ts.instant(PortalResources.siteSummary_resetProfileNotifyFail));
 
-                    this._aiService.trackException(e, '/errors/site-summary/reset-profile');
-                });
+                        this._aiService.trackException(e, '/errors/site-summary/reset-profile');
+                    });
         }
     }
 
@@ -317,15 +318,15 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                         true,
                         this.ts.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
                 },
-                e => {
-                    this.clearBusy();
-                    this._portalService.stopNotification(
-                        notificationId,
-                        false,
-                        this.ts.instant(PortalResources.siteSummary_restartNotifyFail).format(site.name));
+                    e => {
+                        this.clearBusy();
+                        this._portalService.stopNotification(
+                            notificationId,
+                            false,
+                            this.ts.instant(PortalResources.siteSummary_restartNotifyFail).format(site.name));
 
-                    this._aiService.trackException(e, '/errors/site-summary/restart-app');
-                }, () => this.clearBusy());
+                        this._aiService.trackException(e, '/errors/site-summary/restart-app');
+                    }, () => this.clearBusy());
         }
     }
 
@@ -430,20 +431,20 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
                 appNode.refresh();
             },
-            e => {
-                this.clearBusy();
-                const notifyFail = stop
-                    ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
-                    : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
+                e => {
+                    this.clearBusy();
+                    const notifyFail = stop
+                        ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
+                        : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
 
-                this._portalService.stopNotification(
-                    notificationId,
-                    false,
-                    notifyFail);
+                    this._portalService.stopNotification(
+                        notificationId,
+                        false,
+                        notifyFail);
 
-                this._aiService.trackException(e, '/errors/site-summary/stop-start');
-            },
-            () => this.clearBusy());
+                    this._aiService.trackException(e, '/errors/site-summary/stop-start');
+                },
+                () => this.clearBusy());
     }
 
     openSwapBlade() {

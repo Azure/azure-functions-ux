@@ -6,14 +6,14 @@ import { Component, OnChanges, Input, Type, ViewChild, ComponentFactoryResolver,
     selector: 'site-tab',
     template: `
       <div *ngIf="initialized">
-        <busy-state name="site-tabs" cssClass="busy-site-tabs"></busy-state>
         <div [hidden]="!active"
           [id]="'site-tab-content-' + id"
           [attr.aria-label]="title"
           [attr.aria-label]="title"
           role="tabpanel">
 
-            <ng-template *ngIf="componentFactory" dynamic-loader></ng-template>
+          <busy-state [name]="id" cssClass="busy-site-tabs"></busy-state>
+          <ng-template *ngIf="componentFactory" dynamic-loader></ng-template>
         </div>
     </div>`
 })
@@ -54,6 +54,7 @@ export class SiteTabComponent implements OnChanges {
         // we're currently the active tab
         if (this.componentFactory
             && this.componentInput
+            && Object.keys(this.componentInput).length > 0
             && this.active) {
 
             this.initialized = true;
