@@ -91,7 +91,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     }
 
     refreshedSCMType(provider: string) {
-        if(provider) {
+        if (provider) {
             this.dashboardOverride = provider;
         } else {
             this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
