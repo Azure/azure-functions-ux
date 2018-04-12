@@ -539,7 +539,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             return;
         }
         const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
-        this._portalService.openBlade(
+        this._portalService.openBladeDeprecated(
             {
                 detailBlade: 'AppsOverviewBlade',
                 detailBladeInputs: {

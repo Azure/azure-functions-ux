@@ -103,7 +103,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.setBusy();
 
         if (Url.getParameterByName(null, 'appsvc.feature.scale') === 'true') {
-            this._portalService.openBlade2(
+            this._portalService.openBlade(
                 {
                     detailBlade: 'SpecPickerFrameBlade',
                     detailBladeInputs: {
@@ -476,7 +476,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     openSlotBlade(resourceId: string) {
         if (resourceId) {
-            this._portalService.openBlade({
+            this._portalService.openBladeDeprecated({
                 detailBlade: 'AppsOverviewBlade',
                 detailBladeInputs: { id: resourceId }
             },
