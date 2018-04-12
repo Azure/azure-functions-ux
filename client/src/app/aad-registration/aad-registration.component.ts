@@ -68,13 +68,13 @@ export class AadRegistrationComponent extends FunctionAppContextComponent implem
             .subscribe(tokenData => {
                 this.graphToken = tokenData.result.token;
             },
-            err => {
-                this.processError(err, "Error retrieving graph yoken")
-            });
+                err => {
+                    this.processError(err, "Error retrieving graph yoken")
+                });
     }
 
     openAuth() {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'AppAuth',
             detailBladeInputs: { resourceUri: this.context.site.id }
         }, 'aad-registration');

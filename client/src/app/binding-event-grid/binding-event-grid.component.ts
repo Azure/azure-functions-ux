@@ -15,7 +15,7 @@ export class BindingEventGridComponent {
 
 
     openSubscribeBlade() {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'CreateEventSubscriptionFromSubscriberBlade',
             extension: 'Microsoft_Azure_EventGrid',
             detailBladeInputs: {
@@ -28,7 +28,7 @@ export class BindingEventGridComponent {
     }
 
     openManageBlade() {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'ListEventSubscriptionsFromSubscriberBlade',
             extension: 'Microsoft_Azure_EventGrid',
             detailBladeInputs: {

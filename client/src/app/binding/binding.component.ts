@@ -56,7 +56,7 @@ export class BindingComponent extends FunctionAppContextComponent implements OnD
     private _appSettings: { [key: string]: string };
     private _functionInfo: FunctionInfo;
 
-    constructor( @Inject(ElementRef) elementRef: ElementRef,
+    constructor(@Inject(ElementRef) elementRef: ElementRef,
         broadcastService: BroadcastService,
         private _functionAppService: FunctionAppService,
         private _portalService: PortalService,
@@ -655,7 +655,7 @@ export class BindingComponent extends FunctionAppContextComponent implements OnD
     }
 
     onAuth() {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'AppAuth',
             detailBladeInputs: { resourceUri: this.context.site.id }
         },

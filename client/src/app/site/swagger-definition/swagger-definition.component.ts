@@ -159,7 +159,7 @@ export class SwaggerDefinitionComponent extends FunctionAppContextComponent impl
     }
 
     openBlade(name: string) {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: name,
             detailBladeInputs: { resourceUri: this.context.site.id }
         }, name);

@@ -191,7 +191,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.setBusy();
 
         if (Url.getParameterByName(null, 'appsvc.feature.scale') === 'true') {
-            this._portalService.openBlade2(
+            this._portalService.openBlade(
                 {
                     detailBlade: 'SpecPickerFrameBlade',
                     detailBladeInputs: {

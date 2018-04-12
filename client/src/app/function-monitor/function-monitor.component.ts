@@ -139,7 +139,7 @@ export class FunctionMonitorComponent extends BaseFunctionComponent {
     }
 
     openAppInsightsBlade() {
-        this._portalService.openBlade(
+        this._portalService.openBladeDeprecated(
             {
                 detailBlade: 'AspNetOverview',
                 detailBladeInputs: {

@@ -114,8 +114,8 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
                 const defaultFeatureItems: EnabledFeatureItem[] = this._getDefaultItems();
 
                 // flatten not a built-in function (yet)
-                const  flattenedResults = results.reduce((list1, list2) => list1.concat(list2))
-                                                .filter(ele => ele) //remove nulls
+                const flattenedResults = results.reduce((list1, list2) => list1.concat(list2))
+                    .filter(ele => ele) //remove nulls
 
                 // union of defaultFeatureItems and flattenedResults
                 const mergedFeatures = defaultFeatureItems.concat(flattenedResults);
@@ -136,7 +136,7 @@ export class SiteEnabledFeaturesComponent extends FeatureComponent<ArmObj<Site>>
         if (feature.featureId) {
             this._siteDashboard.openFeature(feature.featureId);
         } else if (feature.bladeInfo) {
-            this._portalService.openBlade(feature.bladeInfo, 'site-enabled-features');
+            this._portalService.openBladeDeprecated(feature.bladeInfo, 'site-enabled-features');
         }
     }
 

@@ -212,7 +212,7 @@ export class FunctionQuickstartComponent extends FunctionAppContextComponent {
     }
 
     startFromSC() {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'ContinuousDeploymentListBlade',
             detailBladeInputs: {
                 id: this.context.site.id,

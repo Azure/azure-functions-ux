@@ -154,7 +154,7 @@ export class LogicAppsComponent extends FunctionAppContextComponent {
     }
 
     clickRow(item: LogicAppTableItem) {
-        this._portalService.openBlade(
+        this._portalService.openBladeDeprecated(
             {
                 detailBlade: 'LogicAppsDesignerBlade',
                 detailBladeInputs: {
