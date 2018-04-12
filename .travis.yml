@@ -9,11 +9,9 @@ cache:
   - AzureFunctions.AngularClient/node_modules
 os:
 - linux
-before_script: 
-  - npm install -g --silent @angular/cli@1.2.6
 script:
   - cd AzureFunctions.AngularClient 
   - yarn install
-  - ./ng test --code-coverage
+  - node_modules/.bin/ng test --code-coverage
   - npm run-script coveralls
-  - ng build --prod --progress false
+  - node_modules/.bin/ng build --prod --progress false
