@@ -1,0 +1,268 @@
+@import '../../sass/common/variables';
+
+.dev-full {
+    height:100%;
+    width:100%;
+}
+
+.dev-border {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+.dev-flex-column {
+    display: flex;
+    flex-direction:column;
+}
+
+.control-label {
+    padding: 8px 0px 5px 0px
+}
+
+.height-fixed {
+    height: 230px;
+}
+
+.run-container button {
+    margin-top: 10px;
+    margin-left: 0px;
+    /*float: right;*/
+}
+
+.run-container-http {
+    overflow: auto;
+}
+
+.top-toolbar {
+    flex-grow: 1;
+    margin: 0px;
+    margin-left: 0px;
+    line-height: 25px;
+    padding: 5px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.cancel-button {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    z-index: 2000;
+    position: relative;
+}
+
+.not-shown {
+    display: none;
+}
+
+.line-vertical {
+    border-left: 1px solid #ccc;
+    flex-grow: 1;
+}
+
+/*https://weblog.west-wind.com/posts/2016/Feb/15/Flexbox-Containers-PRE-tags-and-managing-Overflow*/
+.pre-fix div, log-streaming {
+    min-width: 0;
+}
+
+.left-container {
+    padding: 7px 25px 0px 25px;
+    flex-grow: 1;
+}
+
+.get-url {
+    align-self: center;
+    padding-left: 10px
+}
+
+.bottom-bar-closed {
+    border-top: 1px solid #ccc;
+    height: 50px;
+    margin-top: 25px;
+    display: flex;
+    align-items: flex-end;
+    padding-left: 10px;
+}
+
+.bottom-bar-closed:hover {
+    cursor: pointer;
+ }
+
+.right-container-closed {
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    align-content: flex-end;
+}
+
+.right-container-rotated {
+    transform: rotate(90deg);
+    transform-origin: left top 0;
+    margin-top: 20px;
+    width: 500px;
+    margin-left: 50px;
+    display: flex;
+    align-items:flex-start;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.rigth-container-bar {
+    height: 50px;
+    display: flex;
+    align-items: flex-end;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+}
+
+.run-container {
+    flex-grow:1;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.run-output {
+    flex-grow:1;
+    padding-bottom: 10px;
+}
+
+.run-result {
+    display: flex;
+    align-items: center;
+}
+
+.run-pre-http {
+    margin-bottom: 0px;
+}
+
+.run-pre-regular {
+    flex-grow:1;
+    margin-bottom: 0px;
+}
+
+.run-button-container {
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 10px 10px 2px 0px;
+}
+
+.hidden {
+    visibility:hidden;
+}
+
+.files-container {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.keys-dialog-body {
+    display: flex;
+}
+
+.keys-dialog-body {
+    display: flex;
+}
+
+.keys-dialog-body-invokeUrl {
+    flex-grow:1;
+    width: 0px; /*IE 11 fix*/
+}
+
+.bottom-empty {
+    flex-grow: 1;    
+}
+.bottom-empty {
+    flex-grow: 1;
+}
+
+
+.tab-heading {
+    display: inline-block;
+}
+
+.tab-label-dev {
+    padding-left: 0;
+    margin-left: 0;
+    padding-right: 28px;
+}
+
+#command-bar-container {
+    padding-bottom: 10px;
+}
+
+#test_data {
+    height: 250px;
+}
+
+#code {
+    width: 100%;
+    height: 100%;
+}
+
+#main-container {
+  height: calc(100% - 6px);
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 50px;
+  grid-template-columns: auto 50px;
+  -ms-grid-rows: 1fr 39px;
+  grid-template-rows: auto 39px;
+  overflow: hidden;
+  &.right-tabs-expanded {
+    -ms-grid-columns: 1fr 475px;
+    grid-template-columns: auto 475px;
+  }
+  &.bottom-tabs-expanded {
+    -ms-grid-rows: 1fr 300px;
+    grid-template-rows: auto 300px;
+  }
+  &.bottom-tabs-maximized {
+      -ms-grid-rows: 5% 95%;
+      grid-template-rows: 5% 95%;
+  }
+}
+
+#editor-section {
+  -ms-grid-column: 1;
+  grid-column: 1;
+  -ms-grid-row: 1;
+  grid-row: 1;
+  #text-editor-container {
+    height: calc(100% - 40px);
+    border-bottom: $border;
+  }
+  h2 {
+    display: inline-block;
+    margin: 0px 10px;
+  }
+}
+
+#right-tabs-bar {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  grid-row: 1 / 3;
+}
+
+#bottom-tabs-bar {
+  -ms-grid-column: 1;
+  grid-column: 1;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  padding-top: 10px;
+}
+
+.filename-title {
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    max-width: 25vw;
+}
