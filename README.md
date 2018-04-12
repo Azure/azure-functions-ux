@@ -1,5 +1,5 @@
 # Azure Functions UX
-[![Build Status](https://travis-ci.org/Azure/azure-functions-ux.svg?branch=dev)](https://travis-ci.org/Azure/azure-functions-ux)&emsp;[![Coverage Status](https://coveralls.io/repos/github/Azure/azure-functions-ux/badge.svg?branch=coveralls)](https://coveralls.io/github/Azure/azure-functions-ux?branch=coveralls)
+[![Build Status](https://travis-ci.org/Azure/azure-functions-ux.svg?branch=dev)](https://travis-ci.org/Azure/azure-functions-ux)&emsp;[![Coverage Status](https://coveralls.io/repos/github/Azure/azure-functions-ux/badge.svg?branch=dev)](https://coveralls.io/github/Azure/azure-functions-ux?branch=dev)
 ## Getting started
 
 1. **Install Prerequisites**
