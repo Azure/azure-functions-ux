@@ -12,7 +12,7 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "bundle-report": "webpack-bundle-analyzer ../server/src/public/ng-full/stats.json",
-        "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+        "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     },
     "private": true,
     "dependencies": {
