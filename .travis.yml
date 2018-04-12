@@ -1,8 +1,17 @@
+dist: trusty
+sudo: required
 language: node_js
 node_js:
-  - "6.9"
+  - "8"
+cache:
+  directories:
+  - AzureFunctions.AngularClient/node_modules
+os:
+- linux
 before_script: 
   - npm install -g --silent @angular/cli@1.2.6
   - npm install -g --silent yarn
 script:
-  - cd server && yarn install && yarn run gulp build-all && tsc && cd ../AzureFunctions.AngularClient && yarn install && ng build -prod 
+  - cd AzureFunctions.AngularClient 
+  - yarn install
+  - npm run-script coveralls
