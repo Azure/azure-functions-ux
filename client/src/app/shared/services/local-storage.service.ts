@@ -18,8 +18,23 @@ export class LocalStorageService {
         localStorage.removeItem(LocalStorageKeys.siteTabs);
     }
 
+    setItem(key: string, item: StorageItem) {
+        this._setItem(key, JSON.stringify(item));
+    }
+
     getItem(key: string): StorageItem {
         return JSON.parse(localStorage.getItem(key));
+    }
+
+    removeItem(key: string) {
+        try {
+            localStorage.removeItem(key);
+        } catch (e) {
+            this._aiService.trackEvent(
+                '/storage-service/error', {
+                    error: `Failed to remove from local storage.  ${e}`
+                });
+        }
     }
 
     addtoSavedSubsKey(sub: string) {
@@ -34,9 +49,36 @@ export class LocalStorageService {
         this.setItem(LocalStorageKeys.savedSubsKey, savedSubs);
     }
 
-    setItem(key: string, item: StorageItem) {
+    public addEventListener(handler: (StorageEvent) => void, caller: any) {
         try {
-            localStorage.setItem(key, JSON.stringify(item));
+            window.addEventListener('storage', handler.bind(caller));
+        } catch (e) {
+            this._aiService.trackEvent(
+                '/storage-service/error', {
+                    error: `Failed to add local storage event listener. ${e}`
+                }
+            );
+        }
+    }
+
+    public setFunctionMonitorClassicViewPreference(functionAppResourceId: string, value: string) {
+        const key = `${functionAppResourceId}/monitor/view`;
+        this._setItem(key, value);
+    }
+
+    public getFunctionMonitorClassicViewPreference(functionAppResourceId: string): string {
+        const key = `${functionAppResourceId}/monitor/view`;
+        return localStorage.getItem(key);
+    }
+
+    private _resetStorage() {
+        localStorage.clear();
+        localStorage.setItem(this._apiVersionKey, this._apiVersion);
+    }
+
+    private _setItem(key: string, value: string) {
+        try {
+            localStorage.setItem(key, value);
         } catch (e) {
             this._aiService.trackEvent(
                 '/storage-service/error', {
@@ -46,7 +88,7 @@ export class LocalStorageService {
             this._resetStorage();
 
             try {
-                localStorage.setItem(key, JSON.stringify(item));
+                localStorage.setItem(key, value);
             } catch (e2) {
                 this._aiService.trackEvent(
                     '/storage-service/error', {
@@ -54,33 +96,5 @@ export class LocalStorageService {
                     });
             }
         }
-    }
-
-    removeItem(key: string) {
-        try {
-            localStorage.removeItem(key);
-        } catch (e) {
-            this._aiService.trackEvent(
-                '/storage-service/error', {
-                    error: `Failed to remove from local storage.  ${e}`
-                });
-        }
-    }
-
-    public addEventListener(handler: (StorageEvent) => void, caller: any) {
-        try {
-            window.addEventListener('storage', handler.bind(caller));
-        } catch (e) {
-            this._aiService.trackEvent(
-                '/storage-service/error', {
-                    error: `Failed to add local storage event listener. ${e}`
-                }
-            )
-        }
-    }
-
-    private _resetStorage() {
-        localStorage.clear();
-        localStorage.setItem(this._apiVersionKey, this._apiVersion);
     }
 }

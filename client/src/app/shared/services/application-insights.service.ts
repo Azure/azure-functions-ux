@@ -152,16 +152,19 @@ export class ApplicationInsightsService {
     };
 
     if (response.isSuccessful) {
-      const summaryTable = response.result.json().Tables[0];
-      const rows = summaryTable.Rows;
-      if (rows.length <= 2) {
-        rows.forEach(element => {
-          if (element[0] === 'True') {
-            summary.successCount = element[1];
-          } else if (element[0] === 'False') {
-            summary.failedCount = element[1];
-          }
-        });
+      const resultJson = response.result.json();
+      if (!!resultJson) {
+        const summaryTable = resultJson.Tables[0];
+        const rows = summaryTable.Rows;
+        if (rows.length <= 2) {
+          rows.forEach(element => {
+            if (element[0] === 'True') {
+              summary.successCount = element[1];
+            } else if (element[0] === 'False') {
+              summary.failedCount = element[1];
+            }
+          });
+        }
       }
     } else {
       this._logService.error(LogCategories.applicationInsightsQuery, '/summary', response.error);
@@ -174,19 +177,22 @@ export class ApplicationInsightsService {
     const traces: AIInvocationTrace[] = [];
 
     if (response.isSuccessful) {
-      const summaryTable = response.result.json().Tables[0];
-      if (summaryTable && summaryTable.Rows.length > 0) {
-        summaryTable.Rows.forEach(row => {
-          traces.push({
-            timestamp: row[0],
-            id: row[1],
-            name: row[2],
-            success: row[3],
-            resultCode: row[4],
-            duration: Number.parseFloat(row[5]),
-            operationId: row[6]
+      const resultJson = response.result.json();
+      if (!!resultJson) {
+        const summaryTable = resultJson.Tables[0];
+        if (summaryTable && summaryTable.Rows.length > 0) {
+          summaryTable.Rows.forEach(row => {
+            traces.push({
+              timestamp: row[0],
+              id: row[1],
+              name: row[2],
+              success: row[3],
+              resultCode: row[4],
+              duration: Number.parseFloat(row[5]),
+              operationId: row[6]
+            });
           });
-        });
+        }
       }
     } else {
       this._logService.error(LogCategories.applicationInsightsQuery, '/invocationTraces', response.error);
@@ -199,15 +205,18 @@ export class ApplicationInsightsService {
     const history: AIInvocationTraceHistory[] = [];
 
     if (response.isSuccessful) {
-      const summaryTable = response.result.json().Tables[0];
-      if (summaryTable && summaryTable.Rows.length > 0) {
-        summaryTable.Rows.forEach(row => {
-          history.push({
-            message: row[0],
-            itemCount: row[1],
-            logLevel: row[2]
+      const resultJson = response.result.json();
+      if (resultJson) {
+        const summaryTable = response.result.json().Tables[0];
+        if (summaryTable && summaryTable.Rows.length > 0) {
+          summaryTable.Rows.forEach(row => {
+            history.push({
+              message: row[0],
+              itemCount: row[1],
+              logLevel: row[2]
+            });
           });
-        });
+        }
       }
     } else {
       this._logService.error(LogCategories.applicationInsightsQuery, '/invocationTraceDetail', response.error);

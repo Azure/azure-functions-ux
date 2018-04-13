@@ -2,6 +2,7 @@ import { FunctionAppContext } from "../function-app-context";
 import { Dictionary } from "lodash";
 import { FunctionInfo } from "./function-info";
 import { ARMApplicationInsightsDescriptior } from "../resourceDescriptors";
+import { ErrorEvent } from "./error-event";
 
 export interface FunctionInvocations {
     executingJobRunId: string;
@@ -55,4 +56,9 @@ export interface MonitorDetailsInfo {
     functionMonitorInfo: FunctionMonitorInfo;
     operationId: string;
     id: string;
+}
+
+export interface MonitorConfigureInfo {
+    functionMonitorInfo: FunctionMonitorInfo;
+    errorEvent: ErrorEvent;
 }

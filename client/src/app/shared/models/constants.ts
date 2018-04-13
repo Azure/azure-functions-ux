@@ -262,6 +262,7 @@ export class LogCategories {
     public static readonly swapSlots = 'SwapSlots';
     public static readonly addSlot = 'AddSlot';
     public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
+    public static readonly applicationInsightsConfigure = 'ApplicationInsightsConfigure';
 }
 
 export class SubscriptionQuotaIds {
@@ -377,7 +378,9 @@ export class ComponentNames {
     public static monitorApplicationInsights = 'monitor-applicationinsights';
     public static tableFunctionMonitor = 'table-function-monitor';
     public static monitorDetails = 'monitor-details';
+    public static monitorConfigure = 'monitor-configure';
 }
+
 export class WorkerRuntimeLanguages {
     public static dotnet = 'C#';
     public static node = 'JavaScript';

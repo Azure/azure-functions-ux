@@ -7,3 +7,8 @@
     *ngIf = "shouldRenderMonitorApplicationInsights()"
     [functionMonitorInfoInput] = "functionMonitorInfo">
 </monitor-applicationinsights>
+
+<monitor-configure
+    *ngIf = "shouldRenderMonitorConfigure()"
+    [monitorConfigureInfoInput] = "monitorConfigureInfo">
+</monitor-configure>

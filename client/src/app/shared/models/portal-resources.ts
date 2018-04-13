@@ -694,6 +694,7 @@
     public static slotsList_trafficPercentHeader: string = "slotsList_trafficPercentHeader";
     public static slotsList_title: string = "slotsList_title";
     public static monitoring_appInsights: string = "monitoring_appInsights";
+    public static monitoring_appInsightsConfigureLink: string = "monitoring_appInsightsConfigureLink";
     public static slotNew_nameLabel_balloonText: string = "slotNew_nameLabel_balloonText";
     public static slotNew_dynamicQuotaReached: string = "slotNew_dynamicQuotaReached";
     public static functionsList_searchFunctions: string = "functionsList_searchFunctions";
@@ -1028,4 +1029,8 @@
     public static deploymentCenterTitle: string = "deploymentCenterTitle";
     public static deploymentCenterDesc: string = "deploymentCenterDesc";
     public static monitorHostFetchFailed: string = "monitorHostFetchFailed";
+    public static configureAppInsightsTitle: string = "configureAppInsightsTitle";
+    public static configureAppInsightsDesc: string = "configureAppInsightsDesc";
+    public static configureAppInsightsSwitchToClassic: string = "configureAppInsightsSwitchToClassic";
+    public static configureAppInsightsButton: string = "configureAppInsightsButton";
 }

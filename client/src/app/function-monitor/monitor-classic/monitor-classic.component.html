@@ -1,14 +1,20 @@
-<command-bar>
+<monitor-configure
+    *ngIf = "shouldRenderMonitorConfigure()"
+    [monitorConfigureInfoInput] = "monitorConfigureInfo">
+</monitor-configure>
+
+<command-bar *ngIf = "!shouldRenderMonitorConfigure()">
     <command displayText="{{ 'refresh' | translate }}"
         (click)="refreshMonitorClassicData()"
         iconUrl="image/reset.svg"></command>
 </command-bar>
 
-<div class="function-monitor-content">
+<div *ngIf = "!shouldRenderMonitorConfigure()" class="function-monitor-content">
 
     <div class="alert alert-warning alert-dismissible" role="alert">
         <img src="image/appInsights.svg"/>
         <span [innerHTML]="'monitoring_appInsights' | translate"></span>
+        <a class="link" (click)="configure()">{{ 'monitoring_appInsightsConfigureLink' | translate }}</a>
     </div>
 
     <div id="function-aggregates">

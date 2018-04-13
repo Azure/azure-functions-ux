@@ -1,0 +1,22 @@
+<command-bar>
+  <command displayText="{{ 'refresh' | translate }}"
+      (click)="refresh()"
+      iconUrl="image/reset.svg"></command>
+
+  <command *ngIf="allowSwitchToClassic" displayText="{{ 'configureAppInsightsSwitchToClassic' | translate }}"
+      (click)="switchToClassicView()"
+      iconUrl="image/swap.svg"></command>
+</command-bar>
+
+<app-card-info-control
+  [image]="'image/info.svg'"
+  header="{{ 'configureAppInsightsTitle' | translate }}"
+  description="{{ 'configureAppInsightsDesc' | translate }}">
+</app-card-info-control>
+
+<div>
+  <button
+    (click)="configure()"
+    [disabled]="!enableConfigureButton"
+    class="custom-button">{{ 'configureAppInsightsButton' | translate }}</button>
+</div>

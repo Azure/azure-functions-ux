@@ -2198,7 +2198,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Slots (preview)</value>
   </data>
   <data name="monitoring_appInsights" xml:space="preserve">
-    <value>For a richer monitoring experience, including live metrics and custom queries, &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;enable Application Insights for your Function app&lt;/a&gt;</value>
+    <value>For a richer monitoring experience, including live metrics and custom queries:</value>
+  </data>
+  <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
+    <value>configure Application Insights for your Function app</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
@@ -3219,5 +3222,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>The call to get Host information failed.</value>
+  </data>
+  <data name="configureAppInsightsTitle" xml:space="preserve">
+    <value>Configure Application Insights to capture invocation logs</value>
+  </data>
+  <data name="configureAppInsightsDesc" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+  </data>
+  <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
+    <value>Switch to classic view</value>
+  </data>
+  <data name="configureAppInsightsButton" xml:space="preserve">
+    <value>Configure</value>
   </data>
 </root>
