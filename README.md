@@ -1,9 +1,9 @@
 # Azure Functions UX
-
+[![Build Status](https://travis-ci.org/Azure/azure-functions-ux.svg?branch=dev)](https://travis-ci.org/Azure/azure-functions-ux)&emsp;[![Coverage Status](https://coveralls.io/repos/github/Azure/azure-functions-ux/badge.svg?branch=dev)](https://coveralls.io/github/Azure/azure-functions-ux?branch=dev)
 ## Getting started
 
 1. **Install Prerequisites**
-    * [Node 6.*](https://nodejs.org/en/download/)
+    * [Node 8.*](https://nodejs.org/en/download/)
     * [yarn](https://yarnpkg.com/en/docs/install)
 
 3. **Clone and Build**
@@ -49,6 +49,8 @@ yarn run gulp run-dev
 # fix any conflicts
 > git push origin dev
 ```
+
+For control and styling samples go to [https://functions.azure.com?appsvc.devguide=true](https://functions.azure.com?appsvc.devguide=true)
 
 [Angular 2 coding style](https://angular.io/styleguide)
 

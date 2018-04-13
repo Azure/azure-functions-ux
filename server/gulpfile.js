@@ -114,7 +114,7 @@ gulp.task('resx-to-typescript-models', function (cb) {
     });
     typescriptFileContent += `}`;
     let writePath = path.normalize(
-        path.join(__dirname, '..', 'AzureFunctions.AngularClient', 'src', 'app', 'shared', 'models', 'portal-resources.ts')
+        path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models', 'portal-resources.ts')
     );
     fs.writeFileSync(writePath, new Buffer(typescriptFileContent));
     cb();
@@ -126,7 +126,7 @@ gulp.task('resx-to-typescript-models', function (cb) {
  */
 gulp.task('resources-convert', function () {
     const portalResourceStream = gulp
-        .src(['../AzureFunctions/ResourcesPortal/**/Resources.resx'])
+        .src(['./Resources/**/Resources.resx'])
         .pipe(resx2())
         .pipe(
         rename(function (p) {
@@ -367,10 +367,10 @@ gulp.task('build-bindings', function (cb) {
 });
 
 const templateVersionMap = {
-    default: '1.0.3.10170',
-    '1': '1.0.3.10170',
-    beta: '2.0.0-beta-10173',
-    '2': '2.0.0-beta-10173'
+    default: '1.0.3.10182',
+    '1': '1.0.3.10182',
+    beta: '2.0.0-beta-10181',
+    '2': '2.0.0-beta-10181'
 };
 /*****
  * Download and unzip nuget packages with templates

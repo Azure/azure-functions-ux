@@ -1,0 +1,68 @@
+@import '../../sass/common/variables';
+
+.wrapper {
+    position: relative;
+}
+
+.file, .folder {
+    padding: 5px;
+    vertical-align: middle;
+    line-height: 2.2;
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    max-width: 25vw;
+}
+
+.shifted {
+    padding-left: 30px;
+}
+
+.file-container {
+    flex-grow: 1;
+    height: 100%;
+    border-top: 1px solid #ccc;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.file:hover {
+    background-color: $item-hover-color;
+}
+
+.heading {
+    font-weight: 700;
+    padding: 5px;
+    vertical-align: middle;
+    line-height: 1.8;
+    white-space: nowrap;
+}
+
+.hidden {
+    display: none;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.disabled {
+    cursor: not-allowed;
+}
+
+.disabled:hover {
+    background-color: #FFF;
+}
+
+.root-folder {
+    padding: 20px 0px 0px 10px;
+}

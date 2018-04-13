@@ -1,0 +1,34 @@
+<busy-state name="site-manage" cssClass="busy-site-tabs"></busy-state>
+<div id="site-manage-container">
+<div id="site-manage-search-container">
+    <input id="site-manage-search"
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="{{ 'searchFeatures' | translate }}" />
+
+    <span id="site-manage-search-icon" load-image="image/search.svg" class="icon-small"></span>
+</div>
+
+<div>
+    <div class="site-manage-col">
+        <div *ngFor="let group of groups1" class="site-manage-feature-group">
+            <feature-group [inputGroup]="group" [searchTermInput]="searchTerm">
+            </feature-group>
+        </div>
+    </div>
+
+    <div class="site-manage-col">
+        <div *ngFor="let group of groups2" class="site-manage-feature-group">
+            <feature-group [inputGroup]="group" [searchTermInput]="searchTerm"></feature-group>
+        </div>
+    </div>
+
+    <div class="site-manage-col">
+        <div *ngFor="let group of groups3" class="site-manage-feature-group">
+            <feature-group [inputGroup]="group" [searchTermInput]="searchTerm"></feature-group>
+        </div>
+    </div>
+
+    <div style="clear: both" ></div>
+</div>
+</div><!-- /site-manage-container -->
