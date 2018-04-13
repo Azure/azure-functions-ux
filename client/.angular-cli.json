@@ -19,7 +19,7 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "app",
+      "prefix": "fusion",
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "sass/main.scss",

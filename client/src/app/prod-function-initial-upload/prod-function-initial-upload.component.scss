@@ -1,0 +1,39 @@
+@import '../../sass/common/variables';
+
+.disabled-container{
+    position: absolute;
+    left: $sidenav-width;  
+    width: calc(100% - #{$sidenav-width});  
+    height: 100%
+}
+
+.disabled-background{
+    @extend .disabled-container;
+    z-index: 100;
+    opacity: 0.4;
+    height: 100%;
+    background-color: rgba($disabled-color, .5);
+}
+
+.disabled-background-try{
+    height: calc(100% - $top-bar-height);
+    top: $top-bar-height;
+}
+
+#disabled-message{
+    @extend .disabled-container;
+    z-index: 102;
+    min-height: 100%;
+
+    color: black;
+    text-align: center;
+
+    span{
+        background-color: $chrome-color;
+        padding: 20px;
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        border: 1px solid #000;
+    }
+}
