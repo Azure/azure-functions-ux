@@ -96,7 +96,7 @@ export class PortalService {
     }
 
     // Deprecated
-    openBlade(bladeInfo: OpenBladeInfo, source: string) {
+    openBladeDeprecated(bladeInfo: OpenBladeInfo, source: string) {
         this.logAction(source, 'open-blade ' + bladeInfo.detailBlade);
         this._aiService.trackEvent('/site/open-blade', {
             targetBlade: bladeInfo.detailBlade,
@@ -109,7 +109,7 @@ export class PortalService {
 
     // Returns an Observable which resolves when blade is close.
     // Optionally may also return a value
-    openBlade2(bladeInfo: OpenBladeInfo, source: string) {
+    openBlade(bladeInfo: OpenBladeInfo, source: string) {
         const payload: DataMessage<OpenBladeInfo> = {
             operationId: Guid.newGuid(),
             data: bladeInfo
@@ -336,8 +336,8 @@ export class PortalService {
         if (!event || !event.data) {
             return;
         } else if (!this._configService.isOnPrem()
-                    && !this._configService.isStandalone()
-                    && !this.acceptedOriginsSuffix.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
+            && !this._configService.isStandalone()
+            && !this.acceptedOriginsSuffix.find(o => event.origin.toLowerCase().endsWith(o.toLowerCase()))) {
             return;
         } else if (!this.acceptedSignatures.find(s => event.data.signature !== s)) {
             return;

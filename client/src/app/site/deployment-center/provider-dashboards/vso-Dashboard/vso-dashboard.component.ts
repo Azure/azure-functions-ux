@@ -11,7 +11,7 @@ import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_h
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import * as moment from 'moment-mini-ts';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { BusyStateScopeManager } from '../../../../busy-state/busy-state-scope-manager';
 import { ArmService } from '../../../../shared/services/arm.service';
@@ -47,7 +47,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
         private _translateService: TranslateService,
         private _broadcastService: BroadcastService
     ) {
-        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.continuousDeployment);
         this.viewInfoStream$ = new Subject<string>();
         this.viewInfoStream$
             .takeUntil(this._ngUnsubscribe$)
@@ -539,7 +539,7 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             return;
         }
         const slotName = this.deploymentObject.siteMetadata.properties['VSTSRM_SlotName'];
-        this._portalService.openBlade(
+        this._portalService.openBladeDeprecated(
             {
                 detailBlade: 'AppsOverviewBlade',
                 detailBladeInputs: {

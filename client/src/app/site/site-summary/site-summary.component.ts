@@ -1,6 +1,6 @@
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
-import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories } from './../../shared/models/constants';
+import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
@@ -78,9 +78,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         private _siteService: SiteService,
         injector: Injector) {
 
-        super('site-summary', injector, 'site-tabs');
+        super('site-summary', injector, SiteTabIds.overview);
 
-        this.featureName = 'site-summary';
+        this.featureName = this.componentName;
         this.isParentComponent = true;
 
         this.isStandalone = _configService.isStandalone();
@@ -184,6 +184,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this._cleanupBlob();
     }
 
@@ -278,15 +279,15 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                         true,
                         this.ts.instant(PortalResources.siteSummary_resetProfileNotifySuccess));
                 },
-                e => {
-                    this.clearBusy();
-                    this._portalService.stopNotification(
-                        notificationId,
-                        false,
-                        this.ts.instant(PortalResources.siteSummary_resetProfileNotifyFail));
+                    e => {
+                        this.clearBusy();
+                        this._portalService.stopNotification(
+                            notificationId,
+                            false,
+                            this.ts.instant(PortalResources.siteSummary_resetProfileNotifyFail));
 
-                    this._aiService.trackException(e, '/errors/site-summary/reset-profile');
-                });
+                        this._aiService.trackException(e, '/errors/site-summary/reset-profile');
+                    });
         }
     }
 
@@ -317,22 +318,22 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
                         true,
                         this.ts.instant(PortalResources.siteSummary_restartNotifySuccess).format(site.name));
                 },
-                e => {
-                    this.clearBusy();
-                    this._portalService.stopNotification(
-                        notificationId,
-                        false,
-                        this.ts.instant(PortalResources.siteSummary_restartNotifyFail).format(site.name));
+                    e => {
+                        this.clearBusy();
+                        this._portalService.stopNotification(
+                            notificationId,
+                            false,
+                            this.ts.instant(PortalResources.siteSummary_restartNotifyFail).format(site.name));
 
-                    this._aiService.trackException(e, '/errors/site-summary/restart-app');
-                }, () => this.clearBusy());
+                        this._aiService.trackException(e, '/errors/site-summary/restart-app');
+                    }, () => this.clearBusy());
         }
     }
 
     openSubscriptionBlade() {
         // You shouldn't need to reference the menu blade directly, but I think the subscription
         // blade hasn't registered its asset type properly
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'ResourceMenuBlade',
             detailBladeInputs: {
                 id: `/subscriptions/${this.subscriptionId}`
@@ -344,7 +345,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
     openResourceGroupBlade() {
 
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'ResourceGroupMapBlade',
             detailBladeInputs: {
                 id: `/subscriptions/${this.subscriptionId}/resourceGroups/${this.resourceGroup}`
@@ -359,7 +360,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     }
 
     openPlanBlade() {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'WebHostingPlanBlade',
             detailBladeInputs: { id: this.context.site.properties.serverFarmId }
         },
@@ -430,24 +431,24 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
 
                 appNode.refresh();
             },
-            e => {
-                this.clearBusy();
-                const notifyFail = stop
-                    ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
-                    : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
+                e => {
+                    this.clearBusy();
+                    const notifyFail = stop
+                        ? this.ts.instant(PortalResources.siteSummary_stopNotifyFail).format(site.name)
+                        : this.ts.instant(PortalResources.siteSummary_startNotifyFail).format(site.name);
 
-                this._portalService.stopNotification(
-                    notificationId,
-                    false,
-                    notifyFail);
+                    this._portalService.stopNotification(
+                        notificationId,
+                        false,
+                        notifyFail);
 
-                this._aiService.trackException(e, '/errors/site-summary/stop-start');
-            },
-            () => this.clearBusy());
+                    this._aiService.trackException(e, '/errors/site-summary/stop-start');
+                },
+                () => this.clearBusy());
     }
 
     openSwapBlade() {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'WebsiteSlotsListBlade',
             detailBladeInputs: { resourceUri: this.context.site.id }
         },
@@ -460,7 +461,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
             this.deleteAppDirectly();
             return;
         }
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'AppDeleteBlade',
             detailBladeInputs: { resourceUri: this.context.site.id }
         },

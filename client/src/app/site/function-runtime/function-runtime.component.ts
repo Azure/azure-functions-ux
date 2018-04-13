@@ -89,7 +89,7 @@ export class FunctionRuntimeComponent extends FunctionAppContextComponent {
         private _languageService: LanguageService) {
         super('function-runtime', _functionAppService, broadcastService, () => this._busyManager.setBusy());
 
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.functionRuntime);
 
         this.functionStatusOptions = [
             {

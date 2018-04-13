@@ -10,10 +10,19 @@ import { Guid } from './../shared/Utilities/Guid';
 export type BusyStateName =
     'global'
     | 'dashboard'
-    | 'site-tabs'
     | 'try-functions'
     | 'function-keys'
-    | 'sidebar';
+    | 'sidebar'
+    | 'site-summary'
+    | 'site-manage'
+    | 'site-config'
+    | 'site-function-settings'
+    | 'site-api-definition'
+    | 'site-continuous-deployment'
+    | 'logic-apps'
+    | 'scale-up'
+    | 'deployment-slots-config'
+    | 'standalone-config';
 
 @Component({
     selector: 'busy-state',

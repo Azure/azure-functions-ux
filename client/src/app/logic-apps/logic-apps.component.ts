@@ -1,7 +1,7 @@
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { LogCategories } from './../shared/models/constants';
+import { LogCategories, SiteTabIds } from './../shared/models/constants';
 import { LogService } from './../shared/services/log.service';
 import { ArmService } from 'app/shared/services/arm.service';
 import { BusyStateScopeManager } from './../busy-state/busy-state-scope-manager';
@@ -79,7 +79,7 @@ export class LogicAppsComponent extends FunctionAppContextComponent {
         broadcastService: BroadcastService) {
         super('logic-apps', _functionAppService, broadcastService);
 
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.logicApps);
     }
 
     setup(): RxSubscription {
@@ -154,7 +154,7 @@ export class LogicAppsComponent extends FunctionAppContextComponent {
     }
 
     clickRow(item: LogicAppTableItem) {
-        this._portalService.openBlade(
+        this._portalService.openBladeDeprecated(
             {
                 detailBlade: 'LogicAppsDesignerBlade',
                 detailBladeInputs: {

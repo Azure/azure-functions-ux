@@ -61,19 +61,18 @@ export class TabCommunicationVerbs {
 }
 
 export class SiteTabIds {
-    public static readonly overview = 'overview';
-    public static readonly monitor = 'monitor';
-    public static readonly features = 'platformFeatures';
-    public static readonly functionRuntime = 'functionRuntimeSettings';
-    public static readonly apiDefinition = 'apiDefinition';
-    public static readonly config = 'config';
-    public static readonly applicationSettings = 'appSettings';
-    public static readonly continuousDeployment = 'continuousDeployment';
-    public static readonly logicApps = 'logicApps';
-    public static readonly deploymentSlotsConfig = 'deploymentSlotsConfig';
-    public static readonly deploymentSlotsSwap = 'deploymentSlotsSwap';
-    public static readonly deploymentSlotsCreate = 'deploymentSlotsCreate';
-    public static readonly scaleUp = 'scaleUp';
+    public static readonly overview = 'site-summary';
+    public static readonly platformFeatures = 'site-manage';
+    public static readonly functionRuntime = 'site-function-settings';
+    public static readonly apiDefinition = 'site-api-definition';
+    public static readonly standaloneConfig = 'standalone-config';
+    public static readonly applicationSettings = 'site-config';
+    public static readonly continuousDeployment = 'site-continuous-deployment';
+    public static readonly logicApps = 'logic-apps';
+    public static readonly deploymentSlotsConfig = 'deployment-slots-config';
+    public static readonly deploymentSlotsSwap = 'deployment-slots-swap';
+    public static readonly deploymentSlotsCreate = 'deployment-slots-create';
+    public static readonly scaleUp = 'scale-up';
 }
 
 export class Arm {

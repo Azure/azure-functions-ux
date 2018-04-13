@@ -51,7 +51,7 @@ export class SiteConfigStandaloneComponent implements OnDestroy {
         private _aiService: AiService,
         private _broadcastService: BroadcastService,
     ) {
-        this._busyManager = new BusyStateScopeManager(_broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(_broadcastService, SiteTabIds.standaloneConfig);
 
         this.viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
         this._viewInfoSubscription = this.viewInfoStream
@@ -136,7 +136,7 @@ export class SiteConfigStandaloneComponent implements OnDestroy {
             connectionStrings: connectionStrings
         });
 
-        this._broadcastService.clearDirtyState(SiteTabIds.config);
+        this._broadcastService.clearDirtyState(SiteTabIds.standaloneConfig);
 
         if (this._valueSubscription) {
             this._valueSubscription.unsubscribe();
@@ -145,7 +145,8 @@ export class SiteConfigStandaloneComponent implements OnDestroy {
         this._valueSubscription = this.mainForm.valueChanges.subscribe(() => {
             // There isn't a callback for dirty state on a form, so this is a workaround.
             if (this.mainForm.dirty) {
-                this._broadcastService.setDirtyState(SiteTabIds.config);
+                this._broadcastService.clearDirtyState(SiteTabIds.standaloneConfig);
+                this._broadcastService.setDirtyState(SiteTabIds.standaloneConfig);
             }
         });
     }
@@ -177,7 +178,7 @@ export class SiteConfigStandaloneComponent implements OnDestroy {
             this._valueSubscription.unsubscribe();
             this._valueSubscription = null;
         }
-        this._broadcastService.clearDirtyState(SiteTabIds.config);
+        this._broadcastService.clearDirtyState(SiteTabIds.standaloneConfig);
     }
 
     save() {
