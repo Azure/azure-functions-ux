@@ -2,14 +2,13 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { FormGroup, FormControl } from '@angular/forms';
 import { WizardForm, ProvisioningConfiguration, CiConfiguration, DeploymentTarget, DeploymentSourceType, CodeRepositoryDeploymentSource, ApplicationType, DeploymentTargetProvider, AzureAppServiceDeploymentTarget, AzureResourceType, TargetEnvironmentType, CodeRepository } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
-import { ArmService } from '../../../../shared/services/arm.service';
 import { Headers } from '@angular/http';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants } from '../../../../shared/models/constants';
+import { Constants, ARM } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 
@@ -26,22 +25,22 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _pricingTier: string;
     constructor(
         private _cacheService: CacheService,
-        private _armService: ArmService,
-        private _userService: UserService,
+        userService: UserService,
         portalService: PortalService) {
         this.resourceIdStream$.switchMap(r => {
             this._resourceId = r;
-            return this._armService.get(this._resourceId)
+            return this._cacheService.getArm(this._resourceId);
         })
             .subscribe(s => {
                 this._location = s.json().location;
                 this._pricingTier = s.json().properties.sku;
             });
 
-        this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
+        userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this._token = r.token;
         });
-        portalService.getAdToken('azureTfsApi')
+
+        portalService.getAdToken('azureTfsApi').first()
             .subscribe(tokenData => {
                 this._vstsApiToken = tokenData.result.token;
             });
@@ -75,10 +74,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
         switch (this.wizardValues.buildProvider) {
             case 'vsts':
                 return this._deployVsts();
-            case 'kudu':
-                return this._deployKudu();
             default:
-                return Observable.of(null);
+                return this._deployKudu();
         }
     }
 
@@ -87,7 +84,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.sourceProvider === 'external') {
             payload.isManualIntegration = true;
         }
-        return this._armService.put(`${this._resourceId}/sourcecontrols/web`, {
+        return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARM.websiteApiVersion, {
             properties: payload
         }).map(r => r.json());
     }
