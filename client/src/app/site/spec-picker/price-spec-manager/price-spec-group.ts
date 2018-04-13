@@ -1,4 +1,4 @@
-import { PriceSpec } from './price-spec';
+import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
 import { BasicSmallPlanPriceSpec, BasicMediumPlanPriceSpec, BasicLargePlanPriceSpec, } from './basic-plan-price-spec';
@@ -18,6 +18,7 @@ export abstract class PriceSpecGroup {
     abstract emptyMessage: string;
     abstract emptyInfoLink: string;
 
+    bannerMessage: string;
     selectedSpec: PriceSpec = null;
     isExpanded = false;
 
@@ -26,6 +27,8 @@ export abstract class PriceSpecGroup {
     constructor(protected injector: Injector) {
         this.ts = injector.get(TranslateService);
     }
+
+    abstract initialize(input: PriceSpecInput);
 }
 
 export class DevSpecGroup extends PriceSpecGroup {
@@ -49,6 +52,15 @@ export class DevSpecGroup extends PriceSpecGroup {
         super(injector);
     }
 
+    initialize(input: PriceSpecInput) {
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.isLinux) {
+                this.bannerMessage = this.ts.instant(PortalResources.pricing_linuxTrial);
+            } else if (input.specPickerInput.data.isXenon) {
+                this.bannerMessage = this.ts.instant(PortalResources.pricing_windowsContainers);
+            }
+        }
+    }
 }
 
 export class ProdSpecGroup extends PriceSpecGroup {
@@ -74,6 +86,16 @@ export class ProdSpecGroup extends PriceSpecGroup {
     constructor(injector: Injector) {
         super(injector);
     }
+
+    initialize(input: PriceSpecInput) {
+        if (input.specPickerInput.data) {
+            if (input.specPickerInput.data.isLinux) {
+                this.bannerMessage = this.ts.instant(PortalResources.pricing_linuxTrial);
+            } else if (input.specPickerInput.data.isXenon) {
+                this.bannerMessage = this.ts.instant(PortalResources.pricing_windowsContainers);
+            }
+        }
+    }
 }
 
 export class IsolatedSpecGroup extends PriceSpecGroup {
@@ -93,5 +115,11 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
 
     constructor(injector: Injector) {
         super(injector);
+    }
+
+    initialize(input: PriceSpecInput) {
+        if (input.specPickerInput.data && input.specPickerInput.data.isLinux) {
+            this.bannerMessage = this.ts.instant(PortalResources.pricing_linuxAseDiscount);
+        }
     }
 }

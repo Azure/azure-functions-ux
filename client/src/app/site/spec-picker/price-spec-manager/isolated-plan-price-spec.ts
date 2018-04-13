@@ -1,7 +1,6 @@
 import { Kinds } from './../../../shared/models/constants';
 import { NationalCloudEnvironment } from './../../../shared/services/scenario/national-cloud.environment';
 import { PriceSpec, PriceSpecInput } from './price-spec';
-import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core';
 import { AseService } from '../../../shared/services/ase.service';
 
@@ -69,20 +68,21 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
             } else {
                 return this._aseService.getAse(input.plan.properties.hostingEnvironmentProfile.id)
                     .do(r => {
+                        // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2
+                        // but we'll let them see the isolated card anyway.  The plan update will probably fail in
+                        // the back-end if it's ASE v1, but at least we allow real ASE v2 customers who don't have
+                        // ASE permissions to scale their plan.
                         if (r.isSuccessful
                             && r.result.kind
                             && r.result.kind.toLowerCase().indexOf(Kinds.aseV2.toLowerCase()) === -1) {
 
                             this.state = 'hidden';
-                        } else if (!r.isSuccessful) {
-                            this.state = 'hidden';
-                            // etodo: need to handle failure due to rbac
                         }
                     });
             }
         }
 
-        return Observable.of(null);
+        return this.checkIfDreamspark(input.subscriptionId);
     }
 }
 

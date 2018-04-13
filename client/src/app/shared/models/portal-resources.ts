@@ -961,6 +961,8 @@
     public static pricing_noWritePermissionsOnPlan: string = "pricing_noWritePermissionsOnPlan";
     public static pricing_noWritePermissionsOnPlanFormat: string = "pricing_noWritePermissionsOnPlanFormat";
     public static pricing_planReadonlyLockFormat: string = "pricing_planReadonlyLockFormat";
+    public static pricing_planUpdateTitle: string = "pricing_planUpdateTitle";
+    public static pricing_planUpdateDesc: string = "pricing_planUpdateDesc";
     public static pricing_planUpdateSuccessFormat: string = "pricing_planUpdateSuccessFormat";
     public static pricing_planUpdateFailFormat: string = "pricing_planUpdateFailFormat";
     public static pricing_includedFeatures: string = "pricing_includedFeatures";
@@ -972,6 +974,9 @@
     public static pricing_windowsContainers: string = "pricing_windowsContainers";
     public static pricing_emptyIsolatedGroup: string = "pricing_emptyIsolatedGroup";
     public static pricing_pv2NotAvailable: string = "pricing_pv2NotAvailable";
+    public static pricing_scaleUp: string = "pricing_scaleUp";
+    public static pricing_pricePerHour: string = "pricing_pricePerHour";
+    public static pricing_scaleUpDescription: string = "pricing_scaleUpDescription";
     public static proxyJsonInvalid: string = "proxyJsonInvalid";
     public static schemaJsonInvalid: string = "schemaJsonInvalid";
     public static vstsBuildServerTitle: string = "vstsBuildServerTitle";
@@ -984,6 +989,7 @@
     public static webAppFramework: string = "webAppFramework";
     public static selectFramework: string = "selectFramework";
     public static workingDirectory: string = "workingDirectory";
+    public static clearDirtyConfirmation: string = "clearDirtyConfirmation";
     public static taskRunner: string = "taskRunner";
     public static pythonFramework: string = "pythonFramework";
     public static pythonVersion: string = "pythonVersion";
