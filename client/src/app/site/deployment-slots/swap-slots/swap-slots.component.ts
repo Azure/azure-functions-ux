@@ -8,7 +8,7 @@ import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmObj, ResourceId, ArmArrayResult } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
 import { SlotsDiff } from 'app/shared/models/arm/slots-diff';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
@@ -88,7 +88,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
         private _translateService: TranslateService,
         injector: Injector
     ) {
-        super('SwapSlotsComponent', injector, 'site-tabs');
+        super('SwapSlotsComponent', injector, SiteTabIds.deploymentSlotsConfig);
 
         this.close = new Subject<boolean>();
 

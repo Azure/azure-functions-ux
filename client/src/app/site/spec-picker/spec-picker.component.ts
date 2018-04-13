@@ -11,6 +11,7 @@ import { PriceSpec } from './price-spec-manager/price-spec';
 import { PriceSpecGroup } from './price-spec-manager/price-spec-group';
 import { ResourceId } from '../../shared/models/arm/arm-obj';
 import { PortalResources } from '../../shared/models/portal-resources';
+import { SiteTabIds } from '../../shared/models/constants';
 
 interface StatusMessage {
   message: string;
@@ -63,7 +64,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     private _ts: TranslateService,
     private _portalService: PortalService,
     private _injector: Injector) {
-    super('SpecPickerComponent', _injector, 'site-tabs');
+    super('SpecPickerComponent', _injector, SiteTabIds.scaleUp);
 
     this.isParentComponent = true;
     this.featureName = 'SpecPickerComponent';

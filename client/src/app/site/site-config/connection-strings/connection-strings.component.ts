@@ -1,6 +1,6 @@
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
 import { LogService } from 'app/shared/services/log.service';
-import { LogCategories } from './../../../shared/models/constants';
+import { LogCategories, SiteTabIds } from './../../../shared/models/constants';
 import { errorIds } from 'app/shared/models/error-ids';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -49,7 +49,7 @@ export class ConnectionStringsComponent extends ConfigSaveComponent implements O
         private _logService: LogService,
         injector: Injector
     ) {
-        super('ConnectionStringsComponent', injector, ['ConnectionStrings', 'SlotConfigNames'], 'site-tabs');
+        super('ConnectionStringsComponent', injector, ['ConnectionStrings', 'SlotConfigNames'], SiteTabIds.applicationSettings);
 
         this._resetPermissionsAndLoadingState();
 

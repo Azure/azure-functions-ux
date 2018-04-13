@@ -18,7 +18,7 @@ import { BroadcastService } from 'app/shared/services/broadcast.service';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 
 @Component({
@@ -52,7 +52,7 @@ export class DeploymentCenterComponent implements OnDestroy {
         private _logService: LogService,
         broadcastService: BroadcastService
     ) {
-        this._busyManager = new BusyStateScopeManager(broadcastService, 'site-tabs');
+        this._busyManager = new BusyStateScopeManager(broadcastService, SiteTabIds.continuousDeployment);
 
         this.viewInfoStream
             .takeUntil(this._ngUnsubscribe$)

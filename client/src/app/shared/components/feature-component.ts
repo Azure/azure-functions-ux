@@ -140,6 +140,7 @@ export abstract class FeatureComponent<T> extends ErrorableComponent implements 
     ngOnDestroy(): void {
         this.ngUnsubscribe.next();
         if (this.__busyManager) {
+            this.__logService.debug(LogCategories.featureComponent, `In destroy.  Clearing busy for componentName: ${this.componentName}`);
             this.__busyManager.clearBusy();
         }
     }

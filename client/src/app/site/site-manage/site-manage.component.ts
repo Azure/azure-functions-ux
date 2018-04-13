@@ -55,9 +55,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         private _scenarioService: ScenarioService,
         injector: Injector
     ) {
-        super('site-manage', injector, 'site-tabs');
+        super('site-manage', injector, SiteTabIds.platformFeatures);
 
-        this.featureName = 'site-manage';
+        this.featureName = this.componentName;
         this.isParentComponent = true;
     }
 

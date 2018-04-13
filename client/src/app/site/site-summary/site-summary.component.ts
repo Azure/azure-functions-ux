@@ -1,6 +1,6 @@
 import { SiteService } from './../../shared/services/site.service';
 import { Injector } from '@angular/core';
-import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories } from './../../shared/models/constants';
+import { ScenarioIds, AvailabilityStates, KeyCodes, LogCategories, SiteTabIds } from './../../shared/models/constants';
 import { ScenarioService } from './../../shared/services/scenario/scenario.service';
 import { UserService } from './../../shared/services/user.service';
 import { Component, OnDestroy, Input } from '@angular/core';
@@ -78,9 +78,9 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
         private _siteService: SiteService,
         injector: Injector) {
 
-        super('site-summary', injector, 'site-tabs');
+        super('site-summary', injector, SiteTabIds.overview);
 
-        this.featureName = 'site-summary';
+        this.featureName = this.componentName;
         this.isParentComponent = true;
 
         this.isStandalone = _configService.isStandalone();
@@ -184,6 +184,7 @@ export class SiteSummaryComponent extends FeatureComponent<TreeViewInfo<SiteData
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this._cleanupBlob();
     }
 
