@@ -89,11 +89,11 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
             this.tabInfos = [this._getTabInfo(SiteTabIds.overview, true /* active */, null)];
 
             if (this._scenarioService.checkScenario(ScenarioIds.addSiteConfigTab).status === 'enabled') {
-                this.tabInfos.push(this._getTabInfo(SiteTabIds.config, false /* active */, null));
+                this.tabInfos.push(this._getTabInfo(SiteTabIds.standaloneConfig, false /* active */, null));
             }
 
             if (this._scenarioService.checkScenario(ScenarioIds.addSiteFeaturesTab).status === 'enabled') {
-                this.tabInfos.push(this._getTabInfo(SiteTabIds.features, false /* active */, null));
+                this.tabInfos.push(this._getTabInfo(SiteTabIds.platformFeatures, false /* active */, null));
             }
         }
 
@@ -282,7 +282,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 info.closeable = false;
                 break;
 
-            case SiteTabIds.features:
+            case SiteTabIds.platformFeatures:
                 info.title = this._translateService.instant(PortalResources.tab_features);
                 info.componentFactory = SiteManageComponent;
                 info.closeable = false;
@@ -300,7 +300,7 @@ export class SiteDashboardComponent extends NavigableComponent implements OnDest
                 info.componentFactory = SwaggerDefinitionComponent;
                 break;
 
-            case SiteTabIds.config:
+            case SiteTabIds.standaloneConfig:
                 info.title = this._translateService.instant(PortalResources.tab_configuration);
                 info.componentFactory = SiteConfigStandaloneComponent;
                 info.closeable = false;

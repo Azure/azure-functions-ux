@@ -1,5 +1,5 @@
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
-import { Links, LogCategories } from './../../../shared/models/constants';
+import { Links, LogCategories, SiteTabIds } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -89,7 +89,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         private _siteService: SiteService,
         injector: Injector
     ) {
-        super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], 'site-tabs');
+        super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], SiteTabIds.applicationSettings);
 
         this._resetSlotsInfo();
 
@@ -191,7 +191,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.setBusy();
 
         if (Url.getParameterByName(null, 'appsvc.feature.scale') === 'true') {
-            this._portalService.openBlade2(
+            this._portalService.openBlade(
                 {
                     detailBlade: 'SpecPickerFrameBlade',
                     detailBladeInputs: {

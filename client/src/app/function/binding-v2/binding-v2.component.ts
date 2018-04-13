@@ -69,7 +69,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
     private _appSettings: { [key: string]: string };
     private _functionInfo: FunctionInfo;
 
-    constructor( @Inject(ElementRef) elementRef: ElementRef,
+    constructor(@Inject(ElementRef) elementRef: ElementRef,
         broadcastService: BroadcastService,
         private _portalService: PortalService,
         private _cacheService: CacheService,
@@ -660,7 +660,7 @@ export class BindingV2Component extends FunctionAppContextComponent {
     }
 
     onAuth() {
-        this._portalService.openBlade({
+        this._portalService.openBladeDeprecated({
             detailBlade: 'AppAuth',
             detailBladeInputs: { resourceUri: this.context.site.id }
         },

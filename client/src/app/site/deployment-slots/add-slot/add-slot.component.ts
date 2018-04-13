@@ -1,4 +1,4 @@
-import { LogCategories } from 'app/shared/models/constants';
+import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { Component, Injector, Input, OnDestroy, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -64,7 +64,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         private _authZService: AuthzService,
         private _injector: Injector
     ) {
-        super('AddSlotComponent', _injector, 'site-tabs');
+        super('AddSlotComponent', _injector, SiteTabIds.deploymentSlotsConfig);
 
         // TODO [andimarc]
         // For ibiza scenarios, this needs to match the deep link feature name used to load this in ibiza menu
