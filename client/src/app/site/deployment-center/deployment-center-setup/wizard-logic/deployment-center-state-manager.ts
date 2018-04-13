@@ -114,9 +114,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
             source: this._deploymentSource,
             targets: this._deploymentTargets
         };
-        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsPassthroughHeaders(this._token), deploymentObject);
+        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsPassthroughHeaders(), deploymentObject);
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
-            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsPassthroughHeaders(this._token))
+            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsPassthroughHeaders())
                 .switchMap(r => setupvsoCall)
                 .switchMap(r => Observable.of(r.json().id));
         }
@@ -294,7 +294,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
     }
 
-    public getVstsPassthroughHeaders(token: string): Headers {
+    public getVstsPassthroughHeaders(): Headers {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');

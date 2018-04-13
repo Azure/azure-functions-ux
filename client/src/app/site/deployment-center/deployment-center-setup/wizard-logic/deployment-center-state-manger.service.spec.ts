@@ -19,7 +19,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/zip';
 import 'rxjs/add/operator/concatMap';
 import 'rxjs/observable/interval';
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, fakeAsync } from '@angular/core/testing';
 import { DeploymentCenterStateManager } from './deployment-center-state-manager';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -175,6 +175,16 @@ describe('Deployment State Manager', () => {
             expect(deploySpyKudu).toHaveBeenCalled();
             expect(deploySpyVsts).not.toHaveBeenCalled();
         }));
+
+        it('external source provider forces manual ingtegration to on', fakeAsync(inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            service.wizardForm = starterWizardForm();
+            const wizardFormValues = service.wizardValues;
+            wizardFormValues.sourceSettings.isManualIntegration = false;
+            wizardFormValues.sourceProvider = 'external';
+            service.wizardValues = wizardFormValues;
+            service.deploy().subscribe(result => expect(result.properties.isManualIntegration).toBeTruthy());
+        })));
+
     });
 
     describe('vsts deployment', () => {
@@ -188,9 +198,22 @@ describe('Deployment State Manager', () => {
             expect(deploySpyKudu).not.toHaveBeenCalled();
             expect(deploySpyVsts).toHaveBeenCalled();
         }));
-    });
 
-    describe('error flow handled', () => {
+        it('get correct vsts direct call headers', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            const headers = service.getVstsDirectHeaders();
+            expect(headers.get('Content-Type')).toBe('application/json');
+            expect(headers.get('Accept')).toBe('application/json');
+            expect(headers.get('Authorization')).toBe(`Bearer ${service['_token']}`);
+            expect(headers.get('X-VSS-ForceMsaPassThrough')).toBe('true');
+        }));
+
+        it('get correct vsts passthrough call headers', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            const headers = service.getVstsPassthroughHeaders();
+            expect(headers.get('Content-Type')).toBe('application/json');
+            expect(headers.get('Accept')).toBe('application/json');
+            expect(headers.get('Authorization')).toBe(`Bearer ${service['_token']}`);
+            expect(headers.get('Vstsauthorization')).toBe(`Bearer ${service['_vstsApiToken']}`);
+        }));
     });
 });
 
@@ -226,7 +249,7 @@ class MockCacheService {
     putArm(resourceId: string, apiVersion?: string, content?: any) {
         return Observable.of({
             json: () => {
-                return {};
+                return content;
             }
         });
     }
