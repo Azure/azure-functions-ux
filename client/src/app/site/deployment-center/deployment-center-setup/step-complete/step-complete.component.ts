@@ -36,21 +36,25 @@ export class StepCompleteComponent {
         this._busyManager.setBusy();
         this.wizard.deploy().first().subscribe(
             r => {
-                this._busyManager.clearBusy();
+                this.clearBusy();
                 this._broadcastService.broadcastEvent<any>(BroadcastEvent.ReloadDeploymentCenter);
             },
             err => {
-                this._busyManager.clearBusy();
+                this.clearBusy();
                 this._logService.error(LogCategories.cicd, '/save-cicd', err);
             }
         );
+    }
+
+    clearBusy() {
+        this._busyManager.clearBusy();
     }
 
     ShowDashboard() {
         this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, this.wizard.wizardValues.sourceProvider);
     }
 
-    showSave(): boolean {
+    get showSave(): boolean {
         return !this.showDashboard;
     }
 

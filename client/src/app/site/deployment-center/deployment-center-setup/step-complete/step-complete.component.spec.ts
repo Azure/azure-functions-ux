@@ -36,6 +36,7 @@ describe('StepCompleteComponent', () => {
     let testFixture: ComponentFixture<StepCompleteComponent>;
     let wizardService: MockDeploymentCenterStateManager;
     let broadcastService: BroadcastService;
+    let logService: MockLogService;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [StepCompleteComponent, MockPreviousStepDirective],
@@ -56,7 +57,7 @@ describe('StepCompleteComponent', () => {
 
         wizardService = TestBed.get(DeploymentCenterStateManager);
         broadcastService = TestBed.get(BroadcastService);
-
+        logService = TestBed.get(LogService);
     });
 
     describe('init', () => {
@@ -79,21 +80,60 @@ describe('StepCompleteComponent', () => {
     });
 
     describe('Automated Solution', () => {
-        it('should show finish button', () => {
-            const button = testFixture.debugElement.query(By.css('#step-complete-finish-button'));
-            expect(button).toBeDefined();
-        });
-
         it('finish button should trigger save', fakeAsync((done) => {
             const button = testFixture.debugElement.query(By.css('#step-complete-finish-button')).nativeElement;
             expect(wizardService.deployTriggered).toBeFalsy();
-            const spy = spyOn(broadcastService, 'broadcastEvent').and.callFake((eventType: BroadcastEvent) => {
-                return Observable.of(null);
-            });
+            const spy = spyOn(broadcastService, 'broadcastEvent');
             button.click();
             tick();
             expect(wizardService.deployTriggered).toBeTruthy();
             expect(spy).toHaveBeenCalledWith(BroadcastEvent.ReloadDeploymentCenter);
+        }));
+
+        it('save failures should clear busy state and log', fakeAsync(() => {
+            const button = testFixture.debugElement.query(By.css('#step-complete-finish-button')).nativeElement;
+            const clearBusySpy = spyOn(buildStepTest, 'clearBusy');
+            const errorLogSpy = spyOn(logService, 'error');
+            wizardService.fail = true;
+            button.click();
+            tick();
+            expect(clearBusySpy).toHaveBeenCalled();
+            expect(errorLogSpy).toHaveBeenCalled();
+        }));
+    });
+    describe('Manual Solution', () => {
+        it('ftp should show "Show Dashboard" button', fakeAsync(() => {
+            wizardService.wizardValues.sourceProvider = 'ftp';
+            tick();
+            expect(buildStepTest.showDashboard).toBeTruthy();
+        }));
+
+        it('web deploy should show "Show Dashboard" button', fakeAsync(() => {
+            wizardService.wizardValues.sourceProvider = 'webdeploy';
+            tick();
+            expect(buildStepTest.showDashboard).toBeTruthy();
+        }));
+
+        it('ftp should not show "Save" button', fakeAsync(() => {
+            wizardService.wizardValues.sourceProvider = 'ftp';
+            tick();
+            expect(buildStepTest.showSave).toBeFalsy();
+        }));
+
+        it('web deploy should not show "Save" button', fakeAsync(() => {
+            wizardService.wizardValues.sourceProvider = 'webdeploy';
+            tick();
+            expect(buildStepTest.showSave).toBeFalsy();
+        }));
+
+        it('click "show dashboard" should send message to show dashboard', fakeAsync(() => {
+            wizardService.wizardValues.sourceProvider = 'webdeploy';
+            testFixture.detectChanges();
+            tick();
+            const button = testFixture.debugElement.query(By.css('#step-complete-show-dashboard-button')).nativeElement;
+            const spy = spyOn(broadcastService, 'broadcastEvent');
+            button.click();
+            expect(spy).toHaveBeenCalledWith(BroadcastEvent.ReloadDeploymentCenter, 'webdeploy');
         }));
     });
 });
@@ -107,8 +147,14 @@ class MockDeploymentCenterStateManager {
 
     public resourceIdStream$ = new ReplaySubject<string>(1);
     public deployTriggered = false;
+    public fail = false;
     public deploy() {
         this.deployTriggered = true;
+        if (this.fail) {
+            return Observable.of(null).map(x => {
+                throw new Error('err');
+            });
+        }
         return Observable.of(null);
     }
 }
