@@ -73,7 +73,7 @@ export class FunctionAppService {
                 } else if (ArmUtil.isLinuxApp(context.site)) {
                     return this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
                 } else {
-                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
+                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, true, this.headers(info.token));
                 }
             })
             .map(r => r.json());
