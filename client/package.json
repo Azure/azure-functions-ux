@@ -46,7 +46,8 @@
         "ts-helpers": "^1.1.1",
         "zone.js": "^0.8.20",
         "@ng-select/ng-select": "^0.36.0",
-        "prismjs": "^1.13.0"
+        "prismjs": "^1.13.0",
+        "ngx-uploader": "^4.2.4"
     },
     "devDependencies": {
         "@angular/cli": "^1.7.3",

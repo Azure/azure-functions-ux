@@ -370,6 +370,17 @@ amqplib@^0.5.2:
     readable-stream "1.x >=1.1.9"
     safe-buffer "^5.0.1"
 
+angular-svg-round-progressbar@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/angular-svg-round-progressbar/-/angular-svg-round-progressbar-1.2.1.tgz#67c013c697fe761c120e15b3046cc43c9238a572"
+  dependencies:
+    "@angular/common" "^5.0.0"
+    "@angular/compiler" "^5.0.0"
+    "@angular/core" "^5.0.0"
+    core-js "^2.4.1"
+    rxjs "^5.5.0"
+    zone.js "^0.8.12"
+
 angular2-uuid@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/angular2-uuid/-/angular2-uuid-1.1.1.tgz#72f03cd532b7f40032eb1ecfb9f8457384be956e"
@@ -4746,6 +4757,10 @@ ng2-popover@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/ng2-popover/-/ng2-popover-0.0.14.tgz#6cad6a6555fd2b81759f3d85b4cb8c3e3731f296"
 
+ngx-uploader@^4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/ngx-uploader/-/ngx-uploader-4.2.4.tgz#e8669f80ca03871154d5087721da65bb262baa08"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"
@@ -6062,7 +6077,7 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^5.5.2, rxjs@^5.5.6:
+rxjs@^5.5.0, rxjs@^5.5.2, rxjs@^5.5.6:
   version "5.5.10"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.10.tgz#fde02d7a614f6c8683d0d1957827f492e09db045"
   dependencies:
@@ -7842,6 +7857,6 @@ yn@^1.2.0:
   dependencies:
     object-assign "^4.1.1"
 
-zone.js@^0.8.20:
+zone.js@^0.8.12, zone.js@^0.8.20:
   version "0.8.26"
   resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.26.tgz#7bdd72f7668c5a7ad6b118148b4ea39c59d08d2d"

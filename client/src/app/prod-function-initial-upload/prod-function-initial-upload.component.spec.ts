@@ -8,9 +8,9 @@ describe('ProdFunctionInitialUploadComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProdFunctionInitialUploadComponent ]
+      declarations: [ProdFunctionInitialUploadComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
