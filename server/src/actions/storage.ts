@@ -31,8 +31,8 @@ export function setupAzureStorage(app: Application) {
     app.post('/api/upload-file', upload.single('file'), function (req, res) {
         const sasUrl = req.headers.sasurl as string;
         const blobService = azure.createBlobService(sasUrl);
-        blobService.createBlockBlobFromLocalFile('runfromzipstore', 'package.zip', path.join(__dirname, '..', 'uploads', req.file.filename), (e, _) => {
-            if (e) res.status(500);
+        blobService.createBlockBlobFromLocalFile('runfromzipstore', 'package.zip', path.join(__dirname, '..', 'uploads', req.file.filename), (err, _) => {
+            if (err) res.status(500);
             fs.unlink(path.join(__dirname, '..', 'uploads', req.file.filename));
             res.sendStatus(200);
         });

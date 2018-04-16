@@ -3,7 +3,7 @@ import { GlobalStateService } from '../shared/services/global-state.service';
 import { SiteService } from '../shared/services/site.service';
 import { CacheService } from '../shared/services/cache.service';
 import { Constants } from '../shared/models/constants';
-import { UploadOutput, UploadFile, UploadInput } from 'ngx-uploader';
+import { UploadOutput, UploadFile, UploadInput, UploaderOptions } from 'ngx-uploader';
 import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-prod-function-initial-upload',
@@ -12,11 +12,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ProdFunctionInitialUploadComponent {
 
-  options = {
-    concurrency: 0,
-    allowedContentTypes: ['application/zip']
-  };
-
+  options: UploaderOptions;
   file: UploadFile;
   uploadInput: EventEmitter<UploadInput>;
   public show = false;
@@ -83,7 +79,7 @@ export class ProdFunctionInitialUploadComponent {
       this.file = output.file;
     } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
       this.file = output.file;
-    } else if (output.type === 'done') {
+    }  else if (output.type === 'done') {
       this.updateAppSettings();
     }
   }
