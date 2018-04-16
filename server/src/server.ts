@@ -8,8 +8,6 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 import * as compression from 'compression';
-import * as azure from 'azure-storage';
-import * as multer from 'multer';
 import './polyfills';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
@@ -19,8 +17,9 @@ import { setupDeploymentCenter } from './deployment-center/deployment-center';
 import { triggerFunctionAPIM } from './actions/apim';
 import { NextFunction } from 'express';
 import { getLinuxRuntimeToken } from './actions/linux-function-app';
+import { setupAzureStorage } from './actions/storage';
 
-const upload = multer({ dest: 'uploads/' })
+
 const cookieSession = require('cookie-session');
 const appInsights = require('applicationinsights');
 if (process.env.aiInstrumentationKey) {
@@ -103,98 +102,7 @@ app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
 setupDeploymentCenter(app);
-
-
-app.post('/api/upload-file', upload.single('file'), function (req, res) {
-    const sasUrl = req.headers.sasurl as string;
-    const blobService = azure.createBlobService(sasUrl);
-    blobService.createBlockBlobFromLocalFile('runfromzipstore', 'package.zip', path.join(__dirname, '..', 'uploads', req.file.filename), (e, _) => {
-        if (e) res.status(500);
-        fs.unlink(path.join(__dirname, '..', 'uploads', req.file.filename));
-        res.sendStatus(200);
-    });
-    // req.file is the `avatar` file
-    // req.body will hold the text fields, if there were any
-})
-
-app.post('/api/getBlobSasUri', async (req, res) => {
-    const key = req.body.connectionString;
-
-    var blobService = azure.createBlobService(key);
-    var startDate = new Date('1/1/2018');
-    var expiryDate = new Date('1/1/2200');
-    var sharedAccessPolicy = {
-        AccessPolicy: {
-            Permissions: 'r',
-            Start: startDate,
-            Expiry: expiryDate
-        }
-    };
-
-    blobService.createContainerIfNotExists('runfromzipstore', (_, __) => {
-        var token = blobService.generateSharedAccessSignature('runfromzipstore', 'package.zip', sharedAccessPolicy);
-        var sasUrl = blobService.getUrl('runfromzipstore', 'package.zip', token);
-        res.send(`{"sasUrl":"${sasUrl}"}`);
-    });
-    
-});
-
-// function generateServiceProperties() {
-//     return {
-//       Logging: {
-//         Version: '1.0',
-//         Delete: true,
-//         Read: true,
-//         Write: true,
-//         RetentionPolicy: {
-//           Enabled: true,
-//           Days: 10,
-//         },
-//       },
-//       HourMetrics: {
-//         Version: '1.0',
-//         Enabled: true,
-//         IncludeAPIs: true,
-//         RetentionPolicy: {
-//           Enabled: true,
-//           Days: 10,
-//         },
-//       },
-//       MinuteMetrics: {
-//         Version: '1.0',
-//         Enabled: true,
-//         IncludeAPIs: true,
-//         RetentionPolicy: {
-//           Enabled: true,
-//           Days: 10,
-//         },
-//       },
-//       Cors: {
-//         CorsRule: [
-//           {
-//             AllowedOrigins: ['www.azure.com', 'www.microsoft.com'],
-//             AllowedMethods: ['GET', 'PUT'],
-//             AllowedHeaders: ['x-ms-meta-data*', 'x-ms-meta-target*', 'x-ms-meta-xyz', 'x-ms-meta-foo'],
-//             ExposedHeaders: ['x-ms-meta-data*', 'x-ms-meta-source*', 'x-ms-meta-abc', 'x-ms-meta-bcd'],
-//             MaxAgeInSeconds: 500,
-//           },
-//           {
-//             AllowedOrigins: ['www.msdn.com', 'www.asp.com'],
-//             AllowedMethods: ['GET', 'PUT'],
-//             AllowedHeaders: ['x-ms-meta-data*', 'x-ms-meta-target*', 'x-ms-meta-xyz', 'x-ms-meta-foo'],
-//             ExposedHeaders: ['x-ms-meta-data*', 'x-ms-meta-source*', 'x-ms-meta-abc', 'x-ms-meta-bcd'],
-//             MaxAgeInSeconds: 500,
-//           },
-//         ],
-//       },
-//     };
-//   }
-
-
-
-
-
-
+setupAzureStorage(app);
 
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.

@@ -6,11 +6,11 @@
       <div class="hero" [class.hidden]="loading">
         <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput">
           <p>
-            Drag a file here or
+            {{'dragFileHereOr' | translate}}
             <label class="upload-button">
-              <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"> browse
+              <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput">  {{'browse' | translate}}
             </label>
-            to upload.
+            {{'toUpload' | translate}}
           </p>
         </div>
       </div>

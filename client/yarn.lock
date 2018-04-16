@@ -370,17 +370,6 @@ amqplib@^0.5.2:
     readable-stream "1.x >=1.1.9"
     safe-buffer "^5.0.1"
 
-angular-svg-round-progressbar@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/angular-svg-round-progressbar/-/angular-svg-round-progressbar-1.2.1.tgz#67c013c697fe761c120e15b3046cc43c9238a572"
-  dependencies:
-    "@angular/common" "^5.0.0"
-    "@angular/compiler" "^5.0.0"
-    "@angular/core" "^5.0.0"
-    core-js "^2.4.1"
-    rxjs "^5.5.0"
-    zone.js "^0.8.12"
-
 angular2-uuid@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/angular2-uuid/-/angular2-uuid-1.1.1.tgz#72f03cd532b7f40032eb1ecfb9f8457384be956e"
@@ -4741,6 +4730,10 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
+ng-mocks@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-5.3.0.tgz#a9e8671bb8137cdd7b137cce3b0da09a6a891e5b"
+
 ng-sidebar@^6.0.1:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/ng-sidebar/-/ng-sidebar-6.0.5.tgz#0fe40e1d9fc2e06f7a750a9628d9977a6718baba"
@@ -6077,7 +6070,7 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^5.5.0, rxjs@^5.5.2, rxjs@^5.5.6:
+rxjs@^5.5.2, rxjs@^5.5.6:
   version "5.5.10"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.10.tgz#fde02d7a614f6c8683d0d1957827f492e09db045"
   dependencies:
@@ -7857,6 +7850,6 @@ yn@^1.2.0:
   dependencies:
     object-assign "^4.1.1"
 
-zone.js@^0.8.12, zone.js@^0.8.20:
+zone.js@^0.8.20:
   version "0.8.26"
   resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.26.tgz#7bdd72f7668c5a7ad6b118148b4ea39c59d08d2d"

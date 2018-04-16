@@ -1,4 +1,4 @@
-import { ArmEmbeddedService } from './arm-embedded.service';
+//import { ArmEmbeddedService } from './arm-embedded.service';
 import { PortalService } from './portal.service';
 import { ArmServiceHelper } from './arm.service-helper';
 import { Injectable } from '@angular/core';
@@ -33,7 +33,7 @@ export class ArmService {
         _portalService: PortalService,
         protected _aiService: AiService) {
 
-        this.armUrl = _portalService.isEmbeddedFunctions ? ArmEmbeddedService.url : ArmServiceHelper.armEndpoint;
+        //this.armUrl = _portalService.isEmbeddedFunctions ? ArmEmbeddedService.url : ArmServiceHelper.armEndpoint;
 
         _userService.getStartupInfo()
             .subscribe(info => {
@@ -97,12 +97,12 @@ export class ArmService {
 
     getArmUrl(resourceId: string, apiVersion?: string) {
         const url = `${this.armUrl}${resourceId}`;
-        if(apiVersion){
+        if (apiVersion) {
             return this._updateQueryString(
                 url,
                 'api-version',
                 apiVersion ? apiVersion : this.websiteApiVersion);
-        } else{
+        } else {
             return url;
         }
     }
