@@ -58,9 +58,9 @@ export class CacheService {
         return this.send(url, 'DELETE', true, null, null, invokeApi);
     }
 
-    postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any): Observable<Response> {
+    postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any, cacheKeyPrefix?: string): Observable<Response> {
         const url = this._armService.getArmUrl(resourceId, apiVersion ? apiVersion : this._armService.websiteApiVersion);
-        return this.send(url, 'POST', force, null, content);
+        return this.send(url, 'POST', force, null, content, null, cacheKeyPrefix);
     }
 
     putArm(resourceId: string, apiVersion?: string, content?: any) {
@@ -127,7 +127,8 @@ export class CacheService {
         force: boolean,
         headers?: Headers,
         content?: any,
-        invokeApi?: boolean) {
+        invokeApi?: boolean,
+        keyPrefix?: string) {
 
         if (url.startsWith('http://')) {
             // This is only for seabreaze function apps.
@@ -152,7 +153,9 @@ export class CacheService {
             url = url.replace(parts[2], domain);
         }
 
-        const key = url.toLowerCase();
+        const key = keyPrefix
+            ? keyPrefix.toLowerCase() + url.toLowerCase()
+            : url.toLowerCase();
 
         // Grab a reference before any async calls in case the item gets cleaned up
         const item = this._cache[key];

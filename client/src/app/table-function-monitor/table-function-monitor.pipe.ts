@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser'
+import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe, DecimalPipe } from '@angular/common';
-
-declare let moment: any;
+import * as moment from 'moment-mini-ts';
 
 @Pipe({
     name: 'format'

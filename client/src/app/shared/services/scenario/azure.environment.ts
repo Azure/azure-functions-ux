@@ -2,12 +2,21 @@ import { ScenarioIds, ServerFarmSku } from './../../models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
+import { ARMApplicationInsightsDescriptior } from '../../resourceDescriptors';
+import { Injector } from '@angular/core';
+import { ApplicationInsightsService } from '../application-insights.service';
+import { PortalService } from '../portal.service';
 
 export class AzureEnvironment extends Environment {
     name = 'Azure';
+    private _applicationInsightsService: ApplicationInsightsService;
+    private _portalService: PortalService;
 
-    constructor() {
+    constructor(injector: Injector) {
         super();
+        this._applicationInsightsService = injector.get(ApplicationInsightsService);
+        this._portalService = injector.get(PortalService);
+
         this.scenarioChecks[ScenarioIds.addSiteFeaturesTab] = {
             id: ScenarioIds.addSiteFeaturesTab,
             runCheck: () => {
@@ -62,6 +71,11 @@ export class AzureEnvironment extends Environment {
             runCheck: () => {
                 return { status: 'enabled' };
             }
+        };
+
+        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
+            id: ScenarioIds.enableAppInsights,
+            runCheckAsync: (input: ScenarioCheckInput) => this._getApplicationInsightsId(input)
         };
     }
 
@@ -158,5 +172,23 @@ export class AzureEnvironment extends Environment {
             status: 'enabled',
             data: limit
         };
+    }
+
+    private _getApplicationInsightsId(input: ScenarioCheckInput): Observable<ScenarioResult> {
+        if (input.site) {
+            return this._applicationInsightsService
+                .getApplicationInsightsId(input.site.id)
+                .switchMap(applicationInsightsResourceId => {
+                    return Observable.of<ScenarioResult>({
+                        status: applicationInsightsResourceId ? 'enabled' : 'disabled',
+                        data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null
+                    });
+                });
+        } else {
+            return Observable.of<ScenarioResult>({
+                status: 'disabled',
+                data: null
+            });
+        }
     }
 }

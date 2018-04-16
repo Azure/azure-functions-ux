@@ -1,107 +1,133 @@
 import { FunctionAppService } from 'app/shared/services/function-app.service';
-import { FunctionAppContextComponent } from 'app/shared/components/function-app-context-component';
-import { Component, Input, ViewChild, Output } from '@angular/core';
+import { Component, Input, ViewChild, Injector } from '@angular/core';
 import { FunctionMonitorService } from '../shared/services/function-monitor.service';
-import { FunctionInvocations } from '../shared/models/function-monitor';
-import { GlobalStateService } from '../shared/services/global-state.service';
+import { FunctionInvocations, FunctionMonitorInfo } from '../shared/models/function-monitor';
 import { BusyStateComponent } from '../busy-state/busy-state.component';
-import { Subscription } from 'rxjs/Subscription';
-import { BroadcastService } from '../shared/services/broadcast.service';
-import { Subject } from 'rxjs/Subject';
-import { KeyCodes } from 'app/shared/models/constants';
+import { KeyCodes, ComponentNames } from 'app/shared/models/constants';
+import { FeatureComponent } from '../shared/components/feature-component';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
+import { Observable } from 'rxjs/Observable';
+
+export interface ColumnInformation {
+    display: string; // The display text
+    variable: string; // The  key that maps to the data property
+    formatTo: string; // The type data for the column (date converts to fromNow etc)
+}
 
 @Component({
-    selector: 'table-function-monitor',
+    selector: ComponentNames.tableFunctionMonitor,
     templateUrl: './table-function-monitor.component.html',
     styleUrls: ['./table-function-monitor.component.scss'],
 })
 
-export class TableFunctionMonitorComponent extends FunctionAppContextComponent {
+export class TableFunctionMonitorComponent extends FeatureComponent<FunctionMonitorInfo> {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-    @Input() columns: any[];
-    @Input() data: any[];
-    @Input() details: any;
-    @Input() invocation: any;
-    @Input() isAppInsightsConnected: boolean;
-    @Input() selectedFuncId: string;
-    @Output() openAppInsights = new Subject();
 
+    @Input() set functionMonitorInfoInput(functionMonitorInfo: FunctionMonitorInfo) {
+        this.setBusy();
+        this.setInput(functionMonitorInfo);
+    }
+
+    private _functionMonitorInfo: FunctionMonitorInfo;
+    public columns: ColumnInformation[];
     public outputLog: string;
     public selectedRowId: string;
 
+    public invocation: any;
+    public details: any;
+    public data: any;
+    public selectedFunctionId: string;
+
     constructor(
+        private _translateService: TranslateService,
+        private _functionAppService: FunctionAppService,
         private _functionMonitorService: FunctionMonitorService,
-        public globalStateService: GlobalStateService,
-        functionAppService: FunctionAppService,
-        broadcastService: BroadcastService) {
-        super('table-function-monitor', functionAppService, broadcastService, () => this.setBusyState());
+        injector: Injector) {
+        super(ComponentNames.tableFunctionMonitor, injector, 'dashboard');
+        this.featureName = ComponentNames.functionMonitor;
+        this._setColumns();
     }
 
-    setup(): Subscription {
-        return this.viewInfoEvents
-            .subscribe(view => {
-                this.clearBusyState();
-                this.details = null;
-                this.outputLog = '';
-                this.selectedRowId = null;
+    private _setColumns(): void {
+        this.columns = [
+            {
+                display: this._translateService.instant(PortalResources.functionMonitorTable_functionColumn),
+                variable: 'functionDisplayTitle',
+                formatTo: 'text'
+            },
+            {
+                display: this._translateService.instant(PortalResources.functionMonitorTable_statusColumn),
+                variable: 'status',
+                formatTo: 'icon'
+            },
+            {
+                display: this._translateService.instant(PortalResources.functionMonitorTable_detailsColumn),
+                variable: 'whenUtc',
+                formatTo: 'datetime'
+            },
+            {
+                display: this._translateService.instant(PortalResources.functionMonitorTable_durationColumn),
+                variable: 'duration',
+                formatTo: 'number'
+            }
+        ];
+    }
+
+    protected setup(functionMonitorInfoInputEvent: Observable<FunctionMonitorInfo>) {
+        return functionMonitorInfoInputEvent
+            .switchMap(functionMonitorInfo => {
+                this._functionMonitorInfo = functionMonitorInfo;
+
+                return this._functionAppService
+                    .getFunctionHostStatus(functionMonitorInfo.functionAppContext)
+                    .flatMap(functionHost => this._functionMonitorService.getDataForSelectedFunction(
+                        functionMonitorInfo.functionAppContext,
+                        functionMonitorInfo.functionInfo,
+                        functionHost.isSuccessful ? functionHost.result.id : ''))
+                    .flatMap(data => {
+                        this.selectedFunctionId = !!data ? data.functionId : '';
+
+                        return !!data
+                            ? this._functionMonitorService.getInvocationsDataForSelectedFunction(functionMonitorInfo.functionAppContext, data.functionId)
+                            : Observable.of([]);
+                    });
+            })
+            .do(result => {
+                if (result) {
+                    this.data = result;
+                }
             });
     }
 
-    showDetails(rowData: FunctionInvocations) {
-        this._functionMonitorService.getInvocationDetailsForSelectedInvocation(this.context, rowData.id)
-            .subscribe(results => {
+    public showDetails(rowData: FunctionInvocations) {
+        this._functionMonitorService
+            .getInvocationDetailsForSelectedInvocation(this._functionMonitorInfo.functionAppContext, rowData.id)
+            .subscribe(invocationDetails => {
 
-                if (!!results) {
-                    this.invocation = results.invocation;
-                    this.details = results.parameters;
+                if (!!invocationDetails) {
+                    this.invocation = invocationDetails.invocation;
+                    this.details = invocationDetails.parameters;
                     this.selectedRowId = rowData.id;
                     this.setOutputLogInfo(this.selectedRowId);
                 }
             });
-        return this.details;
     }
 
-    setOutputLogInfo(rowId: string) {
-        this._functionMonitorService.getOutputDetailsForSelectedInvocation(this.context, rowId)
+    public setOutputLogInfo(rowId: string) {
+        this._functionMonitorService.getOutputDetailsForSelectedInvocation(this._functionMonitorInfo.functionAppContext, rowId)
             .subscribe(outputData => {
                 this.outputLog = outputData;
             });
     }
 
-    refreshFuncMonitorGridData() {
-        this.setBusyState();
-        this._functionMonitorService.getInvocationsDataForSelectedFunction(this.context, this.selectedFuncId)
-            .subscribe(result => {
-                this.data = result;
-                this.clearBusyState();
-            });
-    }
-
-    setBusyState() {
-        if (this.busyState) {
-            this.busyState.setBusyState();
-        }
-    }
-
-    clearBusyState() {
-        if (this.busyState) {
-            this.busyState.clearBusyState();
-        }
-    }
-
-    liveStreamCliked() {
-        this.openAppInsights.next();
-    }
-
-    onKeyPressRefresh(event: KeyboardEvent) {
-        if (event.keyCode === KeyCodes.enter) {
-            this.refreshFuncMonitorGridData();
-        }
-    }
-
-    onKeyPressLogDetails(event: KeyboardEvent, rowData: FunctionInvocations) {
+    public onKeyPressLogDetails(event: KeyboardEvent, rowData: FunctionInvocations) {
         if (event.keyCode === KeyCodes.enter) {
             this.showDetails(rowData);
         }
+    }
+
+    public refresh() {
+        this.setInput(this._functionMonitorInfo);
     }
 }
