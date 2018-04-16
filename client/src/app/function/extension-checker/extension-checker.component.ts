@@ -15,6 +15,7 @@ import { ExtensionInstallStatus } from '../../shared/models/extension-install-st
 import { BaseExtensionInstallComponent } from '../../extension-install/base-extension-install-component';
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
+import { FunctionAppContext } from '../../shared/function-app-context';
 
 @Component({
     selector: 'extension-checker',
@@ -28,6 +29,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
     @Input() functionAppLanguage: string;
     @Input() appNode: AppNode;
     @Input() functionsNode: FunctionsNode;
+    @Input() passedContext: FunctionAppContext;
     @Output() closePanel = new Subject();
 
     public openFunctionNewDetail = false;
@@ -55,7 +57,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
             .takeUntil(this.ngUnsubscribe)
             .switchMap(card => {
                 this._functionCard = card;
-                return this._functionAppService.getTemplates(this.context);
+                return this._functionAppService.getTemplates(this.passedContext);
             })
             .switchMap(templates => {
                 if (!this.functionLanguage) {
