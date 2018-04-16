@@ -554,9 +554,9 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
 
             Url.getParameterByName(null, 'appsvc.feature.scale') === 'true' ?
                 new DisableableTabFeature(
-                    this._translateService.instant('Scale up'),
-                    this._translateService.instant('Scale up'),
-                    this._translateService.instant('Choose a different pricing tier to add more resources for your plan'),
+                    this._translateService.instant(PortalResources.pricing_scaleUp),
+                    this._translateService.instant(PortalResources.pricing_scaleUp),
+                    this._translateService.instant(PortalResources.pricing_scaleUpDescription),
                     'image/scale-up.svg',
                     SiteTabIds.scaleUp,
                     this._broadcastService,

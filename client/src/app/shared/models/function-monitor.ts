@@ -1,3 +1,8 @@
+import { FunctionAppContext } from "../function-app-context";
+import { Dictionary } from "lodash";
+import { FunctionInfo } from "./function-info";
+import { ARMApplicationInsightsDescriptior } from "../resourceDescriptors";
+
 export interface FunctionInvocations {
     executingJobRunId: string;
     id: string;
@@ -37,4 +42,17 @@ export interface FunctionStats {
     totalPass: number;
     totalFail: number;
     totalRun: number;
+}
+
+export interface FunctionMonitorInfo {
+    functionAppContext: FunctionAppContext;
+    functionAppSettings: Dictionary<string>;
+    functionInfo: FunctionInfo;
+    appInsightsResourceDescriptor: ARMApplicationInsightsDescriptior;
+}
+
+export interface MonitorDetailsInfo {
+    functionMonitorInfo: FunctionMonitorInfo;
+    operationId: string;
+    id: string;
 }

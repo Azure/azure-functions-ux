@@ -27,7 +27,8 @@
         "../node_modules/prismjs/themes/prism-tomorrow.css"
       ],
       "scripts": [
-        "../node_modules/marked/marked.min.js"
+        "../node_modules/marked/marked.min.js",
+        "../node_modules/pako/dist/pako.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

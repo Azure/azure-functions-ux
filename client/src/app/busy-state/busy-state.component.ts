@@ -12,6 +12,7 @@ export type BusyStateName =
     | 'dashboard'
     | 'try-functions'
     | 'function-keys'
+    | 'sidebar'
     | 'site-summary'
     | 'site-manage'
     | 'site-config'

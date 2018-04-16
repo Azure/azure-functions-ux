@@ -14,7 +14,7 @@
   </nav>
 
   <section>
-    <info-box *ngIf="infoMessage" [infoText]="infoMessage" typeClass="info"></info-box>
+    <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage" [infoText]="specManager.selectedSpecGroup.bannerMessage" typeClass="info"></info-box>
   </section>
 
   <section *ngIf="specManager.selectedSpecGroup.specs.length === 0" class="empty-group">
@@ -28,13 +28,7 @@
   <section class="centered">
     <spec-list
       [specGroup]="specManager.selectedSpecGroup"
-      [isRecommendedList]="true"
-      (onSelectedSpec)="selectSpec($event)"></spec-list>
-
-    <spec-list
-      *ngIf="specManager.selectedSpecGroup.isExpanded"
-      [specGroup]="specManager.selectedSpecGroup"
-      [isRecommendedList]="false"
+      [isExpanded]="specManager.selectedSpecGroup.isExpanded"
       (onSelectedSpec)="selectSpec($event)"></spec-list>
 
     <div class="spec-expander" *ngIf=" specManager.selectedSpecGroup.specs.length > 4">
