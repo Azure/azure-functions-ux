@@ -30,6 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BroadcastService } from '../shared/services/broadcast.service';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ReplaySubject } from 'rxjs';
+import { DashboardType } from '../tree-view/models/dashboard-type';
 
 describe('ProdFunctionInitialUploadComponent', () => {
   let component: ProdFunctionInitialUploadComponent;
@@ -73,39 +74,39 @@ describe('ProdFunctionInitialUploadComponent', () => {
   describe('setup', () => {
     it('resourceId should pass in through global state service', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
-      mockBroadcastService.resourceId$.next('resourceIdValue');
-      expect(component.resourceId).toBe('resourceIdValue');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
+      expect(component.resourceId).toBe('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
     });
 
     it('resourceId should give AzureWebjobsStorageId', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
-      mockBroadcastService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       expect(component.storageAccountString).toBe('testval');
     });
 
     it('resourceId should trigger getting a blob sas url', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
-      mockBroadcastService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       expect(component.blobSasUrl).toBe('sasUrl');
     });
 
     it('should show if has Webjobs storage connection string and not run from zip', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
-      mockBroadcastService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       expect(component.show).toBeTruthy();
     });
     it('should be hidden if no Webjobs storage connection string', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       const mockSiteService: MockSiteService = TestBed.get(SiteService);
       mockSiteService.validAzureWebjobsStorageValue = false;
-      mockBroadcastService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       expect(component.show).toBeFalsy();
     });
     it('should be hidden if run from zip is set up', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       const mockSiteService: MockSiteService = TestBed.get(SiteService);
       mockSiteService.includeRunFromZip = true;
-      mockBroadcastService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       expect(component.show).toBeFalsy();
     });
 
@@ -113,7 +114,7 @@ describe('ProdFunctionInitialUploadComponent', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       const mockSiteService: MockSiteService = TestBed.get(SiteService);
       mockSiteService.successful = false;
-      mockBroadcastService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       expect(component.show).toBeFalsy();
     });
 
@@ -121,7 +122,13 @@ describe('ProdFunctionInitialUploadComponent', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       const mockSiteService: MockSiteService = TestBed.get(SiteService);
       mockSiteService.newProdFunction = false;
-      mockBroadcastService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
+      expect(component.show).toBeFalsy();
+    });
+    it('should be hidden if opening dashbaord type is not App Dashboard', () => {
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
+      mockBroadcastService.dashboardType = DashboardType.ProxyDashboard;
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       expect(component.show).toBeFalsy();
     });
   });
@@ -194,7 +201,7 @@ describe('ProdFunctionInitialUploadComponent', () => {
     it('should update app settings when done uploading', () => {
       const mockCacheService: MockCacheService = TestBed.get(CacheService);
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
-      mockBroadcastService.resourceId$.next('testid');
+      mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       const uploadEvent: UploadOutput = {
         type: 'done',
         file: null,
@@ -202,7 +209,7 @@ describe('ProdFunctionInitialUploadComponent', () => {
       };
 
       component.onUploadOutput(uploadEvent);
-      expect(mockCacheService.putArmResourceId).toBe('testid/config/appSettings');
+      expect(mockCacheService.putArmResourceId).toBe('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue/config/appSettings');
       expect(mockCacheService.putArmContent.properties.WEBSITE_USE_ZIP).toBe(component.blobSasUrl);
       expect(mockCacheService.putArmContent.properties.AzureWebJobsStorage).toBe('testval');
       expect(mockCacheService.putArmContent.properties.NEW_PROD_FUNCTION).toBeUndefined();
@@ -214,12 +221,13 @@ describe('ProdFunctionInitialUploadComponent', () => {
 @Injectable()
 class MockBroadcastService {
   public resourceId$ = new ReplaySubject<string>();
-
+  public dashboardType = DashboardType.AppDashboard;
   getEvents<T>(eventType: BroadcastEvent): Observable<T> {
     if (eventType === BroadcastEvent.TreeNavigation) {
       return this.resourceId$
         .map(e => {
           const ret : any = {
+            dashboardType: this.dashboardType,
             resourceId: e
           };
           return  ret as T;
@@ -231,7 +239,6 @@ class MockBroadcastService {
 }
 @Injectable()
 class MockCacheService {
-
   public putArmResourceId = '';
   public putArmContent = null;
   post(url: string, force?: boolean, headers?: Headers, content?: any) {
