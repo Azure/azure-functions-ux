@@ -9,7 +9,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
     #spec-picker-shield{
         position: fixed;
-        background-color: rgba(0, 0, 0, 0.25);
+        background-color: $translucent-shield-color;
         z-index: 10;
         bottom: 0px;
         top: 42px;
@@ -112,15 +112,16 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
         &.selected{
             outline-color: $border-selection-color;
-            outline-width: 2px;
+            outline-width: 3px;
             outline-style: solid;
-            outline-offset: 1px;
+            outline-offset: 2px;
         }
 
         .top-features{
             position: absolute;
-            left: 70px;
+            left: 65px;
             top: 50%;
+            padding-right: 10px;
             transform: translateY(-50%);
         }
 

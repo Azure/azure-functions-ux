@@ -89,7 +89,7 @@ export abstract class PriceSpec {
 
                     if (isDreamspark) {
                         this.state = 'disabled';
-                        this.disabledMessage = PortalResources.pricing_subscriptionNotAllowed;
+                        this.disabledMessage = this._ts.instant(PortalResources.pricing_subscriptionNotAllowed);
                         this.disabledInfoLink = `https://account.windowsazure.com/Subscriptions/Statement?subscriptionId=${subscriptionId}&isRdfeId=true&launchOption=upgrade`;
                     }
                 });

@@ -11,10 +11,11 @@ import { Observable } from 'rxjs/Observable';
 import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
 import { SpecCostQueryInput } from './billing-models';
+import { PriceSpecInput } from './price-spec';
 
 export interface SpecPickerInput<T> {
     id: ResourceId;
-    data: T;
+    data?: T;
 }
 
 export interface NewPlanSpeckPickerData {
@@ -74,18 +75,21 @@ export class PlanPriceSpecManager {
                 // Initialize every spec for each spec group.  For most cards this is a no-op, but
                 // some require special handling so that we know if we need to hide/disable a card.
                 this.specGroups.forEach(g => {
-                    specInitCalls = specInitCalls.concat(g.specs.map(s => s.initialize({
+                    const input: PriceSpecInput = {
                         specPickerInput: inputs,
                         billingMeters: billingMeters,
                         plan: this._plan,
                         subscriptionId: this._subscriptionId
-                    })));
+                    };
+
+                    g.initialize(input);
+                    specInitCalls = specInitCalls.concat(g.specs.map(s => s.initialize(input)));
                 });
 
                 return Observable.zip(...specInitCalls);
             })
             .do(_ => {
-                this._cleanUpSpecGroups();
+                this._cleanUpGroups();
             });
     }
 
@@ -121,6 +125,7 @@ export class PlanPriceSpecManager {
             .do(r => {
                 if (r.isSuccessful) {
                     this._plan = r.result.json();
+                    this._cleanUpGroups();
                 }
             });
     }
@@ -169,24 +174,14 @@ export class PlanPriceSpecManager {
                 spec.priceString = 'Free';
             } else {
                 const meter = costResult.firstParty[0].meters[0];
-                spec.priceString = `${meter.perUnitAmount} ${meter.perUnitCurrencyCode}/Hour (Estimated)`;
+                spec.priceString = this._ts.instant(PortalResources.pricing_pricePerHour).format(meter.perUnitAmount, meter.perUnitCurrencyCode);
             }
         });
     }
 
-    private _cleanUpSpecGroups() {
+    private _cleanUpGroups() {
         let nonEmptyGroupIndex = 0;
         let foundNonEmptyGroup = false;
-
-        if (this._inputs.data) {
-            if (this._inputs.data.isLinux && this._inputs.data.hostingEnvironmentName) {
-                this._specPicker.infoMessage = this._ts.instant(PortalResources.pricing_linuxAseDiscount);
-            } else if (this._inputs.data.isLinux) {
-                this._specPicker.infoMessage = this._ts.instant(PortalResources.pricing_linuxTrial);
-            } else if (this._inputs.data.isXenon) {
-                this._specPicker.infoMessage = this._ts.instant(PortalResources.pricing_windowsContainers);
-            }
-        }
 
         // Remove hidden and forbidden specs and move disabled specs to end of list.
         this.specGroups.forEach((g, i) => {

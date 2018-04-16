@@ -34,7 +34,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
   specManager: PlanPriceSpecManager;
   statusMessage: StatusMessage = null;
-  infoMessage: string;
   isInitializing = false;
   isUpdating = false;
   shieldEnabled = false;
@@ -44,6 +43,8 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
   get applyButtonEnabled(): boolean {
     if (this.statusMessage && this.statusMessage.level === 'error') {
+      return false;
+    } else if (!this.specManager.selectedSpecGroup.selectedSpec) {
       return false;
     } else if (this.specManager
       && this.specManager.selectedSpecGroup.selectedSpec
@@ -154,29 +155,40 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     }
 
     this.statusMessage = null;
-    this.isUpdating = true;
 
     // This is an existing plan, so just upgrade in-place
     if (!this._input.data) {
+      this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
+      this.isUpdating = true;
 
-      this.specManager.applySelectedSpec()
+      let notificationId: string = null;
+      const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
+      this._portalService.startNotification(
+        this._ts.instant(PortalResources.pricing_planUpdateTitle),
+        this._ts.instant(PortalResources.pricing_planUpdateDesc).format(planDescriptor.resourceName))
+        .first()
+        .switchMap(notification => {
+
+          notificationId = notification.id;
+          return this.specManager.applySelectedSpec();
+
+        })
         .subscribe(r => {
           this.isUpdating = false;
-          const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
+          this._portalService.updateDirtyState(false);
 
           if (r.isSuccessful) {
-
-            this.statusMessage = {
-              message: this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName),
-              level: 'success'
-            };
-
+            this._portalService.stopNotification(
+              notificationId,
+              r.isSuccessful,
+              this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName)
+            );
           } else {
-
-            this.statusMessage = {
-              message: r.error.message ? r.error.message : this._ts.instant(PortalResources.pricing_planUpdateFailFormat).format(planDescriptor.resourceName),
-              level: 'error'
-            };
+            this._portalService.stopNotification(
+              notificationId,
+              r.isSuccessful,
+              r.error.message ? r.error.message : this._ts.instant(PortalResources.pricing_planUpdateFailFormat).format(planDescriptor.resourceName)
+            );
           }
         });
     } else {
