@@ -1,23 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/merge';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/concatMap';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/observable/zip';
 import { ProdFunctionInitialUploadComponent } from './prod-function-initial-upload.component';
 import { MockModule, MockComponent } from 'ng-mocks';
 import { NgUploaderModule, UploadOutput, UploadFile, UploadInput, UploadStatus } from 'ngx-uploader';
@@ -72,7 +53,7 @@ describe('ProdFunctionInitialUploadComponent', () => {
   });
 
   describe('setup', () => {
-    it('resourceId should pass in through global state service', () => {
+    it('resourceId should pass in when Tree Naviation Events happen to app dashbaord', () => {
       const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       mockBroadcastService.resourceId$.next('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
       expect(component.resourceId).toBe('/subscriptions/sub/resourcegroups/rg/providers/Microsoft.Web/sites/resourceIdValue');
@@ -226,7 +207,7 @@ class MockBroadcastService {
     if (eventType === BroadcastEvent.TreeNavigation) {
       return this.resourceId$
         .map(e => {
-          const ret : any = {
+          const ret: any = {
             dashboardType: this.dashboardType,
             resourceId: e
           };
