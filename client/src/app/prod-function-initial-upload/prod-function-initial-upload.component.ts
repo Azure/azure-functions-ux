@@ -20,12 +20,12 @@ export class ProdFunctionInitialUploadComponent {
   public blobSasUrl = '';
   public resourceId = '';
   loading = false;
-  constructor(private siteService: SiteService, private cacheService: CacheService, globalStateService: GlobalStateService) {
+  constructor(private _siteService: SiteService, private _cacheService: CacheService, globalStateService: GlobalStateService) {
     globalStateService.resourceId$
       .filter(r => !!r)
       .switchMap(r => {
         this.resourceId = r;
-        return siteService.getAppSettings(r);
+        return _siteService.getAppSettings(r);
       })
       .map(r => {
         if (r.isSuccessful) {
@@ -39,9 +39,7 @@ export class ProdFunctionInitialUploadComponent {
       })
       .switchMap(r => {
         if (r) {
-
-
-          return cacheService.post(`${Constants.serviceHost}api/getBlobSasUri`, true, null, {
+          return _cacheService.post(`${Constants.serviceHost}api/getBlobSasUri`, true, null, {
             connectionString: r
           });
         } else {
@@ -60,7 +58,6 @@ export class ProdFunctionInitialUploadComponent {
     this.file = null;
     this.uploadInput = new EventEmitter<UploadInput>();
   }
-
 
   onUploadOutput(output: UploadOutput): void {
     if (output.type === 'allAddedToQueue') {
@@ -85,14 +82,14 @@ export class ProdFunctionInitialUploadComponent {
   }
 
   updateAppSettings(): void {
-    this.siteService.getAppSettings(this.resourceId)
+    this._siteService.getAppSettings(this.resourceId)
       .map(r => {
         const settings = r.result.properties;
         settings.WEBSITE_USE_ZIP = this.blobSasUrl;
         delete settings.NEW_PROD_FUNCTION;
         return r.result;
       })
-      .switchMap(r => this.cacheService.putArm(`${this.resourceId}/config/appSettings`, '2015-08-01', r))
+      .switchMap(r => this._cacheService.putArm(`${this.resourceId}/config/appSettings`, '2015-08-01', r))
       .subscribe(r => {
         this.show = false;
         this.loading = false;
