@@ -44,8 +44,8 @@ export function setupAzureStorage(app: Application) {
     });
 
     const apiLimiter = new RateLimit({
-        windowMs: 20 * 60 * 1000, // 20 request max 20 minutes
-        max: 20
+        windowMs: 60 * 1000, // 20 request max 20 minutes
+        max: 10
     });
     app.post('/api/upload-file', apiLimiter,  upload.single('file'), function (req, res) {
         const connectionString = req.headers.connectionstring as string;
