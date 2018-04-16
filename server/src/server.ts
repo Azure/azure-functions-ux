@@ -59,6 +59,7 @@ app
             }
         })
     );
+app.enable('trust proxy'); //This is needed for rate limiting to work behind iisnode
 const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
     if (!req.query.trustedAuthority && !req.query['appsvc.devguide']) {
         res.redirect('https://azure.microsoft.com/services/functions/');

@@ -1,10 +1,14 @@
 import { Component, EventEmitter } from '@angular/core';
-import { GlobalStateService } from '../shared/services/global-state.service';
 import { SiteService } from '../shared/services/site.service';
 import { CacheService } from '../shared/services/cache.service';
 import { Constants } from '../shared/models/constants';
 import { UploadOutput, UploadFile, UploadInput, UploaderOptions } from 'ngx-uploader';
 import { Observable } from 'rxjs/Observable';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { Guid } from '../shared/Utilities/Guid';
+import { DashboardType } from '../tree-view/models/dashboard-type';
 @Component({
   selector: 'app-prod-function-initial-upload',
   templateUrl: './prod-function-initial-upload.component.html',
@@ -20,11 +24,16 @@ export class ProdFunctionInitialUploadComponent {
   public blobSasUrl = '';
   public resourceId = '';
   loading = false;
-  constructor(private _siteService: SiteService, private _cacheService: CacheService, globalStateService: GlobalStateService) {
-    globalStateService.resourceId$
-      .filter(r => !!r)
+  private _containerName = '';
+  constructor(private _siteService: SiteService, private _cacheService: CacheService, broadCastService: BroadcastService) {
+    broadCastService.getEvents<TreeViewInfo<any>>(BroadcastEvent.TreeNavigation)
+      .filter(r => !!r.resourceId && r.resourceId.toLowerCase().indexOf('/microsoft.web/sites') > -1 && r.dashboardType === DashboardType.AppDashboard)
+      .map(view => {
+        return view.resourceId
+      })
       .switchMap(r => {
         this.resourceId = r;
+        this._containerName = Guid.newTinyGuid().toLowerCase();
         return _siteService.getAppSettings(r);
       })
       .map(r => {
@@ -40,7 +49,8 @@ export class ProdFunctionInitialUploadComponent {
       .switchMap(r => {
         if (r) {
           return _cacheService.post(`${Constants.serviceHost}api/getBlobSasUri`, true, null, {
-            connectionString: r
+            connectionString: r,
+            containerName: this._containerName
           });
         } else {
           return Observable.of(null);
@@ -67,7 +77,8 @@ export class ProdFunctionInitialUploadComponent {
         method: 'POST',
         file: this.file,
         headers: {
-          'connectionString': this.storageAccountString
+          'connectionstring': this.storageAccountString,
+          'containername': this._containerName
         }
       };
       this.uploadInput.emit(event);

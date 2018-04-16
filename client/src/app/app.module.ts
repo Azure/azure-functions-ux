@@ -29,8 +29,6 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/zip';
-import { ProdFunctionInitialUploadComponent } from './prod-function-initial-upload/prod-function-initial-upload.component';
-
 // Prevents a route from loading until the observable has been resolved
 @Injectable()
 export class InitResolver implements Resolve<any>{
@@ -86,8 +84,7 @@ export class AppModule {
         declarations: [
             AppComponent,
             ErrorListComponent,
-            DisabledDashboardComponent,
-            ProdFunctionInitialUploadComponent
+            DisabledDashboardComponent
         ],
         imports: [
             SharedModule.forRoot(),

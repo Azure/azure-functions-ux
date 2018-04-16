@@ -25,10 +25,11 @@ import { Injectable } from '@angular/core';
 import { SiteService } from '../shared/services/site.service';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from '../shared/services/cache.service';
-import { GlobalStateService } from '../shared/services/global-state.service';
-import { Subject } from 'rxjs/Subject';
 import { CardInfoControlComponent } from '../controls/card-info-control/card-info-control.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { ReplaySubject } from 'rxjs';
 
 describe('ProdFunctionInitialUploadComponent', () => {
   let component: ProdFunctionInitialUploadComponent;
@@ -43,7 +44,7 @@ describe('ProdFunctionInitialUploadComponent', () => {
       providers: [
         { provide: SiteService, useClass: MockSiteService },
         { provide: CacheService, useClass: MockCacheService },
-        { provide: GlobalStateService, useClass: MockGlobalStateService }
+        { provide: BroadcastService, useClass: MockBroadcastService }
 
       ],
       imports: [
@@ -71,56 +72,56 @@ describe('ProdFunctionInitialUploadComponent', () => {
 
   describe('setup', () => {
     it('resourceId should pass in through global state service', () => {
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
-      globalStateService.resourceId$.next('resourceIdValue');
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
+      mockBroadcastService.resourceId$.next('resourceIdValue');
       expect(component.resourceId).toBe('resourceIdValue');
     });
 
     it('resourceId should give AzureWebjobsStorageId', () => {
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
-      globalStateService.resourceId$.next('resourceIdValue');
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
+      mockBroadcastService.resourceId$.next('resourceIdValue');
       expect(component.storageAccountString).toBe('testval');
     });
 
     it('resourceId should trigger getting a blob sas url', () => {
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
-      globalStateService.resourceId$.next('resourceIdValue');
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
+      mockBroadcastService.resourceId$.next('resourceIdValue');
       expect(component.blobSasUrl).toBe('sasUrl');
     });
 
     it('should show if has Webjobs storage connection string and not run from zip', () => {
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
-      globalStateService.resourceId$.next('resourceIdValue');
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
+      mockBroadcastService.resourceId$.next('resourceIdValue');
       expect(component.show).toBeTruthy();
     });
     it('should be hidden if no Webjobs storage connection string', () => {
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       const mockSiteService: MockSiteService = TestBed.get(SiteService);
       mockSiteService.validAzureWebjobsStorageValue = false;
-      globalStateService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('resourceIdValue');
       expect(component.show).toBeFalsy();
     });
     it('should be hidden if run from zip is set up', () => {
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       const mockSiteService: MockSiteService = TestBed.get(SiteService);
       mockSiteService.includeRunFromZip = true;
-      globalStateService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('resourceIdValue');
       expect(component.show).toBeFalsy();
     });
 
     it('should be hidden if call to get app settings fails', () => {
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       const mockSiteService: MockSiteService = TestBed.get(SiteService);
       mockSiteService.successful = false;
-      globalStateService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('resourceIdValue');
       expect(component.show).toBeFalsy();
     });
 
     it('should be hidden NEW_PROD_FUNCTION is not set', () => {
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
       const mockSiteService: MockSiteService = TestBed.get(SiteService);
       mockSiteService.newProdFunction = false;
-      globalStateService.resourceId$.next('resourceIdValue');
+      mockBroadcastService.resourceId$.next('resourceIdValue');
       expect(component.show).toBeFalsy();
     });
   });
@@ -192,8 +193,8 @@ describe('ProdFunctionInitialUploadComponent', () => {
 
     it('should update app settings when done uploading', () => {
       const mockCacheService: MockCacheService = TestBed.get(CacheService);
-      const globalStateService: MockGlobalStateService = TestBed.get(GlobalStateService);
-      globalStateService.resourceId$.next('testid');
+      const mockBroadcastService: MockBroadcastService = TestBed.get(BroadcastService);
+      mockBroadcastService.resourceId$.next('testid');
       const uploadEvent: UploadOutput = {
         type: 'done',
         file: null,
@@ -211,8 +212,22 @@ describe('ProdFunctionInitialUploadComponent', () => {
 
 
 @Injectable()
-class MockGlobalStateService {
-  public resourceId$ = new Subject();
+class MockBroadcastService {
+  public resourceId$ = new ReplaySubject<string>();
+
+  getEvents<T>(eventType: BroadcastEvent): Observable<T> {
+    if (eventType === BroadcastEvent.TreeNavigation) {
+      return this.resourceId$
+        .map(e => {
+          const ret : any = {
+            resourceId: e
+          };
+          return  ret as T;
+        });
+    } else{
+      return Observable.of(null);
+    }
+  }
 }
 @Injectable()
 class MockCacheService {
