@@ -29,11 +29,12 @@ export function setupAzureStorage(app: Application) {
 
     });
     app.post('/api/upload-file', upload.single('file'), function (req, res) {
-        const sasUrl = req.headers.sasurl as string;
-        const blobService = azure.createBlobService(sasUrl);
-        blobService.createBlockBlobFromLocalFile('runfromzipstore', 'package.zip', path.join(__dirname, '..', 'uploads', req.file.filename), (err, _) => {
+        const connectionString = req.headers.connectionstring as string;
+        const blobService = azure.createBlobService(connectionString);
+        const filePath = path.join(__dirname, '..', '..' , 'uploads', req.file.filename);
+        blobService.createBlockBlobFromLocalFile('runfromzipstore', 'package.zip', filePath , (err, _) => {
             if (err) res.status(500);
-            fs.unlink(path.join(__dirname, '..', 'uploads', req.file.filename));
+            fs.unlink(filePath);
             res.sendStatus(200);
         });
     });
