@@ -2,14 +2,13 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { FormGroup, FormControl } from '@angular/forms';
 import { WizardForm, ProvisioningConfiguration, CiConfiguration, DeploymentTarget, DeploymentSourceType, CodeRepositoryDeploymentSource, ApplicationType, DeploymentTargetProvider, AzureAppServiceDeploymentTarget, AzureResourceType, TargetEnvironmentType, CodeRepository } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
-import { ArmService } from '../../../../shared/services/arm.service';
 import { Headers } from '@angular/http';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourceDescriptors';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants } from '../../../../shared/models/constants';
+import { Constants, ARM } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 
@@ -26,22 +25,22 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _pricingTier: string;
     constructor(
         private _cacheService: CacheService,
-        private _armService: ArmService,
-        private _userService: UserService,
+        userService: UserService,
         portalService: PortalService) {
         this.resourceIdStream$.switchMap(r => {
             this._resourceId = r;
-            return this._armService.get(this._resourceId)
+            return this._cacheService.getArm(this._resourceId);
         })
             .subscribe(s => {
                 this._location = s.json().location;
                 this._pricingTier = s.json().properties.sku;
             });
 
-        this._userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
+        userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
             this._token = r.token;
         });
-        portalService.getAdToken('azureTfsApi')
+
+        portalService.getAdToken('azureTfsApi').first()
             .subscribe(tokenData => {
                 this._vstsApiToken = tokenData.result.token;
             });
@@ -75,10 +74,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
         switch (this.wizardValues.buildProvider) {
             case 'vsts':
                 return this._deployVsts();
-            case 'kudu':
-                return this._deployKudu();
             default:
-                return Observable.of(null);
+                return this._deployKudu();
         }
     }
 
@@ -87,14 +84,14 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.sourceProvider === 'external') {
             payload.isManualIntegration = true;
         }
-        return this._armService.put(`${this._resourceId}/sourcecontrols/web`, {
+        return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARM.websiteApiVersion, {
             properties: payload
         }).map(r => r.json());
     }
 
     private _deployVsts() {
         return this._startVstsDeployment().concatMap(id => {
-            return Observable.interval(1000)
+            return Observable.timer(1000, 1000)
                 .switchMap(() => this._pollVstsCheck(id))
                 .map(r => {
                     const result = r.json();
@@ -117,9 +114,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
             source: this._deploymentSource,
             targets: this._deploymentTargets
         };
-        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsPassthroughHeaders(this._token), deploymentObject);
+        const setupvsoCall = this._cacheService.post(`${Constants.serviceHost}api/sepupvso?accountName=${this.wizardValues.buildSettings.vstsAccount}`, true, this.getVstsPassthroughHeaders(), deploymentObject);
         if (this.wizardValues.buildSettings.createNewVsoAccount) {
-            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsPassthroughHeaders(this._token))
+            return this._cacheService.post(`https://app.vsaex.visualstudio.com/_apis/HostAcquisition/collections?collectionName=${this.wizardValues.buildSettings.vstsAccount}&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`, true, this.getVstsPassthroughHeaders())
                 .switchMap(r => setupvsoCall)
                 .switchMap(r => Observable.of(r.json().id));
         }
@@ -297,7 +294,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         };
     }
 
-    public getVstsPassthroughHeaders(token: string): Headers {
+    public getVstsPassthroughHeaders(): Headers {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -337,3 +334,4 @@ export class DeploymentCenterStateManager implements OnDestroy {
         });
     }
 }
+
