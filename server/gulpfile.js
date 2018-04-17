@@ -108,9 +108,9 @@ gulp.task('bundle-config', function () {
  */
 gulp.task('resx-to-typescript-models', function (cb) {
     const resources = require('../server/src/actions/resources/Resources.json').en;
-    let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources\r\n{\r\n';
+    let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources {\r\n';
     Object.keys(resources).forEach(function (stringName) {
-        typescriptFileContent += `    public static ${stringName}: string = "${stringName}";\r\n`;
+        typescriptFileContent += `    public static ${stringName} = '${stringName}';\r\n`;
     });
     typescriptFileContent += `}`;
     let writePath = path.normalize(
