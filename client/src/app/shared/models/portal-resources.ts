@@ -1026,6 +1026,7 @@
     public static pricingTier = 'pricingTier';
     public static deploymentCenterTitle = 'deploymentCenterTitle';
     public static deploymentCenterDesc = 'deploymentCenterDesc';
+    public static notAuthorized = 'notAuthorized';
     public static monitorHostFetchFailed = 'monitorHostFetchFailed';
     public static dragFileHereOr = 'dragFileHereOr';
     public static browse = 'browse';

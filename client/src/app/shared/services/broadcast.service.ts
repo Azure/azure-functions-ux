@@ -93,7 +93,11 @@ export class BroadcastService {
         }
 
         return subject
-            .do(e => this._logService.verbose(LogCategories.broadcastService, BroadcastEvent[e.eventType]))
+            .do(e => {
+                if (this._logService) {
+                    this._logService.verbose(LogCategories.broadcastService, BroadcastEvent[e.eventType]);
+                }
+            })
             .map(e => <T>e.obj);
     }
 

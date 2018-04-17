@@ -264,8 +264,11 @@ export class LogCategories {
     public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
 }
 
+export class ARM {
+    public static websiteApiVersion = '2015-08-01';
+}
 export class SubscriptionQuotaIds {
-    public static dreamSparkQuotaId: string = 'DreamSpark_2015-02-01';
+    public static dreamSparkQuotaId = 'DreamSpark_2015-02-01';
 }
 
 export class KeyCodes {
@@ -364,7 +367,7 @@ export class DeploymentCenterConstants {
     public static bitbucketUrl = 'https://bitbucket.org';
     public static dropboxApiUrl = 'https://api.dropboxapi.com/2';
     public static dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
-    public static onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot:';
+    public static onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
     public static vstsProfileUri = 'https://app.vssps.visualstudio.com/_apis/profile/profiles/me';
     public static vstsProjectsApi = 'https://{0}.visualstudio.com/DefaultCollection/_apis/projects?includeCapabilities=true';
     public static vstsRegionsApi = 'https://app.vssps.visualstudio.com/_apis/commerce/regions';

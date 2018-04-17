@@ -9,6 +9,13 @@ h2{
     display: inline;
 }
 
+h1{
+    text-align: center;
+    opacity: 0.9;
+}
+.sourceContainer{
+     margin-top: 30px;
+}
 .selectionContainer {
     display: flex;
     align-items: center;
@@ -19,6 +26,9 @@ h2{
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+   
 }
 
 .cardDisabled {
