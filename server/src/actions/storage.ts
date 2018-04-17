@@ -14,9 +14,9 @@ export function setupAzureStorage(app: Application) {
         }
     });
     app.post('/api/getBlobSasUri', async (req, res) => {
-        const key = req.body.connectionString;
+        const connectionString = req.body.connectionString;
         const containerName = req.body.containerName;
-        const blobService = azure.createBlobService(key);
+        const blobService = azure.createBlobService(connectionString);
         const startDate = new Date('1/1/2018');
         const expiryDate = new Date('1/1/2200');
         const sharedAccessPolicy = {
@@ -56,7 +56,7 @@ export function setupAzureStorage(app: Application) {
         blobService.createBlockBlobFromStream(containerName, 'package.zip', fileStream, req.file.size, (err, _) => {
             if (err) {
                 //TODO: Figure out what to log here
-                res.status(500);
+                res.sendStatus(500);
             }
             else {
                 res.sendStatus(200);
