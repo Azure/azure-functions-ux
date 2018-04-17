@@ -100,7 +100,8 @@ export class StepSourceControlComponent {
             description: 'Use an FTP connection to access and copy app files.',
             authorizedStatus: 'none',
             manual: true
-        }//,
+        }
+        // ,
         // {
         //     id: 'zip',
         //     name: 'Run From Zip',

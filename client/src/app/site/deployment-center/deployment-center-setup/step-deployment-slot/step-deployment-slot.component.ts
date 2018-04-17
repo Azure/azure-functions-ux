@@ -27,7 +27,7 @@ export class StepDeploymentSlotComponent implements OnDestroy {
   selectedDeploymentSlot = '';
   private _resourceId: string;
   private _ngUnsubscribe$ = new Subject();
-  
+
   constructor(
     public wizard: DeploymentCenterStateManager,
     private _translateService: TranslateService,
