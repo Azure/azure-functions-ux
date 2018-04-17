@@ -54,6 +54,16 @@
     }
   ],
   "test": {
+    "codeCoverage": {
+      "exclude": [
+        "src/polyfills/*",
+        "**/test.ts",
+        "src/**/*.mock.ts",
+        "src/**/*.spec.ts",
+        "src/app/shared/**/*.ts",
+        "src/app/pickers/microsoft-graph/microsoft-graph-helper.ts"
+      ]
+    },
     "karma": {
       "config": "./karma.conf.js"
     }

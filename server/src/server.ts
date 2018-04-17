@@ -8,7 +8,6 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as http from 'http';
 import * as compression from 'compression';
-
 import './polyfills';
 import { getConfig } from './actions/ux-config';
 import { proxy } from './actions/proxy';
@@ -18,6 +17,8 @@ import { setupDeploymentCenter } from './deployment-center/deployment-center';
 import { triggerFunctionAPIM } from './actions/apim';
 import { NextFunction } from 'express';
 import { getLinuxRuntimeToken } from './actions/linux-function-app';
+import { setupAzureStorage } from './actions/storage';
+
 
 const cookieSession = require('cookie-session');
 const appInsights = require('applicationinsights');
@@ -58,6 +59,7 @@ app
             }
         })
     );
+app.enable('trust proxy'); //This is needed for rate limiting to work behind iisnode
 const redirectToAcom = (req: express.Request, res: express.Response, next: NextFunction) => {
     if (!req.query.trustedAuthority && !req.query['appsvc.devguide']) {
         res.redirect('https://azure.microsoft.com/services/functions/');
@@ -101,6 +103,8 @@ app.post('/api/passthrough', proxy);
 app.post('/api/triggerFunctionAPIM', triggerFunctionAPIM);
 app.get('/api/runtimetoken/*', getLinuxRuntimeToken)
 setupDeploymentCenter(app);
+setupAzureStorage(app);
+
 // if are here, that means we didn't match any of the routes above including those for static content.
 // render index and let angular handle the path.
 app.get('*', renderIndex);
