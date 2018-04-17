@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { PlanPriceSpecManager, NewPlanSpeckPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
-import { Component, OnInit, Input, Injector, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
@@ -11,7 +11,8 @@ import { PriceSpec } from './price-spec-manager/price-spec';
 import { PriceSpecGroup } from './price-spec-manager/price-spec-group';
 import { ResourceId } from '../../shared/models/arm/arm-obj';
 import { PortalResources } from '../../shared/models/portal-resources';
-import { SiteTabIds } from '../../shared/models/constants';
+import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
+import { Dom } from '../../shared/Utilities/dom';
 
 interface StatusMessage {
   message: string;
@@ -31,6 +32,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   }
 
   @Input() isOpenedFromMenu: boolean;
+  @ViewChild('specGroupTabs') groupElements: ElementRef;
 
   specManager: PlanPriceSpecManager;
   statusMessage: StatusMessage = null;
@@ -196,4 +198,61 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       this._portalService.returnPcv3Results<string>(this.specManager.selectedSpecGroup.selectedSpec.legacySkuName);
     }
   }
+
+  onGroupTabKeyPress(event: KeyboardEvent) {
+    const groups = this.specManager.specGroups;
+    let curIndex = groups.findIndex(g => g === this.specManager.selectedSpecGroup);
+
+    if (event.keyCode === KeyCodes.arrowRight) {
+      const tabElements = this._getTabElements()
+      this._updateFocusOnGroupTab(false, tabElements, curIndex);
+
+      if (curIndex === groups.length - 1) {
+        curIndex = 0;
+      } else {
+        curIndex++;
+      }
+
+      this.selectGroup(groups[curIndex]);
+      this._updateFocusOnGroupTab(true, tabElements, curIndex);
+
+      event.preventDefault();
+    } else if (event.keyCode === KeyCodes.arrowLeft) {
+      const tabElements = this._getTabElements()
+      this._updateFocusOnGroupTab(false, tabElements, curIndex);
+
+      if (curIndex === 0) {
+        curIndex = groups.length - 1;
+      } else {
+        curIndex--;
+      }
+
+      this.selectGroup(groups[curIndex]);
+      this._updateFocusOnGroupTab(true, tabElements, curIndex);
+      event.preventDefault();
+    }
+  }
+
+  onExpandKeyPress(event: KeyboardEvent) {
+    if (event.keyCode === KeyCodes.enter) {
+      this.specManager.selectedSpecGroup.isExpanded = !this.specManager.selectedSpecGroup.isExpanded;
+      event.preventDefault();
+    }
+  }
+
+  _getTabElements() {
+    return this.groupElements.nativeElement.children;
+  }
+
+  _updateFocusOnGroupTab(set: boolean, elements: HTMLCollection, index: number) {
+    const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
+
+    if (set) {
+      Dom.setFocus(tab);
+    } else {
+      Dom.clearFocus(tab);
+    }
+  }
+
+
 }

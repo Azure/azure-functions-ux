@@ -3,6 +3,7 @@
     public static azureFunctions = 'azureFunctions';
     public static azureFunctionsRuntime = 'azureFunctionsRuntime';
     public static cancel = 'cancel';
+    public static apply = 'apply';
     public static configure = 'configure';
     public static upgrade = 'upgrade';
     public static upgradeToEnable = 'upgradeToEnable';
@@ -976,6 +977,7 @@
     public static pricing_scaleUp = 'pricing_scaleUp';
     public static pricing_pricePerHour = 'pricing_pricePerHour';
     public static pricing_scaleUpDescription = 'pricing_scaleUpDescription';
+    public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
     public static proxyJsonInvalid = 'proxyJsonInvalid';
     public static schemaJsonInvalid = 'schemaJsonInvalid';
     public static operationId = 'operationId';

@@ -14,6 +14,7 @@ export abstract class PriceSpecGroup {
     abstract iconUrl: string;
     abstract specs: PriceSpec[];
     abstract title: string;
+    abstract id: string;            // Unique HTML element id
     abstract description: string;
     abstract emptyMessage: string;
     abstract emptyInfoLink: string;
@@ -44,6 +45,7 @@ export class DevSpecGroup extends PriceSpecGroup {
     selectedSpec = null;
     iconUrl = 'image/tools.svg';
     title = this.ts.instant(PortalResources.pricing_devTestTitle);
+    id = 'devtest';
     description = this.ts.instant(PortalResources.pricing_devTestDesc);
     emptyMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
     emptyInfoLink = 'https://microsoft.com';
@@ -79,6 +81,7 @@ export class ProdSpecGroup extends PriceSpecGroup {
     selectedSpec = null;
     iconUrl = 'image/app-service-plan.svg';
     title = this.ts.instant(PortalResources.pricing_productionTitle);
+    id = 'prod';
     description = this.ts.instant(PortalResources.pricing_productionDesc);
     emptyMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
     emptyInfoLink = 'https://microsoft.com';
@@ -108,8 +111,8 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     selectedSpec = null;
     iconUrl = 'image/app-service-environment.svg';
     title = this.ts.instant(PortalResources.pricing_isolatedTitle);
+    id = 'isolated';
     description = this.ts.instant(PortalResources.pricing_isolatedDesc);
-
     emptyMessage = this.ts.instant(PortalResources.pricing_emptyIsolatedGroup);
     emptyInfoLink = 'https://microsoft.com';
 
