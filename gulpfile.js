@@ -27,9 +27,15 @@ gulp.task('run-server',  (cb) => {
 });
 
 gulp.task('swap-production-slots', () => {
-    shell.exec(`az account set --subscription "Websites migration"`);
-    const regionFile = path.join(__dirname, 'tools', 'production-slots.json');
-    const regions = require(regionFile);
+    
+    const configFile = path.join(__dirname, 'tools', 'production-slots.json');
+    const config = require(configFile);
+    const regions = config.regions
+    if(shell.exec(`az account set --subscription "${config.subscriptionName}"`) !== 0){
+        shell.echo("Subscription selection failed, stopping operation");
+        return;
+    }
+
     regions.forEach(region => {
         shell.echo(`swapping slot ${region}...`);
         const cmd = `az webapp deployment slot swap --resource-group functions-${region} --name functions-${region} --slot staging`;
