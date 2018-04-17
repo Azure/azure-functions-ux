@@ -12,6 +12,8 @@ import { LocalStorageService } from '../shared/services/local-storage.service';
 import { ErrorEvent } from '../shared/models/error-event';
 import { errorIds } from '../shared/models/error-ids';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalResources } from '../shared/models/portal-resources';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: ComponentNames.functionMonitor,
@@ -29,6 +31,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
         private _localStorage: LocalStorageService,
         private _functionAppService: FunctionAppService,
         private _scenarioService: ScenarioService,
+        private _translateService: TranslateService,
         public globalStateService: GlobalStateService,
         injector: Injector
     ) {
@@ -79,15 +82,15 @@ export class FunctionMonitorComponent extends NavigableComponent {
             });
     }
 
-    public shouldRenderMonitorClassic(): boolean {
+    get shouldRenderMonitorClassic(): boolean {
         return this._renderComponentName === ComponentNames.monitorClassic;
     }
 
-    public shouldRenderMonitorApplicationInsights(): boolean {
+    get shouldRenderMonitorApplicationInsights(): boolean {
         return this._renderComponentName === ComponentNames.monitorApplicationInsights;
     }
 
-    public shouldRenderMonitorConfigure(): boolean {
+    get shouldRenderMonitorConfigure(): boolean {
         return this._renderComponentName === ComponentNames.monitorConfigure;
     }
 
@@ -109,7 +112,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
             this.functionMonitorInfo.appInsightsResourceDescriptor === null) {
             errorEvent = {
                 errorId: errorIds.applicationInsightsInstrumentationKeyMismatch,
-                message: 'Application insights key mismatch.',
+                message: this._translateService.instant(PortalResources.monitoring_appInsightsIsNotFound),
                 resourceId: this.functionMonitorInfo.functionAppContext.site.id
             };
         }

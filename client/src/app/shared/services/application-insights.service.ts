@@ -156,6 +156,10 @@ export class ApplicationInsightsService {
       if (!!resultJson) {
         const summaryTable = resultJson.Tables[0];
         const rows = summaryTable.Rows;
+
+        // NOTE(michinoy): The query returns up to two rows, with two columns: status and count
+        // status of True = Success
+        // status of False = Failed
         if (rows.length <= 2) {
           rows.forEach(element => {
             if (element[0] === 'True') {

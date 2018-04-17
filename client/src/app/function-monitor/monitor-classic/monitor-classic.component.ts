@@ -82,13 +82,13 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
             });
     }
 
+    get shouldRenderMonitorConfigure() {
+        return this.monitorConfigureInfo !== null && this.monitorConfigureInfo.errorEvent !== null;
+    }
+
     public refreshMonitorClassicData() {
         this.setInput(this.functionMonitorInfo);
         this.tableFunctionMonitorComponent.refresh();
-    }
-
-    public shouldRenderMonitorConfigure() {
-        return this.monitorConfigureInfo !== null && this.monitorConfigureInfo.errorEvent !== null;
     }
 
     public configure() {

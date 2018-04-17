@@ -1,14 +1,14 @@
 <monitor-classic
-    *ngIf = "shouldRenderMonitorClassic()"
+    *ngIf = "shouldRenderMonitorClassic"
     [functionMonitorInfoInput] = "functionMonitorInfo">
 </monitor-classic>
 
 <monitor-applicationinsights
-    *ngIf = "shouldRenderMonitorApplicationInsights()"
+    *ngIf = "shouldRenderMonitorApplicationInsights"
     [functionMonitorInfoInput] = "functionMonitorInfo">
 </monitor-applicationinsights>
 
 <monitor-configure
-    *ngIf = "shouldRenderMonitorConfigure()"
+    *ngIf = "shouldRenderMonitorConfigure"
     [monitorConfigureInfoInput] = "monitorConfigureInfo">
 </monitor-configure>
