@@ -1028,4 +1028,7 @@
     public static deploymentCenterTitle: string = "deploymentCenterTitle";
     public static deploymentCenterDesc: string = "deploymentCenterDesc";
     public static monitorHostFetchFailed: string = "monitorHostFetchFailed";
+    public static dragFileHereOr: string = "dragFileHereOr";
+    public static browse: string = "browse";
+    public static toUpload: string = "toUpload";
 }

@@ -4730,6 +4730,10 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
+ng-mocks@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/ng-mocks/-/ng-mocks-5.3.0.tgz#a9e8671bb8137cdd7b137cce3b0da09a6a891e5b"
+
 ng-sidebar@^6.0.1:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/ng-sidebar/-/ng-sidebar-6.0.5.tgz#0fe40e1d9fc2e06f7a750a9628d9977a6718baba"
@@ -4745,6 +4749,10 @@ ng2-file-upload@~1.2.1:
 ng2-popover@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/ng2-popover/-/ng2-popover-0.0.14.tgz#6cad6a6555fd2b81759f3d85b4cb8c3e3731f296"
+
+ngx-uploader@^4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/ngx-uploader/-/ngx-uploader-4.2.4.tgz#e8669f80ca03871154d5087721da65bb262baa08"
 
 no-case@^2.2.0:
   version "2.3.2"

@@ -10,7 +10,7 @@ import { ArmService } from './arm.service';
 
 @Injectable()
 export class ArmEmbeddedService extends ArmService {
-    public static url = ArmEmbeddedService.getRPUrl();
+    public static url = ArmService.getRPUrl();
 
     public websiteApiVersion = '2018-02-01-preview';
 

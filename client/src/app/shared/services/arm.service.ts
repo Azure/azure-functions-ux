@@ -1,4 +1,3 @@
-import { ArmEmbeddedService } from './arm-embedded.service';
 import { PortalService } from './portal.service';
 import { ArmServiceHelper } from './arm.service-helper';
 import { Injectable } from '@angular/core';
@@ -33,7 +32,7 @@ export class ArmService {
         _portalService: PortalService,
         protected _aiService: AiService) {
 
-        this.armUrl = _portalService.isEmbeddedFunctions ? ArmEmbeddedService.url : ArmServiceHelper.armEndpoint;
+        this.armUrl = _portalService.isEmbeddedFunctions ? ArmService.getRPUrl() : ArmServiceHelper.armEndpoint;
 
         _userService.getStartupInfo()
             .subscribe(info => {
@@ -97,12 +96,12 @@ export class ArmService {
 
     getArmUrl(resourceId: string, apiVersion?: string) {
         const url = `${this.armUrl}${resourceId}`;
-        if(apiVersion){
+        if (apiVersion) {
             return this._updateQueryString(
                 url,
                 'api-version',
                 apiVersion ? apiVersion : this.websiteApiVersion);
-        } else{
+        } else {
             return url;
         }
     }
@@ -116,5 +115,13 @@ export class ArmService {
         } else {
             return uri + separator + key + '=' + value;
         }
+    }
+
+    // tslint:disable-next-line:member-ordering
+    public static getRPUrl(): string {
+        if (window.location.host.indexOf('next') !== -1 || window.location.host.indexOf('localhost') !== -1) {
+            return 'https://blueridge-tip1-rp-westus.azurewebsites.net';
+        }
+        return 'https://blueridge-rp-westus.azurewebsites.net';
     }
 }
