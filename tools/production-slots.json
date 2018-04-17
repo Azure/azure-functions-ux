@@ -1,0 +1,13 @@
+{
+    "subscriptionName": "Websites migration",
+    "regions": [
+        "bay",
+        "blu",
+        "db3",
+        "hk1",
+        "india",
+        "brazil",
+        "france",
+        "australia"
+    ]
+}
