@@ -1,4 +1,5 @@
 
+#!/bin/sh
 az account set --subscription "Websites migration"
 
 echo "swapping bay site ...."
