@@ -464,9 +464,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             { displayLabel: onString, value: true }];
 
         this.FTPAccessOptions =
-            [{ displayLabel: 'FTP + FTPS', value: 'FTP + FTPS' },
-            { displayLabel: 'FTPS Only', value: 'FTPS Only' },
-            { displayLabel: 'Disable', value: 'Disable'}];
+            [{ displayLabel: 'FTP + FTPS', value: 'AllAllowed' },
+            { displayLabel: 'FTPS Only', value: 'FtpsOnly' },
+            { displayLabel: 'Disable', value: 'Disabled'}];
     }
 
     private _setupGeneralSettings(group: FormGroup, siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
@@ -1130,6 +1130,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             if (this.autoSwapSupported) {
                 const autoSwapEnabled = <boolean>(generalSettingsControls['autoSwapEnabled'].value);
                 siteConfigArm.properties.autoSwapSlotName = autoSwapEnabled ? <string>(generalSettingsControls['autoSwapSlotName'].value) : '';
+            }
+            if (this.FTPAccessSupported) {
+                siteConfigArm.properties.FTPAccessOption = <string>(generalSettingsControls['FTPAccessOptions'].value);
             }
 
             // -- stacks settings --
