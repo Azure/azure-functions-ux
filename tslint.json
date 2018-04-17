@@ -12,7 +12,8 @@
     "import-blacklist": [
       true,
       "rxjs",
-      "lodash"
+      "lodash",
+      "moment"
     ],
     "import-spacing": true,
     "indent": [
