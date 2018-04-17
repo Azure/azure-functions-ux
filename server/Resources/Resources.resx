@@ -566,7 +566,7 @@
     <value>Invocation log</value>
   </data>
   <data name="functionMonitor_invocationDetails" xml:space="preserve">
-    <value>Invocation details</value>
+    <value>Invocation Details</value>
   </data>
   <data name="functionMonitor_invocationOutput" xml:space="preserve">
     <value>Logs</value>
@@ -3007,6 +3007,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_planReadonlyLockFormat" xml:space="preserve">
     <value>The plan '{0}' has a read only lock on it and cannot be updated</value>
   </data>
+  <data name="pricing_planUpdateTitle" xml:space="preserve">
+    <value>Updating App Service Plan</value>
+  </data>
+  <data name="pricing_planUpdateDesc" xml:space="preserve">
+    <value>Updating the plan {0}</value>
+  </data>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>The plan '{0}' was updated successfully!</value>
   </data>
@@ -3040,11 +3046,65 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
   </data>
+  <data name="pricing_scaleUp" xml:space="preserve">
+    <value>Scale up</value>
+  </data>
+  <data name="pricing_pricePerHour" xml:space="preserve">
+    <value>{0} {1}/Hour (Estimated)</value>
+  </data>
+  <data name="pricing_scaleUpDescription" xml:space="preserve">
+    <value>Choose a different pricing tier to add more resources for your plan</value>
+  </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>The proxies.json is not valid. Error: '{0}'.</value>
   </data>
   <data name="schemaJsonInvalid" xml:space="preserve">
     <value>The proxies schema is not valid. Error: '{0}'.</value>
+  </data>
+  <data name="operationId" xml:space="preserve">
+    <value>Operation Id</value>
+  </data>
+  <data name="date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="resultCode" xml:space="preserve">
+    <value>Result Code</value>
+  </data>
+  <data name="triggerReason" xml:space="preserve">
+    <value>Trigger Reason</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="runInAppInsights" xml:space="preserve">
+    <value>Run in Application Insights</value>
+  </data>
+  <data name="appInsightsInstance" xml:space="preserve">
+    <value>Application Insights Instance</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
+    <value>Success count in last 30 days</value>
+  </data>
+  <data name="functionMonitor_errorsAggregate_30days" xml:space="preserve">
+    <value>Error count in last 30 days</value>
+  </data>
+  <data name="functionMonitor_message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="functionMonitor_itemCount" xml:space="preserve">
+    <value>Item Count</value>
+  </data>
+  <data name="functionMonitor_logLevel" xml:space="preserve">
+    <value>Log Level</value>
   </data>
   <data name="vstsBuildServerTitle" xml:space="preserve">
     <value>VSTS build server</value>
@@ -3078,6 +3138,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="workingDirectory" xml:space="preserve">
     <value>Working Directory</value>
+  </data>
+  <data name="clearDirtyConfirmation" xml:space="preserve">
+    <value>There is an operation in progress.  Are you sure you would like leave?</value>
   </data>
   <data name="taskRunner" xml:space="preserve">
     <value>Task Runner</value>
@@ -3150,5 +3213,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="monitorHostFetchFailed" xml:space="preserve">
     <value>The call to get Host information failed.</value>
+  </data>
+  <data name="dragFileHereOr" xml:space="preserve">
+    <value>Drag a file here or</value>
+  </data>
+  <data name="browse" xml:space="preserve">
+    <value>browse</value>
+  </data>
+  <data name="toUpload" xml:space="preserve">
+    <value>to upload</value>
   </data>
 </root>

@@ -67,9 +67,10 @@ export class AadRegistrationComponent extends FunctionAppContextComponent implem
         this._portalService.getAdToken('graph')
             .subscribe(tokenData => {
                 this.graphToken = tokenData.result.token;
+                this.setModel();
             },
                 err => {
-                    this.processError(err, "Error retrieving graph yoken")
+                    this.processError(err, 'Error retrieving graph yoken')
                 });
     }
 

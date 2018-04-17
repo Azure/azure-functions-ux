@@ -1,6 +1,5 @@
 import { GlobalStateService } from './global-state.service';
 import { Host } from './../models/host';
-import { ArmSiteDescriptor } from './../resourceDescriptors';
 import { HttpMethods, HttpConstants } from './../models/constants';
 import { UserService } from './user.service';
 import { HostingEnvironment } from './../models/arm/hosting-environment';
@@ -74,7 +73,7 @@ export class FunctionAppService {
                 } else if (ArmUtil.isLinuxApp(context.site)) {
                     return this._cacheService.get(Constants.serviceHost + `api/runtimetoken${context.site.id}`, false, this.portalHeaders(info.token))
                 } else {
-                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, false, this.headers(info.token));
+                    return this._cacheService.get(context.urlTemplates.scmTokenUrl, true, this.headers(info.token));
                 }
             })
             .map(r => r.json());
@@ -951,7 +950,7 @@ export class FunctionAppService {
     // If there was an error getting the list, show an error. return an empty list.
     getHostExtensions(context: FunctionAppContext): Result<any> {
         return this.runtime.execute({ resourceId: context.site.id }, t =>
-            this._cacheService.get(context.urlTemplates.runtimeHostExtensionsUrl, false, this.headers(t))
+            this._cacheService.get(context.urlTemplates.runtimeHostExtensionsUrl, true, this.headers(t))
                 .map(r => r.json() as FunctionKeys));
     }
 
@@ -1030,31 +1029,6 @@ export class FunctionAppService {
     getAppContext(resourceId: string): Observable<FunctionAppContext> {
         return this._cacheService.getArm(resourceId)
             .map(r => ArmUtil.mapArmSiteToContext(r.json(), this._injector));
-    }
-
-    isAppInsightsEnabled(siteId: string) {
-        const descriptor = new ArmSiteDescriptor(siteId);
-        return Observable.zip(
-            this._cacheService.postArm(`${siteId}/config/appsettings/list`),
-            this._cacheService.getArm(`/subscriptions/${descriptor.subscription}/providers/microsoft.insights/components`, false, '2015-05-01'),
-            (as, ai) => ({ appSettings: as, appInsights: ai }))
-            .map(r => {
-                const ikey = r.appSettings.json().properties[Constants.instrumentationKeySettingName];
-                let result = null;
-                if (ikey) {
-                    const aiResources = r.appInsights.json();
-
-                    // AI RP has an issue where they return an array instead of a JSON response if empty
-                    if (aiResources && !Array.isArray(aiResources)) {
-                        aiResources.value.forEach((ai) => {
-                            if (ai.properties.InstrumentationKey === ikey) {
-                                result = ai.id;
-                            }
-                        });
-                    }
-                }
-                return result;
-            });
     }
 
     // these 2 functions are only for try app service scenarios.

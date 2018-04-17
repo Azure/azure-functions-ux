@@ -108,9 +108,9 @@ gulp.task('bundle-config', function () {
  */
 gulp.task('resx-to-typescript-models', function (cb) {
     const resources = require('../server/src/actions/resources/Resources.json').en;
-    let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources\r\n{\r\n';
+    let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources {\r\n';
     Object.keys(resources).forEach(function (stringName) {
-        typescriptFileContent += `    public static ${stringName}: string = "${stringName}";\r\n`;
+        typescriptFileContent += `    public static ${stringName} = '${stringName}';\r\n`;
     });
     typescriptFileContent += `}`;
     let writePath = path.normalize(
@@ -367,10 +367,10 @@ gulp.task('build-bindings', function (cb) {
 });
 
 const templateVersionMap = {
-    default: '1.0.3.10178',
-    '1': '1.0.3.10178',
-    beta: '2.0.0-beta-10180',
-    '2': '2.0.0-beta-10180'
+    default: '1.0.3.10182',
+    '1': '1.0.3.10182',
+    beta: '2.0.0-beta-10181',
+    '2': '2.0.0-beta-10181'
 };
 /*****
  * Download and unzip nuget packages with templates

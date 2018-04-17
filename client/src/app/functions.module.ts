@@ -8,6 +8,8 @@ import { TableFunctionMonitorComponent } from './table-function-monitor/table-fu
 import { AggregateBlockPipe } from './aggregate-block/aggregate-block.pipe';
 import { AggregateBlockComponent } from './aggregate-block/aggregate-block.component';
 import { FunctionMonitorComponent } from './function-monitor/function-monitor.component';
+import { MonitorClassicComponent } from './function-monitor/monitor-classic/monitor-classic.component';
+import { MonitorApplicationInsightsComponent } from './function-monitor/monitor-applicationinsights/monitor-applicationinsights.component';
 import { BindingEventGridComponent } from './binding-event-grid/binding-event-grid.component';
 import { AppSettingComponent } from './pickers/app-setting/app-setting.component';
 import { StorageComponent } from './pickers/storage/storage.component';
@@ -45,6 +47,7 @@ import { BindingV2Component } from './function/binding-v2/binding-v2.component';
 import { BindingInputV2Component } from './function/binding-input-v2/binding-input-v2.component';
 import { ExtensionCheckerComponent } from './function/extension-checker/extension-checker.component'
 import { ErrorsWarningsComponent } from './errors-warnings/errors-warnings.component';
+import { MonitorDetailsComponent } from './function-monitor/monitor-details/monitor-details.component';
 import { SidebarModule } from 'ng-sidebar';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
@@ -123,6 +126,9 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         SqlComponent,
         BindingEventGridComponent,
         FunctionMonitorComponent,
+        MonitorClassicComponent,
+        MonitorApplicationInsightsComponent,
+        MonitorDetailsComponent,
         AggregateBlockComponent,
         AggregateBlockPipe,
         TableFunctionMonitorComponent,

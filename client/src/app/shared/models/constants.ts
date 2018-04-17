@@ -261,6 +261,7 @@ export class LogCategories {
     public static readonly deploymentSlots = 'DeploymentSlots';
     public static readonly swapSlots = 'SwapSlots';
     public static readonly addSlot = 'AddSlot';
+    public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
 }
 
 export class ARM {
@@ -373,6 +374,13 @@ export class DeploymentCenterConstants {
     public static vstsAccountsFetchUri = 'https://app.vssps.visualstudio.com/_apis/Commerce/Subscription?memberId={0}&includeMSAAccounts=true&queryOnlyOwnerAccounts=false&inlcudeDisabledAccounts=false&includeMSAAccounts=true&providerNamespaceId=VisualStudioOnline';
 }
 
+export class ComponentNames {
+    public static functionMonitor = 'function-monitor';
+    public static monitorClassic = 'monitor-classic';
+    public static monitorApplicationInsights = 'monitor-applicationinsights';
+    public static tableFunctionMonitor = 'table-function-monitor';
+    public static monitorDetails = 'monitor-details';
+}
 export class WorkerRuntimeLanguages {
     public static dotnet = 'C#';
     public static node = 'JavaScript';

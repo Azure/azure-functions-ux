@@ -68,7 +68,9 @@ import { CardInfoControlComponent } from '../controls/card-info-control/card-inf
 import { PlanService } from './services/plan.service';
 import { AseService } from './services/ase.service';
 import { BillingService } from './services/billing.service';
+import { ApplicationInsightsService } from './services/application-insights.service';
 import { InvalidmessageDirective } from './directives/invalid-control-message.directive';
+import { NgUploaderModule } from 'ngx-uploader';
 
 export function ArmServiceFactory(
     http: Http,
@@ -167,13 +169,15 @@ export function AiServiceFactory() {
         TabComponent,
         ActivateWithKeysDirective,
         CardInfoControlComponent,
-        InvalidmessageDirective
+        InvalidmessageDirective,
+        NgUploaderModule
     ],
     imports: [
         FormsModule,
         CommonModule,
         ReactiveFormsModule,
-        TranslateModule.forChild()
+        TranslateModule.forChild(),
+        NgUploaderModule
     ]
 })
 export class SharedModule {
@@ -215,7 +219,8 @@ export class SharedModule {
                 BillingService,
                 TelemetryService,
                 { provide: AiService, useFactory: AiServiceFactory },
-                { provide: ErrorHandler, useClass: GlobalErrorHandler }
+                { provide: ErrorHandler, useClass: GlobalErrorHandler },
+                ApplicationInsightsService
             ]
         };
     }

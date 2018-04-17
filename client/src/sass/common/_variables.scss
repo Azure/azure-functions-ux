@@ -41,7 +41,7 @@ $top-bar-height: 40px;
 $disabled-color: rgba(#7f7f7f, .7);
 $disabled-color-dark: lighten($body-bg-color-dark, 10%);
 
-$border-color: darken($chrome-color, 10%);;
+$border-color: darken($chrome-color, 10%);
 
 $item-selected-color: #e1efff;
 $item-selected-color-dark: lighten($body-bg-color-dark, 20%);
@@ -81,6 +81,7 @@ $alt1-color-faded: lighten($alt1-color, 35%);
 
 $background-color-opaque: #ccc;
 $background-color-disabled: rgba(127, 127, 127, 0.5);
+$translucent-shield-color: rgba(255, 255, 255, 0.40);
 
 $grey-color: #f5f5f5;
 $grey-color-dark: #3d3d3d;
@@ -118,3 +119,6 @@ $black_shadow: rgba(0, 0, 0, 0.075);
 
 $control-error-color-light: #b40e1b;
 $control-error-color-dark: #f88;
+
+// Sidebar colors:
+$sidebar-border-color: darken($chrome-color, 30%);
