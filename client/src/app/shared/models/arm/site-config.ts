@@ -36,4 +36,5 @@ export interface SiteConfig {
     siteAuthEnabled: boolean;
     appSettings?: ApplicationSettings;
     connectionStrings?: ConnectionStrings;
+    FTPAccessOption?: string;
 }

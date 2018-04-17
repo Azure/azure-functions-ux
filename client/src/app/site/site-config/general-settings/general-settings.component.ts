@@ -50,6 +50,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public managedPipelineModeOptions: SelectOption<number>[];
     public remoteDebuggingEnabledOptions: SelectOption<boolean>[];
     public remoteDebuggingVersionOptions: SelectOption<string>[];
+    public FTPAccessOptions: SelectOption<string>[];
 
     public netFrameworkSupported = false;
     public phpSupported = false;
@@ -61,6 +62,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public classicPipelineModeSupported = false;
     public remoteDebuggingSupported = false;
     public clientAffinitySupported = false;
+    public FTPAccessSupported = false;
 
     public autoSwapSupported = false;
     public autoSwapEnabledOptions: SelectOption<boolean>[];
@@ -275,6 +277,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.clientAffinitySupported = false;
         this.autoSwapSupported = false;
         this.linuxRuntimeSupported = false;
+        this.FTPAccessSupported = false;
     }
 
     private _processSupportedControls(siteArm: ArmObj<Site>, siteConfigArm: ArmObj<SiteConfig>) {
@@ -291,6 +294,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             let clientAffinitySupported = true;
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
+            let FTPAccessSupported = true;
 
             this._sku = siteArm.properties.sku;
 
@@ -341,6 +345,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             this.clientAffinitySupported = clientAffinitySupported;
             this.autoSwapSupported = autoSwapSupported;
             this.linuxRuntimeSupported = linuxRuntimeSupported;
+            this.FTPAccessSupported = FTPAccessSupported;
         }
     }
 
@@ -457,6 +462,11 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.autoSwapEnabledOptions =
             [{ displayLabel: offString, value: false },
             { displayLabel: onString, value: true }];
+
+        this.FTPAccessOptions =
+            [{ displayLabel: 'FTP + FTPS', value: 'FTP + FTPS' },
+            { displayLabel: 'FTPS Only', value: 'FTPS Only' },
+            { displayLabel: 'Disable', value: 'Disable'}];
     }
 
     private _setupGeneralSettings(group: FormGroup, siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
@@ -479,6 +489,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             group.addControl('remoteDebuggingEnabled', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingEnabled, disabled: !this.hasWritePermissions }));
             group.addControl('remoteDebuggingVersion', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingVersion, disabled: !this.hasWritePermissions }));
             setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], siteConfigArm.properties.remoteDebuggingEnabled && this.hasWritePermissions); }, 0);
+        }
+        if (this.FTPAccessSupported) {
+            group.addControl('FTPAccessOptions', this._fb.control({ value: siteConfigArm.properties.FTPAccessOption, disabled: !this.hasWritePermissions }));
         }
     }
 

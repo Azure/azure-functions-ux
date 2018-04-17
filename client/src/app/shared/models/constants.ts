@@ -111,6 +111,7 @@ export class Links {
     public static standaloneCreateLearnMore = 'https://go.microsoft.com/fwlink/?linkid=848756';
     public static pythonLearnMore = 'https://go.microsoft.com/fwlink/?linkid=852196';
     public static clientAffinityLearnMore = 'https://go.microsoft.com/fwlink/?linkid=798249';
+    public static FTPAccessLearnMore = 'https://go.microsoft.com/fwlink/?linkid=871316';
 }
 
 export class Kinds {
@@ -211,6 +212,7 @@ export class ScenarioIds {
     public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
     public static readonly disabledBindings = 'disabledBindings';
     public static readonly monitoring = 'monitoring';
+    public static readonly FTPAccessOptions = 'FTPAccessOptions';
 }
 
 export class ServerFarmSku {
