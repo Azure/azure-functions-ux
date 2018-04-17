@@ -27,8 +27,8 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
 
   private _functionMonitorInfo: FunctionMonitorInfo;
   private _errorEvent: ErrorEvent;
-  public enableConfigureButton: boolean = false;
-  public allowSwitchToClassic: boolean = false;
+  public enableConfigureButton = false;
+  public allowSwitchToClassic = false;
 
   constructor(
     private _logService: LogService,

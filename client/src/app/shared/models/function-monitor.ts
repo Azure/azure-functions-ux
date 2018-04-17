@@ -1,8 +1,8 @@
-import { FunctionAppContext } from "../function-app-context";
-import { Dictionary } from "lodash";
-import { FunctionInfo } from "./function-info";
-import { ARMApplicationInsightsDescriptior } from "../resourceDescriptors";
-import { ErrorEvent } from "./error-event";
+import { FunctionAppContext } from '../function-app-context';
+import { Dictionary } from 'lodash';
+import { FunctionInfo } from './function-info';
+import { ARMApplicationInsightsDescriptior } from '../resourceDescriptors';
+import { ErrorEvent } from './error-event';
 
 export interface FunctionInvocations {
     executingJobRunId: string;
