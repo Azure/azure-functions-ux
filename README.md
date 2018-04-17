@@ -1,4 +1,5 @@
 # Azure Functions UX
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/04f1f754dccd45e5bf744cf59378c46d)](https://app.codacy.com/app/hartra344/azure-functions-ux?utm_source=github.com&utm_medium=referral&utm_content=Azure/azure-functions-ux&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/Azure/azure-functions-ux.svg?branch=dev)](https://travis-ci.org/Azure/azure-functions-ux)&emsp;[![Coverage Status](https://coveralls.io/repos/github/Azure/azure-functions-ux/badge.svg?branch=dev)](https://coveralls.io/github/Azure/azure-functions-ux?branch=dev)
 ## Getting started
 
