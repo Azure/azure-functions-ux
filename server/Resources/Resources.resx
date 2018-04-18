@@ -3220,4 +3220,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="toUpload" xml:space="preserve">
     <value>to upload</value>
   </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. Click to learn more.</value>
+  </data>
 </root>

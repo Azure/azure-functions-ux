@@ -1030,4 +1030,5 @@
     public static dragFileHereOr = 'dragFileHereOr';
     public static browse = 'browse';
     public static toUpload = 'toUpload';
+    public static FTPMessage = 'FTPMessage';
 }
