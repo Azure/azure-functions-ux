@@ -64,6 +64,8 @@ export class BroadcastService {
         this._streamMap[BroadcastEvent.RightTabsEvent] = new Subject();
         this._streamMap[BroadcastEvent.BottomTabsEvent] = new Subject();
         this._streamMap[BroadcastEvent.RefreshMonitoringView] = new Subject();
+        this._streamMap[BroadcastEvent.FunctionCodeUpdate] = new Subject();
+        this._streamMap[BroadcastEvent.FunctionRunEvent] = new Subject();
     }
 
     // DEPRECATED - Use broadcastEvent
