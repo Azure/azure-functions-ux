@@ -830,8 +830,7 @@ export class FunctionAppService {
                         };
                     };
 
-                    // TODO: [ahmels] ignore dynamic linux apps with that app setting for now
-                    if (usingRunFromZip && !ArmUtil.isLinuxDynamic(context.site)) {
+                    if (usingRunFromZip) {
                         return FunctionAppEditMode.ReadOnlyRunFromZip;
                     } else if (editModeSettingString === Constants.ReadWriteMode) {
                         return resolveReadWriteMode();

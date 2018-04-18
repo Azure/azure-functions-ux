@@ -73,4 +73,6 @@ export namespace errorIds {
     export const embeddedDeleteError = '/errors/embedded/delete';
     export const embeddedGetEntities = '/errors/embedded/get-entities';
     export const embeddedCreateError = '/errors/embedded/create';
+    export const applicationInsightsInstrumentationKeyMismatch = 'errors/appInsights/instrumentationKey/mismatch';
+    export const applicationInsightsConfigure = 'errors/appInsights/configure';
 }
