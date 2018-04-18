@@ -24,7 +24,6 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
         this.applicationInsightsInstanceName = this._translateService.instant(PortalResources.loading);
         this.monitorDetailsInfo = null;
         this.sidePanelOpened = false;
-        this.setBusy();
         this.setInput(functionMonitorInfo);
     }
 

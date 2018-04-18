@@ -694,6 +694,7 @@
     public static slotsList_trafficPercentHeader = 'slotsList_trafficPercentHeader';
     public static slotsList_title = 'slotsList_title';
     public static monitoring_appInsights = 'monitoring_appInsights';
+    public static monitoring_appInsightsConfigureLink = 'monitoring_appInsightsConfigureLink';
     public static slotNew_nameLabel_balloonText = 'slotNew_nameLabel_balloonText';
     public static slotNew_dynamicQuotaReached = 'slotNew_dynamicQuotaReached';
     public static functionsList_searchFunctions = 'functionsList_searchFunctions';
@@ -1029,6 +1030,10 @@
     public static deploymentCenterTitle = 'deploymentCenterTitle';
     public static deploymentCenterDesc = 'deploymentCenterDesc';
     public static monitorHostFetchFailed = 'monitorHostFetchFailed';
+    public static configureAppInsightsTitle = 'configureAppInsightsTitle';
+    public static configureAppInsightsDesc = 'configureAppInsightsDesc';
+    public static configureAppInsightsSwitchToClassic = 'configureAppInsightsSwitchToClassic';
+    public static configureAppInsightsButton = 'configureAppInsightsButton';
     public static dragFileHereOr = 'dragFileHereOr';
     public static browse = 'browse';
     public static toUpload = 'toUpload';
