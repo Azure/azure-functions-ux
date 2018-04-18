@@ -238,7 +238,7 @@
       </div>
     </ng-container>
 
-      <div class="setting-wrapper last" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="" cs-disabledClass="hidden">
+      <div class="setting-wrapper last" check-scenario="FTPAccessOptions" [cs-input]="{site: siteArm}" cs-enabledClass="" cs-disabledClass="hidden">
         <info-box
           [infoText]="('FTPMessage' | translate)"
           [infoLink]="FwLinks.FTPAccessLearnMore">
@@ -249,7 +249,7 @@
             [control]="!!group ? group.controls['FTPAccessOptions'] : null"
             [options]="FTPAccessOptions"
             [highlightDirty]="true"
-            check-scenario="EnableAutoSwap" 
+            check-scenario="FTPAccessOptions" 
             [cs-input]="{site: siteArm}">
           </radio-selector>
         </div>
