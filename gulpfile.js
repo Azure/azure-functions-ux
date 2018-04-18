@@ -31,18 +31,11 @@ gulp.task('swap-production-slots', () => {
     const configFile = path.join(__dirname, 'tools', 'production-slots.json');
     const config = require(configFile);
     const regions = config.regions
-    if(shell.exec(`az account set --subscription "${config.subscriptionName}"`) !== 0){
-        shell.echo("Subscription selection failed, stopping operation");
-        return;
-    }
-
+    shell.exec(`az account set --subscription "${config.subscriptionName}"`);
+        
     regions.forEach(region => {
         shell.echo(`swapping slot ${region}...`);
         const cmd = `az webapp deployment slot swap --resource-group functions-${region} --name functions-${region} --slot staging`;
-        if(shell.exec(cmd) !== 0){
-            shell.echo("Failed to swap. Stopping operation.");
-            return;
-        };
-        
+        shell.exec(cmd);
     });
 });
