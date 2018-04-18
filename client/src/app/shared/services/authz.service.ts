@@ -45,7 +45,7 @@ export class AuthzService {
     hasReadOnlyLock(resourceId: string): Observable<boolean> {
         return this._getLocks(resourceId)
             .map(locks => {
-                return !!locks.find(l => l.properties.level === 'ReadOnly');
+                return !!locks.find(l => l.properties.level === 'ReadOnly' && l.id.toLocaleLowerCase() === resourceId.toLocaleLowerCase());
             })
             .catch(e => {
                 return Observable.of(false);
