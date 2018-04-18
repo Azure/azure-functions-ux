@@ -2,7 +2,6 @@ import { PortalResources } from 'app/shared/models/portal-resources';
 import { PlanService } from './../../../shared/services/plan.service';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Observable } from 'rxjs/Observable';
-import { Kinds } from '../../../shared/models/constants';
 import { Injector } from '@angular/core';
 import { ResourceId } from '../../../shared/models/arm/arm-obj';
 
@@ -79,9 +78,7 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
                     });
             }
         } else if (input.plan) {
-            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
-                this.state = 'hidden';
-            } else if (input.plan.properties.hostingEnvironmentProfile) {
+            if (input.plan.properties.hostingEnvironmentProfile) {
                 this.state = 'hidden';
             } else {
 
