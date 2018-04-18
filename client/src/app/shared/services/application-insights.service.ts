@@ -10,6 +10,8 @@ import { LogService } from './log.service';
 import { LogCategories, Constants } from '../models/constants';
 import { ArmSiteDescriptor } from '../resourceDescriptors';
 import * as pako from 'pako';
+import { LocalStorageService } from './local-storage.service';
+import { MonitorViewItem } from '../models/localStorage/local-storage';
 
 @Injectable()
 export class ApplicationInsightsService {
@@ -21,6 +23,7 @@ export class ApplicationInsightsService {
   constructor(
     private _logService: LogService,
     private _cacheService: CacheService,
+    private _localStorage: LocalStorageService,
     userService: UserService,
     injector: Injector
   ) {
@@ -104,6 +107,23 @@ export class ApplicationInsightsService {
               }
               return result;
           });
+  }
+
+  public setFunctionMonitorClassicViewPreference(functionAppResourceId: string, value: string) {
+      const key = `${functionAppResourceId}/monitor/view`;
+      const item: MonitorViewItem = {
+        id: functionAppResourceId,
+        value: value
+      };
+
+      this._localStorage.setItem(key, item);
+  }
+
+  public getFunctionMonitorClassicViewPreference(functionAppResourceId: string): string {
+      const key = `${functionAppResourceId}/monitor/view`;
+      const item = <MonitorViewItem>this._localStorage.getItem(key);
+
+      return item && item.value ? item.value : null;
   }
 
   private _getQueryForLast30DaysSummary(functionName: string): string {

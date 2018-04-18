@@ -8,12 +8,12 @@ import { ExtendedTreeViewInfo, NavigableComponent } from '../shared/components/n
 import { GlobalStateService } from '../shared/services/global-state.service';
 import { FunctionAppService } from 'app/shared/services/function-app.service';
 import { FunctionMonitorInfo, MonitorConfigureInfo } from '../shared/models/function-monitor';
-import { LocalStorageService } from '../shared/services/local-storage.service';
 import { ErrorEvent } from '../shared/models/error-event';
 import { errorIds } from '../shared/models/error-ids';
 import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { PortalResources } from '../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
+import { ApplicationInsightsService } from '../shared/services/application-insights.service';
 
 @Component({
     selector: ComponentNames.functionMonitor,
@@ -28,10 +28,10 @@ export class FunctionMonitorComponent extends NavigableComponent {
     public monitorConfigureInfo: MonitorConfigureInfo;
 
     constructor(
-        private _localStorage: LocalStorageService,
         private _functionAppService: FunctionAppService,
         private _scenarioService: ScenarioService,
         private _translateService: TranslateService,
+        private _applicationInsightsService: ApplicationInsightsService,
         public globalStateService: GlobalStateService,
         injector: Injector
     ) {
@@ -95,7 +95,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
     }
 
     private _shouldLoadClassicView(): boolean {
-        const view: string = this._localStorage.getFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
+        const view: string = this._applicationInsightsService.getFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
 
         return view === FunctionMonitorComponent.CLASSIC_VIEW &&
             !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];

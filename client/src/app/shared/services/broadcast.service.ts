@@ -173,9 +173,6 @@ export class BroadcastService {
 
             case BroadcastEvent.ClearError:
                 return this.clearErrorEvent;
-
-            case BroadcastEvent.RefreshMonitoringView:
-                return this.refreshMonitorEvent;
         }
     }
 }

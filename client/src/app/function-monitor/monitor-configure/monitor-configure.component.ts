@@ -5,11 +5,11 @@ import { MonitorConfigureInfo, FunctionMonitorInfo } from '../../shared/models/f
 import { Observable } from 'rxjs/Observable';
 import { ErrorEvent } from '../../shared/models/error-event';
 import { errorIds } from '../../shared/models/error-ids';
-import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { FunctionMonitorComponent } from '../function-monitor.component';
 import { BroadcastEvent } from '../../shared/models/broadcast-event';
 import { PortalService } from '../../shared/services/portal.service';
 import { LogService } from '../../shared/services/log.service';
+import { ApplicationInsightsService } from '../../shared/services/application-insights.service';
 
 @Component({
   selector: ComponentNames.monitorConfigure,
@@ -32,7 +32,7 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
 
   constructor(
     private _logService: LogService,
-    private _localStorage: LocalStorageService,
+    private _applicationInsightsService: ApplicationInsightsService,
     private _portalService: PortalService,
     injector: Injector
   ) {
@@ -42,12 +42,9 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
 
   protected setup(monitorConfigureInfoInputEvent: Observable<MonitorConfigureInfo>) {
     return monitorConfigureInfoInputEvent
-      .switchMap(monitorConfigureInfo => Observable.zip(
-        Observable.of(monitorConfigureInfo),
-      ))
-      .do(tuple => {
-        this._functionMonitorInfo = tuple[0].functionMonitorInfo;
-        this._errorEvent = tuple[0].errorEvent;
+      .do(monitorConfigureInfo => {
+        this._functionMonitorInfo = monitorConfigureInfo.functionMonitorInfo;
+        this._errorEvent = monitorConfigureInfo.errorEvent;
         this._setupConfigureButton();
         this._setupSwitchToClassicButton();
         if (this._errorEvent) {
@@ -57,7 +54,7 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
   }
 
   public switchToClassicView() {
-    this._localStorage.setFunctionMonitorClassicViewPreference(this._functionMonitorInfo.functionAppContext.site.id, FunctionMonitorComponent.CLASSIC_VIEW);
+    this._applicationInsightsService.setFunctionMonitorClassicViewPreference(this._functionMonitorInfo.functionAppContext.site.id, FunctionMonitorComponent.CLASSIC_VIEW);
     this._broadcastService.broadcastEvent<FunctionMonitorInfo>(BroadcastEvent.RefreshMonitoringView, this._functionMonitorInfo);
   }
 

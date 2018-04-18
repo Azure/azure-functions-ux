@@ -61,16 +61,6 @@ export class LocalStorageService {
         }
     }
 
-    public setFunctionMonitorClassicViewPreference(functionAppResourceId: string, value: string) {
-        const key = `${functionAppResourceId}/monitor/view`;
-        this._setItem(key, value);
-    }
-
-    public getFunctionMonitorClassicViewPreference(functionAppResourceId: string): string {
-        const key = `${functionAppResourceId}/monitor/view`;
-        return localStorage.getItem(key);
-    }
-
     private _resetStorage() {
         localStorage.clear();
         localStorage.setItem(this._apiVersionKey, this._apiVersion);
