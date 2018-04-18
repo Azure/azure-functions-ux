@@ -10,8 +10,7 @@ export namespace ArmUtil {
         return obj &&
             (obj.kind &&
                 obj.kind.toLocaleLowerCase().indexOf('functionapp') !== -1 &&
-                obj.kind.toLocaleLowerCase().indexOf('botapp') === -1) ||
-            (obj.name && obj.name.toLocaleLowerCase().startsWith('00fun'));
+                obj.kind.toLocaleLowerCase().indexOf('botapp') === -1);
     }
 
     export function isLinuxApp(obj: ArmObj<any> | FunctionContainer): boolean {

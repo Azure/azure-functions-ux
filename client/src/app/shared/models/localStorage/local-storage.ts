@@ -30,3 +30,7 @@ export interface TabMessage<T> extends StorageItem {
     verb: string;
     data: T;
 }
+
+export interface MonitorViewItem extends StorageItem {
+    value: string;
+}

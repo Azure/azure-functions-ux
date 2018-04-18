@@ -18,3 +18,19 @@ export interface AIInvocationTraceHistory {
     itemCount: number;
     logLevel: string;
 }
+
+export interface AIQueryResult {
+    Tables: AIQueryResultTable[];
+}
+
+export interface AIQueryResultTable {
+    TableName: string;
+    Columns: AIQueryResultTableColumn[];
+    Rows: any[][];
+}
+
+export interface AIQueryResultTableColumn {
+    ColumnName: string;
+    DataType: string;
+    ColumnType: string;
+}

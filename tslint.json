@@ -11,7 +11,9 @@
     "forin": true,
     "import-blacklist": [
       true,
-      "rxjs"
+      "rxjs",
+      "lodash",
+      "moment"
     ],
     "import-spacing": true,
     "indent": [

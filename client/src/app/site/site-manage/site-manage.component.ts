@@ -493,6 +493,23 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._portalService,
                 this._hasSiteWritePermissionStream,
                 this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site })
+            ),
+
+            new DisableableBladeFeature(
+                this._translateService.instant(PortalResources.feature_metricsName),
+                this._translateService.instant(PortalResources.feature_metricsName),
+                this._translateService.instant(PortalResources.feature_metricsInfo),
+                'image/quotas.svg',
+                {
+                    detailBlade: 'MetricsBladeV2',
+                    detailBladeInputs: {
+                        id: site.id
+                    },
+                    extension: 'Microsoft_Azure_Monitoring'
+                },
+                this._portalService,
+                null,
+                this._scenarioService.checkScenario(ScenarioIds.enableMetrics, { site: site })
             )
         ];
 

@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Response } from '@angular/http';
-import { AIMonthlySummary, AIInvocationTrace, AIInvocationTraceHistory } from '../models/application-insights';
+import { AIMonthlySummary, AIInvocationTrace, AIInvocationTraceHistory, AIQueryResult } from '../models/application-insights';
 import { Observable } from 'rxjs/Observable';
 import { ConditionalHttpClient } from '../conditional-http-client';
 import { UserService } from './user.service';
@@ -10,6 +10,8 @@ import { LogService } from './log.service';
 import { LogCategories, Constants } from '../models/constants';
 import { ArmSiteDescriptor } from '../resourceDescriptors';
 import * as pako from 'pako';
+import { LocalStorageService } from './local-storage.service';
+import { MonitorViewItem } from '../models/localStorage/local-storage';
 
 @Injectable()
 export class ApplicationInsightsService {
@@ -21,6 +23,7 @@ export class ApplicationInsightsService {
   constructor(
     private _logService: LogService,
     private _cacheService: CacheService,
+    private _localStorage: LocalStorageService,
     userService: UserService,
     injector: Injector
   ) {
@@ -106,6 +109,23 @@ export class ApplicationInsightsService {
           });
   }
 
+  public setFunctionMonitorClassicViewPreference(functionAppResourceId: string, value: string) {
+      const key = `${functionAppResourceId}/monitor/view`;
+      const item: MonitorViewItem = {
+        id: functionAppResourceId,
+        value: value
+      };
+
+      this._localStorage.setItem(key, item);
+  }
+
+  public getFunctionMonitorClassicViewPreference(functionAppResourceId: string): string {
+      const key = `${functionAppResourceId}/monitor/view`;
+      const item = <MonitorViewItem>this._localStorage.getItem(key);
+
+      return item && item.value ? item.value : null;
+  }
+
   private _getQueryForLast30DaysSummary(functionName: string): string {
     this._validateFunctionName(functionName);
     return `requests | where timestamp >= ago(30d) | where name == '${functionName}' | summarize count=count() by success`;
@@ -152,16 +172,23 @@ export class ApplicationInsightsService {
     };
 
     if (response.isSuccessful) {
-      const summaryTable = response.result.json().Tables[0];
-      const rows = summaryTable.Rows;
-      if (rows.length <= 2) {
-        rows.forEach(element => {
-          if (element[0] === 'True') {
-            summary.successCount = element[1];
-          } else if (element[0] === 'False') {
-            summary.failedCount = element[1];
-          }
-        });
+      const resultJson = <AIQueryResult>response.result.json();
+      if (!!resultJson) {
+        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
+        const rows = summaryTable.Rows;
+
+        // NOTE(michinoy): The query returns up to two rows, with two columns: status and count
+        // status of True = Success
+        // status of False = Failed
+        if (rows.length <= 2) {
+          rows.forEach(row => {
+            if (row[0] === 'True') {
+              summary.successCount = row[1];
+            } else if (row[0] === 'False') {
+              summary.failedCount = row[1];
+            }
+          });
+        }
       }
     } else {
       this._logService.error(LogCategories.applicationInsightsQuery, '/summary', response.error);
@@ -174,19 +201,22 @@ export class ApplicationInsightsService {
     const traces: AIInvocationTrace[] = [];
 
     if (response.isSuccessful) {
-      const summaryTable = response.result.json().Tables[0];
-      if (summaryTable && summaryTable.Rows.length > 0) {
-        summaryTable.Rows.forEach(row => {
-          traces.push({
-            timestamp: row[0],
-            id: row[1],
-            name: row[2],
-            success: row[3],
-            resultCode: row[4],
-            duration: Number.parseFloat(row[5]),
-            operationId: row[6]
+      const resultJson = <AIQueryResult>response.result.json();
+      if (!!resultJson) {
+        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
+        if (summaryTable && summaryTable.Rows.length > 0) {
+          summaryTable.Rows.forEach(row => {
+            traces.push({
+              timestamp: row[0],
+              id: row[1],
+              name: row[2],
+              success: row[3],
+              resultCode: row[4],
+              duration: Number.parseFloat(row[5]),
+              operationId: row[6]
+            });
           });
-        });
+        }
       }
     } else {
       this._logService.error(LogCategories.applicationInsightsQuery, '/invocationTraces', response.error);
@@ -199,15 +229,18 @@ export class ApplicationInsightsService {
     const history: AIInvocationTraceHistory[] = [];
 
     if (response.isSuccessful) {
-      const summaryTable = response.result.json().Tables[0];
-      if (summaryTable && summaryTable.Rows.length > 0) {
-        summaryTable.Rows.forEach(row => {
-          history.push({
-            message: row[0],
-            itemCount: row[1],
-            logLevel: row[2]
+      const resultJson = <AIQueryResult>response.result.json();
+      if (resultJson) {
+        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
+        if (summaryTable && summaryTable.Rows.length > 0) {
+          summaryTable.Rows.forEach(row => {
+            history.push({
+              message: row[0],
+              itemCount: row[1],
+              logLevel: row[2]
+            });
           });
-        });
+        }
       }
     } else {
       this._logService.error(LogCategories.applicationInsightsQuery, '/invocationTraceDetail', response.error);
