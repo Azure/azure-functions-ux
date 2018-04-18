@@ -1030,4 +1030,6 @@
     public static dragFileHereOr = 'dragFileHereOr';
     public static browse = 'browse';
     public static toUpload = 'toUpload';
+    public static feature_metricsName = 'feature_metricsName';
+    public static feature_metricsInfo = 'feature_metricsInfo';
 }
