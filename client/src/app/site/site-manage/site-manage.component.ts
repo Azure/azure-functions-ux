@@ -508,8 +508,8 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                     extension: 'Microsoft_Azure_Monitoring'
                 },
                 this._portalService,
-                this._hasSiteWritePermissionStream,
-                this._scenarioService.checkScenario(ScenarioIds.enableProcessExplorer, { site: site })
+                null,
+                this._scenarioService.checkScenario(ScenarioIds.enableMetrics, { site: site })
             )
         ];
 

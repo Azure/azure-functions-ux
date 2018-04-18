@@ -184,6 +184,7 @@ export class ScenarioIds {
     public static readonly enableExtensions = 'EnableExtensions';
     public static readonly enableLogStream = 'EnableLogStream';
     public static readonly enableProcessExplorer = 'EnableProcessExplorer';
+    public static readonly enableMetrics = 'EnableMetrics';
     public static readonly enableBackups = 'EnableBackups';
     public static readonly enableTinfoil = 'EnableTinfoil';
     public static readonly addScaleUp = 'AddScaleUp';
