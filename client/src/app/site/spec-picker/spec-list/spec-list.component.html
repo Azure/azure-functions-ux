@@ -1,12 +1,16 @@
-<article class="spec-container">
+<article class="spec-container"
+  flex-list
+  (onEnterKeyPressed)="selectSpecByEnterKey($event)">
+
   <div *ngFor="let spec of specs"
-  [class]="spec.cssClass"
-  (click)="selectSpec(spec)"
-  [class.selected]="spec === specGroup.selectedSpec"
-  [class.disabled]="spec.state === 'disabled'">
+    [class]="spec.cssClass"
+    (click)="selectSpec(spec)"
+    [class.selected]="spec === specGroup.selectedSpec"
+    [class.disabled]="spec.state === 'disabled'"
+    [id]="specGroup.id + spec.skuCode">
 
     <h2>{{spec.skuCode}}</h2>
-    <div class="top-features">
+    <div class="top-features" [attr.aria-label]="'pricing_availableFeatures' | translate">
       <div *ngIf="spec.state === 'enabled'">
         <div *ngFor="let topFeature of spec.topLevelFeatures">{{topFeature}}</div>
         <div *ngIf="spec.priceString">{{spec.priceString}}</div>

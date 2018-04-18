@@ -1,7 +1,7 @@
 const gulp = require('gulp');
-var shell = require('shelljs');
-var gulpMultiProcess = require('gulp-multi-process');
-var inlinesource = require('gulp-inline-source');
+const path = require('path')
+const shell = require('shelljs');
+const gulpMultiProcess = require('gulp-multi-process');
 
 gulp.task('run-dev',  function (cb) {
     return gulpMultiProcess(['run-angular', 'run-server'], cb);
@@ -26,9 +26,16 @@ gulp.task('run-server',  (cb) => {
     
 });
 
-
-gulp.task('inline-coverage-source', function () {
-    return gulp.src('./client/coverage/*.html')
-        .pipe(inlinesource({attribute: false}))
-        .pipe(gulp.dest('./coverage/'));
+gulp.task('swap-production-slots', () => {
+    
+    const configFile = path.join(__dirname, 'tools', 'production-slots.json');
+    const config = require(configFile);
+    const regions = config.regions
+    shell.exec(`az account set --subscription "${config.subscriptionName}"`);
+        
+    regions.forEach(region => {
+        shell.echo(`swapping slot ${region}...`);
+        const cmd = `az webapp deployment slot swap --resource-group functions-${region} --name functions-${region} --slot staging`;
+        shell.exec(cmd);
+    });
 });

@@ -117,6 +117,9 @@
   <data name="cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
   <data name="configure" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -3058,6 +3061,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_scaleUpDescription" xml:space="preserve">
     <value>Choose a different pricing tier to add more resources for your plan</value>
   </data>
+  <data name="pricing_applyButtonLabel" xml:space="preserve">
+    <value>Update App Service plan</value>
+  </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>The proxies.json is not valid. Error: '{0}'.</value>
   </data>
@@ -3234,5 +3240,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="toUpload" xml:space="preserve">
     <value>to upload</value>
+  </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Metrics</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>View metrics and setup alerts.</value>
   </data>
 </root>

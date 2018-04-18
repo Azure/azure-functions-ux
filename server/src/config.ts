@@ -1,4 +1,4 @@
-type RuntimeVersion = '~1' | 'beta' | 'latest';
+type RuntimeVersion = '~1' | 'beta' | '~2' | 'latest';
 interface StaticConfig {
     config: {
         env: {
@@ -32,7 +32,7 @@ export const staticConfig: StaticConfig = {
         isOnPrem: false,
         clientOptimzationsOff: false,
         functionsVersionInfo: {
-            runtimeStable: [ '~1', 'beta', 'latest' ],
+            runtimeStable: ['~1', 'beta', '~2', 'latest'],
             runtimeDefault: '~1'
         }
     }
