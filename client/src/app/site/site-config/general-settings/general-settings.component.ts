@@ -491,7 +491,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], siteConfigArm.properties.remoteDebuggingEnabled && this.hasWritePermissions); }, 0);
         }
         if (this.FTPAccessSupported) {
-            group.addControl('FTPAccessOptions', this._fb.control({ value: siteConfigArm.properties.FTPAccessOption, disabled: !this.hasWritePermissions }));
+            group.addControl('FTPAccessOptions', this._fb.control({ value: siteConfigArm.properties.FtpsState, disabled: !this.hasWritePermissions }));
         }
     }
 
@@ -1132,7 +1132,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 siteConfigArm.properties.autoSwapSlotName = autoSwapEnabled ? <string>(generalSettingsControls['autoSwapSlotName'].value) : '';
             }
             if (this.FTPAccessSupported) {
-                siteConfigArm.properties.FTPAccessOption = <string>(generalSettingsControls['FTPAccessOptions'].value);
+                siteConfigArm.properties.FtpsState = <string>(generalSettingsControls['FTPAccessOptions'].value);
             }
 
             // -- stacks settings --
