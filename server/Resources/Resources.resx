@@ -3220,4 +3220,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="toUpload" xml:space="preserve">
     <value>to upload</value>
   </data>
+  <data name="feature_metricsName" xml:space="preserve">
+    <value>Metrics</value>
+  </data>
+  <data name="feature_metricsInfo" xml:space="preserve">
+    <value>View metrics and setup alerts.</value>
+  </data>
 </root>
