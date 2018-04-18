@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Response } from '@angular/http';
-import { AIMonthlySummary, AIInvocationTrace, AIInvocationTraceHistory } from '../models/application-insights';
+import { AIMonthlySummary, AIInvocationTrace, AIInvocationTraceHistory, AIQueryResult } from '../models/application-insights';
 import { Observable } from 'rxjs/Observable';
 import { ConditionalHttpClient } from '../conditional-http-client';
 import { UserService } from './user.service';
@@ -172,20 +172,20 @@ export class ApplicationInsightsService {
     };
 
     if (response.isSuccessful) {
-      const resultJson = response.result.json();
+      const resultJson = <AIQueryResult>response.result.json();
       if (!!resultJson) {
-        const summaryTable = resultJson.Tables[0];
+        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
         const rows = summaryTable.Rows;
 
         // NOTE(michinoy): The query returns up to two rows, with two columns: status and count
         // status of True = Success
         // status of False = Failed
         if (rows.length <= 2) {
-          rows.forEach(element => {
-            if (element[0] === 'True') {
-              summary.successCount = element[1];
-            } else if (element[0] === 'False') {
-              summary.failedCount = element[1];
+          rows.forEach(row => {
+            if (row[0] === 'True') {
+              summary.successCount = row[1];
+            } else if (row[0] === 'False') {
+              summary.failedCount = row[1];
             }
           });
         }
@@ -201,9 +201,9 @@ export class ApplicationInsightsService {
     const traces: AIInvocationTrace[] = [];
 
     if (response.isSuccessful) {
-      const resultJson = response.result.json();
+      const resultJson = <AIQueryResult>response.result.json();
       if (!!resultJson) {
-        const summaryTable = resultJson.Tables[0];
+        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
         if (summaryTable && summaryTable.Rows.length > 0) {
           summaryTable.Rows.forEach(row => {
             traces.push({
@@ -229,9 +229,9 @@ export class ApplicationInsightsService {
     const history: AIInvocationTraceHistory[] = [];
 
     if (response.isSuccessful) {
-      const resultJson = response.result.json();
+      const resultJson = <AIQueryResult>response.result.json();
       if (resultJson) {
-        const summaryTable = response.result.json().Tables[0];
+        const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
         if (summaryTable && summaryTable.Rows.length > 0) {
           summaryTable.Rows.forEach(row => {
             history.push({
