@@ -201,34 +201,21 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
   onGroupTabKeyPress(event: KeyboardEvent) {
     const groups = this.specManager.specGroups;
-    let curIndex = groups.findIndex(g => g === this.specManager.selectedSpecGroup);
 
-    if (event.keyCode === KeyCodes.arrowRight) {
-      const tabElements = this._getTabElements()
+    if (event.keyCode === KeyCodes.arrowRight || event.keyCode === KeyCodes.arrowLeft) {
+      let curIndex = groups.findIndex(g => g === this.specManager.selectedSpecGroup);
+      const tabElements = this._getTabElements();
       this._updateFocusOnGroupTab(false, tabElements, curIndex);
 
-      if (curIndex === groups.length - 1) {
-        curIndex = 0;
+      if (event.keyCode === KeyCodes.arrowRight) {
+        curIndex = this._getTargetIndex(groups, curIndex + 1);
       } else {
-        curIndex++;
+        curIndex = this._getTargetIndex(groups, curIndex - 1);
       }
 
       this.selectGroup(groups[curIndex]);
       this._updateFocusOnGroupTab(true, tabElements, curIndex);
 
-      event.preventDefault();
-    } else if (event.keyCode === KeyCodes.arrowLeft) {
-      const tabElements = this._getTabElements()
-      this._updateFocusOnGroupTab(false, tabElements, curIndex);
-
-      if (curIndex === 0) {
-        curIndex = groups.length - 1;
-      } else {
-        curIndex--;
-      }
-
-      this.selectGroup(groups[curIndex]);
-      this._updateFocusOnGroupTab(true, tabElements, curIndex);
       event.preventDefault();
     }
   }
@@ -240,11 +227,21 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     }
   }
 
-  _getTabElements() {
+  private _getTargetIndex(groups: PriceSpecGroup[], targetIndex: number) {
+    if (targetIndex < 0) {
+      targetIndex = groups.length - 1;
+    } else if (targetIndex >= groups.length) {
+      targetIndex = 0;
+    }
+
+    return targetIndex;
+  }
+
+  private _getTabElements() {
     return this.groupElements.nativeElement.children;
   }
 
-  _updateFocusOnGroupTab(set: boolean, elements: HTMLCollection, index: number) {
+  private _updateFocusOnGroupTab(set: boolean, elements: HTMLCollection, index: number) {
     const tab = Dom.getTabbableControl(<HTMLElement>elements[index]);
 
     if (set) {
@@ -253,6 +250,4 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       Dom.clearFocus(tab);
     }
   }
-
-
 }

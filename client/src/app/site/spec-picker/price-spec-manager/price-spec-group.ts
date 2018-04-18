@@ -14,7 +14,7 @@ export abstract class PriceSpecGroup {
     abstract iconUrl: string;
     abstract specs: PriceSpec[];
     abstract title: string;
-    abstract id: string;            // Unique HTML element id
+    abstract id: string;
     abstract description: string;
     abstract emptyMessage: string;
     abstract emptyInfoLink: string;

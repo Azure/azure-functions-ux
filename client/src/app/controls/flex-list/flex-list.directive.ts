@@ -1,5 +1,4 @@
 import { Output } from '@angular/core';
-// import { FlexItemDirective } from './flex-item.directive';
 import { Directive, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { KeyCodes } from 'app/shared/models/constants';
 import { Dom } from '../../shared/Utilities/dom';
@@ -13,6 +12,7 @@ export class FlexListDirective implements AfterViewInit, OnDestroy {
     @Output() onEnterKeyPressed = new Subject<HTMLElement>();
 
     private _nativeElement: HTMLElement;
+    private _observer: MutationObserver;
 
     constructor(elementRef: ElementRef) {
         this._nativeElement = elementRef.nativeElement;
@@ -20,6 +20,8 @@ export class FlexListDirective implements AfterViewInit, OnDestroy {
         this._nativeElement.addEventListener('keydown', this._onKeyDown.bind(this), true);
         this._nativeElement.addEventListener('click', this._onClick.bind(this), true);
 
+        this._observer = new MutationObserver(this._mutationCallback.bind(this));
+        this._observer.observe(this._nativeElement, { childList: true });
     }
 
     ngAfterViewInit() {
@@ -29,6 +31,26 @@ export class FlexListDirective implements AfterViewInit, OnDestroy {
     ngOnDestroy() {
         this._nativeElement.removeEventListener('keydown', this._onKeyDown.bind(this), true);
         this._nativeElement.removeEventListener('click', this._onClick.bind(this), true);
+        this._observer.disconnect();
+    }
+
+    // If the list of children change dynamically, we need to handle initializing at least
+    // one child to be focusable.
+    private _mutationCallback(mutationsList: MutationEvent[]) {
+        const updateMutation = mutationsList.find(m => m.type === 'childList');
+        if (updateMutation) {
+            let existingFocusableChild = false;
+            for (let i = 0; i < this._nativeElement.children.length; i++) {
+                if ((<HTMLElement>this._nativeElement.children[i]).tabIndex > -1) {
+                    existingFocusableChild = true;
+                    break;
+                }
+            }
+
+            if (!existingFocusableChild) {
+                this._initFirstChildAsFocusable();
+            }
+        }
     }
 
     private _initFirstChildAsFocusable() {
