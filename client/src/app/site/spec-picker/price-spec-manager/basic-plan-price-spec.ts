@@ -1,5 +1,4 @@
 import { PortalResources } from 'app/shared/models/portal-resources';
-import { PortalResources } from './../../../shared/models/portal-resources';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class BasicPlanPriceSpec extends PriceSpec {
