@@ -4,3 +4,11 @@ export interface WebApiException {
     ExceptionType: string;
     StackTrace: string;
 }
+
+export interface FunctionRuntimeError {
+    id: string;
+    requestId: string;
+    statusCode: number;
+    message: string;
+    messsage: string;
+}

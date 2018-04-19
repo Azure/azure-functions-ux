@@ -1,33 +1,30 @@
-import {FunctionsService} from './../shared/services/functions.service';
-import {Component} from '@angular/core';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event';
-import {PortalService} from '../shared/services/portal.service';
-import {ErrorItem} from '../shared/models/error-item';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/timer';
+
+import { AiService } from '../shared/services/ai.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
+import { PortalService } from '../shared/services/portal.service';
+import { ErrorItem } from '../shared/models/error-item';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {PortalResources} from '../shared/models/portal-resources';
-import {AiService} from '../shared/services/ai.service';
-import {Observable} from 'rxjs/Rx';
 
 @Component({
-  selector: 'error-list',
-  templateUrl: './error-list.component.html',
-  styleUrls: ['./error-list.component.css']
+    selector: 'error-list',
+    templateUrl: './error-list.component.html',
+    styleUrls: ['./error-list.component.css']
 })
 export class ErrorListComponent {
     public errorList: ErrorItem[];
     // TODO: _portalService is used in the view to get sessionId. Change this when sessionId is observable.
-    constructor(private _broadcastService: BroadcastService,
+    constructor(_broadcastService: BroadcastService,
         public _portalService: PortalService,
-        private _translateService: TranslateService,
-        private _aiService: AiService,
-        private _functionsService: FunctionsService) {
+        private _aiService: AiService) {
         this.errorList = [];
 
         _broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, (error) => {
             if (error && error.message && !error.message.startsWith('<!DOC')) {
-                let errorItem: ErrorItem = {
+                const errorItem: ErrorItem = {
                     message: error.message,
                     dateTime: new Date().toISOString(),
                     date: new Date(),
@@ -35,7 +32,7 @@ export class ErrorListComponent {
                     errorIds: [error.errorId],
                     dismissable: error.errorType !== ErrorType.Fatal
                 };
-                let existingError = this.errorList.find(e => e.message === errorItem.message);
+                const existingError = this.errorList.find(e => e.message === errorItem.message);
                 if (existingError && !existingError.errorIds.find(e => e === error.errorId)) {
                     existingError.errorIds.push(error.errorId);
                 } else if (!existingError) {
@@ -49,7 +46,7 @@ export class ErrorListComponent {
                             message: error.message,
                             errorId: error.errorId,
                             displayedGeneric: false.toString(),
-                            appName: this._functionsService.getFunctionAppArmId()
+                            appName: error.resourceId
                         });
                     }
                 }
@@ -57,13 +54,13 @@ export class ErrorListComponent {
                 if (error) {
                     this._aiService.trackEvent('/errors/portal/unknown', {
                         error: error.details,
-                        appName: this._functionsService.getFunctionAppArmId(),
+                        appName: error.resourceId,
                         displayedGeneric: true.toString()
                     });
                 } else {
                     this._aiService.trackEvent('/errors/portal/unknown', {
                         error: 'no error info',
-                        appName: this._functionsService.getFunctionAppArmId(),
+                        appName: error.resourceId,
                         displayedGeneric: true.toString()
                     });
                 }
@@ -78,14 +75,13 @@ export class ErrorListComponent {
                 this.errorList = this.errorList.filter(e => e.errorIds.length !== 0);
                 this._aiService.trackEvent('/errors/auto-cleared', {
                     errorId: errorId,
-                    appName: this._functionsService.getFunctionAppArmId()
                 });
             }
         });
 
         Observable.timer(1, 60000)
             .subscribe(_ => {
-                let cutOffTime = new Date();
+                const cutOffTime = new Date();
                 cutOffTime.setMinutes(cutOffTime.getMinutes() - 10);
                 this.errorList = this.errorList.filter(e => e.date > cutOffTime);
             });

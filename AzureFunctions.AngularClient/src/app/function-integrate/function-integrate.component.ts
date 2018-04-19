@@ -1,15 +1,16 @@
+import { EditModeHelper } from './../shared/Utilities/edit-mode.helper';
+import { Observable } from 'rxjs/Observable';
 import { FunctionApp } from './../shared/function-app';
 import { ErrorIds } from './../shared/models/error-ids';
-import {Component, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
-import {FunctionInfo} from '../shared/models/function-info';
-import {PortalService} from '../shared/services/portal.service';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
+import { Component, OnDestroy, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { FunctionInfo } from '../shared/models/function-info';
+import { PortalService } from '../shared/services/portal.service';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event';
 import { ErrorEvent, ErrorType } from '../shared/models/error-event';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {BindingManager} from '../shared/models/binding-manager';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {PortalResources} from '../shared/models/portal-resources';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
 
 @Component({
     selector: 'function-integrate',
@@ -18,16 +19,17 @@ import {PortalResources} from '../shared/models/portal-resources';
     inputs: ['selectedFunction']
 })
 export class FunctionIntegrateComponent implements OnDestroy {
+    @ViewChild('container') container: ElementRef;
+    @ViewChild('editorContainer') editorContainer: ElementRef;
     @Output() changeEditor = new EventEmitter<string>();
-    public disabled: boolean;
 
     public _selectedFunction: FunctionInfo;
     public configContent: string;
     public isDirty: boolean;
     private _originalContent: string;
     private _currentConent: string;
-    private _bindingManager: BindingManager = new BindingManager();
-    public functionApp : FunctionApp;
+    public functionApp: FunctionApp;
+    public disabled: Observable<boolean>;
 
     constructor(
         private _portalService: PortalService,
@@ -37,29 +39,20 @@ export class FunctionIntegrateComponent implements OnDestroy {
         this.isDirty = false;
     }
 
+
+    ngOnInit() {
+        const functionContainerHeight = window.innerHeight - this.container.nativeElement.getBoundingClientRect().top;
+        this.editorContainer.nativeElement.style.height = (functionContainerHeight - 75) + 'px';
+    }
+
     set selectedFunction(value: FunctionInfo) {
         this.functionApp = value.functionApp;
-        this.functionApp.checkIfDisabled()
-        .subscribe(disabled =>{
-            this.disabled = disabled;
-        })
-
+        this.disabled = this.functionApp.getFunctionAppEditMode().map(EditModeHelper.isReadOnly);
         this._selectedFunction = value;
-        this._originalContent = JSON.stringify(value.config, undefined, 2);;
+        this._originalContent = JSON.stringify(value.config, undefined, 2);
         this._currentConent = this._originalContent;
         this.cancelConfig();
         this.isDirty = false;
-
-        try {
-            this._bindingManager.validateConfig(this._selectedFunction.config, this._translateService);
-            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
-        } catch (e) {
-            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
-                errorId: ErrorIds.errorParsingConfig,
-                errorType: ErrorType.UserError
-            });
-        }
     }
 
     contentChanged(content: string) {
@@ -73,7 +66,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }
 
     cancelConfig() {
-        this.configContent = "";
+        this.configContent = '';
         setTimeout(() => {
             this.configContent = this._originalContent;
             this.clearDirty();
@@ -83,23 +76,23 @@ export class FunctionIntegrateComponent implements OnDestroy {
     saveConfig() {
         if (this.isDirty) {
             try {
-                this._bindingManager.validateConfig(JSON.parse(this._currentConent), this._translateService);
                 this.configContent = this._currentConent;
                 this._selectedFunction.config = JSON.parse(this.configContent);
                 this._globalStateService.setBusyState();
                 this._selectedFunction.functionApp.updateFunction(this._selectedFunction)
-                .subscribe(fi => {
-                    this._originalContent = this.configContent;
-                    this.clearDirty();
-                    this._globalStateService.clearBusyState();
-                    this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
-                });
+                    .subscribe(() => {
+                        this._originalContent = this.configContent;
+                        this.clearDirty();
+                        this._globalStateService.clearBusyState();
+                        this._broadcastService.broadcast(BroadcastEvent.FunctionUpdated, this._selectedFunction);
+                    });
                 this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.errorParsingConfig);
             } catch (e) {
                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                     message: this._translateService.instant(PortalResources.errorParsingConfig, { error: e }),
                     errorId: ErrorIds.errorParsingConfig,
-                    errorType: ErrorType.UserError
+                    errorType: ErrorType.UserError,
+                    resourceId: this.functionApp.site.id
                 });
             }
         }
@@ -128,7 +121,7 @@ export class FunctionIntegrateComponent implements OnDestroy {
     }
 
     private switchIntegrate() {
-        var result = true;
+        let result = true;
         if ((this._broadcastService.getDirtyState('function') || this._broadcastService.getDirtyState('function_integrate'))) {
             result = confirm(this._translateService.instant(PortalResources.functionIntegrate_changesLost2, { name: this._selectedFunction.name }));
         }

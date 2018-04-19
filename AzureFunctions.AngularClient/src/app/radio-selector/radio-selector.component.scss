@@ -2,40 +2,26 @@
 
 .switch {
     position: relative;
-    float: left;
+    display: inline-block;
     height: 25px;
     background: #ccc;
-}
 
-.small-switch {
-    position: relative;
-    float: left;
-    height: 25px;
-    width: 100px;
-    background: #ccc;
+    &.disabled {
+        background: $background-color-disabled;
+    }
 }
 
 .switch-label {
     position: relative;
     z-index: 2;
     float: left;
-    width: 100px;
     line-height: 25px;
     font-size: 11px;
     color: #f2f2f2;
     text-align: center;
     cursor: pointer;
-}
-    .switch-label:active {
-        font-weight: bold;
-    }
-
-.switch-label-off {
-    padding-left: 2px;
-}
-
-.switch-label-on {
-    padding-right: 2px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .switch-input {
@@ -45,17 +31,27 @@
         font-weight: bold;
         color: white;
     }
-    .switch-input:checked + .switch-label-on ~ .switch-selection {
-        left: 100px;
+
+.selected {
+    display: block;
+    z-index: 1;
+    background: $primary-color;
+}
+
+.disabled {
+   .selected {
+        background: $primary-color-faded;
+    } 
+}
+
+.dirty {
+    .selected {
+        background: $alt1-color;
     }
 
-.switch-selection {
-    display: block;
-    position: absolute;
-    z-index: 1;
-    top: 2px;
-    left: 2px;
-    width: 98px;
-    height: 21px;
-    background: $primary-color;
+    &.disabled {
+        .selected {
+            background: $alt1-color-faded;
+        }
+    }
 }

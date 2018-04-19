@@ -29,7 +29,8 @@
         padding: 0px;
 
         input{
-            margin: 0px 5px;
+            vertical-align: middle;
+            margin: 0px 5px 2px 5px;
         }
 
         li{
@@ -40,6 +41,10 @@
 
         li:hover{
             background-color: darken($border-color, 10%);
+        }
+
+        li.focused{
+            outline: $border-focus;
         }
     }
 }

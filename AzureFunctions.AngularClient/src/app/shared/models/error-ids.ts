@@ -8,6 +8,7 @@ export class ErrorIds {
     public static unableToDeleteFunction = '/errors/unableToDeleteFunction';
     public static unableToRetrieveSecretsFileFromKudu = '/errors/unableToRetrieveSecretsFileFromKudu';
     public static unableToRetrieveRuntimeConfig = '/errors/unableToRetrieveRuntimeConfig';
+    public static unableToUpdateRuntimeConfig = '/errors/unableToUpdateRuntimeConfig';
     public static unableToUpdateFunction = '/errors/unableToUpdateFunction';
     public static unableToRetrieveFunction = '/errors/unableToRetrieveFunction';
     public static unableToDecryptKeys = '/errors/unableToDecryptKeys';
@@ -19,9 +20,11 @@ export class ErrorIds {
     public static functionRuntimeIsUnableToStart = '/errors/functionRuntimeIsUnableToStart';
     public static unableToRetrieveFunctionKeys = '/errors/unableToRetrieveFunctionKeys';
     public static unableToCreateFunctionKey = '/errors/unableToCreateFunctionKey';
+    public static unableToCreateSwaggerKey = '/errors/unableToCreateSwaggerKey';
     public static unableToDeleteFunctionKey = '/errors/unableToDeleteFunctionKey';
     public static unableToRenewFunctionKey = '/errors/unableToRenewFunctionKey';
     public static proxyWithSameNameAlreadyExists = '/errors/proxyWithSameNameAlreadyExists';
+    public static proxySchemaValidationFails = '/errors/proxySchemaValidationFails';
     public static errorParsingConfig = '/errors/errorParsingConfig';
     public static generalFunctionErrorFromHost = '/errors/generalFunctionErrorFromHost';
     public static generalHostErrorFromHost = '/errors/generalHostErrorFromHost';
@@ -29,8 +32,18 @@ export class ErrorIds {
     public static corsNotConfigured = '/errors/corsNotConfigured';
     public static errorCallingDiagnoseApi = '/errors/errorCallingDiagnoseApi';
     public static userDoesntHaveAccess = '/errors/userDoesntHaveAccess';
-    public static functionAppStopped = '/errors/functionAppStopped';
     public static unauthorizedTalkingToRuntime = '/errors/unauthorizedTalkingToRuntime';
     public static applicationOffline = '/errors/applicationOffline';
     public static failedToQueryArmResource = '/errors/failedToQueryArmResource';
+    public static unableToGetSystemKey = '/errors/unableToGetSystemKey';
+    public static unableToUpdateSwaggerData = '/errors/unableToUpdateSwaggerData';
+    public static unableToDeleteSwaggerData = '/errors/unableToDeleteSwaggerData';
+    public static unableToloadGeneratedAPIDefinition = '/errors/unableToloadGeneratedAPIDefinition';
+    public static failedToCreateApp = '/errors/unableToCreateApp';
+    public static failedToCreateSlot = '/errors/unableToCreateSlot';
+    public static malformedAPIDefinition = '/errors/malformedAPIDefinition';
+    public static passThroughApiError = '/errors/passThroughApiError';
+    public static unableToUpdateFunctionAppEditMode = '/errors/unableToUpdateFunctionAppEditMode';
+    public static unableToPopulateSlotsList = '/errors/unableToPopulateSlotsList';
+    public static failedToSwitchEnabledFunction = '/errors/failedToSwitchEnabledFunction';
 }

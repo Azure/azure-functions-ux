@@ -120,6 +120,9 @@
   <data name="azureFunctions" xml:space="preserve">
     <value>Azure Functions</value>
   </data>
+  <data name="azureFunctionsRuntime" xml:space="preserve">
+    <value>Azure Functions-runtime</value>
+  </data>
   <data name="cancel" xml:space="preserve">
     <value>Annuleren</value>
   </data>
@@ -139,10 +142,10 @@
     <value>Functie (${{name}}), fout: {{error}}</value>
   </data>
   <data name="functionDev_functionUrl" xml:space="preserve">
-    <value>Functie-URL:</value>
+    <value>Functie-URL</value>
   </data>
   <data name="functionDev_githubSelect" xml:space="preserve">
-    <value>GitHub-geheim:</value>
+    <value>GitHub-geheim</value>
   </data>
   <data name="functionDev_hideFiles" xml:space="preserve">
     <value>Bestanden verbergen</value>
@@ -166,7 +169,7 @@
     <value>Bestanden weergeven</value>
   </data>
   <data name="functionNew_chooseTemplate" xml:space="preserve">
-    <value>Een sjabloon kiezen</value>
+    <value>Kies hieronder een sjabloon of</value>
   </data>
   <data name="functionNew_experimentalTemplate" xml:space="preserve">
     <value>Deze sjabloon is experimenteel en wordt nog niet volledig ondersteund. Als u problemen tegenkomt, kunt u een fout rapporteren in de &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub-opslagplaats.&lt;/a&gt;</value>
@@ -231,44 +234,53 @@
   <data name="gettingStarted_yourSubscription" xml:space="preserve">
     <value>Uw abonnement</value>
   </data>
+  <data name="createApp_description" xml:space="preserve">
+    <value>Als u een functie-app maakt, wordt automatisch een nieuwe container ingericht waarmee u uw code kunt hosten en uitvoeren.</value>
+  </data>
+  <data name="createApp_fail" xml:space="preserve">
+    <value>Kan de app niet maken</value>
+  </data>
   <data name="intro_chooseLanguage" xml:space="preserve">
-    <value>2) Kies een taal:</value>
+    <value>2. Een taal kiezen</value>
   </data>
   <data name="intro_chooseScenario" xml:space="preserve">
-    <value>1) Kies een scenario:</value>
+    <value>1. Een scenario kiezen</value>
   </data>
   <data name="intro_createThisFunction" xml:space="preserve">
     <value>Maak deze functie</value>
   </data>
   <data name="intro_createYourOwn" xml:space="preserve">
-    <value>Uw eigen aangepaste functie maken</value>
+    <value>uw eigen aangepaste functie maken</value>
+  </data>
+  <data name="intro_customFunction" xml:space="preserve">
+    <value>Aangepaste functie</value>
   </data>
   <data name="intro_dataProcessing" xml:space="preserve">
     <value>Gegevensverwerking</value>
   </data>
-  <data name="intro_fasterWay" xml:space="preserve">
-    <value>De snellere manier voor functies</value>
+  <data name="intro_or" xml:space="preserve">
+    <value>of</value>
   </data>
   <data name="intro_getStarted" xml:space="preserve">
     <value>Ga snel aan de slag met een vooraf gemaakte functie</value>
   </data>
   <data name="intro_getStartedOn" xml:space="preserve">
-    <value>Of ga aan de slag met uw eigen functie</value>
+    <value>Ga aan de slag met uw eigen</value>
+  </data>
+  <data name="intro_keepUsingQuickstart" xml:space="preserve">
+    <value>Deze snelstartgids blijven gebruiken</value>
   </data>
   <data name="intro_ifYou" xml:space="preserve">
-    <value>Als u liever een andere ondersteunde taal gebruikt, kiest u</value>
+    <value>Voor PowerShell, Python en Batch,</value>
   </data>
   <data name="intro_startSC" xml:space="preserve">
-    <value>begin bij broncodebeheer.</value>
+    <value>Beginnen met broncodebeheer</value>
   </data>
   <data name="intro_timer" xml:space="preserve">
     <value>Timer</value>
   </data>
   <data name="intro_webHook" xml:space="preserve">
     <value>Webhook en API</value>
-  </data>
-  <data name="intro_writeAny" xml:space="preserve">
-    <value>Schrijf binnen enkele minuten functies, of u nu gewoon een database wilt opschonen of een complexere architectuur wilt bouwen. Functies maken is eenvoudiger dan ooit, ongeacht het besturingssysteem, platform of de ontwikkelingsmethode. Geen installatie vereist.</value>
   </data>
   <data name="logStreaming_clear" xml:space="preserve">
     <value>Wissen</value>
@@ -298,8 +310,8 @@
   <data name="or" xml:space="preserve">
     <value>of</value>
   </data>
-  <data name="readOnly" xml:space="preserve">
-    <value>Alleen-lezen: omdat u de bewerking bent begonnen met broncodebeheer, is deze weergave alleen-lezen.</value>
+  <data name="readOnlySourceControlled" xml:space="preserve">
+    <value>Uw app bevindt zich momenteel in de modus alleen-lezen omdat de integratie van bronbeheer is ingeschakeld. Voor het wijzigen van de bewerkingsmodus, gaat u naar </value>
   </data>
   <data name="region" xml:space="preserve">
     <value>Regio</value>
@@ -310,6 +322,21 @@
   <data name="save" xml:space="preserve">
     <value>Opslaan</value>
   </data>
+  <data name="addNewSetting" xml:space="preserve">
+    <value>+ Nieuwe instelling toevoegen</value>
+  </data>
+  <data name="addNewConnectionString" xml:space="preserve">
+    <value>+ Nieuwe verbindingsreeks toevoegen</value>
+  </data>
+  <data name="enterName" xml:space="preserve">
+    <value>Een naam invoeren</value>
+  </data>
+  <data name="enterValue" xml:space="preserve">
+    <value>Typ een waarde</value>
+  </data>
+  <data name="hiddenValueClickToShow" xml:space="preserve">
+    <value>Verborgen waarde. Klik om de waarde weer te geven.</value>
+  </data>
   <data name="sideBar_changeMade" xml:space="preserve">
     <value>De wijzigingen voor de functie {{name}} gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
   </data>
@@ -319,11 +346,26 @@
   <data name="sideBar_refresh" xml:space="preserve">
     <value>Vernieuwen</value>
   </data>
-  <data name="sideBar_searchMyFunction" xml:space="preserve">
+  <data name="search" xml:space="preserve">
     <value>Zoeken</value>
   </data>
+  <data name="searchFeatures" xml:space="preserve">
+    <value>Zoeken naar functies</value>
+  </data>
   <data name="subscription" xml:space="preserve">
+    <value>Abonnements-id</value>
+  </data>
+  <data name="subscriptionName" xml:space="preserve">
     <value>Abonnement</value>
+  </data>
+  <data name="resourceGroup" xml:space="preserve">
+    <value>Resourcegroep</value>
+  </data>
+  <data name="location" xml:space="preserve">
+    <value>Locatie</value>
+  </data>
+  <data name="noResults" xml:space="preserve">
+    <value>Geen resultaten</value>
   </data>
   <data name="topBar_changeMade" xml:space="preserve">
     <value>Wijzigingen voor de huidige functie gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
@@ -332,7 +374,7 @@
     <value>Instellingen voor functie-apps</value>
   </data>
   <data name="topBar_newVersion" xml:space="preserve">
-    <value>Er is een nieuwe versie van Azure Functions beschikbaar. Als u een upgrade wilt uitvoeren gaat u naar:</value>
+    <value>Er is een nieuwe versie van Azure Functions beschikbaar. Als u een upgrade wilt uitvoeren, klikt u hier</value>
   </data>
   <data name="topBar_quickStart" xml:space="preserve">
     <value>Snelstartgids</value>
@@ -342,60 +384,6 @@
   </data>
   <data name="all" xml:space="preserve">
     <value>Alle</value>
-  </data>
-  <data name="appFunctionSettings_AdvancedSettings" xml:space="preserve">
-    <value>Geavanceerde instellingen</value>
-  </data>
-  <data name="appFunctionSettings_allowClients" xml:space="preserve">
-    <value>Toestaan dat clients de functies die worden geactiveerd via HTTP, eenvoudiger kunnen gebruiken</value>
-  </data>
-  <data name="appFunctionSettings_allowYour" xml:space="preserve">
-    <value>Toestaan dat functies die worden geactiveerd via HTTP, kunnen worden aangeroepen vanuit een webbrowser</value>
-  </data>
-  <data name="appFunctionSettings_apiDefiition" xml:space="preserve">
-    <value>API-definitie</value>
-  </data>
-  <data name="appFunctionSettings_auth" xml:space="preserve">
-    <value>Verificatie/autorisatie</value>
-  </data>
-  <data name="appFunctionSettings_CI" xml:space="preserve">
-    <value>Continue integratie</value>
-  </data>
-  <data name="appFunctionSettings_configAuth" xml:space="preserve">
-    <value>Verificatie configureren</value>
-  </data>
-  <data name="appFunctionSettings_configureAPI" xml:space="preserve">
-    <value>API-metagegevens configureren</value>
-  </data>
-  <data name="appFunctionSettings_configureCI" xml:space="preserve">
-    <value>Continue integratie configureren</value>
-  </data>
-  <data name="appFunctionSettings_configureCors" xml:space="preserve">
-    <value>CORS configureren</value>
-  </data>
-  <data name="appFunctionSettings_deploy" xml:space="preserve">
-    <value>Implementeer uw functiecode vanuit GitHub, Visual Studio Team Services en meer</value>
-  </data>
-  <data name="appFunctionSettings_forFunc" xml:space="preserve">
-    <value>Voor functies die de HTTP-trigger gebruiken, kunt u vereisen dat aanroepen worden bevestigd</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
-    <value>function app settings</value>
-  </data>
-  <data name="appFunctionSettings_goToAppSettings" xml:space="preserve">
-    <value>Ga naar App Service-instellingen</value>
-  </data>
-  <data name="appFunctionSettings_manageFunction" xml:space="preserve">
-    <value>U kunt de functie-app net als elk ander App Service-exemplaar beheren.</value>
-  </data>
-  <data name="appFunctionSettings_memory" xml:space="preserve">
-    <value>Geheugengrootte</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion1" xml:space="preserve">
-    <value>Runtimeversie: nieuwste ({{latestExtensionVersion}})</value>
-  </data>
-  <data name="appFunctionSettings_runtimeVersion2" xml:space="preserve">
-    <value>Runtimeversie: {{extensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appMonitoring_appExecutions" xml:space="preserve">
     <value>Uitvoerbewerkingen voor apps</value>
@@ -458,7 +446,7 @@
     <value>Uitvoeren</value>
   </data>
   <data name="functionEdit_readOnly" xml:space="preserve">
-    <value>Alleen-lezen: Omdat u de bewerking bent begonnen met broncodebeheer, is deze weergave alleen-lezen. U kunt deze instellingen bewerken in function.json</value>
+    <value>Alleen-lezen: omdat u de bewerking bent begonnen met broncodebeheer, is deze weergave alleen-lezen.</value>
   </data>
   <data name="functionIntegrate_advancedEditor" xml:space="preserve">
     <value>Geavanceerde editor</value>
@@ -482,10 +470,10 @@
     <value>Laden ...</value>
   </data>
   <data name="functionMonitor_successAggregate" xml:space="preserve">
-    <value>Aantal recent geslaagde pogingen</value>
+    <value>Aantal geslaagde pogingen sinds</value>
   </data>
   <data name="functionMonitor_errorsAggregate" xml:space="preserve">
-    <value>Aantal recente fouten</value>
+    <value>Aantal fouten sinds</value>
   </data>
   <data name="functionMonitor_invocationLog" xml:space="preserve">
     <value>Aanroeplogbestand</value>
@@ -587,7 +575,7 @@
     <value>Wijzigingen die hier worden aangebracht, zijn van invloed op alle functies in uw functie-app.</value>
   </data>
   <data name="tutorial_createNew" xml:space="preserve">
-    <value>&lt;span&gt;Maak een gloednieuwe functie&lt;/span&gt; - Ga aan de slag met een van de bestaande functiesjablonen</value>
+    <value>&lt;span&gt;Maak een gloednieuwe functie&lt;/span&gt; - Ga aan de slag met een van de vooraf gemaakt functiesjablonen</value>
   </data>
   <data name="tutorial_develop" xml:space="preserve">
     <value>Ontwikkelen</value>
@@ -654,12 +642,6 @@
   </data>
   <data name="resourceSelect" xml:space="preserve">
     <value>Wachten op de resource</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
-    <value>Runtimeversie: {{extensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
-  </data>
-  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
-    <value>Runtime-versie: meest recente ({{latestExtensionVersion}})</value>
   </data>
   <data name="trialExpired_enjoyedHostingFunctions" xml:space="preserve">
     <value>We hebben uw functies met plezier gehost.</value>
@@ -736,33 +718,6 @@
   <data name="fileExplorer_errorDeletingFile" xml:space="preserve">
     <value>Fout bij het verwijderen van het bestand: {{fileName}}</value>
   </data>
-  <data name="appFunctionSettings_appSettings" xml:space="preserve">
-    <value>Toepassingsinstellingen</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsDesc" xml:space="preserve">
-    <value>Omgevingsvariabelen en verbindingsreeksen voor uw functie-app beheren</value>
-  </data>
-  <data name="appFunctionSettings_devConsole" xml:space="preserve">
-    <value>Ontwikkelaarsconsole</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleDesc" xml:space="preserve">
-    <value>Console in de portal voor toegang tot het bestandsysteem van uw functie-app</value>
-  </data>
-  <data name="appFunctionSettings_kudu" xml:space="preserve">
-    <value>Kudu</value>
-  </data>
-  <data name="appFunctionSettings_kuduDesc" xml:space="preserve">
-    <value>Toegang krijgen tot geavanceerde functionaliteit van App Service, zoals het uploaden van zip-bestanden, het afsluiten van processen en meer</value>
-  </data>
-  <data name="appFunctionSettings_appSettingsButtonLabel" xml:space="preserve">
-    <value>App-instellingen configureren</value>
-  </data>
-  <data name="appFunctionSettings_devConsoleButtonLabel" xml:space="preserve">
-    <value>Ontwikkelaarsconsole openen</value>
-  </data>
-  <data name="appFunctionSettings_kuduButtonLabel" xml:space="preserve">
-    <value>Naar Kudu</value>
-  </data>
   <data name="tutorial_theFastestWayCSharp" xml:space="preserve">
     <value>De code-editor biedt de snelste manier om code te bewerken, maar u kunt ook Git gebruiken. In dit voorbeeld wordt C# gebruikt, maar er worden nog veel meer andere talen ondersteund.</value>
   </data>
@@ -771,9 +726,6 @@
   </data>
   <data name="tryNow_lessThanOneMinute" xml:space="preserve">
     <value>Minder dan 1 minuut</value>
-  </data>
-  <data name="appFunctionSettings_FreeAccountToolTip" xml:space="preserve">
-    <value>Niet beschikbaar tijdens de gratis proefversie. Maak een gratis Azure-account door op bovenstaande koppeling te klikken</value>
   </data>
   <data name="tryNow_FreeAccountToolTip" xml:space="preserve">
     <value>Als u zich aanmeldt voor een gratis Azure-account, zijn alle functiemogelijkheden voor u beschikbaar zonder dat u zich druk hoeft te maken over tijdsbeperkingen.</value>
@@ -784,10 +736,10 @@
   <data name="error_DnsResolution" xml:space="preserve">
     <value>Kan de functie-app niet bereiken. Er kan een tijdelijk probleem zijn met de app of deze start mogelijk niet. Controleer de logboeken of probeer het over een aantal minuten opnieuw.</value>
   </data>
-  <data name="error_UnableToRetriveFunctionApp" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctionApp" xml:space="preserve">
     <value>Kan de functie-app ({{functionApp}}) niet ophalen</value>
   </data>
-  <data name="error_UnableToRetriveFunctions" xml:space="preserve">
+  <data name="error_UnableToRetrieveFunctions" xml:space="preserve">
     <value>Kan de functie-app niet ophalen: ({{statusText}}). Probeer het later opnieuw.</value>
   </data>
   <data name="tryNow_fewMoreSeconds" xml:space="preserve">
@@ -854,7 +806,10 @@
     <value>Query</value>
   </data>
   <data name="topBar_alwaysOn" xml:space="preserve">
-    <value>De instelling Always On is ingesteld op Uit</value>
+    <value>AlwaysOn is uitgeschakeld. Mogelijk werkt uw app niet op de juiste manier</value>
+  </data>
+  <data name="topBar_slotsHostId" xml:space="preserve">
+    <value>De waarde voor de id is expliciet ingesteld in host.json, waardoor er mogelijk onverwacht gedrag kan optreden bij het gebruik van implementatiesites</value>
   </data>
   <data name="topBar_releaseNotes" xml:space="preserve">
     <value>Opmerkingen bij de release van Azure Functions.</value>
@@ -863,7 +818,7 @@
     <value>Hostsleutels (alle functies)</value>
   </data>
   <data name="functionKeys_addNewAdminKey" xml:space="preserve">
-    <value>Nieuwe beheersleutel toevoegen</value>
+    <value>Nieuwe hostsleutel toevoegen</value>
   </data>
   <data name="functionKeys_addNewFunctionKey" xml:space="preserve">
     <value>Nieuwe functiesleutel toevoegen</value>
@@ -881,10 +836,10 @@
     <value>(Optioneel) Leeg laten om automatisch een sleutel te genereren.</value>
   </data>
   <data name="functionKeys_keyName" xml:space="preserve">
-    <value>Sleutelnaam</value>
+    <value>NAAM</value>
   </data>
   <data name="functionKeys_keyValue" xml:space="preserve">
-    <value>Sleutelwaarde</value>
+    <value>WAARDE</value>
   </data>
   <data name="functionKeys_title" xml:space="preserve">
     <value>Functiesleutels</value>
@@ -905,10 +860,10 @@
     <value>Quotum instellen</value>
   </data>
   <data name="functionAppSettings_quotaInfo" xml:space="preserve">
-    <value>Wanneer het quotum voor het dagelijkse gebruik wordt bereikt, wordt de functie-app gestopt tot de volgende periode van 24 uur.</value>
+    <value>Wanneer het quotum voor het dagelijkse gebruik wordt bereikt, wordt de functie-app gestopt tot de volgende dag om 00:00 UTC.</value>
   </data>
   <data name="functionKeys_revokeConfirmation" xml:space="preserve">
-    <value>Weet u zeker dat u  de sleutel {{name}} wilt intrekken?</value>
+    <value>Weet u zeker dat u de sleutel {{name}} wilt intrekken?</value>
   </data>
   <data name="keys" xml:space="preserve">
     <value>Sleutels</value>
@@ -921,30 +876,6 @@
   </data>
   <data name="test" xml:space="preserve">
     <value>Testen</value>
-  </data>
-  <data name="appFunctionSettings_deploy_title" xml:space="preserve">
-    <value>Implementeren</value>
-  </data>
-  <data name="appFunctionSettings_develop" xml:space="preserve">
-    <value>Ontwikkelen</value>
-  </data>
-  <data name="appFunctionSettings_manage" xml:space="preserve">
-    <value>Beheren</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings" xml:space="preserve">
-    <value>App Service-instellingen</value>
-  </data>
-  <data name="appFunctionSettings_appServiceSettings_desc" xml:space="preserve">
-    <value>Geavanceerde functies. Toegang tot alle onderliggende functies van Azure App Service</value>
-  </data>
-  <data name="appFunctionSettings_editor" xml:space="preserve">
-    <value>App Service-editor</value>
-  </data>
-  <data name="appFunctionSettings_editor_desc" xml:space="preserve">
-    <value>Een editor in de portal met een geïntegreerde console en streaminglogboeken</value>
-  </data>
-  <data name="appFunctionSettings_gotoEditor" xml:space="preserve">
-    <value>Naar App Service-editor gaan</value>
   </data>
   <data name="runtimeVersion" xml:space="preserve">
     <value>Runtime-versi</value>
@@ -962,10 +893,10 @@
     <value>De naam van de parameter moet uniek zijn.</value>
   </data>
   <data name="binding_useFunctionReturnValue" xml:space="preserve">
-    <value>Use function return value</value>
+    <value>Retourwaarde van functie gebruiken</value>
   </data>
   <data name="functionEdit_functionState" xml:space="preserve">
-    <value>Function State</value>
+    <value>Functiestatus</value>
   </data>
   <data name="off" xml:space="preserve">
     <value>Uit</value>
@@ -977,52 +908,64 @@
     <value>API-instellingen</value>
   </data>
   <data name="sidebar_newApiProxy" xml:space="preserve">
-    <value>New API Proxy</value>
+    <value>Nieuwe proxy</value>
   </data>
   <data name="apiProxy_allMethods" xml:space="preserve">
-    <value>All methods</value>
+    <value>Alle methoden</value>
   </data>
   <data name="apiProxy_allowedHttpMethods" xml:space="preserve">
     <value>Toegestane HTTP-methoden</value>
   </data>
   <data name="apiProxy_backendUrl" xml:space="preserve">
-    <value>Backend URL</value>
+    <value>URL van back-end</value>
   </data>
   <data name="apiProxy_errorExists" xml:space="preserve">
-    <value>API proxy or function with that name already exsists.</value>
+    <value>Er bestaat al een proxy of functie met die naam.</value>
   </data>
   <data name="apiProxy_name" xml:space="preserve">
     <value>Naam</value>
   </data>
   <data name="apiProxy_proxyUrl" xml:space="preserve">
-    <value>Proxy URL</value>
+    <value>URL van proxy</value>
   </data>
   <data name="apiProxy_routeTemplate" xml:space="preserve">
     <value>Routesjabloon</value>
   </data>
   <data name="apiProxy_seectedMethods" xml:space="preserve">
-    <value>Selected methods</value>
+    <value>Geselecteerde methoden</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings" xml:space="preserve">
+    <value>instellingen voor functie-apps</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings1" xml:space="preserve">
+    <value>Runtimeversie: {{extensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
+  </data>
+  <data name="appFunctionSettings_functionAppSettings2" xml:space="preserve">
+    <value>Runtime-versie: {{exactExtensionVersion}} ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_apiProxies" xml:space="preserve">
-    <value>API proxies (preview)</value>
+    <value>Proxy's (preview)</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion1" xml:space="preserve">
-    <value>Proxy runtime version: {{extensionVersion}}. A newer version is available ({{latestExtensionVersion}}).</value>
+    <value>Runtime-versie van proxy: {{extensionVersion}}. Er is een nieuwere versie beschikbaar ({{latestExtensionVersion}}).</value>
   </data>
   <data name="appFunctionSettings_proxyRuntimeVersion2" xml:space="preserve">
-    <value>Proxy runtime version: latest ({{latestExtensionVersion}})</value>
+    <value>Runtime-versie van proxy: meest recente ({{latestExtensionVersion}})</value>
   </data>
   <data name="appFunctionSettings_useApiProxies" xml:space="preserve">
-    <value>Use API proxies</value>
+    <value>Azure Functions-proxy's inschakelen (preview)</value>
   </data>
   <data name="apiProxies_warningOff" xml:space="preserve">
-    <value>API proxies are currently disabled. To enable, visit</value>
+    <value>Azure Functions-proxy's zijn momenteel uitgeschakeld. Als u Azure Functions-proxy's wilt inschakelen, gaat u naar</value>
   </data>
   <data name="sideBar_changeMadeApiProxy" xml:space="preserve">
-    <value>Changes made to API proxy {{name}} will be lost. Are you sure you want to continue?</value>
+    <value>De wijzigingen voor de proxy {{name}} gaan verloren. Weet u zeker dat u wilt doorgaan?</value>
   </data>
   <data name="apiProxy_alreadyExists" xml:space="preserve">
-    <value>Proxy with name '{{name}}' already exists</value>
+    <value>De proxy met de naam {{name}} bestaat al</value>
+  </data>
+  <data name="slots_warningOff" xml:space="preserve">
+    <value>Sites (preview-versie) voor Azure Functions is uitgeschakeld. Als u deze functie wilt inschakelen, gaat u naar</value>
   </data>
   <data name="discrard" xml:space="preserve">
     <value>Negeren</value>
@@ -1031,18 +974,909 @@
     <value>Functies</value>
   </data>
   <data name="intro_signInWithFacebook" xml:space="preserve">
-    <value>Sign in with Facebook</value>
+    <value>Aanmelden met Facebook</value>
   </data>
   <data name="intro_signInWithGitHub" xml:space="preserve">
-    <value>Sign in with GitHub</value>
+    <value>Aanmelden met GitHub</value>
   </data>
   <data name="intro_signInWithGoogle" xml:space="preserve">
-    <value>Sign in with Google</value>
+    <value>Aanmelden met Google</value>
   </data>
   <data name="intro_signInWithMicrosoft" xml:space="preserve">
-    <value>Sign in with Microsoft</value>
+    <value>Aanmelden bij Microsoft</value>
   </data>
   <data name="apiProxy_backanrUrlStart" xml:space="preserve">
-    <value>Backend URL must start with 'http://' or 'https://'</value>
+    <value>De URL van de back-end moet met http:// of https:// beginnen</value>
+  </data>
+  <data name="functionKeys_copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="functionKeys_renew" xml:space="preserve">
+    <value>Verlengen</value>
+  </data>
+  <data name="functionKeys_revoke" xml:space="preserve">
+    <value>Intrekken</value>
+  </data>
+  <data name="logStreaming_compress" xml:space="preserve">
+    <value>Samenvouwen</value>
+  </data>
+  <data name="logStreaming_expand" xml:space="preserve">
+    <value>Uitvouwen</value>
+  </data>
+  <data name="functionDev_gerFunctionUrl" xml:space="preserve">
+    <value>&lt;/&gt; Functie-URL ophalen</value>
+  </data>
+  <data name="functionDev_gerGithubSecret" xml:space="preserve">
+    <value>&lt;/&gt; GitHub-geheim ophalen</value>
+  </data>
+  <data name="httpRun_headers" xml:space="preserve">
+    <value>Kopteksten</value>
+  </data>
+  <data name="httpRun_noHeaders" xml:space="preserve">
+    <value>Er zijn geen headers</value>
+  </data>
+  <data name="sideNav_AllSubscriptions" xml:space="preserve">
+    <value>Alle abonnementen</value>
+  </data>
+  <data name="sideNav_SubscriptionCount" xml:space="preserve">
+    <value>{0} abonnementen</value>
+  </data>
+  <data name="sideNav_FunctionsNoAccess" xml:space="preserve">
+    <value>Functies (geen toegang)</value>
+  </data>
+  <data name="sideNav_FunctionsReadOnlyLock" xml:space="preserve">
+    <value>Functies (alleen-lezenvergrendeling)</value>
+  </data>
+  <data name="sideNav_FunctionsStopped" xml:space="preserve">
+    <value>Functies (gestopt)</value>
+  </data>
+  <data name="sideNav_ProxiesNoAccess" xml:space="preserve">
+    <value>Proxy's (geen toegang)</value>
+  </data>
+  <data name="sideNav_ProxiesStopped" xml:space="preserve">
+    <value>Proxy's (onderbroken)</value>
+  </data>
+  <data name="sideNav_ProxiesReadOnlyLock" xml:space="preserve">
+    <value>Proxy's (alleen-lezenvergrendeling)</value>
+  </data>
+  <data name="functions" xml:space="preserve">
+    <value>Functies</value>
+  </data>
+  <data name="newFunction" xml:space="preserve">
+    <value>Nieuwe functie</value>
+  </data>
+  <data name="functionApps" xml:space="preserve">
+    <value>Functie-apps</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Stoppen</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Starten</value>
+  </data>
+  <data name="restart" xml:space="preserve">
+    <value>Opnieuw starten</value>
+  </data>
+  <data name="swap" xml:space="preserve">
+    <value>Wisseling</value>
+  </data>
+  <data name="downloadProfile" xml:space="preserve">
+    <value>Publicatieprofiel downloaden</value>
+  </data>
+  <data name="resetPubCredentials" xml:space="preserve">
+    <value>Publicatiereferenties opnieuw instellen</value>
+  </data>
+  <data name="_delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="availability" xml:space="preserve">
+    <value>Beschikbaarheid</value>
+  </data>
+  <data name="available" xml:space="preserve">
+    <value>Beschikbaar</value>
+  </data>
+  <data name="noAccess" xml:space="preserve">
+    <value>Geen toegang</value>
+  </data>
+  <data name="notApplicable" xml:space="preserve">
+    <value>Niet van toepassing</value>
+  </data>
+  <data name="notAvailable" xml:space="preserve">
+    <value>Niet beschikbaar</value>
+  </data>
+  <data name="enabledFeatures_header" xml:space="preserve">
+    <value>Geconfigureerde functies</value>
+  </data>
+  <data name="enabledFeatures_description" xml:space="preserve">
+    <value>Snelkoppelingen naar uw functies worden hier weergegeven nadat u de functies hebt geconfigureerd op het tabblad Platformfuncties hierboven.</value>
+  </data>
+  <data name="siteDashboard_getAppError" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het ophalen van de informatie over de app {0}</value>
+  </data>
+  <data name="siteDashboard_appNotFound" xml:space="preserve">
+    <value>Kan de app {0} niet vinden</value>
+  </data>
+  <data name="siteSummary_stopConfirmation" xml:space="preserve">
+    <value>Weet u zeker dat u {0} wilt stoppen?</value>
+  </data>
+  <data name="siteSummary_stopNotifyTitle" xml:space="preserve">
+    <value>De app {0} wordt gestopt</value>
+  </data>
+  <data name="siteSummary_startNotifyTitle" xml:space="preserve">
+    <value>De app {0} starten...</value>
+  </data>
+  <data name="siteSummary_stopNotifySuccess" xml:space="preserve">
+    <value>De app {0} is gestopt</value>
+  </data>
+  <data name="siteSummary_startNotifySuccess" xml:space="preserve">
+    <value>De app {0} is gestart</value>
+  </data>
+  <data name="siteSummary_stopNotifyFail" xml:space="preserve">
+    <value>Kan de app {0} niet stoppen</value>
+  </data>
+  <data name="siteSummary_startNotifyFail" xml:space="preserve">
+    <value>Kan de app {0} niet starten</value>
+  </data>
+  <data name="siteSummary_resetProfileConfirmation" xml:space="preserve">
+    <value>Weet u zeker dat u publicatieprofiel opnieuw wilt instellen? Eerder gedownloade profielen worden ongeldig.</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyTitle" xml:space="preserve">
+    <value>Publicatieprofiel opnieuw instellen...</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifySuccess" xml:space="preserve">
+    <value>Publicatieprofiel is opnieuw ingesteld</value>
+  </data>
+  <data name="siteSummary_resetProfileNotifyFail" xml:space="preserve">
+    <value>Kan publicatieprofiel niet opnieuw instellen</value>
+  </data>
+  <data name="siteSummary_deleteConfirmation" xml:space="preserve">
+    <value>Weet u zeker dat u {0} wilt verwijderen?</value>
+  </data>
+  <data name="siteSummary_deleteNotifyTitle" xml:space="preserve">
+    <value>De app {0} wordt verwijderd</value>
+  </data>
+  <data name="siteSummary_deleteNotifySuccess" xml:space="preserve">
+    <value>De app {0} is verwijderd</value>
+  </data>
+  <data name="siteSummary_deleteNotifyFail" xml:space="preserve">
+    <value>Kan de app {0} niet verwijderen</value>
+  </data>
+  <data name="siteSummary_restartConfirmation" xml:space="preserve">
+    <value>Weet u zeker dat u {0} opnieuw wilt starten?</value>
+  </data>
+  <data name="siteSummary_restartNotifyTitle" xml:space="preserve">
+    <value>De app {0} wordt opnieuw gestart</value>
+  </data>
+  <data name="siteSummary_restartNotifySuccess" xml:space="preserve">
+    <value>De app {0} is opnieuw gestart</value>
+  </data>
+  <data name="siteSummary_restartNotifyFail" xml:space="preserve">
+    <value>Kan de app {0} niet opnieuw starten</value>
+  </data>
+  <data name="featureNotSupportedConsumption" xml:space="preserve">
+    <value>Deze functie wordt niet ondersteund voor apps in een verbruiksabonnement</value>
+  </data>
+  <data name="featureRequiresWritePermissionOnApp" xml:space="preserve">
+    <value>U moet schrijfbevoegdheden voor de huidige app hebben als u functie wilt gebruiken</value>
+  </data>
+  <data name="featureDisabledReadOnlyLockOnApp" xml:space="preserve">
+    <value>Deze functie is uitgeschakeld omdat de app een alleen-lezenvergrendeling heeft</value>
+  </data>
+  <data name="featureDisabledNoPermissionToPlan" xml:space="preserve">
+    <value>U moet leesmachtigingen voor het gekoppelde App Service-plan hebben als u deze functie wilt gebruiken</value>
+  </data>
+  <data name="feature_api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="feature_deploymentSourceName" xml:space="preserve">
+    <value>Implementatieopties</value>
+  </data>
+  <data name="feature_deploymentSourceInfo" xml:space="preserve">
+    <value>Configureer en beheer implementatieopties voor uw app, waaronder continue implementatie via VSTS, GitHub en Bitbucket, en activeer implementaties via OneDrive, Dropbox, externe Git en meer.</value>
+  </data>
+  <data name="feature_deploymentCredsName" xml:space="preserve">
+    <value>Referenties voor implementatie</value>
+  </data>
+  <data name="feature_deploymentCredsInfo" xml:space="preserve">
+    <value>Configureer de implementatiereferenties op Azure-accountniveau. Als u de referenties op app-niveau (ook wel bekend als de publicatiereferenties) wilt wijzigen, gaat u naar het tabblad Overzicht en kiest u Publicatiereferenties opnieuw instellen. &lt;a href="https://go.microsoft.com/fwlink/?linkid=846056"&gt;Meer informatie&lt;/a&gt;.</value>
+  </data>
+  <data name="feature_consoleName" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="feature_consoleInfo" xml:space="preserve">
+    <value>Verken het bestandssysteem van uw app via een interactieve webconsole.</value>
+  </data>
+  <data name="feature_extensionsName" xml:space="preserve">
+    <value>Uitbreidingen</value>
+  </data>
+  <data name="feature_extensionsInfo" xml:space="preserve">
+    <value>Met extensies voegt u functionaliteit toe aan uw app.</value>
+  </data>
+  <data name="feature_applicationSettingsName" xml:space="preserve">
+    <value>Toepassingsinstellingen</value>
+  </data>
+  <data name="feature_applicationSettingsInfo" xml:space="preserve">
+    <value>Beheer app-instellingen, verbindingsreeksen, runtime-instellingen en meer.</value>
+  </data>
+  <data name="feature_propertiesName" xml:space="preserve">
+    <value>Eigenschappen</value>
+  </data>
+  <data name="feature_propertiesInfo" xml:space="preserve">
+    <value>Bekijk de eigenschappen van uw app.</value>
+  </data>
+  <data name="feature_backupsName" xml:space="preserve">
+    <value>Back-ups</value>
+  </data>
+  <data name="feature_backupsInfo" xml:space="preserve">
+    <value>Gebruik Back-up maken en terugzetten om eenvoudig automatische of handmatige back-ups te maken.</value>
+  </data>
+  <data name="feature_allSettingsName" xml:space="preserve">
+    <value>Alle instellingen</value>
+  </data>
+  <data name="feature_allSettingsInfo" xml:space="preserve">
+    <value>Bekijk alle App Service-instellingen.</value>
+  </data>
+  <data name="feature_functionSettingsInfo" xml:space="preserve">
+    <value>Manage settings that affect the Functions runtime for all functions within your app.</value>
+  </data>
+  <data name="feature_generalSettings" xml:space="preserve">
+    <value>Algemene instellingen</value>
+  </data>
+  <data name="feature_codeDeployment" xml:space="preserve">
+    <value>Implementatie van code</value>
+  </data>
+  <data name="feature_developmentTools" xml:space="preserve">
+    <value>Ontwikkelprogramma's</value>
+  </data>
+  <data name="feature_networkingName" xml:space="preserve">
+    <value>Netwerken</value>
+  </data>
+  <data name="feature_networkingInfo" xml:space="preserve">
+    <value>Veilige toegang tot resources via VNET-integratie en hybride verbindingen.</value>
+  </data>
+  <data name="feature_sslInfo" xml:space="preserve">
+    <value>Configureer SSL-verbindingen voor uw app met een certificaat dat u extern hebt aangeschaft of met een App Service Certificate.</value>
+  </data>
+  <data name="feature_customDomainsName" xml:space="preserve">
+    <value>Aangepaste domeinen</value>
+  </data>
+  <data name="feature_customDomainsInfo" xml:space="preserve">
+    <value>Schaf aangepaste domeinnamen aan en configureer deze.</value>
+  </data>
+  <data name="feature_authName" xml:space="preserve">
+    <value>Verificatie / autorisatie</value>
+  </data>
+  <data name="feature_authInfo" xml:space="preserve">
+    <value>Gebruik Verificatie/autorisatie om uw toepassing te beschermen en met individuele gebruikersgegevens te werken.</value>
+  </data>
+  <data name="feature_pushNotificationsName" xml:space="preserve">
+    <value>Pushmeldingen</value>
+  </data>
+  <data name="feature_pushNotificationsInfo" xml:space="preserve">
+    <value>Verzend snelle, schaalbare mobiele pushmeldingen naar meerdere platformen via Notification Hubs.</value>
+  </data>
+  <data name="feature_diagnosticLogsName" xml:space="preserve">
+    <value>Logboeken met diagnostische gegevens</value>
+  </data>
+  <data name="feature_diagnosticLogsInfo" xml:space="preserve">
+    <value>Configureer waar en wanneer u toepassings- en servergebeurtenissen aan het logboek wilt toevoegen.</value>
+  </data>
+  <data name="feature_logStreamingName" xml:space="preserve">
+    <value>Logboekstreaming</value>
+  </data>
+  <data name="feature_logStreamingInfo" xml:space="preserve">
+    <value>Bekijk logboeken die in realtime worden gegenereerd vanuit uw toepassing.</value>
+  </data>
+  <data name="feature_processExplorerName" xml:space="preserve">
+    <value>Procesverkenner</value>
+  </data>
+  <data name="feature_processExplorerInfo" xml:space="preserve">
+    <value>Bekijk details over uw toepassingsprocessen, het geheugengebruik en het CPU-gebruik.</value>
+  </data>
+  <data name="feature_securityScanningName" xml:space="preserve">
+    <value>Beveiligingsscans</value>
+  </data>
+  <data name="feature_securityScanningInfo" xml:space="preserve">
+    <value>Schakel beveiligingsscans in voor uw app met Tinfoil Security.</value>
+  </data>
+  <data name="feature_monitoring" xml:space="preserve">
+    <value>Bewaking</value>
+  </data>
+  <data name="feature_corsInfo" xml:space="preserve">
+    <value>Configureer CORS-regels (Cross-Origin Resource Sharing) voor uw app.</value>
+  </data>
+  <data name="feature_apiDefinitionName" xml:space="preserve">
+    <value>API-definitie</value>
+  </data>
+  <data name="feature_apiDefinitionInfo" xml:space="preserve">
+    <value>De locatie van de Swagger 2.0-metagegevens voor de beschrijving van uw API configureren. Hierdoor kunnen andere gebruikers uw API sneller ontdekken en gebruiken.</value>
+  </data>
+  <data name="feature_appServicePlanInfo" xml:space="preserve">
+    <value>Een App Service-plan is de container voor uw app. De instellingen van het App Service-plan bepalen de locatie, functies, kosten en rekenresources die zijn gekoppeld aan uw app.</value>
+  </data>
+  <data name="feature_quotasName" xml:space="preserve">
+    <value>Quota</value>
+  </data>
+  <data name="feature_quotasInfo" xml:space="preserve">
+    <value>Bewaak de quota voor gebruik van het bestandssysteem.</value>
+  </data>
+  <data name="feature_activityLogName" xml:space="preserve">
+    <value>Activiteitenlogboek</value>
+  </data>
+  <data name="feature_activityLogInfo" xml:space="preserve">
+    <value>Bekijk beheerbewerkingen die voor uw app zijn uitgevoerd.</value>
+  </data>
+  <data name="feature_accessControlName" xml:space="preserve">
+    <value>Toegangsbeheer (IAM)</value>
+  </data>
+  <data name="feature_accessControlInfo" xml:space="preserve">
+    <value>Configureer het op rollen gebaseerde toegangsbeheer (RBAC) voor uw app.</value>
+  </data>
+  <data name="feature_tagsName" xml:space="preserve">
+    <value>Labels</value>
+  </data>
+  <data name="feature_tagsInfo" xml:space="preserve">
+    <value>Tags zijn sleutel-waardeparen waarmee u resources kunt categoriseren en een geconsolideerde factuur kunt bekijken door dezelfde tag op meerdere resources en resourcegroepen toe te passen. </value>
+  </data>
+  <data name="feature_locksName" xml:space="preserve">
+    <value>Vergrendelingen</value>
+  </data>
+  <data name="feature_locksInfo" xml:space="preserve">
+    <value>Vergrendel resources om te voorkomen dat items onverwacht worden gewijzigd of verwijderd.</value>
+  </data>
+  <data name="feature_automationScriptName" xml:space="preserve">
+    <value>Automation-script</value>
+  </data>
+  <data name="feature_automationScriptInfo" xml:space="preserve">
+    <value>Automatiseer de implementatie van resources met Azure Resource Manager-sjablonen in één gecoördineerde bewerking. Definieer resources en configureerbare invoerparameters en voer de implementatie uit met scripts of code.</value>
+  </data>
+  <data name="feature_resourceManagement" xml:space="preserve">
+    <value>Resourcebeheer</value>
+  </data>
+  <data name="feature_advancedToolsName" xml:space="preserve">
+    <value>Geavanceerde hulpmiddelen (Kudu)</value>
+  </data>
+  <data name="feature_advancedToolsInfo" xml:space="preserve">
+    <value>Gebruik Kudu om omgevingsvariabelen te inspecteren, de foutopsporingsconsole te openen, zip-bestanden te uploaden, processen weer te geven en meer.</value>
+  </data>
+  <data name="feature_appServiceEditorName" xml:space="preserve">
+    <value>App Service-editor</value>
+  </data>
+  <data name="feature_appServiceEditorInfo" xml:space="preserve">
+    <value>De App Service-editor biedt u de mogelijkheid om uw code in de browser te bewerken.</value>
+  </data>
+  <data name="feature_resourceExplorerName" xml:space="preserve">
+    <value>Resourceverkenner</value>
+  </data>
+  <data name="feature_resourceExplorerInfo" xml:space="preserve">
+    <value>Verken de beheer-API's met Azure Resource Explorer (preview-versie).</value>
+  </data>
+  <data name="featureEnabled_cors" xml:space="preserve">
+    <value>CORS-regels ({0} gedefinieerd)</value>
+  </data>
+  <data name="featureEnabled_deploymentSource" xml:space="preserve">
+    <value>Implementatieopties geconfigureerd met {0}</value>
+  </data>
+  <data name="featureEnabled_sslCert" xml:space="preserve">
+    <value>SSL-certificaten</value>
+  </data>
+  <data name="featureEnabled_webjobs" xml:space="preserve">
+    <value>WebJobs ({0} gedefinieerd)</value>
+  </data>
+  <data name="featureEnabled_extensions" xml:space="preserve">
+    <value>Extensies ({0} geïnstalleerd)</value>
+  </data>
+  <data name="tab_overview" xml:space="preserve">
+    <value>Overzicht</value>
+  </data>
+  <data name="tab_features" xml:space="preserve">
+    <value>Platformfuncties</value>
+  </data>
+  <data name="tab_settings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="tab_functionSettings" xml:space="preserve">
+    <value>Function settings</value>
+  </data>
+  <data name="tab_configuration" xml:space="preserve">
+    <value>Configuratie</value>
+  </data>
+  <data name="try_appDisabled" xml:space="preserve">
+    <value>U kunt uw functie-app niet beheren met deze proefversie.</value>
+  </data>
+  <data name="template" xml:space="preserve">
+    <value>Sjabloon</value>
+  </data>
+  <data name="events" xml:space="preserve">
+    <value>Gebeurtenissen</value>
+  </data>
+  <data name="appServicePlan" xml:space="preserve">
+    <value>App Service-plan</value>
+  </data>
+  <data name="appServicePlanPricingTier" xml:space="preserve">
+    <value>App Service-plan/prijscategorie</value>
+  </data>
+  <data name="authentication" xml:space="preserve">
+    <value>Verificatie</value>
+  </data>
+  <data name="authorization" xml:space="preserve">
+    <value>Autorisatie</value>
+  </data>
+  <data name="hybridConnections" xml:space="preserve">
+    <value>Hybride verbindingen</value>
+  </data>
+  <data name="supportRequest" xml:space="preserve">
+    <value>ondersteuningsaanvraag</value>
+  </data>
+  <data name="scale" xml:space="preserve">
+    <value>schalen</value>
+  </data>
+  <data name="connectionStrings" xml:space="preserve">
+    <value>Verbindingsreeksen</value>
+  </data>
+  <data name="debug" xml:space="preserve">
+    <value>Fouten opsporen</value>
+  </data>
+  <data name="continuousDeployment" xml:space="preserve">
+    <value>Continue implementatie</value>
+  </data>
+  <data name="source" xml:space="preserve">
+    <value>Bron</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Opties</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp" xml:space="preserve">
+    <value>Kan geen toegang krijgen tot de Azure-instellingen voor uw functie-app.</value>
+  </data>
+  <data name="backend_error_CannotAccessFunctionApp_action" xml:space="preserve">
+    <value>Zorg eerst dat u de juiste toegang hebt tot de Azure-resource {0}. Probeer de portal te vernieuwen om uw verificatietoken te vernieuwen.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString" xml:space="preserve">
+    <value>Controleer de verbindingsreeks voor het opslagaccount. De verbindingsreeks is mogelijk ongeldig.</value>
+  </data>
+  <data name="backend_error_InvalidStorageConnectionString_action" xml:space="preserve">
+    <value>Werk de app-instelling bij met een geldige verbindingsreeks voor het opslagaccount.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesConnectionString" xml:space="preserve">
+    <value>{0}-toepassingsinstelling ontbreekt in uw app. Deze instelling bevat een verbindingsreeks voor een Azure-opslagaccount waarmee de inhoud van uw functie wordt gehost. Zonder deze instelling kan uw app beslist niet werken. Mogelijk moet u deze functie-app verwijderen en opnieuw maken als u geen toegang meer hebt tot de waarde van deze toepassingsinstelling.</value>
+  </data>
+  <data name="backend_error_MissingAzureFilesContentShare" xml:space="preserve">
+    <value>De toepassingsinstelling {0} ontbreekt in uw app. Deze instelling bevat een sharenaam voor de locatie waar uw inhoud is opgeslagen. Zonder deze instelling werkt uw app niet. Mogelijk moet u deze functie-app verwijderen en opnieuw maken als u geen toegang meer hebt tot de waarde van deze toepassingsinstelling.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsDashboardAppSetting" xml:space="preserve">
+    <value>{0}-toepassingsinstelling ontbreekt in uw app. Deze instelling bevat een verbindingsreeks voor een Azure-opslagaccount dat vereist is voor de bewakingsweergave van uw functies. Hier worden aanroepgegevens samengevoegd en vervolgens weergegeven in de bewakingsweergave. De bewakingsweergave werkt mogelijk niet meer.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting" xml:space="preserve">
+    <value>{0}-toepassingsinstelling ontbreekt in uw app. Deze instelling bevat een verbindingsreeks voor een Azure-opslagaccount dat is vereist voor de runtime van uw functies om synchronisatie van meerdere instanties af te handelen, resultaten van aanroepen vast te leggen en andere infrastructuurtaken uit te voeren. Zonder deze instelling werkt uw functie-app niet op de juiste manier.</value>
+  </data>
+  <data name="backend_error_MissingAzureWebJobsStorageAppSetting_action" xml:space="preserve">
+    <value>Maak de app-instelling met een geldige verbindingsreeks voor het opslagaccount.</value>
+  </data>
+  <data name="backend_error_MissingFunctionsExtensionVersionAppSetting" xml:space="preserve">
+    <value>De toepassingsinstelling {0} ontbreekt in uw app. Zonder deze instelling voert u altijd de laatste versie uit van de runtime, ook bij updates van de primaire versie die wijzigingen met grote gevolgen kunnen bevatten. U kunt de waarde het beste instellen op de meest recente primaire versie (~1). U ontvangt dan bericht als er nieuwere versies beschikbaar zijn waarnaar u kunt bijwerken.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
+    <value>De verbindingsreeks voor een Azure-opslagaccount die in {0} is opgeslagen, is null of leeg. Zonder deze verbindingsreeks kan uw functie-app niet werken.</value>
+  </data>
+  <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <value>Werk de app-instelling bij met een geldige verbindingsreeks voor het opslagaccount.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
+    <value>Het opslagaccount {0} bestaat niet. Als het opslagaccount wordt verwijderd dat door de functie-app wordt gebruikt, kan de functie-app niet meer werken. </value>
+  </data>
+  <data name="backend_error_StorageAccountDoesNotExist_action" xml:space="preserve">
+    <value>Werk de app-instelling bij met een geldige bestaande verbindingsreeks voor het opslagaccount.</value>
+  </data>
+  <data name="backend_error_StorageAccountDoesntSupportQueues" xml:space="preserve">
+    <value>Het opslagaccount {0} biedt geen ondersteuning voor Azure Queue Storage. Voor de runtime van de functies moeten de wachtrijen op de juiste manier werken. U moet uw functie-app verwijderen en opnieuw maken met een opslagaccount dat ondersteuning biedt voor Azure Queue Storage.</value>
+  </data>
+  <data name="backend_error_UnexpectedArmError" xml:space="preserve">
+    <value>Er is een probleem bij het uitvoeren van query's op de back-end van Azure voor uw functie-app.</value>
+  </data>
+  <data name="backend_error_UnknownErrorWhileCallingArm" xml:space="preserve">
+    <value>Er is een probleem bij het uitvoeren van query's op de back-end van Azure voor uw functie-app.</value>
+  </data>
+  <data name="error_shareCodeWithSupport" xml:space="preserve">
+    <value>Als het probleem zich blijft voordoen, neemt u contact op met ondersteuning en geeft u de volgende code op {{code}}</value>
+  </data>
+  <data name="error_parsingFunctionListReturenedFromKudu" xml:space="preserve">
+    <value>Kan de lijst met functies niet ophalen voor deze functie-app.</value>
+  </data>
+  <data name="error_unableToCreateFunction" xml:space="preserve">
+    <value>De functie {{functionName}} kan niet worden gemaakt. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToDecryptKeys" xml:space="preserve">
+    <value>De functietoegangssleutels kunnen niet worden ontsleuteld. Dit kan gebeuren wanneer u de app verwijdert en opnieuw maakt met dezelfde naam, of als u uw sleutels hebt gekopieerd uit een andere functieapp. U kunt de volgende stappen volgen om het probleem op te lossen Ga naar https://go.microsoft.com/fwlink/?linkid=844094</value>
+  </data>
+  <data name="error_unableToDeleteFileThroughKudu" xml:space="preserve">
+    <value>Het bestand {{fileName}} kan niet worden verwijderd. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToDeleteFunction" xml:space="preserve">
+    <value>De functie {{functionName}} kan niet worden verwijderd. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToGetFileContentFromKudu" xml:space="preserve">
+    <value>De inhoud van {{fileName}} kan niet worden opgehaald. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionListFromKudu" xml:space="preserve">
+    <value>Kan de functies niet ophalen. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_UnableToRetrieveSecretsFileFromKudu" xml:space="preserve">
+    <value>Kan geen bestanden met geheimen ophalen voor {{functionName}}. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToSaveFileContentThroughKudu" xml:space="preserve">
+    <value>De inhoud van {{fileName}} kan niet worden opgeslagen. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToRetrieveDirectoryContent" xml:space="preserve">
+    <value>De directoryinhoud van uw functie kan niet worden opgehaald. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToRetrieveFunction" xml:space="preserve">
+    <value>De functie {{functionName}} kan niet worden opgehaald. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeConfig" xml:space="preserve">
+    <value>De runtimeconfig kan niet worden opgehaald. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToRetrieveRuntimeKey" xml:space="preserve">
+    <value>De hoofdsleutel van runtime kan niet worden opgehaald. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToUpdateFunction" xml:space="preserve">
+    <value>De functie {{functionName}} kan niet worden bijgewerkt. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_functionRuntimeIsUnableToStart" xml:space="preserve">
+    <value>De functieruntime kan niet worden gestart. Controleer de runtimelogboeken voor informatie over mogelijke fouten of probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToCreateFunctionKey" xml:space="preserve">
+    <value>De sleutel {{keyName}} van de functie {{functionName}} kan niet worden gemaakt of bijgewerkt. Dit kan gebeuren als de runtime uw functie niet kan laden. Bekijk ook de andere functieproblemen.</value>
+  </data>
+  <data name="error_unableToDeleteFunctionKey" xml:space="preserve">
+    <value>De sleutel {{keyName}} van de functie {{functionName}} kan niet worden verwijderd. Dit kan gebeuren als de runtime uw functie niet kan laden. Bekijk ook de andere functieproblemen.</value>
+  </data>
+  <data name="error_unableToRenewFunctionKey" xml:space="preserve">
+    <value>De sleutel {{keyName}} van de functie {{functionName}} kan niet worden vernieuwd. Dit kan gebeuren als de runtime uw functie niet kan laden. Bekijk ook de andere functieproblemen.</value>
+  </data>
+  <data name="error_unableToRetrieveFunctionKeys" xml:space="preserve">
+    <value>De sleutels van de functie {{functionName}} kunnen niet worden opgehaald. Dit kan gebeuren als de runtime uw functie niet kan laden. Bekijk ook de andere functieproblemen.</value>
+  </data>
+  <data name="error_appOffline" xml:space="preserve">
+    <value>De toepassing is offline. Controleer de internetverbinding.</value>
+  </data>
+  <data name="functionKeys_actions" xml:space="preserve">
+    <value>ACTIES</value>
+  </data>
+  <data name="functionNew_chooseTemplateQuickstart" xml:space="preserve">
+    <value>ga naar de snelstartgids</value>
+  </data>
+  <data name="httpRun_noQuery" xml:space="preserve">
+    <value>Er zijn geen queryparameters</value>
+  </data>
+  <data name="swaggerDefinition_collapse" xml:space="preserve">
+    <value>Samenvouwen</value>
+  </data>
+  <data name="swaggerDefinition_delete" xml:space="preserve">
+    <value>Weet u zeker dat u uw API-definitie wilt verwijderen?</value>
+  </data>
+  <data name="swaggerDefinition_documentation" xml:space="preserve">
+    <value>Documentatie</value>
+  </data>
+  <data name="swaggerDefinition_expand" xml:space="preserve">
+    <value>Uitvouwen</value>
+  </data>
+  <data name="swaggerDefinition_external" xml:space="preserve">
+    <value>Externe URL</value>
+  </data>
+  <data name="swaggerDefinition_feature_overview" xml:space="preserve">
+    <value>Lees het functie-overzicht</value>
+  </data>
+  <data name="swaggerDefinition_getting_started" xml:space="preserve">
+    <value>Bekijk de zelfstudie Aan de slag</value>
+  </data>
+  <data name="swaggerDefinition_internal" xml:space="preserve">
+    <value>Functie</value>
+  </data>
+  <data name="swaggerDefinition_key" xml:space="preserve">
+    <value>Sleutel van API-definitie</value>
+  </data>
+  <data name="swaggerDefinition_loadDefinition" xml:space="preserve">
+    <value>API-definitie laden</value>
+  </data>
+  <data name="swaggerDefinition_loadGeneratedDefinition" xml:space="preserve">
+    <value>Sjabloon voor API-definitie genereren</value>
+  </data>
+  <data name="swaggerDefinition_powerAppsFlow" xml:space="preserve">
+    <value>Exporteren naar PowerApps en Flow</value>
+  </data>
+  <data name="swaggerDefinition_prompt" xml:space="preserve">
+    <value>Kan een onjuiste API-definitie niet opslaan.</value>
+  </data>
+  <data name="swaggerDefinition_renew" xml:space="preserve">
+    <value>Verlengen</value>
+  </data>
+  <data name="swaggerDefinition_setExternal" xml:space="preserve">
+    <value>URL voor externe definitie instellen</value>
+  </data>
+  <data name="swaggerDefinition_source" xml:space="preserve">
+    <value>Bron van API-definitie</value>
+  </data>
+  <data name="swaggerDefinition_subtitle" xml:space="preserve">
+    <value>Uw HTTP-functies gebruiken in meerdere services via de definitie OpenAPI 2.0 (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_title" xml:space="preserve">
+    <value>Functie van API-definitie (Swagger)</value>
+  </data>
+  <data name="swaggerDefinition_url" xml:space="preserve">
+    <value>URL van API-definitie</value>
+  </data>
+  <data name="swaggerDefinition_useAPIdefinition" xml:space="preserve">
+    <value>Uw API-definitie gebruiken</value>
+  </data>
+  <data name="tab_api_definition" xml:space="preserve">
+    <value>API-definitie (preview-versie)</value>
+  </data>
+  <data name="error_unableToCreateSwaggerKey" xml:space="preserve">
+    <value>De sleutel swaggerdocumentationkey voor het Swagger-eindpunt kan niet worden gemaakt of bijgewerkt. Controleer de runtimelogboeken voor informatie over mogelijke fouten of probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToDeleteSwaggerData" xml:space="preserve">
+    <value>De API-definitie kan niet worden verwijderd. Controleer de runtimelogboeken voor informatie over mogelijke fouten of probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToGetSystemKey" xml:space="preserve">
+    <value>De sleutel {{keyName}} kan niet worden opgehaald. Controleer de runtimelogboeken voor informatie over mogelijke fouten of probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToloadGeneratedAPIDefinition" xml:space="preserve">
+    <value>De API-definitie kan niet worden geladen. Controleer de runtimelogboeken voor informatie over mogelijke fouten of probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToUpdateRuntimeConfig" xml:space="preserve">
+    <value>De runtimeconfiguratie kan niet worden bijgewerkt. Probeer het later opnieuw.</value>
+  </data>
+  <data name="error_unableToUpdateSwaggerData" xml:space="preserve">
+    <value>De API-definitie kan niet worden bijgewerkt. Controleer de runtimelogboeken voor informatie over mogelijke fouten of probeer het later opnieuw.</value>
+  </data>
+  <data name="swaggerDefinition_revert" xml:space="preserve">
+    <value>Herstellen naar laatst opgeslagen versie</value>
+  </data>
+  <data name="binding_AADLinkAuth" xml:space="preserve">
+    <value>App Service-verificatie/-autorisatie configureren</value>
+  </data>
+  <data name="swaggerDefinition_placeHolder" xml:space="preserve">
+    <value>#Klik op Sjabloon voor API-definitie genereren om aan de slag te gaan</value>
+  </data>
+  <data name="swaggerDefinition_confirmOverwrite" xml:space="preserve">
+    <value>Weet u zeker dat u de API-definitie wilt overschrijven in de editor?</value>
+  </data>
+  <data name="swaggerDefinition_exporthelp" xml:space="preserve">
+    <value>Gebruik uw API-definitie voor toegang tot uw functies in &lt;a href="https://powerapps.microsoft.com/en-us/" target="_blank"&gt;PowerApps&lt;/a&gt; en &lt;a href="https://ms.flow.microsoft.com/en-us/" target="_blank"&gt;Flow&lt;/a&gt;. </value>
+  </data>
+  <data name="swaggerDefinition_generateHelp" xml:space="preserve">
+    <value>Maak een eenvoudige definitie met de metagegevens die afkomstig zijn uit uw met HTTP geactiveerde functies.
+Geef de &lt;a href="http://swagger.io/specification/#operationObject" target="_blank"&gt;bewerkingsobjecten&lt;/a&gt; en andere informatie over uw API voorafgaand aan gebruik op.</value>
+  </data>
+  <data name="swaggerDefinition_keyHelp" xml:space="preserve">
+    <value>Met deze sleutel beveiligt u de API-definitie tegen toegang door personen zonder sleutel.
+Hiermee wordt de onderliggende API niet beveiligd. Controleer de afzonderlijke functies voor informatie over de bijhorende sleutelbeveiliging.</value>
+  </data>
+  <data name="swaggerDefinition_sourceHelp" xml:space="preserve">
+    <value>Geef hier de waarde Functie op om een gehoste API-definitie in te stellen en een sjabloondefinitie te maken.
+Geef de waarde Externe URL op om een API-definitie te gebruiken die ergens anders wordt gehost.</value>
+  </data>
+  <data name="swaggerDefinition_urlHelp" xml:space="preserve">
+    <value>U gebruikt deze URL voor rechtstreekse toegang tot uw API-definitie en om deze te importeren in hulpprogramma's van derden </value>
+  </data>
+  <data name="featureEnabled_appInsights" xml:space="preserve">
+    <value>Application Insights</value>
+  </data>
+  <data name="appFunctionSettings_changeEditMode" xml:space="preserve">
+    <value>De bewerkingsmodus van uw functie-app wijzigen</value>
+  </data>
+  <data name="appFunctionSettings_editMode" xml:space="preserve">
+    <value>Bewerkingsmodus van de functie-app</value>
+  </data>
+  <data name="appFunctionSettings_readOnlyMode" xml:space="preserve">
+    <value>Alleen-lezen</value>
+  </data>
+  <data name="appFunctionSettings_readWriteMode" xml:space="preserve">
+    <value>Lezen\Schrijven</value>
+  </data>
+  <data name="validation_duplicateError" xml:space="preserve">
+    <value>Dubbele waarden zijn niet toegestaan</value>
+  </data>
+  <data name="validation_requiredError" xml:space="preserve">
+    <value>Dit veld is vereist</value>
+  </data>
+  <data name="validation_siteNameMinChars" xml:space="preserve">
+    <value>De naam mag niet korter zijn dan 2 tekens</value>
+  </data>
+  <data name="validation_siteNameMaxChars" xml:space="preserve">
+    <value>De naam mag niet langer zijn dan 60 tekens</value>
+  </data>
+  <data name="validation_siteNameInvalidChar" xml:space="preserve">
+    <value>{0} is een ongeldig teken</value>
+  </data>
+  <data name="validation_siteNameNotAvailable" xml:space="preserve">
+    <value>De app-naam {0} is niet beschikbaar</value>
+  </data>
+  <data name="error_unableToUpdateFunctionAppEditMode" xml:space="preserve">
+    <value>De bewerkingsmodus van uw functie-app kan niet worden bijgewerkt. Probeer het later opnieuw.</value>
+  </data>
+  <data name="readOnly" xml:space="preserve">
+    <value>Uw app bevindt zich momenteel in de modus alleen-lezen omdat u de bewerkingsmodus hebt ingesteld op alleen-lezen. Voor het wijzigen van de bewerkingsmodus, gaat u naar </value>
+  </data>
+  <data name="readWriteSourceControlled" xml:space="preserve">
+    <value>Uw app bevindt zich momenteel in de modus lezen\schrijven omdat u de bewerkingsmodus hebt ingesteld op lezen\schrijven ondanks dat bronbeheer is ingeschakeld. Wijzigingen die u hebt aangebracht kunnen worden overschreven bij de volgende implementatie. Voor het wijzigen van de bewerkingsmodus, gaat u naar </value>
+  </data>
+  <data name="copypre_copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="keysDialog_getFunctionUrl" xml:space="preserve">
+    <value>Functie-URL ophalen</value>
+  </data>
+  <data name="keysDialog_key" xml:space="preserve">
+    <value>Sleutel</value>
+  </data>
+  <data name="keysDialog_url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="downloadFunctionAppContent" xml:space="preserve">
+    <value>App-inhoud downloaden</value>
+  </data>
+  <data name="functionKeys_renewConfirmation" xml:space="preserve">
+    <value>Weet u zeker dat u de sleutel {{name}} wilt verlengen?</value>
+  </data>
+  <data name="emptyBrowse" xml:space="preserve">
+    <value>Azure Functions is een op gebeurtenissen gebaseerde rekenervaring zonder server waarmee u sneller kunt ontwikkelen. U kunt schalen op aanvraag en u betaalt alleen voor de resources die u gebruikt.</value>
+  </data>
+  <data name="emptyBrowse_learnMore" xml:space="preserve">
+    <value>Meer informatie over Azure Functions</value>
+  </data>
+  <data name="eventHubPicker_eventHub" xml:space="preserve">
+    <value>Event Hub</value>
+  </data>
+  <data name="eventHubPicker_namespace" xml:space="preserve">
+    <value>Naamruimte</value>
+  </data>
+  <data name="notFound" xml:space="preserve">
+    <value>Niet gevonden.</value>
+  </data>
+  <data name="eventHubPicker_IOTEndpoint" xml:space="preserve">
+    <value>Eindpunt</value>
+  </data>
+  <data name="emptyBrowse_title" xml:space="preserve">
+    <value>Er kunnen geen functie-apps worden weergegeven</value>
+  </data>
+  <data name="appFunctionSettings_slotsOptinSettings" xml:space="preserve">
+    <value>Sites (preview-versies)</value>
+  </data>
+  <data name="appFunctionSettings_slotsDesc" xml:space="preserve">
+    <value>Implementatiesites inschakelen (preview-versie). Dit is een eenmalige opt-in in de functie-app die niet kan worden uitgeschakeld. Eerder ingestelde geheimen worden opnieuw ingesteld. Na het bijwerken, kunnen de geheimen worden gekopieerd via het </value>
+  </data>
+  <data name="appFunctionSettings_slotsDescBold" xml:space="preserve">
+    <value>knooppunt Beheren voor elke functie.</value>
+  </data>
+  <data name="slotNew_nameLabel" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="slotNew_heading" xml:space="preserve">
+    <value>Een nieuwe implementatiesite maken</value>
+  </data>
+  <data name="slotNew_desc" xml:space="preserve">
+    <value>Met implementatiesites kunt u verschillende versie van uw functie-app naar verschillende URL's implementeren. U kunt een bepaalde versie testen en vervolgens inhoud en configuratie uitwisselen tussen sites.</value>
+  </data>
+  <data name="slotNew_startCreateNotifyTitle" xml:space="preserve">
+    <value>De nieuwe site {0} maken... </value>
+  </data>
+  <data name="slotNew_startCreateSuccessNotifyTitle" xml:space="preserve">
+    <value>De site {0} is gemaakt </value>
+  </data>
+  <data name="slotNew_startCreateFailureNotifyTitle" xml:space="preserve">
+    <value>Kan de site {0} niet maken </value>
+  </data>
+  <data name="error_unableToLoadSlotsList" xml:space="preserve">
+    <value>Kan de lijst met sites niet bijwerken</value>
+  </data>
+  <data name="slotNew_noAccess" xml:space="preserve">
+    <value>Geen toegang voor het maken van een site. Controleer of u beschikt over de juiste toegang voor RBAC en of er geen leesvergrendelingen zijn ingeschakeld.</value>
+  </data>
+  <data name="slotsList_nameHeader" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="slotsList_statusHeader" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="slotsList_serverfarmHeader" xml:space="preserve">
+    <value>App Service-abonnement</value>
+  </data>
+  <data name="slotsList_title" xml:space="preserve">
+    <value>Sites (preview-versies)</value>
+  </data>
+  <data name="monitoring_appInsights" xml:space="preserve">
+    <value>Voor een uitgebreidere controle, waaronder live metrische gegevens en aangepaste query's, kunt u het beste &lt;a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848587"&gt;Azure Application Insights&lt;/a&gt; gebruiken.</value>
+  </data>
+  <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
+    <value>Deze waarde wordt aan het eind van de URL van uw hoofdweb-app toegevoegd en dient als het publieke adres van de site. Als u bijvoorbeeld een web-app hebt met de naam 'contoso' en een site met de naam 'staging', krijgt de nieuwe site de URL 'http://contoso-staging.azurewebsites.net'.</value>
+  </data>
+  <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
+    <value>Er is slechts één site toegestaan met het verbruiksabonnement. Als u er meer nodig hebt, moet u toegewezen App Service-abonnementen gebruiken.</value>
+  </data>
+  <data name="functionsList_searchFunctions" xml:space="preserve">
+    <value>Functies zoeken</value>
+  </data>
+  <data name="new_" xml:space="preserve">
+    <value>Nieuw</value>
+  </data>
+  <data name="functionManage_deleteFunction" xml:space="preserve">
+    <value>De functie verwijderen</value>
+  </data>
+  <data name="functionService_clientCertEnabled" xml:space="preserve">
+    <value>Er is een clientcertificaat vereist om deze functie uit te voeren. Als u de functie wilt uitvoeren vanaf de portal, moet u het clientcertificaat uitschakelen.</value>
+  </data>
+  <data name="readOnlySlots" xml:space="preserve">
+    <value>Uw app bevindt zich momenteel in de alleen-lezenmodus omdat u een of meer implementatiesites hebt ingeschakeld. Als u de bewerkingsmodus wilt wijzigen, gaat u naar</value>
+  </data>
+  <data name="functionRuntime_manageAppSettings" xml:space="preserve">
+    <value>Toepassingsinstellingen beheren</value>
+  </data>
+  <data name="eventHubPicker_IOTHub" xml:space="preserve">
+    <value>IoT-hub</value>
+  </data>
+  <data name="eventHubPicker_appSettingName" xml:space="preserve">
+    <value>Sleutel</value>
+  </data>
+  <data name="eventHubPicker_appSettingValue" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
+  <data name="eventHubPicker_connection" xml:space="preserve">
+    <value>Verbinding</value>
+  </data>
+  <data name="eventHubPicker_custom" xml:space="preserve">
+    <value>Aangepast</value>
+  </data>
+  <data name="eventHubPicker_IOTEvents" xml:space="preserve">
+    <value>Gebeurtenissen (ingebouwd eindpunt)</value>
+  </data>
+  <data name="eventHubPicker_IOTMonitoring" xml:space="preserve">
+    <value>Bewerkingen controleren</value>
+  </data>
+  <data name="eventHubPicker_policy" xml:space="preserve">
+    <value>Beleid</value>
+  </data>
+  <data name="error_schemaValidationProxies" xml:space="preserve">
+    <value>validatiefout in het proxies.json-schema</value>
+  </data>
+  <data name="functionAppSettings_dailyUsageQuotaHelp" xml:space="preserve">
+    <value>Met een verbruiksabonnement kunt u platformgebruik beperken door een quotum voor het dagelijkse gebruik in te stellen, in gigabytes per seconde. Wanneer het quotum voor het dagelijkse gebruik wordt bereikt, wordt de functie-app gestopt tot de volgende dag om 00:00 UTC.</value>
+  </data>
+  <data name="eventHubPicker_eventHubPolicy" xml:space="preserve">
+    <value>(hub-beleid)</value>
+  </data>
+  <data name="eventHubPicker_namespacePolicy" xml:space="preserve">
+    <value>(naamruimtebeleid)</value>
+  </data>
+  <data name="serviceBusPicker_serviceBus" xml:space="preserve">
+    <value>Service Bus</value>
+  </data>
+  <data name="bindingInput_appSettingNotFound" xml:space="preserve">
+    <value>Kan de app-instelling niet vinden.</value>
+  </data>
+  <data name="bindingInput_show" xml:space="preserve">
+    <value>waarde weergeven</value>
+  </data>
+  <data name="appSettingPicker_add" xml:space="preserve">
+    <value>App-instelling toevoegen</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Downloaden</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettings" xml:space="preserve">
+    <value>App-instellingen opnemen in de download</value>
+  </data>
+  <data name="downloadFunctionAppContent_includeAppSettingsHelp" xml:space="preserve">
+    <value>Dit is inclusief een bestand met de naam local.settings.json dat de waarden van uw app-instellingen bevat. Dit bestand wordt niet versleuteld bij het downloaden, maar kan worden versleuteld met de opdrachtregel Azure Functions Core Tools.</value>
+  </data>
+  <data name="downloadFunctionAppContent_siteContent" xml:space="preserve">
+    <value>Site-inhoud</value>
+  </data>
+  <data name="downloadFunctionAppContent_vsProject" xml:space="preserve">
+    <value>Inhoud en Visual Studio-project</value>
   </data>
 </root>

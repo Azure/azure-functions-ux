@@ -1,54 +1,85 @@
-import { PinPartInfo } from './../models/portal';
-import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject, Subject} from 'rxjs/Rx';
-import {Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo} from '../models/portal';
-import {ErrorEvent} from '../models/error-event';
-import {BroadcastService} from './broadcast.service';
-import {BroadcastEvent} from '../models/broadcast-event'
-import {UserService} from './user.service';
-import {AiService} from './ai.service';
-import {SetupOAuthRequest, SetupOAuthResponse} from '../../site/deployment-source/deployment';
+﻿import { Url } from './../Utilities/url';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs/Observable';
+import { PinPartInfo, GetStartupInfo, NotificationInfo, NotificationStartedInfo } from './../models/portal';
+import { Event, Data, Verbs, Action, LogEntryLevel, Message, UpdateBladeInfo, OpenBladeInfo, StartupInfo, TimerEvent } from '../models/portal';
+import { ErrorEvent } from '../models/error-event';
+import { BroadcastService } from './broadcast.service';
+import { BroadcastEvent } from '../models/broadcast-event'
+import { AiService } from './ai.service';
+import { SetupOAuthRequest, SetupOAuthResponse } from '../../site/deployment-source/deployment';
+import { LocalStorageService } from './local-storage.service';
+import { Guid } from "../Utilities/Guid";
+import { TabCommunicationVerbs } from "app/shared/models/constants";
+import { TabMessage } from "app/shared/models/localStorage/local-storage";
+import { Logger } from "app/shared/utilities/logger";
+import 'rxjs/add/operator/timeout';
 
 @Injectable()
 export class PortalService {
-    public sessionId = "";
+    public windowId: string | null;
 
-    private portalSignature: string = "FxAppBlade";
-    private startupInfo: StartupInfo = null;
-    private startupInfoObservable : ReplaySubject<StartupInfo>;
-    private setupOAuthObservable : Subject<SetupOAuthResponse>;
+    public sessionId = '';
+    public fileResourceId = '';
+
+    private portalSignature = 'FxAppBlade';
+    private portalSignatureFrameBlade = 'FxFrameBlade';
+    private startupInfo: StartupInfo | null;
+    private startupInfoObservable: ReplaySubject<StartupInfo>;
+    private setupOAuthObservable: Subject<SetupOAuthResponse>;
     private getAppSettingCallback: (appSettingName: string) => void;
     private shellSrc: string;
+    private notificationStartStream: Subject<NotificationStartedInfo>;
+    public storageMessageStream: Subject<TabMessage<any>>;
+    private _fileIsOpenObs = new Subject<boolean>();
 
-    constructor(private _broadcastService : BroadcastService,
-     private _aiService: AiService) {
+    constructor(private _broadcastService: BroadcastService,
+        private _aiService: AiService,
+        private _storageService: LocalStorageService) {
 
         this.startupInfoObservable = new ReplaySubject<StartupInfo>(1);
         this.setupOAuthObservable = new Subject<SetupOAuthResponse>();
+        this.notificationStartStream = new Subject<NotificationStartedInfo>();
+        this.storageMessageStream = new Subject<TabMessage<any>>();
 
-        if (this.inIFrame()){
+        if (PortalService.inIFrame()) {
             this.initializeIframe();
+        }
+        else if (PortalService.inTab()) {
+            this.initializeTab();
         }
     }
 
-    getStartupInfo(){
+    getStartupInfo() {
         return this.startupInfoObservable;
     }
 
-    setupOAuth(input : SetupOAuthRequest){
+    setupOAuth(input: SetupOAuthRequest) {
         this.postMessage(Verbs.setupOAuth, JSON.stringify(input));
         return this.setupOAuthObservable;
     }
 
-    initializeIframe(): void {
+    private initializeIframe(): void {
 
-        this.shellSrc = window.location.search.match(/=(.+)/)[1];
+        this.windowId = Guid.newTinyGuid();
 
+        // listener for localstorage events from any child tabs of the window
+        this._storageService.addEventListener(this.recieveStorageMessage, this);
+
+        const shellUrl = decodeURI(window.location.href);
+        this.shellSrc = Url.getParameterByName(shellUrl, 'trustedAuthority');
         window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this), false);
+
+        const appsvc = window.appsvc;
+        const getStartupInfoObj: GetStartupInfo = {
+            iframeHostName: appsvc && appsvc.env && appsvc.env.hostName ? appsvc.env.hostName : null
+        };
 
         // This is a required message. It tells the shell that your iframe is ready to receive messages.
         this.postMessage(Verbs.ready, null);
-        this.postMessage(Verbs.getStartupInfo, null);
+        this.postMessage(Verbs.getStartupInfo, JSON.stringify(getStartupInfoObj));
 
         this._broadcastService.subscribe<ErrorEvent>(BroadcastEvent.Error, error => {
             if (error.details) {
@@ -57,70 +88,180 @@ export class PortalService {
         });
     }
 
-    openBlade(bladeInfo : OpenBladeInfo, source : string){
+    private initializeTab(): void {
+        // listener to localStorage
+        this._storageService.addEventListener(this.recieveStorageMessage, this);
+        // create & set window id
+        this.windowId = Guid.newTinyGuid();
+    }
+
+    private recieveStorageMessage(item: StorageEvent) {
+        let msg: TabMessage<any>;
+
+        try {
+            msg = JSON.parse(item.newValue);
+
+            if (!msg) {
+                return;
+            }
+
+            Logger.debug(item);
+        } catch (e) {
+            Logger.debug(e);
+            return;
+        }
+
+        Logger.debug("Msg from other window: " + msg.verb);
+
+        // file is open in another window
+        if (msg.verb === TabCommunicationVerbs.fileIsOpenElsewhere) {
+            Logger.debug("discovered file is open in another window")
+            this._fileIsOpenObs.next(true);
+        }
+
+        else {
+            // send it to be handled by function dev
+            this.storageMessageStream.next(msg);
+        }
+    }
+
+    _sendTabMessage<T>(source: string, verb: string, data: T, dest?: string | null) {
+        // return the ready message with guid
+        const tabMessage: TabMessage<T> = {
+            source_id: source,
+            id: source,
+            dest_id: dest,
+            verb: verb,
+            data: data
+        };
+
+        let id = `${verb}:${source}`;
+        if (dest) {
+            id += `:${dest}`;
+        }
+
+        // send and then remove
+        // include the id in the key so that douplicate messages from different windows can not remove another
+        this._storageService.setItem(verb, tabMessage);
+        this._storageService.removeItem(verb);
+    }
+
+    public isFileOpenedInAnotherTab() {
+        this._sendTabMessage<string>(this.windowId, TabCommunicationVerbs.fileOpenElsewhereCheck, this.fileResourceId);
+        // send message to other tab
+        return this._fileIsOpenObs
+            .timeout(50)
+            .catch(err => {
+                return Observable.of(false);
+            })
+            .map(fileIsOpen => {
+                return fileIsOpen;
+            });
+    }
+
+    sendTimerEvent(evt: TimerEvent) {
+        this.postMessage(Verbs.logTimerEvent, JSON.stringify(evt));
+    }
+
+    openBlade(bladeInfo: OpenBladeInfo, source: string) {
         this.logAction(source, 'open-blade ' + bladeInfo.detailBlade);
         this._aiService.trackEvent('/site/open-blade', {
-            targetBlade : bladeInfo.detailBlade,
-            targetExtension : bladeInfo.extension,
-            source : source
+            targetBlade: bladeInfo.detailBlade,
+            targetExtension: bladeInfo.extension,
+            source: source
         });
 
         this.postMessage(Verbs.openBlade, JSON.stringify(bladeInfo));
     }
 
     openCollectorBlade(resourceId: string, name: string, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
-        this.logAction(source, "open-blade-collector" + name, null);
+        this.logAction(source, 'open-blade-collector' + name, null);
         this._aiService.trackEvent('/site/open-collector-blade', {
-            targetBlade : name,
-            source : source
+            targetBlade: name,
+            source: source
         });
 
         this.getAppSettingCallback = getAppSettingCallback;
-        let payload = {
-            resourceId : resourceId,
-            bladeName : name
+        const payload = {
+            resourceId: resourceId,
+            bladeName: name
         };
 
         this.postMessage(Verbs.openBladeCollector, JSON.stringify(payload));
     }
 
-    openCollectorBladeWithInputs(resourceId : string, obj : any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
-        this.logAction(source, "open-blade-collector-inputs" + obj.bladeName, null);
+    openCollectorBladeWithInputs(resourceId: string, obj: any, source: string, getAppSettingCallback: (appSettingName: string) => void): void {
+        this.logAction(source, 'open-blade-collector-inputs' + obj.bladeName, null);
 
         this._aiService.trackEvent('/site/open-collector-blade', {
-            targetBlade : obj.bladeName,
-            source : source
+            targetBlade: obj.bladeName,
+            source: source
         });
 
         this.getAppSettingCallback = getAppSettingCallback;
 
-        let payload = {
-            resourceId : resourceId,
-            input : obj
+        const payload = {
+            resourceId: resourceId,
+            input: obj
         };
 
         this.postMessage(Verbs.openBladeCollectorInputs, JSON.stringify(payload));
     }
 
-    closeBlades(){
-        this.postMessage(Verbs.closeBlades, "");
+    closeBlades() {
+        this.postMessage(Verbs.closeBlades, '');
     }
 
-    updateBladeInfo(title : string, subtitle : string){
-        let payload : UpdateBladeInfo = {
-            title : title,
-            subtitle : subtitle
+    updateBladeInfo(title: string, subtitle: string) {
+        const payload: UpdateBladeInfo = {
+            title: title,
+            subtitle: subtitle
         };
 
         this.postMessage(Verbs.updateBladeInfo, JSON.stringify(payload));
     }
 
-    pinPart(pinPartInfo : PinPartInfo){
+    pinPart(pinPartInfo: PinPartInfo) {
         this.postMessage(Verbs.pinPart, JSON.stringify(pinPartInfo));
     }
 
-    logAction(subcomponent: string, action: string, data?: any): void{
-        let actionStr = JSON.stringify(<Action>{
+    startNotification(title: string, description: string) {
+        if (PortalService.inIFrame()) {
+            const payload: NotificationInfo = {
+                state: 'start',
+                title: title,
+                description: description
+            };
+
+            this.postMessage(Verbs.setNotification, JSON.stringify(payload));
+        }
+        else {
+            setTimeout(() => {
+                this.notificationStartStream.next({ id: 'id' });
+            });
+        }
+
+        return this.notificationStartStream;
+    }
+
+    stopNotification(id: string, success: boolean, description: string) {
+        let state = 'success';
+        if (!success) {
+            state = 'fail';
+        }
+
+        const payload: NotificationInfo = {
+            id: id,
+            state: state,
+            title: null,
+            description: description
+        };
+
+        this.postMessage(Verbs.setNotification, JSON.stringify(payload));
+    }
+
+    logAction(subcomponent: string, action: string, data?: any): void {
+        const actionStr = JSON.stringify(<Action>{
             subcomponent: subcomponent,
             action: action,
             data: data
@@ -129,15 +270,15 @@ export class PortalService {
         this.postMessage(Verbs.logAction, actionStr);
     }
 
-    setDirtyState(dirty : boolean) : void{
+    setDirtyState(dirty: boolean): void {
         this.postMessage(Verbs.setDirtyState, JSON.stringify(dirty));
     }
 
-    logMessage(level : LogEntryLevel, message : string, ...restArgs: any[]){
-        let messageStr = JSON.stringify(<Message>{
-            level : level,
-            message : message,
-            restArgs : restArgs
+    logMessage(level: LogEntryLevel, message: string, ...restArgs: any[]) {
+        const messageStr = JSON.stringify(<Message>{
+            level: level,
+            message: message,
+            restArgs: restArgs
         });
 
         this.postMessage(Verbs.logMessage, messageStr);
@@ -145,16 +286,16 @@ export class PortalService {
 
     private iframeReceivedMsg(event: Event): void {
 
-        if (!event || !event.data || event.data.signature !== this.portalSignature){
+        if (!event || !event.data || (event.data.signature !== this.portalSignature && event.data.signature !== this.portalSignatureFrameBlade)) {
             return;
         }
 
-        var data = event.data.data;
-        let methodName = event.data.kind;
+        const data = event.data.data;
+        const methodName = event.data.kind;
 
-        console.log("[iFrame] Received mesg: " + methodName);
+        console.log('[iFrame] Received mesg: ' + methodName);
 
-        if(methodName === Verbs.sendStartupInfo){
+        if (methodName === Verbs.sendStartupInfo) {
             this.startupInfo = <StartupInfo>data;
             this.sessionId = this.startupInfo.sessionId;
             // this._userService.setToken(startupInfo.token);
@@ -162,35 +303,61 @@ export class PortalService {
 
             this.startupInfoObservable.next(this.startupInfo);
         }
-        else if(methodName === Verbs.sendToken){
-            if(this.startupInfo){
+        else if (methodName === Verbs.sendToken) {
+            if (this.startupInfo) {
                 this.startupInfo.token = <string>data;
                 this.startupInfoObservable.next(this.startupInfo);
             }
         }
         else if (methodName === Verbs.sendAppSettingName) {
-            if(this.getAppSettingCallback){
+            if (this.getAppSettingCallback) {
                 this.getAppSettingCallback(data);
                 this.getAppSettingCallback = null;
             }
         }
-        else if(methodName === Verbs.sendOAuthInfo){
-            let info = <SetupOAuthResponse>data;
-            this.setupOAuthObservable.next(info);
+        else if (methodName === Verbs.sendOAuthInfo) {
+            this.setupOAuthObservable.next(data);
+        }
+        else if (methodName === Verbs.sendNotificationStarted) {
+            this.notificationStartStream.next(data);
+        }
+        else if (methodName === Verbs.sendInputs) {
+            if (!this.startupInfo) {
+                return;
+            }
+
+            this.startupInfo.resourceId = data.resourceId;
+            this.startupInfoObservable.next(this.startupInfo);
         }
     }
 
-    private postMessage(verb: string, data: string){
-        if(this.inIFrame()){
+    private postMessage(verb: string, data: string) {
+        if (PortalService.inIFrame()) {
             window.parent.postMessage(<Data>{
-                signature : this.portalSignature,
+                signature: this.portalSignature,
+                kind: verb,
+                data: data
+            }, this.shellSrc);
+
+            window.parent.postMessage(<Data>{
+                signature: this.portalSignatureFrameBlade,
                 kind: verb,
                 data: data
             }, this.shellSrc);
         }
     }
 
-    private inIFrame() : boolean{
-        return window.parent !== window;
+    public static inIFrame(): boolean {
+        return window.parent !== window && window.location.pathname !== '/context.html';
+    }
+
+    // checks for url query
+    public static inTab(): boolean {
+        return (Url.getParameterByName(null, 'tabbed') === 'true');
+    }
+
+    // what feature is being looked at currently
+    public static feature(): string {
+        return (Url.getParameterByName(null, 'feature'));
     }
 }

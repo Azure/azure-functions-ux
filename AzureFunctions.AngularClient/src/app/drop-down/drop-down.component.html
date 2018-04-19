@@ -1,8 +1,37 @@
-<div class="drop-down-container" *ngIf="_options">
-    <select (change)="onSelect($event.target.value)" class="drop-down-select" [disabled]="disabled">
+<div
+    *ngIf="_options"
+    class="drop-down-container"
+    [class.dirty]="highlightDirty && control?.dirty"
+    [class.disabled]="control ? control.disabled : disabled">
+
+    <select
+        *ngIf="!control"
+        (change)="onSelect($event.target.value)"
+        class="drop-down-select"
+        [disabled]="disabled">
+
         <option selected disabled hidden style='display: none' value=''></option>
         <option *ngFor="let option of _options" [value]="option.id">{{option.displayLabel}}</option>
+
     </select>
+
+    <!-- The select element is slightly different for forms controls, mainly because
+         the formControl will map the selected options value to the control value.  If we used the 
+         same select element above which maps to "options.id", it would set the form
+         value to an integer id once you select an element, instead of using the option value -->
+    <select
+        *ngIf="control"
+        (change)="onSelectValue($event.target.value)"
+        class="drop-down-select"
+        [formControl]="control"
+        (blur)="onBlur($event)"
+        #selectInput>
+
+        <option selected disabled hidden style='display: none' value=''></option>
+        <option *ngFor="let option of _options" [value]="option.value">{{option.displayLabel}}</option>
+
+    </select>
+
     <span *ngIf="!selectedElement" class="drop-down-selected-value">{{placeholder}}</span>
     <span *ngIf="selectedElement" class="drop-down-selected-value">{{selectedElement.displayLabel}}</span>
     <span class="drop-down-selected-arrow"></span>

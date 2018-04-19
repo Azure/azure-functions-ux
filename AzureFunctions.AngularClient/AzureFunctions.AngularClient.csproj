@@ -87,19 +87,27 @@
     <Content Include="src\app\apps-list\apps-list.component.html" />
     <Content Include="src\app\binding-designer\binding-designer.component.css" />
     <Content Include="src\app\binding-designer\binding-designer.component.html" />
+    <Content Include="src\app\binding-event-grid\binding-event-grid.component.html" />
     <Content Include="src\app\binding-input\binding-input.component.css" />
     <Content Include="src\app\binding-input\binding-input.component.html" />
-    <Content Include="src\app\binding\binding.component.css" />
+    <Content Include="src\app\binding-event-grid\binding-event-grid.component.scss" />
+    <None Include="src\app\binding\binding.component.scss" />
     <Content Include="src\app\binding\binding.component.html" />
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.html" />
-    <Content Include="src\app\busy-state\busy-state.component.css" />
+    <Content Include="src\app\busy-state\busy-state.component.scss" />
     <Content Include="src\app\busy-state\busy-state.component.html" />
+    <None Include="src\app\copy-pre\copy-pre.component.scss" />
+    <Content Include="src\app\controls\click-to-edit\click-to-edit.component.html" />
+    <Content Include="src\app\controls\command-bar\command\command.component.html" />
+    <Content Include="src\app\controls\textbox\textbox.component.html" />
     <Content Include="src\app\copy-pre\copy-pre.component.css" />
     <Content Include="src\app\copy-pre\copy-pre.component.html" />
-    <Content Include="src\app\dashboard\dashboard.component.html" />
+    <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.html" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.html" />
+    <Content Include="src\app\download-function-app-content\download-function-app-content.component.html" />
     <Content Include="src\app\drop-down\drop-down.component.css" />
     <Content Include="src\app\drop-down\drop-down.component.html" />
+    <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.html" />
     <Content Include="src\app\error-list\error-list.component.css" />
     <Content Include="src\app\error-list\error-list.component.html" />
     <Content Include="src\app\accordion\accordion.component.scss" />
@@ -107,6 +115,12 @@
     <Content Include="src\app\breadcrumbs\breadcrumbs.component.scss" />
     <Content Include="src\app\feature-group\feature-group.component.scss" />
     <Content Include="src\app\disabled-dashboard\disabled-dashboard.component.scss" />
+    <Content Include="src\app\create-function-wrapper\create-function-wrapper.component.scss" />
+    <Content Include="src\app\controls\click-to-edit\click-to-edit.component.scss" />
+    <Content Include="src\app\controls\command-bar\command\command.component.scss" />
+    <Content Include="src\app\controls\textbox\textbox.component.scss" />
+    <Content Include="src\app\edit-mode-warning\edit-mode-warning.component.scss" />
+    <Content Include="src\app\download-function-app-content\download-function-app-content.component.scss" />
     <None Include="src\app\file-explorer\file-explorer.component.scss" />
     <Content Include="src\app\feature-group\feature-group.component.html" />
     <Content Include="src\app\file-explorer\file-explorer.component.html" />
@@ -128,10 +142,10 @@
     <Content Include="src\app\function-monitor\function-monitor.component.html" />
     <Content Include="src\app\function-new\function-new.component.html" />
     <Content Include="src\app\functions-list\functions-list.component.scss" />
+    <Content Include="src\app\function-quickstart\function-quickstart.component.scss" />
     <None Include="src\app\getting-started\getting-started.component.scss" />
     <Content Include="src\app\functions-list\functions-list.component.html" />
     <Content Include="src\app\getting-started\getting-started.component.html" />
-    <Content Include="src\app\function-quickstart\function-quickstart.component.css" />
     <Content Include="src\app\function-quickstart\function-quickstart.component.html" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.css" />
     <Content Include="src\app\local-development-instructions\local-development-instructions.component.html" />
@@ -140,9 +154,14 @@
     <Content Include="src\app\log-streaming\log-streaming.component.html" />
     <Content Include="src\app\main\main.component.html" />
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.html" />
+    <Content Include="src\app\pickers\app-setting\app-setting.component.html" />
+    <Content Include="src\app\pickers\event-hub\event-hub.component.html" />
+    <Content Include="src\app\pickers\microsoft-graph\microsoft-graph.component.html" />
+    <Content Include="src\app\pickers\service-bus\service-bus.component.html" />
     <Content Include="src\app\pop-over\pop-over.component.css" />
     <Content Include="src\app\pop-over\pop-over.component.html" />
     <Content Include="src\app\proxies-list\proxies-list.component.scss" />
+    <Content Include="src\app\pickers\picker.scss" />
     <None Include="src\app\radio-selector\radio-selector.component.scss" />
     <Content Include="src\app\proxies-list\proxies-list.component.html" />
     <Content Include="src\app\radio-selector\radio-selector.component.html" />
@@ -150,24 +169,38 @@
     <Content Include="src\app\multi-drop-down\multi-drop-down.component.scss" />
     <None Include="src\app\run-http\run-http.component.scss" />
     <Content Include="src\app\run-http\run-http.component.html" />
+    <Content Include="src\app\search-box\search-box.component.html" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.css" />
     <Content Include="src\app\secrets-box-container\secrets-box-container.component.html" />
     <Content Include="src\app\side-nav\side-nav.component.html" />
-    <Content Include="src\app\sidebar\sidebar.component.css" />
-    <Content Include="src\app\sidebar\sidebar.component.html" />
     <Content Include="src\app\site\deployment-source-setup\deployment-source-setup.component.html" />
     <Content Include="src\app\site\deployment-source\deployment-source.component.html" />
     <Content Include="src\app\site\function-runtime\function-runtime.component.html" />
+    <Content Include="src\app\site\create-app\create-app.component.html" />
+    <Content Include="src\app\site\site-config\site-config.component.html" />
+    <Content Include="src\app\site\site-config\app-settings\app-settings.component.html" />
+    <Content Include="src\app\site\site-config\connection-strings\connection-strings.component.html" />
+    <Content Include="src\app\site\site-config\general-settings\general-settings.component.html" />
+    <Content Include="src\app\site\site-config-standalone\site-config.component-standalone.html" />
     <Content Include="src\app\site\site-dashboard\site-dashboard.component.html" />
     <Content Include="src\app\site\site-enabled-features\site-enabled-features.component.html" />
     <Content Include="src\app\site\site-manage\site-manage.component.html" />
     <Content Include="src\app\site\site-notifications\site-notifications.component.html" />
     <Content Include="src\app\site\site-summary\site-summary.component.html" />
+    <Content Include="src\app\site\swagger-definition\swagger-definition.component.html" />
+    <Content Include="src\app\slot-new\slot-new.component.html" />
+    <Content Include="src\app\slots-list\slots-list.component.html" />
     <Content Include="src\app\source-control\source-control.component.css" />
     <Content Include="src\app\source-control\source-control.component.html" />
-    <Content Include="src\app\table-function-monitor\table-function-monitor.component.css" />
+    <None Include="src\app\table-function-monitor\table-function-monitor.component.scss" />
     <Content Include="src\app\table-function-monitor\table-function-monitor.component.html" />
-    <None Include="src\app\tabs\tabs.component.scss" />
+    <Content Include="src\app\site\swagger-definition\swagger-definition.component.scss" />
+    <Content Include="src\app\site\create-app\create-app.component.scss" />
+    <Content Include="src\app\site\site-config\site-config.component.scss" />
+    <Content Include="src\app\site\site-config-standalone\site-config-standalone.component.scss" />
+    <Content Include="src\app\slots-list\slots-list.component.scss" />
+    <Content Include="src\app\slot-new\slot-new.component.scss" />
+    <Content Include="src\app\search-box\search-box.component.scss" />
     <Content Include="src\app\tabs\tabs.component.html" />
     <Content Include="src\app\tab\tab.component.html" />
     <None Include="src\app\template-picker\template-picker.component.scss" />
@@ -177,18 +210,21 @@
     <Content Include="src\app\top-bar\top-bar.component.html" />
     <Content Include="src\app\top-right-menu\top-right-menu.component.html" />
     <Content Include="src\app\tree-view\tree-view.component.html" />
-    <Content Include="src\app\trial-expired\trial-expired.component.css" />
+    <None Include="src\app\trial-expired\trial-expired.component.scss" />
     <Content Include="src\app\trial-expired\trial-expired.component.html" />
     <None Include="src\app\try-landing\try-landing.component.scss" />
     <Content Include="src\app\try-landing\try-landing.component.html" />
     <Content Include="src\app\try-now-busy-state\try-now-busy-state.component.css" />
     <Content Include="src\app\try-now-busy-state\try-now-busy-state.component.html" />
-    <Content Include="src\app\try-now\try-now.component.css" />
+    <Content Include="src\app\try-now\try-now.component.scss" />
     <Content Include="src\app\try-now\try-now.component.html" />
     <Content Include="src\app\tutorial\tutorial.component.css" />
     <Content Include="src\app\tutorial\tutorial.component.html" />
     <Content Include="src\assets\.gitkeep" />
-    <Content Include="src\assets\nvd3Charts.css" />
+    <Content Include="src\images\add.svg" />
+    <Content Include="src\images\discard.svg" />
+    <Content Include="src\images\plus.svg" />
+    <Content Include="src\images\appInsights.svg" />
     <Content Include="src\images\access-control.svg" />
     <Content Include="src\images\activity-log.svg" />
     <Content Include="src\images\advanced-tools.svg" />
@@ -204,25 +240,38 @@
     <Content Include="src\images\backups.svg" />
     <Content Include="src\images\bitbucket_45.png" />
     <Content Include="src\images\bolt.svg" />
+    <Content Include="src\images\BulletList.svg" />
     <Content Include="src\images\busy-image.png" />
+    <Content Include="src\images\clock.svg" />
+    <Content Include="src\images\code.svg" />
     <Content Include="src\images\console.svg" />
     <Content Include="src\images\cors.svg" />
     <Content Include="src\images\custom-domains.svg" />
+    <Content Include="src\images\data-process-template-dark.svg" />
     <Content Include="src\images\data-process-template.svg" />
+    <Content Include="src\images\databaseMini3.svg" />
+    <Content Include="src\images\DataLakeAnalytics-alt.svg" />
     <Content Include="src\images\delete.svg" />
     <Content Include="src\images\deployment-credentials.svg" />
     <Content Include="src\images\deployment-source.svg" />
     <Content Include="src\images\diagnostic-logs.svg" />
     <Content Include="src\images\download.svg" />
     <Content Include="src\images\dropbox_45.png" />
+    <Content Include="src\images\emptybrowse-functions.svg" />
+    <Content Include="src\images\error.svg" />
     <Content Include="src\images\extensions.svg" />
     <Content Include="src\images\external_45.png" />
     <Content Include="src\images\function-io.svg" />
     <Content Include="src\images\Functions.svg" />
+    <Content Include="src\images\function_f.svg" />
     <Content Include="src\images\generic-template.svg" />
     <Content Include="src\images\GitHub_65.png" />
+    <Content Include="src\images\icon-collapse.svg" />
+    <Content Include="src\images\icon-expand.svg" />
+    <Content Include="src\images\info.svg" />
     <Content Include="src\images\iot-template.svg" />
     <Content Include="src\images\landing-page.png" />
+    <Content Include="src\images\learn-more.svg" />
     <Content Include="src\images\localgit_45.png" />
     <Content Include="src\images\locks.svg" />
     <Content Include="src\images\log-stream.svg" />
@@ -234,6 +283,7 @@
     <Content Include="src\images\networking.svg" />
     <Content Include="src\images\onedrive_100.png" />
     <Content Include="src\images\open-external.svg" />
+    <Content Include="src\images\pin.svg" />
     <Content Include="src\images\process-explorer.svg" />
     <Content Include="src\images\properties.svg" />
     <Content Include="src\images\push.svg" />
@@ -241,16 +291,24 @@
     <Content Include="src\images\reset.svg" />
     <Content Include="src\images\resource-explorer.svg" />
     <Content Include="src\images\restart.svg" />
+    <Content Include="src\images\save.svg" />
+    <Content Include="src\images\search.svg" />
     <Content Include="src\images\ssl.svg" />
     <Content Include="src\images\stack.svg" />
     <Content Include="src\images\start.svg" />
     <Content Include="src\images\stop.svg" />
+    <Content Include="src\images\stopped.svg" />
+    <Content Include="src\images\success.svg" />
+    <Content Include="src\images\swagger-definition.svg" />
     <Content Include="src\images\swap.svg" />
     <Content Include="src\images\tags.svg" />
+    <Content Include="src\images\timer-template-dark.svg" />
     <Content Include="src\images\timer-template.svg" />
     <Content Include="src\images\tinfoil-flat-21px.png" />
     <Content Include="src\images\vsts.png" />
+    <Content Include="src\images\warning.svg" />
     <Content Include="src\images\webapp.svg" />
+    <Content Include="src\images\webhook-api-template-dark.svg" />
     <Content Include="src\images\webhook-api-template.svg" />
     <Content Include="src\images\webjobs.svg" />
     <Content Include="tslint.json" />
@@ -269,11 +327,14 @@
     <Content Include="src\sass\common\_mixins.scss" />
     <Content Include="src\sass\controls\_feature-group.scss" />
     <Content Include="src\sass\controls\_input.scss" />
-    <Content Include="src\sass\controls\_table.scss" />
     <Content Include="src\sass\controls\_tabs.scss" />
-    <Content Include="src\sass\layout\_dashboard.scss" />
     <Content Include="src\sass\pages\_binding-designer.scss" />
     <Content Include="src\sass\pages\_deployment-source.scss" />
+    <Content Include="src\sass\controls\_dialogs.scss" />
+    <Content Include="src\sass\controls\_command-bar.scss" />
+    <Content Include="src\sass\controls\_tbl.scss" />
+    <Content Include="src\sass\pages\_list-collection.scss" />
+    <Content Include="src\sass\controls\_popover.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="karma.conf.js" />
@@ -305,6 +366,8 @@
     <TypeScriptCompile Include="src\app\apps-list\apps-list.component.ts" />
     <TypeScriptCompile Include="src\app\binding-designer\binding-designer.component.spec.ts" />
     <TypeScriptCompile Include="src\app\binding-designer\binding-designer.component.ts" />
+    <TypeScriptCompile Include="src\app\binding-event-grid\binding-event-grid.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\binding-event-grid\binding-event-grid.component.ts" />
     <TypeScriptCompile Include="src\app\binding-input\binding-input.component.spec.ts" />
     <TypeScriptCompile Include="src\app\binding-input\binding-input.component.ts" />
     <TypeScriptCompile Include="src\app\binding\binding.component.spec.ts" />
@@ -313,14 +376,29 @@
     <TypeScriptCompile Include="src\app\breadcrumbs\breadcrumbs.component.ts" />
     <TypeScriptCompile Include="src\app\busy-state\busy-state.component.spec.ts" />
     <TypeScriptCompile Include="src\app\busy-state\busy-state.component.ts" />
+    <TypeScriptCompile Include="src\app\busy-state\busy-state-scope-manager.ts" />
+    <TypeScriptCompile Include="src\app\controls\click-to-edit\click-to-edit.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\controls\click-to-edit\click-to-edit.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\command-bar\command-bar.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\controls\command-bar\command-bar.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\command-bar\command\command.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\controls\command-bar\command\command.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\tbl\tbl-th\tbl-th.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\tbl\tbl.component.ts" />
+    <TypeScriptCompile Include="src\app\controls\textbox\textbox.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\controls\textbox\textbox.component.ts" />
     <TypeScriptCompile Include="src\app\copy-pre\copy-pre.component.spec.ts" />
     <TypeScriptCompile Include="src\app\copy-pre\copy-pre.component.ts" />
-    <TypeScriptCompile Include="src\app\dashboard\dashboard.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\dashboard\dashboard.component.ts" />
+    <TypeScriptCompile Include="src\app\create-function-wrapper\create-function-wrapper.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\create-function-wrapper\create-function-wrapper.component.ts" />
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.spec.ts" />
     <TypeScriptCompile Include="src\app\disabled-dashboard\disabled-dashboard.component.ts" />
+    <TypeScriptCompile Include="src\app\download-function-app-content\download-function-app-content.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\download-function-app-content\download-function-app-content.component.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.spec.ts" />
     <TypeScriptCompile Include="src\app\drop-down\drop-down.component.ts" />
+    <TypeScriptCompile Include="src\app\edit-mode-warning\edit-mode-warning.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\edit-mode-warning\edit-mode-warning.component.ts" />
     <TypeScriptCompile Include="src\app\error-list\error-list.component.spec.ts" />
     <TypeScriptCompile Include="src\app\error-list\error-list.component.ts" />
     <TypeScriptCompile Include="src\app\feature-group\feature-group.component.spec.ts" />
@@ -362,6 +440,14 @@
     <TypeScriptCompile Include="src\app\main\main.component.ts" />
     <TypeScriptCompile Include="src\app\multi-drop-down\multi-drop-down.component.spec.ts" />
     <TypeScriptCompile Include="src\app\multi-drop-down\multi-drop-down.component.ts" />
+    <TypeScriptCompile Include="src\app\pickers\app-setting\app-setting.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pickers\app-setting\app-setting.component.ts" />
+    <TypeScriptCompile Include="src\app\pickers\event-hub\event-hub.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pickers\event-hub\event-hub.component.ts" />
+    <TypeScriptCompile Include="src\app\pickers\microsoft-graph\microsoft-graph.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pickers\microsoft-graph\microsoft-graph.component.ts" />
+    <TypeScriptCompile Include="src\app\pickers\service-bus\service-bus.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\pickers\service-bus\service-bus.component.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.spec.ts" />
     <TypeScriptCompile Include="src\app\pop-over\pop-over.component.ts" />
     <TypeScriptCompile Include="src\app\proxies-list\proxies-list.component.spec.ts" />
@@ -370,20 +456,33 @@
     <TypeScriptCompile Include="src\app\radio-selector\radio-selector.component.ts" />
     <TypeScriptCompile Include="src\app\run-http\run-http.component.spec.ts" />
     <TypeScriptCompile Include="src\app\run-http\run-http.component.ts" />
+    <TypeScriptCompile Include="src\app\search-box\search-box.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\search-box\search-box.component.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.spec.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-container.component.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.spec.ts" />
     <TypeScriptCompile Include="src\app\secrets-box-container\secrets-box-input.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\decorators\cache.decorator.ts" />
+    <TypeScriptCompile Include="src\app\shared\directives\fn-write-access.directive.spec.ts" />
+    <TypeScriptCompile Include="src\app\shared\directives\fn-write-access.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\directives\monaco-editor.directive.ts" />
     <TypeScriptCompile Include="src\app\shared\function-app.ts" />
+    <TypeScriptCompile Include="src\app\shared\GlobalErrorHandler.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\mobile-apps-client.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\host-status.ts" />
+    <TypeScriptCompile Include="src\app\shared\validators\requiredValidator.ts" />
+    <TypeScriptCompile Include="src\app\shared\validators\siteNameValidator.ts" />
+    <TypeScriptCompile Include="src\app\shared\validators\uniqueValidator.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\availability.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\auth-settings.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\arm-obj.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\auth-settings.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\locks.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\permission.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\site-config.ts" />
     <TypeScriptCompile Include="src\app\shared\models\arm\site.ts" />
+    <TypeScriptCompile Include="src\app\shared\models\arm\stacks.ts" />
     <TypeScriptCompile Include="src\app\shared\models\ace-editor.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-insights.ts" />
     <TypeScriptCompile Include="src\app\shared\models\app-monitoring-usage.ts" />
@@ -444,12 +543,15 @@
     <TypeScriptCompile Include="src\app\shared\models\user.ts" />
     <TypeScriptCompile Include="src\app\shared\models\vfs-object.ts" />
     <TypeScriptCompile Include="src\app\shared\models\webapi-exception.ts" />
+    <TypeScriptCompile Include="src\app\shared\no-cors-http-service.ts" />
     <TypeScriptCompile Include="src\app\shared\resourceDescriptors.ts" />
     <TypeScriptCompile Include="src\app\shared\services\ai.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\ai.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\arm-try.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\arm.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\authz.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\arm.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\arm.service-helper.ts" />
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\background-tasks.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\broadcast.service.spec.ts" />
@@ -465,9 +567,11 @@
     <TypeScriptCompile Include="src\app\shared\services\global-state.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\language.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\language.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\language.service-helper.ts" />
     <TypeScriptCompile Include="src\app\shared\services\local-storage.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\portal.service.ts" />
+    <TypeScriptCompile Include="src\app\shared\services\slots.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\telemetry.service.spec.ts" />
     <TypeScriptCompile Include="src\app\shared\services\telemetry.service.ts" />
     <TypeScriptCompile Include="src\app\shared\services\user.service.spec.ts" />
@@ -478,10 +582,6 @@
     <TypeScriptCompile Include="src\app\shared\Utilities\resources.ts" />
     <TypeScriptCompile Include="src\app\side-nav\side-nav.component.spec.ts" />
     <TypeScriptCompile Include="src\app\side-nav\side-nav.component.ts" />
-    <TypeScriptCompile Include="src\app\sidebar\pipes\sidebar.pipe.spec.ts" />
-    <TypeScriptCompile Include="src\app\sidebar\pipes\sidebar.pipe.ts" />
-    <TypeScriptCompile Include="src\app\sidebar\sidebar.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\sidebar\sidebar.component.ts" />
     <TypeScriptCompile Include="src\app\site\deployment-source-setup\deployment-source-setup.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\deployment-source-setup\deployment-source-setup.component.ts" />
     <TypeScriptCompile Include="src\app\site\deployment-source\deployment-source.component.spec.ts" />
@@ -489,6 +589,21 @@
     <TypeScriptCompile Include="src\app\site\deployment-source\deployment.ts" />
     <TypeScriptCompile Include="src\app\site\function-runtime\function-runtime.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\function-runtime\function-runtime.component.ts" />
+    <TypeScriptCompile Include="src\app\site\create-app\create-app.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\create-app\create-app.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\site-config.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\site-config.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\app-settings\app-settings.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\app-settings\app-settings.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\connection-strings\connection-strings.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\connection-strings\connection-strings.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\general-settings.spec.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\general-settings.component.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\models\java-webcontainer-properties.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\models\java-settings-controls.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config\general-settings\models\general-settings-controls.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config-standalone\site-config-standalone.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\site-config-standalone\site-config-standalone.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-dashboard\site-dashboard.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\site-dashboard\site-dashboard.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-enabled-features\site-enabled-features.component.spec.ts" />
@@ -500,6 +615,15 @@
     <TypeScriptCompile Include="src\app\site\site-notifications\site-notifications.component.ts" />
     <TypeScriptCompile Include="src\app\site\site-summary\site-summary.component.spec.ts" />
     <TypeScriptCompile Include="src\app\site\site-summary\site-summary.component.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-definition\swagger-definition.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-definition\swagger-definition.component.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-frame\ISwaggerEditor.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-frame\swagger-frame.directive.ts" />
+    <TypeScriptCompile Include="src\app\site\swagger-frame\swaggerEditor.ts" />
+    <TypeScriptCompile Include="src\app\slot-new\slot-new.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\slot-new\slot-new.component.ts" />
+    <TypeScriptCompile Include="src\app\slots-list\slots-list.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\slots-list\slots-list.component.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.spec.ts" />
     <TypeScriptCompile Include="src\app\source-control\source-control.component.ts" />
     <TypeScriptCompile Include="src\app\table-function-monitor\table-function-monitor.component.spec.ts" />
@@ -557,9 +681,7 @@
     <Content Include=".ember-cli" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\app\api-details\api-details.component.css" />
     <None Include="src\app\api-new\api-new.component.scss" />
-    <Content Include="src\app\dashboard\dashboard.component.scss" />
     <Content Include="src\app\top-bar\top-bar.component.scss" />
   </ItemGroup>
   <ItemGroup>
@@ -573,6 +695,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\assets\monaco\" />
+    <Folder Include="src\sass\layout\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -586,7 +709,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>9928</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
@@ -604,10 +727,9 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

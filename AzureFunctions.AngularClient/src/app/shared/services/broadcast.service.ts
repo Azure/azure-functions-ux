@@ -1,10 +1,11 @@
-import {Injectable, EventEmitter} from '@angular/core';
-import {Observable, Subscription} from 'rxjs/Rx';
-import {FunctionInfo} from '../models/function-info';
-import {ApiProxy} from '../models/api-proxy';
-import {TutorialEvent, TutorialStep} from '../models/tutorial';
-import {ErrorEvent} from '../models/error-event';
-import {BroadcastEvent} from '../models/broadcast-event';
+import { DirtyStateEvent } from './../models/broadcast-event';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+
+import { FunctionInfo } from '../models/function-info';
+import { TutorialEvent } from '../models/tutorial';
+import { ErrorEvent } from '../models/error-event';
+import { BroadcastEvent } from '../models/broadcast-event';
 
 @Injectable()
 export class BroadcastService {
@@ -16,16 +17,12 @@ export class BroadcastService {
     private integrateChangedEvent: EventEmitter<void>;
     private tutorialStepEvent: EventEmitter<TutorialEvent>;
     private errorEvent: EventEmitter<ErrorEvent>;
-    private versionUpdated: EventEmitter<void>;
+    private dirtyStateEvent: EventEmitter<DirtyStateEvent>;
     private trialExpired: EventEmitter<void>;
     private resetKeySelection: EventEmitter<FunctionInfo>;
-    private refreshPortal: EventEmitter<void>;
-    private apiProxyAddedEvent: EventEmitter<ApiProxy>;
-    private apiProxyDeletedEvent: EventEmitter<ApiProxy>;
-    private apiProxySelectedEvent: EventEmitter<ApiProxy>;
-    private apiProxyUpdatedEvent: EventEmitter<ApiProxy>;
+    private openTabEvent: EventEmitter<string>;
     private clearErrorEvent: EventEmitter<string>;
-    private dirtyStateMap: { [key: string]: number } = {};
+    private dirtyStateMap: { [key: string]: string } = {};
     private defaultDirtyReason = 'global';
 
     constructor() {
@@ -36,16 +33,12 @@ export class BroadcastService {
         this.tutorialStepEvent = new EventEmitter<TutorialEvent>();
         this.integrateChangedEvent = new EventEmitter<void>();
         this.errorEvent = new EventEmitter<ErrorEvent>();
-        this.versionUpdated = new EventEmitter<void>();
         this.trialExpired = new EventEmitter<void>();
         this.functionNewEvent = new EventEmitter<any>();
         this.resetKeySelection = new EventEmitter<FunctionInfo>();
-        this.refreshPortal = new EventEmitter<void>();
-        this.apiProxyAddedEvent = new EventEmitter<ApiProxy>();
-        this.apiProxyDeletedEvent = new EventEmitter<ApiProxy>();
-        this.apiProxySelectedEvent = new EventEmitter<ApiProxy>();
-        this.apiProxyUpdatedEvent = new EventEmitter<ApiProxy>();
         this.clearErrorEvent = new EventEmitter<string>();
+        this.openTabEvent = new EventEmitter<string>();
+        this.dirtyStateEvent = new EventEmitter<DirtyStateEvent>();
     }
 
     broadcast<T>(eventType: BroadcastEvent, obj?: T) {
@@ -59,35 +52,33 @@ export class BroadcastService {
     }
 
     setDirtyState(reason?: string) {
+        this.broadcast<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: true, reason: reason });
+
         reason = reason || this.defaultDirtyReason;
-        if (this.dirtyStateMap[reason]) {
-            this.dirtyStateMap[reason]++;
-        } else {
-            this.dirtyStateMap[reason] = 1;
-        }
+        this.dirtyStateMap[reason] = reason;
     }
 
     clearDirtyState(reason?: string, all?: boolean) {
         reason = reason || this.defaultDirtyReason;
 
-        if (!this.dirtyStateMap[reason]) return;
-
-        if (all) {
-            delete this.dirtyStateMap[reason];
-        } else {
-            this.dirtyStateMap[reason]--;
+        if (!this.dirtyStateMap[reason]) {
+            return;
         }
+
+        this.broadcast<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: false, reason: reason });
+        delete this.dirtyStateMap[reason];
     }
 
     getDirtyState(reason?: string) {
         if (reason) {
-            return (this.dirtyStateMap[reason] || 0) > 0;
+            return this.dirtyStateMap[reason];
         } else {
-            return this.isEmptyMap(this.dirtyStateMap);
+            return !this.isEmptyMap(this.dirtyStateMap);
         }
     }
 
     clearAllDirtyStates() {
+        this.broadcast<DirtyStateEvent>(BroadcastEvent.DirtyStateChange, { dirty: false, reason: null });
         this.dirtyStateMap = {};
     }
 
@@ -120,39 +111,23 @@ export class BroadcastService {
 
             case BroadcastEvent.IntegrateChanged:
                 return this.integrateChangedEvent;
-
             case BroadcastEvent.Error:
                 return this.errorEvent;
-
-            case BroadcastEvent.VersionUpdated:
-                return this.versionUpdated;
 
             case BroadcastEvent.TrialExpired:
                 return this.trialExpired;
 
-            case BroadcastEvent.FunctionNew:
-                return this.functionNewEvent;
-
             case BroadcastEvent.ResetKeySelection:
                 return this.resetKeySelection;
 
-            case BroadcastEvent.RefreshPortal:
-                return this.refreshPortal;
-
-            case BroadcastEvent.ApiProxyAdded:
-                return this.apiProxyAddedEvent;
-
-            case BroadcastEvent.ApiProxyDeleted:
-                return this.apiProxyDeletedEvent;
-
-            case BroadcastEvent.ApiProxySelected:
-                return this.apiProxySelectedEvent;
-
-            case BroadcastEvent.ApiProxyUpdated:
-                return this.apiProxyUpdatedEvent;
-
             case BroadcastEvent.ClearError:
                 return this.clearErrorEvent;
+
+            case BroadcastEvent.OpenTab:
+                return this.openTabEvent;
+
+            case BroadcastEvent.DirtyStateChange:
+                return this.dirtyStateEvent;
         }
     }
 }

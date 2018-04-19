@@ -1,5 +1,6 @@
-a {
-    text-decoration: none;
+a{
+    cursor: pointer;
+    color: $primary-color;
 }
 
 h1, h2, h3, h4{
@@ -25,12 +26,14 @@ h1, h2, h3, h4{
     @extend .text;
     font-size: 18px;
     font-weight: lighter;
+    color: $heading-text-color;
 }
 
 .text-level2-heading {
     @extend .text;
     font-size: 15px;
     font-weight: lighter;
+    color: $heading-text-color;
 }
 
 .text-subheading {

@@ -3,6 +3,7 @@ export interface ErrorEvent {
     errorId: string;
     errorType: ErrorType;
     details?: string;
+    resourceId: string;
 }
 
 export enum ErrorType {

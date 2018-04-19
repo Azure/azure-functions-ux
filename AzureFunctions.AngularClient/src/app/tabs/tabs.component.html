@@ -1,18 +1,25 @@
-<nav class="tabs">
+<nav class="tabs-wrapper">
     <!--<tutorial></tutorial>-->
 
     <ul>
       <li *ngFor="let tab of tabs"
-          [class.tab-label]="!tab.active"
+          [class.tab-label]="!tab.active || tab.closeable"
           [class.tab-label-selected]="tab.active"
+          [class.closeable]="tab.closeable"
           (click)="selectTab(tab)"
-          class="clickable tab">
+          class="clickable">
 
+        <img *ngIf="tab.iconUrl" [src]="tab.iconUrl" />
         <span >{{tab.title}}</span>
-        <span *ngIf="tab.closeable" (click)="closeTab(tab)"><i class="fa fa-times" aria-hidden="true"></i></span>
+
+        <span *ngIf="tab.closeable" class="close-button" (click)="closeTab(tab)">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </span>
+        <div class="bottom" *ngIf="tab.active && tab.closeable"></div>
       </li>
     </ul>
     <div class="tab-content">
+        <busy-state name="site-tabs"></busy-state>
         <ng-content></ng-content>
     </div>
 </nav>

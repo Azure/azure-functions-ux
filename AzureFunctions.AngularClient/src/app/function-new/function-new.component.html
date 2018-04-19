@@ -1,13 +1,8 @@
-<div class="newfunc-container">
+<div class="newfunc-container" >
 
-    <div *ngIf="disabled">
-        <br />
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            {{ 'readOnly' | translate }}
-        </div>
-    </div>
+    <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
 
-    <div *ngIf="!disabled && functionsInfo">
+    <div *ngIf="functionsInfo" [fnWriteAccess]="functionApp">
         <div class="choose">
             <span class="text-level1-heading">{{ 'functionNew_chooseTemplate' | translate }}</span>
             <span class="text-level1-heading quickstart" (click)="quickstart()">{{ 'functionNew_chooseTemplateQuickstart' | translate }}</span>
@@ -21,7 +16,9 @@
     </div>
 
     <div *ngIf="selectedTemplate">
-        <div *ngIf="templateWarning" class="alert alert-warning alert-dismissible" role="alert" [innerHTML]="templateWarning">
+        <div *ngIf="templateWarning" class="alert alert-warning alert-dismissible" role="alert">
+            <div [innerHTML]="templateWarning"></div>
+            <div *ngIf="addLinkToAuth" class="link" (click)="onAuth()">{{ 'binding_AADLinkAuth' | translate }}</div>
         </div>
         <h3>{{ 'functionNew_nameYourFunction' | translate }}</h3>
         <input type="text"
@@ -32,6 +29,8 @@
 
         <pop-over *ngIf="!!functionNameError" [message]="functionNameError" [isInputError]="true">
         </pop-over>
+
+        <div class="function-name-separator"></div>
 
         <!--<div *ngIf="!!functionNameError" class="error-output">{{functionNameError}}</div>-->
 
@@ -69,9 +68,19 @@
                  (remove)="onRemoveBinding($event)"
                  (update)="onUpdateBinding($event)"></binding>
 
+        <div *ngIf="model.trigger && model.trigger.type === 'eventGridTrigger'" class="alert alert-warning alert-dismissible" role="alert">
+            {{ 'eventGrid_createMessage' | translate }}
+        </div>
+
         <button [class.custom-button]="areInputsValid"
                 [class.custom-button-disabled]="!areInputsValid"
                 style="display: block; margin-top: 40px"
                 (click)="onCreate()">{{ 'create' | translate }}</button>
+
+        <div *ngIf="showAADExpressRegistration">
+            <br/>
+            <button class="custom-button" (click)="createAADApplication()" [disabled]="showTryView">{{ 'expressAADRegistration' | translate }}</button>
+        </div>
+
     </div>
 </div>

@@ -1,0 +1,27 @@
+<div *ngIf="readOnly">
+  <br />
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'readOnly' | translate }} <span *ngIf="appNode" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+  </div>
+</div>
+
+<div *ngIf="readOnlySourceControlled">
+  <br />
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'readOnlySourceControlled' | translate }} <span *ngIf="appNode" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+  </div>
+</div>
+
+<div *ngIf="readWriteSourceControlled">
+  <br />
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'readWriteSourceControlled' | translate }} <span *ngIf="appNode" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+  </div>
+</div>
+
+<div *ngIf="readOnlySlots">
+  <br />
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    {{ 'readOnlySlots' | translate }} <span *ngIf="appNode" class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+  </div>
+</div>

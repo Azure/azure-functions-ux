@@ -1,3 +1,75 @@
+
+/*
+Styles only available in tabs component
+*/
+.tabs-wrapper{
+    min-width: 950px;
+
+    ul{
+        box-sizing: border-box;
+        list-style-type: none;
+        padding-left: 0px;
+        margin: 0px;
+        border-bottom: $border;
+    }
+
+    li{
+        box-sizing: border-box;
+        display: inline-block;
+        border-top-width: 0px;
+        text-align: center;
+        padding: 8px 25px;
+        min-width: 150px;
+        outline: none;
+        margin-left: 0px;
+        position: relative;
+
+        &.not-closable{
+            padding: 8px 25px;
+        }
+
+        &.closeable{
+            border: 1px #d8e1e6 solid;
+            border-bottom: none;
+            padding: 8px 15px 12px 15px;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            margin-left: 10px;
+        }
+
+        // Simulate a "first-of-class" selector
+        &.closeable ~ .closeable{
+            margin-left: 0px;
+        }
+
+        .bottom{
+            position: absolute;
+            bottom: -1px;
+            background-color: $body-bg-color;
+            height: 1px;
+            width: 100%;
+            left: 0px;
+        }
+
+        img{
+            height: 16px;
+            width: 16px;
+            margin-right: 2px;
+        }
+
+        .close-button{
+            margin-left: 5px;
+        }
+    }
+
+    .tab-content{
+        background-color: $body-bg-color;
+    }
+}
+
+/*
+Shared global tab styles
+*/
 .tab-label {
     @extend .text-subheading;
     padding-bottom: 12px;
@@ -7,11 +79,12 @@
     cursor: pointer;
     margin-left: 10px;
     color: $primary-color;
+
+    &:hover{
+        color: $default-text-color;
+    }
 }
 
-.tab-label:hover {
-    color: $default-text-color;
-}
 
 .tab-label-selected {
     @extend .text-subheading;
@@ -20,6 +93,10 @@
     cursor: pointer;
     margin-left: 10px;
     color: $default-text-color;
+
+    &.closeable{
+        background-color: $body-bg-color;
+    }
 }
 
 .tab-label-disabled {

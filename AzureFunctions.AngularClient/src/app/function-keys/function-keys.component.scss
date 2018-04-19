@@ -3,7 +3,7 @@
 .title {
     @extend .text-label;
     font-weight: bold;
-    padding-top: 10px;
+    padding-top: 20px;
 }
 
 .wrapper {
@@ -14,6 +14,11 @@
     margin-right: 20px;
     cursor: pointer;
     color: $primary-color;
+    padding: 6px;
+}
+
+.operation:hover {
+    background-color: $tree-node-hover-color;
 }
 
 .operation-red {

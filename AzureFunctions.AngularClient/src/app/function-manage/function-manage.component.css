@@ -10,26 +10,23 @@ pre {
 .wrapper > div {
     flex-grow: 1;
     border-bottom: 1px solid black;
-    padding: 20px;
+    padding: 20px 0px 20px 0px;
 }
 
-.configure-wrapper {
+
+.title {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.delete-app {
+    padding-left: 50px;
     display: flex;
-    flex-direction: row;
 }
 
-.configure-wrapper > div {
-    padding: 10px;
-}
-
-.configure-wrapper > div:first-child {
-    flex-grow: 1;
-    min-width: 20%;
-}
-
-.configure-wrapper > div:last-child {
-    flex-grow: 4;
-    min-width: 80%
+.delete-app > img {
+    width: 16px;
+    height: 16px;
 }
 
 #function-settings {
@@ -43,10 +40,9 @@ pre {
 }
 
 #submit-button {
-    margin-left: 15px;
     display: inline;
     padding: 6px 25px 6px 25px;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
     background-image: none;
     border: 1px solid transparent;
@@ -65,4 +61,9 @@ pre {
 
 #submit-button:hover {
     background-color: #d9000f;
+}
+
+.function-state {
+    display: flex;
+    align-items: center;
 }

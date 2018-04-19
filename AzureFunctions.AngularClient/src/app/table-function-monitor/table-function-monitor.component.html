@@ -4,9 +4,9 @@
         <span class="heading">{{'functionMonitor_invocationLog' | translate}}</span>
         <span id="refresh-icon" (click)="refreshFuncMonitorGridData()" style="padding-left: 10px;"><i class="fa fa-refresh"></i> Refresh</span>
         <span class="float-right">
-       <span *ngIf="_globalStateService.showTryView" [tooltip]="freeAccountTooltip"
+       <span *ngIf="globalStateService.showTryView" [tooltip]="freeAccountTooltip"
         tooltipPlacement="right" class="pulse-button-disabled">{{'functionMonitor_pulseUrl' | translate}}</span>
-        <a *ngIf ="!_globalStateService.showTryView"  [attr.href]="pulseUrl" target="_blank">{{'functionMonitor_pulseUrl' | translate}}</a></span>
+        <a *ngIf ="!globalStateService.showTryView"  [attr.href]="pulseUrl" target="_blank">{{'functionMonitor_pulseUrl' | translate}}</a></span>
         <tooltip-content #freeAccountTooltip>
             <p>
                 {{ 'tryNow_FreeAccountToolTip' | translate }}

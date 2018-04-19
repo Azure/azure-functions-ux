@@ -28,7 +28,7 @@
                     <span class="glyphicon glyphicon-info-sign button-title"></span>
                 </pop-over>
             </div>
-        </div>        
+        </div>
     </div>
 </div>
 
@@ -38,8 +38,8 @@
             <div>
                 <span *ngIf="model.trigger && currentBindingId === model.trigger.id" class="list-group-item active" (click)="onBindingSelect(model.trigger.id)">{{model.trigger.title}}</span>
                 <span *ngIf="model.trigger && currentBindingId !== model.trigger.id" class="list-group-item" (click)="onBindingSelect(model.trigger.id )">{{model.trigger.title}}</span>
-                <span *ngIf="!disabled && !model.trigger && currentBindingId !== 'trigger'" class="list-group-item" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span> {{ 'newTrigger' | translate }}</span>
-                <span *ngIf="!disabled && !model.trigger && currentBindingId === 'trigger'" class="list-group-item active" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span>{{ 'newTrigger' | translate }}</span>
+                <span [fnWriteAccess]="functionApp" *ngIf="!model.trigger && currentBindingId !== 'trigger'" class="list-group-item" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span> {{ 'newTrigger' | translate }}</span>
+                <span [fnWriteAccess]="functionApp" *ngIf="!model.trigger && currentBindingId === 'trigger'" class="list-group-item active" (click)="newBinding('trigger')"><span class="glyphicon glyphicon-plus"></span>{{ 'newTrigger' | translate }}</span>
             </div>
         </div>
     </div>
@@ -49,8 +49,8 @@
                 <span *ngIf="currentBindingId === input.id" class="list-group-item active" (click)="onBindingSelect(input.id)">{{input.title}}</span>
                 <span *ngIf="currentBindingId !== input.id" class="list-group-item" (click)="onBindingSelect(input.id)">{{input.title}}</span>
             </div>
-            <span *ngIf="!disabled && currentBindingId !== 'input'" class="list-group-item" (click)="newBinding('in')"><span class="glyphicon glyphicon-plus"></span> {{ 'newInput' | translate }}</span>
-            <span *ngIf="!disabled && currentBindingId === 'input'" class="list-group-item active" (click)="newBinding('in')"><span class="glyphicon glyphicon-plus"></span>{{ 'newInput' | translate }}</span>
+            <span [fnWriteAccess]="functionApp" *ngIf="currentBindingId !== 'input'" class="list-group-item" (click)="newBinding('in')"><span class="glyphicon glyphicon-plus"></span> {{ 'newInput' | translate }}</span>
+            <span [fnWriteAccess]="functionApp" *ngIf="currentBindingId === 'input'" class="list-group-item active" (click)="newBinding('in')"><span class="glyphicon glyphicon-plus"></span>{{ 'newInput' | translate }}</span>
         </div>
     </div>
     <div class="col-md-4">
@@ -59,8 +59,8 @@
                 <span *ngIf="currentBindingId === input.id" class="list-group-item active" (click)="onBindingSelect(input.id)">{{input.title}}</span>
                 <span *ngIf="currentBindingId !== input.id" class="list-group-item" (click)="onBindingSelect(input.id)">{{input.title}}</span>
             </div>
-            <span *ngIf="!disabled && currentBindingId !== 'output'" class="list-group-item" (click)="newBinding('out')"><span class="glyphicon glyphicon-plus"></span> {{ 'newOutput' | translate }}</span>
-            <span *ngIf="!disabled && currentBindingId === 'output'" class="list-group-item active" (click)="newBinding('out')"><span class="glyphicon glyphicon-plus"></span> {{ 'newOutput' | translate }}</span>
+            <span [fnWriteAccess]="functionApp" *ngIf="currentBindingId !== 'output'" class="list-group-item" (click)="newBinding('out')"><span class="glyphicon glyphicon-plus"></span> {{ 'newOutput' | translate }}</span>
+            <span [fnWriteAccess]="functionApp" *ngIf="currentBindingId === 'output'" class="list-group-item active" (click)="newBinding('out')"><span class="glyphicon glyphicon-plus"></span> {{ 'newOutput' | translate }}</span>
         </div>
     </div>
 </div>
@@ -71,7 +71,7 @@
 <div>
     <binding
         *ngIf="currentBinding"
-        [functionAppInput]="functionInfo.functionApp"
+        [functionAppInput]="functionInfo"
         [allBindings]="model.config.bindings"
         [binding]="currentBinding"
         (remove)="onRemoveBinding($event)"

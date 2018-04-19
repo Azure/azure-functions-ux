@@ -1,8 +1,11 @@
 <div>
+    <div class="alert alert-warning alert-dismissible" role="alert" [innerHTML]="'monitoring_appInsights' | translate">
+    </div>
+
     <div id="function-aggregates">
         <aggregate-block [title]="successAggregateHeading" [value]="successAggregate" style="float:left; width: 45%; margin-right:2%">Loading...</aggregate-block>
         <aggregate-block [title]="errorsAggregateHeading" [value]="errorsAggregate" style="float:right; width: 45%">Loading...</aggregate-block>
         <div style="clear: both"></div>
     </div>
-    <table-function-monitor [selectedFunction]="selectedFunction" [columns]="columns" [data]="rows" [pulseUrl]="pulseUrl" [selectedFuncId]="functionId"></table-function-monitor>
+    <table-function-monitor [selectedFunction]="currentFunction" [columns]="columns" [data]="rows" [pulseUrl]="pulseUrl" [selectedFuncId]="functionId"></table-function-monitor>
 </div>

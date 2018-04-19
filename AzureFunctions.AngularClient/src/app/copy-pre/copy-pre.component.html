@@ -1,12 +1,12 @@
 <div class="wrapper">
-    <label *ngIf="label" style="padding-right: 20px">{{label}}</label>
-    <label *ngIf="!label"></label>
-    <div>
-        <pre (click)="highlightText($event)">{{content}}</pre>
-    </div>
-    <div title="{{ 'copypre_copyClipboard' | translate }}" (click)="copyToClipboard($event)">
-        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
-            <i class="fa fa-clone clickable"></i>
-        </pop-over>
-    </div>
+  <label *ngIf="label" style="padding-right: 20px">{{label}}</label>
+  <label *ngIf="!label"></label>
+  <div>
+    <pre (click)="highlightText($event)">{{content}}</pre>
+  </div>
+  <div title="{{ 'copypre_copyClipboard' | translate }}" (click)="copyToClipboard()">
+    <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
+      <i class="text-hl fa fa-copy clickable"><span class="fix-font">&nbsp;{{ 'copypre_copy' | translate }}</span></i>
+    </pop-over>
+  </div>
 </div>

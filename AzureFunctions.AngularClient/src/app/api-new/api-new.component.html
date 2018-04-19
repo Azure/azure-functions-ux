@@ -1,114 +1,106 @@
 <div class="newproxy-container">
 
+  <div class="text-level1-heading">{{ 'apiProxy_new' | translate }} </div>
 
+  <app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
 
-    <form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)">
+  <form [formGroup]="complexForm" (ngSubmit)="submitForm()">
 
-        <div *ngIf="!isEnabled" class="alert alert-warning alert-dismissible" role="alert">
-            {{ 'apiProxies_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
-        </div>
+    <div *ngIf="!isEnabled" class="alert alert-warning alert-dismissible" role="alert">
+      {{ 'apiProxies_warningOff' | translate }} <span class="link" (click)="onFunctionAppSettingsClicked()">{{ 'appFunctionSettings_functionAppSettings' | translate }}</span>.
+    </div>
 
-        <div class="edit">
-            <div>
-                <label class="control-label">
+    <div class="edit">
+      <div>
+        <label class="control-label">
                     {{ 'apiProxy_name' | translate }}
                 </label>
-            </div>
+      </div>
 
-            <input type="text" class="long"
-                   [formControl]="complexForm.controls['name']"
-                   placeholder="{{ 'apiProxy_name' | translate }}"
-                   [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
+      <input [fnWriteAccess]="functionApp" type="text" class="long" [formControl]="complexForm.controls['name']" placeholder="{{ 'apiProxy_name' | translate }}"
+        [ngClass]="{'input-error':!complexForm.controls['name'].valid}">
 
-            <pop-over *ngIf="!complexForm.controls['name'].valid"
-                      [message]="complexForm.controls['name'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_errorExists' | translate)"
-                      [isInputError]="true">
-            </pop-over>
-        </div>
+      <pop-over *ngIf="!complexForm.controls['name'].valid" [message]="complexForm.controls['name'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_errorExists' | translate)"
+        [isInputError]="true">
+      </pop-over>
+    </div>
 
-        <div style="display: flex;" class="edit">
-            <div style="flex-grow:1">
-                <div>
-                    <label class="control-label" name="for1">
+    <div style="display: flex;" class="edit">
+      <div style="flex-grow:1">
+        <div>
+          <label class="control-label" name="for1">
                         {{ 'apiProxy_routeTemplate' | translate }}
                     </label>
-                </div>
+        </div>
 
-                <input type="text" name="routeTemplate"
-                        [formControl]="complexForm.controls['routeTemplate']"
-                        placeholder="{{ 'apiProxy_routeTemplate' | translate }}"
-                        [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
-                
+        <input [fnWriteAccess]="functionApp" type="text" name="routeTemplate" [formControl]="complexForm.controls['routeTemplate']"
+          placeholder="{{ 'apiProxy_routeTemplate' | translate }}" [ngClass]="{'input-error':!complexForm.controls['routeTemplate'].valid}">
 
-                <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid"
-                          [message]="('filedRequired' | translate)"
-                          [isInputError]="true">
-                </pop-over>
-            </div>
 
-            <div style="flex-grow:1">
-                <label class="control-label" name="for2">
+        <pop-over *ngIf="!complexForm.controls['routeTemplate'].valid" [message]="('filedRequired' | translate)" [isInputError]="true">
+        </pop-over>
+      </div>
+
+      <div style="flex-grow:1">
+        <label class="control-label" name="for2">
                     {{ 'apiProxy_allowedHttpMethods' | translate }}
                 </label>
 
-                <div>
-                    <select name="methodSelectionType"
-                            [formControl]="complexForm.controls['methodSelectionType']">
+        <div>
+          <select [fnWriteAccess]="functionApp" name="methodSelectionType" [formControl]="complexForm.controls['methodSelectionType']">
                         <option value="All">{{ 'apiProxy_allMethods' | translate }}</option>
                         <option value="Selected">{{ 'apiProxy_seectedMethods' | translate }}</option>
                     </select>
-                </div>
-            </div>
         </div>
+      </div>
+    </div>
 
-        <div *ngIf="isMethodsVisible" class="methods-list">
-            <div>
-                <input [formControl]="complexForm.controls['method_GET']" type="checkbox" name="get"> GET
-            </div>
-            <div>
-                <input [formControl]="complexForm.controls['method_POST']" type="checkbox" name="post"> POST
-            </div>
-            <div>
-                <input [formControl]="complexForm.controls['method_DELETE']" type="checkbox" name="delete"> DELETE
-            </div>
-            <div>
-                <input [formControl]="complexForm.controls['method_HEAD']" type="checkbox" name="head"> HEAD
-            </div>
-            <div>
-                <input [formControl]="complexForm.controls['method_PATCH']" type="checkbox" name="patch"> PATCH
-            </div>
-            <div>
-                <input [formControl]="complexForm.controls['method_PUT']" type="checkbox" name="put"> PUT
-            </div>
-            <div>
-                <input [formControl]="complexForm.controls['method_OPTIONS']" type="checkbox" name="options"> OPTIONS
-            </div>
-            <div>
-                <input [formControl]="complexForm.controls['method_TRACE']" type="checkbox" name="trace"> TRACE
-            </div>
-        </div>
+    <div *ngIf="isMethodsVisible" class="methods-list">
+      <div>
+        <input [formControl]="complexForm.controls['method_GET']" type="checkbox" name="get"> GET
+      </div>
+      <div>
+        <input [formControl]="complexForm.controls['method_POST']" type="checkbox" name="post"> POST
+      </div>
+      <div>
+        <input [formControl]="complexForm.controls['method_DELETE']" type="checkbox" name="delete"> DELETE
+      </div>
+      <div>
+        <input [formControl]="complexForm.controls['method_HEAD']" type="checkbox" name="head"> HEAD
+      </div>
+      <div>
+        <input [formControl]="complexForm.controls['method_PATCH']" type="checkbox" name="patch"> PATCH
+      </div>
+      <div>
+        <input [formControl]="complexForm.controls['method_PUT']" type="checkbox" name="put"> PUT
+      </div>
+      <div>
+        <input [formControl]="complexForm.controls['method_OPTIONS']" type="checkbox" name="options"> OPTIONS
+      </div>
+      <div>
+        <input [formControl]="complexForm.controls['method_TRACE']" type="checkbox" name="trace"> TRACE
+      </div>
+    </div>
 
-        <div>
-            <div>
-                <label class="control-label">
+    <div>
+      <div>
+        <label class="control-label">
                     {{ 'apiProxy_backendUrl' | translate }}
                 </label>
-            </div>
+      </div>
 
-            <input type="text" name="backendUri" class="long"
-                   [formControl]="complexForm.controls['backendUri']"
-                   placeholder="{{ 'apiProxy_backendUrl' | translate }}"
-                   [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
+      <input [fnWriteAccess]="functionApp" type="text" name="backendUri" class="long" [formControl]="complexForm.controls['backendUri']"
+        placeholder="{{ 'apiProxy_backendUrl' | translate }}" [ngClass]="{'input-error':!complexForm.controls['backendUri'].valid && complexForm.controls['backendUri'].touched}">
 
-            <pop-over *ngIf="!complexForm.controls['backendUri'].valid" 
-                       [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)" [isInputError]="true">
-            </pop-over>
-        </div>
+      <pop-over *ngIf="!complexForm.controls['backendUri'].valid" [message]="complexForm.controls['backendUri'].errors['required'] ? ('filedRequired' | translate) :  ('apiProxy_backanrUrlStart' | translate)"
+        [isInputError]="true">
+      </pop-over>
+    </div>
 
-        <div>
-            <button type="submit" [class.custom-button-disabled]="!complexForm.valid" [disabled]="!complexForm.valid" class="custom-button">{{ 'create' | translate }}</button>
-        </div>
+    <div>
+      <button [fnWriteAccess]="functionApp" type="submit" [class.custom-button-disabled]="!complexForm.valid" [disabled]="!complexForm.valid"
+        class="custom-button">{{ 'create' | translate }}</button>
+    </div>
 
-    </form>
+  </form>
 </div>
-

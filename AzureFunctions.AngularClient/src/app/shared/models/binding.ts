@@ -1,9 +1,12 @@
-﻿export enum BindingType {
+﻿import { AADPermissions } from './microsoft-graph';
+
+export enum BindingType {
     timerTrigger = <any>"timerTrigger",
     eventHubTrigger = <any>"eventHubTrigger",
     eventHub = <any>"eventHub",
     queue = <any>"queue",
     queueTrigger = <any>"queueTrigger",
+    sqlQueueTrigger = <any>"sqlQueueTrigger",
     blob = <any>"blob",
     blobTrigger = <any>"blobTrigger",
     apiHubFile = <any>"apiHubFile",
@@ -20,16 +23,24 @@
     mobileTable = <any>"mobileTable",
     notificationHub = <any>"notificationHub",
     sendGrid = <any>"sendGrid",
-    twilioSms = <any>"twilioSms"
+    twilioSms = <any>"twilioSms",
+    aadtoken = <any>"aadToken",
+    excel = <any>"excel",
+    token = <any>"token",
+    outlook = <any>"outlook",
+    onedrive = <any>"onedrive",
+    GraphWebhook = <any>"GraphWebhook",
+    GraphWebhookTrigger = <any>"GraphWebhookTrigger",
+    GraphWebhookCreator = <any>"GraphWebhookCreator",
+    eventGridTrigger = <any>"eventGridTrigger"
 }
 
 export interface BindingConfig {
-    $shcema: string,
+    $schema: string,
     contentVersion: string,
     variables: any,
     bindings: Binding[]
 }
-
 
 export interface Binding {
     type: BindingType;
@@ -38,14 +49,16 @@ export interface Binding {
     direction: DirectionType;
     settings: Setting[];
     rules: Rule[];
+    warnings: Warning[];
     filters?: string[];
     enabledInTryMode?: boolean;
     actions: Action[];
+    AADPermissions?: AADPermissions[];
 }
 
 export interface Setting {
     name: string;
-    value: SettingType;
+    value: string;
     resource?: ResourceType;
     required?: boolean;
     label: string;
@@ -55,6 +68,7 @@ export interface Setting {
     validators?: Validator[];
     placeholder?: string;
     metadata?: any;
+    isHidden?: boolean;
 }
 
 export interface Rule {
@@ -70,6 +84,19 @@ export interface RuleValue {
     display: string;
     hiddenSettings: string[];
     shownSettings: string[];
+    shownCheckboxOptions: CheckboxListOptions;
+}
+
+export interface CheckboxListOptions {
+    name: string;
+    values: EnumOption[];
+}
+
+export interface Warning {
+    text: string;
+    type: string;
+    variablePath: string;
+    visible?: boolean; // for UI only
 }
 
 export interface Validator {
@@ -80,7 +107,7 @@ export interface Validator {
 export interface EnumOption {
     value: string;
     display: string;
-} 
+}
 
 export enum DirectionType {
     trigger = <any>"trigger",
@@ -94,17 +121,21 @@ export enum ResourceType {
     EventHub = <any>"EventHub",
     ServiceBus = <any>"ServiceBus",
     DocumentDB = <any>"DocumentDB",
-    ApiHub = <any>"ApiHub"
+    ApiHub = <any>"ApiHub",
+    AppSetting = <any>"AppSetting",
+    MSGraph = <any>"MSGraph"
 }
 
-export enum SettingType {
-    string = <any>"string",
-    boolean = <any>"boolean",
-    label = <any>"label",
-    enum = <any>"enum",
-    int = <any>"int",
-    picker = <any>"picker",
-    checkBoxList = <any>"checkBoxList"
+export class SettingType {
+    public static string = "string";
+    public static boolean = "boolean";
+    public static label = "label";
+    public static enum = "enum";
+    public static int = "int";
+    public static picker = "picker";
+    public static checkBoxList = "checkBoxList";
+    public static appSetting = "appSetting";
+    public static eventGrid = "eventGrid";
 }
 
 export interface UIFunctionConfig {

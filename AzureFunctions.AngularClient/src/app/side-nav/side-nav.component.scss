@@ -25,36 +25,16 @@
     }
 }
 
-#sidenav-search{
-    padding-left: 30px;
-}
-
-.sidenav-search-highlight{
-    background-color: $warning-color-faded;
-}
-
-#sidenav-search-icon{
-    position: absolute;
-    top: 12px;
-    left: 13px;
-    width: 14px;
-    height: 14px;
-
-    @include flip-horizontal();
-}
-
-#sidenav-search-clear{
-    position: absolute;
-    top: 9px;
-    right: 13px;
-    color: $error-color;
-    font-size: 16px;
-}
-
 #sidenav-subs{
     margin-top: 5px;
 }
 
 :host /deep/ multi-drop-down .multi-drop-down-container{
     width: $sidenav-width;
+}
+
+#tree-view-container{
+    &:focus{
+        outline: none;
+    }
 }

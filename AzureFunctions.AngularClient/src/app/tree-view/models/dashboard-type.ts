@@ -1,5 +1,5 @@
 // If you change any of the names here, make sure to update any templates that reference them
-export enum DashboardType{
+export enum DashboardType {
     none,
     apps,
     app,
@@ -8,8 +8,9 @@ export enum DashboardType{
     createApp,
     // advanced,
     // advancedWrite,
+    createFunctionAutoDetect,
     createFunction,
-    functionQuickstart,
+    createFunctionQuickstart,
     functions,
     function,
     functionIntegrate,
@@ -18,4 +19,6 @@ export enum DashboardType{
     createProxy,
     proxies,
     proxy,
+    slots,
+    createSlot
 }

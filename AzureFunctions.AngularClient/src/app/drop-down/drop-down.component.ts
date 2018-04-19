@@ -1,30 +1,55 @@
-import {Component, OnInit, EventEmitter } from '@angular/core';
-import {DropDownElement} from '../shared/models/drop-down-element';
+import { Subject } from 'rxjs/Subject';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, ViewChild, Input, Output } from '@angular/core';
+import { DropDownElement } from '../shared/models/drop-down-element';
 
 
 @Component({
-  selector: 'drop-down',
-  templateUrl: './drop-down.component.html',
-  styleUrls: ['./drop-down.component.css'],
-  inputs: ['options', 'placeholder', 'resetOnChange', 'disabled', 'selectedValue'],
-  outputs: ['value']
+    selector: 'drop-down',
+    templateUrl: './drop-down.component.html',
+    styleUrls: ['./drop-down.component.scss']
 })
-export class DropDownComponent<T> {
+export class DropDownComponent<T> implements OnInit, OnChanges {
 
-    public placeholder: string;
-    public empty: any;
-    public disabled: boolean;
-    public value: EventEmitter<T>;
-    private _options: DropDownElement<T>[];
+    @Input() group: FormGroup;
+    @Input() control: FormControl;
+    @Input() name: string;
+    @Input() placeholder: string;
+    @Input() disabled: boolean;
+    @Input() highlightDirty: boolean;
+
+    @Output() value: EventEmitter<T>;
+    @Output() blur = new Subject<any>();
+
     public selectedElement: DropDownElement<T>;
+    public empty: any;
+    public _options: DropDownElement<T>[];
+
+    @ViewChild('selectInput') selectInput: any;
 
     constructor() {
         this.value = new EventEmitter<T>();
     }
 
-    set options(value: DropDownElement<T>[]) {
+    setControl() {
+        if (this.group && this.name) {
+            this.control = <FormControl>this.group.controls[this.name];
+        }
+    }
+
+    ngOnInit() {
+        this.setControl();
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes['group'] || changes['name']) {
+            this.setControl();
+        }
+    }
+
+    @Input() set options(value: DropDownElement<T>[]) {
         this._options = [];
-        for (var i = 0; i < value.length; i++) {
+        for (let i = 0; i < value.length; i++) {
             this._options.push({
                 id: i,
                 displayLabel: value[i].displayLabel,
@@ -34,34 +59,55 @@ export class DropDownComponent<T> {
         }
         // If there is only 1, auto-select it
         if (this._options.find(d => d.default)) {
-            this.onSelect(this._options.find(d => d.default).id.toString());
+            if (this.control) {
+                this.onSelectValue(this._options.find(d => d.default).value);
+            } else {
+                this.onSelect(this._options.find(d => d.default).id.toString());
+            }
         } else if (this._options.length > 0) {
-            this.onSelect(this._options[0].id.toString());
+            if (this.control) {
+                this.onSelectValue(this._options[0].value);
+            } else {
+                this.onSelect(this._options[0].id.toString());
+            }
         } else if (this._options.length === 0) {
             delete this.selectedElement;
         }
     }
 
-    set resetOnChange(value) {
+    @Input() set resetOnChange(_) {
         delete this.selectedElement;
     }
 
-    set selectedValue(value: T) {
+    @Input() set selectedValue(value: T) {
         if ((this.selectedElement.value !== value) && (value)) {
             this.onSelectValue(value);
         }
     }
 
     onSelect(id: string) {
-        var element = this._options.find(e => e.id.toString() === id);
+        const element = this._options.find(e => e.id.toString() === id);
         this.selectedElement = element;
         this.value.emit(element.value);
     }
 
     onSelectValue(value: T) {
-        var element = this._options.find(e => e.value === value);
+        const element = this._options.find(e => e.value === value);
         this.selectedElement = element;
         this.value.emit(element.value);
     }
+
+    onBlur(event: any) {
+        this.blur.next(event);
+    }
+
+    focus() {
+        if (this.selectInput) {
+            setTimeout(() => {
+                this.selectInput.nativeElement.focus();
+            });
+        }
+    }
+
 
 }

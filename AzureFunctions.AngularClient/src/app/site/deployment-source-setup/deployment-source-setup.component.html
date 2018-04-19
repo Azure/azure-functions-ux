@@ -6,7 +6,7 @@
         <div *ngFor="let provider of providers"
              (click)="onProviderSelect(provider.type)"
              class="deploy-setup-option"
-             [class.deploy-setup-option-selected]="provider.type === model.providerType">
+             [class.deploy-setup-option-selected]="provider.type === model?.providerType">
 
             <img [src]="provider.imgUrl"/>
             <div>
@@ -18,9 +18,9 @@
 
     </div>
 
-    <div *ngIf="model.providerType !== 0" class="deploy-setup-col">
+    <div *ngIf="model && model.providerType !== 0" class="deploy-setup-col">
         <h3>Configure your deployment from GitHub</h3>
-        
+
         <!-- TODO: ellhamai - Need to fix the loading icon -->
         <div *ngIf="isProviderLoading" id="deploy-setup-provider-loading">
             <div class="busy-state-progress-dots busy-state-icon">
@@ -40,7 +40,7 @@
                            (value)="onOrganizationSelect($event)"
                            [selectedValue]="model.organization"></drop-down>
             </div>
-            
+
             <div class="deploy-setup-ctrl">
                 <label>Repositories</label>
                 <drop-down [options]="repositories"
@@ -55,7 +55,7 @@
                            [selectedValue]="model.branch"></drop-down>
             </div>
 
-            <button [disabled]="!valid" 
+            <button [disabled]="!valid"
                     [class.custom-button-disabled]="!valid"
                     [class.custom-button]="valid"
                     (click)="setup()">

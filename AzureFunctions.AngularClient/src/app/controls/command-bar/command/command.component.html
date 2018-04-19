@@ -1,0 +1,3 @@
+  <a class="clickable command" [class.disabled-command]="disabled" (click)="onClick($event)" tabindex="0" (keydown)="onKeyPress($event)">
+      <img [src]="iconUrl" />{{ displayText }}
+  </a>

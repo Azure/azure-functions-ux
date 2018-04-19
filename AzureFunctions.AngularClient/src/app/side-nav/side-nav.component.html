@@ -2,31 +2,30 @@
 
     <div id="sidenav-menu" *ngIf="!tryFunctionApp">
 
-        <input type="text"
-            id="sidenav-search"
-            placeholder="{{ 'search' | translate }}"
-            [value]="searchTerm"
-            (keyup)="search($event)"
-            [class.sidenav-search-highlight]="hasValue" />
-
-        <img id="sidenav-search-icon" src="images/search.svg" />
-
-        <span *ngIf="!!searchTerm" id="sidenav-search-clear" (click)="clearSearch()">
-            <i class="fa fa-times"></i>
-        </span>
+        <search-box (onInputChange)="search($event)"
+                    (onClear)="clearSearch()"
+                    [value]="searchTerm"
+                    [placeholder]="'search' | translate"
+                    [warning]="true"
+                    [ariaLabel]="'searchFunctionApps' | translate">
+        </search-box>
 
         <div id="sidenav-subs">
             <multi-drop-down
                 [inputOptions]="subscriptionOptions"
                 [displayText]="subscriptionsDisplayText"
-                (selectedValues)="onSubscriptionsSelect($event)"></multi-drop-down>
+                (selectedValues)="onSubscriptionsSelect($event)"
+                [allItemsDisplay]="allSubscriptions"
+                [numberItemsDisplay]="numberSubscriptions"></multi-drop-down>
         </div>
 
     </div>
 
-    <!--<div *ngIf="selectedSubscriptions.length > 0">-->
-    <div>
-        <tree-view *ngIf="rootNode" [node]="rootNode" [levelInput]="0"></tree-view>
+    <div #treeViewContainer
+         id="tree-view-container"
+         role="tree"
+         [attr.aria-label]="'functionApps' | translate">
+        <tree-view *ngIf="rootNode" [node]="rootNode" [level]="0"></tree-view>
     </div>
 
 </div>

@@ -7,12 +7,11 @@
 
     <img id="site-manage-search-icon" src="images/search.svg" />
 </div>
+
 <div>
     <div class="site-manage-col">
         <div *ngFor="let group of groups1" class="site-manage-feature-group">
-            <feature-group [inputGroup]="group"
-                        [searchTermInput]="searchTerm"
-                        (openTab)="openTab($event)">
+            <feature-group [inputGroup]="group" [searchTermInput]="searchTerm">
             </feature-group>
         </div>
     </div>
@@ -29,7 +28,6 @@
         </div>
     </div>
 
-
     <div style="clear: both" ></div>
 </div>
-</div>
+</div><!-- /site-manage-container -->

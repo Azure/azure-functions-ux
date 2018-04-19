@@ -1,21 +1,34 @@
 <div id="site-dashboard-container">
 
-<img id="site-dashboard-pin" class="link" src="images/pin.svg" (click)="pinPart()"/>
+    <img *ngIf="!isStandalone" id="site-dashboard-pin" class="link" src="images/pin.svg" (click)="pinPart()" />
 
-<tabs (tabSelected) = 'onTabSelected($event)' (tabClosed) = 'onTabClosed($event)'>
-    
-    <tab [title]="_translateService.instant(Resources.tab_overview)" [id]="TabIds.overview">
-        <site-summary *ngIf="selectedTabId === TabIds.overview" [viewInfoInput]="viewInfo" (openTabEvent)="openTab($event)"></site-summary>
-    </tab>
+    <nav id="site-tabs">
+        <div *ngFor="let info of tabInfos"
+            class="site-tab-label"
+            [class.inactive-label]="!info.active"
+            [class.closeable]="info.closeable"
+            (click)="selectTab(info)">
 
-    <tab [title]="_translateService.instant(Resources.tab_settings)" [id]="TabIds.functionRuntime">
-        <function-runtime *ngIf="selectedTabId === TabIds.functionRuntime" [viewInfoInput]="viewInfo"></function-runtime>
-    </tab>    
+            <img *ngIf="info.iconUrl" [src]="info.iconUrl" />
+            <span *ngIf="info.dirty">* </span><span [class.tab-diry]="info.dirty">{{info.title}}</span>
 
-    <tab [title]="_translateService.instant(Resources.tab_features)" [id]="TabIds.features">
-        <site-manage *ngIf="selectedTabId === TabIds.features"
-            [viewInfoInput]="viewInfo"
-            (openTabEvent)="openTab($event)"></site-manage>
-    </tab>
-</tabs>
+            <span *ngIf="info.closeable" class="close-button" (click)="closeTab(info)">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </span>
+            <div class="bottom" *ngIf="info.active && info.closeable"></div>
+        </div>
+    </nav>
+
+    <section id="site-tab-content">
+
+        <site-tab *ngFor="let info of tabInfos"
+            [title]="info.title"
+            [id]="info.id"
+            [active]="info.active"
+            [closeable]="info.closeable"
+            [iconUrl]="info.iconUrl"
+            [componentFactory]="info.componentFactory"
+            [componentInput]="info.componentInput"></site-tab>
+
+    </section>
 </div>

@@ -1,0 +1,27 @@
+<div class="textbox-wrapper">
+
+<input *ngIf="!control"
+    type="text"
+    [placeholder]="placeholder" />
+
+<ng-container *ngIf="!!control">
+
+    <input #textboxInput
+        type="text"
+        [formControl]="control"
+        [placeholder]="placeholder"
+        (blur)="onBlur($event)" />
+
+    <div class="validation-error">
+        <pop-over *ngIf="!!control.errors && Obj.keys(control.errors).length > 0"
+                [message]="control.errors[Obj.keys(control.errors)[0]]"
+                popOverClass="pop-over-container pop-over-input-error">
+
+            <span class="fa fa-exclamation input-error"></span>
+
+        </pop-over>
+    </div>
+
+</ng-container>
+
+</div>

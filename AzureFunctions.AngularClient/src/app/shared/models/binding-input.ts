@@ -1,4 +1,4 @@
-﻿import {SettingType, EnumOption, ResourceType, Validator} from './binding';
+﻿import { SettingType, EnumOption, ResourceType, Validator } from './binding';
 
 export class BindingInputBase<T>
 {
@@ -18,6 +18,9 @@ export class BindingInputBase<T>
     validators: Validator[] = [];
     changeValue: (newValue?: any) => void;
     placeholder: string;
+    explicitSave: boolean = false;
+
+    isDisabled: boolean = false;
 }
 
 export class CheckboxInput extends BindingInputBase<boolean>{
@@ -48,6 +51,16 @@ export class TextboxIntInput extends BindingInputBase<number>{
     }
 }
 
+export class EventGridInput extends BindingInputBase<string>{
+
+    subscribeUrl: string;
+    bladeLabel: string;
+
+    constructor() {
+        super();
+        this.type = SettingType.eventGrid;
+    }
+}
 
 export class LabelInput extends BindingInputBase<string>{
     constructor() {
@@ -87,7 +100,7 @@ export class CheckBoxListInput extends BindingInputBase<any>{
             this.value = [];
         }
 
-        var valueDup = this.value.slice(); 
+        var valueDup = this.value.slice();
         this.value = {};
 
         valueDup.forEach((v) => {
@@ -97,6 +110,12 @@ export class CheckBoxListInput extends BindingInputBase<any>{
             if (!this.value[v.value]) {
                 this.value[v.value] = false;
             }
+        });
+    }
+
+    clear() {
+        this.enum.forEach((v) => {
+            this.value[v.value] = false;
         });
     }
 
@@ -127,5 +146,4 @@ export class CheckBoxListInput extends BindingInputBase<any>{
         super();
         this.type = SettingType.checkBoxList;
     }
-
 }

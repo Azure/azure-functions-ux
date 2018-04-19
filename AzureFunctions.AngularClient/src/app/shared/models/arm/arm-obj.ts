@@ -7,7 +7,7 @@ export interface ArmObj<T> {
     properties: T
 }
 
-export interface ArmArrayResult{
-    value : ArmObj<any>[];
+export interface ArmArrayResult<T> {
+    value : ArmObj<T>[];
     nextLink : string;
 }

@@ -1,5 +1,5 @@
 //ref: https://github.com/pleerock/ng2-tooltip/blob/master/src/TooltipContent.ts
-import {Component, Input, AfterViewInit, ElementRef, ChangeDetectorRef} from "@angular/core";
+import { Component, Input, AfterViewInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'tooltip-content',
@@ -9,7 +9,7 @@ import {Component, Input, AfterViewInit, ElementRef, ChangeDetectorRef} from "@a
 export class TooltipContentComponent implements AfterViewInit {
 
     // -------------------------------------------------------------------------
-    // Inputs / Outputs 
+    // Inputs / Outputs
     // -------------------------------------------------------------------------
 
     @Input()

@@ -6,8 +6,10 @@ $qs-footer-bg-color: #004075;
 $qs-footer-link-color: #9cdcff;
 
 $chrome-color : #f7f9fa;
+$back-bar-color: #e8ebed;
 
 $border-selection-color: #419BF3;
+$border-focus: #00bcf2 dashed 1px;
 
 $sidenav-width: 250px;
 $top-bar-height: 40px;
@@ -38,9 +40,12 @@ $primary-color-hover: lighten($primary-color, 10%);
 
 $alt1-color: #6917aa;
 $alt1-color-faded: rgba($alt1-color, 0.18);
+$background-color-disabled: rgba(127, 127, 127, 0.5);
 
+$command-color-hover: #f1f1f8;
 
 // Font colors:
 $value-text-color: #1f2327;
 $label-text-color: #595959;
 $highlight-text-color: #ffed10;
+$heading-text-color: #252525;

@@ -1,0 +1,43 @@
+#create-app-wrapper{
+    padding: 10px 30px;
+
+    img.heading{
+        height: 32px;
+        width: 32px;
+        display: inline-block;
+        vertical-align: bottom;
+        margin-bottom: 6px;
+        margin-right: 10px;
+    }
+
+    .text-main2-heading{
+        display: inline-block;
+    }
+
+    .text-subheading{
+        margin-top: 5px;
+
+        img{
+            height: 10px;
+            width: 10px;
+            vertical-align: middle;
+            margin-bottom: 1px;
+        }
+    }
+
+    .name-label{
+        margin-top: 15px;
+        display: block;
+    }
+
+    .name-textbox{
+       width: 250px;
+       display: block;
+    }
+
+    button{
+        margin-left: 0px;
+        margin-top: 15px;
+    }
+
+}

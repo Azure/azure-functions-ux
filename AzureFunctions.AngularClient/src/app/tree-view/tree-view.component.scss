@@ -1,88 +1,61 @@
 @import '../../sass/main';
 
-.fa-caret-right{
-    margin-left: 2px;
-}
-
-.tree{
-    margin: 0px;
-    list-style-type: none;
-    padding-left: 0px;
-    // font-size: 14px;
-    line-height: 25px;
-
-    li{
-        list-style-type: none;
-    }
-}
-
-hr.tree-node-separator{
-    width: 90%;
-    margin: 0px 10px;
-    border-top: $border;
-    border-top-color: darken($border-color, 10%);
-}
-
-.selected-first-level-node{
-    background-color: $body-bg-color;
-    border-top: $border;
-    border-bottom: $border;
-    margin-right: 1px;
-}
-
-.try-root-node{
-    @extend .selected-first-level-node;
-    padding-top: 5px;
-}
-
-// Styles for regular nodes
 .tree-node{
-    height: 32px;
+    height: 34px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-top: 8px;
+    cursor: pointer;
     position: relative;
 
-    .tree-node-content{
-        position: relative;
-        top: 2px;
+    // Necessary for getting the bottom/top borders showing when the
+    // first/last node in the tree when the node has keyboard focus.
+    // If you change this value, make sure to update the scroll calculations
+    // in sidenav component logic.
+    margin-top: 1px;
+    margin-bottom: 1px;
+
+    &:hover{
+        background-color: $tree-node-hover-color;
+        .fa.fa-external-link{
+            display: inline-block;
+        }
+    }
+
+    &.selected{
+        background-color: $tree-node-selection-color;
+    }
+
+    .fa.fa-caret-right, .fa.fa-caret-down{
+        font-size: 18px;
+        vertical-align: middle;
+    }
+
+    .fa.fa-caret-down{
+        margin-left: 2px;
+    }
+
+    .fa.fa-caret-right{
+        margin-right: 2px;
+        margin-left: 4px;
+    }
+
+    &.app-node{
+        padding-right: 51px;
+    }
+
+    &.collection-node{
+        padding-right: 22px;
     }
 }
 
-.tree-node:hover{
-    background-color: $tree-node-hover-color;
-}
-
-.tree-node-selected{
-    background-color: $tree-node-selection-color !important;
-}
-
-.tree-node-advanced-enabled{
-    color : $primary-color;
-}
-
-.tree-node-children{
-    max-height: calc(100% - 104px);
-    width: $sidenav-width;
-    overflow-y: auto;
-    position: absolute;
-    margin-top: 1px;
-}
-
-.tree-node-disabled{
-    color : darken($border-color, 30%);
-}
-
-.tree-node-title{
-    margin-left: 2px;
-}
-
 .tree-node-menu{
-    float: right;
-    margin-top: 2px;
-    margin-right: 10px;
     font-size: 20px;
     color: $primary-color;
+    position: absolute;
+    top: 4px;
+    right: 5px;
 
     i{
         margin-left: 5px;
@@ -93,7 +66,23 @@ hr.tree-node-separator{
     }
 }
 
+.top-level-children{
+    max-height: calc(100% - 109px);
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+}
+
+hr.tree-node-separator{
+    width: 90%;
+    margin: 0px 10px;
+    border-top: $border;
+    border-top-color: darken($border-color, 10%);
+}
+
 .tree-node-function-edit-icon{
+    margin-left: 12px;
+    font-size: 14px;
     width: 15px;
     color: $primary-color;
 }
@@ -109,10 +98,10 @@ hr.tree-node-separator{
     margin-top: 1px;
 }
 
-.tree-node-svg-icon{    
+.tree-node-svg-icon{
     img{
-        height: 18px;
-        width: 18px;
+        height: 20px;
+        width: 20px;
         vertical-align: middle;
         margin-left: 2px;
     }
@@ -120,10 +109,10 @@ hr.tree-node-separator{
 
 .tree-node-collection-icon{
     img{
-        height: 18px;
-        width: 18px;
+        height: 20px;
+        width: 20px;
         vertical-align: text-top;
         margin-top: -1px;
-        margin-left: 3px;
+        margin-left: 2px;
     }
 }

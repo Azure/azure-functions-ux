@@ -1,17 +1,17 @@
 <div class="dev-full dev-flex-column">
     <busy-state></busy-state>
     <div class="top-toolbar">
-        <span class="tab-label" (click)="addnewInput($event, focusable)">
+        <span [fnWriteAccess]="functionApp" class="tab-label" (click)="addnewInput($event, focusable)">
             <i class="fa fa-plus"></i>
             {{ 'fileExplorer_add' | translate }}
         </span>
-        <span class="tab-label" (click)="inputElement.click()">
+        <span [fnWriteAccess]="functionApp" class="tab-label" (click)="inputElement.click()">
             <input id="file-upload" ng2FileSelect [uploader]="uploader" type="file" multiple #inputElement />
             <i class="fa fa-long-arrow-up"></i>
             {{ 'fileExplorer_upload' | translate }}
         </span>
 
-        <span [class.disabled]="selectedFile.href.toLocaleLowerCase() === functionInfo.config_href.toLocaleLowerCase()" class="tab-label" (click)="deleteCurrentFile()">
+        <span [fnWriteAccess]="functionApp" [class.disabled]="selectedFile?.href.toLocaleLowerCase() === functionInfo?.config_href.toLocaleLowerCase()" class="tab-label" (click)="deleteCurrentFile()">
             <i class="fa fa-trash"></i>
             {{ 'fileExplorer_delete' | translate }}
         </span>
@@ -21,14 +21,14 @@
             <i class="fa fa-folder-open-o"></i>
             {{currentTitle}}
         </div>
-        <div class="clickable shifted" *ngFor="let folder of folders"
+        <div class="clickable file shifted" *ngFor="let folder of folders"
              (click)="selectVfsObject(folder)">
             <i class="fa fa-folder-o"></i>
             {{folder.name}}
         </div>
         <div class="clickable file shifted" *ngFor="let file of files"
              (click)="selectVfsObject(file)"
-             [class.selected]="file.href.toLocaleLowerCase() === selectedFile.href.toLocaleLowerCase()"
+             [class.selected]="file.href.toLocaleLowerCase() === selectedFile?.href.toLocaleLowerCase()"
              [class.disabled]="file.isBinary"
              [title]="getFileTitle(file)">
             <i class="fa fa-file-o"></i>

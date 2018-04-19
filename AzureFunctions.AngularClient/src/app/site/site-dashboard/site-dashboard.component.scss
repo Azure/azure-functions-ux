@@ -1,5 +1,11 @@
 @import '../../../sass/main';
 
+#site-dashboard-container{
+    // padding-top: 5px;
+    background-color: $chrome-color;
+    min-width: 900px;
+}
+
 #site-dashboard-pin{
     display: inline-block;
     height: 14px;
@@ -7,4 +13,91 @@
     position: absolute;
     right: 15px;
     top: 10px;
+}
+
+#site-tabs{
+  padding: 0;
+  margin: 0;
+  border-bottom: $border;
+
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+}
+
+.site-tab-label{
+    @extend .text-subheading;
+    border-bottom: 4px solid $default-text-color;
+    cursor: pointer;
+    padding: 8px 25px;
+    width: 200px;
+    margin-top: 5px;
+      text-align: center;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    position: relative;
+
+    img{
+        height: 16px;
+        width: 16px;
+    }
+
+    .close-button{
+        position: absolute;
+        right: 5px;
+    }
+
+    .tab-diry{
+        font-style: italic;
+    }
+}
+
+.inactive-label{
+    color: $primary-color;
+    border-bottom: 4px solid $chrome-color;
+ 
+    &:hover{
+        color: $default-text-color;
+    }
+}
+
+.closeable{
+    border: 1px #d8e1e6 solid;
+    border-bottom: none;
+    padding: 8px 16px 12px 5px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-left: 10px;
+
+    background-color: $body-bg-color;
+
+    &.inactive-label{
+        background-color: $chrome-color;;
+    }
+}
+
+// Simulate a "first-of-class" selector
+.closeable ~ .closeable{
+    margin-left: 0px;
+}
+
+.bottom{
+    position: absolute;
+    bottom: -1px;
+    background-color: $body-bg-color;
+    height: 1px;
+    width: 100%;
+    left: 0px;
+}
+
+#site-tab-content{
+    background-color: $body-bg-color;
 }

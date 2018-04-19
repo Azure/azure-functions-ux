@@ -1,22 +1,56 @@
-<div class="custom-list-container">
-<img src="images/DataLakeAnalytics-alt.svg" />
-<h3 class="text-main2-heading">{{ 'functions' | translate }}</h3><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
-<table class="custom-table">
-  <tr class="header-row">
-    <th>{{ ('_name' | translate).toUpperCase() }}</th>
-    <th>{{ ('enabled' | translate).toUpperCase() }}</th>
-  </tr>
+<command-bar>
+    <command displayText="{{ 'newFunction' | translate }}" 
+            iconUrl="images/add.svg" 
+            (click)="onNewFunctionClick()" 
+            [fnWriteAccess]="functionApp"></command>
+</command-bar>
 
-  <tr *ngFor="let item of items" (click)="clickRow(item)">
-    <td class="link">{{item.functionInfo.name}}</td>
-    <td>{{!item.functionInfo.config.disabled}}</td>
-  </tr>
+<app-edit-mode-warning [functionApp]="functionApp" [appNode]="appNode"></app-edit-mode-warning>
 
-  <tr *ngIf="items.length === 0 || isLoading">
-    <td *ngIf="isLoading">{{'functionMonitor_loading' | translate}}</td>
-    <td *ngIf="!isLoading && items.length === 0">{{'noResults' | translate}}</td>
-    <td></td>
-  </tr>
+<div class="list-collection-container">
+    <img src="images/function_f.svg" />
+    <span class="text-level1-heading">{{ 'functions' | translate }}</span><i *ngIf="isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
 
-</table>
+    <div class="search-box-container">
+        <search-box (onInputChange)="searchChanged($event)" 
+                    (onClear)="searchCleared()" 
+                    [placeholder]="'functionsList_searchFunctions' | translate">
+        </search-box>
+    </div>
+    <tbl [items]="functions" #table="tbl">
+        <tr>
+            <th>
+                <tbl-th name="functionInfo.name">{{ '_name' | translate }}</tbl-th>
+            </th>
+            <th>
+                <tbl-th name="functionInfo.config.disabled">{{ 'status' | translate }}</tbl-th>
+            </th>
+            <th class="icon"></th>
+        </tr>
+
+        <tr *ngFor="let item of table.items">
+            <td><span class="link" (click)="clickRow(item)">{{item.functionName}}</span></td>
+            <td>
+                <label class="switch">
+                        <input [fnWriteAccess]="functionApp" type="checkbox" [checked]="!item.functionInfo.config.disabled" (change)="enableChange(item)" />
+                        <span class="slider round">
+                        </span>
+                </label>
+                <span *ngIf="item.functionInfo.config.disabled" class="enabled">
+                    {{ 'disabled' | translate }}
+                </span>
+                <span *ngIf="!item.functionInfo.config.disabled" class="enabled">
+                    {{ 'enabled' | translate }}
+                </span>
+            </td>
+            <td class="icon">
+                <img src="images/delete.svg" (click)="clickDelete(item)" />
+            </td>
+        </tr>
+
+        <tr *ngIf="table.items.length === 0 || isLoading">
+            <td *ngIf="isLoading" colspan="2">{{'functionMonitor_loading' | translate}}</td>
+            <td *ngIf="!isLoading && table.items.length === 0" colspan="2">{{'noResults' | translate}}</td>
+        </tr>
+    </tbl>
 </div>

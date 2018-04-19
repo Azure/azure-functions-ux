@@ -5,7 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Resources;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AzureFunctions.Common;
@@ -24,6 +27,7 @@ namespace AzureFunctions.Controllers
         private readonly ISettings _settings;
         private readonly IDiagnosticsManager _diagnosticsManager;
         private readonly TelemetryClient _telemetryClient;
+        private readonly IPassThroughRequestManager _passThroughRequestManager;
 
         private Dictionary<string, string> _languageMap = new Dictionary<string, string>()
         {
@@ -35,12 +39,13 @@ namespace AzureFunctions.Controllers
             { "zh-hant", "zh-CN"}
         };
 
-        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings, IDiagnosticsManager diagnosticsManager, TelemetryClient telemetryClient)
+        public AzureFunctionsController(ITemplatesManager templatesManager, ISettings settings, IDiagnosticsManager diagnosticsManager, TelemetryClient telemetryClient, IPassThroughRequestManager passThroughRequestManager)
         {
             _telemetryClient = telemetryClient;
             _templatesManager = templatesManager;
             _settings = settings;
             _diagnosticsManager = diagnosticsManager;
+            _passThroughRequestManager = passThroughRequestManager;
         }
 
         [HttpGet]
@@ -69,7 +74,7 @@ namespace AzureFunctions.Controllers
         [HttpGet]
         public HttpResponseMessage GetLatestRoutingExtensionVersion()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, "~0.1");
+            return Request.CreateResponse(HttpStatusCode.OK, "~0.2");
         }
 
         [HttpGet]
@@ -119,12 +124,6 @@ namespace AzureFunctions.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
-        [HttpGet]
-        public HttpResponseMessage GetClientConfiguration()
-        {
-            return Request.CreateResponse(HttpStatusCode.OK, this._settings.GetClientConfiguration());
-        }
-
         [Authorize]
         [HttpPost]
         public HttpResponseMessage ReportClientError([FromBody] ClientError clientError)
@@ -140,6 +139,13 @@ namespace AzureFunctions.Controllers
             var diagnosticResult = await _diagnosticsManager.Diagnose(armId);
             diagnosticResult = diagnosticResult.Where(r => !r.IsDiagnosingSuccessful || r.SuccessResult.HasUserAction);
             return Request.CreateResponse(HttpStatusCode.OK, diagnosticResult);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public Task<HttpResponseMessage> PassThrough(RequestObject clientRequest)
+        {
+            return _passThroughRequestManager.HandleRequest(clientRequest);
         }
 
         private JObject ConvertResxToJObject(List<string> resxFiles)

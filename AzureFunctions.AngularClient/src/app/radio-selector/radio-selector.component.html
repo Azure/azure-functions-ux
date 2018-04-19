@@ -1,27 +1,14 @@
-<div class="switch" *ngIf="_options && _options.length === 2">
-    <input type="radio"
-           class="switch-input"
-           name="view"
-           [attr.id]="_options[0].id"
-           [checked]="_options[0].value === defaultValue"
-           (click)="select(_options[0])"
-           [attr.disabled]="disabled ? true : null">
+<div
+    *ngIf="options"
+    class="switch"
+    [class.dirty]="highlightDirty && control?.dirty"
+    [class.disabled]="control ? control.disabled : disabled">
 
-    <label [attr.for]="_options[0].id" class="switch-label switch-label-off">
-        {{_options[0].displayLabel}}
-    </label>
+    <div *ngFor="let option of options"
+        class="switch-label"
+        [class.selected]="option.value === selectedValue"
+        (click)="select(option)">
+        {{option.displayLabel}}
+    </div>
 
-    <input type="radio"
-           class="switch-input"
-           name="view"
-           [attr.id]="_options[1].id"
-           [checked]="_options[1].value === defaultValue"
-           (click)="select(_options[1])"
-           [attr.disabled]="disabled ? true : null">
-
-    <label [attr.for]="_options[1].id" class="switch-label switch-label-on">
-        {{_options[1].displayLabel}}
-    </label>
-
-    <span class="switch-selection"></span>
 </div>

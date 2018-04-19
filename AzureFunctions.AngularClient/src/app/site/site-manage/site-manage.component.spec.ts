@@ -1,3 +1,4 @@
+import { AppModule } from './../../app.module';
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -10,9 +11,7 @@ describe('SiteManageComponent', () => {
   let fixture: ComponentFixture<SiteManageComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SiteManageComponent ]
-    })
+    TestBed.configureTestingModule(AppModule.moduleDefinition)
     .compileComponents();
   }));
 

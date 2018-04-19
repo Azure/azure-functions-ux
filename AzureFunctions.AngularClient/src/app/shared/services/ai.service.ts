@@ -1,14 +1,13 @@
 import { Guid } from './../Utilities/Guid';
-import {Injectable} from '@angular/core';
-import {IAppInsights, IConfig, SeverityLevel} from '../models/app-insights';
+import { Injectable } from '@angular/core';
+import { IAppInsights, IConfig, SeverityLevel } from '../models/app-insights';
 
 declare var appInsights: IAppInsights;
-declare var mixpanel: any;
 
 function AiDefined(checkFunctionName?: boolean) {
     checkFunctionName = typeof checkFunctionName !== 'undefined' ? checkFunctionName : true;
-    return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
-        let originalMethod = descriptor.value;
+    return (_: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
+        const originalMethod = descriptor.value;
         descriptor.value = function (...args: any[]) {
             if (typeof (appInsights) !== 'undefined' && (typeof (appInsights[functionName]) !== 'undefined' || !checkFunctionName)) {
                 return originalMethod.apply(this, args);
@@ -20,23 +19,12 @@ function AiDefined(checkFunctionName?: boolean) {
     };
 }
 
-function MixPanelDefined() {
-    return (target: Object, functionName: string, descriptor: TypedPropertyDescriptor<any>) => {
-        let originalMethod = descriptor.value;
-        descriptor.value = function (...args: any[]) {
-            if (typeof (mixpanel) !== 'undefined') {
-                return originalMethod.apply(this, args);
-            } else {
-                return null;
-            }
-        };
-        return descriptor;
-    };
-}
 
-function run<T>(action: () => T) {
+function run<T>(action: () => T): any {
     if (typeof (appInsights) !== 'undefined') {
         return action();
+    } else {
+        return () => { };
     }
 }
 
@@ -54,7 +42,7 @@ export class AiService implements IAppInsights {
     */
     queue: (() => void)[] = run(() => appInsights.queue);
 
-    private _traceStartTimes : {[name: string] : number} = {};
+    private _traceStartTimes: { [name: string]: number } = {};
 
     /**
     * Sets the sessionId for all the current events.
@@ -76,12 +64,10 @@ export class AiService implements IAppInsights {
     /**
     * Starts timing how long the user views a page or other item. Call this when the page opens.
     * This method doesn't send any telemetry. Call {@link stopTrackTelemetry} to log the page when it closes.
-    * @param   name  A string that idenfities this item, unique within this HTML document. Defaults to the document title.
+    * @param   name  A string that identifies this item, unique within this HTML document. Defaults to the document title.
     */
     @AiDefined()
-    @MixPanelDefined()
     startTrackPage(name?: string) {
-        mixpanel.track('Functions Start Page View', { page: name, properties: this.addMixPanelProperties(null) });
         return appInsights.startTrackPage(name);
     }
 
@@ -98,9 +84,7 @@ export class AiService implements IAppInsights {
     * @param   measurements    map[string, number] - metrics associated with this page, displayed in Metrics Explorer on the portal. Defaults to empty.
     */
     @AiDefined()
-    @MixPanelDefined()
     stopTrackPage(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
-        mixpanel.track('Functions Stop Page View', { page: name, url: url, properties: this.addMixPanelProperties(properties), measurements: measurements });
         return appInsights.stopTrackPage(name, url, properties, measurements);
     }
 
@@ -113,9 +97,7 @@ export class AiService implements IAppInsights {
      * @param   duration    number - the number of milliseconds it took to load the page. Defaults to undefined. If set to default value, page load time is calculated internally.
      */
     @AiDefined()
-    @MixPanelDefined()
-    trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, duration?: number) {
-        mixpanel.track('Functions Page Viewed', { page: name, url: url, properties: this.addMixPanelProperties(properties), measurements: measurements });
+    trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, _?: number) {
         return appInsights.trackPageView(name, url, properties, measurements);
     }
 
@@ -124,9 +106,7 @@ export class AiService implements IAppInsights {
      * @param   name    A string that identifies this event uniquely within the document.
      */
     @AiDefined()
-    @MixPanelDefined()
     startTrackEvent(name: string) {
-        mixpanel.track(name);
         return appInsights.startTrackEvent(name);
     }
 
@@ -137,9 +117,7 @@ export class AiService implements IAppInsights {
      * @param   measurements    map[string, number] - metrics associated with this event, displayed in Metrics Explorer on the portal. Defaults to empty.
      */
     @AiDefined()
-    @MixPanelDefined()
     stopTrackEvent(name: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
-        mixpanel.track(name, { properties: this.addMixPanelProperties(properties), measurements: measurements });
         return appInsights.stopTrackEvent(name, properties, measurements);
     }
 
@@ -147,8 +125,8 @@ export class AiService implements IAppInsights {
      * Start timing an event
      * @returns    A unique key used to identify a specific call to startTrace
      */
-    startTrace() : string {
-        let traceKey = Guid.newTinyGuid();
+    startTrace(): string {
+        const traceKey = Guid.newTinyGuid();
         this._traceStartTimes[traceKey] = Date.now();
         return traceKey;
     }
@@ -159,15 +137,15 @@ export class AiService implements IAppInsights {
      * @param   properties  map[string, string] - additional data used to filter events and metrics in the portal. Defaults to empty.
      * @param   measurements    map[string, number] - metrics associated with this event, displayed in Metrics Explorer on the portal. Defaults to empty.
      */
-    stopTrace(name : string, traceKey : string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+    stopTrace(name: string, traceKey: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
 
-        let eventStart = this._traceStartTimes[traceKey];
-        if(eventStart){
+        const eventStart = this._traceStartTimes[traceKey];
+        if (eventStart) {
             delete this._traceStartTimes[traceKey];
 
-            let duration = Date.now() - eventStart;
+            const duration = Date.now() - eventStart;
             properties = !!properties ? properties : {};
-            properties["duration"] = duration + "";
+            properties['duration'] = duration + '';
 
             this.trackEvent(name, properties, measurements);
         }
@@ -180,9 +158,7 @@ export class AiService implements IAppInsights {
     * @param   measurements    map[string, number] - metrics associated with this event, displayed in Metrics Explorer on the portal. Defaults to empty.
     */
     @AiDefined()
-    @MixPanelDefined()
     trackEvent(name: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
-        mixpanel.track(name, { properties: this.addMixPanelProperties(properties), measurements: measurements });
         return appInsights.trackEvent(name, properties, measurements);
     }
 
@@ -191,9 +167,8 @@ export class AiService implements IAppInsights {
     * @param   name    A string to identify this event in the portal.
     * @param   expired  string - determines if the link was clicked before or after the trial had expired .
     */
-    trackLinkClick(name: string, expired: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
-        if (typeof (mixpanel) !== 'undefined')
-            mixpanel.track(name, { expired: expired, properties: this.addMixPanelProperties(null), measurements: measurements });
+    trackLinkClick(_: string, __: string, ___?: { [name: string]: string; }, ____?: { [name: string]: number; }) {
+        // no-op
     }
 
     /**
@@ -203,7 +178,7 @@ export class AiService implements IAppInsights {
      * @param absoluteUrl   absolute url used to make the dependency request
      * @param pathName  the path part of the absolute url
      * @param totalTime total request time
-     * @param success   indicates if the request was sessessful
+     * @param success   indicates if the request was successful
      * @param resultCode    response code returned by the dependency request
      */
     @AiDefined()
@@ -219,8 +194,9 @@ export class AiService implements IAppInsights {
      * @param   severityLevel   AI.SeverityLevel - severity level
      */
     @AiDefined()
-    trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, severityLevel?: SeverityLevel) {
-        console.log(exception);
+    trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, _?: SeverityLevel) {
+        console.error(exception);
+
         return appInsights.trackException(exception, handledAt, properties, measurements);
     }
 
@@ -235,9 +211,7 @@ export class AiService implements IAppInsights {
      * @param   max The largest measurement in the sample. Defaults to the average.
      */
     @AiDefined()
-    @MixPanelDefined()
     trackMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number, properties?: { [name: string]: string; }) {
-        mixpanel.track(name, { average: average, sampleCount: sampleCount, min: min, max: max, properties: this.addMixPanelProperties(properties) });
         return appInsights.trackMetric(name, average, sampleCount, min, max, properties);
     }
 
@@ -262,21 +236,14 @@ export class AiService implements IAppInsights {
 
 
     /**
-    * Sets the autheticated user id and the account id in this session.
+    * Sets the authenticated user id and the account id in this session.
     * User auth id and account id should be of type string. They should not contain commas, semi-colons, equal signs, spaces, or vertical-bars.
     *
     * @param authenticatedUserId {string} - The authenticated user id. A unique and persistent string that represents each authenticated user in the service.
     * @param accountId {string} - An optional string to represent the account associated with the authenticated user.
     */
     @AiDefined()
-    @MixPanelDefined()
     setAuthenticatedUserContext(authenticatedUserId: string, accountId?: string) {
-        var userDetails = authenticatedUserId.split("#");
-        if (userDetails.length === 2) {
-            mixpanel.alias(userDetails[1]);
-        } else {
-            mixpanel.alias(authenticatedUserId);
-        }
         return appInsights.setAuthenticatedUserContext(authenticatedUserId, accountId);
     }
 

@@ -1,17 +1,21 @@
-import {Component, Input} from '@angular/core';
-import { Subject, Observable } from 'rxjs/Rx';
-import {FunctionInfo} from '../shared/models/function-info';
-import {FunctionConfig} from '../shared/models/function-config';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {SelectOption} from '../shared/models/select-option';
-import {PortalService} from '../shared/services/portal.service';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {PortalResources} from '../shared/models/portal-resources';
-import {FunctionApp} from '../shared/function-app';
-import {TreeViewInfo} from '../tree-view/models/tree-view-info';
-import {FunctionManageNode} from '../tree-view/function-node';
+import { ConfigService } from './../shared/services/config.service';
+import { Component } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/zip';
+import { TranslateService } from '@ngx-translate/core';
+
+import { FunctionInfo } from '../shared/models/function-info';
+import { SelectOption } from '../shared/models/select-option';
+import { PortalService } from '../shared/services/portal.service';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { PortalResources } from '../shared/models/portal-resources';
+import { FunctionApp } from '../shared/function-app';
+import { TreeViewInfo } from '../tree-view/models/tree-view-info';
+import { FunctionManageNode } from '../tree-view/function-node';
+import { BindingManager } from '../shared/models/binding-manager';
 
 @Component({
     selector: 'function-manage',
@@ -21,34 +25,30 @@ import {FunctionManageNode} from '../tree-view/function-node';
 })
 export class FunctionManageComponent {
     public functionStatusOptions: SelectOption<boolean>[];
-    public disabled: boolean;
-    public isEasyAuthEnabled = false;
-    public functionInfo : FunctionInfo;
-    public functionApp : FunctionApp;
-    private _viewInfoStream : Subject<TreeViewInfo>;
-    private _functionNode : FunctionManageNode;
+    public functionInfo: FunctionInfo;
+    public functionApp: FunctionApp;
+    public isStandalone: boolean;
+    public isHttpFunction = false;
+
+    private _viewInfoStream: Subject<TreeViewInfo<any>>;
+    private _functionNode: FunctionManageNode;
     private functionStateValueChange: Subject<boolean>;
 
-    constructor(private _broadcastService: BroadcastService,
-                private _portalService: PortalService,
-                private _globalStateService: GlobalStateService,
-                private _translateService: TranslateService) {
+    constructor(private _portalService: PortalService,
+        private _globalStateService: GlobalStateService,
+        private _translateService: TranslateService,
+        configService: ConfigService) {
 
-        this._viewInfoStream = new Subject<TreeViewInfo>();
+        this.isStandalone = configService.isStandalone();
+
+        this._viewInfoStream = new Subject<TreeViewInfo<any>>();
         this._viewInfoStream
-            .distinctUntilChanged()
-            .switchMap(viewInfo =>{
+            .retry()
+            .subscribe(viewInfo => {
                 this._functionNode = <FunctionManageNode>viewInfo.node;
                 this.functionInfo = this._functionNode.functionInfo;
                 this.functionApp = this.functionInfo.functionApp;
-                return Observable.zip(
-                    this.functionApp.checkIfDisabled(),
-                    this.functionApp.checkIfEasyAuthEnabled(),
-                    (d, e) =>({ disabled : d, easyAuthEnabled : e}))
-            })
-            .subscribe(res =>{
-                this.disabled = res.disabled;
-                this.isEasyAuthEnabled = res.easyAuthEnabled;
+                this.isHttpFunction = BindingManager.isHttpFunction(this.functionInfo);
             });
 
         this.functionStatusOptions = [
@@ -60,37 +60,39 @@ export class FunctionManageComponent {
                 value: true
             }];
 
-            this.functionStateValueChange = new Subject<boolean>();
-            this.functionStateValueChange
-                .switchMap<FunctionInfo>(state => {
-                     let originalState = this.functionInfo.config.disabled;
-                     this._globalStateService.setBusyState();
-                     this.functionInfo.config.disabled = state;
-                     return this.functionApp.updateFunction(this.functionInfo).catch(e => { throw originalState; });
-                 })
-                 .do(null, originalState => {
-                     this.functionInfo.config.disabled = originalState;
-                     this._globalStateService.clearBusyState();
-                 })
-                .retry()
-                .subscribe(fi => {
-                    this._globalStateService.clearBusyState();
-                    this.functionInfo.config.disabled = fi.config.disabled;
-                });
+        this.functionStateValueChange = new Subject<boolean>();
+        this.functionStateValueChange
+            .switchMap(state => {
+                const originalState = this.functionInfo.config.disabled;
+                this._globalStateService.setBusyState();
+                this.functionInfo.config.disabled = state;
+                return this.functionApp.updateFunction(this.functionInfo).catch(() => { throw originalState; });
+            })
+            .do(null, originalState => {
+                this.functionInfo.config.disabled = originalState;
+                this._globalStateService.clearBusyState();
+            })
+            .retry()
+            .subscribe((fi: FunctionInfo) => {
+                this._globalStateService.clearBusyState();
+                this.functionInfo.config.disabled = fi.config.disabled;
+            });
     }
 
-    set viewInfoInput(viewInfo : TreeViewInfo){
+    set viewInfoInput(viewInfo: TreeViewInfo<any>) {
         this._viewInfoStream.next(viewInfo);
     }
 
     deleteFunction() {
-        var result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this.functionInfo.name }));
+        const result = confirm(this._translateService.instant(PortalResources.functionManage_areYouSure, { name: this.functionInfo.name }));
         if (result) {
             this._globalStateService.setBusyState();
-            this._portalService.logAction("edit-component", "delete");
+            this._portalService.logAction('edit-component', 'delete');
+            // Clone node for removing as it can be change during http call
+            const clone = Object.create(this._functionNode);
             this.functionApp.deleteFunction(this.functionInfo)
-                .subscribe(r => {
-                    this._functionNode.remove();
+                .subscribe(() => {
+                    clone.remove();
                     // this._broadcastService.broadcast(BroadcastEvent.FunctionDeleted, this.functionInfo);
                     this._globalStateService.clearBusyState();
                 });

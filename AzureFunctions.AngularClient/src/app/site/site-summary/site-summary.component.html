@@ -1,89 +1,137 @@
-<div class="site-summary-actions">
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="toggleState()">
-        <span *ngIf="_globalStateService?.isBusy || site?.properties.state === 'Running'">
-            <img src="images/stop.svg" />{{'stop' | translate}}</span>
-        <span *ngIf="site?.properties.state === 'Stopped'">
-            <img src="images/start.svg" />{{ 'start' | translate}}</span>
-    </span>
+<command-bar>
+  <command [displayText]="site?.properties.state === 'Running' ? ts.instant(Resources.stop) : ts.instant(Resources.start)"
+    [iconUrl]="site?.properties.state === 'Running' ? 'images/stop.svg' : 'images/start.svg'" (click)="toggleState()" [disabled]="!hasWriteAccess"></command>
 
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess || site?.properties.state !== 'Running'" (click)="restart()">
-        <img src="images/restart.svg" />{{ 'restart' | translate }}
-    </span>
+  <command displayText="{{ 'swap' | translate }}" iconUrl="images/swap.svg" (click)="openSwapBlade()" [disabled]="!hasWriteAccess || !hasSwapAccess || site?.properties.targetSwapSlot !== null"></command>
 
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="downloadPublishProfile($event)">
-        <img src="images/download.svg" />{{ 'downloadProfile' | translate}}
-    </span>
+  <command displayText="{{ 'restart' | translate }}" iconUrl="images/restart.svg" (click)="restart()" [disabled]="!hasWriteAccess || site?.properties.state !== 'Running'"></command>
 
-    <a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink"
-        [href]="publishProfileLink"
-        [download]="site?.name + '.PublishSettings'"></a>
+  <command displayText="{{ 'downloadProfile' | translate}}" iconUrl="images/download.svg" (click)="downloadPublishProfile()"
+    [disabled]="!hasWriteAccess"></command>
 
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="resetPublishCredentials()">
-        <img src="images/reset.svg" />{{'resetPubCredentials' | translate}}
-    </span>
-    
-    <span class="clickable" [class.disabled-action]="!hasWriteAccess" (click)="delete()">
-        <img src="images/delete.svg" />Delete
-    </span>
-</div>
+  <command displayText="{{'resetPubCredentials' | translate}}" iconUrl="images/reset.svg" (click)="resetPublishCredentials()"
+    [disabled]="!hasWriteAccess"></command>
+
+  <command displayText="{{ 'downloadFunctionAppContent' | translate}}" iconUrl="images/download.svg" (click)="openDownloadFunctionAppModal()"
+    [disabled]="!hasWriteAccess"></command>
+
+  <command displayText="{{ '_delete' | translate }}" iconUrl="images/delete.svg" (click)="openDeleteBlade()" [disabled]="!hasWriteAccess"></command>
+</command-bar>
+
+<download-function-app-content (close)="hideDownloadFunctionAppModal()" *ngIf="showDownloadFunctionAppModal" [scmUrl]="scmUrl"></download-function-app-content>
+
+<a id="hidden-publish-profile-link" *ngIf="!!publishProfileLink" [href]="publishProfileLink" [download]="site?.name + '.PublishSettings'"></a>
 
 <div id="essentials-container">
-    <div class="essentials-col">
-        <div>
-            <label>{{'status' | translate}}</label>
-            <div><img *ngIf="stateIcon" [src]="stateIcon" />{{state}}</div>
-        </div>
-
-        <div [class.invisible]="site?.properties.sku === 'Dynamic'">
-            <label>{{'availability' | translate}}</label>
-            <div [class.site-faded-text]="availabilityState === 'unknown'">
-                <img *ngIf="availabilityIcon" [src]="availabilityIcon" />{{availabilityMesg}}
-            </div>
-        </div>
+  <div class="essentials-col">
+    <div>
+      <label id="siteStatusLabel">{{'status' | translate}}</label>
+      <div tabindex="0" 
+           id="siteStatusValue" 
+           aria-labelledby="siteStatusLabel siteStatusValue">
+           <img *ngIf="stateIcon" 
+           [src]="stateIcon" />
+           {{state}}
+      </div>
     </div>
 
-    <div class="essentials-col">
-        <div>
-            <label>{{'subscriptionName' | translate}}</label>
-            <div class="link" (click)="openSubscriptionBlade()">{{subscriptionName}}</div>
-        </div>
+    <div [class.invisible]="hideAvailability">
+      <label id="siteAvailabilityLabel">{{'availability' | translate}}</label>
+      <div [class.site-faded-text]="availabilityState === 'unknown'" 
+           tabindex="0" id="siteAvailabilityValue" 
+           aria-labelledby="siteAvailabilityLabel siteAvailabilityValue">
+           <img *ngIf="availabilityIcon" 
+           [src]="availabilityIcon" />
+           {{availabilityMesg}}
+      </div>
+    </div>
+  </div>
 
-        <div>
-            <label>{{'subscription' | translate}}</label>
-            <div>{{subscriptionId}}</div>
-        </div>
+  <div class="essentials-col">
+    <div>
+      <label id="siteSubscriptionNameLabel">{{'subscriptionName' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openSubscriptionBlade()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'subscription')" 
+          id="siteSubscriptionNameLink" 
+          aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
+          {{subscriptionName}}
+        </a>
+      </div>
     </div>
 
-    <div class="essentials-col">
-        <div>
-            <label>{{'resourceGroup' | translate}}</label>
-            <div class="link" (click)="openResourceGroupBlade()">{{resourceGroup}}</div>
-        </div>
+    <div>
+      <label id="siteSubscriptionLabel">{{'subscription' | translate}}</label>
+      <div tabindex="0" 
+           id="siteSubscriptionValue" 
+           aria-labelledby="siteSubscriptionLabel siteSubscriptionValue">
+           {{subscriptionId}}
+      </div>
+    </div>
+  </div>
 
-        <div>
-            <label>{{'location' | translate}}</label>
-            <div>{{location}}</div>
-        </div>
+  <div class="essentials-col">
+    <div>
+      <label id="siteResourceGroupLabel">{{'resourceGroup' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+         (click)="openResourceGroupBlade()" 
+         tabindex="0" 
+         (keydown)="onKeyPress($event, 'resourceGroup')" 
+         id="siteResourceGroupLink" 
+         aria-labelledby="siteResourceGroupLabel siteResourceGroupLink">
+         {{resourceGroup}}
+        </a>
+      </div>
     </div>
 
-    <div class="essentials-col">
-        <div>
-            <label>URL</label>
-            <div class="link" (click)="openUrl()">{{url}}</div>
-        </div>
-
-        <div>
-            <label>{{'appServicePlanPricingTier' | translate}}</label>
-            <div class="link" (click)="openPlanBlade()">{{plan}}</div>
-        </div>
+    <div>
+      <label id="siteLocationLabel">{{'location' | translate}}</label>
+      <div tabindex="0" 
+           id="siteLocationValue" 
+           aria-labelledby="siteLocationLabel siteLocationValue">
+           {{location}}
+      </div>
     </div>
+  </div>
+
+  <div class="essentials-col">
+    <div>
+      <label id="siteUrlLabel">URL</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openUrl()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'url')" 
+          id="siteUrlLink" 
+          aria-labelledby="siteUrlLabel siteUrlLink">
+          {{url}}
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <label id="siteAppServicePlanLabel">{{'appServicePlanPricingTier' | translate}}</label>
+      <div>
+        <a [class.disabled-link]="isStandalone" 
+          (click)="openPlanBlade()" 
+          tabindex="0" 
+          (keydown)="onKeyPress($event, 'appServicePlan')" 
+          id="siteAppServicePlanLink" 
+          aria-labelledby="siteAppServicePlanLabel siteAppServicePlanLink">
+          {{plan}}
+        </a>
+      </div>
+    </div>
+  </div>
 
 </div>
 
 <div id="site-summary-body">
-<div id="site-summary-features">
+  <div *ngIf="!isStandalone" id="site-summary-features">
     <h3>{{ 'enabledFeatures_header' | translate }}</h3>
-    <site-enabled-features [siteInput]="site" (componentName)="openComponent($event)"></site-enabled-features>
+    <site-enabled-features [siteInput]="site"></site-enabled-features>
+  </div>  
 </div>
-</div>
-

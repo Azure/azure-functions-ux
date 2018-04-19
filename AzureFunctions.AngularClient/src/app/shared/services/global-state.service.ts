@@ -1,40 +1,35 @@
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+
 import { TopBarNotification } from './../../top-bar/top-bar-models';
-import {Injectable} from '@angular/core';
-import {FunctionContainer} from '../models/function-container';
-import {ResourceType} from '../models/binding';
-import {UserService} from './user.service';
-import {ArmService} from './arm.service';
-import {Constants} from '../models/constants';
-import {BusyStateComponent} from '../../busy-state/busy-state.component';
-import {AiService} from './ai.service';
-import {DashboardComponent} from '../../dashboard/dashboard.component';
-import {FunctionsService} from './functions.service';
-import {Observable, Subscription as RxSubscription, BehaviorSubject, Subject} from 'rxjs/Rx';
+import { FunctionContainer } from '../models/function-container';
+import { UserService } from './user.service';
+import { Constants } from '../models/constants';
+import { BusyStateComponent } from '../../busy-state/busy-state.component';
+import { FunctionsService } from './functions.service';
 
 @Injectable()
 export class GlobalStateService {
     public _functionsService: FunctionsService;
     public showTryView: boolean;
     public showTopbar: boolean;
-    public isAlwaysOn: boolean = true;
+    public isAlwaysOn = true;
     public enabledApiProxy: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    public topBarNotificationsStream = new Subject<TopBarNotification[]>();
+    public topBarNotificationsStream = new ReplaySubject<TopBarNotification[]>(1);
     public disabledMessage = new Subject<string>();
 
     private _functionContainer: FunctionContainer;
     private _appSettings: { [key: string]: string };
     private _globalBusyStateComponent: BusyStateComponent;
-    private _dashboardComponent: DashboardComponent;
     private _shouldBeBusy: boolean;
     private _token: string;
     private _tryAppServicetoken: string;
-    private _scmCreds: string;
-    private _globalDisabled: boolean = false;
+    private _globalDisabled = false;
+    private _trialExpired = false;
 
-
-    constructor(private _userService: UserService,
-      private _armService: ArmService,
-      private _aiService: AiService) {
+    constructor(private _userService: UserService) {
         this._appSettings = {};
         this.showTryView = window.location.pathname.toLowerCase().endsWith('/try');
         this._userService.getStartupInfo().subscribe(info => this._token = info.token);
@@ -46,7 +41,7 @@ export class GlobalStateService {
     }
 
     get DefaultStorageAccount(): string {
-        for (var key in this._appSettings) {
+        for (let key in this._appSettings) {
             if (key.toString().endsWith('_STORAGE')) {
                 return key;
             }
@@ -89,16 +84,15 @@ export class GlobalStateService {
         }
     }
 
-    get IsBusy(): boolean
-    {
+    get IsBusy(): boolean {
         return (this._globalBusyStateComponent && this._globalBusyStateComponent.isBusy) ? true : false;
     }
 
-    setTopBarNotifications(items : TopBarNotification[]){
+    setTopBarNotifications(items: TopBarNotification[]) {
         this.topBarNotificationsStream.next(items);
     }
 
-    setDisabledMessage(message : string){
+    setDisabledMessage(message: string) {
         this.disabledMessage.next(message);
     }
 
@@ -106,23 +100,26 @@ export class GlobalStateService {
         return this._token;
     }
 
-   get TryAppServiceToken(): string {
+    get TryAppServiceToken(): string {
         return this._tryAppServicetoken;
     }
 
-   set TryAppServiceToken(tryAppServiceToken : string) {
-       this._tryAppServicetoken = tryAppServiceToken ;
-   }
+    set TryAppServiceToken(tryAppServiceToken: string) {
+        this._tryAppServicetoken = tryAppServiceToken;
+    }
 
-   get GlobalDisabled(): boolean {
-       return this._globalDisabled;
-   }
+    get GlobalDisabled(): boolean {
+        return this._globalDisabled;
+    }
 
-   set GlobalDisabled(value: boolean) {
-       this._globalDisabled = value;
-   }
+    set GlobalDisabled(value: boolean) {
+        this._globalDisabled = value;
+    }
 
-    set DashboardComponent(value: DashboardComponent) {
-        this._dashboardComponent = value;
+    set TrialExpired(value: boolean) {
+        this._trialExpired = value;
+    }
+    get TrialExpired(): boolean {
+        return this._trialExpired;
     }
 }

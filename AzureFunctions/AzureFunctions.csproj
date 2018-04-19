@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,6 +44,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Standalone|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.3.5.0\lib\net40\Autofac.dll</HintPath>
@@ -56,6 +64,9 @@
     <Reference Include="Destructurama.JsonNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2ad38909bb3e5c02, processorArchitecture=MSIL">
       <HintPath>..\packages\Destructurama.JsonNet.1.0.3\lib\portable-net45+win+wp80\Destructurama.JsonNet.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -147,6 +158,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -197,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="database.sql" />
+    <Content Include="iframe-loading.css" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -204,13 +219,19 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Default_bac.cshtml" />
+    <Content Include="Views\_Base.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Standalone.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <Content Include="Views\_Azure.cshtml" />
+    <Content Include="Views\_OnPrem.cshtml" />
+    <Content Include="Views\_Local.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -234,6 +255,7 @@
     <Compile Include="Code\Extensions\HttpResponseMessageExtensions.cs" />
     <Compile Include="Code\Extensions\TaskExtensions.cs" />
     <Compile Include="Code\FileSystemHelpers.cs" />
+    <Compile Include="Code\PassThroughRequestManager.cs" />
     <Compile Include="Code\Settings.cs" />
     <Compile Include="Code\TelemetryExceptionLogger.cs" />
     <Compile Include="Code\TemplatesManager.cs" />
@@ -242,6 +264,10 @@
     <Compile Include="Common\ActionIds.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ErrorIds.cs" />
+    <Compile Include="Common\IDictionaryExtensions.cs" />
+    <Compile Include="Common\View.cs" />
+    <Compile Include="Common\ViewHelpers.cs" />
+    <Compile Include="Contracts\IPassThroughRequestManager.cs" />
     <Compile Include="Models\ArmFunctionApp.cs" />
     <Compile Include="Models\ArmResource.cs" />
     <Compile Include="Models\DiagnosticsResult.cs" />
@@ -264,6 +290,7 @@
     <Compile Include="Models\HostStatus.cs" />
     <Compile Include="Models\MasterKey.cs" />
     <Compile Include="Models\Maybe.cs" />
+    <Compile Include="Models\RequestObject.cs" />
     <Compile Include="Models\WebApiException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcesPortal\Resources.Designer.cs">
@@ -279,8 +306,9 @@
   <ItemGroup>
     <Content Include="ResourcesPortal\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -354,7 +382,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>4141</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:4141/</IISUrl>
+          <IISUrl>https://localhost:44300/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -368,13 +396,13 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.1.1\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Debug call "$(ProjectDir)..\AzureFunctions.ResxConverter\bin\Debug\AzureFunctions.ResxConverter.exe" "$(ProjectDir)ResourcesPortal\Resources.resx" "$(ProjectDir)..\AzureFunctions.AngularClient\src\app\shared\models\portal-resources.ts"</PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -1,11 +1,17 @@
 <div class="top-bar-container">
-    <try-now *ngIf="_globalStateService?.showTryView && !gettingStarted"></try-now>
+    <try-now *ngIf="showTryView && !gettingStarted"></try-now>
     <div *ngIf="visible" class="top-bar" [class.top-bar-getting-started]="gettingStarted">
-         <!--*ngIf="(needUpdateExtensionVersion || (user && currentTenant && !inIFrame) || !_globalStateService.isAlwaysOn)">-->
-        <div *ngIf="!inIFrame" class="azure-logo left">
-            <div class="vertical-align-center logo">{{ 'azureFunctions' | translate }}</div>
+
+        <div *ngIf="!inIFrame" class="azure-logo" [class.right]="inTab" [class.left]="isStandalone">
+            <div *ngIf="!isStandalone" class="vertical-align-center logo" [class.tabbed-logo]="inTab">{{ 'azureFunctions' | translate }}</div>
+            <div *ngIf="isStandalone" class="vertical-align-center logo-standalone">{{ 'azureFunctionsRuntime' | translate }}</div>
         </div>
-        <div class="top-bar-info left vertical-align-center">
+
+        <div *ngIf="!inIFrame" class="left vertical-align-center">
+            <div *ngIf="!isStandalone" class=" function-information"><h4>{{ appName }} - {{ fnName }}</h4></div>
+        </div>
+
+        <div class="left vertical-align-center" [class.info-azure]="!isStandalone" [class.info-standalone]="isStandalone" [class.info-no-iframe]="!inIFrame">
             <span *ngFor="let notification of topBarNotifications; let isFirst = first"
                   [class.top-bar-notification-extra]="!isFirst">
 
@@ -13,12 +19,12 @@
                     <i [class]="notification.iconClass"></i>
                     {{notification.message}}
                 </span>
-                <a class="top-bar-notification-learn" target="_blank" [href]="notification.learnMoreLink">Learn more</a>
+                <a  *ngIf="notification.learnMoreLink!==''" class="top-bar-notification-learn" target="_blank" [href]="notification.learnMoreLink">Learn more</a>
             </span>
         </div>
 
         <div class="top-bar-tools right vertical-align-center">
-            <span *ngIf="user && currentTenant && !inIFrame"
+            <span *ngIf="user && currentTenant && !inIFrame && !inTab"
                   class="top-bar-tool clickable"
                   [class.top-bar-tool-selected]="showUserMenu"
                   (click)="showUserMenu = !showUserMenu">

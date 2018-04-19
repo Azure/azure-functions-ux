@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import {BroadcastService} from '../shared/services/broadcast.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {TutorialEvent, TutorialStep} from '../shared/models/tutorial';
-import {FunctionInfo, FunctionInfoHelper} from '../shared/models/function-info';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {PortalResources} from '../shared/models/portal-resources';
+import { BroadcastService } from '../shared/services/broadcast.service';
+import { BroadcastEvent } from '../shared/models/broadcast-event'
+import { TutorialEvent, TutorialStep } from '../shared/models/tutorial';
+import { FunctionInfo, FunctionInfoHelper } from '../shared/models/function-info';
+import { TranslateService } from '@ngx-translate/core';
+import { PortalResources } from '../shared/models/portal-resources';
 
 
 @Component({
-  selector: 'tutorial',
-  templateUrl: './tutorial.component.html',
-  styleUrls: ['./tutorial.component.css']
+    selector: 'tutorial',
+    templateUrl: './tutorial.component.html',
+    styleUrls: ['./tutorial.component.css']
 })
 export class TutorialComponent {
     public currentStep = TutorialStep.Off;
@@ -25,12 +25,9 @@ export class TutorialComponent {
             if (event.step === TutorialStep.Waiting) {
                 this.currentStep = event.step;
                 this.initialFunction = event.functionInfo;
-                var t = new FunctionInfoHelper();
                 this.lang = FunctionInfoHelper.getLanguage(event.functionInfo);
-            }
-
-            // Gets called after the tabs component has completed loading.
-            else if (this.currentStep === TutorialStep.Waiting && event.step === TutorialStep.Develop) {
+            } else if (this.currentStep === TutorialStep.Waiting && event.step === TutorialStep.Develop) {
+                // Gets called after the tabs component has completed loading.
                 this.currentStep = event.step;
                 this.broadCastCurrentStep();
             }

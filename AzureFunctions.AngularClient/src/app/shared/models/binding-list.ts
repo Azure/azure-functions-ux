@@ -1,4 +1,4 @@
-﻿import {UIFunctionConfig, UIFunctionBinding, DirectionType} from './binding';
+﻿import { UIFunctionConfig, UIFunctionBinding, DirectionType } from './binding';
 
 export class BindingList {
 
@@ -20,15 +20,15 @@ export class BindingList {
             i.title = i.name ? i.displayName + " (" + i.name + ")" : i.displayName;
         });
 
-        this.trigger = this.config.bindings.find((binding: UIFunctionBinding, index) => {
+        this.trigger = this.config.bindings.find((binding: UIFunctionBinding) => {
             return binding.direction === DirectionType.trigger;
         });
 
-        this.inputs = this.config.bindings.filter((binding: UIFunctionBinding, index) => {
+        this.inputs = this.config.bindings.filter((binding: UIFunctionBinding) => {
             return binding.direction === DirectionType.in;
         });
 
-        this.outputs = this.config.bindings.filter((binding: UIFunctionBinding, index) => {
+        this.outputs = this.config.bindings.filter((binding: UIFunctionBinding) => {
             return binding.direction === DirectionType.out;
         });
 
@@ -38,13 +38,13 @@ export class BindingList {
     }
 
     getBinding(id: string) {
-        return this.config.bindings.filter((binding: UIFunctionBinding, index) => {
+        return this.config.bindings.filter((binding: UIFunctionBinding) => {
             return binding.id === id;
         })[0];
     }
 
     removeBinding(id: string) {
-        for (var i = this.config.bindings.length - 1; i >= 0; i--) {
+        for (let i = this.config.bindings.length - 1; i >= 0; i--) {
             if (this.config.bindings[i].id === id) {
                 this.config.bindings.splice(i, 1);
                 break;
@@ -53,7 +53,7 @@ export class BindingList {
     }
 
     updateBinding(binding: UIFunctionBinding) {
-        var index = this.config.bindings.findIndex((b: UIFunctionBinding) => {
+        const index = this.config.bindings.findIndex((b: UIFunctionBinding) => {
             return binding.id === b.id;
         });
 

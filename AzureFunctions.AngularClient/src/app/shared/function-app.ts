@@ -1,57 +1,64 @@
+﻿import { Subject } from 'rxjs/Subject';
+import { SlotsService } from './services/slots.service';
+import { Http, Headers, Response, ResponseType } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/operator/scan';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
+import { TranslateService } from '@ngx-translate/core';
+
+import { ConfigService } from './services/config.service';
+import { NoCorsHttpService } from './no-cors-http-service';
 import { ErrorIds } from './models/error-ids';
 import { DiagnosticsResult } from './models/diagnostics-result';
-import { WebApiException } from './models/webapi-exception';
+import { WebApiException, FunctionRuntimeError } from './models/webapi-exception';
 import { FunctionsResponse } from './models/functions-response';
 import { AiService } from './services/ai.service';
 import { AuthzService } from './services/authz.service';
 import { LanguageService } from './services/language.service';
 import { SiteConfig } from './models/arm/site-config';
-import {Http, Headers, Response, ResponseType} from '@angular/http';
-import {Injectable} from '@angular/core';
-import {FunctionInfo} from './models/function-info';
-import {VfsObject} from './models/vfs-object';
-import {ScmInfo} from './models/scm-info';
-import {ApiProxy} from './models/api-proxy';
-import {PassthroughInfo} from './models/passthrough-info';
-import {CreateFunctionInfo} from './models/create-function-info';
-import {FunctionTemplate} from './models/function-template';
-import {RunResponse} from './models/run-response';
-import {Observable} from 'rxjs/Rx';
-import {DesignerSchema} from './models/designer-schema';
-import {FunctionSecrets} from './models/function-secrets';
-import {Subscription} from './models/subscription';
-import {ServerFarm} from './models/server-farm';
-import {BindingConfig} from './models/binding';
-import {PortalService} from './services/portal.service';
-import {UserService} from './services/user.service';
-import {FunctionContainer} from './models/function-container';
-import {RunFunctionResult} from './models/run-function-result';
-import {Constants} from './models/constants';
-import {Cache, ClearCache, ClearAllFunctionCache} from './decorators/cache.decorator';
-import {GlobalStateService} from './services/global-state.service';
-import {TranslateService} from 'ng2-translate/ng2-translate';
-import {PortalResources} from './models/portal-resources';
-import {UIResource, AppService, ITryAppServiceTemplate} from './models/ui-resource';
-import {Cookie} from 'ng2-cookies/ng2-cookies';
-import {UsageVolume} from './models/app-monitoring-usage'
-import {BroadcastService} from './services/broadcast.service';
-import {ArmService} from './services/arm.service';
-import {BroadcastEvent} from './models/broadcast-event';
+import { FunctionInfo } from './models/function-info';
+import { VfsObject } from './models/vfs-object';
+import { ApiProxy } from './models/api-proxy';
+import { CreateFunctionInfo } from './models/create-function-info';
+import { FunctionTemplate } from './models/function-template';
+import { DesignerSchema } from './models/designer-schema';
+import { FunctionSecrets } from './models/function-secrets';
+import { BindingConfig } from './models/binding';
+import { UserService } from './services/user.service';
+import { FunctionContainer } from './models/function-container';
+import { RunFunctionResult } from './models/run-function-result';
+import { Constants } from './models/constants';
+import { Cache, ClearCache, ClearAllFunctionCache } from './decorators/cache.decorator';
+import { GlobalStateService } from './services/global-state.service';
+import { PortalResources } from './models/portal-resources';
+import { UIResource, ITryAppServiceTemplate } from './models/ui-resource';
+import { Cookie } from 'ng2-cookies/ng2-cookies';
+import { BroadcastService } from './services/broadcast.service';
+import { ArmService } from './services/arm.service';
+import { BroadcastEvent } from './models/broadcast-event';
 import { ErrorEvent, ErrorType } from './models/error-event';
-import {HttpRunModel} from './models/http-run';
-import {FunctionKeys, FunctionKey} from './models/function-key';
-import {StartupInfo} from './models/portal';
-import {CacheService} from './services/cache.service';
-import {ArmObj} from './models/arm/arm-obj';
-import {Site} from './models/arm/site';
+import { HttpRunModel } from './models/http-run';
+import { FunctionKeys, FunctionKey } from './models/function-key';
+import { CacheService } from './services/cache.service';
+import { ArmObj } from './models/arm/arm-obj';
+import { Site } from './models/arm/site';
+import { AuthSettings } from './models/auth-settings';
+import { FunctionAppEditMode } from './models/function-app-edit-mode';
+import { HostStatus } from './models/host-status';
 
-declare var mixpanel: any;
+import * as jsonschema from 'jsonschema';
 
 export class FunctionApp {
     private masterKey: string;
     private token: string;
     private _scmUrl: string;
-    private storageConnectionString: string;
     private siteName: string;
     private mainSiteUrl: string;
     public selectedFunction: string;
@@ -59,8 +66,8 @@ export class FunctionApp {
     public selectedProvider: string;
     public selectedFunctionName: string;
 
-    public isMultiKeySupported: boolean = true;
-    public isAlwaysOn : boolean = false;
+    public isMultiKeySupported = true;
+    public isAlwaysOn = false;
     public isDeleted = false;
     // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
     private statusCodeMap = {
@@ -118,12 +125,12 @@ export class FunctionApp {
     };
 
     private _tryAppServiceUrl = 'https://tryappservice.azure.com';
-    public tryFunctionsScmCreds : string;
-    // private functionContainer: FunctionContainer;
+    public tryFunctionsScmCreds: string;
+    private _http: NoCorsHttpService;
 
     constructor(
         public site: ArmObj<Site>,
-        private _http: Http,
+        _ngHttp: Http,
         private _userService: UserService,
         private _globalStateService: GlobalStateService,
         private _translateService: TranslateService,
@@ -132,7 +139,11 @@ export class FunctionApp {
         private _cacheService: CacheService,
         private _languageService: LanguageService,
         private _authZService: AuthzService,
-        private _aiService: AiService) {
+        private _aiService: AiService,
+        private _configService: ConfigService,
+        private _slotsService: SlotsService) {
+
+        this._http = new NoCorsHttpService(_ngHttp, _broadcastService, _aiService, _translateService, () => this.getPortalHeaders());
 
         if (!Constants.runtimeVersion) {
             this.getLatestRuntime().subscribe((runtime: any) => {
@@ -148,65 +159,89 @@ export class FunctionApp {
 
         if (!_globalStateService.showTryView) {
             this._userService.getStartupInfo()
-            .flatMap(info =>{
-                this.token = info.token;
-                return Observable.zip(
-                    this._authZService.hasPermission(this.site.id, [AuthzService.writeScope]),
-                    this._authZService.hasReadOnlyLock(this.site.id),
-                    (p, l) => ({ hasWritePermissions : p, hasReadOnlyLock : l})
-            )})
-            .flatMap(r =>{
-               if(r.hasWritePermissions && !r.hasReadOnlyLock){
-                    return this.getExtensionVersion();
-               }
+                .mergeMap(info => {
+                    this.token = info.token;
+                    return Observable.zip(
+                        this._authZService.hasPermission(this.site.id, [AuthzService.writeScope]),
+                        this._authZService.hasReadOnlyLock(this.site.id),
+                        (p, l) => ({ hasWritePermissions: p, hasReadOnlyLock: l })
+                    );
+                })
+                .mergeMap(r => {
+                    if (r.hasWritePermissions && !r.hasReadOnlyLock) {
+                        return this.getExtensionVersion();
+                    }
 
-               return Observable.of(null);
-            })
-            .flatMap(extensionVersion => {
-                if(extensionVersion){
-                    return this._languageService.getResources(extensionVersion);
-                }
+                    return Observable.of(null);
+                })
+                .mergeMap(extensionVersion => {
+                    if (extensionVersion) {
+                        return this._languageService.getResources(extensionVersion);
+                    }
 
-                return Observable.of(null);
-            })
-            .do(_ => {
-                this.diagnose(this.site)
-                    .subscribe(diagnosticsResults => {
-                        if (diagnosticsResults) {
-                            for (let i = 0; i < diagnosticsResults.length; i++) {
-                                if (diagnosticsResults[i].isDiagnosingSuccessful) {
-                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                        message: `${diagnosticsResults[i].successResult.message} ${diagnosticsResults[i].successResult.userAction}`,
-                                        errorId: diagnosticsResults[i].successResult.actionId,
-                                        errorType: diagnosticsResults[i].successResult.isTerminating ? ErrorType.Fatal : ErrorType.UserError
-                                    });
+                    return Observable.of(null);
+                })
+                .do(_ => {
+                    this.diagnose(this.site)
+                        .subscribe(diagnosticsResults => {
+                            if (diagnosticsResults) {
+                                for (let i = 0; i < diagnosticsResults.length; i++) {
+                                    if (diagnosticsResults[i].isDiagnosingSuccessful) {
+                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                            message: `${diagnosticsResults[i].successResult.message} ${diagnosticsResults[i].successResult.userAction}`,
+                                            errorId: diagnosticsResults[i].successResult.actionId,
+                                            errorType: diagnosticsResults[i].successResult.isTerminating ? ErrorType.Fatal : ErrorType.UserError,
+                                            resourceId: this.site.id
+                                        });
+                                    }
                                 }
                             }
-                        }
-                    });
-            }, e => {
-                this._aiService.trackException(e, "FunctionApp().getStartupInfo()");
-            })
-            .subscribe(r =>{})
+                        });
+                }, e => {
+                    this._aiService.trackException(e, 'FunctionApp().getStartupInfo()');
+                })
+                .subscribe(() => { });
 
         }
 
-        this._scmUrl = `https://${this.site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-        this.mainSiteUrl = `https://${this.site.properties.defaultHostName}`;
+        this._scmUrl = FunctionApp.getScmUrl(this._configService, this.site);
+        this.mainSiteUrl = FunctionApp.getMainUrl(this._configService, this.site);
+
         this.siteName = this.site.name;
 
-        let fc = <FunctionContainer>site;
+        const fc = <FunctionContainer>site;
         if (fc.tryScmCred != null) {
             this.tryFunctionsScmCreds = fc.tryScmCred;
         }
 
         if (Cookie.get('TryAppServiceToken')) {
             this._globalStateService.TryAppServiceToken = Cookie.get('TryAppServiceToken');
-            let templateId = Cookie.get('templateId');
+            const templateId = Cookie.get('templateId');
             this.selectedFunction = templateId.split('-')[0].trim();
             this.selectedLanguage = templateId.split('-')[1].trim();
             this.selectedProvider = Cookie.get('provider');
             this.selectedFunctionName = Cookie.get('functionName');
+        }
+    }
+
+    public static getMainUrl(configService: ConfigService, site: ArmObj<Site>) {
+        if (configService.isStandalone()) {
+            return `https://${site.properties.defaultHostName}/functions/${site.name}`;
+        }
+        else {
+            return `https://${site.properties.defaultHostName}`;
+        }
+    }
+
+    // In standalone mode, there isn't a concept of a separate SCM site.  Instead, all calls that would
+    // normally go to the main or scm site are routed to a single server and are distinguished by either
+    // "/api" (scm site) or "/admin" (main site)
+    public static getScmUrl(configService: ConfigService, site: ArmObj<Site>) {
+        if (configService.isStandalone()) {
+            return FunctionApp.getMainUrl(configService, site);
+        }
+        else {
+            return `https://${site.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
         }
     }
 
@@ -218,42 +253,20 @@ export class FunctionApp {
             .retryWhen(this.retryAntares);
     }
 
-    getParameterByName(url, name) {
-        if (url === null) {
-            url = window.location.href;
-        }
-
-        name = name.replace(/[\[\]]/g, '\\$&');
-        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-        let results = regex.exec(url);
-
-        if (!results) {
-            return null;
-        }
-
-        if (!results[2]) {
-            return '';
-        }
-
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-
-    //setScmParams(fc: FunctionContainer) {
-    //     this._scmUrl = `https://${fc.properties.hostNameSslStates.find(s => s.hostType === 1).name}`;
-    //     this.mainSiteUrl = `https://${fc.properties.defaultHostName}`;
-    //     this.siteName = fc.name;
-    //     if (fc.tryScmCred != null) {
-    //         this._globalStateService.ScmCreds = fc.tryScmCred;
-    //     }
-    // }
-
     getFunctions() {
+        let fcs: FunctionInfo[];
+
         return this._cacheService.get(`${this._scmUrl}/api/functions`, false, this.getScmSiteHeaders())
-            .catch(e => this.checkCorsError(e))
+            .catch(() => this._http.get(`${this._scmUrl}/api/functions`, { headers: this.getScmSiteHeaders() }))
             .retryWhen(this.retryAntares)
-            .map<FunctionInfo[]>((r: Response) => {
+            .flatMap((r: Response) => {
                 try {
-                    return r.json();
+                    fcs = r.json() as FunctionInfo[];
+                    fcs.forEach(fc => fc.functionApp = this);
+                    const vsCreatedFunc = fcs.find((fc: any) => !!fc.config.generatedBy);
+                    return vsCreatedFunc
+                        ? this.createApplicationSetting(Constants.functionAppEditModeSettingName, Constants.ReadOnlyMode, false)
+                        : Observable.of(null);
                 } catch (e) {
                     // We have seen this happen when kudu was returning JSON that contained
                     // comments because Json.NET is okay with comments in the JSON file.
@@ -261,54 +274,80 @@ export class FunctionApp {
                     this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                         message: this._translateService.instant(PortalResources.error_parsingFunctionListReturenedFromKudu),
                         errorId: ErrorIds.deserializingKudusFunctionList,
-                        errorType: ErrorType.Fatal
+                        errorType: ErrorType.Fatal,
+                        resourceId: this.site.id
                     });
                     this.trackEvent(ErrorIds.deserializingKudusFunctionList, {
                         error: e,
                         content: r.text(),
                     });
-                    return [];
+                    fcs = <FunctionInfo[]>[];
+                    return Observable.of(null);
                 }
             })
-            .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionListFromKudu),
-                            errorId: ErrorIds.unableToRetrieveFunctionsList,
-                            errorType: ErrorType.RuntimeError
-                        });
-                        this.trackEvent(ErrorIds.unableToRetrieveFunctionsList, {
-                            content: error.text(),
-                            status: error.status.toString()
-                        });
-                    }
-                });
+            .map(() => {
+                return fcs;
+            })
+            .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionsList),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionListFromKudu),
+                        errorId: ErrorIds.unableToRetrieveFunctionsList,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToRetrieveFunctionsList, {
+                        content: error.text(),
+                        status: error.status.toString()
+                    });
+                }
+            });
 
     }
 
     getApiProxies() {
-        return this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
-            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
-                if (err.status === 404 || errorCount >= 10) {
-                    throw err;
+        return Observable.zip(
+            this._cacheService.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, false, this.getScmSiteHeaders())
+                .catch(() => this._http.get(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, { headers: this.getScmSiteHeaders() }))
+                .retryWhen(e => e.scan((errorCount: number, err: Response) => {
+                    if (err.status === 404 || errorCount >= 10) {
+                        throw err;
+                    }
+                    return errorCount + 1;
+                }, 0).delay(200))
+                .catch(_ => Observable.of({
+                    json: () => { return {}; }
+                })),
+            this._cacheService.get('assets/schemas/proxies.json', false, this.getPortalHeaders()),
+            (p, s) => ({ proxies: p.json(), schema: s.json() })
+        ).map(r => {
+            if (r.proxies.proxies) {
+                const validateResult = jsonschema.validate(r.proxies, r.schema).toString();
+
+                if (validateResult) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: `${this._translateService.instant(PortalResources.error_schemaValidationProxies)}. ${validateResult}`,
+                        errorId: ErrorIds.proxySchemaValidationFails,
+                        errorType: ErrorType.Fatal,
+                        resourceId: this.site.id
+                    });
+                    return ApiProxy.fromJson({});
                 }
-                return errorCount + 1;
-            }, 0).delay(200))
-            .catch(_ => Observable.of({
-                json: () => { return {}; }
-            }))
-            .map<any>(r => {
-                return ApiProxy.fromJson(r.json());
-            });
+            }
+            return ApiProxy.fromJson(r.proxies);
+        });
     }
 
     saveApiProxy(jsonString: string) {
-        let headers = this.getScmSiteHeaders();
+        const headers = this.getScmSiteHeaders();
         // https://github.com/projectkudu/kudu/wiki/REST-API
         headers.append('If-Match', '*');
 
-        return this._http.put(`${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`, jsonString, { headers: headers });
+        const uri = `${this._scmUrl}/api/vfs/site/wwwroot/proxies.json`;
+        this._cacheService.clearCachePrefix(uri);
+
+        return this._http.put(uri, jsonString, { headers: headers });
     }
 
     /**
@@ -317,33 +356,33 @@ export class FunctionApp {
      */
     @Cache('href')
     getFileContent(file: VfsObject | string) {
-        let fileHref = typeof file === 'string' ? file : file.href;
-        let fileName = this.getFileName(file);
+        const fileHref = typeof file === 'string' ? file : file.href;
+        const fileName = this.getFileName(file);
         return this._http.get(fileHref, { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .map<string>(r => r.text())
+            .map(r => r.text())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFileContent + fileName),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToGetFileContentFromKudu, {fileName: fileName}),
-                            errorId: ErrorIds.unableToRetrieveFileContent + fileName,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToRetrieveFileContent, {
-                            fileHref: fileHref,
-                            content: error.text(),
-                            status: error.status.toString()
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToGetFileContentFromKudu, { fileName: fileName }),
+                        errorId: ErrorIds.unableToRetrieveFileContent + fileName,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToRetrieveFileContent, {
+                        fileHref: fileHref,
+                        content: error.text(),
+                        status: error.status.toString()
+                    });
+                }
+            });
     }
 
     @ClearCache('getFileContent', 'href')
     saveFile(file: VfsObject | string, updatedContent: string, functionInfo?: FunctionInfo) {
-        let fileHref = typeof file === 'string' ? file : file.href;
-        let fileName = this.getFileName(file);
-        let headers = this.getScmSiteHeaders('plain/text');
+        const fileHref = typeof file === 'string' ? file : file.href;
+        const fileName = this.getFileName(file);
+        const headers = this.getScmSiteHeaders('plain/text');
         headers.append('If-Match', '*');
 
         if (functionInfo) {
@@ -351,30 +390,30 @@ export class FunctionApp {
         }
 
         return this._http.put(fileHref, updatedContent, { headers: headers })
-            .catch(e => this.checkCorsError(e))
-            .map<VfsObject | string>(r => file)
+            .map(() => file)
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToSaveFileContent + fileName),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToSaveFileContentThroughKudu, {fileName: fileName}),
-                            errorId: ErrorIds.unableToSaveFileContent + fileName,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToSaveFileContent, {
-                            fileHref: fileHref,
-                            content: error.text(),
-                            status: error.status.toString()
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToSaveFileContentThroughKudu, { fileName: fileName }),
+                        errorId: ErrorIds.unableToSaveFileContent + fileName,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToSaveFileContent, {
+                        fileHref: fileHref,
+                        content: error.text(),
+                        status: error.status.toString()
+                    });
+                }
+            });
     }
 
     @ClearCache('getFileContent', 'href')
     deleteFile(file: VfsObject | string, functionInfo?: FunctionInfo) {
-        let fileHref = typeof file === 'string' ? file : file.href;
-        let fileName = this.getFileName(file);
-        let headers = this.getScmSiteHeaders('plain/text');
+        const fileHref = typeof file === 'string' ? file : file.href;
+        const fileName = this.getFileName(file);
+        const headers = this.getScmSiteHeaders('plain/text');
         headers.append('If-Match', '*');
 
         if (functionInfo) {
@@ -382,23 +421,23 @@ export class FunctionApp {
         }
 
         return this._http.delete(fileHref, { headers: headers })
-            .catch(e => this.checkCorsError(e))
-            .map<VfsObject | string>(r => file)
+            .map(() => file)
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFile + fileName),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToDeleteFileThroughKudu, {fileName: fileName}),
-                            errorId: ErrorIds.unableToDeleteFile + fileName,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToDeleteFile, {
-                            fileHref: fileHref,
-                            content: error.text(),
-                            status: error.status.toString()
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToDeleteFileThroughKudu, { fileName: fileName }),
+                        errorId: ErrorIds.unableToDeleteFile + fileName,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToDeleteFile, {
+                        fileHref: fileHref,
+                        content: error.text(),
+                        status: error.status.toString()
+                    });
+                }
+            });
     }
 
     ClearAllFunctionCache(functionInfo: FunctionInfo) {
@@ -409,99 +448,98 @@ export class FunctionApp {
     getTemplates() {
         try {
             if (localStorage.getItem('dev-templates')) {
-                let devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
+                const devTemplate: FunctionTemplate[] = JSON.parse(localStorage.getItem('dev-templates'));
                 this.localize(devTemplate);
                 return Observable.of(devTemplate);
             }
-         } catch (e) {
-             console.error(e);
-         }
+        } catch (e) {
+            console.error(e);
+        }
 
-         return this.getExtensionVersion()
-         .flatMap(extensionVersion =>{
-             return this._cacheService.get(
-                 Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
-                 true,
-                 this.getPortalHeaders())
-         })
-        .retryWhen(this.retryAntares)
-        .map<FunctionTemplate[]>(r => {
-            var object = r.json();
-            this.localize(object);
-            return object;
-        });
+        return this.getExtensionVersion()
+            .mergeMap(extensionVersion => {
+                return this._cacheService.get(
+                    Constants.serviceHost + 'api/templates?runtime=' + (extensionVersion || 'latest'),
+                    true,
+                    this.getPortalHeaders());
+            })
+            .retryWhen(this.retryAntares)
+            .map(r => {
+                const object = r.json();
+                this.localize(object);
+                return object;
+            });
     }
 
     @ClearCache('getFunctions')
     createFunction(functionName: string, templateId: string) {
         let observable: Observable<FunctionInfo>;
         if (templateId) {
-            let body: CreateFunctionInfo = {
+            const body: CreateFunctionInfo = {
                 name: functionName,
                 templateId: (templateId && templateId !== 'Empty' ? templateId : null),
                 containerScmUrl: this._scmUrl
             };
             observable = this._http.put(`${this._scmUrl}/api/functions/${functionName}`, JSON.stringify(body), { headers: this.getScmSiteHeaders() })
-                .map<FunctionInfo>(r => r.json());
+                .map(r => r.json());
         } else {
             observable = this._http
                 .put(`${this._scmUrl}/api/functions/${functionName}`, JSON.stringify({ config: {} }), { headers: this.getScmSiteHeaders() })
-                .map<FunctionInfo>(r => r.json());
+                .map(r => r.json());
         }
 
         return observable
-                .catch(e => this.checkCorsError(e))
-                .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateFunction + functionName),
-                    (error: FunctionsResponse) => {
-                        if (!error.isHandled) {
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant(PortalResources.error_unableToCreateFunction, { functionName: functionName }),
-                                errorId: ErrorIds.unableToCreateFunction + functionName,
-                            errorType: ErrorType.ApiError
-                            });
-                            this.trackEvent(ErrorIds.unableToCreateFunction, {
-                                content: error.text(),
-                                status: error.status.toString(),
-                            });
-                        }
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateFunction + functionName),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToCreateFunction, { functionName: functionName }),
+                        errorId: ErrorIds.unableToCreateFunction + functionName,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
                     });
+                    this.trackEvent(ErrorIds.unableToCreateFunction, {
+                        content: error.text(),
+                        status: error.status.toString(),
+                    });
+                }
+            });
     }
 
     getFunctionContainerAppSettings() {
-        let url = `${this._scmUrl}/api/settings`;
+        const url = `${this._scmUrl}/api/settings`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
             .retryWhen(this.retryAntares)
-            .map<{ [key: string]: string }>(r => r.json());
+            .map(r => <{ [key: string]: string }>r.json());
     }
 
     @ClearCache('getFunctions')
     createFunctionV2(functionName: string, files: any, config: any) {
-        let filesCopy = Object.assign({}, files);
-        let sampleData = filesCopy['sample.dat'];
+        const filesCopy = Object.assign({}, files);
+        const sampleData = filesCopy['sample.dat'];
         delete filesCopy['sample.dat'];
 
-        let content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
-        let url = `${this._scmUrl}/api/functions/${functionName}`;
+        const content = JSON.stringify({ files: filesCopy, test_data: sampleData, config: config });
+        const url = `${this._scmUrl}/api/functions/${functionName}`;
 
         return this._http.put(url, content, { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .map<FunctionInfo>(r => r.json())
+            .map(r => <FunctionInfo>r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateFunction + functionName),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToCreateFunction, { functionName: functionName }),
-                            errorId: ErrorIds.unableToCreateFunction + functionName,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToCreateFunction, {
-                            content: error.text(),
-                            status: error.status.toString(),
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToCreateFunction, { functionName: functionName }),
+                        errorId: ErrorIds.unableToCreateFunction + functionName,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToCreateFunction, {
+                        content: error.text(),
+                        status: error.status.toString(),
+                    });
+                }
+            });
     }
-
 
     getNewFunctionNode(): FunctionInfo {
         return {
@@ -516,32 +554,32 @@ export class FunctionApp {
             test_data: null,
             script_root_path_href: null,
             config_href: null,
-            functionApp : null
+            functionApp: null
         };
     }
 
     statusCodeToText(code: number) {
-        let statusClass = Math.floor(code / 100) * 100;
+        const statusClass = Math.floor(code / 100) * 100;
         return this.statusCodeMap[code] || this.genericStatusCodeMap[statusClass] || 'Unknown Status Code';
     }
 
     runHttpFunction(functionInfo: FunctionInfo, url: string, model: HttpRunModel) {
-        let content = model.body;
+        const content = model.body;
 
-        let regExp = /\{([^}]+)\}/g;
-        let matchesPathParams = url.match(regExp);
-        let processedParams = [];
+        const regExp = /\{([^}]+)\}/g;
+        const matchesPathParams = url.match(regExp);
+        const processedParams = [];
 
-        let splitResults = url.split('?');
+        const splitResults = url.split('?');
         if (splitResults.length === 2) {
             url = splitResults[0];
         }
 
         if (matchesPathParams) {
             matchesPathParams.forEach((m) => {
-                let name = m.split(':')[0].replace('{', '').replace('}', '');
+                const name = m.split(':')[0].replace('{', '').replace('}', '');
                 processedParams.push(name);
-                let param = model.queryStringParams.find((p) => {
+                const param = model.queryStringParams.find((p) => {
                     return p.name === name;
                 });
                 if (param) {
@@ -551,8 +589,8 @@ export class FunctionApp {
         }
 
         let firstDone = false;
-        model.queryStringParams.forEach((p, index) => {
-            let findResult = processedParams.find((pr) => {
+        model.queryStringParams.forEach(p => {
+            const findResult = processedParams.find((pr) => {
                 return pr === p.name;
             });
 
@@ -566,7 +604,7 @@ export class FunctionApp {
                 url += p.name + '=' + p.value;
             }
         });
-        let inputBinding = (functionInfo.config && functionInfo.config.bindings
+        const inputBinding = (functionInfo.config && functionInfo.config.bindings
             ? functionInfo.config.bindings.find(e => e.type === 'httpTrigger')
             : null);
 
@@ -575,7 +613,7 @@ export class FunctionApp {
             contentType = 'application/json';
         }
 
-        let headers = this.getMainSiteHeaders(contentType);
+        const headers = this.getMainSiteHeaders(contentType);
         model.headers.forEach((h) => {
             headers.append(h.name, h.value);
         });
@@ -613,8 +651,8 @@ export class FunctionApp {
     }
 
     runFunction(functionInfo: FunctionInfo, content: string) {
-        let url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
-        let _content: string = JSON.stringify({ input: content });
+        const url = `${this.mainSiteUrl}/admin/functions/${functionInfo.name.toLocaleLowerCase()}`;
+        const _content: string = JSON.stringify({ input: content });
         let contentType: string;
 
         try {
@@ -625,53 +663,50 @@ export class FunctionApp {
         }
 
 
-            return this.runFunctionInternal(
-                this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) }),
-                functionInfo);
+        return this.runFunctionInternal(
+            this._http.post(url, _content, { headers: this.getMainSiteHeaders(contentType) }),
+            functionInfo);
 
     }
 
     @ClearCache('clearAllCachedData')
     deleteFunction(functionInfo: FunctionInfo) {
         return this._http.delete(functionInfo.href, { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .map<string>(r => r.statusText)
+            .map(r => r.statusText)
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunction + functionInfo.name),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToDeleteFunction, { functionName: functionInfo.name }),
-                            errorId: ErrorIds.unableToDeleteFunction + functionInfo.name,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToDeleteFunction, {
-                            content: error.text(),
-                            status: error.status.toString(),
-                            href: functionInfo.href
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToDeleteFunction, { functionName: functionInfo.name }),
+                        errorId: ErrorIds.unableToDeleteFunction + functionInfo.name,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToDeleteFunction, {
+                        content: error.text(),
+                        status: error.status.toString(),
+                        href: functionInfo.href
+                    });
+                }
+            });
     }
 
     @Cache()
     getDesignerSchema() {
         return this._http.get(Constants.serviceHost + 'mocks/function-json-schema.json')
             .retryWhen(this.retryAntares)
-            .map<DesignerSchema>(r => r.json());
+            .map(r => <DesignerSchema>r.json());
     }
 
     initKeysAndWarmupMainSite() {
-        var body: PassthroughInfo = {
-            httpMethod: 'GET',
-            url: this._scmUrl.replace('.scm.', '.')
-        };
-        var warmupSite = this._cacheService.get(this.mainSiteUrl, false, this.getScmSiteHeaders())
-            .retryWhen(this.retryAntares);
+        const warmupSite = this._http.post(`${this.mainSiteUrl}/admin/host/ping`, '')
+            .retryWhen(this.retryAntares)
+            .catch(() => Observable.of(null));
 
-        let observable = Observable.zip(
+        const observable = Observable.zip(
             warmupSite,
             this.getHostSecretsFromScm(),
-            (w: any, s: any) => ({warmUp : w, secrets : s})
+            (w: any, s: any) => ({ warmUp: w, secrets: s })
         );
 
         return observable;
@@ -680,74 +715,72 @@ export class FunctionApp {
     @Cache('secrets_file_href')
     getSecrets(fi: FunctionInfo) {
         return this._http.get(fi.secrets_file_href, { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .map<FunctionSecrets>(r => r.json())
+            .map(r => <FunctionSecrets>r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveSecretsFileFromKudu + fi.name),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_UnableToRetrieveSecretsFileFromKudu, { functionName: fi.name }),
-                            errorId: ErrorIds.unableToRetrieveSecretsFileFromKudu + fi.name,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToRetrieveSecretsFileFromKudu, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                            href: fi.secrets_file_href
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_UnableToRetrieveSecretsFileFromKudu, { functionName: fi.name }),
+                        errorId: ErrorIds.unableToRetrieveSecretsFileFromKudu + fi.name,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToRetrieveSecretsFileFromKudu, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                        href: fi.secrets_file_href
+                    });
+                }
+            });
     }
 
     @ClearCache('getSecrets', 'secrets_file_href')
     setSecrets(fi: FunctionInfo, secrets: FunctionSecrets) {
         return this.saveFile(fi.secrets_file_href, JSON.stringify(secrets))
             .retryWhen(this.retryAntares)
-            .map<FunctionSecrets>(e => secrets);
+            .map(() => <FunctionSecrets>secrets);
     }
 
-    @Cache()
-    getHostJson() {
+    getHostJson(): Observable<any> {
         return this._http.get(`${this._scmUrl}/api/functions/config`, { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .map<any>(r => r.json())
+            .map(r => r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeConfig),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeConfig),
-                            errorId: ErrorIds.unableToRetrieveRuntimeConfig,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToRetrieveRuntimeConfig, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeConfig),
+                        errorId: ErrorIds.unableToRetrieveRuntimeConfig,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToRetrieveRuntimeConfig, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
     }
 
     @ClearCache('getFunction', 'href')
     saveFunction(fi: FunctionInfo, config: any) {
         ClearAllFunctionCache(fi);
         return this._http.put(fi.href, JSON.stringify({ config: config }), { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .map<FunctionInfo>(r => r.json())
+            .map(r => <FunctionInfo>r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateFunction + fi.name),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToUpdateFunction, { functionName: fi.name }),
-                            errorId: ErrorIds.unableToUpdateFunction + fi.name,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToUpdateFunction, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                        });
-                        return Observable.of('');
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToUpdateFunction, { functionName: fi.name }),
+                        errorId: ErrorIds.unableToUpdateFunction + fi.name,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToUpdateFunction, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
     }
 
     getScmUrl() {
@@ -763,49 +796,105 @@ export class FunctionApp {
     }
 
     getHostSecretsFromScm() {
-        // call kudu
-        return this._http.get(`${this._scmUrl}/api/functions/admin/masterkey`, { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .do((r: Response) => {
-                    let key: { masterKey: string } = r.json();
-                    this.masterKey = key.masterKey;
-                    this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromScm);
-                },
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        try {
-                            let exception: WebApiException = error.json();
-                            if (exception.ExceptionType === 'System.Security.Cryptography.CryptographicException') {
+        return this.getAuthSettings()
+            .mergeMap(authSettings => {
+                return authSettings.clientCertEnabled
+                    ? Observable.of()
+                    : this._http.get(`${this._scmUrl}/api/functions/admin/token`, { headers: this.getScmSiteHeaders() })
+                        .retryWhen(this.retryAntares)
+                        .map(r => r.json())
+                        .mergeMap((token: string) => {
+                            // Call the main site to get the masterKey
+                            // build authorization header
+                            const authHeader = new Headers();
+                            authHeader.append('Authorization', `Bearer ${token}`);
+                            return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys/_master`, { headers: authHeader })
+                                .catch((error: FunctionsResponse) => {
+                                    if (error.status === 405) {
+                                        // If the result from calling the API above is 405, that means they are running on an older runtime.
+                                        // It should be safe to call kudu for the master key since they won't be using slots.
+                                        return this._http.get(`${this._scmUrl}/api/functions/admin/masterKey`, { headers: this.getScmSiteHeaders() });
+                                    } else {
+                                        throw error;
+                                    }
+                                })
+                                .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
+                                    if (err.isHandled || err.status < 500 || errorCount >= 10) {
+                                        throw err;
+                                    } else {
+                                        return errorCount + 1;
+                                    }
+                                }, 0).delay(1000))
+                                .catch(e => this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: authHeader })
+                                    .do(null, _ => this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                        message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
+                                        errorId: ErrorIds.functionRuntimeIsUnableToStart,
+                                        errorType: ErrorType.Fatal,
+                                        resourceId: this.site.id
+                                    })).map(_ => { throw e; })) // if /status call is successful, then throw the original error
+                                .do((r: Response) => {
+                                    // Since we fall back to kudu above, use a union of kudu and runtime types.
+                                    const key: { name: string, value: string } & { masterKey: string } = r.json();
+                                    if (key.masterKey) {
+                                        this.masterKey = key.masterKey;
+                                    } else {
+                                        this.masterKey = key.value;
+                                    }
+                                });
+                        })
+                        .do(() => {
+                            this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromScm);
+                        },
+                        (error: FunctionsResponse) => {
+                            if (!error.isHandled) {
+                                try {
+                                    const exception: WebApiException & FunctionRuntimeError = error.json();
+                                    if (exception.ExceptionType === 'System.Security.Cryptography.CryptographicException') {
+                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                            message: this._translateService.instant(PortalResources.error_unableToDecryptKeys),
+                                            errorId: ErrorIds.unableToDecryptKeys,
+                                            errorType: ErrorType.RuntimeError,
+                                            resourceId: this.site.id
+                                        });
+                                        this.trackEvent(ErrorIds.unableToDecryptKeys, {
+                                            content: error.text(),
+                                            status: error.status.toString()
+                                        });
+                                        return;
+                                    } else if (exception.message || exception.messsage) {
+                                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                            message: exception.message || exception.messsage,
+                                            errorId: ErrorIds.unableToDecryptKeys,
+                                            errorType: ErrorType.RuntimeError,
+                                            resourceId: this.site.id
+                                        });
+                                        this.trackEvent(ErrorIds.unableToDecryptKeys, {
+                                            content: error.text(),
+                                            status: error.status.toString()
+                                        });
+                                        return;
+                                    }
+                                } catch (e) {
+                                    // no-op
+                                }
                                 this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                    message: this._translateService.instant(PortalResources.error_unableToDecryptKeys),
-                                    errorId: ErrorIds.unableToDecryptKeys,
-                                    errorType: ErrorType.RuntimeError
+                                    message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
+                                    errorId: ErrorIds.unableToRetrieveRuntimeKeyFromScm,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
                                 });
-                                this.trackEvent(ErrorIds.unableToDecryptKeys, {
+                                this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromScm, {
+                                    status: error.status.toString(),
                                     content: error.text(),
-                                    status: error.status.toString()
                                 });
-                                return;
                             }
-                        } catch (e) {
-                            // no-op
-                        }
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
-                            errorId: ErrorIds.unableToRetrieveRuntimeKeyFromScm,
-                            errorType: ErrorType.RuntimeError
                         });
-                        this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromScm, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                        });
-                    }
-                });
+            });
     }
 
     legacyGetHostSecrets() {
         return this._http.get(`${this._scmUrl}/api/vfs/data/functions/secrets/host.json`, { headers: this.getScmSiteHeaders() })
-            .map<string>(r => r.json().masterKey)
+            .map(r => <string>r.json().masterKey)
             .do(h => {
                 this.masterKey = h;
                 this.isMultiKeySupported = false;
@@ -813,74 +902,73 @@ export class FunctionApp {
     }
 
     getFunctionHostKeys(handleUnauthorized?: boolean): Observable<FunctionKeys> {
-    handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-    return this.checkIfEasyAuthEnabled()
-        .flatMap(enabled =>{
-            if (enabled) {
-            return Observable.of({keys: [], links: []});
-        }
-        return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .retryWhen(e => e.scan<number>((errorCount, err: Response) => {
-                if (err.status < 500) {
-                    throw err;
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+        return this.getAuthSettings()
+            .mergeMap(r => {
+                if (r.clientCertEnabled) {
+                    return Observable.of({ keys: [], links: [] });
                 }
-                if (errorCount >= 10) {
-                    throw err;
-                }
-                return errorCount + 1;
-            }, 0).delay(400))
-            .map<FunctionKeys>(r => {
-                let keys: FunctionKeys = r.json();
-                if (keys && Array.isArray(keys.keys)) {
-                    keys.keys.unshift({
-                        name: '_master',
-                        value: this.masterKey
-                    });
-                }
-                return keys;
-            })
-            .catch((error: Response) => {
-                if (handleUnauthorized && error.status === 401) {
-                    this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
-                        usedKey: this.sanitize(this.masterKey)
-                    });
-                    return this.getHostSecretsFromScm().flatMap(r => this.getFunctionHostKeys(false));
-                } else {
-                    throw error;
-                }
-            })
-            .do(_ => {
-                    this.isMultiKeySupported = true;
-                    this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromRuntime);
-                },
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        if (error.status === 404) {
-                            this.isMultiKeySupported = false;
-                            this.legacyGetHostSecrets();
-                            return Observable.of({keys: [], links: []});
+                return this._http.get(`${this.mainSiteUrl}/admin/host/keys`, { headers: this.getMainSiteHeaders() })
+                    .retryWhen(e => e.scan((errorCount: number, err: Response) => {
+                        if (err.status < 500 && err.status !== 0) {
+                            throw err;
                         }
+                        if (errorCount >= 10) {
+                            throw err;
+                        }
+                        return errorCount + 1;
+                    }, 0).delay(400))
+                    .map(r => {
+                        const keys: FunctionKeys = r.json();
+                        if (keys && Array.isArray(keys.keys)) {
+                            keys.keys.unshift({
+                                name: '_master',
+                                value: this.masterKey
+                            });
+                        }
+                        return keys;
+                    })
+                    .catch((error: Response) => {
+                        if (handleUnauthorized && error.status === 401) {
+                            this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                                usedKey: this.sanitize(this.masterKey)
+                            });
+                            return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionHostKeys(false));
+                        } else {
+                            throw error;
+                        }
+                    })
+                    .do(_ => {
+                        this.isMultiKeySupported = true;
+                        this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveRuntimeKeyFromRuntime);
+                    },
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            if (error.status === 404) {
+                                this.isMultiKeySupported = false;
+                                this.legacyGetHostSecrets();
+                            }
 
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
-                            errorId: ErrorIds.unableToRetrieveRuntimeKeyFromRuntime,
-                            errorType: ErrorType.RuntimeError
-                        });
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                message: this._translateService.instant(PortalResources.error_unableToRetrieveRuntimeKey),
+                                errorId: ErrorIds.unableToRetrieveRuntimeKeyFromRuntime,
+                                errorType: ErrorType.RuntimeError,
+                                resourceId: this.site.id
+                            });
 
-                        this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromRuntime, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                        });
-                    }
-                });
+                            this.trackEvent(ErrorIds.unableToRetrieveRuntimeKeyFromRuntime, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
             });
     }
 
     getBindingConfig(): Observable<BindingConfig> {
         try {
             if (localStorage.getItem('dev-bindings')) {
-                let devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
+                const devBindings: BindingConfig = JSON.parse(localStorage.getItem('dev-bindings'));
                 this.localize(devBindings);
                 return Observable.of(devBindings);
             }
@@ -889,15 +977,15 @@ export class FunctionApp {
         }
 
         return this.getExtensionVersion()
-        .flatMap(extensionVersion =>{
-            return this._cacheService.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + extensionVersion, false, this.getPortalHeaders());
-        })
-        .retryWhen(this.retryAntares)
-        .map<BindingConfig>(r => {
-            var object = r.json();
-            this.localize(object);
-            return object;
-        });
+            .mergeMap(extensionVersion => {
+                return this._cacheService.get(Constants.serviceHost + 'api/bindingconfig?runtime=' + extensionVersion, false, this.getPortalHeaders());
+            })
+            .retryWhen(this.retryAntares)
+            .map(r => {
+                const object = r.json();
+                this.localize(object);
+                return <BindingConfig>object;
+            });
     }
 
     get HostSecrets() {
@@ -905,21 +993,21 @@ export class FunctionApp {
     }
 
     getTrialResource(provider?: string): Observable<UIResource> {
-        let url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
+        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
             + (provider ? '&provider=' + provider : '');
 
         return this._http.get(url, { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryGetTrialResource)
-            .map<UIResource>(r => r.json());
+            .map(r => <UIResource>r.json());
     }
 
     createTrialResource(selectedTemplate: FunctionTemplate, provider: string, functionName: string): Observable<UIResource> {
-        let url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
+        const url = this._tryAppServiceUrl + '/api/resource?appServiceName=Function'
             + (provider ? '&provider=' + provider : '')
             + '&templateId=' + encodeURIComponent(selectedTemplate.id)
             + '&functionName=' + encodeURIComponent(functionName);
 
-        let template = <ITryAppServiceTemplate>{
+        const template = <ITryAppServiceTemplate>{
             name: selectedTemplate.id,
             appService: 'Function',
             language: selectedTemplate.metadata.language,
@@ -928,130 +1016,129 @@ export class FunctionApp {
 
         return this._http.post(url, JSON.stringify(template), { headers: this.getTryAppServiceHeaders() })
             .retryWhen(this.retryCreateTrialResource)
-            .map<UIResource>(r => r.json());
+            .map(r => <UIResource>r.json());
     }
 
     updateFunction(fi: FunctionInfo) {
         ClearAllFunctionCache(fi);
-        let fiCopy = <FunctionInfo>{};
-        for(let prop in fi){
-            if(fi.hasOwnProperty(prop) && prop !== "functionApp"){
+        const fiCopy = <FunctionInfo>{};
+        for (const prop in fi) {
+            if (fi.hasOwnProperty(prop) && prop !== 'functionApp') {
                 fiCopy[prop] = fi[prop];
             }
         }
         return this._http.put(fi.href, JSON.stringify(fiCopy), { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .map<FunctionInfo>(r => r.json())
+            .map(r => <FunctionInfo>r.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateFunction + fi.name),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToUpdateFunction, { functionName: fi.name }),
-                            errorId: ErrorIds.unableToUpdateFunction + fi.name,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToUpdateFunction, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToUpdateFunction, { functionName: fi.name }),
+                        errorId: ErrorIds.unableToUpdateFunction + fi.name,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToUpdateFunction, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
     }
 
     getFunctionErrors(fi: FunctionInfo, handleUnauthorized?: boolean) {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.checkIfEasyAuthEnabled()
-        .flatMap((isEasyAuthEnabled : boolean) =>{
-        return isEasyAuthEnabled
-            ? Observable.of([])
-            : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
-                .retryWhen(this.retryAntares)
-                .map<string[]>(r => r.json().errors || [])
-                .catch((error: Response) => {
-                    if (handleUnauthorized && error.status === 401) {
-                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
-                            usedKey: this.sanitize(this.masterKey)
-                        });
-                        return this.getHostSecretsFromScm().flatMap(r => this.getFunctionErrors(fi, false));
-                    } else {
-                        throw error;
-                    }
-                })
-                .catch<string[]>(e => Observable.of(null));
-            });
-    }
-
-    getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
-        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.checkIfEasyAuthEnabled()
-        .flatMap(isEasyAuthEnabled =>{
-        if (isEasyAuthEnabled || !this.masterKey) {
-            return Observable.of([]);
-        } else {
-            return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                .catch(e => this.checkCorsError(e))
-                .retryWhen(e => e.scan<number>((errorCount, err) => {
-                    // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
-                    if (errorCount >= 10) {
-                        throw err;
-                    }
-                    return errorCount + 1;
-                }, 0).delay(2000))
-                .map<string[]>(r => r.json().errors || [])
-                .catch((error: Response) => {
-                    if (handleUnauthorized && error.status === 401) {
-                        this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
-                            usedKey: this.sanitize(this.masterKey)
-                        });
-                        return this.getHostSecretsFromScm().flatMap(r => this.getHostErrors(false));
-                    } else {
-                        throw error;
-                    }
-                })
-                .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.functionRuntimeIsUnableToStart),
-                    (error: FunctionsResponse) => {
-                        if (!error.isHandled) {
-                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
-                                errorId: ErrorIds.functionRuntimeIsUnableToStart,
-                                errorType: ErrorType.RuntimeError
-                            });
-                            this.trackEvent(ErrorIds.functionRuntimeIsUnableToStart, {
-                                status: error.status.toString(),
-                                content: error.text(),
-                            });
-                        }
-                    });
-        }
-        });
-    }
-
-    @Cache()
-    getFunctionHostId(handleUnauthorized?: boolean): Observable<string> {
-        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.checkIfEasyAuthEnabled()
-            .flatMap(isEasyAuthEnabled => {
-                if (isEasyAuthEnabled || !this.masterKey) {
-                    return Observable.of('');
-                } else {
-                    return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
-                        .map<string>(r => r.json().id)
+        return this.getAuthSettings()
+            .mergeMap((authSettings: AuthSettings) => {
+                return authSettings.clientCertEnabled
+                    ? Observable.of([])
+                    : this._http.get(`${this.mainSiteUrl}/admin/functions/${fi.name}/status`, { headers: this.getMainSiteHeaders() })
+                        .retryWhen(this.retryAntares)
+                        .map(r => <string[]>(r.json().errors || []))
                         .catch((error: Response) => {
                             if (handleUnauthorized && error.status === 401) {
                                 this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                     usedKey: this.sanitize(this.masterKey)
                                 });
-                                return this.getHostSecretsFromScm().flatMap(r => this.getFunctionHostId(false));
+                                return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionErrors(fi, false));
                             } else {
                                 throw error;
                             }
                         })
-                        .catch(e => Observable.of(''));
+                        .catch(() => Observable.of(null));
+            });
+    }
+
+    getHostErrors(handleUnauthorized?: boolean): Observable<string[]> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+        return this.getAuthSettings()
+            .mergeMap(authSettings => {
+                if (authSettings.clientCertEnabled || !this.masterKey) {
+                    return Observable.of([]);
+                } else {
+                    return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                        .retryWhen(e => e.scan((errorCount: number, err: FunctionsResponse) => {
+                            // retry 12 times with 5 seconds delay. This would retry for 1 minute before throwing.
+                            if (errorCount >= 10 || err.status === 401) {
+                                throw err;
+                            }
+                            return errorCount + 1;
+                        }, 0).delay(2000))
+                        .map(r => <string[]>(r.json().errors || []))
+                        .catch((error: Response) => {
+                            if (handleUnauthorized && error.status === 401) {
+                                this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                                    usedKey: this.sanitize(this.masterKey)
+                                });
+                                return this.getHostSecretsFromScm().mergeMap(() => this.getHostErrors(false));
+                            } else {
+                                throw error;
+                            }
+                        })
+                        .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.functionRuntimeIsUnableToStart),
+                        (error: FunctionsResponse) => {
+                            if (!error.isHandled) {
+                                this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                    message: this._translateService.instant(PortalResources.error_functionRuntimeIsUnableToStart),
+                                    errorId: ErrorIds.functionRuntimeIsUnableToStart,
+                                    errorType: ErrorType.RuntimeError,
+                                    resourceId: this.site.id
+                                });
+                                this.trackEvent(ErrorIds.functionRuntimeIsUnableToStart, {
+                                    status: error.status.toString(),
+                                    content: error.text(),
+                                });
+                            }
+                        });
                 }
             });
     }
 
-    //getFunctionAppArmId() {
+    getFunctionHostStatus(handleUnauthorized?: boolean): Observable<HostStatus> {
+        handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
+        return this.getAuthSettings()
+            .mergeMap(authSettings => {
+                if (authSettings.clientCertEnabled || !this.masterKey) {
+                    return Observable.of(null);
+                } else {
+                    return this._http.get(`${this.mainSiteUrl}/admin/host/status`, { headers: this.getMainSiteHeaders() })
+                        .map(r => (r.json()))
+                        .catch((error: Response) => {
+                            if (handleUnauthorized && error.status === 401) {
+                                this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
+                                    usedKey: this.sanitize(this.masterKey)
+                                });
+                                return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionHostStatus(false));
+                            } else {
+                                throw error;
+                            }
+                        })
+                        .catch(() => Observable.of(null));
+                }
+            });
+    }
+
+    // getFunctionAppArmId() {
     //    if (this.functionContainer && this.functionContainer.id && this.functionContainer.id.trim().length !== 0) {
     //        return this.functionContainer.id;
     //    } else if (this._scmUrl) {
@@ -1059,16 +1146,16 @@ export class FunctionApp {
     //    } else {
     //        return 'Unknown';
     //    }
-    //}
+    // }
 
     getOldLogs(fi: FunctionInfo, range: number): Observable<string> {
-        let url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
+        const url = `${this._scmUrl}/api/vfs/logfiles/application/functions/function/${fi.name}/`;
         return this._http.get(url, { headers: this.getScmSiteHeaders() })
-            .catch(e => Observable.of({ json: () => [] }))
-            .flatMap<string>(r => {
-                let files: any[] = r.json();
+            .catch(() => Observable.of({ json: () => [] }))
+            .mergeMap(r => {
+                const files: any[] = r.json();
                 if (files.length > 0) {
-                    let headers = this.getScmSiteHeaders();
+                    const headers = this.getScmSiteHeaders();
                     headers.append('Range', `bytes=-${range}`);
 
                     files
@@ -1076,12 +1163,12 @@ export class FunctionApp {
                         .sort((a, b) => a.parsedTime.getTime() - b.parsedTime.getTime());
 
                     return this._http.get(files.pop().href, { headers: headers })
-                        .map<string>(f => {
-                            let content = f.text();
-                            let index = content.indexOf('\n');
-                            return index !== -1
+                        .map(f => {
+                            const content = f.text();
+                            const index = content.indexOf('\n');
+                            return <string>(index !== -1
                                 ? content.substring(index + 1)
-                                : content;
+                                : content);
                         });
                 } else {
                     return Observable.of('');
@@ -1091,24 +1178,24 @@ export class FunctionApp {
 
     @Cache('href')
     getVfsObjects(fi: FunctionInfo | string) {
-        let href = typeof fi === 'string' ? fi : fi.script_root_path_href;
+        const href = typeof fi === 'string' ? fi : fi.script_root_path_href;
         return this._http.get(href, { headers: this.getScmSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
-            .map<VfsObject[]>(e => e.json())
+            .map(e => <VfsObject[]>e.json())
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveDirectoryContent),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToRetrieveDirectoryContent),
-                            errorId: ErrorIds.unableToRetrieveDirectoryContent,
-                            errorType: ErrorType.ApiError
-                        });
-                        this.trackEvent(ErrorIds.unableToRetrieveDirectoryContent, {
-                            content: error.text(),
-                            status: error.status.toString()
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToRetrieveDirectoryContent),
+                        errorId: ErrorIds.unableToRetrieveDirectoryContent,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToRetrieveDirectoryContent, {
+                        content: error.text(),
+                        status: error.status.toString()
+                    });
+                }
+            });
     }
 
     @ClearCache('clearAllCachedData')
@@ -1124,38 +1211,38 @@ export class FunctionApp {
 
     getFunctionKeys(functionInfo: FunctionInfo, handleUnauthorized?: boolean): Observable<FunctionKeys> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
-        return this.checkIfEasyAuthEnabled()
-            .flatMap(isEasyAuthEnabled => {
-                if (isEasyAuthEnabled) {
+        return this.getAuthSettings()
+            .mergeMap(authSettings => {
+                if (authSettings.clientCertEnabled) {
                     return Observable.of({ keys: [], links: [] });
                 }
                 return this._http.get(`${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys`, { headers: this.getMainSiteHeaders() })
-                    .catch(e => this.checkCorsError(e))
-                    .retryWhen(error => error.scan<number>((errorCount, err: FunctionsResponse) => {
+                    .retryWhen(error => error.scan((errorCount: number, err: FunctionsResponse) => {
                         if (err.isHandled || (err.status < 500 && err.status !== 404) || errorCount >= 10) {
                             throw err;
                         } else {
                             return errorCount + 1;
                         }
                     }, 0).delay(1000))
-                    .map<FunctionKeys>(r => r.json())
+                    .map(r => <FunctionKeys>r.json())
                     .catch((error: Response) => {
                         if (handleUnauthorized && error.status === 401) {
                             this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                                 usedKey: this.sanitize(this.masterKey)
                             });
-                            return this.getHostSecretsFromScm().flatMap(r => this.getFunctionKeys(functionInfo, false));
+                            return this.getHostSecretsFromScm().mergeMap(() => this.getFunctionKeys(functionInfo, false));
                         } else {
                             throw error;
                         }
                     })
-                    .do(r => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name),
+                    .do(() => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name),
                     (error: FunctionsResponse) => {
                         if (!error.isHandled) {
                             this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
                                 message: this._translateService.instant(PortalResources.error_unableToRetrieveFunctionKeys, { functionName: functionInfo.name }),
                                 errorId: ErrorIds.unableToRetrieveFunctionKeys + functionInfo.name,
-                                errorType: ErrorType.RuntimeError
+                                errorType: ErrorType.RuntimeError,
+                                resourceId: this.site.id
                             });
                             this.trackEvent(ErrorIds.unableToRetrieveFunctionKeys, {
                                 status: error.status.toString(),
@@ -1167,28 +1254,26 @@ export class FunctionApp {
             });
     }
 
-    createKey(keyName: string, keyValue: string, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
+    createKey(keyName: string, keyValue: string, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response | FunctionKey> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
-        let url = functionInfo
+        const url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${keyName}`
             : `${this.mainSiteUrl}/admin/host/keys/${keyName}`;
 
         let result: Observable<FunctionKey>;
         if (keyValue) {
-            let body = {
+            const body = {
                 name: keyName,
                 value: keyValue
             };
-            result =  this._http.put(url, JSON.stringify(body), { headers: this.getMainSiteHeaders() })
-                .catch(e => this.checkCorsError(e))
+            result = this._http.put(url, JSON.stringify(body), { headers: this.getMainSiteHeaders() })
                 .retryWhen(this.retryAntares)
-                .map<FunctionKey>(r => r.json());
+                .map(r => <FunctionKey>r.json());
         } else {
             result = this._http.post(url, '', { headers: this.getMainSiteHeaders() })
-                .catch(e => this.checkCorsError(e))
                 .retryWhen(this.retryAntares)
-                .map<FunctionKey>(r => r.json());
+                .map(r => <FunctionKey>r.json());
         }
         return result
             .catch((error: Response) => {
@@ -1196,111 +1281,112 @@ export class FunctionApp {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().flatMap(r => this.createKey(keyName, keyValue, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(() => this.createKey(keyName, keyValue, functionInfo, false));
                 } else {
                     throw error;
                 }
-             })
+            })
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateFunctionKey + functionInfo + keyName),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToCreateFunctionKey, { functionName: functionInfo.name, keyName: keyName }),
-                            errorId: ErrorIds.unableToCreateFunctionKey + functionInfo + keyName,
-                            errorType: ErrorType.RuntimeError
-                        });
-                        this.trackEvent(ErrorIds.unableToCreateFunctionKey, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                            functionName: functionInfo.name,
-                            keyName: keyName
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToCreateFunctionKey, { functionName: functionInfo.name, keyName: keyName }),
+                        errorId: ErrorIds.unableToCreateFunctionKey + functionInfo + keyName,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToCreateFunctionKey, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                        functionName: functionInfo.name,
+                        keyName: keyName
+                    });
+                }
+            });
     }
 
     deleteKey(key: FunctionKey, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
-        let url = functionInfo
+        const url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
             : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
 
         return this._http.delete(url, { headers: this.getMainSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
             .retryWhen(this.retryAntares)
             .catch((error: Response) => {
                 if (handleUnauthorized && error.status === 401) {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().flatMap(r => this.deleteKey(key, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(() => this.deleteKey(key, functionInfo, false));
                 } else {
                     throw error;
                 }
-             })
+            })
             .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteFunctionKey + functionInfo + key.name),
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToDeleteFunctionKey, { functionName: functionInfo.name, keyName: key.name }),
-                            errorId: ErrorIds.unableToDeleteFunctionKey + functionInfo + key.name,
-                            errorType: ErrorType.RuntimeError
-                        });
-                        this.trackEvent(ErrorIds.unableToDeleteFunctionKey, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                            functionName: functionInfo.name,
-                            keyName: key.name
-                        });
-                    }
-                });
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToDeleteFunctionKey, { functionName: functionInfo.name, keyName: key.name }),
+                        errorId: ErrorIds.unableToDeleteFunctionKey + functionInfo + key.name,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToDeleteFunctionKey, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                        functionName: functionInfo.name,
+                        keyName: key.name
+                    });
+                }
+            });
     }
 
     renewKey(key: FunctionKey, functionInfo?: FunctionInfo, handleUnauthorized?: boolean): Observable<Response> {
         handleUnauthorized = typeof handleUnauthorized !== 'undefined' ? handleUnauthorized : true;
 
-        let url = functionInfo
+        const url = functionInfo
             ? `${this.mainSiteUrl}/admin/functions/${functionInfo.name}/keys/${key.name}`
             : `${this.mainSiteUrl}/admin/host/keys/${key.name}`;
         return this._http.post(url, '', { headers: this.getMainSiteHeaders() })
-            .catch(e => this.checkCorsError(e))
             .retryWhen(this.retryAntares)
             .catch((error: Response) => {
                 if (handleUnauthorized && error.status === 401) {
                     this.trackEvent(ErrorIds.unauthorizedTalkingToRuntime, {
                         usedKey: this.sanitize(this.masterKey)
                     });
-                    return this.getHostSecretsFromScm().flatMap(r => this.renewKey(key, functionInfo, false));
+                    return this.getHostSecretsFromScm().mergeMap(() => this.renewKey(key, functionInfo, false));
                 } else {
                     throw error;
                 }
-             })
+            })
             .do(r => {
-                   this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRenewFunctionKey + functionInfo + key.name);
-                   if (!functionInfo && key.name === '_master') {
-                       this.masterKey = r.json().value;
-                   }
-                },
-                (error: FunctionsResponse) => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_unableToRenewFunctionKey, { functionName: functionInfo.name, keyName: key.name }),
-                            errorId: ErrorIds.unableToRenewFunctionKey + functionInfo + key.name,
-                            errorType: ErrorType.RuntimeError
-                        });
-                        this.trackEvent(ErrorIds.unableToRenewFunctionKey, {
-                            status: error.status.toString(),
-                            content: error.text(),
-                            functionName: functionInfo.name,
-                            keyName: key.name
-                        });
-                    }
-                });
+                this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToRenewFunctionKey + functionInfo + key.name);
+                if (!functionInfo && key.name === '_master') {
+                    this.masterKey = r.json().value;
+                }
+            },
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToRenewFunctionKey, { functionName: functionInfo.name, keyName: key.name }),
+                        errorId: ErrorIds.unableToRenewFunctionKey + functionInfo + key.name,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToRenewFunctionKey, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                        functionName: functionInfo.name,
+                        keyName: key.name
+                    });
+                }
+            });
     }
 
     fireSyncTrigger() {
-        let url = `${this._scmUrl}/api/functions/synctriggers`;
+        const url = `${this._scmUrl}/api/functions/synctriggers`;
         this._http.post(url, '', { headers: this.getScmSiteHeaders() })
             .subscribe(success => console.log(success), error => console.log(error));
     }
@@ -1308,57 +1394,131 @@ export class FunctionApp {
     @Cache()
     getJson(uri: string) {
         return this._http.get(uri, { headers: this.getMainSiteHeaders() })
-            .map<FunctionKeys>(r => r.json());
-    }
-    checkIfDisabled() {
-        return this._cacheService.getArm(`${this.site.id}/config/web`)
-        .map(r => {
-            let config : ArmObj<SiteConfig> = r.json();
-            if (!config.properties["scmType"] || config.properties["scmType"] !== "None") {
-                return true;
-            } else {
-                return false;
-            }
-        });
+            .map(r => r.json());
     }
 
-    public checkIfEasyAuthEnabled(){
-        if(this.tryFunctionsScmCreds){
-            return Observable.of(false);
+    checkIfSourceControlEnabled(): Observable<boolean> {
+        return this._cacheService.getArm(`${this.site.id}/config/web`)
+            .map(r => {
+                const config: ArmObj<SiteConfig> = r.json();
+                return !config.properties['scmType'] || config.properties['scmType'] !== 'None';
+            })
+            .catch(() => Observable.of(false));
+    }
+
+    private _editModeSubject: Subject<FunctionAppEditMode>;
+    getFunctionAppEditMode(): Observable<FunctionAppEditMode> {
+        // The we have 2 settings to check here. There is the SourceControl setting which comes from /config/web
+        // and there is FUNCTION_APP_EDIT_MODE which comes from app settings.
+        // editMode (true -> readWrite, false -> readOnly)
+        // Table
+        // |Slots | SourceControl | AppSettingValue | EditMode                      |
+        // |------|---------------|-----------------|-------------------------------|
+        // | No   | true          | readWrite       | ReadWriteSourceControlled     |
+        // | No   | true          | readOnly        | ReadOnlySourceControlled      |
+        // | No   | true          | undefined       | ReadOnlySourceControlled      |
+        // | No   | false         | readWrite       | ReadWrite                     |
+        // | No   | false         | readOnly        | ReadOnly                      |
+        // | No   | false         | undefined       | ReadWrite                     |
+
+        // | Yes  | true          | readWrite       | ReadWriteSourceControlled     |
+        // | Yes  | true          | readOnly        | ReadOnlySourceControlled      |
+        // | Yes  | true          | undefined       | ReadOnlySourceControlled      |
+        // | Yes  | false         | readWrite       | ReadWrite                     |
+        // | Yes  | false         | readOnly        | ReadOnly                      |
+        // | Yes  | false         | undefined       | ReadOnlySlots                 |
+        // |______|_______________|_________________|_______________________________|
+        if (!this._editModeSubject) {
+            this._editModeSubject = new Subject<FunctionAppEditMode>();
+        }
+
+        Observable.zip(
+            this.checkIfSourceControlEnabled(),
+            this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true),
+            SlotsService.isSlot(this.site.id)
+                ? Observable.of(true)
+                : this._slotsService.getSlotsList(this.site.id).map(r => r.length > 0),
+            (a, b, s) => ({ sourceControlEnabled: a, appSettingsResponse: b, hasSlots: s })
+        )
+            .map(result => {
+                const appSettings: ArmObj<any> = result.appSettingsResponse.json();
+                const sourceControlled = result.sourceControlEnabled;
+
+                let editModeSettingString: string = appSettings.properties[Constants.functionAppEditModeSettingName] || '';
+                editModeSettingString = editModeSettingString.toLocaleLowerCase();
+
+                if (editModeSettingString === Constants.ReadWriteMode) {
+                    return sourceControlled ? FunctionAppEditMode.ReadWriteSourceControlled : FunctionAppEditMode.ReadWrite;
+                } else if (editModeSettingString === Constants.ReadOnlyMode) {
+                    return sourceControlled ? FunctionAppEditMode.ReadOnlySourceControlled : FunctionAppEditMode.ReadOnly;
+                } else if (sourceControlled) {
+                    return FunctionAppEditMode.ReadOnlySourceControlled;
+                } else {
+                    return result.hasSlots ? FunctionAppEditMode.ReadOnlySlots : FunctionAppEditMode.ReadWrite;
+                }
+            })
+            .catch(() => Observable.of(FunctionAppEditMode.ReadWrite))
+            .subscribe(r => this._editModeSubject.next(r));
+
+        return this._editModeSubject;
+    }
+
+    public getAuthSettings(): Observable<AuthSettings> {
+        if (this.tryFunctionsScmCreds) {
+            return Observable.of({
+                easyAuthEnabled: false,
+                AADConfigured: false,
+                AADNotConfigured: false,
+                clientCertEnabled: false
+            });
         }
 
         return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`)
-        .map(r =>{
-            let auth : ArmObj<any> = r.json();
-            return auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1;
-        });
+            .map(r => {
+                const auth: ArmObj<any> = r.json();
+                return {
+                    easyAuthEnabled: auth.properties['enabled'] && auth.properties['unauthenticatedClientAction'] !== 1,
+                    AADConfigured: auth.properties['clientId'] ? true : false,
+                    AADNotConfigured: auth.properties['clientId'] ? false : true,
+                    clientCertEnabled: this.site.properties.clientCertEnabled
+                };
+            });
     }
 
     diagnose(functionContainer: FunctionContainer): Observable<DiagnosticsResult[]> {
         return this._http.post(Constants.serviceHost + `api/diagnose${functionContainer.id}`, '', { headers: this.getPortalHeaders() })
-            .map<DiagnosticsResult[]>(r => r.json())
+            .map(r => <DiagnosticsResult[]>r.json())
             .catch((error: Response) => {
                 this.trackEvent(ErrorIds.errorCallingDiagnoseApi, {
                     error: error.text(),
                     status: error.status.toString(),
-                    armId: functionContainer.id
+                    resourceId: functionContainer.id
                 });
                 return Observable.of([]);
             });
     }
 
-    private getExtensionVersion(){
+    /**
+     * This method just pings the root of the SCM site. It doesn't care about the response in anyway or use it.
+     */
+    pingScmSite() {
+        return this._http.get(this._scmUrl, { headers: this.getScmSiteHeaders() })
+            .map(_ => null)
+            .catch(() => Observable.of(null));
+    }
+
+    private getExtensionVersion() {
         return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`)
-        .map(r =>{
-            let appSettingsArm : ArmObj<any> = r.json();
-            return appSettingsArm.properties[Constants.runtimeVersionAppSettingName];
-        });
+            .map(r => {
+                const appSettingsArm: ArmObj<any> = r.json();
+                return appSettingsArm.properties[Constants.runtimeVersionAppSettingName];
+            });
     }
 
     // to talk to scm site
     private getScmSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
         if (!this._globalStateService.showTryView && this.token) {
@@ -1373,7 +1533,7 @@ export class FunctionApp {
 
     private getMainSiteHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
         headers.append('x-functions-key', this.masterKey);
@@ -1383,7 +1543,7 @@ export class FunctionApp {
     // to talk to Functions Portal
     private getPortalHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
 
@@ -1398,7 +1558,7 @@ export class FunctionApp {
     // to talk to TryAppservice
     private getTryAppServiceHeaders(contentType?: string): Headers {
         contentType = contentType || 'application/json';
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
         headers.append('Accept', 'application/json,*/*');
 
@@ -1410,40 +1570,29 @@ export class FunctionApp {
         return headers;
     }
 
-    private localize(objectTolocalize: any) {
-        if ((typeof value === 'string') && (value.startsWith('$'))) {
-            objectTolocalize[property] = this._translateService.instant(value.substring(1, value.length));
-        }
-
-        for (var property in objectTolocalize) {
-
-            if (property === 'files' || property === 'defaultValue') {
-                continue;
+    private localize(objectToLocalize: any): any {
+        if ((typeof objectToLocalize === 'string') && (objectToLocalize.startsWith('$'))) {
+            const key = objectToLocalize.substring(1, objectToLocalize.length);
+            objectToLocalize = this._translateService.instant(key);
+        } else if (Array.isArray(objectToLocalize)) {
+            for (let i = 0; i < objectToLocalize.length; i++) {
+                objectToLocalize[i] = this.localize(objectToLocalize[i]);
             }
-
-            if (objectTolocalize.hasOwnProperty(property)) {
-                var value = objectTolocalize[property];
-                if ((typeof value === 'string') && (value.startsWith('$'))) {
-                    var key = value.substring(1, value.length);
-                    var locString = this._translateService.instant(key);
-                    if (locString !== key) {
-                        objectTolocalize[property] = locString;
-                    }
+        } else if (typeof objectToLocalize === 'object') {
+            for (const property in objectToLocalize) {
+                if (property === 'files' || property === 'defaultValue' || property === 'function') {
+                    continue;
                 }
-                if (typeof value === 'array') {
-                    for (var i = 0; i < value.length; i++) {
-                        this.localize(value[i]);
-                    }
-                }
-                if (typeof value === 'object') {
-                    this.localize(value);
+                if (objectToLocalize.hasOwnProperty(property)) {
+                    objectToLocalize[property] = this.localize(objectToLocalize[property]);
                 }
             }
         }
+        return objectToLocalize;
     }
 
     private retryAntares(error: Observable<any>): Observable<any> {
-        return error.scan<number>((errorCount, err: FunctionsResponse) => {
+        return error.scan((errorCount: number, err: FunctionsResponse) => {
             if (err.isHandled || err.status < 500 || errorCount >= 10) {
                 throw err;
             } else {
@@ -1453,7 +1602,7 @@ export class FunctionApp {
     }
 
     private retryCreateTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan<number>((errorCount, err: Response) => {
+        return error.scan((errorCount: number, err: Response) => {
             // 400 => you already have a resource, 403 => No login creds provided
             if (err.status === 400 || err.status === 403 || errorCount >= 10) {
                 throw err;
@@ -1464,7 +1613,7 @@ export class FunctionApp {
     }
 
     private retryGetTrialResource(error: Observable<any>): Observable<any> {
-        return error.scan<number>((errorCount, err: Response) => {
+        return error.scan((errorCount: number, err: Response) => {
             // 403 => No login creds provided
             if (err.status === 403 || errorCount >= 10) {
                 throw err;
@@ -1477,38 +1626,51 @@ export class FunctionApp {
     private runFunctionInternal(response: Observable<Response>, functionInfo: FunctionInfo) {
         return response
             .catch((e: Response) => {
-                return this.checkIfEasyAuthEnabled()
-                .flatMap(isEasyAuthEnabled =>{
-                    if (isEasyAuthEnabled) {
-                    return Observable.of({
-                        status: 401,
-                        statusText: this.statusCodeToText(401),
-                        text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
+                return this.getAuthSettings()
+                    .mergeMap(authSettings => {
+                        if (authSettings.easyAuthEnabled) {
+                            return Observable.of({
+                                status: 401,
+                                statusText: this.statusCodeToText(401),
+                                text: () => this._translateService.instant(PortalResources.functionService_authIsEnabled)
+                            });
+                        } else if (authSettings.clientCertEnabled) {
+                            return Observable.of({
+                                status: 401,
+                                statusText: this.statusCodeToText(401),
+                                text: () => this._translateService.instant(PortalResources.functionService_clientCertEnabled)
+                            });
+                        } else if (e.status === 200 && e.type === ResponseType.Error) {
+                            return Observable.of({
+                                status: 502,
+                                statusText: this.statusCodeToText(502),
+                                text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, {
+                                    name: functionInfo.name
+                                })
+                            });
+                        } else if (e.status === 0 && e.type === ResponseType.Error) {
+                            return Observable.of({
+                                status: 0,
+                                statusText: this.statusCodeToText(0),
+                                text: () => ''
+                            });
+                        } else {
+                            let text = '';
+                            try {
+                                text = JSON.stringify(e.json(), undefined, 2);
+                            } catch (ex) {
+                                text = e.text();
+                            }
+
+                            return Observable.of({
+                                status: e.status,
+                                statusText: this.statusCodeToText(e.status),
+                                text: () => text
+                            });
+                        }
                     });
-                } else if (e.status === 200 && e.type === ResponseType.Error) {
-                    return Observable.of({
-                        status: 502,
-                        statusText: this.statusCodeToText(502),
-                        text: () => this._translateService.instant(PortalResources.functionService_errorRunningFunc, {
-                            name: functionInfo.name
-                        })
-                    });
-                } else if (e.status === 0 && e.type === ResponseType.Error) {
-                    return Observable.of({
-                        status: 0,
-                        statusText: this.statusCodeToText(0),
-                        text: () => ''
-                    });
-                } else {
-                    return Observable.of({
-                        status: e.status,
-                        statusText: this.statusCodeToText(e.status),
-                        text: () => ''
-                    });
-                }
-                });
             })
-            .map<RunFunctionResult>(r => ({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
+            .map(r => <RunFunctionResult>({ statusCode: r.status, statusText: this.statusCodeToText(r.status), content: r.text() }));
     }
 
     /**
@@ -1517,28 +1679,27 @@ export class FunctionApp {
      */
     private getFileName(file: VfsObject | string): string {
         if (typeof file === 'string') {
-         // if `file` is a string, that means it's in the format:
-         //     https://<scmUrl>/api/vfs/path/to/file.ext
-            return  file
-                    .split('/') // [ 'https:', '', '<scmUrl>', 'api', 'vfs', 'path', 'to', 'file.ext' ]
-                    .pop(); // 'file.ext'
+            // if `file` is a string, that means it's in the format:
+            //     https://<scmUrl>/api/vfs/path/to/file.ext
+            return file
+                .split('/') // [ 'https:', '', '<scmUrl>', 'api', 'vfs', 'path', 'to', 'file.ext' ]
+                .pop(); // 'file.ext'
         } else {
             return file.name;
         }
     }
-
 
     /**
      * This function is just a wrapper around AiService.trackEvent. It injects default params expected from this class.
      * Currently that's only scmUrl
      * @param params any additional parameters to get added to the default parameters that this class reports to AppInsights
      */
-    private trackEvent(name: string, params: {[name: string]: string}) {
-        let standardParams = {
+    private trackEvent(name: string, params: { [name: string]: string }) {
+        const standardParams = {
             scmUrl: this._scmUrl
         };
 
-        for (let key in params) {
+        for (const key in params) {
             if (params.hasOwnProperty(key)) {
                 standardParams[key] = params[key];
             }
@@ -1555,57 +1716,178 @@ export class FunctionApp {
         }
     }
 
-    private checkCorsError(error: FunctionsResponse): Observable<any> {
-        if (error.status === 0 && error.type === ResponseType.Error) {
-            return this._http.get('/api/ping')
-                .catch(e => {
-                    if (!error.isHandled) {
-                        this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                            message: this._translateService.instant(PortalResources.error_appOffline),
-                            errorId: ErrorIds.applicationOffline,
-                            errorType: ErrorType.Fatal
-                        });
-                        error.isHandled = true;
-                    }
-                    throw error;
-                })
-                .flatMap(_ => {
-                    if (this.site && this.site.id) {
-                        return this._cacheService.getArm(`${this.site.id}/config/web`)
-                        // return this._armService.getConfig(this.site.id)
-                            .do(r => {
-                                let config = r.json().properties;
-                                let cors: { allowedOrigins: string[] } = <any>config['cors'];
-                                let isConfigured = (cors && cors.allowedOrigins && cors.allowedOrigins.length > 0)
-                                    ? !!cors.allowedOrigins.find(o => o.toLocaleLowerCase() === window.location.origin)
-                                    : false;
-                                if (!isConfigured) {
-                                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
-                                        message: this._translateService.instant(PortalResources.error_CORSNotConfigured, { origin: window.location.origin }),
-                                        details: JSON.stringify(error),
-                                        errorId: ErrorIds.corsNotConfigured + this.getHostname(error.url),
-                                        errorType: ErrorType.RuntimeError
-                                    });
-                                    error.isHandled = true;
-                                }
-                                throw error;
-                            }, err => {
-                                throw error;
+    getGeneratedSwaggerData(key: string) {
+        const url: string = this.getMainSiteUrl() + '/admin/host/swagger/default?code=' + key;
+        return this._http.get(url).map(r => r.json())
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToloadGeneratedAPIDefinition),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToloadGeneratedAPIDefinition),
+                        errorId: ErrorIds.unableToloadGeneratedAPIDefinition,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToloadGeneratedAPIDefinition, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    getSwaggerDocument(key: string) {
+        const url: string = this.getMainSiteUrl() + '/admin/host/swagger?code=' + key;
+        return this._http.get(url).map(r => { return r.json(); });
+    }
+
+    addOrUpdateSwaggerDocument(swaggerUrl: string, content: string) {
+        return this._http.post(swaggerUrl, content).map(r => { return r.json(); })
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateSwaggerData),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToUpdateSwaggerData),
+                        errorId: ErrorIds.unableToUpdateSwaggerData,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToUpdateSwaggerData, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    deleteSwaggerDocument(swaggerUrl: string) {
+        return this._http.delete(swaggerUrl)
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToDeleteSwaggerData),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToDeleteSwaggerData),
+                        errorId: ErrorIds.unableToDeleteSwaggerData,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToDeleteSwaggerData, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    saveHostJson(jsonString: string): Observable<any> {
+        const headers = this.getScmSiteHeaders();
+        headers.append('If-Match', '*');
+        return this._http.put(`${this._scmUrl}/api/functions/config`, jsonString, { headers: headers })
+            .map(r => r.json())
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToUpdateRuntimeConfig),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToUpdateRuntimeConfig),
+                        errorId: ErrorIds.unableToUpdateRuntimeConfig,
+                        errorType: ErrorType.ApiError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToUpdateRuntimeConfig, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    createSystemKey(keyName: string) {
+        const headers = this.getMainSiteHeaders();
+        headers.append('If-Match', '*');
+        return this._http.post(`${this.mainSiteUrl}/admin/host/systemkeys/${keyName}`, '', { headers: headers })
+            .map(r => r.json())
+            .do(_ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToCreateSwaggerKey),
+            (error: FunctionsResponse) => {
+                if (!error.isHandled) {
+                    this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                        message: this._translateService.instant(PortalResources.error_unableToCreateSwaggerKey),
+                        errorId: ErrorIds.unableToCreateSwaggerKey,
+                        errorType: ErrorType.RuntimeError,
+                        resourceId: this.site.id
+                    });
+                    this.trackEvent(ErrorIds.unableToCreateSwaggerKey, {
+                        status: error.status.toString(),
+                        content: error.text(),
+                    });
+                }
+            });
+    }
+
+    getSystemKey(): Observable<FunctionKeys> {
+        const masterKey = this.masterKey
+            ? Observable.of(null) // you have to pass something to Observable.of() otherwise it doesn't trigger subscribers.
+            : this.getHostSecretsFromScm();
+
+        return masterKey
+            .mergeMap(_ => {
+                const headers = this.getMainSiteHeaders();
+                return this._http.get(`${this.mainSiteUrl}/admin/host/systemkeys`, { headers: headers })
+                    .map(r => <FunctionKeys>r.json())
+                    .do(__ => this._broadcastService.broadcast<string>(BroadcastEvent.ClearError, ErrorIds.unableToGetSystemKey),
+                    (error: FunctionsResponse) => {
+                        if (!error.isHandled) {
+                            this._broadcastService.broadcast<ErrorEvent>(BroadcastEvent.Error, {
+                                message: this._translateService.instant(PortalResources.error_unableToGetSystemKey, { keyName: Constants.swaggerSecretName }),
+                                errorId: ErrorIds.unableToCreateSwaggerKey,
+                                errorType: ErrorType.RuntimeError,
+                                resourceId: this.site.id
                             });
-                    } else {
-                        throw error;
+                            this.trackEvent(ErrorIds.unableToGetSystemKey, {
+                                status: error.status.toString(),
+                                content: error.text(),
+                            });
+                        }
+                    });
+            });
+    }
+
+    getEventGridKey(): Observable<string> {
+        return this.getSystemKey().map(keys => {
+            const eventGridKey = keys.keys.find(k => k.name === Constants.eventGridName);
+            return eventGridKey ? eventGridKey.value : '';
+        });
+    }
+
+    // Modeled off of EventHub trigger's 'custom' tab when creating a new Event Hub connection
+    createApplicationSetting(appSettingName: string, appSettingValue: string, replaceIfExists: boolean = true): Observable<any> | null {
+        if (appSettingName && appSettingValue) {
+            return this._cacheService.postArm(`${this.site.id}/config/appsettings/list`, true).flatMap(
+                r => {
+                    const appSettings: ArmObj<any> = r.json();
+                    if (!replaceIfExists && appSettings.properties[appSettingName]) {
+                        return Observable.of(r);
                     }
+                    appSettings.properties[appSettingName] = appSettingValue;
+                    return this._cacheService.putArm(appSettings.id, this._armService.websiteApiVersion, appSettings);
                 });
         } else {
-            throw error;
+            return null;
         }
     }
 
-    private getHostname(url: string): string {
-        let anchor = document.createElement('a');
-        anchor.setAttribute('href', url);
-        let link = anchor.hostname;
-        anchor = null;
-        return link;
+    // Set multiple auth settings at once
+    createAuthSettings(newAuthSettings: Map<string, any>): Observable<any> {
+        if (newAuthSettings.size > 0) {
+            return this._cacheService.postArm(`${this.site.id}/config/authsettings/list`, true)
+                .flatMap(r => {
+                    var authSettings: ArmObj<any> = r.json();
+                    newAuthSettings.forEach((value, key) => {
+                        authSettings.properties[key] = value;
+                    });
+                    return this._cacheService.putArm(authSettings.id, this._armService.websiteApiVersion, authSettings);
+                });
+        } else {
+            return Observable.of(null);
+        }
     }
 }

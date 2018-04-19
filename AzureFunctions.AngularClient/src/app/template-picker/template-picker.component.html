@@ -22,7 +22,7 @@
 
             <!--[leftOffset]=100 [topOffset]=100-->
             <div class="tp-template-container" [tooltip]="freeAccountTooltip"
-                 [tooltipDisabled]="! (showTryView && !template.enabledInTryMode)" tooltipPlacement="bottom">
+                 [tooltipDisabled]="! (showTryView && !template.enabledInTryMode)" tooltipPlacement="right" >
                 <div class="tp-template-content" [class.tp-template-icon-selected]="selectedTemplate === template.value">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 60 60" enable-background="new 0 0 60 60" xml:space="preserve">
@@ -48,6 +48,9 @@
         </div>
     </div>
     <div *ngIf="showFooter" class="tp-footer">
+        <div *ngIf="showAADExpressRegistration">
+            <button class="custom-button" (click)="createAADApplication(selectedTemplate)" [disabled]="showTryView">{{ 'expressAADRegistration' | translate }}</button><br /><br />
+        </div>
         <button class="custom-button" (click)="onSelectClicked()" [disabled]="!selectedTemplate">{{ 'select' | translate }}</button>
         <button class="custom-button-invert" (click)="onCancelClicked()">{{ 'cancel' | translate }}</button>
     </div>

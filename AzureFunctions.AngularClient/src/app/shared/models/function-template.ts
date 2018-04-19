@@ -1,5 +1,5 @@
-import {TemplateInput} from './template-input';
-import {FunctionBinding} from './function-config';
+import { FunctionBinding } from './function-config';
+import { AADPermissions } from './microsoft-graph';
 
 export interface FunctionTemplate {
     id: string;
@@ -23,4 +23,11 @@ export interface FunctionTemplateMetadata {
     visible?: boolean;
     filters?: string[];
     enabledInTryMode?: boolean;
+    warning: Warning;
+    AADPermissions?: AADPermissions[];
+}
+
+export interface Warning {
+    type: string;
+    text: string;
 }

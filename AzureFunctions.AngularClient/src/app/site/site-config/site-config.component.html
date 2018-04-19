@@ -1,0 +1,24 @@
+<command-bar *ngIf="!!mainForm">
+  <command
+    displayText="Save"
+    iconUrl="images/save.svg"
+    (click)="save()"
+    [disabled]="!mainForm.valid || mainForm.pristine || !hasWritePermissions"></command>
+
+  <command
+    displayText="Discard"
+    iconUrl="images/discard.svg"
+    (click)="discard()"
+    [disabled]="mainForm.pristine || !hasWritePermissions"></command>
+
+</command-bar>
+
+<div *ngIf="!!mainForm" id="site-config-wrapper">
+
+<general-settings [mainForm]="mainForm" [resourceId]="resourceId"></general-settings>
+
+<app-settings [mainForm]="mainForm" [resourceId]="resourceId"></app-settings>
+
+<connection-strings [mainForm]="mainForm" [resourceId]="resourceId"></connection-strings>
+
+</div>

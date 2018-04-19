@@ -1,0 +1,13 @@
+/* Overwritting bootstrap dialogs */
+
+.modal-lg {
+    width: 600px;
+}
+
+.modal-header {
+    border-bottom: 0px;
+}
+
+.modal-content {
+    border-radius: 0px;
+}

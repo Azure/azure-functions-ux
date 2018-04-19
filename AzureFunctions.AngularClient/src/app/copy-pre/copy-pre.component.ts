@@ -1,20 +1,17 @@
-import {Component, Input, Inject, ElementRef} from '@angular/core';
-import {UtilitiesService} from '../shared/services/utilities.service';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
+import { Component, Input } from '@angular/core';
+import { UtilitiesService } from '../shared/services/utilities.service';
 
 @Component({
-  selector: 'copy-pre',
-  templateUrl: './copy-pre.component.html',
-  styleUrls: ['./copy-pre.component.css']
+    selector: 'copy-pre',
+    templateUrl: './copy-pre.component.html',
+    styleUrls: ['./copy-pre.component.scss']
 })
 export class CopyPreComponent {
-    @Input() selectOnClick: boolean = true;
+    @Input() selectOnClick = true;
     @Input() content: string;
     @Input() label: string;
 
-    constructor(
-        @Inject(ElementRef) private elementRef: ElementRef,
-        private _utilities: UtilitiesService) { }
+    constructor(private _utilities: UtilitiesService) { }
 
     highlightText(event: Event) {
         if (this.selectOnClick) {
@@ -22,7 +19,7 @@ export class CopyPreComponent {
         }
     }
 
-    copyToClipboard(event) {
+    copyToClipboard() {
         this._utilities.copyContentToClipboard(this.content);
     }
 }

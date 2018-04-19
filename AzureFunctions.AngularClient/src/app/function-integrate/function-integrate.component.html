@@ -1,23 +1,22 @@
-<div class="container-fluid">
-    <div class="col-md-10">
-        <h2 class="dev-block-header">{{ 'config' | translate }}</h2>
+<div class="full-view" #container>
+    <div class="top-row">
+        <span class="text-level1-heading">function.json</span>
         <div *ngIf="isDirty" class="dev-block-header">
-            <button (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
+            <button [fnWriteAccess]="functionApp" (click)="saveConfig()" class="custom-button">{{ 'save' | translate }}</button>
             <button (click)="cancelConfig()" class="custom-button-invert">{{ 'cancel' | translate }}</button>
         </div>
-        <div class="gutter-container" style="padding-top: 5px">
-            <div id="container" monacoEditor class="monaco" style="height:330px;"
-                 (onSave)="saveConfig()"
-                 (onContentChanged)="contentChanged($event)"
-                 [content]="configContent"
-                 fileName="function.json"
-                 [disabled]="disabled"
-                 [functionAppInput]="functionApp">
-            </div>
+        <div class="toggle">
+            <div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('standard')"><i class="fa fa-edit"></i> {{ 'functionIntegrate_standardEditor' | translate }}</div>
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="clickable pull-right" id="toggle-editor" (click)="onEditorChange('standard')"><i class="fa fa-edit"></i> {{ 'functionIntegrate_standardEditor' | translate }}</div>
+    <div class="gutter-container full-view" #editorContainer>
+        <div monacoEditor class="monaco full-view"
+                (onSave)="saveConfig()"
+                (onContentChanged)="contentChanged($event)"
+                [content]="configContent"
+                fileName="function.json"
+                [disabled]="disabled | async"
+                [functionAppInput]="functionApp">
+        </div>
     </div>
 </div>
-

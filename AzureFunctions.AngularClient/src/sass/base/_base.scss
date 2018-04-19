@@ -38,6 +38,16 @@ pre {
     color: $primary-color;
 }
 
+:focus{
+    outline: $border-focus;
+}
+
+.disabled-link{
+    pointer-events: none;
+    cursor: text;
+    color: $disabled-color !important;
+}
+
 .row {
     display: table-row;
 }

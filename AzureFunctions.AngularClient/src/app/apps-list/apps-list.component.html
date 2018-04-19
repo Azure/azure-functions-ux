@@ -1,35 +1,64 @@
-<div class="custom-list-container">
+<div class="list-collection-container">
 <img src="images/functions.svg" />
-<h3 class="text-main2-heading">{{ 'functionApps' | translate}}</h3><i *ngIf="appsNode?.isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
-<table class="custom-table">
-  <tr class="header-row">
-    <th class="sortable" (click)="sortByColumn('name')">{{ ('_name' | translate).toUpperCase()}}
-      <i class="fa"
-        [class.fa-chevron-up]="sortedColumn === 'name' && sortAscending"
-        [class.fa-chevron-down]="(sortedColumn === 'name' && !sortAscending) || !sortedColumn"></i>
-    </th>
-    <th class="sortable" (click)="sortByColumn('subscription')">{{ ('subscription' | translate).toUpperCase() }} 
-      <i class="fa"
-        [class.fa-chevron-up]="sortedColumn === 'subscription' && sortAscending"
-        [class.fa-chevron-down]="(sortedColumn === 'subscription' && !sortAscending) || !sortedColumn"></i>
-    </th>
-    <th>{{ ('resourceGroup' | translate).toUpperCase() }}</th>
-    <th>{{ ('location' | translate).toUpperCase() }}</th>
+<span class="text-level1-heading">{{ 'functionApps' | translate }}</span><i *ngIf="appsNode?.isLoading" class="fa fa-refresh fa-spin fa-fw"></i>
+
+<div class="bars">
+  <label>{{ 'locationColon' | translate }}</label>
+
+  <multi-drop-down id="locations"
+      [inputOptions]="locationOptions"
+      [displayText]="locationsDisplayText"
+      (selectedValues)="onLocationsSelect($event)"
+      [allItemsDisplay]="allLocations"
+      [numberItemsDisplay]="numberLocations">
+  </multi-drop-down>
+
+  <drop-down id="grouping"
+    [options]="groupOptions"
+    (value)=onGroupSelect($event)>
+  </drop-down>
+</div>
+
+<tbl [items]="tableItems" #table="tbl" id="apps-list" [name]="'functionApps' | translate" groupColName="title">
+  <tr>
+    <th><tbl-th name="title">{{ '_name' | translate }}</tbl-th></th>
+    <th><tbl-th name="subscription">{{ 'subscription' | translate }}</tbl-th></th>
+    <th><tbl-th name="resourceGroup">{{ 'resourceGroup' | translate }}</tbl-th></th>
+    <th><tbl-th name="location">{{ 'location' | translate }}</tbl-th></th>
   </tr>
 
-  <tr *ngFor="let item of items" (click)="clickRow(item)">
-    <td class="link">{{item.title}}</td>
-    <td>{{item.subscription}}</td>
-    <td>{{item.resourceGroup}}</td>
-    <td>{{item.location}}</td>
+  <tr *ngFor="let item of table.items">
+    <ng-container *ngIf="item.type === 'row' && table.groupedBy === 'none'">
+      <td><a (click)="clickRow(item)">{{item.title}}</a></td>
+      <td>{{item.subscription}}</td>
+      <td>{{item.resourceGroup}}</td>
+      <td>{{item.location}}</td>
+    </ng-container>
+
+    <ng-container *ngIf="item.type === 'row' && table.groupedBy !== 'none'">
+      <td class='tabbed'><a (click)="clickRow(item)">{{item.title}}</a></td>
+      <td>{{item.subscription}}</td>
+      <td>{{item.resourceGroup}}</td>
+      <td>{{item.location}}</td>
+    </ng-container>
+
+    <ng-container *ngIf="item.type === 'group'">
+      <td colspan="4">{{item.title}}</td>
+    </ng-container>
   </tr>
 
-  <tr *ngIf="items.length === 0 || appsNode?.isLoading">    
-    <td *ngIf="appsNode?.isLoading">{{'functionMonitor_loading' | translate}}</td>
-    <td *ngIf="!appsNode?.isLoading && items.length === 0">{{'noResults' | translate}}</td>
-    <td></td>
-    <td></td>
-    <td></td>
+  <tr *ngIf="isLoading">
+    <td *ngIf="isLoading" colspan="4">{{'functionMonitor_loading' | translate}}</td>
+    <td *ngIf="isLoading" colspan="4"></td>
   </tr>
-</table>
+</tbl>
+<div *ngIf="!isLoading && table.items.length === 0" class="empty-browse">
+  <img src="images/emptybrowse-functions.svg" />
+  <h4>{{'emptyBrowse_title' | translate}}</h4>
+  <span>{{'emptyBrowse' | translate}}</span>
+  <span>
+    <a class="link" target="_blank" href="https://go.microsoft.com/fwlink/?linkid=848163">{{'emptyBrowse_learnMore' | translate}}</a>
+    <img src="images/learn-more.svg" />
+  </span>
+</div>
 </div>

@@ -1,3 +1,3 @@
-export class AuthSettings{
+export class AuthSettings {
     enabled: boolean;
 }

@@ -1,13 +1,15 @@
-import {Http, Headers} from '@angular/http';
-import {Injectable} from '@angular/core';
-import {PortalService} from './portal.service';
-import {UserService} from './user.service';
-import {FunctionsService} from '../services/functions.service';
-import {GlobalStateService} from '../services/global-state.service';
-import {FunctionInvocations, FunctionInvocationDetails, FunctionAggregates, FunctionStats} from '../models/function-monitor';
-import {Observable} from 'rxjs/Rx';
-import {FunctionInfo} from '../models/function-info';
-import {FunctionApp} from '../function-app';
+import { Http, Headers } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
+
+import { UserService } from './user.service';
+import { GlobalStateService } from '../services/global-state.service';
+import { FunctionInvocations, FunctionAggregates } from '../models/function-monitor';
+import { FunctionInfo } from '../models/function-info';
+import { FunctionApp } from '../function-app';
 
 @Injectable()
 export class FunctionMonitorService {
@@ -25,8 +27,8 @@ export class FunctionMonitorService {
 
 
     private getHeadersForScmSite(scmCreds?: string): Headers {
-        var contentType = 'application/json';
-        var headers = new Headers();
+        const contentType = 'application/json';
+        const headers = new Headers();
         headers.append('Content-Type', contentType);
 
         if (scmCreds) {
@@ -38,39 +40,38 @@ export class FunctionMonitorService {
         return headers;
     }
 
-    getDataForSelectedFunction(functionInfo : FunctionInfo, host: string) {
-        var url = functionInfo.functionApp.getScmUrl() + "/azurejobs/api/functions/definitions?host=" + host + "&limit=11";
+    getDataForSelectedFunction(functionInfo: FunctionInfo, host: string) {
+        const url = functionInfo.functionApp.getScmUrl() + '/azurejobs/api/functions/definitions?host=' + host + '&limit=11';
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionInfo.functionApp.tryFunctionsScmCreds)
         })
-        .map<FunctionAggregates>(r => r.json().entries.find(x => x.functionName.toLowerCase() === functionInfo.name.toLowerCase()));
+            .map(r => <FunctionAggregates>(r.json().entries.find(x => x.functionName.toLowerCase() === functionInfo.name.toLowerCase())));
     }
 
-
-    getInvocationsDataForSelctedFunction(functionApp : FunctionApp, functionId: string) {
-        var url = functionApp.getScmUrl() + "/azurejobs/api/functions/definitions/" + functionId + "/invocations?limit=20";
+    getInvocationsDataForSelectedFunction(functionApp: FunctionApp, functionId: string) {
+        const url = functionApp.getScmUrl() + '/azurejobs/api/functions/definitions/' + functionId + '/invocations?limit=20';
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
-            .map<FunctionInvocations[]>(r => r.json().entries)
-            .catch(e => Observable.of([]))
+            .map(r => <FunctionInvocations[]>r.json().entries)
+            .catch(() => Observable.of([]))
     }
 
-    getInvocationDetailsForSelectedInvocation(functionApp : FunctionApp, invocationId: string) {
-        var url = functionApp.getScmUrl() + "/azurejobs/api/functions/invocations/" + invocationId;
+    getInvocationDetailsForSelectedInvocation(functionApp: FunctionApp, invocationId: string) {
+        const url = functionApp.getScmUrl() + '/azurejobs/api/functions/invocations/' + invocationId;
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
-            .map<any>(r => r.json())
-            .catch(e => Observable.of(null));
+            .map(r => r.json())
+            .catch(() => Observable.of(null));
     }
 
-    getOutputDetailsForSelectedInvocation(functionApp : FunctionApp, invocationId: string) {
-        var url = functionApp.getScmUrl() + "/azurejobs/api/log/output/" + invocationId;
+    getOutputDetailsForSelectedInvocation(functionApp: FunctionApp, invocationId: string) {
+        const url = functionApp.getScmUrl() + '/azurejobs/api/log/output/' + invocationId;
         return this._http.get(url, {
             headers: this.getHeadersForScmSite(functionApp.tryFunctionsScmCreds)
         })
-            .map<string>(r => r.text())
-            .catch(e => Observable.of(""))
+            .map(r => r.text())
+            .catch(() => Observable.of(''));
     }
 }

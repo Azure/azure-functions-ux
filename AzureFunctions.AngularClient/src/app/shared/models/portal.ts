@@ -1,22 +1,38 @@
-﻿import {Subscription} from './subscription';
+﻿import { Subscription } from './subscription';
 
 export interface Event {
     data: Data;
 }
 
-export interface Data{
+export interface Data {
     signature: string;
     kind: string;
     data: any;
 }
 
-export interface StartupInfo{
-    token : string;
-    subscriptions : Subscription[];
+export interface GetStartupInfo {
+    iframeHostName: string
+}
+
+export interface StartupInfo {
+    token: string;
+    subscriptions: Subscription[];
     sessionId: string;
-    acceptLanguage : string,
-    effectiveLocale : string,
-    resourceId : string
+    acceptLanguage: string,
+    effectiveLocale: string,
+    resourceId: string,
+    userInfo: UserInfo;
+    graphToken: string;
+}
+
+export interface UserInfo {
+    directoryId: string;
+    directoryName: string;
+    domainName: string;
+    email: string;
+    givenName: string;
+    surname: string;
+    uniqueDirectoryName: string;
 }
 
 export interface Action {
@@ -25,13 +41,13 @@ export interface Action {
     data: any;  // Properties of the object will be logged as a key-value pair
 }
 
-export interface Message{
-    level : LogEntryLevel,
+export interface Message {
+    level: LogEntryLevel,
     message: string,
     restArgs: any[]
 }
 
-export class Verbs{
+export class Verbs {
     // Initialization verbs
     public static message = "message";
     public static ready = "ready";
@@ -47,15 +63,20 @@ export class Verbs{
     public static closeBlades = "close-blades";
     public static logAction = "log-action";
     public static logMessage = "log-message";
+    public static logTimerEvent = "log-timer-event";
     public static setDirtyState = "set-dirtystate";
     public static setupOAuth = "setup-oauth";
     public static pinPart = "pin-part";
+    public static setNotification = "set-notification";
 
     // Requests from Ibiza
     public static sendStartupInfo = "send-startup-info";
     public static sendAppSettingName = "send-appSettingName";
+    public static sendResourceId = "send-resourceId";
+    public static sendInputs = "send-inputs";
     public static sendToken = "send-token";
     public static sendOAuthInfo = "send-oauth-info";
+    public static sendNotificationStarted = "send-notification-started";
 }
 
 export enum LogEntryLevel {
@@ -73,20 +94,36 @@ export interface WebsiteId {
     SubscriptionId: string;
 }
 
-export interface OpenBladeInfo{
+export interface OpenBladeInfo {
     detailBlade: string,
     detailBladeInputs: any,
-    extension? : string
+    extension?: string
 }
 
-export interface UpdateBladeInfo{
-    title? : string,
-    subtitle? : string
+export interface TimerEvent {
+    timerId: string;
+    timerAction: 'start' | 'stop';
+}
+
+export interface UpdateBladeInfo {
+    title?: string,
+    subtitle?: string
 };
 
-export interface PinPartInfo{
-    partSize : PartSize;
-    partInput : any,
+export interface PinPartInfo {
+    partSize: PartSize;
+    partInput: any,
+}
+
+export interface NotificationInfo {
+    id?: string,
+    state: string,  // start, success, fail
+    title: string,
+    description: string
+}
+
+export interface NotificationStartedInfo {
+    id: string
 }
 
 export enum PartSize {

@@ -1,15 +1,25 @@
-import {Component, Output, Input, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
-import {TemplatePickerType, Template} from '../shared/models/template-picker';
-import {DirectionType, Binding} from '../shared/models/binding';
-import {BindingManager} from '../shared/models/binding-manager';
-import {FunctionApp} from '../shared/function-app';
-import {LanguageType, TemplateFilterItem, FunctionTemplate} from '../shared/models/template';
-import {GlobalStateService} from '../shared/services/global-state.service';
-import {BroadcastEvent} from '../shared/models/broadcast-event'
-import {DropDownElement} from '../shared/models/drop-down-element';
-import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
-import {PortalResources} from '../shared/models/portal-resources';
-import {Subject} from 'rxjs/Rx';
+﻿import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
+
+import { TemplatePickerType, Template } from '../shared/models/template-picker';
+import { DirectionType, Binding } from '../shared/models/binding';
+import { BindingManager } from '../shared/models/binding-manager';
+import { FunctionApp } from '../shared/function-app';
+import { TemplateFilterItem } from '../shared/models/template';
+import { GlobalStateService } from '../shared/services/global-state.service';
+import { PortalService } from '../shared/services/portal.service';
+import { CacheService } from '../shared/services/cache.service';
+import { DropDownElement } from '../shared/models/drop-down-element';
+import { PortalResources } from '../shared/models/portal-resources';
+import { Order } from '../shared/models/constants';
+import { MicrosoftGraphHelper } from '../pickers/microsoft-graph/microsoft-graph-helper';
+
+interface CategoryOrder {
+    name: string;
+    index: number;
+}
 
 @Component({
     selector: 'template-picker',
@@ -28,14 +38,14 @@ export class TemplatePickerComponent {
     filterItems: TemplateFilterItem[] = [];
     bc: BindingManager = new BindingManager();
     bindings: Binding[];
-    isTemplate: boolean = false;
-    private category: string = "";
-    private _language: string = "";
+    isTemplate = false;
+    showAADExpressRegistration = false;
+    private category = '';
+    private _language = '';
     private _type: TemplatePickerType;
-    private _initialized = false;
-    private _orderedCategoties = [];
+    private _orderedCategoties: CategoryOrder[] = [];
     private _functionAppStream = new Subject<FunctionApp>();
-    private _functionApp : FunctionApp;
+    private _functionApp: FunctionApp;
 
     set template(value: string) {
         if (value) {
@@ -49,39 +59,58 @@ export class TemplatePickerComponent {
 
     constructor(
         private _globalStateService: GlobalStateService,
-        private _translateService: TranslateService) {
+        private _translateService: TranslateService,
+        private _cacheService: CacheService,
+        private _portalService: PortalService) {
 
         this._functionAppStream
             .distinctUntilChanged()
-            .subscribe(functionApp =>{
+            .subscribe(functionApp => {
                 this._functionApp = functionApp;
-            })
+            });
 
         this.showTryView = this._globalStateService.showTryView;
-        this._language = this._translateService.instant("temp_category_all");
+        this._language = this._translateService.instant('temp_category_all');
 
         this._orderedCategoties = [
-            this._translateService.instant("temp_category_core"),
-            this._translateService.instant("temp_category_api"),
-            this._translateService.instant("temp_category_dataProcessing"),
-            this._translateService.instant("temp_category_samples"),
-            this._translateService.instant("temp_category_experimental"),
-            this._translateService.instant("temp_category_all")
+            {
+                name: this._translateService.instant('temp_category_core'),
+                index: 0
+            },
+            {
+                name: this._translateService.instant('temp_category_api'),
+                index: 1,
+            },
+            {
+                name: this._translateService.instant('temp_category_dataProcessing'),
+                index: 2,
+
+            },
+            {
+                name: this._translateService.instant('temp_category_samples'),
+                index: 3,
+            },
+            {
+                name: this._translateService.instant('temp_category_experimental'),
+                index: 4,
+            },
+            {
+                name: this._translateService.instant('temp_category_all'),
+                index: 1000,
+            }
         ];
     }
 
-    set functionAppInput(functionApp : FunctionApp){
+    set functionAppInput(functionApp: FunctionApp) {
         this._functionAppStream.next(functionApp);
     }
 
     set type(type: TemplatePickerType) {
         this.isTemplate = (type === TemplatePickerType.template);
-        var that = this;
         this._type = type;
         this._globalStateService.setBusyState();
         this._functionApp.getTemplates().subscribe((templates) => {
             this._functionApp.getBindingConfig().subscribe((config) => {
-                var that = this;
                 this._globalStateService.clearBusyState();
                 this.bindings = config.bindings;
                 this.templates = [];
@@ -89,7 +118,6 @@ export class TemplatePickerComponent {
                     case TemplatePickerType.in:
                         this.title = this._translateService.instant(PortalResources.templatePicker_chooseInput);
                         this.templates = this.getBindingTemplates(DirectionType.in);
-
                         break;
                     case TemplatePickerType.out:
                         this.title = this._translateService.instant(PortalResources.templatePicker_chooseOutput);
@@ -104,13 +132,13 @@ export class TemplatePickerComponent {
 
                         let initLanguages = false, initCategories = false;
                         if (this.languages.length === 0) {
-                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant("temp_category_all"), default: true }];
+                            this.languages = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all'), default: true }];
                             initLanguages = true;
                         }
 
 
                         if (this.categories.length === 0) {
-                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant("temp_category_all") }];
+                            this.categories = [{ displayLabel: this._translateService.instant(PortalResources.all), value: this._translateService.instant('temp_category_all') }];
                             initCategories = true;
                         }
 
@@ -120,12 +148,12 @@ export class TemplatePickerComponent {
                                 return;
                             }
 
-                            if (!this.getFilterMatach(template.metadata.filters)) {
+                            if (!this.getFilterMatch(template.metadata.filters)) {
                                 return;
                             }
 
                             if (initLanguages) {
-                                var lang = this.languages.find((l) => {
+                                const lang = this.languages.find((l) => {
                                     return l.value === template.metadata.language;
                                 });
                                 if (!lang) {
@@ -138,21 +166,21 @@ export class TemplatePickerComponent {
 
                             if (initCategories) {
                                 template.metadata.category.forEach((c) => {
-                                    if ((this._language === this._translateService.instant("temp_category_all") || (template.metadata.language === this._language))) {
+                                    if ((this._language === this._translateService.instant('temp_category_all') || (template.metadata.language === this._language))) {
 
-                                        var index = this.categories.findIndex((category) => {
+                                        const index = this.categories.findIndex((category) => {
                                             return category.value === c;
                                         });
 
                                         if (index === -1) {
-                                            var dropDownElement: any = {
+                                            const dropDownElement: any = {
                                                 displayLabel: c,
                                                 value: c
                                             };
 
                                             if (this.category === c) {
                                                 dropDownElement.default = true;
-                                            } else if (!this.category && c === this._translateService.instant("temp_category_core")) {
+                                            } else if (!this.category && c === this._translateService.instant('temp_category_core')) {
                                                 dropDownElement.default = true;
                                             }
 
@@ -162,45 +190,54 @@ export class TemplatePickerComponent {
                                 });
                             }
 
-                            var matchIndex = template.metadata.category.findIndex((c) => {
-                                return c === this.category || this.category === this._translateService.instant("temp_category_all");
+                            const matchIndex = template.metadata.category.findIndex((c) => {
+                                return c === this.category || this.category === this._translateService.instant('temp_category_all');
                             });
 
                             if (matchIndex !== -1) {
-                                if ((this._language === this._translateService.instant("temp_category_all") || (template.metadata.language === this._language))) {
-                                    var keys = template.metadata.category.slice(0) || [this._translateService.instant("temp_category_experimental")];
+                                if ((this._language === this._translateService.instant('temp_category_all') || (template.metadata.language === this._language))) {
+                                    const keys = template.metadata.category.slice(0) || [this._translateService.instant('temp_category_experimental')];
                                     keys.push(
                                         template.metadata.language
                                     );
 
                                     this.templates.push({
-                                        name: template.id,
+                                        name: `${template.metadata.name} - ${template.metadata.language}`,
                                         value: template.id,
                                         keys: keys,
                                         description: template.metadata.description,
-                                        enabledInTryMode: template.metadata.enabledInTryMode
+                                        enabledInTryMode: template.metadata.enabledInTryMode,
+                                        AADPermissions: template.metadata.AADPermissions
                                     });
                                 }
                             }
                         });
 
-                        var counter = 0;
-                        var that = this;
-                        this._orderedCategoties.forEach((c) => {
-                            var temp = this.categories;
-                            var index = this.categories.findIndex((item) => {
-                                return c === item.displayLabel;
-                            });
-                            if (index > 0) {
-                                var save = this.categories[index];
-                                this.categories.splice(index, 1);
-                                this.categories.splice(counter, 0, save);
-                                counter++;
-                            }
+                        this.categories.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
+                            const ca = this._orderedCategoties.find(c => { return c.name === a.displayLabel; });
+                            const cb = this._orderedCategoties.find(c => { return c.name === b.displayLabel; });
+                            return ((ca ? ca.index : 500) > (cb ? cb.index : 500)) ? 1 : -1;
                         });
 
                         this.languages = this.languages.sort((a: DropDownElement<string>, b: DropDownElement<string>) => {
                             return a.displayLabel > b.displayLabel ? 1 : -1;
+                        });
+
+                        this.templates.sort((a: Template, b: Template) => {
+                            let ia = Order.templateOrder.findIndex(item => (a.value.startsWith(item)));
+                            let ib = Order.templateOrder.findIndex(item => (b.value.startsWith(item)));
+                            if (ia === -1) {
+                                ia = Number.MAX_VALUE;
+                            }
+                            if (ib === -1) {
+                                ib = Number.MAX_VALUE;
+                            }
+                            if (ia === ib) {
+                                // If templates are not in ordered list apply alphabetical order
+                                return a.name > b.name ? 1 : -1;
+                            } else {
+                                return ia > ib ? 1 : -1;
+                            }
                         });
                 }
             });
@@ -212,16 +249,33 @@ export class TemplatePickerComponent {
 
     onSelectClicked() {
         this.complete.emit(this.selectedTemplate); // this fires an eventClicked
-        this.selectedTemplate = "";
+        this.selectedTemplate = '';
     }
 
     onCancelClicked() {
-        this.cancel.emit(""); // this fires an eventClicked
+        this.cancel.emit(''); // this fires an eventClicked
     }
 
-    onTemplateClicked(template: string, templateDisabled:boolean) {
+    onTemplateClicked(template: string, templateDisabled: boolean) {
         if (!templateDisabled) {
             this.selectedTemplate = template;
+
+            // Some bindings (and templates that use them) require an AAD app; if so, show express button
+            if (this.bindings) {
+                let binding = this.bindings.find((b) => {
+                    return b.type.toString() === this.selectedTemplate;
+                });
+                if (binding) {
+                    this.showAADExpressRegistration = !!binding.AADPermissions;
+                } else {
+                    // Could be improved by determining which bindings a template uses automatically
+                    let templateObject = this.templates.find((t) => {
+                        return t.value === template;
+                    });
+                    this.showAADExpressRegistration = templateObject && !!templateObject.AADPermissions;
+                }
+            }
+            
             if (!this.showFooter) {
                 this.complete.emit(this.selectedTemplate);
             }
@@ -232,6 +286,12 @@ export class TemplatePickerComponent {
         if (this._language !== language) {
             this._language = language;
             this.categories = [];
+
+            // if language is set to "all" we need to show "Core" templates
+            if (this._language === this._translateService.instant('temp_category_all')) {
+                this.category = this._translateService.instant('temp_category_core');
+            }
+
             if (this._language && this.category) {
                 this.type = this._type;
             }
@@ -247,21 +307,41 @@ export class TemplatePickerComponent {
         }
     }
 
+    createAADApplication(templateName: string) {
+        this._globalStateService.setBusyState();
+        this._portalService.getStartupInfo().subscribe(info => {
+            let helper = new MicrosoftGraphHelper(this._functionApp, this._cacheService);
+            let binding = this.bindings.find((b) => {
+                return b.type.toString() === templateName;
+            });
+
+            helper.createAADApplication(binding, info.graphToken, this._globalStateService)
+                .subscribe(r => { 
+                    this._globalStateService.clearBusyState();
+                },
+                err => {
+                    this._globalStateService.clearBusyState();
+                });
+        });
+    }
+
     private getBindingTemplates(direction: DirectionType): Template[] {
-        var result: Template[] = [];
-        var filtered = this.bindings.filter((b) => {
+        const result: Template[] = [];
+        const filtered = this.bindings.filter((b) => {
             return b.direction === direction;
         });
 
         filtered.forEach((binding) => {
 
-            if (this.getFilterMatach(binding.filters)) {
+            // Hide BYOB features unless flag present: https://localhost:44300/?MSGraph=true
+            // binding has attribute "filters": ["MSGraph"]
+            if (this.getFilterMatch(binding.filters)) {
 
                 result.push({
                     name: binding.displayName.toString(),
                     value: binding.type.toString(),
-                    enabledInTryMode: binding.enabledInTryMode 
-            });
+                    enabledInTryMode: binding.enabledInTryMode
+                });
 
             }
         });
@@ -269,12 +349,13 @@ export class TemplatePickerComponent {
         return result;
     }
 
-    private getFilterMatach(filters: string[]) : boolean {
-        var isFilterMatch = true;
+    private getFilterMatch(filters: string[]): boolean {
+        let isFilterMatch = true;
+
         if (filters && filters.length > 0) {
             isFilterMatch = false;
-            for (var i = 0; i < filters.length; i++) {
-                var value = this.getQueryStringValue(filters[i]);
+            for (let i = 0; i < filters.length; i++) {
+                const value = this.getQueryStringValue(filters[i]);
                 if (value) {
                     isFilterMatch = true;
                     break;
@@ -285,7 +366,7 @@ export class TemplatePickerComponent {
     }
 
     private getQueryStringValue(key) {
-        //http://stackoverflow.com/questions/9870512/how-to-obtaining-the-querystring-from-the-current-url-with-javascript
-        return window.location.search.replace(new RegExp("^(?:.*[&\\?]" + key.replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1");
+        // http://stackoverflow.com/questions/9870512/how-to-obtaining-the-querystring-from-the-current-url-with-javascript
+        return window.location.search.replace(new RegExp('^(?:.*[&\\?]' + key.replace(/[\.\+\*]/g, '\\$&') + '(?:\\=([^&]*))?)?.*$', 'i'), '$1');
     }
 }

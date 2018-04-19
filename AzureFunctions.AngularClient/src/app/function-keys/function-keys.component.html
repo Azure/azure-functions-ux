@@ -1,9 +1,4 @@
-<div class="wrapper" [class.wrapper-border]="showBorders">
-
-    <div *ngIf="easeAuthEnabled" class="alert alert-warning alert-dismissible" role="alert">
-        {{ 'functionKeys_easyAuthWarning' | translate }}
-    </div>
-
+<div class="wrapper">
     <busy-state></busy-state>
     <div *ngIf="functionInfo" class="title"> {{'functionKeys_title' | translate}} </div>
     <div *ngIf="!functionInfo" class="title"> {{'adminKeys_title' | translate}} </div>
@@ -16,13 +11,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr [class.not-clickable]="!enableKeySelect" [class.hoverable]="enableKeySelect" *ngFor="let key of keys" (click)="enableKeySelect && selectKey(key)" [class.selected]="enableKeySelect && key.selected">
+            <tr class="not-clickable" *ngFor="let key of keys">
                 <td>{{key.name}}</td>
                 <td *ngIf="key.show">{{key.value}}</td>
                 <td *ngIf="!key.show"><span (click)="key.show = true" class="operation">{{'functionKeys_clickToShow' | translate}}</span></td>
                 <td>
                     <div id="operations-bar">
-                        <span *ngIf="key.show" class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        <pop-over message="{{ 'copypre_copied' | translate }}" hideAfter="300">
+                            <span class="operation" (click)="copyKey(key)"><i class="fa fa-copy"></i> {{'functionKeys_copy' | translate}}</span>
+                        </pop-over>
                         <span class="operation" (click)="renewKey(key)"><i class="fa fa-refresh"></i> {{'functionKeys_renew' | translate}}</span>
                         <span class="operation" *ngIf="key.name !== '_master'" (click)="revokeKey(key)"><i class="fa fa-times"></i> {{'functionKeys_revoke' | translate}}</span>
                     </div>
@@ -35,9 +32,9 @@
             </tr>
         </tbody>
     </table>
-    <div class="custom-button" (click)="showOrHideNewKeyUi()" [class.disabled]="easeAuthEnabled">
-        <span *ngIf="!addingNew && functionInfo">
-            {{ 'functionKeys_addNewFunctionKey' | translate}}   
+    <div class="custom-button" (click)="showOrHideNewKeyUi()">
+        <span *ngIf="!addingNew && !!functionInfo">
+            {{ 'functionKeys_addNewFunctionKey' | translate}}
         </span>
         <span *ngIf="!addingNew && !functionInfo">
             {{ 'functionKeys_addNewAdminKey' | translate}}

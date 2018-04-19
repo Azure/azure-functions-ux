@@ -1,31 +1,31 @@
-<div class="feature-group-header">{{group.title}}</div>
+<div class="feature-group-header">{{group?.title}}</div>
 <div class="feature-group-items">
 
-    <div *ngFor="let feature of group?.features"
-         (mouseenter)="feature.isHighlighted = true"
-         (mouseleave)="feature.isHighlighted = false"
-         class="feature-group-item">
-         
-         <div *ngIf="!feature.isEmpty" class="feature-group-item-content">
-            <img [src]="feature.imageUrl" />
+    <div *ngFor="let feature of group?.features" (mouseenter)="feature.isHighlighted = true" (mouseleave)="feature.isHighlighted = false"
+        class="feature-group-item">
+
+        <div *ngIf="!feature.isEmpty" class="feature-group-item-content">
+            <img [src]="feature.iconUrl" />
 
             <span [class.feature-group-result-title]="searchTerm && feature.highlight">
                 <span *ngIf="feature.enabled" class="link" (click)="click(feature)">{{feature.title}}</span>
-                <span *ngIf="!feature.enabled" class="feature-group-disabled">{{feature.title}}</span>
+            <span *ngIf="!feature.enabled" class="feature-group-disabled">{{feature.title}}</span>
             </span>
 
+            <img *ngIf="feature.superScriptIconUrl" class="super-icon" [src]="feature.superScriptIconUrl" />
+
             <span *ngIf="feature.isHighlighted" class="feature-group-info">
-                
+
                 <span>
                     <pop-over *ngIf="feature.warning" [message]="feature.warning">
                         <img src="images/warning.svg" />
                     </pop-over>
-                    
+
                     <pop-over *ngIf="feature.info" [message]="feature.info">
                         <img src="images/info.svg" />
                     </pop-over>
                 </span>
             </span>
-         </div>
+        </div>
     </div>
 </div>

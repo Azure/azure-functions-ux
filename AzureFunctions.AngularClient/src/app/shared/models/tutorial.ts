@@ -1,7 +1,7 @@
-﻿import {FunctionInfo} from './function-info';
+﻿import { FunctionInfo } from './function-info';
 
 
-export interface TutorialEvent{
+export interface TutorialEvent {
     functionInfo: FunctionInfo;
     step: TutorialStep;
 };

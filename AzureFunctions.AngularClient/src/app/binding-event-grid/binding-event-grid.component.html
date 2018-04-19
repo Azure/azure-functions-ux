@@ -1,0 +1,7 @@
+<div>
+    <input [(ngModel)]="input.value"
+           type="text"
+           [disabled]="true">
+    <i [class.disabled-link]="!input.subscribeUrl" class="link" (click)="openSubscribeBlade()"> {{ 'eventGrid_create' | translate }}</i>
+</div>
+<span class="link" (click)="openManageBlade()">{{ 'eventGrid_manageSubscriptions' | translate }}</span>

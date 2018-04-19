@@ -1,26 +1,34 @@
-<top-bar></top-bar>    
+<top-bar></top-bar>
+<busy-state [name]='inTab ? "global" : "dashboard"'></busy-state>
 
-<div id="content">
-    <side-nav (treeViewInfoEvent)="updateViewInfo($event)" [tryFunctionAppInput]="tryFunctionApp"></side-nav>
+<div class="main-content" [class.tabbed-height]="inTab">
+
+    <side-nav (treeViewInfoEvent)="updateViewInfo($event)" [tryFunctionAppInput]="tryFunctionApp" *ngIf="!inTab"></side-nav>
+
+    <!-- for full screen editor when in separate tab  -->
+    <function-dev *ngIf="inTab" [selectedFunction]="selectedFunction"></function-dev>
 
     <div id="dashboard" *ngIf="!!viewInfo">
 
-        <apps-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'apps'"></apps-list>
-        <site-dashboard [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'app'"></site-dashboard>
-        <functions-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functions'"></functions-list>
-        <proxies-list [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxies'"></proxies-list>
+        <apps-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'apps'"></apps-list>
+        <create-app [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'createApp'"></create-app>
+        <site-dashboard [viewInfo]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'app'"></site-dashboard>
+        <functions-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'functions'"></functions-list>
+        <proxies-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'proxies'"></proxies-list>
+        <slots-list [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'slots'"></slots-list>
 
-        <function-edit
-            [viewInfoInput]="viewInfo"
-            *ngIf="dashboardType === 'function'
+        <function-edit [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && (dashboardType === 'function'
                     || dashboardType === 'functionIntegrate'
                     || dashboardType === 'functionManage'
-                    || dashboardType === 'functionMonitor'"></function-edit>
+                    || dashboardType === 'functionMonitor')"></function-edit>
 
-        <function-new [viewInfoInput]="viewInfo" [action]="action" *ngIf="dashboardType === 'createFunction'"></function-new>
-        <function-quickstart [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'functionQuickstart'"></function-quickstart>
-        <api-new [viewInfoInput]="viewInfo"  *ngIf="dashboardType === 'createProxy'"></api-new>
-        <api-details [viewInfoInput]="viewInfo" *ngIf="dashboardType === 'proxy'"></api-details>
+        <create-function-wrapper [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && (dashboardType === 'createFunctionAutoDetect'
+                    || dashboardType === 'createFunction'
+                    || dashboardType === 'createFunctionQuickstart')"></create-function-wrapper>
 
+        <api-new [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'createProxy'"></api-new>
+        <api-details [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'proxy'"></api-details>
+        <slot-new [viewInfoInput]="viewInfo" *ngIf="trialExpired === false && dashboardType === 'createSlot'"></slot-new>
+        <trial-expired *ngIf="trialExpired === true "></trial-expired>
     </div>
 </div>

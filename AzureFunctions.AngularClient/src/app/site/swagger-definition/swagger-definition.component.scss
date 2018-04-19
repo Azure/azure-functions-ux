@@ -1,0 +1,182 @@
+@import '../../../sass/main';
+
+pre {
+    white-space: normal;
+}
+
+.medium {
+    width: 240px;
+    padding: 5px;
+    min-width: 200px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.collapse {
+    width: 0px;
+    flex-grow: 0;
+    display: none;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0px;
+    padding-bottom: 3px;
+}
+
+.setting-title {
+    font-size: 15px;
+    font-weight: normal;
+    margin: 0px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+.operation {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.setting-title-collapsible {
+    font-size: 15px;
+    font-weight: normal;
+    margin: 0px;
+    padding-bottom: 10px;
+}
+
+.hide {
+    opacity: 0.7;
+    background: #CCC;
+    pointer-events: none;
+
+}
+.setting-wrapper {
+    padding: 0px 20px 15px 20px;
+    display: flex;
+}
+
+.subtitle {
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0px;
+}
+
+.function-icon {
+    height: 15px;
+}
+
+.wrapper {
+    min-width: 1030px;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper > div {
+    flex-grow: 1;
+    border-top: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center
+}
+
+.section-left {
+    flex-grow: 1;
+    width: 20%;
+    min-width: 290px;
+}
+
+.section-left > div:first-child {
+    padding: 20px;
+}
+
+.section-left > div {
+    flex-grow: 1;
+    border-top: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-right {
+    flex-grow: 3;
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+.full-height {
+    height: calc(100vh - 50px);
+}
+
+.editor {
+    height: calc(100% - 50px);
+    border: 1px solid #ccc;
+}
+
+.header {
+    border-top: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    flex: 1;
+}
+
+.checkbox-label {
+    margin: 0px;
+    text-align: left;
+    padding-left: 0px;
+    font-weight: normal;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.checkbox {
+    display: inline;
+    margin-left: 20px;
+    height: 15px;
+    width: 15px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.left {
+    justify-content: flex-start;
+}
+
+.right {
+    justify-content: flex-end;
+    margin-right: 15px;
+}
+
+.topbar {    
+    min-width: 742px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-content: center;
+    border: 1px solid #ccc;
+}
+
+.copy-icon {
+    margin: auto;
+    margin-left: 0px;
+    font-size: 18px;
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 8px;
+    font-weight: normal;
+    font-size: 18px;
+    margin-left: 10px;
+}

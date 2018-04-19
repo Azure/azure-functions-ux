@@ -1,28 +1,27 @@
 <div class="wrapper">
-        <div *ngIf="disabled" class="alert alert-warning alert-dismissible" role="alert">
-        {{ 'functionEdit_readOnly' | translate }}
-    </div>
-    <div id="function-settings">
-        <div class="configure-wrapper">
-            <div>{{ 'functionEdit_functionState' | translate }}</div>
-            <div *ngIf="functionInfo">
-                <radio-selector [disabled]="disabled" [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
+    <div id="function-settings" [fnWriteAccess]="functionApp">
+        <div>
+            <div class="title">{{ 'functionEdit_functionState' | translate }}</div>
+            <div *ngIf="functionInfo" class="function-state">
+                <radio-selector [options]="functionStatusOptions" [defaultValue]="!!functionInfo.config.disabled" (value)="functionStateValueChange.next($event)"></radio-selector>
+                <span class="clickable delete-app" (click)="deleteFunction()">
+                    <img src="images/delete.svg" />{{ 'functionManage_deleteFunction' | translate }}
+                </span>
             </div>
         </div>
     </div>
 
-    <div id="submit-delete">
-        <button type="button" [disabled]="disabled" id="submit-button" (click)="deleteFunction()">Delete</button>
+
+    <div *ngIf="!isStandalone">
+        <function-keys
+            *ngIf="functionApp?.isMultiKeySupported && isHttpFunction"
+            [functionApp]="functionApp"
+            [functionInfo]="functionInfo"></function-keys>
+
+        <div style="margin-bottom: 25px" *ngIf="functionApp?.isMultiKeySupported"></div>
+
+        <function-keys
+            *ngIf="functionApp?.isMultiKeySupported"
+            [functionApp]="functionApp"></function-keys>
     </div>
-
-    <function-keys
-        *ngIf="functionApp?.isMultiKeySupported"
-        [functionApp]="functionApp"
-        [functionInfo]="functionInfo"></function-keys>
-
-    <div style="margin-bottom: 25px" *ngIf="functionApp?.isMultiKeySupported"></div>
-
-    <function-keys
-        *ngIf="functionApp?.isMultiKeySupported"
-        [functionApp]="functionApp"></function-keys>
 </div>

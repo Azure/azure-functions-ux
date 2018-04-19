@@ -1,0 +1,89 @@
+@import '../../sass/main';
+
+.enabled {
+    vertical-align: text-bottom;
+    padding-left: 5px;
+}
+
+
+.new-container {
+    padding-bottom: 10px;
+    padding-top: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.new-container i {
+    font-size: 20px;
+    color: $primary-color;
+    cursor: pointer;
+}
+
+.search-box-container {
+    width: 250px;
+    margin-bottom: 15px;
+}
+
+/*Overwrite bootstrap*/ 
+label {
+    margin-bottom: 0px !important;
+    font-weight: normal !important;
+    cursor: pointer;
+}
+ 
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 14px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: lightgray;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: -4px;
+  bottom: -3px;
+  background-color: darkgrey;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: lightgray;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px lightgray;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(36px);
+  -ms-transform: translateX(36px);
+  transform: translateX(36px);
+  background-color: $primary-color;
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

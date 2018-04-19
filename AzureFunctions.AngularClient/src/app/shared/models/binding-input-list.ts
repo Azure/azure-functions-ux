@@ -1,5 +1,5 @@
-﻿import {BindingInputBase, CheckBoxListInput} from './binding-input';
-import {SettingType, Action} from './binding';
+﻿import { BindingInputBase, CheckBoxListInput } from './binding-input';
+import { SettingType, Action, Warning } from './binding';
 
 export class BindingInputList {
     inputs: BindingInputBase<any>[] = [];
@@ -10,6 +10,7 @@ export class BindingInputList {
     description: string;
     documentation: string;
     actions: Action[];
+    warnings: Warning[];
 
     saveOriginInputs() {
         this.originInputs = JSON.parse(JSON.stringify(this.inputs));
@@ -21,8 +22,8 @@ export class BindingInputList {
 
         this.rightInputs = [];
         this.leftInputs = [];
-        var pushLeft = true;
-        this.inputs.forEach((input, index) => {
+        let pushLeft = true;
+        this.inputs.forEach(input => {
             if (!input.isHidden) {
                 if (pushLeft) {
                     this.leftInputs.push(input);
@@ -35,10 +36,10 @@ export class BindingInputList {
     }
 
     isDirty(): boolean {
-        for (var i = 0; i < this.inputs.length; i++) {
+        for (let i = 0; i < this.inputs.length; i++) {
             if (this.inputs[i].type === SettingType.checkBoxList) {
-                var checkBoxList = <CheckBoxListInput>this.inputs[i];
-                var origcheckBoxList = <CheckBoxListInput>this.originInputs[i];
+                const checkBoxList = <CheckBoxListInput>this.inputs[i];
+                const origcheckBoxList = <CheckBoxListInput>this.originInputs[i];
                 if (!checkBoxList.isEqual(origcheckBoxList)) {
                     return true;
                 }
@@ -52,7 +53,7 @@ export class BindingInputList {
     }
 
     isValid() {
-        var result = true;
+        let result = true;
         this.inputs.forEach((input) => {
             if (!input.isValid) {
                 result = false;

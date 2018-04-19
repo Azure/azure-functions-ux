@@ -1,110 +1,112 @@
+import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { BroadcastService } from './../shared/services/broadcast.service';
+import { Subject } from 'rxjs/Subject';
+import { Subscription as RxSubscription } from 'rxjs/Subscription';
 import { DisableInfo } from './feature-item';
-import { PortalResources } from './../shared/models/portal-resources';
-// import {SiteManageComponent} from '../../components/site/dashboard/site-manage.component';
-import { Observable, Subject, Subscription as RxSubscription } from 'rxjs/Rx';
-import {AuthzService} from '../shared/services/authz.service';
-import {PortalService} from '../shared/services/portal.service';
-import {OpenBladeInfo} from '../shared/models/portal';
+import { PortalService } from '../shared/services/portal.service';
+import { OpenBladeInfo } from '../shared/models/portal';
 
-export interface DisableInfo{
-    enabled : boolean;
-    disableMessage : string;
+export interface DisableInfo {
+    enabled: boolean;
+    disableMessage: string;
 }
 
-export class FeatureItem{
-    public title : string;
-    public keywords : string;  // Space delimited
+export class FeatureItem {
+    public title: string | null;
+    public keywords: string | null;  // Space delimited
     public enabled = true;
-    public info : string ;
-    public warning : string;
-    public isHighlighted : boolean;
-    public isEmpty : boolean;   // Used to reserve blank space when filtering results
-    public highlight : boolean;
-    public imageUrl = "images/activity-log.svg";
+    public info: string | null;
+    public warning: string | null;
+    public isHighlighted: boolean | null;
+    public isEmpty: boolean | null;   // Used to reserve blank space when filtering results
+    public highlight: boolean | null;
+    public iconUrl = 'images/activity-log.svg';
+    public superScriptIconUrl: string | null = null;
 
-    constructor(title : string, keywords : string, info : string, imageUrl? : string){
+    constructor(title: string, keywords: string, info: string, iconUrl?: string, superScriptIconUrl?: string) {
         this.title = title;
         this.keywords = keywords;
         this.info = info;
-        this.imageUrl = imageUrl ? imageUrl : this.imageUrl;
+        this.iconUrl = iconUrl ? iconUrl : this.iconUrl;
+
+        this.superScriptIconUrl = superScriptIconUrl;
     }
 
-    click(){
+    click() {
     }
 
-    dispose(){
+    dispose() {
     }
 }
 
-export class DisableableFeature extends FeatureItem{
-    private _enabledRxSub : RxSubscription;
+export class DisableableFeature extends FeatureItem {
+    private _enabledRxSub: RxSubscription;
     public enabled = false;
 
     constructor(
-        title : string,
-        keywords : string,
-        info : string,
-        imageUrl : string,
-        private _disableInfoStream? : Subject<DisableInfo>,
-        overrideDisableInfo? : DisableInfo // If the feature is known to be disabled before any async logic, then use this disable immediately
-    ){
+        title: string,
+        keywords: string,
+        info: string,
+        imageUrl: string,
+        _disableInfoStream?: Subject<DisableInfo>,
+        overrideDisableInfo?: DisableInfo // If the feature is known to be disabled before any async logic, then use this disable immediately
+    ) {
         super(title, keywords, info, imageUrl);
 
-        if(overrideDisableInfo){
-            if(!overrideDisableInfo.enabled){
+        if (overrideDisableInfo) {
+            if (!overrideDisableInfo.enabled) {
                 this.warning = overrideDisableInfo.disableMessage;
             }
 
             this.enabled = overrideDisableInfo.enabled;
-        }
-        else if(_disableInfoStream){
-            this._enabledRxSub = _disableInfoStream.subscribe(info =>{
+        } else if (_disableInfoStream) {
+            this._enabledRxSub = _disableInfoStream.subscribe(info => {
                 this.enabled = info.enabled;
 
-                if(!this.enabled){
+                if (!this.enabled) {
                     this.warning = info.disableMessage;
                 }
             })
         }
     }
 
-    dispose(){
-        if(this._enabledRxSub){
+    dispose() {
+        if (this._enabledRxSub) {
             this._enabledRxSub.unsubscribe();
             this._enabledRxSub = null;
         }
     }
 }
 
-export class DisableableBladeFeature extends DisableableFeature{
+export class DisableableBladeFeature extends DisableableFeature {
     constructor(
-        title : string,
-        keywords : string,
-        info : string,
-        imageUrl : string,
-        protected _bladeInfo : OpenBladeInfo,        
-        protected _portalService : PortalService,
-        disableInfoStream? : Subject<DisableInfo>,        
-        overrideDisableInfo? : DisableInfo){
+        title: string,
+        keywords: string,
+        info: string,
+        imageUrl: string,
+        protected _bladeInfo: OpenBladeInfo,
+        protected _portalService: PortalService,
+        disableInfoStream?: Subject<DisableInfo>,
+        overrideDisableInfo?: DisableInfo) {
         super(title, keywords, info, imageUrl, disableInfoStream, overrideDisableInfo);
     }
 
-    click(){
+    click() {
         this._portalService.openBlade(this._bladeInfo, 'site-manage');
     }
 }
 
-export class DisableableDyanmicBladeFeature extends DisableableBladeFeature{
+export class DisableableDyanmicBladeFeature extends DisableableBladeFeature {
     constructor(
-        title : string,
-        keywords : string,
-        info : string,
-        imageUrl : string,
-        bladeInfo : OpenBladeInfo,        
-        portalService : PortalService,
-        disableInfoStream? : Subject<DisableInfo>,        
-        overrideDisableInfoStream? : DisableInfo){
-        
+        title: string,
+        keywords: string,
+        info: string,
+        imageUrl: string,
+        bladeInfo: OpenBladeInfo,
+        portalService: PortalService,
+        disableInfoStream?: Subject<DisableInfo>,
+        overrideDisableInfoStream?: DisableInfo) {
+
         super(
             title,
             keywords,
@@ -112,57 +114,58 @@ export class DisableableDyanmicBladeFeature extends DisableableBladeFeature{
             imageUrl,
             bladeInfo,
             portalService,
-            disableInfoStream,            
+            disableInfoStream,
             overrideDisableInfoStream);
     }
 
-    click(){
+    click() {
         this._portalService.openBlade(this._bladeInfo, 'site-manage');
     }
 }
 
-export class BladeFeature extends FeatureItem{
-    constructor(title : string,
-                keywords : string,
-                info : string,
-                imageUrl : string,
-                public bladeInfo : OpenBladeInfo,
-                private _portalService : PortalService){
-            super(title, keywords, info, imageUrl);
-        }
+export class BladeFeature extends FeatureItem {
+    constructor(title: string,
+        keywords: string,
+        info: string,
+        imageUrl: string,
+        public bladeInfo: OpenBladeInfo,
+        private _portalService: PortalService) {
+        super(title, keywords, info, imageUrl);
+    }
 
-    click(){
+    click() {
         this._portalService.openBlade(this.bladeInfo, 'site-manage');
     }
 }
 
-export class OpenBrowserWindowFeature extends FeatureItem{
-        constructor(
-        title : string,
-        keywords : string,
-        info : string,
-        private _url : string){
+export class OpenBrowserWindowFeature extends FeatureItem {
+    constructor(
+        title: string,
+        keywords: string,
+        info: string,
+        private _url: string) {
 
         super(title, keywords, info);
     }
 
-    click(){
+    click() {
         window.open(this._url);
     }
 }
 
-export class TabFeature extends FeatureItem{
+export class TabFeature extends FeatureItem {
     constructor(
-        title : string,
-        keywords : string,
-        info : string,
-        public componentName : string,
-        public tabSub : Subject<string>){
+        title: string,
+        keywords: string,
+        info: string,
+        imageUrl: string,
+        public featureId: string,
+        private _broadcastService: BroadcastService) {
 
-        super(title, keywords, info);
+        super(title, keywords, info, imageUrl, 'images/new-tab.svg');
     }
 
-    click(){
-        this.tabSub.next(this.componentName.toLowerCase());
+    click() {
+        this._broadcastService.broadcast(BroadcastEvent.OpenTab, this.featureId);
     }
 }

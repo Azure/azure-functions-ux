@@ -1,8 +1,7 @@
 import {
-    Directive, HostListener, ComponentRef, ViewContainerRef, Input, ComponentFactoryResolver,
-    ComponentFactory
-} from "@angular/core";
-import {TooltipContentComponent} from "./tooltip-content.component";
+    Directive, HostListener, ComponentRef, ViewContainerRef, Input, ComponentFactoryResolver
+} from '@angular/core';
+import { TooltipContentComponent } from './tooltip-content.component';
 
 @Directive({
     selector: "[tooltip]"

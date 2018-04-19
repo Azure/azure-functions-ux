@@ -12,9 +12,12 @@ export enum BroadcastEvent {
     TrialExpired,
     ResetKeySelection,
     RefreshPortal,
-    ApiProxyAdded,
-    ApiProxyDeleted,
-    ApiProxySelected,
-    ApiProxyUpdated,
-    ClearError
+    ClearError,
+    OpenTab,
+    DirtyStateChange
+}
+
+export interface DirtyStateEvent {
+    dirty: boolean;
+    reason: string | null;
 }

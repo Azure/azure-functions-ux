@@ -7,6 +7,22 @@
     margin-left: 15px;
 }
 
+.tabbed-logo {
+    margin-left: 0px;
+    margin-right: 15px;
+    padding-right: 10px;
+}
+
+.logo-standalone{
+    @extend .logo;
+    font-size: 18px;
+    margin-left: 265px;
+}
+
+.function-information {
+    margin-left: 15px;
+}
+
 // .top-bar-container {
 //     position: fixed;
 //     top: 0;
@@ -16,13 +32,6 @@
 //     margin: 0;
 //     z-index: 10;
 // }
-
-.top-bar {
-    background-color: #E6E7E8;
-    color: $primary-color;
-    height: $top-bar-height;
-    // z-index: 100;
-}
 
 .top-bar-notification{
     >i{
@@ -57,28 +66,46 @@
     color: #000
 }
 
-.top-bar .left {
-    float: left;
-}
+.top-bar{
+    background-color: #E6E7E8;
+    color: $primary-color;
+    height: $top-bar-height;
 
-.top-bar .right {
-    float: right;
+    .left {
+        float: left;
+    }
+
+    .right {
+        float: right;
+    }
+
+    .azure-logo {
+        padding-left: 10px;
+        height: 100%;
+    }
+
+    .top-bar-tool {
+        padding: 7px 10px;
+        /*border-left: 1px solid rgba(128,128,128,.4);*/
+    }
+
+    .info-azure{
+        margin-left: 265px;
+    }
+
+    .info-standalone{
+        margin-left: 50px;
+    }
+
+    .info-no-iframe {
+        margin-left: 145px !important;
+    }
 }
 
 .vertical-align-center {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-}
-
-.top-bar .azure-logo {
-    padding-left: 10px;
-    height: 100%;
-}
-
-.top-bar .top-bar-tool {
-    padding: 7px 10px;
-    /*border-left: 1px solid rgba(128,128,128,.4);*/
 }
 
 .top-bar-tools span{
@@ -89,8 +116,8 @@
     margin-left: 2px;
 }
 
-.top-bar-info {
-    color: black;
+.top-bar-info{
+    color: $value-text-color;
     margin-left: 270px;
 }
 

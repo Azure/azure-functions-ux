@@ -67,6 +67,9 @@ namespace AzureFunctions
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(HttpContext.Current);
+            var settings = (ISettings)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ISettings));
+            var clientConfig = settings.GetClientConfiguration();
+            var runtimeType = (RuntimeType)Enum.Parse(typeof(RuntimeType), clientConfig.RuntimeType, true);
 
             if (context.Request.Url.AbsolutePath.Equals("/api/health", StringComparison.OrdinalIgnoreCase))
             {
@@ -96,6 +99,7 @@ namespace AzureFunctions
             var isTryPageRequested = context.Request.RawUrl.StartsWith("/try", StringComparison.OrdinalIgnoreCase);
 
             if (!isFile              //skip auth for files
+                && runtimeType != RuntimeType.Standalone   // Skip auth for Standalone mode
                 && !isTryPageRequested  //when requesting /try users can be unauthenticated
                 && !SecurityManager.TryAuthenticateRequest(context)) // and if the user is not loggedon
             {
@@ -110,7 +114,7 @@ namespace AzureFunctions
                     context.Response.StatusCode = 302;
                     context.Response.End();
                 }
-            }
+            } 
         }
 
         private IContainer InitAutofacContainer()
@@ -219,6 +223,10 @@ namespace AzureFunctions
             builder.RegisterType<TelemetryClient>()
                 .As<TelemetryClient>()
                 .InstancePerRequest();
+
+            builder.RegisterType<PassThroughRequestManager>()
+                .As<IPassThroughRequestManager>()
+                .InstancePerRequest();
         }
 
         private void RegisterRoutes(HttpConfiguration config)
@@ -238,6 +246,8 @@ namespace AzureFunctions
             config.Routes.MapHttpRoute("get-config", "api/config", new { controller = "AzureFunctions", action = "GetClientConfiguration", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Get.ToString()) });
 
             config.Routes.MapHttpRoute("diagnose-app", "api/diagnose/{*armId}", new { controller = "AzureFunctions", action = "Diagnose", authenticated = false }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
+
+            config.Routes.MapHttpRoute("passthrough", "api/passthrough", new { controller = "AzureFunctions", action = "PassThrough", authrnticated = true }, new { verb = new HttpMethodConstraint(HttpMethod.Post.ToString()) });
         }
     }
 }
