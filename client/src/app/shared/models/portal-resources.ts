@@ -1040,4 +1040,5 @@
     public static feature_metricsName = 'feature_metricsName';
     public static feature_metricsInfo = 'feature_metricsInfo';
     public static FTPMessage = 'FTPMessage';
+    public static FTPLabel = 'FTPLabel';
 }

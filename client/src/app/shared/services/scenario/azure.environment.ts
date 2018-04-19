@@ -77,13 +77,6 @@ export class AzureEnvironment extends Environment {
             id: ScenarioIds.enableAppInsights,
             runCheckAsync: (input: ScenarioCheckInput) => this._getApplicationInsightsId(input)
         };
-
-        this.scenarioChecks[ScenarioIds.FTPAccessOptions] = {
-            id: ScenarioIds.FTPAccessOptions,
-            runCheck: () => {
-                return { status: 'enabled' };
-            }
-        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -238,7 +238,8 @@
       </div>
     </ng-container>
 
-      <div class="setting-wrapper last" check-scenario="FTPAccessOptions" [cs-input]="{site: siteArm}" cs-enabledClass="" cs-disabledClass="hidden">
+    <ng-container *ngIf="FTPAccessSupported">
+      <div class="setting-wrapper last">
         <info-box
           [infoText]="('FTPMessage' | translate)"
           [infoLink]="FwLinks.FTPAccessLearnMore">
@@ -248,12 +249,11 @@
           <radio-selector
             [control]="!!group ? group.controls['FTPAccessOptions'] : null"
             [options]="FTPAccessOptions"
-            [highlightDirty]="true"
-            check-scenario="FTPAccessOptions" 
-            [cs-input]="{site: siteArm}">
+            [highlightDirty]="true">
           </radio-selector>
         </div>
       </div>
+    </ng-container> 
   </div>
   
   <ng-container *ngIf="remoteDebuggingSupported">

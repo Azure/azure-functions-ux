@@ -1,5 +1,5 @@
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
-import { Links, LogCategories, SiteTabIds } from './../../../shared/models/constants';
+import { Links, LogCategories, SiteTabIds, ScenarioIds } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -22,6 +22,7 @@ import { JavaWebContainerProperties } from './models/java-webcontainer-propertie
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
 import { Url } from '../../../shared/Utilities/url';
+import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 
 @Component({
     selector: 'general-settings',
@@ -89,6 +90,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         private _authZService: AuthzService,
         private _portalService: PortalService,
         private _siteService: SiteService,
+        private _scenarioService: ScenarioService,
         injector: Injector
     ) {
         super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], SiteTabIds.applicationSettings);
@@ -328,10 +330,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 }
             }
 
-            // if (this._sku === 'Free' || this._sku === 'Shared') {
-            //   platform64BitSupported = false;
-            //   alwaysOnSupported = false;
-            // }
+            if (this._scenarioService.checkScenario(ScenarioIds.addFTPOptions, { site: siteArm }).status === 'disabled') {
+                FTPAccessSupported = false;
+            }
 
             this.netFrameworkSupported = netFrameworkSupported;
             this.phpSupported = phpSupported;

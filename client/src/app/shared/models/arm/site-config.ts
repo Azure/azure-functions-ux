@@ -32,7 +32,7 @@ export interface SiteConfig {
     autoSwapSlotName: string;
     experiments: {
         rampUpRules: RoutingRule[];
-    }
+    };
     siteAuthEnabled: boolean;
     appSettings?: ApplicationSettings;
     connectionStrings?: ConnectionStrings;

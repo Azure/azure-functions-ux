@@ -213,7 +213,7 @@ export class ScenarioIds {
     public static readonly enableExportToPowerApps = 'EnableExportToPowerApps';
     public static readonly disabledBindings = 'disabledBindings';
     public static readonly monitoring = 'monitoring';
-    public static readonly FTPAccessOptions = 'FTPAccessOptions';
+    public static readonly addFTPOptions = 'addFTPOptions';
 }
 
 export class ServerFarmSku {
