@@ -18,7 +18,6 @@ gulp.task('run-angular', function (cb) {
 gulp.task('run-server',  (cb) => {
     const runServerCommand = process.platform === 'win32' ? 'npm run watch' : 'yarn run watchu';
     shell.cd('server');
-    console.log(process.platform);
     shell.exec('yarn install');
     shell.exec('gulp build-all', {async:true});
     shell.exec(runServerCommand, (code, stdout, stderr) => {
