@@ -20,7 +20,10 @@ export enum BroadcastEvent {
     UpdateAppsList,
     FunctionEditorEvent,
     RightTabsEvent,
-    BottomTabsEvent
+    BottomTabsEvent,
+    RefreshMonitoringView,
+    FunctionCodeUpdate,
+    FunctionRunEvent
 }
 
 export interface DirtyStateEvent {

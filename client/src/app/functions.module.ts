@@ -49,6 +49,7 @@ import { ExtensionCheckerComponent } from './function/extension-checker/extensio
 import { ErrorsWarningsComponent } from './errors-warnings/errors-warnings.component';
 import { MonitorDetailsComponent } from './function-monitor/monitor-details/monitor-details.component';
 import { SidebarModule } from 'ng-sidebar';
+import { MonitorConfigureComponent } from './function-monitor/monitor-configure/monitor-configure.component';
 
 const routing: ModuleWithProviders = RouterModule.forChild([
     {
@@ -140,7 +141,8 @@ const routing: ModuleWithProviders = RouterModule.forChild([
         BindingInputV2Component,
         JavaSplashPageComponent,
         ExtensionCheckerComponent,
-        ErrorsWarningsComponent
+        ErrorsWarningsComponent,
+        MonitorConfigureComponent
     ],
     providers: []
 })

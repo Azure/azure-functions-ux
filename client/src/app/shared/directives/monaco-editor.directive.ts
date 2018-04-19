@@ -24,6 +24,7 @@ export class MonacoEditorDirective {
     private _fileName: string;
     private _theme: string;
     private diagnostics: monaco.editor.IMarkerData[];
+    private _disableTimeout: number;
 
     constructor(
         public elementRef: ElementRef,
@@ -68,15 +69,29 @@ export class MonacoEditorDirective {
     }
 
     @Input('disabled')
-    set disabled(value: boolean) {
-        if (value !== this._disabled) {
+    set disabled(value: boolean | null) {
+        if (value !== null && value !== this._disabled) {
             this._disabled = value;
-            if (this._editor) {
-                this._editor.updateOptions({
-                    readOnly: this._disabled
-                });
-                this.opacity = this._disabled ? '0.5' : '1';
+
+            // the editor loads asynchronously outside of our control
+            // if disabled has been set to true, try to set in a timeout.
+            // Otherwise we can miss the first "readOnly" set.
+            // clear the timeout if there was already one.
+            if (this._disableTimeout) {
+                window.clearTimeout(this._disableTimeout);
             }
+
+            const setEditorReadOnly = () => {
+                if (this._editor) {
+                    this._editor.updateOptions({
+                        readOnly: this._disabled
+                    });
+                    this.opacity = this._disabled ? '0.5' : '1';
+                } else {
+                    this._disableTimeout = window.setTimeout(() => setEditorReadOnly(), 10);
+                }
+            };
+            setEditorReadOnly();
         }
     }
 

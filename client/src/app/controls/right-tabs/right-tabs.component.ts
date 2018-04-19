@@ -6,8 +6,7 @@ import { Component, OnInit, AfterContentInit, ContentChildren, QueryList } from 
 
 @Component({
   selector: 'right-tabs',
-  templateUrl: './right-tabs.component.html',
-  styleUrls: ['./right-tabs.component.scss']
+  templateUrl: './right-tabs.component.html'
 })
 export class RightTabsComponent implements OnInit, AfterContentInit {
 

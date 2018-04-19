@@ -71,6 +71,7 @@ import { BillingService } from './services/billing.service';
 import { ApplicationInsightsService } from './services/application-insights.service';
 import { InvalidmessageDirective } from './directives/invalid-control-message.directive';
 import { NgUploaderModule } from 'ngx-uploader';
+import { FlexListDirective } from '../controls/flex-list/flex-list.directive';
 
 export function ArmServiceFactory(
     http: Http,
@@ -129,7 +130,8 @@ export function AiServiceFactory() {
         TabComponent,
         ActivateWithKeysDirective,
         CardInfoControlComponent,
-        InvalidmessageDirective
+        InvalidmessageDirective,
+        FlexListDirective
     ],
     exports: [
         CommonModule,
@@ -170,7 +172,8 @@ export function AiServiceFactory() {
         ActivateWithKeysDirective,
         CardInfoControlComponent,
         InvalidmessageDirective,
-        NgUploaderModule
+        NgUploaderModule,
+        FlexListDirective
     ],
     imports: [
         FormsModule,

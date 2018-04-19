@@ -62,6 +62,10 @@ pre {
     display: none;
 }
 
+.invisible{
+    visibility: hidden;
+}
+
 #app-root[theme=dark]{
     pre{
         background-color: lighten($body-bg-color-dark, 5%);

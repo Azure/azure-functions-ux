@@ -11,7 +11,7 @@ import { PriceSpec } from '../price-spec-manager/price-spec';
 })
 export class SpecListComponent implements OnChanges {
   @Input() specGroup: PriceSpecGroup;
-  @Input() isExpanded: boolean = false;
+  @Input() isExpanded = false;
   @Output() onSelectedSpec = new Subject<PriceSpec>();
 
   specs: PriceSpec[];
@@ -28,5 +28,12 @@ export class SpecListComponent implements OnChanges {
 
   selectSpec(spec: PriceSpec) {
     this.onSelectedSpec.next(spec);
+  }
+
+  selectSpecByEnterKey(element: HTMLElement) {
+    const spec = this.specs.find(s => element.id.endsWith(s.skuCode));
+    if (spec) {
+      this.selectSpec(spec);
+    }
   }
 }

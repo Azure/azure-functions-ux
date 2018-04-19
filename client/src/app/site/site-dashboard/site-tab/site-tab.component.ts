@@ -9,7 +9,6 @@ import { Component, OnChanges, Input, Type, ViewChild, ComponentFactoryResolver,
         <div [hidden]="!active"
           [id]="'site-tab-content-' + id"
           [attr.aria-label]="title"
-          [attr.aria-label]="title"
           role="tabpanel">
 
           <busy-state [name]="id" cssClass="busy-site-tabs"></busy-state>
@@ -19,7 +18,6 @@ import { Component, OnChanges, Input, Type, ViewChild, ComponentFactoryResolver,
 })
 export class SiteTabComponent implements OnChanges {
     @ViewChild(BusyStateComponent) busyState: BusyStateComponent;
-
 
     // initialized is important because it ensures that we don't load any content or child components until the
     // tab gets inputs for the first time.  Once initialized, it ensures that we also don't reinitialize
