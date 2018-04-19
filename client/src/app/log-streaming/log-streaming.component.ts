@@ -179,14 +179,21 @@ export class LogStreamingComponent extends FunctionAppContextComponent implement
             this.pollingActive$ = new Subject();
         }
 
+        let ongoingRequest = false;
         // Every 2 seconds starting now
         Observable.timer(1, 2000)
-            // if logging isn't stopped
-            .filter(() => !this.stopped)
+            // if logging isn't stopped, and there are no ongoing requests
+            // this is done because the getLogs call can be slow due to worker issues
+            // in that case if it always takes longer than 2 seconds, we will never catch up to the timer
+            .filter(() => !this.stopped && !ongoingRequest)
             // and until this.pollingActive OR 5 minutes have passed, which ever comes first
             .takeUntil(this.pollingActive$.merge(Observable.timer(5 * 60 * 1000)))
+            // set ongoing request flag
+            .do(() => ongoingRequest = true)
             // Get the latest logs, passing force=true and no range (get all the file)
-            .switchMap(() => this._functionAppService.getLogs(this.context, this.functionInfo, null, true))
+            .concatMap(() => this._functionAppService.getLogs(this.context, this.functionInfo, null, true))
+            // clear ongoing request flag
+            .do(() => ongoingRequest = false)
             // and only if it was successful
             .filter(r => !!(r.isSuccessful && r.result))
             // update the displayed logs
