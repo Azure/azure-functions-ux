@@ -1,6 +1,6 @@
 <div class="sourceContainer">
   <h1>Automated Solutions</h1>
-  <div class="selectionContainer">
+  <div class="selectionContainer" flex-list>
 
     <div *ngFor="let card of providerCards">
       <div *ngIf="!card.manual" class="cardContainer" (click)="selectProvider(card)">
@@ -23,7 +23,7 @@
   </div>
 
   <h1>Manual Solutions</h1>
-  <div class="selectionContainer">
+  <div class="selectionContainer" flex-list>
     <div *ngFor="let card of providerCards">
       <div *ngIf="card.manual" class="cardContainer" (click)="selectProvider(card)">
         <div class="headerBox" [style.background-color]="card.barColor">
