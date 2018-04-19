@@ -1,32 +1,33 @@
+import { PortalResources } from 'app/shared/models/portal-resources';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
 export abstract class BasicPlanPriceSpec extends PriceSpec {
 
     featureItems = [{
         iconUrl: 'image/ssl.svg',
-        title: 'Custom domains / SSL',
-        description: 'SNI SSL Included'
+        title: this._ts.instant(PortalResources.pricing_customDomainsSsl),
+        description: this._ts.instant(PortalResources.pricing_customDomainsSslDesc)
     },
     {
         iconUrl: 'image/scale-up.svg',
-        title: 'Manual scale',
-        description: 'Up to 3 instances.  Subject to availability'
+        title: this._ts.instant(PortalResources.pricing_manualScale),
+        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(3)
     }];
 
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
-        title: 'CPU',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.cpu),
+        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
     },
     {
         iconUrl: 'image/website-power.svg',
-        title: 'Memory',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'
+        title: this._ts.instant(PortalResources.memory),
+        description: this._ts.instant(PortalResources.pricing_dedicatedMemory)
     },
     {
         iconUrl: 'image/storage.svg',
-        title: 'Storage',
-        description: '10 GB'
+        title: this._ts.instant(PortalResources.storage),
+        description: this._ts.instant(PortalResources.pricing_sharedDisk).format('10 GB')
     }];
 
     cssClass = 'spec basic-spec';
@@ -52,8 +53,8 @@ export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
     skuCode = 'B1';
     legacySkuName = 'small_basic';
     topLevelFeatures = [
-        '1x cores',
-        '1.75 GB Memory',
+        this._ts.instant(PortalResources.pricing_numCores).format('1x'),
+        this._ts.instant(PortalResources.pricing_memory).format('1.75'),
         '100 ACU'
     ];
 
@@ -72,9 +73,9 @@ export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
     skuCode = 'B2';
     legacySkuName = 'medium_basic';
     topLevelFeatures = [
-        '2x cores',
-        '3.5 GB Memory',
-        '200 ACU ???'
+        this._ts.instant(PortalResources.pricing_numCores).format('2x'),
+        this._ts.instant(PortalResources.pricing_memory).format('3.5'),
+        '200 ACU'
     ];
 
     meterFriendlyName = 'Basic Medium App Service Hours';
@@ -92,9 +93,9 @@ export class BasicLargePlanPriceSpec extends BasicPlanPriceSpec {
     skuCode = 'B3';
     legacySkuName = 'large_basic';
     topLevelFeatures = [
-        '4x cores',
-        '7 GB Memory',
-        '400 ACU ???'
+        this._ts.instant(PortalResources.pricing_numCores).format('4x'),
+        this._ts.instant(PortalResources.pricing_memory).format('7'),
+        '400 ACU'
     ];
 
     meterFriendlyName = 'Basic Large App Service Hours';

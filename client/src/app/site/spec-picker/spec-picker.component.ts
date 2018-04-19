@@ -2,7 +2,7 @@ import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
-import { PlanPriceSpecManager, NewPlanSpeckPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
+import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
 import { Component, OnInit, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
@@ -25,9 +25,9 @@ interface StatusMessage {
   styleUrls: ['./spec-picker.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>> implements OnInit {
+export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>> implements OnInit {
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>) {
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>) {
     this.setInput(viewInfo);
   }
 
@@ -41,7 +41,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   shieldEnabled = false;
 
   private _planOrSubResourceId: ResourceId;
-  private _input: SpecPickerInput<NewPlanSpeckPickerData>;
+  private _input: SpecPickerInput<NewPlanSpecPickerData>;
 
   get applyButtonEnabled(): boolean {
     if (this.statusMessage && this.statusMessage.level === 'error') {
@@ -76,7 +76,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   ngOnInit() {
   }
 
-  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>>) {
+  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>>) {
     return inputEvents
       .distinctUntilChanged()
       .switchMap(info => {
@@ -225,6 +225,21 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       this.specManager.selectedSpecGroup.isExpanded = !this.specManager.selectedSpecGroup.isExpanded;
       event.preventDefault();
     }
+  }
+
+  get isEmpty() {
+    return this.specManager.selectedSpecGroup.recommendedSpecs.length === 0
+      && this.specManager.selectedSpecGroup.additionalSpecs.length === 0;
+  }
+
+  get showExpander() {
+    return this.specManager.selectedSpecGroup.recommendedSpecs.length > 0
+      && this.specManager.selectedSpecGroup.additionalSpecs.length > 0;
+  }
+
+  get showAllSpecs() {
+    return (this.showExpander && this.specManager.selectedSpecGroup.isExpanded)
+      || (!this.showExpander && this.specManager.selectedSpecGroup.additionalSpecs.length > 0);
   }
 
   private _getTargetIndex(groups: PriceSpecGroup[], targetIndex: number) {
