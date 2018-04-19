@@ -296,7 +296,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             let clientAffinitySupported = true;
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
-            let FTPAccessSupported = true;
+            let FTPAccessSupported = Url.getParameterByName(null, 'appsvc.feature.ftps') === 'true';
 
             this._sku = siteArm.properties.sku;
 
