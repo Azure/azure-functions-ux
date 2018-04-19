@@ -59,7 +59,7 @@ export class oAuthHelper {
                 properties: {
                     name: this._provider,
                     token: token,
-                    refresh_token: refreshToken,
+                    refreshToken: refreshToken,
                     environment: !!environment ? environment : undefined
                 }
             },

@@ -135,6 +135,10 @@ export class StepSourceControlComponent {
         this.githubUserSubject$
             .takeUntil(this._ngUnsubscribe$)
             .filter(r => r)
+            .do(() => {
+                this.providerCards[1].authorizedStatus = 'loadingAuth';
+            })
+            .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/github/passthrough', true, null, {
                     url: 'https://api.github.com/user'
@@ -153,6 +157,11 @@ export class StepSourceControlComponent {
         this.bitbucketUserSubject$
             .takeUntil(this._ngUnsubscribe$)
             .filter(r => r)
+            .do(() => {
+                this.providerCards[4].authorizedStatus = 'loadingAuth';
+            })
+
+            .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/bitbucket/passthrough', true, null, {
                     url: 'https://api.bitbucket.org/2.0/user'
@@ -171,6 +180,11 @@ export class StepSourceControlComponent {
         this.onedriveUserSubject$
             .takeUntil(this._ngUnsubscribe$)
             .filter(r => r)
+            .do(() => {
+                this.providerCards[0].authorizedStatus = 'loadingAuth';
+            })
+
+            .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
                     url: 'https://api.onedrive.com/v1.0/drive'
@@ -189,6 +203,10 @@ export class StepSourceControlComponent {
         this.dropboxUserSubject$
             .takeUntil(this._ngUnsubscribe$)
             .filter(r => r)
+            .do(() => {
+                this.providerCards[5].authorizedStatus = 'loadingAuth';
+            })
+            .delay(3000)
             .switchMap(() =>
                 _cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
                     url: 'https://api.dropboxapi.com/2/users/get_current_account'
@@ -206,13 +224,7 @@ export class StepSourceControlComponent {
 
         this._wizardService.resourceIdStream$
             .takeUntil(this._ngUnsubscribe$)
-            .switchMap(r => {
-                this.providerCards[0].authorizedStatus = 'loadingAuth';
-                this.providerCards[1].authorizedStatus = 'loadingAuth';
-                this.providerCards[4].authorizedStatus = 'loadingAuth';
-                this.providerCards[5].authorizedStatus = 'loadingAuth';
-                return this._cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState');
-            })
+            .switchMap(r => this._cacheService.get(Constants.serviceHost + 'api/SourceControlAuthenticationState'))
             .subscribe(
                 dep => {
                     const r = dep.json();
@@ -255,6 +267,17 @@ export class StepSourceControlComponent {
         this._wizardService.wizardValues = currentFormValues;
     }
 
+    updateProvider(provider: string) {
+        if (provider === 'dropbox') {
+            this.dropboxUserSubject$.next(true);
+        } else if (provider === 'github') {
+            this.githubUserSubject$.next(true);
+        } else if (provider === 'onedrive') {
+            this.onedriveUserSubject$.next(true);
+        } else if (provider === 'bitbucket') {
+            this.bitbucketUserSubject$.next(true);
+        }
+    }
     public authorize() {
         const provider = this.selectedProvider.id;
         const win = window.open(`${Constants.serviceHost}auth/${provider}/authorize`, 'windowname1', 'width=800, height=600');
@@ -271,6 +294,7 @@ export class StepSourceControlComponent {
                             redirUrl: win.document.URL
                         })
                         .subscribe(() => {
+                            this.updateProvider(provider);
                             win.close();
                         });
                 }
