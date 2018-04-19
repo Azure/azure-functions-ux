@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export abstract class PriceSpecGroup {
     abstract iconUrl: string;
+    abstract recommendedSpecs: PriceSpec[];
     abstract specs: PriceSpec[];
     abstract title: string;
     abstract id: string;
@@ -33,11 +34,13 @@ export abstract class PriceSpecGroup {
 }
 
 export class DevSpecGroup extends PriceSpecGroup {
-    specs = [
+    recommendedSpecs = [
         new FreePlanPriceSpec(this.injector),
         new SharedPlanPriceSpec(this.injector),
         new BasicSmallPlanPriceSpec(this.injector),
-        new StandardSmallPlanPriceSpec(this.injector),
+    ];
+
+    specs = [
         new BasicMediumPlanPriceSpec(this.injector),
         new BasicLargePlanPriceSpec(this.injector)
     ];
@@ -47,7 +50,7 @@ export class DevSpecGroup extends PriceSpecGroup {
     title = this.ts.instant(PortalResources.pricing_devTestTitle);
     id = 'devtest';
     description = this.ts.instant(PortalResources.pricing_devTestDesc);
-    emptyMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    emptyMessage = this.ts.instant(PortalResources.pricing_emptyDevTestGroup);
     emptyInfoLink = 'https://microsoft.com';
 
     constructor(injector: Injector) {
@@ -66,16 +69,19 @@ export class DevSpecGroup extends PriceSpecGroup {
 }
 
 export class ProdSpecGroup extends PriceSpecGroup {
-    specs = [
+    recommendedSpecs = [
         new StandardSmallPlanPriceSpec(this.injector),
         new PremiumV2SmallPlanPriceSpec(this.injector),
         new PremiumV2MediumPlanPriceSpec(this.injector),
-        new PremiumV2LargePlanPriceSpec(this.injector),
+        new PremiumV2LargePlanPriceSpec(this.injector)
+    ];
+
+    specs = [
         new StandardMediumPlanPriceSpec(this.injector),
+        new StandardLargePlanPriceSpec(this.injector),
         new PremiumSmallPlanPriceSpec(this.injector),
         new PremiumMediumPlanPriceSpec(this.injector),
         new PremiumLargePlanPriceSpec(this.injector),
-        new StandardLargePlanPriceSpec(this.injector)
     ];
 
     selectedSpec = null;
@@ -83,7 +89,7 @@ export class ProdSpecGroup extends PriceSpecGroup {
     title = this.ts.instant(PortalResources.pricing_productionTitle);
     id = 'prod';
     description = this.ts.instant(PortalResources.pricing_productionDesc);
-    emptyMessage = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    emptyMessage = this.ts.instant(PortalResources.pricing_emptyProdGroup);
     emptyInfoLink = 'https://microsoft.com';
 
     constructor(injector: Injector) {
@@ -102,11 +108,13 @@ export class ProdSpecGroup extends PriceSpecGroup {
 }
 
 export class IsolatedSpecGroup extends PriceSpecGroup {
-    specs = [
+    recommendedSpecs = [
         new IsolatedSmallPlanPriceSpec(this.injector),
         new IsolatedMediumPlanPriceSpec(this.injector),
         new IsolatedLargePlanPriceSpec(this.injector)
     ];
+
+    specs = [];
 
     selectedSpec = null;
     iconUrl = 'image/app-service-environment.svg';

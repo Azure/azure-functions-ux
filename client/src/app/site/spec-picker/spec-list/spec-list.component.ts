@@ -11,7 +11,7 @@ import { PriceSpec } from '../price-spec-manager/price-spec';
 })
 export class SpecListComponent implements OnChanges {
   @Input() specGroup: PriceSpecGroup;
-  @Input() isExpanded = false;
+  @Input() isRecommendedList = false;
   @Output() onSelectedSpec = new Subject<PriceSpec>();
 
   specs: PriceSpec[];
@@ -20,9 +20,9 @@ export class SpecListComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.specGroup) {
-      this.specs = this.isExpanded
-        ? this.specGroup.specs
-        : this.specs = this.specGroup.specs.slice(0, 4);
+      this.specs = this.isRecommendedList
+        ? this.specGroup.recommendedSpecs
+        : this.specGroup.specs;
     }
   }
 
