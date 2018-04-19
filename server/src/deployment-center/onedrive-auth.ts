@@ -52,6 +52,7 @@ export function setupOnedriveAuthentication(app: Application) {
     });
 
     app.post('/auth/onedrive/storeToken', async (req, res) => {
+        
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
         if (!req || !req.session || !req.session['onedrive_state_key'] || oauthHelper.hashStateGuid(req.session['onedrive_state_key']).substr(0, 10) !== state) {
