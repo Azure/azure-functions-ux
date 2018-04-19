@@ -52,7 +52,7 @@ export function setupBitbucketAuthentication(app: Application) {
     app.post('/auth/bitbucket/storeToken', async (req, res) => {
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-        if (!req || !req.session || !req.session['dropbox_state_key'] || oauthHelper.hashStateGuid(req.session['bitbucket_state_key']).substr(0, 10) !== state) {
+        if (!req || !req.session || !req.session['bitbucket_state_key'] || oauthHelper.hashStateGuid(req.session['bitbucket_state_key']).substr(0, 10) !== state) {
             LogHelper.error('bitbucket-invalid-sate-key', {});
             res.sendStatus(403);
             return;
