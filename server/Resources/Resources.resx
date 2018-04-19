@@ -3155,7 +3155,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Private app access</value>
   </data>
   <data name="pricing_privateAppAccessDesc" xml:space="preserve">
-    <value>Using an App Service Environment with Internal Load Balancing (ILB)</value>
+    <value>Using an App Service Environment with Internal Load Balancing (ILB).</value>
   </data>
   <data name="pricing_memory" xml:space="preserve">
     <value>{0} GB memory</value>

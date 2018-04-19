@@ -18,7 +18,7 @@ export interface SpecPickerInput<T> {
     data?: T;
 }
 
-export interface NewPlanSpeckPickerData {
+export interface NewPlanSpecPickerData {
     subscriptionId: string;
     location: string;
     hostingEnvironmentName: string | null;
@@ -50,7 +50,7 @@ export class PlanPriceSpecManager {
     private _ts: TranslateService;
     private _plan: ArmObj<ServerFarm>;
     private _subscriptionId: string;
-    private _inputs: SpecPickerInput<NewPlanSpeckPickerData>;
+    private _inputs: SpecPickerInput<NewPlanSpecPickerData>;
 
     constructor(private _specPicker: SpecPickerComponent, private _injector: Injector) {
         this._planService = _injector.get(PlanService);
@@ -58,7 +58,7 @@ export class PlanPriceSpecManager {
         this._ts = _injector.get(TranslateService);
     }
 
-    initialize(inputs: SpecPickerInput<NewPlanSpeckPickerData>) {
+    initialize(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
         this._inputs = inputs;
         this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
         this.selectedSpecGroup = this.specGroups[0];
@@ -136,7 +136,7 @@ export class PlanPriceSpecManager {
             });
     }
 
-    private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpeckPickerData>) {
+    private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
         // If we're getting meters for an existing plan
         if (!inputs.data) {
 
@@ -235,19 +235,12 @@ export class PlanPriceSpecManager {
 
     private _findSelectedSpec(specs: PriceSpec[]) {
         return specs.find((s, specIndex) => {
-
-            if ((this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
-                || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName)) {
-
-                // // If the current SKU is below the fold, then automatically expand the group.
-                return true;
-            }
-
-            return false;
+            return (this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
+                || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName);
         });
     }
 
-    private _filterOutForbiddenSkus(inputs: SpecPickerInput<NewPlanSpeckPickerData>, specs: PriceSpec[]) {
+    private _filterOutForbiddenSkus(inputs: SpecPickerInput<NewPlanSpecPickerData>, specs: PriceSpec[]) {
         if (inputs.data && inputs.data.forbiddenSkus) {
             return specs
                 .filter(s => !this._inputs.data.forbiddenSkus
