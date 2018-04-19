@@ -28,7 +28,7 @@
       <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage" [infoText]="specManager.selectedSpecGroup.bannerMessage" typeClass="info"></info-box>
     </section>
 
-    <section *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length == 0 && specManager.selectedSpecGroup.specs.length === 0" class="empty-group">
+    <section *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length == 0 && specManager.selectedSpecGroup.additionalSpecs.length === 0" class="empty-group">
       <div [load-image]="specManager.selectedSpecGroup.iconUrl" class="icon-large"></div>
       <article>
         {{specManager.selectedSpecGroup.emptyMessage}}

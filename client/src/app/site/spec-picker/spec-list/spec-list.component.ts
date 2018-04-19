@@ -22,7 +22,7 @@ export class SpecListComponent implements OnChanges {
     if (this.specGroup) {
       this.specs = this.isRecommendedList
         ? this.specGroup.recommendedSpecs
-        : this.specGroup.specs;
+        : this.specGroup.additionalSpecs;
     }
   }
 

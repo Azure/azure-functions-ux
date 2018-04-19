@@ -3104,10 +3104,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Custom domains / SSL</value>
   </data>
   <data name="pricing_customDomainsSslDesc" xml:space="preserve">
-    <value>Configure and purchased custom domains with SNI SSL bindings</value>
+    <value>Configure and purchase custom domains with SNI SSL bindings</value>
   </data>
   <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
-    <value>Configure and purchased custom domains with SNI and IP SSL bindings</value>
+    <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
   </data>
   <data name="pricing_manualScale" xml:space="preserve">
     <value>Manual scale</value>

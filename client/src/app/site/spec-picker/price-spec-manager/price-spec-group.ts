@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 export abstract class PriceSpecGroup {
     abstract iconUrl: string;
     abstract recommendedSpecs: PriceSpec[];
-    abstract specs: PriceSpec[];
+    abstract additionalSpecs: PriceSpec[];
     abstract title: string;
     abstract id: string;
     abstract description: string;
@@ -40,7 +40,7 @@ export class DevSpecGroup extends PriceSpecGroup {
         new BasicSmallPlanPriceSpec(this.injector),
     ];
 
-    specs = [
+    additionalSpecs = [
         new BasicMediumPlanPriceSpec(this.injector),
         new BasicLargePlanPriceSpec(this.injector)
     ];
@@ -76,7 +76,7 @@ export class ProdSpecGroup extends PriceSpecGroup {
         new PremiumV2LargePlanPriceSpec(this.injector)
     ];
 
-    specs = [
+    additionalSpecs = [
         new StandardMediumPlanPriceSpec(this.injector),
         new StandardLargePlanPriceSpec(this.injector),
         new PremiumSmallPlanPriceSpec(this.injector),
@@ -114,7 +114,7 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
         new IsolatedLargePlanPriceSpec(this.injector)
     ];
 
-    specs = [];
+    additionalSpecs = [];
 
     selectedSpec = null;
     iconUrl = 'image/app-service-environment.svg';

@@ -84,7 +84,7 @@ export class PlanPriceSpecManager {
 
                     g.initialize(input);
                     specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(input)));
-                    specInitCalls = specInitCalls.concat(g.specs.map(s => s.initialize(input)));
+                    specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(input)));
                 });
 
                 return Observable.zip(...specInitCalls);
@@ -100,9 +100,9 @@ export class PlanPriceSpecManager {
 
         this.specGroups.forEach(g => {
             specResourceSets = specResourceSets.concat(g.recommendedSpecs.map(s => s.specResourceSet));
-            specResourceSets = specResourceSets.concat(g.specs.map(s => s.specResourceSet));
+            specResourceSets = specResourceSets.concat(g.additionalSpecs.map(s => s.specResourceSet));
             specsToAllowZeroCost = specsToAllowZeroCost.concat(g.recommendedSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
-            specsToAllowZeroCost = specsToAllowZeroCost.concat(g.specs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
+            specsToAllowZeroCost = specsToAllowZeroCost.concat(g.additionalSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
         });
 
         const query: SpecCostQueryInput = {
@@ -116,7 +116,7 @@ export class PlanPriceSpecManager {
             .do(result => {
                 this.specGroups.forEach(g => {
                     this._updatePriceStrings(result, g.recommendedSpecs);
-                    this._updatePriceStrings(result, g.specs);
+                    this._updatePriceStrings(result, g.additionalSpecs);
                 });
             });
     }
@@ -194,22 +194,22 @@ export class PlanPriceSpecManager {
         this.specGroups.forEach((g, i) => {
 
             let recommendedSpecs = g.recommendedSpecs.filter(s => s.state !== 'hidden');
-            let specs = g.specs.filter(s => s.state !== 'hidden');
+            let specs = g.additionalSpecs.filter(s => s.state !== 'hidden');
 
             recommendedSpecs = this._filterOutForbiddenSkus(this._inputs, recommendedSpecs);
             specs = this._filterOutForbiddenSkus(this._inputs, specs);
 
             g.recommendedSpecs = recommendedSpecs;
-            g.specs = specs;
+            g.additionalSpecs = specs;
 
             // Find if there's already a spec that's selected within a group
             g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
             if (!g.selectedSpec) {
-                g.selectedSpec = this._findSelectedSpec(g.specs);
+                g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
                 g.isExpanded = g.selectedSpec ? true : false;   // Expand if selected spec is in the "all specs" list
             }
 
-            if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.specs.length === 0) {
+            if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
                 nonEmptyGroupIndex++;
             } else {
                 foundNonEmptyGroup = true;

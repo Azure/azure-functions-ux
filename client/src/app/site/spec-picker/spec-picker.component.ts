@@ -229,12 +229,12 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
 
   get showExpander() {
     return this.specManager.selectedSpecGroup.recommendedSpecs.length > 0
-      && this.specManager.selectedSpecGroup.specs.length > 0;
+      && this.specManager.selectedSpecGroup.additionalSpecs.length > 0;
   }
 
   get showAllSpecs() {
     return (this.showExpander && this.specManager.selectedSpecGroup.isExpanded)
-      || (!this.showExpander && this.specManager.selectedSpecGroup.specs.length > 0);
+      || (!this.showExpander && this.specManager.selectedSpecGroup.additionalSpecs.length > 0);
   }
 
   private _getTargetIndex(groups: PriceSpecGroup[], targetIndex: number) {
