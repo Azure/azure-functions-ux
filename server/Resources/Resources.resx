@@ -3247,7 +3247,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="feature_metricsInfo" xml:space="preserve">
     <value>View metrics and setup alerts.</value>
   </data>
-   <data name="FTPMessage" xml:space="preserve">
+  <data name="FTPMessage" xml:space="preserve">
     <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. Click to learn more.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP access</value>
   </data>
 </root>
