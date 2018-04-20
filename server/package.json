@@ -1,6 +1,6 @@
 {
     "name": "azure-functions-ux-server",
-    "version": "0.0.0",
+    "version": "#{BUILD_BUILDNUMBER}#",
     "scripts": {
         "watch": "nodemon .\\src\\nodemon.json",
         "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json"
