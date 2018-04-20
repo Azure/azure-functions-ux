@@ -92,6 +92,10 @@ app.get('/api/health', (_, res) => {
     res.send('healthy');
 });
 
+app.get('/api/version', (_, res) => {
+    res.send('1.0.#{BUILD_BUILDNUMBER}#');
+});
+
 app.get('/api/templates', getTemplates);
 app.get('/api/bindingconfig', getBindingConfig);
 
