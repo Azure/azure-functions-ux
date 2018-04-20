@@ -109,7 +109,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
 
     private _pollVstsCheck(id: string) {
-        return this._cacheService.get(`https://${this.wizardValues.buildSettings.vstsAccount}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`);
+        return this._cacheService.get(`https://${this.wizardValues.buildSettings.vstsAccount}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`, true, this.getVstsDirectHeaders());
     }
     private _startVstsDeployment() {
         const deploymentObject: ProvisioningConfiguration = {
@@ -262,13 +262,13 @@ export class DeploymentCenterStateManager implements OnDestroy {
             subscriptionId: siteDescriptor.subscription,
             subscriptionName: '',
             tenantId: tid,
-            resourceIdentifier: this.wizardValues.testEnvironment.webAppId,
+            resourceIdentifier: siteDescriptor.site,
             location: this._location,
             resourceGroupName: newSiteDescriptor.resourceGroup,
             authorizationInfo: {
                 scheme: 'Headers',
                 parameters: {
-                    Authorization: `Bearer ${this._token}`
+                    Authorization: `Bearer ${this._vstsApiToken}`
                 }
             },
             createOptions: this.wizardValues.testEnvironment.newApp ? {
