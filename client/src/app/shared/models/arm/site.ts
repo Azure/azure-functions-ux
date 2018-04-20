@@ -20,4 +20,5 @@ export interface Site {
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
     name?: string;
     resourceGroup?: string;
+    computeMode?: number;
 }

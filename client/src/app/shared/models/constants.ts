@@ -204,6 +204,7 @@ export class ScenarioIds {
     public static readonly standAloneUserMenu = 'StandAloneUserMenu';
     public static readonly useCustomFunctionInputPicker = 'UseCustomFunctionInputPicker';
     public static readonly quickStartLink = 'QuickStartLink';
+    public static readonly webSocketsEnabled = 'WebSocketsEnabled';
     public static readonly noPaddingOnSideNav = 'NoPaddingOnSideNav';
     public static readonly downloadWithAppSettings = 'DownloadWithAppSettings';
     public static readonly downloadWithVsProj = 'DownloadWithVsProj';

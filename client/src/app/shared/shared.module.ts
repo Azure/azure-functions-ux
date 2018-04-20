@@ -72,6 +72,8 @@ import { ApplicationInsightsService } from './services/application-insights.serv
 import { InvalidmessageDirective } from './directives/invalid-control-message.directive';
 import { NgUploaderModule } from 'ngx-uploader';
 import { FlexListDirective } from '../controls/flex-list/flex-list.directive';
+import { QuotaService } from './services/quota.service';
+
 
 export function ArmServiceFactory(
     http: Http,
@@ -223,7 +225,8 @@ export class SharedModule {
                 TelemetryService,
                 { provide: AiService, useFactory: AiServiceFactory },
                 { provide: ErrorHandler, useClass: GlobalErrorHandler },
-                ApplicationInsightsService
+                ApplicationInsightsService,
+                QuotaService
             ]
         };
     }

@@ -23,7 +23,6 @@ export class ScenarioService {
 
     private _environments: Environment[] = [
         new StandaloneEnvironment(),
-        new OnPremEnvironment(),
         new SiteSlotEnvironment(this._translateService),
         new DynamicSiteEnvironment(this._translateService),
         new LinuxSiteEnvironment(this._translateService),
@@ -45,6 +44,7 @@ export class ScenarioService {
         } else {
             this._environments.splice(0, 0, new AzureEnvironment(injector));
         }
+        this._environments.push(new OnPremEnvironment(injector));
     }
 
     // Does a synchronous check against all possible environments to see whether a

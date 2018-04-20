@@ -143,8 +143,13 @@
         <radio-selector
           [control]="!!group ? group.controls['webSocketsEnabled'] : null"
           [options]="webSocketsEnabledOptions"
-          [highlightDirty]="true">
+          [highlightDirty]="true"
+          check-scenario="WebSocketsEnabled"
+          [cs-input]="{site: siteArm}">
         </radio-selector>
+        <span check-scenario="WebSocketsEnabled" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
+          <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+        </span>
       </div>
     </div>
 

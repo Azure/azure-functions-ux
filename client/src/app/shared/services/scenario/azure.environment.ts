@@ -59,6 +59,13 @@ export class AzureEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.webSocketsEnabled] = {
+            id: ScenarioIds.webSocketsEnabled,
+            runCheck: (input: ScenarioCheckInput) => {
+                return { status: 'enabled' };
+            }
+        };
+
         this.scenarioChecks[ScenarioIds.enableAutoSwap] = {
             id: ScenarioIds.enableAutoSwap,
             runCheck: (input: ScenarioCheckInput) => {
