@@ -19,6 +19,7 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
     this.functionName = this._translateService.instant(PortalResources.loading);
     this.isLoading = true;
     this.historyMessage = null;
+    this.selectedRowId = null;
     this.setInput(monitorDetailsInfo);
   }
 
@@ -28,6 +29,7 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
   public traceHistory: AIInvocationTraceHistory[];
   public isLoading: boolean = true;
   public historyMessage: string = null;
+  public selectedRowId: number;
 
   constructor(
     private _translateService: TranslateService,
@@ -64,6 +66,7 @@ export class MonitorDetailsComponent extends FeatureComponent<MonitorDetailsInfo
   }
 
   public showHistoryMessage(traceHistory: AIInvocationTraceHistory) {
+    this.selectedRowId = traceHistory.rowId;
     this.historyMessage = traceHistory.message;
   }
 

@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { AIInvocationTrace } from '../../shared/models/application-insights';
 import { PortalService } from '../../shared/services/portal.service';
+import * as moment from 'moment-mini-ts';
 
 @Component({
     selector: ComponentNames.monitorApplicationInsights,
@@ -24,6 +25,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
         this.applicationInsightsInstanceName = this._translateService.instant(PortalResources.loading);
         this.monitorDetailsInfo = null;
         this.sidePanelOpened = false;
+        this.selectedRowId = null;
         this.setInput(functionMonitorInfo);
     }
 
@@ -35,6 +37,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     public isLoading: boolean = true;
     public monitorDetailsInfo: MonitorDetailsInfo;
     public sidePanelOpened: boolean = false;
+    public selectedRowId: string;
 
     constructor(
         private _portalService: PortalService,
@@ -65,16 +68,19 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     }
 
     public showTraceHistory(trace: AIInvocationTrace): void {
-        this.sidePanelOpened = true;
+        this.sidePanelOpened = false;
+        this.selectedRowId = trace.operationId;
         this.monitorDetailsInfo = {
             functionMonitorInfo: this.functionMonitorInfo,
             operationId: trace.operationId,
             id: trace.id
         };
+        this.sidePanelOpened = true;
     }
 
     public closeSidePanel() {
         this.sidePanelOpened = false;
+        this.selectedRowId = null;
     }
 
     public refresh() {
@@ -100,6 +106,10 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
             this.functionMonitorInfo.functionInfo.name);
 
         window.open(url, '_blank');
+    }
+
+    public showInterval(timestamp: string): string {
+        return moment.utc(timestamp).from(moment.utc());
     }
 
 }

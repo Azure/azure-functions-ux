@@ -233,8 +233,10 @@ export class ApplicationInsightsService {
       if (resultJson) {
         const summaryTable = resultJson.Tables.find(table => table.TableName === 'Table_0');
         if (summaryTable && summaryTable.Rows.length > 0) {
+          let rowNum = 0;
           summaryTable.Rows.forEach(row => {
             history.push({
+              rowId: rowNum++,
               message: row[0],
               itemCount: row[1],
               logLevel: row[2]

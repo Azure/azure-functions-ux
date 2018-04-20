@@ -57,22 +57,7 @@ export class TblThComponent implements OnInit {
     }
 
     if (table.groupedBy === 'none') {
-      table.items = table.items.sort((a: TableItem, b: TableItem) => {
-        let aCol: any;
-        let bCol: any;
-
-        aCol = Object.byString(a, this.name);
-        bCol = Object.byString(b, this.name);
-
-        aCol = typeof aCol === 'string' ? aCol : aCol.toString();
-        bCol = typeof bCol === 'string' ? bCol : bCol.toString();
-
-        if (table.sortAscending) {
-          return aCol.localeCompare(bCol);
-        } else {
-          return bCol.localeCompare(aCol);
-        }
-      });
+      table.items = table.items.sort((a: TableItem, b: TableItem) => this._evaluateOrder(a[this.name], b[this.name], table.sortAscending));
     } else {
 
       if (!table.groupColName) {
@@ -100,13 +85,7 @@ export class TblThComponent implements OnInit {
           }
         });
 
-        tempItems.sort((a: TableItem, b: TableItem) => {
-          if (table.sortAscending) {
-            return a[this.name].localeCompare(b[this.name]);
-          } else {
-            return b[this.name].localeCompare(a[this.name]);
-          }
-        });
+        tempItems.sort((a: TableItem, b: TableItem) => this._evaluateOrder(a[this.name], b[this.name], table.sortAscending));
 
         finalItems = finalItems.concat(tempItems);
         tempItems = [];
@@ -125,6 +104,25 @@ export class TblThComponent implements OnInit {
       } else {
         th.classList.remove('focused');
       }
+    }
+  }
+
+  private _evaluateOrder(aCol: any, bCol: any, sortAscending: boolean): number {
+    const typeOfA = typeof aCol;
+    const typeOfB = typeof bCol;
+
+    if (typeOfA !== typeOfB) {
+      throw new Error(`tbl-th: type of aCol ${typeOfA} does not match type of bCol ${typeOfB}`);
+    }
+
+    if (typeOfA === 'number') {
+      return sortAscending
+        ? aCol - bCol
+        : bCol - aCol;
+    } else {
+      return sortAscending
+        ? aCol.toString().localeCompare(bCol.toString())
+        : bCol.toString().localeCompare(aCol.toString());
     }
   }
 }

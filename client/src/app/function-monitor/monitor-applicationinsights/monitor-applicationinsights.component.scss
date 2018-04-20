@@ -49,3 +49,11 @@
         color: $error-color;
     }
 }
+
+.rowSelected {
+    background-color: $row-selected-color;
+}
+
+.tableBody tr:hover{
+    background-color: $row-hover-color;
+}
