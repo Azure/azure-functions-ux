@@ -1,4 +1,5 @@
-<div class="settings-group-wrapper" [formGroup]="wizard?.deploymentSlotSetting" novalidate>
+<div class="settings-group-wrapper" [formGroup]="wizard?.deploymentSlotSetting" novalidate check-scenario="EnableSlots"
+[cs-input]="{site: wizard?.siteArm}">
 
   <h3 class="first-config-heading">{{'deployment' | translate}}</h3>
 

@@ -108,6 +108,8 @@ describe('Deployment State Manager', () => {
             service.resourceIdStream$.next('testValue');
             expect(service['_location']).toBe('loc');
             expect(service['_pricingTier']).toBe('sku');
+            expect(service.siteArm.location).toBe('loc');
+            expect(service.siteArm.properties.sku).toBe('sku');
         }));
 
         it('get tfs token on first load', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {

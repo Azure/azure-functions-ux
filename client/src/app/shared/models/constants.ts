@@ -196,6 +196,7 @@ export class ScenarioIds {
     public static readonly enableAlwaysOn = 'EnableAlwaysOn';
     public static readonly deleteAppDirectly = 'deleteAppDirectly';
     public static readonly enableAutoSwap = 'EnableAutoSwap';
+    public static readonly enableSlots = 'EnableSlots';
     public static readonly createApp = 'createApp';
     public static readonly filterAppNodeChildren = 'FilterAppNodeChildren';
     public static readonly headerOnTopOfSideNav = 'headerOnTopOfSideNav';

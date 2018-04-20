@@ -11,6 +11,8 @@ import { UserService } from '../../../../shared/services/user.service';
 import { Constants, ARM } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
+import { ArmObj } from '../../../../shared/models/arm/arm-obj';
+import { Site } from '../../../../shared/models/arm/site';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -23,6 +25,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _token: string;
     private _vstsApiToken: string;
     private _pricingTier: string;
+    public siteArm: ArmObj<Site>;
     constructor(
         private _cacheService: CacheService,
         userService: UserService,
@@ -32,6 +35,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
             return this._cacheService.getArm(this._resourceId);
         })
             .subscribe(s => {
+                this.siteArm = s.json();
                 this._location = s.json().location;
                 this._pricingTier = s.json().properties.sku;
             });
@@ -249,7 +253,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const siteDescriptor = new ArmSiteDescriptor(this._resourceId);
         const newSiteDescriptor = new ArmSiteDescriptor(this.wizardValues.testEnvironment.webAppId);
 
-        const appServicePlanDescriptor = new ArmPlanDescriptor(this._resourceId);
+        const appServicePlanDescriptor = new ArmPlanDescriptor(this.wizardValues.testEnvironment.appServicePlanId);
         const targetObject = {
             provider: DeploymentTargetProvider.Azure,
             type: AzureResourceType.WindowsAppService,

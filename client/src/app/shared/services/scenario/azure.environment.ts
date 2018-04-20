@@ -59,6 +59,13 @@ export class AzureEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.enableSlots] = {
+            id: ScenarioIds.enableSlots,
+            runCheck: (input: ScenarioCheckInput) => {
+                return this._enableIfStandardOrHigher(input);
+            }
+        };
+
         this.scenarioChecks[ScenarioIds.enableAutoSwap] = {
             id: ScenarioIds.enableAutoSwap,
             runCheck: (input: ScenarioCheckInput) => {
