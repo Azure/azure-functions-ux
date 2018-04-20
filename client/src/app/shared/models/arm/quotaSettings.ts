@@ -5,7 +5,7 @@ export interface QuotaSettings {
             key: string,
             value: string
         }>
-    }
+    };
 }
 
 export enum ComputeMode {
