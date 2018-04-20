@@ -92,7 +92,7 @@ app.get('/api/health', (_, res) => {
 });
 
 app.get('/api/version', (_, res) => {
-    res.send('#{BUILD_BUILDNUMBER}#');
+    res.send('1.0.#{BUILD_BUILDNUMBER}#');
 });
 
 app.get('/api/templates', getTemplates);
