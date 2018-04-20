@@ -41,21 +41,33 @@ export class PlanService {
             .switchMap(r => {
                 if (r.isSuccessful) {
                     const location = r.result.headers.get('Location');
-                    const stopPolling = new Subject();
+                    const stopPolling$ = new Subject();
 
-                    return Observable.timer(0, 2000)
-                        .takeUntil(stopPolling)
-                        .switchMap(t => {
-                            const getUpdateResult = this._cacheService.get(location, true);
-                            return this._client.execute({ resourceId: plan.id }, g => getUpdateResult);
-                        })
-                        .filter(p => {
-                            // Only allow completed states to continue (ie anything but a 202 status code)
-                            return p.isSuccessful ? p.result.status !== 202 : true;
-                        })
-                        .do(p => {
-                            stopPolling.next();
-                        });
+                    if (location) {
+                        return Observable.timer(0, 2000)
+                            .takeUntil(stopPolling$)
+                            .switchMap(t => {
+                                const getUpdateResult = this._cacheService.get(location, true);
+                                return this._client.execute({ resourceId: plan.id }, g => getUpdateResult);
+                            })
+                            .filter(p => {
+                                // Only allow completed states to continue (ie anything but a 202 status code).
+                                // Also we're counting a 201 status code as "completed", which occurs when you
+                                // update an isolated plan on an ASE.  The reason why we're letting that one
+                                // go is because scaling an isolated plan takes a super long time.  So instead
+                                // we'll let the caller figure out how they want to handle that situation.
+                                return p.isSuccessful ? p.result.status !== 202 : true;
+                            })
+                            .do(p => {
+                                stopPolling$.next();
+                            });
+                    }
+
+                    // Updates to ASP's on an ASE don't return a location headrer, but that doesn't mean they're
+                    // complete.  Since these updates can take a really long time, we're going to return success
+                    // for now and let the caller figure out how to handle the long running operation using
+                    // the provisioningState property
+                    return Observable.of(r);
                 } else {
                     return Observable.of(r);
                 }

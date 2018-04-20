@@ -31,7 +31,8 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
+        description: this._ts.instant(PortalResources.pricing_dedicatedCpu),
+        learnMoreUrl: 'https://docs.microsoft.com/en-us/azure/virtual-machines/windows/acu'
     },
     {
         iconUrl: 'image/website-power.svg',
@@ -62,9 +63,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
             this.state = 'hidden';
         } else if (input.plan) {
 
-            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
-                this.state = 'hidden';
-            } else if (!input.plan.properties.hostingEnvironmentProfile) {
+            if (!input.plan.properties.hostingEnvironmentProfile) {
                 this.state = 'hidden';
             } else {
                 return this._aseService.getAse(input.plan.properties.hostingEnvironmentProfile.id)

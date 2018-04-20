@@ -17,7 +17,8 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
+        description: this._ts.instant(PortalResources.pricing_dedicatedCpu),
+        learnMoreUrl: 'https://docs.microsoft.com/en-us/azure/virtual-machines/windows/acu'
     },
     {
         iconUrl: 'image/website-power.svg',

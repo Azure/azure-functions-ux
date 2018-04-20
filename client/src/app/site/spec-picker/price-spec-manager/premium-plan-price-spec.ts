@@ -29,7 +29,8 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
+        description: this._ts.instant(PortalResources.pricing_dedicatedCpu),
+        learnMoreUrl: 'https://docs.microsoft.com/en-us/azure/virtual-machines/windows/acu'
     },
     {
         iconUrl: 'image/website-power.svg',
@@ -109,7 +110,7 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
 }
 
 export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
-    skuCode = 'P2';
+    skuCode = 'P3';
     legacySkuName = 'large_premium';
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('4x'),

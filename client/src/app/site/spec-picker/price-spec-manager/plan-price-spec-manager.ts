@@ -6,12 +6,13 @@ import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup } from '
 import { PortalService } from './../../../shared/services/portal.service';
 import { PlanService } from './../../../shared/services/plan.service';
 import { Injector } from '@angular/core';
-import { ArmSubcriptionDescriptor } from '../../../shared/resourceDescriptors';
+import { ArmSubcriptionDescriptor, ArmResourceDescriptor } from '../../../shared/resourceDescriptors';
 import { Observable } from 'rxjs/Observable';
 import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
 import { SpecCostQueryInput } from './billing-models';
 import { PriceSpecInput, PriceSpec } from './price-spec';
+import { Subject } from 'rxjs/Subject';
 
 export interface SpecPickerInput<T> {
     id: ResourceId;
@@ -51,6 +52,7 @@ export class PlanPriceSpecManager {
     private _plan: ArmObj<ServerFarm>;
     private _subscriptionId: string;
     private _inputs: SpecPickerInput<NewPlanSpecPickerData>;
+    private _ngUnsubscribe$ = new Subject();
 
     constructor(private _specPicker: SpecPickerComponent, private _injector: Injector) {
         this._planService = _injector.get(PlanService);
@@ -122,17 +124,82 @@ export class PlanPriceSpecManager {
     }
 
     applySelectedSpec() {
-        const plan: ArmObj<ServerFarm> = JSON.parse(JSON.stringify(this._plan));
-        plan.sku = {
+        const planToUpdate: ArmObj<ServerFarm> = JSON.parse(JSON.stringify(this._plan));
+        planToUpdate.sku = {
             name: this.selectedSpecGroup.selectedSpec.skuCode
         };
 
-        return this._planService.updatePlan(plan)
+        let notificationId: string = null;
+        const planDescriptor = new ArmResourceDescriptor(planToUpdate.id);
+        return this._portalService.startNotification(
+            this._ts.instant(PortalResources.pricing_planUpdateTitle),
+            this._ts.instant(PortalResources.pricing_planUpdateDesc).format(planDescriptor.resourceName))
+            .first()
+            .switchMap(notification => {
+
+                notificationId = notification.id;
+                return this._planService.updatePlan(planToUpdate);
+            })
             .do(r => {
+
                 if (r.isSuccessful) {
+
                     this._plan = r.result.json();
                     this._cleanUpGroups();
+
+                    if (this._plan.properties.hostingEnvironmentProfile && this._plan.properties.provisioningState === 'InProgress') {
+                        this._portalService.stopNotification(
+                            notificationId,
+                            r.isSuccessful,
+                            this._ts.instant(PortalResources.pricing_planUpdateJobSuccessFormat).format(planDescriptor.resourceName)
+                        );
+
+                        this._pollForIsolatedScaleCompletion(this._plan.id);
+                    } else {
+                        this._portalService.stopNotification(
+                            notificationId,
+                            r.isSuccessful,
+                            this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName)
+                        );
+                    }
+                } else {
+                    this._portalService.stopNotification(
+                        notificationId,
+                        r.isSuccessful,
+                        r.error.message ? r.error.message : this._ts.instant(PortalResources.pricing_planUpdateFailFormat).format(planDescriptor.resourceName)
+                    );
                 }
+            });
+    }
+
+    dispose() {
+        this._ngUnsubscribe$.next();
+    }
+
+    private _pollForIsolatedScaleCompletion(resourceId: ResourceId) {
+        const stopPolling$ = new Subject();
+        const descriptor = new ArmResourceDescriptor(resourceId);
+
+        this.selectedSpecGroup.bannerMessage = {
+            message: this._ts.instant(PortalResources.pricing_planScaleInProgress).format(descriptor.resourceName),
+            level: 'warning'
+        };
+
+        this._specPicker.shieldEnabled = true;
+
+        Observable.timer(0, 10000)
+            .takeUntil(stopPolling$.merge(this._ngUnsubscribe$))
+            .switchMap(t => {
+                return this._planService.getPlan(resourceId, true);
+            })
+            .filter(p => {
+                return (p.isSuccessful && p.result.properties.provisioningState !== 'InProgress')
+                    || !p.isSuccessful;
+            })
+            .do(p => {
+                this.selectedSpecGroup.bannerMessage = null;
+                this._specPicker.shieldEnabled = false;
+                stopPolling$.next();
             });
     }
 
@@ -230,6 +297,13 @@ export class PlanPriceSpecManager {
                     break;
                 }
             }
+        }
+
+        // If an isolated plan is currently being scaled, then poll for completion
+        if (this._plan
+            && this._plan.properties.hostingEnvironmentProfile
+            && this._plan.properties.provisioningState === 'InProgress') {
+            this._pollForIsolatedScaleCompletion(this._plan.id);
         }
     }
 

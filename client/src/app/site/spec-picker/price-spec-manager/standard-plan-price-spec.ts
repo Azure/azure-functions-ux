@@ -13,12 +13,12 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
     {
         iconUrl: 'image/scale-up.svg',
         title: this._ts.instant(PortalResources.pricing_autoScale),
-        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(10)
+        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(5)
     },
     {
         iconUrl: 'image/slots.svg',
         title: this._ts.instant(PortalResources.pricing_stagingSlots),
-        description: this._ts.instant(PortalResources.pricing_slotsDesc).format(10)
+        description: this._ts.instant(PortalResources.pricing_slotsDesc).format(5)
     },
     {
         iconUrl: 'image/backups.svg',
@@ -29,7 +29,8 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
+        description: this._ts.instant(PortalResources.pricing_dedicatedCpu),
+        learnMoreUrl: 'https://docs.microsoft.com/en-us/azure/virtual-machines/windows/acu'
     },
     {
         iconUrl: 'image/website-power.svg',
