@@ -9,13 +9,13 @@ export interface QuotaSettings {
 }
 
 export enum ComputeMode {
-    Shared = 0,
-    Dedicated = 1
+    Shared,
+    Dedicated
 }
 
 export enum QuotaScope {
-    WebSpace = 0,
-    Site = 1
+    WebSpace,
+    Site
 }
 
 export class QuotaNames {

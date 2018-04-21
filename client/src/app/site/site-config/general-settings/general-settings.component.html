@@ -126,7 +126,10 @@
 
         <span check-scenario="EnablePlatform64" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-          <pop-over [message]="'use32BitWorkerProcessUpsell' | translate">
+          <pop-over *ngIf="!useGenericUpsellMessage" [message]="'use32BitWorkerProcessUpsell' | translate">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
+          <pop-over *ngIf="useGenericUpsellMessage" [message]="'upgradeUpsell' | translate">
             <span load-image="image/upsell.svg" class="icon-small"></span>
           </pop-over>
         </span>
@@ -170,7 +173,10 @@
 
         <span check-scenario="EnableAlwaysOn" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-          <pop-over [message]="'alwaysOnUpsell' | translate">
+          <pop-over *ngIf="!useGenericUpsellMessage" [message]="'alwaysOnUpsell' | translate">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
+          <pop-over *ngIf="useGenericUpsellMessage" [message]="'upgradeUpsell' | translate">
             <span load-image="image/upsell.svg" class="icon-small"></span>
           </pop-over>
         </span>
@@ -224,9 +230,12 @@
 
           <span check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
             <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-            <pop-over [message]="'autoSwapUpsell' | translate">
+            <pop-over *ngIf="!useGenericUpsellMessage" [message]="'autoSwapUpsell' | translate">
               <span load-image="image/upsell.svg" class="icon-small"></span>
             </pop-over>
+            <pop-over *ngIf="useGenericUpsellMessage" [message]="'upgradeUpsell' | translate">
+              <span load-image="image/upsell.svg" class="icon-small"></span>
+            </pop-over>              
           </span>
         </div>
       </div>

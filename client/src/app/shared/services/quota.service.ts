@@ -20,9 +20,9 @@ export class QuotaService {
     getQuotaSettings(subscriptionId: string):  Observable<QuotaSettings> {
         const resourceId = this._quotaSettingsResourceIdFormat.format(subscriptionId);
         return  this._cacheService.getArm(resourceId).map(r => {
-            const quotaSettings: QuotaSettings[] = r.json().value;
-            const quotaSetting = quotaSettings.find(quota => quota.properties.subscriptionId === subscriptionId);
-            return quotaSetting;
+            const quotaSettingsForAllSubs: QuotaSettings[] = r.json().value;
+            const quotaSettingForCurrentSub = quotaSettingsForAllSubs.find(quota => quota.properties.subscriptionId === subscriptionId);
+            return quotaSettingForCurrentSub;
         });
     }
 
@@ -43,11 +43,11 @@ export class QuotaService {
             });
     }
 
-    generateFullQuotaName(
+    private generateFullQuotaName(
         quotaName: string,
         sku: string,
         computeMode: ComputeMode,
-        quotaScope: QuotaScope = QuotaScope.WebSpace): string {
+        quotaScope: QuotaScope): string {
             const scope: string = quotaScope === QuotaScope.WebSpace ? this._webSpace : this._site;
             const mode = computeMode === ComputeMode.Shared ? this._shared : this._dedicated;
             return this._fullQuotaFormat.format(quotaName, mode, scope, sku).toLowerCase();

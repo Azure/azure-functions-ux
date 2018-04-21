@@ -22,6 +22,8 @@ import { JavaWebContainerProperties } from './models/java-webcontainer-propertie
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
 import { Url } from '../../../shared/Utilities/url';
+import { ConfigService } from 'app/shared/services/config.service';
+
 
 @Component({
     selector: 'general-settings',
@@ -58,6 +60,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public platform64BitSupported = false;
     public webSocketsSupported = false;
     public alwaysOnSupported = false;
+    public useGenericUpsellMessage = false;
     public classicPipelineModeSupported = false;
     public remoteDebuggingSupported = false;
     public clientAffinitySupported = false;
@@ -87,6 +90,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         private _authZService: AuthzService,
         private _portalService: PortalService,
         private _siteService: SiteService,
+        private _configService: ConfigService,
         injector: Injector
     ) {
         super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], SiteTabIds.applicationSettings);
@@ -96,6 +100,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this._resetPermissionsAndLoadingState();
 
         this._generateRadioOptions();
+        this.useGenericUpsellMessage = this._configService.isOnPrem();
     }
 
     protected get _isPristine() {
