@@ -2,9 +2,6 @@
 
 <app-kudu-dashboard *ngIf="kuduDeploymentSetup && !dashboardOverride" [resourceId]="resourceId" (disconnected)="refreshedSCMType()">
 </app-kudu-dashboard>
-
-<app-ftp-dashboard *ngIf="dashboardOverride === 'ftp'"></app-ftp-dashboard>
-<app-read-from-zip-dashboard *ngIf="dashboardOverride === 'zip'"></app-read-from-zip-dashboard>
-<app-web-deploy-dashboard *ngIf="dashboardOverride === 'webdeploy'"></app-web-deploy-dashboard>
+<app-read-from-zip-dashboard *ngIf="dashboardOverride === 'zip'" [viewInfo]="viewInfo"></app-read-from-zip-dashboard>
 <app-deployment-center-setup *ngIf="scmType === 'None' && !dashboardOverride" [resourceId]="resourceId">
 </app-deployment-center-setup>
