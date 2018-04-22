@@ -94,6 +94,10 @@ describe('ConfigureBitbucketComponent', () => {
             expect(mockDeploymentCenterStateManager.wizardValues.sourceSettings.branch).toBe(expectedbranch);
         });
     });
+
+    describe('Form Validation', () => {
+        // TODO: Form Validation
+    });
 });
 
 
