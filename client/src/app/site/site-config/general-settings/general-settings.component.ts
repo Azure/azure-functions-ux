@@ -1,5 +1,5 @@
 import { ConfigSaveComponent, ArmSaveConfigs } from 'app/shared/components/config-save-component';
-import { Links, LogCategories, SiteTabIds } from './../../../shared/models/constants';
+import { Links, LogCategories, SiteTabIds, ScenarioIds } from './../../../shared/models/constants';
 import { PortalService } from './../../../shared/services/portal.service';
 import { Component, Injector, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -23,7 +23,7 @@ import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
 import { Url } from '../../../shared/Utilities/url';
 import { ConfigService } from 'app/shared/services/config.service';
-
+import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 
 @Component({
     selector: 'general-settings',
@@ -52,6 +52,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public managedPipelineModeOptions: SelectOption<number>[];
     public remoteDebuggingEnabledOptions: SelectOption<boolean>[];
     public remoteDebuggingVersionOptions: SelectOption<string>[];
+    public FTPAccessOptions: SelectOption<string>[];
 
     public netFrameworkSupported = false;
     public phpSupported = false;
@@ -64,6 +65,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public classicPipelineModeSupported = false;
     public remoteDebuggingSupported = false;
     public clientAffinitySupported = false;
+    public FTPAccessSupported = false;
 
     public autoSwapSupported = false;
     public autoSwapEnabledOptions: SelectOption<boolean>[];
@@ -91,6 +93,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         private _portalService: PortalService,
         private _siteService: SiteService,
         private _configService: ConfigService,
+        private _scenarioService: ScenarioService,
         injector: Injector
     ) {
         super('GeneralSettingsComponent', injector, ['Site', 'SiteConfig'], SiteTabIds.applicationSettings);
@@ -280,6 +283,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.clientAffinitySupported = false;
         this.autoSwapSupported = false;
         this.linuxRuntimeSupported = false;
+        this.FTPAccessSupported = false;
     }
 
     private _processSupportedControls(siteArm: ArmObj<Site>, siteConfigArm: ArmObj<SiteConfig>) {
@@ -296,6 +300,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             let clientAffinitySupported = true;
             let autoSwapSupported = true;
             let linuxRuntimeSupported = false;
+            let FTPAccessSupported = Url.getParameterByName(null, 'appsvc.feature.ftps') === 'true';
 
             this._sku = siteArm.properties.sku;
 
@@ -329,10 +334,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 }
             }
 
-            // if (this._sku === 'Free' || this._sku === 'Shared') {
-            //   platform64BitSupported = false;
-            //   alwaysOnSupported = false;
-            // }
+            if (this._scenarioService.checkScenario(ScenarioIds.addFTPOptions, { site: siteArm }).status === 'disabled') {
+                FTPAccessSupported = false;
+            }
 
             this.netFrameworkSupported = netFrameworkSupported;
             this.phpSupported = phpSupported;
@@ -346,6 +350,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             this.clientAffinitySupported = clientAffinitySupported;
             this.autoSwapSupported = autoSwapSupported;
             this.linuxRuntimeSupported = linuxRuntimeSupported;
+            this.FTPAccessSupported = FTPAccessSupported;
         }
     }
 
@@ -462,6 +467,11 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this.autoSwapEnabledOptions =
             [{ displayLabel: offString, value: false },
             { displayLabel: onString, value: true }];
+
+        this.FTPAccessOptions =
+            [{ displayLabel: 'FTP + FTPS', value: 'AllAllowed' },
+            { displayLabel: 'FTPS Only', value: 'FtpsOnly' },
+            { displayLabel: 'Disable', value: 'Disabled'}];
     }
 
     private _setupGeneralSettings(group: FormGroup, siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
@@ -484,6 +494,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             group.addControl('remoteDebuggingEnabled', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingEnabled, disabled: !this.hasWritePermissions }));
             group.addControl('remoteDebuggingVersion', this._fb.control({ value: siteConfigArm.properties.remoteDebuggingVersion, disabled: !this.hasWritePermissions }));
             setTimeout(() => { this._setControlsEnabledState(['remoteDebuggingVersion'], siteConfigArm.properties.remoteDebuggingEnabled && this.hasWritePermissions); }, 0);
+        }
+        if (this.FTPAccessSupported) {
+            group.addControl('FTPAccessOptions', this._fb.control({ value: siteConfigArm.properties.ftpsState, disabled: !this.hasWritePermissions }));
         }
     }
 
@@ -1122,6 +1135,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             if (this.autoSwapSupported) {
                 const autoSwapEnabled = <boolean>(generalSettingsControls['autoSwapEnabled'].value);
                 siteConfigArm.properties.autoSwapSlotName = autoSwapEnabled ? <string>(generalSettingsControls['autoSwapSlotName'].value) : '';
+            }
+            if (this.FTPAccessSupported) {
+                siteConfigArm.properties.ftpsState = <string>(generalSettingsControls['FTPAccessOptions'].value);
             }
 
             // -- stacks settings --

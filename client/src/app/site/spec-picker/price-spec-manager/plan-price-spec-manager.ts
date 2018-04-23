@@ -11,14 +11,14 @@ import { Observable } from 'rxjs/Observable';
 import { ResourceId, ArmObj } from '../../../shared/models/arm/arm-obj';
 import { ServerFarm } from '../../../shared/models/server-farm';
 import { SpecCostQueryInput } from './billing-models';
-import { PriceSpecInput } from './price-spec';
+import { PriceSpecInput, PriceSpec } from './price-spec';
 
 export interface SpecPickerInput<T> {
     id: ResourceId;
     data?: T;
 }
 
-export interface NewPlanSpeckPickerData {
+export interface NewPlanSpecPickerData {
     subscriptionId: string;
     location: string;
     hostingEnvironmentName: string | null;
@@ -50,7 +50,7 @@ export class PlanPriceSpecManager {
     private _ts: TranslateService;
     private _plan: ArmObj<ServerFarm>;
     private _subscriptionId: string;
-    private _inputs: SpecPickerInput<NewPlanSpeckPickerData>;
+    private _inputs: SpecPickerInput<NewPlanSpecPickerData>;
 
     constructor(private _specPicker: SpecPickerComponent, private _injector: Injector) {
         this._planService = _injector.get(PlanService);
@@ -58,7 +58,7 @@ export class PlanPriceSpecManager {
         this._ts = _injector.get(TranslateService);
     }
 
-    initialize(inputs: SpecPickerInput<NewPlanSpeckPickerData>) {
+    initialize(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
         this._inputs = inputs;
         this._subscriptionId = new ArmSubcriptionDescriptor(inputs.id).subscriptionId;
         this.selectedSpecGroup = this.specGroups[0];
@@ -83,7 +83,8 @@ export class PlanPriceSpecManager {
                     };
 
                     g.initialize(input);
-                    specInitCalls = specInitCalls.concat(g.specs.map(s => s.initialize(input)));
+                    specInitCalls = specInitCalls.concat(g.recommendedSpecs.map(s => s.initialize(input)));
+                    specInitCalls = specInitCalls.concat(g.additionalSpecs.map(s => s.initialize(input)));
                 });
 
                 return Observable.zip(...specInitCalls);
@@ -98,8 +99,10 @@ export class PlanPriceSpecManager {
         let specsToAllowZeroCost: string[] = [];
 
         this.specGroups.forEach(g => {
-            specResourceSets = specResourceSets.concat(g.specs.map(s => s.specResourceSet));
-            specsToAllowZeroCost = specsToAllowZeroCost.concat(g.specs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
+            specResourceSets = specResourceSets.concat(g.recommendedSpecs.map(s => s.specResourceSet));
+            specResourceSets = specResourceSets.concat(g.additionalSpecs.map(s => s.specResourceSet));
+            specsToAllowZeroCost = specsToAllowZeroCost.concat(g.recommendedSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
+            specsToAllowZeroCost = specsToAllowZeroCost.concat(g.additionalSpecs.filter(s => s.allowZeroCost).map(s => s.specResourceSet.id));
         });
 
         const query: SpecCostQueryInput = {
@@ -111,7 +114,10 @@ export class PlanPriceSpecManager {
 
         return this._portalService.getSpecCosts(query)
             .do(result => {
-                this.specGroups.forEach(g => this._updatePriceStrings(result, g));
+                this.specGroups.forEach(g => {
+                    this._updatePriceStrings(result, g.recommendedSpecs);
+                    this._updatePriceStrings(result, g.additionalSpecs);
+                });
             });
     }
 
@@ -130,7 +136,7 @@ export class PlanPriceSpecManager {
             });
     }
 
-    private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpeckPickerData>) {
+    private _getBillingMeters(inputs: SpecPickerInput<NewPlanSpecPickerData>) {
         // If we're getting meters for an existing plan
         if (!inputs.data) {
 
@@ -167,8 +173,8 @@ export class PlanPriceSpecManager {
         return this._planService.getBillingMeters(inputs.data.subscriptionId, inputs.data.location);
     }
 
-    private _updatePriceStrings(result: SpecCostQueryResult, specGroup: PriceSpecGroup) {
-        specGroup.specs.forEach(spec => {
+    private _updatePriceStrings(result: SpecCostQueryResult, specs: PriceSpec[]) {
+        specs.forEach(spec => {
             const costResult = result.costs.find(c => c.id === spec.specResourceSet.id);
             if (costResult.amount === 0.0) {
                 spec.priceString = 'Free';
@@ -179,6 +185,7 @@ export class PlanPriceSpecManager {
         });
     }
 
+
     private _cleanUpGroups() {
         let nonEmptyGroupIndex = 0;
         let foundNonEmptyGroup = false;
@@ -186,31 +193,23 @@ export class PlanPriceSpecManager {
         // Remove hidden and forbidden specs and move disabled specs to end of list.
         this.specGroups.forEach((g, i) => {
 
-            let enabledSpecs = g.specs.filter(s => s.state !== 'disabled' && s.state !== 'hidden');
+            let recommendedSpecs = g.recommendedSpecs.filter(s => s.state !== 'hidden');
+            let specs = g.additionalSpecs.filter(s => s.state !== 'hidden');
 
-            if (this._inputs.data) {
-                enabledSpecs = enabledSpecs.filter(s => !this._inputs.data.forbiddenSkus.find(sku => sku.toLowerCase() === s.legacySkuName.toLowerCase()));
+            recommendedSpecs = this._filterOutForbiddenSkus(this._inputs, recommendedSpecs);
+            specs = this._filterOutForbiddenSkus(this._inputs, specs);
+
+            g.recommendedSpecs = recommendedSpecs;
+            g.additionalSpecs = specs;
+
+            // Find if there's already a spec that's selected within a group
+            g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
+            if (!g.selectedSpec) {
+                g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
+                g.isExpanded = g.selectedSpec ? true : false;   // Expand if selected spec is in the "all specs" list
             }
 
-            const disabledSpecs = g.specs.filter(s => s.state === 'disabled');
-
-            g.specs = enabledSpecs.concat(disabledSpecs);
-
-            // Find a selected spec within a group
-            g.selectedSpec = g.specs.find((s, specIndex) => {
-
-                if ((this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
-                    || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName)) {
-
-                    // If the current SKU is below the fold, then automatically expand the group.
-                    g.isExpanded = specIndex > 3;
-                    return true;
-                }
-
-                return false;
-            });
-
-            if (!foundNonEmptyGroup && g.specs.length === 0) {
+            if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
                 nonEmptyGroupIndex++;
             } else {
                 foundNonEmptyGroup = true;
@@ -232,5 +231,22 @@ export class PlanPriceSpecManager {
                 }
             }
         }
+    }
+
+    private _findSelectedSpec(specs: PriceSpec[]) {
+        return specs.find((s, specIndex) => {
+            return (this._plan && s.skuCode.toLowerCase() === this._plan.sku.name.toLowerCase())
+                || (this._inputs.data && this._inputs.data.selectedLegacySkuName === s.legacySkuName);
+        });
+    }
+
+    private _filterOutForbiddenSkus(inputs: SpecPickerInput<NewPlanSpecPickerData>, specs: PriceSpec[]) {
+        if (inputs.data && inputs.data.forbiddenSkus) {
+            return specs
+                .filter(s => !this._inputs.data.forbiddenSkus
+                    .find(sku => sku.toLowerCase() === s.legacySkuName.toLowerCase()));
+        }
+
+        return specs;
     }
 }

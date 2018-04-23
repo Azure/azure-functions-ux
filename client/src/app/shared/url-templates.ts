@@ -135,7 +135,9 @@ export class UrlTemplates {
     }
 
     getFunctionLogUrl(functionName: string): string {
-        return `${this.scmUrl}/api/vfs/logfiles/application/functions/function/${functionName}/`;
+        return ArmUtil.isLinuxDynamic(this.site)
+            ? `${this.mainSiteUrl}/admin/vfs/tmp/Functions/Function/${functionName}/`
+            : `${this.scmUrl}/api/vfs/logfiles/application/functions/function/${functionName}/`;
     }
 
     getFunctionKeysUrl(functionName: string): string {

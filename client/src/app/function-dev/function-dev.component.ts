@@ -458,6 +458,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         if (!this.scriptFile.isDirty) {
             return null;
         }
+        this._broadcastService.broadcastEvent<void>(BroadcastEvent.FunctionCodeUpdate);
         let syncTriggers = false;
         if (this.scriptFile.href.toLocaleLowerCase() === this.functionInfo.config_href.toLocaleLowerCase()) {
             try {
@@ -572,6 +573,7 @@ export class FunctionDevComponent extends FunctionAppContextComponent implements
         };
 
         run();
+        this._broadcastService.broadcastEvent<void>(BroadcastEvent.FunctionRunEvent);
     }
 
     cancelCurrentRun() {

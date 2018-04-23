@@ -240,7 +240,7 @@
         </div>
       </div>
       
-      <div class="setting-wrapper last" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}">
+      <div class="setting-wrapper" check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}">
         <label class="setting-label">{{ 'autoSwapSlotNameLabel' | translate }}</label>
         <div class="setting-control-container">
           <drop-down
@@ -252,6 +252,22 @@
       </div>
     </ng-container>
 
+    <ng-container *ngIf="FTPAccessSupported">
+      <div class="setting-wrapper last">
+        <info-box
+          [infoText]="('FTPMessage' | translate)"
+          [infoLink]="FwLinks.FTPAccessLearnMore">
+        </info-box>
+        <label class="setting-label">{{'FTPLabel' | translate}}</label>
+        <div class="setting-control-container">
+          <radio-selector
+            [control]="!!group ? group.controls['FTPAccessOptions'] : null"
+            [options]="FTPAccessOptions"
+            [highlightDirty]="true">
+          </radio-selector>
+        </div>
+      </div>
+    </ng-container> 
   </div>
   
   <ng-container *ngIf="remoteDebuggingSupported">

@@ -25,10 +25,14 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
         display: flex;
     }
 
+    .recommended-tiers{
+        margin: 20px 0px 0px 15px;
+    }
+
     section{
         &.centered{
             max-width: $center-column-max-width;
-            margin: 0px auto;    
+            margin: 0px auto;
         }
 
         &.empty-group{
@@ -70,7 +74,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
     .spec-container {
         padding: 0;
-        margin: 10px;
+        margin: 0px 10px;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -180,13 +184,14 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
     .feature-item{
         position: relative;
-        height: 60px;
+        height: 70px;
         background-color: lighten($border-color, 5%);
         margin: 5px 0px;
 
         h4{
             font-size: 12px;
             font-weight: bold;
+            margin: 0px 0px 2px 0px;
         }
 
         .icon-medium{

@@ -84,6 +84,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
                 return this._getDisabledBindings();
             }
         };
+
+        this.scenarioChecks[ScenarioIds.addFTPOptions] = {
+            id: ScenarioIds.addFTPOptions,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
