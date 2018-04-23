@@ -7,7 +7,7 @@ export class LogHelper {
 
         const errorId = `/errors/server/${id}`;
 
-        this.trackEvent(errorId, data);
+        LogHelper.trackEvent(errorId, data);
     }
 
     public static warn(id: string, data: any) {
@@ -17,7 +17,7 @@ export class LogHelper {
 
         const warningId = `/warnings/server/${id}`;
 
-        this.trackEvent(warningId, data);
+        LogHelper.trackEvent(warningId, data);
     }
 
     public static log(id: string, data: any) {
@@ -27,7 +27,7 @@ export class LogHelper {
 
         const logId = `/info/server/${id}`;
 
-        this.trackEvent(logId, data);
+        LogHelper.trackEvent(logId, data);
     }
 
     private static trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }) {
