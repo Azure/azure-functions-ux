@@ -9,7 +9,11 @@
           (click)="openAppInsightsQueryEditor()"
           iconUrl="image/open-external.svg"></command>
       </command-bar>
-  
+
+      <div *ngIf="showDelayWarning" class="alert alert-warning alert-dismissible" role="alert">
+        <span>{{ 'appInsightsDelay' | translate }}</span>
+      </div>
+
       <div id="essentials-container">
         <div class="essentials-col">
           <div>
@@ -48,28 +52,43 @@
       </div>
   
       <div class="function-monitor-content">
-          <tbl [items]="invocationTraces" #table="tbl">
-            <tr>
-              <th><tbl-th name="timestamp">{{ ('date' | translate).toUpperCase() }}</tbl-th></th>
-              <th><tbl-th name="success">{{ ('success' | translate).toUpperCase() }}</tbl-th></th>
-              <th><tbl-th name="resultCode">{{ ('resultCode' | translate).toUpperCase() }}</tbl-th></th>
-              <th><tbl-th name="duration">{{ ('duration' | translate).toUpperCase() }}</tbl-th></th>
-              <th><tbl-th name="id">{{ ('operationId' | translate).toUpperCase() }}</tbl-th></th>
-            </tr>
-        
-            <tr *ngFor="let trace of invocationTraces">
-              <td><a class="link" (click)="showTraceHistory(trace)">{{trace.timestamp}}</a></td>
-              <td>{{trace.success}}</td>
-              <td>{{trace.resultCode}}</td>
-              <td>{{trace.duration}}</td>
-              <td>{{trace.operationId}}</td>
-            </tr>
-        
-            <tr *ngIf="invocationTraces.length === 0">
-              <td *ngIf="isLoading" colspan="5">{{'functionMonitor_loading' | translate}}</td>
-              <td *ngIf="!isLoading" colspan="5">{{'noResults' | translate}}</td>
-            </tr>
-            
+          <tbl *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+            <thead>
+              <tr>
+                <th>{{ 'date' | translate }}</th>
+                <th><tbl-th name="success">{{ 'success' | translate }}</tbl-th></th>
+                <th><tbl-th name="resultCode">{{ 'resultCode' | translate }}</tbl-th></th>
+                <th><tbl-th name="duration">{{ 'duration' | translate }}</tbl-th></th>
+                <th><tbl-th name="operationId">{{ 'operationId' | translate }}</tbl-th></th>
+              </tr>
+            </thead>
+            <tbody class="tableBody">
+              <tr *ngFor="let trace of table.items" [ngClass]="{rowSelected: trace.operationId === selectedRowId}" (click)="showTraceHistory(trace)">
+                <td>{{trace.timestampFriendly}}</td>
+                <td>{{trace.success}}</td>
+                <td>{{trace.resultCode}}</td>
+                <td>{{trace.duration}}</td>
+                <td>{{trace.operationId}}</td>
+              </tr>
+            </tbody>
+          </tbl>
+
+          <tbl *ngIf="invocationTraces.length === 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+            <thead>
+              <tr>
+                <th>{{ 'date' | translate }}</th>
+                <th>{{ 'success' | translate }}</th>
+                <th>{{ 'resultCode' | translate }}</th>
+                <th>{{ 'duration' | translate }}</th>
+                <th>{{ 'operationId' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td *ngIf="isLoading" colspan="5">{{'functionMonitor_loading' | translate}}</td>
+                <td *ngIf="!isLoading" colspan="5">{{'noResults' | translate}}</td>
+              </tr>
+            </tbody>
           </tbl>
       </div>
     </div>

@@ -2204,7 +2204,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>For a richer monitoring experience, including live metrics and custom queries:</value>
   </data>
   <data name="monitoring_appInsightsConfigureLink" xml:space="preserve">
-    <value>configure Application Insights for your Function app</value>
+    <value>configure Application Insights for your function app</value>
   </data>
   <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
     <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
@@ -3194,7 +3194,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Operation Id</value>
   </data>
   <data name="date" xml:space="preserve">
-    <value>Date</value>
+    <value>Date (UTC)</value>
   </data>
   <data name="url" xml:space="preserve">
     <value>URL</value>
@@ -3218,7 +3218,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Success</value>
   </data>
   <data name="duration" xml:space="preserve">
-    <value>Duration</value>
+    <value>Duration (ms)</value>
   </data>
   <data name="functionMonitor_successAggregate_30days" xml:space="preserve">
     <value>Success count in last 30 days</value>
@@ -3344,14 +3344,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Configure Application Insights to capture invocation logs</value>
   </data>
   <data name="configureAppInsightsDesc" xml:space="preserve">
-    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</value>
+    <value>Azure Functions now supports Application Insights as the preferred monitoring solution for apps under construction and in production. App Insights offers powerful analytics, notifications, and visualizations of your log data, as well as higher overall reliability at scale.</value>
   </data>
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Switch to classic view</value>
   </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Configure</value>
-  </data>  
+  </data>
+  <data name="invocationTraces" xml:space="preserve">
+    <value>Invocation traces</value>
+  </data>
+  <data name="appInsightsDelay" xml:space="preserve">
+    <value>Results delayed up to 5 minutes.</value>
+  </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Drag a file here or</value>
   </data>

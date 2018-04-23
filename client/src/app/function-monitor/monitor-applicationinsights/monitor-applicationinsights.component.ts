@@ -24,6 +24,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
         this.applicationInsightsInstanceName = this._translateService.instant(PortalResources.loading);
         this.monitorDetailsInfo = null;
         this.sidePanelOpened = false;
+        this.selectedRowId = null;
         this.setInput(functionMonitorInfo);
     }
 
@@ -32,9 +33,11 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     public applicationInsightsInstanceName: string;
     public functionMonitorInfo: FunctionMonitorInfo;
     public invocationTraces: AIInvocationTrace[] = [];
-    public isLoading: boolean = true;
+    public isLoading = true;
     public monitorDetailsInfo: MonitorDetailsInfo;
-    public sidePanelOpened: boolean = false;
+    public sidePanelOpened = false;
+    public selectedRowId: string;
+    public showDelayWarning = false;
 
     constructor(
         private _portalService: PortalService,
@@ -60,25 +63,30 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
 
                 this.successCount = monthlySummary.successCount.toString();
                 this.errorsCount = monthlySummary.failedCount.toString();
+                this.showDelayWarning = this.showDelayWarning || this.invocationTraces.length === 0;
                 this.isLoading = false;
             });
     }
 
     public showTraceHistory(trace: AIInvocationTrace): void {
-        this.sidePanelOpened = true;
+        this.sidePanelOpened = false;
+        this.selectedRowId = trace.operationId;
         this.monitorDetailsInfo = {
             functionMonitorInfo: this.functionMonitorInfo,
             operationId: trace.operationId,
             id: trace.id
         };
+        this.sidePanelOpened = true;
     }
 
     public closeSidePanel() {
         this.sidePanelOpened = false;
+        this.selectedRowId = null;
     }
 
     public refresh() {
         this.sidePanelOpened = false;
+        this.showDelayWarning = true;
         this.setInput(this.functionMonitorInfo);
     }
 

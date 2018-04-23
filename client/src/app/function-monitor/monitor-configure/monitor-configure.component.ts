@@ -14,7 +14,7 @@ import { ApplicationInsightsService } from '../../shared/services/application-in
 @Component({
   selector: ComponentNames.monitorConfigure,
   templateUrl: './monitor-configure.component.html',
-  styleUrls: ['./monitor-configure.component.scss']
+  styleUrls: ['./../function-monitor.component.scss', './monitor-configure.component.scss']
 })
 
 export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigureInfo> {

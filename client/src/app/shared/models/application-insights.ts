@@ -5,6 +5,7 @@ export interface AIMonthlySummary {
 
 export interface AIInvocationTrace {
     timestamp: string;
+    timestampFriendly: string;
     id: string;
     name: string;
     success: string;
@@ -14,6 +15,7 @@ export interface AIInvocationTrace {
 }
 
 export interface AIInvocationTraceHistory {
+    rowId: number;
     message: string;
     itemCount: number;
     logLevel: string;
