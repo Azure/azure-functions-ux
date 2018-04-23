@@ -19,10 +19,9 @@ import { Url } from '../../../../../shared/Utilities/url';
     styleUrls: ['./configure-github.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureGithubComponent implements OnDestroy {
-    public OrgList: DropDownElement<string>[];
-    public RepoList: DropDownElement<string>[];
-    private repoUrlToNameMap: { [key: string]: string } = {};
-    public BranchList: DropDownElement<string>[];
+    public OrgList: DropDownElement<string>[] = [];
+    public RepoList: DropDownElement<string>[] = [];
+    public BranchList: DropDownElement<string>[] = [];
 
     private reposStream = new ReplaySubject<string>();
     private _ngUnsubscribe$ = new Subject();
@@ -33,6 +32,8 @@ export class ConfigureGithubComponent implements OnDestroy {
     public selectedOrg = '';
     public selectedRepo = '';
     public selectedBranch = '';
+
+    private repoUrlToNameMap: { [key: string]: string } = {};
     constructor(
         public wizard: DeploymentCenterStateManager,
         private _cacheService: CacheService,

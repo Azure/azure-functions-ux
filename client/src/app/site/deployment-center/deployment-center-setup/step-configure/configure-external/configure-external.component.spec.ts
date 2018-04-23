@@ -38,7 +38,7 @@ describe('ConfigureExternalComponent', () => {
             component.repoTypeChanged('Mercurial');
             expect(wizard.wizardValues.sourceSettings.isMercurial).toBeTruthy();
         });
-        it('hitting mercurial should set form isMercurial to true', () => {
+        it('hitting Git should set form isMercurial to false', () => {
             component.repoTypeChanged('Git');
             expect(wizard.wizardValues.sourceSettings.isMercurial).toBeFalsy();
         });
