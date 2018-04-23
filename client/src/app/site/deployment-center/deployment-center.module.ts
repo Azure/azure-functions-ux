@@ -21,7 +21,6 @@ import { ConfigureVstsBuildComponent } from './deployment-center-setup/step-conf
 import { ConfigureExternalComponent } from './deployment-center-setup/step-configure/configure-external/configure-external.component';
 import { ConfigureBitbucketComponent } from './deployment-center-setup/step-configure/configure-bitbucket/configure-bitbucket.component';
 import { ConfigureLocalGitComponent } from './deployment-center-setup/step-configure/configure-local-git/configure-local-git.component';
-import { ReadFromZipDashboardComponent } from './provider-dashboards/read-from-zip-dashboard/read-from-zip-dashboard.component';
 import { SidebarModule } from 'ng-sidebar';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -47,8 +46,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
         ConfigureVstsBuildComponent,
         ConfigureExternalComponent,
         ConfigureBitbucketComponent,
-        ConfigureLocalGitComponent,
-        ReadFromZipDashboardComponent
+        ConfigureLocalGitComponent
     ],
     imports: [TranslateModule.forChild(), SharedModule, WizardModule, SidebarModule, NgSelectModule],
     exports: [DeploymentCenterComponent]
