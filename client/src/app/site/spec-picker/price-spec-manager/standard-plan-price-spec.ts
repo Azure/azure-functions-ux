@@ -1,3 +1,4 @@
+import { Links } from './../../../shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core/src/core';
@@ -29,8 +30,8 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu),
-        learnMoreUrl: 'https://docs.microsoft.com/en-us/azure/virtual-machines/windows/acu'
+        description: this._ts.instant(PortalResources.pricing_aSeriesDedicatedCpu),
+        learnMoreUrl: Links.vmSizeLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',
@@ -68,7 +69,7 @@ export class StandardSmallPlanPriceSpec extends StandardPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('1x'),
         this._ts.instant(PortalResources.pricing_memory).format('1.75'),
-        '100 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Standard Small App Service Hours';
@@ -88,7 +89,7 @@ export class StandardMediumPlanPriceSpec extends StandardPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('2x'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        '200 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Standard Medium App Service Hours';
@@ -117,7 +118,7 @@ export class StandardLargePlanPriceSpec extends StandardPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('4x'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        '400 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Standard Large App Service Hours';

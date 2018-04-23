@@ -7,6 +7,6 @@
     <h4>{{feature.title}}</h4>
     <div class="feature-description">{{feature.description}}
     </div>
-    <div><a *ngIf="feature.learnMoreUrl" [href]="feature.learnMoreUrl">{{'topBar_learnMore' | translate}}</a></div>
+    <div><a *ngIf="feature.learnMoreUrl" [href]="feature.learnMoreUrl" target="_blank">{{'topBar_learnMore' | translate}}</a></div>
   </div>
 </div>

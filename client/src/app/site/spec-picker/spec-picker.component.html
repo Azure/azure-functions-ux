@@ -34,7 +34,7 @@
       <div [load-image]="specManager.selectedSpecGroup.iconUrl" class="icon-large"></div>
       <article>
         {{specManager.selectedSpecGroup.emptyMessage}}
-        <a [href]="specManager.selectedSpecGroup.emptyInfoLink">{{'clickToLearnMore' | translate}}</a>
+        <a [href]="specManager.selectedSpecGroup.emptyInfoLink" target="_blank">{{'clickToLearnMore' | translate}}</a>
       </article>
     </section>
 
@@ -61,8 +61,6 @@
         [isRecommendedList]="false"
         (onSelectedSpec)="selectSpec($event)"></spec-list>
     </section>
-
-
 
     <section *ngIf="specManager.selectedSpecGroup.selectedSpec" class="feature-lists-container centered">
       <article class="feature-list" *ngIf="specManager.selectedSpecGroup.selectedSpec.featureItems">

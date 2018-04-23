@@ -1,3 +1,4 @@
+import { Links } from 'app/shared/models/constants';
 import { Kinds } from './../../../shared/models/constants';
 import { NationalCloudEnvironment } from './../../../shared/services/scenario/national-cloud.environment';
 import { PriceSpec, PriceSpecInput } from './price-spec';
@@ -31,8 +32,8 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu),
-        learnMoreUrl: 'https://docs.microsoft.com/en-us/azure/virtual-machines/windows/acu'
+        description: this._ts.instant(PortalResources.pricing_dv2SeriesDedicatedCpu),
+        learnMoreUrl: Links.vmSizeLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',

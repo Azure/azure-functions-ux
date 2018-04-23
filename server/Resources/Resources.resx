@@ -3097,8 +3097,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_sharedCpu" xml:space="preserve">
     <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
   </data>
-  <data name="pricing_dedicatedCpu" xml:space="preserve">
-    <value>Dedicated compute resources used to run applications deployed in the App Service Plan.  Relative performance is measured by Azure Compute Units (ACUs) per instance.  </value>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
   </data>
   <data name="pricing_sharedMemory" xml:space="preserve">
     <value>Memory available to run applications deployed and running in the App Service plan.</value>
@@ -3174,6 +3177,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_numCores" xml:space="preserve">
     <value>{0} cores</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A-Series compute</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2-Series compute</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>The proxies.json is not valid. Error: '{0}'.</value>

@@ -209,7 +209,7 @@ export class PlanPriceSpecManager {
                     || !p.isSuccessful;
             })
             .do(p => {
-                this._specPicker.disableUpdates = false;
+                this._specPicker.disableUpdates = true;
 
                 this.specGroups.forEach((g, i) => {
                     g.bannerMessage = curBannerMessages[i];

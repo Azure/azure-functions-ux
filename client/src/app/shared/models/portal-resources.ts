@@ -990,7 +990,8 @@
     public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
     public static pricing_sharedInfrastructure = 'pricing_sharedInfrastructure';
     public static pricing_sharedCpu = 'pricing_sharedCpu';
-    public static pricing_dedicatedCpu = 'pricing_dedicatedCpu';
+    public static pricing_aSeriesDedicatedCpu = 'pricing_aSeriesDedicatedCpu';
+    public static pricing_dv2SeriesDedicatedCpu = 'pricing_dv2SeriesDedicatedCpu';
     public static pricing_sharedMemory = 'pricing_sharedMemory';
     public static pricing_dedicatedMemory = 'pricing_dedicatedMemory';
     public static pricing_sharedDisk = 'pricing_sharedDisk';
@@ -1016,6 +1017,8 @@
     public static pricing_memory = 'pricing_memory';
     public static pricing_computeLimit = 'pricing_computeLimit';
     public static pricing_numCores = 'pricing_numCores';
+    public static pricing_aSeriesCompute = 'pricing_aSeriesCompute';
+    public static pricing_dSeriesCompute = 'pricing_dSeriesCompute';
     public static proxyJsonInvalid = 'proxyJsonInvalid';
     public static schemaJsonInvalid = 'schemaJsonInvalid';
     public static operationId = 'operationId';
