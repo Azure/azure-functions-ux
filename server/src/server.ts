@@ -18,10 +18,9 @@ import { triggerFunctionAPIM } from './actions/apim';
 import { NextFunction } from 'express';
 import { getLinuxRuntimeToken } from './actions/linux-function-app';
 import { setupAzureStorage } from './actions/storage';
-
-
+import * as appInsights from 'applicationinsights';
+import { trackAppServicePerformance } from './telemetry-helper';
 const cookieSession = require('cookie-session');
-const appInsights = require('applicationinsights');
 if (process.env.aiInstrumentationKey) {
     appInsights
         .setup(process.env.aiInstrumentationKey)
@@ -33,6 +32,7 @@ if (process.env.aiInstrumentationKey) {
         .setAutoCollectConsole(true)
         .setUseDiskRetryCaching(true)
         .start();
+    setInterval(trackAppServicePerformance, 30 * 1000);
 }
 
 const app = express();
@@ -89,6 +89,18 @@ app.get('/api/ping', (_, res) => {
 
 app.get('/api/health', (_, res) => {
     res.send('healthy');
+});
+
+
+let packageJson = { version: '0.0.0' };
+//This is done in sync because it's only on start up, should be fast and needs to be done for the route to be set up
+if (fs.existsSync(path.join(__dirname, 'package.json'))) {
+    packageJson = require('./package.json');
+} else if (fs.existsSync(path.join(__dirname, '..', 'package.json'))) {
+    packageJson = require('../package.json');
+};
+app.get('/api/version', (_, res) => {
+    res.send(packageJson.version);
 });
 
 app.get('/api/templates', getTemplates);

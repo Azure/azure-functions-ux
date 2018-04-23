@@ -138,6 +138,15 @@
   <data name="numItemsSelected" xml:space="preserve">
     <value>{0} items selected</value>
   </data>
+  <data name="cpu" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="memory" xml:space="preserve">
+    <value>Memory</value>
+  </data>
+  <data name="storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
   <data name="functionCreateErrorDetails" xml:space="preserve">
     <value>Create Function Error: {{error}}</value>
   </data>
@@ -853,11 +862,11 @@
   <data name="fileExplorer_upload" xml:space="preserve">
     <value>Upload</value>
   </data>
-  <data name="seeMoreOptions" xml:space="preserve">
-    <value>See more options</value>
+  <data name="seeAllOptions" xml:space="preserve">
+    <value>See additional options</value>
   </data>
-  <data name="seeLessOptions" xml:space="preserve">
-    <value>See fewer options</value>
+  <data name="seeRecommendedOptions" xml:space="preserve">
+    <value>See only recommended options</value>
   </data>
   <data name="storageLockNote" xml:space="preserve">
     <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
@@ -2980,6 +2989,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="diagnostics_line" xml:space="preserve">
     <value>Line</value>
   </data>
+  <data name="pricing_recommendedTiers" xml:space="preserve">
+    <value>Recommended pricing tiers</value>
+  </data>
+  <data name="pricing_additionalTiers" xml:space="preserve">
+    <value>Additional pricing tiers</value>
+  </data>
   <data name="pricing_subscriptionNotAllowed" xml:space="preserve">
     <value>Your subscription does not allow this pricing tier</value>
   </data>
@@ -3022,6 +3037,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="pricing_planUpdateSuccessFormat" xml:space="preserve">
     <value>The plan '{0}' was updated successfully!</value>
   </data>
+  <data name="pricing_planUpdateJobSuccessFormat" xml:space="preserve">
+    <value>Successfully submitted job to scale the plan '{0}'.</value>
+  </data>
+  <data name="pricing_planScaleInProgress" xml:space="preserve">
+    <value>A scale operation is currently in progress for the plan '{0}'.  Please wait for the operation to complete before scaling again.</value>
+  </data>
   <data name="pricing_planUpdateFailFormat" xml:space="preserve">
     <value>Failed to update the plan '{0}'</value>
   </data>
@@ -3047,7 +3068,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Windows containers are billed at a 50% discount while in preview.</value>
   </data>
   <data name="pricing_emptyIsolatedGroup" xml:space="preserve">
-    <value>Isolated plans within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
+    <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
+  </data>
+  <data name="pricing_emptyDevTestGroup" xml:space="preserve">
+    <value>Dev / Test pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+  </data>
+  <data name="pricing_emptyProdGroup" xml:space="preserve">
+    <value>Production pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
@@ -3063,6 +3090,99 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="pricing_applyButtonLabel" xml:space="preserve">
     <value>Update App Service plan</value>
+  </data>
+  <data name="pricing_sharedInfrastructure" xml:space="preserve">
+    <value>Shared insfrastructure</value>
+  </data>
+  <data name="pricing_sharedCpu" xml:space="preserve">
+    <value>Shared compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_aSeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated A-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_dv2SeriesDedicatedCpu" xml:space="preserve">
+    <value>Dedicated Dv2-series compute resources used to run applications deployed in the App Service Plan.</value>
+  </data>
+  <data name="pricing_sharedMemory" xml:space="preserve">
+    <value>Memory available to run applications deployed and running in the App Service plan.</value>
+  </data>
+  <data name="pricing_dedicatedMemory" xml:space="preserve">
+    <value>Memory per instance available to run applications deployed and running in the App Service plan.</value>
+  </data>
+  <data name="pricing_sharedDisk" xml:space="preserve">
+    <value>{0} disk storage shared by all apps deployed in the App Service plan.</value>
+  </data>
+  <data name="pricing_customDomainsSsl" xml:space="preserve">
+    <value>Custom domains / SSL</value>
+  </data>
+  <data name="pricing_customDomainsSslDesc" xml:space="preserve">
+    <value>Configure and purchase custom domains with SNI SSL bindings</value>
+  </data>
+  <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
+    <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
+  </data>
+  <data name="pricing_manualScale" xml:space="preserve">
+    <value>Manual scale</value>
+  </data>
+  <data name="pricing_autoScale" xml:space="preserve">
+    <value>Auto scale</value>
+  </data>
+  <data name="pricing_largeScale" xml:space="preserve">
+    <value>Scale to a large number of instances</value>
+  </data>
+  <data name="pricing_largeScaleDesc" xml:space="preserve">
+    <value>Up to 100 instances.  More allowed upon request.</value>
+  </data>
+  <data name="pricing_scaleDesc" xml:space="preserve">
+    <value>Up to {0} instances.  Subject to availability.</value>
+  </data>
+  <data name="pricing_stagingSlots" xml:space="preserve">
+    <value>Staging slots</value>
+  </data>
+  <data name="pricing_slotsDesc" xml:space="preserve">
+    <value>Up to {0} staging slots to use for testing and deployments before swapping them into production.</value>
+  </data>
+  <data name="pricing_dailyBackup" xml:space="preserve">
+    <value>Daily backup</value>
+  </data>
+  <data name="pricing_dailyBackups" xml:space="preserve">
+    <value>Daily backups</value>
+  </data>
+  <data name="pricing_dailyBackupDesc" xml:space="preserve">
+    <value>Backup your app {0} time daily.</value>
+  </data>
+  <data name="pricing_ase" xml:space="preserve">
+    <value>Single tenant system</value>
+  </data>
+  <data name="pricing_aseDesc" xml:space="preserve">
+    <value>Take more control over the resources being used by your app.</value>
+  </data>
+  <data name="pricing_isolatedNetwork" xml:space="preserve">
+    <value>Isolated network</value>
+  </data>
+  <data name="pricing_isolatedNetworkDesc" xml:space="preserve">
+    <value>Runs within your own virtual network.</value>
+  </data>
+  <data name="pricing_privateAppAccess" xml:space="preserve">
+    <value>Private app access</value>
+  </data>
+  <data name="pricing_privateAppAccessDesc" xml:space="preserve">
+    <value>Using an App Service Environment with Internal Load Balancing (ILB).</value>
+  </data>
+  <data name="pricing_memory" xml:space="preserve">
+    <value>{0} GB memory</value>
+  </data>
+  <data name="pricing_computeLimit" xml:space="preserve">
+    <value>{0} minutes/day compute</value>
+  </data>
+  <data name="pricing_numCores" xml:space="preserve">
+    <value>{0} cores</value>
+  </data>
+  <data name="pricing_aSeriesCompute" xml:space="preserve">
+    <value>A-Series compute</value>
+  </data>
+  <data name="pricing_dSeriesCompute" xml:space="preserve">
+    <value>Dv2-Series compute</value>
   </data>
   <data name="proxyJsonInvalid" xml:space="preserve">
     <value>The proxies.json is not valid. Error: '{0}'.</value>
@@ -3249,5 +3369,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   </data>
   <data name="feature_metricsInfo" xml:space="preserve">
     <value>View metrics and setup alerts.</value>
+  </data>
+  <data name="FTPMessage" xml:space="preserve">
+    <value>FTP based deployment can be disabled or configured to accept FTP (plain text) or FTPS (secure) connections. Click to learn more.</value>
+  </data>
+  <data name="FTPLabel" xml:space="preserve">
+    <value>FTP access</value>
   </data>
 </root>

@@ -1,9 +1,10 @@
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
-import { PlanPriceSpecManager, NewPlanSpeckPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
-import { Component, OnInit, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
+import { Component, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
@@ -14,9 +15,9 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
 import { Dom } from '../../shared/Utilities/dom';
 
-interface StatusMessage {
+export interface StatusMessage {
   message: string;
-  level: 'error' | 'success';
+  level: 'error' | 'success' | 'warning' | 'info';
 }
 
 @Component({
@@ -25,9 +26,9 @@ interface StatusMessage {
   styleUrls: ['./spec-picker.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>> implements OnInit {
+export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>> implements OnDestroy {
 
-  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>) {
+  @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>) {
     this.setInput(viewInfo);
   }
 
@@ -39,9 +40,10 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   isInitializing = false;
   isUpdating = false;
   shieldEnabled = false;
+  disableUpdates = false;
 
   private _planOrSubResourceId: ResourceId;
-  private _input: SpecPickerInput<NewPlanSpeckPickerData>;
+  private _input: SpecPickerInput<NewPlanSpecPickerData>;
 
   get applyButtonEnabled(): boolean {
     if (this.statusMessage && this.statusMessage.level === 'error') {
@@ -53,9 +55,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       && this.specManager.selectedSpecGroup.selectedSpec.skuCode === this.specManager.currentSkuCode) {
 
       return false;
-    } else if (this.isUpdating) {
-      return false;
-    } else if (this.isInitializing) {
+    } else if (this.isUpdating || this.isInitializing || this.disableUpdates) {
       return false;
     } else {
       return true;
@@ -73,10 +73,12 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     this.featureName = 'SpecPickerComponent';
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.specManager.dispose();
   }
 
-  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>>) {
+  protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>>) {
     return inputEvents
       .distinctUntilChanged()
       .switchMap(info => {
@@ -136,7 +138,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       });
   }
 
-
   selectGroup(group: PriceSpecGroup) {
     this.specManager.selectedSpecGroup = group;
   }
@@ -162,36 +163,14 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     if (!this._input.data) {
       this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
       this.isUpdating = true;
+      this.disableUpdates = true;
 
-      let notificationId: string = null;
-      const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
-      this._portalService.startNotification(
-        this._ts.instant(PortalResources.pricing_planUpdateTitle),
-        this._ts.instant(PortalResources.pricing_planUpdateDesc).format(planDescriptor.resourceName))
-        .first()
-        .switchMap(notification => {
-
-          notificationId = notification.id;
-          return this.specManager.applySelectedSpec();
-
-        })
-        .subscribe(r => {
+      this.specManager.applySelectedSpec()
+        .subscribe(applyButtonState => {
           this.isUpdating = false;
-          this._portalService.updateDirtyState(false);
 
-          if (r.isSuccessful) {
-            this._portalService.stopNotification(
-              notificationId,
-              r.isSuccessful,
-              this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName)
-            );
-          } else {
-            this._portalService.stopNotification(
-              notificationId,
-              r.isSuccessful,
-              r.error.message ? r.error.message : this._ts.instant(PortalResources.pricing_planUpdateFailFormat).format(planDescriptor.resourceName)
-            );
-          }
+          this.disableUpdates = applyButtonState === 'disabled' ? true : false;
+          this._portalService.updateDirtyState(false);
         });
     } else {
       // This is a new plan, so return plan information to parent blade
@@ -225,6 +204,21 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       this.specManager.selectedSpecGroup.isExpanded = !this.specManager.selectedSpecGroup.isExpanded;
       event.preventDefault();
     }
+  }
+
+  get isEmpty() {
+    return this.specManager.selectedSpecGroup.recommendedSpecs.length === 0
+      && this.specManager.selectedSpecGroup.additionalSpecs.length === 0;
+  }
+
+  get showExpander() {
+    return this.specManager.selectedSpecGroup.recommendedSpecs.length > 0
+      && this.specManager.selectedSpecGroup.additionalSpecs.length > 0;
+  }
+
+  get showAllSpecs() {
+    return (this.showExpander && this.specManager.selectedSpecGroup.isExpanded)
+      || (!this.showExpander && this.specManager.selectedSpecGroup.additionalSpecs.length > 0);
   }
 
   private _getTargetIndex(groups: PriceSpecGroup[], targetIndex: number) {

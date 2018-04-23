@@ -25,32 +25,41 @@
     [attr.aria-label]="specManager.selectedSpecGroup.title">
 
     <section>
-      <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage" [infoText]="specManager.selectedSpecGroup.bannerMessage" typeClass="info"></info-box>
+      <info-box *ngIf="specManager.selectedSpecGroup.bannerMessage"
+        [infoText]="specManager.selectedSpecGroup.bannerMessage.message"
+        [typeClass]="specManager.selectedSpecGroup.bannerMessage.level"></info-box>
     </section>
 
-    <section *ngIf="specManager.selectedSpecGroup.specs.length === 0" class="empty-group">
+    <section *ngIf="isEmpty" class="empty-group">
       <div [load-image]="specManager.selectedSpecGroup.iconUrl" class="icon-large"></div>
       <article>
         {{specManager.selectedSpecGroup.emptyMessage}}
-        <a [href]="specManager.selectedSpecGroup.emptyInfoLink">{{'clickToLearnMore' | translate}}</a>
+        <a [href]="specManager.selectedSpecGroup.emptyInfoLink" target="_blank">{{'clickToLearnMore' | translate}}</a>
       </article>
     </section>
 
     <section class="centered">
-      <spec-list
+      <h2 class="tiers-header" *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length > 0">{{'pricing_recommendedTiers' | translate}}</h2>
+      <spec-list *ngIf="specManager.selectedSpecGroup.recommendedSpecs.length > 0"
         [specGroup]="specManager.selectedSpecGroup"
-        [isExpanded]="specManager.selectedSpecGroup.isExpanded"
+        [isRecommendedList]="true"
         (onSelectedSpec)="selectSpec($event)"></spec-list>
 
-      <div class="spec-expander" *ngIf=" specManager.selectedSpecGroup.specs.length > 4">
-        <span
-          (click)="specManager.selectedSpecGroup.isExpanded = !specManager.selectedSpecGroup.isExpanded"
-          (keydown)="onExpandKeyPress($event)">
+        <div class="spec-expander" *ngIf="showExpander">
+          <span
+            (click)="specManager.selectedSpecGroup.isExpanded = !specManager.selectedSpecGroup.isExpanded"
+            (keydown)="onExpandKeyPress($event)">
+    
+            <span [load-image]="!specManager.selectedSpecGroup.isExpanded ? 'image/caret-down.svg' : 'image/caret-up.svg'" class="expand-icon"></span>
+            <a tabindex="0">{{ (!specManager.selectedSpecGroup.isExpanded ? 'seeAllOptions' : 'seeRecommendedOptions') | translate}}</a>
+          </span>
+        </div>
 
-          <span [load-image]="!specManager.selectedSpecGroup.isExpanded ? 'image/caret-down.svg' : 'image/caret-up.svg'" class="expand-icon"></span>
-          <a tabindex="0">{{ (!specManager.selectedSpecGroup.isExpanded ? 'seeMoreOptions' : 'seeLessOptions') | translate}}</a>
-        </span>
-      </div>
+      <h2 class="tiers-header" *ngIf="showAllSpecs">{{'pricing_additionalTiers' | translate}}</h2>
+      <spec-list *ngIf="showAllSpecs"
+        [specGroup]="specManager.selectedSpecGroup"
+        [isRecommendedList]="false"
+        (onSelectedSpec)="selectSpec($event)"></spec-list>
     </section>
 
     <section *ngIf="specManager.selectedSpecGroup.selectedSpec" class="feature-lists-container centered">
@@ -85,7 +94,10 @@
           *ngIf="statusMessage?.message"
           [load-image]="statusMessage?.level === 'error' ? 'image/error.svg' : 'image/success.svg'"></span>
 
-        <span class="message-text" [class.message-error]="statusMessage?.level === 'error'" [class.message-success]="statusMessage?.level === 'success'">
+        <span class="message-text"
+          [class.message-error]="statusMessage?.level === 'error'"
+          [class.message-success]="statusMessage?.level === 'success'">
+
           {{statusMessage?.message}}
         </span>  
     </div>

@@ -1,4 +1,4 @@
-import { NewPlanSpeckPickerData } from './../price-spec-manager/plan-price-spec-manager';
+import { NewPlanSpecPickerData } from './../price-spec-manager/plan-price-spec-manager';
 import { Component } from '@angular/core';
 import { TreeViewInfo } from '../../../tree-view/models/tree-view-info';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,12 +13,12 @@ import { StartupInfo } from '../../../shared/models/portal';
   styleUrls: ['./spec-picker-shell.component.scss']
 })
 export class SpecPickerShellComponent {
-  viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpeckPickerData>>;
+  viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>;
 
   constructor(translateService: TranslateService, userService: UserService) {
     userService.getStartupInfo()
       .first()
-      .subscribe((info: StartupInfo<SpecPickerInput<NewPlanSpeckPickerData>>) => {
+      .subscribe((info: StartupInfo<SpecPickerInput<NewPlanSpecPickerData>>) => {
 
         if (info.featureInfo && info.featureInfo.id) {
           this.viewInfo = {

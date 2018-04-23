@@ -1,4 +1,5 @@
 @import '../../../sass/common/variables';
+@import '../../../sass/common/mixins';
 
 $footer-height: 55px;
 $spec-card-max-width: 350px;
@@ -25,10 +26,14 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
         display: flex;
     }
 
+    .tiers-header{
+        margin: 20px 0px 0px 15px;
+    }
+
     section{
         &.centered{
             max-width: $center-column-max-width;
-            margin: 0px auto;    
+            margin: 0px auto;
         }
 
         &.empty-group{
@@ -70,7 +75,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
 
     .spec-container {
         padding: 0;
-        margin: 10px;
+        margin: 0px 10px;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
@@ -174,19 +179,16 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
         width: calc(100% / 2);
     }
 
-    .feature-description{
-        margin-bottom: 10px;
-    }
-
     .feature-item{
         position: relative;
-        height: 60px;
+        height: 70px;
         background-color: lighten($border-color, 5%);
         margin: 5px 0px;
 
         h4{
             font-size: 12px;
             font-weight: bold;
+            margin: 0px 0px 2px 0px;
         }
 
         .icon-medium{
@@ -196,12 +198,29 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
             transform: translateY(-50%);
         }
 
-        .feature-description{
+        .feature-body{
             position: absolute;
             left: 50px;
             left: 50px;
             top: 50%;
             transform: translateY(-50%);
+        }
+
+        // Multi-line text truncation with ellipsis only really works nicely in Chrome.  For all other browsers,
+        // the text will truncate, but there won't be an ellipsis.  There's a lot of weird hacky ways to get
+        // to work, but so far this is the only one that seemed to truncate properly cross-browser without
+        // messing up something else.
+        // https://www.consolelog.io/multiple-line-ellipsis-css-effect/
+        .feature-description{
+            display: block;
+            display: -webkit-box;
+            max-width: 100%;
+            margin: 0 auto;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 36px;       /* fallback */
         }
     }
 

@@ -10,10 +10,10 @@ import { Injector } from '@angular/core';
 import { SubscriptionQuotaIds, LogCategories } from '../../../shared/models/constants';
 import { LogService } from '../../../shared/services/log.service';
 import { PortalResources } from '../../../shared/models/portal-resources';
-import { SpecPickerInput, NewPlanSpeckPickerData } from './plan-price-spec-manager';
+import { SpecPickerInput, NewPlanSpecPickerData } from './plan-price-spec-manager';
 
 export interface PriceSpecInput {
-    specPickerInput: SpecPickerInput<NewPlanSpeckPickerData>;
+    specPickerInput: SpecPickerInput<NewPlanSpecPickerData>;
     subscriptionId: string;
     billingMeters: ArmObj<BillingMeter>[];
     plan?: ArmObj<ServerFarm>;
