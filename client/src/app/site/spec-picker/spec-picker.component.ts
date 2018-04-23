@@ -38,7 +38,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   specManager: PlanPriceSpecManager;
   statusMessage: StatusMessage = null;
   isInitializing = false;
-  isUpdating = false;
+  disableUpdates = false;
   shieldEnabled = false;
 
   private _planOrSubResourceId: ResourceId;
@@ -54,7 +54,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       && this.specManager.selectedSpecGroup.selectedSpec.skuCode === this.specManager.currentSkuCode) {
 
       return false;
-    } else if (this.isUpdating) {
+    } else if (this.disableUpdates) {
       return false;
     } else if (this.isInitializing) {
       return false;
@@ -163,11 +163,14 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     // This is an existing plan, so just upgrade in-place
     if (!this._input.data) {
       this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
-      this.isUpdating = true;
+      this.disableUpdates = true;
 
       this.specManager.applySelectedSpec()
-        .subscribe(r => {
-          this.isUpdating = false;
+        .subscribe(applyButtonState => {
+
+          if (applyButtonState === 'enabled') {
+            this.disableUpdates = false;
+          }
           this._portalService.updateDirtyState(false);
         });
     } else {

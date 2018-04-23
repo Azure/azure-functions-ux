@@ -1,6 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from 'app/shared/models/portal-resources';
-import { SpecPickerComponent } from './../spec-picker.component';
+import { SpecPickerComponent, StatusMessage } from './../spec-picker.component';
 import { SpecCostQueryResult, SpecResourceSet } from './../price-spec-manager/billing-models';
 import { PriceSpecGroup, DevSpecGroup, ProdSpecGroup, IsolatedSpecGroup } from './price-spec-group';
 import { PortalService } from './../../../shared/services/portal.service';
@@ -29,6 +29,8 @@ export interface NewPlanSpecPickerData {
     isXenon: boolean;
     selectedLegacySkuName: string;  // Looks like "small_standard"
 }
+
+export type ApplyButtonState = 'enabled' | 'disabled';
 
 export class PlanPriceSpecManager {
 
@@ -123,7 +125,7 @@ export class PlanPriceSpecManager {
             });
     }
 
-    applySelectedSpec() {
+    applySelectedSpec(): Observable<ApplyButtonState> {
         const planToUpdate: ArmObj<ServerFarm> = JSON.parse(JSON.stringify(this._plan));
         planToUpdate.sku = {
             name: this.selectedSpecGroup.selectedSpec.skuCode
@@ -140,7 +142,7 @@ export class PlanPriceSpecManager {
                 notificationId = notification.id;
                 return this._planService.updatePlan(planToUpdate);
             })
-            .do(r => {
+            .map(r => {
 
                 if (r.isSuccessful) {
 
@@ -155,6 +157,7 @@ export class PlanPriceSpecManager {
                         );
 
                         this._pollForIsolatedScaleCompletion(this._plan.id);
+                        return <ApplyButtonState>'disabled';
                     } else {
                         this._portalService.stopNotification(
                             notificationId,
@@ -169,6 +172,8 @@ export class PlanPriceSpecManager {
                         r.error.message ? r.error.message : this._ts.instant(PortalResources.pricing_planUpdateFailFormat).format(planDescriptor.resourceName)
                     );
                 }
+
+                return <ApplyButtonState>'enabled';
             });
     }
 
@@ -176,16 +181,23 @@ export class PlanPriceSpecManager {
         this._ngUnsubscribe$.next();
     }
 
+    // Scale operations for isolated can take a really long time.  When that happens, we'll show a warning
+    // banner and isable the apply button so that they can't scale again until it's completed.
     private _pollForIsolatedScaleCompletion(resourceId: ResourceId) {
         const stopPolling$ = new Subject();
         const descriptor = new ArmResourceDescriptor(resourceId);
 
-        this.selectedSpecGroup.bannerMessage = {
-            message: this._ts.instant(PortalResources.pricing_planScaleInProgress).format(descriptor.resourceName),
-            level: 'warning'
-        };
+        const curBannerMessages: StatusMessage[] = [];
 
-        this._specPicker.shieldEnabled = true;
+        this.specGroups.forEach(g => {
+            curBannerMessages.push(g.bannerMessage);
+            g.bannerMessage = {
+                message: this._ts.instant(PortalResources.pricing_planScaleInProgress).format(descriptor.resourceName),
+                level: 'warning'
+            };
+        });
+
+        this._specPicker.disableUpdates = true;
 
         Observable.timer(0, 10000)
             .takeUntil(stopPolling$.merge(this._ngUnsubscribe$))
@@ -197,8 +209,12 @@ export class PlanPriceSpecManager {
                     || !p.isSuccessful;
             })
             .do(p => {
-                this.selectedSpecGroup.bannerMessage = null;
-                this._specPicker.shieldEnabled = false;
+                this._specPicker.disableUpdates = false;
+
+                this.specGroups.forEach((g, i) => {
+                    g.bannerMessage = curBannerMessages[i];
+                });
+
                 stopPolling$.next();
             });
     }
