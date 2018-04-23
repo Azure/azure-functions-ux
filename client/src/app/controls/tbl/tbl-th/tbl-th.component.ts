@@ -57,7 +57,7 @@ export class TblThComponent implements OnInit {
     }
 
     if (table.groupedBy === 'none') {
-      table.items = table.items.sort((a: TableItem, b: TableItem) => this._evaluateOrder(a[this.name], b[this.name], table.sortAscending));
+      table.items.sort((a: TableItem, b: TableItem) => this._evaluateOrder(a[this.name], b[this.name], table.sortAscending));
     } else {
 
       if (!table.groupColName) {

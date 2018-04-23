@@ -12,6 +12,7 @@ import { ArmSiteDescriptor } from '../resourceDescriptors';
 import * as pako from 'pako';
 import { LocalStorageService } from './local-storage.service';
 import { MonitorViewItem } from '../models/localStorage/local-storage';
+import * as moment from 'moment-mini-ts';
 
 @Injectable()
 export class ApplicationInsightsService {
@@ -208,6 +209,7 @@ export class ApplicationInsightsService {
           summaryTable.Rows.forEach(row => {
             traces.push({
               timestamp: row[0],
+              timestampFriendly: moment.utc(row[0]).from(moment.utc()),
               id: row[1],
               name: row[2],
               success: row[3],

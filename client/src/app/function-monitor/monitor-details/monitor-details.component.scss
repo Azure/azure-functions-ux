@@ -28,11 +28,3 @@
     border-bottom: $border;
     padding: 10px 20px 12px 20px;
 }
-
-.rowSelected {
-    background-color: $row-selected-color;
-}
-
-.tableBody tr:hover{
-    background-color: $row-hover-color;
-}

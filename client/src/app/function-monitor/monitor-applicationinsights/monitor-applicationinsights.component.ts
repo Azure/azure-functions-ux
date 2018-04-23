@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../shared/models/portal-resources';
 import { AIInvocationTrace } from '../../shared/models/application-insights';
 import { PortalService } from '../../shared/services/portal.service';
-import * as moment from 'moment-mini-ts';
 
 @Component({
     selector: ComponentNames.monitorApplicationInsights,
@@ -34,10 +33,11 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     public applicationInsightsInstanceName: string;
     public functionMonitorInfo: FunctionMonitorInfo;
     public invocationTraces: AIInvocationTrace[] = [];
-    public isLoading: boolean = true;
+    public isLoading = true;
     public monitorDetailsInfo: MonitorDetailsInfo;
-    public sidePanelOpened: boolean = false;
+    public sidePanelOpened = false;
     public selectedRowId: string;
+    public showDelayWarning = false;
 
     constructor(
         private _portalService: PortalService,
@@ -63,6 +63,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
 
                 this.successCount = monthlySummary.successCount.toString();
                 this.errorsCount = monthlySummary.failedCount.toString();
+                this.showDelayWarning = this.showDelayWarning || this.invocationTraces.length === 0;
                 this.isLoading = false;
             });
     }
@@ -85,6 +86,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
 
     public refresh() {
         this.sidePanelOpened = false;
+        this.showDelayWarning = true;
         this.setInput(this.functionMonitorInfo);
     }
 
@@ -106,10 +108,6 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
             this.functionMonitorInfo.functionInfo.name);
 
         window.open(url, '_blank');
-    }
-
-    public showInterval(timestamp: string): string {
-        return moment.utc(timestamp).from(moment.utc());
     }
 
 }

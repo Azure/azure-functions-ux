@@ -1068,6 +1068,8 @@
     public static configureAppInsightsDesc = 'configureAppInsightsDesc';
     public static configureAppInsightsSwitchToClassic = 'configureAppInsightsSwitchToClassic';
     public static configureAppInsightsButton = 'configureAppInsightsButton';
+    public static invocationTraces = 'invocationTraces';
+    public static appInsightsDelay = 'appInsightsDelay';
     public static dragFileHereOr = 'dragFileHereOr';
     public static browse = 'browse';
     public static toUpload = 'toUpload';

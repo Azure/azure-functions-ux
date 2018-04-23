@@ -5,6 +5,7 @@ export interface AIMonthlySummary {
 
 export interface AIInvocationTrace {
     timestamp: string;
+    timestampFriendly: string;
     id: string;
     name: string;
     success: string;
