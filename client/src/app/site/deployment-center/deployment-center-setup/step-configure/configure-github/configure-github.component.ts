@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
-import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
-import { ArmService } from 'app/shared/services/arm.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -37,9 +35,7 @@ export class ConfigureGithubComponent implements OnDestroy {
     public selectedBranch = '';
     constructor(
         public wizard: DeploymentCenterStateManager,
-        _portalService: PortalService,
         private _cacheService: CacheService,
-        _armService: ArmService,
         private _logService: LogService,
         private _translateService: TranslateService
     ) {
