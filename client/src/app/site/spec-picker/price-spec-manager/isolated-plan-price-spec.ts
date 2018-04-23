@@ -1,3 +1,4 @@
+import { Links } from 'app/shared/models/constants';
 import { Kinds } from './../../../shared/models/constants';
 import { NationalCloudEnvironment } from './../../../shared/services/scenario/national-cloud.environment';
 import { PriceSpec, PriceSpecInput } from './price-spec';
@@ -31,7 +32,8 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
+        description: this._ts.instant(PortalResources.pricing_dv2SeriesDedicatedCpu),
+        learnMoreUrl: Links.vmSizeLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',
@@ -62,9 +64,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
             this.state = 'hidden';
         } else if (input.plan) {
 
-            if (input.plan.kind && input.plan.kind.toLowerCase().indexOf(Kinds.linux) > -1) {
-                this.state = 'hidden';
-            } else if (!input.plan.properties.hostingEnvironmentProfile) {
+            if (!input.plan.properties.hostingEnvironmentProfile) {
                 this.state = 'hidden';
             } else {
                 return this._aseService.getAse(input.plan.properties.hostingEnvironmentProfile.id)

@@ -1,3 +1,4 @@
+import { Links } from 'app/shared/models/constants';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { Kinds } from '../../../shared/models/constants';
 import { Injector } from '@angular/core';
@@ -29,7 +30,8 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
+        description: this._ts.instant(PortalResources.pricing_aSeriesDedicatedCpu),
+        learnMoreUrl: Links.vmSizeLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',
@@ -74,7 +76,7 @@ export class PremiumSmallPlanPriceSpec extends PremiumPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('1x'),
         this._ts.instant(PortalResources.pricing_memory).format('1.75'),
-        '100 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium Small App Service Hours';
@@ -94,7 +96,7 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('2x'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        '200 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium Medium App Service Hours';
@@ -109,12 +111,12 @@ export class PremiumMediumPlanPriceSpec extends PremiumPlanPriceSpec {
 }
 
 export class PremiumLargePlanPriceSpec extends PremiumPlanPriceSpec {
-    skuCode = 'P2';
+    skuCode = 'P3';
     legacySkuName = 'large_premium';
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('4x'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        '400 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium Large App Service Hours';

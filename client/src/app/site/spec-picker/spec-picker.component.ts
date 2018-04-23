@@ -1,9 +1,10 @@
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { PortalService } from 'app/shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ArmResourceDescriptor } from './../../shared/resourceDescriptors';
 import { AuthzService } from 'app/shared/services/authz.service';
 import { PlanPriceSpecManager, NewPlanSpecPickerData, SpecPickerInput } from './price-spec-manager/plan-price-spec-manager';
-import { Component, OnInit, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Injector, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { FeatureComponent } from '../../shared/components/feature-component';
 import { TreeViewInfo } from '../../tree-view/models/tree-view-info';
 import { Observable } from 'rxjs/Observable';
@@ -14,9 +15,9 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes } from '../../shared/models/constants';
 import { Dom } from '../../shared/Utilities/dom';
 
-interface StatusMessage {
+export interface StatusMessage {
   message: string;
-  level: 'error' | 'success';
+  level: 'error' | 'success' | 'warning' | 'info';
 }
 
 @Component({
@@ -25,7 +26,7 @@ interface StatusMessage {
   styleUrls: ['./spec-picker.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>> implements OnInit {
+export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>> implements OnDestroy {
 
   @Input() set viewInfoInput(viewInfo: TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>) {
     this.setInput(viewInfo);
@@ -39,6 +40,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
   isInitializing = false;
   isUpdating = false;
   shieldEnabled = false;
+  disableUpdates = false;
 
   private _planOrSubResourceId: ResourceId;
   private _input: SpecPickerInput<NewPlanSpecPickerData>;
@@ -53,9 +55,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       && this.specManager.selectedSpecGroup.selectedSpec.skuCode === this.specManager.currentSkuCode) {
 
       return false;
-    } else if (this.isUpdating) {
-      return false;
-    } else if (this.isInitializing) {
+    } else if (this.isUpdating || this.isInitializing || this.disableUpdates) {
       return false;
     } else {
       return true;
@@ -73,7 +73,9 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     this.featureName = 'SpecPickerComponent';
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.specManager.dispose();
   }
 
   protected setup(inputEvents: Observable<TreeViewInfo<SpecPickerInput<NewPlanSpecPickerData>>>) {
@@ -136,7 +138,6 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
       });
   }
 
-
   selectGroup(group: PriceSpecGroup) {
     this.specManager.selectedSpecGroup = group;
   }
@@ -162,36 +163,14 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     if (!this._input.data) {
       this._portalService.updateDirtyState(true, this._ts.instant(PortalResources.clearDirtyConfirmation));
       this.isUpdating = true;
+      this.disableUpdates = true;
 
-      let notificationId: string = null;
-      const planDescriptor = new ArmResourceDescriptor(this._planOrSubResourceId);
-      this._portalService.startNotification(
-        this._ts.instant(PortalResources.pricing_planUpdateTitle),
-        this._ts.instant(PortalResources.pricing_planUpdateDesc).format(planDescriptor.resourceName))
-        .first()
-        .switchMap(notification => {
-
-          notificationId = notification.id;
-          return this.specManager.applySelectedSpec();
-
-        })
-        .subscribe(r => {
+      this.specManager.applySelectedSpec()
+        .subscribe(applyButtonState => {
           this.isUpdating = false;
-          this._portalService.updateDirtyState(false);
 
-          if (r.isSuccessful) {
-            this._portalService.stopNotification(
-              notificationId,
-              r.isSuccessful,
-              this._ts.instant(PortalResources.pricing_planUpdateSuccessFormat).format(planDescriptor.resourceName)
-            );
-          } else {
-            this._portalService.stopNotification(
-              notificationId,
-              r.isSuccessful,
-              r.error.message ? r.error.message : this._ts.instant(PortalResources.pricing_planUpdateFailFormat).format(planDescriptor.resourceName)
-            );
-          }
+          this.disableUpdates = applyButtonState === 'disabled' ? true : false;
+          this._portalService.updateDirtyState(false);
         });
     } else {
       // This is a new plan, so return plan information to parent blade
