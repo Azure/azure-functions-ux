@@ -1,6 +1,6 @@
 {
     "name": "azure-functions-ux-server",
-    "version": "1.0.#{BUILD_BUILDNUMBER}#",
+    "version": "0.0.0",
     "scripts": {
         "watch": "nodemon .\\src\\nodemon.json",
         "watchu": "node_modules/.bin/nodemon --config nodemon-unix.json"
@@ -51,6 +51,7 @@
         "gulp-merge-json": "^1.2.0",
         "gulp-rename": "^1.2.2",
         "gulp-resx2": "^1.0.1",
+        "gulp-string-replace": "^1.0.0",
         "gulp-token-replace": "^1.1.2",
         "merge-stream": "^1.0.1",
         "nodemon": "^1.11.0",
