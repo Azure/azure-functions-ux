@@ -20,7 +20,6 @@ import { getLinuxRuntimeToken } from './actions/linux-function-app';
 import { setupAzureStorage } from './actions/storage';
 import * as appInsights from 'applicationinsights';
 import { trackAppServicePerformance } from './telemetry-helper';
-
 const cookieSession = require('cookie-session');
 if (process.env.aiInstrumentationKey) {
     appInsights
@@ -92,8 +91,16 @@ app.get('/api/health', (_, res) => {
     res.send('healthy');
 });
 
+
+let packageJson = { version: '0.0.0' };
+//This is done in sync because it's only on start up, should be fast and needs to be done for the route to be set up
+if (fs.existsSync(path.join(__dirname, 'package.json'))) {
+    packageJson = require('./package.json');
+} else if (fs.existsSync(path.join(__dirname, '..', 'package.json'))) {
+    packageJson = require('../package.json');
+};
 app.get('/api/version', (_, res) => {
-    res.send('1.0.#{BUILD_BUILDNUMBER}#');
+    res.send(packageJson.version);
 });
 
 app.get('/api/templates', getTemplates);

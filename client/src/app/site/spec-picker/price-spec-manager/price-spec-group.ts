@@ -1,3 +1,4 @@
+import { StatusMessage } from './../spec-picker.component';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
 import { SharedPlanPriceSpec } from './shared-plan-price-spec';
@@ -20,7 +21,7 @@ export abstract class PriceSpecGroup {
     abstract emptyMessage: string;
     abstract emptyInfoLink: string;
 
-    bannerMessage: string;
+    bannerMessage: StatusMessage;
     selectedSpec: PriceSpec = null;
     isExpanded = false;
 
@@ -60,9 +61,16 @@ export class DevSpecGroup extends PriceSpecGroup {
     initialize(input: PriceSpecInput) {
         if (input.specPickerInput.data) {
             if (input.specPickerInput.data.isLinux) {
-                this.bannerMessage = this.ts.instant(PortalResources.pricing_linuxTrial);
+                this.bannerMessage = {
+                    message: this.ts.instant(PortalResources.pricing_linuxTrial),
+                    level: 'info'
+                };
+
             } else if (input.specPickerInput.data.isXenon) {
-                this.bannerMessage = this.ts.instant(PortalResources.pricing_windowsContainers);
+                this.bannerMessage = {
+                    message: this.ts.instant(PortalResources.pricing_windowsContainers),
+                    level: 'info'
+                };
             }
         }
     }
@@ -99,9 +107,15 @@ export class ProdSpecGroup extends PriceSpecGroup {
     initialize(input: PriceSpecInput) {
         if (input.specPickerInput.data) {
             if (input.specPickerInput.data.isLinux) {
-                this.bannerMessage = this.ts.instant(PortalResources.pricing_linuxTrial);
+                this.bannerMessage = {
+                    message: this.ts.instant(PortalResources.pricing_linuxTrial),
+                    level: 'info'
+                };
             } else if (input.specPickerInput.data.isXenon) {
-                this.bannerMessage = this.ts.instant(PortalResources.pricing_windowsContainers);
+                this.bannerMessage = {
+                    message: this.ts.instant(PortalResources.pricing_windowsContainers),
+                    level: 'info'
+                };
             }
         }
     }
@@ -130,7 +144,10 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
 
     initialize(input: PriceSpecInput) {
         if (input.specPickerInput.data && input.specPickerInput.data.isLinux) {
-            this.bannerMessage = this.ts.instant(PortalResources.pricing_linuxAseDiscount);
+            this.bannerMessage = {
+                message: this.ts.instant(PortalResources.pricing_linuxAseDiscount),
+                level: 'info'
+            };
         }
     }
 }
