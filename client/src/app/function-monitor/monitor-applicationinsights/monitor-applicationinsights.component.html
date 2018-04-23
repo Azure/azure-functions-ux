@@ -52,7 +52,7 @@
       </div>
   
       <div class="function-monitor-content">
-          <tbl *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" name="{{ 'invocationTraces' | translate }}">
+          <tbl *ngIf="invocationTraces.length > 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
             <thead>
               <tr>
                 <th>{{ 'date' | translate }}</th>
@@ -73,7 +73,7 @@
             </tbody>
           </tbl>
 
-          <tbl *ngIf="invocationTraces.length === 0" [items]="invocationTraces" #table="tbl" name="{{ 'invocationTraces' | translate }}">
+          <tbl *ngIf="invocationTraces.length === 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
             <thead>
               <tr>
                 <th>{{ 'date' | translate }}</th>

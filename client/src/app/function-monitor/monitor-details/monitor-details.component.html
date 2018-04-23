@@ -15,11 +15,11 @@
 </div>
 
 <div *ngIf="traceHistory && traceHistory.length > 0" class="monitor-detail-content">
-  <tbl [items]="invocationTraces" #table="tbl" name="{{ 'invocationTraces' | translate }}">
+  <tbl [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
     <thead>
       <tr>
-        <th>{{ ('functionMonitor_message' | translate).toUpperCase() }}</th>
-        <th>{{ ('functionMonitor_logLevel' | translate).toUpperCase() }}</th>
+        <th>{{ 'functionMonitor_message' | translate }}</th>
+        <th>{{ 'functionMonitor_logLevel' | translate }}</th>
       </tr>
     </thead>
     
