@@ -1,3 +1,5 @@
+import { LogCategories } from 'app/shared/models/constants';
+import { LogService } from 'app/shared/services/log.service';
 import { BillingMeter } from './../models/arm/billingMeter';
 import { ArmService } from 'app/shared/services/arm.service';
 import { ArmProviderInfo } from './../models/arm/ArmProviderInfo';
@@ -24,7 +26,8 @@ export class PlanService {
         userService: UserService,
         injector: Injector,
         private _cacheService: CacheService,
-        private _armService: ArmService) {
+        private _armService: ArmService,
+        private _logService: LogService) {
 
         this._client = new ConditionalHttpClient(injector, _ => userService.getStartupInfo().map(i => i.token));
     }
@@ -51,6 +54,13 @@ export class PlanService {
                                 return this._client.execute({ resourceId: plan.id }, g => getUpdateResult);
                             })
                             .filter(p => {
+                                if (!p.isSuccessful) {
+                                    this._logService.error(
+                                        LogCategories.serverFarm,
+                                        '/update',
+                                        `Failed to update plan '${plan.id}' - ${p.error.message} `);
+                                }
+
                                 // Only allow completed states to continue (ie anything but a 202 status code).
                                 // Also we're counting a 201 status code as "completed", which occurs when you
                                 // update an isolated plan on an ASE.  The reason why we're letting that one

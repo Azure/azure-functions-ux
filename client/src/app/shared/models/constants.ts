@@ -266,6 +266,7 @@ export class LogCategories {
     public static readonly addSlot = 'AddSlot';
     public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
     public static readonly applicationInsightsConfigure = 'ApplicationInsightsConfigure';
+    public static readonly serverFarm = 'ServerFarm';
 }
 
 export class SubscriptionQuotaIds {
