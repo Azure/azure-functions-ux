@@ -569,17 +569,15 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                 this._hasPlanReadPermissionStream
             ),
 
-            Url.getParameterByName(null, 'appsvc.feature.scale') === 'true' ?
-                new DisableableTabFeature(
-                    this._translateService.instant(PortalResources.pricing_scaleUp),
-                    this._translateService.instant(PortalResources.pricing_scaleUp),
-                    this._translateService.instant(PortalResources.pricing_scaleUpDescription),
-                    'image/scale-up.svg',
-                    SiteTabIds.scaleUp,
-                    this._broadcastService,
-                    this._hasPlanWritePermissionStream,
-                    this._scenarioService.checkScenario(ScenarioIds.addScaleUp, { site: site })
-                ) : null,
+            new DisableableTabFeature(
+                this._translateService.instant(PortalResources.pricing_scaleUp),
+                this._translateService.instant(PortalResources.pricing_scaleUp),
+                this._translateService.instant(PortalResources.pricing_scaleUpDescription),
+                'image/scale-up.svg',
+                SiteTabIds.scaleUp,
+                this._broadcastService,
+                this._hasPlanWritePermissionStream,
+                this._scenarioService.checkScenario(ScenarioIds.addScaleUp, { site: site })),
 
             this._scenarioService.checkScenario(ScenarioIds.addSiteQuotas, { site: site }).status !== 'disabled'
                 ? new DisableableBladeFeature(
