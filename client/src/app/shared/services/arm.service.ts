@@ -8,7 +8,6 @@ import 'rxjs/add/observable/of';
 
 import { UserService } from './user.service';
 import { AiService } from './ai.service';
-import { ARM } from '../models/constants';
 
 @Injectable()
 export class ArmService {
@@ -19,7 +18,7 @@ export class ArmService {
     public armPermissionsVersion = '2015-07-01';
     public armLocksApiVersion = '2015-01-01';
     public storageApiVersion = '2015-05-01-preview';
-    public websiteApiVersion = ARM.websiteApiVersion;
+    public websiteApiVersion = '2015-08-01';
     public appInsightsApiVersion = '2015-05-01';
     public notificationHubApiVersion = '2017-04-01';
     public logicAppsApiVersion = '2017-07-01';

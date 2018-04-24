@@ -38,9 +38,6 @@ module.exports = function (config) {
     junitReporter: {
       useBrowserName: false, 
     },
-    coveragePreprocessor: {
-      exclude: [ "src/polyfills/*" ]
-    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

@@ -55,13 +55,19 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             .switchMap(resourceId => {
                 return Observable.zip(
                     this._cacheService.getArm(resourceId),
+                    this._cacheService.getArm(`${resourceId}/config/web`),
                     this._cacheService.postArm(`${resourceId}/config/metadata/list`),
+                    this._cacheService.postArm(`${resourceId}/config/publishingcredentials/list`),
+                    this._cacheService.getArm(`${resourceId}/sourcecontrols/web`),
                     this._cacheService.getArm(`${resourceId}/deployments`),
                     this._authZService.hasPermission(resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(resourceId),
-                    (site,  metadata,  deployments, writePerm: boolean, readLock: boolean) => ({
+                    (site, siteConfig, metadata, pubCreds, sourceControl, deployments, writePerm: boolean, readLock: boolean) => ({
                         site: site.json(),
+                        siteConfig: siteConfig.json(),
                         metadata: metadata.json(),
+                        pubCreds: pubCreds.json(),
+                        sourceControl: sourceControl.json(),
                         deployments: deployments.json(),
                         writePermission: writePerm,
                         readOnlyLock: readLock
@@ -71,8 +77,12 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             .switchMap(r => {
                 this.deploymentObject = {
                     site: r.site,
+                    siteConfig: r.siteConfig,
                     siteMetadata: r.metadata,
+                    sourceControls: r.sourceControl,
+                    publishingCredentials: r.pubCreds,
                     deployments: r.deployments,
+                    publishingUser: null,
                     VSOData: null
                 };
                 this._tableItems = [];
@@ -99,11 +109,9 @@ export class VsoDashboardComponent implements OnChanges, OnDestroy {
             })
             .subscribe(
                 r => {
-                    this._busyManager.clearBusy();
                     this.deploymentObject.VSOData = r.json();
                 },
                 err => {
-                    this._busyManager.clearBusy();
                     this.deploymentObject = null;
                     this._logService.error(LogCategories.cicd, '/load-vso-dashboard', err);
                 }

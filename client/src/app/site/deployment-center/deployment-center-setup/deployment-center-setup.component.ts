@@ -84,8 +84,7 @@ export class DeploymentCenterSetupComponent implements OnChanges {
             sourceControlProvider !== 'dropbox' &&
             sourceControlProvider !== 'bitbucket' &&
             sourceControlProvider !== 'ftp' &&
-            sourceControlProvider !== 'webdeploy' &&
-            sourceControlProvider !== 'zip'
+            sourceControlProvider !== 'webdeploy'
         );
     }
 

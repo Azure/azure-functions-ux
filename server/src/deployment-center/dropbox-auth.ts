@@ -62,7 +62,7 @@ export function setupDropboxAuthentication(app: Application) {
         }
         try {
             const r = await axios.post(
-                'https://api.dropbox.com/oauth2/token',
+                `https://api.dropbox.com/oauth2/token`,
                 `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${process.env.DROPBOX_CLIENT_ID}&client_secret=${process.env
                     .DROPBOX_CLIENT_SECRET}`,
                 {
