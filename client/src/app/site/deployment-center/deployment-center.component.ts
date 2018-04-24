@@ -20,6 +20,7 @@ import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
+import { SiteService } from '../../shared/services/site.service';
 
 @Component({
     selector: 'app-deployment-center',
@@ -31,6 +32,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     public resourceId: string;
     public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     public viewInfo: TreeViewInfo<SiteData>;
+    public dashboardOverride = '';
     @Input()
     set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.viewInfo = viewInfo;
@@ -49,6 +51,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     constructor(
         private _authZService: AuthzService,
         private _cacheService: CacheService,
+        private _siteService: SiteService,
         private _logService: LogService,
         broadcastService: BroadcastService
     ) {
@@ -61,11 +64,13 @@ export class DeploymentCenterComponent implements OnDestroy {
                 this.resourceId = view.resourceId;
                 this._siteConfigObject = null;
                 return Observable.zip(
-                    this._cacheService.getArm(`${this.resourceId}/config/web`),
+                    this._siteService.getSiteConfig(this.resourceId),
+                    this._siteService.getAppSettings(this.resourceId),
                     this._authZService.hasPermission(this.resourceId, [AuthzService.writeScope]),
                     this._authZService.hasReadOnlyLock(this.resourceId),
-                    (sc, wp, rl) => ({
-                        siteConfig: sc.json(),
+                    (sc, as, wp, rl) => ({
+                        siteConfig: sc.result,
+                        appSettings: as.result,
                         writePermission: wp,
                         readOnlyLock: rl
                     })
@@ -75,6 +80,9 @@ export class DeploymentCenterComponent implements OnDestroy {
                 r => {
                     this._siteConfigObject = r.siteConfig;
                     this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
+                    if (r.appSettings.properties['WEBSITE_USE_ZIP']) {
+                        this.dashboardOverride = 'zip';
+                    }
                     this._busyManager.clearBusy();
                 },
                 err => {
@@ -89,9 +97,13 @@ export class DeploymentCenterComponent implements OnDestroy {
             .subscribe(this.refreshedSCMType.bind(this));
     }
 
-    refreshedSCMType() {
-        this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
-        this.viewInfoStream.next(this.viewInfo);
+    refreshedSCMType(provider: string) {
+        if (provider) {
+            this.dashboardOverride = provider;
+        } else {
+            this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
+            this.viewInfoStream.next(this.viewInfo);
+        }
     }
 
     get kuduDeploymentSetup() {

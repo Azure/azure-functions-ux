@@ -1,7 +1,7 @@
 <command-bar>
   <command displayText="{{ 'refresh' | translate }}" iconUrl="image/swap.svg" (click)="refresh()"></command>
-  <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/error.svg" (click)="disconnect()"></command>
-  <command displayText="{{ 'edit' | translate }}" iconUrl="image/Disconnect.svg" (click)="edit()"></command>
+  <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/Disconnect.svg" (click)="disconnect()"></command>
+  <command displayText="{{ 'edit' | translate }}" iconUrl="image/Edit.svg" (click)="edit()"></command>
 </command-bar>
 
 <div id="essentials-container">
@@ -29,8 +29,8 @@
       <label id="siteStatusLabel">{{'account' | translate}}</label>
       <div>
         <a (click)="accountOnClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
-              {{AccountText}}
-            </a>
+          {{AccountText}}
+        </a>
       </div>
     </div>
     <div>
@@ -47,8 +47,8 @@
       <label id="siteStatusLabel">{{'repository' | translate}}</label>
       <div>
         <a (click)="repositoryOnClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
-                {{RepositoryText}}
-              </a>
+          {{RepositoryText}}
+        </a>
       </div>
     </div>
     <div>
@@ -75,8 +75,8 @@
       </div>
       <div *ngIf="SlotName">
         <a (click)="slotOnClick()" tabindex="0" id="siteSubscriptionNameLink" aria-labelledby="siteSubscriptionNameLabel siteSubscriptionNameLink">
-              {{SlotName}}
-            </a>
+          {{SlotName}}
+        </a>
       </div>
     </div>
 
@@ -104,7 +104,9 @@
         />
 
         <div *ngIf="item.type === 'group'" class="messageColumn">
-          <b><p>{{item.message}}</p></b>
+          <b>
+            <p>{{item.message}}</p>
+          </b>
         </div>
         <div *ngIf="item.type === 'row'" class="messageColumn">
 
