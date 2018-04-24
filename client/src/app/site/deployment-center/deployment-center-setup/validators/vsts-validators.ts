@@ -18,7 +18,7 @@ export class VstsValidators {
                         const valid = res.json().valid;
                         if (!valid) {
                             return {
-                                invalidName: _translateService.instant(PortalResources.vstsNameUnavailable);
+                                invalidName: _translateService.instant(PortalResources.vstsNameUnavailable)
                             };
                         }
                         return null;
@@ -58,7 +58,7 @@ export class VstsValidators {
                             const releasePermissions = results[1].json().value[0];
                             if (!buildPermissions || !releasePermissions) {
                                 return {
-                                    invalidPermissions: _translateService.instant(PortalResources.vstsReleaseBuildPermissions);
+                                    invalidPermissions: _translateService.instant(PortalResources.vstsReleaseBuildPermissions)
                                 };
                             }
                         }
@@ -72,3 +72,5 @@ export class VstsValidators {
         };
     }
 }
+
+
