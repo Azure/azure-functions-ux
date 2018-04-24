@@ -93,7 +93,7 @@ export class IsolatedSmallPlanPriceSpec extends IsolatedPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('1x'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        '210 ACU'
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Isolated Small App Service Hours';
@@ -113,7 +113,7 @@ export class IsolatedMediumPlanPriceSpec extends IsolatedPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('2x'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        '420 ACU'
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Isolated Medium App Service Hours';
@@ -133,7 +133,7 @@ export class IsolatedLargePlanPriceSpec extends IsolatedPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('4x'),
         this._ts.instant(PortalResources.pricing_memory).format('14'),
-        '840 ACU'
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Isolated Large App Service Hours';
