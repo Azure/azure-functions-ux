@@ -38,20 +38,7 @@ export class oAuthHelper {
         return decodeURIComponent(results[2].replace(/\+/g, ' '));
     }
 
-    public getEnvironment(hostUrl: string) {
-        switch(hostUrl){ 
-            case 'https://functions.azure.com':
-                return 'Prod';
-            case 'https://functions-next.azure.com':
-                return 'Stage'
-            case 'https://functions-release.azure.com':
-                return 'Next'
-            default:
-                return null;
-        }
-    }
-
-    public saveToken(token: string, aadToken: string, refreshToken: string = '', environment: string = ''): Promise<any> {
+    public saveToken(token: string, aadToken: string, refreshToken: string = ''): Promise<any> {
         return axios.put(
             `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/${this._provider}?api-version=${constants.AntaresApiVersion}`,
             {
@@ -59,8 +46,7 @@ export class oAuthHelper {
                 properties: {
                     name: this._provider,
                     token: token,
-                    refreshToken: refreshToken,
-                    environment: !!environment ? environment : undefined
+                    refresh_token: refreshToken
                 }
             },
             {
