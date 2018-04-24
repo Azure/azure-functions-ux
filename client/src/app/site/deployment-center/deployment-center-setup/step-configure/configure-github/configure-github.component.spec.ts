@@ -66,7 +66,7 @@ describe('ConfigureGithubComponent', () => {
             cacheService.maxPagesRepo = 5;
             NgSelectTestHelpers.selectOption(testFixture, 'configure-github-org-select', KeyCode.ArrowDown, 0);
             testFixture.detectChanges();
-            expect(component.selectedOrg).toBe('github.com/users/')
+            expect(component.selectedOrg).toBe('github.com/users/');
             expect(component.RepoList.length).toBe(10);
         });
 

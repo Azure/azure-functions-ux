@@ -9,12 +9,11 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angul
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LogService } from '../../../../../shared/services/log.service';
 import { MockLogService } from '../../../../../shared/test-mocks/log.service.mock';
-//import { DeploymentCenterConstants } from '../../../../../shared/models/constants';
 import { WizardForm } from '../../wizard-logic/deployment-center-setup-models';
 import { NgSelectTestHelpers, KeyCode } from '../../../../../shared/test-mocks/ng-select-helpers.mock';
 import { ConfigureDropboxComponent } from './configure-dropbox.component';
-import { ReplaySubject } from 'rxjs';
 import { DeploymentCenterConstants } from '../../../../../shared/models/constants';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 describe('ConfigureDropboxComponent', () => {
 

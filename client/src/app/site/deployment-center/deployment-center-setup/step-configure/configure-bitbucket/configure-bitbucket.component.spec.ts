@@ -70,7 +70,7 @@ describe('ConfigureBitbucketComponent', () => {
             NgSelectTestHelpers.selectOption(testFixture, 'configure-bitbucket-repo-select', KeyCode.ArrowDown, 0);
             const expectedRepoUrl = `${DeploymentCenterConstants.bitbucketUrl}/testfullname1`;
             expect(component.selectedRepo).toBe(expectedRepoUrl);
-            expect(mockDeploymentCenterStateManager.wizardValues.sourceSettings.repoUrl).toBe(expectedRepoUrl)
+            expect(mockDeploymentCenterStateManager.wizardValues.sourceSettings.repoUrl).toBe(expectedRepoUrl);
         });
 
         it('branch list should be populated with correct branches when repo is selected', () => {
@@ -215,7 +215,7 @@ class MockCacheService {
                 }
             });
         }
-        return Observable.of(null)
+        return Observable.of(null);
     }
 
     getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean) {

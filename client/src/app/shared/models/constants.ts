@@ -383,11 +383,11 @@ export class DeploymentCenterConstants {
 
     // VSTS Validation constants
     // Build definition
-    public static readonly buildSecurityNameSpace = "33344D9C-FC72-4d6f-ABA5-FA317101A7E9";
+    public static readonly buildSecurityNameSpace = '33344D9C-FC72-4d6f-ABA5-FA317101A7E9';
     public static readonly editBuildDefinitionBitMask = 2048;
 
     // Release definition
-    public static readonly releaseSecurityNameSpace = "C788C23E-1B46-4162-8F5E-D7585343B5DE";
+    public static readonly releaseSecurityNameSpace = 'C788C23E-1B46-4162-8F5E-D7585343B5DE';
     public static readonly editReleaseDefinitionPermission = 2;
 }
 
