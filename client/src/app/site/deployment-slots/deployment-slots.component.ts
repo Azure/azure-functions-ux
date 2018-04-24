@@ -19,7 +19,6 @@ import { SiteService } from 'app/shared/services/site.service';
 import { PortalService } from 'app/shared/services/portal.service';
 import { RoutingSumValidator } from 'app/shared/validators/routingSumValidator';
 import { DecimalRangeValidator } from 'app/shared/validators/decimalRangeValidator';
-import { Url } from '../../shared/Utilities/url';
 
 // TODO [andimarc]: disable all controls when the sidepanel is open
 
