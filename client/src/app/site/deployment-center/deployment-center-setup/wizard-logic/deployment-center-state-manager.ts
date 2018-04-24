@@ -312,8 +312,8 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Authorization', `Bearer ${this._vstsApiToken}`);
-        // headers.append('X-VSS-ForceMsaPassThrough', 'true');
+        headers.append('Authorization', `Bearer ${this._token}`);
+        headers.append('X-VSS-ForceMsaPassThrough', 'true');
         return headers;
     }
 
