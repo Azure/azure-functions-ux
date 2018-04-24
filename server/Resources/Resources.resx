@@ -3376,4 +3376,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="FTPLabel" xml:space="preserve">
     <value>FTP access</value>
   </data>
+  <data name="validating" xml:space="preserve">
+    <value>Validating...</value>
+  </data>
+  <data name="vstsReleaseBuildPermissions" xml:space="preserve">
+    <value>You don't have permissions to create a Build Definition or a Release definition on this project. Contact your project administrator</value>
+  </data>
+  <data name="vstsNameUnavailable" xml:space="preserve">
+    <value>The account name supplied is not valid. please supply another account name.</value>
+  </data>
 </root>

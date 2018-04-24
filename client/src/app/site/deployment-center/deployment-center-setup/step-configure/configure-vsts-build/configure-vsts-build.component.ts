@@ -12,6 +12,7 @@ import { LogCategories, DeploymentCenterConstants } from '../../../../../shared/
 import { TranslateService } from '@ngx-translate/core';
 import { RequiredValidator } from '../../../../../shared/validators/requiredValidator';
 import { PortalResources } from '../../../../../shared/models/portal-resources';
+import { VstsValidators } from '../../validators/vsts-validators';
 
 export const TaskRunner = {
   None: 'None',
@@ -136,30 +137,40 @@ export class ConfigureVstsBuildComponent implements OnDestroy {
 
   private setUpformValidators() {
     const required = new RequiredValidator(this._translateService, false);
-    this.wizard.buildSettings.get('vstsAccount').setValidators(required.validate.bind(required));
-    this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
 
     if (this.wizard.wizardValues.buildSettings.createNewVsoAccount) {
       this.wizard.buildSettings.get('location').setValidators(required.validate.bind(required));
+      this.wizard.buildSettings.get('vstsAccount').setValidators([required.validate.bind(required)]);
+      this.wizard.buildSettings.get('vstsAccount').setAsyncValidators([VstsValidators.createVstsAccountNameValidator(this.wizard, this._translateService, this._cacheService).bind(this)]);
       this.wizard.buildSettings.get('vstsProject').setValidators([]);
+      this.wizard.buildSettings.setAsyncValidators([]);
     } else {
       this.wizard.buildSettings.get('location').setValidators([]);
-
+      this.wizard.buildSettings.get('vstsAccount').setValidators(required.validate.bind(required));
+      this.wizard.buildSettings.get('vstsAccount').setAsyncValidators([]);
       this.wizard.buildSettings.get('vstsProject').setValidators(required.validate.bind(required));
+      this.wizard.buildSettings.setAsyncValidators(VstsValidators.createProjectPermissionsValidator(this.wizard, this._translateService, this._cacheService).bind(this));
     }
+    this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
     this.wizard.buildSettings.get('location').updateValueAndValidity();
+    this.wizard.buildSettings.updateValueAndValidity();
   }
 
   private removeFormValidators() {
     this.wizard.buildSettings.get('createNewVsoAccount').setValidators([]);
     this.wizard.buildSettings.get('vstsAccount').setValidators([]);
+    this.wizard.buildSettings.get('vstsAccount').setAsyncValidators([]);
     this.wizard.buildSettings.get('vstsProject').setValidators([]);
     this.wizard.buildSettings.get('location').setValidators([]);
     this.wizard.buildSettings.get('createNewVsoAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsAccount').updateValueAndValidity();
     this.wizard.buildSettings.get('vstsProject').updateValueAndValidity();
     this.wizard.buildSettings.get('location').updateValueAndValidity();
+    if (this.wizard.wizardValues.buildProvider !== 'vsts') {
+      this.wizard.buildSettings.get('vstsProject').setValidators([]);
+      this.wizard.buildSettings.updateValueAndValidity();
+    }
   }
 
   private setupSubscriptions() {

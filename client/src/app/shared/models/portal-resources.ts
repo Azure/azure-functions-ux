@@ -1082,4 +1082,7 @@
     public static feature_metricsInfo = 'feature_metricsInfo';
     public static FTPMessage = 'FTPMessage';
     public static FTPLabel = 'FTPLabel';
+    public static validating = 'validating';
+    public static vstsReleaseBuildPermissions = 'vstsReleaseBuildPermissions';
+    public static vstsNameUnavailable = 'vstsNameUnavailable';
 }
