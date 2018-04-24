@@ -1,5 +1,5 @@
 <div class="sourceContainer">
-  <h1>Automated Solutions</h1>
+  <!-- <h1>Automated Solutions</h1> -->
   <div class="selectionContainer" flex-list>
 
     <div *ngFor="let card of providerCards">
@@ -22,7 +22,8 @@
     </div>
   </div>
 
-  <h1>Manual Solutions</h1>
+  <!--Commented out until I add Manual Solutions, not wanting to delete, just looks bad when empty-->
+  <!-- <h1>Manual Solutions</h1>
   <div class="selectionContainer" flex-list>
     <div *ngFor="let card of providerCards">
       <div *ngIf="card.manual" class="cardContainer" (click)="selectProvider(card)">
@@ -42,7 +43,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   
   <div class="footer">
     <button type="button" *ngIf="selectedProvider && selectedProvider.authorizedStatus === 'notAuthorized'" class="custom-button form-button"

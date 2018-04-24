@@ -2,6 +2,5 @@
 
 <app-kudu-dashboard *ngIf="kuduDeploymentSetup && !dashboardOverride" [resourceId]="resourceId" (disconnected)="refreshedSCMType()">
 </app-kudu-dashboard>
-<app-read-from-zip-dashboard *ngIf="dashboardOverride === 'zip'" [viewInfo]="viewInfo"></app-read-from-zip-dashboard>
 <app-deployment-center-setup *ngIf="scmType === 'None' && !dashboardOverride" [resourceId]="resourceId">
 </app-deployment-center-setup>

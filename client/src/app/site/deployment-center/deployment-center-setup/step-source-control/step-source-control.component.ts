@@ -81,6 +81,7 @@ export class StepSourceControlComponent {
             description: this._translateService.instant('localGitDesc'),
             authorizedStatus: 'none'
         }
+        // These are options in works, not wanting to delete though
         // {
         //     id: 'webdeploy',
         //     name: 'Web Deploy',
