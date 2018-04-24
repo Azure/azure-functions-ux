@@ -1,5 +1,4 @@
 @import '../../../sass/common/variables';
-@import '../../../sass/common/mixins';
 
 $footer-height: 55px;
 $spec-card-max-width: 350px;
@@ -119,7 +118,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
             outline-color: $border-selection-color;
             outline-width: 3px;
             outline-style: solid;
-            outline-offset: 2px;
+            outline-offset: 3px;
         }
 
         .top-features{
@@ -260,6 +259,32 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
             font-size: 14px;
         }
     }
-
-    
 }
+
+#app-root[theme=dark]{
+    .spec-group{
+        background-color: $chrome-color-dark;
+
+        &.selected-spec-group{
+            background-color: lighten($chrome-color-dark, 10%);
+        }
+    }
+
+    .feature-item{
+        background-color: lighten($chrome-color-dark, 10%);
+    }
+
+    .spec {
+        &.disabled{
+            background-color: lighten($chrome-color-dark, 10%);
+            color: $default-text-color-dark;
+        }
+    }
+
+    footer{
+        background-color: $body-bg-color-dark;
+    }
+}
+
+
+ 
