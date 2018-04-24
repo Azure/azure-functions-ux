@@ -31,6 +31,10 @@ export class LogHelper {
     }
 
     private static trackEvent(name: string, properties?: { [name: string]: string }, measurements?: { [name: string]: number }) {
+        if(!appInsights.trackEvent){
+            console.log(properties);
+            return;
+        }
         return appInsights.trackEvent(name, properties, measurements);
     }
 }

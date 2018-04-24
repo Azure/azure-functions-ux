@@ -1,7 +1,6 @@
-<app-vso-dashboard *ngIf="scmType === 'VSTSRM'" [resourceId]="resourceId"> </app-vso-dashboard>
+<app-vso-dashboard *ngIf="scmType === 'VSTSRM' && !dashboardOverride" [resourceId]="resourceId"> </app-vso-dashboard>
 
-<app-kudu-dashboard *ngIf="kuduDeploymentSetup" [resourceId]="resourceId" (disconnected)="refreshedSCMType()">
+<app-kudu-dashboard *ngIf="kuduDeploymentSetup && !dashboardOverride" [resourceId]="resourceId" (disconnected)="refreshedSCMType()">
 </app-kudu-dashboard>
-
-<app-deployment-center-setup *ngIf="scmType === 'None'" [resourceId]="resourceId">
+<app-deployment-center-setup *ngIf="scmType === 'None' && !dashboardOverride" [resourceId]="resourceId">
 </app-deployment-center-setup>

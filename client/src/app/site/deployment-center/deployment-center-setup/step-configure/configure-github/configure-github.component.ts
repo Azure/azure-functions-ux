@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { DropDownElement } from 'app/shared/models/drop-down-element';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
-import { PortalService } from 'app/shared/services/portal.service';
 import { CacheService } from 'app/shared/services/cache.service';
-import { ArmService } from 'app/shared/services/arm.service';
 import { Constants, LogCategories, DeploymentCenterConstants } from 'app/shared/models/constants';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -21,10 +19,9 @@ import { Url } from '../../../../../shared/Utilities/url';
     styleUrls: ['./configure-github.component.scss', '../step-configure.component.scss', '../../deployment-center-setup.component.scss']
 })
 export class ConfigureGithubComponent implements OnDestroy {
-    public OrgList: DropDownElement<string>[];
-    public RepoList: DropDownElement<string>[];
-    private repoUrlToNameMap: { [key: string]: string } = {};
-    public BranchList: DropDownElement<string>[];
+    public OrgList: DropDownElement<string>[] = [];
+    public RepoList: DropDownElement<string>[] = [];
+    public BranchList: DropDownElement<string>[] = [];
 
     private reposStream = new ReplaySubject<string>();
     private _ngUnsubscribe$ = new Subject();
@@ -35,11 +32,11 @@ export class ConfigureGithubComponent implements OnDestroy {
     public selectedOrg = '';
     public selectedRepo = '';
     public selectedBranch = '';
+
+    private repoUrlToNameMap: { [key: string]: string } = {};
     constructor(
         public wizard: DeploymentCenterStateManager,
-        _portalService: PortalService,
         private _cacheService: CacheService,
-        _armService: ArmService,
         private _logService: LogService,
         private _translateService: TranslateService
     ) {

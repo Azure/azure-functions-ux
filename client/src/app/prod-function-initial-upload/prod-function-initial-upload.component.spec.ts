@@ -211,9 +211,9 @@ class MockBroadcastService {
             dashboardType: this.dashboardType,
             resourceId: e
           };
-          return  ret as T;
+          return ret as T;
         });
-    } else{
+    } else {
       return Observable.of(null);
     }
   }
