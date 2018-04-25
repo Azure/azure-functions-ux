@@ -26,7 +26,7 @@ export class QuotaService {
         private _cacheService: CacheService,
         private _logService: LogService,
         private _injector: Injector) {
-            this._client = new ConditionalHttpClient(this._injector, _ => this._userService.getStartupInfo().map(i => i.token))
+            this._client = new ConditionalHttpClient(this._injector, _ => this._userService.getStartupInfo().map(i => i.token));
     }
 
     getQuotaSettings(subscriptionId: string):  Observable<QuotaSettings> {
