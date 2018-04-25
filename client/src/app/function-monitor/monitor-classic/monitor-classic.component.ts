@@ -86,6 +86,12 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
         return this.monitorConfigureInfo !== null && this.monitorConfigureInfo.errorEvent !== null;
     }
 
+    get shouldRenderAppInsightsUpsell() {
+        return this.functionMonitorInfo !== null &&
+            this.functionMonitorInfo !== null &&
+            this.functionMonitorInfo.appInsightsFeatureEnabled;
+    }
+
     public refreshMonitorClassicData() {
         this.setInput(this.functionMonitorInfo);
         this.tableFunctionMonitorComponent.refresh();

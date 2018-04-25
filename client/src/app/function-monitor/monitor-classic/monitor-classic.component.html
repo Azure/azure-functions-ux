@@ -11,7 +11,7 @@
 
 <div *ngIf = "!shouldRenderMonitorConfigure" class="function-monitor-content">
 
-    <div class="alert alert-warning alert-dismissible" role="alert">
+    <div *ngIf="shouldRenderAppInsightsUpsell" class="alert alert-warning alert-dismissible" role="alert">
         <img src="image/appInsights.svg"/>
         <span>{{ 'monitoring_appInsights' | translate }}</span>
         <a class="link" (click)="configure()">{{ 'monitoring_appInsightsConfigureLink' | translate }}</a>

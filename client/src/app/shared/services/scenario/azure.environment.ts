@@ -180,7 +180,7 @@ export class AzureEnvironment extends Environment {
                 .getApplicationInsightsId(input.site.id)
                 .switchMap(applicationInsightsResourceId => {
                     return Observable.of<ScenarioResult>({
-                        status: applicationInsightsResourceId ? 'enabled' : 'disabled',
+                        status: 'enabled',
                         data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null
                     });
                 });
