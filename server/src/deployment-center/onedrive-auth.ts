@@ -73,7 +73,7 @@ export function setupOnedriveAuthentication(app: Application) {
             );
             const token = r.data.access_token as string;
             const refreshToken = r.data.refresh_token as string;
-            oauthHelper.saveToken(token, req.headers.authorization as string, refreshToken);
+            await oauthHelper.saveToken(token, req.headers.authorization as string, refreshToken);
             res.sendStatus(200);
         } catch (err) {
             LogHelper.error('onedrive-token-store', err);

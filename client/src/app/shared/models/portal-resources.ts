@@ -1055,6 +1055,7 @@
     public static new = 'new';
     public static existing = 'existing';
     public static selectRepo = 'selectRepo';
+    public static selectFolder = 'selectFolder';
     public static selectBranch = 'selectBranch';
     public static deployment = 'deployment';
     public static enableDeploymentSlot = 'enableDeploymentSlot';

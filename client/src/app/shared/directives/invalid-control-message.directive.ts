@@ -51,7 +51,7 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
         this.render.appendChild(this._el.nativeElement, this.loadingElement);
         this.render.appendChild(this._el.nativeElement, this.errorElement);
         this.render.setStyle(this._el.nativeElement, 'margin-top', '5px');
-        this.controlValue$ = Observable.merge(this.control.valueChanges, this.control.statusChanges, Observable.of(''), formSubmit$);
+        this.controlValue$ = Observable.merge(this.control.valueChanges, this.control.statusChanges, formSubmit$);
         this.controlSubscription = this.controlValue$.subscribe(() => {
             this.setVisible();
         });
