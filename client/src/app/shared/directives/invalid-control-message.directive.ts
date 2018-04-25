@@ -1,12 +1,12 @@
 // based on https://hackernoon.com/create-reuseable-validation-directive-in-angualr-2-dcb0b0df2ce8
 import { Directive, Input, OnInit, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
 import { AbstractControl, ControlContainer, FormGroupDirective } from '@angular/forms';
-import { Headers } from '@angular/http';
 import { Observable, Subscription } from 'rxjs/Rx';
-import { Guid } from '../Utilities/Guid';
 import { CacheService } from '../services/cache.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../models/portal-resources';
+import { LoadImageDirective } from '../../controls/load-image/load-image.directive';
+import { LogService } from '../services/log.service';
 
 @Directive({
     // tslint:disable-next-line:directive-selector
@@ -31,7 +31,8 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
         private _el: ElementRef,
         private render: Renderer2,
         private _cacheService: CacheService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _logService: LogService
     ) {
     }
 
@@ -50,7 +51,7 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
         this._createErrorElement();
         this.render.appendChild(this._el.nativeElement, this.loadingElement);
         this.render.appendChild(this._el.nativeElement, this.errorElement);
-        this.render.setStyle(this._el.nativeElement, 'margin-top', '5px');
+        this.render.addClass(this._el.nativeElement, 'validation-container');
         this.controlValue$ = Observable.merge(this.control.valueChanges, this.control.statusChanges, formSubmit$);
         this.controlSubscription = this.controlValue$.subscribe(() => {
             this.setVisible();
@@ -69,15 +70,13 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
         const spinnerElement = this.render.createElement('span');
         this.render.addClass(spinnerElement, 'icon-small');
         this.render.addClass(spinnerElement, 'fa-spin');
-        this.render.setStyle(spinnerElement, 'margin-right', '5px');
-        this._injectImageIntoImageElement(spinnerElement);
+        LoadImageDirective.injectImageToElement('image/spinner.svg', spinnerElement, this._cacheService, this._logService);
         return spinnerElement;
     }
     private _getCenteredTextElement(text: string) {
         const element = this.render.createElement('p');
         const textElement = this.render.createText(text);
-        this.render.setStyle(element, 'display', 'inline-block');
-        this.render.setStyle(element, 'vertical-align', 'middle');
+        this.render.addClass(element, 'centered-validating-text');
         this.render.appendChild(element, textElement);
         return element;
     }
@@ -119,16 +118,6 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.controlSubscription.unsubscribe();
-    }
-
-    private _injectImageIntoImageElement(spinnerElement: any) {
-        const headers = new Headers();
-        headers.append('Accept', 'image/webp,image/apng,image/*,*/*;q=0.8');
-        headers.append('x-ms-client-request-id', Guid.newGuid());
-        this._cacheService.get(`image/spinner.svg?cacheBreak=${window.appsvc.cacheBreakQuery}`, false, headers)
-            .subscribe(image => {
-                spinnerElement.innerHTML = image.text();
-            });
     }
 
 }

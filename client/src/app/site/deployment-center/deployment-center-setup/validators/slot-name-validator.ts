@@ -7,22 +7,22 @@ import { SiteService } from '../../../../shared/services/site.service';
 
 export class SlotNameValidator {
 
-    static createValidator(_translateService: TranslateService,
-        _siteService: SiteService,
-        _siteId: string) {
+    static createValidator(translateService: TranslateService,
+        siteService: SiteService,
+        siteId: string) {
         return (control: AbstractControl) => {
             if (control.value.length < Validations.websiteNameMinLength) {
-                return Observable.of({ invalidSiteName: _translateService.instant(PortalResources.validation_siteNameMinChars) });
+                return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameMinChars) });
             } else if (control.value.length > Validations.websiteNameMaxLength) {
-                return Observable.of({ invalidSiteName: _translateService.instant(PortalResources.validation_siteNameMaxChars) });
+                return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameMaxChars) });
             }
 
             const matchingChar = control.value.match(Regex.invalidEntityName);
             if (matchingChar) {
-                return Observable.of({ invalidSiteName: _translateService.instant(PortalResources.validation_siteNameInvalidChar).format(matchingChar[0]) });
+                return Observable.of({ invalidSiteName: translateService.instant(PortalResources.validation_siteNameInvalidChar).format(matchingChar[0]) });
             }
 
-            return _siteService.getSlots(`${_siteId}/slots`)
+            return siteService.getSlots(siteId)
                 .map(r => {
                     if (!r.isSuccessful) {
                         return null;
@@ -30,25 +30,22 @@ export class SlotNameValidator {
                     const slots = r.result.value;
                     let existingSlot = null;
                     const name = control.value;
-                    if (name) {
-                        if (slots && name) {
-                            existingSlot = slots.find((s) => {
-                                // name is returned as FunctionName/SlotName
-                                const parsedName = s.name.split('/');
-                                const slotName = parsedName[parsedName.length - 1];
-                                return slotName.toLowerCase() === name.toLowerCase();
-                            });
-                        }
-                        if (!existingSlot) {
-                            return null;
-                        } else {
-                            return {
-                                invalidSiteName: _translateService.instant(PortalResources.validation_siteNameNotAvailable).format(control.value)
-                            };
-                        }
-                    } else {
-                        return null;
+                    if (slots && name) {
+                        existingSlot = slots.find((s) => {
+                            // name is returned as FunctionName/SlotName
+                            const parsedName = s.name.split('/');
+                            const slotName = parsedName[parsedName.length - 1];
+                            return slotName.toLowerCase() === name.toLowerCase();
+                        });
                     }
+                    if (!existingSlot) {
+                        return null;
+                    } else {
+                        return {
+                            invalidSiteName: translateService.instant(PortalResources.validation_siteNameNotAvailable).format(control.value)
+                        };
+                    }
+
                 });
 
         };

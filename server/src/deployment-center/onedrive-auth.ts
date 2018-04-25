@@ -6,7 +6,6 @@ import { ApiRequest, PassthroughRequestBody } from '../types/request';
 import { GUID } from '../utilities';
 import { constants } from '../constants';
 
-
 const oauthHelper: oAuthHelper = new oAuthHelper('onedrive');
 export async function getOnedriveTokens(req: any): Promise<any> {
     return await oauthHelper.getToken(req.headers.authorization);

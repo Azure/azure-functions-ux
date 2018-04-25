@@ -34,7 +34,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         portalService: PortalService) {
         this.resourceIdStream$.switchMap(r => {
             this._resourceId = r;
-            return siteService.getSite(this._resourceId)
+            return siteService.getSite(this._resourceId);
         })
             .subscribe(s => {
                 this.siteArm = s.result;
