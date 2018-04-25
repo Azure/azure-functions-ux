@@ -8,7 +8,7 @@ import { ArmSiteDescriptor, ArmPlanDescriptor } from '../../../../shared/resourc
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { UserService } from '../../../../shared/services/user.service';
-import { Constants, ARM } from '../../../../shared/models/constants';
+import { Constants, ARMApiVersions } from '../../../../shared/models/constants';
 import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
@@ -88,7 +88,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
         if (this.wizardValues.sourceProvider === 'external') {
             payload.isManualIntegration = true;
         }
-        return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARM.websiteApiVersion, {
+        return this._cacheService.putArm(`${this._resourceId}/sourcecontrols/web`, ARMApiVersions.websiteApiVersion, {
             properties: payload
         }).map(r => r.json());
     }

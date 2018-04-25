@@ -75,7 +75,7 @@ export class SiteTabIds {
     public static readonly scaleUp = 'scale-up';
 }
 
-export class ARMApiVersions {
+export class ARM {
     public static readonly MaxSubscriptionBatchSize = 40;
 }
 
@@ -271,7 +271,7 @@ export class LogCategories {
     public static readonly serverFarm = 'ServerFarm';
 }
 
-export class ARM {
+export class ARMApiVersions {
     public static websiteApiVersion = '2015-08-01';
 }
 export class SubscriptionQuotaIds {
