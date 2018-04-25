@@ -22,6 +22,7 @@ import { JavaWebContainerProperties } from './models/java-webcontainer-propertie
 import { ArmUtil } from 'app/shared/Utilities/arm-utils';
 import { SiteService } from 'app/shared/services/site.service';
 import { Url } from '../../../shared/Utilities/url';
+import { ConfigService } from 'app/shared/services/config.service';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 
 @Component({
@@ -43,6 +44,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public loadingMessage: string;
     public FwLinks = Links;
     public isProductionSlot: boolean;
+    public use32BitWorkerProcessUpsell: string;
+    public alwaysOnUpsell: string;
+    public autoSwapUpsell: string;
+    public upgradeUpsell: string;
 
     public clientAffinityEnabledOptions: SelectOption<boolean>[];
     public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -90,6 +95,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         private _authZService: AuthzService,
         private _portalService: PortalService,
         private _siteService: SiteService,
+        private _configService: ConfigService,
         private _scenarioService: ScenarioService,
         injector: Injector
     ) {
@@ -100,6 +106,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this._resetPermissionsAndLoadingState();
 
         this._generateRadioOptions();
+        this.upgradeUpsell = this._translateService.instant(PortalResources.upgradeUpsell);
+        this.use32BitWorkerProcessUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.use32BitWorkerProcessUpsell);
+        this.alwaysOnUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.alwaysOnUpsell);
+        this.autoSwapUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.autoSwapUpsell);
     }
 
     protected get _isPristine() {
