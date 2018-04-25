@@ -24,7 +24,6 @@ import { ConfigureLocalGitComponent } from './deployment-center-setup/step-confi
 import { SidebarModule } from 'ng-sidebar';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-
 @NgModule({
     entryComponents: [DeploymentCenterComponent],
     declarations: [

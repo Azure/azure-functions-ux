@@ -8,12 +8,12 @@ import { CacheService } from '../../../../../shared/services/cache.service';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LogService } from '../../../../../shared/services/log.service';
-import { MockLogService } from '../../../../../shared/test-mocks/log.service.mock';
 import { WizardForm } from '../../wizard-logic/deployment-center-setup-models';
-import { NgSelectTestHelpers, KeyCode } from '../../../../../shared/test-mocks/ng-select-helpers.mock';
 import { ConfigureDropboxComponent } from './configure-dropbox.component';
 import { DeploymentCenterConstants } from '../../../../../shared/models/constants';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { MockLogService } from '../../../../../test/mocks/log.service.mock';
+import { NgSelectTestHelpers, KeyCode } from '../../../../../test/mocks/ng-select-helpers.mock';
 
 describe('ConfigureDropboxComponent', () => {
 

@@ -25,7 +25,7 @@ import 'rxjs/observable/interval';
 import { Injectable, Directive, HostListener } from '@angular/core';
 import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { LogService } from '../../../../shared/services/log.service';
-import { MockLogService } from '../../../../shared/test-mocks/log.service.mock';
+import { MockLogService } from '../../../../test/mocks/log.service.mock';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { By } from '@angular/platform-browser';

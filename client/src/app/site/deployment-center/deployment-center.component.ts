@@ -32,7 +32,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     public resourceId: string;
     public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     public viewInfo: TreeViewInfo<SiteData>;
-    public dashboardOverride = '';
+    public dashboardProviderType = '';
     @Input()
     set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.viewInfo = viewInfo;
@@ -81,7 +81,7 @@ export class DeploymentCenterComponent implements OnDestroy {
                     this._siteConfigObject = r.siteConfig;
                     this.hasWritePermissions = r.writePermission && !r.readOnlyLock;
                     if (r.appSettings.properties['WEBSITE_USE_ZIP']) {
-                        this.dashboardOverride = 'zip';
+                        this.dashboardProviderType = 'zip';
                     }
                     this._busyManager.clearBusy();
                 },
@@ -99,7 +99,7 @@ export class DeploymentCenterComponent implements OnDestroy {
 
     refreshedSCMType(provider: string) {
         if (provider) {
-            this.dashboardOverride = provider;
+            this.dashboardProviderType = provider;
         } else {
             this._cacheService.clearArmIdCachePrefix(`${this.resourceId}/config/web`);
             this.viewInfoStream.next(this.viewInfo);
@@ -107,9 +107,16 @@ export class DeploymentCenterComponent implements OnDestroy {
     }
 
     get kuduDeploymentSetup() {
-        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM';
+        return this._siteConfigObject && this._siteConfigObject.properties.scmType !== 'None' && this.scmType !== 'VSTSRM' && !this.dashboardProviderType;
     }
 
+    get vstsDeploymentSetup() {
+        return this.scmType === 'VSTSRM' && !this.dashboardProviderType;
+    }
+
+    get noDeploymentSetup() {
+        return this.scmType === 'None' &&  !this.dashboardProviderType;
+    }
     get scmType() {
         return this._siteConfigObject && this._siteConfigObject.properties.scmType;
     }

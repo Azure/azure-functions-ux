@@ -75,8 +75,8 @@ export class SiteTabIds {
     public static readonly scaleUp = 'scale-up';
 }
 
-export class Arm {
-    public static MaxSubscriptionBatchSize = 40;
+export class ARMApiVersions {
+    public static readonly MaxSubscriptionBatchSize = 40;
 }
 
 export class AvailabilityStates {

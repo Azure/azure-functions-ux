@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DeploymentCenterStateManager } from '../wizard-logic/deployment-center-state-manager';
 import { Injectable } from '@angular/core';
 import { By } from '@angular/platform-browser';
+
 describe('StepBuildProviderComponent', () => {
     let buildStepTest: StepBuildProviderComponent;
     let testFixture: ComponentFixture<StepBuildProviderComponent>;

@@ -50,7 +50,7 @@ export class StepCompleteComponent {
         this._busyManager.clearBusy();
     }
 
-    ShowDashboard() {
+    renderDashboard() {
         this._broadcastService.broadcastEvent(BroadcastEvent.ReloadDeploymentCenter, this.wizard.wizardValues.sourceProvider);
     }
 

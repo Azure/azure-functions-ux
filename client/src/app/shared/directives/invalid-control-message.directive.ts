@@ -125,12 +125,6 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
         const headers = new Headers();
         headers.append('Accept', 'image/webp,image/apng,image/*,*/*;q=0.8');
         headers.append('x-ms-client-request-id', Guid.newGuid());
-        // headers.append('Cache-Control', 'max-age=60000');
-
-        // Static content should be taking advantage of browser caching so using the
-        // cacheService isn't entirely necessary, though it does mimic actual browser
-        // behavior a little better which doesn't make new requests (even to local disk) for
-        // every instance of an image
         this._cacheService.get(`image/spinner.svg?cacheBreak=${window.appsvc.cacheBreakQuery}`, false, headers)
             .subscribe(image => {
                 spinnerElement.innerHTML = image.text();

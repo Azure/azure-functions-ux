@@ -60,7 +60,6 @@ export class ConfigureVstsSourceComponent implements OnDestroy {
 
     updateFormValidation() {
         const required = new RequiredValidator(this._translateService, false);
-       // const vstsPermissions = new VstsValidators(this._translateService, this._cacheService);
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('branch').setValidators(required.validate.bind(required));
         this.wizard.sourceSettings.get('isMercurial').setValidators(required.validate.bind(required));

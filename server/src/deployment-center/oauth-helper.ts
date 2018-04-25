@@ -51,7 +51,7 @@ export class oAuthHelper {
         }
     }
 
-    public saveToken(token: string, aadToken: string, refreshToken: string = '', environment: string = ''): Promise<any> {
+    public saveToken(token: string, aadToken: string, refreshToken: string = '', environment: string | undefined = undefined): Promise<any> {
         return axios.put(
             `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/${this._provider}?api-version=${constants.AntaresApiVersion}`,
             {
@@ -60,7 +60,7 @@ export class oAuthHelper {
                     name: this._provider,
                     token: token,
                     refreshToken: refreshToken,
-                    environment: !!environment ? environment : undefined
+                    environment: environment 
                 }
             },
             {

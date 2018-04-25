@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-import { ProviderCard } from '../../Models/ProviderCard';
+import { ProviderCard } from '../../Models/provider-card';
 
 @Component({
     selector: 'app-step-build-provider',
