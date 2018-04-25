@@ -37,7 +37,7 @@ export class InvalidmessageDirective implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-        if (this.invalidmessage === '-self') {
+        if (this.invalidmessage === 'form-group') {
             this.control = this.form;
         } else {
             this.control = this.form.get(this.invalidmessage);

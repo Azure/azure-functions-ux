@@ -100,9 +100,7 @@ export class BroadcastService {
 
         return subject
             .do(e => {
-                if (this._logService) {
-                    this._logService.verbose(LogCategories.broadcastService, BroadcastEvent[e.eventType]);
-                }
+                this._logService.verbose(LogCategories.broadcastService, BroadcastEvent[e.eventType]);
             })
             .map(e => <T>e.obj);
     }
