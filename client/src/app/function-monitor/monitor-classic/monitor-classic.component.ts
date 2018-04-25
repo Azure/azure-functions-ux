@@ -13,6 +13,8 @@ import { PortalService } from '../../shared/services/portal.service';
 import { LogService } from '../../shared/services/log.service';
 import { BroadcastEvent } from '../../shared/models/broadcast-event';
 import { errorIds } from '../../shared/models/error-ids';
+import { ScenarioService } from '../../shared/services/scenario/scenario.service';
+import { ScenarioIds, ScenarioStatus } from '../../shared/models/constants';
 
 @Component({
     selector: ComponentNames.monitorClassic,
@@ -35,6 +37,7 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
     public functionId: string;
     public functionMonitorInfo: FunctionMonitorInfo;
     public monitorConfigureInfo: MonitorConfigureInfo;
+    public applicationInsigtsConfigurationDisabled = false;
 
     constructor(
         private _translateService: TranslateService,
@@ -42,8 +45,10 @@ export class MonitorClassicComponent extends FeatureComponent<FunctionMonitorInf
         private _functionMonitorService: FunctionMonitorService,
         private _portalService: PortalService,
         private _logService: LogService,
+        private _scenarioService: ScenarioService,
         injector: Injector) {
         super(ComponentNames.monitorApplicationInsights, injector, 'dashboard');
+        this.applicationInsigtsConfigurationDisabled = (this._scenarioService.checkScenario(ScenarioIds.appInsightsConfiguration).status === ScenarioStatus.disabled);
         this.featureName = ComponentNames.functionMonitor;
         this._setHeaders();
     }

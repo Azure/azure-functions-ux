@@ -178,6 +178,7 @@ export class ScenarioIds {
     public static readonly addTopLevelAppsNode = 'AddTopLevelAppsNode';
     public static readonly addLogicApps = 'AddLogicApps';
     public static readonly enableAppInsights = 'EnableAppInsights';
+    public static readonly appInsightsConfiguration = 'AppInsightsConfiguration';
     public static readonly enablePushNotifications = 'EnablePushNotifications';
     public static readonly enableAuth = 'EnableAuth';
     public static readonly enableMsi = 'EnableMsi';
@@ -216,6 +217,11 @@ export class ScenarioIds {
     public static readonly disabledBindings = 'disabledBindings';
     public static readonly monitoring = 'monitoring';
     public static readonly addFTPOptions = 'addFTPOptions';
+}
+
+export class ScenarioStatus {
+    public static readonly enabled = 'enabled';
+    public static readonly disabled = 'disabled';
 }
 
 export class ServerFarmSku {
