@@ -10,7 +10,7 @@ import { HighlightService } from '../highlight.service';
 export class TblExampleComponent {
     @ViewChild('table') table: TblComponent;
 
-    items = [{
+    itemsToRender = [{
         name: 'a',
         value: '1'
     },
@@ -30,13 +30,14 @@ export class TblExampleComponent {
 
     // tslint:disable-next-line:member-ordering
     public htmlCode = `
-    <tbl [items]="items" #table="tbl" name="Simple table">
+    <tbl [items]="itemsToRender" #table="tbl" name="Simple table">
         <tr>
             <th><tbl-th name="name">Sortable header</tbl-th></th>
             <th>Non-sortable header</th>
         </tr>
         
         <tr *ngFor="let item of table.items">
+        <!-- NOTE: each row iterates over the items copy on the table element (table.items) -->
             <td>{{item.name}}</td>
             <td>{{item.value}}</td>
         </tr>
@@ -46,10 +47,10 @@ export class TblExampleComponent {
     export class TblExampleComponent {
         @ViewChild('table') table: TblComponent;
     
-        items: { name: string, value: string }[];
+        itemsToRender: { name: string, value: string }[];
     
         constructor() {
-            this.items = [{
+            this.itemsToRender = [{
                 name: 'a',
                 value: '1'
             },

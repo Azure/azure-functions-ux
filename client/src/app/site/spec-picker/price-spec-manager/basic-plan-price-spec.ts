@@ -1,3 +1,4 @@
+import { Links } from './../../../shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
@@ -17,7 +18,8 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
+        description: this._ts.instant(PortalResources.pricing_aSeriesDedicatedCpu),
+        learnMoreUrl: Links.vmSizeLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',
@@ -55,7 +57,7 @@ export class BasicSmallPlanPriceSpec extends BasicPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('1x'),
         this._ts.instant(PortalResources.pricing_memory).format('1.75'),
-        '100 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Basic Small App Service Hours';
@@ -75,7 +77,7 @@ export class BasicMediumPlanPriceSpec extends BasicPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('2x'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        '200 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Basic Medium App Service Hours';
@@ -95,7 +97,7 @@ export class BasicLargePlanPriceSpec extends BasicPlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('4x'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        '400 ACU'
+        this._ts.instant(PortalResources.pricing_aSeriesCompute)
     ];
 
     meterFriendlyName = 'Basic Large App Service Hours';

@@ -15,18 +15,23 @@
 </div>
 
 <div *ngIf="traceHistory && traceHistory.length > 0" class="monitor-detail-content">
-  <tbl [items]="invocationTraces" #table="tbl">
-    <tr>
-      <th>{{ ('functionMonitor_message' | translate).toUpperCase() }}</th>
-      <th>{{ ('functionMonitor_logLevel' | translate).toUpperCase() }}</th>
-    </tr>
-  
-    <tr
-      *ngFor="let history of traceHistory"
-      (click)="showHistoryMessage(history)">
-      <td><div class="message-text">{{history.message}}</div></td>
-      <td>{{history.logLevel}}</td>
-    </tr>
+  <tbl [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+    <thead>
+      <tr>
+        <th>{{ 'functionMonitor_message' | translate }}</th>
+        <th>{{ 'functionMonitor_logLevel' | translate }}</th>
+      </tr>
+    </thead>
+    
+    <tbody class="tableBody">
+      <tr
+        *ngFor="let history of traceHistory"
+        [ngClass]="{rowSelected: history.rowId === selectedRowId}"
+        (click)="showHistoryMessage(history)">
+        <td><div class="message-text">{{history.message}}</div></td>
+        <td>{{history.logLevel}}</td>
+      </tr>
+    </tbody>
   </tbl>
 
   <textarea *ngIf="historyMessage" disabled>{{historyMessage}}</textarea>

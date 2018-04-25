@@ -1,3 +1,4 @@
+import { Links } from './../../../shared/models/constants';
 import { PortalResources } from 'app/shared/models/portal-resources';
 import { PlanService } from './../../../shared/services/plan.service';
 import { PriceSpec, PriceSpecInput } from './price-spec';
@@ -33,7 +34,8 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
     hardwareItems = [{
         iconUrl: 'image/app-service-plan.svg',
         title: this._ts.instant(PortalResources.cpu),
-        description: this._ts.instant(PortalResources.pricing_dedicatedCpu)
+        description: this._ts.instant(PortalResources.pricing_dv2SeriesDedicatedCpu),
+        learnMoreUrl: Links.vmSizeLearnMore
     },
     {
         iconUrl: 'image/website-power.svg',
@@ -62,14 +64,22 @@ export abstract class PremiumV2PlanPriceSpec extends PriceSpec {
             if (input.specPickerInput.data.hostingEnvironmentName) {
                 this.state = 'hidden';
             } else {
-                return this._planService.getAvailablePremiumV2GeoRegions(input.specPickerInput.data.subscriptionId)
-                    .do(geoRegions => {
-                        if (!geoRegions.find(g => g.properties.name.toLowerCase() === input.specPickerInput.data.location.toLowerCase())) {
-                            this.state = 'disabled';
-                            this.disabledMessage = this._ts.instant(PortalResources.pricing_pv2NotAvailable);
-                            this.disabledInfoLink = this._disabledLink;
+                return this.checkIfDreamspark(input.subscriptionId)
+                    .switchMap(isDreamspark => {
+                        if (!isDreamspark) {
+                            return this._planService.getAvailablePremiumV2GeoRegions(input.specPickerInput.data.subscriptionId)
+                                .do(geoRegions => {
+                                    if (!geoRegions.find(g => g.properties.name.toLowerCase() === input.specPickerInput.data.location.toLowerCase())) {
+                                        this.state = 'disabled';
+                                        this.disabledMessage = this._ts.instant(PortalResources.pricing_pv2NotAvailable);
+                                        this.disabledInfoLink = this._disabledLink;
+                                    }
+                                });
                         }
+
+                        return Observable.of(null);
                     });
+
             }
         } else if (input.plan) {
             if (input.plan.properties.hostingEnvironmentProfile) {
@@ -110,7 +120,7 @@ export class PremiumV2SmallPlanPriceSpec extends PremiumV2PlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('1x'),
         this._ts.instant(PortalResources.pricing_memory).format('3.5'),
-        '210 ACU'
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium V2 Small App Service Hours';
@@ -130,7 +140,7 @@ export class PremiumV2MediumPlanPriceSpec extends PremiumV2PlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('2x'),
         this._ts.instant(PortalResources.pricing_memory).format('7'),
-        '420 ACU'
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium V2 Medium App Service Hours';
@@ -150,7 +160,7 @@ export class PremiumV2LargePlanPriceSpec extends PremiumV2PlanPriceSpec {
     topLevelFeatures = [
         this._ts.instant(PortalResources.pricing_numCores).format('4x'),
         this._ts.instant(PortalResources.pricing_memory).format('14'),
-        '840 ACU'
+        this._ts.instant(PortalResources.pricing_dSeriesCompute)
     ];
 
     meterFriendlyName = 'Premium V2 Large App Service Hours';

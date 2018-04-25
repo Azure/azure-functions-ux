@@ -956,6 +956,7 @@
     public static diagnostics_file = 'diagnostics_file';
     public static diagnostics_line = 'diagnostics_line';
     public static pricing_recommendedTiers = 'pricing_recommendedTiers';
+    public static pricing_additionalTiers = 'pricing_additionalTiers';
     public static pricing_subscriptionNotAllowed = 'pricing_subscriptionNotAllowed';
     public static pricing_devTestTitle = 'pricing_devTestTitle';
     public static pricing_devTestDesc = 'pricing_devTestDesc';
@@ -970,6 +971,8 @@
     public static pricing_planUpdateTitle = 'pricing_planUpdateTitle';
     public static pricing_planUpdateDesc = 'pricing_planUpdateDesc';
     public static pricing_planUpdateSuccessFormat = 'pricing_planUpdateSuccessFormat';
+    public static pricing_planUpdateJobSuccessFormat = 'pricing_planUpdateJobSuccessFormat';
+    public static pricing_planScaleInProgress = 'pricing_planScaleInProgress';
     public static pricing_planUpdateFailFormat = 'pricing_planUpdateFailFormat';
     public static pricing_includedFeatures = 'pricing_includedFeatures';
     public static pricing_includedFeaturesDesc = 'pricing_includedFeaturesDesc';
@@ -988,7 +991,8 @@
     public static pricing_applyButtonLabel = 'pricing_applyButtonLabel';
     public static pricing_sharedInfrastructure = 'pricing_sharedInfrastructure';
     public static pricing_sharedCpu = 'pricing_sharedCpu';
-    public static pricing_dedicatedCpu = 'pricing_dedicatedCpu';
+    public static pricing_aSeriesDedicatedCpu = 'pricing_aSeriesDedicatedCpu';
+    public static pricing_dv2SeriesDedicatedCpu = 'pricing_dv2SeriesDedicatedCpu';
     public static pricing_sharedMemory = 'pricing_sharedMemory';
     public static pricing_dedicatedMemory = 'pricing_dedicatedMemory';
     public static pricing_sharedDisk = 'pricing_sharedDisk';
@@ -1014,6 +1018,8 @@
     public static pricing_memory = 'pricing_memory';
     public static pricing_computeLimit = 'pricing_computeLimit';
     public static pricing_numCores = 'pricing_numCores';
+    public static pricing_aSeriesCompute = 'pricing_aSeriesCompute';
+    public static pricing_dSeriesCompute = 'pricing_dSeriesCompute';
     public static proxyJsonInvalid = 'proxyJsonInvalid';
     public static schemaJsonInvalid = 'schemaJsonInvalid';
     public static operationId = 'operationId';
@@ -1069,6 +1075,8 @@
     public static configureAppInsightsDesc = 'configureAppInsightsDesc';
     public static configureAppInsightsSwitchToClassic = 'configureAppInsightsSwitchToClassic';
     public static configureAppInsightsButton = 'configureAppInsightsButton';
+    public static invocationTraces = 'invocationTraces';
+    public static appInsightsDelay = 'appInsightsDelay';
     public static dragFileHereOr = 'dragFileHereOr';
     public static browse = 'browse';
     public static toUpload = 'toUpload';

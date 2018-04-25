@@ -112,6 +112,7 @@ export class Links {
     public static pythonLearnMore = 'https://go.microsoft.com/fwlink/?linkid=852196';
     public static clientAffinityLearnMore = 'https://go.microsoft.com/fwlink/?linkid=798249';
     public static FTPAccessLearnMore = 'https://go.microsoft.com/fwlink/?linkid=871316';
+    public static vmSizeLearnMore = 'https://docs.microsoft.com/azure/virtual-machines/windows/sizes-general';
 }
 
 export class Kinds {
@@ -268,6 +269,7 @@ export class LogCategories {
     public static readonly addSlot = 'AddSlot';
     public static readonly applicationInsightsQuery = 'ApplicationInsightsQuery';
     public static readonly applicationInsightsConfigure = 'ApplicationInsightsConfigure';
+    public static readonly serverFarm = 'ServerFarm';
 }
 
 export class SubscriptionQuotaIds {

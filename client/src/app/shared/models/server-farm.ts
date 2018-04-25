@@ -6,4 +6,5 @@ export interface ServerFarm {
     resoruceGroupName: string;
     geoRegion: string;
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
+    provisioningState: 'InProgress' | 'Succeeded' | 'Failed';
 }
