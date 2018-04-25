@@ -18,10 +18,10 @@ import { triggerFunctionAPIM } from './actions/apim';
 import { NextFunction } from 'express';
 import { getLinuxRuntimeToken } from './actions/linux-function-app';
 import { setupAzureStorage } from './actions/storage';
-
+import * as appInsights from 'applicationinsights';
+import { trackAppServicePerformance } from './telemetry-helper';
 
 const cookieSession = require('cookie-session');
-const appInsights = require('applicationinsights');
 if (process.env.aiInstrumentationKey) {
     appInsights
         .setup(process.env.aiInstrumentationKey)
@@ -33,6 +33,7 @@ if (process.env.aiInstrumentationKey) {
         .setAutoCollectConsole(true)
         .setUseDiskRetryCaching(true)
         .start();
+    setInterval(trackAppServicePerformance, 30 * 1000);
 }
 
 const app = express();
@@ -89,6 +90,10 @@ app.get('/api/ping', (_, res) => {
 
 app.get('/api/health', (_, res) => {
     res.send('healthy');
+});
+
+app.get('/api/version', (_, res) => {
+    res.send('1.0.#{BUILD_BUILDNUMBER}#');
 });
 
 app.get('/api/templates', getTemplates);
