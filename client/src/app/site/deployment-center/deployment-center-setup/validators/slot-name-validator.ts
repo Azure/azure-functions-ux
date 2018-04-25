@@ -1,16 +1,14 @@
 import { TranslateService } from '@ngx-translate/core';
-import { Site } from 'app/shared/models/arm/site';
 import { Validations, Regex } from '../../../../shared/models/constants';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-import { ArmObj } from '../../../../shared/models/arm/arm-obj';
-import { CacheService } from '../../../../shared/services/cache.service';
 import { AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { SiteService } from '../../../../shared/services/site.service';
 
 export class SlotNameValidator {
 
     static createValidator(_translateService: TranslateService,
-        _cacheService: CacheService,
+        _siteService: SiteService,
         _siteId: string) {
         return (control: AbstractControl) => {
             if (control.value.length < Validations.websiteNameMinLength) {
@@ -24,9 +22,12 @@ export class SlotNameValidator {
                 return Observable.of({ invalidSiteName: _translateService.instant(PortalResources.validation_siteNameInvalidChar).format(matchingChar[0]) });
             }
 
-            return _cacheService.getArm(`${_siteId}/slots`)
+            return _siteService.getSlots(`${_siteId}/slots`)
                 .map(r => {
-                    const slots = r.json().value as ArmObj<Site>[];
+                    if (!r.isSuccessful) {
+                        return null;
+                    }
+                    const slots = r.result.value;
                     let existingSlot = null;
                     const name = control.value;
                     if (name) {

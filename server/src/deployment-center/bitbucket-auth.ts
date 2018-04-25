@@ -33,7 +33,7 @@ export function setupBitbucketAuthentication(app: Application) {
     app.get('/auth/bitbucket/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['bitbucket_state_key'] = GUID.newGuid();
+            stateKey = req.session[constants.oauthApis.bitbucket_state_key] = GUID.newGuid();
         } else {
             LogHelper.error('session-not-found', {});
             res.sendStatus(500);
@@ -58,7 +58,7 @@ export function setupBitbucketAuthentication(app: Application) {
         }
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-        if (!req || !req.session || !req.session['bitbucket_state_key'] || oauthHelper.hashStateGuid(req.session['bitbucket_state_key']).substr(0, 10) !== state) {
+        if (!req || !req.session || !req.session[constants.oauthApis.bitbucket_state_key] || oauthHelper.hashStateGuid(req.session[constants.oauthApis.bitbucket_state_key]).substr(0, 10) !== state) {
             LogHelper.error('bitbucket-invalid-sate-key', {});
             res.sendStatus(403);
             return;

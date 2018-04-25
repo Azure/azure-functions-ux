@@ -14,18 +14,7 @@ export enum VSTSLogMessageType {
     LocalGitCdConfiguration = 12
 }
 
-export enum ProviderType {
-    None = 0,
-    VSTS = 1,
-    GitHub = 2,
-    BitbucketGit = 3,
-    Tfs = 4,
-    ExternalGit = 5,
-    LocalGit = 6
-}
+export type ProviderType = 'None' | 'VSTSRM' | 'BitbucketGit' | 'BitbucketHg' | 'ExternalGit' | 'GitHub'
+    | 'LocalGit' | 'Dropbox' | 'DropboxV2' | 'OneDrive' | 'VSO';
 
-export enum ScmType {
-    None = 0,
-    VSTSRM = 1,
-    Kudu = 2
-}
+export type ProviderDashboardType = '' | 'zip' | 'ftp' | 'webdeploy' ;

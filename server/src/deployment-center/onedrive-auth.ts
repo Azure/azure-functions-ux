@@ -4,6 +4,7 @@ import { oAuthHelper } from './oauth-helper';
 import { LogHelper } from '../logHelper';
 import { ApiRequest, PassthroughRequestBody } from '../types/request';
 import { GUID } from '../utilities';
+import { constants } from '../constants';
 
 
 const oauthHelper: oAuthHelper = new oAuthHelper('onedrive');
@@ -30,11 +31,10 @@ export function setupOnedriveAuthentication(app: Application) {
         }
     });
 
-
     app.get('/auth/onedrive/authorize', (req, res) => {
         let stateKey = '';
         if (req && req.session) {
-            stateKey = req.session['onedrive_state_key'] = GUID.newGuid();
+            stateKey = req.session[constants.oauthApis.onedrive_state_key] = GUID.newGuid();
         } else {
             //Should be impossible to hit this
             LogHelper.error('session-not-found', {});
@@ -55,7 +55,7 @@ export function setupOnedriveAuthentication(app: Application) {
         
         const code = oauthHelper.getParameterByName('code', req.body.redirUrl);
         const state = oauthHelper.getParameterByName('state', req.body.redirUrl);
-        if (!req || !req.session || !req.session['onedrive_state_key'] || oauthHelper.hashStateGuid(req.session['onedrive_state_key']).substr(0, 10) !== state) {
+        if (!req || !req.session || !req.session[constants.oauthApis.onedrive_state_key] || oauthHelper.hashStateGuid(req.session[constants.oauthApis.onedrive_state_key]).substr(0, 10) !== state) {
             LogHelper.error('onedrive-invalid-sate-key', {});
             res.sendStatus(403);
             return;

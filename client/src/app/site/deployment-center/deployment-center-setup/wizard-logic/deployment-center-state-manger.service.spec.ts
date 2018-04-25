@@ -29,6 +29,7 @@ import { UserService } from '../../../../shared/services/user.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { FormBuilder } from '@angular/forms';
 import * as graphHelper from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
+import { SiteService } from '../../../../shared/services/site.service';
 
 describe('Deployment State Manager', () => {
     let _fb: FormBuilder;
@@ -77,6 +78,7 @@ describe('Deployment State Manager', () => {
             providers: [
                 DeploymentCenterStateManager,
                 { provide: CacheService, useClass: MockCacheService },
+                { provide: SiteService, useClass: MockSiteService },
                 { provide: UserService, useClass: MockUserService },
                 { provide: PortalService, useClass: MockPortalService },
                 FormBuilder
@@ -222,12 +224,7 @@ describe('Deployment State Manager', () => {
 
 @Injectable()
 class MockCacheService {
-    public siteObject = {
-        location: 'loc',
-        properties: {
-            sku: 'sku'
-        }
-    };
+
     get(url: string, force?: boolean, headers?: Headers, invokeApi?: boolean): Observable<Response> {
         return Observable.of(null);
     }
@@ -237,11 +234,7 @@ class MockCacheService {
     }
 
     getArm(resourceId: string, force?: boolean, apiVersion?: string, invokeApi?: boolean) {
-        return Observable.of({
-            json: () => {
-                return this.siteObject;
-            }
-        });
+        return Observable.of(null);
     }
 
     postArm(resourceId: string, force?: boolean, apiVersion?: string, content?: any): Observable<Response> {
@@ -257,6 +250,21 @@ class MockCacheService {
     }
 }
 
+@Injectable()
+class MockSiteService {
+    public siteObject = {
+        location: 'loc',
+        properties: {
+            sku: 'sku'
+        }
+    };
+    getSite(resourceId: string) {
+        return Observable.of({
+            isSuccessful: true,
+            result: this.siteObject
+        });
+    }
+}
 @Injectable()
 class MockUserService {
     public startupInfoStream = new ReplaySubject<any>();

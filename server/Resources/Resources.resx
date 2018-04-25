@@ -3295,6 +3295,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="selectRepo" xml:space="preserve">
     <value>Select Respository</value>
   </data>
+  <data name="selectFolder" xml:space="preserve">
+    <value>Select Folder</value>
+  </data>
   <data name="selectBranch" xml:space="preserve">
     <value>Select branch</value>
   </data>

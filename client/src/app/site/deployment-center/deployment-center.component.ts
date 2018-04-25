@@ -21,6 +21,7 @@ import { TreeViewInfo, SiteData } from 'app/tree-view/models/tree-view-info';
 import { LogCategories, SiteTabIds } from 'app/shared/models/constants';
 import { LogService } from 'app/shared/services/log.service';
 import { SiteService } from '../../shared/services/site.service';
+import { ProviderDashboardType } from './Models/deployment-enums';
 
 @Component({
     selector: 'app-deployment-center',
@@ -32,7 +33,7 @@ export class DeploymentCenterComponent implements OnDestroy {
     public resourceId: string;
     public viewInfoStream = new Subject<TreeViewInfo<SiteData>>();
     public viewInfo: TreeViewInfo<SiteData>;
-    public dashboardProviderType = '';
+    public dashboardProviderType: ProviderDashboardType = '';
     @Input()
     set viewInfoInput(viewInfo: TreeViewInfo<SiteData>) {
         this.viewInfo = viewInfo;
@@ -97,7 +98,7 @@ export class DeploymentCenterComponent implements OnDestroy {
             .subscribe(this.refreshedSCMType.bind(this));
     }
 
-    refreshedSCMType(provider: string) {
+    refreshedSCMType(provider: ProviderDashboardType) {
         if (provider) {
             this.dashboardProviderType = provider;
         } else {

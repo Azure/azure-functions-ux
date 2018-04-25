@@ -8,12 +8,18 @@ export class DeploymentData {
     siteMetadata?: ArmObj<any>;
     deployments: ArmArrayResult<Deployment>;
     publishingCredentials?: ArmObj<PublishingCredentials>;
-    sourceControls?: ArmObj<any>;
+    sourceControls?: ArmObj<SourceControlData>;
     publishingUser?: ArmObj<{
         publishingUserName: string;
     }>;
 }
 
+export interface SourceControlData {
+    deploymentRollbackEnabled: boolean;
+    repoUrl: string;
+    branch: string;
+    isMercurial: boolean;
+}
 export interface Deployment {
     id: string;
     status: number;

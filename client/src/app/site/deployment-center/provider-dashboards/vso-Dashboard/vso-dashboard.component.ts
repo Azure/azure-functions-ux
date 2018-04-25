@@ -6,7 +6,7 @@ import { CacheService } from '../../../../shared/services/cache.service';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { TblComponent } from '../../../../controls/tbl/tbl.component';
 import { ActivityDetailsLog, KuduLogMessage, UrlInfo, VSOBuildDefinition } from '../../Models/vso-build-models';
-import { VSTSLogMessageType } from '../../Models/Deployment-enums';
+import { VSTSLogMessageType } from '../../Models/deployment-enums';
 import { SimpleChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Deployment, DeploymentData } from '../../Models/deployment-data';
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';

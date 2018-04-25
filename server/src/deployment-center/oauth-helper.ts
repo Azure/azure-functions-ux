@@ -39,7 +39,7 @@ export class oAuthHelper {
     }
 
     public getEnvironment(hostUrl: string) {
-        switch(hostUrl){ 
+        switch(hostUrl.toLowerCase()){ 
             case 'https://functions.azure.com':
                 return 'Prod';
             case 'https://functions-next.azure.com':
@@ -51,7 +51,7 @@ export class oAuthHelper {
         }
     }
 
-    public saveToken(token: string, aadToken: string, refreshToken: string = '', environment: string | undefined = undefined): Promise<any> {
+    public saveToken(token: string, aadToken: string, refreshToken: string = '', environment: string | null = null): Promise<any> {
         return axios.put(
             `${staticConfig.config.env.azureResourceManagerEndpoint}/providers/Microsoft.Web/sourcecontrols/${this._provider}?api-version=${constants.AntaresApiVersion}`,
             {

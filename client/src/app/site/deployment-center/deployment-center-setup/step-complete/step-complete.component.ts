@@ -37,7 +37,7 @@ export class StepCompleteComponent {
         this.wizard.deploy().first().subscribe(
             r => {
                 this.clearBusy();
-                this._broadcastService.broadcastEvent<any>(BroadcastEvent.ReloadDeploymentCenter);
+                this._broadcastService.broadcastEvent<void>(BroadcastEvent.ReloadDeploymentCenter);
             },
             err => {
                 this.clearBusy();

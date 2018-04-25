@@ -275,7 +275,7 @@ export class ARMApiVersions {
     public static websiteApiVersion = '2015-08-01';
 }
 export class SubscriptionQuotaIds {
-    public static dreamSparkQuotaId = 'DreamSpark_2015-02-01';
+    public static readonly dreamSparkQuotaId = 'DreamSpark_2015-02-01';
 }
 
 export class KeyCodes {

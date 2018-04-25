@@ -13,6 +13,7 @@ import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-
 import { PortalService } from '../../../../shared/services/portal.service';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
+import { SiteService } from '../../../../shared/services/site.service';
 
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
@@ -28,16 +29,17 @@ export class DeploymentCenterStateManager implements OnDestroy {
     public siteArm: ArmObj<Site>;
     constructor(
         private _cacheService: CacheService,
+        siteService: SiteService,
         userService: UserService,
         portalService: PortalService) {
         this.resourceIdStream$.switchMap(r => {
             this._resourceId = r;
-            return this._cacheService.getArm(this._resourceId);
+            return siteService.getSite(this._resourceId)
         })
             .subscribe(s => {
-                this.siteArm = s.json();
-                this._location = s.json().location;
-                this._pricingTier = s.json().properties.sku;
+                this.siteArm = s.result;
+                this._location = this.siteArm.location;
+                this._pricingTier = this.siteArm.properties.sku;
             });
 
         userService.getStartupInfo().takeUntil(this._ngUnsubscribe$).subscribe(r => {
