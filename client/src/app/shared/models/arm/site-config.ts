@@ -3,9 +3,10 @@ import { HandlerMapping } from './handler-mapping';
 import { RoutingRule } from './routing-rule';
 import { ConnectionStrings } from './connection-strings';
 import { ApplicationSettings } from './application-settings';
+import { ProviderType } from '../../../site/deployment-center/Models/deployment-enums';
 
 export interface SiteConfig {
-    scmType: string;
+    scmType: ProviderType;
     alwaysOn: boolean;
     cors: {
         allowedOrigins: string[]

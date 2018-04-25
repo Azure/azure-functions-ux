@@ -4,11 +4,11 @@
       <command displayText="{{ 'refresh' | translate }}" iconUrl="image/swap.svg" (click)="refresh()"></command>
       <command displayText="{{ 'disconnect' | translate }}" iconUrl="image/error.svg" (click)="disconnect()"></command>
       <command displayText="{{ 'sync' | translate }}" iconUrl="image/Functions.svg" (click)="syncScm()"></command>
+      <command displayText="{{ 'deploymentCredentials' | translate }}" iconUrl="image/Functions.svg" (click)="syncScm()"></command>
     </command-bar>
 
     <div id="essentials-container">
       <div class="essentials-col">
-        <!-- TODO: Replace ALL Hardcoded strings, these are currently Temporary -->
         <div>
           <label id="siteStatusLabel">{{'source' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
@@ -26,7 +26,6 @@
 
 
       <div class="essentials-col" *ngIf="branch">
-
         <div>
           <label id="siteStatusLabel">{{'repository' | translate}}</label>
           <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">

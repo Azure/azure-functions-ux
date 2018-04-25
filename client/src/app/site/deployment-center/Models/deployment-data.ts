@@ -4,16 +4,22 @@ import { Site } from '../../../shared/models/arm/site';
 import { ArmArrayResult, ArmObj } from '../../../shared/models/arm/arm-obj';
 export class DeploymentData {
     site: ArmObj<Site>;
-    siteConfig: ArmObj<SiteConfig>;
+    siteConfig?: ArmObj<SiteConfig>;
     siteMetadata?: ArmObj<any>;
     deployments: ArmArrayResult<Deployment>;
-    publishingCredentials: ArmObj<PublishingCredentials>;
-    sourceControls: ArmObj<any>;
-    publishingUser: ArmObj<{
+    publishingCredentials?: ArmObj<PublishingCredentials>;
+    sourceControls?: ArmObj<SourceControlData>;
+    publishingUser?: ArmObj<{
         publishingUserName: string;
     }>;
 }
 
+export interface SourceControlData {
+    deploymentRollbackEnabled: boolean;
+    repoUrl: string;
+    branch: string;
+    isMercurial: boolean;
+}
 export interface Deployment {
     id: string;
     status: number;

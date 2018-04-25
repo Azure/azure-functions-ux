@@ -61,7 +61,10 @@ $bubble-diameter: 30px;
             li.done:after {
                 background-color: $wz-color-done;
                 color: $text-color;
-                content: url(/image/success.svg);
+                // inlining the success svg, the direct url was difficult because it ignored base href
+                // I dont want to include this in the DOM itself because since this is a third party library I prefer to touch the 
+                // component itself as much as possible with hopes the third party library will add support for css and I can just import from npm
+                content: url("data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTYgMTYiIGNsYXNzPSJtc3BvcnRhbGZ4LXN2Zy1wbGFjZWhvbGRlciIgcm9sZT0icHJlc2VudGF0aW9uIiBmb2N1c2FibGU9ImZhbHNlIiBhcmlhLWhpZGRlbj0idHJ1ZSI+DQogICAgPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCiAgICAgICAgLm1zcG9ydGFsZngtc3ZnLWMwMXsgZmlsbDogI2ZmZjsgfQ0KICAgICAgICAubXNwb3J0YWxmeC1zdmctYzE0eyBmaWxsOiAjN2ZiYTAwOyB9DQogICAgPC9zdHlsZT4NCiAgIDxnPg0KICAgICAgPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjgiIGNsYXNzPSJtc3BvcnRhbGZ4LXN2Zy1jMTQiIC8+DQogICAgICA8cGF0aCBkPSJNMy45ODkgOC40NjlMMy43IDguMTU2YS4yMDcuMjA3IDAgMCAxIC4wMTItLjI5M2wuODM1LS43NzJhLjIwNC4yMDQgMCAwIDEgLjI4OS4wMTJsMi4yOTYgMi40NjIgMy45NTEtNS4wNmEuMjA0LjIwNCAwIDAgMSAuMjg5LS4wMzVsLjkwMy42OTdhLjE5OC4xOTggMCAwIDEgLjAzNS4yODVsLTUuMDc1IDYuNDk3LTMuMjQ2LTMuNDh6IiBjbGFzcz0ibXNwb3J0YWxmeC1zdmctYzAxIiAvPg0KICAgPC9nPg0KPC9zdmc+");
             }
 
             li.optional:after {

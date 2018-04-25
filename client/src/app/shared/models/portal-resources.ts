@@ -1055,6 +1055,7 @@
     public static new = 'new';
     public static existing = 'existing';
     public static selectRepo = 'selectRepo';
+    public static selectFolder = 'selectFolder';
     public static selectBranch = 'selectBranch';
     public static deployment = 'deployment';
     public static enableDeploymentSlot = 'enableDeploymentSlot';
@@ -1069,6 +1070,7 @@
     public static pricingTier = 'pricingTier';
     public static deploymentCenterTitle = 'deploymentCenterTitle';
     public static deploymentCenterDesc = 'deploymentCenterDesc';
+    public static notAuthorized = 'notAuthorized';
     public static monitorHostFetchFailed = 'monitorHostFetchFailed';
     public static configureAppInsightsTitle = 'configureAppInsightsTitle';
     public static configureAppInsightsDesc = 'configureAppInsightsDesc';
@@ -1083,4 +1085,7 @@
     public static feature_metricsInfo = 'feature_metricsInfo';
     public static FTPMessage = 'FTPMessage';
     public static FTPLabel = 'FTPLabel';
+    public static validating = 'validating';
+    public static vstsReleaseBuildPermissions = 'vstsReleaseBuildPermissions';
+    public static vstsNameUnavailable = 'vstsNameUnavailable';
 }

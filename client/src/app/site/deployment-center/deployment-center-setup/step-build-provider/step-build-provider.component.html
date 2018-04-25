@@ -1,5 +1,5 @@
-<div class="selectionContainer">
-  <div class="cardContainer" *ngFor="let card of providerCards" (click)="chooseBuildProvider(card)">
+<div class="selectionContainer" flex-list>
+  <div  class="cardContainer" *ngFor="let card of providerCards" (click)="chooseBuildProvider(card)" id="{{card.id}}">
     <div class="headerBox" [style.background-color]="card.barColor">
       <img [src]="card.icon" [style.background-color]="card.color" /> {{card.name}} <img *ngIf="wizard?.wizardValues?.buildProvider === card.id"
         style="float:right" src="image/success-blue.svg">

@@ -1,0 +1,19 @@
+.validation-container {
+    margin-top: 5px;
+}
+
+.error-message {
+    color: $control-error-color-light;
+}
+
+.centered-validating-text {
+    margin-left: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#app-root[theme=dark] {
+    .error-message {
+        color: $control-error-color-dark;
+    }
+}
