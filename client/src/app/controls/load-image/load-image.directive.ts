@@ -24,6 +24,7 @@ export class LoadImageDirective implements OnChanges {
         }
     }
 
+    // tslint:disable-next-line:member-ordering
     public static injectImageToElement(imageUrl: string, element: any, cacheService: CacheService, logService: LogService) {
         const cdnUrl = Constants.cdnNgMin;
         if (!imageUrl.toLowerCase().endsWith('.svg')) {
