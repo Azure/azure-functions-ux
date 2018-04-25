@@ -1,5 +1,5 @@
 import { ScenarioService } from './../shared/services/scenario/scenario.service';
-import { ScenarioIds, Constants } from './../shared/models/constants';
+import { ScenarioIds, Constants, ScenarioStatus } from './../shared/models/constants';
 import { ComponentNames } from 'app/shared/models/constants';
 import { Component, Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -24,6 +24,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
     public static readonly CLASSIC_VIEW = 'classic';
 
     private _renderComponentName: string = '';
+    private _applicationInsigtsConfigurationDisabled = false;
     public functionMonitorInfo: FunctionMonitorInfo;
     public monitorConfigureInfo: MonitorConfigureInfo;
 
@@ -38,7 +39,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
         super(ComponentNames.functionMonitor, injector, DashboardType.FunctionMonitorDashboard);
         this.featureName = ComponentNames.functionMonitor;
         this.isParentComponent = true;
-
+        this._applicationInsigtsConfigurationDisabled = (this._scenarioService.checkScenario(ScenarioIds.appInsightsConfiguration).status === ScenarioStatus.disabled);
         this._broadcastService
             .getEvents<FunctionMonitorInfo>(BroadcastEvent.RefreshMonitoringView)
             .takeUntil(this.ngUnsubscribe)
@@ -74,7 +75,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
             .do(functionMonitorInfo => {
                 this.functionMonitorInfo = functionMonitorInfo;
 
-                this._renderComponentName = this._shouldLoadClassicView()
+                this._renderComponentName = this._shouldLoadClassicView() || this._applicationInsigtsConfigurationDisabled
                     ? ComponentNames.monitorClassic
                     : this._shouldLoadApplicationInsightsView()
                         ? ComponentNames.monitorApplicationInsights
@@ -102,7 +103,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
     }
 
     private _shouldLoadApplicationInsightsView(): boolean {
-        return this.functionMonitorInfo.appInsightsResourceDescriptor !== null;
+        return !!this.functionMonitorInfo.appInsightsResourceDescriptor;
     }
 
     private _loadMonitorConfigureView(): string {

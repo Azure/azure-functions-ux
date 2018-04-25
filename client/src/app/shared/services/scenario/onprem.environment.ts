@@ -1,5 +1,5 @@
 import { ScenarioCheckInput } from './scenario.models';
-import { ScenarioIds } from './../../models/constants';
+import { ScenarioIds, ScenarioStatus } from './../../models/constants';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
 
 export class OnPremEnvironment extends Environment {
@@ -21,10 +21,21 @@ export class OnPremEnvironment extends Environment {
             }
         };
 
+        this.scenarioChecks[ScenarioIds.appInsightsConfiguration] = {
+            id: ScenarioIds.appInsightsConfiguration,
+            runCheck: () => {
+                return { status: ScenarioStatus.disabled };
+            }
+        };
+
+
         this.scenarioChecks[ScenarioIds.enableAppInsights] = {
             id: ScenarioIds.enableAppInsights,
             runCheck: () => {
-                return { status: 'disabled' };
+                return {
+                    status: 'disabled',
+                    data: null
+                };
             }
         };
 
