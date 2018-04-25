@@ -6,9 +6,6 @@ import { ArmResourceDescriptor } from 'app/shared/resourceDescriptors';
 import { QuotaNames, QuotaScope } from 'app/shared/models/arm/quotaSettings';
 import { Injector } from '@angular/core';
 
-
-
-
 export class OnPremEnvironment extends Environment {
     name = 'OnPrem';
     private _quotaService: QuotaService;

@@ -44,6 +44,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public loadingMessage: string;
     public FwLinks = Links;
     public isProductionSlot: boolean;
+    public use32BitWorkerProcessUpsell: string;
+    public alwaysOnUpsell: string;
+    public autoSwapUpsell: string;
+    public upgradeUpsell: string;
 
     public clientAffinityEnabledOptions: SelectOption<boolean>[];
     public use32BitWorkerProcessOptions: SelectOption<boolean>[];
@@ -60,7 +64,6 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
     public platform64BitSupported = false;
     public webSocketsSupported = false;
     public alwaysOnSupported = false;
-    public useGenericUpsellMessage = false;
     public classicPipelineModeSupported = false;
     public remoteDebuggingSupported = false;
     public clientAffinitySupported = false;
@@ -100,7 +103,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
         this._resetPermissionsAndLoadingState();
 
         this._generateRadioOptions();
-        this.useGenericUpsellMessage = this._configService.isOnPrem();
+        this.upgradeUpsell = this._translateService.instant(PortalResources.upgradeUpsell);
+        this.use32BitWorkerProcessUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.use32BitWorkerProcessUpsell);
+        this.alwaysOnUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.alwaysOnUpsell);
+        this.autoSwapUpsell = this._configService.isOnPrem() ? this.upgradeUpsell : this._translateService.instant(PortalResources.autoSwapUpsell);
     }
 
     protected get _isPristine() {

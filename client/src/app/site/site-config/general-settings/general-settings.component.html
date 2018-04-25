@@ -126,10 +126,7 @@
 
         <span check-scenario="EnablePlatform64" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-          <pop-over *ngIf="!useGenericUpsellMessage" [message]="'use32BitWorkerProcessUpsell' | translate">
-            <span load-image="image/upsell.svg" class="icon-small"></span>
-          </pop-over>
-          <pop-over *ngIf="useGenericUpsellMessage" [message]="'upgradeUpsell' | translate">
+          <pop-over [message]="use32BitWorkerProcessUpsell">
             <span load-image="image/upsell.svg" class="icon-small"></span>
           </pop-over>
         </span>
@@ -152,6 +149,9 @@
         </radio-selector>
         <span check-scenario="WebSocketsEnabled" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
+          <pop-over [message]="upgradeUpsell">
+            <span load-image="image/upsell.svg" class="icon-small"></span>
+          </pop-over>
         </span>
       </div>
     </div>
@@ -173,10 +173,7 @@
 
         <span check-scenario="EnableAlwaysOn" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
           <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-          <pop-over *ngIf="!useGenericUpsellMessage" [message]="'alwaysOnUpsell' | translate">
-            <span load-image="image/upsell.svg" class="icon-small"></span>
-          </pop-over>
-          <pop-over *ngIf="useGenericUpsellMessage" [message]="'upgradeUpsell' | translate">
+          <pop-over [message]="alwaysOnUpsell">
             <span load-image="image/upsell.svg" class="icon-small"></span>
           </pop-over>
         </span>
@@ -230,12 +227,9 @@
 
           <span check-scenario="EnableAutoSwap" [cs-input]="{site: siteArm}" cs-enabledClass="hidden" cs-disabledClass="">
             <a tabindex="0" (click)="scaleUp()">{{'upgradeToEnable' | translate}}</a>
-            <pop-over *ngIf="!useGenericUpsellMessage" [message]="'autoSwapUpsell' | translate">
+            <pop-over [message]="autoSwapUpsell">
               <span load-image="image/upsell.svg" class="icon-small"></span>
             </pop-over>
-            <pop-over *ngIf="useGenericUpsellMessage" [message]="'upgradeUpsell' | translate">
-              <span load-image="image/upsell.svg" class="icon-small"></span>
-            </pop-over>              
           </span>
         </div>
       </div>

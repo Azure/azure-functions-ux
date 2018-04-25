@@ -1,5 +1,11 @@
 import { HostingEnvironmentProfile } from './hosting-environment';
 
+export enum ComputeMode {
+    Shared,
+    Dedicated,
+    Dynamic
+}
+
 export interface Site {
     state: string;
     hostNames: string[];
@@ -20,5 +26,5 @@ export interface Site {
     hostingEnvironmentProfile?: HostingEnvironmentProfile;
     name?: string;
     resourceGroup?: string;
-    computeMode?: number;
+    computeMode?: ComputeMode;
 }

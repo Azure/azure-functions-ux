@@ -8,11 +8,6 @@ export interface QuotaSettings {
     };
 }
 
-export enum ComputeMode {
-    Shared,
-    Dedicated
-}
-
 export enum QuotaScope {
     WebSpace,
     Site

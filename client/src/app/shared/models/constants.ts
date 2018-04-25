@@ -243,6 +243,7 @@ export class LogCategories {
     public static readonly newSlot = 'NewSlot';
     public static readonly svgLoader = 'SvgLoader';
     public static readonly busyState = 'BusyState';
+    public static readonly quotaService = 'QuotaService';
     public static readonly siteConfig = 'SiteConfig';
     public static readonly generalSettings = 'GeneralSettings';
     public static readonly appSettings = 'AppSettings';
