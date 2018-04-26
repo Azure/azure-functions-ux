@@ -106,7 +106,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
         let errorEvent: ErrorEvent = null;
 
         if (!!this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName] &&
-            this.functionMonitorInfo.appInsightsResourceDescriptor === null) {
+            !this.functionMonitorInfo.appInsightsResourceDescriptor) {
             errorEvent = {
                 errorId: errorIds.applicationInsightsInstrumentationKeyMismatch,
                 message: this._translateService.instant(PortalResources.monitoring_appInsightsIsNotFound),

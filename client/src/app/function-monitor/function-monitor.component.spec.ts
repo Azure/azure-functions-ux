@@ -24,6 +24,7 @@ import { MockLogService } from '../test/mocks/log.service.mock';
 import { MockTelemetryService } from '../test/mocks/telemetry.service.mock';
 import { DashboardType } from '../tree-view/models/dashboard-type';
 import { ARMApplicationInsightsDescriptior } from '../shared/resourceDescriptors';
+import { errorIds } from '../shared/models/error-ids';
 
 describe('FunctionMonitorComponent', () => {
     let component: FunctionMonitorComponent;
@@ -35,11 +36,13 @@ describe('FunctionMonitorComponent', () => {
     const functionAppResourceId2 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp2';
     const functionAppResourceId3 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp3';
     const functionAppResourceId4 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp3';
+    const functionAppResourceId5 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp5';
     const appInsightsResourceId = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.AppInsights/components/functionApp4';
     const functionResourceId1 = `${functionAppResourceId1}/functions/${functionName1}`;
     const functionResourceId2 = `${functionAppResourceId2}/functions/${functionName1}`;
     const functionResourceId3 = `${functionAppResourceId3}/functions/${functionName1}`;
     const functionResourceId4 = `${functionAppResourceId4}/functions/${functionName1}`;
+    const functionResourceId5 = `${functionAppResourceId5}/functions/${functionName1}`;
     const siteUrl = 'https://functionApp.azurewebsites.net';
     const scmUrl = 'https://functionApp.scm.azurewebsites.net';
 
@@ -73,14 +76,14 @@ describe('FunctionMonitorComponent', () => {
         fixture.detectChanges();
     });
 
-    fdescribe('init', () => {
+    describe('init', () => {
 
         beforeEach(() => {
             TestBed
                 .get(BroadcastService)
                 .broadcastEvent(BroadcastEvent.TreeNavigation, {resourceId: functionResourceId1, dashboardType: DashboardType.FunctionMonitorDashboard});
         });
- 
+
         it('should create', () => {
             fixture.whenStable().then(() => {
                 expect(component).toBeTruthy();
@@ -96,9 +99,9 @@ describe('FunctionMonitorComponent', () => {
         });
     });
 
-    fdescribe('validate views', () => {
+    describe('validate views', () => {
 
-        it('loads classic view', fakeAsync(() => {
+        it('should classic view', fakeAsync(() => {
             TestBed
                 .get(BroadcastService)
                 .broadcastEvent(BroadcastEvent.TreeNavigation, {resourceId: functionResourceId2, dashboardType: DashboardType.FunctionMonitorDashboard});
@@ -110,7 +113,7 @@ describe('FunctionMonitorComponent', () => {
             });
         }));
 
-        it('loads configure view', fakeAsync(() => {
+        it('should load configure view', fakeAsync(() => {
             TestBed
                 .get(BroadcastService)
                 .broadcastEvent(BroadcastEvent.TreeNavigation, {resourceId: functionResourceId3, dashboardType: DashboardType.FunctionMonitorDashboard});
@@ -122,7 +125,7 @@ describe('FunctionMonitorComponent', () => {
             });
         }));
 
-        it('loads application insights view', fakeAsync(() => {
+        it('should load application insights view', fakeAsync(() => {
             TestBed
                 .get(BroadcastService)
                 .broadcastEvent(BroadcastEvent.TreeNavigation, {resourceId: functionResourceId4, dashboardType: DashboardType.FunctionMonitorDashboard});
@@ -131,6 +134,21 @@ describe('FunctionMonitorComponent', () => {
                 expect(component.shouldRenderMonitorApplicationInsights).toBeTruthy();
                 expect(component.shouldRenderMonitorClassic).toBeFalsy();
                 expect(component.shouldRenderMonitorConfigure).toBeFalsy();
+            });
+        }));
+
+        it('should load configure view due to app insights key mismatch', fakeAsync(() => {
+            TestBed
+                .get(BroadcastService)
+                .broadcastEvent(BroadcastEvent.TreeNavigation, {resourceId: functionResourceId5, dashboardType: DashboardType.FunctionMonitorDashboard});
+
+            fixture.whenStable().then(() => {
+                expect(component.shouldRenderMonitorApplicationInsights).toBeFalsy();
+                expect(component.shouldRenderMonitorClassic).toBeFalsy();
+                expect(component.shouldRenderMonitorConfigure).toBeTruthy();
+                expect(component.monitorConfigureInfo).not.toBeNull();
+                expect(component.monitorConfigureInfo.errorEvent).not.toBeNull();
+                expect(component.monitorConfigureInfo.errorEvent.errorId).toEqual(errorIds.applicationInsightsInstrumentationKeyMismatch);
             });
         }));
     });
@@ -170,6 +188,10 @@ describe('FunctionMonitorComponent', () => {
 
         getFunctionAppAzureAppSettings(context: FunctionAppContext): Observable<HttpResult<ArmObj<{ [key: string]: string }>>> {
             const properties: { [key: string]: string } = {};
+
+            if (context.site.id === functionAppResourceId4 || context.site.id === functionAppResourceId5) {
+                properties['APPINSIGHTS_INSTRUMENTATIONKEY'] = 'key1';
+            }
 
             const armObj: ArmObj<{ [key: string]: string }> = {
                 id: context.site.id,
