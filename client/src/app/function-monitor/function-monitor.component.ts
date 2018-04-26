@@ -97,12 +97,16 @@ export class FunctionMonitorComponent extends NavigableComponent {
 
     private _shouldLoadClassicView(): boolean {
         const view: string = this._applicationInsightsService.getFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
+        const loadClassicView = view === FunctionMonitorComponent.CLASSIC_VIEW &&
+            !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];
+
+        if (!loadClassicView) {
+            this._applicationInsightsService.removeFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
+        }
 
         // NOTE(michinoy): Load the classic view if the app insights feature is not enabled on the environment OR
         // the user has selected to switch to classic view and has not setup an instrumentation key.
-        return !this.functionMonitorInfo.appInsightsFeatureEnabled ||
-            (view === FunctionMonitorComponent.CLASSIC_VIEW &&
-            !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName]);
+        return !this.functionMonitorInfo.appInsightsFeatureEnabled || loadClassicView;
     }
 
     private _shouldLoadApplicationInsightsView(): boolean {
