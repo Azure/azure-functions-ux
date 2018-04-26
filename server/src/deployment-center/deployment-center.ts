@@ -17,6 +17,15 @@ export function setupDeploymentCenter(app: Application) {
                     Authorization: req.headers.authorization
                 }
             });
+            if(r.status !== 200){
+                res.send({
+                    github: false,
+                    onedrive: false,
+                    bitbucket: false,
+                    dropbox: false
+                });
+                return;
+            }
             const body = r.data;
             var providers: any[] = body.value;
             const oneDriveObject = providers.find(x => x.name.toLowerCase() === 'onedrive');

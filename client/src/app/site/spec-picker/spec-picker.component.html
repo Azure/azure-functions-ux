@@ -32,9 +32,11 @@
 
     <section *ngIf="isEmpty" class="empty-group">
       <div [load-image]="specManager.selectedSpecGroup.iconUrl" class="icon-large"></div>
-      <article>
+      <article [id]="specManager.selectedSpecGroup.id + 'empty'">
         {{specManager.selectedSpecGroup.emptyMessage}}
-        <a [href]="specManager.selectedSpecGroup.emptyInfoLink" target="_blank">{{'clickToLearnMore' | translate}}</a>
+        <a [href]="specManager.selectedSpecGroup.emptyInfoLink"
+          target="_blank"
+          [attr.aria-describedby]="specManager.selectedSpecGroup.id + 'empty'">{{'clickToLearnMore' | translate}}</a>
       </article>
     </section>
 
@@ -46,12 +48,15 @@
         (onSelectedSpec)="selectSpec($event)"></spec-list>
 
         <div class="spec-expander" *ngIf="showExpander">
-          <span
-            (click)="specManager.selectedSpecGroup.isExpanded = !specManager.selectedSpecGroup.isExpanded"
-            (keydown)="onExpandKeyPress($event)">
+          <span (click)="specManager.selectedSpecGroup.isExpanded = !specManager.selectedSpecGroup.isExpanded"
+                (keydown)="onExpandKeyPress($event)"
+                role="link"
+                tabindex="0"
+                [attr.aria-expanded]="specManager.selectedSpecGroup.isExpanded"
+                [attr.aria-controls]="specManager.selectedSpecGroup.id + specManager.selectedSpecGroup.selectedSpec">
     
             <span [load-image]="!specManager.selectedSpecGroup.isExpanded ? 'image/caret-down.svg' : 'image/caret-up.svg'" class="expand-icon"></span>
-            <a tabindex="0">{{ (!specManager.selectedSpecGroup.isExpanded ? 'seeAllOptions' : 'seeRecommendedOptions') | translate}}</a>
+            <a>{{ (!specManager.selectedSpecGroup.isExpanded ? 'seeAllOptions' : 'seeRecommendedOptions') | translate}}</a>
           </span>
         </div>
 
