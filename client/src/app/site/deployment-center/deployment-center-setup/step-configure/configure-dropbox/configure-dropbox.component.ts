@@ -34,6 +34,7 @@ export class ConfigureDropboxComponent implements OnInit {
     ngOnInit() {
         this.updateFormValidation();
     }
+
     updateFormValidation() {
         const required = new RequiredValidator(this._translateService, false);
         this.wizard.sourceSettings.get('repoUrl').setValidators(required.validate.bind(required));
@@ -43,12 +44,14 @@ export class ConfigureDropboxComponent implements OnInit {
         this.wizard.sourceSettings.get('branch').updateValueAndValidity();
         this.wizard.sourceSettings.get('isMercurial').updateValueAndValidity();
     }
+
     public fillDropboxFolders() {
         this.foldersLoading = true;
         this.folderList = [];
         return this._cacheService
             .post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
                 url: `${DeploymentCenterConstants.dropboxApiUrl}/files/list_folder`,
+                authToken: this.wizard.getToken(),
                 arg: {
                     path: ''
                 },

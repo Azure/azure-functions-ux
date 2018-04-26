@@ -8,7 +8,7 @@ import { constants } from '../constants';
 
 const oauthHelper: oAuthHelper = new oAuthHelper('onedrive');
 export async function getOnedriveTokens(req: any): Promise<any> {
-    return await oauthHelper.getToken(req.headers.authorization);
+    return await oauthHelper.getToken(req.body.authToken);
 }
 export function setupOnedriveAuthentication(app: Application) {
     app.post('/api/onedrive/passthrough', async (req: ApiRequest<PassthroughRequestBody>, res) => {
@@ -72,7 +72,7 @@ export function setupOnedriveAuthentication(app: Application) {
             );
             const token = r.data.access_token as string;
             const refreshToken = r.data.refresh_token as string;
-            await oauthHelper.saveToken(token, req.headers.authorization as string, refreshToken);
+            await oauthHelper.saveToken(token, req.body.authToken as string, refreshToken);
             res.sendStatus(200);
         } catch (err) {
             LogHelper.error('onedrive-token-store', err);

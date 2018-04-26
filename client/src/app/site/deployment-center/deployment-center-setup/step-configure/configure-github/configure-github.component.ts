@@ -64,10 +64,12 @@ export class ConfigureGithubComponent implements OnDestroy {
     fetchOrgs() {
         return Observable.zip(
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?orgs=', true, null, {
-                url: `${DeploymentCenterConstants.githubApiUrl}/user/orgs`
+                url: `${DeploymentCenterConstants.githubApiUrl}/user/orgs`,
+                authToken: this.wizard.getToken()
             }),
             this._cacheService.post(Constants.serviceHost + 'api/github/passthrough?user=', true, null, {
-                url: `${DeploymentCenterConstants.githubApiUrl}/user`
+                url: `${DeploymentCenterConstants.githubApiUrl}/user`,
+                authToken: this.wizard.getToken()
             }),
             (orgs, user) => ({
                 orgs: orgs.json(),
@@ -101,7 +103,8 @@ export class ConfigureGithubComponent implements OnDestroy {
             if (org.toLocaleLowerCase().indexOf('github.com/users/') > -1) {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`
+                        url: `${DeploymentCenterConstants.githubApiUrl}/user/repos?type=owner`,
+                        authToken: this.wizard.getToken()
                     })
                     .switchMap(r => {
                         const linkHeader = r.headers.toJSON().link;
@@ -122,7 +125,8 @@ export class ConfigureGithubComponent implements OnDestroy {
             } else {
                 fetchListCall = this._cacheService
                     .post(Constants.serviceHost + `api/github/passthrough?repo=${org}`, true, null, {
-                        url: `${org}/repos?per_page=100`
+                        url: `${org}/repos?per_page=100`,
+                        authToken: this.wizard.getToken()
                     })
                     .switchMap(r => {
                         const linkHeader = r.headers.toJSON().link;
@@ -133,7 +137,8 @@ export class ConfigureGithubComponent implements OnDestroy {
                             for (let i = 2; i <= lastPageNumber; i++) {
                                 pageCalls.push(
                                     this._cacheService.post(Constants.serviceHost + `api/github/passthrough?repo=${org}&t=${Guid.newTinyGuid()}`, true, null, {
-                                        url: `${org}/repos?per_page=100&page=${i}`
+                                        url: `${org}/repos?per_page=100&page=${i}`,
+                                        authToken: this.wizard.getToken()
                                     })
                                 );
                             }
@@ -178,7 +183,8 @@ export class ConfigureGithubComponent implements OnDestroy {
             this.BranchList = [];
             this._cacheService
                 .post(Constants.serviceHost + `api/github/passthrough?branch=${repo}`, true, null, {
-                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`
+                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100`,
+                    authToken: this.wizard.getToken()
                 })
                 .switchMap(r => {
                     const linkHeader = r.headers.toJSON().link;
@@ -189,7 +195,8 @@ export class ConfigureGithubComponent implements OnDestroy {
                         for (let i = 2; i <= lastPageNumber; i++) {
                             pageCalls.push(
                                 this._cacheService.post(Constants.serviceHost + `api/github/passthrough?t=${Guid.newTinyGuid()}`, true, null, {
-                                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`
+                                    url: `${DeploymentCenterConstants.githubApiUrl}/repos/${this.repoUrlToNameMap[repo]}/branches?per_page=100&page=${i}`,
+                                    authToken: this.wizard.getToken()
                                 })
                             );
                         }

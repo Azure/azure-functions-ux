@@ -117,6 +117,14 @@ describe('Deployment State Manager', () => {
         it('get tfs token on first load', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
             expect(service['_vstsApiToken']).toBe('vststoken');
         }));
+
+        it('get ad token on first load', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            expect(service['_token']).toBe('adtoken');
+        }));
+
+        it('get token should return ad token', inject([DeploymentCenterStateManager], (service: DeploymentCenterStateManager) => {
+            expect(service.getToken()).toBe('Bearer adtoken');
+        }));
     });
 
     describe('wizard form', () => {
