@@ -141,6 +141,10 @@ class MockDeploymentCenterStateManager {
     public get sourceSettings(): FormGroup {
         return (this.wizardForm && (this.wizardForm.controls.sourceSettings as FormGroup)) || null;
     }
+    
+    public getToken() {
+        return '';
+    }
 }
 
 

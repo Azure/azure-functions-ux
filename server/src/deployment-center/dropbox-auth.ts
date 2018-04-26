@@ -8,7 +8,7 @@ import { constants } from '../constants';
 
 const oauthHelper: oAuthHelper = new oAuthHelper('dropbox');
 export async function getDropboxTokens(req: any): Promise<any> {
-    return await oauthHelper.getToken(req.headers.authorization);
+    return await oauthHelper.getToken(req.body.authToken);
 }
 export function setupDropboxAuthentication(app: Application) {
     app.post('/api/dropbox/passthrough', async (req: ApiRequest<PassthroughRequestBody>, res) => {
@@ -73,7 +73,7 @@ export function setupDropboxAuthentication(app: Application) {
                 }
             );
             const token = r.data.access_token as string;
-            oauthHelper.saveToken(token, req.headers.authorization as string);
+            oauthHelper.saveToken(token, req.body.authToken as string);
             res.sendStatus(200);
         } catch (err) {
             LogHelper.error('dropbox-token-store', err);

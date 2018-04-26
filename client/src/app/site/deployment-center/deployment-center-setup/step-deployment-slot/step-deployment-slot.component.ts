@@ -7,7 +7,6 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 import { SlotNameValidator } from '../validators/slot-name-validator';
 import { RequiredValidator } from '../../../../shared/validators/requiredValidator';
 import { SiteService } from '../../../../shared/services/site.service';
-
 @Component({
   selector: 'app-step-deployment-slot',
   templateUrl: './step-deployment-slot.component.html',
@@ -27,7 +26,6 @@ export class StepDeploymentSlotComponent implements OnDestroy {
   selectedDeploymentSlot = '';
   private _resourceId: string;
   private _ngUnsubscribe$ = new Subject();
-
   constructor(
     public wizard: DeploymentCenterStateManager,
     private _translateService: TranslateService,
