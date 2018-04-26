@@ -63,7 +63,7 @@ export class FunctionMonitorComponent extends NavigableComponent {
                 Observable.of(tuple[0]),
                 this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
                 this._functionAppService.getFunctionAppAzureAppSettings(tuple[0]),
-                this._scenarioService.checkScenarioAsync(ScenarioIds.enableAppInsights, { site: tuple[0].site })
+                this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site })
             ))
             .map((tuple): FunctionMonitorInfo => ({
                 functionAppContext: tuple[0],

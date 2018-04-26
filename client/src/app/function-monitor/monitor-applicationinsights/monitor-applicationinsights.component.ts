@@ -95,7 +95,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
             {
                 detailBlade: 'AspNetOverview',
                 detailBladeInputs: {
-                    id: `/${this.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId()}`
+                    id: this.functionMonitorInfo.appInsightsResourceDescriptor.getTrimmedResourceId()
                 },
                 extension: 'AppInsightsExtension'
             },
