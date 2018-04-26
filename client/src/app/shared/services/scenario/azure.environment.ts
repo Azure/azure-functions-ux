@@ -80,8 +80,8 @@ export class AzureEnvironment extends Environment {
             }
         };
 
-        this.scenarioChecks[ScenarioIds.enableAppInsights] = {
-            id: ScenarioIds.enableAppInsights,
+        this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
+            id: ScenarioIds.appInsightsConfigurable,
             runCheckAsync: (input: ScenarioCheckInput) => this._getApplicationInsightsId(input)
         };
     }
@@ -187,7 +187,7 @@ export class AzureEnvironment extends Environment {
                 .getApplicationInsightsId(input.site.id)
                 .switchMap(applicationInsightsResourceId => {
                     return Observable.of<ScenarioResult>({
-                        status: applicationInsightsResourceId ? 'enabled' : 'disabled',
+                        status: 'enabled',
                         data: applicationInsightsResourceId ? new ARMApplicationInsightsDescriptior(applicationInsightsResourceId) : null
                     });
                 });

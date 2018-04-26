@@ -91,7 +91,7 @@ export class MonitorApplicationInsightsComponent extends FeatureComponent<Functi
     }
 
     public openInAppInsights() {
-        this._portalService.openBladeDeprecated(
+        this._portalService.openBlade(
             {
                 detailBlade: 'AspNetOverview',
                 detailBladeInputs: {

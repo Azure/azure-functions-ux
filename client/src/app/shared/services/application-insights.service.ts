@@ -127,6 +127,12 @@ export class ApplicationInsightsService {
       return item && item.value ? item.value : null;
   }
 
+  public removeFunctionMonitorClassicViewPreference(functionAppResourceId: string): void {
+      const key = `${functionAppResourceId}/monitor/view`;
+
+      this._localStorage.removeItem(key);
+  }
+
   private _getQueryForLast30DaysSummary(functionName: string): string {
     this._validateFunctionName(functionName);
     return `requests | where timestamp >= ago(30d) | where name == '${functionName}' | summarize count=count() by success`;
