@@ -20,7 +20,10 @@ import { Site } from '../../shared/models/arm/site';
 import { FunctionAppContext } from '../../shared/function-app-context';
 import { FunctionInfo } from '../../shared/models/function-info';
 import { OpenBladeInfo, BladeResult } from '../../shared/models/portal';
-import { NullAstVisitor } from '@angular/compiler';
+import { CommandBarComponent } from '../../controls/command-bar/command-bar.component';
+import { CardInfoControlComponent } from '../../controls/card-info-control/card-info-control.component';
+import { CommandComponent } from '../../controls/command-bar/command/command.component';
+import { errorIds } from '../../shared/models/error-ids';
 
 describe('MonitorConfigureComponent', () => {
     let component: MonitorConfigureComponent;
@@ -41,6 +44,9 @@ describe('MonitorConfigureComponent', () => {
                     MockComponent(MonitorClassicComponent),
                     MockComponent(MonitorApplicationInsightsComponent),
                     MockComponent(FunctionMonitorComponent),
+                    MockComponent(CommandBarComponent),
+                    MockComponent(CommandComponent),
+                    MockComponent(CardInfoControlComponent)
                 ],
                 providers: [
                     { provide: PortalService, useClass: MockPortalService },
@@ -81,7 +87,8 @@ describe('MonitorConfigureComponent', () => {
                     name: functionName1,
                     context: appContext
                 },
-                appInsightsResourceDescriptor: null
+                appInsightsResourceDescriptor: null,
+                appInsightsFeatureEnabled: true
             },
             errorEvent: null
         };
@@ -93,7 +100,7 @@ describe('MonitorConfigureComponent', () => {
         fixture.detectChanges();
     });
 
-    fdescribe('init', () => {
+    describe('init', () => {
 
         beforeEach(() => {
             component['setInput'](monitorConfigureInfo);
@@ -104,12 +111,60 @@ describe('MonitorConfigureComponent', () => {
                 expect(component).toBeTruthy();
             });
         });
+    });
 
-        it('should be off by default', () => {
-            fixture.whenStable().then(() => {
-                expect(component.allowSwitchToClassic).toBeFalsy();
-                expect(component.enableConfigureButton).toBeFalsy();
-            });
+    describe('without error event', () => {
+
+        beforeEach(() => {
+            component['setInput'](monitorConfigureInfo);
+        });
+
+        it('should allow configure', () => {
+            expect(component.enableConfigureButton).toBeTruthy();
+        });
+
+        it('should allow switch to classic view', () => {
+            expect(component.allowSwitchToClassic).toBeTruthy();
+        });
+    });
+
+    describe('with client cert enabled', () => {
+        beforeEach(() => {
+            monitorConfigureInfo.errorEvent = {
+                errorId: errorIds.preconditionsErrors.clientCertEnabled,
+                message: 'test',
+                resourceId: 'test'
+            };
+
+            component['setInput'](monitorConfigureInfo);
+        });
+
+        it('should allow configure', () => {
+            expect(component.enableConfigureButton).toBeTruthy();
+        });
+
+        it('should not allow switch to classic view', () => {
+            expect(component.allowSwitchToClassic).toBeFalsy();
+        });
+    });
+
+    describe('with app insights key incorrect', () => {
+        beforeEach(() => {
+            monitorConfigureInfo.errorEvent = {
+                errorId: errorIds.applicationInsightsInstrumentationKeyMismatch,
+                message: 'test',
+                resourceId: 'test'
+            };
+
+            component['setInput'](monitorConfigureInfo);
+        });
+
+        it('should not allow configure', () => {
+            expect(component.enableConfigureButton).toBeFalsy();
+        });
+
+        it('should not allow switch to classic view', () => {
+            expect(component.allowSwitchToClassic).toBeFalsy();
         });
     });
 
