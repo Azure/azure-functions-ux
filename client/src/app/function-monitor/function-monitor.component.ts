@@ -61,14 +61,15 @@ export class FunctionMonitorComponent extends NavigableComponent {
                 Observable.of(tuple[0]),
                 this._functionAppService.getFunction(tuple[0], tuple[1].functionDescriptor.name),
                 this._functionAppService.getFunctionAppAzureAppSettings(tuple[0]),
-                this._scenarioService.checkScenarioAsync(ScenarioIds.enableAppInsights, { site: tuple[0].site })
+                this._scenarioService.checkScenarioAsync(ScenarioIds.appInsightsConfigurable, { site: tuple[0].site })
             ))
             .do(tuple => {
                 this.functionMonitorInfo = {
                     functionAppContext: tuple[0],
                     functionAppSettings: tuple[2].result.properties,
                     functionInfo: tuple[1].result,
-                    appInsightsResourceDescriptor: tuple[3].data
+                    appInsightsResourceDescriptor: tuple[3].data,
+                    appInsightsFeatureEnabled: tuple[3].status === 'enabled'
                 };
 
                 this._renderComponentName = this._shouldLoadClassicView()
@@ -93,9 +94,16 @@ export class FunctionMonitorComponent extends NavigableComponent {
 
     private _shouldLoadClassicView(): boolean {
         const view: string = this._applicationInsightsService.getFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
-
-        return view === FunctionMonitorComponent.CLASSIC_VIEW &&
+        const loadClassicView = view === FunctionMonitorComponent.CLASSIC_VIEW &&
             !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];
+
+        if (!loadClassicView) {
+            this._applicationInsightsService.removeFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
+        }
+
+        // NOTE(michinoy): Load the classic view if the app insights feature is not enabled on the environment OR
+        // the user has selected to switch to classic view and has not setup an instrumentation key.
+        return !this.functionMonitorInfo.appInsightsFeatureEnabled || loadClassicView;
     }
 
     private _shouldLoadApplicationInsightsView(): boolean {
@@ -105,6 +113,8 @@ export class FunctionMonitorComponent extends NavigableComponent {
     private _loadMonitorConfigureView(): string {
         let errorEvent: ErrorEvent = null;
 
+        // NOTE(michinoy): Load the if the user has setup an instrumentation key, but the app insights resource was not found
+        // in the subscription, present the user with an error message.
         if (!!this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName] &&
             !this.functionMonitorInfo.appInsightsResourceDescriptor) {
             errorEvent = {

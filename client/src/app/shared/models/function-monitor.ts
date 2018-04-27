@@ -49,6 +49,7 @@ export interface FunctionMonitorInfo {
     functionAppSettings: { [key: string]: string};
     functionInfo: FunctionInfo;
     appInsightsResourceDescriptor: ARMApplicationInsightsDescriptior;
+    appInsightsFeatureEnabled: boolean;
 }
 
 export interface MonitorDetailsInfo {

@@ -39,7 +39,8 @@ export class ConfigureOnedriveComponent implements OnDestroy {
             .takeUntil(this._ngUnsubscribe$)
             .switchMap(() =>
                 this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
-                    url: `${DeploymentCenterConstants.onedriveApiUri}/children`
+                    url: `${DeploymentCenterConstants.onedriveApiUri}/children`,
+                    authToken: this.wizard.getToken()
                 })
             )
             .subscribe(

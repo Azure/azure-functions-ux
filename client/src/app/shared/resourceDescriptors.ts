@@ -287,7 +287,7 @@ export class ARMApplicationInsightsDescriptior extends ArmResourceDescriptor {
     }
 
     getTrimmedResourceId() {
-        return this.parts.join('/');
+        return `/${this.parts.join('/')}`;
     }
 
     getResourceIdForDirectUrl() {
