@@ -69,7 +69,8 @@ export class FunctionMonitorComponent extends NavigableComponent {
                 functionAppContext: tuple[0],
                 functionAppSettings: tuple[2].result.properties,
                 functionInfo: tuple[1].result,
-                appInsightsResourceDescriptor: tuple[3].data
+                appInsightsResourceDescriptor: tuple[3].data,
+                appInsightsFeatureEnabled: tuple[3].status === 'enabled'
             }))
             .do(functionMonitorInfo => {
                 this.functionMonitorInfo = functionMonitorInfo;
@@ -97,8 +98,11 @@ export class FunctionMonitorComponent extends NavigableComponent {
     private _shouldLoadClassicView(): boolean {
         const view: string = this._applicationInsightsService.getFunctionMonitorClassicViewPreference(this.functionMonitorInfo.functionAppContext.site.id);
 
-        return view === FunctionMonitorComponent.CLASSIC_VIEW &&
-            !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName];
+        // NOTE(michinoy): Load the classic view if the app insights feature is not enabled on the environment OR
+        // the user has selected to switch to classic view and has not setup an instrumentation key.
+        return !this.functionMonitorInfo.appInsightsFeatureEnabled ||
+            (view === FunctionMonitorComponent.CLASSIC_VIEW &&
+            !this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName]);
     }
 
     private _shouldLoadApplicationInsightsView(): boolean {
@@ -108,6 +112,8 @@ export class FunctionMonitorComponent extends NavigableComponent {
     private _loadMonitorConfigureView(): string {
         let errorEvent: ErrorEvent = null;
 
+        // NOTE(michinoy): Load the if the user has setup an instrumentation key, but the app insights resource was not found
+        // in the subscription, present the user with an error message.
         if (!!this.functionMonitorInfo.functionAppSettings[Constants.instrumentationKeySettingName] &&
             this.functionMonitorInfo.appInsightsResourceDescriptor === null) {
             errorEvent = {

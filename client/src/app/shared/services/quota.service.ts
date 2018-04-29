@@ -10,14 +10,14 @@ import { UserService } from 'app/shared/services/user.service';
 
 @Injectable()
 export class QuotaService {
-    private readonly _site = 'site';
-    private readonly _webSpace = 'webspace';
-    private readonly _shared = 'shared';
-    private readonly _dedicated = 'dedicated';
-    private readonly _dynamic = 'dynamic';
-    private readonly _unrecognized  = 'unrecognized ';
-    private readonly _quotaSettingsResourceIdFormat = '/subscriptions/{0}/providers/Microsoft.Web/quotaSettings';
-    private readonly _fullQuotaFormat = '{0}_{1}_{2}_{3}';
+    private static readonly _site = 'site';
+    private static readonly _webSpace = 'webspace';
+    private static readonly _shared = 'shared';
+    private static readonly _dedicated = 'dedicated';
+    private static readonly _dynamic = 'dynamic';
+    private static readonly _unrecognized  = 'unrecognized ';
+    private static readonly _quotaSettingsResourceIdFormat = '/subscriptions/{0}/providers/Microsoft.Web/quotaSettings';
+    private static readonly _fullQuotaFormat = '{0}_{1}_{2}_{3}';
 
     private readonly _client: ConditionalHttpClient;
 
@@ -30,7 +30,7 @@ export class QuotaService {
     }
 
     getQuotaSettings(subscriptionId: string):  Observable<QuotaSettings> {
-        const resourceId = this._quotaSettingsResourceIdFormat.format(subscriptionId);
+        const resourceId = QuotaService._quotaSettingsResourceIdFormat.format(subscriptionId);
         // TODO RDBug 12292335:[UR3]Simplify QuotaSettings API
         const quotaSettings = this._cacheService.getArm(resourceId).map(r => r.json());
         return this._client.execute({ resourceId: resourceId }, t => quotaSettings).map(r => {
@@ -62,18 +62,18 @@ export class QuotaService {
         sku: string,
         computeMode: ComputeMode,
         quotaScope: QuotaScope): string {
-            const scope: string = quotaScope === QuotaScope.WebSpace ? this._webSpace : this._site;
+            const scope: string = quotaScope === QuotaScope.WebSpace ? QuotaService._webSpace : QuotaService._site;
             let mode;
             if (computeMode === ComputeMode.Shared) {
-                mode = this._shared;
+                mode = QuotaService._shared;
             } else if (computeMode === ComputeMode.Dedicated) {
-                mode = this._dedicated;
+                mode = QuotaService._dedicated;
             } else if (computeMode === ComputeMode.Dynamic) {
-                mode = this._dynamic;
+                mode = QuotaService._dynamic;
             } else {
-                mode = this._unrecognized;
+                mode = QuotaService._unrecognized;
                 this._logService.error(LogCategories.quotaService, '/quota-service', 'Unrecognized compute mode' + computeMode);
             }
-            return this._fullQuotaFormat.format(quotaName, mode, scope, sku).toLowerCase();
+            return QuotaService._fullQuotaFormat.format(quotaName, mode, scope, sku).toLowerCase();
     }
 }

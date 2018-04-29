@@ -5,6 +5,7 @@ import { QuotaService } from '../quota.service';
 import { ArmResourceDescriptor } from 'app/shared/resourceDescriptors';
 import { QuotaNames, QuotaScope } from 'app/shared/models/arm/quotaSettings';
 import { Injector } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 export class OnPremEnvironment extends Environment {
     name = 'OnPrem';
@@ -29,8 +30,11 @@ export class OnPremEnvironment extends Environment {
 
         this.scenarioChecks[ScenarioIds.enableAppInsights] = {
             id: ScenarioIds.enableAppInsights,
-            runCheck: () => {
-                return { status: 'disabled' };
+            runCheckAsync: (input: ScenarioCheckInput) => {
+                return Observable.of<ScenarioResult>({
+                    status: 'disabled',
+                    data: null
+                });
             }
         };
 

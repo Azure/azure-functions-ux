@@ -2,6 +2,7 @@ import { DashboardType } from 'app/tree-view/models/dashboard-type';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { ScenarioIds } from './../../models/constants';
 import { Environment } from 'app/shared/services/scenario/scenario.models';
+import { Observable } from 'rxjs/Observable';
 
 export class StandaloneEnvironment extends Environment {
     name = 'Standalone';
@@ -129,8 +130,11 @@ export class StandaloneEnvironment extends Environment {
 
         this.scenarioChecks[ScenarioIds.enableAppInsights] = {
             id: ScenarioIds.enableAppInsights,
-            runCheck: () => {
-                return { status: 'disabled' };
+            runCheckAsync: (input: ScenarioCheckInput) => {
+                return Observable.of<ScenarioResult>({
+                    status: 'disabled',
+                    data: null
+                });
             }
         };
 

@@ -2,6 +2,7 @@ import { NationalCloudArmUris, ScenarioIds } from './../../models/constants';
 import { AzureEnvironment } from './azure.environment';
 import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { Injector } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
     name = 'NationalCloud';
@@ -59,8 +60,11 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
         this.scenarioChecks[ScenarioIds.enableAppInsights] = {
             id: ScenarioIds.enableAppInsights,
-            runCheck: () => {
-                return { status: 'disabled' };
+            runCheckAsync: (input: ScenarioCheckInput) => {
+                return Observable.of<ScenarioResult>({
+                    status: 'disabled',
+                    data: null
+                });
             }
         };
 
