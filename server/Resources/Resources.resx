@@ -3071,10 +3071,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
   </data>
   <data name="pricing_emptyDevTestGroup" xml:space="preserve">
-    <value>Dev / Test pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+    <value>Dev / Test pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
   </data>
   <data name="pricing_emptyProdGroup" xml:space="preserve">
-    <value>Production pricing tiers are only available to plans that are not hosted within an App Service environment.</value>
+    <value>Production pricing tiers are not available for your configuration and are only available to plans that are not hosted within an App Service environment.</value>
   </data>
   <data name="pricing_pv2NotAvailable" xml:space="preserve">
     <value>Premium V2 is not supported for this scale unit. Please consider redeploying or cloning your app.</value>

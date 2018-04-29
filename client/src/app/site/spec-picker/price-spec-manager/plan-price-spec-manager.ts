@@ -292,17 +292,16 @@ export class PlanPriceSpecManager {
                 g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
             }
 
-            if (!g.selectedSpec) {
-                g.selectedSpec = g.recommendedSpecs.length > 0 && g.recommendedSpecs[0];
+            if (!g.selectedSpec && g.recommendedSpecs.length > 0) {
+                g.selectedSpec = g.recommendedSpecs[0];
             }
 
-            if (!g.selectedSpec) {
-                g.selectedSpec = g.additionalSpecs.length > 0 && g.additionalSpecs[0];
+            if (!g.selectedSpec && g.additionalSpecs.length > 0) {
+                g.selectedSpec = g.additionalSpecs[0];
             }
 
             // Expand if selected spec is in the "all specs" list
             g.isExpanded = g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec) ? true : false;
-
 
             if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
                 nonEmptyGroupIndex++;

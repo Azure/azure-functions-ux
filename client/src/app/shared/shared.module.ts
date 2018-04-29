@@ -72,6 +72,7 @@ import { ApplicationInsightsService } from './services/application-insights.serv
 import { InvalidmessageDirective } from './directives/invalid-control-message.directive';
 import { NgUploaderModule } from 'ngx-uploader';
 import { FlexListDirective } from '../controls/flex-list/flex-list.directive';
+import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
 
 export function ArmServiceFactory(
     http: Http,
@@ -131,7 +132,8 @@ export function AiServiceFactory() {
         ActivateWithKeysDirective,
         CardInfoControlComponent,
         InvalidmessageDirective,
-        FlexListDirective
+        FlexListDirective,
+        RemoveSpacesPipe
     ],
     exports: [
         CommonModule,
@@ -173,7 +175,8 @@ export function AiServiceFactory() {
         CardInfoControlComponent,
         InvalidmessageDirective,
         NgUploaderModule,
-        FlexListDirective
+        FlexListDirective,
+        RemoveSpacesPipe
     ],
     imports: [
         FormsModule,

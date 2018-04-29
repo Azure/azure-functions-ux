@@ -60,12 +60,9 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
         if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
             this.state = 'hidden';
-        } else if (input.specPickerInput.data) {
-            if (!input.specPickerInput.data.allowAseV2Creation
-                || input.specPickerInput.data.isXenon) {
-
-                this.state = 'hidden';
-            }
+        } else if (input.specPickerInput.data
+            && (!input.specPickerInput.data.allowAseV2Creation || input.specPickerInput.data.isXenon)) {
+            this.state = 'hidden';
         } else if (input.plan) {
             if (!input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
                 this.state = 'hidden';
