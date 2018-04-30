@@ -45,7 +45,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
     public installJobs: ExtensionInstallStatus[] = [];
 
     private functionCardStream: Subject<CreateCard>;
-    private __busyManager: BusyStateScopeManager;
+    private _busyManager: BusyStateScopeManager;
 
     constructor(private _logService: LogService,
         private _functionAppService: FunctionAppService,
@@ -55,12 +55,12 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
 
         super('extension-checker', _functionAppService, broadcastService, aiService, translateService);
 
-        this.__busyManager = new BusyStateScopeManager(this._broadcastService, 'sidebar');
+        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'sidebar');
         this.functionCardStream = new Subject();
         this.functionCardStream
             .takeUntil(this.ngUnsubscribe)
             .switchMap(card => {
-                this.__busyManager.setBusy();
+                this._busyManager.setBusy();
                 this._functionCard = card;
                 return this._functionAppService.getTemplates(this.passedContext);
             })
@@ -89,7 +89,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                 } else {
                     this.showExtensionInstallDetail = true;
                 }
-                this.__busyManager.clearBusy();
+                this._busyManager.clearBusy();
             });
     }
 
