@@ -98,10 +98,15 @@ export class PlanService {
             });
     }
 
-    getBillingMeters(subscriptionId: string, location?: string): Observable<ArmObj<BillingMeter>[]> {
+    getBillingMeters(subscriptionId: string, osType?: 'windows' | 'linux', location?: string): Observable<ArmObj<BillingMeter>[]> {
+
         let url = `${this._armService.armUrl}/subscriptions/${subscriptionId}/providers/Microsoft.Web/billingMeters?api-version=${this._armService.websiteApiVersion}`;
         if (location) {
             url += `&billingLocation=${location}`;
+        }
+
+        if (osType) {
+            url += `&osType=${osType}`;
         }
 
         const getMeters = this._cacheService.get(url);
