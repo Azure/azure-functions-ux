@@ -285,12 +285,23 @@ export class PlanPriceSpecManager {
             g.recommendedSpecs = recommendedSpecs;
             g.additionalSpecs = specs;
 
-            // Find if there's already a spec that's selected within a group
+            // Find if there's already a spec that's selected within a group.  Otherwise
+            // just choose the first spec you can find
             g.selectedSpec = this._findSelectedSpec(g.recommendedSpecs);
             if (!g.selectedSpec) {
                 g.selectedSpec = this._findSelectedSpec(g.additionalSpecs);
-                g.isExpanded = g.selectedSpec ? true : false;   // Expand if selected spec is in the "all specs" list
             }
+
+            if (!g.selectedSpec && g.recommendedSpecs.length > 0) {
+                g.selectedSpec = g.recommendedSpecs[0];
+            }
+
+            if (!g.selectedSpec && g.additionalSpecs.length > 0) {
+                g.selectedSpec = g.additionalSpecs[0];
+            }
+
+            // Expand if selected spec is in the "all specs" list
+            g.isExpanded = g.selectedSpec && g.additionalSpecs.find(s => s === g.selectedSpec) ? true : false;
 
             if (!foundNonEmptyGroup && g.recommendedSpecs.length === 0 && g.additionalSpecs.length === 0) {
                 nonEmptyGroupIndex++;

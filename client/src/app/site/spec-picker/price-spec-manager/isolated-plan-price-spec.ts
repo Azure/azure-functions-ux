@@ -27,6 +27,11 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
         iconUrl: 'image/scale-up.svg',
         title: this._ts.instant(PortalResources.pricing_largeScale),
         description: this._ts.instant(PortalResources.pricing_largeScaleDesc)
+    },
+    {
+        iconUrl: 'image/globe.svg',
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{
@@ -60,11 +65,11 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
 
         if (NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isMooncake()) {
             this.state = 'hidden';
-        } else if (input.specPickerInput.data && !input.specPickerInput.data.allowAseV2Creation) {
+        } else if (input.specPickerInput.data
+            && (!input.specPickerInput.data.allowAseV2Creation || input.specPickerInput.data.isXenon)) {
             this.state = 'hidden';
         } else if (input.plan) {
-
-            if (!input.plan.properties.hostingEnvironmentProfile) {
+            if (!input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
                 this.state = 'hidden';
             } else {
                 return this._aseService.getAse(input.plan.properties.hostingEnvironmentProfile.id)
