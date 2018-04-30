@@ -16,14 +16,14 @@ import { BaseExtensionInstallComponent } from '../../extension-install/base-exte
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { FunctionAppContext } from '../../shared/function-app-context';
-import { GlobalStateService } from '../../shared/services/global-state.service';
+import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
 
 @Component({
     selector: 'extension-checker',
     templateUrl: './extension-checker.component.html',
     styleUrls: ['./extension-checker.component.scss']
 })
-export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
+export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
 
     @Input() functionLanguage: string;
     @Input() functionsInfo: FunctionInfo[];
@@ -45,20 +45,22 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
     public installJobs: ExtensionInstallStatus[] = [];
 
     private functionCardStream: Subject<CreateCard>;
+    private __busyManager: BusyStateScopeManager;
 
     constructor(private _logService: LogService,
         private _functionAppService: FunctionAppService,
         broadcastService: BroadcastService,
         translateService: TranslateService,
-        aiService: AiService,
-        private _globalStateService: GlobalStateService) {
+        aiService: AiService) {
 
         super('extension-checker', _functionAppService, broadcastService, aiService, translateService);
-        this._globalStateService.setBusyState();
+
+        this.__busyManager = new BusyStateScopeManager(this._broadcastService, 'sidebar');
         this.functionCardStream = new Subject();
         this.functionCardStream
             .takeUntil(this.ngUnsubscribe)
             .switchMap(card => {
+                this.__busyManager.setBusy();
                 this._functionCard = card;
                 return this._functionAppService.getTemplates(this.passedContext);
             })
@@ -87,7 +89,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
                 } else {
                     this.showExtensionInstallDetail = true;
                 }
-                this._globalStateService.clearBusyState();
+                this.__busyManager.clearBusy();
             });
     }
 
