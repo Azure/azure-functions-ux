@@ -154,10 +154,10 @@ export class CacheService {
             url = url.replace(parts[2], domain);
         }
 
-        //If we're going to our server and don't have headers chosen, use empty headers
-        // Do not inject Arm headers, this is because the front end will reject any calls from this url with 
+        // If we're going to our server and don't have headers chosen, use empty headers
+        // Do not inject Arm headers, this is because the front end will reject any calls from this url with
         // auth headers, this can be removed when this is fixed in our front end.
-        if(url.indexOf(Constants.serviceHost) > -1 && !headers){
+        if (url.indexOf(Constants.serviceHost) > -1 && !headers) {
             headers = new Headers();
         }
 
