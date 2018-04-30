@@ -1,17 +1,18 @@
-<h2>{{title}}</h2>
-<div>{{description}}</div>
-<div *ngFor="let feature of featureItems" class="feature-item">
+<div *ngIf="featureItems && featureItems.length > 0">
+  <h2>{{title}}</h2>
+  <div>{{description}}</div>
+  <div *ngFor="let feature of featureItems" class="feature-item">
 
-  <div [load-image]="feature.iconUrl" class="icon-medium"></div>
-  <div class="feature-body">
-    <h4>{{feature.title}}</h4>
-    <div class="feature-description" [id]="feature.title.replace(' ','')">{{feature.description}}
+    <div [load-image]="feature.iconUrl" class="icon-medium"></div>
+    <div class="feature-body">
+      <h4>{{feature.title}}</h4>
+      <div class="feature-description" [id]="feature.title | removeSpaces">{{feature.description}}
+        <a *ngIf="feature.learnMoreUrl"
+          [href]="feature.learnMoreUrl"
+          target="_blank"
+          [attr.aria-label]="feature.title"
+          [attr.aria-describedby]="feature.title | removeSpaces">{{'topBar_learnMore' | translate}}</a>
+      </div>
     </div>
-    <div>
-      <a *ngIf="feature.learnMoreUrl"
-        [href]="feature.learnMoreUrl"
-        target="_blank"
-        [attr.aria-label]="feature.title"
-        [attr.aria-describedby]="feature.title.replace(' ','')">{{'topBar_learnMore' | translate}}</a></div>
   </div>
 </div>

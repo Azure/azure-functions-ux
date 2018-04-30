@@ -42,7 +42,7 @@ export abstract class BasicPlanPriceSpec extends PriceSpec {
                 this.state = 'hidden';
             }
         } else if (input.plan) {
-            if (input.plan.properties.hostingEnvironmentProfile) {
+            if (input.plan.properties.hostingEnvironmentProfile || input.plan.properties.isXenon) {
                 this.state = 'hidden';
             }
         }

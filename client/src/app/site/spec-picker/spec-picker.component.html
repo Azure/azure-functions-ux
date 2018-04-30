@@ -33,7 +33,7 @@
     <section *ngIf="isEmpty" class="empty-group">
       <div [load-image]="specManager.selectedSpecGroup.iconUrl" class="icon-large"></div>
       <article [id]="specManager.selectedSpecGroup.id + 'empty'">
-        {{specManager.selectedSpecGroup.emptyMessage}}
+        <div>{{specManager.selectedSpecGroup.emptyMessage}}</div>
         <a [href]="specManager.selectedSpecGroup.emptyInfoLink"
           target="_blank"
           [attr.aria-describedby]="specManager.selectedSpecGroup.id + 'empty'">{{'clickToLearnMore' | translate}}</a>
@@ -68,14 +68,14 @@
     </section>
 
     <section *ngIf="specManager.selectedSpecGroup.selectedSpec" class="feature-lists-container centered">
-      <article class="feature-list" *ngIf="specManager.selectedSpecGroup.selectedSpec.featureItems">
+      <article class="feature-list">
           <spec-feature-list
             [title]="'pricing_includedFeatures' | translate"
             [description]="'pricing_includedFeaturesDesc' | translate"
             [featureItems]="specManager.selectedSpecGroup.selectedSpec.featureItems"></spec-feature-list>
       </article>
 
-      <article class="feature-list" *ngIf="specManager.selectedSpecGroup.selectedSpec.hardwareItems">
+      <article class="feature-list">
           <spec-feature-list
             [title]="'pricing_includedHardware' | translate"
             [description]="'pricing_includedHardwareDesc' | translate"
