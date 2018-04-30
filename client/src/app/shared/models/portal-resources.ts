@@ -1008,6 +1008,8 @@
     public static pricing_dailyBackup = 'pricing_dailyBackup';
     public static pricing_dailyBackups = 'pricing_dailyBackups';
     public static pricing_dailyBackupDesc = 'pricing_dailyBackupDesc';
+    public static pricing_trafficManager = 'pricing_trafficManager';
+    public static pricing_trafficManagerDesc = 'pricing_trafficManagerDesc';
     public static pricing_ase = 'pricing_ase';
     public static pricing_aseDesc = 'pricing_aseDesc';
     public static pricing_isolatedNetwork = 'pricing_isolatedNetwork';

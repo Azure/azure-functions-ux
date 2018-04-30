@@ -3149,7 +3149,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Daily backups</value>
   </data>
   <data name="pricing_dailyBackupDesc" xml:space="preserve">
-    <value>Backup your app {0} time daily.</value>
+    <value>Backup your app {0} times daily.</value>
+  </data>
+  <data name="pricing_trafficManager" xml:space="preserve">
+    <value>Traffic manager</value>
+  </data>
+  <data name="pricing_trafficManagerDesc" xml:space="preserve">
+    <value>Improve performance and availability by routing traffic between multiple instances of your app.</value>
   </data>
   <data name="pricing_ase" xml:space="preserve">
     <value>Single tenant system</value>

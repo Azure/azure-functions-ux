@@ -25,6 +25,11 @@ export abstract class PremiumPlanPriceSpec extends PriceSpec {
         iconUrl: 'image/backups.svg',
         title: this._ts.instant(PortalResources.pricing_dailyBackups),
         description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(50)
+    },
+    {
+        iconUrl: 'image/globe.svg',
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{
