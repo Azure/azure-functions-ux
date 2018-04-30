@@ -112,7 +112,8 @@ export class Links {
     public static pythonLearnMore = 'https://go.microsoft.com/fwlink/?linkid=852196';
     public static clientAffinityLearnMore = 'https://go.microsoft.com/fwlink/?linkid=798249';
     public static FTPAccessLearnMore = 'https://go.microsoft.com/fwlink/?linkid=871316';
-    public static vmSizeLearnMore = 'https://docs.microsoft.com/azure/virtual-machines/windows/sizes-general';
+    public static vmSizeLearnMore = 'https://go.microsoft.com/fwlink/?linkid=873022';
+    public static appServicePricing = 'https://go.microsoft.com/fwlink/?linkid=873021';
 }
 
 export class Kinds {

@@ -274,6 +274,12 @@ $center-column-max-width: calc(#{$spec-card-max-width}*4 - 40px);
         }
     }
 
+    .spec-container{
+        h2{
+            color: $default-text-color-dark;
+        }
+    }
+
     .feature-item{
         background-color: lighten($chrome-color-dark, 10%);
     }

@@ -14,7 +14,7 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
     {
         iconUrl: 'image/scale-up.svg',
         title: this._ts.instant(PortalResources.pricing_autoScale),
-        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(5)
+        description: this._ts.instant(PortalResources.pricing_scaleDesc).format(10)
     },
     {
         iconUrl: 'image/slots.svg',
@@ -25,6 +25,11 @@ export abstract class StandardPlanPriceSpec extends PriceSpec {
         iconUrl: 'image/backups.svg',
         title: this._ts.instant(PortalResources.pricing_dailyBackups),
         description: this._ts.instant(PortalResources.pricing_dailyBackupDesc).format(10)
+    },
+    {
+        iconUrl: 'image/globe.svg',
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{

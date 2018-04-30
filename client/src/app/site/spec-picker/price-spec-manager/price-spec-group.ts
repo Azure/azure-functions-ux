@@ -1,3 +1,4 @@
+import { Links } from 'app/shared/models/constants';
 import { StatusMessage } from './../spec-picker.component';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { FreePlanPriceSpec } from './free-plan-price-spec';
@@ -52,7 +53,7 @@ export class DevSpecGroup extends PriceSpecGroup {
     id = 'devtest';
     description = this.ts.instant(PortalResources.pricing_devTestDesc);
     emptyMessage = this.ts.instant(PortalResources.pricing_emptyDevTestGroup);
-    emptyInfoLink = 'https://microsoft.com';
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);
@@ -98,7 +99,7 @@ export class ProdSpecGroup extends PriceSpecGroup {
     id = 'prod';
     description = this.ts.instant(PortalResources.pricing_productionDesc);
     emptyMessage = this.ts.instant(PortalResources.pricing_emptyProdGroup);
-    emptyInfoLink = 'https://microsoft.com';
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);
@@ -136,7 +137,7 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     id = 'isolated';
     description = this.ts.instant(PortalResources.pricing_isolatedDesc);
     emptyMessage = this.ts.instant(PortalResources.pricing_emptyIsolatedGroup);
-    emptyInfoLink = 'https://microsoft.com';
+    emptyInfoLink = Links.appServicePricing;
 
     constructor(injector: Injector) {
         super(injector);

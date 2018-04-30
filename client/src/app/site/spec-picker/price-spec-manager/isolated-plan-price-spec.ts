@@ -27,6 +27,11 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
         iconUrl: 'image/scale-up.svg',
         title: this._ts.instant(PortalResources.pricing_largeScale),
         description: this._ts.instant(PortalResources.pricing_largeScaleDesc)
+    },
+    {
+        iconUrl: 'image/globe.svg',
+        title: this._ts.instant(PortalResources.pricing_trafficManager),
+        description: this._ts.instant(PortalResources.pricing_trafficManagerDesc)
     }];
 
     hardwareItems = [{
