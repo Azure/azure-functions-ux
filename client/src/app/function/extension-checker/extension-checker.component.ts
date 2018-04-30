@@ -16,6 +16,7 @@ import { BaseExtensionInstallComponent } from '../../extension-install/base-exte
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { FunctionAppContext } from '../../shared/function-app-context';
+import { GlobalStateService } from '../../shared/services/global-state.service';
 
 @Component({
     selector: 'extension-checker',
@@ -49,9 +50,11 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
         private _functionAppService: FunctionAppService,
         broadcastService: BroadcastService,
         translateService: TranslateService,
-        aiService: AiService) {
+        aiService: AiService,
+        private _globalStateService: GlobalStateService) {
 
         super('extension-checker', _functionAppService, broadcastService, aiService, translateService);
+        this._globalStateService.setBusyState();
         this.functionCardStream = new Subject();
         this.functionCardStream
             .takeUntil(this.ngUnsubscribe)
@@ -84,6 +87,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
                 } else {
                     this.showExtensionInstallDetail = true;
                 }
+                this._globalStateService.clearBusyState();
             });
     }
 
