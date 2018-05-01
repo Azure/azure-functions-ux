@@ -31,7 +31,6 @@ export class StepSourceControlComponent {
             name: 'OneDrive',
             icon: 'image/deployment-center/onedrive.svg',
             color: '#0A4BB3',
-            barColor: '#D7E2F2',
             description: this._translateService.instant('onedriveDesc'),
             authorizedStatus: 'none'
         },
@@ -40,7 +39,6 @@ export class StepSourceControlComponent {
             name: 'Github',
             icon: 'image/deployment-center/github.svg',
             color: '#68217A',
-            barColor: '#c473d9',
             description: this._translateService.instant('githubDesc'),
             authorizedStatus: 'none'
         },
@@ -49,7 +47,6 @@ export class StepSourceControlComponent {
             name: 'VSTS',
             icon: 'image/deployment-center/vsts.svg',
             color: '#0071bc',
-            barColor: '#5ebeff',
             description: this._translateService.instant('vstsDesc'),
             authorizedStatus: 'none'
         },
@@ -58,7 +55,6 @@ export class StepSourceControlComponent {
             name: 'External',
             icon: 'image/deployment-center/External.svg',
             color: '#7FBA00',
-            barColor: '#cbff5d',
             description: this._translateService.instant('externalDesc'),
             authorizedStatus: 'none'
         },
@@ -67,7 +63,6 @@ export class StepSourceControlComponent {
             name: 'Bitbucket',
             icon: 'image/deployment-center/Bitbucket.svg',
             color: '#205081',
-            barColor: '#73a7dc',
             description: 'Configure continuous integration with a Bitbucket repo.',
             authorizedStatus: 'none'
         },
@@ -76,7 +71,6 @@ export class StepSourceControlComponent {
             name: 'Dropbox',
             icon: 'image/deployment-center/Dropbox.svg',
             color: '#007EE5',
-            barColor: '#72bfff',
             description: this._translateService.instant('dropboxDesc'),
             authorizedStatus: 'none'
         },
@@ -85,7 +79,6 @@ export class StepSourceControlComponent {
             name: 'Local Git',
             icon: 'image/deployment-center/LocalGit.svg',
             color: '#ba141a',
-            barColor: '#f0757a',
             description: this._translateService.instant('localGitDesc'),
             authorizedStatus: 'none'
         }

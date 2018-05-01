@@ -16,7 +16,6 @@ export class StepBuildProviderComponent {
             name: this._translateService.instant(PortalResources.vstsBuildServerTitle),
             icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#68227A',
-            barColor: '#CED2EA',
             description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
             authorizedStatus: 'none'
         },
@@ -25,7 +24,6 @@ export class StepBuildProviderComponent {
             name: this._translateService.instant(PortalResources.kuduTitle),
             icon: 'image/deployment-center/onedrive-logo.svg',
             color: '#000000',
-            barColor: '#D6D6D6',
             description: this._translateService.instant(PortalResources.kuduDesc),
             authorizedStatus: 'none'
         }
