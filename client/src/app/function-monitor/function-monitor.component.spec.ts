@@ -35,7 +35,7 @@ describe('FunctionMonitorComponent', () => {
     const functionAppResourceId1 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp1';
     const functionAppResourceId2 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp2';
     const functionAppResourceId3 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp3';
-    const functionAppResourceId4 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp3';
+    const functionAppResourceId4 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp4';
     const functionAppResourceId5 = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/functionApp5';
     const appInsightsResourceId = '/subscriptions/sub/resourceGroups/rg/providers/Microsoft.AppInsights/components/functionApp4';
     const functionResourceId1 = `${functionAppResourceId1}/functions/${functionName1}`;
@@ -147,7 +147,9 @@ describe('FunctionMonitorComponent', () => {
                 expect(component.shouldRenderMonitorClassic).toBeFalsy();
                 expect(component.shouldRenderMonitorConfigure).toBeTruthy();
                 expect(component.monitorConfigureInfo).not.toBeNull();
+                expect(component.monitorConfigureInfo).not.toBeUndefined();
                 expect(component.monitorConfigureInfo.errorEvent).not.toBeNull();
+                expect(component.monitorConfigureInfo.errorEvent).not.toBeUndefined();
                 expect(component.monitorConfigureInfo.errorEvent.errorId).toEqual(errorIds.applicationInsightsInstrumentationKeyMismatch);
             });
         }));
@@ -238,6 +240,9 @@ describe('FunctionMonitorComponent', () => {
             }
 
             return null;
+        }
+
+        public removeFunctionMonitorClassicViewPreference(functionAppResourceId: string): void {
         }
     }
 
