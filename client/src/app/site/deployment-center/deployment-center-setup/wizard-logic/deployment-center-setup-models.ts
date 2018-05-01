@@ -65,6 +65,7 @@ export type sourceControlProvider = 'dropbox' | 'onedrive' | 'github' | 'vsts' |
  */
 
 export interface ProvisioningConfiguration {
+    authToken: string;
     /**
      * Gets or sets the CI/CD configuration details.
      */

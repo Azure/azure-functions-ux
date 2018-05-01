@@ -14,6 +14,7 @@ export function setupVsoPassthroughAuthentication(app: Application) {
             const githubToken = await getGithubTokens(req)
             body.source.repository.authorizationInfo.parameters.AccessToken = githubToken.token;
         }
+        delete body.authToken;
         try {
             const result = await axios.post(uri, body, {
                 headers: {

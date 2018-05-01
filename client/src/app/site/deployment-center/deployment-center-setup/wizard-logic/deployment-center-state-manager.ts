@@ -115,6 +115,7 @@ export class DeploymentCenterStateManager implements OnDestroy {
     }
     private _startVstsDeployment() {
         const deploymentObject: ProvisioningConfiguration = {
+            authToken: this.getToken(),
             ciConfiguration: this._ciConfig,
             id: null,
             source: this._deploymentSource,
@@ -304,7 +305,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        headers.append('Authorization', this.getToken());
         headers.append('Vstsauthorization', `Bearer ${this._vstsApiToken}`);
         return headers;
     }
