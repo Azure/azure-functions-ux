@@ -16,13 +16,14 @@ import { BaseExtensionInstallComponent } from '../../extension-install/base-exte
 import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { FunctionAppContext } from '../../shared/function-app-context';
+import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
 
 @Component({
     selector: 'extension-checker',
     templateUrl: './extension-checker.component.html',
     styleUrls: ['./extension-checker.component.scss']
 })
-export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
+export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
 
     @Input() functionLanguage: string;
     @Input() functionsInfo: FunctionInfo[];
@@ -44,6 +45,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
     public installJobs: ExtensionInstallStatus[] = [];
 
     private functionCardStream: Subject<CreateCard>;
+    private _busyManager: BusyStateScopeManager;
 
     constructor(private _logService: LogService,
         private _functionAppService: FunctionAppService,
@@ -52,10 +54,13 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
         aiService: AiService) {
 
         super('extension-checker', _functionAppService, broadcastService, aiService, translateService);
+
+        this._busyManager = new BusyStateScopeManager(this._broadcastService, 'sidebar');
         this.functionCardStream = new Subject();
         this.functionCardStream
             .takeUntil(this.ngUnsubscribe)
             .switchMap(card => {
+                this._busyManager.setBusy();
                 this._functionCard = card;
                 return this._functionAppService.getTemplates(this.passedContext);
             })
@@ -84,6 +89,7 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent {
                 } else {
                     this.showExtensionInstallDetail = true;
                 }
+                this._busyManager.clearBusy();
             });
     }
 
