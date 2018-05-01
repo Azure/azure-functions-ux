@@ -17,6 +17,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { AiService } from '../../shared/services/ai.service';
 import { FunctionAppContext } from '../../shared/function-app-context';
 import { BusyStateScopeManager } from '../../busy-state/busy-state-scope-manager';
+import { errorIds } from '../../shared/models/error-ids';
+import { PortalResources } from '../../shared/models/portal-resources';
 
 @Component({
     selector: 'extension-checker',
@@ -79,6 +81,12 @@ export class ExtensionCheckerComponent extends BaseExtensionInstallComponent  {
                 }
             })
             .do(null, e => {
+                this._busyManager.clearBusy();
+                this.showComponentError({
+                    message: translateService.instant(PortalResources.functionCreateErrorDetails, { error: e }),
+                    errorId: errorIds.unableToCreateFunction,
+                    resourceId: this.context.site.id
+                });
                 this._logService.error(LogCategories.functionNew, '/sidebar-error', e);
             })
             .subscribe(extensions => {
