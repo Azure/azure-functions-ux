@@ -318,6 +318,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
                 FTPAccessSupported = false;
             }
 
+            if (this._scenarioService.checkScenario(ScenarioIds.enableRemoteDebugging).status === 'disabled') {
+                remoteDebuggingSupported = false;
+            }
+
             this.netFrameworkSupported = netFrameworkSupported;
             this.phpSupported = phpSupported;
             this.pythonSupported = pythonSupported;
