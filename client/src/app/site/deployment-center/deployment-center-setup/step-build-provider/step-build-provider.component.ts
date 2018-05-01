@@ -14,7 +14,7 @@ export class StepBuildProviderComponent {
         {
             id: 'vsts',
             name: this._translateService.instant(PortalResources.vstsBuildServerTitle),
-            icon: 'image/deployment-center/onedrive-logo.svg',
+            icon: 'image/deployment-center/vsts.svg',
             color: '#68227A',
             description: this._translateService.instant(PortalResources.vstsBuildServerDesc),
             authorizedStatus: 'none'
