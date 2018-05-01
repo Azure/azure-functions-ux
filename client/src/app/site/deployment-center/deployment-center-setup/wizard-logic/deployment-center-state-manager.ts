@@ -334,9 +334,9 @@ export class DeploymentCenterStateManager implements OnDestroy {
     markSectionAsTouched(formGroup: FormGroup) {
         Object.keys(formGroup.controls).forEach(field => {
             const control = formGroup.get(field);
-            if (control instanceof FormControl) {
+            if (control instanceof FormControl && !control.touched && !control.dirty) {
                 control.markAsTouched();
-                control.updateValueAndValidity({ onlySelf: false, emitEvent: true });
+                control.updateValueAndValidity({ onlySelf: true, emitEvent: false });
             } else if (control instanceof FormGroup) {
                 this.markSectionAsTouched(control);
             }
