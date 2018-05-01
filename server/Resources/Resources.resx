@@ -2951,7 +2951,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Deploy from a local Git repo.</value>
   </data>
   <data name="dropboxDesc" xml:space="preserve">
-    <value>Configure continuous integration with a Dropbox folder</value>
+    <value>Sync content from a Dropbox cloud folder.</value>
   </data>
   <data name="temp_category_durableFunctions" xml:space="preserve">
     <value>Durable Functions</value>
@@ -3248,7 +3248,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Use VSTS as the build server. You can choose to leverage advanced options for a full release management workflow.</value>
   </data>
   <data name="kuduTitle" xml:space="preserve">
-    <value>Build on server</value>
+    <value>App Service Kudu build server</value>
   </data>
   <data name="kuduDesc" xml:space="preserve">
     <value>Use App Service as the build server. The App Service Kudu engine will automatically build your code during deployment when applicable with no additional configuration required.</value>
