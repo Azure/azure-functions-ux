@@ -32,7 +32,7 @@ describe('MonitorApplicationinsightsComponent', () => {
     let functionMonitorInfo: FunctionMonitorInfo;
 
     const functionAppName = 'functionApp';
-    const functionName = 'function';
+    const functionName1 = 'function';
     const functionAppResourceId1 = '/subscriptions/sub/resourceGroups/rg1/providers/Microsoft.Web/sites/functionApp';
     const applicationInsightsResourceId = '/subscriptions/sub/resourceGroups/rg2/providers/Microsoft.Insights/components/functionAppAI';
     const siteUrl = 'https://functionApp.azurewebsites.net';
@@ -85,7 +85,7 @@ describe('MonitorApplicationinsightsComponent', () => {
             functionAppContext: appContext,
             functionAppSettings: {},
             functionInfo: <FunctionInfo>{
-                name: functionName,
+                name: functionName1,
                 context: appContext
             },
             appInsightsResourceDescriptor: new ARMApplicationInsightsDescriptior(applicationInsightsResourceId),
