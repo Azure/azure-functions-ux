@@ -28,6 +28,7 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
 
   private _functionMonitorInfo: FunctionMonitorInfo;
   private _errorEvent: ErrorEvent;
+  private readonly _configureInstructionsLink = 'https://go.microsoft.com/fwlink/?linkid=873202';
 
   public isLinuxApp = false;
   public enableConfigureButton = false;
@@ -60,7 +61,7 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
   }
 
   public navigateToConfigureInstructions() {
-    window.open('https://docs.microsoft.com/en-us/azure/azure-functions/functions-monitoring#existing-function-app', '_blank');
+    window.open(this._configureInstructionsLink, '_blank');
   }
 
   public switchToClassicView() {
