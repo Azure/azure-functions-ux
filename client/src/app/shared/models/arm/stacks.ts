@@ -40,5 +40,5 @@ export class AvailableStackNames {
 export class LinuxConstants {
     public static readonly dockerPrefix = 'DOCKER|';
     public static readonly composePrefix = 'COMPOSE|';
-    public static readonly kubernetesPrefix = 'KUBECTL|';
+    public static readonly kubernetesPrefix = 'KUBE|';
 }
