@@ -95,6 +95,14 @@ export class NationalCloudEnvironment extends AzureEnvironment {
                 return { status: 'disabled' };
             }
         };
+
+        this.scenarioChecks[ScenarioIds.addDiagnoseAndSolve] = {
+            id: ScenarioIds.addDiagnoseAndSolve,
+            runCheck: () => {
+                return { status: 'disabled' };
+            }
+        };
+
     }
 
     public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

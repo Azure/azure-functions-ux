@@ -1669,6 +1669,12 @@
   <data name="feature_resourceManagement" xml:space="preserve">
     <value>Resource management</value>
   </data>
+  <data name="feature_diagnoseAndSolveName" xml:space="preserve">
+    <value>Diagnose and solve problems</value>
+  </data>
+  <data name="feature_diagnoseAndSolveInfo" xml:space="preserve">
+    <value>Our self-service diagnostic and troubleshooting experience helps you to identify and resolve issues with your app</value>
+  </data>
   <data name="feature_advancedToolsName" xml:space="preserve">
     <value>Advanced tools (Kudu)</value>
   </data>
