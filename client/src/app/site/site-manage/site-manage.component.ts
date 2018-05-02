@@ -628,7 +628,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
                         }
                     },
                     this._portalService,
-                    this._hasPlanReadPermissionStream,
+                    null,
                     this._scenarioService.checkScenario(ScenarioIds.enableDiagnoseAndSolve, { site: site })
                 ) : null,
             new BladeFeature(
