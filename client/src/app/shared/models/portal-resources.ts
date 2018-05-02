@@ -1092,4 +1092,7 @@
     public static validating = 'validating';
     public static vstsReleaseBuildPermissions = 'vstsReleaseBuildPermissions';
     public static vstsNameUnavailable = 'vstsNameUnavailable';
+    public static FTPBoth = 'FTPBoth';
+    public static FTPSOnly = 'FTPSOnly';
+    public static FTPDisable = 'FTPDisable';
 }

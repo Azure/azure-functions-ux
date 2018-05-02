@@ -442,9 +442,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
             { displayLabel: onString, value: true }];
 
         this.FTPAccessOptions =
-            [{ displayLabel: 'FTP + FTPS', value: 'AllAllowed' },
-            { displayLabel: 'FTPS Only', value: 'FtpsOnly' },
-            { displayLabel: 'Disable', value: 'Disabled' }];
+            [{ displayLabel: this._translateService.instant(PortalResources.FTPBoth), value: 'AllAllowed' },
+            { displayLabel: this._translateService.instant(PortalResources.FTPSOnly), value: 'FtpsOnly' },
+            { displayLabel: this._translateService.instant(PortalResources.FTPDisable), value: 'Disabled' }];
     }
 
     private _setupGeneralSettings(group: FormGroup, siteConfigArm: ArmObj<SiteConfig>, siteArm: ArmObj<Site>) {
