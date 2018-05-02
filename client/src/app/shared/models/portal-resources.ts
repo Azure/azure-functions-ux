@@ -1077,6 +1077,7 @@
     public static configureAppInsightsTitle = 'configureAppInsightsTitle';
     public static configureAppInsightsDesc = 'configureAppInsightsDesc';
     public static configureAppInsightsSwitchToClassic = 'configureAppInsightsSwitchToClassic';
+    public static configureAppInsightsInstructions = 'configureAppInsightsInstructions';
     public static configureAppInsightsButton = 'configureAppInsightsButton';
     public static invocationTraces = 'invocationTraces';
     public static appInsightsDelay = 'appInsightsDelay';

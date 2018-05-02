@@ -77,7 +77,7 @@
             </tbody>
           </tbl>
 
-          <tbl *ngIf="invocationTraces.length === 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
+          <tbl tabindex="0" *ngIf="invocationTraces.length === 0" [items]="invocationTraces" #table="tbl" [name]="'invocationTraces' | translate">
             <thead>
               <tr>
                 <th>{{ 'date' | translate }}</th>

@@ -10,6 +10,7 @@ import { BroadcastEvent } from '../../shared/models/broadcast-event';
 import { PortalService } from '../../shared/services/portal.service';
 import { LogService } from '../../shared/services/log.service';
 import { ApplicationInsightsService } from '../../shared/services/application-insights.service';
+import { ArmUtil } from '../../shared/Utilities/arm-utils';
 
 @Component({
   selector: ComponentNames.monitorConfigure,
@@ -27,6 +28,8 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
 
   private _functionMonitorInfo: FunctionMonitorInfo;
   private _errorEvent: ErrorEvent;
+
+  public isLinuxApp = false;
   public enableConfigureButton = false;
   public allowSwitchToClassic = false;
 
@@ -45,12 +48,19 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
       .do(monitorConfigureInfo => {
         this._functionMonitorInfo = monitorConfigureInfo.functionMonitorInfo;
         this._errorEvent = monitorConfigureInfo.errorEvent;
+        this.isLinuxApp = ArmUtil.isLinuxApp(this._functionMonitorInfo.functionAppContext.site);
+
         this._setupConfigureButton();
         this._setupSwitchToClassicButton();
+
         if (this._errorEvent) {
           this.showComponentError(this._errorEvent);
         }
       });
+  }
+
+  public navigateToConfigureInstructions() {
+    window.open('https://docs.microsoft.com/en-us/azure/azure-functions/functions-monitoring#existing-function-app', '_blank');
   }
 
   public switchToClassicView() {
@@ -83,15 +93,17 @@ export class MonitorConfigureComponent extends FeatureComponent<MonitorConfigure
 
   private _setupConfigureButton() {
     this.enableConfigureButton =
-      !this._errorEvent ||
-      this._errorEvent.errorId === errorIds.preconditionsErrors.clientCertEnabled;
+      !this.isLinuxApp &&
+      (!this._errorEvent ||
+      this._errorEvent.errorId === errorIds.preconditionsErrors.clientCertEnabled);
   }
 
   private _setupSwitchToClassicButton() {
     this.allowSwitchToClassic =
-      !this._errorEvent ||
+      !this.isLinuxApp &&
+      (!this._errorEvent ||
       (this._errorEvent.errorId !== errorIds.preconditionsErrors.clientCertEnabled &&
-      this._errorEvent.errorId !== errorIds.applicationInsightsInstrumentationKeyMismatch);
+      this._errorEvent.errorId !== errorIds.applicationInsightsInstrumentationKeyMismatch));
   }
 
 }

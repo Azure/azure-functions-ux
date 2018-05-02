@@ -3361,6 +3361,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
   <data name="configureAppInsightsSwitchToClassic" xml:space="preserve">
     <value>Switch to classic view</value>
   </data>
+  <data name="configureAppInsightsInstructions" xml:space="preserve">
+    <value>Configure Instructions</value>
+  </data>
   <data name="configureAppInsightsButton" xml:space="preserve">
     <value>Configure</value>
   </data>
@@ -3368,7 +3371,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <value>Invocation traces</value>
   </data>
   <data name="appInsightsDelay" xml:space="preserve">
-    <value>Results delayed up to 5 minutes.</value>
+    <value>Results may be delayed for up to 5 minutes.</value>
   </data>
   <data name="dragFileHereOr" xml:space="preserve">
     <value>Drag a file here or</value>

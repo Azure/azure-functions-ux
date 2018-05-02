@@ -6,6 +6,10 @@
   <command *ngIf="allowSwitchToClassic" displayText="{{ 'configureAppInsightsSwitchToClassic' | translate }}"
       (click)="switchToClassicView()"
       iconUrl="image/swap.svg"></command>
+
+  <command *ngIf="isLinuxApp" displayText="{{ 'configureAppInsightsInstructions' | translate }}"
+      (click)="navigateToConfigureInstructions()"
+      iconUrl="image/open-external.svg"></command>
 </command-bar>
 
 <app-card-info-control
@@ -16,7 +20,7 @@
 </app-card-info-control>
 
 <div>
-  <button
+  <button *ngIf="!isLinuxApp"
     (click)="configure()"
     [disabled]="!enableConfigureButton"
     class="custom-button">{{ 'configureAppInsightsButton' | translate }}</button>
